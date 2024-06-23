@@ -165,9 +165,6 @@ export class TimetableComponent implements OnInit {
     this.getAttendanceDetailsCountMethodCall();
     this.getAttendanceDetailsReportByDateMethodCall();
     this.getActiveUsersCountMethodCall();
-
-    this.getPresentUsersCountByDateMethodCall();
-    this.getAbsentUsersCountByDateMethodCall();
   }
 
   dateRangeInputValue: string = '';
@@ -450,32 +447,6 @@ export class TimetableComponent implements OnInit {
       (data) => {
         // console.log(data);
         this.activeUsersCount = data;
-      },
-      (error) => {
-        // console.log(error);
-      }
-    );
-  }
-
-  presentUsersCount = 0;
-  getPresentUsersCountByDateMethodCall() {
-    this.dataService.getPresentUsersCountByDate(this.inputDate).subscribe(
-      (data) => {
-        // console.log(data);
-        this.presentUsersCount = data;
-      },
-      (error) => {
-        // console.log(error);
-      }
-    );
-  }
-
-  absentUsersCount = 0;
-  getAbsentUsersCountByDateMethodCall() {
-    this.dataService.getAbsentUsersCountByDate(this.inputDate).subscribe(
-      (data) => {
-        // console.log(data);
-        this.absentUsersCount = data;
       },
       (error) => {
         // console.log(error);

@@ -48,7 +48,7 @@ export class SlackAuthComponent implements OnInit {
     }
     this.errorFlag = false;
     this.dataService
-      .registerOrganizationUsingCodeParam(codeParam, stateParam)
+      .registerOrganizationUsingCodeParam(codeParam, stateParam, this.helperService.getTimeZone())
       .subscribe(
         (response: any) => {
           console.log(response.object);

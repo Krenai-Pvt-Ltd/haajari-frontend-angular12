@@ -254,13 +254,9 @@
                     0 &&
                     !dataNotFoundPlaceholder &&
                     !networkConnectionErrorPlaceHolder;
-                  else errorInFetchingOrganizationShiftTimingData
-                "
-              >
+                  else errorInFetchingOrganizationShiftTimingData">
                 <div class="add-shift-main-box">
-                  <div
-                    class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2"
-                  >
+                  <div class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2">
                     <div class="">
                       <h6 class="text-truncate mb-0">Shifts</h6>
                     </div>
@@ -405,7 +401,7 @@
                                 <p class="mb-0">
                                   In Time |
                                   <span style="color: #009688">{{
-                                    organizationShiftTimingResponse.inTime
+                                    organizationShiftTimingResponse.inTime | date: 'hh:mm a'
                                   }}</span>
                                 </p>
                               </div>
@@ -415,7 +411,7 @@
                                 <p class="mb-0">
                                   Out Time |
                                   <span style="color: #009688">{{
-                                    organizationShiftTimingResponse.outTime
+                                    organizationShiftTimingResponse.outTime | date: 'hh:mm a'
                                   }}</span>
                                 </p>
                               </div>
@@ -435,7 +431,7 @@
                                 <p class="mb-0">
                                   Break Time |
                                   <span style="color: #009688">{{
-                                    organizationShiftTimingResponse.startLunch
+                                    organizationShiftTimingResponse.startLunch | date: 'hh:mm a'
                                   }}</span>
                                 </p>
                               </div>
@@ -445,7 +441,7 @@
                                 <p class="mb-0">
                                   Back Time |
                                   <span style="color: #009688">{{
-                                    organizationShiftTimingResponse.endLunch
+                                    organizationShiftTimingResponse.endLunch | date: 'hh:mm a'
                                   }}</span>
                                 </p>
                               </div>

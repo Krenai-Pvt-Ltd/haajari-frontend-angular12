@@ -57,6 +57,10 @@ import { TeamLocation } from '../models/team-location';
 import { RegisterTeamRequest } from '../modules/dynamic/components/team/team.component';
 import { OnboardingFormPreviewResponse } from '../models/onboarding-form-preview-response';
 import { Temp } from '../models/temp';
+import { StartDateAndEndDate } from '../models/start-date-and-end-date';
+import { LopAdjustmentRequest } from '../models/lop-adjustment-request';
+import { LopSummaryRequest } from '../models/lop-summary-request';
+import { LopReversalRequest } from '../models/lop-reversal-request';
 
 @Injectable({
   providedIn: 'root',
@@ -96,9 +100,10 @@ export class DataService {
   // }
   registerOrganizationUsingCodeParam(
     code: string,
-    state: string
+    state: string,
+    timeZone: string
   ): Observable<any> {
-    const params = new HttpParams().set('code', code).set('state', state);
+    const params = new HttpParams().set('code', code).set('state', state).set('time_zone', timeZone);
     return this.httpClient.put<any>(
       `${this.baseUrl}/organization/auth/slackauth`,
       {},
@@ -118,12 +123,12 @@ export class DataService {
   //Attendance module
 
   downloadAttendanceDataInExcelFormat(
-    startDate: string,
-    endDate: string
+    startDate: any,
+    endDate: any
   ): Observable<any> {
     const params = new HttpParams()
-      .set('start_date', startDate)
-      .set('end_date', endDate);
+      .set('start_date', startDate.toString())
+      .set('end_date', endDate.toString());
 
     return this.httpClient.get<any>(
       `${this.baseUrl}/attendance/excel/download`,
@@ -131,16 +136,16 @@ export class DataService {
     );
   }
   getAttendanceDetailsByDateDuration(
-    startDate: string,
-    endDate: string,
+    startDate: any,
+    endDate: any,
     pageNumber: number,
     itemPerPage: number,
     search: string,
     searchBy: string
   ): Observable<any> {
     const params = new HttpParams()
-      .set('start_date', startDate)
-      .set('end_date', endDate)
+      .set('start_date', startDate.toString())
+      .set('end_date', endDate.toString())
       .set('page_number', pageNumber.toString())
       .set('item_per_page', itemPerPage.toString())
       .set('search', search)
@@ -1486,7 +1491,7 @@ export class DataService {
     leaveSettingId: number
   ): Observable<LeaveSettingCategoryResponse[]> {
     return this.httpClient.put<LeaveSettingCategoryResponse[]>(
-      `${this.baseUrl}/leave-categories-controller/register-leave-categories?leaveSettingId=${leaveSettingId}`,
+      `${this.baseUrl}/leave-setting-category/register-leave-categories?leaveSettingId=${leaveSettingId}`,
       leaveSettingCategoryResponse
     );
   }
@@ -1587,8 +1592,10 @@ export class DataService {
       { params }
     );
   }
-  getLateEmployeeAttendanceDetails(dataFetchingType: string): Observable<any> {
-    const params = new HttpParams().set('data_fetching_type', dataFetchingType);
+  getLateEmployeeAttendanceDetails(date : string, dataFetchingType: string): Observable<any> {
+    const params = new HttpParams()
+    .set('date', date)
+    .set('data_fetching_type', dataFetchingType);
 
     return this.httpClient.get<any>(
       `${this.baseUrl}/attendance/get-late-employee-attendance-details`,
@@ -1622,8 +1629,8 @@ export class DataService {
   }
 
   getAttendanceReportByDateDuration(
-    startDate: string,
-    endDate: string,
+    startDate : string,
+    endDate : string,
     pageNumber: number,
     itemPerPage: number,
     search: string,
@@ -1633,33 +1640,30 @@ export class DataService {
     const params = new HttpParams()
       .set('start_date', startDate)
       .set('end_date', endDate)
-      .set('page_number', pageNumber.toString())
-      .set('item_per_page', itemPerPage.toString())
+      .set('page_number', pageNumber)
+      .set('item_per_page', itemPerPage)
       .set('search', search)
       .set('search_by', searchBy)
       .set('team_id', teamId);
 
-    return this.httpClient.get<any>(
-      `${this.baseUrl}/attendance/get-attendance-report-by-date-duration`,
-      { params }
-    );
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get-attendance-report-by-date-duration`, { params });
   }
 
-  getDayWiseStatus(
-    userUuid: string,
-    startDate: string,
-    endDate: string
-  ): Observable<any> {
-    const params = new HttpParams()
-      .set('user_uuid', userUuid)
-      .set('start_date', startDate)
-      .set('end_date', endDate);
+  // getDayWiseStatus(
+  //   userUuid: string,
+  //   startDate: string,
+  //   endDate: string
+  // ): Observable<any> {
+  //   const params = new HttpParams()
+  //     .set('user_uuid', userUuid)
+  //     .set('start_date', startDate)
+  //     .set('end_date', endDate);
 
-    return this.httpClient.get<any>(
-      `${this.baseUrl}/attendance/get-day-wise-status`,
-      { params }
-    );
-  }
+  //   return this.httpClient.get<any>(
+  //     `${this.baseUrl}/attendance/get-day-wise-status`,
+  //     { params }
+  //   );
+  // }
 
   getAttendanceReportByDateDurationByUser(
     startDate: string,
@@ -2779,7 +2783,7 @@ export class DataService {
     );
   }
 
-  getLopSummaryResponseByOrganizationIdAndStartDateAndDate(
+  getLopSummaryResponseByOrganizationIdAndStartDateAndEndDate(
     startDate: string,
     endDate: string,
     itemPerPage: number,
@@ -2801,7 +2805,7 @@ export class DataService {
     );
   }
 
-  getLopReversalResponseByOrganizationIdAndStartDateAndDate(
+  getLopReversalResponseByOrganizationIdAndStartDateAndEndDate(
     startDate: string,
     endDate: string,
     itemPerPage: number,
@@ -2891,5 +2895,46 @@ export class DataService {
       .set('itemsPerPage', itemsPerPage.toString());
 
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/leave-users`, { params });
+  }
+  getLeaveTypeResponseByUserUuid(uuid : string): Observable<any>{
+    const params = new HttpParams()
+    .set('user_uuid', uuid);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/leave-setting-category/list-by-user-uuid`, {params});
+  }
+
+  registerLopAdjustmentRequest(lopAdjustmentRequest : LopAdjustmentRequest, startDate : string, endDate : string){
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
+    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/register-lop-adjustment-request`, lopAdjustmentRequest, {params});
+  }
+
+  getPayrollLeaveResponse(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/get-leaves`, {});
+  }
+
+  getPayrollLeaveLogResponse(userUuid : string): Observable<any> {
+    const params = new HttpParams()
+    .set('user_uuid', userUuid);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/get-leave-logs`, {params});
+  }
+
+  registerLopSummaryRequestByOrganizationIdAndStartDateAndEndDate(lopSummaryRequestList : LopSummaryRequest[], startDate : string, endDate : string): Observable<any>{
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
+    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/register-lop-summary`, lopSummaryRequestList, {params});
+  }
+
+  registerLopReversalRequestByOrganizationIdAndStartDateAndEndDate(lopReversalRequestList : LopReversalRequest[], startDate : string, endDate : string): Observable<any>{
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
+    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/register-lop-summary`, lopReversalRequestList, {params});
   }
 }

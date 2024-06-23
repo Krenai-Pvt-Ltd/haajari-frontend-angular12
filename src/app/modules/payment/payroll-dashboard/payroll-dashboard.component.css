@@ -108,6 +108,10 @@
   outline: none !important;
 }
 
+#count-input{
+  width: 100% !important;
+}
+
 .search-icon {
   font-size: 12px !important;
   position: absolute !important;

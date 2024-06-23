@@ -65,8 +65,8 @@ export class LeaveRequestFormComponent implements OnInit {
           this.fileToUpload = '';
           // this.selectedFile = null;
           this.fileInput.nativeElement.value = '';
-          window.location.href =
-            'https://api.whatsapp.com/send/?phone=918700822872&type=phone_number&app_absent=0';
+          // window.location.href =
+          //   'https://api.whatsapp.com/send/?phone=918700822872&type=phone_number&app_absent=0';
         },
         error: (error) => {
           this.submitLeaveLoader = false;
