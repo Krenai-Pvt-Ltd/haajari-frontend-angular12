@@ -29,6 +29,8 @@ import { AttendanceDetailsCountResponse } from 'src/app/models/attendance-detail
 import { Color, ScaleType } from '@swimlane/ngx-charts';
 import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-reflection';
 import { AttendanceDetailsResponse } from 'src/app/models/attendance-details-response';
+import { DayStartAndDayEnd } from 'src/app/models/day-start-and-day-end';
+import { StartDateAndEndDate } from 'src/app/models/start-date-and-end-date';
 
 @Component({
   selector: 'app-dashboard',
@@ -88,6 +90,9 @@ export class DashboardComponent implements OnInit {
   LEAVE = Key.LEAVE;
   HALFDAY = Key.HALFDAY;
 
+  readonly INITIAL_HOUR = Key.INITIAL_HOUR;
+  readonly END_HOUR = Key.END_HOUR;
+
   async getRoleDetails() {
     this.ROLE = await this.rbacService.getRole();
   }
@@ -101,21 +106,30 @@ export class DashboardComponent implements OnInit {
   selectedDate: Date = new Date();
   startDate: string = '';
   endDate: string = '';
+  startDateAndEndDate : StartDateAndEndDate = new StartDateAndEndDate();
 
   onMonthChange(month: Date): void {
-    console.log('Month is getting selected!');
+    console.log('Month is getting selected');
     this.selectedDate = month;
     this.getFirstAndLastDateOfMonth(this.selectedDate);
+
+    console.log(this.startDate, this.endDate);
     this.getAttendanceReportByDateDurationMethodCall();
   }
 
   getFirstAndLastDateOfMonth(selectedDate: Date) {
+
     this.startDate = this.formatDateToYYYYMMDD(
-      new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1)
+      new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1),
     );
     this.endDate = this.formatDateToYYYYMMDD(
-      new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0)
+      new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0),
     );
+    
+    // const endDateWithoutEndHours = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
+
+    // this.startDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1, 0, 0, 0).toDateString();
+    // this.endDate = new Date(endDateWithoutEndHours.getFullYear(), endDateWithoutEndHours.getMonth() + 1, 0).toDateString() + " " + this.END_HOUR;
   }
 
   disableMonths = (date: Date): boolean => {
@@ -642,7 +656,7 @@ export class DashboardComponent implements OnInit {
   getLateEmployeeAttendanceDetailsMethodCall() {
     this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
     this.dataService
-      .getLateEmployeeAttendanceDetails(this.dataFetchingType)
+      .getLateEmployeeAttendanceDetails(this.getCurrentDate(), this.dataFetchingType)
       .subscribe(
         (response) => {
           this.lateEmployeeAttendanceDetailsResponseList =
@@ -710,7 +724,7 @@ export class DashboardComponent implements OnInit {
               response.object.length === 0
             ) {
               this.dataNotFoundPlaceholderForAttendanceData = true;
-              reject('Data not found');
+              reject('Data not found.');
               return;
             }
 

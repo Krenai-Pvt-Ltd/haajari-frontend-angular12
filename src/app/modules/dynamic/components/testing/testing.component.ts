@@ -14,6 +14,7 @@ export class TestingComponent implements OnInit {
   ngOnInit(): void {
     window.scroll(0, 0);
     this.getTestingGetMethodCall();
+    console.log(this.getTimeZone());
   }
   time = new Date();
 
@@ -50,5 +51,10 @@ export class TestingComponent implements OnInit {
   changeDate(dateTime : Date){
     console.log(dateTime);
     this.tempObject.dateTime = dateTime;
+  }
+
+
+  getTimeZone(): string {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone;
   }
 }
