@@ -204,6 +204,31 @@ export class DataService {
     );
   }
 
+  getAttendanceDetailsReportByDateForDashboard(
+    date: string,
+    pageNumber: number,
+    itemPerPage: number,
+    search: string,
+    searchBy: string,
+    sort: string,
+    sortBy: string,
+    filterCriteria: string
+  ): Observable<any> {
+    const params = new HttpParams()
+      .set('date', date)
+      .set('page_number', pageNumber.toString())
+      .set('item_per_page', itemPerPage.toString())
+      .set('search', search)
+      .set('search_by', searchBy)
+      .set('sort_order', sort)
+      .set('sort_by', sortBy)
+      .set('filter_criteria', filterCriteria);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/attendance/get-attendance-details-report-by-date-for-dashboard`,
+      { params }
+    );
+  }
+
   getAttendanceDetailsBreakTimingsReportByDateByUser(
     uuid: string,
     date: string
@@ -768,7 +793,7 @@ export class DataService {
       }),
       params: params,
     };
-    return this.httpClient.post<string>(url, null, httpOptions);
+    return this.httpClient.post<any>(url, null, httpOptions);
   }
 
   checkingUserRole(): Observable<boolean> {
@@ -1574,6 +1599,19 @@ export class DataService {
 
     return this.httpClient.get<any>(
       `${this.baseUrl}/attendance/get-late-employee-attendance-details`,
+      { params }
+    );
+  }
+
+
+  getLateEmployeeDashboardDetails(dataFetchingType: string, searchTerm:string, pageNumber:number, itemPerPage:number): Observable<any> {
+    const params = new HttpParams().set('data_fetching_type', dataFetchingType)
+      .set('search_term', searchTerm)
+      .set('page_number', pageNumber)
+      .set('items_per_page', itemPerPage);
+
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/attendance/get-late-employee-dashboard`,
       { params }
     );
   }
@@ -2841,6 +2879,23 @@ export class DataService {
     );
   }
 
+  getBreakUsers(searchTerm: string, pageNumber: number, itemsPerPage: number): Observable<any> {
+    let params = new HttpParams()
+      .set('searchTerm', searchTerm || '')
+      .set('pageNumber', pageNumber.toString())
+      .set('itemsPerPage', itemsPerPage.toString());
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/break-users`, { params });
+  }
+
+  getLeaveUsers(searchTerm: string, pageNumber: number, itemsPerPage: number): Observable<any> {
+    let params = new HttpParams()
+      .set('searchTerm', searchTerm || '')
+      .set('pageNumber', pageNumber.toString())
+      .set('itemsPerPage', itemsPerPage.toString());
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/leave-users`, { params });
+  }
   getLeaveTypeResponseByUserUuid(uuid : string): Observable<any>{
     const params = new HttpParams()
     .set('user_uuid', uuid);

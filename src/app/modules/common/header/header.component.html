@@ -122,7 +122,10 @@
                 >
               </a>
             </li>
-            <li class="pointer">
+            <li
+              class="pointer"
+              *ngIf="ROLE === ADMIN && ORGANIZATION_UUID == KRENAI_UUID"
+            >
               <!-- <a
                 class="sidebar-menu-link"
                 data-bs-toggle="collapse"
@@ -220,11 +223,9 @@
                 >
               </a>
             </li>
+            <!-- else projectCondition -->
             <ng-container
-              *ngIf="
-                ROLE === ADMIN && ORGANIZATION_UUID == KRENAI_UUID;
-                else projectCondition
-              "
+              *ngIf="ROLE === ADMIN && ORGANIZATION_UUID == KRENAI_UUID"
             >
               <li class="pointer" *ngIf="shouldDisplay('project')">
                 <a class="sidebar-menu-link">
@@ -266,7 +267,7 @@
                 </div>
               </li>
             </ng-container>
-            <ng-template #projectCondition>
+            <!-- <ng-template #projectCondition>
               <li class="pointer" *ngIf="shouldDisplay('project')">
                 <a class="sidebar-menu-link">
                   <div class=""></div>
@@ -306,7 +307,7 @@
                   </ul>
                 </div>
               </li>
-            </ng-template>
+            </ng-template> -->
           </ul>
         </div>
         <div class="" *ngIf="ROLE !== ADMIN" style="margin-bottom: 130px">

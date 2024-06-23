@@ -259,6 +259,7 @@ export class UploadTeamComponent implements OnInit {
   }
 
   resetManualUploadModal() {
+    debugger;
     this.closeManualUploadModal();
 
     this.userList.forEach((user) => {

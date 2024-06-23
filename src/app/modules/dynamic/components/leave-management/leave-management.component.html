@@ -605,18 +605,19 @@
                   <div><small>Loading...</small></div>
                 </div>
               </div>
+
+              <!--  [ngClass]="{
+                    'leave-history-box': pendingLeavesSize > 1,
+                    'leave-history-box-if-pending-null': pendingLeavesSize == 0,
+                    'leave-history-box-if-pending-one': pendingLeavesSize == 1
+                  }" -->
               <div
                 class="pt-3 pb-3"
                 id="attendance"
                 role=""
                 *ngIf="activeAttendanceTabFlag"
               >
-                <div
-                  [ngClass]="{
-                    'leave-history-box': pendingLeavesSize > 1,
-                    'leave-history-box-if-pending-null': pendingLeavesSize == 0,
-                    'leave-history-box-if-pending-one': pendingLeavesSize == 1
-                  }"
+                <div class = "leave-history-box-if-pending-null"
                   #logContainerOfApprovedRejected
                   (scroll)="scrollDownRecentActivityOfApprovedRejected($event)"
                 >
