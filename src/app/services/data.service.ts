@@ -1604,8 +1604,10 @@ export class DataService {
   }
 
 
-  getLateEmployeeDashboardDetails(dataFetchingType: string, searchTerm:string, pageNumber:number, itemPerPage:number): Observable<any> {
-    const params = new HttpParams().set('data_fetching_type', dataFetchingType)
+  getLateEmployeeDashboardDetails(date : string, dataFetchingType: string, searchTerm:string, pageNumber:number, itemPerPage:number): Observable<any> {
+    const params = new HttpParams()
+      .set('date', date)
+      .set('data_fetching_type', dataFetchingType)
       .set('search_term', searchTerm)
       .set('page_number', pageNumber)
       .set('items_per_page', itemPerPage);
