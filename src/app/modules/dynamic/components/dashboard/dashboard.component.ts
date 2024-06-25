@@ -1080,7 +1080,7 @@ export class DashboardComponent implements OnInit {
 
 
   getLateUsers(): void {
-    this.dataService.getLateEmployeeDashboardDetails(this.viewAll, this.searchTermLate, this.pageNumberLate, this.itemsPerPageLate).subscribe(
+    this.dataService.getLateEmployeeDashboardDetails(this.getCurrentDate(), this.viewAll, this.searchTermLate, this.pageNumberLate, this.itemsPerPageLate).subscribe(
       response => {
         this.lateUsers = response.listOfObject;
         this.totalCountLate = response.totalItems;

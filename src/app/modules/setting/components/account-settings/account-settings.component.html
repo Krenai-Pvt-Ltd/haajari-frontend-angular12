@@ -83,30 +83,19 @@
                           <small class="text-muted">Attendance</small>
                           <div
                             class="d-flex align-items-center justify-content-between mt-2 gap-2 alert alert-outline-secondary"
-                            *ngIf="!isDisabled"
-                          >
+                            *ngIf="!isDisabled">
                             <div class="enable-disanle-box mb-0" role="alert">
                               <img src="assets/images/slack-1.svg" style="width: 35px; padding-right: 10px" />
                               Receive attendance notifications by Slack
                             </div>
 
 
-                            <div
-                              class="material-switch"
-                              [class.disabled]="isDisabled"
-                            >
-                              <input
-                                type="checkbox"
-                                id="slackSwitch"
-                                [(ngModel)]="notifications.slack"
-                                (change)="onToggleChange('slack')"
-                                [disabled]="isDisabled"
-                              /><label
-                                class="label-success"
-                                for="slackSwitch"
-                              ></label>
-                            
-<!--                         Have to check
+                            <div class="material-switch" [class.disabled]="isDisabled">
+                              <input type="checkbox" id="slackSwitch" [(ngModel)]="notifications.slack"
+                                (change)="onToggleChange('slack')" [disabled]="isDisabled" /><label
+                                class="label-success" for="slackSwitch"></label>
+
+                              <!--                         Have to check
                             <div class="material-switch" [class.disabled]="isDisabled">
                               <input type="checkbox" id="whatsappSwitch" [(ngModel)]="notifications.whatsapp"
                                 (click)="toggleNotification('whatsapp')" [disabled]="isDisabled" /><label
@@ -223,22 +212,12 @@
                               </div> -->
 
 
-                              <div
-                                class="material-switch"
-                                [class.disabled]="isDisabled"
-                              >
-                                <input
-                                  type="checkbox"
-                                  id="whatsappSwitch"
-                                  [(ngModel)]="notifications.whatsapp"
-                                  (change)="onToggleChange('whatsapp')"
-                                  [disabled]="isDisabled"
-                                /><label
-                                  class="label-success"
-                                  for="whatsappSwitch"
-                                ></label>
+                              <div class="material-switch" [class.disabled]="isDisabled">
+                                <input type="checkbox" id="whatsappSwitch" [(ngModel)]="notifications.whatsapp"
+                                  (change)="onToggleChange('whatsapp')" [disabled]="isDisabled" /><label
+                                  class="label-success" for="whatsappSwitch"></label>
 
-<!--                               Have to check
+                                <!--                               Have to check
                               <div class="material-switch" [class.disabled]="isDisabled">
                                 <input type="checkbox" id="whatsappSwitch" [(ngModel)]="notifications.whatsapp"
                                   (click)="toggleNotification('whatsapp')" [disabled]="isDisabled" /><label
@@ -248,10 +227,7 @@
                             </div>
                           </div>
                         </div>
-                        <div
-                          class="pb-2 mt-3"
-                          *ngIf="onboardingVia === 'WHATSAPP'"
-                        >
+                        <div class="pb-2 mt-3" *ngIf="onboardingVia === 'WHATSAPP'">
                           <small class="text-muted">Language Preferred</small>
                           <div
                             class="d-flex align-items-center justify-content-between mt-2 gap-2 alert alert-outline-secondary">
@@ -262,18 +238,11 @@
                             <div>
 
                               <div class="material-switch">
-                                <input
-                                  type="checkbox"
-                                  id="englishSwitch"
-                                  [(ngModel)]="languagePreferredEnglish"
-                                  (change)="onLanguageToggleChange('english')"
-                                  [disabled]="isDisabled"
-                                /><label
-                                  class="label-success"
-                                  for="englishSwitch"
-                                ></label>
+                                <input type="checkbox" id="englishSwitch" [(ngModel)]="languagePreferredEnglish"
+                                  (change)="onLanguageToggleChange('english')" [disabled]="isDisabled" /><label
+                                  class="label-success" for="englishSwitch"></label>
 
-                              <!-- <div
+                                <!-- <div
                                 class="btn-group enable-disanle-btn"
                                 role="group"
                                 aria-label="Basic radio toggle button group"
@@ -324,7 +293,7 @@
                                 >
                               </div> -->
 
-<!--                           Have to check
+                                <!--                           Have to check
                               <div class="material-switch" [class.disabled]="isDisabled">
                                 <input type="checkbox" id="whatsappSwitch" [(ngModel)]="notifications.whatsapp"
                                   (click)="toggleNotification('whatsapp')" [disabled]="isDisabled" /><label
@@ -342,18 +311,11 @@
                             <div>
 
                               <div class="material-switch">
-                                <input
-                                  type="checkbox"
-                                  id="hindiSwitch"
-                                  [(ngModel)]="languagePreferredHindi"
-                                  (change)="onLanguageToggleChange('hindi')"
-                                  [disabled]="isDisabled"
-                                /><label
-                                  class="label-success"
-                                  for="hindiSwitch"
-                                ></label>
+                                <input type="checkbox" id="hindiSwitch" [(ngModel)]="languagePreferredHindi"
+                                  (change)="onLanguageToggleChange('hindi')" [disabled]="isDisabled" /><label
+                                  class="label-success" for="hindiSwitch"></label>
 
-                              <!-- <div
+                                <!-- <div
                                 class="btn-group enable-disanle-btn"
                                 role="group"
                                 aria-label="Basic radio toggle button group"
@@ -404,7 +366,7 @@
                                 >
                               </div> -->
 
-<!--                               Have to check
+                                <!--                               Have to check
                               <div class="material-switch" [class.disabled]="isDisabled">
                                 <input type="checkbox" id="whatsappSwitch" [(ngModel)]="notifications.whatsapp"
                                   (click)="toggleNotification('whatsapp')" [disabled]="isDisabled" /><label
@@ -415,22 +377,15 @@
                           </div>
                         </div>
 
-                        <div
-                          class="mt-3"
-                          *ngIf="
+                        <div class="mt-3" *ngIf="
                             (ROLE === 'ADMIN' || ROLE === 'MANAGER') &&
                             onboardingVia === 'WHATSAPP'
                           ">
-                          <small class="text-muted"
-                            >Employee's Attendance
-                            <i
-                              class="bi bi-exclamation-circle tolltip-icon"
-                              ngbTooltip="Would you like to receive notifications for your
-                              employee's attendance?"
-                              placement="top"
-                            ></i>
+                          <small class="text-muted">Employee's Attendance
+                            <i class="bi bi-exclamation-circle tolltip-icon" ngbTooltip="Would you like to receive notifications for your
+                              employee's attendance?" placement="top"></i>
 
-<!--                         Have to check
+                            <!--                         Have to check
                         <div class="mt-3" *ngIf="ROLE === 'ADMIN' || ROLE === 'MANAGER'">
                           <small class="text-muted">Employee's Attendance
                             <i class="bi bi-exclamation-circle tolltip-icon" ngbTooltip="Would you like to receive notifications for your
@@ -447,37 +402,23 @@
 
 
                             <div class="material-switch">
-                              <input
-                                type="checkbox"
-                                id="employeeNotificationSwitch"
-                                [(ngModel)]="employeeAttendanceFlag"
-                                (change)="
+                              <input type="checkbox" id="employeeNotificationSwitch"
+                                [(ngModel)]="employeeAttendanceFlag" (change)="
                                   updateAttendanceNotificationSettingForManagerMethodCall()
-                                "
-                              />
-                              <label
-                                class="label-success"
-                                for="employeeNotificationSwitch"
-                              ></label>
+                                " />
+                              <label class="label-success" for="employeeNotificationSwitch"></label>
                             </div>
                           </div>
                         </div>
-                        <div
-                          class="mt-3"
-                          *ngIf="ROLE === 'ADMIN' && onboardingVia === 'SLACK'"
-                        >
-                          <small class="text-muted" *ngIf="isInstalled"
-                            >Remove Hajiri From Slack
-                            <i
-                              class="bi bi-exclamation-circle tolltip-icon"
+                        <div class="mt-3" *ngIf="ROLE === 'ADMIN' && onboardingVia === 'SLACK'">
+                          <small class="text-muted" *ngIf="isInstalled">Remove Hajiri From Slack
+                            <i class="bi bi-exclamation-circle tolltip-icon"
                               ngbTooltip="Removing Hajiri from your Slack account will disable all Hajiri operations and uninstall it for all users in the workspace."
-                              placement="top"
-                            ></i>
+                              placement="top"></i>
                           </small>
-                          <small class="text-muted" *ngIf="!isInstalled"
-                            >Reinstall Hajiri in your Slack workspace
+                          <small class="text-muted" *ngIf="!isInstalled">Reinstall Hajiri in your Slack workspace
 
-<!--                             Have to check
+                            <!--                             Have to check
                             <div class="material-switch" [class.disabled]="isDisabled">
                               <input type="checkbox" id="whatsappSwitch" [(ngModel)]="notifications.whatsapp"
                                 (click)="toggleNotification('whatsapp')" [disabled]="isDisabled" /><label
@@ -502,19 +443,13 @@
                               reinstall Hajiri in your workspace, click the "Reinstall Hajiri" button.
                             </div>
 
-                            <div
-                              class="alert-outline-secondary enable-disanle-box mb-0"
-                              role="alert"
-                              *ngIf="isInstalled"
-                            >
-                              <img
-                                src="assets/images/trash.svg"
-                                style="width: 35px; padding-right: 10px"
-                              />
+                            <div class="alert-outline-secondary enable-disanle-box mb-0" role="alert"
+                              *ngIf="isInstalled">
+                              <img src="assets/images/trash.svg" style="width: 35px; padding-right: 10px" />
                               To remove Hajiri from your Slack workspace, click
                               the "Remove Hajiri" button.
-                            
-<!--                         Have to check
+
+                              <!--                         Have to check
                             <div class="alert-outline-secondary enable-disanle-box mb-0" role="alert"
                               *ngIf="isInstalled">
                               <img src="assets/images/trash.svg" style="width: 35px; padding-right: 10px" />
@@ -524,14 +459,10 @@
                             <!-- (click)="removeHajiriFromSlack()" -->
                             <div class="mt-3">
 
-                              <button
-                                class="btn btn-danger"
-                                *ngIf="isInstalled"
-                                data-bs-toggle="modal"
-                                data-bs-target="#deleteConfirmationModal"
-                              >
+                              <button class="btn btn-danger" *ngIf="isInstalled" data-bs-toggle="modal"
+                                data-bs-target="#deleteConfirmationModal">
 
-<!--                               Have to check
+                                <!--                               Have to check
                               <button class="btn btn-danger" (click)="removeHajiriFromSlack()" *ngIf="isInstalled"> -->
 
                                 Remove Hajiri
@@ -647,31 +578,17 @@
       <div class="modal-body">
         <!-- Send OTP Form -->
 
-        <form
-          *ngIf="!otpSent"
-          #sendOtpForm="ngForm"
-          (ngSubmit)="sendOtptoSavePhoneNumberMethodCall()">
+        <form *ngIf="!otpSent" #sendOtpForm="ngForm" (ngSubmit)="sendOtptoSavePhoneNumberMethodCall()">
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
-                <img
-                  src="assets/images/flag.png"
-                  alt="country flag"
-                  class="img-fluid"
-                  style="height: 20px; width: auto; margin-right: 5px"
-                />
+                <img src="assets/images/flag.png" alt="country flag" class="img-fluid"
+                  style="height: 20px; width: auto; margin-right: 5px" />
                 +91
               </span>
             </div>
-            <input
-              type="tel"
-              mask="0000000000"
-              name="phoneNumber"
-              class="form-control"
-              id="phoneNumber"
-              [(ngModel)]="phoneNumber"
-              placeholder="Enter Phone Number without country code"
-            />
+            <input type="tel" mask="0000000000" name="phoneNumber" class="form-control" id="phoneNumber"
+              [(ngModel)]="phoneNumber" placeholder="Enter Phone Number without country code" />
           </div>
           <!-- <div class="mb-3">
             <label for="phoneNumber" class="form-label">Phone Number</label>
@@ -688,7 +605,7 @@
           </div> -->
           <div class="d-grid gap-2" style="padding-top: 20px">
 
-<!--          Have to check
+            <!--          Have to check
         <form *ngIf="!otpSent" #sendOtpForm="ngForm" (ngSubmit)="sendOtptoSavePhoneNumberMethodCall()">
           <div class="mb-3">
             <label for="phoneNumber" class="form-label">Phone Number</label>
@@ -751,38 +668,22 @@
   </div>
 </div>
 
-<div
-  class="modal fade"
-  id="deleteConfirmationModal"
-  #deleteConfirmationModal
-  tabindex="-1"
-  aria-labelledby="confirmationModalLabel"
-  aria-hidden="true"
-  data-bs-backdrop="false"
->
-  <div
-    class="modal-dialog modal-dialog-centered mx-auto mx-auto"
-    style="max-width: 600px !important"
-  >
+<div class="modal fade" id="deleteConfirmationModal" #deleteConfirmationModal tabindex="-1"
+  aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="false">
+  <div class="modal-dialog modal-dialog-centered mx-auto mx-auto" style="max-width: 600px !important">
     <div class="modal-content">
       <!--end modal-header-->
       <div class="modal-body">
         <form #confirmationForm="ngForm">
           <div class="row">
             <div class="col-lg-3 text-center align-self-center">
-              <img
-                src="assets/images/recycle-bin.svg"
-                alt=""
-                class="img-fluid"
-              />
+              <img src="assets/images/recycle-bin.svg" alt="" class="img-fluid" />
             </div>
             <!--end col-->
             <div class="col-lg-9">
               <h5>Remove Hajiri from your Slack workspace</h5>
-              <span class="badge bg-warning font-14"
-                >Are you sure want to remove Hajiri from your Slack
-                workspace?</span
-              >
+              <span class="badge bg-warning font-14">Are you sure want to remove Hajiri from your Slack
+                workspace?</span>
               <ul class="mt-3 mb-0">
                 <li>
                   This action will remove Hajiri from your Slack workspace for
@@ -797,22 +698,11 @@
         </form>
       </div>
       <!--end modal-body-->
-      <div
-        class="modal-footer d-flex align-items-center justify-content-between"
-      >
-        <button
-          type="button"
-          class="btn btn-de-secondary btn-sm"
-          data-bs-dismiss="modal"
-          #closeUserDeleteModal
-        >
+      <div class="modal-footer d-flex align-items-center justify-content-between">
+        <button type="button" class="btn btn-de-secondary btn-sm" data-bs-dismiss="modal" #closeUserDeleteModal>
           Close
         </button>
-        <button
-          type="button"
-          class="btn btn-danger btn-sm"
-          (click)="removeHajiriFromSlack()"
-        >
+        <button type="button" class="btn btn-danger btn-sm" (click)="removeHajiriFromSlack()">
           <span *ngIf="!disableLoader"> Delete Account</span>
           <div class="dot-opacity-loader" *ngIf="disableLoader">
             <span></span>
