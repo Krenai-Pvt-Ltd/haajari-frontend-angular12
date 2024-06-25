@@ -1019,6 +1019,16 @@ export class DashboardComponent implements OnInit {
 
   }
 
+  getAbsentAndNotMarkedUsers(searchTerm : string, count: number){
+    if(count == 0){
+      this.attendanceDetailsResponseList = [];
+      console.log("SHIVENDRA");
+      // return;
+    } else{
+      this.getAttendanceDetailsReportByDateMethodCall(searchTerm);
+    }
+  }
+
   calculatePagination(): void {
     this.totalPagesBreak = Math.ceil(this.totalCountBreak / this.itemsPerPage);
     this.currentPageBreak = this.pageNumberBreak;
@@ -1039,7 +1049,7 @@ export class DashboardComponent implements OnInit {
 
   crossFlagBreak: boolean = false;
   searchBreak(): void {
-     this.crossFlagBreak = this.searchTermBreak.length > 0;
+    this.crossFlagBreak = this.searchTermBreak.length > 0;
     this.pageNumberBreak = 1; 
     this.getBreakUsers();
   }
