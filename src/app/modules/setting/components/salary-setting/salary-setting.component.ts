@@ -479,7 +479,7 @@ export class SalarySettingComponent implements OnInit {
     this.dataService.getAllSalaryTemplateComponentByOrganizationId().subscribe(
       (response) => {
         this.salaryTemplateComponentResponseList = response.listOfObject;
-        if (this.salaryTemplateComponentResponseList.length === 1) {
+        if (this.salaryTemplateComponentResponseList.length == 1) {
           this.activeIndex = 0;
         }
 
