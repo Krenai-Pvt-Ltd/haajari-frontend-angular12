@@ -49,6 +49,7 @@ import { finalize } from 'rxjs/operators';
 import { EmployeeCompanyDocumentsRequest } from 'src/app/models/employee-company-documents-request';
 import { keys } from 'lodash';
 import { UserDocumentsDetailsRequest } from 'src/app/models/user-documents-details-request';
+import { SalaryTemplateComponentResponse } from 'src/app/models/salary-template-component-response';
 @Component({
   selector: 'app-employee-profile',
   templateUrl: './employee-profile.component.html',
@@ -150,6 +151,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.getAllTaxRegimeMethodCall();
     this.getStatutoryByOrganizationIdMethodCall();
     this.getSalaryConfigurationStepMethodCall();
+    this.getAllSalaryTemplateComponentByOrganizationIdMethodCall();
     // this.getEmployeeCompanyDocumentsMethodCall();
 
     this.ROLE = await this.roleService.getRole();
@@ -1564,6 +1566,40 @@ export class EmployeeProfileComponent implements OnInit {
     this.switchValueForPF = false;
     this.switchValueForESI = false;
     this.switchValueForProfessionalTax = false;
+  }
+
+
+
+  isShimmerForSalaryTemplate = false;
+  dataNotFoundPlaceholderForSalaryTemplate = false;
+  networkConnectionErrorPlaceHolderForSalaryTemplate = false;
+  preRuleForShimmersAndErrorPlaceholdersForSalaryTemplateMethodCall() {
+    this.isShimmerForSalaryTemplate = true;
+    this.dataNotFoundPlaceholderForSalaryTemplate = false;
+    this.networkConnectionErrorPlaceHolderForSalaryTemplate = false;
+  }
+
+  salaryTemplateComponentResponseList: SalaryTemplateComponentResponse[] = [];
+  getAllSalaryTemplateComponentByOrganizationIdMethodCall() {
+    this.preRuleForShimmersAndErrorPlaceholdersForSalaryTemplateMethodCall();
+    this.dataService.getAllSalaryTemplateComponentByOrganizationId().subscribe(
+      (response) => {
+        this.salaryTemplateComponentResponseList = response.listOfObject;
+
+        if (
+          response === undefined ||
+          response === null ||
+          response.listOfObject.length === 0 ||
+          response.listOfObject === undefined ||
+          response.listOfObject === null
+        ) {
+          this.dataNotFoundPlaceholderForSalaryTemplate = true;
+        }
+      },
+      (error) => {
+        this.networkConnectionErrorPlaceHolderForSalaryTemplate = true;
+      }
+    );
   }
 
   salaryConfigurationStepId: number = 0;
