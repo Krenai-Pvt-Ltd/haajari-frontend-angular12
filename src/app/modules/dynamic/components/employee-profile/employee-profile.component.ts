@@ -8,13 +8,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import { DataService } from 'src/app/services/data.service';
 import { Subject } from 'rxjs';
 import { UserLeaveRequest } from 'src/app/models/user-leave-request';
-import {
-  FormBuilder,
-  FormGroup,
-  FormGroupDirective,
-  NgForm,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { UserDto } from 'src/app/models/user-dto.model';
 import { saveAs } from 'file-saver';
@@ -151,7 +145,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.getAllTaxRegimeMethodCall();
     this.getStatutoryByOrganizationIdMethodCall();
     this.getSalaryConfigurationStepMethodCall();
-    this.getAllSalaryTemplateComponentByOrganizationIdMethodCall();
+    this.getSalaryTemplateComponentByUserUuidMethodCall();
     // this.getEmployeeCompanyDocumentsMethodCall();
 
     this.ROLE = await this.roleService.getRole();
@@ -1579,22 +1573,20 @@ export class EmployeeProfileComponent implements OnInit {
     this.networkConnectionErrorPlaceHolderForSalaryTemplate = false;
   }
 
-  salaryTemplateComponentResponseList: SalaryTemplateComponentResponse[] = [];
-  getAllSalaryTemplateComponentByOrganizationIdMethodCall() {
+  salaryTemplateComponentResponse: SalaryTemplateComponentResponse = new SalaryTemplateComponentResponse();
+  getSalaryTemplateComponentByUserUuidMethodCall() {
+    debugger;
     this.preRuleForShimmersAndErrorPlaceholdersForSalaryTemplateMethodCall();
-    this.dataService.getAllSalaryTemplateComponentByOrganizationId().subscribe(
-      (response) => {
-        this.salaryTemplateComponentResponseList = response.listOfObject;
+    this.dataService.getSalaryTemplateComponentByUserUuid().subscribe((response) => {
 
-        if (
-          response === undefined ||
-          response === null ||
-          response.listOfObject.length === 0 ||
-          response.listOfObject === undefined ||
-          response.listOfObject === null
-        ) {
+        if(this.helperService.isObjectNullOrUndefined(response)){
           this.dataNotFoundPlaceholderForSalaryTemplate = true;
+          console.log("SHIVENDRA");
+        } else{
+          this.salaryTemplateComponentResponse = response.object;
         }
+        this.isShimmerForSalaryTemplate = false;
+        console.log("SHIVENDRA2");
       },
       (error) => {
         this.networkConnectionErrorPlaceHolderForSalaryTemplate = true;
