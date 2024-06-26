@@ -103,7 +103,7 @@ export class DataService {
     state: string,
     timeZone: string
   ): Observable<any> {
-    const params = new HttpParams().set('code', code).set('state', state).set('time_zone', timeZone);
+    const params = new HttpParams().set('code', code).set('state', state).set('timeZone', timeZone);
     return this.httpClient.put<any>(
       `${this.baseUrl}/organization/auth/slackauth`,
       {},

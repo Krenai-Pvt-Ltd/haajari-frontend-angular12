@@ -631,7 +631,7 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
   }
 
   reinstallHajiri(): void {
-    this.router.navigate(['/auth/login']);
+    this.router.navigate(['/auth/signup']);
     // if (this.authUrl) {
     //   window.location.href = this.authUrl;
     // } else {

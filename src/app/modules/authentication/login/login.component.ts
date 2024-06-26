@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getSlackAuthUrlForSignInWithSlack();
+    // this.getSlackAuthUrlForSignInWithSlack();
   }
 
   otp: string = '';
@@ -521,18 +521,44 @@ export class LoginComponent implements OnInit {
   //   );
   // }
 
-  getSlackAuthUrlForSignInWithSlack(): void {
-    debugger;
+
+  getSlackAuthUrlForSignInWithSlack(event: MouseEvent): void {
+    event.preventDefault(); // Prevent default anchor behavior
+
     this.dataService.getSlackAuthUrlForSignInWithSlack().subscribe(
       (response: any) => {
         this.authUrl = response.message;
-        console.log('authUrl' + this.authUrl);
+        console.log('authUrl: ' + this.authUrl);
+
+        // Traverse up the DOM to find the closest anchor element
+        const target = event.target as HTMLElement;
+        const anchor = target.closest('a') as HTMLAnchorElement;
+
+        if (anchor) {
+          anchor.href = this.authUrl;
+          // Redirect in the same tab
+          window.location.href = this.authUrl;
+        }
       },
       (error) => {
         console.error('Error fetching Slack auth URL', error);
       }
     );
   }
+
+  //  previous 
+  // getSlackAuthUrlForSignInWithSlack(): void {
+  //   debugger;
+  //   this.dataService.getSlackAuthUrlForSignInWithSlack().subscribe(
+  //     (response: any) => {
+  //       this.authUrl = response.message;
+  //       console.log('authUrl' + this.authUrl);
+  //     },
+  //     (error) => {
+  //       console.error('Error fetching Slack auth URL', error);
+  //     }
+  //   );
+  // }
 
   extractWorkspaceName(url: string): string {
     const regex = /https:\/\/([^.]+)\.slack\.com/;
