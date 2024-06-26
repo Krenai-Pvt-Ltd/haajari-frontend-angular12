@@ -1,6 +1,7 @@
 <div class="page-wrapper">
   <div class="page-content-tab">
-    <app-hajiri-page-loader *ngIf="count < 6"> </app-hajiri-page-loader>
+    <app-hajiri-page-loader *ngIf="count < 6">
+    </app-hajiri-page-loader>
     <div class="container-fluid" *ngIf="count >= 6">
       <!-- Navigation Header with Check-In/ Check-Out Configuration   -->
       <div class="mt-3 pb-3 d-flex align-items-center justify-content-between" style="gap: 20px">
@@ -8,7 +9,6 @@
           <!-- routerLink="/employee-onboarding" -->
           <!-- {{tokenUserRoleFlag}} -->
           <!-- {{userId}} - {{UUID}} -->
-
           <div class="d-flex align-items-center gap-3">
             <div class="back-btns-box" (click)="location.back()" *ngIf="ROLE != 'USER'">
               <i class="bi bi-chevron-left"></i>
@@ -25,8 +25,7 @@
           }" style="gap: 20px">
           <!-- <div *ngIf="InOutLoader"><div class="dot-opacity-loader"><span></span><span></span><span></span></div></div> -->
           <div *ngIf="status == 'out'">
-            <button class="btn btn-outline-success btn-round" type="button" (click)="checkinCheckout('/in')">
-              Check-In
+            <button class="btn btn-outline-success btn-round" type="button" (click)="checkinCheckout('/in')"> Check-In
             </button>
           </div>
           <div *ngIf="status == 'in' || status == 'back'">
@@ -42,12 +41,9 @@
             </span>
           </div>
           <div *ngIf="status == 'in' || status == 'back' || status == 'break'">
-            <button class="btn btn-outline-danger btn-round" (click)="checkinCheckout('/out')">
-              Check-Out
-            </button>
+            <button class="btn btn-outline-danger btn-round" (click)="checkinCheckout('/out')"> Check-Out </button>
           </div>
         </div>
-
         <div [ngClass]="{
             'd-none': !adminRoleFlag,
             'mt-1': adminRoleFlag
@@ -61,29 +57,22 @@
               <div *ngIf="!approvedToggle">
                 <i class="ti ti-checks font-16"></i>Approve
               </div>
-
               <div class="approve-button-loader" *ngIf="approvedToggle">
                 <span></span>
                 <span></span>
                 <span></span>
               </div>
             </button>
-
             <button class="btn btn-soft-danger btn-round" type="button" data-bs-toggle="modal"
               data-bs-target="#showRejectModal">
-              <i class="ti ti-alert-octagon font-16"></i> Reject
-            </button>
+              <i class="ti ti-alert-octagon font-16"></i> Reject </button>
           </div>
-
           <!-- <div
             *ngIf="user!.employeeOnboardingStatus?.response == 'APPROVED'"
             class="add-filtter"
-          >
-            <a type="button" (click)="requestUserForMoreDocs()">
-              <i class="bi bi-plus" style="font-size: 23px"></i>
+          ><a type="button" (click)="requestUserForMoreDocs()"><i class="bi bi-plus" style="font-size: 23px"></i>
               Request user for more Documents
-            </a>
-          </div> -->
+            </a></div> -->
         </div>
       </div>
       <!-- Navigation Header with Check-In/ Check-Out Configuration   -->
@@ -125,21 +114,17 @@
                         <p class="mb-0 met-user-name-post">
                           {{ user.department || "N/A" }}
                         </p>
-
-                        <!-- <div class="d-flex align-items-center gap-3 mt-2">
-                          <button
+                        <!-- <div class="d-flex align-items-center gap-3 mt-2"><button
                             type="button"
                             class="btn btn-soft-success btn-round"
                           >
                             Approve
-                          </button>
-                          <button
+                          </button><button
                             type="button"
                             class="btn btn-soft-danger btn-round"
                           >
                             Reject
-                          </button>
-                        </div> -->
+                          </button></div> -->
                       </div>
                     </div>
                   </div>
@@ -156,8 +141,7 @@
                       </li>
                       <li class="mt-2 font-13">
                         <i class="las la-globe text-secondary font-18 align-middle mr-2"></i>
-                        <b> DOB </b> :
-                        {{ user?.dob | date : "dd MMM yyyy" || "N/A" }}
+                        <b> DOB </b> : {{ user?.dob | date : "dd MMM yyyy" || "N/A" }}
                       </li>
                     </ul>
                   </div>
@@ -173,18 +157,13 @@
                           <!-- {{
                             totalExperiencesResponse?.currentExperience || "N/A"
                           }} -->
-                          {{
-                          getYearsFromExperience(
+                          {{ getYearsFromExperience(
                           totalExperiencesResponse?.currentExperience
                           )
-                          }}
-                          Years
-                          <span class="text-muted font-12 fw-normal">{{
-                            getMonthsFromExperience(
+                          }} Years <span class="text-muted font-12 fw-normal">{{ getMonthsFromExperience(
                             totalExperiencesResponse?.currentExperience
                             )
-                            }}
-                            Months</span>
+                            }} Months</span>
                         </h4>
                       </div>
                       <!--end col-->
@@ -197,18 +176,13 @@
                           <!-- {{
                             totalExperiencesResponse?.totalExperience || "N/A"
                           }} -->
-                          {{
-                          getYearsFromExperience(
+                          {{ getYearsFromExperience(
                           totalExperiencesResponse?.totalExperience
                           )
-                          }}
-                          Years
-                          <span class="text-muted font-12 fw-normal">{{
-                            getMonthsFromExperience(
+                          }} Years <span class="text-muted font-12 fw-normal">{{ getMonthsFromExperience(
                             totalExperiencesResponse?.totalExperience
                             )
-                            }}
-                            Months</span>
+                            }} Months</span>
                         </h4>
                       </div>
                       <!--end col-->
@@ -255,8 +229,7 @@
                               <p class="text-dark mb-1 fw-semibold">Budget</p>
                               <h4 class="font-18 fw-bold">$24100</h4>
                               <p class="mb-0 text-truncate text-muted font-11">
-                                <span class="text-dark">$14k</span> Total used
-                                budgets
+                                <span class="text-dark">$14k</span> Total used budgets
                               </p>
                             </div>
                             <div class="col-auto align-self-center">
@@ -370,7 +343,6 @@
                         <!--end card-body-->
                       </div>
                       <!--end card-->
-
                       <div class="card report-card">
                         <div class="card-body">
                           <div class="row d-flex justify-content-center">
@@ -379,7 +351,8 @@
                               <h4 class="font-18 fw-bold">77</h4>
                               <p class="mb-0 text-truncate text-muted font-11">
                                 <span class="text-success">
-                                  <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i> </span>26 Project Complete
+                                  <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i>
+                                </span>26 Project Complete
                               </p>
                             </div>
                             <div class="col-auto align-self-center">
@@ -444,8 +417,7 @@
                               <p class="text-dark mb-1 fw-semibold">Tasks</p>
                               <h4 class="font-18 fw-bold">41</h4>
                               <p class="mb-0 text-truncate text-muted font-11">
-                                <span class="badge badge-soft-success">Active</span>
-                                Week Avg.Sessions
+                                <span class="badge badge-soft-success">Active</span> Week Avg.Sessions
                               </p>
                             </div>
                             <div class="col-auto align-self-center">
@@ -555,8 +527,7 @@
                               <p class="text-dark mb-1 fw-semibold">Budget</p>
                               <h4 class="font-22 fw-bold">$24100</h4>
                               <p class="mb-0 text-truncate text-muted font-11">
-                                <span class="text-dark">$14k</span> Total used
-                                budgets
+                                <span class="text-dark">$14k</span> Total used budgets
                               </p>
                             </div>
                             <div class="col-auto align-self-center">
@@ -658,7 +629,6 @@
                       </div>
                       <!--end card-->
                     </div>
-
                     <div class="col-md-4">
                       <div class="card">
                         <div class="card-header">
@@ -689,20 +659,16 @@
                                     suffered alteration.
                                     <a href="#" class="text-info"
                                       >[more info]</a
-                                    >
-                                  </p> -->
+                                    ></p> -->
                                 </div>
                               </div>
-
                               <div class="activity-info">
                                 <div class="icon-info-activity">
                                   <i class="ti ti-award bg-soft-success"></i>
                                 </div>
                                 <div class="activity-info-text">
                                   <div class="d-flex justify-content-between align-items-center">
-                                    <h6 class="m-0 w-75">
-                                      Praise - Super Star Worker
-                                    </h6>
+                                    <h6 class="m-0 w-75"> Praise - Super Star Worker </h6>
                                     <span class="text-muted font-12">50 Min ago</span>
                                   </div>
                                   <!-- <p class="text-muted mt-3 font-12">
@@ -711,8 +677,7 @@
                                     suffered alteration.
                                     <a href="#" class="text-info"
                                       >[more info]</a
-                                    >
-                                  </p> -->
+                                    ></p> -->
                                   <span class="badge badge-soft-secondary">Design</span>
                                   <span class="badge badge-soft-secondary">HTML</span>
                                 </div>
@@ -732,8 +697,7 @@
                                     suffered alteration.
                                     <a href="#" class="text-info"
                                       >[more info]</a
-                                    >
-                                  </p> -->
+                                    ></p> -->
                                 </div>
                               </div>
                             </div>
@@ -745,14 +709,11 @@
                       <!--end card-->
                     </div>
                     <!--end col-->
-
                     <div class="col-md-5">
                       <div class="project-task-card mb-2 alert alert-warning p-2">
                         <span class="badge badge-soft-primary mb-2">Pushpendra Singh</span>
-                        <h5 class="my-1 font-16">
-                          Customer Care Crusader Thank you, [Employee's Name],
-                          for your unwavering!
-                        </h5>
+                        <h5 class="my-1 font-16"> Customer Care Crusader Thank you, [Employee's Name], for your
+                          unwavering! </h5>
                         <hr class="hr-dashed" />
                         <div class="row justify-content-center">
                           <div class="col-6 align-self-center">
@@ -773,11 +734,8 @@
                       </div>
                       <div class="project-task-card mb-2 alert alert-success p-2">
                         <span class="badge badge-soft-primary mb-2">Rohit Chaturvedi</span>
-                        <h5 class="my-1 font-16">
-                          Customer Care Crusader Thank you, [Employee's Name],
-                          for your unwavering! [Employee's Name], for your
-                          unwavering!
-                        </h5>
+                        <h5 class="my-1 font-16"> Customer Care Crusader Thank you, [Employee's Name], for your
+                          unwavering! [Employee's Name], for your unwavering! </h5>
                         <hr class="hr-dashed" />
                         <div class="row justify-content-center">
                           <div class="col-6 align-self-center">
@@ -798,10 +756,8 @@
                       </div>
                       <div class="project-task-card mb-2 alert alert-primary p-2">
                         <span class="badge badge-soft-primary mb-2">Pushpendra Singh</span>
-                        <h5 class="my-1 font-16">
-                          Customer Care Crusader Thank you, [Employee's Name],
-                          for your unwavering!
-                        </h5>
+                        <h5 class="my-1 font-16"> Customer Care Crusader Thank you, [Employee's Name], for your
+                          unwavering! </h5>
                         <hr class="hr-dashed" />
                         <div class="row justify-content-center">
                           <div class="col-6 align-self-center">
@@ -824,7 +780,6 @@
                     </div>
                     <!--end col-->
                   </div>
-
                   <!--end row-->
                 </div>
                 <div class="p-3" id="attendance" role="" *ngIf="activeAttendanceTabFlag">
@@ -971,11 +926,9 @@
                     <div class="col-lg-6">
                       <!--end card-->
                       <div class="align-items-center d-flex justify-content-end add-filtter mb-2"
-                        *ngIf="userRoleFlag && ROLE!='ADMIN'">
+                        *ngIf="userRoleFlag && ROLE!= 'ADMIN'">
                         <a class="btn" data-bs-toggle="modal" data-bs-target=".apply-leave">
-                          <i class="bi bi-plus" style="font-size: 20px"></i>
-                          Apply for a Leave
-                        </a>
+                          <i class="bi bi-plus" style="font-size: 20px"></i> Apply for a Leave </a>
                       </div>
                       <ng-container *ngIf="
                           userLeave.length !== 0 && !leaveCountPlaceholderFlag
@@ -1103,10 +1056,8 @@
                           </div>
                           <div class="">
                             <h4>Something went wrong!</h4>
-                            <p class="mb-0">
-                              An error occurred while processing your request.
-                              Please refresh the page and try again.
-                            </p>
+                            <p class="mb-0"> An error occurred while processing your request. Please refresh the page
+                              and try again. </p>
                           </div>
                         </div>
                       </div>
@@ -1117,10 +1068,8 @@
                           </div>
                           <div class="">
                             <h4>No Data Found</h4>
-                            <p class="mb-0">
-                              We're unable to locate a record associated with
-                              the information you entered.
-                            </p>
+                            <p class="mb-0"> We're unable to locate a record associated with the information you
+                              entered. </p>
                           </div>
                         </div>
                       </div>
@@ -1139,13 +1088,10 @@
                                   <div class="dropdown d-inline-block">
                                     <div class="align-self-center">
                                       <div class="btn btn-xs btn-light btn-round">
-                                        {{
-                                        formatDateIn(
+                                        {{ formatDateIn(
                                         formatDate(leaves.leaveDate)
                                         ) || "N/A"
-                                        }}&nbsp;
-                                        <span>{{
-                                          formatTime(leaves.leaveDate) || "N/A"
+                                        }}&nbsp; <span>{{ formatTime(leaves.leaveDate) || "N/A"
                                           }}</span>
                                       </div>
                                       <!-- {{ leaves.docFileLink }} -->
@@ -1171,27 +1117,18 @@
                                 </div>
                                 <hr class="hr-dashed" />
                                 <div class="d-flex justify-content-between">
-                                  <p>
-                                    Duration:
-                                    <u>{{
-                                      formatDateIn(
+                                  <p> Duration: <u>{{ formatDateIn(
                                       formatDate(leaves.startDate)
                                       )
-                                      }}
-                                      -
-                                      {{
-                                      formatDateIn(formatDate(leaves.endDate))
+                                      }} - {{ formatDateIn(formatDate(leaves.endDate))
                                       }}</u>
                                   </p>
-
                                   <h6 class="fw-semibold">
-                                    <span class="badge badge-outline-primary">{{
-                                      calculateDateDifference(
+                                    <span class="badge badge-outline-primary">{{ calculateDateDifference(
                                       leaves.endDate,
                                       leaves.startDate
                                       ) || "N/A"
-                                      }}
-                                      Days | {{ leaves.leaveType }}</span>
+                                      }} Days | {{ leaves.leaveType }}</span>
                                   </h6>
                                 </div>
                                 <p class="text-muted mb-0">
@@ -1201,8 +1138,7 @@
                               <div class="mt-3">
                                 <a class="text-primary" *ngIf="leaves.docFileLink != null" (click)="
                                     downloadSingleImage(leaves.docFileLink)
-                                  ">
-                                  Declaration <i class="bi bi-arrow-down"></i>
+                                  "> Declaration <i class="bi bi-arrow-down"></i>
                                 </a>
                               </div>
                               <hr class="hr-dashed" />
@@ -1226,29 +1162,22 @@
                       </div>
                       <div class="">
                         <h4>No Data Found</h4>
-                        <p class="mb-3">
-                          We're unable to locate a record associated with the
-                          information you entered.
+                        <p class="mb-3"> We're unable to locate a record associated with the information you entered.
                         </p>
                         <a data-bs-toggle="modal" style="
                             font-size: 16px;
                             color: #6666f3 !important;
                             margin-top: 15px;
                           ">
-                          <i class="bi bi-plus" style="font-size: 20px"></i>
-                          Configure Salary Settings
-                        </a>
+                          <i class="bi bi-plus" style="font-size: 20px"></i> Configure Salary Settings </a>
                       </div>
                     </div>
                   </div>
                   <div id="manage-statutory" *ngIf="salaryConfigurationStepId == MANAGE_STATUTORY">
                     <div class="form-roe-data" style="text-align: left">
                       <h3>Configure Salary Settings:</h3>
-                      <p>
-                        These are the default setting which is done by
-                        organization, you can modify according to your
-                        preference.
-                      </p>
+                      <p> These are the default setting which is done by organization, you can modify according to your
+                        preference. </p>
                     </div>
                     <div class="col-md-12">
                       <div class="border-box"></div>
@@ -1264,19 +1193,14 @@
                       <div class="col-md-7">
                         <div class="">
                           <div class="attendance-settin-list" *ngFor="let taxRegime of taxRegimeList">
-                            <div class="categryCustomizecard d-flex pointer border-active" [ngClass]="{
-                                'border-active': taxRegime.selected == true
-                              }" (click)="
-                                updateTaxRegimeByUserIdMethodCall(taxRegime.id)
-                              ">
+                            <div class="categryCustomizecard d-flex pointer border-active"
+                              [ngClass]="{'border-active': taxRegime.selected == true}"
+                              (click)="updateTaxRegimeByUserIdMethodCall(taxRegime.id)">
                               <div class="categryCustomizeinfo" style="text-align: left">
                                 <label for="customizecategory1" class="mb-0">
                                   <h3>{{ taxRegime.name }}</h3>
-                                  <p>
-                                    Large images are best for products where
-                                    every detail is a part of the product’s
-                                    value.
-                                  </p>
+                                  <p> Large images are best for products where every detail is a part of the product’s
+                                    value. </p>
                                 </label>
                               </div>
                               <div class="active-check ng-star-inserted">
@@ -1299,6 +1223,507 @@
                     <div class="col-md-12 mt-3">
                       <div class="border-box"></div>
                     </div>
+
+
+                    <div class="col-md-4 mt-3 mb-3">
+                      <div class="form-roe-data">
+                        <h5>Manage Salary Templates</h5>
+                        <p>A quick snapshot of your company.</p>
+                      </div>
+                    </div>
+
+                    <div class="col-md-7 mt-3 mb-3">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="">
+                            <ng-container *ngIf="
+                                isShimmerForSalaryTemplate &&
+                                  salaryTemplateComponentResponseList.length === 0 &&
+                                  !dataNotFoundPlaceholderForSalaryTemplate &&
+                                  !networkConnectionErrorPlaceHolderForSalaryTemplate;
+                                else salaryTemplateElseCondition
+                              ">
+                              <div class="">
+                                <div class="text-end">
+                                  <ngx-shimmer-loading [width]="'40%'" [height]="'20px'"
+                                    style="border-radius: 50%"></ngx-shimmer-loading>
+                                </div>
+                              </div>
+
+                              <div class="mt-3" style="
+                                  border: 1px solid #f5f5f5;
+                                  padding: 5px;
+                                  border-radius: 6px;
+                                ">
+                                <div class="row" style="
+                                    border-bottom: 1px solid #f5f5f5;
+                                    padding-top: 10px;
+                                    padding-bottom: 10px;
+                                  ">
+                                  <div class="col-md-4">
+                                    <div class="">
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'20px'"
+                                        style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="row mt-3">
+                                  <div class="col-md-3">
+                                    <div class="">
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'20px'"
+                                        style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="row mt-3">
+                                  <div class="col-md-4">
+                                    <div class="">
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                                        style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-4">
+                                    <div class="">
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                                        style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-4">
+                                    <div class="">
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                                        style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-4">
+                                    <div class="">
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                                        style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-4">
+                                    <div class="">
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                                        style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-4">
+                                    <div class="">
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                                        style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </ng-container>
+
+                            <ng-template #salaryTemplateElseCondition>
+                              <ng-container *ngIf="
+                                  salaryTemplateComponentResponseList.length !== 0 &&
+                                    !dataNotFoundPlaceholderForSalaryTemplate &&
+                                    !networkConnectionErrorPlaceHolderForSalaryTemplate;
+                                  else errorInFetchingSalaryTemplate
+                                ">
+                                <div class="add-shift-main-box ng-star-inserted">
+                                  <div
+                                    class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2">
+                                    <div>
+                                      <h6 class="text-truncate mb-0">
+                                        Salary Template’s
+                                      </h6>
+                                    </div>
+                                    <div>
+                                      <a data-bs-toggle="modal" data-bs-target="#addsalarytemplate"
+                                        class="add-shift-time-btn"><i class="bi bi-plus"></i> Create your own salary
+                                        template
+                                      </a>
+                                    </div>
+                                  </div>
+                                  <div class="shift-set"
+                                    *ngFor="let salaryTemplateComponentResponse of salaryTemplateComponentResponseList; let i = index">
+                                    <div class="shift-time p-3 m-3 ng-star-inserted">
+                                      <div>
+                                        <div class="d-flex align-items-center justify-content-between">
+                                          <div class="d-flex align-items-center gap-3">
+                                            <div>
+                                              <span
+                                                class="automation-rules-icon d-flex align-items-center justify-content-center"><img
+                                                  src="assets/images/rule-icon.svg" /></span>
+                                            </div>
+                                            <div>
+                                              <h6 class="text-truncate mb-0">
+                                                {{ salaryTemplateComponentResponse.name }}
+                                              </h6>
+                                              <!-- <small class="text-muted"
+                                            >Salary Templates</small
+                                          > -->
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        <div class="multi-collapse ng-star-inserted collapse">
+                                          <div class="m-3 holiday-list">
+                                            <div class="row holiday-list-box-height bg-white p-2 pt-3">
+                                              <div class="col-md-6" *ngFor="
+                                                  let salaryComponentResponse of salaryTemplateComponentResponse.salaryComponentResponseList
+                                                ">
+                                                <!-- class="holiday-date mb-3 universal-holiday" -->
+                                                <div [ngClass]="{
+                                                    'holiday-date mb-3 custom-holiday':
+                                                      salaryComponentResponse.percentageOfBasicPay,
+                                                    'holiday-date mb-3 universal-holiday':
+                                                      !salaryComponentResponse.percentageOfBasicPay
+                                                  }">
+                                                  <p class="mb-0">
+                                                    {{ salaryComponentResponse.name }} |
+                                                    <span style="color: #009688" *ngIf="
+                                                        salaryComponentResponse.percentageOfBasicPay
+                                                      ">
+                                                      {{ salaryComponentResponse.value }}%
+                                                      (of Basic Pay)
+                                                    </span>
+                                                    <span style="color: #009688" *ngIf="
+                                                        !salaryComponentResponse.percentageOfBasicPay
+                                                      ">
+                                                      {{ salaryComponentResponse.value }}%
+                                                    </span>
+                                                  </p>
+                                                </div>
+                                              </div>
+
+                                              <!-- <div class="col-md-6">
+                                                <div
+                                                  class="holiday-date mb-3 custom-holiday"
+                                                >
+                                                  <p class="mb-0">
+                                                    Conveyance Allowance |
+                                                    <span style="color: #3f988f">
+                                                      4.00%</span
+                                                    >
+                                                  </p>
+                                                </div>
+                                              </div> -->
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </ng-container>
+                            </ng-template>
+
+                            <!-- <div class="add-shift-main-box">
+                              <div
+                                class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2"
+                              >
+                                <div class="">
+                                  <h6 class="text-truncate mb-0">Salary Template’s</h6>
+                                </div>
+                                <div class="">
+                                  <a class="add-shift-time-btn"
+                                    ><i class="bi bi-plus"></i> Create your own salary
+                                    template
+                                  </a>
+                                </div>
+                              </div>
+          
+                              <div class="">
+                                <div class="border-bottom">
+                                  <div
+                                    class="d-flex align-items-center justify-content-between mt-3 p-3 pt-0 pb-0"
+                                  >
+                                    <div>
+                                      <p class="mb-0">Krenai Salary Template</p>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-4">
+                                      <i class="bi bi-pencil pointer"></i>
+                                      <i class="bi bi-people"></i>
+                                      <i class="bi bi-trash pointer text-danger"></i>
+                                    </div>
+                                  </div>
+          
+                                  <div class="m-3 holiday-list">
+                                    <div class="row holiday-list-box-height">
+                                      <div class="col-md-6">
+                                        <div class="holiday-date mb-3 universal-holiday">
+                                          <p class="mb-0">
+                                            Basic Pay |
+                                            <span style="color: #3f988f"> 50.00%</span>
+                                          </p>
+                                        </div>
+                                      </div>
+                                      <div class="col-md-6">
+                                        <div class="holiday-date mb-3 universal-holiday">
+                                          <p class="mb-0">
+                                            House Rent Allowance |
+                                            <span style="color: #3f988f"
+                                              >40.00% ( of Basic pay)</span
+                                            >
+                                          </p>
+                                        </div>
+                                      </div>
+                                      <div class="col-md-6">
+                                        <div class="holiday-date mb-3 custom-holiday">
+                                          <p class="mb-0">
+                                            Conveyance Allowance |
+                                            <span style="color: #3f988f"> 4.00%</span>
+                                          </p>
+                                        </div>
+                                      </div>
+                                      <div class="col-md-6">
+                                        <div class="holiday-date mb-3 universal-holiday">
+                                          <p class="mb-0">
+                                            Additional Allowance |
+                                            <span style="color: #3f988f">26.00%</span>
+                                          </p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="">
+                                  <div
+                                    class="d-flex align-items-center justify-content-between mt-3 p-3 pt-0 pb-0"
+                                  >
+                                    <div>
+                                      <p class="mb-0">Krenai Salary Template</p>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-4">
+                                      <i class="bi bi-pencil pointer"></i>
+                                      <i class="bi bi-people"></i>
+                                      <i class="bi bi-trash pointer text-danger"></i>
+                                    </div>
+                                  </div>
+          
+                                  <div class="m-3 holiday-list">
+                                    <div class="row holiday-list-box-height">
+                                      <div class="col-md-6">
+                                        <div class="holiday-date mb-3 universal-holiday">
+                                          <p class="mb-0">
+                                            Basic Pay |
+                                            <span style="color: #3f988f"> 50.00%</span>
+                                          </p>
+                                        </div>
+                                      </div>
+                                      <div class="col-md-6">
+                                        <div class="holiday-date mb-3 universal-holiday">
+                                          <p class="mb-0">
+                                            House Rent Allowance |
+                                            <span style="color: #3f988f"
+                                              >40.00% ( of Basic pay)</span
+                                            >
+                                          </p>
+                                        </div>
+                                      </div>
+                                      <div class="col-md-6">
+                                        <div class="holiday-date mb-3 custom-holiday">
+                                          <p class="mb-0">
+                                            Conveyance Allowance |
+                                            <span style="color: #3f988f"> 4.00%</span>
+                                          </p>
+                                        </div>
+                                      </div>
+                                      <div class="col-md-6">
+                                        <div class="holiday-date mb-3 universal-holiday">
+                                          <p class="mb-0">
+                                            Additional Allowance |
+                                            <span style="color: #3f988f">26.00%</span>
+                                          </p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                class="d-flex align-items-center justify-content-end p-3 pt-0"
+                              >
+                                <div>
+                                  <a class="view-all-btn"
+                                    >View All (9 more)
+                                    <i
+                                      class="bi bi-chevron-down"
+                                      style="padding-left: 5px"
+                                    ></i
+                                  ></a>
+                                </div>
+                              </div>
+                            </div> -->
+
+                            <!-- <ng-template #salaryTemplateElseCondition>
+                              <ng-container
+                                *ngIf="
+                                  salaryTemplateComponentResponseList.length !== 0 &&
+                                    !dataNotFoundPlaceholderForSalaryTemplate &&
+                                    !networkConnectionErrorPlaceHolderForSalaryTemplate;
+                                  else errorInFetchingSalaryTemplate
+                                "
+                              >
+                                <div
+                                  class="add-filtter d-flex align-items-center justify-content-end mb-3"
+                                >
+                                  <a
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#addsalarytemplate"
+                                    style="font-size: 16px; color: #6666f3 !important"
+                                  >
+                                    <i class="bi bi-plus"></i> Create your own salary
+                                    template
+                                  </a>
+                                </div>
+                                <div
+                                  class="rule-main-box mt-3 ng-star-inserted"
+                                  *ngFor="
+                                    let salaryTemplateComponentResponse of salaryTemplateComponentResponseList
+                                  "
+                                >
+                                  <div class="row mt-2 p-2 ng-star-inserted">
+                                    <div
+                                      class="col-md-12 d-flex justify-content-between align-items-center"
+                                    >
+                                      <p
+                                        class="mb-0 mb-2"
+                                        style="font-size: 12px; font-weight: 500"
+                                      >
+                                        {{ salaryTemplateComponentResponse.name }}
+                                      </p>
+                                      <div
+                                        class="late-btn d-flex align-items-center justify-content-end mb-2"
+                                        style="gap: 20px; margin-right: 15px"
+                                      >
+                                        <a
+                                          style="cursor: pointer"
+                                          data-bs-toggle="modal"
+                                          data-bs-target="#addsalarytemplate"
+                                          (click)="
+                                            updateSalaryTemplateComponentBySalaryTemplateId(
+                                              salaryTemplateComponentResponse
+                                            )
+                                          "
+                                        >
+                                          <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                        <a
+                                          class="delete-rule"
+                                          style="cursor: pointer"
+                                          (click)="
+                                            deleteSalaryTemplateByIdMethodCall(
+                                              salaryTemplateComponentResponse.id
+                                            )
+                                          "
+                                        >
+                                          <i class="bi bi-trash"></i>
+                                        </a>
+                                      </div>
+                                    </div>
+                                    <div class="row mt-2 p-2 ng-star-inserted">
+                                      <div
+                                        class="col-md-6"
+                                        *ngFor="
+                                          let salaryComponentResponse of salaryTemplateComponentResponse.salaryComponentResponseList
+                                        "
+                                      >
+                                        <div class="shift-deta">
+                                          <p class="mb-0">
+                                            {{ salaryComponentResponse.name }} |
+                                            <span
+                                              style="color: #009688"
+                                              *ngIf="
+                                                salaryComponentResponse.percentageOfBasicPay
+                                              "
+                                            >
+                                              {{ salaryComponentResponse.value }}% (of
+                                              Basic Pay)
+                                            </span>
+                                            <span
+                                              style="color: #009688"
+                                              *ngIf="
+                                                !salaryComponentResponse.percentageOfBasicPay
+                                              "
+                                            >
+                                              {{ salaryComponentResponse.value }}%
+                                            </span>
+                                          </p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </ng-container>
+                            </ng-template> -->
+                            <ng-template #errorInFetchingSalaryTemplate>
+                              <div class="empty-file" *ngIf="dataNotFoundPlaceholderForSalaryTemplate">
+                                <div class="errorboxmain">
+                                  <div class="errorboxinner">
+                                    <div class="errorboxplaceholder mb-2">
+                                      <img src="assets/images/empty-box.svg" style="width: 80px" />
+                                    </div>
+                                    <div class="">
+                                      <h5 class="mb-0">Salary Templates Not Found</h5>
+                                    </div>
+                                    <div class="add-filtter mt-2 mb-3" style="text-align: center">
+                                      <a class="" style="font-size: 14px; color: #6666f3" data-bs-toggle="modal"
+                                        data-bs-target="#addsalarytemplate"><i class="bi bi-plus"></i> Create salary
+                                        template
+                                      </a>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <!-- <div class="errorboxmain">
+                                  <div class="errorboxinner">
+                                    <div
+                                      class="add-filtter mt-2 mb-3"
+                                      style="text-align: center"
+                                    >
+                                      <h3
+                                        class=""
+                                        style="color: #6666f3; cursor: pointer"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#addsalarytemplate"
+                                      >
+                                        <i class="bi bi-plus"></i> Create salary template
+                                      </h3>
+                                    </div>
+                                    <div class="" style="text-align: center">
+                                      <p class="mb-0">
+                                        You can create salary template by clicking on this
+                                        button.
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div> -->
+                              </div>
+
+                              <div class="empty-file" *ngIf="networkConnectionErrorPlaceHolderForSalaryTemplate">
+                                <div class="errorboxmain">
+                                  <div class="errorboxinner text-center">
+                                    <div class="errorboxplaceholder mb-2">
+                                      <img src="assets/images/signal.svg" style="width: 80px" />
+                                    </div>
+                                    <div class="">
+                                      <h4>Something went wrong</h4>
+                                      <p>
+                                        An error occurred while processing your request.
+                                        Please refresh the page and try again.
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </ng-template>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-12">
+                      <div class="border-box"></div>
+                    </div>
+
+
                     <div class="row mt-4" style="display: flex; justify-content: space-between">
                       <!-- <div class="col-md-1"></div> -->
                       <div class="col-md-4">
@@ -1338,9 +1763,8 @@
                               <span></span>
                               <span></span>
                             </div>
-                            <span *ngIf="!BUTTON_LOADER">
-                              Finish Setup
-                              <i class="bi bi-arrow-right" style="padding-left: 8px"></i>
+                            <span *ngIf="!BUTTON_LOADER"> Finish Setup <i class="bi bi-arrow-right"
+                                style="padding-left: 8px"></i>
                             </span>
                           </button>
                         </div>
@@ -1374,8 +1798,7 @@
                             font-size: 16px;
                             font-weight: bold;
                             cursor: pointer;
-                          " (click)="goToManageStatutory()">Edit salary configuration
-                          <i class="bi bi-pencil"></i>
+                          " (click)="goToManageStatutory()">Edit salary configuration <i class="bi bi-pencil"></i>
                         </span>
                       </div>
                     </div>
@@ -1398,14 +1821,10 @@
                         </div>
                       </div>
                       <div class="">
-                        <p class="mb-0" style="font-size: 12px; color: #555; font-weight: 500">
-                          Krenai
-                        </p>
+                        <p class="mb-0" style="font-size: 12px; color: #555; font-weight: 500"> Krenai </p>
                       </div>
                       <div class="">
-                        <p class="mb-0" style="font-size: 12px; color: #555; font-weight: 500">
-                          Jan 1, 2023
-                        </p>
+                        <p class="mb-0" style="font-size: 12px; color: #555; font-weight: 500"> Jan 1, 2023 </p>
                       </div>
                       <div class="">
                         <a href="" class="excel-box" ngbTooltip="Download Pdf" placement="top">
@@ -1432,14 +1851,10 @@
                         </div>
                       </div>
                       <div class="">
-                        <p class="mb-0" style="font-size: 12px; color: #555; font-weight: 500">
-                          Krenai
-                        </p>
+                        <p class="mb-0" style="font-size: 12px; color: #555; font-weight: 500"> Krenai </p>
                       </div>
                       <div class="">
-                        <p class="mb-0" style="font-size: 12px; color: #555; font-weight: 500">
-                          Jan 1, 2023
-                        </p>
+                        <p class="mb-0" style="font-size: 12px; color: #555; font-weight: 500"> Jan 1, 2023 </p>
                       </div>
                       <div class="">
                         <a href="" class="excel-box" ngbTooltip="Download Pdf" placement="top">
@@ -1466,14 +1881,10 @@
                         </div>
                       </div>
                       <div class="">
-                        <p class="mb-0" style="font-size: 12px; color: #555; font-weight: 500">
-                          Krenai
-                        </p>
+                        <p class="mb-0" style="font-size: 12px; color: #555; font-weight: 500"> Krenai </p>
                       </div>
                       <div class="">
-                        <p class="mb-0" style="font-size: 12px; color: #555; font-weight: 500">
-                          Jan 1, 2023
-                        </p>
+                        <p class="mb-0" style="font-size: 12px; color: #555; font-weight: 500"> Jan 1, 2023 </p>
                       </div>
                       <div class="">
                         <a href="" class="excel-box" ngbTooltip="Download Pdf" placement="top">
@@ -1493,12 +1904,9 @@
                               'APPROVED' && adminRoleFlag
                           " class="add-filtter">
                           <a type="button" (click)="requestUserForMoreDocs()">
-                            <i class="bi bi-plus" style="font-size: 18px"></i>
-                            Request user for more Documents
-                          </a>
+                            <i class="bi bi-plus" style="font-size: 18px"></i> Request user for more Documents </a>
                         </div>
                       </div>
-
                       <div class="file-box-content row">
                         <!-- Loop through each defined document in UserDocumentsRequest -->
                         <ng-container *ngIf="onboardingPreviewData.userDocuments">
@@ -1532,15 +1940,11 @@
                                       .secondarySchoolCertificate
                                   )
                                 "></i>
-                              <h6 class="text-truncate mt-3">
-                                Secondary School Certificate
-                              </h6>
-                              <small class="text-muted file-name-line-clamp">{{
-                                secondarySchoolCertificateFileName
+                              <h6 class="text-truncate mt-3"> Secondary School Certificate </h6>
+                              <small class="text-muted file-name-line-clamp">{{ secondarySchoolCertificateFileName
                                 }}</small>
                             </div>
                           </div>
-
                           <!-- High School Certificate -->
                           <div *ngIf="
                               onboardingPreviewData.userDocuments
@@ -1571,15 +1975,11 @@
                                       .highSchoolCertificate
                                   )
                                 "></i>
-                              <h6 class="text-truncate mt-3">
-                                High School Certificate
-                              </h6>
-                              <small class="text-muted file-name-line-clamp">{{
-                                highSchoolCertificateFileName1
+                              <h6 class="text-truncate mt-3"> High School Certificate </h6>
+                              <small class="text-muted file-name-line-clamp">{{ highSchoolCertificateFileName1
                                 }}</small>
                             </div>
                           </div>
-
                           <!-- Highest Qualification Degree -->
                           <div *ngIf="
                               onboardingPreviewData.userDocuments
@@ -1610,15 +2010,11 @@
                                       .highestQualificationDegree
                                   )
                                 "></i>
-                              <h6 class="text-truncate mt-3">
-                                Highest Qualification Degree
-                              </h6>
-                              <small class="text-muted file-name-line-clamp">{{
-                                highestQualificationDegreeFileName1
+                              <h6 class="text-truncate mt-3"> Highest Qualification Degree </h6>
+                              <small class="text-muted file-name-line-clamp">{{ highestQualificationDegreeFileName1
                                 }}</small>
                             </div>
                           </div>
-
                           <!-- Testimonial Recommendation -->
                           <div *ngIf="
                               onboardingPreviewData.userDocuments
@@ -1649,15 +2045,11 @@
                                       .testimonialReccomendation
                                   )
                                 "></i>
-                              <h6 class="text-truncate">
-                                Testimonial Recommendation
-                              </h6>
-                              <small class="text-muted">{{
-                                testimonialReccomendationFileName1
+                              <h6 class="text-truncate"> Testimonial Recommendation </h6>
+                              <small class="text-muted">{{ testimonialReccomendationFileName1
                                 }}</small>
                             </div>
                           </div>
-
                           <!-- Aadhaar Card -->
                           <div *ngIf="
                               onboardingPreviewData.userDocuments.aadhaarCard
@@ -1686,12 +2078,10 @@
                                   )
                                 "></i>
                               <h6 class="text-truncate mt-3">Aadhaar Card</h6>
-                              <small class="text-muted">{{
-                                aadhaarCardFileName
+                              <small class="text-muted">{{ aadhaarCardFileName
                                 }}</small>
                             </div>
                           </div>
-
                           <!-- PAN Card -->
                           <div *ngIf="onboardingPreviewData.userDocuments.pancard" class="file-box pointer-card"
                             (click)="
@@ -1717,8 +2107,7 @@
                                   )
                                 "></i>
                               <h6 class="text-truncate mt-3">PAN Card</h6>
-                              <small class="text-muted">{{
-                                pancardFileName
+                              <small class="text-muted">{{ pancardFileName
                                 }}</small>
                             </div>
                           </div>
@@ -1742,7 +2131,6 @@
                           </div>
                         </ng-container>
                       </div>
-
                       <div class="row">
                         <div class="col-12">
                           <h4 class="card-title my-3">Company Documents</h4>
@@ -1765,18 +2153,15 @@
                             ">
                             <i class="las la-download file-download-icon"></i>
                           </a>
-
                           <!-- {{document.fileName}} -->
                           <div class="text-center">
                             <i [ngClass]="getFileTypeIcon(document.url)"></i>
                             <h6 class="text-truncate mt-3">
                               {{ document.name || "File Name" }}
                             </h6>
-                            <small class="text-muted file-name-line-clamp">{{
-                              document.fileName
+                            <small class="text-muted file-name-line-clamp">{{ document.fileName
                               }}</small>
                           </div>
-
                           <div class="importfilebox" *ngIf="ROLE === 'ADMIN' || ROLE === 'MANAGER'">
                             <input [id]="'additionalDocumentFile' + document.id" type="file" class="input"
                               accept=".pdf, image/jpeg, image/jpg, image/png"
@@ -1784,29 +2169,25 @@
                               [(ngModel)]="document.fileName" #fileInput="ngModel" [name]="'fileInput' + i" />
                             <!-- Ensure the input has a name attribute -->
                             <label class="text-center font-12" [for]="'additionalDocumentFile' + document.id">
-                              <span *ngIf="!document.url || !document.fileName"><b>Drop your file here or
-                                  <a href="#" class="select-file">Select a file</a></b>
-                                PDF, JPEG, JPG, or PNG</span>
+                              <span *ngIf="!document.url || !document.fileName">
+                                <b>Drop your file here or <a href="#" class="select-file">Select a file</a>
+                                </b> PDF, JPEG, JPG, or PNG </span>
                               <!-- <span *ngIf="document.url && document.fileName">{{ document.fileName }}</span> -->
                             </label>
-
                             <!-- Display validation message -->
                             <div *ngIf="fileInput.dirty">
                               <!-- Checking for 'required' error -->
                               <p *ngIf="fileInput.errors?.required" class="errortxt mt-2 mb-0 text-danger">
-                                <i class="bi bi-exclamation-circle"></i> File is
-                                required.
+                                <i class="bi bi-exclamation-circle"></i> File is required.
                               </p>
                               <!-- Add a condition for invalid file type -->
                               <p *ngIf="!isInvalidFileType" class="errortxt mt-2 mb-0 text-danger">
-                                <i class="bi bi-exclamation-circle"></i> Invalid
-                                file type. Please select a PDF, JPG, JPEG, or
-                                PNG file.
+                                <i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a PDF, JPG,
+                                JPEG, or PNG file.
                               </p>
                             </div>
                           </div>
                         </div>
-
                         <div class="file-box add-document-btn pointer position-relative"
                           *ngIf="ROLE === 'ADMIN' || ROLE === 'MANAGER'">
                           <div class="">
@@ -1816,19 +2197,14 @@
                               <!-- <small class="text-muted mb-2">
                                 (jpg, png, pdf, jpeg )</small
                               > -->
-
                               <!-- Button to trigger additional document input -->
                               <button (click)="addMore()" class="btn btn-primary mt-2">
-                                <i class="bi bi-plus" style="font-size: 18px; line-height: 10px"></i>
-                                Add
-                              </button>
-
+                                <i class="bi bi-plus" style="font-size: 18px; line-height: 10px"></i> Add </button>
                               <!-- Input for adding new document -->
                               <!-- <div
                                 class="d-flex align-items-center justify-content-center mt-2"
                                 *ngIf="isAddMore"
-                              >
-                                <input
+                              ><input
                                   type="text"
                                   name="addMore"
                                   id="addMore"
@@ -1836,16 +2212,14 @@
                                   [(ngModel)]="documentName"
                                   placeholder="Enter Document Name"
                                   style="width: 250px"
-                                />
-                                <button
+                                /><button
                                   id="saveButton"
                                   name="saveButton"
                                   (click)="addNewDocument()"
                                   class="btn btn-success"
                                 >
                                   Save
-                                </button>
-                              </div> -->
+                                </button></div> -->
                             </div>
                           </div>
                         </div>
@@ -1861,10 +2235,8 @@
                         <table class="table mb-0">
                           <tr style="background-color: #f1f1f1">
                             <td>
-                              <p class="mb-0 persnaol">
-                                Personal Information
-                                <img src="assets/images/edit-text.svg" class="right-icon"
-                                  style="width: 14px; margin-right: 8px" *ngIf="
+                              <p class="mb-0 persnaol"> Personal Information <img src="assets/images/edit-text.svg"
+                                  class="right-icon" style="width: 14px; margin-right: 8px" *ngIf="
                                     ROLE === 'ADMIN' ||
                                     (ROLE == 'MANAGER' && isManagerBoolean)
                                   " (click)="
@@ -1892,82 +2264,49 @@
                         <table class="table table-bordered">
                           <tbody class="table-design">
                             <tr>
-                              <td>
-                                Name :
-                                {{ onboardingPreviewData.user.name || "N/A" }}
+                              <td> Name : {{ onboardingPreviewData.user.name || "N/A" }}
                               </td>
-                              <td>
-                                Email :
-                                {{ onboardingPreviewData.user.email || "N/A" }}
+                              <td> Email : {{ onboardingPreviewData.user.email || "N/A" }}
                               </td>
-                              <td>
-                                Phone :
-                                {{
-                                onboardingPreviewData.user.phoneNumber ||
+                              <td> Phone : {{ onboardingPreviewData.user.phoneNumber ||
                                 "N/A"
                                 }}
                               </td>
                             </tr>
                             <tr>
-                              <td>
-                                DOB :
-                                {{
-                                (onboardingPreviewData.user.dob
+                              <td> DOB : {{ (onboardingPreviewData.user.dob
                                 | date : "dd/MM/yyyy") || "N/A"
                                 }}
                               </td>
-                              <td>
-                                Gender :
-                                {{ onboardingPreviewData.user.gender || "N/A" }}
+                              <td> Gender : {{ onboardingPreviewData.user.gender || "N/A" }}
                               </td>
-                              <td>
-                                Father's Name :
-                                {{
-                                onboardingPreviewData.user.fatherName || "N/A"
+                              <td> Father's Name : {{ onboardingPreviewData.user.fatherName || "N/A"
                                 }}
                               </td>
                             </tr>
                             <tr>
-                              <td>
-                                Marital Status :
-                                {{
-                                onboardingPreviewData.user.maritalStatus ||
+                              <td> Marital Status : {{ onboardingPreviewData.user.maritalStatus ||
                                 "N/A"
                                 }}
                               </td>
-                              <td>
-                                Joining Date :
-                                {{
-                                (onboardingPreviewData.user.joiningDate
+                              <td> Joining Date : {{ (onboardingPreviewData.user.joiningDate
                                 | date : "dd/MM/yyyy") || "N/A"
                                 }}
                               </td>
-                              <td>
-                                Current Salary :
-                                {{
-                                onboardingPreviewData.user.currentSalary
+                              <td> Current Salary : {{ onboardingPreviewData.user.currentSalary
                                 ? onboardingPreviewData.user.currentSalary
                                 : "N/A"
                                 }}
                               </td>
                             </tr>
                             <tr>
-                              <td>
-                                Department :
-                                {{
-                                onboardingPreviewData.user.department || "N/A"
+                              <td> Department : {{ onboardingPreviewData.user.department || "N/A"
                                 }}
                               </td>
-                              <td>
-                                Current Position :
-                                {{
-                                onboardingPreviewData.user.position || "N/A"
+                              <td> Current Position : {{ onboardingPreviewData.user.position || "N/A"
                                 }}
                               </td>
-                              <td>
-                                Nationality :
-                                {{
-                                onboardingPreviewData.user.nationality ||
+                              <td> Nationality : {{ onboardingPreviewData.user.nationality ||
                                 "N/A"
                                 }}
                               </td>
@@ -1979,10 +2318,8 @@
                         <table class="table mb-0">
                           <tr style="background-color: #f1f1f1">
                             <td>
-                              <p class="mb-0 persnaol">
-                                Address Details
-                                <img src="assets/images/edit-text.svg" class="right-icon"
-                                  style="width: 14px; margin-right: 8px" *ngIf="
+                              <p class="mb-0 persnaol"> Address Details <img src="assets/images/edit-text.svg"
+                                  class="right-icon" style="width: 14px; margin-right: 8px" *ngIf="
                                     ROLE === 'ADMIN' ||
                                     (ROLE == 'MANAGER' && isManagerBoolean)
                                   " (click)="
@@ -2021,49 +2358,31 @@
                                 onboardingPreviewData.userAddress != undefined
                               ">
                               <tr>
-                                <td colspan="12">
-                                  Address Line 1 :
-                                  {{
-                                  onboardingPreviewData.userAddress[0]
+                                <td colspan="12"> Address Line 1 : {{ onboardingPreviewData.userAddress[0]
                                   .addressLine1 || "N/A"
                                   }}
                                 </td>
                               </tr>
                               <tr>
-                                <td colspan="12">
-                                  Address Line 2 :
-                                  {{
-                                  onboardingPreviewData.userAddress[0]
+                                <td colspan="12"> Address Line 2 : {{ onboardingPreviewData.userAddress[0]
                                   .addressLine2 || "N/A"
                                   }}
                                 </td>
                               </tr>
                               <tr>
-                                <td colspan="3">
-                                  Pincode :
-                                  {{
-                                  onboardingPreviewData.userAddress[0]
+                                <td colspan="3"> Pincode : {{ onboardingPreviewData.userAddress[0]
                                   .pincode || "N/A"
                                   }}
                                 </td>
-                                <td colspan="3">
-                                  City :
-                                  {{
-                                  onboardingPreviewData.userAddress[0].city ||
+                                <td colspan="3"> City : {{ onboardingPreviewData.userAddress[0].city ||
                                   "N/A"
                                   }}
                                 </td>
-                                <td colspan="3">
-                                  State :
-                                  {{
-                                  onboardingPreviewData.userAddress[0]
+                                <td colspan="3"> State : {{ onboardingPreviewData.userAddress[0]
                                   .state || "N/A"
                                   }}
                                 </td>
-                                <td colspan="3">
-                                  Country :
-                                  {{
-                                  onboardingPreviewData.userAddress[0]
+                                <td colspan="3"> Country : {{ onboardingPreviewData.userAddress[0]
                                   .country || "N/A"
                                   }}
                                 </td>
@@ -2089,49 +2408,31 @@
                             <tbody class="table-design">
                               <!-- <tr *ngFor="let address of onboardingPreviewData.userAddress; let i = index"><td colspan="4">Complete Address: {{ address.address }}</td></tr> -->
                               <tr>
-                                <td colspan="12">
-                                  Address Line 1 :
-                                  {{
-                                  onboardingPreviewData.userAddress[1]
+                                <td colspan="12"> Address Line 1 : {{ onboardingPreviewData.userAddress[1]
                                   .addressLine1 || "N/A"
                                   }}
                                 </td>
                               </tr>
                               <tr>
-                                <td colspan="12">
-                                  Address Line 2 :
-                                  {{
-                                  onboardingPreviewData.userAddress[1]
+                                <td colspan="12"> Address Line 2 : {{ onboardingPreviewData.userAddress[1]
                                   .addressLine2 || "N/A"
                                   }}
                                 </td>
                               </tr>
                               <tr>
-                                <td colspan="3">
-                                  Pincode:
-                                  {{
-                                  onboardingPreviewData.userAddress[1]
+                                <td colspan="3"> Pincode: {{ onboardingPreviewData.userAddress[1]
                                   .pincode || "N/A"
                                   }}
                                 </td>
-                                <td colspan="3">
-                                  City:
-                                  {{
-                                  onboardingPreviewData.userAddress[1].city ||
+                                <td colspan="3"> City: {{ onboardingPreviewData.userAddress[1].city ||
                                   "N/A"
                                   }}
                                 </td>
-                                <td colspan="3">
-                                  State:
-                                  {{
-                                  onboardingPreviewData.userAddress[1]
+                                <td colspan="3"> State: {{ onboardingPreviewData.userAddress[1]
                                   .state || "N/A"
                                   }}
                                 </td>
-                                <td colspan="3">
-                                  Country:
-                                  {{
-                                  onboardingPreviewData.userAddress[1]
+                                <td colspan="3"> Country: {{ onboardingPreviewData.userAddress[1]
                                   .country || "N/A"
                                   }}
                                 </td>
@@ -2145,11 +2446,7 @@
                           </div>
                         </ng-template>
                       </div>
-                      <!-- <div class="onboarding-deta">
-                        <table class="table mb-0">
-                          <tr style="background-color: #f1f1f1">
-                            <td>
-                              <p class="mb-0 persnaol">
+                      <!-- <div class="onboarding-deta"><table class="table mb-0"><tr style="background-color: #f1f1f1"><td><p class="mb-0 persnaol">
                                 Employee Documents
                                 <img
                                   src="assets/images/edit-text.svg"
@@ -2164,42 +2461,22 @@
                                       '/employee-onboarding/employee-document'
                                     )
                                   "
-                                />
-                             
-                              </p>
-                            </td>
-                          </tr>
-                        </table>
-                        <ng-container
+                                /></p></td></tr></table><ng-container
                           *ngIf="
                             documentsEmployee.length > 0;
                             else noDataTemplateOfEmployeeAddress
                           "
-                        >
-                          <table class="table table-bordered">
-                            <tbody class="table-design">
-                              <tr *ngFor="let docs of documentsEmployee">
-                                <td colspan="3" *ngIf="docs.documentUrl != ''">
-                                  <div
+                        ><table class="table table-bordered"><tbody class="table-design"><tr *ngFor="let docs of documentsEmployee"><td colspan="3" *ngIf="docs.documentUrl != ''"><div
                                     class="d-flex align-items-center justify-content-between document-deta"
-                                  >
-                                    <div class="d-flex align-items-center">
-                                      <div
+                                  ><div class="d-flex align-items-center"><div
                                         class="d-flex align-items-center"
                                         style="gap: 10px"
-                                      >
-                                        <i class="bi bi-file-earmark-text"></i>
-                                        <p class="mb-0 text-lineclamp">
+                                      ><i class="bi bi-file-earmark-text"></i><p class="mb-0 text-lineclamp">
                                           {{ docs.documentName }}
-                                        </p>
-                                      </div>
-                                    </div>
-                                    <div
+                                        </p></div></div><div
                                       class="d-flex align-items-center justify-content-end"
                                       style="gap: 10px; cursor: pointer"
-                                    >
-                                    
-                                      <i
+                                    ><i
                                         class="bi bi-eye pointer download-color"
                                         (click)="
                                           openPdfModel(
@@ -2207,35 +2484,19 @@
                                             docs.documentName
                                           )
                                         "
-                                      ></i>
-                                      <i
+                                      ></i><i
                                         class="bi bi-download download-color"
                                         (click)="
                                           downloadSingleImage(
                                             docs.documentUrl.toString()
                                           )
                                         "
-                                      ></i>
-                                    </div>
-                                  </div>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </ng-container>
-                        <ng-template #noDataTemplateOfEmployeeAddress>
-                          <div class="text-left p-3">
-                            <p>No data available :)</p>
-                          </div>
-                        </ng-template>
-                      </div> -->
+                                      ></i></div></div></td></tr></tbody></table></ng-container><ng-template #noDataTemplateOfEmployeeAddress><div class="text-left p-3"><p>No data available :)</p></div></ng-template></div> -->
                       <div class="onboarding-deta">
                         <table class="table mb-0">
                           <tr style="background-color: #f1f1f1">
                             <td>
-                              <p class="mb-0 persnaol">
-                                Reference
-                                <span class="text-optional">(Optional)</span>
+                              <p class="mb-0 persnaol"> Reference <span class="text-optional">(Optional)</span>
                                 <img src="assets/images/edit-text.svg" class="right-icon"
                                   style="width: 14px; margin-right: 8px" *ngIf="
                                     ROLE === 'ADMIN' ||
@@ -2274,33 +2535,21 @@
                                   .length > 0
                               ">
                               <tr>
-                                <td>
-                                  Relation :
-                                  {{
-                                  onboardingPreviewData
+                                <td> Relation : {{ onboardingPreviewData
                                   .userGuarantorInformation[0].relation ||
                                   "N/A"
                                   }}
                                 </td>
-                                <td>
-                                  Name :
-                                  {{
-                                  onboardingPreviewData
+                                <td> Name : {{ onboardingPreviewData
                                   .userGuarantorInformation[0].name || "N/A"
                                   }}
                                 </td>
-                                <td>
-                                  Phone Number :
-                                  {{
-                                  onboardingPreviewData
+                                <td> Phone Number : {{ onboardingPreviewData
                                   .userGuarantorInformation[0]
                                   .phoneNumber || "N/A"
                                   }}
                                 </td>
-                                <td>
-                                  Email :
-                                  {{
-                                  onboardingPreviewData
+                                <td> Email : {{ onboardingPreviewData
                                   .userGuarantorInformation[0].emailId
                                   ? onboardingPreviewData
                                   .userGuarantorInformation[0].emailId
@@ -2323,10 +2572,8 @@
                         <table class="table mb-0">
                           <tr style="background-color: #f1f1f1">
                             <td>
-                              <p class="mb-0 persnaol">
-                                Academic Details
-                                <img src="assets/images/edit-text.svg" class="right-icon"
-                                  style="width: 14px; margin-right: 8px" *ngIf="
+                              <p class="mb-0 persnaol"> Academic Details <img src="assets/images/edit-text.svg"
+                                  class="right-icon" style="width: 14px; margin-right: 8px" *ngIf="
                                     ROLE === 'ADMIN' ||
                                     (ROLE == 'MANAGER' && isManagerBoolean)
                                   " (click)="
@@ -2358,51 +2605,32 @@
                           <table class="table table-bordered">
                             <tbody class="table-design">
                               <tr>
-                                <td>
-                                  Highest Qualification :
-                                  {{
-                                  onboardingPreviewData.userAcademics
+                                <td> Highest Qualification : {{ onboardingPreviewData.userAcademics
                                   .highestEducationalLevel || "N/A"
                                   }}
                                 </td>
-                                <td>
-                                  Degree/Diploma :
-                                  {{
-                                  onboardingPreviewData.userAcademics
+                                <td> Degree/Diploma : {{ onboardingPreviewData.userAcademics
                                   .degreeObtained || "N/A"
                                   }}
                                 </td>
-                                <td>
-                                  Field of Study :
-                                  {{
-                                  onboardingPreviewData.userAcademics
+                                <td> Field of Study : {{ onboardingPreviewData.userAcademics
                                   .fieldOfStudy || "N/A"
                                   }}
                                 </td>
                               </tr>
                               <tr>
-                                <td>
-                                  Institution Name :
-                                  {{
-                                  onboardingPreviewData.userAcademics
+                                <td> Institution Name : {{ onboardingPreviewData.userAcademics
                                   .institutionName || "N/A"
                                   }}
                                 </td>
                                 <td>
-                                  {{
-                                  onboardingPreviewData.userAcademics
+                                  {{ onboardingPreviewData.userAcademics
                                   .gradeType || "N/A"
-                                  }}
-                                  :
-                                  {{
-                                  onboardingPreviewData.userAcademics.grade ||
+                                  }} : {{ onboardingPreviewData.userAcademics.grade ||
                                   "N/A"
                                   }}
                                 </td>
-                                <td>
-                                  Graduating Year :
-                                  {{
-                                  onboardingPreviewData.userAcademics
+                                <td> Graduating Year : {{ onboardingPreviewData.userAcademics
                                   .graduationYear || "N/A"
                                   }}
                                 </td>
@@ -2420,10 +2648,8 @@
                         <table class="table mb-0">
                           <tr style="background-color: #f1f1f1">
                             <td>
-                              <p class="mb-0 persnaol">
-                                Experience
-                                <img src="assets/images/edit-text.svg" class="right-icon"
-                                  style="width: 14px; margin-right: 8px" *ngIf="
+                              <p class="mb-0 persnaol"> Experience <img src="assets/images/edit-text.svg"
+                                  class="right-icon" style="width: 14px; margin-right: 8px" *ngIf="
                                     ROLE === 'ADMIN' ||
                                     (ROLE == 'MANAGER' && isManagerBoolean)
                                   " (click)="
@@ -2465,39 +2691,23 @@
                                       .length > 0
                                   ">
                                   <tr>
-                                    <td colspan="3">
-                                      Company Name :
-                                      {{ userExperience.companyName }}
+                                    <td colspan="3"> Company Name : {{ userExperience.companyName }}
                                     </td>
-                                    <td colspan="3">
-                                      Duration :
-                                      {{
-                                      userExperience.startDate
+                                    <td colspan="3"> Duration : {{ userExperience.startDate
                                       | date : "dd/MM/yyyy"
-                                      }}
-                                      -
-                                      {{
-                                      userExperience.endDate
+                                      }} - {{ userExperience.endDate
                                       | date : "dd/MM/yyyy"
                                       }}
                                     </td>
-                                    <td colspan="3">
-                                      Department :
-                                      {{ userExperience.lastJobDepartment }}
+                                    <td colspan="3"> Department : {{ userExperience.lastJobDepartment }}
                                     </td>
                                   </tr>
                                   <tr>
-                                    <td colspan="3">
-                                      Last Salary :
-                                      {{ userExperience.lastSalary }}
+                                    <td colspan="3"> Last Salary : {{ userExperience.lastSalary }}
                                     </td>
-                                    <td colspan="3">
-                                      Position :
-                                      {{ userExperience.lastJobPosition }}
+                                    <td colspan="3"> Position : {{ userExperience.lastJobPosition }}
                                     </td>
-                                    <td colspan="3">
-                                      Responsibilities :
-                                      {{ userExperience.jobResponisibilities }}
+                                    <td colspan="3"> Responsibilities : {{ userExperience.jobResponisibilities }}
                                     </td>
                                   </tr>
                                 </tbody>
@@ -2528,10 +2738,8 @@
                         <table class="table mb-0">
                           <tr style="background-color: #f1f1f1">
                             <td>
-                              <p class="mb-0 persnaol">
-                                Bank Details
-                                <img src="assets/images/edit-text.svg" class="right-icon"
-                                  style="width: 14px; margin-right: 8px" *ngIf="
+                              <p class="mb-0 persnaol"> Bank Details <img src="assets/images/edit-text.svg"
+                                  class="right-icon" style="width: 14px; margin-right: 8px" *ngIf="
                                     ROLE === 'ADMIN' ||
                                     (ROLE == 'MANAGER' && isManagerBoolean)
                                   " (click)="
@@ -2563,31 +2771,19 @@
                           <table class="table table-bordered">
                             <tbody class="table-design">
                               <tr>
-                                <td>
-                                  Account Holder Name :
-                                  {{
-                                  onboardingPreviewData.userBankDetails
+                                <td> Account Holder Name : {{ onboardingPreviewData.userBankDetails
                                   .accountHolderName || "N/A"
                                   }}
                                 </td>
-                                <td>
-                                  Bank Name :
-                                  {{
-                                  onboardingPreviewData.userBankDetails
+                                <td> Bank Name : {{ onboardingPreviewData.userBankDetails
                                   .bankName || "N/A"
                                   }}
                                 </td>
-                                <td>
-                                  Account Number :
-                                  {{
-                                  onboardingPreviewData.userBankDetails
+                                <td> Account Number : {{ onboardingPreviewData.userBankDetails
                                   .accountNumber || "N/A"
                                   }}
                                 </td>
-                                <td>
-                                  IFSC Number :
-                                  {{
-                                  onboardingPreviewData.userBankDetails
+                                <td> IFSC Number : {{ onboardingPreviewData.userBankDetails
                                   .ifsc || "N/A"
                                   }}
                                 </td>
@@ -2605,10 +2801,8 @@
                         <table class="table mb-0">
                           <tr style="background-color: #f1f1f1">
                             <td>
-                              <p class="mb-0 persnaol">
-                                Emergency Contact
-                                <img src="assets/images/edit-text.svg" class="right-icon"
-                                  style="width: 14px; margin-right: 8px" *ngIf="
+                              <p class="mb-0 persnaol"> Emergency Contact <img src="assets/images/edit-text.svg"
+                                  class="right-icon" style="width: 14px; margin-right: 8px" *ngIf="
                                     ROLE === 'ADMIN' ||
                                     (ROLE == 'MANAGER' && isManagerBoolean)
                                   " (click)="
@@ -2649,19 +2843,12 @@
                                     .length > 0
                                 ">
                                 <tr>
-                                  <td>
-                                    Relation with Employee :
-                                    {{
-                                    userEmergencyContact.relationWithEmployee
+                                  <td> Relation with Employee : {{ userEmergencyContact.relationWithEmployee
                                     }}
                                   </td>
-                                  <td>
-                                    Name :
-                                    {{ userEmergencyContact.contactName }}
+                                  <td> Name : {{ userEmergencyContact.contactName }}
                                   </td>
-                                  <td>
-                                    Phone Number :
-                                    {{ userEmergencyContact.contactNumber }}
+                                  <td> Phone Number : {{ userEmergencyContact.contactNumber }}
                                   </td>
                                 </tr>
                               </tbody>
@@ -2695,18 +2882,14 @@
         <div class="modal-dialog modal-dialog-centered mx-auto">
           <div class="modal-content">
             <div class="modal-header">
-              <h6 class="modal-title m-0" id="exampleModalCenterTitle">
-                Apply for a Leave
-              </h6>
+              <h6 class="modal-title m-0" id="exampleModalCenterTitle"> Apply for a Leave </h6>
               <button type="button" class="btn-close" id="requestLeaveCloseModel" data-bs-dismiss="modal"
                 aria-label="Close" #requestLeaveCloseModel></button>
             </div>
             <div class="modal-body">
               <div class="apply-leave-main-box">
                 <div class="mb-2">
-                  <p class="mb-0" style="color: #000444">
-                    Please fill out the following fields:
-                  </p>
+                  <p class="mb-0" style="color: #000444"> Please fill out the following fields: </p>
                 </div>
                 <form [formGroup]="userLeaveForm" #formDirective="ngForm">
                   <div class="mb-2">
@@ -2717,14 +2900,11 @@
                     <div class="form-text text-danger" *ngIf="
                         StartDate?.errors?.['required'] &&
                         (StartDate?.touched || StartDate?.dirty)
-                      ">
-                      Start Date is Required.
-                    </div>
+                      "> Start Date is Required. </div>
                   </div>
                   <!-- <span class="optional">(optional)</span> -->
                   <div class="mb-2">
-                    <label for="username" style="padding-bottom: 6px">Pick an ending date
-                    </label>
+                    <label for="username" style="padding-bottom: 6px">Pick an ending date </label>
                     <input type="date" id="username" placeholder="Enter title ..."
                       class="form-control ng-untouched ng-pristine ng-invalid" formControlName="endDate"
                       [(ngModel)]="userLeaveRequest.endDate" [min]="userLeaveRequest.startDate" />
@@ -2745,17 +2925,15 @@
                         <div class="form-text text-danger" *ngIf="
                             LeaveType?.errors?.['required'] &&
                             (LeaveType?.touched || LeaveType?.dirty)
-                          ">
-                          Leave Type Required.
-                        </div>
+                          "> Leave Type Required. </div>
                       </div>
                     </div>
                   </div>
                   <!-- <div class="mb-2"><label for="username" style="padding-bottom: 6px"
               >Select if you are requesting Half Leave <span class="optional">(optional)</span></label><div class=""><input type="checkbox" class="form-check-input" id="exampleCheck1"><label class="form-check-label" style="padding-left: 10px;" for="exampleCheck1">Half Leave</label></div></div> -->
                   <div class="mb-2">
-                    <label for="username" style="padding-bottom: 6px">Select if you are requesting Half Leave
-                      <span class="optional">(optional)</span>
+                    <label for="username" style="padding-bottom: 6px">Select if you are requesting Half Leave <span
+                        class="optional">(optional)</span>
                     </label>
                     <div class="form-check">
                       <input type="checkbox" class="form-check-input" id="halfLeaveToggle"
@@ -2795,70 +2973,52 @@
                         <div class="form-text text-danger" *ngIf="
                             ManagerId?.errors?.['required'] &&
                             (ManagerId?.touched || ManagerId?.dirty)
-                          ">
-                          Select User to Request Leave Required.
-                        </div>
+                          "> Select User to Request Leave Required. </div>
                       </div>
                     </div>
                   </div>
                   <!-- <span class="optional">(optional)</span> -->
                   <div class="mb-2">
-                    <label for="username" style="padding-bottom: 6px">Notes
-                    </label>
+                    <label for="username" style="padding-bottom: 6px">Notes </label>
                     <textarea class="form-control" #maxWords id="exampleFormControlTextarea1" placeholder="Notes"
                       rows="3" required style="height: 100px !important" formControlName="optNotes" [maxLength]="255"
                       [(ngModel)]="userLeaveRequest.optNotes"></textarea>
                     <div class="form-text text-danger" *ngIf="
                         OptNotes?.errors?.['required'] &&
                         (OptNotes?.touched || OptNotes?.dirty)
-                      ">
-                      Notes is Required.
-                    </div>
+                      "> Notes is Required. </div>
                     <small *ngIf="maxWords.value.length > 254" style="color: red">The maximum number of characters
-                      allowed in above field
-                      is 255!</small>
+                      allowed in above field is 255!</small>
                   </div>
                   <div class="mb-2">
                     <!-- {{ imagePreviewUrl }} {{ pdfPreviewUrl }} -->
-                    <label for="selectDocuments">
-                      Select Proof Document (optional) </label><br />
+                    <label for="selectDocuments"> Select Proof Document (optional) </label>
+                    <br />
                     <input type="file" #fileInput class="form-control-file" id="selectDocuments"
                       (change)="onFileSelected($event)" accept="image/jpeg, image/png, image/jpg,  application/pdf" />
                   </div>
-                  <!-- <div class="mb-2" *ngIf="imagePreviewUrl || pdfPreviewUrl">
-                    <div *ngIf="selectedFile">
-                      
-                      <img
+                  <!-- <div class="mb-2" *ngIf="imagePreviewUrl || pdfPreviewUrl"><div *ngIf="selectedFile"><img
                         *ngIf="isImageNew(selectedFile)"
                         [src]="imagePreviewUrl"
                         class="img-fluid"
                         height="'50%"
                         width="50px"
                         alt="Selected Image"
-                      />
-
-                    
-                      <iframe
+                      /><iframe
                         *ngIf="isPdf(selectedFile)"
                         [src]="pdfPreviewUrl"
                         frameborder="0"
                         width="100%"
                         height="400px"
-                      ></iframe>
-                    </div>
-                  </div> -->
+                      ></iframe></div></div> -->
                 </form>
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal">
-                Close
-              </button>
+              <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal"> Close </button>
               <button type="button" class="btn btn-primary save-changes"
                 [disabled]="userLeaveForm.invalid || isFileUploaded" *ngIf="!submitLeaveLoader"
-                (click)="saveLeaveRequestUser()">
-                Submit
-              </button>
+                (click)="saveLeaveRequestUser()"> Submit </button>
               <div class="dot-opacity-loader" *ngIf="submitLeaveLoader">
                 <span></span>
                 <span></span>
@@ -2904,16 +3064,17 @@
               <img *ngIf="isImage2" style="width: -webkit-fill-available" [src]="previewString" alt="" />
             </div>
             <div class="modal-footer d-flex align-items-center justify-content-end gap-3">
-              <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close">
-                Cancel
+              <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close"> Cancel
               </button>
               <button class="btn btn-primary" type="submit" aria-label="Next Step"
                 (click)="downloadSingleImage(downloadString.toString())">
-                <span> <i class="bi bi-download"></i> Download </span>
+                <span>
+                  <i class="bi bi-download"></i> Download </span>
               </button>
               <button class="btn btn-primary" *ngIf="!hideNextButton" type="submit" aria-label="Next Step"
                 (click)="openPdfModel(nextOpenDocString, nextOpenDocName)">
-                <span> Next <i class="bi bi-arrow-right"></i> </span>
+                <span> Next <i class="bi bi-arrow-right"></i>
+                </span>
               </button>
             </div>
           </div>
@@ -3041,9 +3202,7 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" *ngIf="requestForMoreDocs; else rejectionReason">
-                Reason for Request
-              </h5>
+              <h5 class="modal-title" *ngIf="requestForMoreDocs; else rejectionReason"> Reason for Request </h5>
               <ng-template #rejectionReason>
                 <h5 class="modal-title">Reason for Rejection</h5>
               </ng-template>
@@ -3062,8 +3221,7 @@
               </ng-template>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" #closeRejectModalButton>
-                Cancel
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" #closeRejectModalButton> Cancel
               </button>
               <button type="button" (click)="updateStatusUserByUuid('REJECTED')" class="btn btn-primary">
                 <div *ngIf="toggle" class="dot-loader">
@@ -3080,11 +3238,9 @@
     </div>
   </div>
 </div>
-
 <!-- Button trigger modal -->
 <button type="button" style="display: none" id="addMoreDocModalButton" #addMoreDocModalButton data-bs-toggle="modal"
   data-bs-target="#addMoreDoc"></button>
-
 <!-- Modal -->
 <div class="modal fade" id="addMoreDoc" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
@@ -3102,8 +3258,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary btn-round" (click)="addNewDocument()">
-          <i class="bi bi-paperclip"></i>Select File
-        </button>
+          <i class="bi bi-paperclip"></i>Select File </button>
       </div>
     </div>
   </div>
