@@ -1605,8 +1605,7 @@ export class DataService {
 
 
   getLateEmployeeDashboardDetails(date : string, dataFetchingType: string, searchTerm:string, pageNumber:number, itemPerPage:number): Observable<any> {
-    const params = new HttpParams()
-      .set('date', date)
+    const params = new HttpParams().set('date', date)
       .set('data_fetching_type', dataFetchingType)
       .set('search_term', searchTerm)
       .set('page_number', pageNumber)
@@ -2939,4 +2938,19 @@ export class DataService {
 
     return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/register-lop-summary`, lopReversalRequestList, {params});
   }
+
+  saveOrganizationHrPolicies(policyDocString: string): Observable<any> {
+     const params = new HttpParams()
+       .set('policyDocString', policyDocString)
+    
+    const url = `${this.baseUrl}/organization-personal-information/save/policy/doc`;
+    return this.httpClient.put<any>(url, {}, {params});
+  }
+
+  getOrganizationHrPolicies(): Observable<any> {
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/organization-personal-information/get/policy/doc`
+    );
+  }
+
 }
