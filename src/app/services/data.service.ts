@@ -2312,6 +2312,10 @@ export class DataService {
     );
   }
 
+  getSalaryTemplateComponentByUserUuid(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/template/component/get-by-user-uuid`);
+  }
+
   updateLanguagePreferredForNotification(
     languagePreferred: number
   ): Observable<any> {
