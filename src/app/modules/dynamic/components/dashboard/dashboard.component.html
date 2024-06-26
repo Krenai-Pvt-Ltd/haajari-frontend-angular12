@@ -96,7 +96,7 @@
                     </div>
                     <div class="Approved absents text-center border-right" style="cursor: pointer"
                       data-bs-toggle="modal" data-bs-target="#presentModal"
-                      (click)="getAttendanceDetailsReportByDateMethodCall('ABSENT')">
+                      (click)="getAbsentAndNotMarkedUsers('ABSENT', attendanceDetailsCountResponse.absentUsers)">
                       <span class="total-holiday pb-2">Absent</span>
 
                       <p class="mb-0">
@@ -109,7 +109,8 @@
                       </p>
                     </div>
                     <div class="Approved na text-center" style="cursor: pointer" data-bs-toggle="modal"
-                      data-bs-target="#presentModal" (click)="getAttendanceDetailsReportByDateMethodCall('ABSENT')">
+                      data-bs-target="#presentModal"
+                      (click)="getAbsentAndNotMarkedUsers('ABSENT', attendanceDetailsCountResponse.unmarkedUsers)">
                       <span class="total-holiday pb-2">Not Marked</span>
                       <p class="mb-0">
                         {{ attendanceDetailsCountResponse.unmarkedUsers }}
@@ -1486,7 +1487,7 @@
               <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center">
                 <img src="{{ attendList.image }}" alt="" class="rounded-circle thumb-sm me-1"
                   *ngIf="attendList.image" />
-                <span class="members-name" id="user-first-name-logo" *ngIf="!attendList.image">{{ attendList.name[0]
+                <span class="members-name-new" id="user-first-name-logo" *ngIf="!attendList.image">{{ attendList.name[0]
                   }}</span>
                 <!-- <span class="thumb-xl justify-content-center d-flex align-items-center bg-soft-success rounded-circle me-2" *ngIf="!attendList.image">{{ attendList.name[0] }}</span> -->
               </div>
@@ -1509,8 +1510,7 @@
 
         <!-- Pagination -->
         <div class="pagination pl-3" *ngIf="
-              (totalItems > 7 && attendanceDetailsResponseList.length > 7) ||
-              (pageNumberNew === lastPageNumberNew && lastPageNumberNew !== 1)
+              (this.totalItems > 10) 
             ">
           <p class="mb-0" style="padding-left: 15px">
             Showing {{ getStartIndexNew() }} - {{ getEndIndexNew() }} of
@@ -1626,7 +1626,8 @@
             <div class="media">
               <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center">
                 <img src="{{ user.image }}" alt="" class="rounded-circle thumb-sm me-1" *ngIf="user.image" />
-                <span class="members-name" id="user-first-name-logo" *ngIf="!user?.image">{{ user.userName[0] }}</span>
+                <span class="members-name-new" id="user-first-name-logo" *ngIf="!user?.image">{{ user.userName[0]
+                  }}</span>
                 <!-- <span class="thumb-xl justify-content-center d-flex align-items-center bg-soft-success rounded-circle me-2" *ngIf="!user.image">{{ user.name[0] }}</span> -->
               </div>
               <div class="media-body align-self-center ms-3">
@@ -1644,7 +1645,7 @@
         </ul>
 
         <!-- Pagination -->
-        <div class="pagination pl-3" *ngIf="totalCountBreak > 8">
+        <div class="pagination pl-3" *ngIf="totalCountBreak > 10">
           <p class="mb-0">
             Showing {{ startIndexBreak }} - {{ endIndexBreak }} of {{ totalCountBreak }} items
           </p>
@@ -1739,7 +1740,7 @@
             <div class="media">
               <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center">
                 <img src="{{ user.image }}" alt="" class="rounded-circle thumb-sm me-1" *ngIf="user.image" />
-                <span class="members-name" id="user-first-name-logo" *ngIf="!user?.image">{{ user.name[0] }}</span>
+                <span class="members-name-new" id="user-first-name-logo" *ngIf="!user?.image">{{ user.name[0] }}</span>
                 <!-- <span class="thumb-xl justify-content-center d-flex align-items-center bg-soft-success rounded-circle me-2" *ngIf="!user.image">{{ user.name[0] }}</span> -->
               </div>
               <div class="media-body align-self-center ms-3">
@@ -1871,7 +1872,8 @@
             <div class="media">
               <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center">
                 <img src="{{ user?.image }}" alt="" class="rounded-circle thumb-sm me-1" *ngIf="user?.image" />
-                <span class="members-name" id="user-first-name-logo" *ngIf="!user?.image">{{ user.userName[0] }}</span>
+                <span class="members-name-new" id="user-first-name-logo" *ngIf="!user?.image">{{ user.userName[0]
+                  }}</span>
                 <!-- <span class="thumb-xl justify-content-center d-flex align-items-center bg-soft-success rounded-circle me-2" *ngIf="!user?.image">{{ user?.userName[0] }}</span> -->
               </div>
               <div class="media-body align-self-center ms-3">
