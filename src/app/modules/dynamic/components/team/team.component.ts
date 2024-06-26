@@ -614,6 +614,7 @@ export class TeamComponent implements OnInit {
         }
       },
       (error) => {
+        this.rotateToggle = false;
         // console.error(error);
       }
     );

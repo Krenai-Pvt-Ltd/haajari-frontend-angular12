@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { NgForm } from '@angular/forms';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { finalize } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
 import { OrganizationPersonalInformationRequest } from 'src/app/models/organization-personal-information-request';
@@ -19,12 +20,14 @@ export class CompanySettingComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private afStorage: AngularFireStorage,
-    private helperService: HelperService
+    private helperService: HelperService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
     window.scroll(0, 0);
     this.getOrganizationDetailsMethodCall();
+    this.getHrPolicy();
   }
 
   isFileSelected = false;
@@ -154,6 +157,103 @@ export class CompanySettingComponent implements OnInit {
       this.isFormInvalid = false;
       this.updateOrganizationPersonalInformationMethodCall();
     }
+  }
+
+  //  new to upload hr policies 
+
+  isEditModeHrPolicies: boolean = false;
+  isUpdatingHrPolicies: boolean = false;
+  isFileSelectedHrPolicies: boolean = false;
+  selectedFileHrPolicies: File | null = null;
+
+  onFileSelectedHrPolicies(event: Event): void {
+    const element = event.currentTarget as HTMLInputElement;
+    let fileList: FileList | null = element.files;
+    if (fileList && fileList.length > 0) {
+      const file = fileList[0];
+      this.selectedFileHrPolicies = file;
+      this.isFileSelectedHrPolicies = true;
+
+      this.uploadFileHrPolicies(file);
+    } else {
+      this.isFileSelectedHrPolicies = false;
+    }
+  }
+
+  uploadFileHrPolicies(file: File): void {
+    const filePath = `uploads/${new Date().getTime()}_${file.name}`;
+    const fileRef = this.afStorage.ref(filePath);
+    const task = this.afStorage.upload(filePath, file);
+
+    this.isUpdatingHrPolicies = true;
+
+    task.snapshotChanges().pipe(
+      finalize(() => {
+        fileRef.getDownloadURL().subscribe(url => {
+          console.log('File URL:', url);
+          this.savePolicyDocToDatabase(url);
+          this.isUpdatingHrPolicies = false;
+        });
+      })
+    ).subscribe();
+  }
+
+  savePolicyDocToDatabase(fileUrl: string): void {
+    debugger
+    this.dataService.saveOrganizationHrPolicies(fileUrl).subscribe(response => {
+      console.log('File URL saved to database:', response.message);
+      this.getHrPolicy();
+    },(error) => {
+        console.log(error);
+    });
+  }
+
+  fileUrl!: string;
+  docsUploadedDate: any;
+  getHrPolicy(): void { 
+    this.dataService.getOrganizationHrPolicies().subscribe(response => {
+      this.fileUrl = response.object.hrPolicyDoc;
+      this.docsUploadedDate = response.object.docsUploadedDate;
+      console.log('policy retrieved successfully', response.object);
+    },(error) => {
+        console.log(error);
+    });
+  }
+
+  previewString: SafeResourceUrl | null = null;
+  isPDF: boolean = false;
+  isImage: boolean = false;
+
+ @ViewChild('openDocModalButton') openDocModalButton!: ElementRef;
+  getFileName(url: string): string {
+    return url.split('/').pop() || 'Hr Policy Doc';
+  }
+
+  private updateFileType(url: string) {
+    const extension = url.split('?')[0].split('.').pop()?.toLowerCase();
+    // this.isImage2 = ['png', 'jpg', 'jpeg', 'gif'].includes(extension!);
+    // this.isPDF = extension === 'pdf';
+  }
+
+  openViewModal(url: string): void {
+    debugger
+    // const fileExtension = url.split('.').pop()?.toLowerCase();
+    const fileExtension = url.split('?')[0].split('.').pop()?.toLowerCase();
+    // this.isPDF = fileExtension === 'pdf';
+    if (fileExtension === 'doc' || fileExtension === 'docx') {
+      // this.previewString = this.sanitizer.bypassSecurityTrustResourceUrl(`https://docs.google.com/gview?url=${url}&embedded=true`);
+      this.previewString = this.sanitizer.bypassSecurityTrustResourceUrl(`https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true`);
+    } else {
+      this.previewString = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    }
+    this.openDocModalButton.nativeElement.click();
+  }
+
+  downloadFile(url: string): void {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = this.getFileName(url);
+    link.click();
   }
 }
 
