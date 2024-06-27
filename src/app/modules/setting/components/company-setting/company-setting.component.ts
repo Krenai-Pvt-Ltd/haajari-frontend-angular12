@@ -202,6 +202,10 @@ export class CompanySettingComponent implements OnInit {
     debugger
     this.dataService.saveOrganizationHrPolicies(fileUrl).subscribe(response => {
       console.log('File URL saved to database:', response.message);
+       this.helperService.showToast(
+            'Doc Uploaded Successfully',
+            Key.TOAST_STATUS_SUCCESS
+          );
       this.getHrPolicy();
     },(error) => {
         console.log(error);
