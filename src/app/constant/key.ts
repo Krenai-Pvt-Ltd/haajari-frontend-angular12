@@ -276,6 +276,11 @@ export class Key {
   public static LOP_SUMMARY = 5;
   public static LOP_REVERSAL = 6;
 
+  //Attendance, Leave & Present Days
+  public static SALARY_CHANGE = 7;
+  public static BONUS = 8;
+  public static OVERTIME = 9;
+
   //User type in Employee change
   public static NEW_JOINEE = 'New Joinee';
   public static USER_EXIT = 'User Exit';
@@ -300,3 +305,6 @@ export class Key {
   public static END_HOUR = '23:59:59';
 
 }
+
+
+
