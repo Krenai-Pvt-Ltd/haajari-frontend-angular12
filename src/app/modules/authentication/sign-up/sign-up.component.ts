@@ -42,7 +42,7 @@ export class SignUpComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getSlackAuthUrl();
+    // this.getSlackAuthUrl();
   }
 
   otp: string = '';
@@ -508,12 +508,38 @@ export class SignUpComponent implements OnInit {
   authUrl: string = '';
   workspaceUrl: string = '';
   workspaceName: string = '';
-  getSlackAuthUrl(): void {
-    debugger;
+  // getSlackAuthUrl(event: MouseEvent): void {
+  //   debugger;
+  //   event.preventDefault(); // Prevent default anchor behavior
+  //   this.dataService.getSlackAuthUrl().subscribe(
+  //     (response: any) => {
+  //       this.authUrl = response.message;
+  //       console.log('authUrl' + this.authUrl);
+  //       window.open(this.authUrl);
+  //     },
+  //     (error) => {
+  //       console.error('Error fetching Slack auth URL', error);
+  //     }
+  //   );
+  // }
+
+  getSlackAuthUrl(event: MouseEvent): void {
+    event.preventDefault(); // Prevent default anchor behavior
+
     this.dataService.getSlackAuthUrl().subscribe(
       (response: any) => {
         this.authUrl = response.message;
-        console.log('authUrl' + this.authUrl);
+        console.log('authUrl: ' + this.authUrl);
+
+        // Traverse up the DOM to find the closest anchor element
+        const target = event.target as HTMLElement;
+        const anchor = target.closest('a') as HTMLAnchorElement;
+
+        if (anchor) {
+          anchor.href = this.authUrl;
+          // Redirect in the same tab
+          window.location.href = this.authUrl;
+        }
       },
       (error) => {
         console.error('Error fetching Slack auth URL', error);
