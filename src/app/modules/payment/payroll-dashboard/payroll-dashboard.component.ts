@@ -39,18 +39,19 @@ export class PayrollDashboardComponent implements OnInit {
 
   // Tab estate
   CURRENT_TAB_IN_EMPLOYEE_CHANGE = Key.NEW_JOINEE_STEP;
-
   NEW_JOINEE = Key.NEW_JOINEE;
   USER_EXIT = Key.USER_EXIT;
   REGULAR = Key.REGULAR;
 
-
-
   CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE = Key.LEAVES;
-
   LEAVES = Key.LEAVES;
   LOP_SUMMARY = Key.LOP_SUMMARY;
   LOP_REVERSAL = Key.LOP_REVERSAL;
+
+  CURRENT_TAB_IN_SALARY_CHANGE = Key.SALARY_CHANGE;
+  SALARY_CHANGE = Key.SALARY_CHANGE;
+  BONUS = Key.BONUS;
+  OVERTIME = Key.OVERTIME;
 
 
   @ViewChild('step1Tab', { static: false }) step1Tab!: ElementRef;
@@ -59,6 +60,9 @@ export class PayrollDashboardComponent implements OnInit {
   @ViewChild('step4Tab', { static: false }) step4Tab!: ElementRef;
   @ViewChild('step5Tab', { static: false }) step5Tab!: ElementRef;
   @ViewChild('step6Tab', { static: false }) step6Tab!: ElementRef;
+  @ViewChild('step7Tab', { static: false }) step7Tab!: ElementRef;
+  @ViewChild('step8Tab', { static: false }) step8Tab!: ElementRef;
+  @ViewChild('step9Tab', { static: false }) step9Tab!: ElementRef;
 
   navigateToTab(tabId: string): void {
     switch (tabId) {
@@ -80,10 +84,101 @@ export class PayrollDashboardComponent implements OnInit {
       case 'step6-tab':
         this.step6Tab.nativeElement.click();
         break;
+      case 'step7-tab':
+        this.step7Tab.nativeElement.click();
+        break;
+      case 'step8-tab':
+        this.step8Tab.nativeElement.click();
+        break;
+      case 'step9-tab':
+        this.step9Tab.nativeElement.click();
+        break;
       default:
         console.error(`Tab with id ${tabId} not found`);
         return;
     }
+  }
+
+  // ----------------------------------------------------------
+  //Exmployee changes tab selection
+  newJoineeTab() {
+    this.CURRENT_TAB_IN_EMPLOYEE_CHANGE = Key.NEW_JOINEE_STEP;
+    this.resetCriteriaFilter();
+    this.getNewJoineeByOrganizationIdMethodCall();
+  }
+
+  userExitTab() {
+    this.CURRENT_TAB_IN_EMPLOYEE_CHANGE = Key.USER_EXIT_STEP;
+    this.resetCriteriaFilter();
+    this.getUserExitByOrganizationIdMethodCall();
+  }
+
+  finalSettlementTab() {
+    this.CURRENT_TAB_IN_EMPLOYEE_CHANGE = Key.FINAL_SETTLEMENT_STEP;
+    this.resetCriteriaFilter();
+    this.getFinalSettlementByOrganizationIdMethodCall();
+  }
+
+  // ----------------------------------------------------------
+  // Attendance, Leaves and Present Days tab selection
+  leavesTab(){
+    this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE = Key.LEAVES;
+    this.resetCriteriaFilter();
+    this.getPayrollLeaveLogResponseMethodCall();
+  }
+
+  lopSummaryTab(){
+    this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE = Key.LOP_SUMMARY;
+    this.resetCriteriaFilter();
+    this.getLopSummaryResponseByOrganizationIdAndStartDateAndEndDateMethodCall();
+  }
+
+  lopReversalTab(){
+    this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE = Key.LOP_REVERSAL;
+    this.resetCriteriaFilter();
+    this.getLopReversalResponseByOrganizationIdAndStartDateAndEndDateMethodCall();
+  }
+
+
+  // ----------------------------------------------------------
+  // Salary Changes, Bonus and Overtime tab selection
+  salaryChangeTab(){
+    this.CURRENT_TAB_IN_SALARY_CHANGE = Key.SALARY_CHANGE;
+    this.resetCriteriaFilter();
+  }
+
+  bonusTab(){
+    this.CURRENT_TAB_IN_SALARY_CHANGE = Key.BONUS;
+    this.resetCriteriaFilter();
+  }
+
+  overtimeTab(){
+    this.CURRENT_TAB_IN_SALARY_CHANGE = Key.OVERTIME;
+    this.resetCriteriaFilter();
+  }
+
+
+  // Employee Chages tab-estate
+  employeeChangesBackTab(){
+    if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == Key.FINAL_SETTLEMENT_STEP){
+      this.navigateToTab('step2-tab'); // Navigating to the user exit tab
+    } else if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == Key.USER_EXIT_STEP){
+      this.navigateToTab('step1-tab'); // Navigating to the new joinee tab
+    }
+  }
+
+  // Attendance & Leave tab-estate
+  attendanceAndLeaveBackTab(){
+    if(this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE == Key.LOP_REVERSAL){
+      this.navigateToTab('step5-tab');
+    } else if(this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE == Key.LOP_SUMMARY){
+      this.navigateToTab('step4-tab');
+    }
+  }
+
+  // Salary changes, Bonus & Overtime tab-estate
+  salaryChangesBackTab(){
+
   }
 
   isShimmer = false;
@@ -451,59 +546,6 @@ export class PayrollDashboardComponent implements OnInit {
     }
   }
 
-  //Exmployee changes tab selection
-  newJoineeTab() {
-    this.CURRENT_TAB_IN_EMPLOYEE_CHANGE = Key.NEW_JOINEE_STEP;
-    this.resetCriteriaFilter();
-    this.getNewJoineeByOrganizationIdMethodCall();
-  }
-
-  userExitTab() {
-    this.CURRENT_TAB_IN_EMPLOYEE_CHANGE = Key.USER_EXIT_STEP;
-    this.resetCriteriaFilter();
-    this.getUserExitByOrganizationIdMethodCall();
-  }
-
-  finalSettlementTab() {
-    this.CURRENT_TAB_IN_EMPLOYEE_CHANGE = Key.FINAL_SETTLEMENT_STEP;
-    this.resetCriteriaFilter();
-    this.getFinalSettlementByOrganizationIdMethodCall();
-  }
-
-  // Attendance, Leaves and Present Days tab selection
-  leavesTab(){
-    this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE = Key.LEAVES;
-    this.resetCriteriaFilter();
-    this.getPayrollLeaveLogResponseMethodCall();
-  }
-
-  lopSummaryTab(){
-    this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE = Key.LOP_SUMMARY;
-    this.resetCriteriaFilter();
-    this.getLopSummaryResponseByOrganizationIdAndStartDateAndEndDateMethodCall();
-  }
-
-  lopReversalTab(){
-    this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE = Key.LOP_REVERSAL;
-    this.resetCriteriaFilter();
-    this.getLopReversalResponseByOrganizationIdAndStartDateAndEndDateMethodCall();
-  }
-
-  employeeChangesBackTab(){
-    if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == Key.FINAL_SETTLEMENT_STEP){
-      this.navigateToTab('step2-tab'); // Navigating to the user exit tab
-    } else if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == Key.USER_EXIT_STEP){
-      this.navigateToTab('step1-tab'); // Navigating to the new joinee tab
-    }
-  }
-
-  attendanceAndLeaveBackTab(){
-    if(this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE == Key.LOP_REVERSAL){
-      this.navigateToTab('step5-tab');
-    } else if(this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE == Key.LOP_SUMMARY){
-      this.navigateToTab('step4-tab');
-    }
-  }
 
   //Routing to the user profile section
   routeToUserProfile(uuid : string){
@@ -1147,5 +1189,14 @@ export class PayrollDashboardComponent implements OnInit {
 
     selectedRole : Role = new Role();
     roles : Role[] = [];
+
+
+
+
+    // #######################################################################
+    // Step 3: Salary changes, Bonus & Overtime
+    registerSalaryChangesAndBonusAndOvertimeMethodCall(){
+
+    }
 
 }
