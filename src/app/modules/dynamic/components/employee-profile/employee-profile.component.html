@@ -1637,13 +1637,13 @@
                                         class="btn btn-xs btn-light btn-round"
                                       >
                                         {{
-                                          formatDateIn(
-                                            formatDate(leaves.leaveDate)
-                                          ) || "N/A"
-                                        }}&nbsp;
+                                          leaves.leaveDate | date:'medium'
+                                           || "N/A"
+                                        }}
+                                        <!-- &nbsp;
                                         <span>{{
                                           formatTime(leaves.leaveDate) || "N/A"
-                                        }}</span>
+                                        }}</span> -->
                                       </div>
                                       <!-- {{ leaves.docFileLink }} -->
                                     </div>

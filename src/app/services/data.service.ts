@@ -2342,9 +2342,11 @@ export class DataService {
   }
 
   updateAttendanceNotificationSettingForManager(
-    employeeAttendanceFlag: boolean
+    employeeAttendanceFlag: boolean, type: number
   ): Observable<any> {
-    const params = new HttpParams().set('flag', employeeAttendanceFlag);
+    let params = new HttpParams();
+    params = params.append('flag', employeeAttendanceFlag);
+    params = params.append('type', type);
 
     return this.httpClient.post(
       `${this.baseUrl}/account-setting/update/Attendance-notification-setting`,
