@@ -4,6 +4,6 @@ export class AttendanceLogResponse {
     operationTime : string = '';
     operationDate : string = '';
     operationPerformedBy : string = '';
-    additionalNotes : string = '';
+    additionalNotes: string = '';
 
 }

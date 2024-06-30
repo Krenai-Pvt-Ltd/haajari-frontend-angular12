@@ -3,6 +3,7 @@ import {
   HttpErrorResponse,
   HttpHeaders,
   HttpParams,
+  HttpRequest,
 } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
@@ -2955,6 +2956,30 @@ export class DataService {
     return this.httpClient.get<any>(
       `${this.baseUrl}/organization-personal-information/get/policy/doc`
     );
+  }
+
+  saveStaffAddressDetails(staffAddressDetails: any, addressId: number): Observable<any> {
+    const params =new HttpParams().set('addressId', addressId);
+    return this.httpClient.put(`${this.baseUrl}/user-verification/save/staff/location`, staffAddressDetails, {params });
+  }
+
+  getAllAddressDetailsWithStaff(): Observable<any> {
+    
+    return this.httpClient.get(`${this.baseUrl}/user-verification/get/organization/all/multi/locations`,);
+  }
+
+  getAddressDetailsOfStaffByAddressIdAndType(addressId: number, addressString: string): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/user-verification/get/organization/locations/by/Id`, {
+      params: {
+        addressId: addressId.toString(),
+        addressString: addressString
+      }
+    });
+  }
+
+  deleteByAddressId(addressId: number): Observable<any> {
+    const url = `${this.baseUrl}/user-verification/delete/multilocation/addressId?addressId=${addressId}`;
+    return this.httpClient.delete(url);
   }
 
 }
