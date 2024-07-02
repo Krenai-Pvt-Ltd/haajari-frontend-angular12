@@ -310,6 +310,10 @@ export class Key {
   public static INITIAL_HOUR = '00:00:00';
   public static END_HOUR = '23:59:59';
 
+  // Status
+  public static PENDING = 13;
+  public static APPROVED = 14;
+
 }
 
 
