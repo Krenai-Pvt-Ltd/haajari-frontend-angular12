@@ -61,6 +61,8 @@ import { StartDateAndEndDate } from '../models/start-date-and-end-date';
 import { LopAdjustmentRequest } from '../models/lop-adjustment-request';
 import { LopSummaryRequest } from '../models/lop-summary-request';
 import { LopReversalRequest } from '../models/lop-reversal-request';
+import { AppraisalRequest } from '../models/appraisal-request';
+import { BonusRequest } from '../models/bonus-request';
 import { SalaryChangeBonusRequest } from '../models/salary-change-bonus-request';
 
 @Injectable({
@@ -269,7 +271,7 @@ export class DataService {
   //Organization leave module
   registerLeave(leaveData: any): Observable<any> {
     return this.httpClient.post(
-      `${this.baseUrl}/organization-leave/register`,
+      `${this.baseUrl}/organization-leave/register`, 
       leaveData
     );
   }
@@ -280,13 +282,16 @@ export class DataService {
   }
   //Organization personal information module
   registerOrganizationPersonalInformation(
-    personalInformation: any
+    personalInformation: any, 
+    timeZone: string
   ): Observable<any> {
     return this.httpClient.put<any>(
       `${this.baseUrl}/organization-personal-information/register`,
-      personalInformation
+      personalInformation, 
+      { params: { timeZone: timeZone } } 
     );
   }
+  
   getOrganizationDetails(): Observable<any> {
     return this.httpClient.get<any>(
       `${this.baseUrl}/organization-personal-information/get`
@@ -2390,9 +2395,11 @@ export class DataService {
   }
 
   updateAttendanceNotificationSettingForManager(
-    employeeAttendanceFlag: boolean
+    employeeAttendanceFlag: boolean, type: number
   ): Observable<any> {
-    const params = new HttpParams().set('flag', employeeAttendanceFlag);
+    let params = new HttpParams();
+    params = params.append('flag', employeeAttendanceFlag);
+    params = params.append('type', type);
 
     return this.httpClient.post(
       `${this.baseUrl}/account-setting/update/Attendance-notification-setting`,
@@ -2559,7 +2566,7 @@ export class DataService {
       .set('sort', sort)
       .set('sort_by', sortBy);
     return this.httpClient.get<any>(
-      `${this.baseUrl}/salary/organization-month-wise-data`
+      `${this.baseUrl}/month-wise-salary/data`
     );
   }
   getTotalExperiences(userUuid: string): Observable<any> {
@@ -2958,7 +2965,6 @@ export class DataService {
     );
   }
 
-
   getSalaryChangeResponseListByOrganizationId(
     startDate: any,
     endDate: any,
@@ -2997,6 +3003,51 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/salary-change/bonus`, {params});
   }
 
+
+  getEmployeeSalary(userUuid : string): Observable<any> {
+    const params = new HttpParams()
+    .set('user_uuid', userUuid);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/ctc`, {params});
+  }
+
+  saveAppraisalRequest(appraisalRequest : AppraisalRequest){
+    
+    return this.httpClient.post<any>(`${this.baseUrl}/salary/appraisal-request`, appraisalRequest);
+  }
+
+  registerBonus(bonusRequest : BonusRequest, userUuid : string): Observable<any>{
+    const params = new HttpParams()
+    .set('user_uuid', userUuid);
+
+    return this.httpClient.post<any>(`${this.baseUrl}/salary/bonus/register`, bonusRequest, {params});
+  }
+
+  getMonthWiseSalaryData(
+    startDate: any,
+    endDate: any,
+    itemPerPage: number,
+    pageNumber: number,
+    search: string,
+    searchBy: string,
+    sort: string,
+    sortBy: string
+  ): Observable<any> {
+    const params = new HttpParams()
+      .set('start_date', startDate.toString())
+      .set('end_date', endDate.toString())
+      .set('item_per_page', itemPerPage.toString())
+      .set('page_number', pageNumber.toString())
+      .set('search', search)
+      .set('search_by', searchBy)
+      .set('sort', sort)
+      .set('sort_by', sortBy);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/month-wise-salary/data`,
+      { params }
+    );
+  }
+
   getSalaryChangeOvertimeResponseListByOrganizationId(
     startDate: any,
     endDate: any,
@@ -3016,9 +3067,10 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/salary-change/overtime`, {params});
   }
 
-  registerSalaryChangeBonusListByOrganizationId(salaryChangeBonusRequestList : SalaryChangeBonusRequest[]){
+
+
+registerSalaryChangeBonusListByOrganizationId(salaryChangeBonusRequestList : SalaryChangeBonusRequest[]){
 
     return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/salary-change`, salaryChangeBonusRequestList);
   }
-
 }

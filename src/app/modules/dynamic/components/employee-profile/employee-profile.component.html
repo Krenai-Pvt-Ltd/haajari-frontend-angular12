@@ -1087,12 +1087,17 @@
                                 <div class="float-end">
                                   <div class="dropdown d-inline-block">
                                     <div class="align-self-center">
-                                      <div class="btn btn-xs btn-light btn-round">
-                                        {{ formatDateIn(
-                                        formatDate(leaves.leaveDate)
-                                        ) || "N/A"
-                                        }}&nbsp; <span>{{ formatTime(leaves.leaveDate) || "N/A"
-                                          }}</span>
+                                      <div
+                                        class="btn btn-xs btn-light btn-round"
+                                      >
+                                        {{
+                                          leaves.leaveDate | date:'medium'
+                                           || "N/A"
+                                        }}
+                                        <!-- &nbsp;
+                                        <span>{{
+                                          formatTime(leaves.leaveDate) || "N/A"
+                                        }}</span> -->
                                       </div>
                                       <!-- {{ leaves.docFileLink }} -->
                                     </div>
@@ -1787,22 +1792,26 @@
                           <p>Half Day</p>
                         </div>
                       </div>
-                      <div style="text-align: end">
-                        <span style="
-                            color: #6666f3;
-                            font-size: 16px;
-                            font-weight: bold;
-                            cursor: pointer;
-                          " (click)="goToManageStatutory()">
+                      <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <!-- Add Bonus Link -->
+                        <span style="cursor: pointer;" (click)="openBonusRequestModal()">Add Bonus</span> |
+                        
+                        <!-- Appraisal Request Link -->
+                        <span style="cursor: pointer;" (click)="openAppraisalRequestModal()">Appraisal Request</span> |
+                        
+                        <!-- Settings with conditional display -->
+                        <div style="cursor: pointer;" (click)="goToManageStatutory()">
                           <ng-container *ngIf="userRoleFlag; else salaryConfiguration">
                             Edit salary configuration <i class="bi bi-pencil"></i>
                           </ng-container>
                           <ng-template #salaryConfiguration>
                             View users' configuration <i class="bi bi-arrow-right"></i>
                           </ng-template>
-                          
-                        </span>
+                        </div>
                       </div>
+                      
+                      
+                      
                     </div>
                     <div class="d-flex align-items-center justify-content-between leves-type-s mb-2">
                       <div class="">
@@ -3261,6 +3270,89 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-primary btn-round" (click)="addNewDocument()">
           <i class="bi bi-paperclip"></i>Select File </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Hidden button to trigger the modal -->
+<button type="button" style="display: none" id="appraisalRequestModalButton" #appraisalRequestModalButton data-bs-toggle="modal" data-bs-target="#appraisalRequestModal"></button>
+
+<!-- Modal structure -->
+<div class="modal fade" id="appraisalRequestModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Appraisal Request</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="currentCTC" class="form-label">Current CTC</label>
+          <input type="text" id="currentCTC" class="form-control" [(ngModel)]="appraisalRequest.previousCtc" disabled>
+        </div>
+        <div class="mb-3">
+          <label for="newCTC" class="form-label">New CTC</label>
+          <input type="number" id="newCTC" class="form-control" [(ngModel)]="appraisalRequest.updatedCtc">
+        </div>
+        <div class="mb-3">
+          <label for="effectiveDate" class="form-label">Effective Date</label>
+          <input type="date" id="effectiveDate" class="form-control" [(ngModel)]="appraisalRequest.effectiveDate">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="submitAppraisalRequest()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button type="button" style="display: none" id="bonusRequestModalButton" #bonusRequestModalButton data-bs-toggle="modal" data-bs-target="#addBonusModal"></button>
+
+
+<div class="modal fade" id="addBonusModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Bonus</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Form with NgForm directive -->
+        <form #bonusForm="ngForm" (ngSubmit)="submitBonus()">
+          <!-- Employee picture and name -->
+          <div class="text-center mb-3">
+            <img src="{{ user?.image }}" alt="Employee Picture" class="rounded-circle" style="width: 80px; height: 80px;">
+            <h5>{{ user?.name }}</h5>
+          </div>
+
+          <!-- Amount input -->
+          <div class="mb-3">
+            <label for="amount" class="form-label">Amount</label>
+            <input type="number" id="amount" name="amount" class="form-control" [(ngModel)]="bonusRequest.amount" required #amount="ngModel">
+            <!-- Display validation errors -->
+            <div *ngIf="amount.touched && amount.invalid">
+              <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="amount.errors?.required">
+                  <i class="bi bi-exclamation-circle"></i>
+                  Amount is required.
+              </p>
+          
+          </div>
+          </div>
+
+          <!-- Comments input -->
+          <div class="mb-3">
+            <label for="comments" class="form-label">Comments</label>
+            <textarea id="comments" name="comments" class="form-control" placeholder="Please specify the reason" [(ngModel)]="bonusRequest.comment"></textarea>
+          </div>
+
+          <!-- Modal footer with buttons -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

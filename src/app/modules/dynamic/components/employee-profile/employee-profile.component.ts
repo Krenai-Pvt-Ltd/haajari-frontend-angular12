@@ -44,6 +44,8 @@ import { EmployeeCompanyDocumentsRequest } from 'src/app/models/employee-company
 import { keys } from 'lodash';
 import { UserDocumentsDetailsRequest } from 'src/app/models/user-documents-details-request';
 import { SalaryTemplateComponentResponse } from 'src/app/models/salary-template-component-response';
+import { AppraisalRequest } from 'src/app/models/appraisal-request';
+import { BonusRequest } from 'src/app/models/bonus-request';
 @Component({
   selector: 'app-employee-profile',
   templateUrl: './employee-profile.component.html',
@@ -2317,4 +2319,89 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
   downloadFile(link: string) {}
+
+  @ViewChild('appraisalRequestModalButton') appraisalRequestModalButton !: ElementRef
+  openAppraisalRequestModal(){
+    debugger
+  this.getEmployeeCtcMethodCall();
+  }
+
+  appraisalRequest: AppraisalRequest = {
+    effectiveDate: new Date(),
+    userUuid: '',
+    previousCtc: 0,
+    updatedCtc: 0
+  };
+
+  getEmployeeCtcMethodCall() {
+    this.dataService.getEmployeeSalary(this.userId).subscribe(
+      (data: AppraisalRequest) => {
+        this.appraisalRequest = data;
+    
+        this.appraisalRequestModalButton.nativeElement.click();
+      },
+      (error) => {
+        console.error('Error fetching employee CTC:', error);
+      
+      }
+    );
+  }
+  submitAppraisalRequest() {
+    this.appraisalRequest.userUuid = this.userId;
+    this.dataService.saveAppraisalRequest(this.appraisalRequest).subscribe(
+      (response) => {
+        this.helperService.showToast("Appraisal request submitted successfully", Key.TOAST_STATUS_SUCCESS);
+        this.appraisalRequestModalButton.nativeElement.click();
+      },
+      (error) => {
+        console.error('Error submitting appraisal request:', error);
+        this.helperService.showToast("Error submitting appraisal request", Key.TOAST_STATUS_ERROR);
+       
+      }
+    );
+  }
+
+  openBonusRequestModal(){
+    this.bonusRequest.amount = 0;
+    this.bonusRequest.comment='';
+    this.bonusRequestModalButton.nativeElement.click();
+  }
+
+  @ViewChild("bonusRequestModalButton") bonusRequestModalButton !: ElementRef;
+
+  bonusRequest: BonusRequest = {
+    startDate: new Date(),
+    endDate: new Date(),
+    amount: 0,
+    comment: ""
+  };
+
+  isFormInvalid: boolean = false;
+@ViewChild ('bonusForm') bonusForm !: NgForm
+checkFormValidation(){
+if(this.bonusForm.invalid){
+this.isFormInvalid = true;
+return
+} else {
+  this.isFormInvalid = false;
+}
+}
+
+
+  submitBonus() {
+    if(this.isFormInvalid==true){
+      return
+    } else{
+    this.dataService.registerBonus(this.bonusRequest, this.userId).subscribe(
+      (response) => {
+        this.helperService.showToast("Bonus request submitted successfully", Key.TOAST_STATUS_SUCCESS);
+        this.bonusRequestModalButton.nativeElement.click();
+      },
+      (error) => {
+        console.error('Error submitting bonus request:', error);
+        this.helperService.showToast("Error submitting bonus request", Key.TOAST_STATUS_ERROR);
+       
+      }
+    );
+  }}
 }
