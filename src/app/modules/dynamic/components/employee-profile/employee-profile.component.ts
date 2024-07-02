@@ -8,13 +8,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import { DataService } from 'src/app/services/data.service';
 import { Subject } from 'rxjs';
 import { UserLeaveRequest } from 'src/app/models/user-leave-request';
-import {
-  FormBuilder,
-  FormGroup,
-  FormGroupDirective,
-  NgForm,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { UserDto } from 'src/app/models/user-dto.model';
 import { saveAs } from 'file-saver';
@@ -49,6 +43,9 @@ import { finalize } from 'rxjs/operators';
 import { EmployeeCompanyDocumentsRequest } from 'src/app/models/employee-company-documents-request';
 import { keys } from 'lodash';
 import { UserDocumentsDetailsRequest } from 'src/app/models/user-documents-details-request';
+import { SalaryTemplateComponentResponse } from 'src/app/models/salary-template-component-response';
+import { AppraisalRequest } from 'src/app/models/appraisal-request';
+import { BonusRequest } from 'src/app/models/bonus-request';
 @Component({
   selector: 'app-employee-profile',
   templateUrl: './employee-profile.component.html',
@@ -150,6 +147,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.getAllTaxRegimeMethodCall();
     this.getStatutoryByOrganizationIdMethodCall();
     this.getSalaryConfigurationStepMethodCall();
+    this.getSalaryTemplateComponentByUserUuidMethodCall();
     // this.getEmployeeCompanyDocumentsMethodCall();
 
     this.ROLE = await this.roleService.getRole();
@@ -1566,6 +1564,38 @@ export class EmployeeProfileComponent implements OnInit {
     this.switchValueForProfessionalTax = false;
   }
 
+
+
+  isShimmerForSalaryTemplate = false;
+  dataNotFoundPlaceholderForSalaryTemplate = false;
+  networkConnectionErrorPlaceHolderForSalaryTemplate = false;
+  preRuleForShimmersAndErrorPlaceholdersForSalaryTemplateMethodCall() {
+    this.isShimmerForSalaryTemplate = true;
+    this.dataNotFoundPlaceholderForSalaryTemplate = false;
+    this.networkConnectionErrorPlaceHolderForSalaryTemplate = false;
+  }
+
+  salaryTemplateComponentResponse: SalaryTemplateComponentResponse = new SalaryTemplateComponentResponse();
+  getSalaryTemplateComponentByUserUuidMethodCall() {
+    debugger;
+    this.preRuleForShimmersAndErrorPlaceholdersForSalaryTemplateMethodCall();
+    this.dataService.getSalaryTemplateComponentByUserUuid().subscribe((response) => {
+
+        if(this.helperService.isObjectNullOrUndefined(response)){
+          this.dataNotFoundPlaceholderForSalaryTemplate = true;
+          console.log("SHIVENDRA");
+        } else{
+          this.salaryTemplateComponentResponse = response.object;
+        }
+        this.isShimmerForSalaryTemplate = false;
+        console.log("SHIVENDRA2");
+      },
+      (error) => {
+        this.networkConnectionErrorPlaceHolderForSalaryTemplate = true;
+      }
+    );
+  }
+
   salaryConfigurationStepId: number = 0;
   getSalaryConfigurationStepMethodCall() {
     this.dataService.getSalaryConfigurationStep().subscribe(
@@ -2289,4 +2319,89 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
   downloadFile(link: string) {}
+
+  @ViewChild('appraisalRequestModalButton') appraisalRequestModalButton !: ElementRef
+  openAppraisalRequestModal(){
+    debugger
+  this.getEmployeeCtcMethodCall();
+  }
+
+  appraisalRequest: AppraisalRequest = {
+    effectiveDate: new Date(),
+    userUuid: '',
+    previousCtc: 0,
+    updatedCtc: 0
+  };
+
+  getEmployeeCtcMethodCall() {
+    this.dataService.getEmployeeSalary(this.userId).subscribe(
+      (data: AppraisalRequest) => {
+        this.appraisalRequest = data;
+    
+        this.appraisalRequestModalButton.nativeElement.click();
+      },
+      (error) => {
+        console.error('Error fetching employee CTC:', error);
+      
+      }
+    );
+  }
+  submitAppraisalRequest() {
+    this.appraisalRequest.userUuid = this.userId;
+    this.dataService.saveAppraisalRequest(this.appraisalRequest).subscribe(
+      (response) => {
+        this.helperService.showToast("Appraisal request submitted successfully", Key.TOAST_STATUS_SUCCESS);
+        this.appraisalRequestModalButton.nativeElement.click();
+      },
+      (error) => {
+        console.error('Error submitting appraisal request:', error);
+        this.helperService.showToast("Error submitting appraisal request", Key.TOAST_STATUS_ERROR);
+       
+      }
+    );
+  }
+
+  openBonusRequestModal(){
+    this.bonusRequest.amount = 0;
+    this.bonusRequest.comment='';
+    this.bonusRequestModalButton.nativeElement.click();
+  }
+
+  @ViewChild("bonusRequestModalButton") bonusRequestModalButton !: ElementRef;
+
+  bonusRequest: BonusRequest = {
+    startDate: new Date(),
+    endDate: new Date(),
+    amount: 0,
+    comment: ""
+  };
+
+  isFormInvalid: boolean = false;
+@ViewChild ('bonusForm') bonusForm !: NgForm
+checkFormValidation(){
+if(this.bonusForm.invalid){
+this.isFormInvalid = true;
+return
+} else {
+  this.isFormInvalid = false;
+}
+}
+
+
+  submitBonus() {
+    if(this.isFormInvalid==true){
+      return
+    } else{
+    this.dataService.registerBonus(this.bonusRequest, this.userId).subscribe(
+      (response) => {
+        this.helperService.showToast("Bonus request submitted successfully", Key.TOAST_STATUS_SUCCESS);
+        this.bonusRequestModalButton.nativeElement.click();
+      },
+      (error) => {
+        console.error('Error submitting bonus request:', error);
+        this.helperService.showToast("Error submitting bonus request", Key.TOAST_STATUS_ERROR);
+       
+      }
+    );
+  }}
 }

@@ -503,3 +503,33 @@ span.total-holiday {
   border-radius: 0px;
   height: 50px !important;
 }
+
+.Approved span,
+.Approved p {
+  transition: color 0.3s ease;
+}
+
+.Approved:hover span,
+.Approved:hover p {
+  color: #007bff; /* Highlight color */
+}
+
+
+#user-first-name-logo{
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+}
+
+
+span.members-name-new {
+    background-color: #a69ff3;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 18px;
+    text-transform: uppercase;
+}

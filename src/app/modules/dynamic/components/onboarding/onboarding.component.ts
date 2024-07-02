@@ -367,6 +367,7 @@ export class OnboardingComponent implements OnInit {
     },
   };
 
+  timeZone: string = '';
   selectedFile: File | null = null;
   registerOrganizationPersonalInformationFun() {
     debugger;
@@ -374,10 +375,10 @@ export class OnboardingComponent implements OnInit {
       this.BusinessInfoSetInvalidToggle = true;
       return;
     }
-
+    this.timeZone = this.helperService.getTimeZone();
     this.dataService
       .registerOrganizationPersonalInformation(
-        this.organizationPersonalInformation
+        this.organizationPersonalInformation, this.timeZone
       )
       .subscribe(
         (response) => {

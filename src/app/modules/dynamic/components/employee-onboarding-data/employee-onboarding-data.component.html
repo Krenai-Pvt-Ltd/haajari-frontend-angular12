@@ -4,7 +4,11 @@
       <div class="row mt-4">
         <div class="col-md-3">
           <div class="employe-onbording">
-            <div class="orderpcardinfo d-flex justify-content-between" style="cursor: pointer;" (click)="selectStatus('APPROVED')">
+            <div
+              class="orderpcardinfo d-flex justify-content-between"
+              style="cursor: pointer"
+              (click)="selectStatus('APPROVED')"
+            >
               <div class="orderpcardleft">
                 <h6>Verified</h6>
                 <h5>{{ verificationCount.approvedEmployees || 0 }}</h5>
@@ -19,7 +23,11 @@
         </div>
         <div class="col-md-3">
           <div class="employe-onbording">
-            <div class="orderpcardinfo d-flex justify-content-between" style="cursor: pointer;" (click)="selectStatus('PENDING')">
+            <div
+              class="orderpcardinfo d-flex justify-content-between"
+              style="cursor: pointer"
+              (click)="selectStatus('PENDING')"
+            >
               <div class="orderpcardleft">
                 <h6>Pending Verification</h6>
                 <h5>{{ verificationCount.pendingEmployees || 0 }}</h5>
@@ -32,10 +40,14 @@
             </div>
           </div>
         </div>
-        
+
         <div class="col-md-3">
           <div class="employe-onbording">
-            <div class="orderpcardinfo d-flex justify-content-between" style="cursor: pointer;" (click)="selectStatus('REJECTED')">
+            <div
+              class="orderpcardinfo d-flex justify-content-between"
+              style="cursor: pointer"
+              (click)="selectStatus('REJECTED')"
+            >
               <div class="orderpcardleft">
                 <h6>Rejected</h6>
                 <h5>{{ verificationCount.rejectedEmployees || 0 }}</h5>
@@ -50,7 +62,11 @@
         </div>
         <div class="col-md-3">
           <div class="employe-onbording">
-            <div class="orderpcardinfo d-flex justify-content-between" style="cursor: pointer;" (click)="selectStatus('REQUESTED')">
+            <div
+              class="orderpcardinfo d-flex justify-content-between"
+              style="cursor: pointer"
+              (click)="selectStatus('REQUESTED')"
+            >
               <div class="orderpcardleft">
                 <h6>Requested</h6>
                 <h5>{{ verificationCount.requestedCount || 0 }}</h5>
@@ -1072,6 +1088,50 @@
                 </div>
                 <div class="col-md-12">
                   <div class="mb-3">
+                    <label for="phoneNumber" class="pb-2"
+                      >Phone Number
+                      <span class="text-optional"> (Optional)</span>
+                    </label>
+                    <input
+                      type="text"
+                      mask="0000000000"
+                      class="form-control whatapp-login-input"
+                      id="phoneNumber"
+                      name="phoneNumber"
+                      placeholder="Phone number"
+                      [(ngModel)]="userPersonalInformationRequest.phoneNumber"
+                      minlength="10"
+                      maxlength="10"
+                      pattern="[0-9]*"
+                      #phoneNumberField="ngModel"
+                    />
+                    <!-- Error Message for Phone Number -->
+                    <div
+                      *ngIf="
+                        phoneNumberField.touched &&
+                        phoneNumberField.errors?.pattern
+                      "
+                    >
+                      <p class="errortxt mt-2 mb-0" style="color: red">
+                        <i class="bi bi-exclamation-circle"></i> Enter a valid
+                        10-digit phone number.
+                      </p>
+                      <p
+                        class="errortxt mt-2 mb-0"
+                        style="color: red"
+                        *ngIf="
+                          phoneNumberField.errors?.minlength ||
+                          phoneNumberField.errors?.maxlength
+                        "
+                      >
+                        <i class="bi bi-exclamation-circle"></i> Phone number
+                        should be of 10 digits.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="mb-3">
                     <label for="email" class="pb-2"
                       >Email Id <span class="text-optional">*</span>
                     </label>
@@ -1157,50 +1217,6 @@
                   </div>
                 </div>
 
-                <div class="col-md-12">
-                  <div class="mb-3">
-                    <label for="phoneNumber" class="pb-2"
-                      >Phone Number
-                      <span class="text-optional"> (Optional)</span>
-                    </label>
-                    <input
-                      type="text"
-                      mask="0000000000"
-                      class="form-control whatapp-login-input"
-                      id="phoneNumber"
-                      name="phoneNumber"
-                      placeholder="Phone number"
-                      [(ngModel)]="userPersonalInformationRequest.phoneNumber"
-                      minlength="10"
-                      maxlength="10"
-                      pattern="[0-9]*"
-                      #phoneNumberField="ngModel"
-                    />
-                    <!-- Error Message for Phone Number -->
-                    <div
-                      *ngIf="
-                        phoneNumberField.touched &&
-                        phoneNumberField.errors?.pattern
-                      "
-                    >
-                      <p class="errortxt mt-2 mb-0" style="color: red">
-                        <i class="bi bi-exclamation-circle"></i> Enter a valid
-                        10-digit phone number.
-                      </p>
-                      <p
-                        class="errortxt mt-2 mb-0"
-                        style="color: red"
-                        *ngIf="
-                          phoneNumberField.errors?.minlength ||
-                          phoneNumberField.errors?.maxlength
-                        "
-                      >
-                        <i class="bi bi-exclamation-circle"></i> Phone number
-                        should be of 10 digits.
-                      </p>
-                    </div>
-                  </div>
-                </div>
                 <!-- Template -->
               </div>
             </div>

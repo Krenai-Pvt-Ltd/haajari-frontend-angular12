@@ -5,18 +5,10 @@
         <div class="col-md-12">
           <div class="">
             <div class="tab-content" id="myTabContent">
-              <div
-                class="tab-pane fade show mt-3"
-                [ngClass]="{ active: accountDetailsTab == 'accountDetails' }"
-                style="border: 1px solid #f1f1f1"
-                id="account-setting"
-                role="tabpanel"
-              >
+              <div class="tab-pane fade show mt-3" [ngClass]="{ active: accountDetailsTab == 'accountDetails' }"
+                style="border: 1px solid #f1f1f1" id="account-setting" role="tabpanel">
                 <div class="row">
-                  <div
-                    class="col-md-8 pr-0 mr-0"
-                    style="padding-right: 0px; margin-right: 0px"
-                  >
+                  <div class="col-md-8 pr-0 mr-0" style="padding-right: 0px; margin-right: 0px">
                     <div class="account-setting-box">
                       <div class="d-flex align-items-center" style="gap: 20px">
                         <div class="">
@@ -27,13 +19,8 @@
                           </p>
                         </div>
                       </div>
-                      <div
-                        class="d-flex align-items-center justify-content-between mt-3"
-                      >
-                        <div
-                          class="w-50"
-                          style="border-right: 1px dashed #f1f1f1"
-                        >
+                      <div class="d-flex align-items-center justify-content-between mt-3">
+                        <div class="w-50" style="border-right: 1px dashed #f1f1f1">
                           <small class="text-muted">Email</small>
                           <h6 class="text-truncate mt-2">
                             {{ userEmail ? userEmail : "N/A" }}
@@ -43,55 +30,29 @@
                           <small class="text-muted mb-2">Password</small>
                           <h6 class="text-truncate mt-3">
                             ********
-                            <span
-                              type="button"
-                              aria-label="Edit Email"
-                              id="passwordEdit"
-                              data-bs-toggle="modal"
-                              data-bs-target="#passwordUpdateModal"
-                              class="text-primary"
-                            >
-                              (Edit Password)</span
-                            >
+                            <span type="button" aria-label="Edit Email" id="passwordEdit" data-bs-toggle="modal"
+                              data-bs-target="#passwordUpdateModal" class="text-primary">
+                              (Edit Password)</span>
                           </h6>
                         </div>
                       </div>
                     </div>
                   </div>
                   <!-- profile image -->
-                  <div
-                    class="col-md-4"
-                    style="padding-left: 0px; margin-left: 0px"
-                  >
-                    <div
-                      class="profile-image-edit text-center position-relative"
-                    >
+                  <div class="col-md-4" style="padding-left: 0px; margin-left: 0px">
+                    <div class="profile-image-edit text-center position-relative">
                       <div class="profile-image-box">
-                        <img
-                          [src]="userPersonalInformationRequest.image"
-                          alt="Profile Image"
-                        />
-                        <input
-                          type="file"
-                          accept="image/jpeg, image/jpg, image/png"
-                          #fileInput
-                          style="display: none"
-                          (change)="onFileSelected($event)"
-                        />
+                        <img [src]="userPersonalInformationRequest.image" alt="Profile Image" />
+                        <input type="file" accept="image/jpeg, image/jpg, image/png" #fileInput style="display: none"
+                          (change)="onFileSelected($event)" />
                         <span
                           class="edit-profile position-absolute bg-white d-flex align-items-center justify-content-center pointer"
-                          tabindex="0"
-                          (click)="fileInput.click()"
-                        >
+                          tabindex="0" (click)="fileInput.click()">
                           <i class="bi bi-pencil"></i>
                         </span>
                       </div>
                       <div *ngIf="isInvalidFileType">
-                        <p
-                          class="errortxt mt-2 mb-0"
-                          style="color: red"
-                          *ngIf="isInvalidFileType"
-                        >
+                        <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="isInvalidFileType">
                           <i class="bi bi-exclamation-circle"></i> Invalid file
                           type. Please select a JPG, JPEG, or PNG file.
                         </p>
@@ -102,15 +63,9 @@
                 <hr />
                 <div class="">
                   <div class="row">
-                    <div
-                      class="col-md-12 pr-0 mr-0"
-                      style="padding-right: 0px; margin-right: 0px"
-                    >
+                    <div class="col-md-12 pr-0 mr-0" style="padding-right: 0px; margin-right: 0px">
                       <div class="account-setting-box">
-                        <div
-                          class="d-flex align-items-center"
-                          style="gap: 20px"
-                        >
+                        <div class="d-flex align-items-center" style="gap: 20px">
                           <!-- <div class="jXmMvc" style="width: 3%"><img
                               src="assets/images/google-docs.svg"
                               style="width: 100%"
@@ -130,10 +85,7 @@
                             class="d-flex align-items-center justify-content-between mt-2 gap-2 alert alert-outline-secondary" *ngIf="!isDisabled"
                           >
                             <div class="enable-disanle-box mb-0" role="alert">
-                              <img
-                                src="assets/images/slack-1.svg"
-                                style="width: 35px; padding-right: 10px"
-                              />
+                              <img src="assets/images/slack-1.svg" style="width: 35px; padding-right: 10px" />
                               Receive attendance notifications by Slack
                             </div>
 
@@ -156,13 +108,9 @@
                           </div>
 
                           <div
-                            class="d-flex align-items-center justify-content-between mt-2 gap-2 alert alert-outline-secondary"
-                          >
+                            class="d-flex align-items-center justify-content-between mt-2 gap-2 alert alert-outline-secondary">
                             <div class="enable-disanle-box mb-0" role="alert">
-                              <img
-                                src="assets/images/pngwing.com.png"
-                                style="width: 35px; padding-right: 10px"
-                              />
+                              <img src="assets/images/pngwing.com.png" style="width: 35px; padding-right: 10px" />
                               Receive attendance notifications by WhatsApp
                             </div>
                             <div>
@@ -186,19 +134,12 @@
                             </div>
                           </div>
                         </div>
-                        <div class="pb-2 mt-3">
+                        <div class="pb-2 mt-3" *ngIf="onboardingVia === 'WHATSAPP'">
                           <small class="text-muted">Language Preferred</small>
                           <div
-                            class="d-flex align-items-center justify-content-between mt-2 gap-2 alert alert-outline-secondary"
-                          >
-                            <div
-                              class="alert-outline-secondary enable-disanle-box mb-0"
-                              role="alert"
-                            >
-                              <img
-                                src="assets/images/translate.svg"
-                                style="width: 35px; padding-right: 10px"
-                              />
+                            class="d-flex align-items-center justify-content-between mt-2 gap-2 alert alert-outline-secondary">
+                            <div class="alert-outline-secondary enable-disanle-box mb-0" role="alert">
+                              <img src="assets/images/translate.svg" style="width: 35px; padding-right: 10px" />
                               English
                             </div>
                             <div>
@@ -221,16 +162,9 @@
                             </div>
                           </div>
                           <div
-                            class="d-flex align-items-center justify-content-between mt-2 gap-2 alert alert-outline-secondary"
-                          >
-                            <div
-                              class="alert-outline-secondary enable-disanle-box mb-0"
-                              role="alert"
-                            >
-                              <img
-                                src="assets/images/translate.svg"
-                                style="width: 35px; padding-right: 10px"
-                              />
+                            class="d-flex align-items-center justify-content-between mt-2 gap-2 alert alert-outline-secondary">
+                            <div class="alert-outline-secondary enable-disanle-box mb-0" role="alert">
+                              <img src="assets/images/translate.svg" style="width: 35px; padding-right: 10px" />
                               Hindi
                             </div>
                             <div>
@@ -253,7 +187,8 @@
                             </div>
                           </div>
                         </div>
-                        <div class="mt-3" *ngIf="ROLE === 'ADMIN' || ROLE === 'MANAGER'">
+                        <div class="mt-3" *ngIf="ROLE === 'ADMIN' || ROLE === 'MANAGER' &&
+                        onboardingVia === 'WHATSAPP'">
                           <small class="text-muted">
                             Employee's Attendance
                             <i
@@ -309,51 +244,59 @@
                               placement="top"
                             ></i>
                           </small>
-                          <small class="text-muted" *ngIf="!isInstalled"
-                            >Reinstall Hajiri in Slack workspace
+                          <small class="text-muted" *ngIf="!isInstalled">Reinstall Hajiri in your Slack workspace
+
+                            <!--                             Have to check
+                            <div class="material-switch" [class.disabled]="isDisabled">
+                              <input type="checkbox" id="whatsappSwitch" [(ngModel)]="notifications.whatsapp"
+                                (click)="toggleNotification('whatsapp')" [disabled]="isDisabled" /><label
+                                class="label-success" for="whatsappSwitch"></label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="mt-3" *ngIf="ROLE === 'ADMIN' && onboardingVia === 'SLACK'">
+                          <small class="text-muted" *ngIf="isInstalled">
+                            Remove Hajiri From Slack
+                            <i class="bi bi-exclamation-circle tolltip-icon"
+                              ngbTooltip="Removing Hajiri from your Slack account will disable all Hajiri operations and uninstall it for all users in the workspace. To reinstall Hajiri, please visit the Hajiri website and use the 'Add to Slack' feature."
+                              placement="top"></i> -->
+
                           </small>
+                          <small class="text-muted" *ngIf="!isInstalled">Reinstall Hajiri in Slack workspace</small>
                           <div
-                            class="d-flex align-items-center justify-content-between mt-2 gap-2 alert alert-outline-secondary"
-                          >
-                            <div
-                              class="alert-outline-secondary enable-disanle-box mb-0"
-                              role="alert"
-                              *ngIf="!isInstalled"
-                            >
-                              <img
-                                src="assets/images/refresh-data.svg"
-                                style="width: 35px; padding-right: 10px"
-                              />
-                              To reinstall Hajiri in your workspace, click the
-                              "Reinstall Hajiri" button.
+                            class="d-flex align-items-center justify-content-between mt-2 gap-2 alert alert-outline-secondary">
+                            <div class="alert-outline-secondary enable-disanle-box mb-0" role="alert"
+                              *ngIf="!isInstalled">
+                              <img src="assets/images/refresh-data.svg" style="width: 35px; padding-right: 10px" />To
+                              reinstall Hajiri in your workspace, click the "Reinstall Hajiri" button.
                             </div>
-                            <div
-                              class="alert-outline-secondary enable-disanle-box mb-0"
-                              role="alert"
-                              *ngIf="isInstalled"
-                            >
-                              <img
-                                src="assets/images/trash.svg"
-                                style="width: 35px; padding-right: 10px"
-                              />
-                              To remove Hajiri from your workspace, click the
-                              "Remove Hajiri" button.
+
+                            <div class="alert-outline-secondary enable-disanle-box mb-0" role="alert"
+                              *ngIf="isInstalled">
+                              <img src="assets/images/trash.svg" style="width: 35px; padding-right: 10px" />
+                              To remove Hajiri from your Slack workspace, click
+                              the "Remove Hajiri" button.
+
+                              <!--                         Have to check
+                            <div class="alert-outline-secondary enable-disanle-box mb-0" role="alert"
+                              *ngIf="isInstalled">
+                              <img src="assets/images/trash.svg" style="width: 35px; padding-right: 10px" />
+                              To remove Hajiri from your workspace, click the "Remove Hajiri" button. -->
+
                             </div>
-                            <!-- (click)="removeHajiri()" -->
+                            <!-- (click)="removeHajiriFromSlack()" -->
                             <div class="mt-3">
-                              <button
-                                class="btn btn-danger"
-                                (click)="removeHajiriFromSlack()"
-                                *ngIf="isInstalled"
-                              >
+
+                              <button class="btn btn-danger" *ngIf="isInstalled" data-bs-toggle="modal"
+                                data-bs-target="#deleteConfirmationModal">
+
+                                <!--                               Have to check
+                              <button class="btn btn-danger" (click)="removeHajiriFromSlack()" *ngIf="isInstalled"> -->
+
                                 Remove Hajiri
                               </button>
                               <!-- {{ authUrl }} -->
-                              <button
-                                class="btn btn-success"
-                                (click)="reinstallHajiri()"
-                                *ngIf="!isInstalled"
-                              >
+                              <button class="btn btn-success" (click)="reinstallHajiri()" *ngIf="!isInstalled">
                                 Reinstall Hajiri
                               </button>
                             </div>
@@ -373,53 +316,27 @@
 </div>
 <!-- Update Password Modal -->
 <!-- Password Update Modal -->
-<div
-  class="modal fade"
-  id="passwordUpdateModal"
-  #passwordUpdateModal
-  tabindex="-1"
-  aria-labelledby="passwordUpdateModalLabel"
-  aria-hidden="true"
->
+<div class="modal fade" id="passwordUpdateModal" #passwordUpdateModal tabindex="-1"
+  aria-labelledby="passwordUpdateModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="passwordUpdateModalLabel">
           Update Password
         </h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form
-          #updatePasswordForm="ngForm"
-          (ngSubmit)="onSubmit(updatePasswordForm.value)"
-        >
+        <form #updatePasswordForm="ngForm" (ngSubmit)="onSubmit(updatePasswordForm.value)">
           <div class="form-group">
             <label for="currentPassword">Enter Current Password</label>
             <div class="input-group">
-              <input
-                [type]="showCurrentPassword ? 'text' : 'password'"
-                class="form-control profile-input mt-2"
-                id="currentPassword"
-                required
-                [(ngModel)]="currentPassword"
-                name="currentPassword"
-              />
+              <input [type]="showCurrentPassword ? 'text' : 'password'" class="form-control profile-input mt-2"
+                id="currentPassword" required [(ngModel)]="currentPassword" name="currentPassword" />
               <span class="input-group-btn">
-                <button
-                  type="button"
-                  class="btn btn-default toggle-password"
-                  (click)="toggleCurrentPasswordVisibility()"
-                >
-                  <i
-                    class="bi text-primary"
-                    [class]="showCurrentPassword ? 'bi-eye-slash' : 'bi-eye'"
-                  ></i>
+                <button type="button" class="btn btn-default toggle-password"
+                  (click)="toggleCurrentPasswordVisibility()">
+                  <i class="bi text-primary" [class]="showCurrentPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
                 </button>
               </span>
             </div>
@@ -432,48 +349,24 @@
           <div class="form-group mt-3">
             <label for="newPassword">New Password</label>
             <div class="input-group">
-              <input
-                [type]="showNewPassword ? 'text' : 'password'"
-                class="form-control profile-input mt-2"
-                id="newPassword"
-                required
-                [(ngModel)]="newPassword"
-                name="newPassword"
-                aria-label="Password"
-                aria-describedby="toggle-password"
-              />
-              <button
-                class="btn btn-default toggle-password"
-                type="button"
-                id="toggle-password"
-                (click)="toggleNewPasswordVisibility()"
-              >
-                <i
-                  class="bi text-primary"
-                  [class]="showNewPassword ? 'bi-eye-slash' : 'bi-eye'"
-                ></i>
+              <input [type]="showNewPassword ? 'text' : 'password'" class="form-control profile-input mt-2"
+                id="newPassword" required [(ngModel)]="newPassword" name="newPassword" aria-label="Password"
+                aria-describedby="toggle-password" />
+              <button class="btn btn-default toggle-password" type="button" id="toggle-password"
+                (click)="toggleNewPasswordVisibility()">
+                <i class="bi text-primary" [class]="showNewPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
               </button>
             </div>
           </div>
           <div class="form-group mt-3">
             <label for="confirmNewPassword">Confirm New Password</label>
-            <input
-              type="text"
-              class="form-control profile-input mt-2"
-              id="confirmNewPassword"
-              required
-              [(ngModel)]="confirmNewPassword"
-              name="confirmNewPassword"
-              #confirmPass="ngModel"
-            />
-            <div
-              *ngIf="
+            <input type="text" class="form-control profile-input mt-2" id="confirmNewPassword" required
+              [(ngModel)]="confirmNewPassword" name="confirmNewPassword" #confirmPass="ngModel" />
+            <div *ngIf="
                 newPassword &&
                 confirmNewPassword &&
                 newPassword !== confirmNewPassword
-              "
-              class="text-danger"
-            >
+              " class="text-danger">
               Password do not match!
             </div>
           </div>
@@ -481,21 +374,12 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-outline-secondary btn-round"
-          data-bs-dismiss="modal"
-        >
+        <button type="button" class="btn btn-outline-secondary btn-round" data-bs-dismiss="modal">
           Close
         </button>
-        <button
-          type="button"
-          class="btn btn-outline-primary btn-round"
-          [disabled]="
+        <button type="button" class="btn btn-outline-primary btn-round" [disabled]="
             !updatePasswordForm.form.valid || newPassword !== confirmNewPassword
-          "
-          (click)="updatePasswordForm.ngSubmit.emit()"
-        >
+          " (click)="updatePasswordForm.ngSubmit.emit()">
           Update Password
         </button>
       </div>
@@ -503,48 +387,40 @@
   </div>
 </div>
 <!-- Button trigger modal -->
-<button
-  type="button"
-  id="otpModalButton"
-  class="btn btn-primary"
-  data-bs-toggle="modal"
-  #otpModalButton
-  data-bs-target="#otpModal"
->
+<button type="button" id="otpModalButton" class="btn btn-primary" data-bs-toggle="modal" #otpModalButton
+  data-bs-target="#otpModal">
   Launch OTP Modal
 </button>
 <!-- Modal -->
 <!-- OTP Modal -->
-<div
-  class="modal fade"
-  id="otpModal"
-  tabindex="-1"
-  aria-labelledby="otpModalLabel"
-  aria-hidden="true"
->
+<div class="modal fade" id="otpModal" tabindex="-1" aria-labelledby="otpModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="otpModalLabel">
           {{ otpSent ? "Verify OTP" : "Enter Phone Number" }}
         </h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-          (click)="otpSent = false; phoneNumber = ''"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          (click)="otpSent = false; phoneNumber = ''"></button>
       </div>
       <div class="modal-body">
         <!-- Send OTP Form -->
-        <form
-          *ngIf="!otpSent"
-          #sendOtpForm="ngForm"
-          (ngSubmit)="sendOtptoSavePhoneNumberMethodCall()"
-        >
-          <div class="mb-3">
+
+        <form *ngIf="!otpSent" #sendOtpForm="ngForm" (ngSubmit)="sendOtptoSavePhoneNumberMethodCall()">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <img src="assets/images/flag.png" alt="country flag" class="img-fluid"
+                  style="height: 20px; width: auto; margin-right: 5px" />
+                +91
+              </span>
+            </div>
+            <input type="tel" mask="0000000000" name="phoneNumber" class="form-control" id="phoneNumber"
+              [(ngModel)]="phoneNumber" placeholder="Enter Phone Number without country code" />
+          </div>
+          <!-- <div class="mb-3">
             <label for="phoneNumber" class="form-label">Phone Number</label>
+            <span class="input-group-text">+91</span>
             <input
               type="tel"
               mask="0000000000"
@@ -554,8 +430,18 @@
               [(ngModel)]="phoneNumber"
               placeholder="Enter Phone Number without country code "
             />
+          </div> -->
+          <div class="d-grid gap-2" style="padding-top: 20px">
+
+            <!--          Have to check
+        <form *ngIf="!otpSent" #sendOtpForm="ngForm" (ngSubmit)="sendOtptoSavePhoneNumberMethodCall()">
+          <div class="mb-3">
+            <label for="phoneNumber" class="form-label">Phone Number</label>
+            <input type="tel" mask="0000000000" name="phoneNumber" class="form-control" id="phoneNumber"
+              [(ngModel)]="phoneNumber" placeholder="Enter Phone Number without country code " />
           </div>
-          <div class="d-grid gap-2">
+          <div class="d-grid gap-2"> -->
+
             <button type="submit" class="btn btn-primary">
               <div *ngIf="toggle; else showText" class="dot-opacity-loader">
                 <span></span>
@@ -587,17 +473,10 @@
             </button>
           </div>
         </form> -->
-        <form
-          *ngIf="otpSent"
-          #verifyOtpForm="ngForm"
-          (ngSubmit)="verifyOtpMethodCall()"
-        >
+        <form *ngIf="otpSent" #verifyOtpForm="ngForm" (ngSubmit)="verifyOtpMethodCall()">
           <div class="mb-3">
             <label for="otp" class="form-label">OTP</label>
-            <ng-otp-input
-              [config]="otpConfig"
-              (onInputChange)="onOtpChange($event)"
-            ></ng-otp-input>
+            <ng-otp-input [config]="otpConfig" (onInputChange)="onOtpChange($event)"></ng-otp-input>
           </div>
           <div class="d-grid gap-2">
             <button type="submit" class="btn btn-primary">
@@ -613,6 +492,54 @@
           </div>
         </form>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="deleteConfirmationModal" #deleteConfirmationModal tabindex="-1"
+  aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="false">
+  <div class="modal-dialog modal-dialog-centered mx-auto mx-auto" style="max-width: 600px !important">
+    <div class="modal-content">
+      <!--end modal-header-->
+      <div class="modal-body">
+        <form #confirmationForm="ngForm">
+          <div class="row">
+            <div class="col-lg-3 text-center align-self-center">
+              <img src="assets/images/recycle-bin.svg" alt="" class="img-fluid" />
+            </div>
+            <!--end col-->
+            <div class="col-lg-9">
+              <h5>Remove Hajiri from your Slack workspace</h5>
+              <span class="badge bg-warning font-14">Are you sure want to remove Hajiri from your Slack
+                workspace?</span>
+              <ul class="mt-3 mb-0">
+                <li>
+                  This action will remove Hajiri from your Slack workspace for
+                  all users.
+                </li>
+                <!-- <li>Other associated information from the system</li> -->
+              </ul>
+            </div>
+            <!--end col-->
+          </div>
+          <!--end row-->
+        </form>
+      </div>
+      <!--end modal-body-->
+      <div class="modal-footer d-flex align-items-center justify-content-between">
+        <button type="button" class="btn btn-de-secondary btn-sm" data-bs-dismiss="modal" #closeUserDeleteModal>
+          Close
+        </button>
+        <button type="button" class="btn btn-danger btn-sm" (click)="removeHajiriFromSlack()">
+          <span *ngIf="!disableLoader"> Delete Account</span>
+          <div class="dot-opacity-loader" *ngIf="disableLoader">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </button>
+      </div>
+      <!--end modal-footer-->
     </div>
   </div>
 </div>

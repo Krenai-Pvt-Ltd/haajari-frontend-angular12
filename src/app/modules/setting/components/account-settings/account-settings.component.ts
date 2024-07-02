@@ -7,7 +7,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Key } from 'src/app/constant/key';
 import { NotificationVia } from 'src/app/models/notification-via';
 
@@ -36,7 +36,8 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
     private cdr: ChangeDetectorRef,
     private rbacService: RoleBasedAccessControlService,
     private afStorage: AngularFireStorage,
-    private helper: HelperService
+    private helper: HelperService,
+    private router: Router
   ) {
     debugger;
     if (this._routeParam.snapshot.queryParamMap.has('setting')) {
@@ -363,7 +364,7 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
             'Notification Setting Updated Successfully',
             Key.TOAST_STATUS_SUCCESS
           );
-         
+
         } else if (
           response.phoneNumber == null &&
           this.notifications.whatsapp == true
@@ -501,6 +502,7 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
     this.updateLanguagePreferredForNotificationMethodCall();
   }
 
+
   updateNotificationSetting() {
     debugger
     this.toggleOption1Flag = true;
@@ -508,6 +510,7 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
   }
   toggleOption1Flag: boolean = false;
   toggleOption2Flag: boolean = false;
+
   employeeAttendanceFlag: boolean = false;
 
   updateAttendanceNotificationSettingForManagerMethodCall(): void {
@@ -636,13 +639,22 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
   }
   teamId: string = '';
   isInstalled: boolean = true;
+  disableLoader: boolean = false;
   removeHajiriFromSlack(): void {
+    this.disableLoader = true;
     this._data.disconnectOrganization().subscribe(
       (response) => {
         console.log('deactived successfully');
         this.isInstalled = response.message;
+        this.disableLoader = false;
+        this.closeDeleteModal();
+        this.helper.showToast(
+          'Removed Successfully.',
+          Key.TOAST_STATUS_SUCCESS
+        );
       },
       (error) => {
+        this.disableLoader = false;
         console.log('error ');
       }
     );
@@ -675,10 +687,17 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
   }
 
   reinstallHajiri(): void {
-    if (this.authUrl) {
-      window.location.href = this.authUrl;
-    } else {
-      console.error('Auth URL is not set');
-    }
+    this.router.navigate(['/auth/signup']);
+    // if (this.authUrl) {
+    //   window.location.href = this.authUrl;
+    // } else {
+    //   console.error('Auth URL is not set');
+    // }
+  }
+
+  @ViewChild('closeUserDeleteModal') closeUserDeleteModal: any;
+
+  closeDeleteModal() {
+    this.closeUserDeleteModal.nativeElement.click();
   }
 }

@@ -185,8 +185,7 @@ export class TeamDetailComponent implements OnInit {
     debugger;
     this.dataService.sendInviteToUsers(this.userEmails, this.teamId).subscribe(
       (data) => {
-        this.userEmails = [];
-        this.selectedUsers = [];
+       
         Swal.fire({
           position: 'bottom-start',
           customClass: {
@@ -199,12 +198,14 @@ export class TeamDetailComponent implements OnInit {
         });
         this.getTeamMemberById();
         this.helperService.showToast(
-          'Mail Sent Successfully.',
+          'Mail Sent Successfully To ' + this.userEmails,
           Key.TOAST_STATUS_SUCCESS
         );
+         this.userEmails = [];
+        this.selectedUsers = [];
       },
       (error) => {
-        this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+        this.helperService.showToast("Please Contact To Your Admin", Key.TOAST_STATUS_ERROR);
       }
     );
   }
@@ -340,19 +341,40 @@ export class TeamDetailComponent implements OnInit {
 
   // }
 
+  alreadyAddedEmails: string[]= [];
   addUsersToTeam() {
+    debugger
     if (this.userIds.length > 0) {
       const tid = this.teamId;
       this.dataService.addUsersToTeam(tid, this.userIds).subscribe(
-        (result) => {
+        (response: any) => {
+          console.log("retunred value " + response.object);
+          this.alreadyAddedEmails = response.object;
+
+          // Remove already added emails from userEmails
+          if (this.alreadyAddedEmails.length > 0) {
+            this.userEmails = this.userEmails.filter(
+              email => !this.alreadyAddedEmails.includes(email)
+            );
+          }
           // this.inviteUsers();
           this.selectedUsers = [];
           this.userIds = [];
-          location.reload();
+
+          if (this.userEmails.length > 0) {
+            this.inviteUsers();
+          } else {
+            this.helperService.showToast(
+          'The user has already been added to the team.',
+          Key.TOAST_STATUS_SUCCESS
+        );
+          }
+          // location.reload();
         },
         (error) => {
           // this.showErrorMessageForPresentMembersInTeam=true;
-          this.inviteUsers();
+          // this.inviteUsers();
+          console.log(error);
         }
       );
     } else {

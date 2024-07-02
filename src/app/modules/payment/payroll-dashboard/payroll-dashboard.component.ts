@@ -2,7 +2,11 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { clear } from 'console';
 import { Key } from 'src/app/constant/key';
 import { FinalSettlementResponse } from 'src/app/models/final-settlement-response';
+import { LeaveTypeResponse } from 'src/app/models/leave-type-response';
+import { LopAdjustmentRequest } from 'src/app/models/lop-adjustment-request';
+import { LopReversalRequest } from 'src/app/models/lop-reversal-request';
 import { LopReversalResponse } from 'src/app/models/lop-reversal-response';
+import { LopSummaryRequest } from 'src/app/models/lop-summary-request';
 import { LopSummaryResponse } from 'src/app/models/lop-summary-response';
 import { MonthResponse } from 'src/app/models/month-response';
 import { NewJoineeAndUserExitRequest } from 'src/app/models/new-joinee-and-user-exit-request';
@@ -11,7 +15,9 @@ import { NoticePeriod } from 'src/app/models/notice-period';
 import { OrganizationMonthWiseSalaryData } from 'src/app/models/organization-month-wise-salary-data';
 import { PayActionType } from 'src/app/models/pay-action-type';
 import { PayrollDashboardEmployeeCountResponse } from 'src/app/models/payroll-dashboard-employee-count-response';
+import { PayrollLeaveResponse } from 'src/app/models/payroll-leave-response';
 import { Role } from 'src/app/models/role';
+import { ShiftTypeResponse } from 'src/app/models/shift-type-response';
 import { UserExitResponse } from 'src/app/models/user-exit-response';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -33,10 +39,147 @@ export class PayrollDashboardComponent implements OnInit {
 
   // Tab estate
   CURRENT_TAB_IN_EMPLOYEE_CHANGE = Key.NEW_JOINEE_STEP;
-
   NEW_JOINEE = Key.NEW_JOINEE;
   USER_EXIT = Key.USER_EXIT;
   REGULAR = Key.REGULAR;
+
+  CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE = Key.LEAVES;
+  LEAVES = Key.LEAVES;
+  LOP_SUMMARY = Key.LOP_SUMMARY;
+  LOP_REVERSAL = Key.LOP_REVERSAL;
+
+  CURRENT_TAB_IN_SALARY_CHANGE = Key.SALARY_CHANGE;
+  SALARY_CHANGE = Key.SALARY_CHANGE;
+  BONUS = Key.BONUS;
+  OVERTIME = Key.OVERTIME;
+
+
+  @ViewChild('step1Tab', { static: false }) step1Tab!: ElementRef;
+  @ViewChild('step2Tab', { static: false }) step2Tab!: ElementRef;
+  @ViewChild('step3Tab', { static: false }) step3Tab!: ElementRef;
+  @ViewChild('step4Tab', { static: false }) step4Tab!: ElementRef;
+  @ViewChild('step5Tab', { static: false }) step5Tab!: ElementRef;
+  @ViewChild('step6Tab', { static: false }) step6Tab!: ElementRef;
+  @ViewChild('step7Tab', { static: false }) step7Tab!: ElementRef;
+  @ViewChild('step8Tab', { static: false }) step8Tab!: ElementRef;
+  @ViewChild('step9Tab', { static: false }) step9Tab!: ElementRef;
+
+  navigateToTab(tabId: string): void {
+    switch (tabId) {
+      case 'step1-tab':
+        this.step1Tab.nativeElement.click();
+        break;
+      case 'step2-tab':
+        this.step2Tab.nativeElement.click();
+        break;
+      case 'step3-tab':
+        this.step3Tab.nativeElement.click();
+        break;
+      case 'step4-tab':
+        this.step4Tab.nativeElement.click();
+        break;
+      case 'step5-tab':
+        this.step5Tab.nativeElement.click();
+        break;
+      case 'step6-tab':
+        this.step6Tab.nativeElement.click();
+        break;
+      case 'step7-tab':
+        this.step7Tab.nativeElement.click();
+        break;
+      case 'step8-tab':
+        this.step8Tab.nativeElement.click();
+        break;
+      case 'step9-tab':
+        this.step9Tab.nativeElement.click();
+        break;
+      default:
+        console.error(`Tab with id ${tabId} not found`);
+        return;
+    }
+  }
+
+  // ----------------------------------------------------------
+  //Exmployee changes tab selection
+  newJoineeTab() {
+    this.CURRENT_TAB_IN_EMPLOYEE_CHANGE = Key.NEW_JOINEE_STEP;
+    this.resetCriteriaFilter();
+    this.getNewJoineeByOrganizationIdMethodCall();
+  }
+
+  userExitTab() {
+    this.CURRENT_TAB_IN_EMPLOYEE_CHANGE = Key.USER_EXIT_STEP;
+    this.resetCriteriaFilter();
+    this.getUserExitByOrganizationIdMethodCall();
+  }
+
+  finalSettlementTab() {
+    this.CURRENT_TAB_IN_EMPLOYEE_CHANGE = Key.FINAL_SETTLEMENT_STEP;
+    this.resetCriteriaFilter();
+    this.getFinalSettlementByOrganizationIdMethodCall();
+  }
+
+  // ----------------------------------------------------------
+  // Attendance, Leaves and Present Days tab selection
+  leavesTab(){
+    this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE = Key.LEAVES;
+    this.resetCriteriaFilter();
+    this.getPayrollLeaveLogResponseMethodCall();
+  }
+
+  lopSummaryTab(){
+    this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE = Key.LOP_SUMMARY;
+    this.resetCriteriaFilter();
+    this.getLopSummaryResponseByOrganizationIdAndStartDateAndEndDateMethodCall();
+  }
+
+  lopReversalTab(){
+    this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE = Key.LOP_REVERSAL;
+    this.resetCriteriaFilter();
+    this.getLopReversalResponseByOrganizationIdAndStartDateAndEndDateMethodCall();
+  }
+
+
+  // ----------------------------------------------------------
+  // Salary Changes, Bonus and Overtime tab selection
+  salaryChangeTab(){
+    this.CURRENT_TAB_IN_SALARY_CHANGE = Key.SALARY_CHANGE;
+    this.resetCriteriaFilter();
+  }
+
+  bonusTab(){
+    this.CURRENT_TAB_IN_SALARY_CHANGE = Key.BONUS;
+    this.resetCriteriaFilter();
+  }
+
+  overtimeTab(){
+    this.CURRENT_TAB_IN_SALARY_CHANGE = Key.OVERTIME;
+    this.resetCriteriaFilter();
+  }
+
+
+  // Employee Chages tab-estate
+  employeeChangesBackTab(){
+    if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == Key.FINAL_SETTLEMENT_STEP){
+      this.navigateToTab('step2-tab'); // Navigating to the user exit tab
+    } else if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == Key.USER_EXIT_STEP){
+      this.navigateToTab('step1-tab'); // Navigating to the new joinee tab
+    }
+  }
+
+  // Attendance & Leave tab-estate
+  attendanceAndLeaveBackTab(){
+    if(this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE == Key.LOP_REVERSAL){
+      this.navigateToTab('step5-tab');
+    } else if(this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE == Key.LOP_SUMMARY){
+      this.navigateToTab('step4-tab');
+    }
+  }
+
+  // Salary changes, Bonus & Overtime tab-estate
+  salaryChangesBackTab(){
+
+  }
 
   isShimmer = false;
   dataNotFoundPlaceholder = false;
@@ -72,6 +215,15 @@ export class PayrollDashboardComponent implements OnInit {
     this.isShimmerForFinalSettlement = true;
     this.dataNotFoundPlaceholderForFinalSettlement = false;
     this.networkConnectionErrorPlaceHolderForFinalSettlement = false;
+  }
+
+  isShimmerForPayrollLeaveResponse = false;
+  dataNotFoundPlaceholderForPayrollLeaveResponse = false;
+  networkConnectionErrorPlaceHolderForPayrollLeaveResponse = false;
+  preRuleForShimmersAndErrorPlaceholdersForPayrollLeaveResponse() {
+    this.isShimmerForPayrollLeaveResponse = true;
+    this.dataNotFoundPlaceholderForPayrollLeaveResponse = false;
+    this.networkConnectionErrorPlaceHolderForPayrollLeaveResponse = false;
   }
 
   constructor(
@@ -394,32 +546,6 @@ export class PayrollDashboardComponent implements OnInit {
     }
   }
 
-  //Exmployee changes tab selection
-  newJoineeTab() {
-    this.CURRENT_TAB_IN_EMPLOYEE_CHANGE = Key.NEW_JOINEE_STEP;
-    this.resetCriteriaFilter();
-    this.getNewJoineeByOrganizationIdMethodCall();
-  }
-
-  userExitTab() {
-    this.CURRENT_TAB_IN_EMPLOYEE_CHANGE = Key.USER_EXIT_STEP;
-    this.resetCriteriaFilter();
-    this.getUserExitByOrganizationIdMethodCall();
-  }
-
-  finalSettlementTab() {
-    this.CURRENT_TAB_IN_EMPLOYEE_CHANGE = Key.FINAL_SETTLEMENT_STEP;
-    this.resetCriteriaFilter();
-    this.getFinalSettlementByOrganizationIdMethodCall();
-  }
-
-  employeeChangesBackTab(){
-    if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == Key.FINAL_SETTLEMENT_STEP){
-      this.clickOnUserExitTab();
-    } else if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == Key.USER_EXIT_STEP){
-      this.clickOnNewJoineeTab();
-    }
-  }
 
   //Routing to the user profile section
   routeToUserProfile(uuid : string){
@@ -619,6 +745,18 @@ export class PayrollDashboardComponent implements OnInit {
     if (step == Key.FINAL_SETTLEMENT_STEP) {
       this.getFinalSettlementByOrganizationIdMethodCall();
     }
+
+    if (step == Key.LEAVES){
+
+    }
+
+    if (step == Key.LOP_SUMMARY){
+      this.getLopSummaryResponseByOrganizationIdAndStartDateAndEndDateMethodCall();
+    }
+
+    if(step == Key.LOP_REVERSAL){
+      this.getLopReversalResponseByOrganizationIdAndStartDateAndEndDateMethodCall();
+    }
   }
 
   getPages(): number[] {
@@ -808,8 +946,13 @@ export class PayrollDashboardComponent implements OnInit {
       }
       
       this.dataService.registerNewJoineeAndUserExit(this.newJoineeAndUserExitRequestList, this.startDate, this.endDate).subscribe((response) => {
-
+        console.log(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE);
         this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+        if (this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == Key.NEW_JOINEE_STEP) {
+          this.navigateToTab('step2-tab'); //Navigating to the user exit tab
+        } else if (this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == Key.USER_EXIT_STEP) {
+          this.navigateToTab('step3-tab'); //Navigating to the full and final settlement tab
+        }
 
       }, (error) => {
         this.helperService.showToast(error.error.message, Key.TOAST_STATUS_ERROR);
@@ -839,9 +982,43 @@ export class PayrollDashboardComponent implements OnInit {
       this.networkConnectionErrorPlaceHolderForLopReversal = false;
     }
 
+    registerAttendanceAndLeavesMethodCall(){
+      if(this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE == this.LEAVES){
+
+      }
+
+      if(this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE == this.LOP_SUMMARY){
+        this.registerLopSummaryRequestByOrganizationIdAndStartDateMethodCall();
+      }
+
+      if(this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE == this.LOP_REVERSAL){
+        this.registerLopReversalRequestByOrganizationIdAndStartDateMethodCall();
+      }
+    }
+
+    lopSummaryRequestList : LopSummaryRequest[] = [];
+    registerLopSummaryRequestByOrganizationIdAndStartDateMethodCall(){
+
+      this.lopSummaryRequestList = [];
+
+      this.lopSummaryResponseList.forEach((item) => {
+        let lopSummaryRequest = new LopSummaryRequest(item.uuid, item.lopDays, item.finalLopDays, item.adjustedLopDays, item.lopSummaryComment);
+        
+        this.lopSummaryRequestList.push(lopSummaryRequest);
+      })
+
+      this.dataService.registerLopSummaryRequestByOrganizationIdAndStartDateAndEndDate(this.lopSummaryRequestList, this.startDate, this.endDate).subscribe((response) => {
+        this.helperService.showToast("LOP summary has been successfully saved.", Key.TOAST_STATUS_SUCCESS);
+        this.navigateToTab('step6-tab'); //Navigating to the Lop reversal tab
+      }, (error) => {
+        this.helperService.showToast("Error while saving the LOP summary!", Key.TOAST_STATUS_ERROR);
+        console.log(error);
+      })
+    }
+
     lopSummaryResponseList : LopSummaryResponse[] = [];
-    getLopSummaryResponseByOrganizationIdAndStartDateAndDateMethodCall(){
-      this.dataService.getLopSummaryResponseByOrganizationIdAndStartDateAndDate(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
+    getLopSummaryResponseByOrganizationIdAndStartDateAndEndDateMethodCall(){
+      this.dataService.getLopSummaryResponseByOrganizationIdAndStartDateAndEndDate(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
 
         if(this.helperService.isListOfObjectNullOrUndefined(response)){
           this.dataNotFoundPlaceholderForLopSummary = true;
@@ -861,9 +1038,28 @@ export class PayrollDashboardComponent implements OnInit {
 
 
 
+    lopReversalRequestList : LopReversalRequest[] = [];
+    registerLopReversalRequestByOrganizationIdAndStartDateMethodCall(){
+
+      this.lopReversalRequestList = [];
+
+      this.lopReversalResponseList.forEach((item) => {
+        let lopReversalRequest = new LopReversalRequest(item.uuid, item.lopDays, item.reversedLopDays, item.lopReversalComment);
+        
+        this.lopReversalRequestList.push(lopReversalRequest);
+      })
+
+      this.dataService.registerLopReversalRequestByOrganizationIdAndStartDateAndEndDate(this.lopReversalRequestList, this.startDate, this.endDate).subscribe((response) => {
+        this.helperService.showToast("LOP reversed successfully.", Key.TOAST_STATUS_SUCCESS);
+      }, (error) => {
+        this.helperService.showToast("Error while saving the LOP Reversal!", Key.TOAST_STATUS_ERROR);
+        console.log(error);
+      })
+    }
+
     lopReversalResponseList : LopReversalResponse[] = [];
-    getLopReversalResponseByOrganizationIdAndStartDateAndDateMethodCall(){
-      this.dataService.getLopReversalResponseByOrganizationIdAndStartDateAndDate(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
+    getLopReversalResponseByOrganizationIdAndStartDateAndEndDateMethodCall(){
+      this.dataService.getLopReversalResponseByOrganizationIdAndStartDateAndEndDate(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
 
         if(this.helperService.isListOfObjectNullOrUndefined(response)){
           this.dataNotFoundPlaceholderForLopReversal = true;
@@ -894,27 +1090,113 @@ export class PayrollDashboardComponent implements OnInit {
       return shortMonthName;
     }
 
-    // getUserLeaveReq() {
-    //   this.dataService.getUserLeaveRequestsForLeaveManagement().subscribe(
-    //     (data) => {
-    //       console.log(data);
-    //       if (
-    //         data.body != undefined ||
-    //         data.body != null ||
-    //         data.body.length != 0
-    //       ) {
-    //         console.log(data.body);
-    //       } else {
-    //         return;
-    //       }
-    //     },
-    //     (error) => {}
-    //   );
-    // }
+
+    //-------------------------------------
+    // API to fetch shift type list by user
+    selectedLeaveTypeResponse :  LeaveTypeResponse = new LeaveTypeResponse();
+
+    leaveTypeResponseList : LeaveTypeResponse[] = [];
+    getLeaveTypeResponseListByUserUuidMethodCall(uuid : string){
+      this.dataService.getLeaveTypeResponseByUserUuid(uuid).subscribe((response) => {
+        if(this.helperService.isListOfObjectNullOrUndefined(response)){
+          return;
+        } else{
+          this.selectedLeaveTypeResponse = response.listOfObject[0]; //Setting the first object as selected
+          this.lopAdjustmentRequest.leaveType = response.listOfObject[0].name;
+          this.leaveTypeResponseList = response.listOfObject;
+        }
+        console.log(this.leaveTypeResponseList);
+      }, (error) => {
+        console.log(error);
+      })
+    }
+
+    // API to register leave adjustment request
+    lopAdjustmentRequest : LopAdjustmentRequest = new LopAdjustmentRequest();
+    registerLopAdjustmentRequestMethodCall(){
+      debugger;
+      this.dataService.registerLopAdjustmentRequest(this.lopAdjustmentRequest, this.startDate, this.endDate).subscribe((response) => {
+        this.closeLopAdjustmentRequestModal.nativeElement.click();
+        this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+        this.getLopSummaryResponseByOrganizationIdAndStartDateAndEndDateMethodCall();
+      }, (error) => {
+        this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+      })
+    }
+
+
+    // Logic to set the values
+    selectLeaveType(leaveTypeResponse : LeaveTypeResponse){
+      this.lopAdjustmentRequest.leaveType = leaveTypeResponse.name;
+    }
+
+    dateRange : Date[] = [];
+    selectDateForLopAdjustmentRequest(dates: Date[]): void {
+      if (dates && dates.length === 2) {
+        this.dateRange[0] = dates[0];
+        this.dateRange[1] = dates[1];
+      }
+
+      this.lopAdjustmentRequest.startDate = this.helperService.formatDateToYYYYMMDD(dates[0]);
+      this.lopAdjustmentRequest.endDate = this.helperService.formatDateToYYYYMMDD(dates[1]);
+    }
+
+
+    // Logic to open lop adjustment modal
+    openLopAdjustmentRequestModal(uuid : string, lopDaysToBeAdjusted : number){
+      this.getLeaveTypeResponseListByUserUuidMethodCall(uuid);
+      this.lopAdjustmentRequest.userUuid = uuid;
+      this.lopAdjustmentRequest.lopDaysToBeAdjusted = lopDaysToBeAdjusted;
+    }
+
+    // Logic to close lop adjustment modal
+    @ViewChild("closeLopAdjustmentRequestModal") closeLopAdjustmentRequestModal !: ElementRef;
+
+    selectLopAdjustmentCount(count : number){
+      console.log(count);
+      this.lopAdjustmentRequest.lopDaysToBeAdjusted = count;
+    }
+
+
+    // Fetching user's leave for payroll
+
+    payrollLeaveResponseList : PayrollLeaveResponse[] = [];
+    getPayrollLeaveResponseMethodCall(){
+      debugger;
+      this.dataService.getPayrollLeaveResponse().subscribe((response) => {
+        if(this.helperService.isListOfObjectNullOrUndefined(response)){
+          this.dataNotFoundPlaceholderForPayrollLeaveResponse = true;
+        } else{
+          this.payrollLeaveResponseList = response.listOfObject;
+          this.total = response.totalItems;
+          this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+        }
+
+        this.isShimmerForPayrollLeaveResponse = false;
+      }, (error) => {
+        this.networkConnectionErrorPlaceHolder = true;
+        this.isShimmerForPayrollLeaveResponse = false;
+      })
+    }
+
+    getPayrollLeaveLogResponseMethodCall(){
+      this.dataService.getPayrollLeaveResponse().subscribe((response) => {
+
+      }, (error) => {
+        
+      })
+    }
 
     selectedRole : Role = new Role();
     roles : Role[] = [];
-    selectLeaveType(role : any){
+
+
+
+
+    // #######################################################################
+    // Step 3: Salary changes, Bonus & Overtime
+    registerSalaryChangesAndBonusAndOvertimeMethodCall(){
 
     }
+
 }

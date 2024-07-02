@@ -1,23 +1,15 @@
 <div class="page-wrapper">
   <div class="page-content-tab">
     <div class="container-fluid">
-      <form
-        #documentsInformationForm="ngForm"
-        (ngSubmit)="checkFormValidation()"
-      >
+      <form #documentsInformationForm="ngForm" (ngSubmit)="checkFormValidation()">
         <div class="company-setting bg-white">
           <div class="row mt-3">
             <div class="col-md-4">
               <div class="company-details-box">
                 <h4 class="card-title">Company Details</h4>
-                <span class="text-muted font-12 fw-normal"
-                  >Essential Overview of Company's Core Information</span
-                >
+                <span class="text-muted font-12 fw-normal">Essential Overview of Company's Core Information</span>
 
-                <div
-                  role="alert"
-                  class="alert alert-light mb-0 mt-4 bg-soft-warning"
-                >
+                <div role="alert" class="alert alert-light mb-0 mt-4 bg-soft-warning">
                   <h4 class="alert-heading font-18">Attention!</h4>
                   <p>
                     All provided information is confidential and for intended
@@ -32,78 +24,45 @@
               </div>
             </div>
             <div class="col-md-7">
-              <div
-                class="origination-logo-box d-flex align-items-center justify-content-center position-relative"
-              >
-                <img
-                  [src]="
+              <div class="origination-logo-box d-flex align-items-center justify-content-center position-relative">
+                <img [src]="
                     dbImageUrl ? dbImageUrl : 'assets/images/hajiri_logo.png'
-                  "
-                  id="imagePreview"
-                />
-                <span class="origination-logo-edit-btn position-absolute"  *ngIf="isEditMode">
-                  <input
-                    id="fileSelect"
-                    name="fileSelect"
-                    type="file"
-                    name="img[]"
-                    accept=".png, .jpeg, .jpg, .svg, .gif, .webp, .ico"
-                    class="input"
-                    [disabled]="!isEditMode"
-                    (change)="onFileSelected($event)"
-                    [(ngModel)]="organizationPersonalInformationRequest.logo"
-                  />
-                  <i class="bi bi-pencil position-relative" ></i> Change</span
-                >
+                  " id="imagePreview" />
+                <span class="origination-logo-edit-btn position-absolute" *ngIf="isEditMode">
+                  <input id="fileSelect" name="fileSelect" type="file" name="img[]"
+                    accept=".png, .jpeg, .jpg, .svg, .gif, .webp, .ico" class="input" [disabled]="!isEditMode"
+                    (change)="onFileSelected($event)" [(ngModel)]="organizationPersonalInformationRequest.logo" />
+                  <i class="bi bi-pencil position-relative"></i> Change</span>
               </div>
 
               <div class="row">
                 <div class="col-md-12 mt-3">
                   <div class="">
-                    <input
-                      type="text"
-                      placeholder="Company name"
-                      name="adminName"
-                      class="form-control whatapp-login-input"
-                      id="name"
-                      name="name"
-                      placeholder="Company name"
-                      #companyName="ngModel"
-                      [disabled]="!isEditMode"
-                      [(ngModel)]="organizationPersonalInformationRequest.name"
-                      required
-                      minlength="2"
-                      maxlength="100"
-                    />
-                    <p
-                      class="errortxt mt-2 mb-0 text-danger"
-                      *ngIf="
+                    <input type="text" placeholder="Company name" name="adminName"
+                      class="form-control whatapp-login-input" id="name" name="name" placeholder="Company name"
+                      #companyName="ngModel" [disabled]="!isEditMode"
+                      [(ngModel)]="organizationPersonalInformationRequest.name" required minlength="2"
+                      maxlength="100" />
+                    <p class="errortxt mt-2 mb-0 text-danger" *ngIf="
                         companyName.errors?.required &&
                         (companyName.dirty ||
                           companyName.touched ||
                           isFormInvalid)
-                      "
-                    >
+                      ">
                       <i class="bi bi-exclamation-circle"></i> Company name is
                       required.
                     </p>
-                    <p
-                      class="errortxt mt-2 mb-0 text-danger"
-                      *ngIf="
+                    <p class="errortxt mt-2 mb-0 text-danger" *ngIf="
                         companyName.errors?.minlength &&
                         (companyName.dirty || companyName.touched)
-                      "
-                    >
+                      ">
                       <i class="bi bi-exclamation-circle"></i> Company name must
                       be at least 2 characters long.
                     </p>
-                    <p
-                      class="errortxt mt-2 mb-0 text-danger"
-                      *ngIf="
+                    <p class="errortxt mt-2 mb-0 text-danger" *ngIf="
                         companyName.errors?.maxlength &&
                         (companyName.dirty || companyName.touched)
-                      "
-                    >
+                      ">
                       <i class="bi bi-exclamation-circle"></i> Company name must
                       not exceed 100 characters.
                     </p>
@@ -111,36 +70,20 @@
                 </div>
                 <div class="col-md-6 mt-3">
                   <div class="">
-                    <input
-                      type="text"
-                      placeholder="Enter your email"
-                      class="form-control whatapp-login-input"
-                      id="email"
-                      name="email"
-                      placeholder="Email Id"
-                      #emailId="ngModel"
-                      [disabled]="!isEditMode"
-                      [(ngModel)]="organizationPersonalInformationRequest.email"
-                      required
-                      email
-                    />
-                    <p
-                      class="errortxt mt-2 mb-0 text-danger"
-                      *ngIf="
+                    <input type="text" placeholder="Enter your email" class="form-control whatapp-login-input"
+                      id="email" name="email" placeholder="Email Id" #emailId="ngModel" [disabled]="!isEditMode"
+                      [(ngModel)]="organizationPersonalInformationRequest.email" required email />
+                    <p class="errortxt mt-2 mb-0 text-danger" *ngIf="
                         emailId.errors?.required &&
                         (emailId.dirty || emailId.touched || isFormInvalid)
-                      "
-                    >
+                      ">
                       <i class="bi bi-exclamation-circle"></i> Email is
                       required.
                     </p>
-                    <p
-                      class="errortxt mt-2 mb-0 text-danger"
-                      *ngIf="
+                    <p class="errortxt mt-2 mb-0 text-danger" *ngIf="
                         emailId.errors?.email &&
                         (emailId.dirty || emailId.touched)
-                      "
-                    >
+                      ">
                       <i class="bi bi-exclamation-circle"></i> Enter a valid
                       email.
                     </p>
@@ -148,49 +91,27 @@
                 </div>
                 <div class="col-md-6 mt-3">
                   <div class="">
-                    <input
-                      type="text"
-                      required
-                      placeholder="Enter your number"
-                      class="form-control whatapp-login-input"
-                      mask="0000000000"
-                      id="phoneNumber"
-                      name="phoneNumber"
-                      placeholder="Phone number"
-                      #phoneNumber="ngModel"
-                      [disabled]="!isEditMode"
-                      [(ngModel)]="
+                    <input type="text" required placeholder="Enter your number" class="form-control whatapp-login-input"
+                      mask="0000000000" id="phoneNumber" name="phoneNumber" placeholder="Phone number"
+                      #phoneNumber="ngModel" [disabled]="!isEditMode" [(ngModel)]="
                         organizationPersonalInformationRequest.phoneNumber
-                      "
-                      minlength="10"
-                      maxlength="10"
-                      pattern="[0-9]*"
-                    />
+                      " minlength="10" maxlength="10" pattern="[0-9]*" />
 
-                    <p
-                      class="errortxt mt-2 mb-0 text-danger"
-                      *ngIf="
+                    <p class="errortxt mt-2 mb-0 text-danger" *ngIf="
                         phoneNumber.dirty &&
                         (phoneNumber.errors?.minlength ||
                           phoneNumber.errors?.maxlength)
-                      "
-                    >
+                      ">
                       <i class="bi bi-exclamation-circle"></i> Phone number
                       should be of 10 digits.
                     </p>
-                    <p
-                      class="errortxt mt-2 mb-0 text-danger"
-                      *ngIf="phoneNumber.errors?.pattern"
-                    >
+                    <p class="errortxt mt-2 mb-0 text-danger" *ngIf="phoneNumber.errors?.pattern">
                       <i class="bi bi-exclamation-circle"></i> Phone number
                       should in digits.
                     </p>
 
-                    <p
-                      class="errortxt mt-2 mb-0"
-                      style="color: red"
-                      *ngIf="phoneNumber.errors?.required || isFormInvalid"
-                    >
+                    <p class="errortxt mt-2 mb-0" style="color: red"
+                      *ngIf="phoneNumber.errors?.required || isFormInvalid">
                       <i class="bi bi-exclamation-circle"></i> Phone number is
                       required.
                     </p>
@@ -207,8 +128,7 @@
             <div class="col-md-4">
               <div class="company-details-box">
                 <h4 class="card-title">Tagline</h4>
-                <span class="text-muted font-12 fw-normal"
-                  >A quick snapshot of your company.
+                <span class="text-muted font-12 fw-normal">A quick snapshot of your company.
                 </span>
               </div>
             </div>
@@ -216,20 +136,11 @@
               <div class="row">
                 <div class="col-md-12">
                   <div class="">
-                    <input
-                      type="text"
-                      placeholder="Enter your tagline"
-                      class="form-control whatapp-login-input"
-                      id="tagline"
-                      name="tagline"
-                      rows="3"
-                      placeholder="Tag line"
-                      #tagline="ngModel"
-                      [disabled]="!isEditMode"
-                      [(ngModel)]="
+                    <input type="text" placeholder="Enter your tagline" class="form-control whatapp-login-input"
+                      id="tagline" name="tagline" rows="3" placeholder="Tag line" #tagline="ngModel"
+                      [disabled]="!isEditMode" [(ngModel)]="
                         organizationPersonalInformationRequest.tagline
-                      "
-                    />
+                      " />
                   </div>
                 </div>
               </div>
@@ -238,25 +149,14 @@
           </div>
 
           <div class="col-md-11 mt-4">
-            <div
-              class="edit-submit-btn d-flex align-items-center justify-content-end gap-3"
-            >
-              <button
-                type="button"
-                class="btn btn-soft-primary btn-round edit-btn"
-                *ngIf="!isEditMode"
-                (click)="enableEditMode()"
-              >
+            <div class="edit-submit-btn d-flex align-items-center justify-content-end gap-3">
+              <button type="button" class="btn btn-soft-primary btn-round edit-btn" *ngIf="!isEditMode"
+                (click)="enableEditMode()">
                 <i class="bi bi-pencil position-relative me-1"></i> Edit
               </button>
 
               <!-- Save button, shown only when isEditMode is true -->
-              <button
-                type="submit"
-                class="btn btn-primary btn-round"
-                *ngIf="isEditMode"
-                [disabled]="isUpdating"
-              >
+              <button type="submit" class="btn btn-primary btn-round" *ngIf="isEditMode" [disabled]="isUpdating">
                 <div *ngIf="isUpdating" class="dot-opacity-loader">
                   <span></span>
                   <span></span>
@@ -267,8 +167,674 @@
               </button>
             </div>
           </div>
+
+
         </div>
       </form>
+
+      <div class="row mt-3">
+        <div class="col-md-4">
+          <div class="company-details-box" style="padding: 15px;">
+            <h4 class="card-title">HR Policy</h4>
+            <span class="text-muted font-12 fw-normal">A quick snapshot of your company HR policies.</span>
+          </div>
+        </div>
+        <div class="col-md-7">
+          <!-- Section to show the uploaded document -->
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="alert alert-light mb-0 excel-uplode-file-box text-center">
+                <input id="hrpolicies" type="file" name="hrpolicies" class="input"
+                  (change)="onFileSelectedHrPolicies($event)" />
+                <img src="assets/images/documentation.svg" style="width: 50px" class="pb-3" />
+                <p class="">
+                  Drag file here to upload<br />
+                  or,
+                  <u><a class="text-primary" href="#!">
+                      choose file
+                    </a></u>
+                </p>
+                <div *ngIf="isUpdatingHrPolicies" class="spinner-border text-success" role="status"></div>
+
+                <!-- <input type="file" id="hrpolicies" name="hrpolicies" (change)="onFileSelectedHrPolicies($event)" /> -->
+              </div>
+            </div>
+          </div>
+          <div>
+            <div *ngIf="fileUrl" class="row mt-3">
+              <div class="col-md-12 whatapp-login-input d-flex justify-content-between align-items-center">
+                <div>Last Uploaded Policy Doc | <span>{{docsUploadedDate | date
+                    }}</span></div>
+                <div>
+                  <i class="bi bi-eye-fill text-primary" (click)="openViewModal(fileUrl)"></i>
+                  <i class="bi bi-download text-primary ms-3" (click)="downloadFile(fileUrl)"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- multilocation func  -->
+        <div class="col-md-12">
+          <div class="border-box"></div>
+        </div>
+        <div class="col-md-4 mt-3 mb-3" style="padding: 20px;">
+          <div class="form-roe-data">
+            <h5>Location Setting</h5>
+            <p>A quick snapshot of your company.</p>
+          </div>
+          <div class="total-shifts p-3 mt-4">
+            <div class="d-flex align-items-center justify-content-between">
+              <div>
+                <h6 class="text-truncate">Total Locations</h6>
+                <h4 class="mt-3 fw-bold">10</h4>
+              </div>
+              <span class="total-user-icon d-flex align-items-center justify-content-center">
+                <img src="assets/images/total-user-icon.svg" />
+              </span>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="col-md-7 mt-3 mb-3">
+          <div class="add-shift-main-box">
+            <div class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2">
+              <div class="">
+                <h6 class="text-truncate mb-0">Locations</h6>
+              </div>
+              <div class="">
+                <a class="add-shift-time-btn" data-bs-toggle="modal" data-bs-target="#shiftTime">
+                  <i class="bi bi-plus"></i> Add New Location
+                </a>
+              </div>
+            </div>
+
+            <div class="shift-set">
+              <div class="shift-time p-3 m-3">
+                <div class="">
+                  <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center gap-3">
+                      <div class="">
+                        <span class="automation-rules-icon d-flex align-items-center justify-content-center">
+                          <img src="assets/images/rule-icon.svg" />
+                        </span>
+                      </div>
+                      <div class="">
+                        <h6 class="text-truncate mb-0">Location Type 1</h6>
+                        <small class="text-muted">Define the Location for the staff</small>
+                      </div>
+                    </div>
+                    <div class="">
+                      <span data-bs-toggle="collapse" role="button" class="automation-rules-toogel-btn pointer"
+                        data-bs-target="#multiCollapseExample0" aria-controls="multiCollapseExample0"
+                        aria-expanded="false">
+                        <i class="bi bi-chevron-down"></i>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="collapse multi-collapse" id="multiCollapseExample0">
+                    <div class="d-flex align-items-center justify-content-between mt-3">
+                      <div class="">
+                        <p class="mb-0">
+                          <i class="bi bi-arrow-right" style="padding-right: 10px"></i>Location Type
+                        </p>
+                      </div>
+                      <div class="d-flex align-items-center gap-4">
+                        <a style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#shiftTime">
+                          <i class="bi bi-people"></i>
+                        </a>
+                        <a style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#shiftTime">
+                          <i class="bi bi-pencil pointer"></i>
+                        </a>
+                        <a style="cursor: pointer" class="delete-rule">
+                          <i class="bi bi-trash pointer text-danger"></i>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="shift-in-out-box bg-white row mt-3 p-3 m-0">
+                      <div class="col-md-4">
+                        <div class="shift-in-out-time mb-3">
+                          <p class="mb-0">
+                            Address Line 1 | <span style="color: #009688">Rathindra Nagar</span>
+                          </p>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="shift-in-out-time mb-3">
+                          <p class="mb-0">
+                            Address Line 2 | <span style="color: #009688">Telibagh</span>
+                          </p>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="shift-in-out-time mb-3">
+                          <p class="mb-0">
+                            City | <span style="color: #009688">Lucknow</span>
+                          </p>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="shift-in-out-time">
+                          <p class="mb-0">
+                            State | <span style="color: #009688"> Uttar Pradesh</span>
+                          </p>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="shift-in-out-time">
+                          <p class="mb-0">
+                            Country | <span style="color: #009688">India</span>
+                          </p>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="shift-in-out-time">
+                          <p class="mb-0">
+                            Range | <span style="color: #009688">1</span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Repeat the above block for more shifts -->
+
+            </div>
+          </div>
+
+
+          <div class="col-md-1"></div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal to view document -->
+  <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#showDocModal"
+    #openDocModalButton id="openDocModalButton"></button>
+  <div class="modal blur-bg-2" id="showDocModal" tabindex="-1" data-bs-keyboard="false"
+    aria-labelledby="showDocModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="showDocModalLabel">Company Policy Doc </h5>
+        </div>
+        <div class="modal-body text-center" style="overflow: scroll; min-height: 450px">
+          <iframe *ngIf="previewString" [src]="previewString" style="width: 100%; height: 100vh"
+            frameborder="0"></iframe>
+        </div>
+        <div class="modal-footer d-flex align-items-center justify-content-end gap-3">
+          <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+          <button class="btn btn-primary" (click)="downloadFile(fileUrl)"><span> <i class="bi bi-download"></i> Download
+            </span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="shiftTime" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title m-0" id="exampleModalDefaultLabel">Assign Location To Staff</h6>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body modal-height-fix">
+        <div>
+          <ul id="myTab" role="tablist" class="nav nav-tabs">
+            <li role="presentation" class="nav-item">
+              <button id="home-tab" data-bs-toggle="tab" data-bs-target="#shiftime" type="button" role="tab"
+                aria-controls="shiftime" aria-selected="true" class="nav-link active">
+                Location
+              </button>
+            </li>
+            <li role="presentation" class="nav-item">
+              <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#staffselection" type="button" role="tab"
+                aria-controls="staffselection" aria-selected="false" class="nav-link">
+                Staff selection
+              </button>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+            <!-- <div class="tab-pane fade show active" id="shiftime" role="tabpanel">
+              <form>
+                <div class="modal-content">
+                  <div class="modal-body">
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="mb-3" style="position: relative">
+                            <label for="addressLine1" class="pb-2">Address </label>
+                            <input type="text" id="addressLine1"
+                              placeholder="Please Select Address from Address Dropdown Or Fetch Current Location.."
+                              class="form-control">
+                           
+                          </div>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="mb-3">
+                            <label for="addressLine2" class="pb-2">Street Address</label>
+                            <input type="text" id="addressLine2" placeholder="Address line 2" class="form-control">
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="mb-3">
+                            <label for="landmark" class="pb-2">Landmark <span
+                                class="text-optional">(optional)</span></label>
+                            <input type="text" id="landmark" placeholder="Landmark" class="form-control">
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="mb-3">
+                            <label for="city" class="pb-2"> City </label>
+                            <input type="text" id="city" placeholder="City" class="form-control">
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="mb-3">
+                            <label for="state" class="pb-2"> State </label>
+                            <input type="text" id="state" placeholder="State" class="form-control">
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="mb-3">
+                            <label for="country" class="pb-2">Country</label>
+                            <input type="text" id="country" placeholder="Country" class="form-control">
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="mb-3">
+                            <label for="pincode" class="pb-2">Pincode</label>
+                            <input type="text" id="pincode" placeholder="Pincode" class="form-control">
+                          </div>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="mb-3">
+                            <label for="radius" class="pb-2">Employee Location Must be in <i
+                                class="bi bi-exclamation-circle tolltip-icon"></i></label>
+                            <input type="text" id="radius" placeholder="in meters" class="form-control">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+              <div class="modal-footer d-flex align-items-center justify-content-between">
+                <button type="button" class="btn btn-outline-primary btn-round">Next</button>
+              </div>
+            </div> -->
+
+            <div class="tab-pane fade show active" id="shiftime" role="tabpanel">
+              <form #organizationAddressForm="ngForm" (ngSubmit)="submit()">
+                <div class="modal-content">
+
+                  <!--end modal-header-->
+                  <div class="modal-body">
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="mb-3" style="position: relative">
+                            <label for="addressLine1" class="pb-2">Address </label>
+                            <input type="text" id="addressLine1"
+                              placeholder="Please Select Address from Address Dropdown Or Fetch Current Location.."
+                              ngx-google-places-autocomplete #placesRef="ngx-places"
+                              (onAddressChange)="handleAddressChange($event)" required #addressLine1="ngModel"
+                              name="addressLine1" maxlength="200"
+                              class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                              [(ngModel)]="organizationAddressDetail.addressLine1" />
+                            <a class="fetch-location" (click)="currentLocation()">
+                              <span *ngIf="!fetchCurrentLocationLoader"><i class="ti ti-current-location"
+                                  style="padding-right: 8px"></i>Fetch Current Location
+                              </span>
+                              <div class="loader-fetching-location" *ngIf="fetchCurrentLocationLoader">
+                                <i class="ti ti-current-location" style="padding-right: 8px"></i>
+                                Fetching
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                              </div>
+                            </a>
+                            <div *ngIf="
+                                  (addressLine1.touched && addressLine1.invalid) ||
+                                  isFormInvalidLocation
+                                ">
+                              <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="addressLine1.errors?.required">
+                                <i class="bi bi-exclamation-circle"></i> Address Line 1 is
+                                required.
+                              </p>
+                              <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="addressLine1.errors?.maxlength">
+                                <i class="bi bi-exclamation-circle"></i> Maximum 200
+                                characters allowed.
+                              </p>
+                              <p class="errortxt mt-2 mb-0" *ngIf="
+                                    !organizationAddressDetail.longitude &&
+                                    !organizationAddressDetail.latitude
+                                  ">
+                                <i class="bi bi-exclamation-circle"></i> Please Select
+                                Address from Address Dropdown only. Do not type it
+                                manually Or Fetch Current Location.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-12" *ngIf="
+                              organizationAddressDetail.longitude &&
+                              organizationAddressDetail.latitude
+                            ">
+                          <div class="mb-3">
+                            <label for="addressLine2" class="pb-2">Street Address</label>
+                            <input type="text" id="addressLine2" placeholder="Address line 2" name="addressLine2"
+                              class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                              [(ngModel)]="organizationAddressDetail.addressLine2" />
+                          </div>
+                        </div>
+                        <div class="col-md-4" *ngIf="
+                              organizationAddressDetail.longitude &&
+                              organizationAddressDetail.latitude
+                            ">
+                          <div class="mb-3">
+                            <label for="landmark" class="pb-2">Landmark
+                              <span class="text-optional">(optional)</span></label>
+                            <input type="text" id="landmark" placeholder="Landmark" name="landmark"
+                              class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                              [(ngModel)]="organizationAddressDetail.landmark" />
+                          </div>
+                        </div>
+                        <div class="col-md-4" *ngIf="
+                              organizationAddressDetail.longitude &&
+                              organizationAddressDetail.latitude
+                            ">
+                          <div class="mb-3">
+                            <label for="city" class="pb-2"> City </label>
+                            <input type="text" id="city" placeholder="City" required #city="ngModel" name="city"
+                              class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                              [(ngModel)]="organizationAddressDetail.city" />
+                          </div>
+                          <div *ngIf="(city.touched && city.invalid) || isFormInvalidLocation">
+                            <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="city.errors?.required">
+                              <i class="bi bi-exclamation-circle"></i> City Name is
+                              required.
+                            </p>
+                          </div>
+                        </div>
+                        <div class="col-md-4" *ngIf="
+                              organizationAddressDetail.longitude &&
+                              organizationAddressDetail.latitude
+                            ">
+                          <div class="mb-3">
+                            <label for="state" class="pb-2"> State </label>
+                            <input type="text" id="state" placeholder="State" required #state="ngModel" name="state"
+                              class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                              [(ngModel)]="organizationAddressDetail.state" />
+                          </div>
+                          <div *ngIf="(state.touched && state.invalid) || isFormInvalidLocation">
+                            <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="state.errors?.required">
+                              <i class="bi bi-exclamation-circle"></i> State Name is
+                              required.
+                            </p>
+                          </div>
+                        </div>
+                        <div class="col-md-6" *ngIf="
+                              organizationAddressDetail.longitude &&
+                              organizationAddressDetail.latitude
+                            ">
+                          <div class="mb-3">
+                            <label for="country" class="pb-2">Country</label>
+                            <input type="text" id="country" placeholder="Country" required #country="ngModel"
+                              name="country" class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                              [(ngModel)]="organizationAddressDetail.country" />
+                          </div>
+                          <div *ngIf="(country.touched && country.invalid) || isFormInvalidLocation">
+                            <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="country.errors?.required">
+                              <i class="bi bi-exclamation-circle"></i> Country Name is
+                              required.
+                            </p>
+                          </div>
+                        </div>
+                        <div class="col-md-6" *ngIf="
+                              organizationAddressDetail.longitude &&
+                              organizationAddressDetail.latitude
+                            ">
+                          <div class="mb-3">
+                            <label for="pincode" class="pb-2">Pincode</label>
+                            <input type="text" id="pincode" placeholder="Pincode" #pincode="ngModel" required
+                              name="pincode" class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                              [(ngModel)]="organizationAddressDetail.pincode" />
+                          </div>
+                          <div *ngIf="(pincode.touched && pincode.invalid) || isFormInvalidLocation">
+                            <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="pincode.errors?.required">
+                              <i class="bi bi-exclamation-circle"></i> Pincode is
+                              required.
+                            </p>
+                          </div>
+                        </div>
+
+                        <div class="col-md-12">
+                          <div class="mb-3">
+                            <label for="radius" class="pb-2">
+                              Employee Location Must be in
+                              <i class="bi bi-exclamation-circle tolltip-icon"
+                                ngbTooltip="Please enter the location range (in meters) within which your employees are allowed to mark their attendance. This ensures that attendance can only be marked when they are within the specified location range."
+                                placement="top"></i>
+                            </label>
+                            <input type="text" id="radius" placeholder="in meters" required #radius="ngModel"
+                              name="radius" class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                              [(ngModel)]="organizationAddressDetail.radius" />
+                          </div>
+                          <div *ngIf="(radius.touched && radius.invalid) || isFormInvalidLocation">
+                            <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="radius.errors?.required">
+                              <i class="bi bi-exclamation-circle"></i> Location Radius is
+                              required.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer d-flex align-items-center justify-content-end">
+                    <button class="btn btn-primary" type="submit" aria-label="Next Step">
+                      <span *ngIf="toggle" class="address-modal-loader">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </span>
+                      <span *ngIf="!toggle">
+                        Save <i class="bi bi-arrow-right" style="padding-left: 8px"></i>
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="tab-pane fade" id="staffselection" role="tabpanel">
+              <div class="staf-list-box mt-3">
+                <div class="row mb-1 mt-3 align-items-center" style="padding-bottom: 15px">
+                  <div class="col-md-12">
+                    <div class="d-flex align-items-center" style="border: 1px solid #f1f1f1">
+                      <div style="width: 30%; position: relative">
+                        <div class="dropdown" style="width: 100%">
+                          <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
+                            class="btn btn-secondary dropdown-toggle new-deopdown">
+                            {{ selectedTeamName }}
+                            <i class="bi bi-chevron-down" style="color: #444; font-size: 15px"></i>
+                          </button>
+                          <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu team-dropdown" style="
+                                            width: 100%;
+                                            max-height: 200px;
+                                            overflow-y: auto;
+                                          ">
+                            <li class="ng-star-inserted" (click)="selectTeam(0)">
+                              <a class="dropdown-item">All</a>
+                            </li>
+                            <li class="ng-star-inserted" *ngFor="let tn of teamNameList"
+                              (click)="selectTeam(tn.teamId)">
+                              <a class="dropdown-item"> {{ tn.teamName }} </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+
+                      <div class="" style="width: 70%">
+                        <form novalidate="" role="search" (submit)="searchUsers()"
+                          class="searching ng-untouched ng-pristine ng-valid">
+                          <div class="form-group" style="position: relative">
+                            <input type="text" id="searchText" placeholder="Search by name and role"
+                              class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
+                              (keyup)="searchUsers()" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }"
+                              style="padding: 10px 50px 10px 40px" />
+                            <button *ngIf="searchText.length !== 0" type="button" class="btn close-btn"
+                              (click)="clearSearchText()">
+                              <i class="bi bi-x mt-auto mb-auto pl-3"></i>
+                            </button>
+                            <i class="bi bi-search search-icon" style="
+                                              position: absolute;
+                                              top: 50%;
+                                              transform: translateY(-50%);
+                                              left: 10px;
+                                              padding-left: 5px;
+                                            "></i>
+                          </div>
+                        </form>
+                      </div>
+
+                      <div class="container">
+                        <div class="content-wrapper">
+                          <div class="filter-wrapper">
+                            <!-- Display this only if there are selected staff -->
+                            <a class="info-button" *ngIf="selectedStaffsUuids.length > 0">
+                              {{ selectedStaffsUuids.length }} selected of
+                              {{ totalUserCount }}
+                            </a>
+                            <!-- Clear button shows only if there are selected staff -->
+                            <span class="clear-button text-danger" *ngIf="selectedStaffsUuids.length > 0"
+                              (click)="unselectAllUsers()">
+                              Clear all users <i class="bi bi-x"></i>
+                            </span>
+                            <label class="checkbox-label">
+                              <input type="checkbox" [(ngModel)]="isAllUsersSelected"
+                                (change)="selectAllUsers($event)" />
+                              Select all
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <ng-container *ngIf="total > 0; else noDataFoundPlaceholderInShiftTiming">
+                  <table class="table">
+                    <thead class="thead-light">
+                      <tr>
+                        <th style="width: 0%">
+                          <input type="checkbox" style="cursor: pointer" class="form-check-input"
+                            [(ngModel)]="isAllSelected" (change)="selectAll(isAllSelected)" />
+                        </th>
+                        <!-- <th style="width:25%; padding: 12px 15px;">S. No.</th> -->
+                        <th style="width: 25%; padding: 12px 15px">Name</th>
+                        <th style="width: 25%; padding: 12px 15px">Email</th>
+                        <th style="width: 25%; padding: 12px 15px">Phone</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="
+                                        let staff of staffs
+                                          | paginate
+                                            : {
+                                                itemsPerPage: itemPerPage,
+                                                currentPage: pageNumber,
+                                                totalItems: total
+                                              }
+                                      " style="border-bottom: 1px solid #dddddd">
+                        <td>
+                          <div class="form-check">
+                            <input type="checkbox" style="cursor: pointer" class="form-check-input"
+                              [(ngModel)]="staff.selected" (change)="checkIndividualSelection()" />
+                          </div>
+                        </td>
+                        <!-- <td style="padding: 12px 15px;">{{ i+1 }}</td> -->
+                        <td style="padding: 12px 15px">{{ staff.name }}</td>
+                        <td style="padding: 12px 15px">
+                          {{ staff.email ? staff.email : "N/A" }}
+                        </td>
+                        <td style="padding: 12px 15px">
+                          {{ staff.phoneNumber || "N/A" }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </ng-container>
+                <ng-template #noDataFoundPlaceholderInShiftTiming>
+                  <div class="errorboxmain">
+                    <div class="errorboxinner text-center">
+                      <div class="errorboxplaceholder mb-2">
+                        <img src="assets/images/addnewproduct.svg" style="width: 80px" />
+                      </div>
+                      <h4>No Data Found</h4>
+                      <p>
+                        We're unable to locate a record associated with the
+                        information you entered.
+                      </p>
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+              <!-- *ngIf="staffs.length > 8" -->
+              <div class="pagination pl-3" *ngIf="
+                                total > itemPerPage - 1 ||
+                                (pageNumber === lastPageNumber && lastPageNumber !== 1)
+                              ">
+                <p class="mb-0" style="padding-left: 15px">
+                  Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
+                  {{ total }} members
+                </p>
+                <div class="row">
+                  <div class="col-md-12">
+                    <nav aria-label="Page navigation example">
+                      <ul class="pagination justify-content-end">
+                        <li class="page-item" [class.disabled]="pageNumber == 1">
+                          <a class="page-link" href="javascript:void(0);" aria-label="Previous"
+                            (click)="changePage('prev')">
+                            <span aria-hidden="true">&laquo;</span>
+                          </a>
+                        </li>
+                        <li class="page-item" *ngFor="let page of getPages()" [class.active]="pageNumber == page">
+                          <a class="page-link" href="javascript:void(0);" (click)="changePage(page)">{{ page }}</a>
+                        </li>
+                        <li class="page-item" [class.disabled]="pageNumber == totalPages">
+                          <a class="page-link" href="javascript:void(0);" aria-label="Next"
+                            (click)="changePage('next')">
+                            <span aria-hidden="true">&raquo;</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
+                </div>
+              </div>
+              <div id="back-and-submit">
+                <div class="modal-footer d-flex align-items-center justify-content-end"></div>
+              </div>
+              <div class="modal-footer d-flex align-items-center justify-content-between">
+                <button type="button" class="btn btn-outline-secondary btn-round">
+                  Back
+                </button>
+                <button type="button" class="btn btn-outline-primary btn-round">
+                  Submit
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -271,10 +271,21 @@ export class Key {
   public static USER_EXIT_STEP = 2;
   public static FINAL_SETTLEMENT_STEP = 3;
 
+  //Attendance, Leave & Present Days
+  public static LEAVES = 4;
+  public static LOP_SUMMARY = 5;
+  public static LOP_REVERSAL = 6;
+
+  //Attendance, Leave & Present Days
+  public static SALARY_CHANGE = 7;
+  public static BONUS = 8;
+  public static OVERTIME = 9;
+
   //User type in Employee change
   public static NEW_JOINEE = 'New Joinee';
   public static USER_EXIT = 'User Exit';
   public static REGULAR = 'Regular';
+
 
   //Attendance rule type ids
   public static DEDUCTION_RULE_DEFINITION = 1;
@@ -293,6 +304,11 @@ export class Key {
   public static INITIAL_HOUR = '00:00:00';
   public static END_HOUR = '23:59:59';
 
+  // Status
+  public static PENDING = 13;
+  public static APPROVED = 14;
+
 }
+
 
 
