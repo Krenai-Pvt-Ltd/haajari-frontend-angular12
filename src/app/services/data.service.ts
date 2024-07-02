@@ -63,6 +63,7 @@ import { LopSummaryRequest } from '../models/lop-summary-request';
 import { LopReversalRequest } from '../models/lop-reversal-request';
 import { AppraisalRequest } from '../models/appraisal-request';
 import { BonusRequest } from '../models/bonus-request';
+import { SalaryChangeBonusRequest } from '../models/salary-change-bonus-request';
 
 @Injectable({
   providedIn: 'root',
@@ -2964,6 +2965,45 @@ export class DataService {
     );
   }
 
+  getSalaryChangeResponseListByOrganizationId(
+    startDate: any,
+    endDate: any,
+    itemPerPage: number,
+    pageNumber: number,
+    search: string,
+    searchBy: string): Observable<any> {
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+    .set('item_per_page', itemPerPage)
+    .set('page_number', pageNumber)
+    .set('search', search)
+    .set('search_by', searchBy)
+
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/salary-change`, {params});
+  }
+
+  getSalaryChangeBonusResponseListByOrganizationId(
+    startDate: any,
+    endDate: any,
+    itemPerPage: number,
+    pageNumber: number,
+    search: string,
+    searchBy: string): Observable<any> {
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+    .set('item_per_page', itemPerPage)
+    .set('page_number', pageNumber)
+    .set('search', search)
+    .set('search_by', searchBy)
+
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/salary-change/bonus`, {params});
+  }
+
+
   getEmployeeSalary(userUuid : string): Observable<any> {
     const params = new HttpParams()
     .set('user_uuid', userUuid);
@@ -3006,5 +3046,31 @@ export class DataService {
       `${this.baseUrl}/month-wise-salary/data`,
       { params }
     );
+  }
+
+  getSalaryChangeOvertimeResponseListByOrganizationId(
+    startDate: any,
+    endDate: any,
+    itemPerPage: number,
+    pageNumber: number,
+    search: string,
+    searchBy: string): Observable<any> {
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+    .set('item_per_page', itemPerPage)
+    .set('page_number', pageNumber)
+    .set('search', search)
+    .set('search_by', searchBy)
+
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/salary-change/overtime`, {params});
+  }
+
+
+
+registerSalaryChangeBonusListByOrganizationId(salaryChangeBonusRequestList : SalaryChangeBonusRequest[]){
+
+    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/salary-change`, salaryChangeBonusRequestList);
   }
 }

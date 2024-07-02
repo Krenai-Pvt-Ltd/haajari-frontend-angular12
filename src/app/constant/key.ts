@@ -282,9 +282,9 @@ export class Key {
   public static OVERTIME = 9;
 
   //User type in Employee change
-  public static NEW_JOINEE = 'New Joinee';
-  public static USER_EXIT = 'User Exit';
-  public static REGULAR = 'Regular';
+  public static NEW_JOINEE = 1;
+  public static USER_EXIT = 2;
+  public static FINAL_SETTLEMENT = 3;
 
 
   //Attendance rule type ids
