@@ -2960,8 +2960,8 @@ export class DataService {
 
 
   getSalaryChangeResponseListByOrganizationId(
-    startDate: any,
-    endDate: any,
+    startDate: string,
+    endDate: string,
     itemPerPage: number,
     pageNumber: number,
     search: string,
@@ -2973,14 +2973,14 @@ export class DataService {
     .set('item_per_page', itemPerPage)
     .set('page_number', pageNumber)
     .set('search', search)
-    .set('search_by', searchBy)
+    .set('search_by', searchBy);
 
     return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/salary-change`, {params});
   }
 
   getSalaryChangeBonusResponseListByOrganizationId(
-    startDate: any,
-    endDate: any,
+    startDate: string,
+    endDate: string,
     itemPerPage: number,
     pageNumber: number,
     search: string,
@@ -2992,14 +2992,14 @@ export class DataService {
     .set('item_per_page', itemPerPage)
     .set('page_number', pageNumber)
     .set('search', search)
-    .set('search_by', searchBy)
+    .set('search_by', searchBy);
 
     return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/salary-change/bonus`, {params});
   }
 
   getSalaryChangeOvertimeResponseListByOrganizationId(
-    startDate: any,
-    endDate: any,
+    startDate: string,
+    endDate: string,
     itemPerPage: number,
     pageNumber: number,
     search: string,
@@ -3011,14 +3011,71 @@ export class DataService {
     .set('item_per_page', itemPerPage)
     .set('page_number', pageNumber)
     .set('search', search)
-    .set('search_by', searchBy)
+    .set('search_by', searchBy);
 
     return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/salary-change/overtime`, {params});
   }
 
-  registerSalaryChangeBonusListByOrganizationId(salaryChangeBonusRequestList : SalaryChangeBonusRequest[]){
-
+  registerSalaryChangeBonusListByOrganizationId(salaryChangeBonusRequestList : SalaryChangeBonusRequest[]): Observable<any>{
     return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/salary-change`, salaryChangeBonusRequestList);
   }
 
+  getEpfDetailsResponseListByOrganizationId(
+    startDate: string,
+    endDate: string,
+    itemPerPage: number,
+    pageNumber: number,
+    search: string,
+    searchBy: string): Observable<any>{
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+    .set('item_per_page', itemPerPage)
+    .set('page_number', pageNumber)
+    .set('search', search)
+    .set('search_by', searchBy);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/month-wise/epf`, {params});
+  }
+
+  getEsiDetailsResponseListByOrganizationId(
+    startDate: string,
+    endDate: string,
+    itemPerPage: number,
+    pageNumber: number,
+    search: string,
+    searchBy: string
+  ): Observable<any>{
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+    .set('item_per_page', itemPerPage)
+    .set('page_number', pageNumber)
+    .set('search', search)
+    .set('search_by', searchBy);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/month-wise/esi`, {params});
+  }
+
+  getTdsDetailsResponseListByOrganizationId(
+    startDate: string,
+    endDate: string,
+    itemPerPage: number,
+    pageNumber: number,
+    search: string,
+    searchBy: string
+  ): Observable<any>{
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+    .set('item_per_page', itemPerPage)
+    .set('page_number', pageNumber)
+    .set('search', search)
+    .set('search_by', searchBy);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/month-wise/tds`, {params});
+  }
 }

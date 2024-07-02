@@ -1,6 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { clear } from 'console';
 import { Key } from 'src/app/constant/key';
+import { EpfDetailsResponse } from 'src/app/models/epf-details-response';
+import { EsiDetailsResponse } from 'src/app/models/esi-details-response';
 import { FinalSettlementResponse } from 'src/app/models/final-settlement-response';
 import { LeaveTypeResponse } from 'src/app/models/leave-type-response';
 import { LopAdjustmentRequest } from 'src/app/models/lop-adjustment-request';
@@ -22,6 +24,7 @@ import { SalaryChangeBonusResponse } from 'src/app/models/salary-change-bonus-re
 import { SalaryChangeOvertimeResponse } from 'src/app/models/salary-change-overtime-response';
 import { SalaryChangeResponse } from 'src/app/models/salary-change-response';
 import { ShiftTypeResponse } from 'src/app/models/shift-type-response';
+import { TdsDetailsResponse } from 'src/app/models/tds-details-response';
 import { UserExitResponse } from 'src/app/models/user-exit-response';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -62,6 +65,11 @@ export class PayrollDashboardComponent implements OnInit {
   readonly BONUS = Key.BONUS;
   readonly OVERTIME = Key.OVERTIME;
 
+  CURRENT_TAB_IN_EPF_ESI_TDS = Key.EPF;
+  readonly EPF = Key.EPF;
+  readonly ESI = Key.ESI;
+  readonly TDS = Key.TDS;
+
 
   @ViewChild('step1Tab', { static: false }) step1Tab!: ElementRef;
   @ViewChild('step2Tab', { static: false }) step2Tab!: ElementRef;
@@ -72,6 +80,9 @@ export class PayrollDashboardComponent implements OnInit {
   @ViewChild('step7Tab', { static: false }) step7Tab!: ElementRef;
   @ViewChild('step8Tab', { static: false }) step8Tab!: ElementRef;
   @ViewChild('step9Tab', { static: false }) step9Tab!: ElementRef;
+  @ViewChild('step10Tab', { static: false }) step10Tab!: ElementRef;
+  @ViewChild('step11Tab', { static: false }) step11Tab!: ElementRef;
+  @ViewChild('step12Tab', { static: false }) step12Tab!: ElementRef;
 
   navigateToTab(tabId: string): void {
     switch (tabId) {
@@ -101,6 +112,15 @@ export class PayrollDashboardComponent implements OnInit {
         break;
       case 'step9-tab':
         this.step9Tab.nativeElement.click();
+        break;
+      case 'step10-tab':
+        this.step10Tab.nativeElement.click();
+        break;
+      case 'step11-tab':
+        this.step11Tab.nativeElement.click();
+        break;
+      case 'step12-tab':
+        this.step12Tab.nativeElement.click();
         break;
       default:
         console.error(`Tab with id ${tabId} not found`);
@@ -178,6 +198,26 @@ export class PayrollDashboardComponent implements OnInit {
   }
 
 
+  // -----------------------------------------
+  // EPF, ESI & TDS
+  epfTab(){
+    this.CURRENT_TAB = this.EPF;
+    this.CURRENT_TAB_IN_EPF_ESI_TDS = this.EPF;
+    this.resetCriteriaFilter();
+  }
+
+  esiTab(){
+    this.CURRENT_TAB = this.ESI;
+    this.CURRENT_TAB_IN_EPF_ESI_TDS = this.ESI;
+    this.resetCriteriaFilter();
+  }
+
+  tdsTab(){
+    this.CURRENT_TAB = this.TDS;
+    this.CURRENT_TAB_IN_EPF_ESI_TDS = this.TDS;
+    this.resetCriteriaFilter();
+  }
+
   // Employee Chages tab-estate
   employeeChangesBackTab(){
     if(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == this.FINAL_SETTLEMENT){
@@ -202,6 +242,14 @@ export class PayrollDashboardComponent implements OnInit {
       this.navigateToTab('step8-tab');
     } else if(this.CURRENT_TAB_IN_SALARY_CHANGE == this.BONUS){
       this.navigateToTab('step7-tab');
+    }
+  }
+
+  epfEsiTdsBackTab(){
+    if(this.CURRENT_TAB_IN_EPF_ESI_TDS == this.TDS){
+      this.navigateToTab('step11-tab');
+    } else if(this.CURRENT_TAB_IN_EPF_ESI_TDS == this.ESI){
+      this.navigateToTab('step10-tab');
     }
   }
 
@@ -275,6 +323,33 @@ export class PayrollDashboardComponent implements OnInit {
     this.isShimmerForSalaryChangeOvertimeResponse = true;
     this.dataNotFoundPlaceholderForSalaryChangeOvertimeResponse = false;
     this.networkConnectionErrorPlaceHolderForSalaryChangeOvertimeResponse = false;
+  }
+
+  isShimmerForEpfDetailsResponse = false;
+  dataNotFoundPlaceholderForEpfDetailsResponse = false;
+  networkConnectionErrorPlaceHolderForEpfDetailsResponse = false;
+  preRuleForShimmersAndErrorPlaceholdersForEpfDetailsResponse() {
+    this.isShimmerForEpfDetailsResponse = true;
+    this.dataNotFoundPlaceholderForEpfDetailsResponse = false;
+    this.networkConnectionErrorPlaceHolderForEpfDetailsResponse = false;
+  }
+
+  isShimmerForEsiDetailsResponse = false;
+  dataNotFoundPlaceholderForEsiDetailsResponse = false;
+  networkConnectionErrorPlaceHolderForEsiDetailsResponse = false;
+  preRuleForShimmersAndErrorPlaceholdersForEsiDetailsResponse() {
+    this.isShimmerForEsiDetailsResponse = true;
+    this.dataNotFoundPlaceholderForEsiDetailsResponse = false;
+    this.networkConnectionErrorPlaceHolderForEsiDetailsResponse = false;
+  }
+
+  isShimmerForTdsDetailsResponse = false;
+  dataNotFoundPlaceholderForTdsDetailsResponse = false;
+  networkConnectionErrorPlaceHolderForTdsDetailsResponse = false;
+  preRuleForShimmersAndErrorPlaceholdersForTdsDetailsResponse() {
+    this.isShimmerForTdsDetailsResponse = true;
+    this.dataNotFoundPlaceholderForTdsDetailsResponse = false;
+    this.networkConnectionErrorPlaceHolderForTdsDetailsResponse = false;
   }
 
   constructor(
@@ -1321,17 +1396,81 @@ export class PayrollDashboardComponent implements OnInit {
     registerSalaryChangeBonusListByOrganizationIdMethodCall(){
       this.salaryChangeBonusRequestList = [];
       
-      this.salaryChangeBonusRequestList.forEach((item) => {
-        let salaryChangeBonusRequest = new SalaryChangeBonusRequest(item.uuid,item.payActionTypeId, item.comment);
+      this.salaryChangeBonusResponseList.forEach((item) => {
+        let salaryChangeBonusRequest = new SalaryChangeBonusRequest(item.uuid,item.payActionType.id, item.comment);
 
         this.salaryChangeBonusRequestList.push(salaryChangeBonusRequest);
       })
 
       this.dataService.registerSalaryChangeBonusListByOrganizationId(this.salaryChangeBonusRequestList).subscribe((response) => {
-        this.helperService.showToast("Bonus details saved successfully.", this.TOAST_STATUS_SUCCESS);
+        this.helperService.showToast(response.message, this.TOAST_STATUS_SUCCESS);
       }, (error) => {
         this.helperService.showToast("Error while registering the request!", this.TOAST_STATUS_ERROR);
       })
+    }
+
+
+
+    // ###########################################################
+    // Step 4: EPF, ESI & TDS
+    
+    epfDetailsResponseList : EpfDetailsResponse[] = [];
+    getEpfDetailsResponseListByOrganizationIdMethodCall(){
+      this.dataService.getEpfDetailsResponseListByOrganizationId(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
+        if(this.helperService.isListOfObjectNullOrUndefined(response)){
+          this.dataNotFoundPlaceholderForEpfDetailsResponse = true;
+        } else{
+          this.epfDetailsResponseList = response.listOfObject;
+          this.total = response.totalItems;
+          this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+        }
+
+        this.isShimmerForEpfDetailsResponse = false;
+      }, (error) =>{
+        this.networkConnectionErrorPlaceHolderForEpfDetailsResponse = true;
+        this.isShimmerForEpfDetailsResponse = false;
+      })
+    }
+
+    esiDetailsResponseList : EsiDetailsResponse[] = [];
+    getEsiDetailsResponseListByOrganizationIdMethodCall(){
+      this.dataService.getEsiDetailsResponseListByOrganizationId(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
+        if(this.helperService.isListOfObjectNullOrUndefined(response)){
+          this.dataNotFoundPlaceholderForEsiDetailsResponse = true;
+        } else{
+          this.esiDetailsResponseList = response.listOfObject;
+          this.total = response.totalItems;
+          this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+        }
+
+        this.isShimmerForEsiDetailsResponse = false;
+      }, (error) =>{
+        this.networkConnectionErrorPlaceHolderForEsiDetailsResponse = true;
+        this.isShimmerForEsiDetailsResponse = false;
+      })
+    }
+
+    tdsDetailsResponseList : TdsDetailsResponse[] = [];
+    getTdsDetailsResponseListByOrganizationIdMethodCall(){
+      this.dataService.getTdsDetailsResponseListByOrganizationId(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
+        if(this.helperService.isListOfObjectNullOrUndefined(response)){
+          this.dataNotFoundPlaceholderForTdsDetailsResponse = true;
+        } else{
+          this.tdsDetailsResponseList = response.listOfObject;
+          this.total = response.totalItems;
+          this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+        }
+
+        this.isShimmerForTdsDetailsResponse = false;
+      }, (error) =>{
+        this.networkConnectionErrorPlaceHolderForTdsDetailsResponse = true;
+        this.isShimmerForTdsDetailsResponse = false;
+      })
+    }
+
+
+    registerEpfEsiTdsMethodCall(CURRENT_TAB_IN_EPF_ESI_TDS : number){
+
     }
 
 }
