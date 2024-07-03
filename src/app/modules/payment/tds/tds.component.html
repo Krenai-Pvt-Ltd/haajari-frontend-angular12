@@ -44,14 +44,14 @@
                 </ul>
               </div>
             </div> -->
-            <div class="" style="width: 60%">
+            <div class="" style="width: 80%">
               <form
                 role="search"
                 class="searching ng-untouched ng-pristine ng-valid"
                 (submit)="searchUsers($event)"
               >
                 <div class="form-group" style="position: relative; width: 100%; display: flex; align-items: center;">
-                  <i class="bi bi-search search-icon" style="position: initial; right: 20px;"></i>
+                  <!-- <i class="bi bi-search search-icon" style="position: initial; right: 20px;"></i> -->
                   <input
                     type="text"
                     id="searchText"
@@ -59,10 +59,14 @@
                     class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
                     (keyup)="searchUsers($event)" [(ngModel)]="search"
                     [ngModelOptions]="{ standalone: true }"
-                    style="padding: 10px 40px; flex-grow: 1;"
+                    style="padding: 10px 40px; padding-right: 20px; flex-grow: 1;"
                   />
+                  <i
+                  class="bi bi-search search-icon"
+                  style="margin: auto; margin-left: 15px"
+                ></i>
                   <button *ngIf="search.length !== 0" type="button" class="btn close-btn"
-                  (click)="clearSearch()" style="position: absolute; right: 40px;">
+                  (click)="clearSearch()" style="position: absolute; right: 20px;">
                     <i class="bi bi-x mt-auto mb-auto"></i>
                   </button>
                   

@@ -46,6 +46,7 @@ export class TdsComponent implements OnInit {
 
   ngOnInit(): void {
     window.scroll(0, 0);
+    this.getOrganizationRegistrationDateMethodCall();
     this.getFirstAndLastDateOfMonth(new Date());
   }
 

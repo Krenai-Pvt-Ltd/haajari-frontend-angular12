@@ -44,7 +44,7 @@
                 </ul>
               </div>
             </div> -->
-            <div class="" style="width: 60%">
+            <div class="" style="width: 80%">
               <form
                 role="search"
                 class="searching ng-untouched ng-pristine ng-valid"
@@ -56,18 +56,20 @@
                     id="searchText"
                     placeholder="Search"
                     class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
-                    style="padding: 10px 40px"
+                    style="padding: 10px 40px; padding-right:20px;"
                     (keyup)="searchUsers($event)" [(ngModel)]="search"
                     [ngModelOptions]="{ standalone: true }"
                   />
+            
+                  <i
+                  class="bi bi-search search-icon"
+                  style="margin: auto; margin-left: 15px"
+                ></i>
                   <button *ngIf="search.length !== 0" type="button" class="btn close-btn"
-                  (click)="clearSearch()" style="position: absolute; right: 40px;">
+                  (click)="clearSearch()" style="position: absolute; right: 20px;  top:3px;">
                     <i class="bi bi-x mt-auto mb-auto"></i>
                   </button>
-                  <i
-                    class="bi bi-search search-icon"
-                    style="margin: auto; margin-left: 15px"
-                  ></i>
+
                 </div>
               </form>
             </div>
