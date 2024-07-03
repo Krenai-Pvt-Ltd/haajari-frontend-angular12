@@ -3043,7 +3043,7 @@ export class DataService {
       .set('sort', sort)
       .set('sort_by', sortBy);
     return this.httpClient.get<any>(
-      `${this.baseUrl}/month-wise-salary/data`,
+      `${this.baseUrl}/salary/month-wise/data`,
       { params }
     );
   }
@@ -3073,4 +3073,24 @@ registerSalaryChangeBonusListByOrganizationId(salaryChangeBonusRequestList : Sal
 
     return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/salary-change`, salaryChangeBonusRequestList);
   }
+
+  getBonusAndDeductionLogs(
+    startDate: any,
+    endDate: any,
+    itemPerPage: number,
+    pageNumber: number,
+    search: string,
+    searchBy: string): Observable<any> {
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+    .set('item_per_page', itemPerPage)
+    .set('page_number', pageNumber)
+    .set('search', search)
+    .set('search_by', searchBy)
+
+    return this.httpClient.get<any>(`${this.baseUrl}/bonus-deduction/logs`, {params});
+  }
+
 }
