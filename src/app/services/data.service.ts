@@ -3087,7 +3087,7 @@ export class DataService {
     .set('search', search)
     .set('search_by', searchBy);
 
-    return this.httpClient.get<any>(`${this.baseUrl}/salary/month-wise/epf`, {params});
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/statutory/epf`, {params});
   }
 
   getEsiDetailsResponseListByOrganizationId(
@@ -3107,7 +3107,7 @@ export class DataService {
     .set('search', search)
     .set('search_by', searchBy);
 
-    return this.httpClient.get<any>(`${this.baseUrl}/salary/month-wise/esi`, {params});
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/statutory/esi`, {params});
   }
 
   getTdsDetailsResponseListByOrganizationId(
@@ -3127,7 +3127,7 @@ export class DataService {
     .set('search', search)
     .set('search_by', searchBy);
 
-    return this.httpClient.get<any>(`${this.baseUrl}/salary/month-wise/tds`, {params});
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/statutory/tds`, {params});
   }
 
   getBonusAndDeductionLogs(
