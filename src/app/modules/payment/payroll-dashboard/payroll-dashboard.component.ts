@@ -1,7 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { clear } from 'console';
 import { Key } from 'src/app/constant/key';
+import { EpfDetailsRequest } from 'src/app/models/epf-details-request';
 import { EpfDetailsResponse } from 'src/app/models/epf-details-response';
+import { EsiDetailsRequest } from 'src/app/models/esi-details-request';
 import { EsiDetailsResponse } from 'src/app/models/esi-details-response';
 import { FinalSettlementResponse } from 'src/app/models/final-settlement-response';
 import { LeaveTypeResponse } from 'src/app/models/leave-type-response';
@@ -24,6 +26,7 @@ import { SalaryChangeBonusResponse } from 'src/app/models/salary-change-bonus-re
 import { SalaryChangeOvertimeResponse } from 'src/app/models/salary-change-overtime-response';
 import { SalaryChangeResponse } from 'src/app/models/salary-change-response';
 import { ShiftTypeResponse } from 'src/app/models/shift-type-response';
+import { TdsDetailsRequest } from 'src/app/models/tds-details-request';
 import { TdsDetailsResponse } from 'src/app/models/tds-details-response';
 import { UserExitResponse } from 'src/app/models/user-exit-response';
 import { DataService } from 'src/app/services/data.service';
@@ -301,6 +304,24 @@ export class PayrollDashboardComponent implements OnInit {
     this.networkConnectionErrorPlaceHolderForPayrollLeaveResponse = false;
   }
 
+  isShimmerForLopSummary = false;
+  dataNotFoundPlaceholderForLopSummary = false;
+  networkConnectionErrorPlaceHolderForLopSummary = false;
+  preRuleForShimmersAndErrorPlaceholdersForLopSummary() {
+    this.isShimmerForLopSummary = true;
+    this.dataNotFoundPlaceholderForLopSummary = false;
+    this.networkConnectionErrorPlaceHolderForLopSummary = false;
+  }
+
+  isShimmerForLopReversal = false;
+  dataNotFoundPlaceholderForLopReversal = false;
+  networkConnectionErrorPlaceHolderForLopReversal = false;
+  preRuleForShimmersAndErrorPlaceholdersForLopReversal() {
+    this.isShimmerForLopReversal = true;
+    this.dataNotFoundPlaceholderForLopReversal = false;
+    this.networkConnectionErrorPlaceHolderForLopReversal = false;
+  }
+
   isShimmerForSalaryChangeResponse = false;
   dataNotFoundPlaceholderForSalaryChangeResponse = false;
   networkConnectionErrorPlaceHolderForSalaryChangeResponse = false;
@@ -371,6 +392,8 @@ export class PayrollDashboardComponent implements OnInit {
       'Current',
       false
     );
+
+
 
     // this.getUserLeaveReq();
 
@@ -841,6 +864,7 @@ export class PayrollDashboardComponent implements OnInit {
       this.pageNumber++;
     }
 
+    // New Joinee, User Exit, etc.
     if (step == this.NEW_JOINEE) {
       this.getNewJoineeByOrganizationIdMethodCall();
     }
@@ -853,6 +877,7 @@ export class PayrollDashboardComponent implements OnInit {
       this.getFinalSettlementByOrganizationIdMethodCall();
     }
 
+    // Leaves, Lop Summary, etc.
     if (step == this.LEAVES){
 
     }
@@ -865,6 +890,7 @@ export class PayrollDashboardComponent implements OnInit {
       this.getLopReversalResponseByOrganizationIdAndStartDateAndEndDateMethodCall();
     }
 
+    // Salary change, bonus & deduction
     if(step == this.SALARY_CHANGE){
       this.getSalaryChangeResponseListByOrganizationIdMethodCall();
     }
@@ -876,6 +902,20 @@ export class PayrollDashboardComponent implements OnInit {
     if(step == this.OVERTIME){
 
     }
+
+    // EPF, ESI & TDS (OVERRIDE)
+    if(step == this.EPF){
+      this.getEpfDetailsResponseListByOrganizationIdMethodCall();
+    }
+
+    if(step == this.ESI){
+      this.getEsiDetailsResponseListByOrganizationIdMethodCall();
+    }
+
+    if(step == this.TDS){
+      this.getTdsDetailsResponseListByOrganizationIdMethodCall();
+    }
+
   }
 
   getPages(): number[] {
@@ -1083,23 +1123,6 @@ export class PayrollDashboardComponent implements OnInit {
 
     // #######################################################################
     // Step 2: Attendance, Leaves & Present days
-    isShimmerForLopSummary = false;
-    dataNotFoundPlaceholderForLopSummary = false;
-    networkConnectionErrorPlaceHolderForLopSummary = false;
-    preRuleForShimmersAndErrorPlaceholdersForLopSummary() {
-      this.isShimmerForLopSummary = true;
-      this.dataNotFoundPlaceholderForLopSummary = false;
-      this.networkConnectionErrorPlaceHolderForLopSummary = false;
-    }
-
-    isShimmerForLopReversal = false;
-    dataNotFoundPlaceholderForLopReversal = false;
-    networkConnectionErrorPlaceHolderForLopReversal = false;
-    preRuleForShimmersAndErrorPlaceholdersForLopReversal() {
-      this.isShimmerForLopReversal = true;
-      this.dataNotFoundPlaceholderForLopReversal = false;
-      this.networkConnectionErrorPlaceHolderForLopReversal = false;
-    }
 
     registerAttendanceAndLeavesMethodCall(){
       if(this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE == this.LEAVES){
@@ -1137,6 +1160,7 @@ export class PayrollDashboardComponent implements OnInit {
 
     lopSummaryResponseList : LopSummaryResponse[] = [];
     getLopSummaryResponseByOrganizationIdAndStartDateAndEndDateMethodCall(){
+      this.preRuleForShimmersAndErrorPlaceholdersForLopSummary();
       this.dataService.getLopSummaryResponseByOrganizationIdAndStartDateAndEndDate(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
 
         if(this.helperService.isListOfObjectNullOrUndefined(response)){
@@ -1178,6 +1202,7 @@ export class PayrollDashboardComponent implements OnInit {
 
     lopReversalResponseList : LopReversalResponse[] = [];
     getLopReversalResponseByOrganizationIdAndStartDateAndEndDateMethodCall(){
+      this.preRuleForShimmersAndErrorPlaceholdersForLopReversal();
       this.dataService.getLopReversalResponseByOrganizationIdAndStartDateAndEndDate(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
 
         if(this.helperService.isListOfObjectNullOrUndefined(response)){
@@ -1281,6 +1306,7 @@ export class PayrollDashboardComponent implements OnInit {
 
     payrollLeaveResponseList : PayrollLeaveResponse[] = [];
     getPayrollLeaveResponseMethodCall(){
+      this.preRuleForShimmersAndErrorPlaceholdersForPayrollLeaveResponse();
       this.dataService.getPayrollLeaveResponse().subscribe((response) => {
         if(this.helperService.isListOfObjectNullOrUndefined(response)){
           this.dataNotFoundPlaceholderForPayrollLeaveResponse = true;
@@ -1313,27 +1339,9 @@ export class PayrollDashboardComponent implements OnInit {
 
     // #######################################################################
     // Step 3: Salary changes, Bonus & Overtime
-    registerSalaryChangesAndBonusAndOvertimeMethodCall(CURRENT_TAB_IN_SALARY_CHANGE : number){
-
-      if(CURRENT_TAB_IN_SALARY_CHANGE == this.SALARY_CHANGE){
-        this.registerSalaryChangeListByOrganizationIdMethodCall();
-        this.navigateToTab('step8-tab');
-      }
-
-      if(CURRENT_TAB_IN_SALARY_CHANGE == this.BONUS){
-        this.registerSalaryChangeBonusListByOrganizationIdMethodCall();
-        this.navigateToTab('step9-tab');
-      }
-
-      if(this.CURRENT_TAB_IN_SALARY_CHANGE == this.OVERTIME){
-
-      }
-
-    }
-
-
     salaryChangeResponseList : SalaryChangeResponse[] = [];
     getSalaryChangeResponseListByOrganizationIdMethodCall(){
+      this.preRuleForShimmersAndErrorPlaceholdersForSalaryChangeResponse();
       this.dataService.getSalaryChangeResponseListByOrganizationId(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
 
         if(this.helperService.isListOfObjectNullOrUndefined(response)){
@@ -1354,6 +1362,7 @@ export class PayrollDashboardComponent implements OnInit {
 
     salaryChangeBonusResponseList : SalaryChangeBonusResponse[] = [];
     getSalaryChangeBonusResponseListByOrganizationIdMethodCall(){
+      this.preRuleForShimmersAndErrorPlaceholdersForSalaryChangeBonusResponse();
       this.dataService.getSalaryChangeBonusResponseListByOrganizationId(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
 
         if(this.helperService.isListOfObjectNullOrUndefined(response)){
@@ -1373,6 +1382,7 @@ export class PayrollDashboardComponent implements OnInit {
 
     salaryChangeOvertimeResponseList : SalaryChangeOvertimeResponse[] = [];
     getSalaryChangeOvertimeResponseListByOrganizationIdMethodCall(){
+      this.preRuleForShimmersAndErrorPlaceholdersForSalaryChangeOvertimeResponse();
       this.dataService.getSalaryChangeOvertimeResponseListByOrganizationId(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
 
         if(this.helperService.isListOfObjectNullOrUndefined(response)){
@@ -1391,8 +1401,25 @@ export class PayrollDashboardComponent implements OnInit {
     }
 
 
+    registerSalaryChangesAndBonusAndOvertimeMethodCall(CURRENT_TAB_IN_SALARY_CHANGE : number){
+
+      if(CURRENT_TAB_IN_SALARY_CHANGE == this.SALARY_CHANGE){
+        this.registerSalaryChangeListByOrganizationIdMethodCall();
+      }
+
+      if(CURRENT_TAB_IN_SALARY_CHANGE == this.BONUS){
+        this.registerSalaryChangeBonusListByOrganizationIdMethodCall();
+        this.navigateToTab('step9-tab');
+      }
+
+      if(CURRENT_TAB_IN_SALARY_CHANGE == this.OVERTIME){
+
+      }
+    }
+
     registerSalaryChangeListByOrganizationIdMethodCall(){
       this.helperService.showToast("Salary changes details saved successfully.", this.TOAST_STATUS_SUCCESS);
+      this.navigateToTab('step8-tab');
     }
 
 
@@ -1420,11 +1447,18 @@ export class PayrollDashboardComponent implements OnInit {
     
     epfDetailsResponseList : EpfDetailsResponse[] = [];
     getEpfDetailsResponseListByOrganizationIdMethodCall(){
+      this.preRuleForShimmersAndErrorPlaceholdersForEpfDetailsResponse();
       this.dataService.getEpfDetailsResponseListByOrganizationId(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
         if(this.helperService.isListOfObjectNullOrUndefined(response)){
           this.dataNotFoundPlaceholderForEpfDetailsResponse = true;
         } else{
-          this.epfDetailsResponseList = response.listOfObject;
+          this.epfDetailsResponseList = response.listOfObject.map((item: { amount: any; }) => {
+            return {
+              ...item,
+              finalAmount: item.amount
+            };
+          });
+
           this.total = response.totalItems;
           this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
         }
@@ -1438,11 +1472,18 @@ export class PayrollDashboardComponent implements OnInit {
 
     esiDetailsResponseList : EsiDetailsResponse[] = [];
     getEsiDetailsResponseListByOrganizationIdMethodCall(){
+      this.preRuleForShimmersAndErrorPlaceholdersForEsiDetailsResponse();
       this.dataService.getEsiDetailsResponseListByOrganizationId(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
         if(this.helperService.isListOfObjectNullOrUndefined(response)){
           this.dataNotFoundPlaceholderForEsiDetailsResponse = true;
         } else{
-          this.esiDetailsResponseList = response.listOfObject;
+          this.esiDetailsResponseList = response.listOfObject.map((item: { amount: any; }) => {
+            return {
+              ...item,
+              finalAmount: item.amount
+            };
+          });
+
           this.total = response.totalItems;
           this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
         }
@@ -1456,11 +1497,17 @@ export class PayrollDashboardComponent implements OnInit {
 
     tdsDetailsResponseList : TdsDetailsResponse[] = [];
     getTdsDetailsResponseListByOrganizationIdMethodCall(){
+      this.preRuleForShimmersAndErrorPlaceholdersForTdsDetailsResponse();
       this.dataService.getTdsDetailsResponseListByOrganizationId(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
         if(this.helperService.isListOfObjectNullOrUndefined(response)){
           this.dataNotFoundPlaceholderForTdsDetailsResponse = true;
         } else{
-          this.tdsDetailsResponseList = response.listOfObject;
+          this.tdsDetailsResponseList = response.listOfObject.map((item: { amount: any; }) => {
+            return {
+              ...item,
+              finalAmount: item.amount
+            };
+          });
           this.total = response.totalItems;
           this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
         }
@@ -1473,8 +1520,115 @@ export class PayrollDashboardComponent implements OnInit {
     }
 
 
+    modifiedValuesMap = new Map<number, any>();
+
+    updateFinalAmount(response : any) {
+      if (response.amountToBeAdjusted != null) {
+        response.finalAmount = response.amountToBeAdjusted;
+      } else {
+        response.finalAmount = response.amount;
+      }
+      
+
+      // const index = this.epfDetailsResponseList.findIndex(detail => detail.uuid == epfDetailsResponse.uuid);
+      // if(index != -1){
+      //   this.epfDetailsResponseList[index] = {...epfDetailsResponse};
+      // } else{
+      //   this.epfDetailsRequestList.push(epfDetailsResponse);
+      // }
+    }
+
+
+    // updateEsiFinalAmount(esiDetailsResponse : EsiDetailsResponse) {
+    //   if (esiDetailsResponse.amountToBeAdjusted != null) {
+    //     esiDetailsResponse.finalAmount = esiDetailsResponse.amountToBeAdjusted;
+    //   } else {
+    //     esiDetailsResponse.finalAmount = esiDetailsResponse.amount;
+    //   }
+    // }
+
+    // updateTdsFinalAmount(tdsDetailsResponse : TdsDetailsResponse) {
+    //   if (tdsDetailsResponse.amountToBeAdjusted != null) {
+    //     tdsDetailsResponse.finalAmount = tdsDetailsResponse.amountToBeAdjusted;
+    //   } else {
+    //     tdsDetailsResponse.finalAmount = tdsDetailsResponse.amount;
+    //   }
+    // }
+
+
     registerEpfEsiTdsMethodCall(CURRENT_TAB_IN_EPF_ESI_TDS : number){
 
+      console.log("REGISTRATION_STARTED...");
+      console.log(CURRENT_TAB_IN_EPF_ESI_TDS);
+
+      if(CURRENT_TAB_IN_EPF_ESI_TDS == this.EPF){
+        console.log("EPF_REGISTRATION_STARTED...");
+        this.registerEpfDetailsListByOrganizationIdMethodCall();
+      }
+
+      if(CURRENT_TAB_IN_EPF_ESI_TDS == this.ESI){
+        console.log("ESI_REGISTRATION_STARTED...");
+        this.registerEsiDetailsListByOrganizationIdMethodCall();
+      }
+
+      if(CURRENT_TAB_IN_EPF_ESI_TDS == this.TDS){
+        console.log("TDS_REGISTRATION_STARTED...");
+        this.registerTdsDetailsListByOrganizationIdMethodCall();
+      }
     }
+
+
+    epfDetailsRequestList : EpfDetailsRequest[] = [];
+    registerEpfDetailsListByOrganizationIdMethodCall(){
+      this.epfDetailsRequestList = [];
+
+      this.epfDetailsResponseList.forEach((item) => {
+        let epfDetailsRequest = new EpfDetailsRequest(item.uuid, item.finalAmount);
+        this.epfDetailsRequestList.push(epfDetailsRequest);
+      })
+
+      this.dataService.registerEpfDetailsListByOrganizationId(this.startDate, this.endDate, this.epfDetailsRequestList).subscribe((response) => {
+        this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+        this.navigateToTab('step11-tab');
+      }, (error) => {
+        this.helperService.showToast("Error while adjusting the epf details!", Key.TOAST_STATUS_ERROR);
+      })
+    }
+
+
+    esiDetailsRequestList :EsiDetailsRequest[] = [];
+    registerEsiDetailsListByOrganizationIdMethodCall(){
+      this.esiDetailsRequestList = [];
+
+      this.esiDetailsResponseList.forEach((item) => {
+        let esiDetailsRequest = new EsiDetailsRequest(item.uuid, item.finalAmount);
+        this.esiDetailsRequestList.push(esiDetailsRequest);
+      })
+
+      this.dataService.registerEsiDetailsListByOrganizationId(this.startDate, this.endDate, this.esiDetailsRequestList).subscribe((response) => {
+        this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+        this.navigateToTab('step12-tab');
+      }, (error) => {
+        this.helperService.showToast("Error while adjusting the esi details!", Key.TOAST_STATUS_ERROR);
+      })
+    }
+
+
+    tdsDetailsRequestList :TdsDetailsRequest[] = [];
+    registerTdsDetailsListByOrganizationIdMethodCall(){
+      this.tdsDetailsRequestList = [];
+
+      this.tdsDetailsResponseList.forEach((item) => {
+        let tdsDetailsRequest = new TdsDetailsRequest(item.uuid, item.finalAmount);
+        this.tdsDetailsRequestList.push(tdsDetailsRequest);
+      })
+      
+      this.dataService.registerTdsDetailsListByOrganizationId(this.startDate, this.endDate, this.tdsDetailsRequestList).subscribe((response) => {
+        this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+      }, (error) => {
+        this.helperService.showToast("Error while adjusting the tds details!", Key.TOAST_STATUS_ERROR);
+      })
+    }
+
 
 }
