@@ -3149,4 +3149,34 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/bonus-deduction/logs`, {params});
   }
 
+  getSalarySlipDataMonthwise(
+    startDate: any,
+    endDate: any,
+    itemPerPage: number,
+    pageNumber: number,
+    search: string,
+    searchBy: string): Observable<any> {
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+    .set('item_per_page', itemPerPage)
+    .set('page_number', pageNumber)
+    .set('search', search)
+    .set('search_by', searchBy)
+
+    return this.httpClient.get<any>(`${this.baseUrl}/salary-slip/monthwise/data`, {params});
+  }
+
+  getAllSalarySlipDataLogsMonthwise(
+    startDate: any,
+    endDate: any): Observable<any> {
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+
+    return this.httpClient.get<any>(`${this.baseUrl}/salary-slip/get-all`, {params});
+  }
+
 }
