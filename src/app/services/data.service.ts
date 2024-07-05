@@ -64,6 +64,9 @@ import { LopReversalRequest } from '../models/lop-reversal-request';
 import { AppraisalRequest } from '../models/appraisal-request';
 import { BonusRequest } from '../models/bonus-request';
 import { SalaryChangeBonusRequest } from '../models/salary-change-bonus-request';
+import { EpfDetailsRequest } from '../models/epf-details-request';
+import { EsiDetailsRequest } from '../models/esi-details-request';
+import { TdsDetailsRequest } from '../models/tds-details-request';
 
 @Injectable({
   providedIn: 'root',
@@ -3193,6 +3196,34 @@ export class DataService {
     .set('search', search)
     .set('search_by', searchBy)
     return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/get-leaves`, {params});
+
+  }
+
+  registerEpfDetailsListByOrganizationId(startDate: string, endDate: string, epfDetailsRequestList : EpfDetailsRequest[]): Observable<any>{
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
+    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/statutory/epf`, epfDetailsRequestList, {params});
+  }
+
+  registerEsiDetailsListByOrganizationId(startDate: string, endDate: string, esiDetailsRequestList : EsiDetailsRequest[]): Observable<any>{
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
+    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/statutory/esi`, esiDetailsRequestList, {params});
+  }
+
+  registerTdsDetailsListByOrganizationId(startDate: string, endDate: string, tdsDetailsRequestList : TdsDetailsRequest[]): Observable<any>{
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
+    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/statutory/tds`, tdsDetailsRequestList, {params});
   }
 
 }
