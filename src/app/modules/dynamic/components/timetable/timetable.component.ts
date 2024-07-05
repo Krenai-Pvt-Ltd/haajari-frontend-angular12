@@ -17,6 +17,7 @@ import { BreakTimings } from 'src/app/models/break-timings';
 import { NavigationExtras, Router } from '@angular/router';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { AttendanceDetailsCountResponse } from 'src/app/models/attendance-details-count-response';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 // import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
 
@@ -33,7 +34,8 @@ export class TimetableComponent implements OnInit {
     private helperService: HelperService,
     private router: Router,
     private rbacService: RoleBasedAccessControlService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private sanitizer: DomSanitizer
   ) {}
 
   loginDetails = this.helperService.getDecodedValueFromToken();
@@ -663,4 +665,80 @@ export class TimetableComponent implements OnInit {
     };
     this.router.navigate(['/employee-profile'], navExtra);
   }
+
+  @ViewChild('attendancewithlocationssButton')
+  attendancewithlocationssButton!: ElementRef;
+  lat: number = 0;
+  lng: number = 0;
+  zoom: number = 15;
+  
+  openAddressModal(lat: string, long: string) {
+    this.lat = +lat;
+    this.lng = +long;
+    this.attendancewithlocationssButton.nativeElement.click();
+  }
+
+  @ViewChild('viewlog') viewlog!: ElementRef;
+  // openAttendanceLog() {
+  //   this.attendanceLogModal.nativeElement.click();
+  // }
+
+  url: string = '';
+  openSelfieModal(url: string) {
+    this.url = url;
+    this.updateFileType(url);
+    this.viewlog.nativeElement.click();
+    this.openDocModalButton.nativeElement.click();
+  }
+
+  previewString: SafeResourceUrl | null = null;
+  isPDF: boolean = false;
+  isImage: boolean = false;
+
+  @ViewChild('openDocModalButton') openDocModalButton!: ElementRef;
+  getFileName(url: string): string {
+    return url.split('/').pop() || 'Attendance Selfie';
+  }
+
+  private updateFileType(url: string) {
+    const extension = url.split('?')[0].split('.').pop()?.toLowerCase();
+    this.isImage = ['png', 'jpg', 'jpeg', 'gif'].includes(extension!);
+    this.isPDF = extension === 'pdf';
+    if (this.isPDF) {
+      this.previewString = this.sanitizer.bypassSecurityTrustResourceUrl(`https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true`);
+    } else {
+      this.previewString = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    }
+  }
+
+  openViewModal(url: string): void {
+    this.url = url;
+    this.updateFileType(url);
+    this.viewlog.nativeElement.click();
+    this.openDocModalButton.nativeElement.click();
+  }
+
+  downloadFile(url: string): void {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = this.getFileName(url);
+    link.click();
+  }
+
+  @ViewChild('attendanceLogModal') attendanceLogModal!: ElementRef;
+  reOpenLogsModal() {
+    this.viewlog.nativeElement.click();
+  }
+  
+  
+  // reOpenLogsModal(): void {
+  //   const closeButtons = document.querySelectorAll('.btn-close');
+  //   closeButtons.forEach(button => {
+  //     button.addEventListener('click', () => {
+  //       setTimeout(() => {
+  //         this.attendanceLogModal.nativeElement.click();
+  //       }, 500); // Delay to allow modal to fully close
+  //     });
+  //   });
+  // }
 }

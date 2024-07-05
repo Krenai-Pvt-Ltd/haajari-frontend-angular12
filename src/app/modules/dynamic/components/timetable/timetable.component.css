@@ -841,3 +841,13 @@ td.text-right {
   margin-bottom: 0px;
   text-align: center;
 }
+.attendance-log .icons {
+  display: flex;
+  gap: 10px; 
+}
+
+.attendance-log {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

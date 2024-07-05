@@ -5,5 +5,8 @@ export class AttendanceLogResponse {
     operationDate : string = '';
     operationPerformedBy : string = '';
     additionalNotes: string = '';
+    latString: string = '';
+    longString: string = '';
+    imageUrlString: string = '';
 
 }
