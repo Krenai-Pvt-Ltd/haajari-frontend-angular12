@@ -1469,7 +1469,7 @@ tbody tr {
   font-size: 14px;
 }
 
-.add-shift-time-btn {
+.add-shift-time-btn, .bonus-appraisal-configuration {
   font-size: 14px;
   color: #6666f3 !important;
   font-weight: 500;

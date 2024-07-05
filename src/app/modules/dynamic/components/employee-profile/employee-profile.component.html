@@ -1793,19 +1793,19 @@
                         </div>
                       </div>
                       <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <!-- Add Bonus Link -->
-                        <span style="cursor: pointer;" (click)="openBonusRequestModal()">Add Bonus</span> |
-                        
-                        <!-- Appraisal Request Link -->
-                        <span style="cursor: pointer;" (click)="openAppraisalRequestModal()">Appraisal Request</span> |
-                        
                         <!-- Settings with conditional display -->
-                        <div style="cursor: pointer;" (click)="goToManageStatutory()">
+                        <div style="cursor: pointer;">
                           <ng-container *ngIf="userRoleFlag; else salaryConfiguration">
-                            Edit salary configuration <i class="bi bi-pencil"></i>
+                            <span class="bonus-appraisal-configuration" style="cursor: pointer;" (click)="goToManageStatutory()">Edit salary configuration <i class="bi bi-pencil"></i></span>
                           </ng-container>
                           <ng-template #salaryConfiguration>
-                            View users' configuration <i class="bi bi-arrow-right"></i>
+                            <!-- Add Bonus Link -->
+                            <span class="bonus-appraisal-configuration" style="cursor: pointer;" (click)="openBonusRequestModal()">Add Bonus</span> |
+                            
+                            <!-- Appraisal Request Link -->
+                            <span class="bonus-appraisal-configuration" style="cursor: pointer;" (click)="openAppraisalRequestModal()">Appraisal Request</span> |
+
+                            <span class="bonus-appraisal-configuration" style="cursor: pointer;" (click)="goToManageStatutory()">View users' configuration <i class="bi bi-arrow-right"></i></span>
                           </ng-template>
                         </div>
                       </div>
@@ -3289,11 +3289,11 @@
       <div class="modal-body">
         <div class="mb-3">
           <label for="currentCTC" class="form-label">Current CTC</label>
-          <input type="text" id="currentCTC" class="form-control" [(ngModel)]="appraisalRequest.previousCtc" disabled>
+          <input type="text" id="currentCTC" class="form-control" placeholder="Current CTC" [(ngModel)]="appraisalRequest.previousCtc" disabled>
         </div>
         <div class="mb-3">
           <label for="newCTC" class="form-label">New CTC</label>
-          <input type="number" id="newCTC" class="form-control" [(ngModel)]="appraisalRequest.updatedCtc">
+          <input type="number" id="newCTC" class="form-control" placeholder="Enter the new CTC here" [(ngModel)]="appraisalRequest.updatedCtc">
         </div>
         <div class="mb-3">
           <label for="effectiveDate" class="form-label">Effective Date</label>
@@ -3322,10 +3322,22 @@
         <!-- Form with NgForm directive -->
         <form #bonusForm="ngForm" (ngSubmit)="submitBonus()">
           <!-- Employee picture and name -->
-          <div class="text-center mb-3">
+          <!-- <div class="text-center mb-3">
             <img src="{{ user?.image }}" alt="Employee Picture" class="rounded-circle" style="width: 80px; height: 80px;">
             <h5>{{ user?.name }}</h5>
+          </div> -->
+
+          <!-- Name input -->
+          <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" id="name" name="name" class="form-control" [(ngModel)]="user.name" required #name="ngModel" readonly>
           </div>
+
+          <!-- Email input -->
+          <!-- <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="text" id="email" name="email" class="form-control" [(ngModel)]="user.email" required #email="ngModel" readonly>
+          </div> -->
 
           <!-- Amount input -->
           <div class="mb-3">
@@ -3333,12 +3345,12 @@
             <input type="number" id="amount" name="amount" class="form-control" [(ngModel)]="bonusRequest.amount" required #amount="ngModel">
             <!-- Display validation errors -->
             <div *ngIf="amount.touched && amount.invalid">
-              <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="amount.errors?.required">
-                  <i class="bi bi-exclamation-circle"></i>
-                  Amount is required.
-              </p>
-          
-          </div>
+                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="amount.errors?.required">
+                    <i class="bi bi-exclamation-circle"></i>
+                    Amount is required.
+                </p>
+            
+            </div>
           </div>
 
           <!-- Comments input -->
