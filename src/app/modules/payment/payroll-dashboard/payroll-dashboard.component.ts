@@ -1307,7 +1307,14 @@ export class PayrollDashboardComponent implements OnInit {
     payrollLeaveResponseList : PayrollLeaveResponse[] = [];
     getPayrollLeaveResponseMethodCall(){
       this.preRuleForShimmersAndErrorPlaceholdersForPayrollLeaveResponse();
-      this.dataService.getPayrollLeaveResponse().subscribe((response) => {
+      this.dataService.getPayrollLeaveResponse(
+        this.startDate,
+        this.endDate,
+        this.itemPerPage,
+        this.pageNumber,
+        this.search,
+        this.searchBy
+      ).subscribe((response) => {
         if(this.helperService.isListOfObjectNullOrUndefined(response)){
           this.dataNotFoundPlaceholderForPayrollLeaveResponse = true;
         } else{
@@ -1324,7 +1331,14 @@ export class PayrollDashboardComponent implements OnInit {
     }
 
     getPayrollLeaveLogResponseMethodCall(){
-      this.dataService.getPayrollLeaveResponse().subscribe((response) => {
+      this.dataService.getPayrollLeaveResponse(
+        this.startDate,
+        this.endDate,
+        this.itemPerPage,
+        this.pageNumber,
+        this.search,
+        this.searchBy
+      ).subscribe((response) => {
 
       }, (error) => {
         
