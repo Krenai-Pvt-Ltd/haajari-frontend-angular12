@@ -311,13 +311,12 @@
                           <div class="align-self-center">
                             <div class="btn btn-xs btn-light btn-round">
                               {{
-                                formatDateIn(
-                                  formatDate(fullLogList.leaveDate)
-                                ) || "N/A"
-                              }}&nbsp;
-                              <span>{{
-                                formatTime(fullLogList.leaveDate) || "N/A"
-                              }}</span>
+                                fullLogList.leaveDate | date:'medium' || "N/A"
+                              }}
+                              <!-- &nbsp; -->
+                              <!-- <span>{{
+                                fullLogList.leaveDate | date:'medium' || "N/A"
+                              }}</span> -->
                             </div>
                           </div>
                         </div>
@@ -536,12 +535,13 @@
                                 </h6>
                                 <small
                                   >{{
-                                    formatDateIn(formatDate(pl.leaveDate)) ||
+                                    pl.leaveDate | date:'medium' ||
                                       "N/A"
-                                  }}&nbsp;
+                                  }}
+                                  <!-- &nbsp;
                                   <span>{{
-                                    formatTime(pl.leaveDate) || "N/A"
-                                  }}</span>
+                                    pl.leaveDate | date:'medium' || "N/A"
+                                  }}</span> -->
                                 </small>
                               </div>
                             </div>
@@ -683,12 +683,13 @@
                                 </h6>
                                 <small
                                   >{{
-                                    formatDateIn(formatDate(arl.leaveDate)) ||
+                                    arl.leaveDate | date:'medium' ||
                                       "N/A"
-                                  }}&nbsp;
+                                  }}
+                                  <!-- &nbsp;
                                   <span>{{
-                                    formatTime(arl.leaveDate) || "N/A"
-                                  }}</span>
+                                    arl.leaveDate | date:'medium' || "N/A"
+                                  }}</span> -->
                                 </small>
                               </div>
                             </div>

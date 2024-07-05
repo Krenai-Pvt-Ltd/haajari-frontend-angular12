@@ -164,15 +164,26 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
         this.subscriptionPlanId = response.subscriptionPlanId;
         if (response.employeeAttendanceFlag) {
           this.employeeAttendanceFlag = true;
+          if (response.employeeAttendanceForManagerType==1) {
+            this.toggleOption1Flag= true;
+            this.toggleOption2Flag= false;
+          } else {
+            this.toggleOption2Flag= true;
+            this.toggleOption1Flag= false;
+          }
         } else {
           this.employeeAttendanceFlag = false;
+          this.toggleOption1Flag= false;
+            this.toggleOption2Flag= false;
         }
         if (response.phoneNumber) {
           this.phoneNumber = response.phoneNumber;
         }
         if (response.languagePreferred == 2) {
+         
           this.languagePreferredHindi = true;
         } else {
+         
           this.languagePreferredEnglish = true;
         }
         if (response.notificationVia == 2) {
@@ -316,6 +327,7 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
     slack: true, // Default to enabled if isPlanActive is true
   };
 
+
   onToggleChange(type: string) {
     if (type === 'slack') {
       if (this.notifications.slack) {
@@ -352,6 +364,7 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
             'Notification Setting Updated Successfully',
             Key.TOAST_STATUS_SUCCESS
           );
+
         } else if (
           response.phoneNumber == null &&
           this.notifications.whatsapp == true
@@ -454,6 +467,7 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
   languagePreferredEnglish: boolean = false;
   languagePreferredHindi: boolean = false;
   updateLanguagePreferredForNotificationMethodCall(): void {
+
     // Call the API to update language preference
     this._data
       .updateLanguagePreferredForNotification(this.languagePreferred)
@@ -488,20 +502,42 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
     this.updateLanguagePreferredForNotificationMethodCall();
   }
 
+
+  updateNotificationSetting() {
+    debugger
+    this.toggleOption1Flag = true;
+    this.updateAttendanceNotificationSettingForManagerMethodCall();
+  }
+  toggleOption1Flag: boolean = false;
+  toggleOption2Flag: boolean = false;
+
   employeeAttendanceFlag: boolean = false;
 
   updateAttendanceNotificationSettingForManagerMethodCall(): void {
     debugger;
+    let type = 0;
+  
+    if (this.employeeAttendanceFlag) {
+      if (this.toggleOption1Flag) {
+        type = 1; // Set type to 1 if the first toggle is selected
+      } else if (this.toggleOption2Flag) {
+        type = 2; // Set type to 2 if the second toggle is selected
+      }
+    }
+  
     this._data
-      .updateAttendanceNotificationSettingForManager(
-        this.employeeAttendanceFlag
-      )
+      .updateAttendanceNotificationSettingForManager(this.employeeAttendanceFlag, type)
       .subscribe({
         next: (response: any) => {
           this.helper.showToast(
             'Employee Attendance Notification Setting Updated Successfully.',
             Key.TOAST_STATUS_SUCCESS
-          );
+            
+          )
+          if(!this.employeeAttendanceFlag){
+            this.toggleOption1Flag = false;
+            this.toggleOption2Flag = false;
+          }
         },
         error: (error: any) => {
           // Handle any errors that occur during the API call
@@ -513,6 +549,26 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
         },
       });
   }
+  
+  toggleOption1Change(): void {
+    if (this.toggleOption1Flag) {
+      this.toggleOption2Flag = false;
+    } else {
+      this.toggleOption2Flag = true;
+    }
+    this.updateAttendanceNotificationSettingForManagerMethodCall();
+  }
+  
+  toggleOption2Change(): void {
+    if (this.toggleOption2Flag) {
+      this.toggleOption1Flag = false;
+    } else {
+      this.toggleOption1Flag = true;
+    }
+    this.updateAttendanceNotificationSettingForManagerMethodCall();
+  }
+  
+
 
   //  new code
 

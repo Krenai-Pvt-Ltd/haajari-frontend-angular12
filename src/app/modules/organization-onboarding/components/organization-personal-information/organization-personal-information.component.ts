@@ -86,14 +86,15 @@ export class OrganizationPersonalInformationComponent implements OnInit {
       onboardingVia: '',
     },
   };
-
+  timeZone: string = '';
   loading: boolean = false;
   registerOrganizationPersonalInformation(): Promise<boolean> {
     return new Promise((resolve, reject) => {
       // this.loading = true;
+      this.timeZone = this.helperService.getTimeZone();
       this.dataService
         .registerOrganizationPersonalInformation(
-          this.organizationPersonalInformation
+          this.organizationPersonalInformation, this.timeZone
         )
         .subscribe(
           async (response) => {
