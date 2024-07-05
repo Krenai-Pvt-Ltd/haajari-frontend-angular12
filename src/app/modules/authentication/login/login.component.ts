@@ -97,6 +97,7 @@ export class LoginComponent implements OnInit {
   // }
 
   signIn() {
+    debugger
     this.loginButtonLoader = true;
     this.dataService
       .loginUser(this.email, this.password)
@@ -123,6 +124,8 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['/employee-profile'], {
               queryParams: { userId: this.UUID, dashboardActive: 'true' },
             });
+          } else if (this.ROLE == 'HR ADMIN') {
+             this.router.navigate(['/employee-onboarding-data']);
           } else {
             const helper = new JwtHelperService();
             const token = localStorage.getItem('token');
