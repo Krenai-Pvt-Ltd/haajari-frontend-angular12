@@ -204,18 +204,21 @@ export class PayrollDashboardComponent implements OnInit {
     this.CURRENT_TAB = this.EPF;
     this.CURRENT_TAB_IN_EPF_ESI_TDS = this.EPF;
     this.resetCriteriaFilter();
+    this.getEpfDetailsResponseListByOrganizationIdMethodCall();
   }
 
   esiTab(){
     this.CURRENT_TAB = this.ESI;
     this.CURRENT_TAB_IN_EPF_ESI_TDS = this.ESI;
     this.resetCriteriaFilter();
+    this.getEsiDetailsResponseListByOrganizationIdMethodCall();
   }
 
   tdsTab(){
     this.CURRENT_TAB = this.TDS;
     this.CURRENT_TAB_IN_EPF_ESI_TDS = this.TDS;
     this.resetCriteriaFilter();
+    this.getTdsDetailsResponseListByOrganizationIdMethodCall();
   }
 
   // Employee Chages tab-estate
@@ -383,6 +386,7 @@ export class PayrollDashboardComponent implements OnInit {
     this.getOrganizationIndividualMonthSalaryDataMethodCall(
       this.currentMonthResponse
     );
+
   }
 
   // Year calendar
@@ -1277,7 +1281,14 @@ export class PayrollDashboardComponent implements OnInit {
 
     payrollLeaveResponseList : PayrollLeaveResponse[] = [];
     getPayrollLeaveResponseMethodCall(){
-      this.dataService.getPayrollLeaveResponse().subscribe((response) => {
+      this.dataService.getPayrollLeaveResponse(
+        this.startDate,
+        this.endDate,
+        this.itemPerPage,
+        this.pageNumber,
+        this.search,
+        this.searchBy
+      ).subscribe((response) => {
         if(this.helperService.isListOfObjectNullOrUndefined(response)){
           this.dataNotFoundPlaceholderForPayrollLeaveResponse = true;
         } else{
@@ -1294,7 +1305,14 @@ export class PayrollDashboardComponent implements OnInit {
     }
 
     getPayrollLeaveLogResponseMethodCall(){
-      this.dataService.getPayrollLeaveResponse().subscribe((response) => {
+      this.dataService.getPayrollLeaveResponse(
+        this.startDate,
+        this.endDate,
+        this.itemPerPage,
+        this.pageNumber,
+        this.search,
+        this.searchBy
+      ).subscribe((response) => {
 
       }, (error) => {
         

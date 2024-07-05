@@ -2924,9 +2924,7 @@ export class DataService {
     return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/register-lop-adjustment-request`, lopAdjustmentRequest, {params});
   }
 
-  getPayrollLeaveResponse(): Observable<any> {
-    return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/get-leaves`, {});
-  }
+ 
 
   getPayrollLeaveLogResponse(userUuid : string): Observable<any> {
     const params = new HttpParams()
@@ -3087,7 +3085,7 @@ export class DataService {
     .set('search', search)
     .set('search_by', searchBy);
 
-    return this.httpClient.get<any>(`${this.baseUrl}/salary/month-wise/epf`, {params});
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/statutory/epf`, {params});
   }
 
   getEsiDetailsResponseListByOrganizationId(
@@ -3107,7 +3105,7 @@ export class DataService {
     .set('search', search)
     .set('search_by', searchBy);
 
-    return this.httpClient.get<any>(`${this.baseUrl}/salary/month-wise/esi`, {params});
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/statutory/esi`, {params});
   }
 
   getTdsDetailsResponseListByOrganizationId(
@@ -3127,7 +3125,7 @@ export class DataService {
     .set('search', search)
     .set('search_by', searchBy);
 
-    return this.httpClient.get<any>(`${this.baseUrl}/salary/month-wise/tds`, {params});
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/statutory/tds`, {params});
   }
 
   getBonusAndDeductionLogs(
@@ -3177,6 +3175,24 @@ export class DataService {
     .set('end_date', endDate)
 
     return this.httpClient.get<any>(`${this.baseUrl}/salary-slip/get-all`, {params});
+  }
+
+  getPayrollLeaveResponse(
+    startDate: any,
+    endDate: any,
+    itemPerPage: number,
+    pageNumber: number,
+    search: string,
+    searchBy: string): Observable<any> {
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+    .set('item_per_page', itemPerPage)
+    .set('page_number', pageNumber)
+    .set('search', search)
+    .set('search_by', searchBy)
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/get-leaves`, {params});
   }
 
 }

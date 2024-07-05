@@ -84,7 +84,7 @@
               <label class="checkbox-label" style="margin-left: 10px;">
                 <input
                 type="checkbox"
-                
+                [checked]="isAllUsersSelected"
                 (change)="selectAllUsers($event)"
               />
                 Select all
@@ -246,7 +246,7 @@
                         <input
                           type="checkbox"
                           [checked]="selectedEmployeeIds.includes(employee.userId)"
-                          (change)="toggleEmployeeSelection(employee.id)"
+                          (change)="selectUser(employee.userId)"
                         />
                       </td>
                       <td>{{ employee.name }}</td>

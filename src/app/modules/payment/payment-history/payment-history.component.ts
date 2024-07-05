@@ -22,6 +22,7 @@ export class PaymentHistoryComponent implements OnInit {
   search: string = '';
   searchBy: string = 'name';
   selectedEmployeeIds: number[] = [];
+  isAllUsersSelected: boolean = false;
 
   readonly PENDING = Key.PENDING;
   readonly APPROVED = Key.APPROVED;
@@ -249,21 +250,15 @@ this.getOrganizationMonthWiseSalaryDataMethodCall();
   
   unselectAllUsers() {
     this.selectedEmployeeIds = [];
-  }
-  
-  selectAllUsers(event: any) {
-    if (event.target.checked) {
-      this.getAllSalarySlipDataLogsMonthwiseMethodCall();
-      // this.selectedEmployeeIds = this.employeeMonthWiseSalaryDataList.map(employee => employee.id);
-    } else {
-      this.selectedEmployeeIds = [];
-    }
+    this.isAllUsersSelected = false;
   }
   
   getAllSalarySlipDataLogsMonthwiseMethodCall() {
-    debugger;
     this.dataService.getAllSalarySlipDataLogsMonthwise(this.startDate, this.endDate).subscribe(
       (response: { listOfObject: EmployeeMonthWiseSalaryData[] }) => {
+        
+        this.total = response.listOfObject.length;
+        this.isAllUsersSelected = true;
         this.selectedEmployeeIds = response.listOfObject.map((employee: EmployeeMonthWiseSalaryData) => employee.userId);
       },
       (error) => {
@@ -271,6 +266,27 @@ this.getOrganizationMonthWiseSalaryDataMethodCall();
       }
     );
   }
+
+  selectAllUsers(event: any) {
+    if (event.target.checked) {
+      this.getAllSalarySlipDataLogsMonthwiseMethodCall();
+    } else {
+      this.selectedEmployeeIds = [];
+      this.isAllUsersSelected = false;
+    }
+  }
+
+  selectUser(userId: number) {
+    if (this.selectedEmployeeIds.includes(userId)) {
+      this.selectedEmployeeIds = this.selectedEmployeeIds.filter(id => id !== userId);
+    } else {
+      this.selectedEmployeeIds.push(userId);
+    }
+    this.isAllUsersSelected = this.selectedEmployeeIds.length === this.employeeMonthWiseSalaryDataList.length;
+  }
+
+  
+
   
   
 
