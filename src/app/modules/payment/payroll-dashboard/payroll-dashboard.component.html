@@ -1214,7 +1214,7 @@
                                   </td>
                                   <td class="text-start">
                                     <a>
-                                      <i class="bi bi-pencil-square"></i>
+                                      <i class="bi bi-pencil-square"  (click)="openLeaveLogsModal(payrollLeaveResponse.userInfo.userUuid)"></i>
                                     </a>
                                   </td>
                                 </tr>
@@ -2600,5 +2600,59 @@
       <!-- container -->
     </div>
     <!-- end page content -->
+  </div>
+</div>
+
+
+<!-- Button to trigger modal -->
+<button type="button" style="display: none" id="leaveLogsModalButton" #leaveLogsModalButton data-bs-toggle="modal" data-bs-target="#leaveLogsModal"></button>
+<!-- Modal -->
+<div class="modal fade" id="leaveLogsModal" tabindex="-1" aria-labelledby="leaveLogsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="leaveLogsModalLabel">Pending Leave Logs</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row" *ngIf="userLeaveLogs.length == 0">
+          <div class="col text-center">
+            <p>No pending leave logs found.</p>
+          </div>
+        </div>
+        <div class="row mt-2" *ngFor="let ul of userLeaveLogs">
+          <div class="col-2">
+            <img
+              *ngIf="ul.image"
+              [src]="ul.image"
+              alt=""
+              class="thumb-md rounded-circle"
+              style="width: 50px; height: 50px"
+            />
+            <img
+              *ngIf="!ul.image"
+              src="assets/images/user.png"
+              alt=""
+              class="thumb-md rounded-circle"
+              style="width: 50px; height: 50px"
+            />
+          </div>
+          <div class="col-10">
+            <h5>{{ ul.name }}</h5>
+            <p>Email: {{ ul.email }}</p>
+            <p>Duration: {{ ul.startDate }} - {{ ul.endDate }}</p>
+            <p>Leave Days: {{ ul.validDays }}</p>
+            <p>Notes: {{ ul.notes }}</p>
+            <p>Leave Type: {{ ul.leaveType }}</p>
+            <p>Manager: {{ ul.managerName }}</p>
+            <button type="button" class="btn btn-success me-2" (click)="approveOrDeny(ul.id, 'approved')">Approve</button>
+            <button type="button" class="btn btn-danger"(click)="approveOrDeny(ul.id, 'rejected')">Reject</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
   </div>
 </div>
