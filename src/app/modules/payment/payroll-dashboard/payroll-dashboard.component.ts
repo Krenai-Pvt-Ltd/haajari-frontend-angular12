@@ -29,6 +29,7 @@ import { ShiftTypeResponse } from 'src/app/models/shift-type-response';
 import { TdsDetailsRequest } from 'src/app/models/tds-details-request';
 import { TdsDetailsResponse } from 'src/app/models/tds-details-response';
 import { UserExitResponse } from 'src/app/models/user-exit-response';
+import { UserInfoForPayrollReflection } from 'src/app/models/user-info-for-payroll-reflection';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 
@@ -160,7 +161,7 @@ export class PayrollDashboardComponent implements OnInit {
     this.CURRENT_TAB = this.LEAVES;
     this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE = this.LEAVES;
     this.resetCriteriaFilter();
-    this.getPayrollLeaveLogResponseMethodCall();
+    this.getPayrollLeaveResponseMethodCall();
   }
 
   lopSummaryTab(){
@@ -1307,7 +1308,14 @@ export class PayrollDashboardComponent implements OnInit {
     payrollLeaveResponseList : PayrollLeaveResponse[] = [];
     getPayrollLeaveResponseMethodCall(){
       this.preRuleForShimmersAndErrorPlaceholdersForPayrollLeaveResponse();
-      this.dataService.getPayrollLeaveResponse().subscribe((response) => {
+      this.dataService.getPayrollLeaveResponse(
+        this.startDate,
+        this.endDate,
+        this.itemPerPage,
+        this.pageNumber,
+        this.search,
+        this.searchBy
+      ).subscribe((response) => {
         if(this.helperService.isListOfObjectNullOrUndefined(response)){
           this.dataNotFoundPlaceholderForPayrollLeaveResponse = true;
         } else{
@@ -1318,17 +1326,32 @@ export class PayrollDashboardComponent implements OnInit {
 
         this.isShimmerForPayrollLeaveResponse = false;
       }, (error) => {
-        this.networkConnectionErrorPlaceHolder = true;
+        this.networkConnectionErrorPlaceHolderForPayrollLeaveResponse = true;
         this.isShimmerForPayrollLeaveResponse = false;
       })
     }
 
-    getPayrollLeaveLogResponseMethodCall(){
-      this.dataService.getPayrollLeaveResponse().subscribe((response) => {
-
+    userUuid!: string
+    @ViewChild('leaveLogsModalButton') leaveLogsModalButton !: ElementRef;
+    // /userLeaveLogs : UserInfoForPayrollReflection = new UserInfoForPayrollReflection();
+    userLeaveLogs : any;
+    getPayrollLeaveLogResponseMethodCall(userUuid : string){
+      this.userUuid = userUuid;
+      this.dataService.getPayrollLeaveLogsResponse(
+        userUuid,
+        this.startDate,
+        this.endDate
+      ).subscribe((response) => {
+        this.userLeaveLogs = response.listOfObject;
+        
       }, (error) => {
         
       })
+    }
+
+    openLeaveLogsModal(userUuid : string){
+      this.getPayrollLeaveLogResponseMethodCall(userUuid);
+      this.leaveLogsModalButton.nativeElement.click();
     }
 
     selectedRole : Role = new Role();
@@ -1630,5 +1653,32 @@ export class PayrollDashboardComponent implements OnInit {
       })
     }
 
+    approveOrDeny(requestId: number, requestedString: string) {
+     
+  
+      this.dataService
+        .approveOrRejectLeaveOfUser(requestId, requestedString)
+        .subscribe({
+          next: (logs) => {
+          this.getPayrollLeaveLogResponseMethodCall(this.userUuid);
+            // this.leaveLogsModalButton.nativeElement.click();
+  
+            // Show toast message
+            let message =
+              requestedString === 'approved'
+                ? 'Leave approved successfully!'
+                : 'Leave rejected successfully!';
+            this.helperService.showToast(message, Key.TOAST_STATUS_SUCCESS);
+          },
+          error: (error) => {
+            
+            this.helperService.showToast(
+              'Error processing leave request!',
+              Key.TOAST_STATUS_ERROR
+            );
+          },
+        });
+    }
+  
 
 }

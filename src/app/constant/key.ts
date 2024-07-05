@@ -161,6 +161,7 @@ export class Key {
   public static ADMIN = 'ADMIN';
   public static USER = 'USER';
   public static MANAGER = 'MANAGER';
+  public static HRADMIN = 'HR ADMIN'
 
   // Day wise status
   public static PRESENT = 'Present';
