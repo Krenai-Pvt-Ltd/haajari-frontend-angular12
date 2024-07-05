@@ -3196,7 +3196,6 @@ export class DataService {
     .set('search', search)
     .set('search_by', searchBy)
     return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/get-leaves`, {params});
-
   }
 
   registerEpfDetailsListByOrganizationId(startDate: string, endDate: string, epfDetailsRequestList : EpfDetailsRequest[]): Observable<any>{
