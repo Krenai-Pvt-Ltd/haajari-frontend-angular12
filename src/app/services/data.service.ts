@@ -3197,6 +3197,21 @@ export class DataService {
     .set('search_by', searchBy)
     return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/get-leaves`, {params});
   }
+
+
+  getPayrollLeaveLogsResponse(
+    userUuid  : string,
+    startDate: any,
+    endDate: any
+  ): Observable<any> {
+
+    const params = new HttpParams()
+    .set('user_uuid', userUuid)
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/get-leave-logs`, {params});
+  }
+
   registerEpfDetailsListByOrganizationId(startDate: string, endDate: string, epfDetailsRequestList : EpfDetailsRequest[]): Observable<any>{
 
     const params = new HttpParams()
