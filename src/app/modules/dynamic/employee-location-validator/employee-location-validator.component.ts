@@ -122,74 +122,134 @@ export class EmployeeLocationValidatorComponent implements OnInit {
 
   calculateDistance() {
     this.enableSubmitToggle = false;
-    var distance = google.maps.geometry.spherical.computeDistanceBetween(
-      new google.maps.LatLng(this.lat, this.lng),
-      new google.maps.LatLng(
-        Number(this.organizationLat),
-        Number(this.OrganizationLong)
-      )
-    );
-    console.log(distance + '---' + this.radius);
-    if (distance > this.radius) {
-      this.toggle = false;
 
-      this.helper.showToast(
-        "Oops! Looks like you're not close enough to the company to mark your attendance. Please try again when you're nearby!",
-        Key.TOAST_STATUS_ERROR
-      );
-      console.log('cannot mark attendance');
-    } else {
-      this.toggle = false;
-      // this.enableSubmitToggle=true;
-      // this.markAttendaceWithLocationMethodCall();
-      if (this.attendanceMode == 3) {
-        this.dataService.saveEmployeeCurrentLocationLatLng(
-          this.lat,
-          this.lng,
-          this.radius,
-          this.attendanceMode
-        );
-        this.routeToEmployeePhoto();
-      } else if (this.attendanceMode == 2) {
-        this.markAttendaceWithLocationMethodCall();
-      }
+    const userLatLng = new google.maps.LatLng(this.lat, this.lng);
+    let isWithinAnyLocation = false;
+
+    for (const addressDetail of this.organizationAddressDetails) {
+        const organizationLatLng = new google.maps.LatLng(Number(addressDetail.latitude), Number(addressDetail.longitude));
+        const distance = google.maps.geometry.spherical.computeDistanceBetween(userLatLng, organizationLatLng);
+
+        console.log(distance + '---' + addressDetail.radius);
+        if (distance <= addressDetail.radius) {
+            isWithinAnyLocation = true;
+            this.attendanceMode = addressDetail.attendanceMode;
+            break;
+        }
     }
-  }
+
+    if (!isWithinAnyLocation) {
+        this.helper.showToast(
+            "Oops! Looks like you're not close enough to the company to mark your attendance. Please try again when you're nearby!",
+            Key.TOAST_STATUS_ERROR
+        );
+        console.log('Cannot mark attendance');
+    } else {
+        if (this.attendanceMode == 3) {
+            this.dataService.saveEmployeeCurrentLocationLatLng(this.lat, this.lng, this.radius, this.attendanceMode);
+            this.routeToEmployeePhoto();
+        } else if (this.attendanceMode == 2) {
+            this.markAttendaceWithLocationMethodCall();
+        }
+    }
+}
+
+
+  //  previous code 
+
+  // calculateDistance() {
+  //   this.enableSubmitToggle = false;
+  //   var distance = google.maps.geometry.spherical.computeDistanceBetween(
+  //     new google.maps.LatLng(this.lat, this.lng),
+  //     new google.maps.LatLng(
+  //       Number(this.organizationLat),
+  //       Number(this.OrganizationLong)
+  //     )
+  //   );
+  //   console.log(distance + '---' + this.radius);
+  //   if (distance > this.radius) {
+  //     this.toggle = false;
+
+  //     this.helper.showToast(
+  //       "Oops! Looks like you're not close enough to the company to mark your attendance. Please try again when you're nearby!",
+  //       Key.TOAST_STATUS_ERROR
+  //     );
+  //     console.log('cannot mark attendance');
+  //   } else {
+  //     this.toggle = false;
+  //     // this.enableSubmitToggle=true;
+  //     // this.markAttendaceWithLocationMethodCall();
+  //     if (this.attendanceMode == 3) {
+  //       this.dataService.saveEmployeeCurrentLocationLatLng(
+  //         this.lat,
+  //         this.lng,
+  //         this.radius,
+  //         this.attendanceMode
+  //       );
+  //       this.routeToEmployeePhoto();
+  //     } else if (this.attendanceMode == 2) {
+  //       this.markAttendaceWithLocationMethodCall();
+  //     }
+  //   }
+  // }
 
   radius: string = '';
   organizationLat: string | undefined;
   OrganizationLong: string | undefined;
-
+  organizationAddressDetails: OrganizationAddressDetail[] = [];
   getOrganizationLatLongMethodCall() {
-    debugger;
-
-    const userUuid = new URLSearchParams(window.location.search).get(
-      'userUuid'
-    );
+    const userUuid = new URLSearchParams(window.location.search).get('userUuid');
     if (userUuid) {
-      this.dataService.getOrganizationLatLong(userUuid).subscribe(
-        (response: OrganizationAddressDetail) => {
-          if (response) {
-            console.log(response);
-            this.organizationAddressDetail = response;
-            this.radius = response.radius;
-
-            this.organizationLat = response.latitude;
-            this.OrganizationLong = response.longitude;
-            this.attendanceMode = response.attendanceMode;
-            // this.getCurrentLocation();
-          } else {
-            console.log('No address details found');
-          }
-        },
-        (error: any) => {
-          console.error('Error fetching address details:', error);
-        }
-      );
+        this.dataService.getOrganizationLatLong(userUuid).subscribe(
+            (response: OrganizationAddressDetail[]) => {
+                if (response && response.length > 0) {
+                    this.organizationAddressDetails = response;
+                    console.log(response);
+                } else {
+                    console.log('No address details found');
+                }
+            },
+            (error: any) => {
+                console.error('Error fetching address details:', error);
+            }
+        );
     } else {
-      console.error('userUuid not found');
+        console.error('userUuid not found');
     }
-  }
+}
+
+  // previous code 
+
+  // getOrganizationLatLongMethodCall() {
+  //   debugger;
+
+  //   const userUuid = new URLSearchParams(window.location.search).get(
+  //     'userUuid'
+  //   );
+  //   if (userUuid) {
+  //     this.dataService.getOrganizationLatLong(userUuid).subscribe(
+  //       (response: OrganizationAddressDetail) => {
+  //         if (response) {
+  //           console.log(response);
+  //           this.organizationAddressDetail = response;
+  //           this.radius = response.radius;
+
+  //           this.organizationLat = response.latitude;
+  //           this.OrganizationLong = response.longitude;
+  //           this.attendanceMode = response.attendanceMode;
+  //           // this.getCurrentLocation();
+  //         } else {
+  //           console.log('No address details found');
+  //         }
+  //       },
+  //       (error: any) => {
+  //         console.error('Error fetching address details:', error);
+  //       }
+  //     );
+  //   } else {
+  //     console.error('userUuid not found');
+  //   }
+  // }
 
   toggle = false;
   markAttendaceWithLocationMethodCall() {

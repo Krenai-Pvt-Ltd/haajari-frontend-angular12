@@ -6,6 +6,7 @@ import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { async } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
+import { StaffAddressDetailsForMultiLocationRequest } from 'src/app/models/StaffAddressDetailsForMultiLocationRequest';
 import { OrganizationAddressDetail } from 'src/app/models/organization-address-detail';
 import { OrganizationPersonalInformationRequest } from 'src/app/models/organization-personal-information-request';
 import { Staff } from 'src/app/models/staff';
@@ -37,6 +38,7 @@ export class CompanySettingComponent implements OnInit {
     this.getHrPolicy();
     this.getTeamNames();
     this.getUserByFiltersMethodCall();
+    this.getAllAddressDetails();
 
   }
 
@@ -612,8 +614,10 @@ export class CompanySettingComponent implements OnInit {
   }
 
   isFormInvalidLocation: boolean = false;
+  isStaffSelectionDisabled: boolean = true;
   @ViewChild('organizationAddressForm') organizationAddressForm!: NgForm;
   checkFormValidationLocation() {
+    debugger
     if (
       this.organizationAddressForm.invalid ||
       !this.organizationAddressDetail.longitude ||
@@ -628,6 +632,7 @@ export class CompanySettingComponent implements OnInit {
         this.isFormInvalidLocation = false;
       }
     }
+    // this.isStaffSelectionDisabled = !this.isFormInvalidLocation;
   }
 
   submit() {
@@ -635,34 +640,164 @@ export class CompanySettingComponent implements OnInit {
     this.checkFormValidationLocation();
 
     if (this.isFormInvalidLocation == true) {
+       this.isStaffSelectionDisabled = true;
       return;
     } else {
-      this.setOrganizationAddressDetailMethodCall();
+      this.openStaffSelection();
     }
   }
 
    organizationAddressDetail: OrganizationAddressDetail =
     new OrganizationAddressDetail();
-  @ViewChild('closeAddressModal') closeAddressModal!: ElementRef;
-  setOrganizationAddressDetailMethodCall() {
-    this.dataService
-      .setOrganizationAddressDetail(this.organizationAddressDetail)
-      .subscribe(
-        (response: OrganizationAddressDetail) => {
-          setTimeout(() => {
+  // @ViewChild('closeAddressModal') closeAddressModal!: ElementRef;
+  // setOrganizationAddressDetailMethodCall() {
+  //   this.dataService
+  //     .setOrganizationAddressDetail(this.organizationAddressDetail)
+  //     .subscribe(
+  //       (response: OrganizationAddressDetail) => {
+  //         setTimeout(() => {
+  //           this.helperService.showToast(
+  //             'Attedance Mode updated successfully',
+  //             Key.TOAST_STATUS_SUCCESS
+  //           );
+  //         }, 1000);
+  //       },
+  //       (error) => {
+  //         console.error(error);
+  //       }
+  //     );
+  // }
+
+  //  new code 
+
+  allAddresses: any;
+  specificAddress: any;
+  addressId: number = 0;
+
+  staffAddressDetails: StaffAddressDetailsForMultiLocationRequest = new StaffAddressDetailsForMultiLocationRequest();
+
+  saveStaffAddressDetails(): void {
+
+    this.staffAddressDetails.organizationMultiLocationAddressDTO = this.organizationAddressDetail; 
+    this.staffAddressDetails.userUuidsList = this.selectedStaffsUuids;
+
+    this.dataService.saveStaffAddressDetails(this.staffAddressDetails, this.addressId)
+      .subscribe(response => {
+        console.log('Save Response:', response);
+        setTimeout(() => {
             this.helperService.showToast(
-              'Attedance Mode updated successfully',
+              'Location saved successfully',
               Key.TOAST_STATUS_SUCCESS
             );
           }, 1000);
-        },
-        (error) => {
-          console.error(error);
+        this.closeButtonLocation.nativeElement.click();
+        this.getAllAddressDetails();
+      });
+  }
+ 
+
+  isShimmer = false;
+  dataNotFoundPlaceholder = false;
+  networkConnectionErrorPlaceHolder = false;
+  getAllAddressDetails(): void {
+    this.isShimmer = true;
+    this.addressId = 0;
+    this.dataService.getAllAddressDetailsWithStaff()
+      .subscribe(response => {
+        this.allAddresses = response.listOfObject;
+        if (this.allAddresses.length == 0) {
+          this.dataNotFoundPlaceholder = true;
+        } else {
+          this.dataNotFoundPlaceholder = false;
         }
-      );
+        console.log('All Addresses:', this.allAddresses);
+        this.isShimmer = false;
+      }, (error) => {
+        this.networkConnectionErrorPlaceHolder = true;
+        this.isShimmer = false;
+      });
+  }
+
+  getAddressDetails(addressId: number, addressString: string): void {
+    this.addressId = addressId;
+    this.dataService.getAddressDetailsOfStaffByAddressIdAndType(addressId, addressString)
+      .subscribe(response => {
+        this.specificAddress = response.object;
+        this.organizationAddressDetail = this.specificAddress.organizationAddress;
+        if (this.specificAddress.staffListResponse.length > 0) {
+          this.selectedStaffsUuids = this.specificAddress.staffListResponse.map((staff: any) => staff.uuid);
+        }
+         if (this.specificAddress.staffListResponse.length == 1) {
+          this.activeIndex = 0;
+        }
+        console.log('Specific Address:', this.specificAddress);
+      });
+  }
+
+  getUsersOfAddressDeatils(addressId: number, addressString: string) {
+     this.organizationAddressDetail = new OrganizationAddressDetail();
+    this.clearSearchText();
+    this.teamId = 0;
+    this.selectedTeamId = 0;
+    this.selectedTeamName = 'All';
+    this.selectedStaffsUuids = [];
+    this.pageNumber = 1;
+    this.staffSelectionTab.nativeElement.click();
+    this.getAddressDetails(addressId, addressString);
   }
 
 
+  activeIndex: number | null = null;
+
+  toggleCollapse(index: number): void {
+    if (this.activeIndex === index) {
+      this.activeIndex = null;
+    } else {
+      this.activeIndex = index;
+    }
+  }
+
+
+  clearLocationModel() {
+    this.locationSettingTab.nativeElement.click();
+    this.organizationAddressDetail = new OrganizationAddressDetail();
+    // this.selectedShiftType = new ShiftType();
+    this.clearSearchText();
+    this.teamId = 0;
+    this.selectedTeamId = 0;
+    this.selectedTeamName = 'All';
+    this.selectedStaffsUuids = [];
+    this.pageNumber = 1;
+  }
+
+  @ViewChild('locationSettingTab') locationSettingTab!: ElementRef;
+  @ViewChild('staffSelectionTab') staffSelectionTab!: ElementRef;
+  @ViewChild('closeButtonLocation') closeButtonLocation!: ElementRef;
+
+  openStaffSelection() {
+     this.isStaffSelectionDisabled = false;
+    this.staffSelectionTab.nativeElement.click();
+  }
+
+   openLocationSetting() {
+    this.locationSettingTab.nativeElement.click();
+   }
+  
+  deleteAddress(addressId: number) {
+    this.dataService.deleteByAddressId(addressId).subscribe(
+      (response) => {
+        console.log('Delete successful', response);
+       this.helperService.showToast(
+              'Location deleted successfully',
+              Key.TOAST_STATUS_SUCCESS
+       );
+         this.getAllAddressDetails();
+      },
+      (error) => {
+        console.error('Error deleting address', error);
+      }
+    );
+  }
 }
 
 

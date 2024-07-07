@@ -229,7 +229,7 @@
             <div class="d-flex align-items-center justify-content-between">
               <div>
                 <h6 class="text-truncate">Total Locations</h6>
-                <h4 class="mt-3 fw-bold">10</h4>
+                <h4 class="mt-3 fw-bold">{{allAddresses?.length}}</h4>
               </div>
               <span class="total-user-icon d-flex align-items-center justify-content-center">
                 <img src="assets/images/total-user-icon.svg" />
@@ -240,112 +240,260 @@
         </div>
 
         <div class="col-md-7 mt-3 mb-3">
-          <div class="add-shift-main-box">
-            <div class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2">
-              <div class="">
-                <h6 class="text-truncate mb-0">Locations</h6>
-              </div>
-              <div class="">
-                <a class="add-shift-time-btn" data-bs-toggle="modal" data-bs-target="#shiftTime">
-                  <i class="bi bi-plus"></i> Add New Location
-                </a>
+
+          <!-- old -->
+          <!-- {{isShimmer}}{{dataNotFoundPlaceholder}}{{networkConnectionErrorPlaceHolder}} -->
+          <ng-container *ngIf="
+                          isShimmer &&
+                            !dataNotFoundPlaceholder &&
+                            !networkConnectionErrorPlaceHolder;
+                          else organizationShiftTimingWithLocationData
+                        ">
+            <div class="">
+              <div class="text-end">
+                <ngx-shimmer-loading [width]="'40%'" [height]="'20px'" style="border-radius: 50%"></ngx-shimmer-loading>
               </div>
             </div>
-
-            <div class="shift-set">
-              <div class="shift-time p-3 m-3">
-                <div class="">
-                  <div class="d-flex align-items-center justify-content-between">
-                    <div class="d-flex align-items-center gap-3">
-                      <div class="">
-                        <span class="automation-rules-icon d-flex align-items-center justify-content-center">
-                          <img src="assets/images/rule-icon.svg" />
-                        </span>
-                      </div>
-                      <div class="">
-                        <h6 class="text-truncate mb-0">Location Type 1</h6>
-                        <small class="text-muted">Define the Location for the staff</small>
-                      </div>
-                    </div>
-                    <div class="">
-                      <span data-bs-toggle="collapse" role="button" class="automation-rules-toogel-btn pointer"
-                        data-bs-target="#multiCollapseExample0" aria-controls="multiCollapseExample0"
-                        aria-expanded="false">
-                        <i class="bi bi-chevron-down"></i>
-                      </span>
-                    </div>
-                  </div>
-                  <div class="collapse multi-collapse" id="multiCollapseExample0">
-                    <div class="d-flex align-items-center justify-content-between mt-3">
-                      <div class="">
-                        <p class="mb-0">
-                          <i class="bi bi-arrow-right" style="padding-right: 10px"></i>Location Type
-                        </p>
-                      </div>
-                      <div class="d-flex align-items-center gap-4">
-                        <a style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#shiftTime">
-                          <i class="bi bi-people"></i>
-                        </a>
-                        <a style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#shiftTime">
-                          <i class="bi bi-pencil pointer"></i>
-                        </a>
-                        <a style="cursor: pointer" class="delete-rule">
-                          <i class="bi bi-trash pointer text-danger"></i>
-                        </a>
-                      </div>
-                    </div>
-                    <div class="shift-in-out-box bg-white row mt-3 p-3 m-0">
-                      <div class="col-md-4">
-                        <div class="shift-in-out-time mb-3">
-                          <p class="mb-0">
-                            Address Line 1 | <span style="color: #009688">Rathindra Nagar</span>
-                          </p>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="shift-in-out-time mb-3">
-                          <p class="mb-0">
-                            Address Line 2 | <span style="color: #009688">Telibagh</span>
-                          </p>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="shift-in-out-time mb-3">
-                          <p class="mb-0">
-                            City | <span style="color: #009688">Lucknow</span>
-                          </p>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="shift-in-out-time">
-                          <p class="mb-0">
-                            State | <span style="color: #009688"> Uttar Pradesh</span>
-                          </p>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="shift-in-out-time">
-                          <p class="mb-0">
-                            Country | <span style="color: #009688">India</span>
-                          </p>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="shift-in-out-time">
-                          <p class="mb-0">
-                            Range | <span style="color: #009688">1</span>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
+            <div class="mt-3" style="
+                            border: 1px solid #f5f5f5;
+                            padding: 5px;
+                            border-radius: 6px;
+                          ">
+              <div class="row" style="
+                              border-bottom: 1px solid #f5f5f5;
+                              padding-top: 10px;
+                              padding-bottom: 10px;
+                            ">
+                <div class="col-md-4">
+                  <div class="">
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'20px'"
+                      style="border-radius: 50%"></ngx-shimmer-loading>
                   </div>
                 </div>
               </div>
-
-              <!-- Repeat the above block for more shifts -->
-
+              <div class="row mt-3">
+                <div class="col-md-3">
+                  <div class="">
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'20px'"
+                      style="border-radius: 50%"></ngx-shimmer-loading>
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-4">
+                  <div class="">
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                      style="border-radius: 50%"></ngx-shimmer-loading>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="">
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                      style="border-radius: 50%"></ngx-shimmer-loading>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="">
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                      style="border-radius: 50%"></ngx-shimmer-loading>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="">
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                      style="border-radius: 50%"></ngx-shimmer-loading>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="">
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                      style="border-radius: 50%"></ngx-shimmer-loading>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="">
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                      style="border-radius: 50%"></ngx-shimmer-loading>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
+          </ng-container>
+          <ng-template #organizationShiftTimingWithLocationData>
+            <ng-container *ngIf="
+                            allAddresses.length !==
+                              0 &&
+                              !dataNotFoundPlaceholder &&
+                              !networkConnectionErrorPlaceHolder;
+                            else errorInFetchingOrganizationLocationData">
+              <div class="add-shift-main-box">
+                <div class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2">
+                  <div class="">
+                    <h6 class="text-truncate mb-0">Locations</h6>
+                  </div>
+                  <div class="">
+                    <a class="add-shift-time-btn" data-bs-toggle="modal" data-bs-target="#shiftTime"
+                      (click)="clearLocationModel()">
+                      <i class="bi bi-plus"></i> Add New Location
+                    </a>
+                  </div>
+                </div>
+
+                <div class="shift-set">
+                  <div class="shift-time p-3 m-3" *ngFor="let item of allAddresses; let i = index">
+                    <div class="">
+                      <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center gap-3">
+                          <div class="">
+                            <span class="automation-rules-icon d-flex align-items-center justify-content-center">
+                              <img src="assets/images/rule-icon.svg" />
+                            </span>
+                          </div>
+                          <div class="">
+                            <h6 class="text-truncate mb-0">{{item.organizationAddress.addressStatus}}</h6>
+                            <small class="text-muted">Define the Location for the staff</small>
+                          </div>
+                        </div>
+                        <!-- <div class="">
+                          <span data-bs-toggle="collapse" role="button" class="automation-rules-toogel-btn pointer"
+                            data-bs-target="#multiCollapseExample0" aria-controls="multiCollapseExample0"
+                            aria-expanded="false">
+                            <i class="bi bi-chevron-down"></i>
+                          </span>
+                        </div> -->
+                        <span data-bs-toggle="collapse" role="button" class="automation-rules-toogel-btn pointer"
+                          [attr.data-bs-target]="
+                                                        '#multiCollapseExample' + i
+                                                      " [attr.aria-controls]="'multiCollapseExample' + i"
+                          [attr.aria-expanded]="
+                                                        activeIndex == i ? 'true' : 'false'
+                                                      " (click)="toggleCollapse(i)">
+                          <i class="bi bi-chevron-down"></i>
+                        </span>
+                      </div>
+                      <div class="collapse multi-collapse" [attr.id]="'multiCollapseExample' + i"
+                        [ngClass]="{'show': activeIndex === i}">
+                        <div class="d-flex align-items-center justify-content-between mt-3">
+                          <div class="">
+                            <p class="mb-0">
+                              <i class="bi bi-arrow-right"
+                                style="padding-right: 10px"></i>{{item.organizationAddress.addressStatus ||
+                              'N/A'}}
+                            </p>
+                          </div>
+                          <div class="d-flex align-items-center gap-4"
+                            *ngIf="item.organizationAddress.addressStatus != 'Default address'">
+                            <a style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#shiftTime"
+                              (click)="getUsersOfAddressDeatils(item.organizationAddress.id, item.organizationAddress.addressStatus)">
+                              <i class="bi bi-people"></i>
+                            </a>
+                            <a style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#shiftTime"
+                              (click)="getAddressDetails(item.organizationAddress.id, item.organizationAddress.addressStatus)"
+                              (click)="clearLocationModel()">
+                              <i class="bi bi-pencil pointer"></i>
+                            </a>
+                            <a style="cursor: pointer" class="delete-rule"
+                              (click)="deleteAddress(item.organizationAddress.id)">
+                              <i class="bi bi-trash pointer text-danger"></i>
+                            </a>
+                          </div>
+                        </div>
+                        <div class="shift-in-out-box bg-white row mt-3 p-3 m-0">
+                          <div class="col-md-4">
+                            <div class="shift-in-out-time mb-3">
+                              <p class="mb-0">
+                                Address Line 1 : <span style="color: #009688">{{item.organizationAddress.addressLine1 ||
+                                  'N/A'}}</span>
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="shift-in-out-time mb-3">
+                              <p class="mb-0">
+                                Address Line 2 : <span style="color: #009688">{{item.organizationAddress.addressLine2 ||
+                                  'N/A'}}</span>
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="shift-in-out-time mb-3">
+                              <p class="mb-0">
+                                City : <span style="color: #009688">{{item.organizationAddress.city || 'N/A'}}</span>
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="shift-in-out-time">
+                              <p class="mb-0">
+                                State : <span style="color: #009688">{{item.organizationAddress.state || 'N/A'}}</span>
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="shift-in-out-time">
+                              <p class="mb-0">
+                                Country : <span style="color: #009688">{{item.organizationAddress.country ||
+                                  'N/A'}}</span>
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="shift-in-out-time">
+                              <p class="mb-0">
+                                Range : <span style="color: #009688">{{item.organizationAddress.radius || 'N/A'}}</span>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Repeat the above block for more shifts -->
+
+                </div>
+              </div>
+
+            </ng-container>
+          </ng-template>
+          <ng-template #errorInFetchingOrganizationLocationData>
+            <div class="empty-file" *ngIf="dataNotFoundPlaceholder">
+              <div class="errorboxmain">
+                <div class="errorboxinner">
+                  <div class="errorboxplaceholder mb-2">
+                    <img src="assets/images/empty-box.svg" style="width: 80px" />
+                  </div>
+                  <div class="">
+                    <p class="mb-0">Locations Not Found</p>
+                  </div>
+                  <div class="add-filtter mt-2 mb-3" style="text-align: center">
+                    <a class="" style="font-size: 16px; color: #6666f3" data-bs-toggle="modal"
+                      data-bs-target="#shiftTime" (click)="clearLocationModel()">
+                      <i class="bi bi-plus"></i> Add More Locations
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="empty-file" *ngIf="networkConnectionErrorPlaceHolder">
+              <div class="errorboxmain">
+                <div class="errorboxinner text-center">
+                  <div class="errorboxplaceholder mb-2">
+                    <img src="assets/images/signal.svg" style="width: 80px" />
+                  </div>
+                  <div class="">
+                    <h4>Something went wrong</h4>
+                    <p>
+                      An error occurred while processing your request. Please
+                      refresh the page and try again.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+
+          <!--  new  -->
 
 
           <div class="col-md-1"></div>
@@ -385,20 +533,24 @@
     <div class="modal-content">
       <div class="modal-header">
         <h6 class="modal-title m-0" id="exampleModalDefaultLabel">Assign Location To Staff</h6>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          #closeButtonLocation></button>
       </div>
       <div class="modal-body modal-height-fix">
         <div>
           <ul id="myTab" role="tablist" class="nav nav-tabs">
             <li role="presentation" class="nav-item">
               <button id="home-tab" data-bs-toggle="tab" data-bs-target="#shiftime" type="button" role="tab"
-                aria-controls="shiftime" aria-selected="true" class="nav-link active">
+                aria-controls="shiftime" aria-selected="true" class="nav-link active" #locationSettingTab>
                 Location
               </button>
             </li>
+            <!-- {{isFormInvalidLocation}}
+            [disabled]="isFormInvalidLocation" -->
             <li role="presentation" class="nav-item">
               <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#staffselection" type="button" role="tab"
-                aria-controls="staffselection" aria-selected="false" class="nav-link">
+                aria-controls="staffselection" aria-selected="false" class="nav-link" #staffSelectionTab
+                [disabled]="isStaffSelectionDisabled">
                 Staff selection
               </button>
             </li>
@@ -824,10 +976,10 @@
                 <div class="modal-footer d-flex align-items-center justify-content-end"></div>
               </div>
               <div class="modal-footer d-flex align-items-center justify-content-between">
-                <button type="button" class="btn btn-outline-secondary btn-round">
+                <button type="button" class="btn btn-outline-secondary btn-round" (click)="openLocationSetting()">
                   Back
                 </button>
-                <button type="button" class="btn btn-outline-primary btn-round">
+                <button type="button" class="btn btn-outline-primary btn-round" (click)="saveStaffAddressDetails()">
                   Submit
                 </button>
               </div>

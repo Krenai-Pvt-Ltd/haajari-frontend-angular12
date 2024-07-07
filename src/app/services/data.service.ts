@@ -3,6 +3,7 @@ import {
   HttpErrorResponse,
   HttpHeaders,
   HttpParams,
+  HttpRequest,
 } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
@@ -2966,6 +2967,30 @@ export class DataService {
     );
   }
 
+  saveStaffAddressDetails(staffAddressDetails: any, addressId: number): Observable<any> {
+    const params =new HttpParams().set('addressId', addressId);
+    return this.httpClient.put(`${this.baseUrl}/user-verification/save/staff/location`, staffAddressDetails, {params });
+  }
+
+  getAllAddressDetailsWithStaff(): Observable<any> {
+    
+    return this.httpClient.get(`${this.baseUrl}/user-verification/get/organization/all/multi/locations`,);
+  }
+
+  getAddressDetailsOfStaffByAddressIdAndType(addressId: number, addressString: string): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/user-verification/get/organization/locations/by/Id`, {
+      params: {
+        addressId: addressId.toString(),
+        addressString: addressString
+      }
+    });
+  }
+
+  deleteByAddressId(addressId: number): Observable<any> {
+    const url = `${this.baseUrl}/user-verification/delete/multilocation/addressId?addressId=${addressId}`;
+    return this.httpClient.delete(url);
+  }
+
   getSalaryChangeResponseListByOrganizationId(
     startDate: string,
     endDate: string,
@@ -3230,14 +3255,13 @@ export class DataService {
     return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/statutory/esi`, esiDetailsRequestList, {params});
   }
 
-  registerTdsDetailsListByOrganizationId(startDate: string, endDate: string, tdsDetailsRequestList : TdsDetailsRequest[]): Observable<any>{
+  registerTdsDetailsListByOrganizationId(startDate: string, endDate: string, tdsDetailsRequestList: TdsDetailsRequest[]): Observable<any> {
 
     const params = new HttpParams()
-    .set('start_date', startDate)
-    .set('end_date', endDate);
+      .set('start_date', startDate)
+      .set('end_date', endDate);
 
     return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/statutory/tds`, tdsDetailsRequestList, {params});
-
   }
 
 }
