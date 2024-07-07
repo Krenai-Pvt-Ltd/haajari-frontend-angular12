@@ -1343,6 +1343,7 @@ export class PayrollDashboardComponent implements OnInit {
         this.endDate
       ).subscribe((response) => {
         this.userLeaveLogs = response.listOfObject;
+        console.log(response.listOfObject);
         
       }, (error) => {
         
@@ -1681,4 +1682,29 @@ export class PayrollDashboardComponent implements OnInit {
     }
   
 
+    RUN_PAYROLL_LOADER : boolean = false;
+    generateSalaryReportMethodCall(): void {
+      this.RUN_PAYROLL_LOADER = true;
+      this.dataService.generateSalaryReport(this.startDate, this.endDate).subscribe({
+        next: (response) => {
+          const downloadLink = document.createElement('a');
+          downloadLink.href = response.object.reportExcelLink;
+          downloadLink.download = 'Report_JULY_1720181370937.xlsx';
+          downloadLink.click();
+          console.log(response);
+          this.RUN_PAYROLL_LOADER = false;
+          this.helperService.showToast('Payroll generated successfully.', Key.TOAST_STATUS_SUCCESS);
+        },
+        error: (error) => {
+          this.helperService.showToast('Error while generating the Payroll!', Key.TOAST_STATUS_ERROR);
+          this.RUN_PAYROLL_LOADER = false;
+        },
+      });
+    }    
 }
+
+
+
+
+
+
