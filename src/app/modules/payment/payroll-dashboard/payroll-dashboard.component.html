@@ -516,7 +516,7 @@
                               <th>SALARY</th>
                               <th>PAY ACTION</th>
                               <th>COMMENT(Optional)</th>
-                              <th>ACTION</th>
+                              <!-- <th>ACTION</th> -->
                             </tr>
                           </thead>
                           <ng-container *ngIf="
@@ -619,7 +619,7 @@
                                     <input class="comment-input p-2" type="text" placeholder="Write the comment here"
                                       [(ngModel)]="newJoineeResponse.comment" [ngModelOptions]="{ standalone: true }" />
                                   </td>
-                                  <td class="text-start">
+                                  <!-- <td class="text-start">
                                     <a (click)="
                                         routeToUserProfile(
                                           newJoineeResponse.uuid
@@ -627,7 +627,7 @@
                                       ">
                                       <i class="bi bi-pencil-square"></i>
                                     </a>
-                                  </td>
+                                  </td> -->
                                 </tr>
                               </tbody>
                             </ng-container>
@@ -703,7 +703,7 @@
                               <th>PAY ACTION</th>
                               <th>COMMENT(Optional)</th>
                               <th>RESIGNATION STATUS</th>
-                              <th>ACTION</th>
+                              <!-- <th>ACTION</th> -->
                             </tr>
                           </thead>
                           <ng-container *ngIf="
@@ -813,7 +813,7 @@
                                   <td class="text-start">
                                     {{ userExitResponse.resignationStatus }}
                                   </td>
-                                  <td>
+                                  <!-- <td>
                                     <a (click)="
                                         routeToUserProfile(
                                           userExitResponse.uuid
@@ -821,7 +821,7 @@
                                       ">
                                       <i class="bi bi-pencil-square"></i>
                                     </a>
-                                  </td>
+                                  </td> -->
                                 </tr>
                               </tbody>
                             </ng-container>
@@ -891,13 +891,13 @@
                               <th>EMPLOYEE</th>
                               <th>EMAIL</th>
                               <th>NOTICE PERIOD DATE</th>
-                              <th>LAST WORKING DATE</th>
+                              <!-- <th>LAST WORKING DATE</th> -->
                               <th>NO OF WORKING DAYS</th>
                               <th>SALARY</th>
                               <th>PAY ACTION</th>
                               <th>COMMENT(Optional)</th>
                               <th>RESIGNATION STATUS</th>
-                              <th>ACTION</th>
+                              <!-- <th>ACTION</th> -->
                             </tr>
                           </thead>
                           <ng-container *ngIf="
@@ -961,10 +961,10 @@
                                     {{ finalSettlementResponse.noticePeriodEndDate
                                     }}
                                   </td>
-                                  <td>
+                                  <!-- <td>
                                     {{ finalSettlementResponse.lastWorkingDate
                                     }}
-                                  </td>
+                                  </td> -->
                                   <td>-</td>
                                   <td>{{ finalSettlementResponse.salary }}</td>
                                   <td class="text-">
@@ -1013,7 +1013,7 @@
                                     {{ finalSettlementResponse.resignationStatus
                                     }}
                                   </td>
-                                  <td>
+                                  <!-- <td>
                                     <a (click)="
                                         routeToUserProfile(
                                           finalSettlementResponse.uuid
@@ -1021,7 +1021,7 @@
                                       ">
                                       <i class="bi bi-pencil-square"></i>
                                     </a>
-                                  </td>
+                                  </td> -->
                                 </tr>
                               </tbody>
                             </ng-container>
@@ -1135,7 +1135,7 @@
                 <button type="button" class="btn btn-light btn-round" (click)="attendanceAndLeaveBackTab()"> BACK
                 </button>
                 <button type="button" class="btn btn-primary btn-round"
-                  (click)="registerAttendanceAndLeavesMethodCall()"> SAVE & CONTINUE </button>
+                  (click)="registerAttendanceAndLeavesMethodCall(CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE)"> SAVE & CONTINUE </button>
                 <button type="button" class="btn btn-primary btn-round"> MARK AS COMPLETE </button>
               </div>
             </div>
@@ -1290,7 +1290,7 @@
                               <!-- <th>ADJUSTED LOP</th> -->
                               <th>FINAL LOP DAYS</th>
                               <th>COMMENT(Optional)</th>
-                              <th>ACTION</th>
+                              <!-- <th>ACTION</th> -->
                             </tr>
                           </thead>
                           <ng-container *ngIf="
@@ -1362,11 +1362,11 @@
                                       [(ngModel)]="lopSummaryResponse.lopSummaryComment"
                                       [ngModelOptions]="{standalone: true}" />
                                   </td>
-                                  <td class="text-start">
+                                  <!-- <td class="text-start">
                                     <a>
                                       <i class="bi bi-pencil-square"></i>
                                     </a>
-                                  </td>
+                                  </td> -->
                                 </tr>
                               </tbody>
                             </ng-container>
@@ -1426,7 +1426,7 @@
                               <th>LOP DAYS</th>
                               <th>REVERSE LOP DAYS</th>
                               <th>COMMENT(Optional)</th>
-                              <th>ACTION</th>
+                              <!-- <th>ACTION</th> -->
                             </tr>
                           </thead>
                           <ng-container
@@ -1495,11 +1495,11 @@
                                   <td>
                                     <input class="comment-input p-2" type="text" placeholder="Write the comment here" />
                                   </td>
-                                  <td class="text-start">
+                                  <!-- <td class="text-start">
                                     <a>
                                       <i class="bi bi-pencil-square"></i>
                                     </a>
-                                  </td>
+                                  </td> -->
                                 </tr>
                               </tbody>
                             </ng-container>
@@ -2145,7 +2145,7 @@
                               <th>AMOUNT</th>
                               <th>AMOUT TO BE ADJUSTED</th>
                               <th>FINAL AMOUNT</th>
-                              <th>ACTION</th>
+                              <!-- <th>ACTION</th> -->
                             </tr>
                           </thead>
                           <ng-container
@@ -2204,11 +2204,11 @@
                                       [ngModelOptions]="{ standalone: true }" />
                                   </td>
                                   <td>{{ epfDetailsResponse.finalAmount }}</td>
-                                  <td class="text-start">
+                                  <!-- <td class="text-start">
                                     <a>
                                       <i class="bi bi-pencil-square"></i>
                                     </a>
-                                  </td>
+                                  </td> -->
                                 </tr>
                               </tbody>
                             </ng-container>
@@ -2267,7 +2267,7 @@
                               <th>AMOUNT</th>
                               <th>AMOUT TO BE ADJUSTED</th>
                               <th>FINAL AMOUNT</th>
-                              <th>ACTION</th>
+                              <!-- <th>ACTION</th> -->
                             </tr>
                           </thead>
                           <ng-container
@@ -2326,11 +2326,11 @@
                                       [ngModelOptions]="{ standalone: true }" />
                                   </td>
                                   <td>{{ esiDetailsResponse.finalAmount }}</td>
-                                  <td class="text-start">
+                                  <!-- <td class="text-start">
                                     <a>
                                       <i class="bi bi-pencil-square"></i>
                                     </a>
-                                  </td>
+                                  </td> -->
                                 </tr>
                               </tbody>
                             </ng-container>
@@ -2389,7 +2389,7 @@
                               <th>AMOUNT</th>
                               <th>AMOUT TO BE ADJUSTED</th>
                               <th>FINAL AMOUNT</th>
-                              <th>ACTION</th>
+                              <!-- <th>ACTION</th> -->
                             </tr>
                           </thead>
                           <ng-container
@@ -2448,11 +2448,11 @@
                                       [ngModelOptions]="{ standalone: true }" />
                                   </td>
                                   <td>{{ tdsDetailsResponse.finalAmount }}</td>
-                                  <td class="text-start">
+                                  <!-- <td class="text-start">
                                     <a>
                                       <i class="bi bi-pencil-square"></i>
                                     </a>
-                                  </td>
+                                  </td> -->
                                 </tr>
                               </tbody>
                             </ng-container>

@@ -621,6 +621,7 @@ export class PayrollDashboardComponent implements OnInit {
   getOrganizationIndividualMonthSalaryDataMethodCall(
     monthResponse: MonthResponse
   ) {
+    this.currentMonthResponse = monthResponse;
     this.selectedMonth = monthResponse.month;
     this.selectedYear = monthResponse.year;
 
@@ -1125,16 +1126,16 @@ export class PayrollDashboardComponent implements OnInit {
     // #######################################################################
     // Step 2: Attendance, Leaves & Present days
 
-    registerAttendanceAndLeavesMethodCall(){
-      if(this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE == this.LEAVES){
+    registerAttendanceAndLeavesMethodCall(CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE : number){
+      if(CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE == this.LEAVES){
 
       }
 
-      if(this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE == this.LOP_SUMMARY){
+      if(CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE == this.LOP_SUMMARY){
         this.registerLopSummaryRequestByOrganizationIdAndStartDateMethodCall();
       }
 
-      if(this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE == this.LOP_REVERSAL){
+      if(CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE == this.LOP_REVERSAL){
         this.registerLopReversalRequestByOrganizationIdAndStartDateMethodCall();
       }
     }
@@ -1687,6 +1688,7 @@ export class PayrollDashboardComponent implements OnInit {
       this.RUN_PAYROLL_LOADER = true;
       this.dataService.generateSalaryReport(this.startDate, this.endDate).subscribe({
         next: (response) => {
+          this.getOrganizationIndividualMonthSalaryDataMethodCall(this.currentMonthResponse);
           const downloadLink = document.createElement('a');
           downloadLink.href = response.object.reportExcelLink;
           downloadLink.download = 'Report_JULY_1720181370937.xlsx';
