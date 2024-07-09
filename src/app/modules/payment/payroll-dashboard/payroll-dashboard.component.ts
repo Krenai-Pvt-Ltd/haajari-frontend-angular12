@@ -407,9 +407,8 @@ export class PayrollDashboardComponent implements OnInit {
 
     this.getOrganizationRegistrationDateMethodCall();
     this.getMonthResponseList(this.selectedDate);
-    this.getOrganizationIndividualMonthSalaryDataMethodCall(
-      this.currentMonthResponse
-    );
+    this.getOrganizationIndividualMonthSalaryDataMethodCall(this.currentMonthResponse);
+    this.getOrganizationPreviousMonthSalaryDataMethodCall(this.currentMonthResponse);
 
   }
 
@@ -444,9 +443,8 @@ export class PayrollDashboardComponent implements OnInit {
     }
 
     if (enabledMonthResponse) {
-      this.getOrganizationIndividualMonthSalaryDataMethodCall(
-        enabledMonthResponse
-      );
+      this.getOrganizationIndividualMonthSalaryDataMethodCall(enabledMonthResponse);
+      this.getOrganizationPreviousMonthSalaryDataMethodCall(enabledMonthResponse);
     }
   }
 
@@ -616,11 +614,8 @@ export class PayrollDashboardComponent implements OnInit {
   selectedMonth: string = '';
   selectedYear: number = 0;
   // Fetching organization individual month salary data.
-  organizationMonthWiseSalaryData: OrganizationMonthWiseSalaryData =
-    new OrganizationMonthWiseSalaryData();
-  getOrganizationIndividualMonthSalaryDataMethodCall(
-    monthResponse: MonthResponse
-  ) {
+  organizationMonthWiseSalaryData: OrganizationMonthWiseSalaryData = new OrganizationMonthWiseSalaryData();
+  getOrganizationIndividualMonthSalaryDataMethodCall(monthResponse: MonthResponse) {
     this.currentMonthResponse = monthResponse;
     this.selectedMonth = monthResponse.month;
     this.selectedYear = monthResponse.year;
@@ -656,6 +651,23 @@ export class PayrollDashboardComponent implements OnInit {
         (error) => {
           this.isShimmer = false;
           this.networkConnectionErrorPlaceHolder = true;
+        }
+      );
+  }
+
+
+  organizationPreviousMonthSalaryData: OrganizationMonthWiseSalaryData = new OrganizationMonthWiseSalaryData();
+  getOrganizationPreviousMonthSalaryDataMethodCall(monthResponse: MonthResponse) {
+    this.dataService.getOrganizationPreviousMonthSalaryData(
+        this.helperService.formatDateToYYYYMMDD(monthResponse.firstDate),
+        this.helperService.formatDateToYYYYMMDD(monthResponse.lastDate)
+      ).subscribe((response) => {
+          if(!this.helperService.isObjectNullOrUndefined(response)){
+            this.organizationPreviousMonthSalaryData = response.object;
+          }
+        },
+        (error) => {
+          
         }
       );
   }
