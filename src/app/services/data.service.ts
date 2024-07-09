@@ -2537,6 +2537,20 @@ export class DataService {
     );
   }
 
+
+  getOrganizationPreviousMonthSalaryData(
+    startDate: string,
+    endDate: string
+  ): Observable<any> {
+    const params = new HttpParams()
+      .set('start_date', startDate)
+      .set('end_date', endDate);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/salary/organization-previous-month-data`,
+      { params }
+    );
+  }
+
   getOrganizationMonthWiseSalaryData(
     itemPerPage: number,
     pageNumber: number,

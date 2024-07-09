@@ -5,4 +5,5 @@ export class OrganizationMonthWiseSalaryData {
   esiAmount: number = 0;
   netPay: number = 0;
   totalAmount: number = 0;
+  month : string = '';
 }
