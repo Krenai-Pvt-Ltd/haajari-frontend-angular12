@@ -596,9 +596,7 @@
                                             color: black;
                                             border-color: #ced4da;
                                             width: 100%;">
-                                          {{ newJoineeResponse.payActionType
-                                          ?.name || "Select pay action"
-                                          }}
+                                         {{ getSelectedPayActionTypeName(newJoineeResponse) || "Select pay action" }}
                                           <i class="bi bi-chevron-down"></i>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"
@@ -616,7 +614,7 @@
                                   </td>
                                   <td class="text-start">
                                     <input class="comment-input p-2" type="text" placeholder="Write the comment here"
-                                      [(ngModel)]="newJoineeResponse.comment" [ngModelOptions]="{ standalone: true }" />
+                                      [(ngModel)]="newJoineeResponse.comment" (change)="updateComment(newJoineeResponse, newJoineeResponse.comment)" [ngModelOptions]="{ standalone: true }" />
                                   </td>
                                   <!-- <td class="text-start">
                                     <a (click)="

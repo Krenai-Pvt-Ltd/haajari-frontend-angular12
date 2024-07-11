@@ -699,6 +699,8 @@ export class PayrollDashboardComponent implements OnInit {
   //Fetching the new joinee data
   newJoineeResponseList: NewJoineeResponse[] = [];
   debounceTimer: any;
+  selectedPayActionCache: { [uuid: string]: PayActionType } = {};
+  commentCache: { [uuid: string]: string } = {};
   getNewJoineeByOrganizationIdMethodCall(debounceTime: number = 300) {
     this.newJoineeResponseList = [];
 
@@ -724,10 +726,29 @@ export class PayrollDashboardComponent implements OnInit {
             if (this.helperService.isListOfObjectNullOrUndefined(response)) {
               this.dataNotFoundPlaceholderForNewJoinee = true;
             } else {
-              this.newJoineeResponseList = response.listOfObject;
+              this.newJoineeResponseList = response.listOfObject.map((joinee: NewJoineeResponse) => {
+                // Apply cached selection if available
+                if (this.selectedPayActionCache[joinee.uuid]) {
+                  joinee.payActionType = this.selectedPayActionCache[joinee.uuid];
+                  joinee.payActionTypeId = this.selectedPayActionCache[joinee.uuid].id;
+                } else {
+                  // Set initial selection based on payActionTypeId
+                  const selectedPayActionType = this.payActionTypeList.find(
+                    (payActionType) => payActionType.id === joinee.payActionTypeId
+                  );
+                  if (selectedPayActionType) {
+                    joinee.payActionType = selectedPayActionType;
+                  }
+                }
+                   // Apply cached comment if available
+                   if (this.commentCache[joinee.uuid]) {
+                    joinee.comment = this.commentCache[joinee.uuid];
+                  }
+  
+                return joinee;
+              });
               this.total = response.totalItems;
               this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-              // console.log(this.newJoineeResponseList);
             }
             this.isShimmerForNewJoinee = false;
           },
@@ -737,6 +758,13 @@ export class PayrollDashboardComponent implements OnInit {
           }
         );
     }, debounceTime);
+  }
+
+
+  updateComment(newJoinee: NewJoineeResponse, comment: string) {
+    newJoinee.comment = comment;
+    // Update the cache
+    this.commentCache[newJoinee.uuid] = comment;
   }
 
   //Fetching the pay action type list
@@ -777,10 +805,17 @@ export class PayrollDashboardComponent implements OnInit {
   selectedPayActionType : PayActionType = new PayActionType();
   selectPayActionType(payActionType : PayActionType, response : any){
     if(response != undefined && response != null){
-      response.payActionType = payActionType;
+      response.payActionTypeId = payActionType.id;
+      this.selectedPayActionCache[response.uuid] = payActionType;
     }
   }
-
+  getSelectedPayActionTypeName(newJoinee: NewJoineeResponse): string {
+    if (newJoinee.payActionTypeId === 2) {
+      return 'HOLD SALARY';
+    } else {
+      return 'PROCESS AS SALARY';
+    }
+  }
 
 
   // User selection to generate the payout
@@ -1092,7 +1127,7 @@ export class PayrollDashboardComponent implements OnInit {
 
 
         this.newJoineeResponseList.forEach((item) => {
-          let newJoineeAndUserExitRequest = new NewJoineeAndUserExitRequest(item.uuid, item.payActionType.id, item.comment);
+          let newJoineeAndUserExitRequest = new NewJoineeAndUserExitRequest(item.uuid, item.payActionTypeId, item.comment);
 
           this.newJoineeAndUserExitRequestList.push(newJoineeAndUserExitRequest);
         });
