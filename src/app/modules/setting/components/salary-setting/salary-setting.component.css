@@ -876,3 +876,8 @@ tbody tr {
 .errorboxmain {
   text-align: center;
 }
+
+.custom-modal-width {
+  width: 560px !important;
+  max-width: 560px !important;
+}
