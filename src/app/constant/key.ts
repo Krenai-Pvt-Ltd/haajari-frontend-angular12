@@ -248,6 +248,7 @@ export class Key {
   create_user = '/whatsapp-user-onboarding/create';
 
   get_onboarding_user = '/whatsapp-user-onboarding/onboarding-user';
+  get_onboarding_user_for_emp_onboarding_data = '/whatsapp-user-onboarding/onboarding-user-for-employee-onboarding-data';
   delete_onboarding_user = '/whatsapp-user-onboarding/delete';
   edit_onboarding_user = '/whatsapp-user-onboarding/update';
 
