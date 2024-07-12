@@ -301,7 +301,19 @@ this.getOrganizationMonthWiseSalaryDataMethodCall();
     );
   }
   
-  
+  generateSalarySlipMethodCall(){
+    this.dataService.generateSalarySlip(this.startDate, this.endDate,this.selectedEmployeeIds).subscribe(
+      (response) => {
+        
+        this.isAllUsersSelected = false;
+        this.selectedEmployeeIds= [];
+        this.getOrganizationMonthWiseSalaryDataMethodCall();
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
 
   
   

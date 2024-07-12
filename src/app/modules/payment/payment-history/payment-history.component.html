@@ -181,7 +181,7 @@
                 </button>
               </div>
               <div class="btn-group ms-1">
-                <button type="button" class="btn  btn-de-secondary">
+                <button [disabled]="!selectedEmployeeIds || selectedEmployeeIds.length === 0"  type="button" class="btn  btn-de-secondary" (click)="generateSalarySlipMethodCall()">
                   <i class="fas fa-cogs"></i>
                   <small>&nbsp;&nbsp;Generate</small>
                 </button>
