@@ -1121,10 +1121,10 @@
                                           : dayWiseStatus.status[0]
                                           }}
 
-                                          <span class="user-details p-3"> 
+                                          <span class="user-details p-3" *ngIf=" dayWiseStatus.status == HALFDAY || dayWiseStatus.status == PRESENT"> 
                                             <h5 class="p-0">Attendance Details</h5>
                                             <div class=" p-0" *ngIf="loadingFlag">
-                                              <p class="mb-0">Loading ....</p>   
+                                              <p class="mb-0">.....</p>   
                                             </div>
                                             <div class=" p-0" *ngIf="userAttendanceDetailDateWise?.checkInTime!=null && !loadingFlag">
                                               <p class="mb-0">Check In Time: {{userAttendanceDetailDateWise.checkInTime | date:'medium' }}</p>
@@ -1543,8 +1543,7 @@
               <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center">
                 <img src="{{ attendList.image }}" alt="" class="rounded-circle thumb-sm me-1"
                   *ngIf="attendList.image" />
-                <span class="members-name-new" id="user-first-name-logo" *ngIf="!attendList.image">{{ attendList.name[0]
-                  }}</span>
+                <span class="members-name-new" id="user-first-name-logo" *ngIf="!attendList.image">{{ attendList.name[0]}}</span>
                 <!-- <span class="thumb-xl justify-content-center d-flex align-items-center bg-soft-success rounded-circle me-2" *ngIf="!attendList.image">{{ attendList.name[0] }}</span> -->
               </div>
               <div class="media-body align-self-center ms-3">
