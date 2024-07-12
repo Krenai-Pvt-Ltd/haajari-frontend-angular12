@@ -101,6 +101,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
                 //@ts-ignore
                 this.city = results[0].address_components[2].long_name;
                 this.address = address;
+                this.employeeAttendanceLocation.currentLocation = address;
                 console.log(address); // Log the address to console or update the UI as needed
                 this.enableSubmitToggle = true;
                 (
@@ -146,7 +147,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
         console.log('Cannot mark attendance');
     } else {
         if (this.attendanceMode == 3) {
-            this.dataService.saveEmployeeCurrentLocationLatLng(this.lat, this.lng, this.radius, this.attendanceMode);
+            this.dataService.saveEmployeeCurrentLocationLatLng(this.lat, this.lng, this.radius, this.attendanceMode, this.address);
             this.routeToEmployeePhoto();
         } else if (this.attendanceMode == 2) {
             this.markAttendaceWithLocationMethodCall();

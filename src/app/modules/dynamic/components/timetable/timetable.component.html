@@ -199,7 +199,18 @@
             *ngIf="(ROLE | async) === ADMIN">
             <a>Unprocessed Logs <i class="bi bi-list-ol"></i></a>
             <p style="color: #a1a0a0; margin-bottom: 0px">|</p>
-            <a>Daily Report <i class="bi bi-download"></i></a>
+            <a (click)="downloadAttedanceReport(selectedDate)">Daily Report <i
+              style="
+                font-size: 16px;
+                color: #6666f3;
+                height: 1rem;
+                width: 1rem;
+              "
+              [ngClass]="{
+                'spinner-border': rotateToggle,
+                'bi bi-download': !rotateToggle
+              }"
+            ></i></a>
             <p style="color: #a1a0a0; margin-bottom: 0px">|</p>
             <a routerLink="/setting/attendance-setting">Settings <i class="bi bi-gear"></i></a>
           </div>
@@ -643,13 +654,13 @@
                                   attendanceLogResponse.operationTime
                                   | timeFormat
                                   }} </span>
-                                <div class="icons">
+                                <!-- <div class="icons">
                                   <i class="location-icon fas fa-map-marker-alt"
                                     *ngIf="attendanceLogResponse.latString!=null && attendanceLogResponse.longString!=null"
                                     (click)="openAddressModal(attendanceLogResponse.latString, attendanceLogResponse.longString)"></i>
                                   <i class="eye-icon fas fa-eye" *ngIf="attendanceLogResponse.imageUrlString!=null"
                                     (click)="openSelfieModal(attendanceLogResponse.imageUrlString)"></i>
-                                </div>
+                                </div> -->
                               </h6>
                               <div style=" display: block; margin-top: 5px; color: #6c757d; ">
                                 <span style=" font-size: 13px; font-weight: 600; vertical-align: middle; ">
@@ -671,6 +682,54 @@
                                   {{ attendanceLogResponse.additionalNotes }}
                                 </p>
                               </div>
+                              <!-- <div class="icons">
+                                <i class="location-icon fas fa-map-marker-alt"
+                                  *ngIf="attendanceLogResponse.latString!=null && attendanceLogResponse.longString!=null"
+                                  (click)="openAddressModal(attendanceLogResponse.latString, attendanceLogResponse.longString)"></i>
+                                <i class="eye-icon fas fa-eye" *ngIf="attendanceLogResponse.imageUrlString!=null"
+                                  (click)="openSelfieModal(attendanceLogResponse.imageUrlString)"></i>
+                              </div> -->
+                              <!-- Location as text -->
+                                  <!-- <div *ngIf="attendanceLogResponse.latString != null && attendanceLogResponse.longString != null">    
+                                    <p class="mb-0 mt-0" style="font-size: 14px">
+                                      <span style="display: block; justify-content: space-between;"><b>Location: <i class="location-icon fas fa-map-marker-alt" style="display: flex; justify-content: flex-end;"
+                                        *ngIf="attendanceLogResponse.latString!=null && attendanceLogResponse.longString!=null"
+                                        (click)="openAddressModal(attendanceLogResponse.latString, attendanceLogResponse.longString)"></i></b>
+                                      </span>  
+                                      <span>{{ attendanceLogResponse.currentAddress || 'N/A'}}
+                                      
+                                      </span>
+                                      
+                                    </p>
+
+                                  </div> -->
+                                  <!-- Image -->
+                                  <!-- <div *ngIf="attendanceLogResponse.imageUrlString != null">
+                                    <i class="eye-icon fas fa-eye" style="display: flex; justify-content: flex-end;" *ngIf="attendanceLogResponse.imageUrlString!=null"
+                                        (click)="openSelfieModal(attendanceLogResponse.imageUrlString)"></i>
+                                    <img [src]="attendanceLogResponse.imageUrlString" alt="User Image" style="max-width: 100px; max-height: 100px;">
+                                  </div> -->
+
+                                  <div class="card" *ngIf="attendanceLogResponse.latString != null && attendanceLogResponse.longString != null">
+                                    <div class="card-content justify-content-start">
+                                      <div class="image-section" *ngIf="attendanceLogResponse.imageUrlString != null">
+                                        <img [src]="attendanceLogResponse.imageUrlString" alt="User Image" class="user-image">
+                                      </div>
+                                      <div class="info-section">
+                                        <div>
+                                          <p class="mb-0 mt-0 location-text">
+                                            <span><b>Location:</b></span>
+                                            <span class="location-address">{{ attendanceLogResponse.currentAddress || 'N/A'}}</span>
+                                          </p>
+                                        </div>
+                                        <div class="button-section btn-sm">
+                                          <button class="btn-sm"   *ngIf="attendanceLogResponse.imageUrlString != null" (click)="openSelfieModal(attendanceLogResponse.imageUrlString)" class="view-button">View Selfie</button>
+                                          <button class="btn-sm" *ngIf="attendanceLogResponse.latString != null && attendanceLogResponse.longString != null" (click)="openAddressModal(attendanceLogResponse.latString, attendanceLogResponse.longString)" class="view-button">View Location</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  
                             </li>
                           </ul>
                         </ng-container>
@@ -715,11 +774,11 @@
                 </div>
               </div>
               <!-- modal-body -->
-              <div class="modal-footer d-flex align-items-center justify-content-end">
-                <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close">
+              <!-- <div class="modal-footer d-flex align-items-center justify-content-end">
+                <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close" >
                   Cancel
                 </button>
-              </div>
+              </div> -->
               <!-- modal-footer -->
             </div>
             <!-- modal-content -->
@@ -768,15 +827,14 @@
   #attendancewithlocationssButton id="attendancewithlocationssButton"></button>
 <div class="modal fade" id="attendancewithlocationss" tabindex="-1" role="dialog"
   aria-labelledby="attendancewithlocation" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
+  <div class="modal-dialog modal-md" role="document">
     <form>
       <div class="modal-content">
         <div class="modal-header">
           <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
             Staff Attendance Location
           </h6>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-            (click)="reOpenLogsModal()"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="modal" data-bs-target="#viewlog"></button>
         </div>
         <!--end modal-header-->
         <div class="modal-body">
@@ -807,23 +865,23 @@
   #openDocModalButton id="openDocModalButton"></button>
 <div class="modal blur-bg-2" id="showDocModal" tabindex="-1" data-bs-keyboard="false"
   aria-labelledby="showDocModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-md">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="showDocModalLabel">Attendance Selfie</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-          (click)="reOpenLogsModal()"></button>
+        data-bs-toggle="modal" data-bs-target="#viewlog"></button>
       </div>
-      <div class="modal-body text-center" style="overflow: scroll; min-height: 450px">
+      <div class="modal-body text-center" style="overflow: scroll; max-height: 350px">
         <!-- <iframe *ngIf="previewString" [src]="previewString" style="width: 100%; height: 100vh" frameborder="0"></iframe> -->
-        <img *ngIf="isImage" [src]="previewString" alt="Attendance Selfie" style="max-width: 100%; height: auto;">
+        <img *ngIf="isImage" [src]="previewString" alt="Attendance Selfie" style="max-width: 100%; height: 350px;">
       </div>
-      <!-- <div class="modal-footer d-flex align-items-center justify-content-end gap-3">
-        <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
-        <button class="btn btn-primary" (click)="downloadFile(url)">
+      <div class="modal-footer d-flex align-items-center justify-content-end gap-3">
+        <!-- <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button> -->
+        <button class="btn btn-primary btn-sm" *ngIf="imageDownUrl" (click)="downloadFile(imageDownUrl)">
           <span><i class="bi bi-download"></i> Download</span>
         </button>
-      </div> -->
+      </div>
     </div>
   </div>
 </div>

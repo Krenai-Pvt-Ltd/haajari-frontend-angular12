@@ -533,3 +533,33 @@ span.members-name-new {
     font-size: 18px;
     text-transform: uppercase;
 }
+
+
+.user-details{
+  position: absolute;
+  top: 30px;
+  transform: translateX(-50%);
+  left: 50px;
+  background-color: #fff;
+  width: 180px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  z-index: 999;
+  display: none;
+  text-align: left;
+}
+
+.user-details h5{
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.user-details p{
+  font-size: 12px;
+  font-weight: 500;
+  padding-bottom: 5px;
+  color: #444; 
+}
+
+.attendance-detail:hover .user-details{
+  display: block;
+}

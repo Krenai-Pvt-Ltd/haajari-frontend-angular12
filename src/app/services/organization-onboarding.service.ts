@@ -95,6 +95,13 @@ export class OrganizationOnboardingService {
     );
   }
 
+  getOnboardUserForEmpOnboardingData() {
+    debugger;
+    return this._httpClient.get(
+      this._key.base_url + this._key.get_onboarding_user_for_emp_onboarding_data,
+    );
+  }
+
   deleteOnboardUser(id: number) {
     debugger;
     return this._httpClient.delete(

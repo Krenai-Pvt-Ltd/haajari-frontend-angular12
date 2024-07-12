@@ -1221,4 +1221,39 @@ export class DashboardComponent implements OnInit {
     return pages;
   }
 
+
+  // tooltip attendance data
+
+  userAttendanceDetailDateWise:any;
+
+  // @ViewChild("openEventsModal") openEventsModal!:ElementRef;
+  loadingFlag:boolean = false;
+  fetchAttendanceDetails(userEmail: string, dateString:string) {
+    this.loadingFlag = true;
+    this.dataService.getAttendanceDetailsForUserByDate(userEmail, dateString)
+      .subscribe(
+        (response) => {
+          this.userAttendanceDetailDateWise = response.object;
+          console.log('Attendance Details:', response.object);
+          // this.openEventsModal.nativeElement.click();
+          this.loadingFlag = false;
+         
+        },
+        (error) => {
+          console.error('Error fetching attendance details:', error);
+          // Handle error state
+          this.loadingFlag = false;
+        }
+      );
+  }
+
+absentFlag:boolean = false;
+getAbsentFlag(str: string, count:number) {
+
+    if((str === 'ABSENT') ) {
+      this.absentFlag = true;
+    }else  if((str === 'Not Marked')) {
+      this.absentFlag = false;
+    }
+  }
 }

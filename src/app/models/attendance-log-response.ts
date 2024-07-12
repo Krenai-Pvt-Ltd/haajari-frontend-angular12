@@ -8,5 +8,6 @@ export class AttendanceLogResponse {
     latString: string = '';
     longString: string = '';
     imageUrlString: string = '';
+    currentAddress: string = '';
 
 }
