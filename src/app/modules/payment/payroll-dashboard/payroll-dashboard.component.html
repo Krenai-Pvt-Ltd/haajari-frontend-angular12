@@ -596,9 +596,7 @@
                                             color: black;
                                             border-color: #ced4da;
                                             width: 100%;">
-                                          {{ newJoineeResponse.payActionType
-                                          ?.name || "Select pay action"
-                                          }}
+                                         {{ getSelectedPayActionTypeName(newJoineeResponse) || "Select pay action" }}
                                           <i class="bi bi-chevron-down"></i>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"
@@ -616,7 +614,7 @@
                                   </td>
                                   <td class="text-start">
                                     <input class="comment-input p-2" type="text" placeholder="Write the comment here"
-                                      [(ngModel)]="newJoineeResponse.comment" [ngModelOptions]="{ standalone: true }" />
+                                      [(ngModel)]="newJoineeResponse.comment" (change)="updateComment(newJoineeResponse, newJoineeResponse.comment)" [ngModelOptions]="{ standalone: true }" />
                                   </td>
                                   <!-- <td class="text-start">
                                     <a (click)="
@@ -782,9 +780,7 @@
                                             border-color: #ced4da;
                                             width: 100%;
                                           ">
-                                          {{ userExitResponse.payActionType
-                                          ?.name || "Select pay action"
-                                          }}
+                                           {{ getSelectedPayActionTypeName(userExitResponse) || "Select pay action" }}
                                           <i class="bi bi-chevron-down"></i>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"
@@ -807,7 +803,7 @@
                                   </td>
                                   <td class="text-start">
                                     <input class="comment-input p-2" type="text" placeholder="Write the comment here"
-                                      [(ngModel)]="userExitResponse.comment" [ngModelOptions]="{ standalone: true }" />
+                                      [(ngModel)]="userExitResponse.comment" (change)="updateComment(userExitResponse, userExitResponse.comment)" [ngModelOptions]="{ standalone: true }" />
                                   </td>
                                   <td class="text-start">
                                     {{ userExitResponse.resignationStatus }}
@@ -978,10 +974,7 @@
                                             border-color: #ced4da;
                                             width: 100%;
                                           ">
-                                          {{ finalSettlementResponse
-                                          .payActionType?.name ||
-                                          "Select pay action"
-                                          }}
+                                          {{ getSelectedPayActionTypeName(finalSettlementResponse) || "Select pay action" }}
                                           <i class="bi bi-chevron-down"></i>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"
@@ -1006,7 +999,7 @@
                                     <input class="comment-input p-2" type="text" placeholder="Write the comment here"
                                       [(ngModel)]="
                                         finalSettlementResponse.comment
-                                      " [ngModelOptions]="{ standalone: true }" />
+                                      " (change)="updateComment(finalSettlementResponse, finalSettlementResponse.comment)" [ngModelOptions]="{ standalone: true }" />
                                   </td>
                                   <td>
                                     {{ finalSettlementResponse.resignationStatus
@@ -1166,7 +1159,7 @@
                               <th>ASSIGNED MONTHLY LIMIT</th>
                               <th>TOTAL AVAILED LEAVES</th>
                               <th>LEAVE TYPE</th>
-                              <th>COMMENT(Optional)</th>
+                              <!-- <th>COMMENT(Optional)</th> -->
                               <th>ACTION</th>
                             </tr>
                           </thead>
@@ -1220,9 +1213,9 @@
                                   <td>{{ payrollLeaveResponse.userInfo.assignedMonthlyLimit }}</td>
                                   <td>{{ payrollLeaveResponse.userInfo.availedLeave }}</td>
                                   <td>-</td>
-                                  <td>
+                                  <!-- <td>
                                     <input class="comment-input p-2" type="text" placeholder="Write the comment here" />
-                                  </td>
+                                  </td> -->
                                   <td class="text-start">
                                     <a>
                                       <i class="bi bi-pencil-square"  (click)="openLeaveLogsModal(payrollLeaveResponse.userInfo.userUuid)"></i>
@@ -1492,8 +1485,11 @@
                                       [ngModelOptions]="{ standalone: true }" />
                                   </td>
                                   <td>
-                                    <input class="comment-input p-2" type="text" placeholder="Write the comment here" />
+                                    <input class="comment-input p-2" type="text" placeholder="Write the comment here"
+                                      [(ngModel)]="lopReversalResponse.lopReversalComment"
+                                      (change)="updateLopComment(lopReversalResponse, lopReversalResponse.lopReversalComment)" />
                                   </td>
+                                  
                                   <!-- <td class="text-start">
                                     <a>
                                       <i class="bi bi-pencil-square"></i>
@@ -1832,10 +1828,7 @@
                                           border-color: #ced4da;
                                           width: 100%;
                                         ">
-                                          {{ salaryChangeBonusResponse
-                                          .payActionType?.name ||
-                                          "Select pay action"
-                                          }}
+                                         {{ getSelectedPayActionTypeName(salaryChangeBonusResponse) || "Select pay action" }}
                                           <i class="bi bi-chevron-down"></i>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"
@@ -1858,7 +1851,7 @@
                                   </td>
                                   <td>
                                     <input class="comment-input p-2" type="text" placeholder="Write the comment here"
-                                      [(ngModel)]="salaryChangeBonusResponse.comment"
+                                      [(ngModel)]="salaryChangeBonusResponse.comment" (ngModelChange)="updateComment(salaryChangeBonusResponse, salaryChangeBonusResponse.comment)"
                                       [ngModelOptions]="{standalone: true}" />
                                   </td>
                                   <td class="text-start">
@@ -2142,7 +2135,7 @@
                               <th>EMPLOYEE</th>
                               <th>EMAIL</th>
                               <th>AMOUNT</th>
-                              <th>AMOUT TO BE ADJUSTED</th>
+                              <th>AMOUNT TO BE ADJUSTED</th>
                               <th>FINAL AMOUNT</th>
                               <!-- <th>ACTION</th> -->
                             </tr>
@@ -2196,11 +2189,10 @@
                                   <td>{{ epfDetailsResponse.email }}</td>
                                   <td>{{ epfDetailsResponse.amount }}</td>
                                   <td>
-                                    <input class="comment-input p-2" type="number"
-                                      placeholder="Enter the new amount here"
-                                      [(ngModel)]="epfDetailsResponse.amountToBeAdjusted"
-                                      (ngModelChange)="updateFinalAmount(epfDetailsResponse)"
-                                      [ngModelOptions]="{ standalone: true }" />
+                                    <input class="comment-input p-2" type="number" placeholder="Enter the new amount here"
+                                    [(ngModel)]="epfDetailsResponse.amountToBeAdjusted"
+                                    (ngModelChange)="updateFinalAmount(epfDetailsResponse)"
+                                    [ngModelOptions]="{ standalone: true }" />
                                   </td>
                                   <td>{{ epfDetailsResponse.finalAmount }}</td>
                                   <!-- <td class="text-start">
@@ -2629,7 +2621,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="leaveLogsModalLabel">Pending Leave Logs</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="modal" data-bs-target="#leaves" (click)="leavesTab()"></button>
       </div>
       <div class="modal-body">
         <div class="row" *ngIf="userLeaveLogs != undefined && userLeaveLogs.length == 0">
@@ -2668,7 +2660,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#leaves"(click)="leavesTab()">Close</button>
       </div>
     </div>
   </div>

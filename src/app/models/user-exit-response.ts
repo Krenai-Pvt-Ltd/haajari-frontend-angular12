@@ -9,6 +9,7 @@ export class UserExitResponse {
     resignationDate : string = '';
     noticePeriodEndDate : string = '';
     resignationStatus : string = '';
+    payActionTypeId !: number;
     payActionType : PayActionType = new PayActionType();
     comment : string = '';
 }

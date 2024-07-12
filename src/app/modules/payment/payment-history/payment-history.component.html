@@ -162,11 +162,15 @@
                   <small>&nbsp;&nbsp;RELEASE PAYROLL</small>
                   
                 </button>
-                <button type="button" class="btn  btn-de-secondary ">
-                  <i class="fas fa-exclamation-circle"></i>
-                  <small>&nbsp;&nbsp;Hold Payslip</small>
-                  
-                </button>
+                <button 
+                [disabled]="!selectedEmployeeIds || selectedEmployeeIds.length === 0" 
+                type="button" 
+                class="btn btn-de-secondary" 
+                (click)="updatePayActionTypeFoUsersMethodCall('HOLD SALARY')" 
+                style="cursor: pointer;">
+                <i class="fas fa-exclamation-circle"></i>
+                <small>&nbsp;&nbsp;Hold Payslip</small>
+              </button>              
                 <button type="button" class="btn  btn-de-secondary ">
                   <i class="fas fa-envelope-open"></i>
                   <small>&nbsp;&nbsp;Send By Mail</small>
@@ -193,6 +197,7 @@
                       <th>NAME</th>
                       <th>EMAIL</th>
                       <th>DEPARTMENT</th>
+                      <th>PAY ACTION</th>
                       <th>PAYSLIP STATUS</th>
                       <th>ACTION</th>
                     </tr>
@@ -245,13 +250,24 @@
                       <td>
                         <input
                           type="checkbox"
-                          [checked]="selectedEmployeeIds.includes(employee.userId)"
-                          (change)="selectUser(employee.userId)"
+                          [checked]="selectedEmployeeIds.includes(employee.uuid)"
+                          (change)="selectUser(employee.uuid)"
                         />
                       </td>
                       <td>{{ employee.name }}</td>
                       <td>{{ employee.email }}</td>
                       <td>{{ employee.department }}</td>
+                      <td>
+                        <span
+                          class="badge rounded-pill"
+                          [ngClass]="{
+                            'badge-soft-success': employee.payActionType == 'PROCESS AS SALARY',
+                            'badge-soft-danger': employee.payActionType == 'HOLD SALARY'
+                          }"
+                        >
+                          {{ employee.payActionType ? employee.payActionType : 'PROCESS AS SALARY' }}
+                        </span>
+                      </td>
                       <td>
                         <span
                           class="badge rounded-pill"
@@ -268,21 +284,29 @@
                           <button
                             type="button"
                             class="btn btn-light"
-                            ngbTooltip="Edit"
+                            ngbTooltip="Download"
                             placement="top"
                           >
-                            <i class="ti ti-pencil"></i>
+                            <i class="ti ti-download"></i>
                           </button>
                           <button
                             type="button"
                             class="btn btn-light"
-                            ngbTooltip="Delete"
+                            ngbTooltip="View"
                             placement="top"
                           >
-                            <i class="far fa-trash-alt"></i>
+                            <i class="ti ti-eye"></i>
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-light"
+                            ngbTooltip="Send"
+                            placement="top"
+                          >
+                            <i class="ti ti-send"></i>
                           </button>
                         </div>
-                      </td>
+                      </td>                                         
                     </tr>
                   </tbody>
                 </ng-container>

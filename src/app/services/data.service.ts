@@ -3278,4 +3278,14 @@ export class DataService {
     return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/statutory/tds`, tdsDetailsRequestList, {params});
   }
 
+  updatePayActionTypeFoUsers(
+    payActionType: string,
+    userUuids: any 
+  ): Observable<any>{
+    const params = new HttpParams()
+    .set('pay_action_type', payActionType)
+    .set('user_uuids', userUuids)
+    ;
+    return this.httpClient.put<any>(`${this.baseUrl}/salary-slip/update-pay-action-type`,{}, {params});
+  }
 }

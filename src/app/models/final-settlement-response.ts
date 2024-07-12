@@ -8,6 +8,7 @@ export class FinalSettlementResponse {
     noticePeriodEndDate : string = '';
     lastWorkingDate : string = '';
     payActionType : PayActionType = new PayActionType();
+    payActionTypeId !: number;
     resignationStatus : string = '';
     comment : string = '';
 }
