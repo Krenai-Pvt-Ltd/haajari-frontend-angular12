@@ -73,12 +73,10 @@ export class SalarySettingComponent implements OnInit {
 
   goToSalaryTemplateTab(){
     this.salaryTemplateTab.nativeElement.click();
-    this.salaryTemplateTabClick();
   }
 
   goToStaffSelectionTab(){
     this.staffSelectionTab.nativeElement.click();
-    this.staffSelectionTabClick();
   }
 
   //Code for toggle buttons in statutories section
@@ -126,7 +124,6 @@ export class SalarySettingComponent implements OnInit {
     this.dataNotFoundPlaceholderForSalaryTemplate = false;
     this.networkConnectionErrorPlaceHolderForSalaryTemplate = false;
   }
-
 
   isShimmerForSalaryTemplateStaffSelection = false;
   dataNotFoundPlaceholderForSalaryTemplateStaffSelection = false;
@@ -196,7 +193,7 @@ export class SalarySettingComponent implements OnInit {
           );
         },
         (error) => {
-          console.log(error);
+          // console.log(error);
           this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
         }
       );
@@ -308,7 +305,7 @@ export class SalarySettingComponent implements OnInit {
     this.statutoryRequest.statutoryAttributeRequestList =
       this.statutoryAttributeResponseList;
 
-    console.log(this.statutoryAttributeResponseList);
+    // console.log(this.statutoryAttributeResponseList);
 
     if (statutoryResponse.switchValue === false) {
       if (statutoryResponse.id == this.EPF_ID) {
@@ -386,7 +383,7 @@ export class SalarySettingComponent implements OnInit {
                 const matchingESIRate = this.eSIContributionRateList.find(
                   (iterator) => iterator.statutoryAttribute.id === attr.id
                 );
-                console.log(this.eSIContributionRateList);
+                // console.log(this.eSIContributionRateList);
                 if (matchingESIRate) {
                   if (
                     attr.value === undefined ||
@@ -416,7 +413,7 @@ export class SalarySettingComponent implements OnInit {
   ) {
     statutoryAttribute.value = pFContributionRate.name;
 
-    console.log(this.statutoryAttributeResponseList);
+    // console.log(this.statutoryAttributeResponseList);
 
     if (
       index === 0 &&
@@ -527,6 +524,7 @@ export class SalarySettingComponent implements OnInit {
 
   salaryTemplateComponentResponseList: SalaryTemplateComponentResponse[] = [];
   getAllSalaryTemplateComponentByOrganizationIdMethodCall() {
+    debugger;
     this.preRuleForShimmersAndErrorPlaceholdersForSalaryTemplateMethodCall();
     this.dataService.getAllSalaryTemplateComponentByOrganizationId().subscribe(
       (response) => {
@@ -554,12 +552,14 @@ export class SalarySettingComponent implements OnInit {
   @ViewChild('salaryTemplateModal') salaryTemplateModal!: ElementRef;
   @ViewChild('cancelSalaryTemplateModal')
   cancelSalaryTemplateModal!: ElementRef;
-  updateSalaryTemplateComponentBySalaryTemplateId(salaryTemplateComponentResponse: SalaryTemplateComponentResponse) {
+  updateSalaryTemplateComponentBySalaryTemplateId(salaryTemplateComponentResponse: SalaryTemplateComponentResponse, type : string) {
+    
     this.salaryTemplateComponentRequest.id = salaryTemplateComponentResponse.id;
     this.salaryTemplateComponentRequest.name = salaryTemplateComponentResponse.name;
     this.salaryTemplateComponentRequest.description = salaryTemplateComponentResponse.description;
     this.salaryTemplateComponentRequest.salaryComponentRequestList = salaryTemplateComponentResponse.salaryComponentResponseList;
     this.salaryTemplateComponentRequest.userUuids = salaryTemplateComponentResponse.userUuids;
+    this.selectedStaffsUuids = salaryTemplateComponentResponse.userUuids;
 
     salaryTemplateComponentResponse.salaryComponentResponseList.forEach(
       (salaryComponentResponse) => {
@@ -576,6 +576,10 @@ export class SalarySettingComponent implements OnInit {
     this.salaryComponentList.sort(
       (a, b) => (b.toggle ? 1 : 0) - (a.toggle ? 1 : 0)
     );
+
+    if(type == this.STAFF_SELECTION_STEP){
+      this.staffSelectionTab.nativeElement.click();
+    }
   }
 
   clearSalaryTemplateModal() {
@@ -584,6 +588,7 @@ export class SalarySettingComponent implements OnInit {
     this.resetCriteriaFilter();
     this.selectedStaffsUuids = [];
     this.getUserByFiltersMethodCall();
+    this.isAllUsersSelected = false;
     this.salaryTemplateTab.nativeElement.click();
   }
 
@@ -655,12 +660,13 @@ export class SalarySettingComponent implements OnInit {
         }
       });
     }
+
+    this.checkIndividualSelection();
   }
 
   //Method to select all users on a page
   selectAllUsers(event: any) {
     const isChecked = event.target.checked;
-    this.isAllUsersSelected = isChecked;
     this.isAllSelected = isChecked; // Make sure this reflects the change on the current page
     this.staffs.forEach((staff) => (staff.selected = isChecked));
 
@@ -737,6 +743,7 @@ export class SalarySettingComponent implements OnInit {
             ...staff,
             selected: this.selectedStaffsUuids.includes(staff.uuid),
           }));
+          
           if (this.selectedTeamId == 0 && this.searchText == '') {
             this.totalUserCount = response.count;
           }
@@ -746,6 +753,7 @@ export class SalarySettingComponent implements OnInit {
           this.isAllSelected = this.staffs.every((staff) => staff.selected);
 
           this.isShimmerForSalaryTemplateStaffSelection = false;
+          this.checkIndividualSelection();
         },
         (error) => {
           console.error(error);

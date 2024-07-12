@@ -178,7 +178,7 @@
                                     <i class="ti ti-checks text-success"></i>
                                   </span>
                                 </p>
-                                <small class="text-muted">Nov 19.2023, 05:39 PM -Pushopendra</small>
+                                <small class="text-muted">Nov 19.2023, 05:39 PM -Pushpendra</small>
                               </div>
                               <!--end col-->
                             </div>
@@ -221,7 +221,7 @@
                                     <i class="ti ti-checks text-success"></i>
                                   </span>
                                 </p>
-                                <small class="text-muted">Nov 19.2023, 05:39 PM -Pushopendra</small>
+                                <small class="text-muted">Nov 19.2023, 05:39 PM -Pushpendra</small>
                               </div>
                               <!--end col-->
                             </div>
@@ -243,7 +243,7 @@
                                     <i class="ti ti-checks text-success"></i>
                                   </span>
                                 </p>
-                                <small class="text-muted">Nov 19.2023, 05:39 PM -Pushopendra </small>
+                                <small class="text-muted">Nov 19.2023, 05:39 PM -Pushpendra </small>
                               </div>
                               <!--end col-->
                             </div>
@@ -457,16 +457,16 @@
           <div class="modal-content">
             <div class="modal-header" style="background-color: #fff">
               <h5 class="modal-title m-0" style="color: #111; font-size: 18px" id="exampleModalDefaultLabel">
-                <div class="back-btns-box" data-bs-dismiss="modal" aria-label="Close">
+                <div class="back-btns-box" style="cursor: pointer;" data-bs-dismiss="modal" aria-label="Close" #employeeChangeModal>
                   <i class="bi bi-chevron-left"></i>
                   <span class="font-16 pt-2 pl-2">Employee Changes </span>
                 </div>
               </h5>
               <div class="button-items">
-                <button type="button" class="btn btn-light btn-round" (click)="employeeChangesBackTab()"> BACK </button>
+                <button type="button" class="btn btn-light btn-round" (click)="employeeChangesBackTab()" *ngIf="CURRENT_TAB_IN_EMPLOYEE_CHANGE != NEW_JOINEE"> BACK </button>
                 <button type="button" class="btn btn-primary btn-round"
-                  (click)="registerNewJoineeAndUserExitMethodCall()"> SAVE & CONTINUE </button>
-                <button type="button" class="btn btn-primary btn-round"> MARK AS COMPLETE </button>
+                  (click)="registerNewJoineeAndUserExitMethodCall()" *ngIf="CURRENT_TAB_IN_EMPLOYEE_CHANGE != FINAL_SETTLEMENT"> SAVE & CONTINUE </button>
+                <button type="button" class="btn btn-primary btn-round" (click)="registerNewJoineeAndUserExitMethodCall()" *ngIf="CURRENT_TAB_IN_EMPLOYEE_CHANGE == FINAL_SETTLEMENT"> MARK AS COMPLETE </button>
               </div>
             </div>
             <!--end modal-header-->
@@ -579,7 +579,7 @@
                                   <td>{{ newJoineeResponse.name }}</td>
                                   <td>{{ newJoineeResponse.email }}</td>
                                   <td class="text-start">
-                                    {{ newJoineeResponse.joiningDate }}
+                                    {{ newJoineeResponse.joiningDate | date: 'dd MMMM, yyyy' }}
                                   </td>
                                   <td class="text-start">-</td>
                                   <td class="text-start">
@@ -761,10 +761,10 @@
                                   <td>{{ userExitResponse.name }}</td>
                                   <td>{{ userExitResponse.email }}</td>
                                   <td>
-                                    {{ userExitResponse.resignationDate }}
+                                    {{ userExitResponse.resignationDate | date: 'dd MMMM, yyyy'}}
                                   </td>
                                   <td>
-                                    {{ userExitResponse.noticePeriodEndDate }}
+                                    {{ userExitResponse.noticePeriodEndDate | date: 'dd MMMM, yyyy'}}
                                   </td>
                                   <td>-</td>
                                   <td>{{ userExitResponse.salary }}</td>
@@ -953,8 +953,7 @@
                                   <td>{{ finalSettlementResponse.name }}</td>
                                   <td>{{ finalSettlementResponse.email }}</td>
                                   <td>
-                                    {{ finalSettlementResponse.noticePeriodEndDate
-                                    }}
+                                    {{ finalSettlementResponse.noticePeriodEndDate | date: 'dd MMMM, yyyy' }}
                                   </td>
                                   <!-- <td>
                                     {{ finalSettlementResponse.lastWorkingDate
@@ -1118,17 +1117,17 @@
           <div class="modal-content">
             <div class="modal-header" style="background-color: #fff">
               <h5 class="modal-title m-0" style="color: #111; font-size: 18px" id="exampleModalDefaultLabel">
-                <div class="back-btns-box" data-bs-dismiss="modal" aria-label="Close">
+                <div class="back-btns-box" style="cursor: pointer;" data-bs-dismiss="modal" aria-label="Close" #attendanceAndLeaveModal>
                   <i class="bi bi-chevron-left"></i>
                   <span class="font-16 pt-2 pl-2">Attendance, Leaves & Present Days</span>
                 </div>
               </h5>
               <div class="button-items">
-                <button type="button" class="btn btn-light btn-round" (click)="attendanceAndLeaveBackTab()"> BACK
+                <button type="button" class="btn btn-light btn-round" (click)="attendanceAndLeaveBackTab()" *ngIf="CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE != LEAVES"> BACK
                 </button>
                 <button type="button" class="btn btn-primary btn-round"
-                  (click)="registerAttendanceAndLeavesMethodCall(CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE)"> SAVE & CONTINUE </button>
-                <button type="button" class="btn btn-primary btn-round"> MARK AS COMPLETE </button>
+                  (click)="registerAttendanceAndLeavesMethodCall(CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE)" *ngIf="CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE != LOP_REVERSAL"> SAVE & CONTINUE </button>
+                <button type="button" class="btn btn-primary btn-round" (click)="registerAttendanceAndLeavesMethodCall(CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE)" *ngIf="CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE == LOP_REVERSAL"> MARK AS COMPLETE </button>
               </div>
             </div>
             <!--end modal-header-->
@@ -1599,17 +1598,17 @@
           <div class="modal-content">
             <div class="modal-header" style="background-color: #fff">
               <h5 class="modal-title m-0" style="color: #111; font-size: 18px" id="exampleModalDefaultLabel">
-                <div class="back-btns-box" data-bs-dismiss="modal" aria-label="Close">
+                <div class="back-btns-box" style="cursor: pointer;" data-bs-dismiss="modal" aria-label="Close" #salaryChangeModal>
                   <i class="bi bi-chevron-left"></i>
                   <span class="font-16 pt-2 pl-2">Salary Changes, Bonus & Overtime</span>
                 </div>
               </h5>
               <div class="button-items">
-                <button type="button" class="btn btn-light btn-round" (click)="salaryChangesBackTab()"> BACK </button>
+                <button type="button" class="btn btn-light btn-round" (click)="salaryChangesBackTab()" *ngIf="CURRENT_TAB_IN_SALARY_CHANGE != SALARY_CHANGE"> BACK </button>
                 <button type="button" class="btn btn-primary btn-round"
-                  (click)="registerSalaryChangesAndBonusAndOvertimeMethodCall(CURRENT_TAB_IN_SALARY_CHANGE)"> SAVE &
+                  (click)="registerSalaryChangesAndBonusAndOvertimeMethodCall(CURRENT_TAB_IN_SALARY_CHANGE)" *ngIf="CURRENT_TAB_IN_SALARY_CHANGE != OVERTIME"> SAVE &
                   CONTINUE </button>
-                <button type="button" class="btn btn-primary btn-round"> MARK AS COMPLETE </button>
+                <button type="button" class="btn btn-primary btn-round" (click)="registerSalaryChangesAndBonusAndOvertimeMethodCall(CURRENT_TAB_IN_SALARY_CHANGE)" *ngIf="CURRENT_TAB_IN_SALARY_CHANGE == OVERTIME"> MARK AS COMPLETE </button>
               </div>
             </div>
             <!--end modal-header-->
@@ -1692,7 +1691,7 @@
                                   <td>{{ salaryChangeResponse.email }}</td>
                                   <td>{{ salaryChangeResponse.previousCTC }}</td>
                                   <td>{{ salaryChangeResponse.updatedCTC }}</td>
-                                  <td>{{ salaryChangeResponse.effectiveDate }}</td>
+                                  <td>{{ salaryChangeResponse.effectiveDate | date: 'dd MMMM, yyyy'}}</td>
                                   <td class="text-start">
                                     <a>
                                       <i class="bi bi-pencil-square"></i>
@@ -2097,16 +2096,16 @@
           <div class="modal-content">
             <div class="modal-header" style="background-color: #fff">
               <h5 class="modal-title m-0" style="color: #111; font-size: 18px" id="exampleModalDefaultLabel">
-                <div class="back-btns-box" data-bs-dismiss="modal" aria-label="Close">
+                <div class="back-btns-box" style="cursor: pointer;" data-bs-dismiss="modal" aria-label="Close" #epfEsiTdsModal>
                   <i class="bi bi-chevron-left"></i>
                   <span class="font-16 pt-2 pl-2">EPF, ESI & TDS</span>
                 </div>
               </h5>
               <div class="button-items">
-                <button type="button" class="btn btn-light btn-round" (click)="epfEsiTdsBackTab()"> BACK </button>
+                <button type="button" class="btn btn-light btn-round" (click)="epfEsiTdsBackTab()" *ngIf="CURRENT_TAB_IN_EPF_ESI_TDS != EPF"> BACK </button>
                 <button type="button" class="btn btn-primary btn-round"
-                  (click)="registerEpfEsiTdsMethodCall(CURRENT_TAB_IN_EPF_ESI_TDS)"> SAVE & CONTINUE </button>
-                <button type="button" class="btn btn-primary btn-round"> MARK AS COMPLETE </button>
+                  (click)="registerEpfEsiTdsMethodCall(CURRENT_TAB_IN_EPF_ESI_TDS)" *ngIf="CURRENT_TAB_IN_EPF_ESI_TDS != TDS"> SAVE & CONTINUE </button>
+                <button type="button" class="btn btn-primary btn-round" (click)="registerEpfEsiTdsMethodCall(CURRENT_TAB_IN_EPF_ESI_TDS)" *ngIf="CURRENT_TAB_IN_EPF_ESI_TDS == TDS"> MARK AS COMPLETE </button>
               </div>
             </div>
             <!--end modal-header-->
