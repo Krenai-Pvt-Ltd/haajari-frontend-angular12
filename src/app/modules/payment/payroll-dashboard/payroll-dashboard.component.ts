@@ -75,6 +75,7 @@ export class PayrollDashboardComponent implements OnInit {
   readonly ESI = Key.ESI;
   readonly TDS = Key.TDS;
 
+  isTaskSuccess : boolean = true;
 
   @ViewChild('step1Tab', { static: false }) step1Tab!: ElementRef;
   @ViewChild('step2Tab', { static: false }) step2Tab!: ElementRef;
@@ -88,6 +89,12 @@ export class PayrollDashboardComponent implements OnInit {
   @ViewChild('step10Tab', { static: false }) step10Tab!: ElementRef;
   @ViewChild('step11Tab', { static: false }) step11Tab!: ElementRef;
   @ViewChild('step12Tab', { static: false }) step12Tab!: ElementRef;
+
+
+  @ViewChild('employeeChangeModal', { static: false }) employeeChangeModal!: ElementRef;
+  @ViewChild('attendanceAndLeaveModal', { static: false }) attendanceAndLeaveModal!: ElementRef;
+  @ViewChild('salaryChangeModal', { static: false }) salaryChangeModal!: ElementRef;
+  @ViewChild('epfEsiTdsModal', { static: false }) epfEsiTdsModal!: ElementRef;
 
   navigateToTab(tabId: string): void {
     switch (tabId) {
@@ -1220,6 +1227,8 @@ export class PayrollDashboardComponent implements OnInit {
           this.navigateToTab('step2-tab'); //Navigating to the user exit tab
         } else if (this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == this.USER_EXIT) {
           this.navigateToTab('step3-tab'); //Navigating to the full and final settlement tab
+        } else if (this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == this.FINAL_SETTLEMENT){
+          this.employeeChangeModal.nativeElement.click();
         }
 
       }, (error) => {
@@ -1303,6 +1312,7 @@ export class PayrollDashboardComponent implements OnInit {
 
       this.dataService.registerLopReversalRequestByOrganizationIdAndStartDateAndEndDate(this.lopReversalRequestList, this.startDate, this.endDate).subscribe((response) => {
         this.helperService.showToast("LOP reversed successfully.", this.TOAST_STATUS_SUCCESS);
+        this.attendanceAndLeaveModal.nativeElement.click();
       }, (error) => {
         this.helperService.showToast("Error while saving the LOP Reversal!", this.TOAST_STATUS_ERROR);
         console.log(error);
@@ -1609,7 +1619,6 @@ export class PayrollDashboardComponent implements OnInit {
 
       if(CURRENT_TAB_IN_SALARY_CHANGE == this.BONUS){
         this.registerSalaryChangeBonusListByOrganizationIdMethodCall();
-        this.navigateToTab('step9-tab');
       }
 
       if(CURRENT_TAB_IN_SALARY_CHANGE == this.OVERTIME){
@@ -1637,6 +1646,8 @@ export class PayrollDashboardComponent implements OnInit {
         this.selectedPayActionCache={};
         this.commentCache = {};
         this.helperService.showToast(response.message, this.TOAST_STATUS_SUCCESS);
+        // this.navigateToTab('step9-tab');
+        this.salaryChangeModal.nativeElement.click();
       }, (error) => {
         this.helperService.showToast("Error while registering the request!", this.TOAST_STATUS_ERROR);
       })
@@ -1900,14 +1911,13 @@ export class PayrollDashboardComponent implements OnInit {
       this.dataService.registerTdsDetailsListByOrganizationId(this.startDate, this.endDate, this.tdsDetailsRequestList).subscribe((response) => {
         this.amountCache = {};
         this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+        this.epfEsiTdsModal.nativeElement.click();
       }, (error) => {
         this.helperService.showToast("Error while adjusting the tds details!", Key.TOAST_STATUS_ERROR);
       })
     }
 
     approveOrDeny(requestId: number, requestedString: string) {
-     
-  
       this.dataService
         .approveOrRejectLeaveOfUser(requestId, requestedString)
         .subscribe({
