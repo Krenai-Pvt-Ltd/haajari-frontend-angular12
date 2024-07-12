@@ -18,6 +18,9 @@ import { NavigationExtras, Router } from '@angular/router';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { AttendanceDetailsCountResponse } from 'src/app/models/attendance-details-count-response';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+import * as saveAs from 'file-saver';
+import { DatePipe } from '@angular/common';
 
 // import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
 
@@ -35,7 +38,9 @@ export class TimetableComponent implements OnInit {
     private router: Router,
     private rbacService: RoleBasedAccessControlService,
     private cdr: ChangeDetectorRef,
-    private sanitizer: DomSanitizer
+    private firebaseStorage: AngularFireStorage,
+    private sanitizer: DomSanitizer,
+    private datePipe: DatePipe
   ) {}
 
   loginDetails = this.helperService.getDecodedValueFromToken();
@@ -678,14 +683,16 @@ export class TimetableComponent implements OnInit {
     this.attendancewithlocationssButton.nativeElement.click();
   }
 
-  @ViewChild('viewlog') viewlog!: ElementRef;
+
   // openAttendanceLog() {
   //   this.attendanceLogModal.nativeElement.click();
   // }
 
   url: string = '';
+  imageDownUrl: string = '';
   openSelfieModal(url: string) {
     this.url = url;
+    this.imageDownUrl = url;
     this.updateFileType(url);
     this.viewlog.nativeElement.click();
     this.openDocModalButton.nativeElement.click();
@@ -718,15 +725,57 @@ export class TimetableComponent implements OnInit {
     this.openDocModalButton.nativeElement.click();
   }
 
-  downloadFile(url: string): void {
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = this.getFileName(url);
-    link.click();
+  // downloadFile(): void {
+  //   const link = document.createElement('a');
+  //   link.href = this.url;
+  //   link.download = this.getFileName(this.url);
+  //   link.click();
+  // }
+
+
+  downloadFile(imageUrl: any) {
+    if (!imageUrl) {
+      // console.error('Image URL is undefined or null');
+      return;
+    }
+
+    var blob = null;
+    var splittedUrl = imageUrl.split(
+      '/firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/'
+    );
+
+    if (splittedUrl.length < 2) {
+      // console.error('Invalid image URL format');
+      return;
+    }
+
+    splittedUrl = splittedUrl[1].split('?alt');
+    splittedUrl = splittedUrl[0].replace('https://', '');
+    splittedUrl = decodeURIComponent(splittedUrl);
+
+    this.firebaseStorage.storage
+      .ref(splittedUrl)
+      .getDownloadURL()
+      .then((url: any) => {
+        // This can be downloaded directly:
+        var xhr = new XMLHttpRequest();
+        xhr.responseType = 'blob';
+        xhr.onload = (event) => {
+          blob = xhr.response;
+          saveAs(blob, 'Selfie');
+        };
+        xhr.open('GET', url);
+        xhr.send();
+      })
+      .catch((error: any) => {
+        // Handle any errors
+      });
   }
 
+  @ViewChild('viewlog') viewlog!: ElementRef;
   @ViewChild('attendanceLogModal') attendanceLogModal!: ElementRef;
   reOpenLogsModal() {
+    this.viewLogs(this.userUuidToViewLogs);
     this.viewlog.nativeElement.click();
   }
   
@@ -741,4 +790,36 @@ export class TimetableComponent implements OnInit {
   //     });
   //   });
   // }
+
+
+  
+
+  dailyReportLog : string = '';
+  rotateToggle: boolean = false;
+  downloadAttedanceReport(date: Date) {
+    
+    let dateString:string | null  = this.datePipe.transform(date, 'yyyy-MM-dd');
+    this .rotateToggle = true;
+    if(dateString!==null) {
+    this.dataService
+      .getAtendanceDailyReport(
+        dateString
+      )
+      .subscribe(
+        (response) => {
+         this.dailyReportLog = response.message;
+         const downloadLink = document.createElement('a');
+          downloadLink.href = response.message;
+          downloadLink.download = 'attendance.xlsx';
+          downloadLink.click();
+          this.rotateToggle = false;
+        },
+        (error) => {
+          this.rotateToggle = false;
+        }
+      );
+    }
+  }
+
+  
 }
