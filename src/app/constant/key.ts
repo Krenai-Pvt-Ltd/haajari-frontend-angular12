@@ -315,6 +315,11 @@ export class Key {
   public static PENDING = 13;
   public static APPROVED = 14;
 
+
+  //Salary template tab
+  public static SALARY_TEMPLATE_STEP = 'SALARY_TEMPLATE_STEP';
+  public static STAFF_SELECTION_STEP = 'STAFF_SELECTION_STEP';
+
 }
 
 
