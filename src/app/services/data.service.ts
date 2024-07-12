@@ -2540,6 +2540,20 @@ export class DataService {
     );
   }
 
+
+  getOrganizationPreviousMonthSalaryData(
+    startDate: string,
+    endDate: string
+  ): Observable<any> {
+    const params = new HttpParams()
+      .set('start_date', startDate)
+      .set('end_date', endDate);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/salary/organization-previous-month-data`,
+      { params }
+    );
+  }
+
   getOrganizationMonthWiseSalaryData(
     itemPerPage: number,
     pageNumber: number,
@@ -3299,5 +3313,14 @@ export class DataService {
   }
 
   
-
+  updatePayActionTypeFoUsers(
+    payActionType: string,
+    userUuids: any 
+  ): Observable<any>{
+    const params = new HttpParams()
+    .set('pay_action_type', payActionType)
+    .set('user_uuids', userUuids)
+    ;
+    return this.httpClient.put<any>(`${this.baseUrl}/salary-slip/update-pay-action-type`,{}, {params});
+  }
 }

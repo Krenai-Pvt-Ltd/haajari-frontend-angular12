@@ -16,7 +16,7 @@
                   monthResponse.month == selectedMonth &&
                   monthResponse.year == selectedYear
               }">
-              <div class="text-center" (click)="getOrganizationIndividualMonthSalaryDataMethodCall(monthResponse)">
+              <div class="text-center" (click)="getOrganizationIndividualMonthSalaryDataMethodCall(monthResponse); getOrganizationPreviousMonthSalaryDataMethodCall(monthResponse)">
                 <h6 class="text-truncate">
                   {{ monthResponse.month }} - {{ monthResponse.year }}
                 </h6>
@@ -95,51 +95,50 @@
             </div>
             <!--end col-->
             <div class="col-md-8">
-              <!-- <div class="text-end"><span class="badge rounded-pill badge-soft-danger"><strong>Payroll Estimation!</strong> The estimated payroll data displayed here is subject to change before final processing.</span></div> -->
               <ul class="list-inline mb-0 contact-detail float-end mt-3">
-                <!-- <h3>Estimated Cost:</h3> -->
                 <li class="list-inline-item">
                   <div class="ps-3">
                     <p class="text-muted font-12 mb-0">TOTAL PAYROLL COST</p>
-                    <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData.totalAmount }}
+                    <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData?.totalAmount || '0' }}
                     </h5>
-                    <small class="text-success">DEC ₹ 34,34,343</small>
+                    <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{ organizationPreviousMonthSalaryData?.totalAmount || '0' }}</small>
                   </div>
                 </li>
                 <li class="list-inline-item">
                   <div class="ps-3">
                     <p class="text-muted font-12 mb-0">TDS</p>
-                    <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData.tdsAmount }}
+                    <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData?.tdsAmount || '0' }}
                     </h5>
-                    <small class="text-success">DEC ₹ 34,343</small>
+                    <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{ organizationPreviousMonthSalaryData?.tdsAmount || '0' }}</small>
                   </div>
                 </li>
                 <li class="list-inline-item">
                   <div class="ps-3">
                     <p class="text-muted font-12 mb-0">EPF</p>
-                    <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData.epfAmount }}
+                    <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData?.epfAmount || '0' }}
                     </h5>
-                    <small class="text-success">DEC ₹ 3343</small>
+                    <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{ organizationPreviousMonthSalaryData?.epfAmount || '0' }}</small>
                   </div>
                 </li>
                 <li class="list-inline-item">
                   <div class="ps-3">
                     <p class="text-muted font-12 mb-0">ESI</p>
-                    <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData.esiAmount }}
+                    <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData?.esiAmount || '0' }}
                     </h5>
-                    <small class="text-success">DEC ₹ 4,343</small>
+                    <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{ organizationPreviousMonthSalaryData?.esiAmount || '0' }}</small>
                   </div>
                 </li>
                 <li class="list-inline-item">
                   <div class="ps-3">
                     <p class="text-muted font-12 mb-0">NET PAY</p>
-                    <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData.netPay }}
+                    <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData?.netPay || '0' }}
                     </h5>
-                    <small class="text-success">DEC ₹ 4,343</small>
+                    <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{ organizationPreviousMonthSalaryData?.netPay || '0' }}</small>
                   </div>
                 </li>
               </ul>
             </div>
+            
             <!--end col-->
           </div>
           <!--end row-->
@@ -516,7 +515,7 @@
                               <th>SALARY</th>
                               <th>PAY ACTION</th>
                               <th>COMMENT(Optional)</th>
-                              <th>ACTION</th>
+                              <!-- <th>ACTION</th> -->
                             </tr>
                           </thead>
                           <ng-container *ngIf="
@@ -597,9 +596,7 @@
                                             color: black;
                                             border-color: #ced4da;
                                             width: 100%;">
-                                          {{ newJoineeResponse.payActionType
-                                          ?.name || "Select pay action"
-                                          }}
+                                         {{ getSelectedPayActionTypeName(newJoineeResponse) || "Select pay action" }}
                                           <i class="bi bi-chevron-down"></i>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"
@@ -617,9 +614,9 @@
                                   </td>
                                   <td class="text-start">
                                     <input class="comment-input p-2" type="text" placeholder="Write the comment here"
-                                      [(ngModel)]="newJoineeResponse.comment" [ngModelOptions]="{ standalone: true }" />
+                                      [(ngModel)]="newJoineeResponse.comment" (change)="updateComment(newJoineeResponse, newJoineeResponse.comment)" [ngModelOptions]="{ standalone: true }" />
                                   </td>
-                                  <td class="text-start">
+                                  <!-- <td class="text-start">
                                     <a (click)="
                                         routeToUserProfile(
                                           newJoineeResponse.uuid
@@ -627,7 +624,7 @@
                                       ">
                                       <i class="bi bi-pencil-square"></i>
                                     </a>
-                                  </td>
+                                  </td> -->
                                 </tr>
                               </tbody>
                             </ng-container>
@@ -703,7 +700,7 @@
                               <th>PAY ACTION</th>
                               <th>COMMENT(Optional)</th>
                               <th>RESIGNATION STATUS</th>
-                              <th>ACTION</th>
+                              <!-- <th>ACTION</th> -->
                             </tr>
                           </thead>
                           <ng-container *ngIf="
@@ -783,9 +780,7 @@
                                             border-color: #ced4da;
                                             width: 100%;
                                           ">
-                                          {{ userExitResponse.payActionType
-                                          ?.name || "Select pay action"
-                                          }}
+                                           {{ getSelectedPayActionTypeName(userExitResponse) || "Select pay action" }}
                                           <i class="bi bi-chevron-down"></i>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"
@@ -808,12 +803,12 @@
                                   </td>
                                   <td class="text-start">
                                     <input class="comment-input p-2" type="text" placeholder="Write the comment here"
-                                      [(ngModel)]="userExitResponse.comment" [ngModelOptions]="{ standalone: true }" />
+                                      [(ngModel)]="userExitResponse.comment" (change)="updateComment(userExitResponse, userExitResponse.comment)" [ngModelOptions]="{ standalone: true }" />
                                   </td>
                                   <td class="text-start">
                                     {{ userExitResponse.resignationStatus }}
                                   </td>
-                                  <td>
+                                  <!-- <td>
                                     <a (click)="
                                         routeToUserProfile(
                                           userExitResponse.uuid
@@ -821,7 +816,7 @@
                                       ">
                                       <i class="bi bi-pencil-square"></i>
                                     </a>
-                                  </td>
+                                  </td> -->
                                 </tr>
                               </tbody>
                             </ng-container>
@@ -891,13 +886,13 @@
                               <th>EMPLOYEE</th>
                               <th>EMAIL</th>
                               <th>NOTICE PERIOD DATE</th>
-                              <th>LAST WORKING DATE</th>
+                              <!-- <th>LAST WORKING DATE</th> -->
                               <th>NO OF WORKING DAYS</th>
                               <th>SALARY</th>
                               <th>PAY ACTION</th>
                               <th>COMMENT(Optional)</th>
                               <th>RESIGNATION STATUS</th>
-                              <th>ACTION</th>
+                              <!-- <th>ACTION</th> -->
                             </tr>
                           </thead>
                           <ng-container *ngIf="
@@ -961,10 +956,10 @@
                                     {{ finalSettlementResponse.noticePeriodEndDate
                                     }}
                                   </td>
-                                  <td>
+                                  <!-- <td>
                                     {{ finalSettlementResponse.lastWorkingDate
                                     }}
-                                  </td>
+                                  </td> -->
                                   <td>-</td>
                                   <td>{{ finalSettlementResponse.salary }}</td>
                                   <td class="text-">
@@ -979,10 +974,7 @@
                                             border-color: #ced4da;
                                             width: 100%;
                                           ">
-                                          {{ finalSettlementResponse
-                                          .payActionType?.name ||
-                                          "Select pay action"
-                                          }}
+                                          {{ getSelectedPayActionTypeName(finalSettlementResponse) || "Select pay action" }}
                                           <i class="bi bi-chevron-down"></i>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"
@@ -1007,13 +999,13 @@
                                     <input class="comment-input p-2" type="text" placeholder="Write the comment here"
                                       [(ngModel)]="
                                         finalSettlementResponse.comment
-                                      " [ngModelOptions]="{ standalone: true }" />
+                                      " (change)="updateComment(finalSettlementResponse, finalSettlementResponse.comment)" [ngModelOptions]="{ standalone: true }" />
                                   </td>
                                   <td>
                                     {{ finalSettlementResponse.resignationStatus
                                     }}
                                   </td>
-                                  <td>
+                                  <!-- <td>
                                     <a (click)="
                                         routeToUserProfile(
                                           finalSettlementResponse.uuid
@@ -1021,7 +1013,7 @@
                                       ">
                                       <i class="bi bi-pencil-square"></i>
                                     </a>
-                                  </td>
+                                  </td> -->
                                 </tr>
                               </tbody>
                             </ng-container>
@@ -1135,7 +1127,7 @@
                 <button type="button" class="btn btn-light btn-round" (click)="attendanceAndLeaveBackTab()"> BACK
                 </button>
                 <button type="button" class="btn btn-primary btn-round"
-                  (click)="registerAttendanceAndLeavesMethodCall()"> SAVE & CONTINUE </button>
+                  (click)="registerAttendanceAndLeavesMethodCall(CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE)"> SAVE & CONTINUE </button>
                 <button type="button" class="btn btn-primary btn-round"> MARK AS COMPLETE </button>
               </div>
             </div>
@@ -1167,7 +1159,7 @@
                               <th>ASSIGNED MONTHLY LIMIT</th>
                               <th>TOTAL AVAILED LEAVES</th>
                               <th>LEAVE TYPE</th>
-                              <th>COMMENT(Optional)</th>
+                              <!-- <th>COMMENT(Optional)</th> -->
                               <th>ACTION</th>
                             </tr>
                           </thead>
@@ -1221,9 +1213,9 @@
                                   <td>{{ payrollLeaveResponse.userInfo.assignedMonthlyLimit }}</td>
                                   <td>{{ payrollLeaveResponse.userInfo.availedLeave }}</td>
                                   <td>-</td>
-                                  <td>
+                                  <!-- <td>
                                     <input class="comment-input p-2" type="text" placeholder="Write the comment here" />
-                                  </td>
+                                  </td> -->
                                   <td class="text-start">
                                     <a>
                                       <i class="bi bi-pencil-square"  (click)="openLeaveLogsModal(payrollLeaveResponse.userInfo.userUuid)"></i>
@@ -1290,7 +1282,7 @@
                               <!-- <th>ADJUSTED LOP</th> -->
                               <th>FINAL LOP DAYS</th>
                               <th>COMMENT(Optional)</th>
-                              <th>ACTION</th>
+                              <!-- <th>ACTION</th> -->
                             </tr>
                           </thead>
                           <ng-container *ngIf="
@@ -1362,11 +1354,11 @@
                                       [(ngModel)]="lopSummaryResponse.lopSummaryComment"
                                       [ngModelOptions]="{standalone: true}" />
                                   </td>
-                                  <td class="text-start">
+                                  <!-- <td class="text-start">
                                     <a>
                                       <i class="bi bi-pencil-square"></i>
                                     </a>
-                                  </td>
+                                  </td> -->
                                 </tr>
                               </tbody>
                             </ng-container>
@@ -1426,7 +1418,7 @@
                               <th>LOP DAYS</th>
                               <th>REVERSE LOP DAYS</th>
                               <th>COMMENT(Optional)</th>
-                              <th>ACTION</th>
+                              <!-- <th>ACTION</th> -->
                             </tr>
                           </thead>
                           <ng-container
@@ -1493,13 +1485,16 @@
                                       [ngModelOptions]="{ standalone: true }" />
                                   </td>
                                   <td>
-                                    <input class="comment-input p-2" type="text" placeholder="Write the comment here" />
+                                    <input class="comment-input p-2" type="text" placeholder="Write the comment here"
+                                      [(ngModel)]="lopReversalResponse.lopReversalComment"
+                                      (change)="updateLopComment(lopReversalResponse, lopReversalResponse.lopReversalComment)" />
                                   </td>
-                                  <td class="text-start">
+                                  
+                                  <!-- <td class="text-start">
                                     <a>
                                       <i class="bi bi-pencil-square"></i>
                                     </a>
-                                  </td>
+                                  </td> -->
                                 </tr>
                               </tbody>
                             </ng-container>
@@ -1833,10 +1828,7 @@
                                           border-color: #ced4da;
                                           width: 100%;
                                         ">
-                                          {{ salaryChangeBonusResponse
-                                          .payActionType?.name ||
-                                          "Select pay action"
-                                          }}
+                                         {{ getSelectedPayActionTypeName(salaryChangeBonusResponse) || "Select pay action" }}
                                           <i class="bi bi-chevron-down"></i>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"
@@ -1859,7 +1851,7 @@
                                   </td>
                                   <td>
                                     <input class="comment-input p-2" type="text" placeholder="Write the comment here"
-                                      [(ngModel)]="salaryChangeBonusResponse.comment"
+                                      [(ngModel)]="salaryChangeBonusResponse.comment" (ngModelChange)="updateComment(salaryChangeBonusResponse, salaryChangeBonusResponse.comment)"
                                       [ngModelOptions]="{standalone: true}" />
                                   </td>
                                   <td class="text-start">
@@ -2143,9 +2135,9 @@
                               <th>EMPLOYEE</th>
                               <th>EMAIL</th>
                               <th>AMOUNT</th>
-                              <th>AMOUT TO BE ADJUSTED</th>
+                              <th>AMOUNT TO BE ADJUSTED</th>
                               <th>FINAL AMOUNT</th>
-                              <th>ACTION</th>
+                              <!-- <th>ACTION</th> -->
                             </tr>
                           </thead>
                           <ng-container
@@ -2197,18 +2189,17 @@
                                   <td>{{ epfDetailsResponse.email }}</td>
                                   <td>{{ epfDetailsResponse.amount }}</td>
                                   <td>
-                                    <input class="comment-input p-2" type="number"
-                                      placeholder="Enter the new amount here"
-                                      [(ngModel)]="epfDetailsResponse.amountToBeAdjusted"
-                                      (ngModelChange)="updateFinalAmount(epfDetailsResponse)"
-                                      [ngModelOptions]="{ standalone: true }" />
+                                    <input class="comment-input p-2" type="number" placeholder="Enter the new amount here"
+                                    [(ngModel)]="epfDetailsResponse.amountToBeAdjusted"
+                                    (ngModelChange)="updateFinalAmount(epfDetailsResponse)"
+                                    [ngModelOptions]="{ standalone: true }" />
                                   </td>
                                   <td>{{ epfDetailsResponse.finalAmount }}</td>
-                                  <td class="text-start">
+                                  <!-- <td class="text-start">
                                     <a>
                                       <i class="bi bi-pencil-square"></i>
                                     </a>
-                                  </td>
+                                  </td> -->
                                 </tr>
                               </tbody>
                             </ng-container>
@@ -2267,7 +2258,7 @@
                               <th>AMOUNT</th>
                               <th>AMOUT TO BE ADJUSTED</th>
                               <th>FINAL AMOUNT</th>
-                              <th>ACTION</th>
+                              <!-- <th>ACTION</th> -->
                             </tr>
                           </thead>
                           <ng-container
@@ -2326,11 +2317,11 @@
                                       [ngModelOptions]="{ standalone: true }" />
                                   </td>
                                   <td>{{ esiDetailsResponse.finalAmount }}</td>
-                                  <td class="text-start">
+                                  <!-- <td class="text-start">
                                     <a>
                                       <i class="bi bi-pencil-square"></i>
                                     </a>
-                                  </td>
+                                  </td> -->
                                 </tr>
                               </tbody>
                             </ng-container>
@@ -2389,7 +2380,7 @@
                               <th>AMOUNT</th>
                               <th>AMOUT TO BE ADJUSTED</th>
                               <th>FINAL AMOUNT</th>
-                              <th>ACTION</th>
+                              <!-- <th>ACTION</th> -->
                             </tr>
                           </thead>
                           <ng-container
@@ -2448,11 +2439,11 @@
                                       [ngModelOptions]="{ standalone: true }" />
                                   </td>
                                   <td>{{ tdsDetailsResponse.finalAmount }}</td>
-                                  <td class="text-start">
+                                  <!-- <td class="text-start">
                                     <a>
                                       <i class="bi bi-pencil-square"></i>
                                     </a>
-                                  </td>
+                                  </td> -->
                                 </tr>
                               </tbody>
                             </ng-container>
@@ -2630,7 +2621,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="leaveLogsModalLabel">Pending Leave Logs</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="modal" data-bs-target="#leaves" (click)="leavesTab()"></button>
       </div>
       <div class="modal-body">
         <div class="row" *ngIf="userLeaveLogs != undefined && userLeaveLogs.length == 0">
@@ -2669,7 +2660,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#leaves"(click)="leavesTab()">Close</button>
       </div>
     </div>
   </div>

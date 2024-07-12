@@ -21,7 +21,7 @@ export class PaymentHistoryComponent implements OnInit {
   sortBy: string = 'id';
   search: string = '';
   searchBy: string = 'name';
-  selectedEmployeeIds: number[] = [];
+  selectedEmployeeIds: string[] = [];
   isAllUsersSelected: boolean = false;
 
   readonly PENDING = Key.PENDING;
@@ -239,10 +239,10 @@ this.getOrganizationMonthWiseSalaryDataMethodCall();
    this.getOrganizationMonthWiseSalaryDataMethodCall();
   }
 
-  toggleEmployeeSelection(employeeId: number) {
-    const index = this.selectedEmployeeIds.indexOf(employeeId);
+  toggleEmployeeSelection(uuid: string) {
+    const index = this.selectedEmployeeIds.indexOf(uuid);
     if (index === -1) {
-      this.selectedEmployeeIds.push(employeeId);
+      this.selectedEmployeeIds.push(uuid);
     } else {
       this.selectedEmployeeIds.splice(index, 1);
     }
@@ -259,7 +259,8 @@ this.getOrganizationMonthWiseSalaryDataMethodCall();
         
         this.total = response.listOfObject.length;
         this.isAllUsersSelected = true;
-        this.selectedEmployeeIds = response.listOfObject.map((employee: EmployeeMonthWiseSalaryData) => employee.userId);
+        this.selectedEmployeeIds = response.listOfObject.map((employee: EmployeeMonthWiseSalaryData) => employee.uuid);
+        console.log(this.selectedEmployeeIds);
       },
       (error) => {
         console.log(error);
@@ -276,17 +277,29 @@ this.getOrganizationMonthWiseSalaryDataMethodCall();
     }
   }
 
-  selectUser(userId: number) {
-    if (this.selectedEmployeeIds.includes(userId)) {
-      this.selectedEmployeeIds = this.selectedEmployeeIds.filter(id => id !== userId);
+  selectUser(uuid: string) {
+    if (this.selectedEmployeeIds.includes(uuid)) {
+      this.selectedEmployeeIds = this.selectedEmployeeIds.filter(id => id !== uuid);
     } else {
-      this.selectedEmployeeIds.push(userId);
+      this.selectedEmployeeIds.push(uuid);
     }
     this.isAllUsersSelected = this.selectedEmployeeIds.length === this.employeeMonthWiseSalaryDataList.length;
   }
 
   
-
+  updatePayActionTypeFoUsersMethodCall(payActionType: string){
+    this.dataService.updatePayActionTypeFoUsers(payActionType, this.selectedEmployeeIds).subscribe(
+      (response) => {
+        
+        this.isAllUsersSelected = false;
+        this.selectedEmployeeIds= [];
+        this.getOrganizationMonthWiseSalaryDataMethodCall();
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
   
   
 
