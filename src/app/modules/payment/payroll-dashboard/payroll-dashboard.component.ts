@@ -1,3 +1,4 @@
+import { resolveSanitizationFn } from '@angular/compiler/src/render3/view/template';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { clear } from 'console';
 import { Key } from 'src/app/constant/key';
@@ -761,21 +762,23 @@ export class PayrollDashboardComponent implements OnInit {
   }
 
 
-  updateComment(newJoinee: NewJoineeResponse, comment: string) {
-    newJoinee.comment = comment;
+  updateComment(response: any, comment: string) {
+    response.comment = comment;
     // Update the cache
-    this.commentCache[newJoinee.uuid] = comment;
+    this.commentCache[response.uuid] = comment;
   }
 
   //Fetching the pay action type list
   payActionTypeList : PayActionType[] = [];
   getPayActionTypeListMethodCall(){
+    debugger
     this.dataService.getPayActionTypeList().subscribe((response) => {
+      console.log(response);
       if(this.helperService.isListOfObjectNullOrUndefined(response)){
 
       } else{
         this.payActionTypeList = response.listOfObject;
-        // console.log(this.payActionTypeList);
+        console.log(this.payActionTypeList);
       }
     }, (error) => {
 
@@ -809,8 +812,8 @@ export class PayrollDashboardComponent implements OnInit {
       this.selectedPayActionCache[response.uuid] = payActionType;
     }
   }
-  getSelectedPayActionTypeName(newJoinee: NewJoineeResponse): string {
-    if (newJoinee.payActionTypeId === 2) {
+  getSelectedPayActionTypeName(response: any): string {
+    if (response.payActionTypeId === 2) {
       return 'HOLD SALARY';
     } else {
       return 'PROCESS AS SALARY';
@@ -1053,72 +1056,127 @@ export class PayrollDashboardComponent implements OnInit {
 
   //Fetching the user exit data
   userExitResponseList: UserExitResponse[] = [];
-  getUserExitByOrganizationIdMethodCall() {
+  getUserExitByOrganizationIdMethodCall(debounceTime: number = 300) {
     this.userExitResponseList = [];
-    this.preRuleForShimmersAndErrorPlaceholdersForUserExit();
-    this.dataService
-      .getUserExitByOrganizationId(
-        this.itemPerPage,
-        this.pageNumber,
-        this.sort,
-        this.sortBy,
-        this.search,
-        this.searchBy,
-        this.startDate,
-        this.endDate
-      )
-      .subscribe(
-        (response) => {
-          if (this.helperService.isListOfObjectNullOrUndefined(response)) {
-            this.dataNotFoundPlaceholderForUserExit = true;
-          } else {
-            this.userExitResponseList = response.listOfObject;
-            this.total = response.totalItems;
-            this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+
+    if (this.debounceTimer) {
+      clearTimeout(this.debounceTimer);
+    }
+
+    this.debounceTimer = setTimeout(() => {
+      this.preRuleForShimmersAndErrorPlaceholdersForUserExit();
+      this.dataService
+        .getUserExitByOrganizationId(
+          this.itemPerPage,
+          this.pageNumber,
+          this.sort,
+          this.sortBy,
+          this.search,
+          this.searchBy,
+          this.startDate,
+          this.endDate
+        )
+        .subscribe(
+          (response) => {
+            if (this.helperService.isListOfObjectNullOrUndefined(response)) {
+              this.dataNotFoundPlaceholderForUserExit = true;
+            } else {
+              this.userExitResponseList = response.listOfObject.map((exit: UserExitResponse) => {
+                // Apply cached pay action type if available
+                if (this.selectedPayActionCache[exit.uuid]) {
+                  exit.payActionType = this.selectedPayActionCache[exit.uuid];
+                  exit.payActionTypeId = this.selectedPayActionCache[exit.uuid].id;
+                } else {
+                  // Set initial selection based on payActionTypeId
+                  const selectedPayActionType = this.payActionTypeList.find(
+                    (payActionType) => payActionType.id === exit.payActionTypeId
+                  );
+                  if (selectedPayActionType) {
+                    exit.payActionType = selectedPayActionType;
+                  }
+                }
+
+                // Apply cached comment if available
+                if (this.commentCache[exit.uuid]) {
+                  exit.comment = this.commentCache[exit.uuid];
+                }
+
+                return exit;
+              });
+              this.total = response.totalItems;
+              this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+            }
+            this.isShimmerForUserExit = false;
+          },
+          (error) => {
+            this.networkConnectionErrorPlaceHolderForUserExit = true;
+            this.isShimmerForUserExit = false;
           }
-          this.isShimmerForUserExit = false;
-        },
-        (error) => {
-          this.networkConnectionErrorPlaceHolderForUserExit = true;
-          this.isShimmerForUserExit = false;
-        }
-      );
+        );
+    }, debounceTime);
   }
 
   //Fetching the final settlement data
   finalSettlementResponseList: FinalSettlementResponse[] = [];
-  getFinalSettlementByOrganizationIdMethodCall() {
+  getFinalSettlementByOrganizationIdMethodCall(debounceTime: number = 300) {
     this.finalSettlementResponseList = [];
-    this.preRuleForShimmersAndErrorPlaceholdersForFinalSettlement();
-    this.dataService
-      .getFinalSettlementByOrganizationId(
-        this.itemPerPage,
-        this.pageNumber,
-        this.sort,
-        this.sortBy,
-        this.search,
-        this.searchBy,
-        this.startDate,
-        this.endDate
-      )
-      .subscribe(
-        (response) => {
-          if (this.helperService.isListOfObjectNullOrUndefined(response)) {
-            this.dataNotFoundPlaceholderForFinalSettlement = true;
-          } else {
-            this.finalSettlementResponseList = response.listOfObject;
-            this.total = response.totalItems;
-            this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-          }
-          this.isShimmerForFinalSettlement = false;
-        },
-        (error) => {
-          this.networkConnectionErrorPlaceHolderForFinalSettlement = true;
-          this.isShimmerForFinalSettlement = false;
-        }
-      );
-  }
 
+    if (this.debounceTimer) {
+      clearTimeout(this.debounceTimer);
+    }
+
+    this.debounceTimer = setTimeout(() => {
+      this.preRuleForShimmersAndErrorPlaceholdersForFinalSettlement();
+      this.dataService
+        .getFinalSettlementByOrganizationId(
+          this.itemPerPage,
+          this.pageNumber,
+          this.sort,
+          this.sortBy,
+          this.search,
+          this.searchBy,
+          this.startDate,
+          this.endDate
+        )
+        .subscribe(
+          (response) => {
+            if (this.helperService.isListOfObjectNullOrUndefined(response)) {
+              this.dataNotFoundPlaceholderForFinalSettlement = true;
+            } else {
+              this.finalSettlementResponseList = response.listOfObject.map((settlement: FinalSettlementResponse) => {
+                // Apply cached pay action type if available
+                if (this.selectedPayActionCache[settlement.uuid]) {
+                  settlement.payActionType = this.selectedPayActionCache[settlement.uuid];
+                  settlement.payActionTypeId = this.selectedPayActionCache[settlement.uuid].id;
+                } else {
+                  // Set initial selection based on payActionTypeId
+                  const selectedPayActionType = this.payActionTypeList.find(
+                    (payActionType) => payActionType.id === settlement.payActionTypeId
+                  );
+                  if (selectedPayActionType) {
+                    settlement.payActionType = selectedPayActionType;
+                  }
+                }
+
+                // Apply cached comment if available
+                if (this.commentCache[settlement.uuid]) {
+                  settlement.comment = this.commentCache[settlement.uuid];
+                }
+
+                return settlement;
+              });
+              this.total = response.totalItems;
+              this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+            }
+            this.isShimmerForFinalSettlement = false;
+          },
+          (error) => {
+            this.networkConnectionErrorPlaceHolderForFinalSettlement = true;
+            this.isShimmerForFinalSettlement = false;
+          }
+        );
+    }, debounceTime);
+  }
   //Registering new joinee and user exit data to employee month wise salary data
   newJoineeAndUserExitRequestList: NewJoineeAndUserExitRequest[] = [];
   registerNewJoineeAndUserExitMethodCall() {
@@ -1155,6 +1213,8 @@ export class PayrollDashboardComponent implements OnInit {
       
       this.dataService.registerNewJoineeAndUserExit(this.newJoineeAndUserExitRequestList, this.startDate, this.endDate).subscribe((response) => {
         console.log(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE);
+        this.selectedPayActionCache={};
+        this.commentCache = {};
         this.helperService.showToast(response.message, this.TOAST_STATUS_SUCCESS);
         if (this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == this.NEW_JOINEE) {
           this.navigateToTab('step2-tab'); //Navigating to the user exit tab
@@ -1175,7 +1235,7 @@ export class PayrollDashboardComponent implements OnInit {
 
     registerAttendanceAndLeavesMethodCall(CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE : number){
       if(CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE == this.LEAVES){
-
+        this.saveAndContinue();
       }
 
       if(CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE == this.LOP_SUMMARY){
@@ -1250,24 +1310,54 @@ export class PayrollDashboardComponent implements OnInit {
     }
 
     lopReversalResponseList : LopReversalResponse[] = [];
-    getLopReversalResponseByOrganizationIdAndStartDateAndEndDateMethodCall(){
-      this.preRuleForShimmersAndErrorPlaceholdersForLopReversal();
-      this.dataService.getLopReversalResponseByOrganizationIdAndStartDateAndEndDate(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
+  
+    getLopReversalResponseByOrganizationIdAndStartDateAndEndDateMethodCall(debounceTime: number = 300) {
+      this.lopReversalResponseList = [];
+  
+      if (this.debounceTimer) {
+        clearTimeout(this.debounceTimer);
+      }
+  
+      this.debounceTimer = setTimeout(() => {
+        this.preRuleForShimmersAndErrorPlaceholdersForLopReversal();
+        this.dataService
+          .getLopReversalResponseByOrganizationIdAndStartDateAndEndDate(
+            this.startDate,
+            this.endDate,
+            this.itemPerPage,
+            this.pageNumber,
+            this.search,
+            this.searchBy
+          )
+          .subscribe(
+            (response) => {
+              if (this.helperService.isListOfObjectNullOrUndefined(response)) {
+                this.dataNotFoundPlaceholderForLopReversal = true;
+              } else {
+                this.lopReversalResponseList = response.listOfObject.map((lopReversal: LopReversalResponse) => {
+                  // Apply cached comment if available
+                  if (this.commentCache[lopReversal.uuid]) {
+                    lopReversal.lopReversalComment = this.commentCache[lopReversal.uuid];
+                  }
+                  return lopReversal;
+                });
+                this.total = response.totalItems;
+                this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+              }
+              this.isShimmerForLopReversal = false;
+            },
+            (error) => {
+              this.networkConnectionErrorPlaceHolderForLopReversal = true;
+              this.isShimmerForLopReversal = false;
+            }
+          );
+      }, debounceTime);
+    }
 
-        if(this.helperService.isListOfObjectNullOrUndefined(response)){
-          this.dataNotFoundPlaceholderForLopReversal = true;
-        } else{
-          this.lopReversalResponseList = response.listOfObject;
-          this.total = response.totalItems;
-          this.lastPageNumber = Math.ceil(this.total/this.itemPerPage);
-          // console.log(this.lopReversalResponseList);
-        }
-
-        this.isShimmerForLopReversal = false;
-      }, (error) => {
-        this.networkConnectionErrorPlaceHolderForLopReversal = true;
-        this.isShimmerForLopReversal = false;
-      })
+    updateLopComment(lopReversal: LopReversalResponse, comment: string) {
+      lopReversal.lopReversalComment = comment;
+    
+      this.commentCache[lopReversal.uuid] = comment;
     }
 
 
@@ -1433,25 +1523,63 @@ export class PayrollDashboardComponent implements OnInit {
 
 
     salaryChangeBonusResponseList : SalaryChangeBonusResponse[] = [];
-    getSalaryChangeBonusResponseListByOrganizationIdMethodCall(){
-      this.preRuleForShimmersAndErrorPlaceholdersForSalaryChangeBonusResponse();
-      this.dataService.getSalaryChangeBonusResponseListByOrganizationId(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
-
-        if(this.helperService.isListOfObjectNullOrUndefined(response)){
-          this.dataNotFoundPlaceholderForSalaryChangeBonusResponse = true;
-        } else{
-          this.salaryChangeBonusResponseList = response.listOfObject;
-          this.total = response.totalItems;
-          this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-        }
-
-        this.isShimmerForSalaryChangeBonusResponse = false;
-      }, (error) => {
-        this.isShimmerForSalaryChangeBonusResponse = false;
-        this.networkConnectionErrorPlaceHolderForSalaryChangeBonusResponse = true;
-      })
+    getSalaryChangeBonusResponseListByOrganizationIdMethodCall(debounceTime: number = 300) {
+      this.salaryChangeBonusResponseList = [];
+  
+      if (this.debounceTimer) {
+        clearTimeout(this.debounceTimer);
+      }
+  
+      this.debounceTimer = setTimeout(() => {
+        this.preRuleForShimmersAndErrorPlaceholdersForSalaryChangeBonusResponse();
+        this.dataService
+          .getSalaryChangeBonusResponseListByOrganizationId(
+            this.startDate,
+            this.endDate,
+            this.itemPerPage,
+            this.pageNumber,
+            this.search,
+            this.searchBy
+          )
+          .subscribe(
+            (response) => {
+              if (this.helperService.isListOfObjectNullOrUndefined(response)) {
+                this.dataNotFoundPlaceholderForSalaryChangeBonusResponse = true;
+              } else {
+                this.salaryChangeBonusResponseList = response.listOfObject.map((salaryChangeBonus: SalaryChangeBonusResponse) => {
+                  // Apply cached selection if available
+                  if (this.selectedPayActionCache[salaryChangeBonus.uuid]) {
+                    salaryChangeBonus.payActionType = this.selectedPayActionCache[salaryChangeBonus.uuid];
+                    salaryChangeBonus.payActionTypeId = this.selectedPayActionCache[salaryChangeBonus.uuid].id;
+                  } else {
+                    // Set initial selection based on payActionTypeId
+                    const selectedPayActionType = this.payActionTypeList.find(
+                      (payActionType) => payActionType.id === salaryChangeBonus.payActionTypeId
+                    );
+                    if (selectedPayActionType) {
+                      salaryChangeBonus.payActionType = selectedPayActionType;
+                    }
+                  }
+  
+                  // Apply cached comment if available
+                  if (this.commentCache[salaryChangeBonus.uuid]) {
+                    salaryChangeBonus.comment = this.commentCache[salaryChangeBonus.uuid];
+                  }
+  
+                  return salaryChangeBonus;
+                });
+                this.total = response.totalItems;
+                this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+              }
+              this.isShimmerForSalaryChangeBonusResponse = false;
+            },
+            (error) => {
+              this.isShimmerForSalaryChangeBonusResponse = false;
+              this.networkConnectionErrorPlaceHolderForSalaryChangeBonusResponse = true;
+            }
+          );
+      }, debounceTime);
     }
-
     salaryChangeOvertimeResponseList : SalaryChangeOvertimeResponse[] = [];
     getSalaryChangeOvertimeResponseListByOrganizationIdMethodCall(){
       this.preRuleForShimmersAndErrorPlaceholdersForSalaryChangeOvertimeResponse();
@@ -1506,6 +1634,8 @@ export class PayrollDashboardComponent implements OnInit {
       })
 
       this.dataService.registerSalaryChangeBonusListByOrganizationId(this.salaryChangeBonusRequestList).subscribe((response) => {
+        this.selectedPayActionCache={};
+        this.commentCache = {};
         this.helperService.showToast(response.message, this.TOAST_STATUS_SUCCESS);
       }, (error) => {
         this.helperService.showToast("Error while registering the request!", this.TOAST_STATUS_ERROR);
@@ -1516,99 +1646,169 @@ export class PayrollDashboardComponent implements OnInit {
 
     // ###########################################################
     // Step 4: EPF, ESI & TDS
-    
-    epfDetailsResponseList : EpfDetailsResponse[] = [];
-    getEpfDetailsResponseListByOrganizationIdMethodCall(){
-      this.preRuleForShimmersAndErrorPlaceholdersForEpfDetailsResponse();
-      this.dataService.getEpfDetailsResponseListByOrganizationId(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
-        if(this.helperService.isListOfObjectNullOrUndefined(response)){
-          this.dataNotFoundPlaceholderForEpfDetailsResponse = true;
-        } else{
-          this.epfDetailsResponseList = response.listOfObject.map((item: { amount: any; }) => {
-            return {
-              ...item,
-              finalAmount: item.amount
-            };
-          });
 
-          this.total = response.totalItems;
-          this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-        }
-
-        this.isShimmerForEpfDetailsResponse = false;
-      }, (error) =>{
-        this.networkConnectionErrorPlaceHolderForEpfDetailsResponse = true;
-        this.isShimmerForEpfDetailsResponse = false;
-      })
-    }
-
-    esiDetailsResponseList : EsiDetailsResponse[] = [];
-    getEsiDetailsResponseListByOrganizationIdMethodCall(){
-      this.preRuleForShimmersAndErrorPlaceholdersForEsiDetailsResponse();
-      this.dataService.getEsiDetailsResponseListByOrganizationId(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
-        if(this.helperService.isListOfObjectNullOrUndefined(response)){
-          this.dataNotFoundPlaceholderForEsiDetailsResponse = true;
-        } else{
-          this.esiDetailsResponseList = response.listOfObject.map((item: { amount: any; }) => {
-            return {
-              ...item,
-              finalAmount: item.amount
-            };
-          });
-
-          this.total = response.totalItems;
-          this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-        }
-
-        this.isShimmerForEsiDetailsResponse = false;
-      }, (error) =>{
-        this.networkConnectionErrorPlaceHolderForEsiDetailsResponse = true;
-        this.isShimmerForEsiDetailsResponse = false;
-      })
-    }
-
-    tdsDetailsResponseList : TdsDetailsResponse[] = [];
-    getTdsDetailsResponseListByOrganizationIdMethodCall(){
-      this.preRuleForShimmersAndErrorPlaceholdersForTdsDetailsResponse();
-      this.dataService.getTdsDetailsResponseListByOrganizationId(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
-        if(this.helperService.isListOfObjectNullOrUndefined(response)){
-          this.dataNotFoundPlaceholderForTdsDetailsResponse = true;
-        } else{
-          this.tdsDetailsResponseList = response.listOfObject.map((item: { amount: any; }) => {
-            return {
-              ...item,
-              finalAmount: item.amount
-            };
-          });
-          this.total = response.totalItems;
-          this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-        }
-
-        this.isShimmerForTdsDetailsResponse = false;
-      }, (error) =>{
-        this.networkConnectionErrorPlaceHolderForTdsDetailsResponse = true;
-        this.isShimmerForTdsDetailsResponse = false;
-      })
-    }
-
-
-    modifiedValuesMap = new Map<number, any>();
-
-    updateFinalAmount(response : any) {
+   
+    updateFinalAmount(response: any) {
       if (response.amountToBeAdjusted != null) {
         response.finalAmount = response.amountToBeAdjusted;
       } else {
         response.finalAmount = response.amount;
       }
-      
-
-      // const index = this.epfDetailsResponseList.findIndex(detail => detail.uuid == epfDetailsResponse.uuid);
-      // if(index != -1){
-      //   this.epfDetailsResponseList[index] = {...epfDetailsResponse};
-      // } else{
-      //   this.epfDetailsRequestList.push(epfDetailsResponse);
+  
+      // Update the cache
+      this.amountCache[response.uuid] = response.amountToBeAdjusted;
+  
+      // Update the list if necessary
+      // const index = this.epfDetailsResponseList.findIndex(detail => detail.uuid == response.uuid);
+      // if (index != -1) {
+      //   this.epfDetailsResponseList[index] = { ...response };
       // }
     }
+  
+
+    amountCache: { [uuid: string]: number } = {};
+    epfDetailsResponseList : EpfDetailsResponse[] = [];
+    getEpfDetailsResponseListByOrganizationIdMethodCall(debounceTime: number = 300) {
+      this.epfDetailsResponseList = [];
+  
+      if (this.debounceTimer) {
+        clearTimeout(this.debounceTimer);
+      }
+  
+      this.debounceTimer = setTimeout(() => {
+        this.preRuleForShimmersAndErrorPlaceholdersForEpfDetailsResponse();
+        this.dataService
+          .getEpfDetailsResponseListByOrganizationId(
+            this.startDate,
+            this.endDate,
+            this.itemPerPage,
+            this.pageNumber,
+            this.search,
+            this.searchBy
+          )
+          .subscribe(
+            (response) => {
+              if (this.helperService.isListOfObjectNullOrUndefined(response)) {
+                this.dataNotFoundPlaceholderForEpfDetailsResponse = true;
+              } else {
+                this.epfDetailsResponseList = response.listOfObject.map((item: EpfDetailsResponse) => {
+                  // Apply cached amount if available
+                  if (this.amountCache[item.uuid]) {
+                    item.amountToBeAdjusted = this.amountCache[item.uuid];
+                  }
+                  item.finalAmount = item.amountToBeAdjusted || item.amount;
+                  return item;
+                });
+  
+                this.total = response.totalItems;
+                this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+              }
+              this.isShimmerForEpfDetailsResponse = false;
+            },
+            (error) => {
+              this.networkConnectionErrorPlaceHolderForEpfDetailsResponse = true;
+              this.isShimmerForEpfDetailsResponse = false;
+            }
+          );
+      }, debounceTime);
+    }
+
+    
+    esiDetailsResponseList : EsiDetailsResponse[] = [];
+    getEsiDetailsResponseListByOrganizationIdMethodCall(debounceTime: number = 300) {
+      this.esiDetailsResponseList = [];
+  
+      if (this.debounceTimer) {
+        clearTimeout(this.debounceTimer);
+      }
+  
+      this.debounceTimer = setTimeout(() => {
+        this.preRuleForShimmersAndErrorPlaceholdersForEsiDetailsResponse();
+        this.dataService
+          .getEsiDetailsResponseListByOrganizationId(
+            this.startDate,
+            this.endDate,
+            this.itemPerPage,
+            this.pageNumber,
+            this.search,
+            this.searchBy
+          )
+          .subscribe(
+            (response) => {
+              if (this.helperService.isListOfObjectNullOrUndefined(response)) {
+                this.dataNotFoundPlaceholderForEsiDetailsResponse = true;
+              } else {
+                this.esiDetailsResponseList = response.listOfObject.map((item: EsiDetailsResponse) => {
+                  // Apply cached amount if available
+                  if (this.amountCache[item.uuid]) {
+                    item.amountToBeAdjusted = this.amountCache[item.uuid];
+                  }
+                  item.finalAmount = item.amountToBeAdjusted || item.amount;
+                  return item;
+                });
+  
+                this.total = response.totalItems;
+                this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+              }
+              this.isShimmerForEsiDetailsResponse = false;
+            },
+            (error) => {
+              this.networkConnectionErrorPlaceHolderForEsiDetailsResponse = true;
+              this.isShimmerForEsiDetailsResponse = false;
+            }
+          );
+      }, debounceTime);
+    }
+
+    tdsDetailsResponseList : TdsDetailsResponse[] = [];
+    getTdsDetailsResponseListByOrganizationIdMethodCall(debounceTime: number = 300) {
+      this.tdsDetailsResponseList = [];
+  
+      if (this.debounceTimer) {
+        clearTimeout(this.debounceTimer);
+      }
+  
+      this.debounceTimer = setTimeout(() => {
+        this.preRuleForShimmersAndErrorPlaceholdersForTdsDetailsResponse();
+        this.dataService
+          .getTdsDetailsResponseListByOrganizationId(
+            this.startDate,
+            this.endDate,
+            this.itemPerPage,
+            this.pageNumber,
+            this.search,
+            this.searchBy
+          )
+          .subscribe(
+            (response) => {
+              if (this.helperService.isListOfObjectNullOrUndefined(response)) {
+                this.dataNotFoundPlaceholderForTdsDetailsResponse = true;
+              } else {
+                this.tdsDetailsResponseList = response.listOfObject.map((item: TdsDetailsResponse) => {
+                  // Apply cached amount if available
+                  if (this.amountCache[item.uuid]) {
+                    item.amountToBeAdjusted = this.amountCache[item.uuid];
+                  }
+                  item.finalAmount = item.amountToBeAdjusted || item.amount;
+                  return item;
+                });
+  
+                this.total = response.totalItems;
+                this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+              }
+              this.isShimmerForTdsDetailsResponse = false;
+            },
+            (error) => {
+              this.networkConnectionErrorPlaceHolderForTdsDetailsResponse = true;
+              this.isShimmerForTdsDetailsResponse = false;
+            }
+          );
+      }, debounceTime);
+    }
+
+
+    modifiedValuesMap = new Map<number, any>();
+
 
 
     // updateEsiFinalAmount(esiDetailsResponse : EsiDetailsResponse) {
@@ -1661,6 +1861,7 @@ export class PayrollDashboardComponent implements OnInit {
 
       this.dataService.registerEpfDetailsListByOrganizationId(this.startDate, this.endDate, this.epfDetailsRequestList).subscribe((response) => {
         this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+        this.amountCache = {};
         this.navigateToTab('step11-tab');
       }, (error) => {
         this.helperService.showToast("Error while adjusting the epf details!", Key.TOAST_STATUS_ERROR);
@@ -1679,6 +1880,7 @@ export class PayrollDashboardComponent implements OnInit {
 
       this.dataService.registerEsiDetailsListByOrganizationId(this.startDate, this.endDate, this.esiDetailsRequestList).subscribe((response) => {
         this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+        this.amountCache = {};
         this.navigateToTab('step12-tab');
       }, (error) => {
         this.helperService.showToast("Error while adjusting the esi details!", Key.TOAST_STATUS_ERROR);
@@ -1696,6 +1898,7 @@ export class PayrollDashboardComponent implements OnInit {
       })
       
       this.dataService.registerTdsDetailsListByOrganizationId(this.startDate, this.endDate, this.tdsDetailsRequestList).subscribe((response) => {
+        this.amountCache = {};
         this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
       }, (error) => {
         this.helperService.showToast("Error while adjusting the tds details!", Key.TOAST_STATUS_ERROR);
@@ -1749,7 +1952,15 @@ export class PayrollDashboardComponent implements OnInit {
           this.RUN_PAYROLL_LOADER = false;
         },
       });
-    }    
+    } 
+
+   
+    saveAndContinue(){
+      this.lopSummaryTab();
+      this.helperService.showToast('Leave details updated successfully.', Key.TOAST_STATUS_SUCCESS);
+      this.step5Tab.nativeElement.click();  
+      
+    }
 }
 
 

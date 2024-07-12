@@ -7,4 +7,5 @@ export class SalaryChangeBonusResponse {
     amount : number = 0;
     comment : string = '';
     payActionType : PayActionType = new PayActionType();
+    payActionTypeId !: number;
 }
