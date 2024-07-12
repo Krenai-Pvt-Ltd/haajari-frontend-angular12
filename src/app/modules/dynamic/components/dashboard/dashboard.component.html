@@ -96,7 +96,7 @@
                     </div>
                     <div class="Approved absents text-center border-right" style="cursor: pointer"
                       data-bs-toggle="modal" data-bs-target="#presentModal"
-                      (click)="getAbsentAndNotMarkedUsers('ABSENT', attendanceDetailsCountResponse.absentUsers)">
+                      (click)="getAbsentAndNotMarkedUsers('ABSENT', attendanceDetailsCountResponse.absentUsers); getAbsentFlag('ABSENT', attendanceDetailsCountResponse.absentUsers)">
                       <span class="total-holiday pb-2">Absent</span>
 
                       <p class="mb-0">
@@ -110,7 +110,7 @@
                     </div>
                     <div class="Approved na text-center" style="cursor: pointer" data-bs-toggle="modal"
                       data-bs-target="#presentModal"
-                      (click)="getAbsentAndNotMarkedUsers('ABSENT', attendanceDetailsCountResponse.unmarkedUsers)">
+                      (click)="getAbsentAndNotMarkedUsers('ABSENT', attendanceDetailsCountResponse.unmarkedUsers); getAbsentFlag('Not Marked', attendanceDetailsCountResponse.unmarkedUsers)">
                       <span class="total-holiday pb-2">Not Marked</span>
                       <p class="mb-0">
                         {{ attendanceDetailsCountResponse.unmarkedUsers }}
@@ -1077,12 +1077,12 @@
                               <td colspan="9" class="p-1">
                                 <div class="month-deta">
                                   <table class="table table-bordered day-deta">
-                                    <tr>
-                                      <th class="text-center">Day</th>
+                                    <tr class="position-relative">
+                                      <th class="text-center ">Day</th>
                                       <ng-container *ngFor="
                                           let dayWiseStatus of attendanceReportResponse.dayWiseStatusList
                                         ">
-                                        <th class="text-center">
+                                        <th class="text-center  ">
                                           {{
                                           getDayNameFromDate(
                                           dayWiseStatus.date
@@ -1092,15 +1092,18 @@
                                           {{
                                           getDayFromDate(dayWiseStatus.date)
                                           }}
+                                          
                                         </th>
                                       </ng-container>
+
+                                      
                                     </tr>
                                     <tr>
                                       <td></td>
                                       <ng-container *ngFor="
                                           let dayWiseStatus of attendanceReportResponse.dayWiseStatusList
                                         ">
-                                        <td class="text-center" [ngClass]="{
+                                        <td class="text-center position-relative attendance-detail" [ngClass]="{
                                             orange:
                                               dayWiseStatus.status == LEAVE ||
                                               dayWiseStatus.status == HALFDAY,
@@ -1111,16 +1114,57 @@
                                             blue:
                                               dayWiseStatus.status == WEEKEND ||
                                               dayWiseStatus.status == HOLIDAY
-                                          }">
+                                          }" (mouseenter)="fetchAttendanceDetails(attendanceReportResponse.userEmail, dayWiseStatus.date)">
                                           {{
                                           dayWiseStatus.status[0] == "U"
                                           ? "A"
                                           : dayWiseStatus.status[0]
                                           }}
+
+                                          <span class="user-details p-3"> 
+                                            <h5 class="p-0">Attendance Details</h5>
+                                            <div class=" p-0" *ngIf="loadingFlag">
+                                              <p class="mb-0">Loading ....</p>   
+                                            </div>
+                                            <div class=" p-0" *ngIf="userAttendanceDetailDateWise?.checkInTime!=null && !loadingFlag">
+                                              <p class="mb-0">Check In Time: {{userAttendanceDetailDateWise.checkInTime | date:'medium' }}</p>
+                                              <p class="mb-0">Check Out Time: {{userAttendanceDetailDateWise.checkOutTime | date:'medium' || '-'}}</p>
+                                              <p class="mb-0">Total Hours: {{userAttendanceDetailDateWise.totalWorkingHours}}</p>
+                                              <p class="mb-0">Total Break: {{userAttendanceDetailDateWise.breakCount}}</p>
+                                              <p class="mb-0">Break Duration: {{userAttendanceDetailDateWise.totalBreakHours}}</p>
+                                            </div>
+                                            <div class=" p-0" *ngIf="userAttendanceDetailDateWise?.checkInTime==null && !loadingFlag">
+                                              <p class="mb-0">No Data Found :)</p>   
+                                            </div>
+                                          </span>
+                                          
                                         </td>
                                       </ng-container>
                                     </tr>
                                   </table>
+                                  <!-- Modal -->
+                                  <!-- <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#eventsModal" #openEventsModal id="openEventsModal"></button> 
+                                  <div class="modal fade" id="eventsModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true" #eventsModal>
+                                    <div class="modal-dialog modal-dialog-centered">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title" id="deleteConfirmationModalLabel">Attendance Details</h5>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                          <ng-container *ngIf="userAttendanceDetailDateWise">
+                                            <div class="calenInfo">
+                                              <p><b>Check In Time:</b> {{ userAttendanceDetailDateWise.checkInTime | timeFormat }}</p>
+                                              <p><b>Check Out Time:</b> {{ userAttendanceDetailDateWise.checkOutTime | timeFormat }}</p>
+                                              <p><b>Total Hours:</b> {{ userAttendanceDetailDateWise.totalWorkingHours }}</p>
+                                              <p><b>Total Break:</b> {{ userAttendanceDetailDateWise.breakCount }}</p>
+                                              <p><b>Break Duration:</b> {{ userAttendanceDetailDateWise.breakDuration }}</p>
+                                            </div>
+                                          </ng-container>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div> -->
                                 </div>
                               </td>
                             </tr>
@@ -1440,30 +1484,40 @@
   <div class="modal-dialog modal-md">
     <div class="modal-content">
       <div class="modal-header">
-        <!-- <h5 class="modal-title" id="transactionModalLabel">
-          Total Users
-        </h5> -->
-        <div class="onboarding-date d-flex align-items-center" style="gap: 10px; width: 70%">
-          <form role="search" class="searching ng-untouched ng-pristine ng-valid" style="width: 100%">
-            <div class="form-group" style="width: 100%; position: relative">
-              <input type="text" id="searchText" placeholder="Search by {{ searchByNew }} ..."
-                class="form-control me-2 ng-untouched ng-pristine ng-valid" (keyup)="searchUsersNew('any')"
-                [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" style="padding: 10px 40px" />
-              <!-- <button
-                  type="button"
-                  class="btn close-btn"
-                  (click)="reloadPage()"
-                  *ngIf="crossFlag"
-                >
-                  <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-                </button> -->
-              <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px" *ngIf="!crossFlag"></i>
-              <i class="bi bi-x search-icon" style="margin: auto; margin-left: 15px" (click)="reloadPage()"
-                *ngIf="crossFlag"></i>
-            </div>
-          </form>
-        </div>
+       
+        <h5 class="modal-title" id="transactionModalLabel" *ngIf="filterCriteria === 'PRESENT'">
+           Present Users
+        </h5>
+        <!-- {{absentFlag}} -->
+        <h5 class="modal-title" id="transactionModalLabel" *ngIf="filterCriteria === 'ABSENT' && absentFlag">
+          Absent Users
+       </h5>
+       <h5 class="modal-title" id="transactionModalLabel" *ngIf="filterCriteria === 'ABSENT' && !absentFlag">
+        Not Marked Users
+     </h5>
+   
+       
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="onboarding-date d-flex align-items-center" style="gap: 10px; width: 100%">
+        <form role="search" class="searching ng-untouched ng-pristine ng-valid" style="width: 100%">
+          <div class="form-group" style="width: 100%; position: relative">
+            <input type="text" id="searchText" placeholder="Search by {{ searchByNew }} ..."
+              class="form-control me-2 ng-untouched ng-pristine ng-valid" (keyup)="searchUsersNew('any')"
+              [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" style="padding: 10px 40px; border: none;" />
+            <!-- <button
+                type="button"
+                class="btn close-btn"
+                (click)="reloadPage()"
+                *ngIf="crossFlag"
+              >
+                <i class="bi bi-x mt-auto mb-auto pl-3"></i>
+              </button> -->
+            <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px" *ngIf="!crossFlag"></i>
+            <i class="bi bi-x search-icon" style="margin: auto; margin-left: 15px" (click)="reloadPage()"
+              *ngIf="crossFlag"></i>
+          </div>
+        </form>
       </div>
       <div class="errorboxmain text-center" *ngIf="attendanceDetailsResponseList.length == 0">
         <div class="errorboxinner">
@@ -1479,8 +1533,10 @@
           </div>
         </div>
       </div>
-      <div class="modal-body" *ngIf="attendanceDetailsResponseList.length > 0">
+     
+      <div class="modal-body mt-0 pt-0" *ngIf="attendanceDetailsResponseList.length > 0">
         <!-- <div class="card-body"> -->
+         
         <ul class="list-unstyled m-0 ps-0 transaction-history" *ngFor="let attendList of attendanceDetailsResponseList">
           <li class="align-items-center d-flex justify-content-between">
             <div class="media">
@@ -1500,10 +1556,10 @@
               <!--end media body-->
             </div>
             <span class="text-success" *ngIf="attendList.currentStatus!=='Late'">{{
-              attendList.checkInTime | date : "medium"
+              attendList.checkInTime | date : "mediumTime"
               }}</span>
             <span class="text-danger" *ngIf="attendList.currentStatus=='Late'">{{
-              attendList.checkInTime | date : "medium"
+              attendList.checkInTime | date : "mediumTime"
               }}</span>
           </li>
         </ul>
@@ -1556,30 +1612,35 @@
   <div class="modal-dialog modal-md">
     <div class="modal-content">
       <div class="modal-header">
-        <div class="onboarding-date d-flex align-items-center" style="gap: 10px; width: 70%">
-          <form role="search" class="searching ng-untouched ng-pristine ng-valid" style="width: 100%">
-            <div class="form-group" style="width: 100%; position: relative">
-              <input type="text" id="searchText" placeholder="Search by name or email..."
-                class="form-control me-2 ng-untouched ng-pristine ng-valid" (keyup)="searchBreak()"
-                [(ngModel)]="searchTermBreak" [ngModelOptions]="{ standalone: true }" style="padding: 10px 40px" />
-              <!-- <button
-                  type="button"
-                  class="btn close-btn"
-                  (click)="reloadPageBreak()"
-                  *ngIf="crossFlagBreak"
-                >
-                  <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-                </button> -->
-              <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px" *ngIf="!crossFlagBreak"></i>
-              <i class="bi bi-x search-icon" style="margin: auto; margin-left: 15px" (click)="reloadPageBreak()"
-                *ngIf="crossFlagBreak"></i>
-            </div>
-          </form>
-        </div>
+
+        <h5 class="modal-title" id="transactionModalLabel">
+          Break Users
+       </h5>
+       
         <!-- <h5 class="modal-title" id="breakUsersModalLabel">
           Break Users List
         </h5> -->
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="onboarding-date d-flex align-items-center" style="gap: 10px; width: 100%">
+        <form role="search" class="searching ng-untouched ng-pristine ng-valid" style="width: 100%">
+          <div class="form-group" style="width: 100%; position: relative">
+            <input type="text" id="searchText" placeholder="Search by name or email..."
+              class="form-control me-2 ng-untouched ng-pristine ng-valid" (keyup)="searchBreak()"
+              [(ngModel)]="searchTermBreak" [ngModelOptions]="{ standalone: true }" style="padding: 10px 40px; border: none;" />
+            <!-- <button
+                type="button"
+                class="btn close-btn"
+                (click)="reloadPageBreak()"
+                *ngIf="crossFlagBreak"
+              >
+                <i class="bi bi-x mt-auto mb-auto pl-3"></i>
+              </button> -->
+            <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px" *ngIf="!crossFlagBreak"></i>
+            <i class="bi bi-x search-icon" style="margin: auto; margin-left: 15px" (click)="reloadPageBreak()"
+              *ngIf="crossFlagBreak"></i>
+          </div>
+        </form>
       </div>
 
       <div class="errorboxmain text-center" *ngIf="breakUsers.length == 0">
@@ -1596,7 +1657,7 @@
           </div>
         </div>
       </div>
-      <div class="modal-body" *ngIf="breakUsers.length > 0">
+      <div class="modal-body pt-0" *ngIf="breakUsers.length > 0">
         <!-- <div class="card-body"> -->
         <!-- Search Controls -->
         <!-- <div class="row mb-3">
@@ -1639,7 +1700,7 @@
               <!--end media body-->
             </div>
             <span class="text-success">{{
-              user.checkTime | date : "medium"
+              user.checkTime | date : "mediumTime"
               }}</span>
           </li>
         </ul>
@@ -1689,30 +1750,35 @@
   <div class="modal-dialog modal-md">
     <div class="modal-content">
       <div class="modal-header">
-        <div class="onboarding-date d-flex align-items-center" style="gap: 10px; width: 70%">
-          <form role="search" class="searching ng-untouched ng-pristine ng-valid" style="width: 100%">
-            <div class="form-group" style="width: 100%; position: relative">
-              <input type="text" id="searchText" placeholder="Search by name or email..."
-                class="form-control me-2 ng-untouched ng-pristine ng-valid" (keyup)="searchLate()"
-                [(ngModel)]="searchTermLate" [ngModelOptions]="{ standalone: true }" style="padding: 10px 40px" />
-              <!-- <button
-                    type="button"
-                    class="btn close-btn"
-                    (click)="reloadPageLate()"
-                    *ngIf="searchTermLate"
-                  >
-                    <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-                  </button> -->
-              <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px" *ngIf="!searchTermLate"></i>
-              <i class="bi bi-x search-icon" style="margin: auto; margin-left: 15px" (click)="reloadPageLate()"
-                *ngIf="searchTermLate"></i>
-            </div>
-          </form>
-        </div>
+        <h5 class="modal-title" id="transactionModalLabel">
+          Late Users
+       </h5>
+       
+       
         <!-- <h5 class="modal-title" id="lateUsersModalLabel">
           Late Users List
         </h5> -->
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="onboarding-date d-flex align-items-center" style="gap: 10px; width: 100%">
+        <form role="search" class="searching ng-untouched ng-pristine ng-valid" style="width: 100%">
+          <div class="form-group" style="width: 100%; position: relative">
+            <input type="text" id="searchText" placeholder="Search by name or email..."
+              class="form-control me-2 ng-untouched ng-pristine ng-valid" (keyup)="searchLate()"
+              [(ngModel)]="searchTermLate" [ngModelOptions]="{ standalone: true }" style="padding: 10px 40px; border: none;" />
+            <!-- <button
+                  type="button"
+                  class="btn close-btn"
+                  (click)="reloadPageLate()"
+                  *ngIf="searchTermLate"
+                >
+                  <i class="bi bi-x mt-auto mb-auto pl-3"></i>
+                </button> -->
+            <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px" *ngIf="!searchTermLate"></i>
+            <i class="bi bi-x search-icon" style="margin: auto; margin-left: 15px" (click)="reloadPageLate()"
+              *ngIf="searchTermLate"></i>
+          </div>
+        </form>
       </div>
       <div class="errorboxmain text-center" *ngIf="lateUsers.length == 0">
         <div class="errorboxinner">
@@ -1735,7 +1801,7 @@
         <!-- </div> -->
 
         <!-- Attendance List -->
-        <ul class="list-unstyled m-0 ps-0 transaction-history" *ngFor="let user of lateUsers">
+        <ul class="list-unstyled m-0 ps-0 transaction-history pt-0" *ngFor="let user of lateUsers">
           <li class="align-items-center d-flex justify-content-between">
             <div class="media">
               <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center">
@@ -1751,7 +1817,7 @@
               </div>
               <!--end media body-->
             </div>
-            <span class="text-success">{{ user.checkInTime | date : "medium" }}</span>
+            <span class="text-danger">{{ user.checkInTime | date : "mediumTime"}} Late by - {{user.lateDuration | durationFormat }}</span>
           </li>
         </ul>
 
@@ -1801,31 +1867,32 @@
   <div class="modal-dialog modal-md">
     <div class="modal-content">
       <div class="modal-header">
-        <div class="onboarding-date d-flex align-items-center" style="gap: 10px; width: 70%">
-          <form role="search" class="searching ng-untouched ng-pristine ng-valid" style="width: 100%">
-            <div class="form-group" style="width: 100%; position: relative">
-              <input type="text" id="searchText" placeholder="Search by name or email..."
-                class="form-control me-2 ng-untouched ng-pristine ng-valid" (keyup)="searchLeave()"
-                [(ngModel)]="searchTermLeave" [ngModelOptions]="{ standalone: true }" style="padding: 10px 40px" />
-              <!-- <button
-                  type="button"
-                  class="btn close-btn"
-                  (click)="reloadPageLeave()"
-                  *ngIf="crossFlagLeave"
-                >
-                  <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-                </button> -->
-              <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px" *ngIf="!crossFlagLeave"></i>
-              <i class="bi bi-x search-icon" style="margin: auto; margin-left: 15px" *ngIf="crossFlagLeave"
-                (click)="reloadPageLeave()"></i>
-            </div>
-          </form>
-        </div>
+       
 
-        <!-- <h5 class="modal-title" id="leaveUsersModalLabel">
-          Leave Users List
-        </h5> -->
+        <h5 class="modal-title" id="leaveUsersModalLabel">
+          Leave Users 
+        </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="onboarding-date d-flex align-items-center" style="gap: 10px; width: 100%">
+        <form role="search" class="searching ng-untouched ng-pristine ng-valid" style="width: 100%">
+          <div class="form-group" style="width: 100%; position: relative">
+            <input type="text" id="searchText" placeholder="Search by name or email..."
+              class="form-control me-2 ng-untouched ng-pristine ng-valid" (keyup)="searchLeave()"
+              [(ngModel)]="searchTermLeave" [ngModelOptions]="{ standalone: true }" style="padding: 10px 40px; border: none;" />
+            <!-- <button
+                type="button"
+                class="btn close-btn"
+                (click)="reloadPageLeave()"
+                *ngIf="crossFlagLeave"
+              >
+                <i class="bi bi-x mt-auto mb-auto pl-3"></i>
+              </button> -->
+            <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px" *ngIf="!crossFlagLeave"></i>
+            <i class="bi bi-x search-icon" style="margin: auto; margin-left: 15px" *ngIf="crossFlagLeave"
+              (click)="reloadPageLeave()"></i>
+          </div>
+        </form>
       </div>
 
       <div class="errorboxmain text-center" *ngIf="leaveUsers.length == 0">
@@ -1843,7 +1910,7 @@
         </div>
       </div>
 
-      <div class="modal-body" *ngIf="leaveUsers.length > 0">
+      <div class="modal-body pt-0" *ngIf="leaveUsers.length > 0">
         <!-- <div class="card-body"> -->
         <!-- Search Controls -->
         <!-- <div class="row mb-3">

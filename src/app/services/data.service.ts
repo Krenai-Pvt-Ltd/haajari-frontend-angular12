@@ -1983,16 +1983,19 @@ export class DataService {
   lng: number = 0;
   radius: string = '';
   attendanceMode: number = 0;
+  address !: string;
   saveEmployeeCurrentLocationLatLng(
     lat: number,
     lng: number,
     radius: string,
-    attendanceMode: number
+    attendanceMode: number,
+    address : string
   ) {
     this.lat = lat;
     this.lng = lng;
     this.radius = radius;
     this.attendanceMode = attendanceMode;
+    this.address = address;
   }
 
   checkAttendanceLocationLinkStatus(uniqueId: string): Observable<any> {
@@ -3263,5 +3266,38 @@ export class DataService {
 
     return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/statutory/tds`, tdsDetailsRequestList, {params});
   }
+
+  getAttendanceDetailsForUserByDate(userEmail: string, date: string): Observable<any> {
+    const url = `${this.baseUrl}/attendance/get-attendance-details-for-user-by-date`;
+
+    const params = new HttpParams()
+      .set('user_email', userEmail)
+      .set('date', date);
+    // const params = { user_uuid: userUuid, date: date };
+
+    return this.httpClient.get<any>(url, { params });
+  }
+
+
+  sendEmails(userEmails:any): Observable<any> {
+    const url = `${this.baseUrl}/users/send-email-to-all-users`;
+
+    const params = new HttpParams()
+      .set('emails', userEmails);
+
+    return this.httpClient.post<any>(url,{},{ params });
+  }
+
+
+  getAtendanceDailyReport(startDate:string): Observable<any> {
+    const url = `${this.baseUrl}/attendance/excel/download/daily/report`;
+
+    const params = new HttpParams()
+      .set('start_date', startDate);
+
+    return this.httpClient.get<any>(url,{ params });
+  }
+
+  
 
 }

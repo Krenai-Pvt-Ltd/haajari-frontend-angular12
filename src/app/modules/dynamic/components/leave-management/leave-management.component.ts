@@ -405,6 +405,7 @@ export class LeaveManagementComponent implements OnInit {
               ? 'Leave approved successfully!'
               : 'Leave rejected successfully!';
           this.helperService.showToast(message, Key.TOAST_STATUS_SUCCESS);
+          this.getTotalCountOfPendingLeaves();
         },
         error: (error) => {
           console.error('There was an error!', error);

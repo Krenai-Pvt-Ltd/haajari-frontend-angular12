@@ -58,6 +58,7 @@ export class EmployeeAttendancePhotoComponent implements OnInit {
     this.employeeAttendanceLocation.latitude = this.dataService.lat.toString();
     this.employeeAttendanceLocation.longitude = this.dataService.lng.toString();
     this.employeeAttendanceLocation.distance = this.dataService.radius;
+    this.employeeAttendanceLocation.currentLocation = this.dataService.address;
 
     this.dataService
       .markAttendaceWithLocation(this.employeeAttendanceLocation, userUuid)

@@ -6,6 +6,7 @@ export class EmployeeAttendanceLocation {
     distance: string = '';
     status: string = '';
     imageUrl: string = '';
+    currentLocation !: string;
 }
 
 

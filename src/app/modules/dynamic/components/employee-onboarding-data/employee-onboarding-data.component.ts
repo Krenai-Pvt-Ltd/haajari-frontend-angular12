@@ -6,11 +6,14 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
+import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { EmployeeOnboardingDataDto } from 'src/app/models/employee-onboarding-data-dto';
 import { UserPersonalInformationRequest } from 'src/app/models/user-personal-information-request';
+import { UserReq } from 'src/app/models/userReq';
 import { Users } from 'src/app/models/users';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 
 export interface Team {
   label: string;
@@ -29,9 +32,11 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   userPersonalInformationRequest: UserPersonalInformationRequest =
     new UserPersonalInformationRequest();
 
+    @ViewChild('importModalOpen') importModalOpen!: ElementRef;
   constructor(
     private dataService: DataService,
     private activateRoute: ActivatedRoute,
+    private _onboardingService: OrganizationOnboardingService,
     private router: Router,
     private helperService: HelperService,
     private modalService: NgbModal,
@@ -43,6 +48,9 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   pageNumber: number = 1;
   total!: number;
   rowNumber: number = 1;
+  sampleFileUrl: string = '';
+  databaseHelper: DatabaseHelper = new DatabaseHelper();
+  userList: UserReq[] = new Array();
 
   pendingResponse = 'PENDING';
   approvedResponse = 'APPROVED';
@@ -74,11 +82,15 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
   ngOnInit(): void {
     window.scroll(0, 0);
+    this.sampleFileUrl =
+      'https://firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/Hajiri%2FSample%2FEmployee_Details_Sample%2Femployee_details_sample.xlsx?alt=media';
     // this.isUserShimer=true;
     this.getEmployeesOnboardingStatus();
     // this.getEmpLastApprovedAndLastRejecetdStatus();
     this.getUsersByFiltersFunction();
     this.getTeamNames();
+    this.getUser();
+    this.selectMethod('mannual');
 
     // const getRandomNameList = (): Observable<string[]> =>
     //   this.http.get<string[]>(`${this.randomUserUrl}`).pipe(
@@ -563,4 +575,228 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       this.isLoadingTeams = false;
     }, 1000);
   }
+
+
+
+  fileName: any;
+  currentFileUpload: any;
+
+  selectFile(event: any) {
+    if (event.target.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.currentFileUpload = file;
+      this.fileName = file.name;
+      this.uploadUserFile(file, this.fileName);
+    }
+  }
+
+  importToggle: boolean = false;
+  isProgressToggle: boolean = false;
+  isErrorToggle: boolean = false;
+  errorMessage: string = '';
+
+  alreadyUsedPhoneNumberArray: any = [];
+  alreadyUsedEmailArray: any = [];
+  uploadUserFile(file: any, fileName: string) {
+    debugger;
+    this.importToggle = true;
+    this.isProgressToggle = true;
+    this.isErrorToggle = false;
+    this.errorMessage = '';
+    this._onboardingService.userImport(file, fileName).subscribe(
+      (response: any) => {
+        if (response.status) {
+          this.importToggle = false;
+          this.isProgressToggle = false;
+          this.getReport();
+          this.getUser();
+          console.log(this.onboardUserList.length);
+          this.alreadyUsedPhoneNumberArray = response.arrayOfString;
+          this.alreadyUsedEmailArray = response.arrayOfString2;
+        } else {
+          this.importToggle = true;
+          this.isErrorToggle = true;
+          this.isProgressToggle = false;
+          this.errorMessage = response.message;
+        }
+
+        // this.importToggle = false;
+      },
+      (error) => {
+        this.importToggle = true;
+        this.isErrorToggle = true;
+        this.isProgressToggle = false;
+        this.errorMessage = error.error.message;
+      }
+    );
+  }
+
+  importLoading: boolean = false;
+  importReport: any[] = new Array();
+  totalItems: number = 0;
+
+  uploadDate: Date = new Date();
+
+  getReport() {
+    debugger;
+    this.importReport = [];
+    this.importLoading = true;
+    this.databaseHelper.itemPerPage = 5;
+    this.databaseHelper.sortBy = 'createdDate';
+    this.databaseHelper.sortOrder = 'Desc';
+    this._onboardingService.getReport(this.databaseHelper).subscribe(
+      (response: any) => {
+        if (response.status) {
+          this.importReport = response.object;
+          this.totalItems = response.totalItems;
+        }
+        this.importLoading = false;
+      },
+      (error) => {
+        this.importLoading = false;
+      }
+    );
+  }
+
+  isShimmer = false;
+  dataNotFoundPlaceholder = false;
+  networkConnectionErrorPlaceholder = false;
+
+  preRuleForShimmersAndErrorPlaceholdersMethodCall() {
+    this.isShimmer = true;
+    this.dataNotFoundPlaceholder = false;
+    this.networkConnectionErrorPlaceholder = false;
+  }
+
+  onboardUserList: any[] = new Array();
+  loading: boolean = false;
+  getUser() {
+    this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
+    this.loading = true;
+    this._onboardingService.getOnboardUserForEmpOnboardingData().subscribe(
+      (response: any) => {
+        if (response.status) {
+          this.onboardUserList = response.object;
+        } else {
+          this.onboardUserList = [];
+          this.dataNotFoundPlaceholder = true;
+        }
+        this.loading = false;
+        this.isShimmer = false;
+      },
+      (error) => {
+        this.loading = false;
+        this.networkConnectionErrorPlaceholder = true;
+        this.isShimmer = false;
+      }
+    );
+  }
+
+  formatAsCommaSeparated(items: string[]): string {
+    return items.join(', ');
+  }
+
+
+  deleteNewUser(id: number) {
+    this._onboardingService.deleteOnboardUser(id).subscribe(
+      (response: any) => {
+        if (response.status) {
+          this.getUser();
+        }
+      },
+      (error) => {}
+    );
+  }
+
+
+
+  isEmailExist: boolean = false;
+  checkEmailExistance(index: number, email: string, uuid: string) {
+    debugger;
+    // this.userList[index].isEmailExist = false;
+    if (email != null && email.length > 5) {
+      this._onboardingService
+        .checkEmployeeEmailExist(email, uuid)
+        .subscribe((response: any) => {
+          if (index >= 0) {
+            this.userList[index].isEmailExist = response;
+          }
+          this.isEmailExist = response;
+        });
+    }
+  }
+
+  isNumberExist: boolean = false;
+  checkNumberExistance(index: number, number: string, uuid: string) {
+    if (number.trim() === '') {
+      if (index >= 0) {
+        this.userList[index].isPhoneExist = false;
+      }
+      this.isNumberExist = false;
+      console.log('Phone number is empty, skipping API call.');
+    } else {
+      this._onboardingService
+        .checkEmployeeNumberExist(number, uuid)
+        .subscribe((response: any) => {
+          if (index >= 0) {
+            this.userList[index].isPhoneExist = response;
+          }
+          this.isNumberExist = response;
+          console.log(response);
+        });
+    }
+  }
+
+  user: UserReq = new UserReq();
+
+  @ViewChild('userEditModal') userEditModal!: ElementRef;
+  openUserEditModal(user: any) {
+    this.isEmailExist = false;
+    this.isNumberExist = false;
+    this.user = JSON.parse(JSON.stringify(user));
+    this.userEditModal.nativeElement.click();
+  }
+
+  selectedMethod: string = 'mannual';
+  selectMethod(method: string) {
+    if (method == 'excel') {
+      this.selectedMethod = '';
+      this.getReport();
+      this.importModalOpen.nativeElement.click();
+    } else {
+      this.selectedMethod = method;
+      this.userList = [];
+      this.user = new UserReq();
+      this.userList.push(this.user);
+    }
+  }
+
+  emails: string[] = [];
+  sendMailExcelUserFlag:boolean = false;
+  @ViewChild("closeButtonExcelModal") closeButtonExcelModal!:ElementRef;
+  sendEmailToUsers() {
+    this.sendMailExcelUserFlag = true;
+    this.emails = this.onboardUserList.map(user => user.email).filter(email => email);
+    console.log(this.emails);
+
+    this.dataService
+        .sendEmails(this.emails)
+        .subscribe((response: any) => {
+          console.log("Mail sent successfully");
+          this.sendMailExcelUserFlag = false;
+          this.closeButtonExcelModal.nativeElement.click();
+          this.getUsersByFiltersFunction();
+          this.getUser();
+          this.helperService.showToast(
+            'Mail sent Successfully.',
+            Key.TOAST_STATUS_SUCCESS
+          );
+        },
+        (error) => {
+          this.sendMailExcelUserFlag = false;
+        }
+      );
+  }
+
+
 }
