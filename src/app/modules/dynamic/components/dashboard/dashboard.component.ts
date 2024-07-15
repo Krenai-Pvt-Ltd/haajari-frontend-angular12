@@ -112,7 +112,7 @@ export class DashboardComponent implements OnInit {
     console.log('Month is getting selected');
     this.selectedDate = month;
     this.getFirstAndLastDateOfMonth(this.selectedDate);
-
+    this.isAllCollapsed = true;
     console.log(this.startDate, this.endDate);
     this.getAttendanceReportByDateDurationMethodCall();
   }

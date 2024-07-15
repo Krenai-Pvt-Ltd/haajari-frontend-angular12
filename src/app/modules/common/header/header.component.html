@@ -149,6 +149,12 @@
                 <span class=" "><i class="bi bi-bar-chart-line menu-icon"></i> Reports</span>
               </a>
             </li>
+            <li class="pointer" *ngIf="shouldDisplay('assets')" routerLinkActive="sidebar-menu-active"
+              routerLink="/assets">
+              <a class="sidebar-menu-link">
+                <span class=" "><i class="bi bi-alarm menu-icon"></i> Assets</span>
+              </a>
+            </li>
             <!-- else projectCondition -->
             <ng-container *ngIf="ROLE === ADMIN && ORGANIZATION_UUID == KRENAI_UUID">
               <li class="pointer" *ngIf="shouldDisplay('project')">
@@ -296,7 +302,7 @@
             <li class="pointer" routerLinkActive="sidebar-menu-active" routerLink="/setting/leave-setting">
               <a class="sidebar-menu-link">
                 <span class=" ">
-                  <i class="bi bi-briefcase menu-icon"></i> Leave settings
+                  <i class="bi bi-briefcase menu-icon"></i> Leave Settings
                 </span>
               </a>
             </li>
