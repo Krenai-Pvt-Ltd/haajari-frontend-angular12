@@ -1,0 +1,175 @@
+.adtpoics {
+    background-color: #4660f6;
+    border: 1px solid #4660f6;
+    border-radius: 0.5px !important;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 25px;
+    text-align: center;
+    color: #fff;
+    min-width: 100px;
+    box-shadow: none !important;
+    cursor: pointer;
+    margin-right: 10px;
+    margin: 0px, 8px, 0px, 0px;
+    padding: 6px, 12px;
+   
+}
+
+.addasset {
+    /* border: 1px solid #4660f6; */
+    /* border-radius: 0.5px !important; */
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 25px;
+    text-align: center;
+    color: #4660f6;
+    min-width: 100px;
+    box-shadow: none !important;
+    cursor: pointer;
+    margin: 0px, 8px, 0px, 0px;
+    padding: 6px, 12px;
+}
+
+.report-download {
+    min-height: 100vh;
+    position: sticky;
+    bottom: 0;
+    top: 0;
+    z-index: 1001;
+    padding: 15px;
+    height: 600px;
+    overflow-x: auto;
+    /* background-color: rgb(234, 231, 228); */
+    /* border: #615d5d; */
+    
+}
+
+.card {
+    background-color: #ffffff;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.text-muted {
+    color: #6c757d;
+}
+
+.pt-2 {
+    padding-top: 0.5rem !important;
+}
+
+.pb-2 {
+    padding-bottom: 0.5rem !important;
+}
+
+.border-right {
+    border-right: 1px solid #ced4da;
+}
+
+.position-relative {
+    position: relative;
+}
+
+.bnnrupldedimg img {
+    max-width: 100%;
+    height: auto;
+}
+
+.ml-auto {
+    margin-left: auto !important;
+}
+
+.mr-auto {
+    margin-right: auto !important;
+}
+
+.d-flex {
+    display: flex !important;
+    align-items: center;
+}
+
+.brrandbannerbox {
+    /* border: 2px dashed #adb5bd;
+    border-radius: 0.25rem; */
+    padding: 1rem;
+    text-align: center;
+}
+
+.bannerplacehld {
+    width: 100px;
+    height: 100px;
+    border: 1px dashed #ced4da;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 1rem auto;
+}
+
+.bannerplacehld img {
+    max-width: 100%;
+    height: auto;
+}
+
+.brrandbannerbox p {
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+}
+
+.brrandbannerbox span {
+    font-size: 0.75rem;
+    color: #868e96;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.brrandbannerbox button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.15s ease-in-out;
+}
+
+.brrandbannerbox button:hover {
+    background-color: #0056b3;
+}
+
+/* .asstesentry {
+    border-top: 1px grey;
+} */
+
+.asset-table {
+    margin-top: 20px;
+}
+
+.asset-table .heading {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.asset-table .table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.asset-table .table th, .asset-table .table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.asset-table .table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.asset-table .table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
