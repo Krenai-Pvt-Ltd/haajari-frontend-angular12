@@ -7,7 +7,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Key } from 'src/app/constant/key';
 import { NotificationVia } from 'src/app/models/notification-via';
 
@@ -36,7 +36,8 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
     private cdr: ChangeDetectorRef,
     private rbacService: RoleBasedAccessControlService,
     private afStorage: AngularFireStorage,
-    private helper: HelperService
+    private helper: HelperService,
+    private router: Router
   ) {
     debugger;
     if (this._routeParam.snapshot.queryParamMap.has('setting')) {
@@ -59,6 +60,9 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
     this.ROLE = await this.rbacService.getRole();
 
     this.getUserAccountDetailsMethodCall();
+    this.getOnboardingVia();
+    this.getOrganizationIsInstalledFlag();
+    this.getSlackAuthUrl();
   }
 
   @ViewChild('account') account!: ElementRef;
@@ -160,18 +164,27 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
         this.subscriptionPlanId = response.subscriptionPlanId;
         if (response.employeeAttendanceFlag) {
           this.employeeAttendanceFlag = true;
+          if (response.employeeAttendanceForManagerType==1) {
+            this.toggleOption1Flag= true;
+            this.toggleOption2Flag= false;
+          } else {
+            this.toggleOption2Flag= true;
+            this.toggleOption1Flag= false;
+          }
         } else {
           this.employeeAttendanceFlag = false;
+          this.toggleOption1Flag= false;
+            this.toggleOption2Flag= false;
         }
         if (response.phoneNumber) {
           this.phoneNumber = response.phoneNumber;
         }
         if (response.languagePreferred == 2) {
-          this.englishEnable = false;
-          this.languagePreferredHindi = 2;
+         
+          this.languagePreferredHindi = true;
         } else {
-          this.englishEnable = true;
-          this.languagePreferredEnglish = 1;
+         
+          this.languagePreferredEnglish = true;
         }
         if (response.notificationVia == 2) {
           this.notifications.slack = false;
@@ -313,45 +326,36 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
     whatsapp: false,
     slack: true, // Default to enabled if isPlanActive is true
   };
-  toggleNotification(
-    type: 'whatsapp' | 'slack' | 'whatsappDisable' | 'slackDisable'
-  ) {
-    switch (type) {
-      case 'whatsapp':
-        this.notifications.whatsapp = true;
-        this.notifications.slack = false; // Assuming opposite state for Slack
-        this.updateNotificationSettingMethodCall('whatsapp');
-        break;
-      case 'whatsappDisable':
+
+
+  onToggleChange(type: string) {
+    if (type === 'slack') {
+      if (this.notifications.slack) {
+        // Slack is being enabled, disable WhatsApp
         this.notifications.whatsapp = false;
-        this.notifications.slack = true; // Assuming opposite state for Slack
-        this.updateNotificationSettingMethodCall('slack');
-        break;
-      case 'slack':
-        this.notifications.slack = true;
-        this.notifications.whatsapp = false; // Assuming opposite state for WhatsApp
-        this.updateNotificationSettingMethodCall('slack');
-        break;
-      case 'slackDisable':
+        this.notificationVia.id = 1;
+      } else {
+        // Slack is being disabled, ensure WhatsApp is enabled
+        this.notifications.whatsapp = true;
+        this.notificationVia.id = 2;
+      }
+    } else if (type === 'whatsapp') {
+      if (this.notifications.whatsapp) {
+        // WhatsApp is being enabled, disable Slack
         this.notifications.slack = false;
-        this.notifications.whatsapp = true; // Assuming opposite state for WhatsApp
-        this.updateNotificationSettingMethodCall('whatsapp');
-        break;
+        this.notificationVia.id = 2;
+      } else {
+        // WhatsApp is being disabled, ensure Slack is enabled
+        this.notifications.slack = true;
+        this.notificationVia.id = 1;
+      }
     }
+    this.updateNotificationSettingMethodCall();
   }
 
   @ViewChild('otpModalButton') otpModalButton!: ElementRef;
-  updateNotificationSettingMethodCall(type: 'whatsapp' | 'slack'): void {
+  updateNotificationSettingMethodCall(): void {
     debugger;
-    if (type === 'whatsapp' && this.notifications.slack == true) {
-      this.notificationVia.id = 2;
-    } else if (type === 'slack' && this.notifications.slack == true) {
-      this.notificationVia.id = 1;
-    } else if (type === 'slack' && this.notifications.slack == false) {
-      this.notificationVia.id = 1;
-    } else if (type === 'whatsapp' && this.notifications.whatsapp == true) {
-      this.notificationVia.id = 2;
-    }
     this._data.updateNotificationSetting(this.notificationVia).subscribe({
       next: (response: UserPersonalInformationRequest) => {
         // Handle successful update
@@ -360,7 +364,7 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
             'Notification Setting Updated Successfully',
             Key.TOAST_STATUS_SUCCESS
           );
-          console.log('Notification settings updated successfully', response);
+
         } else if (
           response.phoneNumber == null &&
           this.notifications.whatsapp == true
@@ -424,67 +428,45 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  toggle: boolean = false;
-  otp: number = 0;
-  verifyOtpMethodCall(): void {
-    this.toggle = true;
-    this._data
-      .verifyOtpForUpdatingPhoneNumber(this.phoneNumber, this.otp)
-      .subscribe({
-        next: (response: any) => {
-          if (response == true) {
-            this.toggle = false;
-            this.helper.showToast(
-              'OTP verified successfully',
-              Key.TOAST_STATUS_SUCCESS
-            );
-            this.otpModalButton.nativeElement.click();
-            this.notifications.whatsapp = true;
-            this.notifications.slack = false;
-            console.log('OTP sent successfully', response);
-          } else {
-            this.helper.showToast(
-              'Invalid number or Whatsapp Account not found',
-              Key.TOAST_STATUS_ERROR
-            );
-          }
-        },
-        error: (error) => {
-          // Handle any errors here, e.g., showing an error message
-          this.helper.showToast('Invalid OTP', Key.TOAST_STATUS_ERROR);
-          console.error('Error sending OTP', error);
-        },
-      });
-  }
+  // toggle: boolean = false;
+  // otp: number = 0;
+  // verifyOtpMethodCall(): void {
+  //   this.toggle = true;
+  //   this._data
+  //     .verifyOtpForUpdatingPhoneNumber(this.phoneNumber, this.otp)
+  //     .subscribe({
+  //       next: (response: any) => {
+  //         if (response == true) {
+  //           this.toggle = false;
+  //           this.helper.showToast(
+  //             'OTP verified successfully',
+  //             Key.TOAST_STATUS_SUCCESS
+  //           );
+  //           this.otpModalButton.nativeElement.click();
+  //           this.notifications.whatsapp = true;
+  //           this.notifications.slack = false;
+  //           console.log('OTP sent successfully', response);
+  //         } else {
+  //           this.helper.showToast(
+  //             'Invalid number or Whatsapp Account not found',
+  //             Key.TOAST_STATUS_ERROR
+  //           );
+  //         }
+  //       },
+  //       error: (error) => {
+  //         // Handle any errors here, e.g., showing an error message
+  //         this.helper.showToast('Invalid OTP', Key.TOAST_STATUS_ERROR);
+  //         console.error('Error sending OTP', error);
+  //       },
+  //     });
+  // }
 
   languagePreferred: number = 0;
   englishEnable: boolean = false;
   // hindiEnable: boolean = false;
-  languagePreferredEnglish: number = 0;
-  languagePreferredHindi: number = 0;
-  updateLanguagePreferredForNotificationMethodCall(value: number): void {
-    if (this.languagePreferred === value) {
-      // Toggle off the currently selected option
-      this.languagePreferred = 0;
-    } else {
-      // Set the selected option
-      this.languagePreferred = value;
-    }
-
-    // Set languagePreferredEnglish and languagePreferredHindi based on the selected option
-    if (this.languagePreferred === 1) {
-      this.languagePreferredEnglish = 1;
-      this.languagePreferredHindi = 0;
-      this.englishEnable = true;
-    } else if (this.languagePreferred === 2) {
-      this.languagePreferredEnglish = 0;
-      this.languagePreferredHindi = 1;
-      this.englishEnable = false;
-    } else {
-      // Both toggles are off
-      this.languagePreferredEnglish = 0;
-      this.languagePreferredHindi = 0;
-    }
+  languagePreferredEnglish: boolean = false;
+  languagePreferredHindi: boolean = false;
+  updateLanguagePreferredForNotificationMethodCall(): void {
 
     // Call the API to update language preference
     this._data
@@ -499,20 +481,63 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
       });
   }
 
+  onLanguageToggleChange(type: string) {
+    if (type === 'english') {
+      if (this.languagePreferredEnglish) {
+        this.languagePreferredHindi = false;
+        this.languagePreferred = 1;
+      } else {
+        this.languagePreferredHindi = true;
+        this.languagePreferred = 2;
+      }
+    } else if (type === 'hindi') {
+      if (this.languagePreferredHindi) {
+        this.languagePreferredEnglish = false;
+        this.languagePreferred = 2;
+      } else {
+        this.languagePreferredEnglish = true;
+        this.languagePreferred = 1;
+      }
+    }
+    this.updateLanguagePreferredForNotificationMethodCall();
+  }
+
+
+  updateNotificationSetting() {
+    debugger
+    this.toggleOption1Flag = true;
+    this.updateAttendanceNotificationSettingForManagerMethodCall();
+  }
+  toggleOption1Flag: boolean = false;
+  toggleOption2Flag: boolean = false;
+
   employeeAttendanceFlag: boolean = false;
 
   updateAttendanceNotificationSettingForManagerMethodCall(): void {
     debugger;
+    let type = 0;
+  
+    if (this.employeeAttendanceFlag) {
+      if (this.toggleOption1Flag) {
+        type = 1; // Set type to 1 if the first toggle is selected
+      } else if (this.toggleOption2Flag) {
+        type = 2; // Set type to 2 if the second toggle is selected
+      }
+    }
+  
     this._data
-      .updateAttendanceNotificationSettingForManager(
-        this.employeeAttendanceFlag
-      )
+      .updateAttendanceNotificationSettingForManager(this.employeeAttendanceFlag, type)
       .subscribe({
         next: (response: any) => {
           this.helper.showToast(
             'Employee Attendance Notification Setting Updated Successfully.',
             Key.TOAST_STATUS_SUCCESS
-          );
+            
+          )
+          if(!this.employeeAttendanceFlag){
+            this.toggleOption1Flag = false;
+            this.toggleOption2Flag = false;
+          }
         },
         error: (error: any) => {
           // Handle any errors that occur during the API call
@@ -523,5 +548,156 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
           );
         },
       });
+  }
+  
+  toggleOption1Change(): void {
+    if (this.toggleOption1Flag) {
+      this.toggleOption2Flag = false;
+    } else {
+      this.toggleOption2Flag = true;
+    }
+    this.updateAttendanceNotificationSettingForManagerMethodCall();
+  }
+  
+  toggleOption2Change(): void {
+    if (this.toggleOption2Flag) {
+      this.toggleOption1Flag = false;
+    } else {
+      this.toggleOption1Flag = true;
+    }
+    this.updateAttendanceNotificationSettingForManagerMethodCall();
+  }
+  
+
+
+  //  new code
+
+  toggle: boolean = false;
+  otp: number = 0;
+  otpConfig = {
+    length: 6,
+    allowNumbersOnly: true,
+    inputStyles: {
+      width: '50px',
+      height: '50px',
+    },
+  };
+
+  verifyOtpMethodCall(): void {
+    this.toggle = true;
+    this._data
+      .verifyOtpForUpdatingPhoneNumber(this.phoneNumber, this.otp)
+      .subscribe({
+        next: (response: any) => {
+          this.processResponse(response);
+        },
+        error: (error) => {
+          this.handleError(error);
+        },
+      });
+  }
+
+  onOtpChange(otp: string): void {
+    this.otp = +otp;
+  }
+
+  private processResponse(response: any): void {
+    if (response == true) {
+      this.toggle = false;
+      this.helper.showToast(
+        'OTP verified successfully',
+        Key.TOAST_STATUS_SUCCESS
+      );
+      this.otpModalButton.nativeElement.click();
+      this.notifications.whatsapp = true;
+      this.notifications.slack = false;
+      console.log('OTP sent successfully', response);
+    } else {
+      this.helper.showToast(
+        'Invalid number or WhatsApp account not found',
+        Key.TOAST_STATUS_ERROR
+      );
+    }
+  }
+
+  private handleError(error: any): void {
+    this.helper.showToast('Invalid OTP', Key.TOAST_STATUS_ERROR);
+    console.error('Error sending OTP', error);
+  }
+
+  onboardingVia: string = '';
+  getOnboardingVia() {
+    debugger;
+    this._data.getOrganizationDetails().subscribe(
+      (data) => {
+        this.onboardingVia = data.organization.onboardingVia;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+  teamId: string = '';
+  isInstalled: boolean = true;
+  disableLoader: boolean = false;
+  removeHajiriFromSlack(): void {
+    this.disableLoader = true;
+    this._data.disconnectOrganization().subscribe(
+      (response) => {
+        console.log('deactived successfully');
+        this.isInstalled = response.message;
+        this.disableLoader = false;
+        this.closeDeleteModal();
+        this.helper.showToast(
+          'Removed Successfully.',
+          Key.TOAST_STATUS_SUCCESS
+        );
+      },
+      (error) => {
+        this.disableLoader = false;
+        console.log('error ');
+      }
+    );
+  }
+
+  getOrganizationIsInstalledFlag(): void {
+    this._data.getOrgIsInstalledFlag().subscribe(
+      (response) => {
+        this.isInstalled = response.object;
+      },
+      (error) => {
+        console.log('error ');
+      }
+    );
+  }
+
+  authUrl: string = '';
+
+  getSlackAuthUrl(): void {
+    debugger;
+    this._data.getSlackAuthUrl().subscribe(
+      (response: any) => {
+        this.authUrl = response.message;
+        console.log('authUrl' + this.authUrl);
+      },
+      (error) => {
+        console.error('Error fetching Slack auth URL', error);
+      }
+    );
+  }
+
+  reinstallHajiri(): void {
+    this.router.navigate(['/auth/signup']);
+    // if (this.authUrl) {
+    //   window.location.href = this.authUrl;
+    // } else {
+    //   console.error('Auth URL is not set');
+    // }
+  }
+
+  @ViewChild('closeUserDeleteModal') closeUserDeleteModal: any;
+
+  closeDeleteModal() {
+    this.closeUserDeleteModal.nativeElement.click();
   }
 }

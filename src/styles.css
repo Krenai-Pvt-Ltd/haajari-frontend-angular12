@@ -4,321 +4,316 @@
 
 /* @import '~ngx-material-timepicker/assets/ngx-material-timepicker-theme-dark.css'; */
 
-
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 .md-drppicker.double {
-    width: 500px !important;
+  width: 500px !important;
 }
 
 .md-drppicker {
-    width: auto;
+  width: auto;
 }
-.text-primary{
-    color: #6060f6 !important;
+.text-primary {
+  color: #6060f6 !important;
+}
+
+.disabled-div {
+  pointer-events: none;
+  opacity: 0.5; /* Optional: to visually indicate that the div is disabled */
 }
 
 .md-drppicker {
-    position: absolute !important;
-    font-family: Roboto,sans-serif;
-    color: inherit;
-    border-radius: 4px;
-    width: 278px;
-    padding: 4px;
-    margin-top: -10px;
-    overflow: hidden;
-    z-index: 1000;
-    font-size: 14px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,.16), 0 2px 8px 0 rgba(0,0,0,.12);
+  position: absolute !important;
+  font-family: Roboto, sans-serif;
+  color: inherit;
+  border-radius: 4px;
+  width: 278px;
+  padding: 4px;
+  margin-top: -10px;
+  overflow: hidden;
+  z-index: 1000;
+  font-size: 14px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16), 0 2px 8px 0 rgba(0, 0, 0, 0.12);
 }
 .md-drppicker {
-    top: 40px !important;
-    right:40px !important;
-    margin-top: 10px !important;
-    left: auto !important;
-    /* width: 650px !important; */
+  top: 40px !important;
+  right: 40px !important;
+  margin-top: 10px !important;
+  left: auto !important;
+  /* width: 650px !important; */
 }
 
 .btn-primary {
-    color: #fff;
-    background-color: #6666f3;
-    border-color: #6666f3;
+  color: #fff;
+  background-color: #6666f3;
+  border-color: #6666f3;
 }
 
 /* .fc-toolbar-chunk {
     padding-left: 25px;
 } */
-.disabled-lnk{
-    pointer-events: none;
+.disabled-lnk {
+  pointer-events: none;
 }
 
-:ng-deep .fc-view-harness{
-    min-height: 452px !important;
+:ng-deep .fc-view-harness {
+  min-height: 452px !important;
 }
-
 
 .modal-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1040; /* Keep it below the modal but above other elements */
-    width: 100vw; /* Cover the full viewport width */
-    height: 100vh; /* Cover the full viewport height */
-    background-color: rgba(211, 211, 211, 0.5); /* Lighter grey background with some transparency */
-
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1040; /* Keep it below the modal but above other elements */
+  width: 100vw; /* Cover the full viewport width */
+  height: 100vh; /* Cover the full viewport height */
+  background-color: rgba(
+    211,
+    211,
+    211,
+    0.5
+  ); /* Lighter grey background with some transparency */
 }
 
 /* The rest of your CSS for .modal, .modal-dialog-centered, etc., remains the same. */
 
-
-
 /* The modal container to center it on the page */
 .modal {
-    position: fixed;
-    z-index: 1050;
-    width: 100%;
-    outline: 0;
-    background-color: #00000054;
-    height: 100vh;
-    justify-content: center;
-    align-items: center;
+  position: fixed;
+  z-index: 1050;
+  width: 100%;
+  outline: 0;
+  background-color: #00000054;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
 }
 
-
-.pac-container{
-    z-index: 9999 !important;
+.pac-container {
+  z-index: 9999 !important;
 }
 
-.save-button{
-    min-width: 90px;
-    min-height: 37px;
+.save-button {
+  min-width: 90px;
+  min-height: 37px;
 }
 
 .btn-primary:hover {
-    color: #fff;
-    background-color: #6060f6;
-    border-color: #6060f6;
+  color: #fff;
+  background-color: #6060f6;
+  border-color: #6060f6;
 }
 
 /* ######### delete modal csss */
 
-
-
-.confirm-detail{
-    font-size: 22px;
-    margin-bottom: 10px;
-    color: #444;
-    margin-top: 20px;
+.confirm-detail {
+  font-size: 22px;
+  margin-bottom: 10px;
+  color: #444;
+  margin-top: 20px;
 }
 
-.confram-msg{
-    font-size: 14px !important;
-    font-weight: 400;
+.confram-msg {
+  font-size: 14px !important;
+  font-weight: 400;
 }
 
 .btnmarkdelete {
-    background-color: #fcf1f1;
-    border: 1px solid #eb5050;
-    color: #eb5050!important;
-    height: 37px;
+  background-color: #fcf1f1;
+  border: 1px solid #eb5050;
+  color: #eb5050 !important;
+  height: 37px;
 }
 
-.btnmarkproceed{
-    background-color: #ececf4;
-    border: 1px solid #6666f3 !important;
-    color: #6666f3!important;
-    height: 37px;
+.btnmarkproceed {
+  background-color: #ececf4;
+  border: 1px solid #6666f3 !important;
+  color: #6666f3 !important;
+  height: 37px;
 }
 
 .btnmarkcancel {
-    background-color: #f5f5f5;
-    border: 1px solid #aeaeae !important;
-    color: #444!important;
-    height: 37px;
-    border-radius: 4px;
+  background-color: #f5f5f5;
+  border: 1px solid #aeaeae !important;
+  color: #444 !important;
+  height: 37px;
+  border-radius: 4px;
 }
 
-.btnmarkproceed:hover, .btnmarkcancel:hover{
-    background-color: transparent;
+.btnmarkproceed:hover,
+.btnmarkcancel:hover {
+  background-color: transparent;
 }
-
 
 nz-date-picker {
-    margin: 0 8px 12px 0;
-  }
+  margin: 0 8px 12px 0;
+}
 
-  .ant-picker.ant-picker-borderless {
-    background-color: transparent!important;
-    border: 1px solid #e8ebf3 !important;
-    box-shadow: none!important;
-    width: 100%;
-    height: 40px;
-    border-radius: 0.25rem;
+.ant-picker.ant-picker-borderless {
+  background-color: transparent !important;
+  border: 1px solid #e8ebf3 !important;
+  box-shadow: none !important;
+  width: 100%;
+  height: 40px;
+  border-radius: 0.25rem;
 }
 
 .nz-calendar-container {
-    width: 300px;
-    border: 1px solid #d9d9d9;
-    border-radius: 4px;
-  }
-  
+  width: 300px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+}
 
-  .ant-picker{
-    border: 1px solid #e8ebf3 !important; 
-    width: 100% !important ;
-    height: 40px !important;
-    border-radius: 0.25rem;
-  }
+.ant-picker {
+  border: 1px solid #f1f1f1 !important;
+  width: 100% !important ;
+  height: 40px !important;
+  border-radius: 0.25rem;
+}
 
-  .seach-dropdown{
-    border: 1px solid #e8ebf3 !important; 
-    width: 100% !important ;
-    height: 40px !important;
-    border-radius: 0.25rem;
-    padding: 0.4rem 1rem ;
-  }
+.seach-dropdown {
+  border: 1px solid #e8ebf3 !important;
+  width: 100% !important ;
+  height: 40px !important;
+  border-radius: 0.25rem;
+  padding: 0.4rem 1rem;
+}
 
-  .nz-button-group {
-    margin: 0 8px 8px 0;
-  }
-  .hover-dropdown {
-    display: flex; /* Use flexbox for internal layout */
-    justify-content: space-between; /* Aligns children (text and icon) on opposite ends */
-    align-items: center; /* Centers children vertically */
-    width: 100%;
-    height: 40px;
-    background: transparent;
-    border: 1px solid #e8ebf3;
-    text-align: left;
-    padding: 0.4rem 1rem;
-    border-radius: 0.25rem;
-    position: relative; /* In case you need absolute positioning inside */
+.nz-button-group {
+  margin: 0 8px 8px 0;
+}
+.hover-dropdown {
+  display: flex; /* Use flexbox for internal layout */
+  justify-content: space-between; /* Aligns children (text and icon) on opposite ends */
+  align-items: center; /* Centers children vertically */
+  width: 100%;
+  height: 40px;
+  background: transparent;
+  border: 1px solid #e8ebf3;
+  text-align: left;
+  padding: 0.4rem 1rem;
+  border-radius: 0.25rem;
+  position: relative; /* In case you need absolute positioning inside */
 }
 
 .grade-dropdown {
-    display: inline-flex; /* Allows button to grow with content while being inline */
-    align-items: center;
-    background: transparent;
-    border: 1px solid #e8ebf3;
-    text-align: left;
-    padding: 0.4rem 1rem;
-    border-radius: 0.25rem;
-    position: relative;
-    gap: 4px; /* Space between text and icon */
+  display: inline-flex; /* Allows button to grow with content while being inline */
+  align-items: center;
+  background: transparent;
+  border: 1px solid #e8ebf3;
+  text-align: left;
+  padding: 0.4rem 1rem;
+  border-radius: 0.25rem;
+  position: relative;
+  gap: 4px; /* Space between text and icon */
 }
-
-
 
 .grade-dropdown span {
-    margin-left: auto; /* Ensures the icon is pushed to the right */
-    text-align: right; /* Aligns the icon text to the right */
+  margin-left: auto; /* Ensures the icon is pushed to the right */
+  text-align: right; /* Aligns the icon text to the right */
 }
 
-.hover-dropdown-height{
-    max-height: 200px;
-    overflow-y: scroll ; /* This will force the scrollbar to always show */
+.hover-dropdown-height {
+  max-height: 200px;
+  overflow-y: scroll; /* This will force the scrollbar to always show */
   scrollbar-width: thin; /* For Firefox */
   scrollbar-color: #888 #ffffff !important;
 }
 
-
 .icon-right {
-    margin-left: 8px; /* Keep existing spacing to the left */
-    margin-top: 4px; /* Adjust this value to nudge the icon down */
+  margin-left: 8px; /* Keep existing spacing to the left */
+  margin-top: 4px; /* Adjust this value to nudge the icon down */
 }
 
 .icon-grade-right {
-    /* No need for float; flexbox handles positioning */
-    margin-left: auto; /* Pushes the icon to the right */
+  /* No need for float; flexbox handles positioning */
+  margin-left: auto; /* Pushes the icon to the right */
 }
 
 .buttons-container {
-    display: flex;
-    gap: 8px; /* Adjusts space between buttons */
-    align-items: center; /* Aligns buttons in case they have different heights */
+  display: flex;
+  gap: 8px; /* Adjusts space between buttons */
+  align-items: center; /* Aligns buttons in case they have different heights */
 }
 
-
-
-  .ant-input.demo-input-right {
-    width: 100px;
-    text-align: center;
-    border-left-width: 0px;
-  }
-
-  .ant-input.demo-input-right:hover,
-  .ant-input.demo-input-right:focus {
-    border-left-width: 1px;
-  }
-
-  .ant-input.ant-input-rtl.demo-input-right {
-    border-right-width: 0px;
-  }
-
-
-  .attendance-date .ant-picker {
-    border: none !important;
+.ant-input.demo-input-right {
+  width: 100px;
+  text-align: center;
+  border-left-width: 0px;
 }
 
+.ant-input.demo-input-right:hover,
+.ant-input.demo-input-right:focus {
+  border-left-width: 1px;
+}
 
+.ant-input.ant-input-rtl.demo-input-right {
+  border-right-width: 0px;
+}
+
+.attendance-date .ant-picker {
+  border: none !important;
+}
 
 .location-map webcam video {
-    width: 100% !important;
-    height: 500px !important;
-    object-fit: cover !important;
+  width: 100% !important;
+  height: 500px !important;
+  object-fit: cover !important;
 }
 .location-map {
-    width: 100%;
+  width: 100%;
 }
 .location-map .webcam-wrapper {
-    width: 100% !important;
+  width: 100% !important;
 }
 
-.shimmer-redias .shimmer-redias-1{
-    border-radius: 50%;
+.shimmer-redias .shimmer-redias-1 {
+  border-radius: 50%;
 }
 
-.bi-question-circle{
-    font-size: 40px;
-    /* color: #6666f3; */
-    /* background-color: #c6c6ff; */
+.bi-question-circle {
+  font-size: 40px;
+  /* color: #6666f3; */
+  /* background-color: #c6c6ff; */
 }
 
 .btnCancel {
-    background-color: #f1f1f1;
-    border: 1px solid #ddd;
-    color: #515151;
+  background-color: #f1f1f1;
+  border: 1px solid #ddd;
+  color: #515151;
 }
 
-.border-active{
-    background-color: #e9ebfe;
-    border: 1px solid #4f5eee !important;
+.border-active {
+  background-color: #e9ebfe;
+  border: 1px solid #4f5eee !important;
 }
 
 .text-optional {
-    color: grey;
+  color: grey;
 }
 
-.pointer{
-    cursor: pointer;
+.pointer {
+  cursor: pointer;
 }
 
 /* for nz-date-picker */
 .nz-overlay-container {
-    z-index: 2000 !important;
-  }
-  .cdk-overlay-container {
-    z-index: 1080 !important;
+  z-index: 2000 !important;
+}
+.cdk-overlay-container {
+  z-index: 1080 !important;
 }
 
-    
-
-.fc-toolbar-chunk{
-    position: absolute;
-    top: 0px;
-    left: 33px;
+.fc-toolbar-chunk {
+  position: absolute;
+  top: 0px;
+  left: 33px;
 }

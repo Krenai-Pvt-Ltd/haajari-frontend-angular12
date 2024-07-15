@@ -56,10 +56,13 @@ export class BankDetailsComponent implements OnInit {
   setEmployeeBankDetailsMethodCall() {
     if(this.buttonType=='next'){
       this.toggle = true;
+      this.userBankDetailRequest.updateRequest = false;
     } else if (this.buttonType=='save'){
       this.toggleSave = true;
+      this.userBankDetailRequest.updateRequest = false;
     } else if (this.buttonType=='update'){
       this.toggle = true;
+      this.userBankDetailRequest.updateRequest = true;
     }
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
     
@@ -319,12 +322,12 @@ displayModal = false;
             },
             (error: any) => {
               console.error('Error fetching admin verification status:', error);
-              reject(error); // Reject the promise on error
+              // reject(error); // Reject the promise on error
             }
           );
         } else {
           console.error('User UUID or Admin UUID not found in the URL.');
-          reject(new Error('User UUID or Admin UUID not found in the URL.')); // Reject the promise if parameters are missing
+          // reject(new Error('User UUID or Admin UUID not found in the URL.')); // Reject the promise if parameters are missing
         }
       });
     }

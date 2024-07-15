@@ -1,138 +1,146 @@
-body, html {
-    height: 100%;
-    margin: 0;
-  }
-  
+body,
+html {
+  height: 100%;
+  margin: 0;
+}
+
+.form-container {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 2% auto;
+  max-width: 600px;
+  width: 90%;
+}
+
+.form-header {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.form-field {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="date"],
+select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.form-button {
+  background-color: #5cb85c;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  display: block;
+}
+
+.form-button:hover {
+  background-color: #4cae4c;
+}
+
+@media (min-width: 768px) {
   .form-container {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin: 2% auto;
-    max-width: 600px; 
-    width: 90%;
+    width: 80%;
   }
-  
-  .form-header {
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  .form-field {
-    margin-bottom: 15px;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  input[type="text"],
-  input[type="date"],
-  select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box; 
-  }
-  
-  input[type="checkbox"] {
-    margin-right: 10px;
-  }
-  
-  .form-button {
-    background-color: #5cb85c;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    width: 100%;
-    display: block; 
-  }
-  
-  .form-button:hover {
-    background-color: #4cae4c;
-  }
-  
-  
-  @media (min-width: 768px) {
-    .form-container {
-      width: 80%; 
-    }
-  }
-  
-  @media (min-width: 992px) {
-    .form-container {
-      width: 50%; 
-    }
-  }
-  
-  @media (min-width: 1200px) {
-    .form-container {
-      width: 40%; 
-    }
-  }
-  
-  .notes-textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ced4da; 
-    border-radius: 0.25rem; 
-  }
+}
 
-  .error-message {
-    color: #d9534f; 
-    margin-top: 5px;
-    font-size: 0.875rem; 
+@media (min-width: 992px) {
+  .form-container {
+    width: 50%;
   }
+}
 
-  
-  .submit-button {
-    background-color: #007bff; 
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 0.25rem;
-    cursor: pointer;
+@media (min-width: 1200px) {
+  .form-container {
+    width: 40%;
   }
+}
 
-  .submitting-message {
-    text-align: center;
-    margin-top: 20px;
-  }
+.notes-textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+}
 
-  .dot-opacity-loader {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 6px 6px;
+.error-message {
+  color: #d9534f;
+  margin-top: 5px;
+  font-size: 0.875rem;
+}
+
+.submit-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.close-button {
+  padding: 10px 15px;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.submitting-message {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.dot-opacity-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 6px;
 }
 
 .dot-opacity-loader span {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: #eeeef4; 
-    margin: 0 4px;
-    animation: dotOpacity 1.4s infinite ease-in-out both;
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #eeeef4;
+  margin: 0 4px;
+  animation: dotOpacity 1.4s infinite ease-in-out both;
 }
 
 .dot-opacity-loader span:nth-child(1) {
-    animation-delay: -0.32s;
+  animation-delay: -0.32s;
 }
 
 .dot-opacity-loader span:nth-child(2) {
-    animation-delay: -0.16s;
+  animation-delay: -0.16s;
 }
 
 @keyframes dotOpacity {
-    0%, 80%, 100% { opacity: 0; }
-    40% { opacity: 1; }
+  0%,
+  80%,
+  100% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
 }
-
-  
-  

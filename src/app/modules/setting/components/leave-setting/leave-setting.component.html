@@ -399,7 +399,8 @@
                           style="color: #6666f3"
                           (click)="
                             getLeaveSettingInformationById(
-                              newLeaveSetting.leaveSetting.id
+                              newLeaveSetting.leaveSetting.id,
+                              true
                             )
                           "
                         ></i
@@ -478,10 +479,28 @@
                           <h4 class="mb-0">
                             {{ category?.leaveName || "N/A" }}
                           </h4>
-                          <!-- <div class="d-flex align-items-center gap-3">
-                            <i class="bi bi-pencil pointer"></i>
-                            <i class="bi bi-trash pointer text-danger"></i>
-                          </div> -->
+                          <div class="d-flex align-items-center gap-3">
+                            <i
+                              class="bi bi-pencil pointer"
+                              data-bs-toggle="modal"
+                              data-bs-target="#requestleave"
+                              (click)="
+                                editLeaveCategories(
+                                  newLeaveSetting.leaveSetting.id
+                                )
+                              "
+                            ></i>
+                            <i
+                              *ngIf="
+                                newLeaveSetting.leaveSettingCategories.length >
+                                1
+                              "
+                              class="bi bi-trash pointer text-danger"
+                              (click)="
+                                deleteLeaveSettingCategoryById(category.id)
+                              "
+                            ></i>
+                          </div>
                         </div>
                         <div class="custom-salary-para p-3">
                           <div
@@ -540,9 +559,19 @@
           class="modal-title"
           id="requestLeave"
           (click)="emptyAddLeaveSettingRule()"
+          *ngIf="leaveSettingResponse.templateName == ''"
         >
           Add Leave Settings
         </h5>
+        <h5
+          class="modal-title"
+          id="requestLeave"
+          (click)="emptyAddLeaveSettingRule()"
+          *ngIf="leaveSettingResponse.templateName != ''"
+        >
+          {{ leaveSettingResponse.templateName }}
+        </h5>
+
         <button
           type="button"
           class="btn-close"
@@ -582,6 +611,7 @@
                   aria-controls="profile"
                   aria-selected="false"
                   class="nav-link"
+                  [disabled]="!isFormValid"
                   #leaveCategoryTab
                 >
                   Leave Categories
@@ -597,6 +627,7 @@
                   aria-controls="staffSelection"
                   aria-selected="false"
                   class="nav-link"
+                  [disabled]="!form.valid"
                   (click)="openStaffSelection()"
                   #staffSelectionTab
                 >
@@ -613,8 +644,13 @@
                       <div class="col-md-12">
                         <div class="">
                           <label for="templateName" class="pb-2"
-                            >Template Name</label
-                          >
+                            >Template Name
+                            <i
+                              class="bi bi-exclamation-circle tolltip-icon"
+                              ngbTooltip="Provide a unique name for your organization's leave template. This name will be used to assign leave quotas to users who belong to this leave template."
+                              placement="top"
+                            ></i
+                          ></label>
                           <input
                             [(ngModel)]="leaveSettingResponse.templateName"
                             [ngModelOptions]="{ standalone: true }"
@@ -658,8 +694,13 @@
                       <div class="col-md-6 mt-3">
                         <div class="">
                           <label for="leaveCycle" class="pb-2"
-                            >Leave Policy Cycle</label
-                          >
+                            >Leave Credit
+                            <i
+                              class="bi bi-exclamation-circle tolltip-icon"
+                              ngbTooltip="There are two main types: Monthly and Yearly. Monthly credits leave on a monthly basis. Yearly has two subtypes: 'All at Once', where leave is credited once at the start of the year, and 'Monthly Start', where the yearly leave quota is credited at the start of each month (you can choose a cycle from Jan to Dec or Apr to Mar of the next financial year)."
+                              placement="top"
+                            ></i
+                          ></label>
 
                           <div class="d-flex" style="gap: 5px">
                             <div
@@ -697,7 +738,7 @@
                                 class="d-none"
                               />
                               <label
-                                class="btn btn-soft-primary btn-sm"
+                                class="btn btn-soft-secondary btn-sm"
                                 for="yearlyRadio"
                                 [class.selected]="
                                   leaveSettingResponse.leaveCycle === 'Yearly'
@@ -840,8 +881,13 @@
                       <div class="col-md-6 mt-3">
                         <div class="">
                           <label for="sandwichLeaves" class="pb-2"
-                            >Sandwich Leaves</label
-                          >
+                            >Sandwich Leaves
+                            <i
+                              class="bi bi-exclamation-circle tolltip-icon"
+                              ngbTooltip="This option enables you to decide whether to implement sandwich rules for your organization or not. Sandwich rules mean that if an employee takes a leave on Friday and the weekend (Saturday and Sunday) are non-working days for your organization, then the weekend days will also be counted as leave days."
+                              placement="top"
+                            ></i
+                          ></label>
                           <div class="d-flex" style="gap: 5px">
                             <div
                               role="group "
@@ -864,7 +910,7 @@
                                   leaveSettingResponse.sandwichRules === 'Count'
                                 "
                                 class="btn btn-soft-secondary btn-sm"
-                                >Count</label
+                                >Yes</label
                               >
                               <input
                                 type="radio"
@@ -882,8 +928,8 @@
                                   leaveSettingResponse.sandwichRules ===
                                   'Ignore'
                                 "
-                                class="btn btn-soft-primary btn-sm"
-                                >Ignore</label
+                                class="btn btn-soft-secondary btn-sm"
+                                >No</label
                               >
                             </div>
 
@@ -937,6 +983,25 @@
                         </div>
                       </div>
 
+                      <div class="col-md-6 mt-3">
+                        <!-- <div class="">
+                          <label for="monthlyLimit" class="pb-2"
+                            >Total Monthly Leave Limit (Optional)</label
+                          >
+                          <input
+                            type="number"
+                            name="assignedMonthlyLimit"
+                            [(ngModel)]="
+                              leaveSettingResponse.assignedMonthlyLimit
+                            "
+                            id="assignedMonthlyLimit"
+                            class="form-control whatapp-login-input"
+                            placeholder="Enter total limit"
+                            min="0"
+                          />
+                        </div> -->
+                      </div>
+
                       <!-- <div class="col-md-12 mt-3">
                                             <button (click)="registerLeaveSettingTemplate()"
                                                 class="btn btn-success">Next</button>
@@ -968,18 +1033,35 @@
                           let category of categories.controls;
                           let i = index
                         "
-                        class="form-group row mb-3"
+                        class="form-group row mb-4 pb-2 position-relative"
                         [formGroupName]="i"
                       >
                         <div class="col-md-3">
                           <label class="mb-2">Leave Category Name</label>
-                          <input
+                          <!-- <input
                             type="text"
                             formControlName="leaveName"
                             class="form-control whatapp-login-input"
                             placeholder="Enter Leave Name"
                             required
+                          /> -->
+                          <!-- (keydown)="preventLeadingWhitespace($event)" -->
+                          <input
+                            nz-input
+                            (keydown)="preventLeadingWhitespace($event)"
+                            id="leaveName"
+                            name="leaveName"
+                            class="form-control whatapp-login-input"
+                            formControlName="leaveName"
+                            required
+                            (ngModelChange)="onChange($event)"
+                            [nzAutocomplete]="auto"
+                            placeholder="Select Leave Category Name"
                           />
+                          <nz-autocomplete
+                            #auto
+                            [nzDataSource]="filteredLeaveCategories"
+                          ></nz-autocomplete>
 
                           <p
                             class="errortxt mt-2 mb-0 text-danger"
@@ -990,13 +1072,30 @@
                           </p>
                         </div>
 
-                        <div class="col-md-3">
+                        <div
+                          [ngClass]="{
+                            'col-md-2':
+                              leaveSettingResponse.leaveCycle === 'Yearly' &&
+                              leaveSettingResponse.accrualType ===
+                                'Month Start',
+                            'col-md-3':
+                              (leaveSettingResponse.leaveCycle === 'Yearly' &&
+                                leaveSettingResponse.accrualType !==
+                                  'Month Start') ||
+                              leaveSettingResponse.leaveCycle === 'Monthly'
+                          }"
+                        >
                           <label class="mb-2">Leave Count</label>
                           <input
                             type="number"
                             formControlName="leaveCount"
                             class="form-control whatapp-login-input"
-                            placeholder="Day per year"
+                            [placeholder]="
+                              leaveSettingResponse.leaveCycle === 'Monthly'
+                                ? 'Monthly Day Count'
+                                : 'Yearly Day Count'
+                            "
+                            (ngModelChange)="generateDaysDropdown($event, i)"
                             required
                           />
 
@@ -1010,6 +1109,43 @@
                             <i class="bi bi-exclamation-circle"></i> Please
                             enter a valid number.
                           </p>
+                          <!-- <span
+                            class="text-secondary"
+                            *ngIf="
+                              leaveSettingResponse.leaveCycle === 'Yearly' &&
+                              leaveSettingResponse.accrualType !==
+                                'Monthly Start'
+                            "
+                          >
+                            Breakup:
+                            {{ calculateMonthlyLeaveCount(i).toFixed(2) }} Leave
+                            per month
+                          </span> -->
+                        </div>
+                        <!-- {{ leaveSettingResponse.accrualType }} -->
+                        <div
+                          [ngClass]="{
+                            'col-md-2':
+                              leaveSettingResponse.leaveCycle === 'Yearly' &&
+                              leaveSettingResponse.accrualType ===
+                                'Month Start',
+                            'col-md-3':
+                              leaveSettingResponse.leaveCycle === 'Yearly' &&
+                              leaveSettingResponse.accrualType !== 'Month Start'
+                          }"
+                          *ngIf="
+                            leaveSettingResponse.leaveCycle === 'Yearly' &&
+                            leaveSettingResponse.accrualType === 'Month Start'
+                          "
+                        >
+                          <label class="mb-2">Monthly Leave Count</label>
+                          <input
+                            #leaveCountBreakupInput
+                            type="number"
+                            class="form-control whatapp-login-input"
+                            [value]="calculateMonthlyLeaveCount(i).toFixed(2)"
+                            readonly
+                          />
                         </div>
                         <div class="col-md-3">
                           <label class="mb-2" for="leaveRules"
@@ -1066,9 +1202,21 @@
                           </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div
+                          [ngClass]="{
+                            'col-md-2':
+                              leaveSettingResponse.leaveCycle === 'Yearly' &&
+                              leaveSettingResponse.accrualType ===
+                                'Month Start',
+                            'col-md-3':
+                              (leaveSettingResponse.leaveCycle === 'Yearly' &&
+                                leaveSettingResponse.accrualType !==
+                                  'Month Start') ||
+                              leaveSettingResponse.leaveCycle === 'Monthly'
+                          }"
+                        >
                           <label class="mb-2">Carry Forward Limit</label>
-                          <input
+                          <!-- <input
                             type="number"
                             formControlName="carryForwardDays"
                             class="form-control whatapp-login-input"
@@ -1079,7 +1227,69 @@
                               categories.controls[i]!.get('leaveRules')
                                 ?.value === ''
                             "
+                          /> -->
+                          <div
+                            *ngIf="
+                              categories.controls[i]!.get('leaveRules')
+                                ?.value !== 'Lapse' &&
+                              categories.controls[i]!.get('leaveRules')
+                                ?.value !== ''
+                            "
+                            nz-dropdown
+                            [nzDropdownMenu]="menu4"
+                            [nzVisible]="dropdownVisible"
+                          >
+                            <input
+                              nz-input
+                              type="number"
+                              formControlName="carryForwardDays"
+                              class="form-control whatapp-login-input"
+                              placeholder="Select Days"
+                              (click)="toggleDropdown()"
+                            />
+                            <span
+                              nz-icon
+                              class="ant-dropdown-trigger"
+                              (click)="toggleDropdown()"
+                            ></span>
+                          </div>
+                          <input
+                            *ngIf="
+                              categories.controls[i]!.get('leaveRules')
+                                ?.value === 'Lapse' ||
+                              categories.controls[i]!.get('leaveRules')
+                                ?.value === ''
+                            "
+                            nz-input
+                            type="number"
+                            formControlName="carryForwardDays"
+                            class="form-control whatapp-login-input"
+                            [readOnly]="true"
+                            placeholder="Select Days"
                           />
+                          <nz-dropdown-menu #menu4="nzDropdownMenu">
+                            <ul nz-menu class="dropdown-scroll">
+                              <li
+                                nz-menu-item
+                                *ngFor="let day of daysCountArray[i]"
+                                (click)="selectCarryForwardDay(day, i)"
+                              >
+                                <!-- {{ day }} -->
+                                <span
+                                  *ngIf="
+                                    day === category.get('leaveCount')?.value
+                                  "
+                                  >All Unused</span
+                                >
+                                <span
+                                  *ngIf="
+                                    day !== category.get('leaveCount')?.value
+                                  "
+                                  >{{ day }}</span
+                                >
+                              </li>
+                            </ul>
+                          </nz-dropdown-menu>
                         </div>
 
                         <div
@@ -1173,6 +1383,48 @@
                               <div
                                 class="row border-top border-bottom pb-2 pt-2"
                               >
+                                <div style="width: 30%; position: relative">
+                                  <div class="dropdown" style="width: 100%">
+                                    <button
+                                      type="button"
+                                      id="dropdownMenuButton1"
+                                      data-bs-toggle="dropdown"
+                                      aria-expanded="false"
+                                      class="btn btn-secondary dropdown-toggle new-deopdown"
+                                    >
+                                      {{ selectedTeamName }}
+                                      <i
+                                        class="bi bi-chevron-down"
+                                        style="color: #444; font-size: 15px"
+                                      ></i>
+                                    </button>
+                                    <ul
+                                      aria-labelledby="dropdownMenuButton1"
+                                      class="dropdown-menu team-dropdown"
+                                      style="
+                                        width: 100%;
+                                        max-height: 200px;
+                                        overflow-y: auto;
+                                      "
+                                    >
+                                      <li
+                                        class="ng-star-inserted"
+                                        (click)="selectTeam(0)"
+                                      >
+                                        <a class="dropdown-item">All</a>
+                                      </li>
+                                      <li
+                                        class="ng-star-inserted"
+                                        *ngFor="let tn of teamNameList"
+                                        (click)="selectTeam(tn.teamId)"
+                                      >
+                                        <a class="dropdown-item">{{
+                                          tn.teamName
+                                        }}</a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
                                 <div class="col-md-8">
                                   <form
                                     novalidate=""
@@ -1255,12 +1507,6 @@
                               </div>
 
                               <div *ngIf="total !== 0">
-                                <!-- <div class="">
-                                                                            <button type="button" class="btn btn-primary"  id="added-to-collection-button" [disabled]="(selectedStaffsUuids.length==0)"
-                                                                                (click)="saveLeaveSettingRules(false)">Add To Rule</button>
-                                                                        </div>
-                                                                       -->
-
                                 <div
                                   class=""
                                   style="
@@ -1274,10 +1520,6 @@
                                     style="gap: 10px"
                                     *ngIf="selectedStaffsUuids!.length > 0"
                                   >
-                                    <!-- <button type="button" class="btn add-filtter"
-                                                                        id="added-to-collection-button"
-                                                                       ></button> -->
-
                                     <ng-container
                                       *ngIf="
                                         selectedStaffsUuids!.length === total;
@@ -1557,6 +1799,54 @@
                               <div
                                 class="row border-top border-bottom pb-2 pt-2"
                               >
+                                <div style="width: 30%; position: relative">
+                                  <div class="dropdown" style="width: 100%">
+                                    <button
+                                      type="button"
+                                      id="dropdownMenuButton1"
+                                      data-bs-toggle="dropdown"
+                                      aria-expanded="false"
+                                      class="btn btn-secondary dropdown-toggle new-deopdown"
+                                    >
+                                      {{ selectedTeamNameOfAddedUsers }}
+                                      <i
+                                        class="bi bi-chevron-down"
+                                        style="color: #444; font-size: 15px"
+                                      ></i>
+                                    </button>
+                                    <ul
+                                      aria-labelledby="dropdownMenuButton1"
+                                      class="dropdown-menu team-dropdown"
+                                      style="
+                                        width: 100%;
+                                        max-height: 200px;
+                                        overflow-y: auto;
+                                      "
+                                    >
+                                      <li
+                                        class="ng-star-inserted"
+                                        (click)="
+                                          selectTeamSearchForAddedUsers(0)
+                                        "
+                                      >
+                                        <a class="dropdown-item">All</a>
+                                      </li>
+                                      <li
+                                        class="ng-star-inserted"
+                                        *ngFor="let tn of teamNameList"
+                                        (click)="
+                                          selectTeamSearchForAddedUsers(
+                                            tn.teamId
+                                          )
+                                        "
+                                      >
+                                        <a class="dropdown-item">{{
+                                          tn.teamName
+                                        }}</a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
                                 <div class="col-md-6">
                                   <form
                                     novalidate=""

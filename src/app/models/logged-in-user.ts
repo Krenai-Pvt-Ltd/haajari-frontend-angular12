@@ -7,5 +7,8 @@ export class LoggedInUser {
     orgRefId : string = '';
     statusResponse : string = '';
     httpCustomStatus : string = '';
-
 }
+
+
+
+

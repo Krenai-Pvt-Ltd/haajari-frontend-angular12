@@ -7,9 +7,9 @@
             <div class="card-header p-0 pb-3 bg-white">
               <h4 class="card-title">Shift Time</h4>
               <p class="text-muted mb-0">
-                To enhance your experience and ensure accurate communication on
-                our platform, we kindly ask you to review and update your
-                personal information.
+                To enhance your experience and ensure accurate shift scheduling
+                and communication within our platform, we kindly ask you to
+                review and update your shift information.
               </p>
             </div>
 
@@ -121,7 +121,13 @@
                 </div>
               </div>
             </ng-container>
-            <div class="add-shift-main-box mt-5">
+            <div
+              class="add-shift-main-box mt-5"
+              *ngIf="
+                !allShiftTimingsLoader &&
+                organizationShiftTimingWithShiftTypeResponseList.length > 0
+              "
+            >
               <div
                 class="add-shift-box d-flex align-items-center justify-content-between p-3"
               >
@@ -129,14 +135,23 @@
                   <h6 class="text-truncate mb-0">Shifts</h6>
                 </div>
                 <div class="">
-                  <a class="add-shift-time-btn"
-                    ><i class="bi bi-plus"></i> Add Shift Time
+                  <a
+                    class="add-shift-time-btn"
+                    routerLink="/organization-onboarding/add-shift-time"
+                    ><i class="bi bi-plus"></i>
+                    Add More Shifts
                   </a>
                 </div>
               </div>
 
               <div class="shift-setting-box">
-                <div class="shift-time p-3 m-3">
+                <div
+                  class="shift-time p-3 m-3"
+                  *ngFor="
+                    let organizationShiftTimingWithShiftTypeResponse of organizationShiftTimingWithShiftTypeResponseList;
+                    let i = index
+                  "
+                >
                   <div class="">
                     <div
                       class="d-flex align-items-center justify-content-between"
@@ -150,7 +165,12 @@
                           </span>
                         </div>
                         <div class="">
-                          <h6 class="text-truncate mb-0">Morning Shift 1</h6>
+                          <h6 class="text-truncate mb-0">
+                            {{
+                              organizationShiftTimingWithShiftTypeResponse
+                                .shiftType.name
+                            }}
+                          </h6>
                           <small class="text-muted"
                             >Define the late entry rules for the
                             employees</small
@@ -158,7 +178,7 @@
                         </div>
                       </div>
                       <div class="">
-                        <span
+                        <!-- <span
                           class="automation-rules-toogel-btn pointer"
                           data-bs-toggle="collapse"
                           href="#multiCollapseExample1"
@@ -166,13 +186,31 @@
                           aria-expanded="false"
                           aria-controls="multiCollapseExample1"
                           ><i class="bi bi-chevron-down"></i
-                        ></span>
+                        ></span> -->
+
+                        <span
+                          data-bs-toggle="collapse"
+                          role="button"
+                          class="automation-rules-toogel-btn pointer"
+                          [attr.data-bs-target]="'#multiCollapseExample' + i"
+                          [attr.aria-controls]="'multiCollapseExample' + i"
+                          [attr.aria-expanded]="
+                            activeIndex == i ? 'true' : 'false'
+                          "
+                          (click)="toggleCollapse(i)"
+                        >
+                          <i class="bi bi-chevron-down"></i>
+                        </span>
                       </div>
                     </div>
 
                     <div
                       class="collapse multi-collapse"
-                      id="multiCollapseExample1"
+                      [id]="'multiCollapseExample' + i"
+                      [class.show]="activeIndex === i"
+                      *ngFor="
+                        let organizationShiftTimingResponse of organizationShiftTimingWithShiftTypeResponse.organizationShiftTimingResponseList
+                      "
                     >
                       <div
                         class="d-flex align-items-center justify-content-between mt-3"
@@ -183,13 +221,79 @@
                               class="bi bi-arrow-right"
                               style="padding-right: 10px"
                             ></i>
-                            Rule 1
+                            {{ organizationShiftTimingResponse.name }}
                           </p>
                         </div>
                         <div class="d-flex align-items-center gap-4">
-                          <i class="bi bi-pencil pointer"></i>
+                          <!-- <i class="bi bi-pencil pointer"></i>
                           <i class="bi bi-people"></i>
-                          <i class="bi bi-trash pointer text-danger"></i>
+                          <i class="bi bi-trash pointer text-danger"></i> -->
+
+                          <a
+                            style="cursor: pointer"
+                            data-bs-toggle="modal"
+                            data-bs-target="#shiftTime"
+                            (click)="
+                              updateOrganizationShiftTiming(
+                                organizationShiftTimingResponse,
+                                'STAFF_SELECTION'
+                              )
+                            "
+                            ><i class="bi bi-people"></i
+                          ></a>
+                          <p
+                            style="color: #d7d7d7; margin-bottom: 0px"
+                            class="ng-star-inserted"
+                          >
+                            |
+                          </p>
+                          <a
+                            style="cursor: pointer"
+                            data-bs-toggle="modal"
+                            data-bs-target="#shiftTime"
+                            (click)="
+                              updateOrganizationShiftTiming(
+                                organizationShiftTimingResponse,
+                                'SHIFT_TIME'
+                              )
+                            "
+                            ><i class="bi bi-pencil pointer"></i
+                          ></a>
+                          <p
+                            style="color: #d7d7d7; margin-bottom: 0px"
+                            class="ng-star-inserted"
+                          >
+                            |
+                          </p>
+
+                          <a
+                            style="cursor: pointer"
+                            class="delete-rule"
+                            (click)="
+                              deleteOrganizationShiftTimingMethodCall(
+                                organizationShiftTimingResponse.id
+                              )
+                            "
+                            *ngIf="
+                              !deleteOrganizationShiftTimingTemplateLoader(
+                                organizationShiftTimingResponse.id
+                              )
+                            "
+                          >
+                            <i class="bi bi-trash pointer text-danger"></i>
+                          </a>
+                          <div
+                            class="dot-opacity-loader"
+                            *ngIf="
+                              deleteOrganizationShiftTimingTemplateLoader(
+                                organizationShiftTimingResponse.id
+                              )
+                            "
+                          >
+                            <span style="background-color: #6666f3"></span>
+                            <span style="background-color: #6666f3"></span>
+                            <span style="background-color: #6666f3"></span>
+                          </div>
                         </div>
                       </div>
 
@@ -198,7 +302,9 @@
                           <div class="shift-in-out-time mb-3">
                             <p class="mb-0">
                               In Time |
-                              <span style="color: #3f988f">03:50:00</span>
+                              <span style="color: #3f988f">{{
+                                organizationShiftTimingResponse.inTime
+                              }}</span>
                             </p>
                           </div>
                         </div>
@@ -206,7 +312,9 @@
                           <div class="shift-in-out-time mb-3">
                             <p class="mb-0">
                               Out Time |
-                              <span style="color: #3f988f">03:50:00</span>
+                              <span style="color: #3f988f">{{
+                                organizationShiftTimingResponse.outTime
+                              }}</span>
                             </p>
                           </div>
                         </div>
@@ -214,7 +322,9 @@
                           <div class="shift-in-out-time mb-3">
                             <p class="mb-0">
                               Working Time |
-                              <span style="color: #3f988f">03:50:00</span>
+                              <span style="color: #3f988f">{{
+                                organizationShiftTimingResponse.workingHour
+                              }}</span>
                             </p>
                           </div>
                         </div>
@@ -222,7 +332,9 @@
                           <div class="shift-in-out-time">
                             <p class="mb-0">
                               Break Time |
-                              <span style="color: #3f988f">03:50:00</span>
+                              <span style="color: #3f988f">{{
+                                organizationShiftTimingResponse.startLunch
+                              }}</span>
                             </p>
                           </div>
                         </div>
@@ -230,7 +342,9 @@
                           <div class="shift-in-out-time">
                             <p class="mb-0">
                               Back Time |
-                              <span style="color: #3f988f">03:50:00</span>
+                              <span style="color: #3f988f">{{
+                                organizationShiftTimingResponse.endLunch
+                              }}</span>
                             </p>
                           </div>
                         </div>
@@ -238,447 +352,9 @@
                           <div class="shift-in-out-time">
                             <p class="mb-0">
                               Total Break Hour |
-                              <span style="color: #3f988f">03:50:00</span>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="shift-time p-3 m-3">
-                  <div class="">
-                    <div
-                      class="d-flex align-items-center justify-content-between"
-                    >
-                      <div class="d-flex align-items-center gap-3">
-                        <div class="">
-                          <span
-                            class="automation-rules-icon d-flex align-items-center justify-content-center"
-                          >
-                            <img src="assets/images/rule-icon.svg" />
-                          </span>
-                        </div>
-                        <div class="">
-                          <h6 class="text-truncate mb-0">Morning Shift 1</h6>
-                          <small class="text-muted"
-                            >Define the late entry rules for the
-                            employees</small
-                          >
-                        </div>
-                      </div>
-                      <div class="">
-                        <span
-                          class="automation-rules-toogel-btn pointer"
-                          data-bs-toggle="collapse"
-                          href="#multiCollapseExample2"
-                          role="button"
-                          aria-expanded="false"
-                          aria-controls="multiCollapseExample2"
-                          ><i class="bi bi-chevron-down"></i
-                        ></span>
-                      </div>
-                    </div>
-
-                    <div
-                      class="collapse multi-collapse"
-                      id="multiCollapseExample2"
-                    >
-                      <div
-                        class="d-flex align-items-center justify-content-between mt-3"
-                      >
-                        <div class="">
-                          <p class="mb-0">
-                            <i
-                              class="bi bi-arrow-right"
-                              style="padding-right: 10px"
-                            ></i>
-                            Rule 1
-                          </p>
-                        </div>
-                        <div class="d-flex align-items-center gap-4">
-                          <i class="bi bi-pencil pointer"></i>
-                          <i class="bi bi-people"></i>
-                          <i class="bi bi-trash pointer text-danger"></i>
-                        </div>
-                      </div>
-
-                      <div class="shift-in-out-box bg-white row mt-3 p-3">
-                        <div class="col-md-4">
-                          <div class="shift-in-out-time mb-3">
-                            <p class="mb-0">
-                              In Time |
-                              <span style="color: #3f988f">03:50:00</span>
-                            </p>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="shift-in-out-time mb-3">
-                            <p class="mb-0">
-                              Out Time |
-                              <span style="color: #3f988f">03:50:00</span>
-                            </p>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="shift-in-out-time mb-3">
-                            <p class="mb-0">
-                              Working Time |
-                              <span style="color: #3f988f">03:50:00</span>
-                            </p>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="shift-in-out-time">
-                            <p class="mb-0">
-                              Break Time |
-                              <span style="color: #3f988f">03:50:00</span>
-                            </p>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="shift-in-out-time">
-                            <p class="mb-0">
-                              Back Time |
-                              <span style="color: #3f988f">03:50:00</span>
-                            </p>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="shift-in-out-time">
-                            <p class="mb-0">
-                              Total Break Hour |
-                              <span style="color: #3f988f">03:50:00</span>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="shift-time p-3 m-3">
-                  <div class="">
-                    <div
-                      class="d-flex align-items-center justify-content-between"
-                    >
-                      <div class="d-flex align-items-center gap-3">
-                        <div class="">
-                          <span
-                            class="automation-rules-icon d-flex align-items-center justify-content-center"
-                          >
-                            <img src="assets/images/rule-icon.svg" />
-                          </span>
-                        </div>
-                        <div class="">
-                          <h6 class="text-truncate mb-0">Morning Shift 1</h6>
-                          <small class="text-muted"
-                            >Define the late entry rules for the
-                            employees</small
-                          >
-                        </div>
-                      </div>
-                      <div class="">
-                        <span
-                          class="automation-rules-toogel-btn pointer"
-                          data-bs-toggle="collapse"
-                          href="#multiCollapseExample3"
-                          role="button"
-                          aria-expanded="false"
-                          aria-controls="multiCollapseExample3"
-                          ><i class="bi bi-chevron-down"></i
-                        ></span>
-                      </div>
-                    </div>
-
-                    <div
-                      class="collapse multi-collapse"
-                      id="multiCollapseExample3"
-                    >
-                      <div
-                        class="d-flex align-items-center justify-content-between mt-3"
-                      >
-                        <div class="">
-                          <p class="mb-0">
-                            <i
-                              class="bi bi-arrow-right"
-                              style="padding-right: 10px"
-                            ></i>
-                            Rule 1
-                          </p>
-                        </div>
-                        <div class="d-flex align-items-center gap-4">
-                          <i class="bi bi-pencil pointer"></i>
-                          <i class="bi bi-people"></i>
-                          <i class="bi bi-trash pointer text-danger"></i>
-                        </div>
-                      </div>
-
-                      <div class="shift-in-out-box bg-white row mt-3 p-3">
-                        <div class="col-md-4">
-                          <div class="shift-in-out-time mb-3">
-                            <p class="mb-0">
-                              In Time |
-                              <span style="color: #3f988f">03:50:00</span>
-                            </p>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="shift-in-out-time mb-3">
-                            <p class="mb-0">
-                              Out Time |
-                              <span style="color: #3f988f">03:50:00</span>
-                            </p>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="shift-in-out-time mb-3">
-                            <p class="mb-0">
-                              Working Time |
-                              <span style="color: #3f988f">03:50:00</span>
-                            </p>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="shift-in-out-time">
-                            <p class="mb-0">
-                              Break Time |
-                              <span style="color: #3f988f">03:50:00</span>
-                            </p>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="shift-in-out-time">
-                            <p class="mb-0">
-                              Back Time |
-                              <span style="color: #3f988f">03:50:00</span>
-                            </p>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="shift-in-out-time">
-                            <p class="mb-0">
-                              Total Break Hour |
-                              <span style="color: #3f988f">03:50:00</span>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="shift-time p-3 m-3">
-                  <div class="">
-                    <div
-                      class="d-flex align-items-center justify-content-between"
-                    >
-                      <div class="d-flex align-items-center gap-3">
-                        <div class="">
-                          <span
-                            class="automation-rules-icon d-flex align-items-center justify-content-center"
-                          >
-                            <img src="assets/images/rule-icon.svg" />
-                          </span>
-                        </div>
-                        <div class="">
-                          <h6 class="text-truncate mb-0">Morning Shift 1</h6>
-                          <small class="text-muted"
-                            >Define the late entry rules for the
-                            employees</small
-                          >
-                        </div>
-                      </div>
-                      <div class="">
-                        <span
-                          class="automation-rules-toogel-btn pointer"
-                          data-bs-toggle="collapse"
-                          href="#multiCollapseExample4"
-                          role="button"
-                          aria-expanded="false"
-                          aria-controls="multiCollapseExample4"
-                          ><i class="bi bi-chevron-down"></i
-                        ></span>
-                      </div>
-                    </div>
-
-                    <div
-                      class="collapse multi-collapse"
-                      id="multiCollapseExample4"
-                    >
-                      <div
-                        class="d-flex align-items-center justify-content-between mt-3"
-                      >
-                        <div class="">
-                          <p class="mb-0">
-                            <i
-                              class="bi bi-arrow-right"
-                              style="padding-right: 10px"
-                            ></i>
-                            Rule 1
-                          </p>
-                        </div>
-                        <div class="d-flex align-items-center gap-4">
-                          <i class="bi bi-pencil pointer"></i>
-                          <i class="bi bi-people"></i>
-                          <i class="bi bi-trash pointer text-danger"></i>
-                        </div>
-                      </div>
-
-                      <div class="shift-in-out-box bg-white row mt-3 p-3">
-                        <div class="col-md-4">
-                          <div class="shift-in-out-time mb-3">
-                            <p class="mb-0">
-                              In Time |
-                              <span style="color: #3f988f">03:50:00</span>
-                            </p>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="shift-in-out-time mb-3">
-                            <p class="mb-0">
-                              Out Time |
-                              <span style="color: #3f988f">03:50:00</span>
-                            </p>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="shift-in-out-time mb-3">
-                            <p class="mb-0">
-                              Working Time |
-                              <span style="color: #3f988f">03:50:00</span>
-                            </p>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="shift-in-out-time">
-                            <p class="mb-0">
-                              Break Time |
-                              <span style="color: #3f988f">03:50:00</span>
-                            </p>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="shift-in-out-time">
-                            <p class="mb-0">
-                              Back Time |
-                              <span style="color: #3f988f">03:50:00</span>
-                            </p>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="shift-in-out-time">
-                            <p class="mb-0">
-                              Total Break Hour |
-                              <span style="color: #3f988f">03:50:00</span>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="shift-time p-3 m-3">
-                  <div class="">
-                    <div
-                      class="d-flex align-items-center justify-content-between"
-                    >
-                      <div class="d-flex align-items-center gap-3">
-                        <div class="">
-                          <span
-                            class="automation-rules-icon d-flex align-items-center justify-content-center"
-                          >
-                            <img src="assets/images/rule-icon.svg" />
-                          </span>
-                        </div>
-                        <div class="">
-                          <h6 class="text-truncate mb-0">Morning Shift 1</h6>
-                          <small class="text-muted"
-                            >Define the late entry rules for the
-                            employees</small
-                          >
-                        </div>
-                      </div>
-                      <div class="">
-                        <span
-                          class="automation-rules-toogel-btn pointer"
-                          data-bs-toggle="collapse"
-                          href="#multiCollapseExample5"
-                          role="button"
-                          aria-expanded="false"
-                          aria-controls="multiCollapseExample5"
-                          ><i class="bi bi-chevron-down"></i
-                        ></span>
-                      </div>
-                    </div>
-
-                    <div
-                      class="collapse multi-collapse"
-                      id="multiCollapseExample5"
-                    >
-                      <div
-                        class="d-flex align-items-center justify-content-between mt-3"
-                      >
-                        <div class="">
-                          <p class="mb-0">
-                            <i
-                              class="bi bi-arrow-right"
-                              style="padding-right: 10px"
-                            ></i>
-                            Rule 1
-                          </p>
-                        </div>
-                        <div class="d-flex align-items-center gap-4">
-                          <i class="bi bi-pencil pointer"></i>
-                          <i class="bi bi-people"></i>
-                          <i class="bi bi-trash pointer text-danger"></i>
-                        </div>
-                      </div>
-
-                      <div class="shift-in-out-box bg-white row mt-3 p-3">
-                        <div class="col-md-4">
-                          <div class="shift-in-out-time mb-3">
-                            <p class="mb-0">
-                              In Time |
-                              <span style="color: #3f988f">03:50:00</span>
-                            </p>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="shift-in-out-time mb-3">
-                            <p class="mb-0">
-                              Out Time |
-                              <span style="color: #3f988f">03:50:00</span>
-                            </p>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="shift-in-out-time mb-3">
-                            <p class="mb-0">
-                              Working Time |
-                              <span style="color: #3f988f">03:50:00</span>
-                            </p>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="shift-in-out-time">
-                            <p class="mb-0">
-                              Break Time |
-                              <span style="color: #3f988f">03:50:00</span>
-                            </p>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="shift-in-out-time">
-                            <p class="mb-0">
-                              Back Time |
-                              <span style="color: #3f988f">03:50:00</span>
-                            </p>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="shift-in-out-time">
-                            <p class="mb-0">
-                              Total Break Hour |
-                              <span style="color: #3f988f">03:50:00</span>
+                              <span style="color: #3f988f">{{
+                                organizationShiftTimingResponse.lunchHour
+                              }}</span>
                             </p>
                           </div>
                         </div>
@@ -688,7 +364,7 @@
                 </div>
               </div>
             </div>
-            <div
+            <!-- <div
               class=""
               *ngIf="
                 !allShiftTimingsLoader &&
@@ -878,7 +554,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
 
             <!-- <div class="mt-5" *ngIf="!allShiftTimingsLoader && organizationShiftTimingWithShiftTypeResponseList.length==0">
                                                 <div class="errorboxmain">

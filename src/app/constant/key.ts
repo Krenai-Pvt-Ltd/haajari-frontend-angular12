@@ -59,7 +59,7 @@ export class Key {
     '/payment/tds',
     '/payment/bonus-and-deduction',
     '/payment/payment-history',
-    '/payment/payroll-dashboard/leave-summary'
+    '/payment/payroll-dashboard/leave-summary',
   ];
 
   public static TOPBAR_ROUTES = [
@@ -97,7 +97,7 @@ export class Key {
     '/payment/tds',
     '/payment/bonus-and-deduction',
     '/payment/payment-history',
-    '/payment/payroll-dashboard/leave-summary'
+    '/payment/payroll-dashboard/leave-summary',
   ];
 
   public static ORGANIZATION_ONBOARDING_SIDEBAR_ROUTES = [
@@ -120,8 +120,7 @@ export class Key {
   public static DEDUCTION_TYPE_FIXED_AMOUNT = 2;
 
   // Overtime Ids
-  public static OVERTIME_TYPE_PER_MINUTE = 1;
-  public static OVERTIME_TYPE_FIXED_AMOUNT = 2;
+  public static OVERTIME_TYPE_FIXED_AMOUNT = 1;
 
   // Attendance Defintion rules Ids
   public static LATE_ENTRY_RULE = 1;
@@ -162,6 +161,7 @@ export class Key {
   public static ADMIN = 'ADMIN';
   public static USER = 'USER';
   public static MANAGER = 'MANAGER';
+  public static HRADMIN = 'HR ADMIN'
 
   // Day wise status
   public static PRESENT = 'Present';
@@ -248,11 +248,17 @@ export class Key {
   create_user = '/whatsapp-user-onboarding/create';
 
   get_onboarding_user = '/whatsapp-user-onboarding/onboarding-user';
+  get_onboarding_user_for_emp_onboarding_data = '/whatsapp-user-onboarding/onboarding-user-for-employee-onboarding-data';
   delete_onboarding_user = '/whatsapp-user-onboarding/delete';
   edit_onboarding_user = '/whatsapp-user-onboarding/update';
 
   user_import = '/whatsapp-user-onboarding/import';
   get_report = '/user-import';
+
+  // base_url = "http://localhost:8080/api/v2";
+
+  /* ------------------  Staging urls ----------------*/
+  // base_url = "https://staging.hajiri.work/api/v2";
 
   check_number_existence = '/whatsapp-user-onboarding/check-number-existence';
   check_email_existence = '/whatsapp-user-onboarding/check-email-existence';
@@ -268,7 +274,54 @@ export class Key {
   public static FINAL_SETTLEMENT_STEP = 3;
 
   //User type in Employee change
-  public static NEW_JOINEE = 'New Joinee';
-  public static USER_EXIT = 'User Exit';
-  public static REGULAR = 'Regular';
+  public static NEW_JOINEE = 1;
+  public static USER_EXIT = 2;
+  public static FINAL_SETTLEMENT = 3;
+
+  //Attendance, Leave & Present Days
+  public static LEAVES = 4;
+  public static LOP_SUMMARY = 5;
+  public static LOP_REVERSAL = 6;
+
+  //Salary change, bonus and deduction
+  public static SALARY_CHANGE = 7;
+  public static BONUS = 8;
+  public static OVERTIME = 9;
+
+  //EPF, ESI & TDS
+  public static EPF = 10;
+  public static ESI = 11;
+  public static TDS = 12;
+
+
+
+  //Attendance rule type ids
+  public static DEDUCTION_RULE_DEFINITION = 1;
+  public static OVERTIME_RULE_DEFINITION = 2;
+
+  //Steps declared for fix amount validation in overtime
+  public static CUSTOM_OVERTIME_FIX_AMOUNT_STEP = 1;
+  public static HALF_DAY_OVERTIME_FIX_AMOUNT_STEP = 2;
+  public static FULL_DAY_OVERTIME_FIX_AMOUNT_STEP = 3;
+
+  //Overtime pay types
+  public static FIX_AMOUNT_STEP = 1;
+
+
+  //Date initial and last hours
+  public static INITIAL_HOUR = '00:00:00';
+  public static END_HOUR = '23:59:59';
+
+  // Status
+  public static PENDING = 13;
+  public static APPROVED = 14;
+
+
+  //Salary template tab
+  public static SALARY_TEMPLATE_STEP = 'SALARY_TEMPLATE_STEP';
+  public static STAFF_SELECTION_STEP = 'STAFF_SELECTION_STEP';
+
 }
+
+
+

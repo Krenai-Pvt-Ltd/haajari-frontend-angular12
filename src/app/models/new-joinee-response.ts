@@ -9,4 +9,5 @@ export class NewJoineeResponse {
     payActionType : PayActionType = new PayActionType();
     comment : string = '';
     selected : boolean = false;
+    payActionTypeId !: number;
 }

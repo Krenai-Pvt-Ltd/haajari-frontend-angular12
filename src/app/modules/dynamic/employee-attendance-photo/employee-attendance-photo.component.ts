@@ -58,6 +58,7 @@ export class EmployeeAttendancePhotoComponent implements OnInit {
     this.employeeAttendanceLocation.latitude = this.dataService.lat.toString();
     this.employeeAttendanceLocation.longitude = this.dataService.lng.toString();
     this.employeeAttendanceLocation.distance = this.dataService.radius;
+    this.employeeAttendanceLocation.currentLocation = this.dataService.address;
 
     this.dataService
       .markAttendaceWithLocation(this.employeeAttendanceLocation, userUuid)
@@ -81,7 +82,7 @@ export class EmployeeAttendancePhotoComponent implements OnInit {
             );
             this.toggle = true;
             window.location.href =
-              'https://api.whatsapp.com/send/?phone=918799754156&type=phone_number&app_absent=0';
+              'https://api.whatsapp.com/send/?phone=918700822872&type=phone_number&app_absent=0';
           }
           this.toggle = false;
         },

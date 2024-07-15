@@ -69,6 +69,13 @@ import { LeaveManagementComponent } from './components/leave-management/leave-ma
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { HttpClientJsonpModule } from '@angular/common/http';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { BrowserModule } from '@angular/platform-browser';
+import { MatDialogModule } from '@angular/material/dialog';
+import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 
 @NgModule({
   declarations: [
@@ -111,7 +118,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     EmployeeLocationValidatorComponent,
     EmployeeAttendancePhotoComponent,
     LinkExpiredPageComponent,
-
+    EmployeeProfileComponent,
     LeaveManagementComponent,
   ],
   imports: [
@@ -144,6 +151,13 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     GooglePlaceModule,
     DragDropModule,
     NgxChartsModule,
+    HttpClientJsonpModule,
+    ReactiveFormsModule,
+    NzSelectModule,
+    ScrollingModule,
+    DragDropModule,
+    MatDialogModule,
+    NzTimePickerModule
   ],
   exports: [HeaderComponent],
   providers: [

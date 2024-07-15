@@ -6,4 +6,5 @@ export class AttendanceRuleResponse {
 	halfDayRuleHeader !: string;
 	fullDayRuleHeader !: string;
 	ruleSubHeader !: string;
+	attendanceRuleTypeId !: number;
 }

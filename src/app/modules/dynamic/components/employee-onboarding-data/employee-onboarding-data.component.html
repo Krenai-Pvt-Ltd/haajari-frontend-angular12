@@ -2,24 +2,13 @@
   <div class="page-content-tab">
     <div class="container-fluid">
       <div class="row mt-4">
-        <div class="col-md-4">
+        <div class="col-md-3">
           <div class="employe-onbording">
-            <div class="orderpcardinfo d-flex justify-content-between">
-              <div class="orderpcardleft">
-                <h6>Pending Verification</h6>
-                <h5>{{ verificationCount.pendingEmployees || 0 }}</h5>
-              </div>
-              <div class="orderpcardright">
-                <div class="total-employ-icon">
-                  <img src="assets/images/lock.svg" style="width: 28px" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="employe-onbording">
-            <div class="orderpcardinfo d-flex justify-content-between">
+            <div
+              class="orderpcardinfo d-flex justify-content-between"
+              style="cursor: pointer"
+              (click)="selectStatus('APPROVED')"
+            >
               <div class="orderpcardleft">
                 <h6>Verified</h6>
                 <h5>{{ verificationCount.approvedEmployees || 0 }}</h5>
@@ -32,9 +21,33 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
           <div class="employe-onbording">
-            <div class="orderpcardinfo d-flex justify-content-between">
+            <div
+              class="orderpcardinfo d-flex justify-content-between"
+              style="cursor: pointer"
+              (click)="selectStatus('PENDING')"
+            >
+              <div class="orderpcardleft">
+                <h6>Pending Verification</h6>
+                <h5>{{ verificationCount.pendingEmployees || 0 }}</h5>
+              </div>
+              <div class="orderpcardright">
+                <div class="total-employ-icon">
+                  <img src="assets/images/lock.svg" style="width: 28px" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="employe-onbording">
+            <div
+              class="orderpcardinfo d-flex justify-content-between"
+              style="cursor: pointer"
+              (click)="selectStatus('REJECTED')"
+            >
               <div class="orderpcardleft">
                 <h6>Rejected</h6>
                 <h5>{{ verificationCount.rejectedEmployees || 0 }}</h5>
@@ -47,8 +60,27 @@
             </div>
           </div>
         </div>
+        <div class="col-md-3">
+          <div class="employe-onbording">
+            <div
+              class="orderpcardinfo d-flex justify-content-between"
+              style="cursor: pointer"
+              (click)="selectStatus('REQUESTED')"
+            >
+              <div class="orderpcardleft">
+                <h6>Requested</h6>
+                <h5>{{ verificationCount.requestedCount || 0 }}</h5>
+              </div>
+              <div class="orderpcardright">
+                <div class="total-employ-icon">
+                  <img src="assets/images/shield.svg" style="width: 28px" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="row mt-3">
+      <div class="row mt-3" *ngIf="isShowPendingVerificationTab">
         <div class="col-md-7">
           <div class="on-leave-section">
             <h5>Latest Joining - Pending Verification</h5>
@@ -476,6 +508,7 @@
           </div>
         </div>
       </div>
+
       <div class="row mt-3">
         <div class="col-md-12">
           <div class="obboard-employee-list">
@@ -495,7 +528,7 @@
                         aria-expanded="false"
                         class="btn btn-secondary dropdown-toggle new-deopdown"
                       >
-                        {{ selectedStatus || "Select Search" }}
+                        {{ selectedStatus || "All" }}
                         <i
                           class="bi bi-chevron-down"
                           style="color: #444; font-size: 15px"
@@ -508,9 +541,14 @@
                       >
                         <li>
                           <a class="dropdown-item" (click)="selectStatus('ALL')"
-                            >Reset All</a
+                            >All</a
                           >
                         </li>
+                        <!-- <li style="cursor: default;"> -->
+                          <!-- <h6 class="dropdown-item text-secondary text-sm-start">Status Wise </h6>  -->
+                        <!-- </li> -->
+                        <li class="dropdown-header" aria-disabled="true">Status Wise</li>
+                       
                         <li>
                           <a
                             class="dropdown-item"
@@ -528,8 +566,33 @@
                         <li>
                           <a
                             class="dropdown-item"
+                            (click)="selectStatus('REQUESTED')"
+                            >Requested</a
+                          >
+                        </li>
+                        <li>
+                          <a
+                            class="dropdown-item"
                             (click)="selectStatus('REJECTED')"
                             >Rejected</a
+                          >
+                        </li>
+                        <!-- <li style="cursor: default;"> -->
+                          <!-- <h6 class="dropdown-item text-secondary text-sm-start" >Accessibility Wise </h6>  -->
+                        <!-- </li> -->
+                        <li class="dropdown-header" aria-disabled="true">Accessibility Wise</li>
+                        <li>
+                          <a
+                            class="dropdown-item"
+                            (click)="selectStatus('ACTIVE')"
+                            >Active</a
+                          >
+                        </li>
+                        <li>
+                          <a
+                            class="dropdown-item"
+                            (click)="selectStatus('INACTIVE')"
+                            >Inactive</a
                           >
                         </li>
                       </ul>
@@ -551,7 +614,7 @@
                         <input
                           type="text"
                           id="searchText"
-                          placeholder="Search"
+                          placeholder="Search by name, email and phone number ..."
                           class="form-control me-2 ng-untouched ng-pristine ng-valid"
                           (keyup)="searchUsers('any')"
                           [(ngModel)]="search"
@@ -581,193 +644,214 @@
                         type="button"
                       >
                         <i class="bi bi-plus" style="font-size: 18px"></i>
-                        Invite New Members
+                        Add New Members
                       </a>
+                      <a
+                      data-bs-toggle="modal"
+                      data-bs-target="#sampleFileModal"
+                      type="button"
+                    >
+                      <i class="bi bi-upload" style="font-size: 18px"></i>
+                     Upload Members
+                    </a>
                     </div>
+                    <!-- <div class="add-filtter text-end">
+                     
+                    </div> -->
                   </div>
                 </div>
               </div>
 
               <!-- </div> -->
-              <div class="col-md-12 mt-3">
-                <div class="">
-                  <div class="table-responsive bg-white">
-                    <table class="table">
-                      <thead class="thead-light table-design">
-                        <tr>
-                          <th style="width: 10%">Date</th>
-                          <th style="width: 20%">Employee Name</th>
-                          <th style="width: 20%">Email</th>
-                          <th style="width: 3%">Accessibility</th>
-                          <th style="width: 3%">Status</th>
-                          <th style="width: 15%">Action</th>
-                        </tr>
-                      </thead>
-                      <tbody *ngIf="isUserShimer">
-                        <tr *ngFor="let item of [].constructor(6)">
-                          <td>
-                            <ngx-shimmer-loading
-                              [width]="'70%'"
-                              [height]="'10px'"
-                            ></ngx-shimmer-loading>
-                          </td>
-                          <td>
-                            <ngx-shimmer-loading
-                              [width]="'70%'"
-                              [height]="'10px'"
-                            ></ngx-shimmer-loading>
-                          </td>
-                          <td>
-                            <ngx-shimmer-loading
-                              [width]="'100%'"
-                              [height]="'10px'"
-                            ></ngx-shimmer-loading>
-                          </td>
-                          <td>
-                            <ngx-shimmer-loading
-                              [width]="'70%'"
-                              [height]="'30px'"
-                            ></ngx-shimmer-loading>
-                          </td>
-                          <td>
-                            <ngx-shimmer-loading
-                              [width]="'70%'"
-                              [height]="'30px'"
-                            ></ngx-shimmer-loading>
-                          </td>
-                          <!-- <td><ngx-shimmer-loading [width]="'30%'" [height]="'10px'"></ngx-shimmer-loading></td> -->
-                          <td>
-                            <ngx-shimmer-loading
-                              [width]="'50%'"
-                              [height]="'10px'"
-                            ></ngx-shimmer-loading>
-                          </td>
-                        </tr>
-                      </tbody>
-                      <!-- 
+            </div>
+            <div class="col-md-12 mt-3">
+              <div class="table-responsive bg-white">
+                <table class="table">
+                  <thead class="thead-light table-design">
+                    <tr>
+                      <th style="width: 10%">Date</th>
+                      <th style="width: 20%">Employee Name</th>
+                      <th style="width: 10%">Team</th>
+                      <th style="width: 20%">Email</th>
+                      <th style="width: 20%">Phone Number</th>
+                      <th style="width: 3%">Accessibility</th>
+                      <th style="width: 3%">Status</th>
+                      <th style="width: 15%">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="isUserShimer">
+                    <tr *ngFor="let item of [].constructor(6)">
+                      <td>
+                        <ngx-shimmer-loading
+                          [width]="'70%'"
+                          [height]="'10px'"
+                        ></ngx-shimmer-loading>
+                      </td>
+                      <td>
+                        <ngx-shimmer-loading
+                          [width]="'70%'"
+                          [height]="'10px'"
+                        ></ngx-shimmer-loading>
+                      </td>
+                      <td>
+                        <ngx-shimmer-loading
+                          [width]="'100%'"
+                          [height]="'10px'"
+                        ></ngx-shimmer-loading>
+                      </td>
+                      <td>
+                        <ngx-shimmer-loading
+                          [width]="'70%'"
+                          [height]="'30px'"
+                        ></ngx-shimmer-loading>
+                      </td>
+                      <td>
+                        <ngx-shimmer-loading
+                          [width]="'70%'"
+                          [height]="'30px'"
+                        ></ngx-shimmer-loading>
+                      </td>
+                      <!-- <td><ngx-shimmer-loading [width]="'30%'" [height]="'10px'"></ngx-shimmer-loading></td> -->
+                      <td>
+                        <ngx-shimmer-loading
+                          [width]="'50%'"
+                          [height]="'10px'"
+                        ></ngx-shimmer-loading>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <!-- 
                                         <tbody ><tr><td colspan="8"><div class="mt-3 dashnodata" ><div class="errorboxmain"><div class="errorboxinner text-center"><div class="errorboxplaceholder mb-2"><img src="assets/images/addnewproduct.svg" style="width:80px;" /></div><h4>No Data Found</h4><p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p></div></div></div></td></tr></tbody> -->
-                      <tbody
-                        class="table-design"
-                        *ngIf="users.length > 0 && !isUserShimer"
-                      >
-                        <tr
-                          *ngFor="
-                            let i = index;
-                            let user;
-                            of: users
-                              | paginate
-                                : {
-                                    itemsPerPage: itemPerPage,
-                                    currentPage: pageNumber,
-                                    totalItems: total
-                                  }
-                          "
+                  <tbody
+                    class="table-design"
+                    *ngIf="users.length > 0 && !isUserShimer"
+                  >
+                    <tr
+                      *ngFor="
+                        let i = index;
+                        let user;
+                        of: users
+                          | paginate
+                            : {
+                                itemsPerPage: itemPerPage,
+                                currentPage: pageNumber,
+                                totalItems: total
+                              }
+                      "
+                    >
+                      <td>
+                        <p class="mb-0 weekly-pro">
+                          {{
+                            user!.onboardingStatusUpdateDate.toString()
+                              | dateFormat
+                          }}
+                        </p>
+                      </td>
+                      <td>
+                        <a
+                          routerLink="/employee-profile"
+                          (click)="routeToUserDetails(user.uuid)"
+                          class="mb-0 btn btn-link weekly-pro-name"
+                          >{{ user.name }}</a
                         >
-                          <td>
-                            <p class="mb-0 weekly-pro">
-                              {{
-                                user!.onboardingStatusUpdateDate.toString()
-                                  | dateFormat
-                              }}
-                            </p>
-                          </td>
-                          <td>
-                            <a
-                              routerLink="/employee-profile"
-                              (click)="routeToUserDetails(user.uuid)"
-                              class="mb-0 btn btn-link weekly-pro-name"
-                              >{{ user.name }}</a
-                            >
-                          </td>
-                          <!-- <td>Meeting</td> -->
-                          <td>
-                            <a
-                              routerLink="/employee-profile"
-                              (click)="routeToUserDetails(user.uuid)"
-                              class="mb-0 btn btn-link weekly-pro-email"
-                            >
-                              {{ user.email ? user.email : "N/A" }}
-                            </a>
-                          </td>
-                          <td class="text-center">
-                            <div class="material-switch">
-                              <input
-                                type="checkbox"
-                                id="switch{{ user.uuid }}"
-                                [(ngModel)]="user.presenceStatus"
-                                (change)="
-                                  changeStatus(user.presenceStatus, user.uuid)
-                                "
-                              />
-                              <label
-                                for="switch{{ user.uuid }}"
-                                class="label-success"
-                              ></label>
-                            </div>
-                          </td>
-                          <!-- <td class="text-center">13</td>  -->
-                          <td
-                            *ngIf="
-                              user.employeeOnboardingStatus.response ==
-                              pendingResponse
-                            "
+                      </td>
+                      <td>
+                        <span
+                          class="mb-0 weekly-pro-email"
+                          *ngIf="user.teamNames.length == 0"
+                        >
+                          {{ "N/A" }}</span
+                        >
+                        <span
+                          class="teme-maneger mb-0 weekly-pro-team"
+                          *ngIf="user.teamNames.length > 2"
+                        >
+                          {{ user.teamNames[0] }}...<a class="user-avatar"
+                            ><i
+                              class="bi bi-plus"
+                              ngbTooltip="{{ user.teamNames }}"
+                              placement="top"
+                              style="font-size: 14px"
+                            ></i>
+                            {{ user.teamNames.length - 1 }}</a
                           >
-                            <div class="badge rounded-pill badge-soft-warning">
-                              <span class="">{{
-                                user.employeeOnboardingStatus.response
-                              }}</span>
-                            </div>
-                          </td>
-                          <td
-                            *ngIf="
-                              user.employeeOnboardingStatus.response ==
-                              approvedResponse
+                        </span>
+                        <span
+                          class="teme-maneger mb-0 weekly-pro-team"
+                          *ngIf="user.teamNames.length < 3"
+                        >
+                          {{ user.teamNames }}
+                        </span>
+                        <!-- <span class="mb-0 weekly-pro-team">{{
+                          user.teamNames.join(", ") || "N/A"
+                        }}</span> -->
+                        <!-- <a class="mb-0 btn btn-link weekly-pro-name"
+                              ></a
+                            > -->
+                      </td>
+                      <!-- <td>Meeting</td> -->
+                      <td>
+                        <a
+                          routerLink="/employee-profile"
+                          (click)="routeToUserDetails(user.uuid)"
+                          class="mb-0 btn btn-link weekly-pro-email"
+                        >
+                          {{ user.email ? user.email : "N/A" }}
+                        </a>
+                      </td>
+                      <td>
+                        <a
+                          routerLink="/employee-profile"
+                          (click)="routeToUserDetails(user.uuid)"
+                          class="mb-0 btn btn-link weekly-pro-email"
+                        >
+                          {{ user.phoneNumber ? user.phoneNumber : "N/A" }}
+                        </a>
+                      </td>
+                      <td class="text-center">
+                        <div class="material-switch">
+                          <input
+                            type="checkbox"
+                            id="switch{{ user.uuid }}"
+                            [(ngModel)]="user.presenceStatus"
+                            (change)="
+                              changeStatus(user.presenceStatus, user.uuid)
                             "
-                          >
-                            <div class="badge rounded-pill badge-soft-success">
-                              <span class="">{{
-                                user.employeeOnboardingStatus.response
-                              }}</span>
-                            </div>
-                          </td>
-                          <td
-                            *ngIf="
-                              user.employeeOnboardingStatus.response ==
-                              rejectedResponse
-                            "
-                          >
-                            <div class="badge rounded-pill badge-soft-danger">
-                              <span class="">{{
-                                user.employeeOnboardingStatus.response
-                              }}</span>
-                            </div>
-                          </td>
-                          <td
-                            *ngIf="
-                              user.employeeOnboardingStatus.response ==
-                              requestedResponse
-                            "
-                          >
-                            <div
-                              class="badge rounded-pill badge-soft-secondary"
-                            >
-                              <span class="">{{
-                                user.employeeOnboardingStatus.response
-                              }}</span>
-                            </div>
-                          </td>
-                          <td
-                            *ngIf="
-                              user.employeeOnboardingStatus.response ==
-                              newUserResponse
-                            "
-                          >
-                            <div class="badge rounded-pill badge-soft-info">
-                              <span class="">NEW!</span>
-                            </div>
-                          </td>
-                          <td>
-                            <!-- <div
+                          />
+                          <label
+                            for="switch{{ user.uuid }}"
+                            class="label-success"
+                          ></label>
+                        </div>
+                      </td>
+                      <!-- <td class="text-center">13</td>  -->
+                      <td *ngIf="user.onboardingStatus == pendingResponse">
+                        <div class="badge rounded-pill badge-soft-warning">
+                          <span class="">{{ user.onboardingStatus }}</span>
+                        </div>
+                      </td>
+                      <td *ngIf="user.onboardingStatus == approvedResponse">
+                        <div class="badge rounded-pill badge-soft-success">
+                          <span class="">{{ user.onboardingStatus }}</span>
+                        </div>
+                      </td>
+                      <td *ngIf="user.onboardingStatus == rejectedResponse">
+                        <div class="badge rounded-pill badge-soft-danger">
+                          <span class="">{{ user.onboardingStatus }}</span>
+                        </div>
+                      </td>
+                      <td *ngIf="user.onboardingStatus == requestedResponse">
+                        <div class="badge rounded-pill badge-soft-secondary">
+                          <span class="">{{ user.onboardingStatus }}</span>
+                        </div>
+                      </td>
+                      <td *ngIf="user.onboardingStatus == newUserResponse">
+                        <div class="badge rounded-pill badge-soft-info">
+                          <span class="">NEW!</span>
+                        </div>
+                      </td>
+                      <td>
+                        <!-- <div
                               class="btn-group"
                               role="group"
                               aria-label="Basic example"
@@ -819,155 +903,149 @@
                               </button>
                             </div> -->
 
-                            <div class="button-items">
-                              <button
-                                type="button"
-                                class="btn btn-soft-secondary btn-icon-square-sm pointer"
-                                (click)="sendMailToEmployees(user)"
-                                *ngIf="
-                                  !sendingMailLoaderForUser(user) &&
-                                  user.employeeOnboardingStatus.response !=
-                                    approvedResponse &&
-                                  user.employeeOnboardingStatus.response !=
-                                    pendingResponse
-                                "
-                                ngbTooltip="Request Again"
-                                placement="top"
-                              >
-                                <i class="fas fa-bullhorn"></i>
-                              </button>
-                              <button
-                                type="button"
-                                class="btn btn-soft-primary btn-icon-square-sm pointer"
-                                routerLink="/employee-profile"
-                                (click)="routeToUserDetails(user.uuid)"
-                                ngbTooltip="View Profile"
-                                placement="top"
-                              >
-                                <i class="far fa-eye"></i>
-                              </button>
-                              <button
-                                type="button"
-                                class="btn btn-soft-danger btn-icon-square-sm pointer"
-                                data-bs-toggle="modal"
-                                data-bs-target="#deleteConfirmationModal"
-                                (click)="openDeleteConfirmationModal(user.id)"
-                                ngbTooltip="Delete Account"
-                                placement="top"
-                              >
-                                <i class="bi bi-trash"></i>
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                        <!-- <tr><td>06/06/2023</td><td>Wekreta</td><td>Meeting</td><td><p class="mb-0 weekly-pro">Weekly progress meeting</p></td><td class="text-center">12</td><td class="half-per"><span class="">50%</span></td><td class="text-center">13</td><td><div class="hstack gap-3 justify-content-center"><a href="javascript:void(0);" class="link-success text-decoration-underline">Request</a><a href="javascript:void(0);" routerLink="/employee-profile" class="link-primary text-decoration-underline">View</a></div></td></tr><tr><td>06/06/2023</td><td>Wekreta</td><td>Meeting</td><td><p class="mb-0 weekly-pro">Weekly progress meeting</p></td><td class="text-center">12</td><td class="full-per"><span class="">100%</span></td><td class="text-center">13</td><td><div class="hstack gap-3 justify-content-center"><a href="javascript:void(0);" class="link-success text-decoration-underline">Request</a><a href="javascript:void(0);" routerLink="/employee-profile" class="link-primary text-decoration-underline">View</a></div></td></tr> -->
-                      </tbody>
-                      <tbody>
-                        <tr>
-                          <td colspan="8">
-                            <div class="mt-3 dashnodata">
-                              <!-- <div class="errorboxmain" *ngIf="mainPlaceholdersTableFlag && errorToggleTop"><div class="errorboxinner"><div class="errorboxplaceholder mb-2"><img src="assets/images/signal.svg" style="width:80px;" /></div><div class=""><h4>Something went wrong</h4><p class="mb-0">An error occurred while processing your request. Please refresh the page and try again.</p></div></div></div> -->
-                              <div
-                                class="errorboxmain"
-                                *ngIf="errorToggleTop && users.length == 0"
-                              >
-                                <div class="errorboxinner text-center">
-                                  <div class="errorboxplaceholder mb-2">
-                                    <img
-                                      src="assets/images/signal.svg"
-                                      style="width: 80px"
-                                    />
-                                  </div>
-                                  <div class="">
-                                    <h4>Something went wrong</h4>
-                                    <p>
-                                      An error occurred while processing your
-                                      request. Please refresh the page and try
-                                      again.
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
-                              <div
-                                class="errorboxmain"
-                                *ngIf="
-                                  placeholder && total == 0 && !isUserShimer
-                                "
-                              >
-                                <div class="errorboxinner text-center">
-                                  <div class="errorboxplaceholder mb-2">
-                                    <img
-                                      src="assets/images/empty-folder.svg"
-                                      style="width: 80px"
-                                    />
-                                  </div>
-                                  <h4>No Data Found</h4>
-                                  <p>
-                                    We're unable to locate a record associated
-                                    with the information you entered.
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <div
-                      class="pagination pl-3"
-                      *ngIf="!isUserShimer && users.length > 0 && total > 12"
-                    >
-                      <p class="mb-0" style="padding-left: 15px">
-                        Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
-                        {{ total }} users
-                      </p>
-                      <div class="row">
-                        <div class="col-md-12">
-                          <nav aria-label="Page navigation example">
-                            <ul class="pagination justify-content-end">
-                              <li
-                                class="page-item"
-                                [class.disabled]="pageNumber == 1"
-                              >
-                                <a
-                                  class="page-link"
-                                  href="javascript:void(0);"
-                                  aria-label="Previous"
-                                  (click)="changePage('prev')"
-                                >
-                                  <span aria-hidden="true">&laquo;</span>
-                                </a>
-                              </li>
-                              <li
-                                class="page-item"
-                                *ngFor="let page of getPages()"
-                                [class.active]="pageNumber == page"
-                              >
-                                <a
-                                  class="page-link"
-                                  href="javascript:void(0);"
-                                  (click)="changePage(page)"
-                                  >{{ page }}</a
-                                >
-                              </li>
-                              <li
-                                class="page-item"
-                                [class.disabled]="pageNumber == totalPages"
-                              >
-                                <a
-                                  class="page-link"
-                                  href="javascript:void(0);"
-                                  aria-label="Next"
-                                  (click)="changePage('next')"
-                                >
-                                  <span aria-hidden="true">&raquo;</span>
-                                </a>
-                              </li>
-                            </ul>
-                          </nav>
+                        <div class="button-items d-flex justify-content-center">
+                          <button
+                            type="button"
+                            class="btn btn-soft-secondary btn-icon-square-sm pointer"
+                            (click)="sendMailToEmployees(user)"
+                            *ngIf="
+                              !sendingMailLoaderForUser(user) &&
+                              user.onboardingStatus != approvedResponse &&
+                              user.onboardingStatus != pendingResponse
+                            "
+                            ngbTooltip="Request Again"
+                            placement="top"
+                          >
+                            <i class="fas fa-bullhorn"></i>
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-soft-primary btn-icon-square-sm pointer"
+                            routerLink="/employee-profile"
+                            (click)="routeToUserDetails(user.uuid)"
+                            ngbTooltip="View Profile"
+                            placement="top"
+                          >
+                            <i class="far fa-eye"></i>
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-soft-danger btn-icon-square-sm pointer"
+                            data-bs-toggle="modal"
+                            data-bs-target="#deleteConfirmationModal"
+                            (click)="openDeleteConfirmationModal(user.id)"
+                            ngbTooltip="Delete Account"
+                            placement="top"
+                          >
+                            <i class="bi bi-trash"></i>
+                          </button>
                         </div>
-                      </div>
-                    </div>
+                      </td>
+                    </tr>
+                    <!-- <tr><td>06/06/2023</td><td>Wekreta</td><td>Meeting</td><td><p class="mb-0 weekly-pro">Weekly progress meeting</p></td><td class="text-center">12</td><td class="half-per"><span class="">50%</span></td><td class="text-center">13</td><td><div class="hstack gap-3 justify-content-center"><a href="javascript:void(0);" class="link-success text-decoration-underline">Request</a><a href="javascript:void(0);" routerLink="/employee-profile" class="link-primary text-decoration-underline">View</a></div></td></tr><tr><td>06/06/2023</td><td>Wekreta</td><td>Meeting</td><td><p class="mb-0 weekly-pro">Weekly progress meeting</p></td><td class="text-center">12</td><td class="full-per"><span class="">100%</span></td><td class="text-center">13</td><td><div class="hstack gap-3 justify-content-center"><a href="javascript:void(0);" class="link-success text-decoration-underline">Request</a><a href="javascript:void(0);" routerLink="/employee-profile" class="link-primary text-decoration-underline">View</a></div></td></tr> -->
+                  </tbody>
+                  <tbody>
+                    <tr>
+                      <td colspan="8">
+                        <div class="mt-3 dashnodata">
+                          <!-- <div class="errorboxmain" *ngIf="mainPlaceholdersTableFlag && errorToggleTop"><div class="errorboxinner"><div class="errorboxplaceholder mb-2"><img src="assets/images/signal.svg" style="width:80px;" /></div><div class=""><h4>Something went wrong</h4><p class="mb-0">An error occurred while processing your request. Please refresh the page and try again.</p></div></div></div> -->
+                          <div
+                            class="errorboxmain"
+                            *ngIf="errorToggleTop && users.length == 0"
+                          >
+                            <div class="errorboxinner text-center">
+                              <div class="errorboxplaceholder mb-2">
+                                <img
+                                  src="assets/images/signal.svg"
+                                  style="width: 80px"
+                                />
+                              </div>
+                              <div class="">
+                                <h4>Something went wrong</h4>
+                                <p>
+                                  An error occurred while processing your
+                                  request. Please refresh the page and try
+                                  again.
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            class="errorboxmain"
+                            *ngIf="placeholder && total == 0 && !isUserShimer"
+                          >
+                            <div class="errorboxinner text-center">
+                              <div class="errorboxplaceholder mb-2">
+                                <img
+                                  src="assets/images/empty-folder.svg"
+                                  style="width: 80px"
+                                />
+                              </div>
+                              <h4>No Data Found</h4>
+                              <p>
+                                We're unable to locate a record associated with
+                                the information you entered.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div
+                class="pagination pl-3"
+                *ngIf="!isUserShimer && users.length > 0 && total > 12"
+              >
+                <p class="mb-0" style="padding-left: 15px">
+                  Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
+                  {{ total }} users
+                </p>
+                <div class="row">
+                  <div class="col-md-12">
+                    <nav aria-label="Page navigation example">
+                      <ul class="pagination justify-content-end">
+                        <li
+                          class="page-item"
+                          [class.disabled]="pageNumber == 1"
+                        >
+                          <a
+                            class="page-link"
+                            href="javascript:void(0);"
+                            aria-label="Previous"
+                            (click)="changePage('prev')"
+                          >
+                            <span aria-hidden="true">&laquo;</span>
+                          </a>
+                        </li>
+                        <li
+                          class="page-item"
+                          *ngFor="let page of getPages()"
+                          [class.active]="pageNumber == page"
+                        >
+                          <a
+                            class="page-link"
+                            href="javascript:void(0);"
+                            (click)="changePage(page)"
+                            >{{ page }}</a
+                          >
+                        </li>
+                        <li
+                          class="page-item"
+                          [class.disabled]="pageNumber == totalPages"
+                        >
+                          <a
+                            class="page-link"
+                            href="javascript:void(0);"
+                            aria-label="Next"
+                            (click)="changePage('next')"
+                          >
+                            <span aria-hidden="true">&raquo;</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </nav>
                   </div>
                 </div>
               </div>
@@ -1019,7 +1097,7 @@
                     </label>
                     <input
                       type="text"
-                      class="form-control"
+                      class="form-control whatapp-login-input"
                       id="name"
                       name="name"
                       placeholder="Name"
@@ -1044,60 +1122,6 @@
                 </div>
                 <div class="col-md-12">
                   <div class="mb-3">
-                    <label for="email" class="pb-2"
-                      >Email Id <span class="text-optional">*</span>
-                    </label>
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="email"
-                      name="email"
-                      placeholder="Email id"
-                      [(ngModel)]="userPersonalInformationRequest.email"
-                      required
-                      email
-                      #emailField="ngModel"
-                    />
-                    <!-- Error Message for Email -->
-                    <!-- <div class="text-danger" style="color:red" *ngIf="emailFlag"><i class="bi bi-exclamation-circle"></i>
-                        Employee with this email already registered                      
-                    </div> -->
-                    <!-- Error Message for Existing Email -->
-                    <div
-                      class="text-danger"
-                      *ngIf="emailAlreadyExists"
-                      style="color: red"
-                    >
-                      <i class="bi bi-exclamation-circle"></i> Employee with
-                      this email already registered
-                    </div>
-                    <div
-                      *ngIf="
-                        userPersonalInformationRequest.email != null &&
-                        emailField.touched &&
-                        emailField.errors?.required
-                      "
-                    >
-                      <p class="errortxt mt-2 mb-0" style="color: red">
-                        <i class="bi bi-exclamation-circle"></i> Email Id is
-                        required.
-                      </p>
-                      <!-- <p class="terrortxt mt-2 mb-0" style="color:red" *ngIf="emailFlag"><i class="bi bi-exclamation-circle"></i>
-                            Employee with this email already registered
-                        </p> -->
-                      <p
-                        class="errortxt mt-2 mb-0"
-                        style="color: red"
-                        *ngIf="emailField.errors?.email"
-                      >
-                        <i class="bi bi-exclamation-circle"></i> Please enter a
-                        valid email address.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-12">
-                  <div class="mb-3">
                     <label for="phoneNumber" class="pb-2"
                       >Phone Number
                       <span class="text-optional"> (Optional)</span>
@@ -1105,7 +1129,7 @@
                     <input
                       type="text"
                       mask="0000000000"
-                      class="form-control"
+                      class="form-control whatapp-login-input"
                       id="phoneNumber"
                       name="phoneNumber"
                       placeholder="Phone number"
@@ -1140,6 +1164,94 @@
                     </div>
                   </div>
                 </div>
+                <div class="col-md-12">
+                  <div class="mb-3">
+                    <label for="email" class="pb-2"
+                      >Email Id <span class="text-optional">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      class="form-control whatapp-login-input"
+                      id="email"
+                      name="email"
+                      placeholder="Email id"
+                      [(ngModel)]="userPersonalInformationRequest.email"
+                      required
+                      email
+                      #emailField="ngModel"
+                    />
+
+                    <div
+                      class="text-danger"
+                      *ngIf="emailAlreadyExists"
+                      style="color: red"
+                    >
+                      <i class="bi bi-exclamation-circle"></i> Employee with
+                      this email already registered
+                    </div>
+                    <div
+                      *ngIf="
+                        userPersonalInformationRequest.email != null &&
+                        emailField.touched &&
+                        emailField.errors?.required
+                      "
+                    >
+                      <p class="errortxt mt-2 mb-0" style="color: red">
+                        <i class="bi bi-exclamation-circle"></i> Email Id is
+                        required.
+                      </p>
+
+                      <p
+                        class="errortxt mt-2 mb-0"
+                        style="color: red"
+                        *ngIf="emailField.errors?.email"
+                      >
+                        <i class="bi bi-exclamation-circle"></i> Please enter a
+                        valid email address.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="mb-3">
+                    <label for="teamNames" class="pb-2">Select Team</label>
+                    <nz-select
+                      classs="whatapp-login-input "
+                      nzMode="multiple"
+                      nzPlaceHolder="Select teams"
+                      nzAllowClear
+                      nzShowSearch
+                      nzServerSearch
+                      [(ngModel)]="selectedTeams"
+                      [ngModelOptions]="{ standalone: true }"
+                      (ngModelChange)="onTeamSelectionChange($event)"
+                      (nzOnSearch)="onSearch($event)"
+                    >
+                      <ng-container *ngFor="let o of teamNameList">
+                        <nz-option
+                          *ngIf="!isLoadingTeams"
+                          [nzValue]="o.value"
+                          [nzLabel]="o.label"
+                        ></nz-option>
+                      </ng-container>
+                      <nz-option
+                        *ngIf="isLoadingTeams"
+                        nzDisabled
+                        nzCustomContent
+                      >
+                        <span
+                          nz-icon
+                          nzType="loading"
+                          class="loading-icon"
+                        ></span>
+                        Loading Data...
+                      </nz-option>
+                    </nz-select>
+                  </div>
+                </div>
+
+                <!-- Template -->
               </div>
             </div>
             <!--end modal-body-->
@@ -1158,16 +1270,15 @@
               <button
                 class="btn btn-primary"
                 type="submit"
-                [disabled]="toggle"
                 aria-label="Next Step"
               >
-                <div *ngIf="toggle" class="dot-opacity-loader">
+                <div *ngIf="toggle" class="dot-opacity-loader1">
                   <span></span>
                   <span></span>
                   <span></span>
                 </div>
                 <span *ngIf="!toggle">
-                  Next
+                  Invite
                   <i class="bi bi-arrow-right" style="padding-left: 8px"></i>
                 </span>
               </button>
@@ -1257,3 +1368,385 @@
     </div>
   </div>
 </div>
+
+<!-- Trigger Button for Modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sampleFileModal" id="uploadMembersModal">
+  Open Sample File Modal
+</button>
+<!-- Modal -->
+<div class="modal fade" id="sampleFileModal" tabindex="-1" aria-labelledby="sampleFileModalLabel" aria-hidden="true" #sampleFileModal>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="sampleFileModalLabel">Sample Excel File</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeButtonExcelModal></button>
+      </div>
+      <div class="modal-body">
+
+        <ng-container
+        *ngIf="
+          !isShimmer &&
+          onboardUserList.length == 0 &&
+          !networkConnectionErrorPlaceholder
+        "
+      >
+          <div class="col-md-12">
+            <div class="card-body mt-0 p-0">
+              <div class="alert alert-light mb-0" role="alert">
+                <h4 class="alert-heading font-18">
+                  Download the Sample Excel File!
+                </h4>
+                <p>
+                  Look for the sample file titled "Sample_Data.xlsx" and
+                  click on the download button to save it to your
+                  computer.
+                </p>
+                <p>
+                  Take a moment to review the existing data in the Excel
+                  file. This will help you understand the structure and
+                  content of the data before making any updates.
+                </p>
+                <p>
+                  <span class="text-primary"
+                    ><u
+                      ><a class="text-primary" href="{{ sampleFileUrl }}"
+                        >Download a sample Excel file</a
+                      ></u
+                    > </span
+                  >, update its data, and upload it back with the updated
+                  content on our platform
+                </p>
+              </div>
+            </div>
+            <div class="card-body mt-3 p-0">
+              <div
+                class="alert alert-light mb-0 excel-uplode-file-box text-center"
+              >
+                <input
+                  id="fileSelect"
+                  type="file"
+                  name="img[]"
+                  accept=".xlsx"
+                  class="input"
+                  (change)="selectFile($event)"
+                />
+                <img
+                  src="assets/images/excel.svg"
+                  style="width: 50px"
+                  class="pb-3"
+                />
+                <p class="">
+                  Drag file here to upload<br />
+                  or,
+                  <u
+                    ><a class="text-primary" href="#!">
+                      choose file
+                    </a></u
+                  >
+                </p>
+                <div
+                  *ngIf="isProgressToggle"
+                  class="spinner-border text-success"
+                  role="status"
+                ></div>
+              </div>
+            </div>
+          </div>
+          <div
+                  class="alert alert-light mb-0 mt-4 bg-soft-warning create-password-warning text-start"
+                  role="alert"
+                  *ngIf="
+                    alreadyUsedPhoneNumberArray.length > 0 ||
+                    alreadyUsedEmailArray.length > 0 ||
+                    isErrorToggle
+                  "
+                >
+                  <h4 class="alert-heading font-18">Attention!</h4>
+                  <p *ngIf="alreadyUsedPhoneNumberArray.length > 0">
+                    Phone Numbers:
+                    {{ formatAsCommaSeparated(alreadyUsedPhoneNumberArray) }}
+                  </p>
+                  <p *ngIf="alreadyUsedEmailArray.length > 0">
+                    Emails: {{ formatAsCommaSeparated(alreadyUsedEmailArray) }}
+                  </p>
+                  <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p>
+                  <!-- <div *ngFor="let pn of alreadyUsedPhoneNumberArray">
+                    {{ pn }}
+                  </div>
+                  <div *ngFor="let ea of alreadyUsedEmailArray">
+                    {{ ea }}
+                  </div> -->
+                  <p *ngIf="!isErrorToggle">
+                    These credentials are already registered with us!
+                  </p>
+                </div>
+                </ng-container>
+                <ng-container
+                *ngIf="
+                  isShimmer &&
+                    onboardUserList.length == 0 &&
+                    !networkConnectionErrorPlaceholder;
+                  else onboardUserListCondition
+                "
+              >
+                <div class="">
+                  <div class="text-end">
+                    <ngx-shimmer-loading
+                      [width]="'30%'"
+                      [height]="'40px'"
+                      style="border-radius: 50%"
+                    ></ngx-shimmer-loading>
+                  </div>
+                </div>
+                <div
+                  class="mt-3 mb-2"
+                  style="
+                    border: 1px solid #f5f5f5;
+                    padding: 5px;
+                    border-radius: 6px;
+                  "
+                  *ngFor="let number of [1, 2, 3, 4, 5]"
+                >
+                  <div class="row mt-3">
+                    <div class="col-md-2">
+                      <div class="">
+                        <ngx-shimmer-loading
+                          [width]="'100%'"
+                          [height]="'30px'"
+                          style="border-radius: 50%"
+                        ></ngx-shimmer-loading>
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="">
+                        <ngx-shimmer-loading
+                          [width]="'100%'"
+                          [height]="'30px'"
+                          style="border-radius: 50%"
+                        ></ngx-shimmer-loading>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="">
+                        <ngx-shimmer-loading
+                          [width]="'100%'"
+                          [height]="'30px'"
+                          style="border-radius: 50%"
+                        ></ngx-shimmer-loading>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="">
+                        <ngx-shimmer-loading
+                          [width]="'100%'"
+                          [height]="'30px'"
+                          style="border-radius: 50%"
+                        ></ngx-shimmer-loading>
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="">
+                        <ngx-shimmer-loading
+                          [width]="'100%'"
+                          [height]="'30px'"
+                          style="border-radius: 50%"
+                        ></ngx-shimmer-loading>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+
+              <ng-template #onboardUserListCondition>
+                <ng-container
+                  *ngIf="
+                    !isShimmer &&
+                      onboardUserList.length != 0 &&
+                      !networkConnectionErrorPlaceholder;
+                    else errorInOnboardUserListCondition
+                  "
+                >
+                  <div class="row mt-0">
+                    <div
+                      class="d-flex align-items-center justify-content-end mb-2 p-0"
+                      
+                    >
+                      <input
+                        #fileInput
+                        id="fileSelect"
+                        type="file"
+                        name="img[]"
+                        accept=".xlsx"
+                        class="input"
+                        style="display: none"
+                        (change)="selectFile($event)"
+                      />
+                      <button
+                        type="button"
+                        class="btn add-excel"
+                        (click)="fileInput.click()"
+                      >
+                        <i
+                          *ngIf="!isProgressToggle"
+                          class="bi bi-file-earmark-excel"
+                          style="
+                            position: relative;
+                            top: -1px;
+                            padding-right: 6px;
+                          "
+                        ></i>
+                        <div
+                          *ngIf="isProgressToggle"
+                          class="spinner-border text-primary excel-spinner"
+                          role="status"
+                        ></div>
+                        Excel Upload
+                      </button>
+                      <!-- <p
+                        style="color: #d7d7d7; margin-bottom: 0px"
+                        class="ng-star-inserted"
+                      >
+                        |
+                      </p>
+                      <button
+                        type="button"
+                        class="btn add-excel"
+                        data-bs-toggle="modal"
+                        data-bs-target="#munal-upload"
+                        (click)="selectMethod('mannual')"
+                      >
+                        <i class="bi bi-journal-check"></i> Manual Upload
+                      </button> -->
+                    </div>
+                    <div
+                      class="alert alert-light mb-0 mt-4 bg-soft-warning create-password-warning text-start"
+                      role="alert"
+                      *ngIf="
+                        alreadyUsedPhoneNumberArray.length > 0 ||
+                        alreadyUsedEmailArray.length > 0 ||
+                        isErrorToggle
+                      "
+                    >
+                      <h4 class="alert-heading font-18">Attention!</h4>
+                      <!-- <div *ngFor="let pn of alreadyUsedPhoneNumberArray">
+                        {{ pn }}
+                      </div>
+                      <div *ngFor="let ea of alreadyUsedEmailArray">
+                        {{ ea }}
+                      </div> -->
+                      <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p>
+                      <p *ngIf="alreadyUsedPhoneNumberArray.length > 0">
+                        Phone Numbers:
+                        {{
+                          formatAsCommaSeparated(alreadyUsedPhoneNumberArray)
+                        }}
+                      </p>
+                      <p *ngIf="alreadyUsedEmailArray.length > 0">
+                        Emails:
+                        {{ formatAsCommaSeparated(alreadyUsedEmailArray) }}
+                      </p>
+                      <p *ngIf="!isErrorToggle">
+                        These credentials are already registered with us!
+                      </p>
+                    </div>
+                    <table class="table">
+                      <thead class="thead-light table-design">
+                        <tr>
+                          <th style="width: 5%" class="text-center">#</th>
+                          <th style="width: 25%" class="text-left">Name</th>
+                          <th
+                            style="width: 20%"
+                            class="text-left"
+                           
+                          >
+                            Phone
+                          </th>
+                          <th style="width: 25%" class="text-left">Email</th>
+                          <th style="width: 20%" class="text-center">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody class="table-design">
+                        <tr
+                          *ngFor="
+                            let onboardUser of onboardUserList;
+                            let i = index
+                          "
+                        >
+                          <td>
+                            <p class="tableinfo mb-0 text-left">
+                              <b>{{ i + 1 }}</b>
+                            </p>
+                          </td>
+                          <td>
+                            <p class="tableinfo mb-0 text-left">
+                              <b>{{ onboardUser.name }}</b>
+                            </p>
+                          </td>
+                          <td>
+                            <p class="tableinfo mb-0 text-left">
+                              <b>{{ onboardUser.phone }}</b>
+                            </p>
+                          </td>
+                          <td>
+                            <p class="tableinfo mb-0 text-left">
+                              <b>{{
+                                onboardUser.email ? onboardUser.email : "N/A"
+                              }}</b>
+                            </p>
+                          </td>
+                          <td>
+                            <div class="d-flex justify-content-center gap-3">
+                              <!-- <p
+                                class="tableinfo mb-0 pointer text-center"
+                                style="color: darkblue"
+                                
+                                (click)="openUserEditModal(onboardUser)"
+                              >
+                                <i class="bi bi-pencil-square"></i>
+                              </p> -->
+                              <p
+                                class="tableinfo mb-0 pointer text-center text-danger mb-2"
+                                (click)="deleteNewUser(onboardUser.id)"
+                              >
+                                <i class="bi bi-trash text-danger"></i>
+                              </p>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div class="d-flex justify-content-end mt-3">
+                      <button type="button" class="btn btn-primary" (click)="sendEmailToUsers()">
+                       <span *ngIf="!sendMailExcelUserFlag"> Send Email </span> 
+                        <div class="dot-opacity-loader" *ngIf="sendMailExcelUserFlag">
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                </ng-container>
+              </ng-template>
+
+              <ng-template #errorInOnboardUserListCondition>
+                <div
+                  class="errorboxmain"
+                  *ngIf="networkConnectionErrorPlaceholder"
+                >
+                  <div class="errorboxinner text-center">
+                    <div class="errorboxplaceholder mb-2">
+                      <img src="assets/images/signal.svg" style="width: 80px" />
+                    </div>
+
+                    <h4>Something went wrong!</h4>
+
+                    <p>An error occurred while processing your request!</p>
+                  </div>
+                </div>
+              </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+

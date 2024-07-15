@@ -138,11 +138,13 @@ export class HeaderComponent implements OnInit {
       'leave-management',
     ];
     const modulesToShowForUser = ['team', 'project', 'leave-management'];
+     const modulesToShowForHRADMIN = ['onboarding'];
 
     return (
       role === Key.ADMIN ||
       (role === Key.MANAGER && modulesToShowForManager.includes(moduleName)) ||
-      (role === Key.USER && modulesToShowForUser.includes(moduleName))
+      (role === Key.USER && modulesToShowForUser.includes(moduleName)) ||
+      (role === Key.HRADMIN && modulesToShowForHRADMIN.includes(moduleName))
     );
   }
 

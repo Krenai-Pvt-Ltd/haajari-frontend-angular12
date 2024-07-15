@@ -4,18 +4,8 @@
   <div class="brand">
     <a class="logo">
       <span>
-        <img
-          src="assets/images/HAjiRi.svg"
-          alt="logo-large"
-          class="logo-lg logo-light"
-          style="height: 40px"
-        />
-        <img
-          src="assets/images/HAjiRi.svg"
-          alt="logo-large"
-          class="logo-lg logo-dark"
-          style="height: 40px"
-        />
+        <img src="assets/images/HAjiRi.svg" alt="logo-large" class="logo-lg logo-light" style="height: 40px" />
+        <img src="assets/images/HAjiRi.svg" alt="logo-large" class="logo-lg logo-dark" style="height: 40px" />
       </span>
     </a>
   </div>
@@ -26,35 +16,26 @@
         <ng-containner *ngIf="ROLE === USER; else dashboardCondition">
           <div class="">
             <ul class="sidebar-menu">
-              <li
-                class="pointer"
-                [ngClass]="{ 'sidebar-menu-active': activeTab === 'dashboard' }"
-                routerLinkActive="sidebar-menu-active"
-                (click)="routeToEmployeeProfilePage()"
-              >
+              <li class="pointer" [ngClass]="{ 'sidebar-menu-active': activeTab === 'dashboard' }"
+                routerLinkActive="sidebar-menu-active" (click)="routeToEmployeeProfilePage()">
                 <a class="sidebar-menu-link sidebar-menu-link">
                   <span class="  ">
                     <i class="bi bi-house-door menu-icon pr-2"></i>
-                    Dashboard</span
-                  >
+                    Dashboard</span>
                 </a>
               </li>
             </ul>
           </div>
         </ng-containner>
         <ng-template #dashboardCondition>
-          <div class="">
+          <!-- {{ROLE}} -->
+          <div class="" *ngIf="ROLE === ADMIN || ROLE === MANAGER">
             <ul class="sidebar-menu">
-              <li
-                class="pointer"
-                routerLinkActive="sidebar-menu-active"
-                routerLink="/dashboard"
-              >
+              <li class="pointer" routerLinkActive="sidebar-menu-active" routerLink="/dashboard">
                 <a class="sidebar-menu-link sidebar-menu-link">
                   <span class="  ">
                     <i class="bi bi-house-door menu-icon pr-2"></i>
-                    Dashboard</span
-                  >
+                    Dashboard</span>
                 </a>
               </li>
             </ul>
@@ -68,61 +49,38 @@
         <div class="">
           <div class="sidebar-menu-heding">PEOPLE</div>
           <ul class="sidebar-menu">
-            <li
-              class="pointer"
-              routerLinkActive="sidebar-menu-active"
-              routerLink="/team"
-              (click)="setActiveTabEmpty()"
-            >
+            <li class="pointer" *ngIf="shouldDisplay('onboarding')" routerLinkActive="sidebar-menu-active"
+              routerLink="/employee-onboarding-data">
               <a class="sidebar-menu-link">
-                <span class=" "
-                  ><i class="bi bi-people menu-icon"></i> Team</span
-                >
+                <span class=" "><i class="bi bi-person-plus menu-icon"></i> Onboarding</span>
               </a>
             </li>
-            <li
-              class="pointer"
-              *ngIf="shouldDisplay('onboarding')"
-              routerLinkActive="sidebar-menu-active"
-              routerLink="/employee-onboarding-data"
-            >
+            <li class="pointer" routerLinkActive="sidebar-menu-active" routerLink="/team" (click)="setActiveTabEmpty()"
+              *ngIf="ROLE !== 'HR ADMIN'">
               <a class="sidebar-menu-link">
-                <span class=" "
-                  ><i class="bi bi-person-plus menu-icon"></i> Onboarding</span
-                >
+                <span class=" "><i class="bi bi-people menu-icon"></i> Team</span>
               </a>
             </li>
           </ul>
         </div>
-        <div class="">
+        <div class="" *ngIf="ROLE !== 'HR ADMIN'">
           <div class="sidebar-menu-heding">MANAGEMENT</div>
           <ul class="sidebar-menu">
-            <li
-              class="pointer"
-              *ngIf="shouldDisplay('attendance')"
-              routerLinkActive="sidebar-menu-active"
-              routerLink="/timetable"
-            >
+            <li class="pointer" *ngIf="shouldDisplay('attendance')" routerLinkActive="sidebar-menu-active"
+              routerLink="/timetable">
               <a class="sidebar-menu-link">
                 <span class=" ">
                   <i class="bi bi-calendar2-check menu-icon"></i>
-                  Attendance</span
-                >
+                  Attendance</span>
               </a>
             </li>
-            <li
-              class="pointer"
-              *ngIf="shouldDisplay('leave-management')"
-              routerLinkActive="sidebar-menu-active"
-              routerLink="/leave-management"
-            >
+            <li class="pointer" *ngIf="shouldDisplay('leave-management')" routerLinkActive="sidebar-menu-active"
+              routerLink="/leave-management">
               <a class="sidebar-menu-link">
-                <span class=" "
-                  ><i class="bi bi-alarm menu-icon"></i> Leaves</span
-                >
+                <span class=" "><i class="bi bi-alarm menu-icon"></i> Leaves</span>
               </a>
             </li>
-            <li class="pointer">
+            <li class="pointer" *ngIf="ROLE === ADMIN && ORGANIZATION_UUID == KRENAI_UUID">
               <!-- <a
                 class="sidebar-menu-link"
                 data-bs-toggle="collapse"
@@ -147,45 +105,25 @@
                 </div>
               </a> -->
 
-              <a
-                class="sidebar-menu-link collapsed"
-                data-bs-toggle="collapse"
-                href="#collapseExample"
-                role="button"
-                aria-expanded="false"
-                aria-controls="collapseExample"
-              >
+              <a class="sidebar-menu-link collapsed" data-bs-toggle="collapse" href="#collapseExample" role="button"
+                aria-expanded="false" aria-controls="collapseExample">
                 <div class=""></div>
                 <div class="d-flex align-items-center justify-content-between">
-                  <span class=" "
-                    ><i
-                      class="bi bi-caret-right menu-icon projectIcon collapsed"
-                      data-bs-toggle="collapse"
-                      href="#collapseExample"
-                      role="button"
-                      aria-expanded="false"
-                      aria-controls="collapseExample"
-                    ></i>
-                    Payroll</span
-                  >
+                  <span class=" "><i class="bi bi-caret-right menu-icon projectIcon collapsed" data-bs-toggle="collapse"
+                      href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"></i>
+                    Payroll</span>
                 </div>
               </a>
               <div class="collapse project-name" id="collapseExample">
                 <ul>
                   <li>
-                    <a
-                      class="project-link"
-                      routerLink="/payment/payroll-dashboard"
-                    >
+                    <a class="project-link" routerLink="/payment/payroll-dashboard">
                       <i class="ti ti-apps"></i>
                       <p class="mb-0">Dashboard</p>
                     </a>
                   </li>
                   <li>
-                    <a
-                      class="project-link"
-                      routerLink="/payment/bonus-and-deduction"
-                    >
+                    <a class="project-link" routerLink="/payment/bonus-and-deduction">
                       <i class="ti ti-gift"></i>
                       <p class="mb-0">Bouns And Deduction</p>
                     </a>
@@ -197,10 +135,7 @@
                     </a>
                   </li>
                   <li>
-                    <a
-                      class="project-link"
-                      routerLink="/payment/payment-history"
-                    >
+                    <a class="project-link" routerLink="/payment/payment-history">
                       <i class="bi bi-receipt-cutoff"></i>
                       <p class="mb-0">Generate Salary Slip</p>
                     </a>
@@ -208,44 +143,23 @@
                 </ul>
               </div>
             </li>
-            <li
-              class="pointer"
-              *ngIf="shouldDisplay('reports')"
-              routerLinkActive="sidebar-menu-active"
-              routerLink="/reports"
-            >
+            <li class="pointer" *ngIf="shouldDisplay('reports')" routerLinkActive="sidebar-menu-active"
+              routerLink="/reports">
               <a class="sidebar-menu-link">
-                <span class=" "
-                  ><i class="bi bi-bar-chart-line menu-icon"></i> Reports</span
-                >
+                <span class=" "><i class="bi bi-bar-chart-line menu-icon"></i> Reports</span>
               </a>
             </li>
-            <!-- <ng-container
-              *ngIf="
-                ROLE === ADMIN && ORGANIZATION_UUID == KRENAI_UUID;
-                else projectCondition
-              "
-            >
+            <!-- else projectCondition -->
+            <ng-container *ngIf="ROLE === ADMIN && ORGANIZATION_UUID == KRENAI_UUID">
               <li class="pointer" *ngIf="shouldDisplay('project')">
                 <a class="sidebar-menu-link">
                   <div class=""></div>
-                  <div
-                    class="d-flex align-items-center justify-content-between"
-                  >
-                    <span class=" "
-                      ><i
-                        class="bi bi-caret-right-fill menu-icon projectIcon collapsed"
-                        data-bs-toggle="collapse"
-                        href="#collapseExample"
-                        role="button"
-                        aria-expanded="false"
-                        aria-controls="collapseExample"
-                      ></i>
-                      Project</span
-                    >
-                    <span class="add-project"
-                      ><i class="bi bi-plus"></i> Add</span
-                    >
+                  <div class="d-flex align-items-center justify-content-between">
+                    <span class=" "><i class="bi bi-caret-right-fill menu-icon projectIcon collapsed"
+                        data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+                        aria-controls="collapseExample"></i>
+                      Project</span>
+                    <span class="add-project"><i class="bi bi-plus"></i> Add</span>
                   </div>
                 </a>
                 <div class="collapse project-name" id="collapseExample">
@@ -265,8 +179,8 @@
                   </ul>
                 </div>
               </li>
-            </ng-container> -->
-            <ng-template #projectCondition>
+            </ng-container>
+            <!-- <ng-template #projectCondition>
               <li class="pointer" *ngIf="shouldDisplay('project')">
                 <a class="sidebar-menu-link">
                   <div class=""></div>
@@ -306,25 +220,18 @@
                   </ul>
                 </div>
               </li>
-            </ng-template>
+            </ng-template> -->
           </ul>
         </div>
-        <div class="" *ngIf="ROLE !== ADMIN" style="margin-bottom: 130px">
+        <div class="" *ngIf="ROLE !== ADMIN && ROLE !== 'HR ADMIN'" style="margin-bottom: 130px">
           <div class="sidebar-menu-heding">ACCOUNT SETTINGS</div>
           <ul class="sidebar-menu">
-            <li
-              class="pointer"
-              [ngClass]="{
+            <li class="pointer" [ngClass]="{
                 'sidebar-menu-active': activeTab === 'accountDetails'
-              }"
-              routerLinkActive="sidebar-menu-active"
-              routerLink="/setting/account-settings?setting=accountDetails"
-              (click)="routeToSeetings('accountDetails')"
-            >
+              }" routerLinkActive="sidebar-menu-active" routerLink="/setting/account-settings?setting=accountDetails"
+              (click)="routeToSeetings('accountDetails')">
               <a class="sidebar-menu-link">
-                <span class=" "
-                  ><i class="bi bi-gear menu-icon"></i> Account Details</span
-                >
+                <span class=" "><i class="bi bi-gear menu-icon"></i> Account Details</span>
               </a>
             </li>
           </ul>
@@ -371,57 +278,32 @@
                    </li>
                    </ul> -->
         </div>
-        <div
-          class=""
-          *ngIf="shouldDisplay('onboarding')"
-          style="margin-bottom: 130px"
-        >
+        <div class="" *ngIf="shouldDisplay('onboarding') && ROLE !== 'HR ADMIN'" style="margin-bottom: 130px">
           <div class="sidebar-menu-heding">COMPANY</div>
           <ul class="sidebar-menu">
-            <li
-              class="pointer"
-              routerLinkActive="sidebar-menu-active"
-              routerLink="/setting/company-setting"
-            >
+            <li class="pointer" routerLinkActive="sidebar-menu-active" routerLink="/setting/company-setting">
               <a class="sidebar-menu-link">
                 <span class=" ">
-                  <i class="bi bi-building menu-icon"></i> Company Setting</span
-                >
+                  <i class="bi bi-building menu-icon"></i> Company Setting</span>
               </a>
             </li>
-            <li
-              class="pointer"
-              routerLinkActive="sidebar-menu-active"
-              routerLink="/setting/attendance-setting"
-            >
+            <li class="pointer" routerLinkActive="sidebar-menu-active" routerLink="/setting/attendance-setting">
               <a class="sidebar-menu-link">
-                <span class=" "
-                  ><i class="bi bi-clock-history menu-icon"></i> Attendance
-                  Setting</span
-                >
+                <span class=" "><i class="bi bi-clock-history menu-icon"></i> Attendance
+                  Setting</span>
               </a>
             </li>
-            <li
-              class="pointer"
-              routerLinkActive="sidebar-menu-active"
-              routerLink="/setting/leave-setting"
-            >
+            <li class="pointer" routerLinkActive="sidebar-menu-active" routerLink="/setting/leave-setting">
               <a class="sidebar-menu-link">
                 <span class=" ">
                   <i class="bi bi-briefcase menu-icon"></i> Leave Settings
                 </span>
               </a>
             </li>
-            <li
-              class="pointer"
-              routerLinkActive="sidebar-menu-active"
-              routerLink="/setting/salary-setting"
-            >
+            <li class="pointer" routerLinkActive="sidebar-menu-active" routerLink="/setting/salary-setting">
               <a class="sidebar-menu-link">
-                <span class=" "
-                  ><i class="bi bi-cash-stack menu-icon"></i> Salary
-                  Setting</span
-                >
+                <span class=" "><i class="bi bi-cash-stack menu-icon"></i> Salary
+                  Setting</span>
               </a>
             </li>
             <!-- <li class="pointer" >
@@ -431,137 +313,86 @@
                       <span class=" ">  <i class="bi bi-file-earmark-code menu-icon"></i> Document </span>
                       </a>
                       </li> -->
-            <li
-              class="pointer"
-              routerLinkActive="sidebar-menu-active"
-              routerLink="/role"
-            >
+            <li class="pointer" routerLinkActive="sidebar-menu-active" routerLink="/role">
               <a class="sidebar-menu-link">
-                <span class=" "
-                  ><i class="bi bi-person-check menu-icon"></i> Admin
-                  Permission</span
-                >
+                <span class=" "><i class="bi bi-person-check menu-icon"></i> Admin
+                  Permission</span>
               </a>
             </li>
           </ul>
         </div>
         <div class="log-out-btn-box">
-          <div
-            class="plan-box d-flex align-items-center justify-content-between"
-          >
+          <div class="plan-box d-flex align-items-center justify-content-between">
             <div class="">
               <p class="mb-0">Free Plan</p>
             </div>
             <div class="" style="cursor: pointer">
-              <a class="mb-0" routerLink="/setting/billing"
-                ><i class="bi bi-lightning-fill"></i>
+              <a class="mb-0" routerLink="/setting/billing"><i class="bi bi-lightning-fill"></i>
                 {{
-                  OrgSubsPlanMonthDetail.planName
-                    ? OrgSubsPlanMonthDetail.planName
-                    : "Upgrade"
+                OrgSubsPlanMonthDetail.planName
+                ? OrgSubsPlanMonthDetail.planName
+                : "Upgrade"
                 }}
               </a>
             </div>
           </div>
-          <div
-            class="d-flex align-items-center"
-            style="gap: 20px; padding: 10px; background-color: #f1f1fd"
-          >
+          <div class="d-flex align-items-center" style="gap: 20px; padding: 10px; background-color: #f1f1fd">
             <div class="">
               <span class="members-namess">{{
                 getFirstAndLastLetterFromName(loggedInUser.name)
-              }}</span>
+                }}</span>
             </div>
             <div class="">
               <div class="login-user-name">{{ loggedInUser.name }}</div>
               <div class="login-user-phone-numbar">
                 {{
-                  loggedInUser.email
-                    ? loggedInUser.email
-                    : loggedInUser.phone_number
+                loggedInUser.email
+                ? loggedInUser.email
+                : loggedInUser.phone_number
                 }}
               </div>
             </div>
             <div class="">
               <div class="dropdown d-inline-block log-btn">
-                <a
-                  class="dropdown-toggle"
-                  id="dLabel1"
-                  data-bs-toggle="dropdown"
-                  href="#"
-                  role="button"
-                  aria-haspopup="false"
-                  aria-expanded="false"
-                >
+                <a class="dropdown-toggle" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button"
+                  aria-haspopup="false" aria-expanded="false">
                   <span class=""><i class="bi bi-chevron-right"></i></span>
                 </a>
-                <div
-                  class="dropdown-menu dropdown-menu-end list-top"
-                  aria-labelledby="dLabel1"
-                >
-                  <div
-                    class="manager-list pointer"
-                    (click)="routeToAccountPage('accountDetails')"
-                  >
+                <div class="dropdown-menu dropdown-menu-end list-top" aria-labelledby="dLabel1">
+                  <div class="manager-list pointer" (click)="routeToAccountPage('accountDetails')">
                     <a class="dropdown-item">
                       <i class="bi bi-gear" style="padding-right: 10px"></i>
-                      Account Settings</a
-                    >
+                      Account Settings</a>
                   </div>
                   <div class="manager-list pointer">
                     <a class="dropdown-item">
-                      <svg
-                        viewBox="0 0 24 24"
-                        style="width: 23px; padding-right: 10px"
-                        xmlns="http://www.w3.org/2000/svg"
-                        aria-hidden="true"
-                        fill="currentColor"
-                        width="24"
-                        data-testid="menu-item-icon"
-                        class="sc-4b4ed23b-0 MusCF"
-                      >
-                        <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
-                          d="M6.63 15.45A1 1 0 0 1 6 16.7c-1.5.5-2.3 1.75-2.72 3.04-.16.46-.26.9-.32 1.29.38-.06.83-.16 1.29-.32 1.3-.43 2.54-1.23 3.04-2.72a1 1 0 1 1 1.9.63c-.78 2.35-2.73 3.46-4.3 4a10.75 10.75 0 0 1-3.01.52h-.03v-1h-1v-.03a4.38 4.38 0 0 1 0-.24 10.03 10.03 0 0 1 .53-2.76c.53-1.58 1.64-3.53 3.99-4.3a1 1 0 0 1 1.26.63Zm-4.78 6.7h-1a1 1 0 0 0 1 1v-1Zm1 0Z"
-                        ></path>
-                        <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
-                          d="M21.45 2.55c-1.06-.14-3.55-.14-6.11 2.42l-6.97 6.96 3.7 3.7 6.96-6.97c2.56-2.56 2.56-5.05 2.42-6.11Zm.37-1.97c-1.46-.22-4.71-.21-7.9 2.97l-7.67 7.67a1 1 0 0 0 0 1.41l5.12 5.12a1 1 0 0 0 1.4 0l7.68-7.67c3.18-3.19 3.19-6.44 2.97-7.9m-1.6-1.6a1.9 1.9 0 0 1 1.6 1.6"
-                        ></path>
-                        <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
-                          d="M18.46 9.65a1 1 0 0 1 1 1v7.3a1.9 1.9 0 0 1-.56 1.34l-3.65 3.65a1.9 1.9 0 0 1-3.21-.97l-.95-4.73a1 1 0 0 1 1.96-.4l.91 4.56 3.5-3.5v-7.25a1 1 0 0 1 1-1Zm-4.62 11.88Z"
-                        ></path>
-                        <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
-                          d="M5.33 4.68c.23-.1.48-.14.73-.14h7.29a1 1 0 1 1 0 2H6.1l-3.5 3.5 4.56.9a1 1 0 0 1-.4 1.97l-4.73-.95a1.9 1.9 0 0 1-.97-3.21L4.7 5.1l.65.65-.65-.65c.18-.18.39-.32.62-.42ZM2.43 10l-.03.1-.17.84m.2-.94-.03.1"
-                        ></path>
+                      <svg viewBox="0 0 24 24" style="width: 23px; padding-right: 10px"
+                        xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="currentColor" width="24"
+                        data-testid="menu-item-icon" class="sc-4b4ed23b-0 MusCF">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                          d="M6.63 15.45A1 1 0 0 1 6 16.7c-1.5.5-2.3 1.75-2.72 3.04-.16.46-.26.9-.32 1.29.38-.06.83-.16 1.29-.32 1.3-.43 2.54-1.23 3.04-2.72a1 1 0 1 1 1.9.63c-.78 2.35-2.73 3.46-4.3 4a10.75 10.75 0 0 1-3.01.52h-.03v-1h-1v-.03a4.38 4.38 0 0 1 0-.24 10.03 10.03 0 0 1 .53-2.76c.53-1.58 1.64-3.53 3.99-4.3a1 1 0 0 1 1.26.63Zm-4.78 6.7h-1a1 1 0 0 0 1 1v-1Zm1 0Z">
+                        </path>
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                          d="M21.45 2.55c-1.06-.14-3.55-.14-6.11 2.42l-6.97 6.96 3.7 3.7 6.96-6.97c2.56-2.56 2.56-5.05 2.42-6.11Zm.37-1.97c-1.46-.22-4.71-.21-7.9 2.97l-7.67 7.67a1 1 0 0 0 0 1.41l5.12 5.12a1 1 0 0 0 1.4 0l7.68-7.67c3.18-3.19 3.19-6.44 2.97-7.9m-1.6-1.6a1.9 1.9 0 0 1 1.6 1.6">
+                        </path>
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                          d="M18.46 9.65a1 1 0 0 1 1 1v7.3a1.9 1.9 0 0 1-.56 1.34l-3.65 3.65a1.9 1.9 0 0 1-3.21-.97l-.95-4.73a1 1 0 0 1 1.96-.4l.91 4.56 3.5-3.5v-7.25a1 1 0 0 1 1-1Zm-4.62 11.88Z">
+                        </path>
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                          d="M5.33 4.68c.23-.1.48-.14.73-.14h7.29a1 1 0 1 1 0 2H6.1l-3.5 3.5 4.56.9a1 1 0 0 1-.4 1.97l-4.73-.95a1.9 1.9 0 0 1-.97-3.21L4.7 5.1l.65.65-.65-.65c.18-.18.39-.32.62-.42ZM2.43 10l-.03.1-.17.84m.2-.94-.03.1">
+                        </path>
                       </svg>
                       What's new?
                     </a>
                   </div>
-                  <div
-                    class="manager-list pointer"
-                    (click)="routeToAccountPage('refer')"
-                  >
+                  <div class="manager-list pointer" (click)="routeToAccountPage('refer')">
                     <a class="dropdown-item">
                       <i class="bi bi-gift" style="padding-right: 10px"></i>
-                      Refer a friend</a
-                    >
+                      Refer a friend</a>
                   </div>
-                  <div
-                    class="manager-list remove-team pointer"
-                    (click)="onLogout()"
-                  >
+                  <div class="manager-list remove-team pointer" (click)="onLogout()">
                     <a class="dropdown-item StaticMenuItemBase-button">
-                      <span
-                        ><i class="bi bi-box-arrow-in-left"></i> Log out</span
-                      ></a
-                    >
+                      <span><i class="bi bi-box-arrow-in-left"></i> Log out</span></a>
                   </div>
                 </div>
               </div>

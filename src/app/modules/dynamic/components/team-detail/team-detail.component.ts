@@ -139,19 +139,25 @@ export class TeamDetailComponent implements OnInit {
   USER = Key.USER;
 
   searchUsers() {
-    this.dataService
-      .getUsersByFilter(
-        this.itemPerPage,
-        this.pageNumber,
-        'asc',
-        'id',
-        this.searchQuery,
-        'name'
-      )
-      .subscribe((data: any) => {
-        this.userList = data.users;
-        this.total = data.count;
-      });
+    if (this.searchQuery === '') {
+      this.userList = [];
+      this.total = 0;
+    } else {
+      this.dataService
+        .getUsersByFilter(
+          this.itemPerPage,
+          this.pageNumber,
+          'asc',
+          'id',
+          this.searchQuery,
+          'name',
+          0
+        )
+        .subscribe((data: any) => {
+          this.userList = data.users;
+          this.total = data.count;
+        });
+    }
   }
 
   toggleUserSelection(user: User) {
@@ -177,10 +183,9 @@ export class TeamDetailComponent implements OnInit {
 
   inviteUsers() {
     debugger;
-    this.dataService.sendInviteToUsers(this.userEmails).subscribe(
+    this.dataService.sendInviteToUsers(this.userEmails, this.teamId).subscribe(
       (data) => {
-        this.userEmails = [];
-        this.selectedUsers = [];
+       
         Swal.fire({
           position: 'bottom-start',
           customClass: {
@@ -193,12 +198,14 @@ export class TeamDetailComponent implements OnInit {
         });
         this.getTeamMemberById();
         this.helperService.showToast(
-          'Mail Sent Successfully.',
+          'Mail Sent Successfully To ' + this.userEmails,
           Key.TOAST_STATUS_SUCCESS
         );
+         this.userEmails = [];
+        this.selectedUsers = [];
       },
       (error) => {
-        this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+        this.helperService.showToast("Please Contact To Your Admin", Key.TOAST_STATUS_ERROR);
       }
     );
   }
@@ -334,19 +341,40 @@ export class TeamDetailComponent implements OnInit {
 
   // }
 
+  alreadyAddedEmails: string[]= [];
   addUsersToTeam() {
+    debugger
     if (this.userIds.length > 0) {
       const tid = this.teamId;
       this.dataService.addUsersToTeam(tid, this.userIds).subscribe(
-        (result) => {
+        (response: any) => {
+          console.log("retunred value " + response.object);
+          this.alreadyAddedEmails = response.object;
+
+          // Remove already added emails from userEmails
+          if (this.alreadyAddedEmails.length > 0) {
+            this.userEmails = this.userEmails.filter(
+              email => !this.alreadyAddedEmails.includes(email)
+            );
+          }
           // this.inviteUsers();
           this.selectedUsers = [];
           this.userIds = [];
-          location.reload();
+
+          if (this.userEmails.length > 0) {
+            this.inviteUsers();
+          } else {
+            this.helperService.showToast(
+          'The user has already been added to the team.',
+          Key.TOAST_STATUS_SUCCESS
+        );
+          }
+          // location.reload();
         },
         (error) => {
           // this.showErrorMessageForPresentMembersInTeam=true;
-          this.inviteUsers();
+          // this.inviteUsers();
+          console.log(error);
         }
       );
     } else {
@@ -393,4 +421,11 @@ export class TeamDetailComponent implements OnInit {
   closeDeleteModal() {
     this.deleteConfirmationModal.nativeElement.click();
   }
+
+  isProjectTab: boolean = false;
+  isMessagesTab: boolean = false;
+  isCalendarTab: boolean = false;
+  isAboutTab: boolean = false;
+  isGeneralTab: boolean = false;
+  isAdvanceTab: boolean = false;
 }

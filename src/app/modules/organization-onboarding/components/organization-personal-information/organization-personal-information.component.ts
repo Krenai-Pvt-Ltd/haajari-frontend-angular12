@@ -49,7 +49,7 @@ export class OrganizationPersonalInformationComponent implements OnInit {
     private _onboardingService: OrganizationOnboardingService,
     private placesService: PlacesService,
     private helperService: HelperService,
-    private sanitizer: DomSanitizer,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -86,14 +86,15 @@ export class OrganizationPersonalInformationComponent implements OnInit {
       onboardingVia: '',
     },
   };
-
+  timeZone: string = '';
   loading: boolean = false;
   registerOrganizationPersonalInformation(): Promise<boolean> {
     return new Promise((resolve, reject) => {
       // this.loading = true;
+      this.timeZone = this.helperService.getTimeZone();
       this.dataService
         .registerOrganizationPersonalInformation(
-          this.organizationPersonalInformation,
+          this.organizationPersonalInformation, this.timeZone
         )
         .subscribe(
           async (response) => {
@@ -115,7 +116,7 @@ export class OrganizationPersonalInformationComponent implements OnInit {
             this.isInfoLoading = false;
             console.log(error.error.message);
             reject(error);
-          },
+          }
         );
     });
   }
@@ -134,7 +135,7 @@ export class OrganizationPersonalInformationComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-      },
+      }
     );
   }
 
@@ -185,6 +186,7 @@ export class OrganizationPersonalInformationComponent implements OnInit {
     this.checkFormValidation();
 
     if (this.isFormInvalid == true) {
+      this.isInfoLoading = false;
       return;
     } else {
       this.registerOrganizationPersonalInformation();
@@ -227,7 +229,7 @@ export class OrganizationPersonalInformationComponent implements OnInit {
         this.organizationPersonalInformation.logo = '';
         // Handle invalid file type here (e.g., show an error message)
         console.error(
-          'Invalid file type. Please select a jpg, jpeg, or png file.',
+          'Invalid file type. Please select a jpg, jpeg, or png file.'
         );
       }
     } else {
@@ -311,15 +313,20 @@ export class OrganizationPersonalInformationComponent implements OnInit {
   }
 
   /************ GET CURRENT LOCATION ***********/
+
+  fetchCurrentLocationLoader: boolean = false;
   locationLoader: boolean = false;
   currentLocation() {
+    debugger;
     this.locationLoader = true;
+    this.fetchCurrentLocationLoader = true;
     this.getCurrentLocation()
       .then((coords) => {
         this.placesService
           .getLocationDetails(coords.latitude, coords.longitude)
           .then((details) => {
             this.locationLoader = false;
+
             console.log('formatted_address:', details);
             this.organizationPersonalInformation.addressLine1 =
               details.formatted_address;
@@ -343,10 +350,19 @@ export class OrganizationPersonalInformationComponent implements OnInit {
               this.organizationPersonalInformation.pincode =
                 details.address_components[6].long_name;
             }
+            this.fetchCurrentLocationLoader = false;
           })
-          .catch((error) => console.error(error));
+          .catch((error) => {
+            console.error(error);
+            this.fetchCurrentLocationLoader = false;
+          });
+        // this.fetchCurrentLocationLoader = false;
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error(error);
+        this.fetchCurrentLocationLoader = false;
+      });
+    // this.fetchCurrentLocationLoader = false;
   }
 
   getCurrentLocation(): Promise<{ latitude: number; longitude: number }> {
@@ -361,7 +377,7 @@ export class OrganizationPersonalInformationComponent implements OnInit {
           },
           (err) => {
             reject(err);
-          },
+          }
         );
       } else {
         reject('Geolocation is not supported by this browser.');
@@ -381,13 +397,14 @@ export class OrganizationPersonalInformationComponent implements OnInit {
         },
         (error) => {
           console.log(error);
-        },
+        }
       );
     }
   }
 
   isEmailExist: boolean = false;
   checkEmailExistance(email: string) {
+    debugger;
     if (email != null && email.length > 5) {
       this._onboardingService
         .checkAdminEmailExist(email)
@@ -407,14 +424,14 @@ export class OrganizationPersonalInformationComponent implements OnInit {
       next: (response) => {
         this.helperService.showToast(
           'Image Removed Successfully',
-          Key.TOAST_STATUS_SUCCESS,
+          Key.TOAST_STATUS_SUCCESS
         );
         this.getOrganizationDetails();
       },
       error: (error) => {
         this.helperService.showToast(
           'Error! Not Able To Remove Image',
-          Key.TOAST_STATUS_ERROR,
+          Key.TOAST_STATUS_ERROR
         );
       },
     });
@@ -837,7 +854,7 @@ export class OrganizationPersonalInformationComponent implements OnInit {
       const fileName = `uploaded_${new Date().getTime()}.png`;
       const mediaUploaded = await this.uploadSingleMediaToFireBaseAndGetUrl(
         blob,
-        fileName,
+        fileName
       );
 
       if (mediaUploaded) {
@@ -952,7 +969,7 @@ export class OrganizationPersonalInformationComponent implements OnInit {
               this.toggleUpload = false;
               resolve(true);
             });
-          }),
+          })
         )
         .subscribe((res) => {
           if (res != null) {
@@ -978,7 +995,7 @@ export class OrganizationPersonalInformationComponent implements OnInit {
     this.aspectRatio = num_1 / num_2;
     console.log(
       '🚀 ~ file: media-manager-crop.component.ts:548 ~ MediaManagerCropComponent ~ calculateRatio ~  this.aspectRatio:',
-      this.aspectRatio,
+      this.aspectRatio
     );
     return this.aspectRatio;
   }
@@ -1030,7 +1047,7 @@ export class OrganizationPersonalInformationComponent implements OnInit {
     debugger;
     this.isLoading = false;
     this.croppedImage = this.sanitizer.bypassSecurityTrustUrl(
-      event.objectUrl || event.base64 || '',
+      event.objectUrl || event.base64 || ''
     );
     console.log(event);
   }

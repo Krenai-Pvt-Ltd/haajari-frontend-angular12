@@ -26,6 +26,11 @@ import { BestPerformerAttendanceDetailsResponse } from 'src/app/models/best-perf
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { DayWiseStatus } from 'src/app/models/day-wise-status';
 import { AttendanceDetailsCountResponse } from 'src/app/models/attendance-details-count-response';
+import { Color, ScaleType } from '@swimlane/ngx-charts';
+import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-reflection';
+import { AttendanceDetailsResponse } from 'src/app/models/attendance-details-response';
+import { DayStartAndDayEnd } from 'src/app/models/day-start-and-day-end';
+import { StartDateAndEndDate } from 'src/app/models/start-date-and-end-date';
 
 @Component({
   selector: 'app-dashboard',
@@ -85,6 +90,9 @@ export class DashboardComponent implements OnInit {
   LEAVE = Key.LEAVE;
   HALFDAY = Key.HALFDAY;
 
+  readonly INITIAL_HOUR = Key.INITIAL_HOUR;
+  readonly END_HOUR = Key.END_HOUR;
+
   async getRoleDetails() {
     this.ROLE = await this.rbacService.getRole();
   }
@@ -98,21 +106,30 @@ export class DashboardComponent implements OnInit {
   selectedDate: Date = new Date();
   startDate: string = '';
   endDate: string = '';
+  startDateAndEndDate : StartDateAndEndDate = new StartDateAndEndDate();
 
   onMonthChange(month: Date): void {
-    console.log('Month is getting selected!');
+    console.log('Month is getting selected');
     this.selectedDate = month;
     this.getFirstAndLastDateOfMonth(this.selectedDate);
+    this.isAllCollapsed = true;
+    console.log(this.startDate, this.endDate);
     this.getAttendanceReportByDateDurationMethodCall();
   }
 
   getFirstAndLastDateOfMonth(selectedDate: Date) {
+
     this.startDate = this.formatDateToYYYYMMDD(
-      new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1)
+      new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1),
     );
     this.endDate = this.formatDateToYYYYMMDD(
-      new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0)
+      new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0),
     );
+    
+    // const endDateWithoutEndHours = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
+
+    // this.startDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1, 0, 0, 0).toDateString();
+    // this.endDate = new Date(endDateWithoutEndHours.getFullYear(), endDateWithoutEndHours.getMonth() + 1, 0).toDateString() + " " + this.END_HOUR;
   }
 
   disableMonths = (date: Date): boolean => {
@@ -162,6 +179,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getTeamNames();
     window.scroll(0, 0);
     this.getOrganizationRegistrationDateMethodCall();
     // this.checkAccessToken();
@@ -187,7 +205,6 @@ export class DashboardComponent implements OnInit {
 
     this.getLateEmployeeAttendanceDetailsMethodCall();
 
-    this.getCurrentDayEmployeesData();
     // this.getAttendanceTopPerformerDetails();
     // this.getAttendanceLatePerformerDetails();
     this.getBestPerformerAttendanceDetailsMethodCall();
@@ -196,6 +213,10 @@ export class DashboardComponent implements OnInit {
     // this.getTodaysLiveLeaveCount();
 
     this.inputDate = this.getCurrentDate();
+    this.getWeeklyChartData();
+    this.getMonthlyChartData();
+    this.getLateUsers();
+    // this.getAttendanceDetailsReportByDateMethodCall();
   }
 
   isShimmer = false;
@@ -249,20 +270,6 @@ export class DashboardComponent implements OnInit {
   //     this.router.navigate(['/dynamic/login']);
   //   }
   // }
-
-  currentDayEmployeesData: any = [];
-
-  getCurrentDayEmployeesData() {
-    this.dataService.getTodayEmployeesData().subscribe(
-      (data) => {
-        this.currentDayEmployeesData = data;
-        debugger;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
 
   isAttendanceShimer: boolean = false;
   errorToggleMain: boolean = false;
@@ -649,7 +656,7 @@ export class DashboardComponent implements OnInit {
   getLateEmployeeAttendanceDetailsMethodCall() {
     this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
     this.dataService
-      .getLateEmployeeAttendanceDetails(this.dataFetchingType)
+      .getLateEmployeeAttendanceDetails(this.getCurrentDate(), this.dataFetchingType)
       .subscribe(
         (response) => {
           this.lateEmployeeAttendanceDetailsResponseList =
@@ -704,7 +711,8 @@ export class DashboardComponent implements OnInit {
             this.pageNumber,
             this.itemPerPage,
             this.searchText,
-            this.searchBy
+            this.searchBy,
+            this.selectedTeamId
           )
           .toPromise()
           .then((response) => {
@@ -716,7 +724,7 @@ export class DashboardComponent implements OnInit {
               response.object.length === 0
             ) {
               this.dataNotFoundPlaceholderForAttendanceData = true;
-              reject('Data not found');
+              reject('Data not found.');
               return;
             }
 
@@ -781,5 +789,471 @@ export class DashboardComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  sliceWord(word: string): string {
+    return word.slice(0, 3);
+  }
+
+  weeklyChartData: any[] = [];
+  colorScheme: Color = {
+    name: 'custom',
+    selectable: true,
+    group: ScaleType.Ordinal, // Correct type for the group property
+    domain: ['#FFE082', '#80CBC4', '#FFCCBC'], // Gold, Green, Red
+  };
+  gradient: boolean = false;
+  // view: [number, number] = [300, 150];
+  view1: [number, number] = [300, 200];
+  weeklyPlaceholderFlag: boolean = true;
+  getWeeklyChartData() {
+    this.dataService.getWeeklyLeaveSummary().subscribe((data) => {
+      // if (data.length > 0) {
+      //   this.weeklyPlaceholderFlag = true;
+      // } else {
+      //   this.weeklyPlaceholderFlag = false;
+      // }
+      this.weeklyChartData = data.map((item) => ({
+        name: this.sliceWord(item.weekDay),
+        series: [
+          { name: 'Pending', value: item.pending || 0 },
+          { name: 'Approved', value: item.approved || 0 },
+          { name: 'Rejected', value: item.rejected || 0 },
+        ],
+      }));
+    });
+  }
+
+  monthlyChartData: any[] = [];
+  view2: [number, number] = [300, 200];
+  count: number = 0;
+  monthlyPlaceholderFlag: boolean = true;
+  getMonthlyChartData() {
+    this.dataService.getMonthlyLeaveSummary().subscribe((data) => {
+      // if (data.length > 0) {
+      //   this.monthlyPlaceholderFlag = true;
+      // } else {
+      //   this.monthlyPlaceholderFlag = false;
+      // }
+      console.log('length' + data.length);
+      this.monthlyChartData = data.map((item) => ({
+        name: this.sliceWord(item.monthName),
+        series: [
+          { name: 'Pending', value: item.pending || 0 },
+          { name: 'Approved', value: item.approved || 0 },
+          { name: 'Rejected', value: item.rejected || 0 },
+        ],
+        // this.count++;
+      }));
+    });
+  }
+
+  teamNameList: UserTeamDetailsReflection[] = [];
+
+  teamId: number = 0;
+  getTeamNames() {
+    debugger;
+    this.dataService.getAllTeamNames().subscribe({
+      next: (response: any) => {
+        this.teamNameList = response.object;
+      },
+      error: (error) => {
+        console.error('Failed to fetch team names:', error);
+      },
+    });
+  }
+
+  selectedTeamName: string = 'All';
+  selectedTeamId: number = 0;
+  selectTeam(teamId: number) {
+    debugger;
+    if (teamId === 0) {
+      this.selectedTeamName = 'All';
+      this.selectedTeamId = 0;
+    } else {
+      const selectedTeam = this.teamNameList.find(
+        (team) => team.teamId === teamId
+      );
+      this.selectedTeamName = selectedTeam ? selectedTeam.teamName : 'All';
+      this.selectedTeamId = teamId;
+    }
+    // this.page = 0;
+    this.itemPerPage = 12;
+    // this.fullLeaveLogs = [];
+    // this.selectedTeamName = teamName;
+
+    this.getAttendanceReportByDateDurationMethodCall();
+  }
+
+  //  modals
+
+  attendanceDetailsResponseList: AttendanceDetailsResponse[] = [];
+  totalItems: number = 0;
+  pageNumberNew: number = 1;
+  itemsPerPage: number = 10;
+  search: string = '';
+  searchByNew: string = 'name';
+  sort: string = 'asc';
+  sortBy: string = 'name';
+  filterCriteria: string = 'PRESENT';
+  lastPageNumberNew: number = 1;
+
+  getAttendanceDetailsReportByDateMethodCall(filterCriteria: string) {
+    this.filterCriteria = filterCriteria;
+    this.dataService
+      .getAttendanceDetailsReportByDateForDashboard(
+        this.helperService.formatDateToYYYYMMDD(this.selectedDate),
+        this.pageNumberNew,
+        this.itemsPerPage,
+        this.search,
+        this.searchByNew,
+        '',
+        '',
+        this.filterCriteria
+      )
+      .subscribe(
+        (response) => {
+          debugger;
+          this.attendanceDetailsResponseList = response.listOfObject;
+          console.log(this.attendanceDetailsResponseList);
+          this.totalItems = response.totalItems;
+          this.lastPageNumberNew = Math.ceil(this.totalItems / this.itemPerPage);
+          // console.log("lastPageNumberNew" + this.lastPageNumberNew );
+
+          if (
+            this.attendanceDetailsResponseList === undefined ||
+            this.attendanceDetailsResponseList === null ||
+            this.attendanceDetailsResponseList.length === 0
+          ) {
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
+  changePageNew(page: any): void {
+    if (page === 'prev') {
+      if (this.pageNumberNew > 1) this.pageNumberNew--;
+    } else if (page === 'next') {
+      if (this.pageNumberNew < this.lastPageNumberNew) this.pageNumberNew++;
+    } else {
+      this.pageNumberNew = page;
+    }
+    this.getAttendanceDetailsReportByDateMethodCall(this.filterCriteria);
+  }
+
+  getStartIndexNew(): number {
+    return (this.pageNumberNew - 1) * this.itemsPerPage + 1;
+  }
+
+  getEndIndexNew(): number {
+    const endIndex = this.pageNumberNew * this.itemsPerPage;
+    return endIndex > this.totalItems ? this.totalItems : endIndex;
+  }
+
+  getPagesNew(): number[] {
+    const pages = [];
+    for (let i = 1; i <= this.lastPageNumberNew; i++) {
+      pages.push(i);
+    }
+    return pages;
+  }
+
+  // onSearchChange(): void {
+  //   this.pageNumberNew = 1;
+  //   this.getAttendanceDetailsReportByDateMethodCall();
+  // }
+
+  // onSearchByChange(searchBy: string): void {
+  //   this.searchByNew = searchBy;
+  //   this.getAttendanceDetailsReportByDateMethodCall();
+  // }
+  crossFlag: boolean = false;
+  onSearchChange(): void {
+    this.crossFlag = this.search.length > 0;
+    this.pageNumberNew = 1;
+    this.getAttendanceDetailsReportByDateMethodCall(this.filterCriteria);
+  }
+
+  onSearchByChange(searchBy: string): void {
+    this.searchByNew = searchBy;
+    this.getAttendanceDetailsReportByDateMethodCall(this.filterCriteria);
+  }
+
+  searchUsersNew(searchType: string): void {
+    this.onSearchChange();
+  }
+
+  reloadPage(): void {
+    this.search = '';
+    this.crossFlag = false;
+    this.getAttendanceDetailsReportByDateMethodCall(this.filterCriteria);
+  }
+
+  // break users 
+
+  breakUsers: any[] = [];
+  totalCountBreak: number = 0;
+  searchTermBreak: string = '';
+  pageNumberBreak: number = 1;
+  itemsPerPageBreak: number = 10;
+  currentPageBreak: number = 1;
+  totalPagesBreak: number = 0;
+
+
+  getBreakUsers(): void {
+     this.dataService
+      .getBreakUsers(this.searchTermBreak, this.pageNumberBreak, this.itemsPerPageBreak)
+      .subscribe(
+        (response) => {
+        this.breakUsers = response.listOfObject;
+        this.totalCountBreak = response.totalItems;
+        this.calculatePagination();
+        },
+        (error) => {
+          console.log(error);
+        }
+     );
+
+  }
+
+  getAbsentAndNotMarkedUsers(searchTerm : string, count: number){
+    if(count == 0){
+      this.attendanceDetailsResponseList = [];
+      // return;
+    } else{
+      this.getAttendanceDetailsReportByDateMethodCall(searchTerm);
+    }
+  }
+
+  calculatePagination(): void {
+    this.totalPagesBreak = Math.ceil(this.totalCountBreak / this.itemsPerPageBreak);
+    this.currentPageBreak = this.pageNumberBreak;
+  }
+
+  changePageBreak(page: number | string): void {
+    if (typeof page === 'string') {
+      if (page === 'prev' && this.pageNumberBreak > 1) {
+        this.pageNumberBreak--;
+      } else if (page === 'next' && this.pageNumberBreak < this.totalPagesBreak) {
+        this.pageNumberBreak++;
+      }
+    } else {
+      this.pageNumberBreak = page;
+    }
+    this.getBreakUsers();
+  }
+
+  crossFlagBreak: boolean = false;
+  searchBreak(): void {
+    this.crossFlagBreak = this.searchTermBreak.length > 0;
+    this.pageNumberBreak = 1; 
+    this.getBreakUsers();
+  }
+
+  reloadPageBreak(): void {
+    this.crossFlagBreak = false;
+    this.searchTermBreak = '';
+    this.pageNumberBreak = 1;
+    this.getBreakUsers();
+  }
+
+  get startIndexBreak(): number {
+    return (this.pageNumberBreak - 1) * this.itemsPerPageBreak + 1;
+  }
+
+  get endIndexBreak(): number {
+    return Math.min(this.pageNumberBreak * this.itemsPerPageBreak, this.totalCountBreak);
+  }
+
+  get pagesBreak(): number[] {
+    const pages: number[] = [];
+    for (let i = 1; i <= this.totalPagesBreak; i++) {
+      pages.push(i);
+    }
+    return pages;
+  }
+
+  //  late empl 
+
+
+   lateUsers: any[] = [];
+  totalCountLate: number = 0;
+  searchTermLate: string = '';
+  pageNumberLate: number = 1;
+  itemsPerPageLate: number = 10;
+  currentPageLate: number = 1;
+  totalPagesLate: number = 0;
+
+
+  getLateUsers(): void {
+    this.dataService.getLateEmployeeDashboardDetails(this.getCurrentDate(), this.viewAll, this.searchTermLate, this.pageNumberLate, this.itemsPerPageLate).subscribe(
+      response => {
+        this.lateUsers = response.listOfObject;
+        this.totalCountLate = response.totalItems;
+        this.calculatePaginationLate();
+      },
+      error => {
+        console.error('Error fetching late users:', error);
+      }
+    );
+  }
+
+  calculatePaginationLate(): void {
+    this.totalPagesLate = Math.ceil(this.totalCountLate / this.itemsPerPageLate);
+    this.currentPageLate = this.pageNumberLate;
+  }
+
+  changePageLate(page: number | string): void {
+    if (typeof page === 'string') {
+      if (page === 'prev' && this.pageNumberLate > 1) {
+        this.pageNumberLate--;
+      } else if (page === 'next' && this.pageNumberLate < this.totalPagesLate) {
+        this.pageNumberLate++;
+      }
+    } else {
+      this.pageNumberLate = page;
+    }
+    this.getLateUsers();
+  }
+
+  searchLate(): void {
+    this.pageNumberLate = 1; // Reset to page 1 when searching
+    this.getLateUsers();
+  }
+
+  reloadPageLate(): void {
+    this.searchTermLate = '';
+    this.pageNumberLate = 1;
+    this.getLateUsers();
+  }
+
+  get startIndexLate(): number {
+    return (this.pageNumberLate - 1) * this.itemsPerPageLate + 1;
+  }
+
+  get endIndexLate(): number {
+    return Math.min(this.pageNumberLate * this.itemsPerPageLate, this.totalCountLate);
+  }
+
+  get pagesLate(): number[] {
+    const pages: number[] = [];
+    for (let i = 1; i <= this.totalPagesLate; i++) {
+      pages.push(i);
+    }
+    return pages;
+  }
+
+  //  leave users 
+
+  leaveUsers: any[] = [];
+  totalCountLeave: number = 0;
+  searchTermLeave: string = '';
+  pageNumberLeave: number = 1;
+  itemsPerPageLeave: number = 8;
+  currentPageLeave: number = 1;
+  totalPagesLeave: number = 0;
+
+
+  getLeaveUsers(): void {
+     this.dataService
+      .getLeaveUsers(this.searchTermLeave, this.pageNumberLeave, this.itemsPerPageLeave)
+      .subscribe(
+        (response) => {
+        this.leaveUsers = response.listOfObject;
+        this.totalCountLeave = response.totalItems;
+        this.calculatePaginationLeave();
+        },
+        (error) => {
+          console.log(error);
+        }
+     );
+
+  }
+
+  calculatePaginationLeave(): void {
+    this.totalPagesLeave = Math.ceil(this.totalCountLeave / this.itemsPerPageLeave);
+    this.currentPageLeave = this.pageNumberLeave;
+  }
+
+  changePageLeave(page: number | string): void {
+    if (typeof page === 'string') {
+      if (page === 'prev' && this.pageNumberLeave > 1) {
+        this.pageNumberLeave--;
+      } else if (page === 'next' && this.pageNumberLeave < this.totalPagesLeave) {
+        this.pageNumberLeave++;
+      }
+    } else {
+      this.pageNumberLeave = page;
+    }
+    this.getLeaveUsers();
+  }
+
+  crossFlagLeave: boolean = false;
+  searchLeave(): void {
+     this.crossFlagLeave = this.searchTermLeave.length > 0;
+    this.pageNumberLeave = 1; 
+    this.getLeaveUsers();
+  }
+
+  reloadPageLeave(): void {
+    this.crossFlagLeave = false;
+    this.searchTermLeave = '';
+    this.pageNumberLeave = 1;
+    this.getLeaveUsers();
+  }
+
+  get startIndexLeave(): number {
+    return (this.pageNumberLeave - 1) * this.itemsPerPageLeave + 1;
+  }
+
+  get endIndexLeave(): number {
+    return Math.min(this.pageNumberLeave * this.itemsPerPageLeave, this.totalCountLeave);
+  }
+
+  get pagesLeave(): number[] {
+    const pages: number[] = [];
+    for (let i = 1; i <= this.totalPagesLeave; i++) {
+      pages.push(i);
+    }
+    return pages;
+  }
+
+
+  // tooltip attendance data
+
+  userAttendanceDetailDateWise:any;
+
+  // @ViewChild("openEventsModal") openEventsModal!:ElementRef;
+  loadingFlag:boolean = false;
+  fetchAttendanceDetails(userEmail: string, dateString:string) {
+    this.loadingFlag = true;
+    this.dataService.getAttendanceDetailsForUserByDate(userEmail, dateString)
+      .subscribe(
+        (response) => {
+          this.userAttendanceDetailDateWise = response.object;
+          console.log('Attendance Details:', response.object);
+          // this.openEventsModal.nativeElement.click();
+          this.loadingFlag = false;
+         
+        },
+        (error) => {
+          console.error('Error fetching attendance details:', error);
+          // Handle error state
+          this.loadingFlag = false;
+        }
+      );
+  }
+
+absentFlag:boolean = false;
+getAbsentFlag(str: string, count:number) {
+
+    if((str === 'ABSENT') ) {
+      this.absentFlag = true;
+    }else  if((str === 'Not Marked')) {
+      this.absentFlag = false;
+    }
   }
 }

@@ -20,7 +20,6 @@ import { DurationPickerComponent } from './modules/common/duration-picker/durati
 import { ErrorPageComponent } from './modules/common/error-page/error-page.component';
 import { SlackDataLoaderComponent } from './modules/common/slack-data-loader/slack-data-loader.component';
 import { SettingModule } from './modules/setting/setting.module';
-import { SharedComponent } from './modules/shared/shared.component';
 import { SharedModule } from './shared/shared.module';
 import { Ng2TelInputModule } from 'ng2-tel-input';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
@@ -36,11 +35,9 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
 @NgModule({
   declarations: [
     AppComponent,
-
     ErrorPageComponent,
     SlackDataLoaderComponent,
     DurationPickerComponent,
-    SharedComponent,
     UnauthorizedComponent,
     ConfirmationDialogComponent,
 

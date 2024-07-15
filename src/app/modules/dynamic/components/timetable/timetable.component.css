@@ -841,3 +841,79 @@ td.text-right {
   margin-bottom: 0px;
   text-align: center;
 }
+.attendance-log .icons {
+  display: flex;
+  gap: 10px; 
+}
+
+.attendance-log {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card {
+  border: 1px solid #ededed;
+    border-radius: 8px;
+    padding: 8px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 10px 0;
+    box-shadow: 0 9px 8px -3px rgb(0 0 0 / 5%);
+}
+
+.card-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+
+.image-section {
+  flex: 1;
+  text-align: center;
+}
+
+.info-section {
+  flex: 4;
+  padding-left: 16px;
+}
+
+.user-image {
+  max-width: 100px;
+  max-height: 100px;
+  border-radius: 8px;
+}
+
+.location-text {
+  font-size: 14px;
+  margin: 0;
+}
+
+.location-address {
+  display: block;
+  margin-top: 4px;
+}
+
+.button-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+.view-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
+.view-button:hover {
+  background-color: #0056b3;
+}
