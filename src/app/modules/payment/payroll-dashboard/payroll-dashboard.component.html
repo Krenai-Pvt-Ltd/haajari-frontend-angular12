@@ -48,6 +48,108 @@
               </div>
             </div>
           </div>
+          <div class="card mt-4">
+              <div class="card-body invoice-head">
+                  <div class="row">
+                      <div class="col-md-4 align-self-center">
+                          <div class="border bg-light d-block p-3">
+                              <div class="row">
+                                  <div class="col-auto">
+                                      <p class="mb-0 font-12">Employees</p>
+                                      <h4 class="mt-3 fw-bold">
+                    {{ payrollDashboardEmployeeCountResponse.totalUser }}
+                    <span class="text-muted font-12 fw-normal">
+                      <span class="text-success"
+                        >+{{
+                          payrollDashboardEmployeeCountResponse.newJoinee
+                        }}</span
+                      >
+                      &nbsp;
+                      <span class="text-danger"
+                        >-{{
+                          payrollDashboardEmployeeCountResponse.userExit
+                        }}</span
+                      >
+                    </span>
+                  </h4>
+                                  </div>
+                                  <!--end col-->
+                                  <div class="col-auto">
+                                      <p class="mb-0 font-12">Calender Days</p>
+                                      <h4 class="mt-3 fw-bold">
+                    {{ payrollDashboardEmployeeCountResponse.daysInMonth }}
+                  </h4>
+                                  </div>
+                                  <!--end col-->
+                                  <div class="col-auto">
+                                      <p class="mb-0 font-12">Payroll</p>
+                                      <h4 class="mt-3 fw-bold">
+                    0/{{ payrollDashboardEmployeeCountResponse.totalUser }}
+                    <span class="text-muted font-10 fw-normal"
+                      >EMPLOYEES</span
+                    >
+                  </h4>
+                                  </div>
+                                  <!--end col-->
+                              </div>
+                          </div>
+                      </div>
+                      <!--end col-->
+                      <div class="col-md-8">
+                          <ul class="list-inline mb-0 contact-detail float-end mt-3">
+                              <!-- <h3>Estimated Cost:</h3> -->
+                              <li class="list-inline-item">
+                                  <div class="ps-3">
+                                      <p class="text-muted font-12 mb-0">TOTAL PAYROLL COST</p>
+                                      <h5 class="mb-0">
+                    ₹ {{ organizationMonthWiseSalaryData.totalAmount }}
+                  </h5>
+                                      <small class="text-success">DEC ₹ 34,34,343</small>
+                                  </div>
+                              </li>
+                              <li class="list-inline-item">
+                                  <div class="ps-3">
+                                      <p class="text-muted font-12 mb-0">TDS</p>
+                                      <h5 class="mb-0">
+                    ₹ {{ organizationMonthWiseSalaryData.tdsAmount }}
+                  </h5>
+                                      <small class="text-success">DEC ₹ 34,343</small>
+                                  </div>
+                              </li>
+                              <li class="list-inline-item">
+                                  <div class="ps-3">
+                                      <p class="text-muted font-12 mb-0">EPF</p>
+                                      <h5 class="mb-0">
+                    ₹ {{ organizationMonthWiseSalaryData.epfAmount }}
+                  </h5>
+                                      <small class="text-success">DEC ₹ 3343</small>
+                                  </div>
+                              </li>
+                              <li class="list-inline-item">
+                                  <div class="ps-3">
+                                      <p class="text-muted font-12 mb-0">ESI</p>
+                                      <h5 class="mb-0">
+                    ₹ {{ organizationMonthWiseSalaryData.esiAmount }}
+                  </h5>
+                                      <small class="text-success">DEC ₹ 4,343</small>
+                                  </div>
+                              </li>
+                              <li class="list-inline-item">
+                                  <div class="ps-3">
+                                      <p class="text-muted font-12 mb-0">NET PAY</p>
+                                      <h5 class="mb-0">
+                    ₹ {{ organizationMonthWiseSalaryData.netPay }}
+                  </h5>
+                                      <small class="text-success">DEC ₹ 4,343</small>
+                                  </div>
+                              </li>
+                          </ul>
+                      </div>
+                      <!--end col-->
+                  </div>
+                  <!--end row-->
+              </div>
+              <!--end card-body-->
           <div class="payroll-next-prev-btn">
             <span class="payroll-next position-absolute d-flex align-items-center justify-content-center">
               <i class="bi bi-chevron-left position-relative"></i>
