@@ -47,7 +47,7 @@ import { SalaryTemplateComponentResponse } from 'src/app/models/salary-template-
 import { AppraisalRequest } from 'src/app/models/appraisal-request';
 import { BonusRequest } from 'src/app/models/bonus-request';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
-import { Chart } from 'chart.js';
+
 
 @Component({
   selector: 'app-employee-profile',
