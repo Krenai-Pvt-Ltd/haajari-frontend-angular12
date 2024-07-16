@@ -46,6 +46,9 @@ import { UserDocumentsDetailsRequest } from 'src/app/models/user-documents-detai
 import { SalaryTemplateComponentResponse } from 'src/app/models/salary-template-component-response';
 import { AppraisalRequest } from 'src/app/models/appraisal-request';
 import { BonusRequest } from 'src/app/models/bonus-request';
+import { Color, ScaleType } from '@swimlane/ngx-charts';
+import { Chart } from 'chart.js';
+
 @Component({
   selector: 'app-employee-profile',
   templateUrl: './employee-profile.component.html',
@@ -98,6 +101,8 @@ export class EmployeeProfileComponent implements OnInit {
         eveningShift: [false],
       });
     }
+
+    Object.assign(this, { single: this.single });
   }
 
   goBack() {
@@ -136,6 +141,11 @@ export class EmployeeProfileComponent implements OnInit {
   MANAGER = Key.MANAGER;
   USER = Key.USER;
 
+  @ViewChild("paySlipTab") paySlipTab !: ElementRef; 
+  goToPaySlipTab(){
+    this.paySlipTab.nativeElement.click();
+  }
+
   isSalaryPlaceholderFlag: boolean = false;
   // tokenUserRoleFlag:boolean=false;
   currentDate: Date = new Date();
@@ -143,6 +153,7 @@ export class EmployeeProfileComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.activeTabs('home');
     window.scroll(0, 0);
+    this.getOrganizationRegistrationDateMethodCall();
     this.getOnboardingFormPreviewMethodCall();
     this.getAllTaxRegimeMethodCall();
     this.getStatutoryByOrganizationIdMethodCall();
@@ -1760,12 +1771,8 @@ export class EmployeeProfileComponent implements OnInit {
 
   goToManageStatutory() {
     this.salaryConfigurationStepId = this.MANAGE_STATUTORY;
-    const configureSalarySettingDiv = document.getElementById(
-      'configure-salary-setting'
-    ) as HTMLInputElement | null;
-    const manageStatutoryDiv = document.getElementById(
-      'manage-statutory'
-    ) as HTMLInputElement | null;
+    const configureSalarySettingDiv = document.getElementById('configure-salary-setting') as HTMLInputElement | null;
+    const manageStatutoryDiv = document.getElementById('manage-statutory') as HTMLInputElement | null;
 
     if (configureSalarySettingDiv) {
       configureSalarySettingDiv.style.display = 'none';
@@ -1775,6 +1782,136 @@ export class EmployeeProfileComponent implements OnInit {
       }
     }
   }
+
+  goToPaySlip(){
+    this.salaryConfigurationStepId = this.PAY_SLIP;
+    const paySlipDiv = document.getElementById('pay_slip') as HTMLInputElement | null;
+    const manageStatutoryDiv = document.getElementById('manage-statutory') as HTMLInputElement | null;
+
+    if(manageStatutoryDiv){
+      manageStatutoryDiv.style.display = 'none';
+
+      if(paySlipDiv){
+        paySlipDiv.style.display = 'block';
+      }
+    }
+  }
+
+
+  size: 'large' | 'small' | 'default' = 'small';
+  selectedDate: Date = new Date();
+  startDate: string = '';
+  endDate: string = '';
+
+  onMonthChange(month: Date): void {
+    console.log('Month is getting selected');
+    this.selectedDate = month;
+    this.getFirstAndLastDateOfMonth(this.selectedDate);
+
+    console.log(this.startDate, this.endDate);
+    // this.getAttendanceReportByDateDurationMethodCall();
+  }
+
+  getFirstAndLastDateOfMonth(selectedDate: Date) {
+
+    this.startDate = this.helperService.formatDateToYYYYMMDD(
+      new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1),
+    );
+    this.endDate = this.helperService.formatDateToYYYYMMDD(
+      new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0),
+    );
+  }
+  disableMonths = (date: Date): boolean => {
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
+    const dateYear = date.getFullYear();
+    const dateMonth = date.getMonth();
+    const organizationRegistrationYear = new Date(
+      this.organizationRegistrationDate
+    ).getFullYear();
+    const organizationRegistrationMonth = new Date(
+      this.organizationRegistrationDate
+    ).getMonth();
+
+    // Disable if the month is before the organization registration month
+    if (
+      dateYear < organizationRegistrationYear ||
+      (dateYear === organizationRegistrationYear &&
+        dateMonth < organizationRegistrationMonth)
+    ) {
+      return true;
+    }
+
+    // Disable if the month is after the current month
+    if (
+      dateYear > currentYear ||
+      (dateYear === currentYear && dateMonth > currentMonth)
+    ) {
+      return true;
+    }
+
+    // Enable the month if it's from January 2023 to the current month
+    return false;
+  };
+
+  organizationRegistrationDate: string = '';
+  getOrganizationRegistrationDateMethodCall() {
+    debugger;
+    this.dataService.getOrganizationRegistrationDate().subscribe(
+      (response) => {
+        this.organizationRegistrationDate = response;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  // #################-- Payroll chart code --###########################
+  view: [number, number] = [375, 375]; // explicitly define as tuple
+
+  // options
+  showLegend: boolean = false;
+  showLabels: boolean = true;
+  explodeSlices: boolean = false;
+  doughnut: boolean = true;
+  gradient: boolean = true;
+
+  colorScheme: Color = {
+    name: 'custom',
+    selectable: true,
+    group: ScaleType.Ordinal,
+    domain: ['#6666f3', '#FE3636', '#02E59C']
+  };
+
+  // chart data
+  single = [
+    {
+      name: 'Overtime',
+      value: 8940000
+    },
+    {
+      name: 'Deduction',
+      value: 5000000
+    },
+    {
+      name: 'Earnings',
+      value: 7200000
+    }
+  ];
+
+  // getCenterLabel(): string {
+  //   const totalValue = this.single.reduce((sum, item) => sum + item.value, 0);
+  //   return totalValue.toString();
+  // }
+
+
+  onSelect(event: any) {
+    console.log(event);
+  }
+
+  // ===================================================
+
 
   secondarySchoolCertificateFileName: string = '';
   highSchoolCertificateFileName1: string = '';
