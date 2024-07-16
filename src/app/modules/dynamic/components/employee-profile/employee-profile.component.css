@@ -1660,7 +1660,7 @@ tbody tr {
 
 
 /* CSS for chart and the data at the side of chart */
-.earnings-border{
+.grosspay-border{
   border: 3px solid #02E59C;
 }
 
@@ -1668,11 +1668,11 @@ tbody tr {
   border: 3px solid #FE3636;
 }
 
-.overtime-border{
+.netpay-border{
   border: 3px solid #6666f3;
 }
 
-.earnings-border, .deduction-border, .overtime-border{
+.grosspay-border, .deduction-border, .netpay-border{
   border-radius: 3px;
 }
 .amounts {
@@ -1697,9 +1697,11 @@ tbody tr {
 
 
 /* CSS for the salary breakups */
-.card{
+.pay-slip-breakup .card{
   border-radius: 5px;
+  border-color: #C6C6FF;
 }
+
 .card-body-header{
   display: flex;
   justify-content: space-between;

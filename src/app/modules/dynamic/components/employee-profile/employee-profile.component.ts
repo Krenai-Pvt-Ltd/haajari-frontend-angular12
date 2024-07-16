@@ -48,6 +48,9 @@ import { AppraisalRequest } from 'src/app/models/appraisal-request';
 import { BonusRequest } from 'src/app/models/bonus-request';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
 import { Chart } from 'chart.js';
+import { EmployeePayslipResponse } from 'src/app/models/employee-payslip-response';
+import { EmployeePayslipBreakupResponse } from 'src/app/models/employee-payslip-breakup-response';
+import { EmployeePayslipDeductionResponse } from 'src/app/models/employee-payslip-deduction-response';
 
 @Component({
   selector: 'app-employee-profile',
@@ -103,6 +106,10 @@ export class EmployeeProfileComponent implements OnInit {
     }
 
     Object.assign(this, { single: this.single });
+
+    const currentDate = moment();
+    this.startDate = currentDate.startOf('month').format('YYYY-MM-DD');
+    this.endDate = currentDate.endOf('month').format('YYYY-MM-DD');
   }
 
   goBack() {
@@ -274,7 +281,7 @@ export class EmployeeProfileComponent implements OnInit {
   approvedToggle = false;
   @ViewChild('closeRejectModalButton') closeRejectModalButton!: ElementRef;
   updateStatusUserByUuid(type: string) {
-    debugger;
+    
     if (type == 'REJECTED') {
       this.toggle = true;
       this.setReasonOfRejectionMethodCall();
@@ -330,7 +337,7 @@ export class EmployeeProfileComponent implements OnInit {
   // }
 
   // getTotalPresentAbsentMonthwise(): void {
-  //   debugger;
+  //   
   //   this.dataService
   //     .getUserAttendanceDetailsByDateDuration(
   //       this.userId,
@@ -385,7 +392,7 @@ export class EmployeeProfileComponent implements OnInit {
   clientX: string = '0px';
   clientY: string = '0px';
   openModal(mouseEnterInfo: any): void {
-    debugger;
+    
     if (!this.attendanceDetailModalToggle) {
       // console.log("events : ", mouseEnterInfo.event);
       this.userAttendanceDetailDateWise.checkInTime = '';
@@ -435,13 +442,13 @@ export class EmployeeProfileComponent implements OnInit {
   @ViewChild('closeAttendanceDetailModalButton')
   closeAttendanceDetailModalButton!: ElementRef;
   mouseLeaveInfo(mouseEnterInfo: any): void {
-    debugger;
+    
     this.closeAttendanceModal();
   }
 
   // });
   getUserAttendanceDataFromDate(sDate: string, eDate: string): void {
-    debugger;
+    
     this.dataService
       .getUserAttendanceDetailsByDateDuration(this.userId, 'USER', sDate, eDate)
       .subscribe(
@@ -681,7 +688,7 @@ export class EmployeeProfileComponent implements OnInit {
   forwordFlag: boolean = false;
 
   goforward() {
-    debugger;
+    
     const calendarApi = this.calendarComponent.getApi();
 
     calendarApi.next();
@@ -704,7 +711,7 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
   changeForwardButtonVisibilty(calendarApi: any) {
-    debugger;
+    
     var enrolmentDate = new Date(this.prevDate);
     if (calendarApi?.getDate().getFullYear() != new Date().getFullYear()) {
       this.forwordFlag = true;
@@ -731,7 +738,7 @@ export class EmployeeProfileComponent implements OnInit {
 
   backwardFlag: boolean = true;
   goBackward() {
-    debugger;
+    
     const calendarApi = this.calendarComponent.getApi();
     var date = new Date(this.prevDate);
     var month = date.getMonth();
@@ -826,7 +833,7 @@ export class EmployeeProfileComponent implements OnInit {
   submitLeaveLoader: boolean = false;
   @ViewChild('fileInput') fileInput!: ElementRef;
   saveLeaveRequestUser() {
-    debugger;
+    
 
     if (this.userLeaveForm.invalid || this.isFileUploaded) {
       return;
@@ -927,7 +934,7 @@ export class EmployeeProfileComponent implements OnInit {
   selectStatusFlag: boolean = false;
   isLeaveErrorPlaceholder: boolean = false;
   getUserLeaveLogByUuid() {
-    debugger;
+    
     this.isLeaveShimmer = true;
     // this.selectStatusFlag=true;
 
@@ -1147,7 +1154,7 @@ export class EmployeeProfileComponent implements OnInit {
   pancardString: string = '';
   // isDocumentsShimmer:boolean=false;
   getEmployeeDocumentsDetailsByUuid() {
-    debugger;
+    
     // this.isDocumentsShimmer=true;
     this.dataService.getEmployeeDocumentAsList(this.userId).subscribe(
       (data) => {
@@ -1232,7 +1239,7 @@ export class EmployeeProfileComponent implements OnInit {
   hideNextButton: boolean = false;
   @ViewChild('openViewModal') openViewModal!: ElementRef;
   openPdfModel(viewString: string, docsName: string) {
-    debugger;
+    
     this.nextOpenDocName = docsName;
     this.downloadString = viewString;
     this.previewString =
@@ -1455,7 +1462,7 @@ export class EmployeeProfileComponent implements OnInit {
 
   @ViewChild('openRejectModal') openRejectModal!: ElementRef;
   setReasonOfRejectionMethodCall() {
-    debugger;
+    
     this.dataService
       .setReasonOfRejection(this.userId, this.reasonOfRejectionProfile)
       .subscribe(
@@ -1586,20 +1593,46 @@ export class EmployeeProfileComponent implements OnInit {
     this.networkConnectionErrorPlaceHolderForSalaryTemplate = false;
   }
 
+  isShimmerForEmployeePayslipResponse = false;
+  dataNotFoundPlaceholderForEmployeePayslipResponse = false;
+  networkConnectionErrorPlaceHolderForEmployeePayslipResponse = false;
+  preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipResponseMethodCall() {
+    this.isShimmerForEmployeePayslipResponse = true;
+    this.dataNotFoundPlaceholderForEmployeePayslipResponse = false;
+    this.networkConnectionErrorPlaceHolderForEmployeePayslipResponse = false;
+  }
+
+  isShimmerForEmployeePayslipBreakupResponse = false;
+  dataNotFoundPlaceholderForEmployeePayslipBreakupResponse = false;
+  networkConnectionErrorPlaceHolderForEmployeePayslipBreakupResponse = false;
+  preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipBreakupResponseMethodCall() {
+    this.isShimmerForEmployeePayslipBreakupResponse = true;
+    this.dataNotFoundPlaceholderForEmployeePayslipBreakupResponse = false;
+    this.networkConnectionErrorPlaceHolderForEmployeePayslipBreakupResponse = false;
+  }
+
+  isShimmerForEmployeePayslipDeductionResponse = false;
+  dataNotFoundPlaceholderForEmployeePayslipDeductionResponse = false;
+  networkConnectionErrorPlaceHolderForEmployeePayslipDeductionResponse = false;
+  preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipDeductionResponseMethodCall() {
+    this.isShimmerForEmployeePayslipDeductionResponse = true;
+    this.dataNotFoundPlaceholderForEmployeePayslipDeductionResponse = false;
+    this.networkConnectionErrorPlaceHolderForEmployeePayslipDeductionResponse = false;
+  }
+
+
   salaryTemplateComponentResponse: SalaryTemplateComponentResponse = new SalaryTemplateComponentResponse();
   getSalaryTemplateComponentByUserUuidMethodCall() {
-    debugger;
+    
     this.preRuleForShimmersAndErrorPlaceholdersForSalaryTemplateMethodCall();
     this.dataService.getSalaryTemplateComponentByUserUuid().subscribe((response) => {
 
         if(this.helperService.isObjectNullOrUndefined(response)){
           this.dataNotFoundPlaceholderForSalaryTemplate = true;
-          console.log("SHIVENDRA");
         } else{
           this.salaryTemplateComponentResponse = response.object;
         }
         this.isShimmerForSalaryTemplate = false;
-        console.log("SHIVENDRA2");
       },
       (error) => {
         this.networkConnectionErrorPlaceHolderForSalaryTemplate = true;
@@ -1669,7 +1702,7 @@ export class EmployeeProfileComponent implements OnInit {
 
   statutoryResponseList: StatutoryResponse[] = [];
   getStatutoryByOrganizationIdMethodCall() {
-    debugger;
+    
     this.dataService.getStatutoryByOrganizationId().subscribe(
       (response) => {
         this.statutoryResponseList = response.listOfObject;
@@ -1804,12 +1837,12 @@ export class EmployeeProfileComponent implements OnInit {
   endDate: string = '';
 
   onMonthChange(month: Date): void {
-    console.log('Month is getting selected');
     this.selectedDate = month;
     this.getFirstAndLastDateOfMonth(this.selectedDate);
 
     console.log(this.startDate, this.endDate);
-    // this.getAttendanceReportByDateDurationMethodCall();
+    this.financeSectionMethodCall();
+
   }
 
   getFirstAndLastDateOfMonth(selectedDate: Date) {
@@ -1856,7 +1889,7 @@ export class EmployeeProfileComponent implements OnInit {
 
   organizationRegistrationDate: string = '';
   getOrganizationRegistrationDateMethodCall() {
-    debugger;
+    
     this.dataService.getOrganizationRegistrationDate().subscribe(
       (response) => {
         this.organizationRegistrationDate = response;
@@ -1867,9 +1900,75 @@ export class EmployeeProfileComponent implements OnInit {
     );
   }
 
-  // #################-- Payroll chart code --###########################
-  view: [number, number] = [375, 375]; // explicitly define as tuple
+  
 
+
+  // Finance Section APIs
+  financeSectionMethodCall(){
+    this.getEmployeePayslipResponseByUserUuidMethodCall();
+    this.getEmployeePayslipBreakupResponseByUserUuidMethodCall();
+    this.getEmployeePayslipDeductionResponseByUserUuidMethodCall();
+  }
+
+  employeePayslipResponse : EmployeePayslipResponse = new EmployeePayslipResponse();
+  getEmployeePayslipResponseByUserUuidMethodCall(){
+    this.preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipResponseMethodCall();
+    this.dataService.getEmployeePayslipResponseByUserUuid(this.userId, this.startDate, this.endDate).subscribe((response) => {
+      if(this.helperService.isObjectNullOrUndefined(response)){
+        this.dataNotFoundPlaceholderForEmployeePayslipResponse = true;
+        this.employeePayslipResponse = new EmployeePayslipResponse();
+        this.payrollChartDataNotFoundMehthodCall();
+      } else{
+        this.employeePayslipResponse = response.object;
+        this.payrollChartMehthodCall();
+      }
+      this.isShimmerForEmployeePayslipResponse = false;
+    }, (error) => {
+      this.networkConnectionErrorPlaceHolderForEmployeePayslipResponse = true;
+      this.isShimmerForEmployeePayslipResponse = false;
+    })
+  }
+
+
+  employeePayslipBreakupResponseList : EmployeePayslipBreakupResponse[] = [];
+  getEmployeePayslipBreakupResponseByUserUuidMethodCall(){
+    this.preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipBreakupResponseMethodCall();
+    this.dataService.getEmployeePayslipBreakupResponseByUserUuid(this.userId, this.startDate, this.endDate).subscribe((response) => {
+      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+        this.dataNotFoundPlaceholderForEmployeePayslipBreakupResponse = true;
+        this.employeePayslipBreakupResponseList = [];
+      } else{
+        this.employeePayslipBreakupResponseList = response.listOfObject;
+      }
+
+      this.isShimmerForEmployeePayslipBreakupResponse = true;
+    }, (error) => {
+      this.networkConnectionErrorPlaceHolderForEmployeePayslipBreakupResponse = true;
+      this.isShimmerForEmployeePayslipBreakupResponse = true;
+    })
+  }
+
+  employeePayslipDeductionResponse : EmployeePayslipDeductionResponse = new EmployeePayslipDeductionResponse();
+  getEmployeePayslipDeductionResponseByUserUuidMethodCall(){
+    debugger;
+    this.preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipDeductionResponseMethodCall();
+    this.dataService.getEmployeePayslipDeductionResponseByUserUuid(this.userId, this.startDate, this.endDate).subscribe((response) => {
+      if(this.helperService.isObjectNullOrUndefined(response)){
+        this.dataNotFoundPlaceholderForEmployeePayslipDeductionResponse = true;
+      } else{
+        this.employeePayslipDeductionResponse = response.object;
+      }
+
+      this.isShimmerForEmployeePayslipDeductionResponse = true;
+    }, (error) => {
+      this.networkConnectionErrorPlaceHolderForEmployeePayslipDeductionResponse = true;
+      this.isShimmerForEmployeePayslipDeductionResponse = true;
+    })
+  }
+
+  // #################-- Payroll chart code --###########################
+  
+  view: [number, number] = [375, 375]; // explicitly define as tuple
   // options
   showLegend: boolean = false;
   showLabels: boolean = true;
@@ -1881,37 +1980,78 @@ export class EmployeeProfileComponent implements OnInit {
     name: 'custom',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ['#6666f3', '#FE3636', '#02E59C']
+    domain: ['#6666f3', '#FE3636', '#02E59C', '#888']
   };
 
   // chart data
   single = [
     {
-      name: 'Overtime',
-      value: 8940000
+      name: 'Net Pay',
+      value: 0
     },
     {
       name: 'Deduction',
-      value: 5000000
+      value: 0
     },
     {
-      name: 'Earnings',
-      value: 7200000
+      name: 'Gross Pay',
+      value: 0
+    },
+    {
+      name: 'Not Found',
+      value: 0
     }
   ];
+
+  onSelect(event: any) {
+    console.log(event);
+  }
+
+  payrollChartMehthodCall(){
+    this.single = [
+      {
+        name: 'Net Pay',
+        value: this.employeePayslipResponse.netPay
+      },
+      {
+        name: 'Deduction',
+        value: this.employeePayslipResponse.deduction
+      },
+      {
+        name: 'Gross Pay',
+        value: this.employeePayslipResponse.grossPay
+      }
+    ];
+  }
+
+  payrollChartDataNotFoundMehthodCall(){
+    this.single = [
+      {
+        name: 'Net Pay',
+        value: 0
+      },
+      {
+        name: 'Deduction',
+        value: 0
+      },
+      {
+        name: 'Gross Pay',
+        value: 0
+      },
+      {
+        name: 'No data found!',
+        value: 0.1
+      }
+    ];
+  }
+
 
   // getCenterLabel(): string {
   //   const totalValue = this.single.reduce((sum, item) => sum + item.value, 0);
   //   return totalValue.toString();
   // }
 
-
-  onSelect(event: any) {
-    console.log(event);
-  }
-
   // ===================================================
-
 
   secondarySchoolCertificateFileName: string = '';
   highSchoolCertificateFileName1: string = '';
@@ -1943,7 +2083,7 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
   getOnboardingFormPreviewMethodCall() {
-    debugger;
+    
     const userUuid =
       new URLSearchParams(window.location.search).get('userId') || '';
     if (userUuid) {
@@ -2159,7 +2299,7 @@ export class EmployeeProfileComponent implements OnInit {
   documentName: string = '';
 
   addNewDocument() {
-    debugger;
+    
     this.addMoreDocModalButton.nativeElement.click();
     if (!this.onboardingPreviewData.employeeCompanyDocuments) {
       this.onboardingPreviewData.employeeCompanyDocuments = [];
@@ -2256,7 +2396,7 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
   assignAdditionalDocumentUrl(index: number, url: string): void {
-    debugger;
+    
     if (!this.employeeCompanyDocuments) {
       this.onboardingPreviewData.employeeCompanyDocuments = [];
     }
@@ -2282,7 +2422,7 @@ export class EmployeeProfileComponent implements OnInit {
   // }
 
   setEmployeeCompanyDocumentsMethodCall(): void {
-    debugger;
+    
     if (this.onboardingPreviewData.employeeCompanyDocuments == null) {
       this.onboardingPreviewData.employeeCompanyDocuments = [];
     }
@@ -2338,7 +2478,7 @@ export class EmployeeProfileComponent implements OnInit {
   // }
 
   deleteCompanyDocByIdMethodCall(id: number) {
-    debugger; // Correct placement of the semicolon
+     // Correct placement of the semicolon
     const userUuid = new URLSearchParams(window.location.search).get('userId');
     if (userUuid) {
       this.dataService.deleteEmployeeCompanyDocById(id, userUuid).subscribe(
@@ -2404,7 +2544,7 @@ export class EmployeeProfileComponent implements OnInit {
 
   // Function to handle file selection
   onFileSelected(event: Event): void {
-    debugger;
+    
     const element = event.currentTarget as HTMLInputElement;
     const fileList: FileList | null = element.files;
 

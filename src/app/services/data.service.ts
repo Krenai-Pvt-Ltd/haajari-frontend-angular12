@@ -3323,4 +3323,31 @@ export class DataService {
     ;
     return this.httpClient.put<any>(`${this.baseUrl}/salary-slip/update-pay-action-type`,{}, {params});
   }
+
+  getEmployeePayslipResponseByUserUuid(userUuid : string, startDate : string, endDate : string): Observable<any>{
+    const params = new HttpParams()
+    .set('user_uuid', userUuid)
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/month-wise/pay-slip`, {params});
+  }
+
+  getEmployeePayslipBreakupResponseByUserUuid(userUuid : string, startDate : string, endDate : string): Observable<any>{
+    const params = new HttpParams()
+    .set('user_uuid', userUuid)
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/month-wise/pay-slip-breakup`, {params});
+  }
+
+  getEmployeePayslipDeductionResponseByUserUuid(userUuid : string, startDate : string, endDate : string): Observable<any>{
+    const params = new HttpParams()
+    .set('user_uuid', userUuid)
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/month-wise/pay-slip-deduction`, {params});
+  }
 }
