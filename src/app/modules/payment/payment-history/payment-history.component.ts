@@ -1,8 +1,11 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import * as saveAs from 'file-saver';
 import * as moment from 'moment';
 import { Key } from 'src/app/constant/key';
 import { EmployeeMonthWiseSalaryData } from 'src/app/models/employee-month-wise-salary-data';
 import { OrganizationMonthWiseSalaryData } from 'src/app/models/organization-month-wise-salary-data';
+import { SalaryResponse } from 'src/app/models/salary-response';
 import { StartDateAndEndDate } from 'src/app/models/start-date-and-end-date';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -37,7 +40,7 @@ export class PaymentHistoryComponent implements OnInit {
     this.networkConnectionErrorPlaceHolder = false;
   }
 
-  constructor(private dataService: DataService, private helperService: HelperService) {
+  constructor(private dataService: DataService, private helperService: HelperService, private http: HttpClient) {
     const currentDate = moment();
     this.startDateStr = currentDate.startOf('month').format('YYYY-MM-DD');
     this.endDateStr = currentDate.endOf('month').format('YYYY-MM-DD');
@@ -52,6 +55,7 @@ export class PaymentHistoryComponent implements OnInit {
     window.scroll(0, 0);
     this.getOrganizationRegistrationDateMethodCall();
     this.getFirstAndLastDateOfMonth(new Date());
+    this.setPayslipMonth(this.startDate);
   }
 
 
@@ -95,6 +99,78 @@ export class PaymentHistoryComponent implements OnInit {
         }
       );
   }
+
+
+  downloadPdf(url: string) {
+    this.http.get(url, { responseType: 'blob' }).subscribe(blob => {
+      saveAs(blob, 'SalarySlip.pdf');
+    });
+  }
+
+  viewPdf(url: string) {
+    window.open(url, '_blank');
+  }
+
+  payslipMonth!: string;
+
+  sendPayslipPdf(channel: string, response?: EmployeeMonthWiseSalaryData[]) {
+    let salaryResponses: EmployeeMonthWiseSalaryData[];
+  
+    if (response) {
+      // If response is provided, use it
+      salaryResponses = response;
+    } else {
+      // Use the data from the selectedEmployeesData
+      salaryResponses = this.selectedEmployeesData;
+      console.log(salaryResponses);
+    }
+  
+    if (salaryResponses.length === 0) {
+      this.helperService.showToast("No employees selected", Key.TOAST_STATUS_ERROR);
+      return;
+    }
+  
+    // Determine which service to use based on the selected channel
+    if (channel === 'whatsapp') {
+      this.dataService.sendPayslipViaWhatsapp(salaryResponses, this.payslipMonth).subscribe(
+        (result) => {
+          this.helperService.showToast("Payslip sent successfully via WhatsApp", Key.TOAST_STATUS_SUCCESS);
+        },
+        (error) => {
+          this.helperService.showToast("Payslip can't be sent via WhatsApp", Key.TOAST_STATUS_ERROR);
+          console.error('Error sending payslip via WhatsApp:', error);
+        }
+      );
+    } else if (channel === 'email') {
+      this.dataService.sendPayslipViaEmail(salaryResponses, this.payslipMonth).subscribe(
+        (result) => {
+          this.helperService.showToast("Payslip sent successfully via Email", Key.TOAST_STATUS_SUCCESS);
+        },
+        (error) => {
+          this.helperService.showToast("Payslip can't be sent via Email", Key.TOAST_STATUS_ERROR);
+          console.error('Error sending payslip via Email:', error);
+        }
+      );
+    }
+  }
+  
+  
+
+
+setPayslipMonth(date: string) {
+  const parsedDate = new Date(date);
+  const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+  
+  const month = monthNames[parsedDate.getMonth()];
+  const year = parsedDate.getFullYear();
+
+  // Format as "Month YYYY"
+  this.payslipMonth = `${month} ${year}`;
+}
+
 
   size: 'large' | 'small' | 'default' = 'small';
   selectedDate: Date = new Date();
@@ -250,40 +326,49 @@ this.getOrganizationMonthWiseSalaryDataMethodCall();
   
   unselectAllUsers() {
     this.selectedEmployeeIds = [];
+    this.selectedEmployeesData = [];
     this.isAllUsersSelected = false;
+  }
+  selectedEmployeesData: EmployeeMonthWiseSalaryData[] = [];
+  selectAllUsers(event: any) {
+    if (event.target.checked) {
+      this.getAllSalarySlipDataLogsMonthwiseMethodCall();
+    } else {
+      this.selectedEmployeeIds = [];
+      this.selectedEmployeesData = [];
+      this.isAllUsersSelected = false;
+    }
+  }
+  
+  selectUser(employee: EmployeeMonthWiseSalaryData) {
+    const index = this.selectedEmployeeIds.indexOf(employee.uuid);
+  
+    if (index !== -1) {
+      // If the user is already selected, deselect the user
+      this.selectedEmployeeIds.splice(index, 1);
+      this.selectedEmployeesData = this.selectedEmployeesData.filter(emp => emp.uuid !== employee.uuid);
+    } else {
+      // If the user is not selected, select the user
+      this.selectedEmployeeIds.push(employee.uuid);
+      this.selectedEmployeesData.push(employee);
+    }
+  
+    this.isAllUsersSelected = this.selectedEmployeeIds.length === this.employeeMonthWiseSalaryDataList.length;
   }
   
   getAllSalarySlipDataLogsMonthwiseMethodCall() {
     this.dataService.getAllSalarySlipDataLogsMonthwise(this.startDate, this.endDate).subscribe(
       (response: { listOfObject: EmployeeMonthWiseSalaryData[] }) => {
-        
         this.total = response.listOfObject.length;
         this.isAllUsersSelected = true;
         this.selectedEmployeeIds = response.listOfObject.map((employee: EmployeeMonthWiseSalaryData) => employee.uuid);
+        this.selectedEmployeesData = response.listOfObject;
         console.log(this.selectedEmployeeIds);
       },
       (error) => {
         console.log(error);
       }
     );
-  }
-
-  selectAllUsers(event: any) {
-    if (event.target.checked) {
-      this.getAllSalarySlipDataLogsMonthwiseMethodCall();
-    } else {
-      this.selectedEmployeeIds = [];
-      this.isAllUsersSelected = false;
-    }
-  }
-
-  selectUser(uuid: string) {
-    if (this.selectedEmployeeIds.includes(uuid)) {
-      this.selectedEmployeeIds = this.selectedEmployeeIds.filter(id => id !== uuid);
-    } else {
-      this.selectedEmployeeIds.push(uuid);
-    }
-    this.isAllUsersSelected = this.selectedEmployeeIds.length === this.employeeMonthWiseSalaryDataList.length;
   }
 
   
@@ -301,7 +386,20 @@ this.getOrganizationMonthWiseSalaryDataMethodCall();
     );
   }
   
-  
+  generateSalarySlipMethodCall(){
+    this.dataService.generateSalarySlip(this.startDate, this.endDate,this.selectedEmployeeIds).subscribe(
+      (response) => {
+        
+        this.isAllUsersSelected = false;
+        this.selectedEmployeeIds= [];
+        this.helperService.showToast('Payslip generated Succesfully', Key.TOAST_STATUS_SUCCESS)
+        this.getOrganizationMonthWiseSalaryDataMethodCall();
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
 
   
   
