@@ -275,10 +275,14 @@
                                     <td *ngIf="ad.status === 'UNAVAILABLE'"><i class="bi bi-trash text-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)"></i>  </td>
                                     <td *ngIf="ad.status === 'AVAILABLE'" ><i class="fas fa-bullhorn text-success"  ngbTooltip="Assign User" style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#assignRejectModal" (click)="assignOrRejectModalStrings(ad.status, ad.assetId)"></i>
                                       <span style="cursor: pointer" (click)="makeAssetUnavailable('UNAVAILABLE', ad.assetId)"  ngbTooltip="Mark as unavailable"
-                                      placement="top"><i class="mdi mdi-arrow-up-drop-circle-outline text-success ml-1" ></i></span><i class="bi bi-trash text-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)"></i><i class="bi bi-pencil" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#createAssetModal" (click)="assignAssetId(ad.assetId)"></i> </td>
+                                      placement="top"><i class="mdi mdi-arrow-up-drop-circle-outline text-success ml-1" ></i></span><i class="bi bi-trash text-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)"></i>
+                                      <!-- <i class="bi bi-pencil" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#createAssetModal" (click)="assignAssetId(ad.assetId)"></i>  -->
+                                    </td>
                                     <td *ngIf="ad.status === 'ASSIGNED'" ><i class="fas fa-bullhorn text-muted" ngbTooltip="Return Entry" style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#assignRejectModal" (click)="assignOrRejectModalStrings(ad.status, ad.assetId)"></i>
                                       <span style="cursor: pointer" (click)="makeAssetUnavailable('UNAVAILABLE', ad.assetId)"  ngbTooltip="Mark as unavailable"
-                                      placement="top"><i class="mdi mdi-arrow-up-drop-circle-outline text-success ml-1" ></i></span><i class="bi bi-trash text-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)"></i><i class="bi bi-pencil" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#createAssetModal" (click)="assignAssetId(ad.assetId)"></i> </td>
+                                      placement="top"><i class="mdi mdi-arrow-up-drop-circle-outline text-success ml-1" ></i></span><i class="bi bi-trash text-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)"></i>
+                                      <!-- <i class="bi bi-pencil" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#createAssetModal" (click)="assignAssetId(ad.assetId)"></i>  -->
+                                    </td>
 
                                       
                                 </tr><!--end tr-->
