@@ -929,8 +929,10 @@
                       <!--end card-->
                       <div class="align-items-center d-flex justify-content-end add-filtter mb-2"
                         *ngIf="userRoleFlag && ROLE!= 'ADMIN'">
-                        <a class="btn" data-bs-toggle="modal" data-bs-target=".apply-leave">
-                          <i class="bi bi-plus" style="font-size: 20px"></i> Apply for a Leave </a>
+                        <a class="btn" data-bs-toggle="modal" data-bs-target=".apply-leave"><i class="bi bi-plus"
+                            style="font-size: 20px"></i>Apply for a Leave</a>
+                        <a class="btn" data-bs-toggle="modal" data-bs-target=".lop-reversal-request"><i
+                            class="bi bi-plus" style="font-size: 20px"></i>Apply for Lop Reversal </a>
                       </div>
                       <ng-container *ngIf="
                           userLeave.length !== 0 && !leaveCountPlaceholderFlag
@@ -3194,6 +3196,83 @@
           </div>
         </div>
       </div>
+
+
+      <!-- Modal -->
+      <div class="modal fade lop-reversal-request" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+        aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered mx-auto">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h6 class="modal-title m-0" id="exampleModalCenterTitle"> Apply for Lop Reversal </h6>
+              <button type="button" class="btn-close" id="lopReversalRequestModal" data-bs-dismiss="modal"
+                aria-label="Close" #closeLopReversalRequestModal></button>
+            </div>
+            <div class="modal-body">
+              <div class="apply-leave-main-box">
+                <form [formGroup]="userLeaveForm" #formDirective="ngForm">
+                  <div class="mb-2">
+                    <label for="username" style="padding-bottom: 6px">Pick the month to reverse the LOP for:</label>
+                    <nz-date-picker nzMode="month" [nzSize]="size" [(ngModel)]="selectedDate"
+                      (ngModelChange)="onMonthChange($event)" [nzDisabledDate]="disableMonths"></nz-date-picker>
+                  </div>
+                  <div class="mb-2">
+                    <label for="username" style="padding-bottom: 6px">Enter the days count to reverse the LOP
+                      for:</label>
+                    <nz-input-number style="width: 100%" [nzSize]="'large'" [nzMin]="1" [nzMax]="10" [nzStep]="1"
+                      nzPlaceHolder="Enter the days count here"></nz-input-number>
+                  </div>
+                  <!-- <span class="optional">(optional)</span> -->
+                  <div class="mb-2">
+                    <label for="username" style="padding-bottom: 6px">Add Notes:</label>
+                    <textarea nz-input placeholder="Write a note here" rows="4"></textarea>
+                  </div>
+                  <div class="mb-2">
+                    <label for="selectDocuments"> Select Proof Document (optional) </label>
+                    <br />
+                    <nz-upload nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                      [nzHeaders]="{ authorization: 'authorization-text' }" (nzChange)="handleChange($event)"
+                      nzAccept="image/jpeg, image/png, image/jpg, application/pdf">
+                      <button nz-button>
+                        <span nz-icon nzType="upload"></span>
+                        Upload
+                      </button>
+                    </nz-upload>
+                    <!-- <input type="file" #fileInput class="form-control-file" id="selectDocuments"
+                      (change)="onFileSelected($event)" accept="image/jpeg, image/png, image/jpg,  application/pdf" /> -->
+                  </div>
+                  <!-- <div class="mb-2" *ngIf="imagePreviewUrl || pdfPreviewUrl"><div *ngIf="selectedFile"><img
+                        *ngIf="isImageNew(selectedFile)"
+                        [src]="imagePreviewUrl"
+                        class="img-fluid"
+                        height="'50%"
+                        width="50px"
+                        alt="Selected Image"
+                      /><iframe
+                        *ngIf="isPdf(selectedFile)"
+                        [src]="pdfPreviewUrl"
+                        frameborder="0"
+                        width="100%"
+                        height="400px"
+                      ></iframe></div></div> -->
+                </form>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal"> Close </button>
+              <button type="button" class="btn btn-primary save-changes"
+                [disabled]="userLeaveForm.invalid || isFileUploaded" *ngIf="!submitLeaveLoader"
+                (click)="saveLeaveRequestUser()"> Submit </button>
+              <div class="dot-opacity-loader" *ngIf="submitLeaveLoader">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- show image modal -->
       <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#showImageModal"
         #openViewModal id="openViewModal"></button>
