@@ -120,8 +120,8 @@ export class TopbarComponent implements OnInit {
       routeValue = "Bonus And Deduction";
     }
 
-    if(routeValue.includes("tds")){
-      routeValue = "TDS";
+    if(routeValue.includes("epf-esi-tds")){
+      routeValue = "EPF, ESI & TDS";
     }
 
     if(routeValue.includes("employee-onboarding-data")){
