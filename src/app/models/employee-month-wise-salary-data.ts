@@ -16,5 +16,7 @@ export class EmployeeMonthWiseSalaryData {
   image !: string;
   payActionType !: string;
   comment !: string;
+  paySlipUrl !: string;
+  payslipMonth !: string;
   payStatus : Status = new Status();
 }

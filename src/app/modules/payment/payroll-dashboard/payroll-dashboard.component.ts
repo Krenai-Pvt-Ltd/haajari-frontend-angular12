@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { resolveSanitizationFn } from '@angular/compiler/src/render3/view/template';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { clear } from 'console';
@@ -40,7 +41,7 @@ import { HelperService } from 'src/app/services/helper.service';
   styleUrls: ['./payroll-dashboard.component.css'],
 })
 export class PayrollDashboardComponent implements OnInit {
-  itemPerPage: number = 2;
+  itemPerPage: number = 8;
   pageNumber: number = 1;
   lastPageNumber: number = 0;
   sort: string = 'asc';
@@ -74,6 +75,7 @@ export class PayrollDashboardComponent implements OnInit {
   readonly EPF = Key.EPF;
   readonly ESI = Key.ESI;
   readonly TDS = Key.TDS;
+  readonly PAYROLL_HISTORY = Key.PAYROLL_HISTORY;
 
   isTaskSuccess : boolean = true;
 
@@ -387,7 +389,8 @@ export class PayrollDashboardComponent implements OnInit {
 
   constructor(
     private dataService: DataService,
-    private helperService: HelperService
+    private helperService: HelperService,
+    private datePipe: DatePipe
   ) {}
 
   ngOnInit(): void {
@@ -973,6 +976,10 @@ export class PayrollDashboardComponent implements OnInit {
 
     if(step == this.TDS){
       this.getTdsDetailsResponseListByOrganizationIdMethodCall();
+    }
+
+    if(step == this.PAYROLL_HISTORY){
+      this.getPayrollLogs();
     }
 
   }
@@ -1971,6 +1978,41 @@ export class PayrollDashboardComponent implements OnInit {
       this.step5Tab.nativeElement.click();  
       
     }
+
+
+    payrollLogs: any[] = [];
+    isPayrollHistoryPlaceholder = true;
+    dataNotFoundPlaceholderForPayrollHistory : boolean = false;
+    networkConnectionErrorPlaceHolderForPayrollHistory : boolean = false;
+    getPayrollLogs(): void {
+      this.payrollLogs = [];
+      this.dataService.getGeneratedPayrollMonthlyLogs(this.startDate, this.endDate, this.pageNumber, this.itemPerPage)
+        .subscribe(
+          (response: any) => {
+            if(response.listOfObject.length==0){
+              this.dataNotFoundPlaceholderForPayrollHistory = true;
+              console.log("null")
+            } else{
+              this.payrollLogs = response.listOfObject;
+              this.total = response.totalItems;
+              this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+            }
+        
+            
+            // this.groupLogsByDate();
+            this.isPayrollHistoryPlaceholder = this.payrollLogs.length === 0;
+          },
+          (error: any) => {
+            console.error('Error fetching report logs:', error);
+            this.isPayrollHistoryPlaceholder = true;
+            this.networkConnectionErrorPlaceHolderForPayrollHistory = true;
+          }
+        );
+    }
+  
+    
+
+
 }
 
 

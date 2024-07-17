@@ -3335,4 +3335,34 @@ export class DataService {
     ;
     return this.httpClient.put<any>(`${this.baseUrl}/salary/generate-slip`,userUuids, {params});
   }
+
+  sendPayslipViaWhatsapp(
+    salaryResponse: any, payslipMonth: string 
+  ): Observable<any>{
+    const params = new HttpParams()
+    .set('payslip_month', payslipMonth)
+    return this.httpClient.put<any>(`${this.baseUrl}/salary/send-payslip-whatsapp`,salaryResponse, {params});
+  }
+
+  sendPayslipViaEmail(
+    salaryResponse: any, payslipMonth: string 
+  ): Observable<any>{
+    const params = new HttpParams()
+    .set('payslip_month', payslipMonth)
+    return this.httpClient.put<any>(`${this.baseUrl}/salary/send-payslip-email`,salaryResponse, {params});
+  }
+
+
+  getGeneratedPayrollMonthlyLogs(startDate: string, endDate: string, pageNumber: number, itemsPerPage : number): Observable<any> {
+    const url = `${this.baseUrl}/generate-reports/get-salary-reports-logs`;
+
+    const params = new HttpParams()
+      .set('start_date', startDate)
+      .set('end_date', endDate)
+      .set('page_number', pageNumber)
+      .set('item_per_page', itemsPerPage);
+
+    return this.httpClient.get<any>(url,{ params });
+  }
+
 }
