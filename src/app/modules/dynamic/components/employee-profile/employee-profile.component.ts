@@ -51,6 +51,9 @@ import { Chart } from 'chart.js';
 import { EmployeePayslipResponse } from 'src/app/models/employee-payslip-response';
 import { EmployeePayslipBreakupResponse } from 'src/app/models/employee-payslip-breakup-response';
 import { EmployeePayslipDeductionResponse } from 'src/app/models/employee-payslip-deduction-response';
+import { EmployeePayslipLogResponse } from 'src/app/employee-payslip-log-response';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 
 @Component({
   selector: 'app-employee-profile',
@@ -86,7 +89,8 @@ export class EmployeeProfileComponent implements OnInit {
     private roleService: RoleBasedAccessControlService,
     public location: Location,
     public domSanitizer: DomSanitizer,
-    private afStorage: AngularFireStorage
+    private afStorage: AngularFireStorage,
+    private msg: NzMessageService
   ) {
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
@@ -1620,6 +1624,15 @@ export class EmployeeProfileComponent implements OnInit {
     this.networkConnectionErrorPlaceHolderForEmployeePayslipDeductionResponse = false;
   }
 
+  isShimmerForEmployeePayslipLogResponse = false;
+  dataNotFoundPlaceholderForEmployeePayslipLogResponse = false;
+  networkConnectionErrorPlaceHolderForEmployeePayslipLogResponse = false;
+  preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipLogResponseMethodCall() {
+    this.isShimmerForEmployeePayslipLogResponse = true;
+    this.dataNotFoundPlaceholderForEmployeePayslipLogResponse = false;
+    this.networkConnectionErrorPlaceHolderForEmployeePayslipLogResponse = false;
+  }
+
 
   salaryTemplateComponentResponse: SalaryTemplateComponentResponse = new SalaryTemplateComponentResponse();
   getSalaryTemplateComponentByUserUuidMethodCall() {
@@ -1840,7 +1853,6 @@ export class EmployeeProfileComponent implements OnInit {
     this.selectedDate = month;
     this.getFirstAndLastDateOfMonth(this.selectedDate);
 
-    console.log(this.startDate, this.endDate);
     this.financeSectionMethodCall();
 
   }
@@ -1908,6 +1920,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.getEmployeePayslipResponseByUserUuidMethodCall();
     this.getEmployeePayslipBreakupResponseByUserUuidMethodCall();
     this.getEmployeePayslipDeductionResponseByUserUuidMethodCall();
+    this.getEmployeePayslipLogResponseByUserUuidMethodCall();
   }
 
   employeePayslipResponse : EmployeePayslipResponse = new EmployeePayslipResponse();
@@ -1950,7 +1963,6 @@ export class EmployeeProfileComponent implements OnInit {
 
   employeePayslipDeductionResponse : EmployeePayslipDeductionResponse = new EmployeePayslipDeductionResponse();
   getEmployeePayslipDeductionResponseByUserUuidMethodCall(){
-    debugger;
     this.preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipDeductionResponseMethodCall();
     this.dataService.getEmployeePayslipDeductionResponseByUserUuid(this.userId, this.startDate, this.endDate).subscribe((response) => {
       if(this.helperService.isObjectNullOrUndefined(response)){
@@ -1964,6 +1976,26 @@ export class EmployeeProfileComponent implements OnInit {
       this.networkConnectionErrorPlaceHolderForEmployeePayslipDeductionResponse = true;
       this.isShimmerForEmployeePayslipDeductionResponse = true;
     })
+  }
+
+  employeePayslipLogResponseList : EmployeePayslipLogResponse[] = [];
+  getEmployeePayslipLogResponseByUserUuidMethodCall(){
+    this.preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipLogResponseMethodCall();
+    this.dataService.getEmployeePayslipLogResponseByUserUuid(this.userId, this.startDate, this.endDate).subscribe((response) => {
+      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+        this.dataNotFoundPlaceholderForEmployeePayslipLogResponse = true;
+      } else{
+        this.employeePayslipLogResponseList = response.listOfObject;
+      }
+      this.isShimmerForEmployeePayslipLogResponse = false;
+    }, (error) => {
+      this.isShimmerForEmployeePayslipLogResponse = false;
+      this.networkConnectionErrorPlaceHolderForEmployeePayslipLogResponse = true;
+    })
+  }
+
+  downloadPaySlip(url: string, name: string){
+    this.helperService.downloadPdf(url, name);
   }
 
   // #################-- Payroll chart code --###########################
@@ -2543,6 +2575,17 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
   // Function to handle file selection
+  handleChange(info: NzUploadChangeParam): void {
+    if (info.file.status !== 'uploading') {
+      console.log(info.file, info.fileList);
+    }
+    if (info.file.status === 'done') {
+      this.msg.success(`${info.file.name} file uploaded successfully.`);
+    } else if (info.file.status === 'error') {
+      this.msg.error(`${info.file.name} file upload failed.`);
+    }
+  }
+
   onFileSelected(event: Event): void {
     
     const element = event.currentTarget as HTMLInputElement;

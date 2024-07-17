@@ -1,4 +1,4 @@
-.table.table-light {
+.table .table-light {
     color: #8997bd;
     font-weight: 400;
     vertical-align: middle;
@@ -12,9 +12,9 @@
     background-color: #f5f5f5;
     text-align: left;
 }
-.table .table-light td{
+.table td{
     font-size: 12px;
     line-height: 21px;
-    font-weight: 400;
+    font-weight: 200 !important;
     text-align: left;
 }

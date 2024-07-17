@@ -3350,4 +3350,14 @@ export class DataService {
 
     return this.httpClient.get<any>(`${this.baseUrl}/salary/month-wise/pay-slip-deduction`, {params});
   }
+
+  getEmployeePayslipLogResponseByUserUuid(userUuid : string, startDate : string, endDate : string): Observable<any>{
+
+    const params = new HttpParams()
+    .set('user_uuid', userUuid)
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/month-wise/pay-slip-log`, {params});
+  }
 }

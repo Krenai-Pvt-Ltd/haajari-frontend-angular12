@@ -1642,7 +1642,14 @@ tbody tr {
   font-size: 14px;
   color: #888;
 }
-.document-actions a {
+.document-item i {
+  font-size: 1rem;
+}
+.document-actions i{
+  cursor: pointer;
+  color: #6666f3;
+}
+/* .document-actions a {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1652,7 +1659,7 @@ tbody tr {
   background-color: #007bff;
   color: white;
   text-decoration: none;
-}
+} */
 .document-actions a img {
   width: 16px;
   height: 16px;
