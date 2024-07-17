@@ -3485,9 +3485,4 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/salary/month-wise/pay-slip-log`, {params});
   }
 
-
-  
-
-
-  
 }
