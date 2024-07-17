@@ -104,6 +104,10 @@ export class TopbarComponent implements OnInit {
       routeValue = "Subscription & Plan";
     }
 
+    if(routeValue.includes("payroll-dashboard/leave-summary")){
+      routeValue = "Attendance, Leave & Present Days"
+    }
+
     if(routeValue.includes("payroll-dashboard")){
       routeValue = "Payroll Dashboard";
     }
@@ -116,8 +120,8 @@ export class TopbarComponent implements OnInit {
       routeValue = "Bonus And Deduction";
     }
 
-    if(routeValue.includes("tds")){
-      routeValue = "TDS";
+    if(routeValue.includes("epf-esi-tds")){
+      routeValue = "EPF, ESI & TDS";
     }
 
     if(routeValue.includes("employee-onboarding-data")){

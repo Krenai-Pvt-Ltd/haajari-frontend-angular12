@@ -2,121 +2,106 @@
   <!-- Page Content-->
   <div class="page-content-tab">
     <div class="container-fluid">
-      <!-- Page-Title -->
-      <!-- Page-Title -->
-      <!-- <div class="row">
-                  <div class="col-sm-12">
-                      <div class="page-title-box">
-                          <div class="float-end">
-                              <ol class="breadcrumb">
-                                  <li class="breadcrumb-item"><a routerLink="/dynamic/dashboard">Dashboard</a>
-                                  </li>
-                                  <li class="breadcrumb-items active">/</li>
-                                  <li class="breadcrumb-items active">Team</li>
-                              </ol>
-                          </div>
-                          <h4 class="page-title">Team</h4>
-                      </div>
-                  </div>
-              </div> -->
-
       <!-- end page title end breadcrumb -->
-      <div class="row">
-        <!-- <div class="card-header">
-                      <div class="row">
-                          <div class="col-md-7"></div>
-                          <div class="col-md-5">
-                              <form class="searching" role="search" (submit)="searchTeams()">
-                                  <div class="form-group" style="width: 250px;">
-                                    <input class="form-control me-2" type="search" id="searchText" placeholder="Search" (keyup)="searchTeams()" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }" style="padding: 5px 15px;">
-          
-                                   
-                                  </div>
-                                  
-                                </form>
-                          </div>
-                         
-                      </div>
-                  </div> -->
+      <div class="row"></div>
 
-        <!-- <div class="col-lg-6">
-                      <div class="col-lg-6 text-start">
-                          <button type="button" class="btn btn-primary mb-3" (click)="saveSlackChannelsDataToTeam()">Load Data</button>                      
-                      </div>
-                  </div>
-  
-  
-                  <div class="col-lg-6 text-end">
-                                      
-                  </div> -->
-      </div>
-
-      <!-- *ngIf="!isShimmer && teamsNew.length>0 || !isShimmer && total==0 && searchTeamPlaceholderFlag" -->
-      <!-- <div *ngIf="!isShimmer && teamsNew.length>0 || !isShimmer && total==0"></div> -->
       <div
-        class="row mb-3 mt-3 align-items-center search-area"
+        class="row mb-1 mt-3 align-items-center"
         style="padding-bottom: 15px"
         *ngIf="
           (teamsNew.length > 0 && !slackDataPlaceholderFlag) ||
           searchTeamPlaceholderFlag
         "
       >
-        <div class="col-md-5">
-          <form
-            role="search"
-            class="searching ng-untouched ng-pristine ng-valid"
-            (submit)="searchTeams()"
+        <div class="col-md-12">
+          <div
+            class="d-flex align-items-center"
+            style="border: 1px solid #f1f1f1"
           >
-            <div class="form-group" style="width: 300px; position: relative">
-              <input
-                type="text"
-                id="searchText"
-                placeholder="Search"
-                class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
-                (keyup)="searchTeams()"
-                [(ngModel)]="searchText"
-                [ngModelOptions]="{ standalone: true }"
-                style="padding: 10px 30px"
-              />
-
-              <button
-                type="button"
-                class="btn close-btn"
-                (click)="reloadPage()"
-                *ngIf="crossFlag"
+            <div class="" style="width: 70%">
+              <form
+                role="search"
+                class="searching ng-untouched ng-pristine ng-valid"
+                (submit)="searchTeams()"
               >
-                <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-              </button>
+                <div class="form-group" style="position: relative; width: 100%">
+                  <input
+                    type="text"
+                    id="searchText"
+                    placeholder="Search"
+                    class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
+                    (keyup)="searchTeams()"
+                    [(ngModel)]="searchText"
+                    [ngModelOptions]="{ standalone: true }"
+                    style="padding: 10px 30px; height: 50px !important"
+                  />
 
-              <i
-                class="bi bi-search search-icon"
-                style="margin: auto; margin-left: 10px"
-              ></i>
+                  <button
+                    type="button"
+                    class="btn close-btn"
+                    (click)="reloadPage()"
+                    *ngIf="crossFlag"
+                  >
+                    <i class="bi bi-x mt-auto mb-auto pl-3"></i>
+                  </button>
+
+                  <i
+                    class="bi bi-search search-icon"
+                    style="margin: auto; margin-left: 10px"
+                  ></i>
+                </div>
+              </form>
             </div>
-          </form>
+            <div
+              class="d-flex justify-content-end align-items-center"
+              style="gap: 10px; width: 30%; padding-right: 20px"
+            >
+              <div
+                class="add-filtter d-flex align-items-center justify-content-end"
+                style="gap: 10px"
+              >
+                <a
+                  data-bs-toggle="modal"
+                  data-bs-target="#createteam2"
+                  type="button"
+                  *ngIf="ROLE != 'USER'"
+                >
+                  <i class="bi bi-plus" style="font-size: 18px"></i> Create Team
+                </a>
 
-          <!-- <form role="search" class="searching ng-untouched ng-pristine ng-valid" (submit)="searchTeams()">
-                          <div class="form-group" style="width: 300px;">
-                              <input type="search" id="searchText" placeholder="Search" class="form-control me-2 ng-untouched ng-pristine ng-valid" (keyup)="searchTeams()" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }" style="padding: 10px 30px;">
-                              <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"></i>
-                          </div>
-                      </form> -->
+                <p
+                  style="color: #a1a0a0; margin-bottom: 0px"
+                  *ngIf="ROLE == 'ADMIN' && onboardingVia == 'SLACK'"
+                >
+                  |
+                </p>
+                <a
+                  (click)="getFlagOfSlackPlaceholder2()"
+                  [ngClass]="{ 'disabled-lnk': rotateToggle }"
+                  *ngIf="ROLE == 'ADMIN' && onboardingVia == 'SLACK'"
+                  ><i
+                    style="
+                      font-size: 16px;
+                      color: #6666f3;
+                      height: 1rem;
+                      width: 1rem;
+                    "
+                    [ngClass]="{
+                      'spinner-border': rotateToggle,
+                      'bi bi-arrow-clockwise': !rotateToggle
+                    }"
+                  ></i>
+                  Data Sync
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="col-md-7">
+        <!-- <div class="col-md-7">
           <div
             class="d-flex justify-content-end align-items-center"
             style="gap: 10px"
           >
-            <!-- <div class="cusser " (click)="saveSlackChannelsDataToTeam()">
-                          <i  style="font-size: 20px; color: #6666f3; height: 1.5rem; width:1.5rem" [ngClass]="{'spinner-border':rotateToggle,'bi bi-arrow-clockwise':!rotateToggle }"></i> -->
-
-            <!-- <div class="loading-btn">
-                          <div class="cusser " [ngClass]="{'rotate down':rotateToggle}" (click)="saveSlackChannelsDataToTeam()">
-                          <i class="bi bi-arrow-clockwise" style="font-size: 20px; color: #6666f3;"></i>
-                          </div>
-                      </div>
-                      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createteam">Create Team</button>    -->
-
             <div
               class="add-filtter d-flex align-items-center justify-content-end"
               style="gap: 10px"
@@ -155,7 +140,7 @@
               </a>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
       <!-- *ngIf="firebaseDataReloadFlag && teamsNew.length > 0" -->
       <div
@@ -164,10 +149,6 @@
       >
         <div class="col-md-3"></div>
         <div class="col-md-6 mb-3">
-          <!-- <div class="progress">
-              <div class="progress-bar progress-bar-striped" role="progressbar" [style.width]="percentage+'%'" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">{{percentage}}%</div>
-            </div> -->
-
           <div class="d-flex align-items-center position-relative">
             <div class="">
               <img
@@ -313,11 +294,6 @@
           <div class="">
             <h4>Team not found</h4>
             <p>Create new team by clicking on 'Create Team' button.</p>
-            <!-- <div class="mb-3">
-                                  <a href="" class="addinh-hiar" data-bs-toggle="modal" data-bs-target="#createteam">Create Team <i class="bi bi-arrow-up-right" style="padding-left: 8px; font-size: 12px; color: #6666f3; font-weight: bold;"></i></a>
-                              </div> -->
-
-            <!-- <button type="button" class="btn create-team" data-bs-toggle="modal" data-bs-target="#createteam">Create Team</button> -->
           </div>
         </div>
         <div class="col-md-6">
@@ -390,7 +366,7 @@
                   type="button"
                   class="btn create-team"
                   data-bs-toggle="modal"
-                  data-bs-target="#createteam"
+                  data-bs-target="#createteam2"
                 >
                   Create Team
                 </button>
@@ -398,7 +374,7 @@
                   type="button"
                   class="btn create-team-on-slack"
                   (click)="getFlagOfSlackPlaceholder()"
-                  *ngIf="onboardingVia == 'Slack'"
+                  *ngIf="onboardingVia == 'SLACK'"
                 >
                   Slack Data Sync..
                 </button>
@@ -579,6 +555,7 @@
                     "
                   >
                     {{ team.description }}
+                    <!-- {{ team.teamLocation.addressLine1 }} -->
                   </p>
                 </div>
               </div>
@@ -908,9 +885,18 @@
   <!-- end page content -->
 </div>
 
+<button
+  type="button"
+  style="display: none"
+  data-bs-toggle="modal"
+  data-bs-target="#createteam2"
+  #createteam
+  id="createteam"
+></button>
 <div
   class="modal fade"
-  id="createteam"
+  id="createteam2"
+  #createteam2
   tabindex="-1"
   aria-labelledby="exampleModalFullscreenLabel"
   aria-hidden="true"
@@ -1046,35 +1032,92 @@
                       </div>
                     </div>
                   </div>
-                  <!-- <div class="form-group">
-                                  <label for="username" class="mb-2" style="font-size: 13px;"> Team status </label>
-                                  <div class="form-check">
-                                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                      <label class="form-check-label" for="flexCheckDefault">
-                                          Endorsed <span class="endorsed"><a href="">Upgrade to Hajari Enterprise</a></span><br>
-                                          <p class="endorsed-para">Endorsed teams are recommended by admins in your organization.</p>
-                                      </label>
-                                  </div>                                   
-                              </div> -->
+                  <div class="form-group">
+                    <label for="username" class="mb-2" style="font-size: 13px">
+                      Manager
+                    </label>
+                    <div class="input-group mb-3">
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="manager"
+                        id="manager"
+                        placeholder="Add team manager by name or email…"
+                        [(ngModel)]="searchQueryManager"
+                        (input)="searchUsersManager()"
+                      />
+                      <div
+                        class="user-dropdown new-membear-list"
+                        *ngIf="userListManager.length > 0"
+                      >
+                        <div
+                          id="manager-item"
+                          class="user-item"
+                          *ngFor="let user of userListManager"
+                          (click)="toggleUserSelectionManager(user)"
+                        >
+                          <div *ngIf="user.image === null">
+                            <span id="manager-list-details">
+                              <span
+                                class="members-name"
+                                id="manager-first-name-logo"
+                                >{{ user.name[0] }}</span
+                              >&nbsp;&nbsp;
+                              <span class="user-name-email"
+                                ><b>{{ user.name }}</b> &nbsp;
+                                {{ user.email }}</span
+                              >
+                            </span>
+                          </div>
 
-                  <!-- <div class="form-group">
-                                  <label for="username" class="mb-2" style="font-size: 13px;"> Team privacy </label>
-                                  <div class="form-check">
-                                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                      <label class="form-check-label" for="flexCheckDefault">
-                                          <i class="bi bi-envelope"></i> Membership by request<br>
-                                          <p class="endorsed-para">A member has to request to join this team</p>
-                                      </label>
-                                  </div>
-                                  <div class="form-check">
-                                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                      <label class="form-check-label" for="flexCheckDefault">
-                                          <i class="bi bi-lock"></i>  Private<br>
-                                          <p class="endorsed-para">A member must be invited to join this team</p>
-                                      </label>
-                                  </div>
-                                                                   
-                              </div> -->
+                          <div *ngIf="user.image !== null">
+                            <span id="manager-list-details">
+                              <img [src]="user.image" alt="User Logo" />
+                              &nbsp;&nbsp; <b>{{ user.name }}</b> &nbsp;
+                              {{ user.email }}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="selected-users"
+                        *ngIf="selectedManager != null"
+                      >
+                        <div class="d-flex selected-userss align-items-center">
+                          <span class="members-namess">{{
+                            selectedManager!.name[0]
+                          }}</span>
+                          <p class="mb-0">{{ selectedManager!.name }}</p>
+                          <span
+                            class="remove-icon"
+                            style="line-height: 0px"
+                            (click)="
+                              removeSelectedUserOfSelectionManager(
+                                selectedManager
+                              )
+                            "
+                            ><i
+                              class="bi bi-x"
+                              style="color: #fff; font-size: 20px"
+                            ></i
+                          ></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-check-label" for="enableLocation">
+                      Enable Location
+                    </label>
+                    <input
+                      type="checkbox"
+                      id="enableLocation"
+                      class="form-check-input"
+                      [(ngModel)]="locationEnabled"
+                      (change)="handleLocationToggle()"
+                    />
+                  </div>
+
                   <div class="">
                     <button
                       style="width: 100%"
@@ -1092,8 +1135,7 @@
               <div
                 class="createteam-box"
                 style="
-                  box-shadow:
-                    0 1px 3px rgba(0, 0, 0, 0.12),
+                  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
                     0 1px 2px rgba(0, 0, 0, 0.24);
                 "
               >
@@ -1221,6 +1263,174 @@
   <!--end modal-dialog-->
 </div>
 <!--end modal-->
+
+<button
+  type="button"
+  style="display: none"
+  data-bs-toggle="modal"
+  data-bs-target="#teamLocationss2"
+  #teamLocationss
+  id="teamLocationss"
+></button>
+
+<div
+  class="modal fade"
+  id="teamLocationss2"
+  tabindex="-1"
+  role="dialog"
+  #teamLocationss2
+  aria-labelledby="teamLocationss2"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg" role="document">
+    <form
+      #teamLocationForm="ngForm"
+      ngNativeValidate
+      (ngSubmit)="reopenCreateTeamModal()"
+    >
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
+            Staff Attendance With Location
+          </h6>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            (click)="refreshTeamLocationsForm(true)"
+            #closeTeamLocationModal
+            aria-label="Close"
+          ></button>
+        </div>
+        <!--end modal-header-->
+        <div class="modal-body">
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="mb-3">
+                  <label for="addressLine1" class="pb-2">Address </label>
+                  <input
+                    type="text"
+                    id="addressLine1"
+                    placeholder="Address line 1"
+                    ngx-google-places-autocomplete
+                    #placesRef="ngx-places"
+                    (onAddressChange)="handleAddressChange($event)"
+                    required=""
+                    name="addressLine1"
+                    class="form-control ng-untouched ng-pristine ng-invalid"
+                    [(ngModel)]="teamLocationRequest.addressLine1"
+                  />
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="mb-3">
+                  <label for="addressLine2" class="pb-2">Street Address</label>
+                  <input
+                    type="text"
+                    id="addressLine2"
+                    placeholder="Address line 2"
+                    required=""
+                    name="addressLine2"
+                    class="form-control ng-untouched ng-pristine ng-invalid"
+                    [(ngModel)]="teamLocationRequest.addressLine2"
+                  />
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label for="city" class="pb-2"> City </label>
+                  <input
+                    type="text"
+                    id="city"
+                    placeholder="City"
+                    required=""
+                    name="city"
+                    class="form-control ng-untouched ng-pristine ng-invalid"
+                    [(ngModel)]="teamLocationRequest.city"
+                  />
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label for="state" class="pb-2"> State </label>
+                  <input
+                    type="text"
+                    id="state"
+                    placeholder="State"
+                    required=""
+                    name="state"
+                    class="form-control ng-untouched ng-pristine ng-invalid"
+                    [(ngModel)]="teamLocationRequest.state"
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="country" class="pb-2">Country</label>
+                  <input
+                    type="text"
+                    id="country"
+                    placeholder="Country"
+                    required=""
+                    name="country"
+                    class="form-control ng-untouched ng-pristine ng-invalid"
+                    [(ngModel)]="teamLocationRequest.country"
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="pincode" class="pb-2">Pincode</label>
+                  <input
+                    type="text"
+                    id="pincode"
+                    placeholder="Pincode"
+                    required=""
+                    name="pincode"
+                    class="form-control ng-untouched ng-pristine ng-invalid"
+                    [(ngModel)]="teamLocationRequest.pincode"
+                  />
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label for="radius" class="pb-2">
+                    Employee Location Must be in
+                  </label>
+                  <input
+                    type="text"
+                    id="radius"
+                    placeholder="in meters"
+                    required=""
+                    name="radius"
+                    class="form-control ng-untouched ng-pristine ng-invalid"
+                    [(ngModel)]="teamLocationRequest.range"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer d-flex align-items-center justify-content-end">
+          <button class="btn btn-primary" type="submit" aria-label="Next Step">
+            <!-- [disabled]="toggle" -->
+            <!-- *ngIf="!toggle" -->
+            <!-- <div *ngIf="toggle" class="dot-opacity-loader">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div> -->
+            <span>
+              Set Location
+              <i class="bi bi-arrow-right" style="padding-left: 8px"></i>
+            </span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
 
 <!--  ########################33  Modal ##################################33333 -->
 

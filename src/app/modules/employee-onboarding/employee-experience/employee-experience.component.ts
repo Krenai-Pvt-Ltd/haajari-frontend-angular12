@@ -4,6 +4,8 @@ import { UserExperienceDetailRequest } from 'src/app/models/user-experience-deta
 import { DataService } from 'src/app/services/data.service';
 import { UserExperience } from 'src/app/models/user-experience';
 import { Form, NgForm } from '@angular/forms';
+import { HelperService } from 'src/app/services/helper.service';
+import { Key } from 'src/app/constant/key';
 
 @Component({
   selector: 'app-employee-experience',
@@ -13,8 +15,9 @@ import { Form, NgForm } from '@angular/forms';
 export class EmployeeExperienceComponent implements OnInit {
   userExperienceDetailRequest: UserExperienceDetailRequest = new UserExperienceDetailRequest();
   userExperiences: UserExperience[] = []; // Array to hold user experiences
+  experiences: any;
 
-  constructor(private dataService: DataService, private router: Router) { }
+  constructor(private dataService: DataService, private router: Router, private helperService: HelperService) { }
 
   ngOnInit(): void {
     
@@ -31,9 +34,26 @@ export class EmployeeExperienceComponent implements OnInit {
   }
 
   backRedirectUrl() {
-    let navExtra: NavigationExtras = {
-      queryParams: { userUuid: this.getUserUuid() },
-    };
+    const userUuid = new URLSearchParams(window.location.search).get('userUuid');
+    
+    // Initialize an empty object for queryParams
+    let queryParams: any = {};
+    
+    // Add userUuid to queryParams if it exists
+    if (userUuid) {
+      queryParams['userUuid'] = userUuid;
+    }
+    
+    // Conditionally add adminUuid to queryParams if updateRequest is true
+    if (this.isAdminPresent) {
+      const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
+      if (adminUuid) {
+        queryParams['adminUuid'] = adminUuid;
+      }
+    }
+  
+    // Create NavigationExtras object with the queryParams
+    let navExtra: NavigationExtras = { queryParams };
     this.router.navigate(['/employee-onboarding/acadmic'], navExtra);
   }
 
@@ -97,8 +117,13 @@ export class EmployeeExperienceComponent implements OnInit {
     }
     if(this.buttonType=='next'){
       this.toggle = true;
+    
     } else if (this.buttonType=='save'){
       this.toggleSave = true;
+  
+    } else if (this.buttonType=='update'){
+      this.toggle = true;
+      
     }
     
     this.dataService.setEmployeeExperienceDetails(this.userExperiences, userUuid)
@@ -123,7 +148,10 @@ export class EmployeeExperienceComponent implements OnInit {
             
             this.routeToFormPreview();  
           }, 2000);
-          }
+          } else if (this.buttonType=='update'){
+            this.helperService.showToast("Information Updated Successfully", Key.TOAST_STATUS_SUCCESS);
+  
+           }
           this.toggle = false;
         },
         error => {
@@ -139,17 +167,22 @@ export class EmployeeExperienceComponent implements OnInit {
   employeeOnboardingFormStatus:string|null=null;
   @ViewChild("successMessageModalButton") successMessageModalButton!:ElementRef;
 
-  getEmployeeExperiencesDetailsMethodCall(userUuid: string) {
+  async getEmployeeExperiencesDetailsMethodCall(userUuid: string) {
     debugger
+    return new Promise<boolean>(async (resolve, reject) => {
     this.isLoading = true;
-    
+    const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
     this.dataService.getEmployeeExperiencesDetailsOnboarding(userUuid).subscribe(
-      experiences => {
+      async experiences => {
+        if(adminUuid){
+          await this.getAdminVerifiedForOnboardingUpdateMethodCall();
+        }
         this.employeeOnboardingFormStatus= experiences[0].employeeOnboardingStatus;
         if(experiences[0].employeeOnboardingStatus == "PENDING"){
           this.isNewUser = false;
         }
-                if(experiences[0].employeeOnboardingFormStatus=='USER_REGISTRATION_SUCCESSFUL' && this.employeeOnboardingFormStatus != 'REJECTED'){
+        
+                if(experiences[0].employeeOnboardingFormStatus=='USER_REGISTRATION_SUCCESSFUL' && this.employeeOnboardingFormStatus != 'REJECTED' && !this.isAdminPresent){
                   this.successMessageModalButton.nativeElement.click();
                 }
                 this.handleOnboardingStatus(experiences[0].employeeOnboardingStatus);
@@ -189,6 +222,7 @@ export class EmployeeExperienceComponent implements OnInit {
         this.addExperience();
       }
     );
+    })
   }
 
 
@@ -407,12 +441,22 @@ submit(){
   } else{
 switch(this.buttonType){
   case "next" :{
+     this.userExperiences[0].directSave = false;
+     this.userExperiences[0].updateRequest = false;
     this.setEmployeeExperienceDetailsMethodCall();
     break;
   }
   case "save" :{
     debugger
     this.userExperiences[0].directSave = true;
+    this.userExperiences[0].updateRequest = false;
+    this.setEmployeeExperienceDetailsMethodCall();
+    break;
+  }
+  case "update" :{
+    debugger
+    this.userExperiences[0].directSave = false;
+    this.userExperiences[0].updateRequest = true;
     this.setEmployeeExperienceDetailsMethodCall();
     break;
   }
@@ -549,6 +593,38 @@ preventAlphabets(event: KeyboardEvent): void {
   }
 }
 
+isAdminPresent : boolean = false;
+getAdminVerifiedForOnboardingUpdateMethodCall(): Promise<boolean> {
+  debugger;
+  return new Promise<boolean>((resolve, reject) => {
+    const userUuid = new URLSearchParams(window.location.search).get('userUuid');
+    const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
+    if (userUuid && adminUuid) {
+      this.dataService.getAdminVerifiedForOnboardingUpdate(userUuid, adminUuid).subscribe(
+        (isAdminPresent: boolean) => {
+          this.isAdminPresent = isAdminPresent;
+          console.log('Admin verification successful.');
+          resolve(isAdminPresent); // Resolve the promise with the result
+        },
+        (error: any) => {
+          console.error('Error fetching admin verification status:', error);
+          // reject(error); // Reject the promise on error
+        }
+      );
+    } else {
+      console.error('User UUID or Admin UUID not found in the URL.');
+      // reject(new Error('User UUID or Admin UUID not found in the URL.')); // Reject the promise if parameters are missing
+    }
+  });
+}
+
+
+goBackToProfile() {
+  let navExtra: NavigationExtras = {
+    queryParams: { userId: new URLSearchParams(window.location.search).get('userUuid') },
+  };
+  this.router.navigate(['/employee-profile'], navExtra);
+}
 
 
 }

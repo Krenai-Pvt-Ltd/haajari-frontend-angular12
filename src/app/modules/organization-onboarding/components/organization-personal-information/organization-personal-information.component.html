@@ -277,14 +277,31 @@
                               style="padding-right: 220px"
                               required
                             />
+                            <!-- {{ fetchCurrentLocationLoader }} -->
                             <a
                               class="fetch-location"
                               (click)="currentLocation()"
-                              ><i
-                                class="ti ti-current-location"
-                                style="padding-right: 8px"
-                              ></i
-                              >Fetch Current Location
+                            >
+                              <span *ngIf="!fetchCurrentLocationLoader"
+                                ><i
+                                  class="ti ti-current-location"
+                                  style="padding-right: 8px"
+                                ></i
+                                >Fetch Current Location
+                              </span>
+                              <div
+                                class="loader-fetching-location"
+                                *ngIf="fetchCurrentLocationLoader"
+                              >
+                                <i
+                                  class="ti ti-current-location"
+                                  style="padding-right: 8px"
+                                ></i>
+                                Fetching
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                              </div>
                             </a>
                           </div>
                           <div *ngIf="addressLine1.touched || isFormInvalid">

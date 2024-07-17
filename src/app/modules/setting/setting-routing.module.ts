@@ -10,23 +10,49 @@ import { StaffAttendanceLocationComponent } from './components/staff-attendance-
 import { UploadPhotoComponent } from './components/upload-photo/upload-photo.component';
 import { SalarySettingComponent } from './components/salary-setting/salary-setting.component';
 
-const routes: Routes = [{ path: '', redirectTo: '/setting/attendance-setting', pathMatch:'full'},
-  { path: '', component: SettingComponent,
+const routes: Routes = [
+  { path: '', redirectTo: '/setting/attendance-setting', pathMatch: 'full' },
+  {
+    path: '',
+    component: SettingComponent,
 
-  children:[
-
-  {path: 'attendance-setting', component: AttendanceSettingComponent, canActivate: [AuthGuard]},
-  {path: 'company-setting', component: CompanySettingComponent, canActivate: [AuthGuard]},
-  {path: 'salary-setting', component: SalarySettingComponent, canActivate: [AuthGuard]},
-  {path: 'leave-setting', component: LeaveSettingComponent, canActivate: [AuthGuard]},
-  {path: 'account-settings', component: AccountSettingsComponent, canActivate: [AuthGuard]},
-  {path: 'staff-attendance-location', component: StaffAttendanceLocationComponent},
-  {path: 'upload-photo', component: UploadPhotoComponent}
-  ] }
+    children: [
+      {
+        path: 'attendance-setting',
+        component: AttendanceSettingComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'company-setting',
+        component: CompanySettingComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'salary-setting',
+        component: SalarySettingComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'leave-setting',
+        component: LeaveSettingComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'account-settings',
+        component: AccountSettingsComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'staff-attendance-location',
+        component: StaffAttendanceLocationComponent,
+      },
+      { path: 'upload-photo', component: UploadPhotoComponent },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class SettingRoutingModule { }
+export class SettingRoutingModule {}

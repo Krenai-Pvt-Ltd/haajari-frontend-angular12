@@ -37,7 +37,7 @@ export class UploadTeamComponent implements OnInit {
     private dataService: DataService,
     private _location: Location,
     private _router: Router,
-    private helperService: HelperService,
+    private helperService: HelperService
   ) {}
 
   ngOnInit(): void {
@@ -46,6 +46,7 @@ export class UploadTeamComponent implements OnInit {
     this.getUser();
     this.selectMethod('mannual');
     this.checkShiftTimingExistsMethodCall();
+    this.getOnboardingVia();
   }
 
   isShimmer = false;
@@ -176,7 +177,7 @@ export class UploadTeamComponent implements OnInit {
         this.isErrorToggle = true;
         this.isProgressToggle = false;
         this.errorMessage = error.error.message;
-      },
+      }
     );
   }
 
@@ -207,7 +208,7 @@ export class UploadTeamComponent implements OnInit {
       },
       (error) => {
         this.importLoading = false;
-      },
+      }
     );
   }
 
@@ -258,6 +259,7 @@ export class UploadTeamComponent implements OnInit {
   }
 
   resetManualUploadModal() {
+    debugger;
     this.closeManualUploadModal();
 
     this.userList.forEach((user) => {
@@ -297,7 +299,7 @@ export class UploadTeamComponent implements OnInit {
         this.createLoading = false;
         this.isManualUploadSubmitLoader = false;
         this.resetManualUploadModal();
-      },
+      }
     );
   }
 
@@ -321,7 +323,7 @@ export class UploadTeamComponent implements OnInit {
         this.loading = false;
         this.networkConnectionErrorPlaceholder = true;
         this.isShimmer = false;
-      },
+      }
     );
   }
 
@@ -345,13 +347,13 @@ export class UploadTeamComponent implements OnInit {
           this.editLoader = false;
           this.helperService.showToast(
             'user update sucessfully',
-            Key.TOAST_STATUS_SUCCESS,
+            Key.TOAST_STATUS_SUCCESS
           );
         }
       },
       (error) => {
         this.editLoader = false;
-      },
+      }
     );
   }
 
@@ -362,7 +364,7 @@ export class UploadTeamComponent implements OnInit {
           this.getUser();
         }
       },
-      (error) => {},
+      (error) => {}
     );
   }
 
@@ -431,7 +433,7 @@ export class UploadTeamComponent implements OnInit {
       (response: any) => {
         this.shiftTimingExists = response.object;
       },
-      (error) => {},
+      (error) => {}
     );
   }
 
@@ -444,5 +446,19 @@ export class UploadTeamComponent implements OnInit {
 
   formatAsCommaSeparated(items: string[]): string {
     return items.join(', ');
+  }
+
+  onboardingViaString: string = '';
+  getOnboardingVia() {
+    debugger;
+    this.dataService.getOnboardingVia().subscribe(
+      (response) => {
+        this.onboardingViaString = response.message;
+        console.log('this.onboardingViaString ' + this.onboardingViaString);
+      },
+      (error) => {
+        console.log('error');
+      }
+    );
   }
 }

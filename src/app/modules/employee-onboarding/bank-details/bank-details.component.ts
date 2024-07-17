@@ -1,8 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
+import { Key } from 'src/app/constant/key';
 import { UserBankDetailRequest } from 'src/app/models/user-bank-detail-request';
 import { DataService } from 'src/app/services/data.service';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-bank-details',
@@ -12,15 +14,32 @@ import { DataService } from 'src/app/services/data.service';
 export class BankDetailsComponent implements OnInit {
   userBankDetailRequest: UserBankDetailRequest = new UserBankDetailRequest();
 
-  constructor(private dataService: DataService, private router: Router) { }
+  constructor(private dataService: DataService, private router: Router, private helperService: HelperService) { }
 
   ngOnInit(): void {
     this.getEmployeeBankDetailsMethodCall();
   }
   backRedirectUrl(){
-    let navExtra: NavigationExtras = {
-      queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
-    };
+    const userUuid = new URLSearchParams(window.location.search).get('userUuid');
+    
+    // Initialize an empty object for queryParams
+    let queryParams: any = {};
+    
+    // Add userUuid to queryParams if it exists
+    if (userUuid) {
+      queryParams['userUuid'] = userUuid;
+    }
+    
+    // Conditionally add adminUuid to queryParams if updateRequest is true
+    if (this.userBankDetailRequest.updateRequest) {
+      const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
+      if (adminUuid) {
+        queryParams['adminUuid'] = adminUuid;
+      }
+    }
+  
+    // Create NavigationExtras object with the queryParams
+    let navExtra: NavigationExtras = { queryParams };
     this.router.navigate(['/employee-onboarding/employee-experience'], navExtra);
   }
 
@@ -37,8 +56,13 @@ export class BankDetailsComponent implements OnInit {
   setEmployeeBankDetailsMethodCall() {
     if(this.buttonType=='next'){
       this.toggle = true;
+      this.userBankDetailRequest.updateRequest = false;
     } else if (this.buttonType=='save'){
       this.toggleSave = true;
+      this.userBankDetailRequest.updateRequest = false;
+    } else if (this.buttonType=='update'){
+      this.toggle = true;
+      this.userBankDetailRequest.updateRequest = true;
     }
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
     
@@ -60,6 +84,8 @@ export class BankDetailsComponent implements OnInit {
             
             this.routeToFormPreview();  
           }, 2000);
+        } else if(this.buttonType=='update'){
+          this.helperService.showToast("Information Updated Successfully", Key.TOAST_STATUS_SUCCESS);
         }
         
           this.userBankDetailsStatus = response.statusResponse;
@@ -78,13 +104,14 @@ export class BankDetailsComponent implements OnInit {
   isLoading:boolean = true;
   employeeOnboardingFormStatus:string|null=null;
 @ViewChild("successMessageModalButton") successMessageModalButton!:ElementRef;
-  getEmployeeBankDetailsMethodCall() {
+async getEmployeeBankDetailsMethodCall() {
     debugger
+    return new Promise<boolean>(async (resolve, reject) => {
     const userUuid = new URLSearchParams(window.location.search).get('userUuid');
-  
+    const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
     if (userUuid) {
       this.dataService.getEmployeeBankDetails(userUuid).subscribe(
-        (response: UserBankDetailRequest) => {
+        async (response: UserBankDetailRequest) => {
           this.filteredBanks = this.banksInIndia;
           this.dataService.markStepAsCompleted(response.statusId);
           if(response!=null){
@@ -95,7 +122,10 @@ export class BankDetailsComponent implements OnInit {
           if(response.employeeOnboardingStatus == "PENDING"){
             this.isNewUser = false;
           }
-          if(response.employeeOnboardingFormStatus=='USER_REGISTRATION_SUCCESSFUL' && this.employeeOnboardingFormStatus != 'REJECTED'){
+          if(adminUuid){
+            await this.getAdminVerifiedForOnboardingUpdateMethodCall();
+          }
+          if(response.employeeOnboardingFormStatus=='USER_REGISTRATION_SUCCESSFUL' && this.employeeOnboardingFormStatus != 'REJECTED' && !this.userBankDetailRequest.updateRequest){
             this.successMessageModalButton.nativeElement.click();
           }
           this.handleOnboardingStatus(response.employeeOnboardingStatus);
@@ -112,6 +142,7 @@ export class BankDetailsComponent implements OnInit {
       console.error('uuidNewUser not found in localStorage');
       
     }
+  })
   } 
 
   @ViewChild("formSubmitButton") formSubmitButton!:ElementRef;
@@ -136,11 +167,21 @@ submit(){
 switch(this.buttonType){
   case "next" :{
     this.setEmployeeBankDetailsMethodCall();
+    this.userBankDetailRequest.directSave = false;
+    this.userBankDetailRequest.updateRequest = false;
     break;
   }
   case "save" :{
     debugger
     this.userBankDetailRequest.directSave = true;
+    this.userBankDetailRequest.updateRequest = false;
+    this.setEmployeeBankDetailsMethodCall();
+    break;
+  }
+  case "update" :{
+    debugger
+    this.userBankDetailRequest.directSave = false;
+    this.userBankDetailRequest.updateRequest = true;
     this.setEmployeeBankDetailsMethodCall();
     break;
   }
@@ -267,4 +308,36 @@ displayModal = false;
       'Yes Bank Ltd'
     ];
     
+    getAdminVerifiedForOnboardingUpdateMethodCall(): Promise<boolean> {
+      debugger;
+      return new Promise<boolean>((resolve, reject) => {
+        const userUuid = new URLSearchParams(window.location.search).get('userUuid');
+        const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
+        if (userUuid && adminUuid) {
+          this.dataService.getAdminVerifiedForOnboardingUpdate(userUuid, adminUuid).subscribe(
+            (isAdminPresent: boolean) => {
+              this.userBankDetailRequest.updateRequest = isAdminPresent;
+              console.log('Admin verification successful.');
+              resolve(isAdminPresent); // Resolve the promise with the result
+            },
+            (error: any) => {
+              console.error('Error fetching admin verification status:', error);
+              // reject(error); // Reject the promise on error
+            }
+          );
+        } else {
+          console.error('User UUID or Admin UUID not found in the URL.');
+          // reject(new Error('User UUID or Admin UUID not found in the URL.')); // Reject the promise if parameters are missing
+        }
+      });
+    }
+    
+    
+    goBackToProfile() {
+      let navExtra: NavigationExtras = {
+        queryParams: { userId: new URLSearchParams(window.location.search).get('userUuid') },
+      };
+      this.router.navigate(['/employee-profile'], navExtra);
+    }
+  
 }

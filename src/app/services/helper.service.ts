@@ -7,13 +7,15 @@ import { ModulesWithSubmodules } from '../models/modules-with-submodules';
 import { ModuleResponse } from '../models/module-response';
 import { RoleBasedAccessControlService } from './role-based-access-control.service';
 import { formatDate } from '@angular/common';
+import { NavigationExtras, Router } from '@angular/router';
+import * as saveAs from 'file-saver';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HelperService {
 
-  constructor( private httpClient : HttpClient, private dataService: DataService) {
+  constructor( private httpClient : HttpClient, private dataService: DataService, private router: Router) {
     
    }
 
@@ -66,6 +68,20 @@ export class HelperService {
         return "";
     }
 
+  }
+
+
+  formatToDateTime(date : Date){
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+
+    const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    
+    return formattedDate;
   }
 
   formatDateToYYYYMMDD(date: Date): string {
@@ -151,6 +167,7 @@ export class HelperService {
   }
 
   isListOfObjectNullOrUndefined(response : any){
+    debugger;
     if(response == undefined || response == null || response.listOfObject == undefined || response.listOfObject == null || response.listOfObject.length == 0){
       return true;
     } else{
@@ -181,4 +198,31 @@ export class HelperService {
         }
       }
     }
+
+  // route to user's profile
+  routeToUserProfile(uuid: string) {
+    let navExtra: NavigationExtras = {
+      queryParams: { userId: uuid },
+    };
+    this.router.navigate(['/employee-profile'], navExtra);
+  }
+
+  extractMonthNameFromDate(dateString : string){
+    const date = new Date(dateString);
+    const monthFormatter = new Intl.DateTimeFormat('en-US', { month: 'short' });
+    const shortMonthName = monthFormatter.format(date);
+
+    return shortMonthName;
+  }
+
+  getTimeZone(): string {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone;
+  }
+
+  downloadPdf(url: string, name: string) {
+    this.httpClient.get(url, { responseType: 'blob' }).subscribe(blob => {
+      saveAs(blob, name+'.pdf');
+    });
+  }
+
 }

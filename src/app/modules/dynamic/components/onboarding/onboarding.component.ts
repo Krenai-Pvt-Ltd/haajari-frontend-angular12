@@ -1,61 +1,48 @@
-import {
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild
-} from "@angular/core";
-import { AngularFireStorage } from "@angular/fire/compat/storage";
-import {
-  FormBuilder,
-  FormGroup,
-  NgForm,
-  Validators
-} from "@angular/forms";
-import { Router } from "@angular/router";
-import { finalize } from "rxjs/operators";
-import { DailyQuestionsCheckIn } from "src/app/models/daily-questions-check-in";
-import { DailyQuestionsCheckout } from "src/app/models/daily-questions-check-out";
-import { LoggedInUser } from "src/app/models/logged-in-user";
-import { OrganizationDailyQuestion } from "src/app/models/organization-daily-question";
-import { OrganizationPersonalInformation } from "src/app/models/organization-personal-information";
-import { Savel } from "src/app/models/savel";
-import { ShiftTimings } from "src/app/models/shifttimings";
-import { DataService } from "src/app/services/data.service";
-import { HelperService } from "src/app/services/helper.service";
-import { RoleBasedAccessControlService } from "src/app/services/role-based-access-control.service";
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { finalize } from 'rxjs/operators';
+import { DailyQuestionsCheckIn } from 'src/app/models/daily-questions-check-in';
+import { DailyQuestionsCheckout } from 'src/app/models/daily-questions-check-out';
+import { LoggedInUser } from 'src/app/models/logged-in-user';
+import { OrganizationDailyQuestion } from 'src/app/models/organization-daily-question';
+import { OrganizationPersonalInformation } from 'src/app/models/organization-personal-information';
+import { Savel } from 'src/app/models/savel';
+import { ShiftTimings } from 'src/app/models/shifttimings';
+import { DataService } from 'src/app/services/data.service';
+import { HelperService } from 'src/app/services/helper.service';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
-  selector: "app-onboarding",
-  templateUrl: "./onboarding.component.html",
-  styleUrls: ["./onboarding.component.css"],
+  selector: 'app-onboarding',
+  templateUrl: './onboarding.component.html',
+  styleUrls: ['./onboarding.component.css'],
 })
 export class OnboardingComponent implements OnInit {
-  getLoggedInUserDetails(){
+  getLoggedInUserDetails() {
     // this.loggedInUser = this.helperService.getDecodedValueFromToken();
     this.assignRole();
   }
 
-  getFirstAndLastLetterFromName(name : string){
+  getFirstAndLastLetterFromName(name: string) {
     this.helperService.getFirstAndLastLetterFromName(name);
   }
 
-  loggedInUser : LoggedInUser = new LoggedInUser();
+  loggedInUser: LoggedInUser = new LoggedInUser();
   shiftTimingsForm: FormGroup;
   Sick: any;
   c: any;
   loginDetails = this.helperService.getDecodedValueFromToken();
 
-  assignRole(){
+  assignRole() {
     this.role = this.rbacService.getRole();
     this.userUuid = this.rbacService.getUUID();
     this.orgRefId = this.rbacService.getOrgRefUUID();
   }
   role: any;
-  userUuid : any;
-  orgRefId : any;
-
-  
-
+  userUuid: any;
+  orgRefId: any;
 
   // loginDetails = this.helperService.getDecodedValueFromToken();
   // const role = this.loginDetails.role;
@@ -66,18 +53,19 @@ export class OnboardingComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private afStorage: AngularFireStorage,
-    private rbacService : RoleBasedAccessControlService
+    private rbacService: RoleBasedAccessControlService
   ) {
     this.shiftTimingsForm = this.fb.group({
-      inTime: ["", Validators.required],
-      outTime: ["", Validators.required],
-      startLunch: ["", [Validators.required]],
-      endLunch: ["", [Validators.required]],
+      inTime: ['', Validators.required],
+      outTime: ['', Validators.required],
+      startLunch: ['', [Validators.required]],
+      endLunch: ['', [Validators.required]],
     });
   }
 
   ngOnInit(): void {
-    this. getOrganizationDetails();
+    window.scroll(0, 0);
+    this.getOrganizationDetails();
     this.getShifts();
     // this.settingOrgId();
     this.getDailyQuestionCheckIn();
@@ -86,7 +74,7 @@ export class OnboardingComponent implements OnInit {
     this.getLeaves();
     this.getResponseStatusFromLocalStorage();
     this.getLoggedInUserDetails();
-    console.log(this.loginDetails);  
+    console.log(this.loginDetails);
 
     //   window.addEventListener("beforeunload", function (e) {
     //     var confirmationMessage = "\o/";
@@ -109,139 +97,138 @@ export class OnboardingComponent implements OnInit {
 
   countries = [
     {
-      name: "India",
+      name: 'India',
       states: [
-        "Andhra Pradesh",
-        "Arunachal Pradesh",
-        "Assam",
-        "Bihar",
-        "Chhattisgarh",
-        "Goa",
-        "Gujarat",
-        "Haryana",
-        "Himachal Pradesh",
-        "Jharkhand",
-        "Karnataka",
-        "Kerala",
-        "Madhya Pradesh",
-        "Maharashtra",
-        "Manipur",
-        "Meghalaya",
-        "Mizoram",
-        "Nagaland",
-        "Odisha",
-        "Punjab",
-        "Rajasthan",
-        "Sikkim",
-        "Tamil Nadu",
-        "Telangana",
-        "Tripura",
-        "Uttar Pradesh",
-        "Uttarakhand",
-        "West Bengal",
+        'Andhra Pradesh',
+        'Arunachal Pradesh',
+        'Assam',
+        'Bihar',
+        'Chhattisgarh',
+        'Goa',
+        'Gujarat',
+        'Haryana',
+        'Himachal Pradesh',
+        'Jharkhand',
+        'Karnataka',
+        'Kerala',
+        'Madhya Pradesh',
+        'Maharashtra',
+        'Manipur',
+        'Meghalaya',
+        'Mizoram',
+        'Nagaland',
+        'Odisha',
+        'Punjab',
+        'Rajasthan',
+        'Sikkim',
+        'Tamil Nadu',
+        'Telangana',
+        'Tripura',
+        'Uttar Pradesh',
+        'Uttarakhand',
+        'West Bengal',
       ],
     },
     {
-      name: "Australia",
-      states: ["New South Wales", "Victoria", "Queensland"],
+      name: 'Australia',
+      states: ['New South Wales', 'Victoria', 'Queensland'],
     },
     {
-      name: "Canada",
-      states: ["Ontario", "Quebec", "British Columbia"],
+      name: 'Canada',
+      states: ['Ontario', 'Quebec', 'British Columbia'],
     },
     {
-      name: "United States",
-      states: ["California", "New York", "Texas"],
+      name: 'United States',
+      states: ['California', 'New York', 'Texas'],
     },
     {
-      name: "Germany",
-      states: ["Bavaria", "North Rhine-Westphalia", "Baden-Württemberg"],
+      name: 'Germany',
+      states: ['Bavaria', 'North Rhine-Westphalia', 'Baden-Württemberg'],
     },
     {
-      name: "Brazil",
-      states: ["São Paulo", "Rio de Janeiro", "Minas Gerais"],
+      name: 'Brazil',
+      states: ['São Paulo', 'Rio de Janeiro', 'Minas Gerais'],
     },
     {
-      name: "China",
-      states: ["Guangdong", "Shandong", "Zhejiang"],
+      name: 'China',
+      states: ['Guangdong', 'Shandong', 'Zhejiang'],
     },
     {
-      name: "Russia",
-      states: ["Moscow", "Saint Petersburg", "Sverdlovsk"],
+      name: 'Russia',
+      states: ['Moscow', 'Saint Petersburg', 'Sverdlovsk'],
     },
     {
-      name: "South Africa",
-      states: ["Gauteng", "KwaZulu-Natal", "Western Cape"],
+      name: 'South Africa',
+      states: ['Gauteng', 'KwaZulu-Natal', 'Western Cape'],
     },
     {
-      name: "Argentina",
-      states: ["Buenos Aires", "Córdoba", "Santa Fe"],
+      name: 'Argentina',
+      states: ['Buenos Aires', 'Córdoba', 'Santa Fe'],
     },
     {
-      name: "France",
+      name: 'France',
       states: [
-        "Île-de-France",
-        "Auvergne-Rhône-Alpes",
-        "Provence-Alpes-Côte d",
+        'Île-de-France',
+        'Auvergne-Rhône-Alpes',
+        'Provence-Alpes-Côte d',
       ],
     },
     {
-      name: "Japan",
-      states: ["Tokyo", "Osaka", "Kanagawa"],
+      name: 'Japan',
+      states: ['Tokyo', 'Osaka', 'Kanagawa'],
     },
     {
-      name: "Mexico",
-      states: ["Mexico City", "Jalisco", "Nuevo León"],
+      name: 'Mexico',
+      states: ['Mexico City', 'Jalisco', 'Nuevo León'],
     },
     {
-      name: "Spain",
-      states: ["Madrid", "Catalonia", "Andalusia"],
+      name: 'Spain',
+      states: ['Madrid', 'Catalonia', 'Andalusia'],
     },
     {
-      name: "Italy",
-      states: ["Lombardy", "Lazio", "Veneto"],
+      name: 'Italy',
+      states: ['Lombardy', 'Lazio', 'Veneto'],
     },
     {
-      name: "United Kingdom",
-      states: ["England", "Scotland", "Wales"],
+      name: 'United Kingdom',
+      states: ['England', 'Scotland', 'Wales'],
     },
     {
-      name: "Saudi Arabia",
-      states: ["Riyadh", "Makkah", "Eastern Province"],
+      name: 'Saudi Arabia',
+      states: ['Riyadh', 'Makkah', 'Eastern Province'],
     },
     {
-      name: "Egypt",
-      states: ["Cairo", "Giza", "Alexandria"],
+      name: 'Egypt',
+      states: ['Cairo', 'Giza', 'Alexandria'],
     },
     {
-      name: "Thailand",
-      states: ["Bangkok", "Phuket", "Chiang Mai"],
+      name: 'Thailand',
+      states: ['Bangkok', 'Phuket', 'Chiang Mai'],
     },
     {
-      name: "Nigeria",
-      states: ["Lagos", "Kano", "Abuja"],
+      name: 'Nigeria',
+      states: ['Lagos', 'Kano', 'Abuja'],
     },
   ];
 
- selectCountry(selectedCountry: string) {
+  selectCountry(selectedCountry: string) {
     this.organizationPersonalInformation.country = selectedCountry;
     this.updateStates();
   }
 
-  selectLeave(selectedLeave : string) {
+  selectLeave(selectedLeave: string) {
     this.leaveData.leaveType = selectedLeave;
   }
   updateStates() {
-    const selectedCountryData = this.countries.find((c) => c.name === this.organizationPersonalInformation.country);
+    const selectedCountryData = this.countries.find(
+      (c) => c.name === this.organizationPersonalInformation.country
+    );
     if (selectedCountryData) {
-      this.states = selectedCountryData.states; 
+      this.states = selectedCountryData.states;
     } else {
-      this.states = []; 
+      this.states = [];
     }
   }
-
-  
-
 
   // resetForm2() {
   //   this.name = "";
@@ -257,14 +244,12 @@ export class OnboardingComponent implements OnInit {
   // pass:string="";
   isSecondSectionOpen = false;
 
-  
-
   // register() {
   //   if (this.businessInfoForm.invalid) {
   //     this.BusinessInfoSetInvalidToggle = true;
   //     return;
   //   }
-    
+
   //   this.dataService
   //     .registerOnboardingDetails(
   //       this.id,
@@ -286,22 +271,19 @@ export class OnboardingComponent implements OnInit {
   //         this.dailyQuestionsData.organId = resultData.id;
   //         this.dailyNotesData.organiId = resultData.id;
   //         this.shiftTimingsValid = true;
-         
+
   //         this.shiftTimesMessage();
   //         this.count = 1;
   //         this.onBusinessInfoCompleted();
 
-          
-         
   //         this.requestBusinessInfoCloseModel.nativeElement.click();
-         
+
   //         this.isSecondSectionOpen = true;
 
   //         this.setAct1();
   //         this.orgI = resultData.id;
   //         localStorage.setItem("orgId", this.orgI);
-         
-         
+
   //       },
   //       (error) => {
   //         console.log(error.error.message);
@@ -318,39 +300,42 @@ export class OnboardingComponent implements OnInit {
 
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        const imagePreview: HTMLImageElement = document.getElementById('imagePreview') as HTMLImageElement;
+        const imagePreview: HTMLImageElement = document.getElementById(
+          'imagePreview'
+        ) as HTMLImageElement;
         imagePreview.src = e.target.result;
       };
       reader.readAsDataURL(file);
 
-      this.uploadFile(file); 
+      this.uploadFile(file);
     } else {
       this.isFileSelected = false;
     }
   }
 
-
   uploadFile(file: File): void {
-    debugger
+    debugger;
     const filePath = `uploads/${new Date().getTime()}_${file.name}`;
     const fileRef = this.afStorage.ref(filePath);
     const task = this.afStorage.upload(filePath, file);
-  
-    task.snapshotChanges().pipe(
-      finalize(() => {
-        fileRef.getDownloadURL().subscribe(url => {
 
-          console.log("File URL:", url);
-          this.organizationPersonalInformation.logo=url;
-        });
-      })
-    ).subscribe();
-}
+    task
+      .snapshotChanges()
+      .pipe(
+        finalize(() => {
+          fileRef.getDownloadURL().subscribe((url) => {
+            console.log('File URL:', url);
+            this.organizationPersonalInformation.logo = url;
+          });
+        })
+      )
+      .subscribe();
+  }
 
-  organizationStatusResponse="";
-  shiftTimingsStatusResponse="";
-  dailyQuestionsStatusResponse="";
-  organizationLeaveStatusResponse="";
+  organizationStatusResponse = '';
+  shiftTimingsStatusResponse = '';
+  dailyQuestionsStatusResponse = '';
+  organizationLeaveStatusResponse = '';
 
   organizationPersonalInformation: OrganizationPersonalInformation = {
     id: 0,
@@ -368,66 +353,75 @@ export class OnboardingComponent implements OnInit {
     pincode: '',
     organization: {
       id: 0,
-      name: "",
-      email: "",
-      password: "",
+      name: '',
+      email: '',
+      password: '',
       country: 0,
-      state: "",
-      token: "",
-      webhook: "",
-      appId: "",
-      userToken: "",
-      configureUrl: "",
-      onboardingVia: ""
-    }
+      state: '',
+      token: '',
+      webhook: '',
+      appId: '',
+      userToken: '',
+      configureUrl: '',
+      onboardingVia: '',
+    },
   };
 
+  timeZone: string = '';
   selectedFile: File | null = null;
   registerOrganizationPersonalInformationFun() {
-    debugger
+    debugger;
     if (this.businessInfoForm.invalid) {
       this.BusinessInfoSetInvalidToggle = true;
       return;
     }
-    
-    this.dataService.registerOrganizationPersonalInformation(this.organizationPersonalInformation)
-      .subscribe(response => {
-        console.log('org registered successfully:', response);
-        this.organizationStatusResponse= response.statusResponse;
-        console.log(this.organizationStatusResponse);
-        this.setAct1();
-        localStorage.setItem('statusResponse', JSON.stringify(this.organizationStatusResponse));
+    this.timeZone = this.helperService.getTimeZone();
+    this.dataService
+      .registerOrganizationPersonalInformation(
+        this.organizationPersonalInformation, this.timeZone
+      )
+      .subscribe(
+        (response) => {
+          console.log('org registered successfully:', response);
+          this.organizationStatusResponse = response.statusResponse;
+          console.log(this.organizationStatusResponse);
+          this.setAct1();
+          localStorage.setItem(
+            'statusResponse',
+            JSON.stringify(this.organizationStatusResponse)
+          );
 
-        this.organizationPersonalInformation.country = response.country;
-        this.organizationPersonalInformation.state = response.state;
+          this.organizationPersonalInformation.country = response.country;
+          this.organizationPersonalInformation.state = response.state;
 
-        this.shiftTimingsValid = true;
-         
-        this.shiftTimesMessage();
-        this.count = 1;
-        this.onBusinessInfoCompleted();
+          this.shiftTimingsValid = true;
 
-        this.requestBusinessInfoCloseModel.nativeElement.click();
-         
-        this.isSecondSectionOpen = true;        
-      },(error) => {
+          this.shiftTimesMessage();
+          this.count = 1;
+          this.onBusinessInfoCompleted();
+
+          this.requestBusinessInfoCloseModel.nativeElement.click();
+
+          this.isSecondSectionOpen = true;
+        },
+        (error) => {
           console.log(error.error.message);
-      });
+        }
+      );
   }
 
-  organizationDetails:any=[];
+  organizationDetails: any = [];
 
-  getOrganizationDetails(){
-    debugger
+  getOrganizationDetails() {
+    debugger;
     this.dataService.getOrganizationDetails().subscribe(
-      (data)=> {
-          this.organizationPersonalInformation = data;
-          this.updateStates();
-          
-          
-          console.log(this.organizationPersonalInformation);
-                if (data.country !== null) {
-          debugger
+      (data) => {
+        this.organizationPersonalInformation = data;
+        this.updateStates();
+
+        console.log(this.organizationPersonalInformation);
+        if (data.country !== null) {
+          debugger;
           // this.setActive(1);
           // this.count=1;
           // if (this.a == 2) {
@@ -451,7 +445,7 @@ export class OnboardingComponent implements OnInit {
           this.requestBusinessInfoCloseModel.nativeElement.click();
         }
 
-        if (data.country!==null) {
+        if (data.country !== null) {
           this.shiftTimingsValid = true;
           this.onBusinessInfoCompleted();
           this.shiftTimesMessage();
@@ -465,12 +459,13 @@ export class OnboardingComponent implements OnInit {
         // } else {
         //   this.a = 1;
         // }
-      }, (error) => {
+      },
+      (error) => {
         console.log(error);
       }
-    )
+    );
   }
-   
+
   // settingOrgId() {
   //   let orgnIds = this.loginDetails.orgRefId;;
 
@@ -503,7 +498,7 @@ export class OnboardingComponent implements OnInit {
   //       this.organizationPic = data.organizationPic;
 
   //       this.updateStates();
-        
+
   //       if (data.country !== null) {
   //         debugger
   //         this.setActive(1);
@@ -550,7 +545,6 @@ export class OnboardingComponent implements OnInit {
   //   );
   // }
 
-  
   shiftLogin: {
     inTime: string;
     outTime: string;
@@ -560,12 +554,12 @@ export class OnboardingComponent implements OnInit {
     totalHour: string;
     organizationId: number;
   } = {
-    inTime: "",
-    outTime: "",
-    startLunch: "",
-    endLunch: "",
-    workingHour: "",
-    totalHour: "",
+    inTime: '',
+    outTime: '',
+    startLunch: '',
+    endLunch: '',
+    workingHour: '',
+    totalHour: '',
     organizationId: 0,
   };
 
@@ -612,13 +606,13 @@ export class OnboardingComponent implements OnInit {
 
         // if (this.a == 4) {
         //   this.a = 4;
-         
+
         // } else if (this.a == 3) {
         //   this.a = 3;
-          
+
         // } else {
         //   this.a = 2;
-         
+
         // }
         // this.requestShiftTimingsCloseModel.nativeElement.click();
       },
@@ -637,20 +631,20 @@ export class OnboardingComponent implements OnInit {
     totalHour: string;
     organizationId: number;
   } = {
-    inTime: "",
-    outTime: "",
-    startLunch: "",
-    endLunch: "",
-    workingHour: "",
-    totalHour: "",
+    inTime: '',
+    outTime: '',
+    startLunch: '',
+    endLunch: '',
+    workingHour: '',
+    totalHour: '',
     organizationId: 0,
   };
 
   calculateHours() {
-    const inTimeParts = this.loginArray.inTime.split(":");
-    const outTimeParts = this.loginArray.outTime.split(":");
-    const startLunchParts = this.loginArray.startLunch.split(":");
-    const endLunchParts = this.loginArray.endLunch.split(":");
+    const inTimeParts = this.loginArray.inTime.split(':');
+    const outTimeParts = this.loginArray.outTime.split(':');
+    const startLunchParts = this.loginArray.startLunch.split(':');
+    const endLunchParts = this.loginArray.endLunch.split(':');
 
     const inHours = parseInt(inTimeParts[0]);
     const inMinutes = parseInt(inTimeParts[1]);
@@ -685,9 +679,8 @@ export class OnboardingComponent implements OnInit {
     this.loginArray.totalHour = `${totalHours}:${totalMinutesRemainder}`;
   }
 
-  
-  @ViewChild("shiftForm") shiftForm!: any;
-  @ViewChild("requestShiftCloseModel") requestShiftCloseModel!: ElementRef;
+  @ViewChild('shiftForm') shiftForm!: any;
+  @ViewChild('requestShiftCloseModel') requestShiftCloseModel!: ElementRef;
 
   shiftSetInvalidToggle: boolean = false;
 
@@ -696,36 +689,36 @@ export class OnboardingComponent implements OnInit {
   endLunchError = false;
 
   saveShiftFlagError = false;
- 
+
   addShift() {
     if (this.shiftForm.invalid) {
       this.shiftSetInvalidToggle = true;
       return;
     }
-      this.calculateHours();
-      console.log(this.loginArray);
-      this.onSaveShiftTimings();
-      this.requestShiftCloseModel.nativeElement.click();
+    this.calculateHours();
+    console.log(this.loginArray);
+    this.onSaveShiftTimings();
+    this.requestShiftCloseModel.nativeElement.click();
   }
 
   leaveData = {
-    leaveType: "",
-    leaveEntitled: "",
-    leaveStatus: "",
+    leaveType: '',
+    leaveEntitled: '',
+    leaveStatus: '',
   };
 
   resetForm() {
     this.leaveData = {
-      leaveType: "",
-      leaveEntitled: "",
-      leaveStatus: "",
+      leaveType: '',
+      leaveEntitled: '',
+      leaveStatus: '',
     };
   }
 
-  @ViewChild("businessInfoForm", { static: false })
+  @ViewChild('businessInfoForm', { static: false })
   businessInfoForm!: NgForm;
   // @ViewChild('businessInfoForm') businessInfoForm!:any
-  @ViewChild("requestBusinessInfoCloseModel")
+  @ViewChild('requestBusinessInfoCloseModel')
   requestBusinessInfoCloseModel!: ElementRef;
 
   BusinessInfoSetInvalidToggle: boolean = false;
@@ -736,8 +729,8 @@ export class OnboardingComponent implements OnInit {
     }
   }
 
-  @ViewChild("leaveSetForm") leaveSetForm!: any;
-  @ViewChild("requestLeaveCloseModel") requestLeaveCloseModel!: ElementRef;
+  @ViewChild('leaveSetForm') leaveSetForm!: any;
+  @ViewChild('requestLeaveCloseModel') requestLeaveCloseModel!: ElementRef;
 
   leaveSetInvalidToggle: boolean = false;
 
@@ -747,7 +740,7 @@ export class OnboardingComponent implements OnInit {
     }
   }
 
-  @ViewChild(" requestSaveLeavCloseModel")
+  @ViewChild(' requestSaveLeavCloseModel')
   requestSaveLeavCloseModel!: ElementRef;
 
   saveLeaveValid = false;
@@ -760,10 +753,13 @@ export class OnboardingComponent implements OnInit {
     this.dataService.registerLeave(this.leaveData).subscribe(
       (response) => {
         console.log(response);
-        this.organizationLeaveStatusResponse= response.statusResponse;
+        this.organizationLeaveStatusResponse = response.statusResponse;
         console.log(this.organizationLeaveStatusResponse);
-        
-        localStorage.setItem('statusResponse', JSON.stringify(this.organizationLeaveStatusResponse));
+
+        localStorage.setItem(
+          'statusResponse',
+          JSON.stringify(this.organizationLeaveStatusResponse)
+        );
         this.savel.push(response);
         this.count = 4;
 
@@ -790,8 +786,7 @@ export class OnboardingComponent implements OnInit {
   // noData:any="Please add leaves";
 
   savel: Savel[] = [];
-  
- 
+
   getLeaves() {
     this.dataService.getLeave().subscribe(
       (data) => {
@@ -803,10 +798,9 @@ export class OnboardingComponent implements OnInit {
         //   this.setActive(4);
         //   this.count=4;
         // }
-       
+
         console.log(this.savel);
         // this.a = 4;
-       
       },
       (error) => {
         console.log(error);
@@ -824,9 +818,9 @@ export class OnboardingComponent implements OnInit {
     );
   }
 
-  setAce(){
+  setAce() {
     this.setActive(5);
-    this.count=5;
+    this.count = 5;
   }
   updateLeaveStatus(sav: Savel) {
     this.dataService.updateLeaveStatus(sav).subscribe(
@@ -863,36 +857,37 @@ export class OnboardingComponent implements OnInit {
   //   };
   // }
 
-  @ViewChild("requestShiftTimingsCloseModel")
+  @ViewChild('requestShiftTimingsCloseModel')
   requestShiftTimingsCloseModel!: ElementRef;
 
   dailyQuesValid = false;
   isThirdSectionOpen = false;
- 
- combinedShiftTimings(){
 
-  this.addShift();
-  // this.onSaveShiftTimings();
-  this.getShifts();
- }
+  combinedShiftTimings() {
+    this.addShift();
+    // this.onSaveShiftTimings();
+    this.getShifts();
+  }
 
   onSaveShiftTimings() {
-   
     this.dataService.registerShiftTimings(this.loginArray).subscribe(
       (response) => {
         this.dailyQuesValid = true;
         console.log(response);
-        this.shiftTimingsStatusResponse= response.statusResponse;
+        this.shiftTimingsStatusResponse = response.statusResponse;
         console.log(this.shiftTimingsStatusResponse);
-        localStorage.setItem('statusResponse', JSON.stringify(this.shiftTimingsStatusResponse));
+        localStorage.setItem(
+          'statusResponse',
+          JSON.stringify(this.shiftTimingsStatusResponse)
+        );
 
         this.count = 2;
         this.setActive(2);
         this.dailyQuestMessage();
-        debugger
+        debugger;
         this.requestShiftTimingsCloseModel.nativeElement.click();
         // this.isSecondSectionOpen = false;
-        
+
         this.isThirdSectionOpen = true;
 
         this.onShiftTimingsCompleted();
@@ -913,15 +908,12 @@ export class OnboardingComponent implements OnInit {
         // alert("Error saving leave");
       }
     );
-
   }
 
   onBtnClick() {
     if (this.count >= 4) {
       //localStorage.clear();
-      this.router.navigate(["/waiting"]);
-      
-      
+      this.router.navigate(['/waiting']);
     }
   }
 
@@ -940,19 +932,19 @@ export class OnboardingComponent implements OnInit {
   }
 
   dailyQuestionsData = {
-    messageCheckOut: "",
+    messageCheckOut: '',
     organId: 0,
   };
 
   resetFormd() {
     this.dailyQuestionsData = {
-      messageCheckOut: "",
+      messageCheckOut: '',
       organId: this.dailyQuestionsData.organId,
     };
   }
 
-  @ViewChild("dailyQuestionsForm") dailyQuetsionsForm!: any;
-  @ViewChild("requestDailyQuestionsCloseModel")
+  @ViewChild('dailyQuestionsForm') dailyQuetsionsForm!: any;
+  @ViewChild('requestDailyQuestionsCloseModel')
   requestDailyQuestionsCloseModel!: ElementRef;
 
   dailyQuestionsSetInvalidToggle: boolean = false;
@@ -976,7 +968,7 @@ export class OnboardingComponent implements OnInit {
       },
       (error) => {
         console.error(error);
-        alert("Error saving daily quess Checkout");
+        alert('Error saving daily quess Checkout');
       }
     );
   }
@@ -999,7 +991,7 @@ export class OnboardingComponent implements OnInit {
   onDeleteDailyQuestions(dailyQuesId: number) {
     this.dataService.deleteDailyQuestions(dailyQuesId).subscribe(
       () => {
-        console.log("Question deleted");
+        console.log('Question deleted');
         this.dailyQuestionn = this.dailyQuestionn.filter(
           (ques) => ques.id !== dailyQuesId
         );
@@ -1012,19 +1004,19 @@ export class OnboardingComponent implements OnInit {
   // ###############################################3
 
   dailyQuestionsCheckInData = {
-    messageCheckIn: "",
+    messageCheckIn: '',
     organnId: 0,
   };
 
   resetFormdCheckIn() {
     this.dailyQuestionsCheckInData = {
-      messageCheckIn: "",
+      messageCheckIn: '',
       organnId: this.dailyQuestionsCheckInData.organnId,
     };
   }
 
-  @ViewChild("dailyQuestionsCheckInForm") dailyQuetsionsCheckInForm!: any;
-  @ViewChild("requestDailyQuestionsCheckInCloseModel")
+  @ViewChild('dailyQuestionsCheckInForm') dailyQuetsionsCheckInForm!: any;
+  @ViewChild('requestDailyQuestionsCheckInCloseModel')
   requestDailyQuestionsCheckInCloseModel!: ElementRef;
 
   dailyQuestionsCheckInSetInvalidToggle: boolean = false;
@@ -1037,20 +1029,22 @@ export class OnboardingComponent implements OnInit {
       this.dailyQuestionsCheckInSetInvalidToggle = true;
       return;
     }
-    this.dataService.saveDailyQuestionsCheckIn(this.dailyQuestionsCheckInData).subscribe(
-      (response) => {
-        console.log(response);
-        this.dailyQuestionnCheckIn.push(response);
-        this.dailyQuesCheckInId = response.id;
-        // this.saveLValid=true;
-        this.resetFormdCheckIn();
-        this.requestDailyQuestionsCheckInCloseModel.nativeElement.click();
-      },
-      (error) => {
-        console.error(error);
-        alert("Error saving daily Quess CheckIn");
-      }
-    );
+    this.dataService
+      .saveDailyQuestionsCheckIn(this.dailyQuestionsCheckInData)
+      .subscribe(
+        (response) => {
+          console.log(response);
+          this.dailyQuestionnCheckIn.push(response);
+          this.dailyQuesCheckInId = response.id;
+          // this.saveLValid=true;
+          this.resetFormdCheckIn();
+          this.requestDailyQuestionsCheckInCloseModel.nativeElement.click();
+        },
+        (error) => {
+          console.error(error);
+          alert('Error saving daily Quess CheckIn');
+        }
+      );
   }
 
   getDailyQuestionCheckIn() {
@@ -1071,7 +1065,7 @@ export class OnboardingComponent implements OnInit {
   onDeleteDailyQuestionsCheckIn(dailyQuesCheckInId: number) {
     this.dataService.deleteDailyQuestionsCheckIn(dailyQuesCheckInId).subscribe(
       () => {
-        console.log("Question deleted");
+        console.log('Question deleted');
         this.dailyQuestionnCheckIn = this.dailyQuestionnCheckIn.filter(
           (ques) => ques.id !== dailyQuesCheckInId
         );
@@ -1089,24 +1083,26 @@ export class OnboardingComponent implements OnInit {
     enableCheckOutQuestionnaire: false,
   };
 
-  @ViewChild("requestDailyQuesCloseModel")
+  @ViewChild('requestDailyQuesCloseModel')
   requestDailyQuesCloseModel!: ElementRef;
 
   dailyNotes: OrganizationDailyQuestion = new OrganizationDailyQuestion();
 
   SLeaveValid = false;
-  isFourthSectionOpen=false;
+  isFourthSectionOpen = false;
 
   onsaveDailyNotes() {
     // this.dailyNotes = [];
-       
 
     this.dataService.registerDailyQuestionaire(this.dailyNotesData).subscribe(
       (response) => {
         console.log(response);
-        this.dailyQuestionsStatusResponse= response.statusResponse;
+        this.dailyQuestionsStatusResponse = response.statusResponse;
         console.log(this.dailyQuestionsStatusResponse);
-        localStorage.setItem('statusResponse', JSON.stringify(this.dailyQuestionsStatusResponse));
+        localStorage.setItem(
+          'statusResponse',
+          JSON.stringify(this.dailyQuestionsStatusResponse)
+        );
 
         //  this.saveLValid=true;
         this.SLeaveValid = true;
@@ -1172,7 +1168,7 @@ export class OnboardingComponent implements OnInit {
           // }
           this.requestDailyQuesCloseModel.nativeElement.click();
         }
-        // if(data){      
+        // if(data){
         //     this.requestDailyQuesCloseModel.nativeElement.click();
         // }
 
@@ -1266,113 +1262,107 @@ export class OnboardingComponent implements OnInit {
   }
 
   // Written/modified by Shivendra
-  getLoginDetailsOrgRefId(){
+  getLoginDetailsOrgRefId() {
     const loginDetails = localStorage.getItem('loginData');
-    if(loginDetails!==null){
+    if (loginDetails !== null) {
       const loginData = JSON.parse(loginDetails);
       return loginData.orgRefId;
     }
   }
 
-  getResponseStatusFromLocalStorage(){
-
-    const responseStatus =localStorage.getItem('statusResponse');
-    if(responseStatus !== null){
+  getResponseStatusFromLocalStorage() {
+    const responseStatus = localStorage.getItem('statusResponse');
+    if (responseStatus !== null) {
       const responseStat = JSON.parse(responseStatus);
-      if(responseStat=="SHIFT_TIMING"){
-       this.setActive(1);
-       this.count=1;
-      }else if(responseStat == "DAILY_QUESTION"){
+      if (responseStat == 'SHIFT_TIMING') {
+        this.setActive(1);
+        this.count = 1;
+      } else if (responseStat == 'DAILY_QUESTION') {
         this.setActive(1);
         this.setActive(2);
-        this.count=2;
-      }else if(responseStat == "LEAVE_SECTION"){
+        this.count = 2;
+      } else if (responseStat == 'LEAVE_SECTION') {
         this.setActive(1);
         this.setActive(2);
         this.setActive(3);
-        this.count=3;
-      }else if(responseStat == "ORGANIZATION_REGISTRATION_SUCCESSFULL"){
+        this.count = 3;
+      } else if (responseStat == 'ORGANIZATION_REGISTRATION_SUCCESSFULL') {
         this.setActive(1);
         this.setActive(2);
         this.setActive(3);
         this.setActive(4);
-        this.count=4;
+        this.count = 4;
       }
     }
-
   }
 
-  shiftSaveCount=0;
+  shiftSaveCount = 0;
 
-  outTimeValid:string="OutTime";
-  startLunchValid:string="StartLunch";
-  endLunchValid:string="EndLunch";
+  outTimeValid: string = 'OutTime';
+  startLunchValid: string = 'StartLunch';
+  endLunchValid: string = 'EndLunch';
 
-  validateTime(type:string,value:string){
-
-  if(type == this.outTimeValid){
-    if(this.loginArray.inTime > value){
-      this.outTimeError = true;
-      this.saveShiftFlagError = true;
-      // this.leaveSetInvalidToggle = true;
-    }else{
-      this.outTimeError = false;
-      // this.leaveSetInvalidToggle = false;
-
-    }
-  }else{
-    this.saveShiftFlagError = false;
-    // this.leaveSetInvalidToggle = false;
-
-  }
-
-  if(type == this.startLunchValid){
-    if (value >= this.loginArray.outTime) {
-      this.startLunchError = true;
-      this.saveShiftFlagError = true;
-      // this.leaveSetInvalidToggle = true;
-      // this.loginArray.startLunch="";
+  validateTime(type: string, value: string) {
+    if (type == this.outTimeValid) {
+      if (this.loginArray.inTime > value) {
+        this.outTimeError = true;
+        this.saveShiftFlagError = true;
+        // this.leaveSetInvalidToggle = true;
+      } else {
+        this.outTimeError = false;
+        // this.leaveSetInvalidToggle = false;
+      }
     } else {
-      this.startLunchError = false;
+      this.saveShiftFlagError = false;
       // this.leaveSetInvalidToggle = false;
     }
-  }else{
-    this.saveShiftFlagError = false;
-    // this.leaveSetInvalidToggle = false;
 
-  }
-
-  if(type == this.endLunchValid){
-    if (value <= this.loginArray.startLunch || value > this.loginArray.outTime) {
-      this.endLunchError = true;
-      this.saveShiftFlagError = true;
-      // this.leaveSetInvalidToggle = true;
-      // this.loginArray.endLunch="";
+    if (type == this.startLunchValid) {
+      if (value >= this.loginArray.outTime) {
+        this.startLunchError = true;
+        this.saveShiftFlagError = true;
+        // this.leaveSetInvalidToggle = true;
+        // this.loginArray.startLunch="";
+      } else {
+        this.startLunchError = false;
+        // this.leaveSetInvalidToggle = false;
+      }
     } else {
-      this.endLunchError = false;
+      this.saveShiftFlagError = false;
       // this.leaveSetInvalidToggle = false;
-
     }
-  }else{
-    this.saveShiftFlagError = false;
-    // this.leaveSetInvalidToggle = false;
-  }
+
+    if (type == this.endLunchValid) {
+      if (
+        value <= this.loginArray.startLunch ||
+        value > this.loginArray.outTime
+      ) {
+        this.endLunchError = true;
+        this.saveShiftFlagError = true;
+        // this.leaveSetInvalidToggle = true;
+        // this.loginArray.endLunch="";
+      } else {
+        this.endLunchError = false;
+        // this.leaveSetInvalidToggle = false;
+      }
+    } else {
+      this.saveShiftFlagError = false;
+      // this.leaveSetInvalidToggle = false;
+    }
 
     if (this.startLunchError || this.endLunchError || this.outTimeError) {
       this.leaveSetInvalidToggle = true;
       this.saveShiftFlagError = true;
       this.shiftSaveCount = 1;
-      return; 
-    }else{
+      return;
+    } else {
       this.saveShiftFlagError = false;
       this.leaveSetInvalidToggle = false;
       this.shiftSaveCount = 2;
-
     }
-
   }
 
-  onLogout(){
+  onLogout() {
     localStorage.clear();
     this.router.navigate(['/login']);
   }

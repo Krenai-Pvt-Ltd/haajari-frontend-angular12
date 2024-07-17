@@ -81,7 +81,7 @@
                                         <div class="mb-3">
                                           <label for="highestQualificationDegreeFile" class="pb-2">Highest Qualification Degree <span class="text-optional">*</span></label>
                                           <div class="importfilebox">
-                                            <input id="highestQualificationDegreeFile" name="highestQualificationDegreeFile" type="file" accept=".pdf, image/jpeg, image/jpg, image/png" class="input" (change)="onFileSelected($event, 'highestQualificationDegree')" [required]="isHighestQualificationDegreeRequired" #highestQualificationDegree="ngModel" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.highestQualificationDegree">
+                                            <input id="highestQualificationDegreeFile" name="highestQualificationDegreeFile" type="file" accept=".pdf, image/jpeg, image/jpg, image/png" class="input" (change)="onFileSelected($event, 'highestQualificationDegree')" #highestQualificationDegree="ngModel" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.highestQualificationDegree">
                                             <label for="highestQualificationDegreeFile">
                                                 <!-- No file is selected or uploaded -->
                                                 <span *ngIf="!selectedHighestQualificationDegreeFileName && !highestQualificationDegreeFileName1">
@@ -449,33 +449,52 @@
                                     </button>
                                 </div>
                                 <div class="info-btn d-flex justify-content-end" style="gap:10px;">
-                                    <div class="info-btn" *ngIf="employeeOnboardingFormStatus == 'REJECTED'">
-                                        <button (click)="selectButtonType('save')" class="btn btn-success save-button" type="button" [disabled]="toggle" aria-label="Save">
-                                            <div *ngIf="toggleSave" class="dot-opacity-loader">
-                                                <span></span>
-                                                <span></span>
-                                                <span></span>
-                                            </div>
-                                            <span *ngIf="!toggleSave">
+                                  <div class="info-btn" *ngIf="employeeOnboardingFormStatus == 'REJECTED' && !this.userDocumentsDetailsRequest.updateRequest">
+                                      <button (click)="selectButtonType('save')" class="btn btn-success save-button" type="button" [disabled]="toggle" aria-label="Save">
+                                          <div *ngIf="toggleSave" class="dot-opacity-loader">
+                                              <span></span>
+                                              <span></span>
+                                              <span></span>
+                                          </div>
+                                          <span *ngIf="!toggleSave">
                                               Submit Form <i class="bi bi-save" style="padding-left: 8px;"></i>
-                                            </span>
-                                        </button>
+                                          </span>
+                                      </button>
+                                  </div>
+                                  <!-- Go Back to Profile Button, shown only if updateRequest is true -->
+                                  <div class="info-btn" *ngIf="this.userDocumentsDetailsRequest.updateRequest">
+                                      <button (click)="goBackToProfile()" class="btn btn-warning" type="button" aria-label="Go Back to Profile">
+                                          Go Back to Profile
+                                      </button>
+                                  </div>
+                                  <!-- Conditional Update Button, replaces Next button if updateRequest is true -->
+                                  <button *ngIf="this.userDocumentsDetailsRequest.updateRequest" (click)="selectButtonType('update')" class="btn btn-info save-button" type="button" aria-label="Update">
+                                    <div *ngIf="toggle" class="dot-opacity-loader">
+                                      <span></span>
+                                      <span></span>
+                                      <span></span>
                                     </div>
-                                    <button (click)="selectButtonType('next')" class="btn btn-primary save-button" type="button" [disabled]="toggle " aria-label="Next Step">
-                                        <div *ngIf="toggle" class="dot-opacity-loader">
+                                    <span *ngIf="!toggle">
+                                      Update <i class="bi bi-pencil-square" style="padding-left: 8px;"></i>
+                                    </span>
+                                  </button>
+                                  <!-- Original Next Button, shown only when updateRequest is not true -->
+                                  <button *ngIf="!this.userDocumentsDetailsRequest.updateRequest" (click)="selectButtonType('next')" class="btn btn-primary save-button" type="button" [disabled]="toggle" aria-label="Next Step">
+                                      <div *ngIf="toggle" class="dot-opacity-loader">
                                           <span></span>
                                           <span></span>
                                           <span></span>
-                                        </div>
-                                        <span *ngIf="!toggle && isNewUser">
+                                      </div>
+                                      <span *ngIf="!toggle && isNewUser">
                                           Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
                                       </span>
                                       <span *ngIf="!toggle && !isNewUser">
-                                        Save & Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
-                                    </span>
-                                      </button>
-                                </div>
-                                <button type="submit" style="display: none;" id="formSubmitButton" #formSubmitButton></button>
+                                          Save & Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                                      </span>
+                                  </button>
+                              </div>
+                              <button type="submit" style="display: none;" id="formSubmitButton" #formSubmitButton></button>
+                              
                             </div>
                         </div>
                         </div>

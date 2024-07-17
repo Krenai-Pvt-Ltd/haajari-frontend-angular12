@@ -17,6 +17,7 @@ import { LeaveSettingCategoryResponse } from 'src/app/models/leave-categories-re
 import { LeaveSettingResponse } from 'src/app/models/leave-setting-response';
 import { Staff } from 'src/app/models/staff';
 import { StaffSelectionUserList } from 'src/app/models/staff-selection-userlist';
+import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-reflection';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 
@@ -50,6 +51,8 @@ export class LeaveSettingComponent implements OnInit {
   readonly constants = constant;
 
   ngOnInit(): void {
+    window.scroll(0, 0);
+    this.getTeamNames();
     this.getUserByFiltersMethodCall(0);
     this.getFullLeaveSettingInformation();
     // this.findUsersOfLeaveSetting(30);
@@ -293,7 +296,8 @@ export class LeaveSettingComponent implements OnInit {
           'id',
           this.searchText,
           '',
-          leaveSettingId
+          leaveSettingId,
+          this.selectedTeamId
         )
         .subscribe(
           (response) => {
@@ -428,7 +432,8 @@ export class LeaveSettingComponent implements OnInit {
         'id',
         this.searchText,
         '',
-        this.idOfLeaveSetting
+        this.idOfLeaveSetting,
+        this.selectedTeamId
       )
       .toPromise();
     // const response = await this.dataService.getAllUsers('asc', 'id', this.searchText, '').toPromise();
@@ -498,6 +503,9 @@ export class LeaveSettingComponent implements OnInit {
     this.dataService.getFullLeaveSettingInformation().subscribe(
       (response) => {
         this.fullLeaveSettingResponseList = response;
+        if (this.fullLeaveSettingResponseList.length == 1) {
+          this.activeIndex = 0;
+        }
         this.isLoading = false;
         if (response == null || response.length == 0) {
           this.leaveSettingPlaceholder = true;
@@ -525,7 +533,9 @@ export class LeaveSettingComponent implements OnInit {
   // leaveSettingForm!:NgForm;
   fullLeaveSettingResponse!: FullLeaveSettingResponse;
 
-  getLeaveSettingInformationById(leaveSettingId: number): void {
+  getLeaveSettingInformationById(leaveSettingId: number, flag: boolean): void {
+    debugger;
+
     this.pageNumber = 1;
     this.pageNumberUser = 1;
     this.dataService.getLeaveSettingInformationById(leaveSettingId).subscribe(
@@ -534,6 +544,7 @@ export class LeaveSettingComponent implements OnInit {
         this.searchText = '';
         this.selectedStaffsUuids = [];
         this.selectedStaffsUuidsUser = [];
+        this.daysCountArray = [];
         this.errorTemplateNameFlag = false;
         this.fullLeaveSettingResponse = response;
         this.idOfLeaveSetting = leaveSettingId;
@@ -544,7 +555,9 @@ export class LeaveSettingComponent implements OnInit {
         // }else{
         //   this.isMappedStaffEmpty=false;
         // }
-        this.templateSettingTab.nativeElement.click();
+        if (flag) {
+          this.templateSettingTab.nativeElement.click();
+        }
         if (this.leaveSettingResponse != null) {
           this.isFormValid = true;
         }
@@ -558,20 +571,56 @@ export class LeaveSettingComponent implements OnInit {
         // Clear the existing form controls
         categoriesArray.clear();
 
-        this.fullLeaveSettingResponse.leaveSettingCategories.forEach(
-          (category) => {
-            const categoryGroup = this.fb.group({
-              leaveName: category.leaveName,
-              leaveCount: category.leaveCount,
-              leaveRules: category.leaveRules,
-              carryForwardDays: category.carryForwardDays,
-            });
+        // this.fullLeaveSettingResponse.leaveSettingCategories.forEach(
+        //   (category) => {
+        //     const categoryGroup = this.fb.group({
+        //       id: category.id,
+        //       leaveName: category.leaveName,
+        //       leaveCount: category.leaveCount,
+        //       leaveRules: category.leaveRules,
+        //       carryForwardDays: category.carryForwardDays,
+        //     });
 
-            categoriesArray.push(categoryGroup);
+        //     categoriesArray.push(categoryGroup);
+        //   }
+        // );
+
+        response.leaveSettingCategories.forEach((category, index) => {
+          // console.log(
+          //   'index ..' + index + 'category.leaveCount ...' + category.leaveCount
+          // );
+
+          if (
+            category.leaveRules == 'Carry Forward' ||
+            category.leaveRules == 'Encash'
+          ) {
+            this.updateDaysDropdown(index, category.leaveCount);
           }
-        );
 
-        this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
+          const categoryGroup = this.fb.group({
+            id: [category.id],
+            leaveName: [category.leaveName, Validators.required],
+            leaveCount: [
+              category.leaveCount,
+              [Validators.required, Validators.min(0)],
+            ],
+            leaveRules: [category.leaveRules],
+            carryForwardDays: [category.carryForwardDays],
+          });
+
+          categoriesArray.push(categoryGroup);
+
+          // if (
+          //   category.leaveRules == 'CarryForward' ||
+          //   category.leaveRules == 'Encash'
+          // ) {
+          //   this.updateDaysDropdown(index, category.leaveCount);
+          // } else {
+          //   this.daysCountArray[index] = [];
+          // }
+        });
+
+        this.getUserByFiltersMethodCall(leaveSettingId);
         this.findUsersOfLeaveSetting(leaveSettingId);
       },
       (error) => {
@@ -656,11 +705,24 @@ export class LeaveSettingComponent implements OnInit {
     } else {
       this.errorTemplateNameFlag = false;
     }
+    // const leaveSettingCategories = this.form.value.categories.map(
+    //   (category: any) => ({
+    //     ...category,
+    //   })
+    // );
+    // this.fullLeaveSettingRuleRequest.leaveSettingCategoryResponse =
+    //   leaveSettingCategories;
+
     const leaveSettingCategories = this.form.value.categories.map(
       (category: any) => ({
-        ...category,
+        id: category.id, // Ensure the ID is being mapped
+        leaveName: category.leaveName,
+        leaveCount: category.leaveCount,
+        leaveRules: category.leaveRules,
+        carryForwardDays: category.carryForwardDays,
       })
     );
+
     this.fullLeaveSettingRuleRequest.leaveSettingCategoryResponse =
       leaveSettingCategories;
     this.fullLeaveSettingRuleRequest.userUuids = [
@@ -799,7 +861,8 @@ export class LeaveSettingComponent implements OnInit {
           leaveSettingId,
           this.searchTextUser,
           this.pageNumberUser,
-          this.itemPerPageUser
+          this.itemPerPageUser,
+          this.selectedTeamIdOfAddedUsers
         )
         .subscribe((response) => {
           this.staffsUser = response;
@@ -949,7 +1012,13 @@ export class LeaveSettingComponent implements OnInit {
 
   async getAllUsersUuidsUser(): Promise<string[]> {
     const response = await this.dataService
-      .findUsersOfLeaveSetting(this.idOfLeaveSetting, '', 1, this.totalUser)
+      .findUsersOfLeaveSetting(
+        this.idOfLeaveSetting,
+        '',
+        1,
+        this.totalUser,
+        this.selectedTeamIdOfAddedUsers
+      )
       .toPromise();
     return response.users.map((user: { uuid: any }) => user.uuid);
     // return this.selectedStaffsUuidsUser;
@@ -1123,5 +1192,202 @@ export class LeaveSettingComponent implements OnInit {
   activeIndex: number | null = null;
   toggleCollapse(index: number): void {
     this.activeIndex = this.activeIndex === index ? null : index;
+  }
+
+  deleteLeaveSettingCategoryById(id: number): void {
+    this.dataService.deleteLeaveSettingCategoryById(id).subscribe({
+      next: () => {
+        console.log('Delete successful');
+        this.getFullLeaveSettingInformation();
+        this.helperService.showToast(
+          'Leave Category deleted',
+          Key.TOAST_STATUS_SUCCESS
+        );
+      },
+      error: (err) => {
+        console.error('Delete failed', err);
+      },
+    });
+  }
+
+  onChange(value: string): void {
+    this.filteredLeaveCategories = this.leaveCategories.filter((bank) =>
+      bank.toLowerCase().includes(value.toLowerCase())
+    );
+  }
+
+  // onChange(value: string): void {
+  // // Check if leaveCategories is null or undefined before filtering
+  // if (this.leaveCategories) {
+  //   this.filteredLeaveCategories = this.leaveCategories.filter((bank) =>
+  //     bank.toLowerCase().includes(value.toLowerCase())
+  //   );
+  // }
+
+  filteredLeaveCategories: string[] = [];
+  leaveCategories: string[] = ['Annual Leave', 'Sick Leave', 'Casual Leave'];
+
+  preventLeadingWhitespace(event: KeyboardEvent): void {
+    const input = event.target as HTMLInputElement;
+    // Prevent leading spaces
+    if (event.key === ' ' && input.selectionStart === 0) {
+      event.preventDefault();
+    }
+    // Prevent numeric input entirely
+    if (!isNaN(Number(event.key)) && event.key !== ' ') {
+      event.preventDefault();
+    }
+  }
+
+  // onChangeDayCount(value: string): void {
+  //   this.daysCount = this.daysCountCategories;
+  // }
+
+  // daysCountArray: number[] = [];
+  // daysCountCategories: number[] = [0, 1, 2, 3, 4];
+
+  // generateDaysDropdown(value: any): void {
+  //   const count = parseInt(value, 10);
+  //   value.forEach()
+  //   this.daysCountCategories = Array.from(
+  //     { length: count },
+  //     (_, i) => i + 1
+  //   ).reverse();
+  // }
+  daysCountArray: number[][] = [];
+  dropdownVisible: boolean = false;
+
+  generateDaysDropdown(value: any, index: number): void {
+    const count = parseInt(value, 10);
+    // this.daysCountArray[index] = Array.from(
+    //   { length: count + 1 },
+    //   (_, i) => count - i
+    // );
+    this.updateDaysDropdown(index, count);
+  }
+
+  // updateDaysDropdown(index: number, count: number): void {
+  //   console.log('countarray ..' + count + index);
+  //   // Ensure that daysCountArray has enough elements for the given index
+  //   while (this.daysCountArray.length <= index) {
+  //     this.daysCountArray.push([]);
+  //   }
+
+  //   // Update the daysCountArray for the specific index
+  //   this.daysCountArray[index] = Array.from(
+  //     { length: count + 1 },
+  //     (_, i) => count - i
+  //   );
+  // }
+
+  updateDaysDropdown(index: number, count: number): void {
+    // console.log('countarray ..' + index + ' ' + count);
+    while (this.daysCountArray.length <= index) {
+      this.daysCountArray.push([]);
+    }
+    this.daysCountArray[index] = Array.from(
+      { length: count + 1 },
+      (_, i) => count - i
+    );
+  }
+
+  // updateDaysDropdown(index: number, count: number): void {
+  //   this.daysCountArray[index] = Array.from(
+  //     { length: count + 1 },
+  //     (_, i) => count - i
+  //   );
+  // }
+
+  selectCarryForwardDay(day: number, index: number): void {
+    const categories = this.form.get('categories') as FormArray;
+    const control = categories.at(index)?.get('carryForwardDays');
+    if (control) {
+      control.setValue(day);
+    }
+    this.dropdownVisible = false;
+  }
+
+  toggleDropdown(): void {
+    this.dropdownVisible = !this.dropdownVisible;
+  }
+
+  editLeaveCategories(id: number) {
+    this.getLeaveSettingInformationById(id, false);
+    this.leaveCategoryTab.nativeElement.click();
+  }
+
+  calculateMonthlyLeaveCount(index: number): number {
+    const control = this.categories.controls[index].get('leaveCount');
+    if (control) {
+      const yearlyCount = control.value;
+      return yearlyCount / 12;
+    }
+    return 0;
+  }
+
+  // isYearlyAllAtOnce: boolean = false;
+
+  // yearlyAllAtOnce() {
+  //   if()
+  // }
+  teamNameList: UserTeamDetailsReflection[] = [];
+
+  teamId: number = 0;
+  getTeamNames() {
+    debugger;
+    this.dataService.getAllTeamNames().subscribe({
+      next: (response: any) => {
+        this.teamNameList = response.object;
+      },
+      error: (error) => {
+        console.error('Failed to fetch team names:', error);
+      },
+    });
+  }
+
+  page = 0;
+  selectedTeamName: string = 'All';
+  selectedTeamId: number = 0;
+  selectTeam(teamId: number) {
+    debugger;
+    if (teamId === 0) {
+      this.selectedTeamName = 'All';
+    } else {
+      const selectedTeam = this.teamNameList.find(
+        (team) => team.teamId === teamId
+      );
+      this.selectedTeamName = selectedTeam ? selectedTeam.teamName : 'All';
+    }
+    this.pageNumber = 1;
+    this.itemPerPage = 8;
+    // this.fullLeaveLogs = [];
+    // this.selectedTeamName = teamName;
+    this.selectedTeamId = teamId;
+    // this.getUserByFiltersMethodCall();
+    this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
+  }
+
+  // pageOfAddedUsers = 0;
+  selectedTeamNameOfAddedUsers: string = 'All';
+  selectedTeamIdOfAddedUsers: number = 0;
+  selectTeamSearchForAddedUsers(teamId: number) {
+    debugger;
+    if (teamId === 0) {
+      this.selectedTeamNameOfAddedUsers = 'All';
+    } else {
+      const selectedTeam = this.teamNameList.find(
+        (team) => team.teamId === teamId
+      );
+      this.selectedTeamNameOfAddedUsers = selectedTeam
+        ? selectedTeam.teamName
+        : 'All';
+    }
+    this.pageNumberUser = 1;
+    this.itemPerPageUser = 8;
+    // this.fullLeaveLogs = [];
+    // this.selectedTeamName = teamName;
+    this.selectedTeamIdOfAddedUsers = teamId;
+    // this.getUserByFiltersMethodCall();
+    this.findUsersOfLeaveSetting(this.idOfLeaveSetting);
   }
 }

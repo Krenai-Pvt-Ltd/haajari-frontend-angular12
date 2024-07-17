@@ -8,13 +8,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import { DataService } from 'src/app/services/data.service';
 import { Subject } from 'rxjs';
 import { UserLeaveRequest } from 'src/app/models/user-leave-request';
-import {
-  FormBuilder,
-  FormGroup,
-  FormGroupDirective,
-  NgForm,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { UserDto } from 'src/app/models/user-dto.model';
 import { saveAs } from 'file-saver';
@@ -45,6 +39,22 @@ import { UserEmergencyContactDetailsRequest } from 'src/app/models/user-emergenc
 import { UserExperience } from 'src/app/models/user-experience';
 import { TotalExperiences } from 'src/app/models/total-experiences';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { finalize } from 'rxjs/operators';
+import { EmployeeCompanyDocumentsRequest } from 'src/app/models/employee-company-documents-request';
+import { keys } from 'lodash';
+import { UserDocumentsDetailsRequest } from 'src/app/models/user-documents-details-request';
+import { SalaryTemplateComponentResponse } from 'src/app/models/salary-template-component-response';
+import { AppraisalRequest } from 'src/app/models/appraisal-request';
+import { BonusRequest } from 'src/app/models/bonus-request';
+import { Color, ScaleType } from '@swimlane/ngx-charts';
+import { Chart } from 'chart.js';
+import { EmployeePayslipResponse } from 'src/app/models/employee-payslip-response';
+import { EmployeePayslipBreakupResponse } from 'src/app/models/employee-payslip-breakup-response';
+import { EmployeePayslipDeductionResponse } from 'src/app/models/employee-payslip-deduction-response';
+import { EmployeePayslipLogResponse } from 'src/app/employee-payslip-log-response';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
+
 @Component({
   selector: 'app-employee-profile',
   templateUrl: './employee-profile.component.html',
@@ -57,6 +67,7 @@ export class EmployeeProfileComponent implements OnInit {
     new UserAddressDetailsRequest();
   userExperienceDetailRequest: UserExperienceDetailRequest =
     new UserExperienceDetailRequest();
+
   userLeaveForm!: FormGroup;
   @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
 
@@ -65,6 +76,7 @@ export class EmployeeProfileComponent implements OnInit {
   hideDetailsFlag: boolean = false;
   adminRoleFlag: boolean = false;
   userRoleFlag: boolean = false;
+
   constructor(
     private dataService: DataService,
     private datePipe: DatePipe,
@@ -76,7 +88,9 @@ export class EmployeeProfileComponent implements OnInit {
     private router: Router,
     private roleService: RoleBasedAccessControlService,
     public location: Location,
-    public sanitize: DomSanitizer,
+    public domSanitizer: DomSanitizer,
+    private afStorage: AngularFireStorage,
+    private msg: NzMessageService
   ) {
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
@@ -94,6 +108,12 @@ export class EmployeeProfileComponent implements OnInit {
         eveningShift: [false],
       });
     }
+
+    Object.assign(this, { single: this.single });
+
+    const currentDate = moment();
+    this.startDate = currentDate.startOf('month').format('YYYY-MM-DD');
+    this.endDate = currentDate.endOf('month').format('YYYY-MM-DD');
   }
 
   goBack() {
@@ -132,15 +152,25 @@ export class EmployeeProfileComponent implements OnInit {
   MANAGER = Key.MANAGER;
   USER = Key.USER;
 
+  @ViewChild("paySlipTab") paySlipTab !: ElementRef; 
+  goToPaySlipTab(){
+    this.paySlipTab.nativeElement.click();
+  }
+
   isSalaryPlaceholderFlag: boolean = false;
   // tokenUserRoleFlag:boolean=false;
   currentDate: Date = new Date();
   currentNewDate: any;
   async ngOnInit(): Promise<void> {
+    this.activeTabs('home');
+    window.scroll(0, 0);
+    this.getOrganizationRegistrationDateMethodCall();
     this.getOnboardingFormPreviewMethodCall();
     this.getAllTaxRegimeMethodCall();
     this.getStatutoryByOrganizationIdMethodCall();
     this.getSalaryConfigurationStepMethodCall();
+    this.getSalaryTemplateComponentByUserUuidMethodCall();
+    // this.getEmployeeCompanyDocumentsMethodCall();
 
     this.ROLE = await this.roleService.getRole();
     this.UUID = await this.roleService.getUuid();
@@ -155,7 +185,10 @@ export class EmployeeProfileComponent implements OnInit {
       this.userRoleFlag = true;
     }
     this.getRoleData();
-    this.currentNewDate = moment(this.currentDate).format('yyyy-MM-DD');
+    // this.currentNewDate = moment(this.currentDate).format('yyyy-MM-DD');
+    this.currentNewDate = moment(this.currentDate)
+      .startOf('month')
+      .format('YYYY-MM-DD');
     this.getUserAttendanceStatus();
     this.getOrganizationOnboardingDateByUuid();
     // let date = new Date();
@@ -221,7 +254,7 @@ export class EmployeeProfileComponent implements OnInit {
       },
       (error) => {
         this.count++;
-      },
+      }
     );
   }
 
@@ -244,7 +277,7 @@ export class EmployeeProfileComponent implements OnInit {
       (error) => {
         this.isImage = false;
         this.count++;
-      },
+      }
     );
   }
 
@@ -252,6 +285,7 @@ export class EmployeeProfileComponent implements OnInit {
   approvedToggle = false;
   @ViewChild('closeRejectModalButton') closeRejectModalButton!: ElementRef;
   updateStatusUserByUuid(type: string) {
+    
     if (type == 'REJECTED') {
       this.toggle = true;
       this.setReasonOfRejectionMethodCall();
@@ -276,7 +310,7 @@ export class EmployeeProfileComponent implements OnInit {
         // location.reload();
         // location.reload();
       },
-      (error) => {},
+      (error) => {}
     );
   }
 
@@ -307,7 +341,7 @@ export class EmployeeProfileComponent implements OnInit {
   // }
 
   // getTotalPresentAbsentMonthwise(): void {
-  //   debugger;
+  //   
   //   this.dataService
   //     .getUserAttendanceDetailsByDateDuration(
   //       this.userId,
@@ -362,7 +396,7 @@ export class EmployeeProfileComponent implements OnInit {
   clientX: string = '0px';
   clientY: string = '0px';
   openModal(mouseEnterInfo: any): void {
-    debugger;
+    
     if (!this.attendanceDetailModalToggle) {
       // console.log("events : ", mouseEnterInfo.event);
       this.userAttendanceDetailDateWise.checkInTime = '';
@@ -389,11 +423,11 @@ export class EmployeeProfileComponent implements OnInit {
       // console.log("totalworkinghour :" + this.userAttendanceDetailDateWise.totalWorkingHours);
       var rect = mouseEnterInfo.el.getBoundingClientRect();
       this.clientX = rect.left - 210 + 'px';
-      this.clientY = rect.top - 100 + 'px';
+      this.clientY = rect.top - 70 + 'px';
       console.log(
         'mouse location:',
         mouseEnterInfo.jsEvent.clientX,
-        mouseEnterInfo.jsEvent.clientY,
+        mouseEnterInfo.jsEvent.clientY
       );
       this.openEventsModal.nativeElement.click();
     }
@@ -412,13 +446,13 @@ export class EmployeeProfileComponent implements OnInit {
   @ViewChild('closeAttendanceDetailModalButton')
   closeAttendanceDetailModalButton!: ElementRef;
   mouseLeaveInfo(mouseEnterInfo: any): void {
-    debugger;
+    
     this.closeAttendanceModal();
   }
 
   // });
   getUserAttendanceDataFromDate(sDate: string, eDate: string): void {
-    debugger;
+    
     this.dataService
       .getUserAttendanceDetailsByDateDuration(this.userId, 'USER', sDate, eDate)
       .subscribe(
@@ -487,7 +521,7 @@ export class EmployeeProfileComponent implements OnInit {
                 this.totalAbsent++;
               }
               const date = moment(this.attendances[i].createdDate).format(
-                'YYYY-MM-DD',
+                'YYYY-MM-DD'
               );
 
               var tempEvent2 = {
@@ -558,7 +592,7 @@ export class EmployeeProfileComponent implements OnInit {
         (error: any) => {
           this.count++;
           // console.error('Error fetching data:', error);
-        },
+        }
       );
   }
 
@@ -658,7 +692,7 @@ export class EmployeeProfileComponent implements OnInit {
   forwordFlag: boolean = false;
 
   goforward() {
-    debugger;
+    
     const calendarApi = this.calendarComponent.getApi();
 
     calendarApi.next();
@@ -668,7 +702,7 @@ export class EmployeeProfileComponent implements OnInit {
     let endDate = new Date(
       startDate.getFullYear(),
       startDate.getMonth() + 1,
-      0,
+      0
     );
 
     this.startDateStr = moment(startDate).format('YYYY-MM-DD');
@@ -681,7 +715,7 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
   changeForwardButtonVisibilty(calendarApi: any) {
-    debugger;
+    
     var enrolmentDate = new Date(this.prevDate);
     if (calendarApi?.getDate().getFullYear() != new Date().getFullYear()) {
       this.forwordFlag = true;
@@ -708,7 +742,7 @@ export class EmployeeProfileComponent implements OnInit {
 
   backwardFlag: boolean = true;
   goBackward() {
-    debugger;
+    
     const calendarApi = this.calendarComponent.getApi();
     var date = new Date(this.prevDate);
     var month = date.getMonth();
@@ -721,7 +755,7 @@ export class EmployeeProfileComponent implements OnInit {
     let endDate = new Date(
       startDate.getFullYear(),
       startDate.getMonth() + 1,
-      0,
+      0
     );
 
     if (startDate.getMonth() == new Date(this.newDate).getMonth()) {
@@ -759,7 +793,7 @@ export class EmployeeProfileComponent implements OnInit {
 
   dateInMonthList(attendances: AttendenceDto[]): string[] {
     const uniqueDays = Array.from(
-      new Set(attendances.map((a) => a.createdDate)),
+      new Set(attendances.map((a) => a.createdDate))
     );
     return uniqueDays;
   }
@@ -801,22 +835,31 @@ export class EmployeeProfileComponent implements OnInit {
   @ViewChild(FormGroupDirective)
   formGroupDirective!: FormGroupDirective;
   submitLeaveLoader: boolean = false;
-
+  @ViewChild('fileInput') fileInput!: ElementRef;
   saveLeaveRequestUser() {
-    debugger;
+    
+
+    if (this.userLeaveForm.invalid || this.isFileUploaded) {
+      return;
+    }
+
     this.userLeaveRequest.managerId = this.selectedManagerId;
     this.userLeaveRequest.dayShift = this.dayShiftToggle;
     this.userLeaveRequest.eveningShift = this.eveningShiftToggle;
     this.submitLeaveLoader = true;
     // this.userLeaveRequest.halfDayLeave = false;
     this.dataService
-      .saveLeaveRequest(this.userId, this.userLeaveRequest)
+      .saveLeaveRequest(this.userId, this.userLeaveRequest, this.fileToUpload)
       .subscribe(
         (data) => {
           // console.log(data);
           // console.log(data.body);
           this.submitLeaveLoader = false;
           this.isLeavePlaceholder = false;
+          this.isFileUploaded = false;
+          this.fileToUpload = '';
+          // this.selectedFile = null;
+          this.fileInput.nativeElement.value = '';
           this.getUserLeaveReq();
           this.resetUserLeave();
           this.formGroupDirective.resetForm();
@@ -827,7 +870,7 @@ export class EmployeeProfileComponent implements OnInit {
         (error) => {
           this.submitLeaveLoader = false;
           // console.log(error.body);
-        },
+        }
       );
   }
 
@@ -887,7 +930,7 @@ export class EmployeeProfileComponent implements OnInit {
       },
       (error) => {
         this.count++;
-      },
+      }
     );
   }
 
@@ -895,7 +938,7 @@ export class EmployeeProfileComponent implements OnInit {
   selectStatusFlag: boolean = false;
   isLeaveErrorPlaceholder: boolean = false;
   getUserLeaveLogByUuid() {
-    debugger;
+    
     this.isLeaveShimmer = true;
     // this.selectStatusFlag=true;
 
@@ -913,7 +956,7 @@ export class EmployeeProfileComponent implements OnInit {
           (error) => {
             this.isLeaveShimmer = false;
             this.count++;
-          },
+          }
         );
     } else {
       console.log('selectedStatus :' + this.selectedStatus);
@@ -932,7 +975,7 @@ export class EmployeeProfileComponent implements OnInit {
         (error) => {
           this.isLeaveErrorPlaceholder = true;
           this.isLeaveShimmer = false;
-        },
+        }
       );
     }
   }
@@ -972,7 +1015,7 @@ export class EmployeeProfileComponent implements OnInit {
       },
       (error) => {
         this.count++;
-      },
+      }
     );
   }
 
@@ -1020,7 +1063,7 @@ export class EmployeeProfileComponent implements OnInit {
         this.count++;
         this.isAddressPlaceholder = true;
         // this.isAddressShimmer=false;
-      },
+      }
     );
   }
 
@@ -1044,7 +1087,7 @@ export class EmployeeProfileComponent implements OnInit {
       (error) => {
         this.count++;
         this.isCompanyPlaceholder = true;
-      },
+      }
     );
   }
 
@@ -1064,7 +1107,7 @@ export class EmployeeProfileComponent implements OnInit {
       (error) => {
         this.count++;
         this.isAcademicPlaceholder = true;
-      },
+      }
     );
   }
 
@@ -1082,7 +1125,7 @@ export class EmployeeProfileComponent implements OnInit {
       (error) => {
         this.count++;
         this.isContactPlaceholder = true;
-      },
+      }
     );
   }
 
@@ -1101,7 +1144,7 @@ export class EmployeeProfileComponent implements OnInit {
       (error) => {
         this.count++;
         this.isBankShimmer = false;
-      },
+      }
     );
   }
 
@@ -1115,7 +1158,7 @@ export class EmployeeProfileComponent implements OnInit {
   pancardString: string = '';
   // isDocumentsShimmer:boolean=false;
   getEmployeeDocumentsDetailsByUuid() {
-    debugger;
+    
     // this.isDocumentsShimmer=true;
     this.dataService.getEmployeeDocumentAsList(this.userId).subscribe(
       (data) => {
@@ -1140,7 +1183,7 @@ export class EmployeeProfileComponent implements OnInit {
         this.count++;
         this.isDocsPlaceholder = true;
         // this.isDocumentsShimmer=false;
-      },
+      }
     );
   }
 
@@ -1200,11 +1243,11 @@ export class EmployeeProfileComponent implements OnInit {
   hideNextButton: boolean = false;
   @ViewChild('openViewModal') openViewModal!: ElementRef;
   openPdfModel(viewString: string, docsName: string) {
-    debugger;
+    
     this.nextOpenDocName = docsName;
     this.downloadString = viewString;
     this.previewString =
-      this.sanitize.bypassSecurityTrustResourceUrl(viewString);
+      this.domSanitizer.bypassSecurityTrustResourceUrl(viewString);
     // if (viewString == "highSchool") {
     //   this.previewString = this.highSchoolCertificate;
     // } else if (viewString == "highestQualification") {
@@ -1351,7 +1394,7 @@ export class EmployeeProfileComponent implements OnInit {
 
     var blob = null;
     var splittedUrl = imageUrl.split(
-      '/firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/',
+      '/firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/'
     );
 
     if (splittedUrl.length < 2) {
@@ -1403,7 +1446,7 @@ export class EmployeeProfileComponent implements OnInit {
         // if(command==="/inn"){
         // this.getUserAttendanceDataFromDate(this.startDateStr, this.endDateStr);
         // }
-      },
+      }
     );
   }
 
@@ -1417,13 +1460,13 @@ export class EmployeeProfileComponent implements OnInit {
       },
       (error) => {
         this.count++;
-      },
+      }
     );
   }
 
   @ViewChild('openRejectModal') openRejectModal!: ElementRef;
   setReasonOfRejectionMethodCall() {
-    debugger;
+    
     this.dataService
       .setReasonOfRejection(this.userId, this.reasonOfRejectionProfile)
       .subscribe(
@@ -1432,7 +1475,7 @@ export class EmployeeProfileComponent implements OnInit {
         },
         (error) => {
           // console.error('Error occurred:', error);
-        },
+        }
       );
   }
 
@@ -1473,7 +1516,9 @@ export class EmployeeProfileComponent implements OnInit {
         if (yearDiff > 0) {
           result += ' ';
         }
-        result += `${monthDiff === 1 ? monthDiff + ' month' : monthDiff + ' months'}`;
+        result += `${
+          monthDiff === 1 ? monthDiff + ' month' : monthDiff + ' months'
+        }`;
       }
       return result.trim() || 'N/A';
     } else {
@@ -1490,7 +1535,7 @@ export class EmployeeProfileComponent implements OnInit {
 
           this.helperService.showToast(
             'Mail Sent Successfully',
-            Key.TOAST_STATUS_SUCCESS,
+            Key.TOAST_STATUS_SUCCESS
           );
           this.getUserByUuid();
           //  this.closeRejectModalButton.nativeElement.click();
@@ -1504,7 +1549,7 @@ export class EmployeeProfileComponent implements OnInit {
         },
         (error) => {
           this.helperService.showToast(error.message, Key.TOAST_STATUS_SUCCESS);
-        },
+        }
       );
   }
 
@@ -1541,13 +1586,80 @@ export class EmployeeProfileComponent implements OnInit {
     this.switchValueForProfessionalTax = false;
   }
 
+
+
+  isShimmerForSalaryTemplate = false;
+  dataNotFoundPlaceholderForSalaryTemplate = false;
+  networkConnectionErrorPlaceHolderForSalaryTemplate = false;
+  preRuleForShimmersAndErrorPlaceholdersForSalaryTemplateMethodCall() {
+    this.isShimmerForSalaryTemplate = true;
+    this.dataNotFoundPlaceholderForSalaryTemplate = false;
+    this.networkConnectionErrorPlaceHolderForSalaryTemplate = false;
+  }
+
+  isShimmerForEmployeePayslipResponse = false;
+  dataNotFoundPlaceholderForEmployeePayslipResponse = false;
+  networkConnectionErrorPlaceHolderForEmployeePayslipResponse = false;
+  preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipResponseMethodCall() {
+    this.isShimmerForEmployeePayslipResponse = true;
+    this.dataNotFoundPlaceholderForEmployeePayslipResponse = false;
+    this.networkConnectionErrorPlaceHolderForEmployeePayslipResponse = false;
+  }
+
+  isShimmerForEmployeePayslipBreakupResponse = false;
+  dataNotFoundPlaceholderForEmployeePayslipBreakupResponse = false;
+  networkConnectionErrorPlaceHolderForEmployeePayslipBreakupResponse = false;
+  preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipBreakupResponseMethodCall() {
+    this.isShimmerForEmployeePayslipBreakupResponse = true;
+    this.dataNotFoundPlaceholderForEmployeePayslipBreakupResponse = false;
+    this.networkConnectionErrorPlaceHolderForEmployeePayslipBreakupResponse = false;
+  }
+
+  isShimmerForEmployeePayslipDeductionResponse = false;
+  dataNotFoundPlaceholderForEmployeePayslipDeductionResponse = false;
+  networkConnectionErrorPlaceHolderForEmployeePayslipDeductionResponse = false;
+  preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipDeductionResponseMethodCall() {
+    this.isShimmerForEmployeePayslipDeductionResponse = true;
+    this.dataNotFoundPlaceholderForEmployeePayslipDeductionResponse = false;
+    this.networkConnectionErrorPlaceHolderForEmployeePayslipDeductionResponse = false;
+  }
+
+  isShimmerForEmployeePayslipLogResponse = false;
+  dataNotFoundPlaceholderForEmployeePayslipLogResponse = false;
+  networkConnectionErrorPlaceHolderForEmployeePayslipLogResponse = false;
+  preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipLogResponseMethodCall() {
+    this.isShimmerForEmployeePayslipLogResponse = true;
+    this.dataNotFoundPlaceholderForEmployeePayslipLogResponse = false;
+    this.networkConnectionErrorPlaceHolderForEmployeePayslipLogResponse = false;
+  }
+
+
+  salaryTemplateComponentResponse: SalaryTemplateComponentResponse = new SalaryTemplateComponentResponse();
+  getSalaryTemplateComponentByUserUuidMethodCall() {
+    
+    this.preRuleForShimmersAndErrorPlaceholdersForSalaryTemplateMethodCall();
+    this.dataService.getSalaryTemplateComponentByUserUuid().subscribe((response) => {
+
+        if(this.helperService.isObjectNullOrUndefined(response)){
+          this.dataNotFoundPlaceholderForSalaryTemplate = true;
+        } else{
+          this.salaryTemplateComponentResponse = response.object;
+        }
+        this.isShimmerForSalaryTemplate = false;
+      },
+      (error) => {
+        this.networkConnectionErrorPlaceHolderForSalaryTemplate = true;
+      }
+    );
+  }
+
   salaryConfigurationStepId: number = 0;
   getSalaryConfigurationStepMethodCall() {
     this.dataService.getSalaryConfigurationStep().subscribe(
       (response) => {
         this.salaryConfigurationStepId = response.count;
       },
-      (error) => {},
+      (error) => {}
     );
   }
 
@@ -1559,7 +1671,7 @@ export class EmployeeProfileComponent implements OnInit {
         this.pFContributionRateList = response.listOfObject;
         console.log(response.listOfObject);
       },
-      (error) => {},
+      (error) => {}
     );
   }
 
@@ -1569,7 +1681,7 @@ export class EmployeeProfileComponent implements OnInit {
       (response) => {
         this.eSIContributionRateList = response.listOfObject;
       },
-      (error) => {},
+      (error) => {}
     );
   }
 
@@ -1578,16 +1690,16 @@ export class EmployeeProfileComponent implements OnInit {
       (response) => {
         this.helperService.showToast(
           response.message,
-          Key.TOAST_STATUS_SUCCESS,
+          Key.TOAST_STATUS_SUCCESS
         );
         this.getAllTaxRegimeMethodCall();
       },
       (error) => {
         this.helperService.showToast(
           'Error in updating tax regime!',
-          Key.TOAST_STATUS_ERROR,
+          Key.TOAST_STATUS_ERROR
         );
-      },
+      }
     );
   }
 
@@ -1597,13 +1709,13 @@ export class EmployeeProfileComponent implements OnInit {
       (response) => {
         this.taxRegimeList = response.listOfObject;
       },
-      (error) => {},
+      (error) => {}
     );
   }
 
   statutoryResponseList: StatutoryResponse[] = [];
   getStatutoryByOrganizationIdMethodCall() {
-    debugger;
+    
     this.dataService.getStatutoryByOrganizationId().subscribe(
       (response) => {
         this.statutoryResponseList = response.listOfObject;
@@ -1611,7 +1723,7 @@ export class EmployeeProfileComponent implements OnInit {
         console.log(this.statutoryResponseList);
         this.clearInputValues();
       },
-      (error) => {},
+      (error) => {}
     );
   }
 
@@ -1629,7 +1741,7 @@ export class EmployeeProfileComponent implements OnInit {
           },
           (error) => {
             reject(error);
-          },
+          }
         );
     });
   }
@@ -1640,7 +1752,7 @@ export class EmployeeProfileComponent implements OnInit {
     }
 
     await this.getStatutoryAttributeByStatutoryIdMethodCall(
-      statutoryResponse.id,
+      statutoryResponse.id
     );
 
     this.statutoryRequest.id = statutoryResponse.id;
@@ -1673,17 +1785,17 @@ export class EmployeeProfileComponent implements OnInit {
         this.setStatutoryVariablesToFalse();
         this.helperService.showToast(
           response.message,
-          Key.TOAST_STATUS_SUCCESS,
+          Key.TOAST_STATUS_SUCCESS
         );
         this.getStatutoryByOrganizationIdMethodCall();
       },
       (error) => {
         this.helperService.showToast(
           error.error.message,
-          Key.TOAST_STATUS_ERROR,
+          Key.TOAST_STATUS_ERROR
         );
         this.getStatutoryByOrganizationIdMethodCall();
-      },
+      }
     );
   }
 
@@ -1699,18 +1811,14 @@ export class EmployeeProfileComponent implements OnInit {
         },
         (error) => {
           this.BUTTON_LOADER = false;
-        },
+        }
       );
   }
 
   goToManageStatutory() {
     this.salaryConfigurationStepId = this.MANAGE_STATUTORY;
-    const configureSalarySettingDiv = document.getElementById(
-      'configure-salary-setting',
-    ) as HTMLInputElement | null;
-    const manageStatutoryDiv = document.getElementById(
-      'manage-statutory',
-    ) as HTMLInputElement | null;
+    const configureSalarySettingDiv = document.getElementById('configure-salary-setting') as HTMLInputElement | null;
+    const manageStatutoryDiv = document.getElementById('manage-statutory') as HTMLInputElement | null;
 
     if (configureSalarySettingDiv) {
       configureSalarySettingDiv.style.display = 'none';
@@ -1720,6 +1828,262 @@ export class EmployeeProfileComponent implements OnInit {
       }
     }
   }
+
+  goToPaySlip(){
+    this.salaryConfigurationStepId = this.PAY_SLIP;
+    const paySlipDiv = document.getElementById('pay_slip') as HTMLInputElement | null;
+    const manageStatutoryDiv = document.getElementById('manage-statutory') as HTMLInputElement | null;
+
+    if(manageStatutoryDiv){
+      manageStatutoryDiv.style.display = 'none';
+
+      if(paySlipDiv){
+        paySlipDiv.style.display = 'block';
+      }
+    }
+  }
+
+
+  size: 'large' | 'small' | 'default' = 'small';
+  selectedDate: Date = new Date();
+  startDate: string = '';
+  endDate: string = '';
+
+  onMonthChange(month: Date): void {
+    this.selectedDate = month;
+    this.getFirstAndLastDateOfMonth(this.selectedDate);
+
+    this.financeSectionMethodCall();
+
+  }
+
+  getFirstAndLastDateOfMonth(selectedDate: Date) {
+
+    this.startDate = this.helperService.formatDateToYYYYMMDD(
+      new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1),
+    );
+    this.endDate = this.helperService.formatDateToYYYYMMDD(
+      new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0),
+    );
+  }
+  disableMonths = (date: Date): boolean => {
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
+    const dateYear = date.getFullYear();
+    const dateMonth = date.getMonth();
+    const organizationRegistrationYear = new Date(
+      this.organizationRegistrationDate
+    ).getFullYear();
+    const organizationRegistrationMonth = new Date(
+      this.organizationRegistrationDate
+    ).getMonth();
+
+    // Disable if the month is before the organization registration month
+    if (
+      dateYear < organizationRegistrationYear ||
+      (dateYear === organizationRegistrationYear &&
+        dateMonth < organizationRegistrationMonth)
+    ) {
+      return true;
+    }
+
+    // Disable if the month is after the current month
+    if (
+      dateYear > currentYear ||
+      (dateYear === currentYear && dateMonth > currentMonth)
+    ) {
+      return true;
+    }
+
+    // Enable the month if it's from January 2023 to the current month
+    return false;
+  };
+
+  organizationRegistrationDate: string = '';
+  getOrganizationRegistrationDateMethodCall() {
+    
+    this.dataService.getOrganizationRegistrationDate().subscribe(
+      (response) => {
+        this.organizationRegistrationDate = response;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  
+
+
+  // Finance Section APIs
+  financeSectionMethodCall(){
+    this.getEmployeePayslipResponseByUserUuidMethodCall();
+    this.getEmployeePayslipBreakupResponseByUserUuidMethodCall();
+    this.getEmployeePayslipDeductionResponseByUserUuidMethodCall();
+    this.getEmployeePayslipLogResponseByUserUuidMethodCall();
+  }
+
+  employeePayslipResponse : EmployeePayslipResponse = new EmployeePayslipResponse();
+  getEmployeePayslipResponseByUserUuidMethodCall(){
+    this.preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipResponseMethodCall();
+    this.dataService.getEmployeePayslipResponseByUserUuid(this.userId, this.startDate, this.endDate).subscribe((response) => {
+      if(this.helperService.isObjectNullOrUndefined(response)){
+        this.dataNotFoundPlaceholderForEmployeePayslipResponse = true;
+        this.employeePayslipResponse = new EmployeePayslipResponse();
+        this.payrollChartDataNotFoundMehthodCall();
+      } else{
+        this.employeePayslipResponse = response.object;
+        this.payrollChartMehthodCall();
+      }
+      this.isShimmerForEmployeePayslipResponse = false;
+    }, (error) => {
+      this.networkConnectionErrorPlaceHolderForEmployeePayslipResponse = true;
+      this.isShimmerForEmployeePayslipResponse = false;
+    })
+  }
+
+
+  employeePayslipBreakupResponseList : EmployeePayslipBreakupResponse[] = [];
+  getEmployeePayslipBreakupResponseByUserUuidMethodCall(){
+    this.preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipBreakupResponseMethodCall();
+    this.dataService.getEmployeePayslipBreakupResponseByUserUuid(this.userId, this.startDate, this.endDate).subscribe((response) => {
+      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+        this.dataNotFoundPlaceholderForEmployeePayslipBreakupResponse = true;
+        this.employeePayslipBreakupResponseList = [];
+      } else{
+        this.employeePayslipBreakupResponseList = response.listOfObject;
+      }
+
+      this.isShimmerForEmployeePayslipBreakupResponse = true;
+    }, (error) => {
+      this.networkConnectionErrorPlaceHolderForEmployeePayslipBreakupResponse = true;
+      this.isShimmerForEmployeePayslipBreakupResponse = true;
+    })
+  }
+
+  employeePayslipDeductionResponse : EmployeePayslipDeductionResponse = new EmployeePayslipDeductionResponse();
+  getEmployeePayslipDeductionResponseByUserUuidMethodCall(){
+    this.preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipDeductionResponseMethodCall();
+    this.dataService.getEmployeePayslipDeductionResponseByUserUuid(this.userId, this.startDate, this.endDate).subscribe((response) => {
+      if(this.helperService.isObjectNullOrUndefined(response)){
+        this.dataNotFoundPlaceholderForEmployeePayslipDeductionResponse = true;
+      } else{
+        this.employeePayslipDeductionResponse = response.object;
+      }
+
+      this.isShimmerForEmployeePayslipDeductionResponse = true;
+    }, (error) => {
+      this.networkConnectionErrorPlaceHolderForEmployeePayslipDeductionResponse = true;
+      this.isShimmerForEmployeePayslipDeductionResponse = true;
+    })
+  }
+
+  employeePayslipLogResponseList : EmployeePayslipLogResponse[] = [];
+  getEmployeePayslipLogResponseByUserUuidMethodCall(){
+    this.preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipLogResponseMethodCall();
+    this.dataService.getEmployeePayslipLogResponseByUserUuid(this.userId, this.startDate, this.endDate).subscribe((response) => {
+      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+        this.dataNotFoundPlaceholderForEmployeePayslipLogResponse = true;
+      } else{
+        this.employeePayslipLogResponseList = response.listOfObject;
+      }
+      this.isShimmerForEmployeePayslipLogResponse = false;
+    }, (error) => {
+      this.isShimmerForEmployeePayslipLogResponse = false;
+      this.networkConnectionErrorPlaceHolderForEmployeePayslipLogResponse = true;
+    })
+  }
+
+  downloadPaySlip(url: string, name: string){
+    this.helperService.downloadPdf(url, name);
+  }
+
+  // #################-- Payroll chart code --###########################
+  
+  view: [number, number] = [375, 375]; // explicitly define as tuple
+  // options
+  showLegend: boolean = false;
+  showLabels: boolean = true;
+  explodeSlices: boolean = false;
+  doughnut: boolean = true;
+  gradient: boolean = true;
+
+  colorScheme: Color = {
+    name: 'custom',
+    selectable: true,
+    group: ScaleType.Ordinal,
+    domain: ['#6666f3', '#FE3636', '#02E59C', '#888']
+  };
+
+  // chart data
+  single = [
+    {
+      name: 'Net Pay',
+      value: 0
+    },
+    {
+      name: 'Deduction',
+      value: 0
+    },
+    {
+      name: 'Gross Pay',
+      value: 0
+    },
+    {
+      name: 'Not Found',
+      value: 0
+    }
+  ];
+
+  onSelect(event: any) {
+    console.log(event);
+  }
+
+  payrollChartMehthodCall(){
+    this.single = [
+      {
+        name: 'Net Pay',
+        value: this.employeePayslipResponse.netPay
+      },
+      {
+        name: 'Deduction',
+        value: this.employeePayslipResponse.deduction
+      },
+      {
+        name: 'Gross Pay',
+        value: this.employeePayslipResponse.grossPay
+      }
+    ];
+  }
+
+  payrollChartDataNotFoundMehthodCall(){
+    this.single = [
+      {
+        name: 'Net Pay',
+        value: 0
+      },
+      {
+        name: 'Deduction',
+        value: 0
+      },
+      {
+        name: 'Gross Pay',
+        value: 0
+      },
+      {
+        name: 'No data found!',
+        value: 0.1
+      }
+    ];
+  }
+
+
+  // getCenterLabel(): string {
+  //   const totalValue = this.single.reduce((sum, item) => sum + item.value, 0);
+  //   return totalValue.toString();
+  // }
+
+  // ===================================================
 
   secondarySchoolCertificateFileName: string = '';
   highSchoolCertificateFileName1: string = '';
@@ -1738,18 +2102,20 @@ export class EmployeeProfileComponent implements OnInit {
   userEmergencyContactArray: UserEmergencyContactDetailsRequest[] = [];
   userExperienceArray: UserExperience[] = [];
   employeeAdditionalDocument: EmployeeAdditionalDocument[] = [];
+  employeeCompanyDocuments: EmployeeCompanyDocumentsRequest[] = [];
 
   routeToUserDetails(routePath: string) {
     let navExtra: NavigationExtras = {
       queryParams: {
         userUuid: new URLSearchParams(window.location.search).get('userId'),
+        adminUuid: this.UUID,
       },
     };
     this.router.navigate([routePath], navExtra);
   }
 
   getOnboardingFormPreviewMethodCall() {
-    debugger;
+    
     const userUuid =
       new URLSearchParams(window.location.search).get('userId') || '';
     if (userUuid) {
@@ -1762,8 +2128,16 @@ export class EmployeeProfileComponent implements OnInit {
           }
           this.isLoading = false;
           this.handleOnboardingStatus(
-            preview.user.employeeOnboardingStatus.response,
+            preview.user.employeeOnboardingStatus.response
           );
+
+          if (preview.employeeCompanyDocuments) {
+            this.onboardingPreviewData.employeeCompanyDocuments =
+              preview.employeeCompanyDocuments;
+            console.log(
+              'testtttt' + this.onboardingPreviewData.employeeCompanyDocuments
+            );
+          }
 
           // if (preview.employeeAdditionalDocument && preview.employeeAdditionalDocument.length > 0) {
           this.employeeAdditionalDocument = preview.employeeAdditionalDocuments;
@@ -1794,22 +2168,22 @@ export class EmployeeProfileComponent implements OnInit {
           }
           if (preview.userDocuments != null) {
             this.secondarySchoolCertificateFileName = this.getFilenameFromUrl(
-              preview.userDocuments.secondarySchoolCertificate,
+              preview.userDocuments.secondarySchoolCertificate
             );
             this.highSchoolCertificateFileName1 = this.getFilenameFromUrl(
-              preview.userDocuments.highSchoolCertificate,
+              preview.userDocuments.highSchoolCertificate
             );
             this.highestQualificationDegreeFileName1 = this.getFilenameFromUrl(
-              preview.userDocuments.highestQualificationDegree,
+              preview.userDocuments.highestQualificationDegree
             );
             this.testimonialReccomendationFileName1 = this.getFilenameFromUrl(
-              preview.userDocuments.testimonialReccomendation,
+              preview.userDocuments.testimonialReccomendation
             );
             this.aadhaarCardFileName = this.getFilenameFromUrl(
-              preview.userDocuments.aadhaarCard,
+              preview.userDocuments.aadhaarCard
             );
             this.pancardFileName = this.getFilenameFromUrl(
-              preview.userDocuments.pancard,
+              preview.userDocuments.pancard
             );
           }
           this.isLoading = false;
@@ -1817,7 +2191,7 @@ export class EmployeeProfileComponent implements OnInit {
         (error: any) => {
           console.error('Error fetching user details:', error);
           this.userEmergencyContactArray = [];
-        },
+        }
       );
     } else {
       console.error('User UUID not found');
@@ -1863,7 +2237,7 @@ export class EmployeeProfileComponent implements OnInit {
       (data) => {
         this.isManagerBoolean = data;
       },
-      (error) => {},
+      (error) => {}
     );
   }
 
@@ -1875,7 +2249,7 @@ export class EmployeeProfileComponent implements OnInit {
       },
       (error) => {
         console.error('Failed to fetch experiences', error);
-      },
+      }
     );
   }
 
@@ -1890,4 +2264,464 @@ export class EmployeeProfileComponent implements OnInit {
     const monthMatch = experienceString.match(/(\d+)\s+months/);
     return monthMatch ? monthMatch[1] : '0';
   }
+  activeHomeTabFlag: boolean = false;
+  activeAttendanceTabFlag: boolean = false;
+  activeFinancesTabFlag: boolean = false;
+  activeDocumentsTabFlag: boolean = false;
+  activeProfileTabFlag: boolean = false;
+
+  activeTabs(activeTabString: string) {
+    if (activeTabString === 'home') {
+      this.activeHomeTabFlag = true;
+      this.activeAttendanceTabFlag = false;
+      this.activeFinancesTabFlag = false;
+      this.activeDocumentsTabFlag = false;
+      this.activeProfileTabFlag = false;
+    } else if (activeTabString === 'attendance') {
+      this.activeHomeTabFlag = false;
+      this.activeAttendanceTabFlag = true;
+      this.activeFinancesTabFlag = false;
+      this.activeDocumentsTabFlag = false;
+      this.activeProfileTabFlag = false;
+    } else if (activeTabString === 'finances') {
+      this.activeHomeTabFlag = false;
+      this.activeAttendanceTabFlag = false;
+      this.activeFinancesTabFlag = true;
+      this.activeDocumentsTabFlag = false;
+      this.activeProfileTabFlag = false;
+    } else if (activeTabString === 'documents') {
+      this.activeHomeTabFlag = false;
+      this.activeAttendanceTabFlag = false;
+      this.activeFinancesTabFlag = false;
+      this.activeDocumentsTabFlag = true;
+      this.activeProfileTabFlag = false;
+    } else if (activeTabString === 'profile') {
+      this.activeHomeTabFlag = false;
+      this.activeAttendanceTabFlag = false;
+      this.activeFinancesTabFlag = false;
+      this.activeDocumentsTabFlag = false;
+      this.activeProfileTabFlag = true;
+    }
+  }
+
+  private fileTypeToIcon: { [key: string]: string } = {
+    '.pdf': 'lar la-file-pdf text-danger',
+    '.jpg': 'lar la-file-image text-success',
+    '.jpeg': 'lar la-file-image text-success',
+    '.png': 'lar la-file-image text-success',
+    '.zip': 'lar la-file-archive text-warning',
+  };
+
+  getFileTypeIcon(fileUrl: string): string {
+    // Log the file URL to inspect its format
+    console.log('File URL:', fileUrl);
+
+    // Extract the file extension, ensuring you consider URLs with parameters or fragments
+    const url = new URL(fileUrl, window.location.origin); // This normalizes the URL
+    const fileName = url.pathname.split('/').pop(); // Get the last segment in the path
+    const extension = `.${fileName?.split('.').pop()?.toLowerCase()}`;
+
+    // Log the detected extension
+    console.log('Detected extension:', extension);
+
+    // Return the corresponding icon class or a default value
+    return this.fileTypeToIcon[extension] || 'lar la-file text-secondary';
+  }
+
+  documentName: string = '';
+
+  addNewDocument() {
+    
+    this.addMoreDocModalButton.nativeElement.click();
+    if (!this.onboardingPreviewData.employeeCompanyDocuments) {
+      this.onboardingPreviewData.employeeCompanyDocuments = [];
+    }
+
+    // Find the maximum ID in the current document list
+    const maxId = this.onboardingPreviewData.employeeCompanyDocuments.reduce(
+      (max, doc) => (doc.id > max ? doc.id : max),
+      0
+    );
+
+    // Create a new document object with a unique ID
+    const newDocument: EmployeeCompanyDocumentsRequest = {
+      id: maxId + 1, // Increment the maximum ID by 1
+      name: this.documentName,
+      url: '',
+      fileName: '',
+      // Include other required properties of EmployeeAdditionalDocument, if any
+    };
+
+    this.onboardingPreviewData.employeeCompanyDocuments.push(newDocument);
+
+    this.isAddMore = false; // Hide the add more section if needed
+
+    // Delay needed to ensure DOM has finished updating
+    setTimeout(() => {
+      const fileInput = document.getElementById(
+        `additionalDocumentFile${newDocument.id}`
+      );
+      if (fileInput) fileInput.click(); // Open the file dialog automatically
+    }, 100);
+  }
+
+  @ViewChild('addMoreDocModalButton') addMoreDocModalButton!: ElementRef;
+  isAddMore: boolean = false;
+  addMore() {
+    this.isAddMore = true;
+    this.addMoreDocModalButton.nativeElement.click();
+  }
+
+  isInvalidFileType = false;
+  isValidFileType(file: File): boolean {
+    const validExtensions = ['pdf', 'jpg', 'jpeg', 'png'];
+    const fileType = file.type.split('/').pop(); // Get the file extension from the MIME type
+
+    if (fileType && validExtensions.includes(fileType.toLowerCase())) {
+      this.isInvalidFileType = true;
+      return true;
+    }
+    console.log(this.isInvalidFileType);
+    this.isInvalidFileType = false;
+    return false;
+  }
+
+  onAdditionalFileSelected(event: Event, index: number): void {
+    const fileInput = event.target as HTMLInputElement;
+    const file = fileInput.files ? fileInput.files[0] : null;
+
+    if (file && this.isValidFileType(file)) {
+      // Check if the file is valid before proceeding
+      // If the file type is valid, proceed with the upload
+      this.uploadAdditionalFile(file, index);
+    } else {
+      fileInput.value = '';
+      // Optionally handle the case when the file is invalid
+      // For example, you could alert the user or log an error
+      console.error(
+        'Invalid file type. Please select a JPG, JPEG, or PNG file.'
+      );
+    }
+  }
+
+  uploadAdditionalFile(file: File, index: number): void {
+    const filePath = `employeeCompanyDocs/${new Date().getTime()}_${file.name}`;
+    const fileRef = this.afStorage.ref(filePath);
+    const task = this.afStorage.upload(filePath, file);
+
+    // Handle the file upload task
+    task
+      .snapshotChanges()
+      .pipe(
+        finalize(() => {
+          fileRef.getDownloadURL().subscribe((url) => {
+            // Update the URL in the corresponding document
+            this.onboardingPreviewData.employeeCompanyDocuments[index].url =
+              url;
+            this.assignAdditionalDocumentUrl(index, url);
+            this.documentName = '';
+            // If you have additional steps to perform after setting the URL, do them here
+          });
+        })
+      )
+      .subscribe();
+  }
+
+  assignAdditionalDocumentUrl(index: number, url: string): void {
+    
+    if (!this.employeeCompanyDocuments) {
+      this.onboardingPreviewData.employeeCompanyDocuments = [];
+    }
+
+    if (!this.employeeCompanyDocuments[index]) {
+      this.onboardingPreviewData.employeeCompanyDocuments[index] =
+        new EmployeeAdditionalDocument();
+    }
+
+    this.onboardingPreviewData.employeeCompanyDocuments[index].url = url;
+    this.onboardingPreviewData.employeeCompanyDocuments[index].fileName =
+      this.getFilenameFromUrl(url);
+    this.onboardingPreviewData.employeeCompanyDocuments[index].name =
+      this.documentName;
+    this.setEmployeeCompanyDocumentsMethodCall();
+  }
+
+  // deleteDocument(index: number): void {
+  //   if (index > -1) {
+  //     this.onboardingPreviewData.employeeCompanyDocuments.splice(index, 1);
+  //     this.deleteCompanyDocByIdMethodCall(index);
+  //   }
+  // }
+
+  setEmployeeCompanyDocumentsMethodCall(): void {
+    
+    if (this.onboardingPreviewData.employeeCompanyDocuments == null) {
+      this.onboardingPreviewData.employeeCompanyDocuments = [];
+    }
+    const userUuid =
+      new URLSearchParams(window.location.search).get('userId') || '';
+
+    this.dataService
+      .setEmployeeCompanyDocuments(userUuid, this.onboardingPreviewData)
+
+      .subscribe(
+        (response) => {
+          this.helperService.showToast(
+            'Document Uploaded Successfuly',
+            Key.TOAST_STATUS_SUCCESS
+          );
+          this.toggle = false;
+        },
+        (error) => {
+          console.error('Error occurred:', error);
+          this.toggle = false;
+        }
+      );
+
+    if (!userUuid) {
+      console.error('User UUID is missing.');
+      return;
+    }
+  }
+
+  empDocs: any = [];
+  // getEmployeeCompanyDocumentsMethodCall() {
+  //   debugger
+  //   const userUuid = new URLSearchParams(window.location.search).get('userId');
+
+  //   if (userUuid) {
+  //     this.dataService.getEmployeeCompanyDocuments(userUuid).subscribe(
+  //       (response: UserDocumentsDetailsRequest) => {
+  //        if(response.employeeCompanyDocuments != null) {
+
+  //         this.onboardingPreviewData.employeeCompanyDocuments = response.employeeCompanyDocuments;
+  //         this.employeeCompanyDocuments = response.employeeCompanyDocuments
+  //         console.log("docs..." +  this.empDocs.length)
+  //        }
+  //       },
+  //       (error: any) => {
+  //         console.error('Error fetching user details:', error);
+  //       }
+  //     );
+  //   } else {
+  //     console.error('User UUID not found.');
+  //   }
+
+  // }
+
+  deleteCompanyDocByIdMethodCall(id: number) {
+     // Correct placement of the semicolon
+    const userUuid = new URLSearchParams(window.location.search).get('userId');
+    if (userUuid) {
+      this.dataService.deleteEmployeeCompanyDocById(id, userUuid).subscribe(
+        (response) => {
+          this.documentName = '';
+          // Find the index of the document to be deleted from the array
+          const index =
+            this.onboardingPreviewData.employeeCompanyDocuments.findIndex(
+              (doc) => doc.id === id
+            );
+          if (index > -1) {
+            this.onboardingPreviewData.employeeCompanyDocuments.splice(
+              index,
+              1
+            );
+            this.helperService.showToast(
+              'Document Deleted Successfully',
+              Key.TOAST_STATUS_SUCCESS
+            );
+          } else {
+            console.error('Document Not Found.');
+          }
+        },
+        (error: any) => {
+          this.helperService.showToast(error, Key.TOAST_STATUS_ERROR);
+          console.error('Error deleting document:', error);
+        }
+      );
+    }
+  }
+  selectedFile: File | null = null;
+  imagePreviewUrl: string | ArrayBuffer | null = null;
+  pdfPreviewUrl: SafeResourceUrl | null = null;
+  fileToUpload: string = '';
+  isSelecetdFileUploadedToFirebase: boolean = false;
+  isFileUploaded = false;
+
+  // Function to check if the selected file is an image
+  isImageNew(file: File): boolean {
+    return file.type.startsWith('image');
+  }
+
+  // Function to check if the selected file is a PDF
+  isPdf(file: File): boolean {
+    return file.type === 'application/pdf';
+  }
+
+  // Function to set the preview URL for images
+  setImgPreviewUrl(file: File): void {
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.imagePreviewUrl = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // Function to set the preview URL for PDFs
+  setPdfPreviewUrl(file: File): void {
+    const objectUrl = URL.createObjectURL(file);
+    this.pdfPreviewUrl =
+      this.domSanitizer.bypassSecurityTrustResourceUrl(objectUrl);
+  }
+
+  // Function to handle file selection
+  handleChange(info: NzUploadChangeParam): void {
+    if (info.file.status !== 'uploading') {
+      console.log(info.file, info.fileList);
+    }
+    if (info.file.status === 'done') {
+      this.msg.success(`${info.file.name} file uploaded successfully.`);
+    } else if (info.file.status === 'error') {
+      this.msg.error(`${info.file.name} file upload failed.`);
+    }
+  }
+
+  onFileSelected(event: Event): void {
+    
+    const element = event.currentTarget as HTMLInputElement;
+    const fileList: FileList | null = element.files;
+
+    if (fileList && fileList.length > 0) {
+      this.isFileUploaded = true;
+      this.selectedFile = fileList[0];
+
+      if (this.isImageNew(this.selectedFile)) {
+        this.setImgPreviewUrl(this.selectedFile);
+      } else if (this.isPdf(this.selectedFile)) {
+        this.setPdfPreviewUrl(this.selectedFile);
+      }
+
+      this.uploadFile(this.selectedFile); // Upload file to Firebase
+    } else {
+      this.isFileUploaded = false;
+    }
+  }
+
+  // Function to upload file to Firebase
+  uploadFile(file: File): void {
+    const filePath = `uploads/${new Date().getTime()}_${file.name}`;
+    const fileRef = this.afStorage.ref(filePath);
+    const task = this.afStorage.upload(filePath, file);
+
+    task
+      .snapshotChanges()
+      .toPromise()
+      .then(() => {
+        console.log('Upload completed');
+        fileRef
+          .getDownloadURL()
+          .toPromise()
+          .then((url) => {
+            console.log('File URL:', url);
+            this.fileToUpload = url;
+            // console.log('file url : ' + this.fileToUpload);
+            this.isFileUploaded = false;
+          })
+          .catch((error) => {
+            this.isFileUploaded = false;
+            console.error('Failed to get download URL', error);
+          });
+      })
+      .catch((error) => {
+        this.isFileUploaded = false;
+        console.error('Error in upload snapshotChanges:', error);
+      });
+  }
+
+  downloadFile(link: string) {}
+
+  @ViewChild('appraisalRequestModalButton') appraisalRequestModalButton !: ElementRef
+  openAppraisalRequestModal(){
+    debugger
+  this.getEmployeeCtcMethodCall();
+  }
+
+  appraisalRequest: AppraisalRequest = {
+    effectiveDate: new Date(),
+    userUuid: '',
+    previousCtc: 0,
+    updatedCtc: 0
+  };
+
+  getEmployeeCtcMethodCall() {
+    this.dataService.getEmployeeSalary(this.userId).subscribe(
+      (data: AppraisalRequest) => {
+        this.appraisalRequest = data;
+    
+        this.appraisalRequestModalButton.nativeElement.click();
+      },
+      (error) => {
+        console.error('Error fetching employee CTC:', error);
+      
+      }
+    );
+  }
+  submitAppraisalRequest() {
+    this.appraisalRequest.userUuid = this.userId;
+    this.dataService.saveAppraisalRequest(this.appraisalRequest).subscribe(
+      (response) => {
+        this.helperService.showToast("Appraisal request submitted successfully", Key.TOAST_STATUS_SUCCESS);
+        this.appraisalRequestModalButton.nativeElement.click();
+      },
+      (error) => {
+        console.error('Error submitting appraisal request:', error);
+        this.helperService.showToast("Error submitting appraisal request", Key.TOAST_STATUS_ERROR);
+       
+      }
+    );
+  }
+
+  openBonusRequestModal(){
+    this.bonusRequest.amount = 0;
+    this.bonusRequest.comment='';
+    this.bonusRequestModalButton.nativeElement.click();
+  }
+
+  @ViewChild("bonusRequestModalButton") bonusRequestModalButton !: ElementRef;
+
+  bonusRequest: BonusRequest = {
+    startDate: new Date(),
+    endDate: new Date(),
+    amount: 0,
+    comment: ""
+  };
+
+  isFormInvalid: boolean = false;
+@ViewChild ('bonusForm') bonusForm !: NgForm
+checkFormValidation(){
+if(this.bonusForm.invalid){
+this.isFormInvalid = true;
+return
+} else {
+  this.isFormInvalid = false;
+}
+}
+
+
+  submitBonus() {
+    if(this.isFormInvalid==true){
+      return
+    } else{
+    this.dataService.registerBonus(this.bonusRequest, this.userId).subscribe(
+      (response) => {
+        this.helperService.showToast("Bonus request submitted successfully", Key.TOAST_STATUS_SUCCESS);
+        this.bonusRequestModalButton.nativeElement.click();
+      },
+      (error) => {
+        console.error('Error submitting bonus request:', error);
+        this.helperService.showToast("Error submitting bonus request", Key.TOAST_STATUS_ERROR);
+       
+      }
+    );
+  }}
 }

@@ -14,80 +14,74 @@ import { RoleAccessibilityType } from 'src/app/role-accessibility-type';
 @Component({
   selector: 'app-role',
   templateUrl: './role.component.html',
-  styleUrls: ['./role.component.css']
+  styleUrls: ['./role.component.css'],
 })
 export class RoleComponent implements OnInit {
-isShimmer: boolean = true;
+  isShimmer: boolean = true;
 
+  constructor(
+    private dataService: DataService,
+    private router: Router,
+    private helperService: HelperService
+  ) {}
 
-  constructor(private dataService : DataService, private router : Router, private helperService: HelperService) { }
-
-  roles : Role[] = [];
-  itemPerPage : number = 9;
-  pageNumber : number = 1;
-  pageNumberUser : number = 1;
-  total : number = 0;
-  rowNumber : number = 1;
-  searchText : string = '';
-  users : User[] = [];
-  roleSectionTabFlag : boolean = false;
-  
+  roles: Role[] = [];
+  itemPerPage: number = 9;
+  pageNumber: number = 1;
+  pageNumberUser: number = 1;
+  total: number = 0;
+  rowNumber: number = 1;
+  searchText: string = '';
+  users: User[] = [];
+  roleSectionTabFlag: boolean = false;
 
   ngOnInit(): void {
+    window.scroll(0, 0);
     this.getUserAndControlRolesByFilterMethodCall();
     this.getUsersByFilterMethodCall();
     this.getAllRolesMethodCall();
-    
-    debugger
+
+    debugger;
     // if(!this.helperService.getRoleSectionTab()){
-      
+
     // }
 
     // this.rolesAndSecurity.nativeElement.click();
-
   }
 
   ngAfterViewInit() {
-    if(this.helperService.getRoleSectionTab()){
+    if (this.helperService.getRoleSectionTab()) {
       this.rolesAndSecurityActiveTabMethod();
     }
 
     this.helperService.setRoleSectionTab(false);
-    
   }
-
-
 
   isShimmerForUserAndControl = false;
   dataNotFoundPlaceholderForUserAndControl = false;
   networkConnectionErrorPlaceHolderForUserAndControl = false;
-  preRuleForShimmersAndErrorPlaceholdersMethodCall(){
+  preRuleForShimmersAndErrorPlaceholdersMethodCall() {
     this.isShimmerForUserAndControl = true;
     this.dataNotFoundPlaceholderForUserAndControl = false;
     this.networkConnectionErrorPlaceHolderForUserAndControl = false;
   }
 
-
   isShimmerForRolesAndSecurity = false;
   dataNotFoundPlaceholderForRolesAndSecurity = false;
   networkConnectionErrorPlaceHolderForRolesAndSecurity = false;
-  preRuleForShimmersAndErrorPlaceholdersMethodCallForRolesAndSecurity(){
+  preRuleForShimmersAndErrorPlaceholdersMethodCallForRolesAndSecurity() {
     this.isShimmerForRolesAndSecurity = true;
     this.dataNotFoundPlaceholderForRolesAndSecurity = false;
     this.networkConnectionErrorPlaceHolderForRolesAndSecurity = false;
   }
 
-
-
-  @ViewChild("rolesAndSecurity") rolesAndSecurity !: ElementRef;
-  rolesAndSecurityActiveTabMethod(){
+  @ViewChild('rolesAndSecurity') rolesAndSecurity!: ElementRef;
+  rolesAndSecurityActiveTabMethod() {
     this.rolesAndSecurity.nativeElement.click();
   }
 
   selectedRole: any;
   selectedUser: any;
-
-
 
   // Method to update selectedRole
   selectRole(role: any) {
@@ -107,100 +101,114 @@ isShimmer: boolean = true;
     this.isDivDisabled = true;
   }
 
-  userAndControlDetailVariable : UserAndControl = new UserAndControl();
-  userAndControlDetailMethod(userAndControl : UserAndControl){
+  userAndControlDetailVariable: UserAndControl = new UserAndControl();
+  userAndControlDetailMethod(userAndControl: UserAndControl) {
     this.userAndControlDetailVariable = userAndControl;
   }
-  totalUser:number =0;
-
-  
+  totalUser: number = 0;
 
   buttonLoader = false;
-  roleAccessibilityTypeList : RoleAccessibilityType[] = [];
-  getAllRoleAccessibilityTypeMethodCall(){
-    this.dataService.getAllRoleAccessibilityType().subscribe((response) => {
-      this.roleAccessibilityTypeList = response;
-    }, (error) => {
-      console.log(error);
-    })
+  roleAccessibilityTypeList: RoleAccessibilityType[] = [];
+  getAllRoleAccessibilityTypeMethodCall() {
+    this.dataService.getAllRoleAccessibilityType().subscribe(
+      (response) => {
+        this.roleAccessibilityTypeList = response;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
-  settingRoleAccessibilityType(id : number){
+  settingRoleAccessibilityType(id: number) {
     this.roleRequest.roleAccessibilityTypeId = id;
   }
 
-  num:number = 0;
-  
-  async getTotalCountOfUsers(id:number){
-    return new Promise((resolve, reject)=>{
-    this.dataService.getTotalCountOfUsersOfRoleAndSecurity(id).subscribe((data) => {
+  num: number = 0;
 
-      this.num = data;
-      // this.getAllRolesMethodCall();
+  async getTotalCountOfUsers(id: number) {
+    return new Promise((resolve, reject) => {
+      this.dataService.getTotalCountOfUsersOfRoleAndSecurity(id).subscribe(
+        (data) => {
+          this.num = data;
+          // this.getAllRolesMethodCall();
 
-        resolve(data);
+          resolve(data);
 
-      return data;
-    },(error) => {
-      console.log(error);
-    })
-  })
+          return data;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    });
   }
-  
+
   // # Data Table of roles
-  getAllRolesMethodCall(){
+  getAllRolesMethodCall() {
     this.preRuleForShimmersAndErrorPlaceholdersMethodCallForRolesAndSecurity();
-    debugger
-    this.dataService.getAllRoles(this.itemPerPage,this.pageNumberUser,'asc','id','','', 0).subscribe(async (data) => {
-
-      this.roles = data.object;
-      for (let i = 0; i < this.roles.length; i++) {
-       await this.getTotalCountOfUsers(this.roles[i].id).then((data)=>{
-         console.log(data);
-       });
-       this.roles[i].count = this.num;
-       console.log(this.num);
-      }
-      this.totalUser = data.totalItems;
-      if(this.roles.length === 0 || this.roles === null || this.roles.length === undefined){
-        this.dataNotFoundPlaceholderForRolesAndSecurity = true;
-      }
-      console.log(this.roles);
-    }, (error) => {
-      this.networkConnectionErrorPlaceHolderForRolesAndSecurity = true;
-      console.log(error);
-    })
+    debugger;
+    this.dataService
+      .getAllRoles(
+        this.itemPerPage,
+        this.pageNumberUser,
+        'asc',
+        'id',
+        '',
+        '',
+        0
+      )
+      .subscribe(
+        async (data) => {
+          this.roles = data.object;
+          for (let i = 0; i < this.roles.length; i++) {
+            await this.getTotalCountOfUsers(this.roles[i].id).then((data) => {
+              console.log(data);
+            });
+            this.roles[i].count = this.num;
+            console.log(this.num);
+          }
+          this.totalUser = data.totalItems;
+          if (
+            this.roles.length === 0 ||
+            this.roles === null ||
+            this.roles.length === undefined
+          ) {
+            this.dataNotFoundPlaceholderForRolesAndSecurity = true;
+          }
+          console.log(this.roles);
+        },
+        (error) => {
+          this.networkConnectionErrorPlaceHolderForRolesAndSecurity = true;
+          console.log(error);
+        }
+      );
   }
 
-  
-  crossFlag:boolean=false;
-  searchUsers(){
-    this.crossFlag=true;
+  crossFlag: boolean = false;
+  searchUsers() {
+    this.crossFlag = true;
     this.getUserAndControlRolesByFilterMethodCall();
-    if(this.searchText== ''){
-      this.crossFlag=false;
+    if (this.searchText == '') {
+      this.crossFlag = false;
     }
   }
 
- clearSearchUsers(){
-  this.searchText='';
-  this.getUserAndControlRolesByFilterMethodCall();
-  this.crossFlag=false;
-
- }
-
-  
+  clearSearchUsers() {
+    this.searchText = '';
+    this.getUserAndControlRolesByFilterMethodCall();
+    this.crossFlag = false;
+  }
 
   // # Modal Data
-  name : string = '';
-  description : string = '';
-  moduleResponse : ModuleResponse[] = [];
-  roleRequest : RoleRequest = new RoleRequest();
-  moduleRequestList : ModuleRequest[] = [];
+  name: string = '';
+  description: string = '';
+  moduleResponse: ModuleResponse[] = [];
+  roleRequest: RoleRequest = new RoleRequest();
+  moduleRequestList: ModuleRequest[] = [];
 
-  showDataToModal(role : any){
-
-    if(role === null || role === undefined){
+  showDataToModal(role: any) {
+    if (role === null || role === undefined) {
       this.roleRequest.id = 0;
     } else {
       this.roleRequest.id = role.id;
@@ -211,56 +219,53 @@ isShimmer: boolean = true;
     this.getSubModuleByRoleMethodCall();
     this.helperService.setData(role);
     this.router.navigate(['/add-role']);
-
   }
 
-  routeToEditRole(role : any){
-    
-    let navExtra : NavigationExtras = {
-      queryParams : {"roleId" : role.id}
+  routeToEditRole(role: any) {
+    let navExtra: NavigationExtras = {
+      queryParams: { roleId: role.id },
     };
     this.router.navigate(['/add-role'], navExtra);
-
   }
 
-  
-  getSubModuleByRoleMethodCall(){
-
+  getSubModuleByRoleMethodCall() {
     console.log(this.roleRequest.id);
-    this.dataService.getSubModuleByRole(this.roleRequest.id).subscribe((data) => {
+    this.dataService.getSubModuleByRole(this.roleRequest.id).subscribe(
+      (data) => {
+        this.moduleResponse = data;
 
-      this.moduleResponse = data;
+        for (let i of this.moduleResponse) {
+          const submodules = i.subModules;
 
-      for(let i of this.moduleResponse){
-        
-        const submodules = i.subModules;
-
-        for(let j of submodules){
-          const moduleRequest : ModuleRequest = new ModuleRequest();
-          moduleRequest.subModuleId = j.id;
-          moduleRequest.privilegeId = j.privilegeId;
-          this.moduleRequestList.push(moduleRequest);
+          for (let j of submodules) {
+            const moduleRequest: ModuleRequest = new ModuleRequest();
+            moduleRequest.subModuleId = j.id;
+            moduleRequest.privilegeId = j.privilegeId;
+            this.moduleRequestList.push(moduleRequest);
+          }
         }
+        console.log(this.moduleResponse);
+      },
+      (error) => {
+        console.log(error);
       }
-      console.log(this.moduleResponse);
-    }, (error) => {
-
-      console.log(error);
-    })
+    );
   }
 
-
-  @ViewChild('createRoleModalClose') createRoleModalClose !: ElementRef;
-  createRoleMethodCall(){
-    this.dataService.createRole(this.roleRequest).subscribe((data) => {
-      console.log(data);
-      this.getAllRolesMethodCall();
-      this.createRoleModalClose.nativeElement.click();
-    }, (error)=>{
-      console.log(error);
-    })
+  @ViewChild('createRoleModalClose') createRoleModalClose!: ElementRef;
+  createRoleMethodCall() {
+    this.dataService.createRole(this.roleRequest).subscribe(
+      (data) => {
+        console.log(data);
+        this.getAllRolesMethodCall();
+        this.createRoleModalClose.nativeElement.click();
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
-  updateRoleWithPermissionsMethodCall(){
+  updateRoleWithPermissionsMethodCall() {
     console.log(this.moduleRequestList);
 
     const uniqueModuleRequestList = [];
@@ -268,62 +273,70 @@ isShimmer: boolean = true;
     for (let i of this.moduleRequestList) {
       if (i.privilegeId !== null && i.privilegeId !== 0) {
         const existingIndex = uniqueModuleRequestList.findIndex(
-          (item) => item.subModuleId === i.subModuleId && item.privilegeId === i.privilegeId
+          (item) =>
+            item.subModuleId === i.subModuleId &&
+            item.privilegeId === i.privilegeId
         );
-    
+
         if (existingIndex === -1) {
           uniqueModuleRequestList.push(i);
         }
       }
     }
-    
+
     console.log(uniqueModuleRequestList);
     this.roleRequest.moduleRequestList = uniqueModuleRequestList;
- 
-    this.dataService.updateRoleWithPermissions(this.roleRequest).subscribe((data) => {
-      console.log(data);
-    }, (error) => {
 
-      console.log(error);
-    })
+    this.dataService.updateRoleWithPermissions(this.roleRequest).subscribe(
+      (data) => {
+        console.log(data);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
-  settingSubModuleRequestValue(privilegeId : number, subModule : any){
-
-    const moduleRequest : ModuleRequest = new ModuleRequest();
+  settingSubModuleRequestValue(privilegeId: number, subModule: any) {
+    const moduleRequest: ModuleRequest = new ModuleRequest();
     moduleRequest.subModuleId = subModule.id;
     moduleRequest.privilegeId = privilegeId;
 
-    const existingIndex = this.moduleRequestList.findIndex((item) => item.subModuleId === moduleRequest.subModuleId && item.privilegeId === moduleRequest.privilegeId);
-    
+    const existingIndex = this.moduleRequestList.findIndex(
+      (item) =>
+        item.subModuleId === moduleRequest.subModuleId &&
+        item.privilegeId === moduleRequest.privilegeId
+    );
+
     if (existingIndex !== -1) {
       this.moduleRequestList.splice(existingIndex, 1);
-  } else {
-      const subModuleIndex = this.moduleRequestList.findIndex((item) => item.subModuleId === moduleRequest.subModuleId);
+    } else {
+      const subModuleIndex = this.moduleRequestList.findIndex(
+        (item) => item.subModuleId === moduleRequest.subModuleId
+      );
 
       if (subModuleIndex !== -1) {
-          this.moduleRequestList[subModuleIndex].privilegeId = privilegeId;
+        this.moduleRequestList[subModuleIndex].privilegeId = privilegeId;
       } else {
-          this.moduleRequestList.push(moduleRequest);
+        this.moduleRequestList.push(moduleRequest);
       }
-  }
+    }
 
     console.log(this.moduleRequestList);
     this.roleRequest.moduleRequestList = this.moduleRequestList;
-
   }
 
   handleRadioClickForSubModule(privilegeId: number, subModule: any) {
     if (subModule.privilegeId === privilegeId) {
-        subModule.privilegeId = null;
+      subModule.privilegeId = null;
     } else {
-        subModule.privilegeId = privilegeId;
+      subModule.privilegeId = privilegeId;
     }
 
     this.settingSubModuleRequestValue(privilegeId, subModule);
   }
 
-  handleRadioClickForModule(privilegeId: number, module: any){
+  handleRadioClickForModule(privilegeId: number, module: any) {
     if (module.privilegeId === privilegeId) {
       module.privilegeId = null;
     } else {
@@ -332,116 +345,141 @@ isShimmer: boolean = true;
 
     const subModules = module.subModules;
 
-    for(let i of subModules){
+    for (let i of subModules) {
       this.handleRadioClickForSubModule(module.privilegeId, i);
     }
     // console.log(subModules);
 
-  // this.settingSubModuleRequestValue(privilegeId, module);
-}
-
-
-  deleteUser(id:number){
-    this.dataService.deleteUserOfRoleAndSecurity(id).subscribe((data) => {
-      console.log("user delted successfully")
-      this.getUserAndControlRolesByFilterMethodCall();
-      this.helperService.showToast("Deleted successfully.", Key.TOAST_STATUS_SUCCESS);
-    },(error) => {
-      this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
-      console.log(error);
-    })
+    // this.settingSubModuleRequestValue(privilegeId, module);
   }
 
-  deleteRolesWithUsers(id:number){
-    this.dataService.deleteRolesOfRoleAndSecurity(id).subscribe((data) => {
-      console.log("deleted successfully")
-      this.getAllRolesMethodCall();
-      this.helperService.showToast("Role deleted successfully.", Key.TOAST_STATUS_SUCCESS);
-    },(error) => {
-      this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
-      console.log(error);
-    })
+  deleteUser(id: number) {
+    this.dataService.deleteUserOfRoleAndSecurity(id).subscribe(
+      (data) => {
+        console.log('user delted successfully');
+        this.getUserAndControlRolesByFilterMethodCall();
+        this.helperService.showToast(
+          'Deleted successfully.',
+          Key.TOAST_STATUS_SUCCESS
+        );
+      },
+      (error) => {
+        this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+        console.log(error);
+      }
+    );
   }
 
- 
-  
-  
-
-  
-
-  
-
-
-  getUsersByFilterMethodCall(){
-    this.dataService.getUsersByFilter(0,1,'asc','id','','name').subscribe((data) => {
-      this.users = data.users;
-      // this.total = data.count;
-
-      console.log(this.users,this.total);
-    })
+  deleteRolesWithUsers(id: number) {
+    this.dataService.deleteRolesOfRoleAndSecurity(id).subscribe(
+      (data) => {
+        console.log('deleted successfully');
+        this.getAllRolesMethodCall();
+        this.helperService.showToast(
+          'Role deleted successfully.',
+          Key.TOAST_STATUS_SUCCESS
+        );
+      },
+      (error) => {
+        this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+        console.log(error);
+      }
+    );
   }
 
-  @ViewChild('assignroleModalClose') assignroleModalClose !: ElementRef;
-  descriptionUserRole:string='';
-  buttonLoaderToAssignRole : boolean = false;
+  getUsersByFilterMethodCall() {
+    this.dataService
+      .getUsersByFilter(0, 1, 'asc', 'id', '', 'name',0)
+      .subscribe((data) => {
+        this.users = data.users;
+        // this.total = data.count;
 
-  assignRoleToUserInUserAndControlMethodCall(){
+        console.log(this.users, this.total);
+      });
+  }
+
+  @ViewChild('assignroleModalClose') assignroleModalClose!: ElementRef;
+  descriptionUserRole: string = '';
+  buttonLoaderToAssignRole: boolean = false;
+
+  assignRoleToUserInUserAndControlMethodCall() {
     this.buttonLoaderToAssignRole = true;
-    this.dataService.assignRoleToUserInUserAndControl((this.selectedUser.id), (this.selectedRole.id), this.descriptionUserRole).subscribe((data) => {
-      // console.log(data);
-      this.getUserAndControlRolesByFilterMethodCall();
-      this.assignroleModalClose.nativeElement.click();
-      this.emptyAssignRoleToUserInUserAndControlMethodCall();
-      this.buttonLoaderToAssignRole = false;
-      this.helperService.showToast("Role assigned to user successfully.", Key.TOAST_STATUS_SUCCESS);
-    }, (error) => {
-      console.log(error);
-      // this.getUserAndControlRolesByFilterMethodCall();
-      // this.assignroleModalClose.nativeElement.click();
-      // this.emptyAssignRoleToUserInUserAndControlMethodCall();
-      // this.buttonLoaderToAssignRole = false;
-      this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
-
-    })
+    this.dataService
+      .assignRoleToUserInUserAndControl(
+        this.selectedUser.id,
+        this.selectedRole.id,
+        this.descriptionUserRole
+      )
+      .subscribe(
+        (data) => {
+          // console.log(data);
+          this.getUserAndControlRolesByFilterMethodCall();
+          this.assignroleModalClose.nativeElement.click();
+          this.emptyAssignRoleToUserInUserAndControlMethodCall();
+          this.buttonLoaderToAssignRole = false;
+          this.helperService.showToast(
+            'Role assigned to user successfully.',
+            Key.TOAST_STATUS_SUCCESS
+          );
+        },
+        (error) => {
+          console.log(error);
+          // this.getUserAndControlRolesByFilterMethodCall();
+          // this.assignroleModalClose.nativeElement.click();
+          // this.emptyAssignRoleToUserInUserAndControlMethodCall();
+          // this.buttonLoaderToAssignRole = false;
+          this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+        }
+      );
   }
 
-  emptyAssignRoleToUserInUserAndControlMethodCall(){
+  emptyAssignRoleToUserInUserAndControlMethodCall() {
     this.selectedUser = null;
     this.selectedRole = null;
     this.descriptionUserRole = '';
     this.isDivDisabled = false;
   }
 
-
-
-
-  userAndControlRoles : UserAndControl[] = [];
-  userAndControlRolesTotalCount : number = 0;
-  debounceTimer : any;
-  getUserAndControlRolesByFilterMethodCall(debounceTime : number = 300){
-
-    if(this.debounceTimer){
+  userAndControlRoles: UserAndControl[] = [];
+  userAndControlRolesTotalCount: number = 0;
+  debounceTimer: any;
+  getUserAndControlRolesByFilterMethodCall(debounceTime: number = 300) {
+    if (this.debounceTimer) {
       clearTimeout(this.debounceTimer);
     }
 
     this.debounceTimer = setTimeout(() => {
       this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
-      this.dataService.getUserAndControlRolesByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchText,'').subscribe((data) => {
-        
-        this.userAndControlRoles = data.object;
-        this.total = data.totalItems;
-        
-        if(data === undefined || data === null || this.userAndControlRoles.length === 0){
-          this.dataNotFoundPlaceholderForUserAndControl = true;
-        }
-        console.log(this.userAndControlRoles,this.total);
-      }, (error) => {
-        console.log(error);
-        this.networkConnectionErrorPlaceHolderForUserAndControl = true;
-      })
-    }, debounceTime)
-  }
+      this.dataService
+        .getUserAndControlRolesByFilter(
+          this.itemPerPage,
+          this.pageNumber,
+          'asc',
+          'id',
+          this.searchText,
+          ''
+        )
+        .subscribe(
+          (data) => {
+            this.userAndControlRoles = data.object;
+            this.total = data.totalItems;
 
+            if (
+              data === undefined ||
+              data === null ||
+              this.userAndControlRoles.length === 0
+            ) {
+              this.dataNotFoundPlaceholderForUserAndControl = true;
+            }
+            console.log(this.userAndControlRoles, this.total);
+          },
+          (error) => {
+            console.log(error);
+            this.networkConnectionErrorPlaceHolderForUserAndControl = true;
+          }
+        );
+    }, debounceTime);
+  }
 
   // ##### Pagination ############
   changePage(page: number | string) {
@@ -471,9 +509,8 @@ isShimmer: boolean = true;
     return endIndex > this.total ? this.total : endIndex;
   }
 
-  onTableDataChange(event : any)
-  {
-    this.pageNumber=event;
+  onTableDataChange(event: any) {
+    this.pageNumber = event;
     // this.getAllRolesMethodCall();
   }
 
@@ -506,9 +543,8 @@ isShimmer: boolean = true;
     return endIndex > this.totalUser ? this.totalUser : endIndex;
   }
 
-  onTableDataChangeUser(event : any)
-  {
-    this.pageNumberUser=event;
+  onTableDataChangeUser(event: any) {
+    this.pageNumberUser = event;
     // this.getAllRolesMethodCall();
   }
 }

@@ -4,16 +4,14 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-waiting-page',
   templateUrl: './waiting-page.component.html',
-  styleUrls: ['./waiting-page.component.css']
+  styleUrls: ['./waiting-page.component.css'],
 })
 export class WaitingPageComponent implements OnInit {
-
-  constructor(private router : Router) { }
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     setTimeout(() => {
-      this.router.navigate(["/dashboard"]);
-    }, 3000)
+      this.router.navigate(['/dashboard']);
+    }, 3000);
   }
-
 }

@@ -1,3 +1,4 @@
+import { asCleanDays } from "@fullcalendar/core/internal";
 import { User } from "./user";
 
 export class AdditionalNotes {
@@ -9,7 +10,3 @@ export class AdditionalNotes {
     performedBy !: string;
     // user!: User;
 }
-
-
-
-

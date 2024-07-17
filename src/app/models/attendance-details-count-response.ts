@@ -5,6 +5,7 @@ export class AttendanceDetailsCountResponse {
     absentUsers : number = 0;
     halfDayUsers : number = 0;
     overTimeUsers : number = 0;
+    usersOnBreak : number = 0;
     usersOnLeave : number = 0;
     totalUsers : number = 0;
 }

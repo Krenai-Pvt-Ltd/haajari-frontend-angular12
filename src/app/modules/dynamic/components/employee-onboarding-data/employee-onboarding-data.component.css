@@ -3,7 +3,7 @@
   padding: 15px;
   border-radius: 2px;
   border: 1px solid #f1f1f1;
-  box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, 0.05);
+  /* box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, 0.05); */
 }
 
 .orderpcardleft {
@@ -53,7 +53,7 @@
   border-radius: 2px;
   border: 1px solid #f1f1f1;
   padding: 15px;
-  box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, 0.05);
+  /* box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, 0.05); */
   height: 130px;
 }
 
@@ -120,7 +120,7 @@
   border-radius: 2px;
   border: 1px solid #f1f1f1;
   padding: 15px;
-  box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, 0.05);
+  /* box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, 0.05); */
 }
 
 .onboarding-date p {
@@ -146,6 +146,7 @@
   border-color: #e8ebf3;
   border-bottom: none;
   font-size: 13px;
+  white-space: nowrap;
 }
 
 .full-per {
@@ -209,7 +210,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 140px;
+  max-width: 220px;
   font-size: 14px;
   color: #444;
   font-weight: 600;
@@ -219,9 +220,15 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 140px;
+  max-width: 220px;
   font-size: 12px;
   color: #878a9a;
+}
+.weekly-pro-team {
+  font-size: 12px;
+  color: #878a9a;
+  display: inline-block;
+  min-width: 150px;
 }
 
 tbody tr {
@@ -280,9 +287,12 @@ tbody tr {
 .add-filtter a {
   margin-bottom: 0px;
   color: #6666f3 !important;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 500;
   cursor: pointer;
+  height: 50px;
+  line-height: 45px;
+  padding-right: 20px;
 }
 
 .searching {
@@ -354,17 +364,19 @@ button.btn.close-btn {
   padding: 0.4rem 1rem;
   font-size: 0.875rem;
   font-weight: 400;
-  height: 40px !important;
+  height: 50px !important;
   text-align: left;
   background-color: #fff;
-  border: 1px solid #e8ebf3;
+  border-right: 1px solid #e8ebf3 !important;
+  border: none;
+  border-radius: 0px;
   color: #2d2e3e;
 }
 
 .new-deopdown i {
   position: absolute;
   right: 15px;
-  top: 12px;
+  top: 13px;
 }
 .joining-email {
   overflow: hidden;
@@ -414,6 +426,30 @@ span.members-name {
   color: #3e3e3e;
 }
 
+/* Additional styling for dropdown sections */
+.dropdown-header {
+  font-weight: bold;
+  color: #6c757d;
+  padding: 0.5rem 1rem;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  border-bottom: 1px solid #e9ecef;
+  border-top: 1px solid #e9ecef;
+  margin-bottom: 0.5rem;
+  background-color: #f8f9fa;
+  pointer-events: none;
+}
+
+
+.dropdown-item {
+  padding: 0.5rem 1rem;
+}
+
+.dropdown-item:hover {
+  background-color: #e9ecef;
+}
+
+
 .material-switch > input[type="checkbox"] {
   display: none;
 }
@@ -421,7 +457,7 @@ span.members-name {
 input,
 textarea {
   background: #fff !important;
-  border: 1px solid #e8ebf3 !important;
+  border: none;
   border-radius: 6px;
   height: 45px;
   font-weight: 400 !important;
@@ -431,6 +467,18 @@ textarea {
   box-shadow: none;
 }
 
+.whatapp-login-input {
+  background-color: #fff !important;
+  border: 1px solid #f1f1f1 !important;
+  border-radius: 2px !important;
+  height: 50px !important;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  line-height: 18px !important;
+  color: #445059 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
 .material-switch > label {
   cursor: pointer;
   height: 0px;
@@ -469,18 +517,6 @@ textarea {
 
 .material-switch > input[type="checkbox"]:checked + label::before {
   background: #79af79;
-}
-.new-deopdown {
-  display: block;
-  width: 100%;
-  padding: 0.4rem 1rem;
-  font-size: 13px;
-  font-weight: 500;
-  height: 40px !important;
-  text-align: left;
-  background-color: #fff;
-  border: 1px solid #e8ebf3;
-  color: #2d2e3e;
 }
 
 .dot-opacity-loader {
@@ -591,4 +627,113 @@ textarea {
   color: #fff !important;
   background-color: #6666f3;
   border-color: #6666f3;
+}
+
+[class^="bi-"]::before,
+[class*=" bi-"]::before {
+  font-weight: BOLD !important;
+}
+
+.dot-opacity-loader1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 6px;
+}
+
+.dot-opacity-loader1 span {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: white !important; /* Change to your preferred color */
+  margin: 0 4px;
+  animation: dotOpacity 1.4s infinite ease-in-out both;
+}
+
+.dot-opacity-loader1 span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.dot-opacity-loader1 span:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes dotOpacity {
+  0%,
+  80%,
+  100% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+
+.teme-maneger {
+  color: #8d93a1;
+  font-size: 12px;
+}
+
+a.user-avatar {
+  background-color: #ccc;
+  border-radius: 6px;
+  padding: 4px;
+  background-color: rgba(65, 203, 216, 0.08) !important;
+  color: #41cbd8 !important;
+}
+
+nz-select {
+  width: 100%;
+}
+
+.loading-icon {
+  margin-right: 8px;
+}
+
+Remove
+  border
+  from
+  nz-select
+  .ant-select:not(.ant-select-customize-input)
+  .ant-select-selector {
+  border: none;
+  /* border-radius: 2px;  */
+}
+
+.card-header {
+  border: 0;
+  border-bottom: 1px dashed #e8ebf3;
+}
+.bg-soft-warning:hover {
+  background-color: rgba(255, 159, 67, 0.08) !important;
+}
+
+.btn.add-excel {
+  font-size: 14px !important;
+  font-weight: 500;
+  color: #6666f4 !important;
+}
+.mt-130 {
+  margin-top: 130px;
+}
+.img-fluid {
+  width: 91.3% !important;
+}
+.munal-add-more-btn.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.excel-spinner {
+  height: 20px;
+  width: 20px;
+}
+
+.bg-soft-warning:hover {
+  background-color: rgba(255, 159, 67, 0.08) !important;
+}
+.alert-light:hover .alert-heading {
+  color: orange !important;
 }

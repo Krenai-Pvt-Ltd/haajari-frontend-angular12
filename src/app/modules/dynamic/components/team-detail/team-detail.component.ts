@@ -1,5 +1,3 @@
-
-
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import Swal from 'sweetalert2';
@@ -13,37 +11,40 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 @Component({
   selector: 'app-team-detail',
   templateUrl: './team-detail.component.html',
-  styleUrls: ['./team-detail.component.css']
+  styleUrls: ['./team-detail.component.css'],
 })
 export class TeamDetailComponent implements OnInit {
+  constructor(
+    private dataService: DataService,
+    private activateRoute: ActivatedRoute,
+    private helperService: HelperService,
+    private router: Router,
+    private rbacService: RoleBasedAccessControlService
+  ) {
+    debugger;
+    if (this.activateRoute.snapshot.queryParamMap.has('teamId')) {
+      this.teamId = this.activateRoute.snapshot.queryParamMap.get('teamId');
+    }
 
-
-  constructor(private dataService: DataService,
-    private activateRoute : ActivatedRoute, private helperService : HelperService,  private router: Router, private rbacService: RoleBasedAccessControlService) { 
-      debugger
-      if(this.activateRoute.snapshot.queryParamMap.has('teamId')){
-        this.teamId = this.activateRoute.snapshot.queryParamMap.get('teamId');
-      };
-
-      if(this.activateRoute.snapshot.queryParamMap.has('Id')){
-        this.managerId = this.activateRoute.snapshot.queryParamMap.get('Id');
-      };
-      this.Settings = {
-        singleSelection: false,
-        text: 'Select Module',
-        enableSearchFilter: true,
-        selectAllText: 'Select All',
-        unSelectAllText: 'UnSelect All',
-      };
-
+    if (this.activateRoute.snapshot.queryParamMap.has('Id')) {
+      this.managerId = this.activateRoute.snapshot.queryParamMap.get('Id');
+    }
+    this.Settings = {
+      singleSelection: false,
+      text: 'Select Module',
+      enableSearchFilter: true,
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+    };
   }
-  managerId:any;
+  managerId: any;
   role: any;
-  userUuid : any;
-  orgRefId : any;
+  userUuid: any;
+  orgRefId: any;
 
   async ngOnInit(): Promise<void> {
-    this.role =  await this.rbacService.getRole();
+    window.scroll(0, 0);
+    this.role = await this.rbacService.getRole();
     this.userUuid = await this.rbacService.getUUID();
     this.assignRole();
     this.getLoginDetailsId();
@@ -54,25 +55,22 @@ export class TeamDetailComponent implements OnInit {
   // ngAfterViewInit() {
   //   this.getLoginDetailsId();
   // }
-  
-  async assignRole(){
+
+  async assignRole() {
     // this.role =   this.rbacService.getRole();
     // this.userUuid = this.rbacService.getUUID();
     this.orgRefId = this.rbacService.getOrgRefUUID();
   }
 
-
   teamId: any;
-  team:any=[];
+  team: any = [];
 
+  managerIdFlag = false;
 
-  managerIdFlag=false;
-
-  getTeamMemberById(){
-    debugger
-    this.dataService.getTeamsById(this.teamId)
-    .subscribe(data => {
-      debugger
+  getTeamMemberById() {
+    debugger;
+    this.dataService.getTeamsById(this.teamId).subscribe((data) => {
+      debugger;
       this.team = data;
       this.managerId = data.manager.uuid;
       // if(data.manager!==null){
@@ -85,35 +83,34 @@ export class TeamDetailComponent implements OnInit {
     });
   }
 
-  getLoginDetailsId(){
-    debugger
-      if(this.managerId==this.userUuid){
-        this.managerIdFlag=true;
-      }else{
-        this.managerIdFlag=false;
-      }
+  getLoginDetailsId() {
+    debugger;
+    if (this.managerId == this.userUuid) {
+      this.managerIdFlag = true;
+    } else {
+      this.managerIdFlag = false;
+    }
   }
 
   capitalizeFirstLetter(name: string): string {
     if (name) {
       return name.charAt(0).toUpperCase() + name.slice(1);
     }
-    return name; 
+    return name;
   }
 
   capitalizeFirstLetterAndSmallOtherLetters(name: string): string {
     if (name) {
       return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
     }
-    return name; 
+    return name;
   }
 
-
   //Shivendra
-  itemPerPage : number = 5;
-  pageNumber : number = 1;
-  total !: number;
-  teamName : string = '';
+  itemPerPage: number = 5;
+  pageNumber: number = 1;
+  total!: number;
+  teamName: string = '';
 
   Settings: {
     singleSelection: boolean;
@@ -141,13 +138,26 @@ export class TeamDetailComponent implements OnInit {
   MANAGER = Key.MANAGER;
   USER = Key.USER;
 
-  
   searchUsers() {
-    this.dataService.getUsersByFilter(this.itemPerPage,this.pageNumber,'asc','id',this.searchQuery,'name').subscribe((data : any) => {
-      this.userList = data.users;
-      this.total = data.count;
-    });
-
+    if (this.searchQuery === '') {
+      this.userList = [];
+      this.total = 0;
+    } else {
+      this.dataService
+        .getUsersByFilter(
+          this.itemPerPage,
+          this.pageNumber,
+          'asc',
+          'id',
+          this.searchQuery,
+          'name',
+          0
+        )
+        .subscribe((data: any) => {
+          this.userList = data.users;
+          this.total = data.count;
+        });
+    }
   }
 
   toggleUserSelection(user: User) {
@@ -157,13 +167,11 @@ export class TeamDetailComponent implements OnInit {
       this.userIds.push(user.uuid);
 
       this.userEmails.push(user.email);
-      
     } else {
     }
 
     this.userList = [];
     this.searchQuery = '';
-
   }
 
   removeSelectedUser(user: User) {
@@ -173,131 +181,142 @@ export class TeamDetailComponent implements OnInit {
     }
   }
 
- 
-
-  inviteUsers(){
-    debugger
-    this.dataService.sendInviteToUsers(this.userEmails).subscribe((data) => { 
-      this.userEmails = [];
-      this.selectedUsers = [];
-      Swal.fire({
-        position: 'bottom-start',
-        customClass: {
-          popup: 'custom-popup', 
-        },
-        icon: 'success',
-        title: 'Mail sent successfully!',
-        showConfirmButton: false,
-        timer: 1500 
-      });
-      this.getTeamMemberById();
-      this.helperService.showToast("Mail Sent Successfully.", Key.TOAST_STATUS_SUCCESS);
-    },(error) => {
-      this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
-
-
-    })
+  inviteUsers() {
+    debugger;
+    this.dataService.sendInviteToUsers(this.userEmails, this.teamId).subscribe(
+      (data) => {
+       
+        Swal.fire({
+          position: 'bottom-start',
+          customClass: {
+            popup: 'custom-popup',
+          },
+          icon: 'success',
+          title: 'Mail sent successfully!',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        this.getTeamMemberById();
+        this.helperService.showToast(
+          'Mail Sent Successfully To ' + this.userEmails,
+          Key.TOAST_STATUS_SUCCESS
+        );
+         this.userEmails = [];
+        this.selectedUsers = [];
+      },
+      (error) => {
+        this.helperService.showToast("Please Contact To Your Admin", Key.TOAST_STATUS_ERROR);
+      }
+    );
   }
-
 
   assignManagerRoleToMemberMethodCall(teamUuid: string, userUuid: string) {
-    debugger
-    this.dataService.assignManagerRoleToMember(teamUuid,userUuid).subscribe((data) => {
-     
-      this.managerId = userUuid;
-      this.getUsersRoleFromLocalStorage();
+    debugger;
+    this.dataService.assignManagerRoleToMember(teamUuid, userUuid).subscribe(
+      (data) => {
+        this.managerId = userUuid;
+        this.getUsersRoleFromLocalStorage();
 
-      let navExtra : NavigationExtras = {
-        queryParams : {"teamId":teamUuid , "Id": userUuid},
-      };
-      this.router.navigate(['/team-detail'], navExtra);
+        let navExtra: NavigationExtras = {
+          queryParams: { teamId: teamUuid, Id: userUuid },
+        };
+        this.router.navigate(['/team-detail'], navExtra);
 
-      if(this.managerId==this.userUuid){
-        this.managerIdFlag=true;
-      }else{
-        this.managerIdFlag=false;
+        if (this.managerId == this.userUuid) {
+          this.managerIdFlag = true;
+        } else {
+          this.managerIdFlag = false;
+        }
+        this.getTeamMemberById();
+        // location.reload();
+        this.helperService.showToast(
+          'Manager assigned successfully.',
+          Key.TOAST_STATUS_SUCCESS
+        );
+      },
+      (error) => {
+        this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
       }
-      this.getTeamMemberById();
-      // location.reload();
-      this.helperService.showToast("Manager assigned successfully.", Key.TOAST_STATUS_SUCCESS);
-    }, (error) => {
-      this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
-
-
-    })
+    );
   }
 
-  assignMemberRoleToManagerMethodCall(teamUuid: string, userUuid: string){
-    debugger
+  assignMemberRoleToManagerMethodCall(teamUuid: string, userUuid: string) {
+    debugger;
     // if (localStorage.getItem('managerFunc')) {
     //   localStorage.removeItem('managerFunc');
     // } else {
-    // }  
-    this.dataService.assignMemberRoleToManager(teamUuid,userUuid).subscribe((data) => {
-      // localStorage.removeItem('managerFunc');
-      this.managerId = userUuid;
-      this.getUsersRoleFromLocalStorage();
+    // }
+    this.dataService.assignMemberRoleToManager(teamUuid, userUuid).subscribe(
+      (data) => {
+        // localStorage.removeItem('managerFunc');
+        this.managerId = userUuid;
+        this.getUsersRoleFromLocalStorage();
 
-      let navExtra : NavigationExtras = {
-        queryParams : {"teamId":teamUuid},
-      };
-      this.router.navigate(['/team-detail'], navExtra);
+        let navExtra: NavigationExtras = {
+          queryParams: { teamId: teamUuid },
+        };
+        this.router.navigate(['/team-detail'], navExtra);
 
-      if(this.managerId==this.userUuid){
-        this.managerIdFlag=false;
-      }else{
-        this.managerIdFlag=true;
-      }
-      this.getTeamMemberById();
-      // location.reload();
-      this.helperService.showToast("Manager removed successfully.", Key.TOAST_STATUS_SUCCESS);
-
-    }, (error) => {
-      this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
-
-    })
-  }
-
-  localStorageRoleAdminFlag=false;
-  
-  getUsersRoleFromLocalStorage(){
-    // console.log("role" + this.role);
-    debugger
-      if(this.role == this.ADMIN){
-        this.localStorageRoleAdminFlag=true;
-      }else if((this.role== this.USER )|| (this.role== this.MANAGER)){
-        this.localStorageRoleAdminFlag=false;
-      }
-  }
-  @ViewChild("closeUserDeleteModal") closeUserDeleteModal!:ElementRef;
-  removeUserFromTeam(teamUuid: string, userUuid: string) {
-    debugger
-    this.deleteUserFromTeamLoader=true;
-    this.dataService.removeUserFromTeam(teamUuid, userUuid)
-      .subscribe(
-        response => {
-          if(this.managerId==userUuid){
-            let navExtra : NavigationExtras = {
-              queryParams : {"teamId":teamUuid},
-            };
-            this.router.navigate(['/team-detail'], navExtra);
-          }
-          this.deleteUserFromTeamLoader=false;
-          if(this.managerId==userUuid){
-            this.managerIdFlag=false;
-          }else{
-            this.managerIdFlag=true;
-          }
-          // location.reload();
-          this.getTeamMemberById();
-          this.closeUserDeleteModal.nativeElement.click();
-          this.helperService.showToast("User removed successfully.", Key.TOAST_STATUS_SUCCESS);
-        },
-        error => {
-          this.deleteUserFromTeamLoader=false;
-          this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+        if (this.managerId == this.userUuid) {
+          this.managerIdFlag = false;
+        } else {
+          this.managerIdFlag = true;
         }
-      );
+        this.getTeamMemberById();
+        // location.reload();
+        this.helperService.showToast(
+          'Manager removed successfully.',
+          Key.TOAST_STATUS_SUCCESS
+        );
+      },
+      (error) => {
+        this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+      }
+    );
+  }
+
+  localStorageRoleAdminFlag = false;
+
+  getUsersRoleFromLocalStorage() {
+    // console.log("role" + this.role);
+    debugger;
+    if (this.role == this.ADMIN) {
+      this.localStorageRoleAdminFlag = true;
+    } else if (this.role == this.USER || this.role == this.MANAGER) {
+      this.localStorageRoleAdminFlag = false;
+    }
+  }
+  @ViewChild('closeUserDeleteModal') closeUserDeleteModal!: ElementRef;
+  removeUserFromTeam(teamUuid: string, userUuid: string) {
+    debugger;
+    this.deleteUserFromTeamLoader = true;
+    this.dataService.removeUserFromTeam(teamUuid, userUuid).subscribe(
+      (response) => {
+        if (this.managerId == userUuid) {
+          let navExtra: NavigationExtras = {
+            queryParams: { teamId: teamUuid },
+          };
+          this.router.navigate(['/team-detail'], navExtra);
+        }
+        this.deleteUserFromTeamLoader = false;
+        if (this.managerId == userUuid) {
+          this.managerIdFlag = false;
+        } else {
+          this.managerIdFlag = true;
+        }
+        // location.reload();
+        this.getTeamMemberById();
+        this.closeUserDeleteModal.nativeElement.click();
+        this.helperService.showToast(
+          'User removed successfully.',
+          Key.TOAST_STATUS_SUCCESS
+        );
+      },
+      (error) => {
+        this.deleteUserFromTeamLoader = false;
+        this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+      }
+    );
   }
 
   // addUserToTeam(teamId: number) {
@@ -312,39 +331,55 @@ export class TeamDetailComponent implements OnInit {
   //   );
   // }
 
-  showErrorMessageForPresentMembersInTeam=false;
-//   showErrorMessageForPresentMembersInTeamFun(){
+  showErrorMessageForPresentMembersInTeam = false;
+  //   showErrorMessageForPresentMembersInTeamFun(){
 
-//     this.showErrorMessageForPresentMembersInTeam = true;
-//     setTimeout(() => {
-//       this.showErrorMessageForPresentMembersInTeam = false;
-//     }, 1000);
+  //     this.showErrorMessageForPresentMembersInTeam = true;
+  //     setTimeout(() => {
+  //       this.showErrorMessageForPresentMembersInTeam = false;
+  //     }, 1000);
 
-// }
+  // }
 
-
+  alreadyAddedEmails: string[]= [];
   addUsersToTeam() {
+    debugger
     if (this.userIds.length > 0) {
-      const tid = this.teamId; 
-      this.dataService
-        .addUsersToTeam(tid, this.userIds)
-        .subscribe(
-          (result) => {
-            // this.inviteUsers(); 
-            this.selectedUsers = [];
-            this.userIds = [];
-            location.reload();
-          },
-          (error) => {
-            // this.showErrorMessageForPresentMembersInTeam=true;
-            this.inviteUsers();
+      const tid = this.teamId;
+      this.dataService.addUsersToTeam(tid, this.userIds).subscribe(
+        (response: any) => {
+          console.log("retunred value " + response.object);
+          this.alreadyAddedEmails = response.object;
+
+          // Remove already added emails from userEmails
+          if (this.alreadyAddedEmails.length > 0) {
+            this.userEmails = this.userEmails.filter(
+              email => !this.alreadyAddedEmails.includes(email)
+            );
           }
+          // this.inviteUsers();
+          this.selectedUsers = [];
+          this.userIds = [];
+
+          if (this.userEmails.length > 0) {
+            this.inviteUsers();
+          } else {
+            this.helperService.showToast(
+          'The user has already been added to the team.',
+          Key.TOAST_STATUS_SUCCESS
         );
+          }
+          // location.reload();
+        },
+        (error) => {
+          // this.showErrorMessageForPresentMembersInTeam=true;
+          // this.inviteUsers();
+          console.log(error);
+        }
+      );
     } else {
     }
   }
-  
-  
 
   // addUsersToTeam(teamId: number) {
   //   debugger
@@ -356,8 +391,6 @@ export class TeamDetailComponent implements OnInit {
 
   //     });
   // }
-  
-  
 
   routeToUserDetails(uuid: string) {
     let navExtra: NavigationExtras = {
@@ -366,28 +399,33 @@ export class TeamDetailComponent implements OnInit {
     this.router.navigate(['/employee-profile'], navExtra);
   }
 
-  delUserUuid: string='';
-  delUserFromTeamUuid: string='';
+  delUserUuid: string = '';
+  delUserFromTeamUuid: string = '';
 
   @ViewChild('deleteConfirmationModal') deleteConfirmationModal: any;
 
-  openDeleteConfirmationModal(teamUuid:string, userUuid: string) {
+  openDeleteConfirmationModal(teamUuid: string, userUuid: string) {
     this.delUserUuid = userUuid;
     this.delUserFromTeamUuid = teamUuid;
   }
-  deleteUserFromTeamLoader:boolean=false;
+  deleteUserFromTeamLoader: boolean = false;
   deleteUserFromTeam() {
-    debugger
-    if (this.delUserUuid !== null && this.delUserFromTeamUuid !=null) {
+    debugger;
+    if (this.delUserUuid !== null && this.delUserFromTeamUuid != null) {
       this.removeUserFromTeam(this.delUserFromTeamUuid, this.delUserUuid);
       this.delUserUuid = '';
-      this.delUserFromTeamUuid='';
+      this.delUserFromTeamUuid = '';
     }
   }
 
-  closeDeleteModal() { 
+  closeDeleteModal() {
     this.deleteConfirmationModal.nativeElement.click();
   }
 
-  
+  isProjectTab: boolean = false;
+  isMessagesTab: boolean = false;
+  isCalendarTab: boolean = false;
+  isAboutTab: boolean = false;
+  isGeneralTab: boolean = false;
+  isAdvanceTab: boolean = false;
 }

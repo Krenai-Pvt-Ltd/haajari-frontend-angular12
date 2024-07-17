@@ -1,11 +1,13 @@
 import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import {
   FormBuilder,
   FormGroup,
   FormGroupDirective,
   Validators,
 } from '@angular/forms';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
 import * as moment from 'moment';
 import { Key } from 'src/app/constant/key';
@@ -16,9 +18,11 @@ import {
 } from 'src/app/models/leave-responses.model';
 import { UserDto } from 'src/app/models/user-dto.model';
 import { UserLeaveRequest } from 'src/app/models/user-leave-request';
+import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-reflection';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-leave-management',
@@ -47,7 +51,10 @@ export class LeaveManagementComponent implements OnInit {
     private helperService: HelperService,
     private datePipe: DatePipe,
     private fb: FormBuilder,
+    private firebaseStorage: AngularFireStorage,
     private rbacService: RoleBasedAccessControlService,
+    public domSanitizer: DomSanitizer,
+    private afStorage: AngularFireStorage
   ) {
     {
       this.userLeaveForm = this.fb.group({
@@ -85,6 +92,7 @@ export class LeaveManagementComponent implements OnInit {
   currentDate: Date = new Date();
 
   async ngOnInit(): Promise<void> {
+    window.scroll(0, 0);
     this.logInUserUuid = await this.rbacService.getUUID();
     this.ROLE = await this.rbacService.getRole();
 
@@ -100,7 +108,11 @@ export class LeaveManagementComponent implements OnInit {
 
     this.fetchManagerNames();
     this.getUserLeaveReq();
-    this.currentNewDate = moment(this.currentDate).format('yyyy-MM-DD');
+    this.getTotalCountOfPendingLeaves();
+    // this.currentNewDate = moment(this.currentDate).format('yyyy-MM-DD');
+    this.currentNewDate = moment(this.currentDate)
+      .startOf('month')
+      .format('YYYY-MM-DD');
   }
 
   debounceTimer: any;
@@ -118,7 +130,7 @@ export class LeaveManagementComponent implements OnInit {
             this.searchString,
             this.selectedTeamName,
             this.page,
-            this.size,
+            this.size
           )
           .subscribe({
             next: (response) => {
@@ -140,7 +152,7 @@ export class LeaveManagementComponent implements OnInit {
               console.error('Failed to fetch full leave logs:', error);
               this.helperService.showToast(
                 'Failed to load full leave logs.',
-                Key.TOAST_STATUS_ERROR,
+                Key.TOAST_STATUS_ERROR
               );
             },
             // next: (response) => { this.fullLeaveLogs = response.object
@@ -219,6 +231,7 @@ export class LeaveManagementComponent implements OnInit {
   isPendingLoader: boolean = false;
 
   getPendingLeaves() {
+    this.activeTabs('home');
     this.isPendingLoader = true;
     this.dataService
       .getPendingLeaves(this.pagePendingLeaves, this.sizePendingLeaves)
@@ -234,10 +247,22 @@ export class LeaveManagementComponent implements OnInit {
           console.error('Failed to fetch pending leaves:', error);
           this.helperService.showToast(
             'Failed to load pending leaves.',
-            Key.TOAST_STATUS_ERROR,
+            Key.TOAST_STATUS_ERROR
           );
         },
       });
+  }
+
+  totalCountOfPendingCounts: number = 0;
+  getTotalCountOfPendingLeaves() {
+    this.dataService.getTotalCountsOfPendingLeaves().subscribe({
+      next: (response) => {
+        this.totalCountOfPendingCounts = response.object;
+      },
+      error: (error) => {
+        // console.log(error);
+      },
+    });
   }
 
   scrollDownRecentActivityOfPendingLeaves(event: any) {
@@ -282,7 +307,7 @@ export class LeaveManagementComponent implements OnInit {
     this.dataService
       .getApprovedRejectedLeaveLogs(
         this.pageApprovedRejected,
-        this.sizeApprovedRejected,
+        this.sizeApprovedRejected
       )
       .subscribe({
         next: (response) => {
@@ -293,7 +318,7 @@ export class LeaveManagementComponent implements OnInit {
           ];
           // this.approvedRejectedLeaves = response.object
           this.approvedRejectedLeavesSize = this.approvedRejectedLeaves.length;
-          this.approvedRejectedLeavesSize = 0;
+          // this.approvedRejectedLeavesSize = 0;
         },
 
         error: (error) => {
@@ -301,7 +326,7 @@ export class LeaveManagementComponent implements OnInit {
           console.error('Failed to fetch approved-rejected leave logs:', error);
           this.helperService.showToast(
             'Failed to load approved/rejected leaves.',
-            Key.TOAST_STATUS_ERROR,
+            Key.TOAST_STATUS_ERROR
           );
         },
       });
@@ -380,6 +405,7 @@ export class LeaveManagementComponent implements OnInit {
               ? 'Leave approved successfully!'
               : 'Leave rejected successfully!';
           this.helperService.showToast(message, Key.TOAST_STATUS_SUCCESS);
+          this.getTotalCountOfPendingLeaves();
         },
         error: (error) => {
           console.error('There was an error!', error);
@@ -387,7 +413,7 @@ export class LeaveManagementComponent implements OnInit {
           this.rejecetdLoader = false;
           this.helperService.showToast(
             'Error processing leave request!',
-            Key.TOAST_STATUS_ERROR,
+            Key.TOAST_STATUS_ERROR
           );
         },
       });
@@ -450,7 +476,7 @@ export class LeaveManagementComponent implements OnInit {
           console.error('Failed to fetch pending leave:', error);
           this.helperService.showToast(
             'Failed to load this pending leave.',
-            Key.TOAST_STATUS_ERROR,
+            Key.TOAST_STATUS_ERROR
           );
         },
       });
@@ -478,8 +504,11 @@ export class LeaveManagementComponent implements OnInit {
     return value.charAt(0).toUpperCase() + value.slice(1);
   }
 
-  teamNameList: string[] = [];
+  teamNameList: UserTeamDetailsReflection[] = [];
+
+  teamId: number = 0;
   getTeamNames() {
+    debugger;
     this.dataService.getAllTeamNames().subscribe({
       next: (response: any) => {
         this.teamNameList = response.object;
@@ -605,7 +634,7 @@ export class LeaveManagementComponent implements OnInit {
       (data: UserDto[]) => {
         this.managers = data;
       },
-      (error) => {},
+      (error) => {}
     );
   }
 
@@ -627,7 +656,7 @@ export class LeaveManagementComponent implements OnInit {
           return;
         }
       },
-      (error) => {},
+      (error) => {}
     );
   }
 
@@ -652,8 +681,12 @@ export class LeaveManagementComponent implements OnInit {
   @ViewChild(FormGroupDirective)
   formGroupDirective!: FormGroupDirective;
   submitLeaveLoader: boolean = false;
-
+  @ViewChild('fileInput') fileInput!: ElementRef;
   saveLeaveRequestUser() {
+    if (this.userLeaveForm.invalid || this.isFileUploaded) {
+      return;
+    }
+
     debugger;
     this.userLeaveRequest.managerId = this.selectedManagerId;
     this.userLeaveRequest.dayShift = this.dayShiftToggle;
@@ -670,18 +703,24 @@ export class LeaveManagementComponent implements OnInit {
     this.pendingLeaves = [];
 
     this.dataService
-      .saveLeaveRequestForLeaveManagement(this.userLeaveRequest)
+      .saveLeaveRequestForLeaveManagement(
+        this.userLeaveRequest,
+        this.fileToUpload
+      )
       .subscribe(
         (data) => {
           this.submitLeaveLoader = false;
           this.resetUserLeave();
           this.fetchAllData();
+          this.fileToUpload = '';
+          // this.selectedFile = null;
+          this.fileInput.nativeElement.value = '';
           this.formGroupDirective.resetForm();
           this.requestLeaveCloseModel.nativeElement.click();
         },
         (error) => {
           this.submitLeaveLoader = false;
-        },
+        }
       );
   }
 
@@ -704,5 +743,151 @@ export class LeaveManagementComponent implements OnInit {
   halfLeaveShiftToggle() {
     this.halfDayLeaveShiftToggle =
       this.halfDayLeaveShiftToggle == true ? false : true;
+  }
+
+  activeHomeTabFlag: boolean = false;
+  activeAttendanceTabFlag: boolean = false;
+
+  activeTabs(activeTabString: string) {
+    if (activeTabString === 'home') {
+      this.activeHomeTabFlag = true;
+      this.activeAttendanceTabFlag = false;
+    } else if (activeTabString === 'attendance') {
+      this.activeHomeTabFlag = false;
+      this.activeAttendanceTabFlag = true;
+    }
+  }
+
+  selectedFile: File | null = null;
+  imagePreviewUrl: string | ArrayBuffer | null = null;
+  pdfPreviewUrl: SafeResourceUrl | null = null;
+  fileToUpload: string = '';
+  isSelecetdFileUploadedToFirebase: boolean = false;
+  isFileUploaded = false;
+
+  // Function to check if the selected file is an image
+  isImageNew(file: File): boolean {
+    return file.type.startsWith('image');
+  }
+
+  // Function to check if the selected file is a PDF
+  isPdf(file: File): boolean {
+    return file.type === 'application/pdf';
+  }
+
+  // Function to set the preview URL for images
+  setImgPreviewUrl(file: File): void {
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.imagePreviewUrl = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // Function to set the preview URL for PDFs
+  setPdfPreviewUrl(file: File): void {
+    const objectUrl = URL.createObjectURL(file);
+    this.pdfPreviewUrl =
+      this.domSanitizer.bypassSecurityTrustResourceUrl(objectUrl);
+  }
+
+  // Function to handle file selection
+  onFileSelected(event: Event): void {
+    debugger;
+    const element = event.currentTarget as HTMLInputElement;
+    const fileList: FileList | null = element.files;
+
+    if (fileList && fileList.length > 0) {
+      this.isFileUploaded = true;
+      this.selectedFile = fileList[0];
+
+      if (this.isImageNew(this.selectedFile)) {
+        this.setImgPreviewUrl(this.selectedFile);
+      } else if (this.isPdf(this.selectedFile)) {
+        this.setPdfPreviewUrl(this.selectedFile);
+      }
+
+      this.uploadFile(this.selectedFile); // Upload file to Firebase
+    } else {
+      this.isFileUploaded = false;
+    }
+  }
+
+  // Function to upload file to Firebase
+  uploadFile(file: File): void {
+    const filePath = `uploads/${new Date().getTime()}_${file.name}`;
+    const fileRef = this.afStorage.ref(filePath);
+    const task = this.afStorage.upload(filePath, file);
+
+    task
+      .snapshotChanges()
+      .toPromise()
+      .then(() => {
+        console.log('Upload completed');
+        fileRef
+          .getDownloadURL()
+          .toPromise()
+          .then((url) => {
+            console.log('File URL:', url);
+            this.fileToUpload = url;
+            // console.log('file url : ' + this.fileToUpload);
+            this.isFileUploaded = false;
+          })
+          .catch((error) => {
+            this.isFileUploaded = false;
+            console.error('Failed to get download URL', error);
+          });
+      })
+      .catch((error) => {
+        this.isFileUploaded = false;
+        console.error('Error in upload snapshotChanges:', error);
+      });
+  }
+
+  downloadSingleImage(imageUrl: any) {
+    if (!imageUrl) {
+      // console.error('Image URL is undefined or null');
+      return;
+    }
+
+    var blob = null;
+    var splittedUrl = imageUrl.split(
+      '/firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/'
+    );
+
+    if (splittedUrl.length < 2) {
+      // console.error('Invalid image URL format');
+      return;
+    }
+
+    splittedUrl = splittedUrl[1].split('?alt');
+    splittedUrl = splittedUrl[0].replace('https://', '');
+    splittedUrl = decodeURIComponent(splittedUrl);
+
+    this.firebaseStorage.storage
+      .ref(splittedUrl)
+      .getDownloadURL()
+      .then((url: any) => {
+        // This can be downloaded directly:
+        var xhr = new XMLHttpRequest();
+        xhr.responseType = 'blob';
+        xhr.onload = (event) => {
+          blob = xhr.response;
+          saveAs(blob, 'Docs');
+        };
+        xhr.open('GET', url);
+        xhr.send();
+      })
+      .catch((error: any) => {
+        // Handle any errors
+      });
+  }
+
+  routeToUserProfile(uuid: string) {
+    this.helperService.routeToUserProfile(uuid);
+  }
+  routeToUserProfileAfterClosePending(uuid: string) {
+    this.closeModal.nativeElement.click();
+    this.helperService.routeToUserProfile(uuid);
   }
 }

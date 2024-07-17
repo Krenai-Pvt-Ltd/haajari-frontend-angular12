@@ -9236,9 +9236,9 @@ display:block
   font-weight: 500;
   height: 42px !important;
   text-align: left;
-  background-color: #fff;
-  border: 1px solid #e8ebf3;
-  color: #2d2e3e;
+  background-color: #fff !important;
+  border: 1px solid #f1f1f1;
+  color: #2d2e3e !important;
 }
 
 .new-deopdown i {
@@ -9644,10 +9644,11 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   padding: 0.4rem 1rem;
   font-size: 0.875rem;
   font-weight: 400;
-  height: 40px !important;
+  height: 50px !important;
   text-align: left;
-  background-color: #fff;
-  border: 1px solid #e8ebf3;
+  background-color: #fff !important;
+  border: 1px solid #f1f1f1 !important;
+  border-radius: 2px;
   color: #2d2e3e;
   position: relative;
 }
@@ -9659,4 +9660,16 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
 .form-control[readonly] {
   background-color: #f1f5fa !important;
   opacity: 1;
+}
+
+.deshboard-date-filter .ant-picker {
+  border: none !important;
+  height: 50px !important;
+}
+
+.bonus-payroll .ant-picker {
+  border: none !important;
+  height: 50px !important;
+  border-right: 1px solid #f1f1f1 !important;
+  border-radius: 0px;
 }

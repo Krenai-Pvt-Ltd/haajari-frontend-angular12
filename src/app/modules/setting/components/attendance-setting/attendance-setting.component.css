@@ -1,77 +1,7 @@
-/* styles.css */
-.monthly-report {
-  background-color: #fff;
-  padding: 15px;
-  box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, 0.05);
-  border-radius: 6px;
-}
-
-.attendance-setting-hedding {
-  width: 40%;
-  cursor: pointer;
-}
-
-.attend-location {
-  width: 40%;
-  cursor: pointer;
-}
-
-.atten-icon {
-  width: 20%;
-  cursor: pointer;
-}
-
-.attend-location p {
-  font-size: 13px;
-  color: #6a7886;
-}
-
-.atten-icon {
-  text-align: right;
-}
-
-.atten-icon i {
-  color: #6c7b88;
-}
-
-.attendance-box {
-  border-bottom: 1px solid #efefef;
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-
-.attendance-box:last-child {
-  border-bottom: none;
-}
-
-.new-featucher-btn {
-  background-color: cornflowerblue;
-  padding: 3px 13px;
-  font-size: 12px;
-  color: #fff;
-  border-radius: 30px;
-}
-
-.categryCustomizecard {
-  padding: 15px;
-}
-
 .categryCustomizecard {
   margin-bottom: 0;
 }
 
-.categryCustomizecard {
-  align-items: center;
-  grid-gap: 10px;
-  grid-gap: 10px;
-  gap: 10px;
-  background: #ffffff;
-  /* border-bottom: 1px solid #eee; */
-}
-
-/* .categryCustomizecard:last-child{
-    border-bottom: none;
-} */
 .categryCustomizeinput {
   width: 6%;
 }
@@ -86,11 +16,6 @@
 
 .rule-box > input[type="radio"]:checked ~ label .slect-radio img {
   opacity: 1;
-}
-
-.categryCustomizeinfo label {
-  display: block;
-  cursor: pointer;
 }
 
 .categryCustomizeinfo label h3 {
@@ -118,7 +43,8 @@
   height: 45px !important;
   text-align: left;
   background-color: #fff;
-  border: 1px solid #e8ebf3;
+  border-right: 1px solid #f1f1f1 !important;
+  border: none;
   color: #2d2e3e;
 }
 
@@ -178,10 +104,6 @@
   font-size: 12px;
 }
 
-/* .rule-section{
-    border: 1px solid #ccc;
-    padding: 15px;
-} */
 .rule-section h5 {
   margin-bottom: 5px;
   margin-top: 0px;
@@ -194,8 +116,6 @@
 }
 
 .rule-main-div {
-  /* background: #f9f9f9;
-    padding: 5px 10px; */
   margin-bottom: 10px;
 }
 
@@ -211,7 +131,7 @@
 }
 
 .nav-tabs {
-  border-bottom: 1px solid #dee2e6;
+  border-bottom: 1px solid #f1f1f1;
 }
 
 .nav-tabs .nav-item {
@@ -463,7 +383,7 @@
 }
 
 .attendance-active {
-  background-color: #e9ebfe;
+  background-color: #e9ebfe !important;
   border: 1px solid #6666f3 !important;
 }
 
@@ -500,7 +420,7 @@
   grid-gap: 10px;
   gap: 10px;
   background: #ffffff;
-  border-radius: 5px;
+  border-radius: 2px;
   margin-bottom: 15px;
   padding: 15px;
   border: 1px solid #f1f1f1;
@@ -1306,4 +1226,99 @@ i.bi.bi-plus {
 
 .radio-btn {
   padding-left: 10px;
+}
+
+nz-date-picker.nz-overlay-container.whatapp-login-input {
+  height: 50px !important;
+  border: 1px solid #f1f1f1 !important;
+}
+
+.select-user-count b {
+  color: #6666f3;
+  font-size: 13px;
+}
+
+.all-select-user {
+  background-color: #f0f0ff;
+  color: #6666f3;
+  padding: 4px 10px;
+  border-radius: 2px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.clear-all-user {
+  cursor: pointer;
+  color: #eb5050;
+  background-color: #fcf1f1;
+  padding: 4px 10px;
+  border-radius: 2px;
+  font-size: 13px;
+}
+.user-close-btn i {
+  font-size: 20px;
+}
+
+.align-label {
+  position: relative;
+  top: 4px;
+}
+
+.attendance-details-search {
+  display: block;
+  width: 100%;
+  padding: 0.4rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  height: 40px !important;
+  border: none;
+  background-color: transparent;
+}
+
+@media (max-width: 2600px) {
+  .modal-body.modal-height-fix {
+    max-height: 690px;
+    overflow: scroll;
+  }
+}
+@media (max-width: 1300px) {
+  .modal-body.modal-height-fix {
+    max-height: 450px;
+    overflow: scroll;
+  }
+}
+
+/* Ensures the outermost container is a flex container */
+.container .content-wrapper {
+  display: flex;
+  justify-content: flex-end; /* Aligns children to the right */
+  width: 100%; /* Ensures the container takes full width */
+}
+
+/* Flexbox for the filter wrapper to align items properly */
+.container .content-wrapper .filter-wrapper {
+  display: flex;
+  align-items: center; /* Centers items vertically */
+  gap: 10px; /* Space between the select count and clear button */
+}
+
+.info-button, .clear-button {
+  white-space: nowrap; /* Prevents text wrapping */
+  display: inline-flex;
+  align-items: center;
+}
+
+.text-danger {
+  color: #dc3545; /* Bootstrap's danger text color for consistency */
+}
+
+.bi-x {
+  margin-left: 4px; /* Adds a small space after the text */
+}
+
+.agm-map {
+  height: 400px; /* Adjust the height as needed */
+}
+
+nz-time-picker {
+  margin: 0 8px 12px 0;
 }
