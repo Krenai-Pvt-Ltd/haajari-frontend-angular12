@@ -13,7 +13,7 @@ const routes: Routes = [{path : '', redirectTo : '/payment/payroll-dashboard', p
     {path : 'payroll-dashboard', component : PayrollDashboardComponent},
     {path : 'payment-history', component : PaymentHistoryComponent},
     {path : 'bonus-and-deduction', component : BonusAndDeductionComponent},
-    {path : 'tds', component : TdsComponent},
+    {path : 'epf-esi-tds', component : TdsComponent},
     {path : 'payroll-dashboard/leave-summary', component : LeaveSummaryComponent}
   ]
 }
