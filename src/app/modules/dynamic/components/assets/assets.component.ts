@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -18,7 +18,7 @@ export class AssetsComponent implements OnInit {
 
   assetForm: FormGroup;
   assignRejectForm: FormGroup;
-  constructor(private fb: FormBuilder, private dataService : DataService, private afStorage: AngularFireStorage, private domSanitizer: DomSanitizer, private helperService : HelperService) { 
+  constructor(private cdr: ChangeDetectorRef, private fb: FormBuilder, private dataService : DataService, private afStorage: AngularFireStorage, private domSanitizer: DomSanitizer, private helperService : HelperService) { 
     this.assetForm = this.fb.group({
       assetName: ['', Validators.required],
       serialNumber: ['', Validators.required],
@@ -45,6 +45,7 @@ export class AssetsComponent implements OnInit {
     this.getAllAssetCategoryData();
     this.getAssetUserListData();
     this.getCategoryCounts();
+    this.getAssetDataById();
   }
 
   assetCategoryData: AssetCategoryResponse[] = [];
@@ -60,6 +61,26 @@ export class AssetsComponent implements OnInit {
       );
   }
 
+  getAssetCategoryDataById(): void {
+    this.dataService.getAssetCategoryById(this.categoryId)
+      .subscribe(
+        (response) => {
+          if (response && response.object) {
+            const categoryData = response.object;
+            this.newCategory = {
+              categoryName: categoryData.categoryName,
+              categoryImage: categoryData.categoryImage
+            };
+            this.imagePreviewUrl = categoryData.categoryImage; 
+            this.cdr.detectChanges();
+          }
+        },
+        (error) => {
+          console.error('Error fetching asset category data by id:', error);
+        }
+      );
+  }
+  
   totalAssetData: any;
   getTotalAssetData(): void {
     this.dataService.getTotalAsset()
@@ -76,7 +97,7 @@ export class AssetsComponent implements OnInit {
 
   search: string = '';
   pageNumber: number = 1;
-  itemPerPage: number = 10;
+  itemPerPage: number = 8;
   assetData: OrganizationAssetResponse[] = [];
   totalCount: number = 0;
   crossFlag: boolean = false;
@@ -89,6 +110,33 @@ export class AssetsComponent implements OnInit {
         },
         (error) => {
           console.error('Error fetching asset data:', error);
+        }
+      );
+  }
+
+  assetIdToUpdate:number = 0;
+  getAssetDataById(): void {
+    this.dataService.getAssetById(this.assetIdToUpdate)
+      .subscribe(
+        (response) => {
+          const assetData = response.object;
+          this.assetForm.patchValue({
+            assetName: assetData.assetName,
+            serialNumber: assetData.serialNumber,
+            purchasedDate: new Date(assetData.purchasedDate), 
+            expiryDate: assetData.expiryDate ? new Date(assetData.expiryDate) : null,
+            price: assetData.price,
+            location: assetData.location,
+            vendorName: assetData.vendorName,
+            userId: assetData.userId,
+            assignedDate: assetData.assignedDate ? new Date(assetData.assignedDate) : null,
+            categoryId: assetData.categoryId
+          });
+  
+          this.cdr.detectChanges();
+        },
+        (error) => {
+          console.error('Error fetching asset data by id:', error);
         }
       );
   }
@@ -147,6 +195,44 @@ imagePreviewUrl: string | ArrayBuffer | null = null;
 isFileUploaded: boolean = false;
 selectedFile: File | null = null;
 fileToUpload: string = '';
+categoryId: number = 0;
+updateCategoryFlag: boolean = false;
+
+assignCategoryId(categoryId: number) {
+  this.categoryId = categoryId;
+  if(categoryId!=0) {
+    this.getAssetCategoryDataById();
+  } else {
+    this.newCategory = { categoryName: '', categoryImage: '' };
+  }
+}
+saveOrUpdateCategory() {
+  if(this.categoryId!=0) {
+    this.updateCategory();
+  } else {
+    this.saveCategory();
+  }
+}
+
+updateCategory(): void {
+  if (this.fileToUpload) {
+    this.newCategory.categoryImage = this.fileToUpload;
+  }
+  this.dataService.updateAssetCategory(this.categoryId, this.newCategory)
+    .subscribe(
+      response => {
+        console.log('Asset category updated successfully:', response);
+        this.getAssetCategoryData();
+        document.getElementById('createCategoryModal')?.click();
+        this.newCategory = { categoryName: '', categoryImage: '' };
+        this.imagePreviewUrl = null;
+        this.getAllAssetCategoryData();
+      },
+      error => {
+        console.error('Error updating asset category:', error);
+      }
+    );
+}
 
 // @ViewChild("closeCreateCategoryModal") closeCreateCategoryModal!:ElementRef;
 saveCategory(): void {
@@ -252,10 +338,29 @@ getAssetUserListData(): void {
     );
 }
 
+
+
+ assignAssetId(assetId: number) {
+  this.assetIdToUpdate = assetId;
+  if(assetId>0) {
+    this.getAssetDataById();
+  } else {
+    this.assetForm.reset();
+  }
+}
+
+updateOrSaveAsset() {
+  if(this.assetIdToUpdate > 0) {
+
+  } else {
+    this.saveAsset();
+  }
+}
+
 saveAsset(): void {
   if (this.assetForm.invalid) {
     console.log('Please fill out all required fields.');
-    this.helperService.showToast("Please fill out all required fields.", Key.TOAST_STATUS_SUCCESS);
+    this.helperService.showToast("Please fill out all required fields.", Key.TOAST_STATUS_ERROR);
     return;
   }
 
@@ -264,7 +369,7 @@ saveAsset(): void {
   this.dataService.createAsset(newAsset).subscribe(
     (response) => {
      
-        console.log('Asset created successfully.');
+        // console.log('Asset created successfully.');
         this.assetForm.reset();
         this.getAssetData();
         this.getAssetCategoryData();
@@ -275,9 +380,13 @@ saveAsset(): void {
      
     },
     (error) => {
-      console.error('Error creating asset:', error);
-      console.log('Failed to create asset. Please try again.');
-      this.helperService.showToast('Failed to create asset.', Key.TOAST_STATUS_SUCCESS);
+      // console.error('Error creating asset:', error);
+      // console.log('Failed to create asset. Please try again.');
+      if(error.error.message == 'Serial Number Already Registered') {
+        this.helperService.showToast('Serial Number Already Registered.', Key.TOAST_STATUS_ERROR);
+      } else {
+      this.helperService.showToast('Failed to create asset.', Key.TOAST_STATUS_ERROR);
+      }
     }
   );
 }
@@ -395,7 +504,7 @@ totalAssetsStatusWiseData: StatusWiseTotalAssetsResponse[] = [];
       
       },
       (error) => {
-        this.helperService.showToast('Failed', Key.TOAST_STATUS_SUCCESS);
+        this.helperService.showToast('Failed', Key.TOAST_STATUS_ERROR);
       }
     )
   }
@@ -414,7 +523,7 @@ totalAssetsStatusWiseData: StatusWiseTotalAssetsResponse[] = [];
         
         },
         (error) => {
-          this.helperService.showToast('Failed', Key.TOAST_STATUS_SUCCESS);
+          this.helperService.showToast('Failed', Key.TOAST_STATUS_ERROR);
         }
       );
           
@@ -430,7 +539,7 @@ totalAssetsStatusWiseData: StatusWiseTotalAssetsResponse[] = [];
     domain: ['#FFE082', '#80CBC4', '#FFCCBC', '#9575CD', '#4FC3F7', '#AED581', '#FFD54F', '#FF7043']
   };
   // legendPosition: LegendPosition = LegendPosition.Below; 
-  view: [number, number] = [900, 340]; 
+  view: [number, number] = [600, 340]; 
   getCategoryCounts(): void {
     this.dataService.getCategoryCounts() 
       .subscribe(
@@ -443,19 +552,63 @@ totalAssetsStatusWiseData: StatusWiseTotalAssetsResponse[] = [];
       );
   }
 
+  private getMonthName(monthNumber: string): string {
+    const monthNames = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    ];
+    return monthNames[parseInt(monthNumber, 10) - 1];
+  }
+  
+
   private formatDataForChart(data: any[]): any[] {
     return data.map((item) => {
-      const month = item.month;
+      
+      const [year, monthNumber] = item.month.split('-');
+      const monthName = this.getMonthName(monthNumber);
+  
       const series = item.category_array.map((category: any) => ({
         name: category.category_name,
         value: category.category_count
       }));
+  
       return {
-        name: month,
+        name: `${monthName}`, 
         series: series
       };
     });
   }
+  
+
+  //  delete asset 
+ assetId : number = 0;
+ disableLoader : boolean = false;
+ @ViewChild("closeUserDeleteModal") closeUserDeleteModal!:ElementRef;
+  openDeleteAssetModal(assetId: number) {
+    this.assetId = assetId;
+  }
+
+  deleteAssetData(): void {
+    this.disableLoader = true;
+    this.dataService.deleteAsset(this.assetId) 
+      .subscribe(
+        (response: any) => {
+          this.helperService.showToast('Asset Deleted Successfully.', Key.TOAST_STATUS_SUCCESS);
+          this.disableLoader = false;
+          this.getAssetData();
+          this.getAssetCategoryData();
+          this.getTotalAssetData();
+          this.closeUserDeleteModal.nativeElement.click();
+        },
+        (error: any) => {
+          this.helperService.showToast('Error in Deletion.', Key.TOAST_STATUS_ERROR);
+          this.disableLoader = false;
+        }
+      );
+  }
+
+
+  
 
   
 }
