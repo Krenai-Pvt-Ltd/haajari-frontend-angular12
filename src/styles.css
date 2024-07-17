@@ -317,3 +317,6 @@ nz-date-picker {
   top: 0px;
   left: 33px;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

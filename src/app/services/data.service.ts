@@ -68,6 +68,7 @@ import { SalaryChangeBonusRequest } from '../models/salary-change-bonus-request'
 import { EpfDetailsRequest } from '../models/epf-details-request';
 import { EsiDetailsRequest } from '../models/esi-details-request';
 import { TdsDetailsRequest } from '../models/tds-details-request';
+import { AssetCategoryRequest, OrganizationAssetRequest } from '../models/asset-category-respose';
 
 @Injectable({
   providedIn: 'root',
@@ -3322,5 +3323,92 @@ export class DataService {
     .set('user_uuids', userUuids)
     ;
     return this.httpClient.put<any>(`${this.baseUrl}/salary-slip/update-pay-action-type`,{}, {params});
+  }
+
+  //  asset 
+
+  getAssetCategory(): Observable<any> {
+    const url = `${this.baseUrl}/asset/allocation/get/asset/category`;
+    return this.httpClient.get<any>(url, {}).pipe(
+      catchError((error) => {
+        throw error;
+      })
+    );
+  }
+
+  getAllAssetCategory(): Observable<any> {
+    const url = `${this.baseUrl}/asset/allocation/get/All/asset/category`;
+    return this.httpClient.get<any>(url, {}).pipe(
+      catchError((error) => {
+        throw error;
+      })
+    );
+  }
+
+  getAssetUserList(): Observable<any> {
+    const url = `${this.baseUrl}/asset/allocation/get/asset/user/list`;
+    return this.httpClient.get<any>(url, {}).pipe(
+      catchError((error) => {
+        throw error;
+      })
+    );
+  }
+
+  getTotalAsset(): Observable<any> {
+    const url = `${this.baseUrl}/asset/allocation/get/total/asset`;
+    return this.httpClient.get<any>(url, {}).pipe(
+      catchError((error) => {
+        throw error;
+      })
+    );
+  }
+
+  getTotalAssetsStatusWise(filterString: string, search: string, pageNumber: number, itemPerPage: number): Observable<any> {
+    const url = `${this.baseUrl}/asset/allocation/get/total/asset/by/status`;
+    let params = new HttpParams()
+      .set('filterString', filterString)
+      .set('search', search)
+      .set('pageNumber', pageNumber)
+      .set('itemPerPage', itemPerPage);
+    return this.httpClient.get<any>(url, { params }).pipe(
+      catchError((error) => {
+        throw error;
+      })
+    );
+  }
+
+  getAsset(search: string, pageNumber: number, itemPerPage: number): Observable<any> {
+    const url = `${this.baseUrl}/asset/allocation/get/asset`;
+    let params = new HttpParams()
+      .set('search', search)
+      .set('pageNumber', pageNumber)
+      .set('itemPerPage', itemPerPage);
+    return this.httpClient.get<any>(url, { params }).pipe(
+      catchError((error) => {
+        throw error;
+      })
+    );
+  }
+
+  createAssetCategory(assetCategoryRequest: AssetCategoryRequest): Observable<any> {
+    return this.httpClient.post<any>(`${this.baseUrl}/asset/allocation/create/asset/category`, assetCategoryRequest);
+  }
+
+  createAsset(assetRequest: OrganizationAssetRequest): Observable<any> {
+    return this.httpClient.post<any>(`${this.baseUrl}/asset/allocation/create/asset`, assetRequest);
+  }
+
+  assignOrReturnAsset(assetId: number, operationString: string, assignOrReturnRequest: any): Observable<any> {
+    const url = `${this.baseUrl}/asset/allocation/assign/return/asset`;
+    const params = new HttpParams()
+      .set('assetId', assetId)
+      .set('requestString', operationString);
+
+    return this.httpClient.put(url, assignOrReturnRequest, { params });
+  }
+
+  getCategoryCounts(): Observable<any> {
+    const url = `${this.baseUrl}/asset/allocation/category-counts`;
+    return this.httpClient.get<any>(url);
   }
 }
