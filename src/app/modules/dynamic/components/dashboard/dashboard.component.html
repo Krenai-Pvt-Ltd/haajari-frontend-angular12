@@ -1121,21 +1121,36 @@
                                           : dayWiseStatus.status[0]
                                           }}
 
-                                          <span class="user-details p-3"> 
+                                          <span class="user-details p-3" *ngIf=" dayWiseStatus.status == HALFDAY || dayWiseStatus.status == PRESENT"> 
                                             <h5 class="p-0">Attendance Details</h5>
-                                            <div class=" p-0" *ngIf="loadingFlag">
-                                              <p class="mb-0">Loading ....</p>   
+                                            <!-- <div class=" p-0" *ngIf="loadingFlag">
+                                              <div class="spinner-grow text-primary" role="status">
+                                                <span class="sr-only">Loading...</span>
+                                              </div>  
+                                            </div> -->
+                                            <div class="p-0 d-flex justify-content-center" *ngIf="loadingFlag">
+                                              <div class="spinner-grow text-secondary" style="width: 10px; height: 10px;" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                              </div>
+                                              <div class="spinner-grow text-secondary" style="width: 10px; height: 10px;" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                              </div>
+                                              <div class="spinner-grow text-secondary" style="width: 10px; height: 10px;" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                              </div>
                                             </div>
+                                            
+                                            
                                             <div class=" p-0" *ngIf="userAttendanceDetailDateWise?.checkInTime!=null && !loadingFlag">
-                                              <p class="mb-0">Check In Time: {{userAttendanceDetailDateWise.checkInTime | date:'medium' }}</p>
-                                              <p class="mb-0">Check Out Time: {{userAttendanceDetailDateWise.checkOutTime | date:'medium' || '-'}}</p>
+                                              <p class="mb-0">Check In Time: {{userAttendanceDetailDateWise.checkInTime | date:'shortTime' }}</p>
+                                              <p class="mb-0">Check Out Time: {{userAttendanceDetailDateWise.checkOutTime | date:'shortTime' || '-'}}</p>
                                               <p class="mb-0">Total Hours: {{userAttendanceDetailDateWise.totalWorkingHours}}</p>
                                               <p class="mb-0">Total Break: {{userAttendanceDetailDateWise.breakCount}}</p>
                                               <p class="mb-0">Break Duration: {{userAttendanceDetailDateWise.totalBreakHours}}</p>
                                             </div>
-                                            <div class=" p-0" *ngIf="userAttendanceDetailDateWise?.checkInTime==null && !loadingFlag">
+                                            <!-- <div class=" p-0" *ngIf="userAttendanceDetailDateWise?.checkInTime==null">
                                               <p class="mb-0">No Data Found :)</p>   
-                                            </div>
+                                            </div> -->
                                           </span>
                                           
                                         </td>
@@ -1555,10 +1570,10 @@
               <!--end media body-->
             </div>
             <span class="text-success" *ngIf="attendList.currentStatus!=='Late'">{{
-              attendList.checkInTime | date : "mediumTime"
+              attendList.checkInTime | date:'shortTime'
               }}</span>
             <span class="text-danger" *ngIf="attendList.currentStatus=='Late'">{{
-              attendList.checkInTime | date : "mediumTime"
+              attendList.checkInTime | date:'shortTime'
               }}</span>
           </li>
         </ul>
@@ -1699,7 +1714,7 @@
               <!--end media body-->
             </div>
             <span class="text-success">{{
-              user.checkTime | date : "mediumTime"
+              user.checkTime | date:'shortTime'
               }}</span>
           </li>
         </ul>
@@ -1816,7 +1831,7 @@
               </div>
               <!--end media body-->
             </div>
-            <span class="text-danger">{{ user.checkInTime | date : "mediumTime"}} Late by - {{user.lateDuration | durationFormat }}</span>
+            <span class="text-danger">{{ user.checkInTime | date:'shortTime'}} <span style="color: black;">|</span> Late by - {{user.lateDuration | durationFormat }}</span>
           </li>
         </ul>
 

@@ -128,7 +128,6 @@ export class HeaderComponent implements OnInit {
   show: boolean = false;
 
   shouldDisplay(moduleName: string): boolean {
-    debugger
     const role = this.rbacService.getRoles(); // Assuming getRole returns a Promise<string>
     const modulesToShowForManager = [
       'dashboard',

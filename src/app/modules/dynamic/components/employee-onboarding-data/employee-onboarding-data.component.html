@@ -544,6 +544,11 @@
                             >All</a
                           >
                         </li>
+                        <!-- <li style="cursor: default;"> -->
+                          <!-- <h6 class="dropdown-item text-secondary text-sm-start">Status Wise </h6>  -->
+                        <!-- </li> -->
+                        <li class="dropdown-header" aria-disabled="true">Status Wise</li>
+                       
                         <li>
                           <a
                             class="dropdown-item"
@@ -570,6 +575,24 @@
                             class="dropdown-item"
                             (click)="selectStatus('REJECTED')"
                             >Rejected</a
+                          >
+                        </li>
+                        <!-- <li style="cursor: default;"> -->
+                          <!-- <h6 class="dropdown-item text-secondary text-sm-start" >Accessibility Wise </h6>  -->
+                        <!-- </li> -->
+                        <li class="dropdown-header" aria-disabled="true">Accessibility Wise</li>
+                        <li>
+                          <a
+                            class="dropdown-item"
+                            (click)="selectStatus('ACTIVE')"
+                            >Active</a
+                          >
+                        </li>
+                        <li>
+                          <a
+                            class="dropdown-item"
+                            (click)="selectStatus('INACTIVE')"
+                            >Inactive</a
                           >
                         </li>
                       </ul>
@@ -628,7 +651,7 @@
                       data-bs-target="#sampleFileModal"
                       type="button"
                     >
-                      <i class="bi bi-plus" style="font-size: 18px"></i>
+                      <i class="bi bi-upload" style="font-size: 18px"></i>
                      Upload Members
                     </a>
                     </div>

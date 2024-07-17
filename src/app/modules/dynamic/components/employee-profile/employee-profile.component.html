@@ -110,6 +110,8 @@
                             " class="btn btn-soft-danger btn-icon-circle btn-icon-circle-sm me-2 position-relative">
                             <i class="ti ti-alert-octagon font-16"></i>
                           </button>
+
+
                         </h5>
                         <p class="mb-0 met-user-name-post">
                           {{ user.department || "N/A" }}
@@ -206,7 +208,7 @@
                   <a class="nav-link" data-bs-toggle="tab" href="#attendance" role="tab"
                     aria-selected="true">Attendance</a>
                 </li>
-                <li class="nav-item" (click)="activeTabs('finances')">
+                <li class="nav-item" (click)="activeTabs('finances'); financeSectionMethodCall()">
                   <a class="nav-link" data-bs-toggle="tab" href="#payslip" role="tab" aria-selected="false">Finances</a>
                 </li>
                 <li class="nav-item" (click)="activeTabs('documents')">
@@ -1087,12 +1089,10 @@
                                 <div class="float-end">
                                   <div class="dropdown d-inline-block">
                                     <div class="align-self-center">
-                                      <div
-                                        class="btn btn-xs btn-light btn-round"
-                                      >
+                                      <div class="btn btn-xs btn-light btn-round">
                                         {{
-                                          leaves.leaveDate | date:'medium'
-                                           || "N/A"
+                                        leaves.leaveDate | date:'medium'
+                                        || "N/A"
                                         }}
                                         <!-- &nbsp;
                                         <span>{{
@@ -1180,9 +1180,15 @@
                   </div>
                   <div id="manage-statutory" *ngIf="salaryConfigurationStepId == MANAGE_STATUTORY">
                     <div class="form-roe-data" style="text-align: left">
-                      <h3>Configure Salary Settings:</h3>
+                      <div class="d-flex">
+                        <div class="back-btns-box" (click)="goToPaySlip()">
+                          <i class="bi bi-chevron-left"></i>
+                        </div>
+                        &nbsp; &nbsp;
+                        <h3> Configure Salary Settings:</h3>
+                      </div>
                       <p> These are the default setting which is done by organization, you can modify according to your
-                        preference. </p>
+                        preference.</p>
                     </div>
                     <div class="col-md-12">
                       <div class="border-box"></div>
@@ -1236,159 +1242,159 @@
                           <p>A quick snapshot of your company.</p>
                         </div>
                       </div>
-  
+
                       <div class="col-md-7 mt-3 mb-3">
-                      <div class="">
-                        <div class="attendance-settin-list">
-                              <ng-container *ngIf="
+                        <div class="">
+                          <div class="attendance-settin-list">
+                            <ng-container *ngIf="
                                   isShimmerForSalaryTemplate &&
                                     !dataNotFoundPlaceholderForSalaryTemplate &&
                                     !networkConnectionErrorPlaceHolderForSalaryTemplate;
                                   else salaryTemplateElseCondition
                                 ">
-                                <div class="">
-                                  <div class="text-end">
-                                    <ngx-shimmer-loading [width]="'40%'" [height]="'20px'"
-                                      style="border-radius: 50%"></ngx-shimmer-loading>
-                                  </div>
+                              <div class="">
+                                <div class="text-end">
+                                  <ngx-shimmer-loading [width]="'40%'" [height]="'20px'"
+                                    style="border-radius: 50%"></ngx-shimmer-loading>
                                 </div>
-  
-                                <div class="mt-3" style="
+                              </div>
+
+                              <div class="mt-3" style="
                                     border: 1px solid #f5f5f5;
                                     padding: 5px;
                                     border-radius: 6px;
                                   ">
-                                  <div class="row" style="
+                                <div class="row" style="
                                       border-bottom: 1px solid #f5f5f5;
                                       padding-top: 10px;
                                       padding-bottom: 10px;
                                     ">
-                                    <div class="col-md-4">
-                                      <div class="">
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'20px'"
-                                          style="border-radius: 50%"></ngx-shimmer-loading>
-                                      </div>
-                                    </div>
-                                  </div>
-  
-                                  <div class="row mt-3">
-                                    <div class="col-md-3">
-                                      <div class="">
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'20px'"
-                                          style="border-radius: 50%"></ngx-shimmer-loading>
-                                      </div>
-                                    </div>
-                                  </div>
-  
-                                  <div class="row mt-3">
-                                    <div class="col-md-4">
-                                      <div class="">
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                                          style="border-radius: 50%"></ngx-shimmer-loading>
-                                      </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                      <div class="">
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                                          style="border-radius: 50%"></ngx-shimmer-loading>
-                                      </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                      <div class="">
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                                          style="border-radius: 50%"></ngx-shimmer-loading>
-                                      </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                      <div class="">
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                                          style="border-radius: 50%"></ngx-shimmer-loading>
-                                      </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                      <div class="">
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                                          style="border-radius: 50%"></ngx-shimmer-loading>
-                                      </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                      <div class="">
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                                          style="border-radius: 50%"></ngx-shimmer-loading>
-                                      </div>
+                                  <div class="col-md-4">
+                                    <div class="">
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'20px'"
+                                        style="border-radius: 50%"></ngx-shimmer-loading>
                                     </div>
                                   </div>
                                 </div>
-                              </ng-container>
-  
-                              <ng-template #salaryTemplateElseCondition>
-                                <ng-container *ngIf="
+
+                                <div class="row mt-3">
+                                  <div class="col-md-3">
+                                    <div class="">
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'20px'"
+                                        style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="row mt-3">
+                                  <div class="col-md-4">
+                                    <div class="">
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                                        style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-4">
+                                    <div class="">
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                                        style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-4">
+                                    <div class="">
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                                        style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-4">
+                                    <div class="">
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                                        style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-4">
+                                    <div class="">
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                                        style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-4">
+                                    <div class="">
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                                        style="border-radius: 50%"></ngx-shimmer-loading>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </ng-container>
+
+                            <ng-template #salaryTemplateElseCondition>
+                              <ng-container *ngIf="
                                     (salaryTemplateComponentResponse != null || salaryTemplateComponentResponse != undefined) &&
                                       !dataNotFoundPlaceholderForSalaryTemplate &&
                                       !networkConnectionErrorPlaceHolderForSalaryTemplate;
                                     else errorInFetchingSalaryTemplate
                                   ">
-                                  <div class="add-shift-main-box ng-star-inserted">
-                                    <div
-                                      class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2">
-                                      <div>
-                                        <h6 class="text-truncate mb-0">
-                                          Salary Template
-                                        </h6>
-                                      </div>
+                                <div class="add-shift-main-box ng-star-inserted">
+                                  <div
+                                    class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2">
+                                    <div>
+                                      <h6 class="text-truncate mb-0">
+                                        Salary Template
+                                      </h6>
                                     </div>
-                                    <div class="shift-set">
-                                      <div class="shift-time p-3 m-3 ng-star-inserted">
-                                        <div>
-                                          <div class="d-flex align-items-center justify-content-between">
-                                            <div class="d-flex align-items-center gap-3">
-                                              <div>
-                                                <span
-                                                  class="automation-rules-icon d-flex align-items-center justify-content-center"><img
-                                                    src="assets/images/rule-icon.svg" /></span>
-                                              </div>
-                                              <div>
-                                                <h6 class="text-truncate mb-0">
-                                                  {{ salaryTemplateComponentResponse.name }}
-                                                </h6>
-                                                <!-- <small class="text-muted"
+                                  </div>
+                                  <div class="shift-set">
+                                    <div class="shift-time p-3 m-3 ng-star-inserted">
+                                      <div>
+                                        <div class="d-flex align-items-center justify-content-between">
+                                          <div class="d-flex align-items-center gap-3">
+                                            <div>
+                                              <span
+                                                class="automation-rules-icon d-flex align-items-center justify-content-center"><img
+                                                  src="assets/images/rule-icon.svg" /></span>
+                                            </div>
+                                            <div>
+                                              <h6 class="text-truncate mb-0">
+                                                {{ salaryTemplateComponentResponse.name }}
+                                              </h6>
+                                              <!-- <small class="text-muted"
                                               >Salary Templates</small
                                             > -->
-                                              </div>
                                             </div>
                                           </div>
-  
-                                          <div class="">
-                                            <div class="m-3 holiday-list">
-                                              <div class="row holiday-list-box-height bg-white p-2 pt-3">
-                                                <div class="col-md-6" *ngFor="
+                                        </div>
+
+                                        <div class="">
+                                          <div class="m-3 holiday-list">
+                                            <div class="row holiday-list-box-height bg-white p-2 pt-3">
+                                              <div class="col-md-6" *ngFor="
                                                     let salaryComponentResponse of salaryTemplateComponentResponse.salaryComponentResponseList
                                                   ">
-                                                  <!-- class="holiday-date mb-3 universal-holiday" -->
-                                                  <div [ngClass]="{
+                                                <!-- class="holiday-date mb-3 universal-holiday" -->
+                                                <div [ngClass]="{
                                                       'holiday-date mb-3 custom-holiday':
                                                         salaryComponentResponse.percentageOfBasicPay,
                                                       'holiday-date mb-3 universal-holiday':
                                                         !salaryComponentResponse.percentageOfBasicPay
                                                     }">
-                                                    <p class="mb-0">
-                                                      {{ salaryComponentResponse.name }} |
-                                                      <span style="color: #009688" *ngIf="
+                                                  <p class="mb-0">
+                                                    {{ salaryComponentResponse.name }} |
+                                                    <span style="color: #009688" *ngIf="
                                                           salaryComponentResponse.percentageOfBasicPay
                                                         ">
-                                                        {{ salaryComponentResponse.value }}%
-                                                        (of Basic Pay)
-                                                      </span>
-                                                      <span style="color: #009688" *ngIf="
+                                                      {{ salaryComponentResponse.value }}%
+                                                      (of Basic Pay)
+                                                    </span>
+                                                    <span style="color: #009688" *ngIf="
                                                           !salaryComponentResponse.percentageOfBasicPay
                                                         ">
-                                                        {{ salaryComponentResponse.value }}%
-                                                      </span>
-                                                    </p>
-                                                  </div>
+                                                      {{ salaryComponentResponse.value }}%
+                                                    </span>
+                                                  </p>
                                                 </div>
-  
-                                                <!-- <div class="col-md-6">
+                                              </div>
+
+                                              <!-- <div class="col-md-6">
                                                   <div
                                                     class="holiday-date mb-3 custom-holiday"
                                                   >
@@ -1400,17 +1406,17 @@
                                                     </p>
                                                   </div>
                                                 </div> -->
-                                              </div>
                                             </div>
                                           </div>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
-                                </ng-container>
-                              </ng-template>
-  
-                              <!-- <div class="add-shift-main-box">
+                                </div>
+                              </ng-container>
+                            </ng-template>
+
+                            <!-- <div class="add-shift-main-box">
                                 <div
                                   class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2"
                                 >
@@ -1547,8 +1553,8 @@
                                   </div>
                                 </div>
                               </div> -->
-  
-                              <!-- <ng-template #salaryTemplateElseCondition>
+
+                            <!-- <ng-template #salaryTemplateElseCondition>
                                 <ng-container
                                   *ngIf="
                                     salaryTemplateComponentResponseList.length !== 0 &&
@@ -1649,26 +1655,26 @@
                                   </div>
                                 </ng-container>
                               </ng-template> -->
-                              <ng-template #errorInFetchingSalaryTemplate>
-                                <div class="empty-file" *ngIf="dataNotFoundPlaceholderForSalaryTemplate">
-                                  <div class="errorboxmain">
-                                    <div class="errorboxinner">
-                                      <div class="errorboxplaceholder mb-2">
-                                        <img src="assets/images/empty-box.svg" style="width: 80px" />
-                                      </div>
-                                      <div class="">
-                                        <h5 class="mb-0">Salary Templates Not Found</h5>
-                                      </div>
-                                      <div class="add-filtter mt-2 mb-3" style="text-align: center">
-                                        <a class="" style="font-size: 14px; color: #6666f3" data-bs-toggle="modal"
-                                          data-bs-target="#addsalarytemplate"><i class="bi bi-plus"></i> Create salary
-                                          template
-                                        </a>
-                                      </div>
+                            <ng-template #errorInFetchingSalaryTemplate>
+                              <div class="empty-file" *ngIf="dataNotFoundPlaceholderForSalaryTemplate">
+                                <div class="errorboxmain">
+                                  <div class="errorboxinner">
+                                    <div class="errorboxplaceholder mb-2">
+                                      <img src="assets/images/empty-box.svg" style="width: 80px" />
+                                    </div>
+                                    <div class="">
+                                      <h5 class="mb-0">Salary Templates Not Found</h5>
+                                    </div>
+                                    <div class="add-filtter mt-2 mb-3" style="text-align: center">
+                                      <a class="" style="font-size: 14px; color: #6666f3" data-bs-toggle="modal"
+                                        data-bs-target="#addsalarytemplate"><i class="bi bi-plus"></i> Create salary
+                                        template
+                                      </a>
                                     </div>
                                   </div>
-  
-                                  <!-- <div class="errorboxmain">
+                                </div>
+
+                                <!-- <div class="errorboxmain">
                                     <div class="errorboxinner">
                                       <div
                                         class="add-filtter mt-2 mb-3"
@@ -1691,28 +1697,28 @@
                                       </div>
                                     </div>
                                   </div> -->
-                                </div>
-  
-                                <div class="empty-file" *ngIf="networkConnectionErrorPlaceHolderForSalaryTemplate">
-                                  <div class="errorboxmain">
-                                    <div class="errorboxinner text-center">
-                                      <div class="errorboxplaceholder mb-2">
-                                        <img src="assets/images/signal.svg" style="width: 80px" />
-                                      </div>
-                                      <div class="">
-                                        <h4>Something went wrong</h4>
-                                        <p>
-                                          An error occurred while processing your request.
-                                          Please refresh the page and try again.
-                                        </p>
-                                      </div>
+                              </div>
+
+                              <div class="empty-file" *ngIf="networkConnectionErrorPlaceHolderForSalaryTemplate">
+                                <div class="errorboxmain">
+                                  <div class="errorboxinner text-center">
+                                    <div class="errorboxplaceholder mb-2">
+                                      <img src="assets/images/signal.svg" style="width: 80px" />
+                                    </div>
+                                    <div class="">
+                                      <h4>Something went wrong</h4>
+                                      <p>
+                                        An error occurred while processing your request.
+                                        Please refresh the page and try again.
+                                      </p>
                                     </div>
                                   </div>
                                 </div>
-                              </ng-template>
-                          
+                              </div>
+                            </ng-template>
+
                           </div>
-                      </div>
+                        </div>
 
                       </div>
                       <div class="col-md-1"></div>
@@ -1773,7 +1779,162 @@
                     </div>
                   </div>
                   <div id="pay_slip" *ngIf="salaryConfigurationStepId == PAY_SLIP">
-                    <div style="
+                    <div class="row d-flex justify-content-between">
+                      <div class="col-md-8">
+                        <h4>Payroll Details:</h4>
+                        <p class="text-muted">Here you can view the detailed breakdown of your payroll.</p>
+                      </div>
+                      <div class="col-md-4">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                          <div style="cursor: pointer;">
+                            <ng-container *ngIf="userRoleFlag; else salaryConfiguration">
+                              <span class="bonus-appraisal-configuration" style="cursor: pointer;"
+                                (click)="goToManageStatutory()">Edit salary configuration <i
+                                  class="bi bi-pencil"></i></span>
+                            </ng-container>
+                            <ng-template #salaryConfiguration>
+                              <span class="bonus-appraisal-configuration" style="cursor: pointer;"
+                                (click)="openBonusRequestModal()">Add Bonus</span> |
+
+                              <span class="bonus-appraisal-configuration" style="cursor: pointer;"
+                                (click)="openAppraisalRequestModal()">Appraise Now</span> |
+
+                              <span class="bonus-appraisal-configuration" style="cursor: pointer;"
+                                (click)="goToManageStatutory()">View users' configuration <i
+                                  class="bi bi-arrow-right"></i></span>
+                            </ng-template>
+                          </div>
+                        </div>
+                        <nz-date-picker nzMode="month" [nzSize]="size" [(ngModel)]="selectedDate"
+                          (ngModelChange)="onMonthChange($event)" [nzDisabledDate]="disableMonths"></nz-date-picker>
+                      </div>
+                    </div>
+                    <div class="row justify-content-center">
+                      <div class="col-md-8">
+                        <div class="row my-4">
+                          <div class="col-md-6" style="margin-top: -120px;">
+                            <ngx-charts-pie-chart [view]="view" [scheme]="colorScheme" [results]="single"
+                              [legend]="showLegend" [explodeSlices]="explodeSlices" [labels]="showLabels"
+                              [doughnut]="doughnut" [gradient]="gradient" (select)="onSelect($event)">
+                            </ngx-charts-pie-chart>
+                            <!-- <div class="center-label">
+                              {{ getCenterLabel() }}
+                            </div> -->
+                          </div>
+                          <div class="col-md-6">
+                            <h4>Payroll Summary</h4>
+                            <p class="text-muted">From {{this.startDate | date: 'dd'}} - {{this.endDate | date: 'dd
+                              MMMM, yyyy'}}</p>
+                            <div class="d-flex amounts">
+                              <div class="grosspay-border"></div>
+                              <div class="amount">
+                                <p>Gross Pay</p>
+                                <p class="value">₹{{employeePayslipResponse.grossPay}}</p>
+                              </div>
+                              <div class="deduction-border"></div>
+                              <div class="amount">
+                                <p>Deduction</p>
+                                <p class="value">₹{{employeePayslipResponse.deduction}}</p>
+                              </div>
+                              <div class="netpay-border"></div>
+                              <div class="amount">
+                                <p>Net Pay</p>
+                                <p class="value">₹{{employeePayslipResponse.netPay}}</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Second Section -->
+                        <div class="row pay-slip-breakup">
+                          <div class="col-md-4 mb-4"
+                            *ngFor="let employeePayslipBreakupResponse of employeePayslipBreakupResponseList">
+                            <div class="card">
+                              <div class="card-body">
+                                <div class="card-body-header">
+                                  <h5 class="card-title">{{employeePayslipBreakupResponse.name}}</h5>
+                                  <span class="card-body-header-icon">
+                                    <i class="{{employeePayslipBreakupResponse.iconClass}}"></i>
+                                  </span>
+                                </div>
+                                <h3>₹{{employeePayslipBreakupResponse.amount}}</h3>
+                                <p class="card-text text-muted">Last Update: 26 Aug 2022</p>
+                              </div>
+                            </div>
+                          </div>
+
+
+                          <div class="col-md-4 mb-4" *ngIf="employeePayslipDeductionResponse.epfAmount > 0">
+                            <div class="card">
+                              <div class="card-body">
+                                <div class="card-body-header">
+                                  <h5 class="card-title">EPF</h5>
+                                  <span class="card-body-header-icon">
+                                    <i class="bi bi-piggy-bank"></i>
+                                  </span>
+                                </div>
+                                <h3>₹{{employeePayslipDeductionResponse.epfAmount}}</h3>
+                                <p class="card-text text-muted">Last Update: 1 Feb 2023</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-4 mb-4" *ngIf="employeePayslipDeductionResponse.esiAmount > 0">
+                            <div class="card">
+                              <div class="card-body">
+                                <div class="card-body-header">
+                                  <h5 class="card-title">ESI</h5>
+                                  <span class="card-body-header-icon">
+                                    <i class="bi bi-receipt-cutoff"></i>
+                                  </span>
+                                </div>
+                                <h3>₹{{employeePayslipDeductionResponse.esiAmount}}</h3>
+                                <p class="card-text text-muted">Last Update: 20 Mar 2023</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-4 mb-4" *ngIf="employeePayslipDeductionResponse.tdsAmount > 0">
+                            <div class="card">
+                              <div class="card-body">
+                                <div class="card-body-header">
+                                  <h5 class="card-title">TDS</h5>
+                                  <span class="card-body-header-icon">
+                                    <i class="bi bi-bank"></i>
+                                  </span>
+                                </div>
+                                <h3>₹{{employeePayslipDeductionResponse.tdsAmount}}</h3>
+                                <p class="card-text text-muted">Last Update: 5 Apr 2023</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4 mt-3">
+                        <div class="documents-container">
+                          <div class="documents-header">
+                            <h2 style="color: #6666f3;">Pay Slip Log</h2>
+                          </div>
+                          <div class="documents-update">Last Update:
+                            {{employeePayslipLogResponseList[0].paySlipGeneratedDate | date : 'd MMM, y'}}
+                          </div>
+                          <div class="document-item"
+                            *ngFor="let employeePayslipLogResponse of employeePayslipLogResponseList">
+                            <div class="document-details">
+                              <i class="bi bi-file-earmark-text"></i>
+                              <p>{{employeePayslipLogResponse.paySlipMonth | date: 'MMMM, yyyy' }} Payslip
+                                <span>PDF</span>
+                              </p>
+                            </div>
+                            <div class="document-actions">
+                              <p>{{employeePayslipLogResponse.paySlipGeneratedDate | date:"dd MMM yy, hh:mm a"}}</p>
+                              <i class="bi bi-download"
+                                (click)="downloadPaySlip(employeePayslipLogResponse.paySlipUrl, 'Payslip')"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- <div style="
                         display: flex;
                         justify-content: space-between;
                         align-items: center;
@@ -1793,16 +1954,13 @@
                         </div>
                       </div>
                       <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <!-- Settings with conditional display -->
                         <div style="cursor: pointer;">
                           <ng-container *ngIf="userRoleFlag; else salaryConfiguration">
                             <span class="bonus-appraisal-configuration" style="cursor: pointer;" (click)="goToManageStatutory()">Edit salary configuration <i class="bi bi-pencil"></i></span>
                           </ng-container>
                           <ng-template #salaryConfiguration>
-                            <!-- Add Bonus Link -->
                             <span class="bonus-appraisal-configuration" style="cursor: pointer;" (click)="openBonusRequestModal()">Add Bonus</span> |
                             
-                            <!-- Appraisal Request Link -->
                             <span class="bonus-appraisal-configuration" style="cursor: pointer;" (click)="openAppraisalRequestModal()">Appraisal Request</span> |
 
                             <span class="bonus-appraisal-configuration" style="cursor: pointer;" (click)="goToManageStatutory()">View users' configuration <i class="bi bi-arrow-right"></i></span>
@@ -1902,7 +2060,7 @@
                           <img src="assets/images/pdf.svg" style="width: 20px" />
                         </a>
                       </div>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
                 <div class="p-3" id="document" role="" *ngIf="activeDocumentsTabFlag">
@@ -1919,9 +2077,7 @@
                         </div>
                       </div>
                       <div class="file-box-content row">
-                        <!-- Loop through each defined document in UserDocumentsRequest -->
                         <ng-container *ngIf="onboardingPreviewData.userDocuments">
-                          <!-- Secondary School Certificate -->
                           <div *ngIf="
                               onboardingPreviewData.userDocuments
                                 .secondarySchoolCertificate
@@ -1956,7 +2112,6 @@
                                 }}</small>
                             </div>
                           </div>
-                          <!-- High School Certificate -->
                           <div *ngIf="
                               onboardingPreviewData.userDocuments
                                 .highSchoolCertificate
@@ -3276,24 +3431,28 @@
 </div>
 
 <!-- Hidden button to trigger the modal -->
-<button type="button" style="display: none" id="appraisalRequestModalButton" #appraisalRequestModalButton data-bs-toggle="modal" data-bs-target="#appraisalRequestModal"></button>
+<button type="button" style="display: none" id="appraisalRequestModalButton" #appraisalRequestModalButton
+  data-bs-toggle="modal" data-bs-target="#appraisalRequestModal"></button>
 
 <!-- Modal structure -->
-<div class="modal fade" id="appraisalRequestModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="appraisalRequestModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Appraisal Request</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Appraise Now</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div class="mb-3">
           <label for="currentCTC" class="form-label">Current CTC</label>
-          <input type="text" id="currentCTC" class="form-control" placeholder="Current CTC" [(ngModel)]="appraisalRequest.previousCtc" disabled>
+          <input type="text" id="currentCTC" class="form-control" placeholder="Current CTC"
+            [(ngModel)]="appraisalRequest.previousCtc" disabled>
         </div>
         <div class="mb-3">
           <label for="newCTC" class="form-label">New CTC</label>
-          <input type="number" id="newCTC" class="form-control" placeholder="Enter the new CTC here" [(ngModel)]="appraisalRequest.updatedCtc">
+          <input type="number" id="newCTC" class="form-control" placeholder="Enter the new CTC here"
+            [(ngModel)]="appraisalRequest.updatedCtc">
         </div>
         <div class="mb-3">
           <label for="effectiveDate" class="form-label">Effective Date</label>
@@ -3308,10 +3467,12 @@
   </div>
 </div>
 
-<button type="button" style="display: none" id="bonusRequestModalButton" #bonusRequestModalButton data-bs-toggle="modal" data-bs-target="#addBonusModal"></button>
+<button type="button" style="display: none" id="bonusRequestModalButton" #bonusRequestModalButton data-bs-toggle="modal"
+  data-bs-target="#addBonusModal"></button>
 
 
-<div class="modal fade" id="addBonusModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="addBonusModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -3330,7 +3491,8 @@
           <!-- Name input -->
           <div class="mb-3">
             <label for="name" class="form-label">Name</label>
-            <input type="text" id="name" name="name" class="form-control" [(ngModel)]="user.name" required #name="ngModel" readonly>
+            <input type="text" id="name" name="name" class="form-control" [(ngModel)]="user.name" required
+              #name="ngModel" readonly>
           </div>
 
           <!-- Email input -->
@@ -3342,21 +3504,23 @@
           <!-- Amount input -->
           <div class="mb-3">
             <label for="amount" class="form-label">Amount</label>
-            <input type="number" id="amount" name="amount" class="form-control" [(ngModel)]="bonusRequest.amount" required #amount="ngModel">
+            <input type="number" id="amount" name="amount" class="form-control" [(ngModel)]="bonusRequest.amount"
+              required #amount="ngModel">
             <!-- Display validation errors -->
             <div *ngIf="amount.touched && amount.invalid">
-                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="amount.errors?.required">
-                    <i class="bi bi-exclamation-circle"></i>
-                    Amount is required.
-                </p>
-            
+              <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="amount.errors?.required">
+                <i class="bi bi-exclamation-circle"></i>
+                Amount is required.
+              </p>
+
             </div>
           </div>
 
           <!-- Comments input -->
           <div class="mb-3">
             <label for="comments" class="form-label">Comments</label>
-            <textarea id="comments" name="comments" class="form-control" placeholder="Please specify the reason" [(ngModel)]="bonusRequest.comment"></textarea>
+            <textarea id="comments" name="comments" class="form-control" placeholder="Please specify the reason"
+              [(ngModel)]="bonusRequest.comment"></textarea>
           </div>
 
           <!-- Modal footer with buttons -->
