@@ -110,8 +110,8 @@
                             " class="btn btn-soft-danger btn-icon-circle btn-icon-circle-sm me-2 position-relative">
                             <i class="ti ti-alert-octagon font-16"></i>
                           </button>
-                          
-                        
+
+
                         </h5>
                         <p class="mb-0 met-user-name-post">
                           {{ user.department || "N/A" }}
@@ -208,7 +208,7 @@
                   <a class="nav-link" data-bs-toggle="tab" href="#attendance" role="tab"
                     aria-selected="true">Attendance</a>
                 </li>
-                <li class="nav-item" (click)="activeTabs('finances')">
+                <li class="nav-item" (click)="activeTabs('finances'); financeSectionMethodCall()">
                   <a class="nav-link" data-bs-toggle="tab" href="#payslip" role="tab" aria-selected="false">Finances</a>
                 </li>
                 <li class="nav-item" (click)="activeTabs('documents')">
@@ -1797,7 +1797,7 @@
                                 (click)="openBonusRequestModal()">Add Bonus</span> |
 
                               <span class="bonus-appraisal-configuration" style="cursor: pointer;"
-                                (click)="openAppraisalRequestModal()">Appraisal Request</span> |
+                                (click)="openAppraisalRequestModal()">Appraise Now</span> |
 
                               <span class="bonus-appraisal-configuration" style="cursor: pointer;"
                                 (click)="goToManageStatutory()">View users' configuration <i
@@ -1812,7 +1812,7 @@
                     <div class="row justify-content-center">
                       <div class="col-md-8">
                         <div class="row my-4">
-                          <div class="col-md-6" style="margin-top: -125px;">
+                          <div class="col-md-6" style="margin-top: -120px;">
                             <ngx-charts-pie-chart [view]="view" [scheme]="colorScheme" [results]="single"
                               [legend]="showLegend" [explodeSlices]="explodeSlices" [labels]="showLabels"
                               [doughnut]="doughnut" [gradient]="gradient" (select)="onSelect($event)">
@@ -1823,123 +1823,85 @@
                           </div>
                           <div class="col-md-6">
                             <h4>Payroll Summary</h4>
-                            <p class="text-muted">From 1-31 March, 2022</p>
+                            <p class="text-muted">From {{this.startDate | date: 'dd'}} - {{this.endDate | date: 'dd
+                              MMMM, yyyy'}}</p>
                             <div class="d-flex amounts">
-                              <div class="earnings-border"></div>
+                              <div class="grosspay-border"></div>
                               <div class="amount">
-                                <p>Earnings</p>
-                                <p class="value">$181.34</p>
+                                <p>Gross Pay</p>
+                                <p class="value">₹{{employeePayslipResponse.grossPay}}</p>
                               </div>
                               <div class="deduction-border"></div>
                               <div class="amount">
                                 <p>Deduction</p>
-                                <p class="value">$37.13</p>
+                                <p class="value">₹{{employeePayslipResponse.deduction}}</p>
                               </div>
-                              <div class="overtime-border"></div>
+                              <div class="netpay-border"></div>
                               <div class="amount">
-                                <p>Overtime</p>
-                                <p class="value">$234.20</p>
+                                <p>Net Pay</p>
+                                <p class="value">₹{{employeePayslipResponse.netPay}}</p>
                               </div>
                             </div>
                           </div>
                         </div>
 
                         <!-- Second Section -->
-                        <div class="row">
-                          <div class="col-md-4 mb-4">
+                        <div class="row pay-slip-breakup">
+                          <div class="col-md-4 mb-4"
+                            *ngFor="let employeePayslipBreakupResponse of employeePayslipBreakupResponseList">
                             <div class="card">
                               <div class="card-body">
                                 <div class="card-body-header">
-                                  <h5 class="card-title">Basic Pay</h5>
+                                  <h5 class="card-title">{{employeePayslipBreakupResponse.name}}</h5>
                                   <span class="card-body-header-icon">
-                                    <i class="bi bi-cash"></i>
+                                    <i class="{{employeePayslipBreakupResponse.iconClass}}"></i>
                                   </span>
                                 </div>
-                                <h3>₹10,00,000</h3>
+                                <h3>₹{{employeePayslipBreakupResponse.amount}}</h3>
                                 <p class="card-text text-muted">Last Update: 26 Aug 2022</p>
                               </div>
                             </div>
                           </div>
-                          <div class="col-md-4 mb-4">
-                            <div class="card">
-                              <div class="card-body">
-                                <div class="card-body-header">
-                                  <h5 class="card-title">HRA</h5>
-                                  <span class="card-body-header-icon">
-                                    <i class="bi bi-house-add"></i>
-                                  </span>
-                                </div>
-                                <h3>₹25,000</h3>
-                                <p class="card-text text-muted">Last Update: 5 Jan 2023</p>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-md-4 mb-4">
-                            <div class="card">
-                              <div class="card-body">
-                                <div class="card-body-header">
-                                  <h5 class="card-title">Conveyance Allowance</h5>
-                                  <span class="card-body-header-icon">
-                                    <i class="bi bi-car-front"></i>
-                                  </span>
-                                </div>
-                                <h3>₹5,525</h3>
-                                <p class="card-text text-muted">Last Update: 14 Mar 2023</p>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-md-4 mb-4">
-                            <div class="card">
-                              <div class="card-body">
-                                <div class="card-body-header">
-                                  <h5 class="card-title">Other Allowances</h5>
-                                  <span class="card-body-header-icon">
-                                    <i class="bi bi-cash-stack"></i>
-                                  </span>
-                                </div>
-                                <h3>₹56,625</h3>
-                                <p class="card-text text-muted">Last Update: 10 Apr 2023</p>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-md-4 mb-4">
+
+
+                          <div class="col-md-4 mb-4" *ngIf="employeePayslipDeductionResponse.epfAmount > 0">
                             <div class="card">
                               <div class="card-body">
                                 <div class="card-body-header">
                                   <h5 class="card-title">EPF</h5>
                                   <span class="card-body-header-icon">
-                                    <i class="bi bi-bank"></i>
+                                    <i class="bi bi-piggy-bank"></i>
                                   </span>
                                 </div>
-                                <h3>₹12,000</h3>
+                                <h3>₹{{employeePayslipDeductionResponse.epfAmount}}</h3>
                                 <p class="card-text text-muted">Last Update: 1 Feb 2023</p>
                               </div>
                             </div>
                           </div>
-                          <div class="col-md-4 mb-4">
+                          <div class="col-md-4 mb-4" *ngIf="employeePayslipDeductionResponse.esiAmount > 0">
                             <div class="card">
                               <div class="card-body">
                                 <div class="card-body-header">
                                   <h5 class="card-title">ESI</h5>
                                   <span class="card-body-header-icon">
-                                    <i class="bi bi-cash"></i>
+                                    <i class="bi bi-receipt-cutoff"></i>
                                   </span>
                                 </div>
-                                <h3>₹15,000</h3>
+                                <h3>₹{{employeePayslipDeductionResponse.esiAmount}}</h3>
                                 <p class="card-text text-muted">Last Update: 20 Mar 2023</p>
                               </div>
                             </div>
                           </div>
-                          <div class="col-md-4 mb-4">
+                          <div class="col-md-4 mb-4" *ngIf="employeePayslipDeductionResponse.tdsAmount > 0">
                             <div class="card">
                               <div class="card-body">
                                 <div class="card-body-header">
                                   <h5 class="card-title">TDS</h5>
                                   <span class="card-body-header-icon">
-                                    <i class="bi bi-currency-exchange"></i>
+                                    <i class="bi bi-bank"></i>
                                   </span>
                                 </div>
-                                <h3>₹8,000</h3>
+                                <h3>₹{{employeePayslipDeductionResponse.tdsAmount}}</h3>
                                 <p class="card-text text-muted">Last Update: 5 Apr 2023</p>
                               </div>
                             </div>
@@ -1949,64 +1911,23 @@
                       <div class="col-md-4 mt-3">
                         <div class="documents-container">
                           <div class="documents-header">
-                            <h2>Pay Slips</h2>
-                            <a href="#">SHOW DETAILS</a>
+                            <h2 style="color: #6666f3;">Pay Slip Log</h2>
                           </div>
-                          <div class="documents-update">Last Update: 26 Aug 2023</div>
-                          <div class="document-item">
+                          <div class="documents-update">Last Update:
+                            {{employeePayslipLogResponseList[0].paySlipGeneratedDate | date : 'd MMM, y'}}
+                          </div>
+                          <div class="document-item"
+                            *ngFor="let employeePayslipLogResponse of employeePayslipLogResponseList">
                             <div class="document-details">
-                              <img src="https://img.icons8.com/material-outlined/24/000000/document.png"
-                                alt="Document Icon">
-                              <p>Mar 23 Payslip <span>PDF</span></p>
+                              <i class="bi bi-file-earmark-text"></i>
+                              <p>{{employeePayslipLogResponse.paySlipMonth | date: 'MMMM, yyyy' }} Payslip
+                                <span>PDF</span>
+                              </p>
                             </div>
                             <div class="document-actions">
-                              <p>2 Mar 23, 5:36 PM</p>
-                              <a href="#">
-                                <img src="https://img.icons8.com/material-outlined/24/ffffff/download.png"
-                                  alt="Download Icon">
-                              </a>
-                            </div>
-                          </div>
-                          <div class="document-item">
-                            <div class="document-details">
-                              <img src="https://img.icons8.com/material-outlined/24/000000/document.png"
-                                alt="Document Icon">
-                              <p>Feb 23 Payslip <span>PDF</span></p>
-                            </div>
-                            <div class="document-actions">
-                              <p>2 Feb 23, 4:20 PM</p>
-                              <a href="#">
-                                <img src="https://img.icons8.com/material-outlined/24/ffffff/download.png"
-                                  alt="Download Icon">
-                              </a>
-                            </div>
-                          </div>
-                          <div class="document-item">
-                            <div class="document-details">
-                              <img src="https://img.icons8.com/material-outlined/24/000000/document.png"
-                                alt="Document Icon">
-                              <p>Form 16 <span>PDF</span></p>
-                            </div>
-                            <div class="document-actions">
-                              <p>2 Feb 23, 4:08 PM</p>
-                              <a href="#">
-                                <img src="https://img.icons8.com/material-outlined/24/ffffff/download.png"
-                                  alt="Download Icon">
-                              </a>
-                            </div>
-                          </div>
-                          <div class="document-item">
-                            <div class="document-details">
-                              <img src="https://img.icons8.com/material-outlined/24/000000/document.png"
-                                alt="Document Icon">
-                              <p>Jan 23 Payslip <span>PDF</span></p>
-                            </div>
-                            <div class="document-actions">
-                              <p>2 Jan 23, 11:24 AM</p>
-                              <a href="#">
-                                <img src="https://img.icons8.com/material-outlined/24/ffffff/download.png"
-                                  alt="Download Icon">
-                              </a>
+                              <p>{{employeePayslipLogResponse.paySlipGeneratedDate | date:"dd MMM yy, hh:mm a"}}</p>
+                              <i class="bi bi-download"
+                                (click)="downloadPaySlip(employeePayslipLogResponse.paySlipUrl, 'Payslip')"></i>
                             </div>
                           </div>
                         </div>
