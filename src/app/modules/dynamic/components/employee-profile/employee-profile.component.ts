@@ -52,7 +52,6 @@ import { EmployeePayslipResponse } from 'src/app/models/employee-payslip-respons
 import { EmployeePayslipBreakupResponse } from 'src/app/models/employee-payslip-breakup-response';
 import { EmployeePayslipDeductionResponse } from 'src/app/models/employee-payslip-deduction-response';
 import { EmployeePayslipLogResponse } from 'src/app/employee-payslip-log-response';
-import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 
 @Component({
@@ -89,8 +88,7 @@ export class EmployeeProfileComponent implements OnInit {
     private roleService: RoleBasedAccessControlService,
     public location: Location,
     public domSanitizer: DomSanitizer,
-    private afStorage: AngularFireStorage,
-    private msg: NzMessageService
+    private afStorage: AngularFireStorage
   ) {
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
@@ -2580,9 +2578,9 @@ export class EmployeeProfileComponent implements OnInit {
       console.log(info.file, info.fileList);
     }
     if (info.file.status === 'done') {
-      this.msg.success(`${info.file.name} file uploaded successfully.`);
+      // this.msg.success(`${info.file.name} file uploaded successfully.`);
     } else if (info.file.status === 'error') {
-      this.msg.error(`${info.file.name} file upload failed.`);
+      // this.msg.error(`${info.file.name} file upload failed.`);
     }
   }
 
