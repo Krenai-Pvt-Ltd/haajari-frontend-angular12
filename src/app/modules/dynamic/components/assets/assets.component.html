@@ -13,7 +13,7 @@
                     </div>
                     <!--end col-->
                     <div class="col-auto">
-                      <a type="button" data-bs-toggle="modal" data-bs-target="#createCategoryModal">
+                      <a type="button" data-bs-toggle="modal" data-bs-target="#createCategoryModal" (click)="assignCategoryId(0)">
                         <i class="bi bi-plus" style="font-size: 18px"></i> Create Category </a>
                     </div>
                     <!--end col-->
@@ -29,12 +29,14 @@
                         <th class="text-end">Assigned</th>
                         <th class="text-end">Available</th>
                         <th class="text-end">Unavailable</th>
+                        <th class="text-end">Action</th>
+
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody *ngIf="assetCategoryData.length == 0" style="height: 40px;">
                       <tr>
                         <td colspan="4">
-                        <div class="errorboxmain text-center" *ngIf="assetCategoryData.length == 0">
+                        <div class="errorboxmain text-center" >
                           <div class="errorboxinner">
                             <div class="errorboxplaceholder mb-2">
                               <img src="assets/images/empty-box.svg" style="width: 80px" />
@@ -51,12 +53,13 @@
                         </td>
                       </tr>
                     </tbody>
-                    <tbody>
+                    <tbody *ngIf="assetCategoryData.length > 0">
                       <tr *ngFor="let acd of assetCategoryData">
                         <td>{{acd.categoryName}}</td>
                         <td class="text-end"><b>{{acd.assignedCount}}</b></td>
                         <td class="text-end"><b>{{acd.availableCount}}</b></td>
                         <td class="text-end"><b>{{acd.unavailableCount}}</b></td>
+                        <td class="text-end" style="cursor: pointer;"><i class="bi bi-pencil" data-bs-toggle="modal" data-bs-target="#createCategoryModal" (click)="assignCategoryId(acd.categoryId)"></i></td>
                       </tr>
                     </tbody>
                   </table>
@@ -161,7 +164,7 @@
                       [gradient]="false"
                       [xAxis]="true"
                       [yAxis]="true"
-                      [legend]="false"
+                      [legend]="true"
                       [animations]="true">
                     </ngx-charts-bar-vertical-stacked>
                   </div>
@@ -189,11 +192,10 @@
                 <div class="card">
                     <div class="card-header">
                       <div class="row align-items-center">
-                        <div class="col">
-                          <div class="d-flex align-items-center">
-                            <!-- <h4 class="card-title mb-0">Assets</h4> -->
+                        <div class="col">                      
+                            <!-- <h4 class="card-title">Assets</h4>-->
                             <form role="search" class="searching ms-3 mb-0" style="width: 100%">
-                              <div class="form-group mb-0" style="width: 100%; position: relative">
+                              <div class="form-group mb-0" style="width: 100%; position: relative; margin-top: 19px">
                                 <input type="text" id="searchText" placeholder="Search by name or serial number..."
                                        class="form-control me-2" (keyup)="searchAssets()" [(ngModel)]="search"
                                        [ngModelOptions]="{ standalone: true }" style="padding: 10px 40px; border: none;" />
@@ -203,14 +205,14 @@
                                    *ngIf="crossFlag" (click)="clearSearch()"></i>
                               </div>
                             </form>
-                          </div>
                         </div><!--end col-->
                         <div class="col-auto">
-                          <a type="button" data-bs-toggle="modal" data-bs-target="#createAssetModal">
-                            <i class="bi bi-plus" style="font-size: 18px"></i> Create Asset
-                          </a>
-                        </div>
-                        </div>  <!--end row-->                                  
+                            <a type="button" data-bs-toggle="modal" data-bs-target="#createAssetModal" (click)="assignAssetId(0)">
+                              <i class="bi bi-plus" style="font-size: 18px"></i> Create Asset </a>
+                          </div>
+                    </div>  <!--end row-->   
+
+                                                 
                     </div><!--end card-header-->
                     <div class="card-body">  
                                                   
@@ -250,8 +252,9 @@
                                       </td>
                                     </tr></tbody>
                                 <tbody *ngIf="totalCount > 0">
-                                <tr *ngFor="let ad of assetData">
-                                    <td>#{{ad.assetId || 'N/A'}}</td>
+                                <tr *ngFor="let ad of assetData; let i = index">
+                                    <!-- <td>#{{ad.assetId || 'N/A'}}</td> -->
+                                    <td>#{{ i + 1 + (pageNumber - 1) * itemPerPage }}</td>
                                     <td>{{ad.assetName || 'N/A'}}</td>
                                     <td>{{ad.serialNumber || 'N/A'}}</td>
                                     <td>{{ad.expiryDate || 'N/A'}}</td>
@@ -269,10 +272,15 @@
                                       <ng-container *ngIf="ad.status === 'ASSIGNED'"> - {{ ad.userName }}</ng-container>
                                     </td>
                                     
-                                    <td *ngIf="ad.status === 'UNAVAILABLE'"> - </td>
-                                    <td *ngIf="ad.status === 'ASSIGNED' || ad.status === 'AVAILABLE'" ><i class="bi bi-pencil" style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#assignRejectModal" (click)="assignOrRejectModalStrings(ad.status, ad.assetId)"></i>
+                                    <td *ngIf="ad.status === 'UNAVAILABLE'"><i class="bi bi-trash text-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)"></i>  </td>
+                                    <td *ngIf="ad.status === 'AVAILABLE'" ><i class="fas fa-bullhorn text-success"  ngbTooltip="Assign User" style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#assignRejectModal" (click)="assignOrRejectModalStrings(ad.status, ad.assetId)"></i>
                                       <span style="cursor: pointer" (click)="makeAssetUnavailable('UNAVAILABLE', ad.assetId)"  ngbTooltip="Mark as unavailable"
-                                      placement="top"><i class="mdi mdi-arrow-up-drop-circle-outline text-success ml-1" ></i></span> </td>
+                                      placement="top"><i class="mdi mdi-arrow-up-drop-circle-outline text-success ml-1" ></i></span><i class="bi bi-trash text-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)"></i><i class="bi bi-pencil" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#createAssetModal" (click)="assignAssetId(ad.assetId)"></i> </td>
+                                    <td *ngIf="ad.status === 'ASSIGNED'" ><i class="fas fa-bullhorn text-muted" ngbTooltip="Return Entry" style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#assignRejectModal" (click)="assignOrRejectModalStrings(ad.status, ad.assetId)"></i>
+                                      <span style="cursor: pointer" (click)="makeAssetUnavailable('UNAVAILABLE', ad.assetId)"  ngbTooltip="Mark as unavailable"
+                                      placement="top"><i class="mdi mdi-arrow-up-drop-circle-outline text-success ml-1" ></i></span><i class="bi bi-trash text-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)"></i><i class="bi bi-pencil" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#createAssetModal" (click)="assignAssetId(ad.assetId)"></i> </td>
+
+                                      
                                 </tr><!--end tr-->
                                 <tr>
                                   <td colspan="11">
@@ -331,8 +339,8 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-         
-          <form (ngSubmit)="saveCategory()" #categoryForm="ngForm">
+         <!-- {{categoryId}} -->
+          <form (ngSubmit)="saveOrUpdateCategory()" #categoryForm="ngForm">
             <div class="mb-3">
               <label for="categoryName" class="form-label">Category Name <span class="text-optional">*</span></label>
               <input type="text" class="form-control" id="categoryName" name="categoryName" placeholder="Type category name here..." [(ngModel)]="newCategory.categoryName" required #categoryName="ngModel">
@@ -368,8 +376,9 @@
           <h5 class="modal-title" id="createAssetModalLabel">Create Asset</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
+        <!-- {{assetIdToUpdate}} -->
         <div class="modal-body">
-          <form [formGroup]="assetForm" (ngSubmit)="saveAsset()">
+          <form [formGroup]="assetForm" (ngSubmit)="updateOrSaveAsset()">
             <div class="mb-3">
               <label for="assetName" class="form-label">Asset Name <span class="text-danger">*</span></label>
               <input type="text" class="form-control" id="assetName" formControlName="assetName" placeholder="Type asset name here...">
@@ -563,5 +572,52 @@
       </div>
     </div>
   </div>
+
+  <div class="modal fade" id="deleteConfirmationModal" #deleteConfirmationModal tabindex="-1"
+  aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="false">
+  <div class="modal-dialog modal-dialog-centered mx-auto mx-auto" style="max-width: 600px !important">
+    <div class="modal-content">
+      <!--end modal-header-->
+      <div class="modal-body">
+        <form #confirmationForm="ngForm">
+          <div class="row">
+            <div class="col-lg-3 text-center align-self-center">
+              <img src="assets/images/recycle-bin.svg" alt="" class="img-fluid" />
+            </div>
+            <!--end col-->
+            <div class="col-lg-9">
+              <h5>Remove Asset from your Organization</h5>
+              <span class="badge bg-warning font-14">Are you sure want to remove this asset?</span>
+              <ul class="mt-3 mb-0">
+                <li>
+                  This action will delete this asset from your organization for assigned
+                   users also.
+                </li>
+                <!-- <li>Other associated information from the system</li> -->
+              </ul>
+            </div>
+            <!--end col-->
+          </div>
+          <!--end row-->
+        </form>
+      </div>
+      <!--end modal-body-->
+      <div class="modal-footer d-flex align-items-center justify-content-between">
+        <button type="button" class="btn btn-de-secondary btn-sm" data-bs-dismiss="modal" #closeUserDeleteModal>
+          Close
+        </button>
+        <button type="button" class="btn btn-danger btn-sm" (click)="deleteAssetData()">
+          <span *ngIf="!disableLoader"> Delete Asset</span>
+          <div class="dot-opacity-loader" *ngIf="disableLoader">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </button>
+      </div>
+      <!--end modal-footer-->
+    </div>
+  </div>
+</div>
   
   

@@ -3377,6 +3377,17 @@ export class DataService {
     );
   }
 
+  getAssetCategoryById(categoryId: number): Observable<any> {
+    let params = new HttpParams()
+      .set('categoryId', categoryId);
+    const url = `${this.baseUrl}/asset/allocation/get/asset/category/by/Id`;
+    return this.httpClient.get<any>(url, {params}).pipe(
+      catchError((error) => {
+        throw error;
+      })
+    );
+  }
+
   getAllAssetCategory(): Observable<any> {
     const url = `${this.baseUrl}/asset/allocation/get/All/asset/category`;
     return this.httpClient.get<any>(url, {}).pipe(
@@ -3431,12 +3442,31 @@ export class DataService {
     );
   }
 
+  getAssetById(assetId: number): Observable<any> {
+    let params = new HttpParams()
+      .set('assetId', assetId);
+    const url = `${this.baseUrl}/asset/allocation/get/asset/by/Id`;
+    return this.httpClient.get<any>(url, {params}).pipe(
+      catchError((error) => {
+        throw error;
+      })
+    );
+  }
+
+  
+
   createAssetCategory(assetCategoryRequest: AssetCategoryRequest): Observable<any> {
     return this.httpClient.post<any>(`${this.baseUrl}/asset/allocation/create/asset/category`, assetCategoryRequest);
   }
 
   createAsset(assetRequest: OrganizationAssetRequest): Observable<any> {
     return this.httpClient.post<any>(`${this.baseUrl}/asset/allocation/create/asset`, assetRequest);
+  }
+
+  updateAssetCategory(categoryId: number, category: AssetCategoryRequest): Observable<any> {
+    const params = new HttpParams()
+      .set('categoryId', categoryId);
+    return this.httpClient.put(`${this.baseUrl}/asset/allocation/edit/asset/category`, category, { params});
   }
 
   assignOrReturnAsset(assetId: number, operationString: string, assignOrReturnRequest: any): Observable<any> {
@@ -3452,7 +3482,15 @@ export class DataService {
     const url = `${this.baseUrl}/asset/allocation/category-counts`;
     return this.httpClient.get<any>(url);
   }
+
+  deleteAsset(assetId: number): Observable<any>{
+    const params = new HttpParams()
+    .set('assetId', assetId)
+    return this.httpClient.delete<any>(`${this.baseUrl}/asset/allocation/delete/asset`, {params});
+  }
+
   
+
   getEmployeePayslipResponseByUserUuid(userUuid : string, startDate : string, endDate : string): Observable<any>{
     const params = new HttpParams()
     .set('user_uuid', userUuid)
@@ -3489,4 +3527,10 @@ export class DataService {
 
     return this.httpClient.get<any>(`${this.baseUrl}/salary/month-wise/pay-slip-log`, {params});
   }
+
+
+  
+
+
+  
 }

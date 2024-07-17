@@ -1,4 +1,5 @@
 export interface AssetCategoryResponse {
+    categoryId: number;
     categoryName: string;
     categoryImage: string;
     assignedCount: number;
