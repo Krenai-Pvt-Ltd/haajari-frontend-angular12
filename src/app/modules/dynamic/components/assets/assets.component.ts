@@ -161,7 +161,8 @@ saveCategory(): void {
         document.getElementById('createCategoryModal')?.click();
         this.newCategory = { categoryName: '', categoryImage: '' };
         this.imagePreviewUrl = null;
-        this.getCategoryCounts();
+        this.getAllAssetCategoryData();
+        // this.getCategoryCounts();
       },
       error => {
         console.error('Error creating asset category:', error);
