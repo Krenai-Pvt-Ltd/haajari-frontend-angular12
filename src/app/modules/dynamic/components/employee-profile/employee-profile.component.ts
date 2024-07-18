@@ -52,7 +52,6 @@ import { EmployeePayslipResponse } from 'src/app/models/employee-payslip-respons
 import { EmployeePayslipBreakupResponse } from 'src/app/models/employee-payslip-breakup-response';
 import { EmployeePayslipDeductionResponse } from 'src/app/models/employee-payslip-deduction-response';
 import { EmployeePayslipLogResponse } from 'src/app/employee-payslip-log-response';
-import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 
 @Component({
@@ -89,8 +88,7 @@ export class EmployeeProfileComponent implements OnInit {
     private roleService: RoleBasedAccessControlService,
     public location: Location,
     public domSanitizer: DomSanitizer,
-    private afStorage: AngularFireStorage,
-    private msg: NzMessageService
+    private afStorage: AngularFireStorage
   ) {
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
@@ -2267,6 +2265,7 @@ export class EmployeeProfileComponent implements OnInit {
   activeHomeTabFlag: boolean = false;
   activeAttendanceTabFlag: boolean = false;
   activeFinancesTabFlag: boolean = false;
+  activeAssetsTabFlag: boolean = false;
   activeDocumentsTabFlag: boolean = false;
   activeProfileTabFlag: boolean = false;
 
@@ -2276,30 +2275,42 @@ export class EmployeeProfileComponent implements OnInit {
       this.activeAttendanceTabFlag = false;
       this.activeFinancesTabFlag = false;
       this.activeDocumentsTabFlag = false;
+      this.activeAssetsTabFlag = false;
       this.activeProfileTabFlag = false;
     } else if (activeTabString === 'attendance') {
       this.activeHomeTabFlag = false;
       this.activeAttendanceTabFlag = true;
       this.activeFinancesTabFlag = false;
       this.activeDocumentsTabFlag = false;
+      this.activeAssetsTabFlag = false;
       this.activeProfileTabFlag = false;
     } else if (activeTabString === 'finances') {
       this.activeHomeTabFlag = false;
       this.activeAttendanceTabFlag = false;
       this.activeFinancesTabFlag = true;
       this.activeDocumentsTabFlag = false;
+      this.activeAssetsTabFlag = false;
+      this.activeProfileTabFlag = false;
+    }else if (activeTabString === 'assets') {
+      this.activeHomeTabFlag = false;
+      this.activeAttendanceTabFlag = false;
+      this.activeAssetsTabFlag = true;
+      this.activeDocumentsTabFlag = false;
+      this.activeFinancesTabFlag = false;
       this.activeProfileTabFlag = false;
     } else if (activeTabString === 'documents') {
       this.activeHomeTabFlag = false;
       this.activeAttendanceTabFlag = false;
       this.activeFinancesTabFlag = false;
       this.activeDocumentsTabFlag = true;
+      this.activeAssetsTabFlag = false;
       this.activeProfileTabFlag = false;
     } else if (activeTabString === 'profile') {
       this.activeHomeTabFlag = false;
       this.activeAttendanceTabFlag = false;
       this.activeFinancesTabFlag = false;
       this.activeDocumentsTabFlag = false;
+      this.activeAssetsTabFlag = false;
       this.activeProfileTabFlag = true;
     }
   }
@@ -2314,7 +2325,7 @@ export class EmployeeProfileComponent implements OnInit {
 
   getFileTypeIcon(fileUrl: string): string {
     // Log the file URL to inspect its format
-    console.log('File URL:', fileUrl);
+    // console.log('File URL:', fileUrl);
 
     // Extract the file extension, ensuring you consider URLs with parameters or fragments
     const url = new URL(fileUrl, window.location.origin); // This normalizes the URL
@@ -2322,7 +2333,7 @@ export class EmployeeProfileComponent implements OnInit {
     const extension = `.${fileName?.split('.').pop()?.toLowerCase()}`;
 
     // Log the detected extension
-    console.log('Detected extension:', extension);
+    // console.log('Detected extension:', extension);
 
     // Return the corresponding icon class or a default value
     return this.fileTypeToIcon[extension] || 'lar la-file text-secondary';
@@ -2580,9 +2591,9 @@ export class EmployeeProfileComponent implements OnInit {
       console.log(info.file, info.fileList);
     }
     if (info.file.status === 'done') {
-      this.msg.success(`${info.file.name} file uploaded successfully.`);
+      // this.msg.success(`${info.file.name} file uploaded successfully.`);
     } else if (info.file.status === 'error') {
-      this.msg.error(`${info.file.name} file upload failed.`);
+      // this.msg.error(`${info.file.name} file upload failed.`);
     }
   }
 
@@ -2622,7 +2633,7 @@ export class EmployeeProfileComponent implements OnInit {
           .getDownloadURL()
           .toPromise()
           .then((url) => {
-            console.log('File URL:', url);
+            // console.log('File URL:', url);
             this.fileToUpload = url;
             // console.log('file url : ' + this.fileToUpload);
             this.isFileUploaded = false;

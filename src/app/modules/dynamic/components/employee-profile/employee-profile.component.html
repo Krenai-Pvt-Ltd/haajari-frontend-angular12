@@ -215,6 +215,9 @@
                   <a class="nav-link" data-bs-toggle="tab" href="#document" role="tab"
                     aria-selected="false">Documents</a>
                 </li>
+                <li class="nav-item" (click)="activeTabs('assets')">
+                  <a class="nav-link" data-bs-toggle="tab" href="#asset" role="tab" aria-selected="false">Assets</a>
+                </li>
                 <li class="nav-item" (click)="activeTabs('profile')">
                   <a class="nav-link" data-bs-toggle="tab" href="#profile" role="tab" aria-selected="false">Profile</a>
                 </li>
@@ -2393,6 +2396,12 @@
                         </div>
                       </div>
                     </div>
+                    <!--end col-->
+                  </div>
+                </div>
+                <div class="p-3" id="asset" role="" *ngIf="activeAssetsTabFlag">
+                  <div class="row">
+                    
                     <!--end col-->
                   </div>
                 </div>
