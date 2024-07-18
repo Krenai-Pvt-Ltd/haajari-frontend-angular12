@@ -75,8 +75,9 @@
                 <div class="card">
                   <div class="card-body">
                     <div class="row align-items-center">
-                      <div class="col text-center" style="cursor: pointer;" data-bs-toggle="modal"
-                        data-bs-target="#systemEntriesModal" (click)="getTotalAssetsStatusWiseData('ALL')">
+                      <!-- style="cursor: pointer;" data-bs-toggle="modal"
+                        data-bs-target="#systemEntriesModal" (click)="getTotalAssetsStatusWiseData('ALL')" -->
+                      <div class="col text-center" >
                         <span class="h5  fw-bold">{{totalAssetData?.totalAsset || 0}}</span>
                         <h6 class="text-uppercase text-muted mt-2 m-0 font-11">Total Assets</h6>
                       </div>
@@ -93,8 +94,9 @@
                 <div class="card">
                   <div class="card-body">
                     <div class="row align-items-center">
-                      <div class="col text-center" style="cursor: pointer;" data-bs-toggle="modal"
-                        data-bs-target="#systemEntriesModal" (click)="getTotalAssetsStatusWiseData('AVAILABLE')">
+                      <!-- style="cursor: pointer;" data-bs-toggle="modal"
+                        data-bs-target="#systemEntriesModal" (click)="getTotalAssetsStatusWiseData('AVAILABLE')" -->
+                      <div class="col text-center" >
                         <span class="h5  fw-bold">{{totalAssetData?.totalAvailableAsset || 0}}</span>
                         <h6 class="text-uppercase text-muted mt-2 m-0 font-11">Available Assets</h6>
                       </div>
@@ -111,8 +113,9 @@
                 <div class="card">
                   <div class="card-body">
                     <div class="row align-items-center">
-                      <div class="col text-center" style="cursor: pointer;" data-bs-toggle="modal"
-                        data-bs-target="#systemEntriesModal" (click)="getTotalAssetsStatusWiseData('ASSIGNED')">
+                      <!-- style="cursor: pointer;" data-bs-toggle="modal"
+                        data-bs-target="#systemEntriesModal" (click)="getTotalAssetsStatusWiseData('ASSIGNED')" -->
+                      <div class="col text-center" >
                         <span class="h5  fw-bold">{{totalAssetData?.totalAssignedAsset || 0}}</span>
                         <h6 class="text-uppercase text-muted mt-2 m-0 font-11">Assigned Assets</h6>
                       </div>
@@ -129,8 +132,9 @@
                 <div class="card">
                   <div class="card-body">
                     <div class="row align-items-center">
-                      <div class="col text-center" style="cursor: pointer;" data-bs-toggle="modal"
-                        data-bs-target="#systemEntriesModal" (click)="getTotalAssetsStatusWiseData('UNAVAILABLE')">
+                      <!-- style="cursor: pointer;" data-bs-toggle="modal"
+                        data-bs-target="#systemEntriesModal" (click)="getTotalAssetsStatusWiseData('UNAVAILABLE')" -->
+                      <div class="col text-center" >
                         <span class="h5  fw-bold">{{totalAssetData?.totalUnavailableAsset || 0}}</span>
                         <h6 class="text-uppercase text-muted mt-2 m-0 font-11">Unavailable Assets</h6>
                       </div>
@@ -254,20 +258,21 @@
                         </td>
                       </tr>
                     </tbody>
-                    <tbody *ngIf="totalCount > 0">
-                      <tr *ngFor="let ad of assetData; let i = index">
-                        <!-- <td>#{{ad.assetId || 'N/A'}}</td> -->
-                        <td>#{{ i + 1 + (pageNumber - 1) * itemPerPage }}</td>
-                        <td>{{ad.assetName || 'N/A'}}</td>
-                        <td>{{ad.serialNumber || 'N/A'}}</td>
-                        <td>{{ad.expiryDate || 'N/A'}}</td>
-                        <td>{{ad.purchaseDate || 'N/A'}}</td>
-                        <td>{{ad.categoryName || 'N/A'}}</td>
-                        <td>{{ad.price || 'N/A'}}</td>
-                        <td>{{ad.location || 'N/A'}}</td>
-                        <td>{{ad.vendorName || 'N/A'}}</td>
-                        <td>
-                          <span [ngClass]="{
+
+                                <tbody *ngIf="totalCount > 0">
+                                <tr *ngFor="let ad of assetData; let i = index">
+                                    <!-- <td>#{{ad.assetId || 'N/A'}}</td> -->
+                                    <td>#{{ i + 1 + (pageNumber - 1) * itemPerPage }}</td>
+                                    <td>{{ad.assetName || 'N/A'}}</td>
+                                    <td>{{ad.serialNumber || 'N/A'}}</td>
+                                    <td>{{ad.expiryDate || 'N/A'}}</td>
+                                    <td>{{ad.purchaseDate || 'N/A'}}</td>
+                                    <td>{{ad.categoryName || 'N/A'}}</td>
+                                    <td>{{ad.price || 'N/A'}}</td>
+                                    <td>{{ad.location || 'N/A'}}</td>
+                                    <td>{{ad.vendorName || 'N/A'}}</td>
+                                    <td>
+                                      <span [ngClass]="{
                                         'bg-soft-success': ad.status === 'ASSIGNED',
                                         'bg-soft-danger': ad.status === 'UNAVAILABLE',
                                         'bg-soft-warning': ad.status === 'AVAILABLE'
