@@ -3462,6 +3462,12 @@ export class DataService {
     return this.httpClient.post<any>(`${this.baseUrl}/asset/allocation/create/asset`, assetRequest);
   }
 
+  editAsset(assetId:number, assetRequest: OrganizationAssetRequest): Observable<any> {
+    let params = new HttpParams()
+      .set('assetId', assetId);
+    return this.httpClient.put<any>(`${this.baseUrl}/asset/allocation/edit/asset`, assetRequest, {params});
+  }
+
   updateAssetCategory(categoryId: number, category: AssetCategoryRequest): Observable<any> {
     const params = new HttpParams()
       .set('categoryId', categoryId);
