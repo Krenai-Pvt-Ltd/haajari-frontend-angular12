@@ -47,7 +47,7 @@ import { SalaryTemplateComponentResponse } from 'src/app/models/salary-template-
 import { AppraisalRequest } from 'src/app/models/appraisal-request';
 import { BonusRequest } from 'src/app/models/bonus-request';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
-import { Chart } from 'chart.js';
+
 import { EmployeePayslipResponse } from 'src/app/models/employee-payslip-response';
 import { EmployeePayslipBreakupResponse } from 'src/app/models/employee-payslip-breakup-response';
 import { EmployeePayslipDeductionResponse } from 'src/app/models/employee-payslip-deduction-response';

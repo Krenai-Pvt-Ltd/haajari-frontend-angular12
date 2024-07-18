@@ -295,6 +295,9 @@ export class Key {
   public static ESI = 11;
   public static TDS = 12;
 
+  // Payroll History
+  public static PAYROLL_HISTORY = 13;
+
 
 
   //Attendance rule type ids

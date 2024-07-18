@@ -16,8 +16,7 @@
                   monthResponse.month == selectedMonth &&
                   monthResponse.year == selectedYear
               }">
-              <div class="text-center"
-                (click)="getOrganizationIndividualMonthSalaryDataMethodCall(monthResponse); getOrganizationPreviousMonthSalaryDataMethodCall(monthResponse)">
+              <div class="text-center" (click)="getOrganizationIndividualMonthSalaryDataMethodCall(monthResponse); getOrganizationPreviousMonthSalaryDataMethodCall(monthResponse); getPayrollLogs()">
                 <h6 class="text-truncate">
                   {{ monthResponse.month }} - {{ monthResponse.year }}
                 </h6>
@@ -152,45 +151,52 @@
           </div>
           <!--end card-body-->
         </div>
-        <div class="row">
-          <div class="col-lg-8">
-            <div class="card bg-transparent shadow-none">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col align-self-center mt-4 mt-lg-0">
-                    <ul class="nav nav-tabs" role="tablist">
-                      <li class="nav-item">
-                        <a class="nav-link active fw-semibold pt-0" data-bs-toggle="tab" href="#wallet_BTC" role="tab">
-                          RUN PAYROLL </a>
-                      </li>
-                      <!-- <li class="nav-item">
+        <!--end card-body-->
+      </div>
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="card bg-transparent shadow-none">
+            <div class="card-body">
+              <div class="row">
+                <div class="col align-self-center mt-4 mt-lg-0">
+                  <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active fw-semibold pt-0" data-bs-toggle="tab" href="#wallet_BTC" role="tab">
+                        RUN PAYROLL </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link fw-semibold pt-0" data-bs-toggle="tab" href="#payrollHistory" role="tab" (click)="getPayrollLogs()">
+                        PAYROLL HISTORY
+                      </a>
+                    </li>
+                    <!-- <li class="nav-item">
                       <a class="nav-link fw-semibold pt-0" data-bs-toggle="tab" href="#wallet_ETH" role="tab"> PAYROLL
                         OUTCOME </a>
                     </li> -->
-                    </ul>
-                    <div class="tab-content my-3">
-                      <div class="tab-pane active" id="wallet_BTC" role="tabpanel">
-                        <div class="row">
-                          <div class="col-md-6 payroll-step" (click)="newJoineeTab()">
-                            <div class="card-body bg-soft-success mt-3" data-bs-toggle="modal"
-                              data-bs-target="#createteam">
-                              <div class="row">
-                                <div class="col-auto">
-                                  <img src="assets/images/creative-idea.svg" alt="user" height="50"
-                                    class="align-self-center mb-3 mb-lg-0" />
-                                </div>
-                                <!--end col-->
-                                <div class="col align-self-center">
-                                  <p class="font-14 mb-2"> Employee Changes <span class="task-priority-icon float-end">
-                                      <i class="ti ti-checks text-success"></i>
-                                    </span>
-                                  </p>
-                                  <small class="text-muted">Nov 19.2023, 05:39 PM -Pushpendra</small>
-                                </div>
-                                <!--end col-->
+                  </ul>
+                  <div class="tab-content my-3">
+                    <div class="tab-pane fade show active" id="wallet_BTC" role="tabpanel">
+                      <div class="row">
+                        <div class="col-md-6 payroll-step" (click)="newJoineeTab()">
+                          <div class="card-body bg-soft-success mt-3" data-bs-toggle="modal"
+                            data-bs-target="#createteam">
+                            <div class="row">
+                              <div class="col-auto">
+                                <img src="assets/images/creative-idea.svg" alt="user" height="50"
+                                  class="align-self-center mb-3 mb-lg-0" />
                               </div>
+                              <!--end col-->
+                              <div class="col align-self-center">
+                                <p class="font-14 mb-2"> Employee Changes <span class="task-priority-icon float-end">
+                                    <i class="ti ti-checks text-success"></i>
+                                  </span>
+                                </p>
+                                <small class="text-muted">Nov 19.2023, 05:39 PM -Pushpendra</small>
+                                </div>
+                             
                               <!--end row-->
                             </div>
+                          </div>
                           </div>
                           <div class="col-md-6 payroll-step" (click)="leavesTab()">
                             <div class="card-body bg-soft-success mt-3" data-bs-toggle="modal" data-bs-target="#leaves">
@@ -290,10 +296,11 @@
                           </div>
                           <!--end col-->
                         </div>
+                    </div>
                         <!--end row-->
-                      </div>
+                      <!-- </div> -->
                       <!--end tab-pane-->
-                      <div class="tab-pane" id="wallet_ETH" role="tabpanel">
+                      <!-- <div class="tab-pane" id="wallet_ETH" role="tabpanel">
                         <h6 class="bg-light-alt py-3 px-2 mb-0">
                           <svg height="22" viewBox="0 0 60 60" width="22" xmlns="http://www.w3.org/2000/svg">
                             <g id="Page-1" fill="none" fill-rule="evenodd">
@@ -329,7 +336,7 @@
                               </tr>
                             </tbody>
                           </table>
-                          <!--end /table-->
+            
                         </div>
                         <div class="row mt-3">
                           <div class="col-md-6">
@@ -380,11 +387,11 @@
                                   </tr>
                                 </tbody>
                               </table>
-                              <!--end /table-->
+                        
                             </div>
-                            <!--end media-->
+                      
                           </div>
-                          <!--end col-->
+                        
                           <div class="col-md-6">
                             <h6 class="bg-light-alt py-3 px-2 mb-0">
                               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60" width="22" height="22">
@@ -412,19 +419,115 @@
                                   </tr>
                                 </tbody>
                               </table>
-                              <!--end /table-->
+                         
                             </div>
                           </div>
-                          <!--end col-->
+                       
                         </div>
-                        <!--end row-->
+      
+                      </div> -->
+        
+                    <!-- </div> -->
+           
+                    <div class="tab-pane fade" id="payrollHistory" role="tabpanel">
+                      <div class="content">
+                        <!-- Placeholder check -->
+                        <div class="payroll-history-container" *ngIf="!isPayrollHistoryPlaceholder; else errorConditionWhileFetchingReport">
+                          <!-- Loop through payroll history logs -->
+                          <div *ngFor="let payroll of payrollLogs" class="payroll-log-card">
+                            <a href="{{ payroll.reportExcelLink }}" target="_blank" class="payroll-log-link">
+                              <div class="payroll-log-header d-flex align-items-center justify-content-between">
+                                <h6 class="fs-md mt-0">{{ payroll.reportName }}</h6>
+                                <div class="payroll-log-download d-flex">
+                                  <img src="assets/images/excel.svg" class="download-icon" ngbTooltip="Download Excel" placement="top"/>
+                                </div>
+                              </div>
+                              <div class="payroll-log-details d-flex align-items-center mb-2 gap-3">
+                                <p class="mb-0">
+                                  <i class="bi bi-calendar-fill align-baseline me-1" style="color: #6666f3;"></i>
+                                  {{ payroll.createdDate | date: 'medium' || 'N/A' }}&nbsp; - &nbsp;
+                                  <span><i class="bi bi-person-fill align-baseline me-1"></i>{{ payroll.adminName || 'N/A' }}</span>
+                                </p>
+                              </div>
+                            </a>
+                          </div>
+                        </div>
+                        
+                        <!-- Placeholder Template -->
+                        <ng-template #errorConditionWhileFetchingReport>
+                                <div class="errorboxmain" *ngIf="
+                                    networkConnectionErrorPlaceHolderForPayrollHistory
+                                  ">
+                                  <div class="errorboxinner text-center">
+                                    <div class="errorboxplaceholder mb-2">
+                                      <img src="assets/images/signal.svg" style="width: 100px" />
+                                    </div>
+                                    <div class="">
+                                      <h4>Something went wrong</h4>
+                                      <p> An error occurred while processing your request. Please refresh the page and
+                                        try again. </p>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="errorboxmain" *ngIf="
+                                    dataNotFoundPlaceholderForPayrollHistory
+                                  ">
+                                  <div class="errorboxinner text-center">
+                                    <div class="errorboxplaceholder mb-2">
+                                      <img src="assets/images/empty-folder.svg" style="width: 100px" />
+                                    </div>
+                                    <h4>No Data Found</h4>
+                                    <p> Sorry, We can't show you the data at this moment! </p>
+                                  </div>
+                                </div>
+                        </ng-template>
                       </div>
-                      <!--end tab-pane-->
-                    </div>
-                    <!--end tab-content-->
+                      
+                      <!-- Pagination -->
+                    <div class="pagination pl-3 align-items-center justify-content-between" *ngIf="
+                    (total > itemPerPage - 1 ||
+                      (pageNumber === lastPageNumber &&
+                        lastPageNumber !== 1)) &&
+                    !dataNotFoundPlaceholderForPayrollHistory &&
+                    !networkConnectionErrorPlaceHolderForPayrollHistory
+                  ">
+                  <p style="padding-left: 15px"> Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total
+                    }} reports </p>
+                  <div>
+                    <nav aria-label="Page navigation example">
+                      <ul class="pagination justify-content-end">
+                        <li class="page-item" [class.disabled]="pageNumber == 1">
+                          <a class="page-link" href="javascript:void(0);" aria-label="Previous"
+                            (click)="changePage('prev', PAYROLL_HISTORY)">
+                            <span aria-hidden="true">&laquo;</span>
+                          </a>
+                        </li>
+                        <li class="page-item" *ngFor="let page of getPages()" [class.active]="pageNumber == page">
+                          <a class="page-link" href="javascript:void(0);" (click)="changePage(page, PAYROLL_HISTORY)">{{ page
+                            }}</a>
+                        </li>
+                        <li class="page-item" [class.disabled]="pageNumber == totalPages">
+                          <a class="page-link" href="javascript:void(0);" aria-label="Next"
+                            (click)="changePage('next', PAYROLL_HISTORY)">
+                            <span aria-hidden="true">&raquo;</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </nav>
                   </div>
-                  <!--end col-->
-                </div>
+                  </div>
+                      <!-- </div> -->
+                    </div>
+                  </div>
+                  <!--end tab-content-->
+
+                
+                   
+                  
+                  
+                  
+                <!-- </div> -->
                 <!--end row-->
               </div>
               <!--end card-body-->
@@ -432,6 +535,8 @@
             <!--end card-->
           </div>
           <!-- end col -->
+           </div>
+           </div>
           <div class="col-lg-4">
             <div class="card fixheigt-section">
               <div class="card-header">
@@ -454,6 +559,7 @@
           </div>
           <!--end col-->
         </div>
+
         <!--end row-->
 
 
