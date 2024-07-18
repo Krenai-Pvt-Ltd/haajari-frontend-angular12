@@ -190,7 +190,7 @@
             <!-- end col-->
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header" style="padding: 0%; padding-right: 30px;">
                       <div class="row align-items-center">
                         <div class="col">                      
                             <!-- <h4 class="card-title">Assets</h4>-->
@@ -272,16 +272,22 @@
                                       <ng-container *ngIf="ad.status === 'ASSIGNED'"> - {{ ad.userName }}</ng-container>
                                     </td>
                                     
-                                    <td *ngIf="ad.status === 'UNAVAILABLE'"><i class="bi bi-trash text-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)"></i>  </td>
-                                    <td *ngIf="ad.status === 'AVAILABLE'" ><i class="fas fa-bullhorn text-success"  ngbTooltip="Assign User" style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#assignRejectModal" (click)="assignOrRejectModalStrings(ad.status, ad.assetId)"></i>
-                                      <span style="cursor: pointer" (click)="makeAssetUnavailable('UNAVAILABLE', ad.assetId)"  ngbTooltip="Mark as unavailable"
-                                      placement="top"><i class="mdi mdi-arrow-up-drop-circle-outline text-success ml-1" ></i></span><i class="bi bi-trash text-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)"></i>
-                                      <!-- <i class="bi bi-pencil" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#createAssetModal" (click)="assignAssetId(ad.assetId)"></i>  -->
+                                    <td *ngIf="ad.status === 'UNAVAILABLE'">
+                                      <i class="bi bi-trash text-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)"></i>  
                                     </td>
-                                    <td *ngIf="ad.status === 'ASSIGNED'" ><i class="fas fa-bullhorn text-muted" ngbTooltip="Return Entry" style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#assignRejectModal" (click)="assignOrRejectModalStrings(ad.status, ad.assetId)"></i>
+                                    <td *ngIf="ad.status === 'AVAILABLE'" >
+                                      <i class="fas fa-bullhorn text-success"  ngbTooltip="Assign User" style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#assignRejectModal" (click)="assignOrRejectModalStrings(ad.status, ad.assetId)"></i>
                                       <span style="cursor: pointer" (click)="makeAssetUnavailable('UNAVAILABLE', ad.assetId)"  ngbTooltip="Mark as unavailable"
-                                      placement="top"><i class="mdi mdi-arrow-up-drop-circle-outline text-success ml-1" ></i></span><i class="bi bi-trash text-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)"></i>
-                                      <!-- <i class="bi bi-pencil" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#createAssetModal" (click)="assignAssetId(ad.assetId)"></i>  -->
+                                      placement="top"><i class="mdi mdi-arrow-up-drop-circle-outline text-success ml-1" ></i></span>
+                                      <i class="bi bi-trash text-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)"></i>
+                                      <i class="bi bi-pencil" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#createAssetModal"  ngbTooltip="Update Asset" (click)="assignAssetId(ad.assetId)"></i> 
+                                    </td>
+                                    <td *ngIf="ad.status === 'ASSIGNED'" >
+                                      <i class="fas fa-bullhorn text-muted" ngbTooltip="Return Entry" style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#assignRejectModal" (click)="assignOrRejectModalStrings(ad.status, ad.assetId)"></i>
+                                      <span style="cursor: pointer" (click)="makeAssetUnavailable('UNAVAILABLE', ad.assetId)"  ngbTooltip="Mark as unavailable"
+                                      placement="top"><i class="mdi mdi-arrow-up-drop-circle-outline text-success ml-1" ></i></span>
+                                      <i class="bi bi-trash text-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)"></i>
+                                      <i class="bi bi-pencil" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#createAssetModal" ngbTooltip="Update Asset" (click)="assignAssetId(ad.assetId)"></i> 
                                     </td>
 
                                       

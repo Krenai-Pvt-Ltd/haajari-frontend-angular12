@@ -351,11 +351,34 @@ getAssetUserListData(): void {
 
 updateOrSaveAsset() {
   if(this.assetIdToUpdate > 0) {
-
+   this.updateAsset();
   } else {
     this.saveAsset();
   }
 }
+
+updateAsset(): void {
+  this.dataService.editAsset(this.assetIdToUpdate, this.assetForm.value)
+    .subscribe(
+      response => {
+        this.assetForm.reset();
+        this.getAssetData();
+        this.getAssetCategoryData();
+        this.getTotalAssetData();
+        this.getCategoryCounts();
+        document.getElementById('createAssetModal')?.click();
+        this.helperService.showToast('Asset updated successfully.', Key.TOAST_STATUS_SUCCESS);
+      },
+      error => {
+        if(error.error.message == 'Serial Number Already Registered') {
+          this.helperService.showToast('Serial Number Already Registered With Other Asset.', Key.TOAST_STATUS_ERROR);
+        } else {
+        this.helperService.showToast('Failed to update asset.', Key.TOAST_STATUS_ERROR);
+        }
+      }
+    );
+}
+
 
 saveAsset(): void {
   if (this.assetForm.invalid) {
