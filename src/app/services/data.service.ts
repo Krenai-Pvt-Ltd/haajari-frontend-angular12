@@ -3531,4 +3531,12 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/salary/month-wise/pay-slip-log`, {params});
   }
 
+  
+  importSalaryExcel(file: File, fileName: string): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    formData.append('fileName', fileName);
+
+    return this.httpClient.put(`${this.baseUrl}/salary/import-salary-excel`, formData);
+  }
 }

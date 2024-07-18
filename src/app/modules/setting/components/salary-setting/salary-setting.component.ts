@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Key } from 'src/app/constant/key';
 import { ESIContributionRate } from 'src/app/models/e-si-contribution-rate';
@@ -50,6 +51,8 @@ export class SalarySettingComponent implements OnInit {
   sort : string = ''
   sortBy : string = 'name';
   staffs: Staff[] = [];
+  sampleExcelFile: string = 'https://firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/sampleFile%2Femployee_salary_detail_sample.xlsx?alt=media&token=8a0ed26e-55a7-4987-876a-bff44f62e2ce';
+
 
   CURRENT_TAB_IN_SALARY_TEMPLATE = Key.SALARY_TEMPLATE_STEP;
 
@@ -860,4 +863,81 @@ export class SalarySettingComponent implements OnInit {
   onTableDataChange(event: any) {
     this.pageNumber = event;
   }
+
+  fileName: any;
+  currentFileUpload: any;
+
+  importToggle: boolean = false;
+  isProgressToggle: boolean = false;
+  isErrorToggle: boolean = false;
+  errorMessage: string = '';
+
+  importLoading: boolean = false;
+  importReport: any[] = new Array();
+  totalItems: number = 0;
+  uploadDate: Date = new Date();
+
+  selectFile(event: any) {
+    if (event.target.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.currentFileUpload = file;
+      this.fileName = file.name;
+      this.uploadUserFile(file, this.fileName);
+    }
+  }
+
+  // Method to handle file upload and manage UI states
+  uploadUserFile(file: File, fileName: string) {
+    this.importToggle = true;
+    this.isProgressToggle = true;
+    this.isErrorToggle = false;
+    this.errorMessage = '';
+
+    // Upload the file via data service
+    this.dataService.importSalaryExcel(file, fileName).subscribe(
+      (response: any) => {
+        if (response.status) {
+          // Successful upload
+          this.importToggle = false;
+          this.isProgressToggle = false;
+          // Optionally refresh the data or handle the response further
+          // this.getReport();
+          // this.getUser();
+        } else {
+          // Handle response indicating an error
+          this.importToggle = true;
+          this.isErrorToggle = true;
+          this.isProgressToggle = false;
+          this.errorMessage = response.message;
+        }
+      },
+      (error: HttpErrorResponse) => {
+        // Handle HTTP error response
+        this.importToggle = true;
+        this.isErrorToggle = true;
+        this.isProgressToggle = false;
+        this.errorMessage = error.error.message || 'An error occurred during file upload.';
+      }
+    );
+  }
+  // getReport() {
+  //   debugger;
+  //   this.importReport = [];
+  //   this.importLoading = true;
+  //   this.databaseHelper.itemPerPage = 5;
+  //   this.databaseHelper.sortBy = 'createdDate';
+  //   this.databaseHelper.sortOrder = 'Desc';
+  //   this._onboardingService.getReport(this.databaseHelper).subscribe(
+  //     (response: any) => {
+  //       if (response.status) {
+  //         this.importReport = response.object;
+  //         this.totalItems = response.totalItems;
+  //       }
+  //       this.importLoading = false;
+  //     },
+  //     (error) => {
+  //       this.importLoading = false;
+  //     }
+  //   );
+  // }
 }
