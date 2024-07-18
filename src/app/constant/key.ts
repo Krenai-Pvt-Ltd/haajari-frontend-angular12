@@ -33,6 +33,7 @@ export class Key {
     '/team',
     '/task-manager',
     '/payment',
+    '/assets',
     '/userlist',
     '/addtoslack',
     '/waiting',
@@ -56,7 +57,7 @@ export class Key {
     '/upload-team',
     '/central-leave-management',
     '/payment/payroll-dashboard',
-    '/payment/tds',
+    '/payment/epf-esi-tds',
     '/payment/bonus-and-deduction',
     '/payment/payment-history',
     '/payment/payroll-dashboard/leave-summary',
@@ -83,6 +84,7 @@ export class Key {
     '/role',
     '/employee-onboarding-sidebar',
     '/reports',
+    '/assets',
     '/employee-profile',
     '/add-role',
     '/setting/billing',
@@ -94,7 +96,7 @@ export class Key {
     '/upload-team',
     '/central-leave-management',
     '/payment/payroll-dashboard',
-    '/payment/tds',
+    '/payment/epf-esi-tds',
     '/payment/bonus-and-deduction',
     '/payment/payment-history',
     '/payment/payroll-dashboard/leave-summary',
@@ -206,13 +208,13 @@ export class Key {
   // Krenai UUID
   public static KRENAI_UUID = '60811bf3-ae1e-11ee-9597-784f4361d885';
 
-  base_url = 'http://localhost:8080/api/v2';
+  // base_url = 'http://localhost:8080/api/v2';
 
   /* ------------------  Staging urls ----------------*/
   // base_url = 'https://staging.hajiri.work/api/v2';
 
   /* ------------------  Production urls ----------------*/
-  // base_url = 'https://production.hajiri.work/api/v2';
+  base_url = 'https://production.hajiri.work/api/v2';
 
   //subscription plan
   get_subscription = '/subcription-plan';

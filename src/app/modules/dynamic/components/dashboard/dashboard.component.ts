@@ -112,7 +112,7 @@ export class DashboardComponent implements OnInit {
     console.log('Month is getting selected');
     this.selectedDate = month;
     this.getFirstAndLastDateOfMonth(this.selectedDate);
-
+    this.isAllCollapsed = true;
     console.log(this.startDate, this.endDate);
     this.getAttendanceReportByDateDurationMethodCall();
   }
@@ -125,11 +125,6 @@ export class DashboardComponent implements OnInit {
     this.endDate = this.formatDateToYYYYMMDD(
       new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0),
     );
-    
-    // const endDateWithoutEndHours = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
-
-    // this.startDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1, 0, 0, 0).toDateString();
-    // this.endDate = new Date(endDateWithoutEndHours.getFullYear(), endDateWithoutEndHours.getMonth() + 1, 0).toDateString() + " " + this.END_HOUR;
   }
 
   disableMonths = (date: Date): boolean => {

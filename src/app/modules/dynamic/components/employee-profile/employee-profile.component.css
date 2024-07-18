@@ -1573,3 +1573,159 @@ tbody tr {
 
 
 
+/*####################### -- CSS for finance tab -- ################### */
+
+/* CSS for payslip section */
+.documents-container {
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  padding: 20px;
+}
+.documents-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+.documents-header h2 {
+  margin: 0;
+  font-size: 18px;
+}
+.documents-header a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+.documents-update {
+  color: #888;
+  font-size: 14px;
+  margin-top: 5px;
+}
+.document-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+.document-item:last-child {
+  border-bottom: none;
+}
+.document-details {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.document-details img {
+  width: 20px;
+  height: 20px;
+}
+.document-details p {
+  margin: 0;
+  font-size: 16px;
+}
+.document-details p span {
+  display: block;
+  font-size: 14px;
+  color: #888;
+}
+.document-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.document-actions p {
+  margin: 0;
+  font-size: 14px;
+  color: #888;
+}
+.document-item i {
+  font-size: 1rem;
+}
+.document-actions i{
+  cursor: pointer;
+  color: #6666f3;
+}
+/* .document-actions a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+} */
+.document-actions a img {
+  width: 16px;
+  height: 16px;
+}
+
+
+/* CSS for chart and the data at the side of chart */
+.grosspay-border{
+  border: 3px solid #02E59C;
+}
+
+.deduction-border{
+  border: 3px solid #FE3636;
+}
+
+.netpay-border{
+  border: 3px solid #6666f3;
+}
+
+.grosspay-border, .deduction-border, .netpay-border{
+  border-radius: 3px;
+}
+.amounts {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding: 10px 0;
+}
+.amount {
+  text-align: left;
+  flex: 1;
+  padding-left: 15px;
+}
+.amount p {
+  margin: 5px 0;
+  font-size: 16px;
+}
+.amount .value {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+
+/* CSS for the salary breakups */
+.pay-slip-breakup .card{
+  border-radius: 5px;
+  border-color: #C6C6FF;
+}
+
+.card-body-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-body-header-icon{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  color: #6666f3;
+  background-color: #E9E9FF;
+  border-radius: 50%;
+}
+
+.card-body-header-icon>i{
+  font-size: 22px;
+}

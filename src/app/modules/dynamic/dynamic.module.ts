@@ -76,6 +76,14 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
+import { AssetsComponent } from './components/assets/assets.component';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
+
+
+
+
 
 @NgModule({
   declarations: [
@@ -120,6 +128,7 @@ import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
     LinkExpiredPageComponent,
     EmployeeProfileComponent,
     LeaveManagementComponent,
+    AssetsComponent,
   ],
   imports: [
     CommonModule,
@@ -157,7 +166,10 @@ import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
     ScrollingModule,
     DragDropModule,
     MatDialogModule,
-    NzTimePickerModule
+    NzTimePickerModule,
+    NzInputModule,
+    NzInputNumberModule,
+    NzUploadModule
   ],
   exports: [HeaderComponent],
   providers: [
