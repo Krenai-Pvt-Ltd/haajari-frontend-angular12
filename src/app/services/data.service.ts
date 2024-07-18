@@ -3531,4 +3531,30 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/salary/month-wise/pay-slip-log`, {params});
   }
 
+  getAssetForUser(userUuid:string, search: string, pageNumber: number, itemPerPage: number): Observable<any> {
+    const url = `${this.baseUrl}/asset/allocation/get/asset/allocation/user/entries`;
+    let params = new HttpParams()
+      .set('userUuid', userUuid)
+      .set('search', search)
+      .set('pageNumber', pageNumber)
+      .set('itemPerPage', itemPerPage);
+    return this.httpClient.get<any>(url, { params }).pipe(
+      catchError((error) => {
+        throw error;
+      })
+    );
+  }
+
+  getAssetLogsForUser(userUuid: string, search: string): Observable<any> {
+    const url = `${this.baseUrl}/asset/allocation/get/asset/allocation/user/logs`;
+    let params = new HttpParams()
+      .set('userUuid', userUuid)
+      .set('search', search)
+    return this.httpClient.get<any>(url, { params }).pipe(
+      catchError((error) => {
+        throw error;
+      })
+    );
+  }
+
 }

@@ -1729,3 +1729,52 @@ tbody tr {
 .card-body-header-icon>i{
   font-size: 22px;
 }
+
+.table .table-light {
+  color: #8997bd;
+  font-weight: 400;
+  vertical-align: middle;
+  border-color: #ececec;
+  font-size: 12px !important;
+}
+.table .table-light th {
+  font-size: 12px;
+  line-height: 21px;
+  font-weight: 400;
+  background-color: #f5f5f5;
+  text-align: left;
+}
+.table td{
+  font-size: 12px;
+  line-height: 21px;
+  font-weight: 200 !important;
+  text-align: left;
+}
+
+.errorboxmain {
+  /* min-height: 20vh; */
+  background-color: #fff;
+  box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, 0.05);
+  border-radius: 6px;
+}
+.errorboxmain {
+  padding: 15px;
+}
+.search-icon {
+  font-size: 12px !important;
+  position: absolute !important;
+  top: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  color: var(--tb-secondary-color) !important;
+}
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+}
+tbody tr:last-child{
+  border-bottom: none;
+}
