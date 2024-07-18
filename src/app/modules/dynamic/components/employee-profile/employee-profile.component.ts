@@ -53,6 +53,7 @@ import { EmployeePayslipBreakupResponse } from 'src/app/models/employee-payslip-
 import { EmployeePayslipDeductionResponse } from 'src/app/models/employee-payslip-deduction-response';
 import { EmployeePayslipLogResponse } from 'src/app/employee-payslip-log-response';
 import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
+import { OrganizationAssetResponse } from 'src/app/models/asset-category-respose';
 
 @Component({
   selector: 'app-employee-profile',
@@ -2266,6 +2267,7 @@ export class EmployeeProfileComponent implements OnInit {
   activeAttendanceTabFlag: boolean = false;
   activeFinancesTabFlag: boolean = false;
   activeDocumentsTabFlag: boolean = false;
+  activeAssetsTabFlag: boolean = false;
   activeProfileTabFlag: boolean = false;
 
   activeTabs(activeTabString: string) {
@@ -2274,30 +2276,42 @@ export class EmployeeProfileComponent implements OnInit {
       this.activeAttendanceTabFlag = false;
       this.activeFinancesTabFlag = false;
       this.activeDocumentsTabFlag = false;
+      this.activeAssetsTabFlag = false;
       this.activeProfileTabFlag = false;
     } else if (activeTabString === 'attendance') {
       this.activeHomeTabFlag = false;
       this.activeAttendanceTabFlag = true;
       this.activeFinancesTabFlag = false;
       this.activeDocumentsTabFlag = false;
+      this.activeAssetsTabFlag = false;
       this.activeProfileTabFlag = false;
     } else if (activeTabString === 'finances') {
       this.activeHomeTabFlag = false;
       this.activeAttendanceTabFlag = false;
       this.activeFinancesTabFlag = true;
       this.activeDocumentsTabFlag = false;
+      this.activeAssetsTabFlag = false;
+      this.activeProfileTabFlag = false;
+    }else if (activeTabString === 'assets') {
+      this.activeHomeTabFlag = false;
+      this.activeAttendanceTabFlag = false;
+      this.activeFinancesTabFlag = false;
+      this.activeDocumentsTabFlag = false;
+      this.activeAssetsTabFlag = true;
       this.activeProfileTabFlag = false;
     } else if (activeTabString === 'documents') {
       this.activeHomeTabFlag = false;
       this.activeAttendanceTabFlag = false;
       this.activeFinancesTabFlag = false;
       this.activeDocumentsTabFlag = true;
+      this.activeAssetsTabFlag = false;
       this.activeProfileTabFlag = false;
     } else if (activeTabString === 'profile') {
       this.activeHomeTabFlag = false;
       this.activeAttendanceTabFlag = false;
       this.activeFinancesTabFlag = false;
       this.activeDocumentsTabFlag = false;
+      this.activeAssetsTabFlag = false;
       this.activeProfileTabFlag = true;
     }
   }
@@ -2722,4 +2736,103 @@ return
       }
     );
   }}
+
+  //  new 
+
+  search: string = '';
+  pageNumber: number = 1;
+  itemPerPage: number = 6;
+  assetData: OrganizationAssetResponse[] = [];
+  totalCount: number = 0;
+  crossFlag: boolean = false;
+  getAssetData(): void {
+    this.dataService.getAssetForUser(this.userId, this.search, this.pageNumber, this.itemPerPage)
+      .subscribe(
+        (response) => {
+          this.assetData = response.object;
+          this.totalCount = response.totalItems;
+        },
+        (error) => {
+          console.error('Error fetching asset data:', error);
+        }
+      );
+  }
+
+  searchAssets(): void {
+    this.crossFlag = this.search.length > 0;
+    this.pageNumber = 1;
+    this.getAssetData();
+  }
+
+  clearSearch(): void {
+    this.crossFlag = false;
+    this.search = '';
+    this.pageNumber = 1;
+    this.getAssetData();
+  }
+
+  changePage(page: number | string): void {
+    if (typeof page === 'string') {
+      if (page === 'prev' && this.pageNumber > 1) {
+        this.pageNumber--;
+      } else if (page === 'next' && this.pageNumber < Math.ceil(this.totalCount / this.itemPerPage)) {
+        this.pageNumber++;
+      }
+    } else {
+      this.pageNumber = page;
+    }
+    this.getAssetData();
+  }
+
+  totalPages(): number {
+    return Math.ceil(this.totalCount / this.itemPerPage);
+  }
+
+  get startIndex(): number {
+    return Math.min((this.pageNumber - 1) * this.itemPerPage + 1, this.totalCount);
+  }
+
+  get endIndex(): number {
+    return Math.min(this.pageNumber * this.itemPerPage, this.totalCount);
+  }
+
+  get pages(): number[] {
+    const totalPages = Math.ceil(this.totalCount / this.itemPerPage);
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
+  }
+
+  //  asset logs 
+
+  isAssetErrorPlaceholder: boolean = false;
+  userAssetLog: any;
+  isAssetShimmer: boolean = false;
+  isAssetPlaceholder: boolean = false;
+  searchAssetLogs: string = '';
+  pageNumberAsset: number = 1;
+  itemPerPageAsset: number = 8;
+
+  getAssetLogsForUserByUuid(): void {
+    this.isLeaveShimmer = true;
+    this.dataService.getAssetLogsForUser(this.userId, this.searchAssetLogs)
+      .subscribe(
+        (response) => {
+          this.userAssetLog = response.listOfObject;
+          this.isAssetShimmer = false;
+          if(response.listOfObject==null || this.userAssetLog.length == 0) {
+          this.isAssetPlaceholder = true; 
+          }
+        },
+        (error) => {
+          this.isAssetErrorPlaceholder = true;
+          this.isAssetShimmer = false;
+        }
+      );
+  }
+  
+
+
+  
+  
 }
+
+
