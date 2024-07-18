@@ -57,7 +57,7 @@ export class Key {
     '/upload-team',
     '/central-leave-management',
     '/payment/payroll-dashboard',
-    '/payment/tds',
+    '/payment/epf-esi-tds',
     '/payment/bonus-and-deduction',
     '/payment/payment-history',
     '/payment/payroll-dashboard/leave-summary',
@@ -96,7 +96,7 @@ export class Key {
     '/upload-team',
     '/central-leave-management',
     '/payment/payroll-dashboard',
-    '/payment/tds',
+    '/payment/epf-esi-tds',
     '/payment/bonus-and-deduction',
     '/payment/payment-history',
     '/payment/payroll-dashboard/leave-summary',
@@ -294,6 +294,9 @@ export class Key {
   public static EPF = 10;
   public static ESI = 11;
   public static TDS = 12;
+
+  // Payroll History
+  public static PAYROLL_HISTORY = 13;
 
 
 

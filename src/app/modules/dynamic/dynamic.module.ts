@@ -77,6 +77,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 import { AssetsComponent } from './components/assets/assets.component';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
+
+
 
 
 
@@ -161,7 +166,10 @@ import { AssetsComponent } from './components/assets/assets.component';
     ScrollingModule,
     DragDropModule,
     MatDialogModule,
-    NzTimePickerModule
+    NzTimePickerModule,
+    NzInputModule,
+    NzInputNumberModule,
+    NzUploadModule
   ],
   exports: [HeaderComponent],
   providers: [

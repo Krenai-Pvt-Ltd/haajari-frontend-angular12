@@ -8,6 +8,7 @@ import { ModuleResponse } from '../models/module-response';
 import { RoleBasedAccessControlService } from './role-based-access-control.service';
 import { formatDate } from '@angular/common';
 import { NavigationExtras, Router } from '@angular/router';
+import * as saveAs from 'file-saver';
 
 @Injectable({
   providedIn: 'root'
@@ -216,6 +217,12 @@ export class HelperService {
 
   getTimeZone(): string {
     return Intl.DateTimeFormat().resolvedOptions().timeZone;
+  }
+
+  downloadPdf(url: string, name: string) {
+    this.httpClient.get(url, { responseType: 'blob' }).subscribe(blob => {
+      saveAs(blob, name+'.pdf');
+    });
   }
 
 }

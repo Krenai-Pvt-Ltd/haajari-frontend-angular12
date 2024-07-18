@@ -187,4 +187,72 @@
   }
 }
 
+.payroll-history-container {
+  border-bottom: 1px solid #f2f2f2;
+  padding-bottom: 15px;
+}
+
+.payroll-log-card {
+  margin-top: 30px;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.payroll-log-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.payroll-log-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.payroll-log-header {
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.payroll-log-details {
+  font-size: 14px;
+  color: #555;
+  display: flex;
+  align-items: center;
+}
+
+.payroll-log-details i {
+  color: #007bff;
+  margin-right: 5px;
+}
+
+.download-icon {
+  width: 20px;
+}
+
+.errorboxmain {
+  text-align: center;
+}
+
+.empty-box-icon {
+  width: 80px;
+}
+
+.errorboxinner h4 {
+  margin-top: 10px;
+  font-weight: 600;
+  color: #333;
+}
+
+.errorboxinner p {
+  font-size: 14px;
+  color: #777;
+}
 
