@@ -2812,7 +2812,7 @@ return
   itemPerPageAsset: number = 8;
 
   getAssetLogsForUserByUuid(): void {
-    this.isLeaveShimmer = true;
+    this.isAssetShimmer = true;
     this.dataService.getAssetLogsForUser(this.userId, this.searchAssetLogs)
       .subscribe(
         (response) => {
