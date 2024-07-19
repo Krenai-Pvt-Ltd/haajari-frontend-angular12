@@ -517,13 +517,13 @@
 
           <!-- Salary Upload -->
 
-          <div class="col-md-4">
+          <div class="col-md-4 mt-3">
             <div class="form-roe-data">
               <h5>Upload Salary Details</h5>
               <p>A quick snapshot of your company.</p>
             </div>
           </div>
-          <div class="col-md-7">
+          <div class="col-md-7 mt-3">
             <!-- Section to show the uploaded document -->
   
             <div class="row">
@@ -559,12 +559,12 @@
             
             
             <div>
-              <div  class="row mt-3">
+              <div class="row mt-3 mb-3" *ngIf="lastUploadedSalaryDoc">
                 <div class="col-md-12 whatapp-login-input d-flex justify-content-between align-items-center">
-                  <div>Last Uploaded Salary Doc | <span></span></div>
+                  <div>Last Uploaded Salary Doc | <span>{{ lastUploadedSalaryDocName }}</span></div>
                   <div>
-                    <i class="bi bi-eye-fill text-primary" ></i>
-                    <i class="bi bi-download text-primary ms-3" ></i>
+                    <!-- <i class="bi bi-eye-fill text-primary" (click)="viewDocument()"></i> -->
+                    <i class="bi bi-download text-primary ms-3" (click)="downloadDocument()"></i>
                   </div>
                 </div>
               </div>

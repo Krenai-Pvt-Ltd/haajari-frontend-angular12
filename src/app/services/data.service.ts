@@ -3539,4 +3539,16 @@ export class DataService {
 
     return this.httpClient.put(`${this.baseUrl}/salary/import-salary-excel`, formData);
   }
+
+  saveSalaryExcelLog(fireBaseUrl: string): Observable<any> {
+    const url = `${this.baseUrl}/salary/save-salary-excel`;
+    const params = new HttpParams()
+      .set('firebase_url', fireBaseUrl);
+
+    return this.httpClient.put(url,{}, { params });
+  }
+
+  getSalaryDetailExcel(): Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/last-salary-detail-log`, {});
+  }
 }
