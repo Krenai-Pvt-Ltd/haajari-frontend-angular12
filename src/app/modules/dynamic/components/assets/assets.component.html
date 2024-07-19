@@ -278,11 +278,17 @@
                         </td>
 
                         <td *ngIf="ad.status === 'UNAVAILABLE'">
-                          <i class="bi bi-trash text-danger" data-bs-toggle="modal"
-                            data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)"></i>
+                          <!-- <i class="bi bi-trash text-danger" data-bs-toggle="modal"
+                            data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)"></i> -->
+                            <div class="btn-group">
+                              <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center" style="margin-left: 5px;" data-bs-toggle="modal"
+                              data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)">
+                                <i class="fas fa-trash-alt font-16"></i>
+                              </div>
+                             </div>
                         </td>
                         <td *ngIf="ad.status === 'AVAILABLE'">
-                          <i class="fas fa-bullhorn text-success" ngbTooltip="Assign User" style="cursor: pointer"
+                          <!-- <i class="fas fa-bullhorn text-success" ngbTooltip="Assign User" style="cursor: pointer"
                             data-bs-toggle="modal" data-bs-target="#assignRejectModal"
                             (click)="assignOrRejectModalStrings(ad.status, ad.assetId)"></i>
                           <span style="cursor: pointer" (click)="makeAssetUnavailable('UNAVAILABLE', ad.assetId)"
@@ -292,7 +298,23 @@
                             data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)"></i>
                           <i class="bi bi-pencil" style="cursor: pointer;" data-bs-toggle="modal"
                             data-bs-target="#createAssetModal" ngbTooltip="Update Asset"
-                            (click)="assignAssetId(ad.assetId)"></i>
+                            (click)="assignAssetId(ad.assetId)"></i> -->
+
+                            <div class="btn-group">
+
+                              <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center" style="margin-left: 5px;" (click)="makeAssetUnavailable('UNAVAILABLE', ad.assetId)"
+                              ngbTooltip="Mark as unavailable">
+                                <i class="fas fa-ban font-16"></i>
+                              </div>
+                              <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center" style="margin-left: 5px;" data-bs-toggle="modal"
+                              data-bs-target="#createAssetModal" ngbTooltip="Update Asset" (click)="assignAssetId(ad.assetId)">
+                                <i class="fas fa-wrench font-16"></i>
+                              </div>
+                              <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center" style="margin-left: 5px;" data-bs-toggle="modal"
+                              data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)">
+                                <i class="fas fa-trash-alt font-16"></i>
+                              </div>
+                             </div>
                         </td>
                         <td *ngIf="ad.status === 'ASSIGNED'">
                         
@@ -311,7 +333,7 @@
                             data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)">
                               <i class="fas fa-trash-alt font-16"></i>
                             </div>
-                        </div>
+                           </div>
                         </td>
                       </tr><!--end tr-->
                       <tr>
