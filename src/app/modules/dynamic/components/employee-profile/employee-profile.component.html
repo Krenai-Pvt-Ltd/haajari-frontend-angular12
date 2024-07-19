@@ -719,6 +719,7 @@
                       <div class="card-body">
                         <!-- <div> -->
                           <div class="activity">
+                            <!-- {{fileUrl}} -->
                             <div class="activity-info">
                               <div class="icon-info-activity">
                                 <i class="bi bi-file-earmark-bar-graph bg-soft-primary"></i>
@@ -739,10 +740,25 @@
                                       </div>
                                     </div>
                                   </div>
+                                  <div class="errorboxmain text-center mt-3" *ngIf="!fileUrl" style="height: 10px;">
+                                    <div class="errorboxinner">
+                                      <div class="errorboxplaceholder mb-2">
+                                        <img src="assets/images/empty-box.svg" style="width: 50px" />
+                                      </div>
+                                      <div class=""  style="width: 120px">
+                                        <h4>No Data Found</h4>
+                                        <!-- <p class="mb-0">
+                                          We're unable to locate a record associated with the information you entered.
+                                        </p> -->
+                                      </div>
+                                    </div>
+                                  </div>
                                 </div>
                                 
                               </div>
                             </div>
+
+                           
                           
                           </div>
                           <!--end activity-->
