@@ -716,6 +716,38 @@
                     </div>
                     <!--end col-->
                     <div class="col-md-5">
+                      <div class="card-body">
+                        <!-- <div> -->
+                          <div class="activity">
+                            <div class="activity-info">
+                              <div class="icon-info-activity">
+                                <i class="bi bi-file-earmark-bar-graph bg-soft-primary"></i>
+                              </div>
+                              <div class="activity-info-text">
+                                <div class="d-flex justify-content-between align-items-center">
+                                  <h6 class="m-0 w-75">Company Policy Doc</h6>
+                                  <span class="text-muted d-block font-12">Last Updated - {{docsUploadedDate | date:"MMM dd, yyyy 'at' hh:mm a" || 'N/A'
+                                  }}</span>
+                                </div>
+                                <div>
+                                  <div *ngIf="fileUrl" class="row mt-3">
+                                    <div class="col-md-12 whatapp-login-input d-flex justify-content-between align-items-center">
+                                      <div>Policy Doc </div>
+                                      <div>
+                                        <i class="bi bi-eye-fill text-primary" ngbTooltip="Preview Policy Doc" placement="top" (click)="openViewModalDoc(fileUrl)"></i>
+                                        <i class="bi bi-download text-primary ms-3" ngbTooltip="Download Policy Doc" placement="top" (click)="downloadFileDoc(fileUrl)"></i>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                
+                              </div>
+                            </div>
+                          
+                          </div>
+                          <!--end activity-->
+                        <!-- </div> -->
+                      </div>
                       <div class="project-task-card mb-2 alert alert-warning p-2">
                         <span class="badge badge-soft-primary mb-2">Pushpendra Singh</span>
                         <h5 class="my-1 font-16"> Customer Care Crusader Thank you, [Employee's Name], for your
@@ -3932,4 +3964,27 @@
       </div>
     </div>
   </div>
+</div>
+
+<!-- Modal to view document -->
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#showDocModal"
+#openDocModalButton id="openDocModalButton"></button>
+<div class="modal blur-bg-2" id="showDocModal" tabindex="-1" data-bs-keyboard="false"
+aria-labelledby="showDocModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="showDocModalLabel">Company Policy Doc </h5>
+    </div>
+    <div class="modal-body text-center" style="overflow: scroll; min-height: 350px">
+      <iframe *ngIf="previewStringDoc" [src]="previewStringDoc" style="width: 100%; height: 100vh"
+        frameborder="0"></iframe>
+    </div>
+    <div class="modal-footer d-flex align-items-center justify-content-end gap-3">
+      <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+      <button class="btn btn-primary" (click)="downloadFileDoc(fileUrl)"><span> <i class="bi bi-download"></i> Download
+        </span></button>
+    </div>
+  </div>
+</div>
 </div>

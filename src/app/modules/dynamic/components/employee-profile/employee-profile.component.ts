@@ -89,7 +89,8 @@ export class EmployeeProfileComponent implements OnInit {
     private roleService: RoleBasedAccessControlService,
     public location: Location,
     public domSanitizer: DomSanitizer,
-    private afStorage: AngularFireStorage
+    private afStorage: AngularFireStorage,
+    private sanitizer: DomSanitizer,
   ) {
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
@@ -215,6 +216,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.getUserLeaveReq();
     this.getUserLeaveLogByUuid();
     this.getTotalExperiences();
+    this.getHrPolicy()
   }
 
   getRoleData() {
@@ -2829,6 +2831,58 @@ return
       );
   }
   
+
+  // hr policy 
+
+
+  fileUrl!: string;
+  docsUploadedDate: any;
+  getHrPolicy(): void {
+    this.dataService.getOrganizationHrPolicies().subscribe(response => {
+      this.fileUrl = response.object.hrPolicyDoc;
+      this.docsUploadedDate = response.object.docsUploadedDate;
+      console.log('policy retrieved successfully', response.object);
+    }, (error) => {
+      console.log(error);
+    });
+  }
+
+  previewStringDoc: SafeResourceUrl | null = null;
+  isPDFDoc: boolean = false;
+  isImageDoc: boolean = false;
+
+  @ViewChild('openDocModalButton') openDocModalButton!: ElementRef;
+  getFileName(url: string): string {
+    return url.split('/').pop() || 'Hr Policy Doc';
+  }
+
+  private updateFileTypeDoc(url: string) {
+    const extension = url.split('?')[0].split('.').pop()?.toLowerCase();
+    // this.isImage2 = ['png', 'jpg', 'jpeg', 'gif'].includes(extension!);
+    // this.isPDF = extension === 'pdf';
+  }
+
+  openViewModalDoc(url: string): void {
+    debugger
+    // const fileExtension = url.split('.').pop()?.toLowerCase();
+    const fileExtension = url.split('?')[0].split('.').pop()?.toLowerCase();
+    // this.isPDF = fileExtension === 'pdf';
+    if (fileExtension === 'doc' || fileExtension === 'docx') {
+      // this.previewString = this.sanitizer.bypassSecurityTrustResourceUrl(`https://docs.google.com/gview?url=${url}&embedded=true`);
+      this.previewStringDoc = this.sanitizer.bypassSecurityTrustResourceUrl(`https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true`);
+    } else {
+      this.previewStringDoc = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    }
+    this.openDocModalButton.nativeElement.click();
+  }
+
+  downloadFileDoc(url: string): void {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = this.getFileName(url);
+    link.click();
+  }
+
 
 
   
