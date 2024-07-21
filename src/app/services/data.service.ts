@@ -26,7 +26,7 @@ import { UserBankDetailRequest } from '../models/user-bank-detail-request';
 import { UserEmergencyContactDetailsRequest } from '../models/user-emergency-contact-details-request';
 import { AdditionalNotes } from '../models/additional-notes';
 import { AttendanceRuleDefinitionRequest } from '../models/attendance-rule-definition-request';
-import { UserDto } from '../models/user-dto.model';
+import { AttendanceTimeUpdateRequestDto, UserDto } from '../models/user-dto.model';
 import { UserDocumentsDetailsRequest } from '../models/user-documents-details-request';
 import { LeaveSettingResponse } from '../models/leave-setting-response';
 import { LeaveSettingCategoryResponse } from '../models/leave-categories-response';
@@ -3555,6 +3555,49 @@ export class DataService {
         throw error;
       })
     );
+  }
+
+  getAttendanceChecktimeList(userUuid : string, requestedDate: any, status : string): Observable<any>{
+    const params = new HttpParams()
+    .set('userUuid', userUuid)
+    .set('requestedDate', requestedDate)
+    .set('status', status);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/checktime/list`, {params});
+  }
+
+  sendAttendanceTimeUpdateRequest(userId: string, attendanceTimeUpdateRequestDto: AttendanceTimeUpdateRequestDto): Observable<any> {
+    const params = new HttpParams()
+    .set('userUuid', userId)
+    const url = `${this.baseUrl}/attendance/send/attendance/update/request`;
+    return this.httpClient.post<any>(url, attendanceTimeUpdateRequestDto, {params});
+  }
+
+
+  getAttendanceRequestLog(userUuid : string): Observable<any>{
+    const params = new HttpParams()
+    .set('userUuid', userUuid)
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/attendance/request/logs`, {params});
+  }
+
+  getFullAttendanceRequestLog(): Observable<any>{
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/full/attendance/request/logs`);
+  }
+
+  getAttendanceRequests(): Observable<any>{
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/attendance/requests`);
+  }
+
+
+  approveOrRejectAttendanceRequest(attendanceReqId: number, requestString: string): Observable<any> {
+    const params = new HttpParams()
+    .set('attendanceRequestId', attendanceReqId)
+    .set('requestString',requestString);
+    const url = `${this.baseUrl}/attendance/approve/reject/attendance/requests`;
+    return this.httpClient.put<any>(url, {}, {params});
   }
 
 }

@@ -10,7 +10,7 @@ import { Subject } from 'rxjs';
 import { UserLeaveRequest } from 'src/app/models/user-leave-request';
 import { FormBuilder, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import { FullCalendarComponent } from '@fullcalendar/angular';
-import { UserDto } from 'src/app/models/user-dto.model';
+import { AttendanceCheckTimeResponse, AttendanceTimeUpdateRequestDto, UserDto } from 'src/app/models/user-dto.model';
 import { saveAs } from 'file-saver';
 import { HttpClient } from '@angular/common/http';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
@@ -216,7 +216,15 @@ export class EmployeeProfileComponent implements OnInit {
     this.getUserLeaveReq();
     this.getUserLeaveLogByUuid();
     this.getTotalExperiences();
-    this.getHrPolicy()
+    this.getHrPolicy();
+    this.attendanceTimeUpdateForm = this.fb.group({
+      requestType: [null, [Validators.required]],
+      requestedDate: [null, [Validators.required]],
+      attendanceId: [null, [Validators.required]],
+      updatedTime: [null, [Validators.required]],
+      managerId: [null, [Validators.required]],
+      requestReason: [null, [Validators.required, Validators.maxLength(200)]]
+    });
   }
 
   getRoleData() {
@@ -2885,7 +2893,71 @@ return
 
 
 
+  //  attendance update fucnionality 
+  attendanceCheckTimeResponse : AttendanceCheckTimeResponse[] = [];
+  getAttendanceChecktimeListDate(): void {
+    const formattedDate = this.datePipe.transform(this.requestedDate, 'yyyy-MM-dd');
+    this.dataService.getAttendanceChecktimeList(this.userId, formattedDate, this.statusString).subscribe(response => {
+      this.attendanceCheckTimeResponse = response.listOfObject;
+      console.log('checktime retrieved successfully', response.listOfObject);
+    }, (error) => {
+      console.log(error);
+    });
+  }
+
+  attendanceTimeUpdateForm!: FormGroup;
+  requestedDate!: Date;
+  statusString!: string;
+
+
+  submitForm(): void {
+    if (this.attendanceTimeUpdateForm.valid) {
+      const attendanceTimeUpdateRequest: AttendanceTimeUpdateRequestDto = this.attendanceTimeUpdateForm.value;
+      this.dataService.sendAttendanceTimeUpdateRequest(this.userId, this.attendanceTimeUpdateForm.value).subscribe(
+        (response) => {
+          console.log('Request sent successfully', response);
+          this.resetForm();
+          document.getElementById('attendanceUpdateModal')?.click();
+          this.getAttendanceRequestLogData();
+        },
+        (error) => {
+          console.error('Error sending request:', error);
+        }
+      );
+    }
+  }
+
+  onDateChange(date: Date | null): void {
+    if (date) {
+      this.requestedDate = date; 
+      this.statusString = this.attendanceTimeUpdateForm.get('requestType')?.value || '';
+      this.getAttendanceChecktimeListDate();
+    }
+  }
+
+
+  resetForm(): void {
+    this.attendanceTimeUpdateForm.reset();
+  }
+
+
+disabledDate = (current: Date): boolean => {
+  return moment(current).isAfter(moment(), 'day');
+}
+
+attendanceRequestLog: any[] = [];
+  getAttendanceRequestLogData(): void {
+    this.dataService.getAttendanceRequestLog(this.userId).subscribe(response => {
+      this.attendanceRequestLog = response.listOfObject;
+      console.log('logs retrieved successfully', response.listOfObject);
+    }, (error) => {
+      console.log(error);
+    });
+  }
   
+
+  
+
   
 }
 

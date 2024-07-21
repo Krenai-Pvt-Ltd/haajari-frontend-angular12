@@ -204,7 +204,7 @@
                 <li class="nav-item" (click)="activeTabs('home')">
                   <a class="nav-link active" data-bs-toggle="tab" href="#home" role="tab" aria-selected="true">Home</a>
                 </li>
-                <li class="nav-item" (click)="activeTabs('attendance')">
+                <li class="nav-item" (click)="activeTabs('attendance'); getAttendanceRequestLogData()">
                   <a class="nav-link" data-bs-toggle="tab" href="#attendance" role="tab"
                     aria-selected="true">Attendance</a>
                 </li>
@@ -862,9 +862,9 @@
                                 (click)="goToday()" />
                               <label class="btn btn-outline-primary active" for="btncheck1">Today</label>
                               <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off" />
-                              <label class="btn btn-outline-light" for="btncheck2">Present - {{ totalPresent }}</label>
-                              <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off" />
-                              <label class="btn btn-outline-light" for="btncheck3">Absent - {{ totalAbsent }}</label>
+                              <label class="btn btn-outline-light text-primary" for="btncheck2" data-bs-toggle="modal" data-bs-target="#attendanceUpdateModal"> <i class="bi bi-megaphone-fill" ></i> Request</label>
+                              <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off" />    
+                              <label class="btn btn-outline-light text-primary" for="btncheck3" data-bs-toggle="modal" data-bs-target="#attendanceLogsModal"> <i class="bi bi-substack"></i> Logs</label>
                             </div>
                           </div>
                           <!--end col-->
@@ -886,7 +886,7 @@
                               border-radius: 4px;
                               color: green;
                               font-weight: bold;
-                            ">P</span>
+                            ">P - {{ totalPresent }}</span>
                           <span style="margin-left: 4px">- Present</span>
                         </div>
                         <div class="legend mb-2" style="
@@ -900,7 +900,7 @@
                               border-radius: 4px;
                               color: red;
                               font-weight: bold;
-                            ">A</span>
+                            ">A - {{ totalAbsent }}</span>
                           <span style="margin-left: 4px">- Absent</span>
                         </div>
                         <div class="legend mb-2" style="
@@ -4004,3 +4004,136 @@ aria-labelledby="showDocModalLabel" aria-hidden="true">
   </div>
 </div>
 </div>
+
+<!--  modal attendace update request  -->
+<!-- Button to trigger the modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#attendanceUpdateModal">
+  Request Attendance Time Update
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="attendanceUpdateModal" tabindex="-1" aria-labelledby="attendanceUpdateModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="attendanceUpdateModalLabel">Request Attendance Time Update</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="attendanceTimeUpdateForm" (ngSubmit)="submitForm()">
+          <!-- Request Type Dropdown -->
+          <div class="mb-3 row">
+            <label for="requestType" class="col-sm-4 col-form-label">Request Type<span class="text-danger">*</span></label>
+            <div class="col-sm-8">
+              <nz-select formControlName="requestType" id="requestType" nzPlaceHolder="Select request type" class="w-100">
+                <nz-option nzValue="in" nzLabel="IN"></nz-option>
+                <nz-option nzValue="out" nzLabel="OUT"></nz-option>
+                <nz-option nzValue="break" nzLabel="BREAK"></nz-option>
+                <nz-option nzValue="back" nzLabel="BACK"></nz-option>
+              </nz-select>
+            </div>
+          </div>
+          <!-- Date Picker -->
+          <div class="mb-3 row">
+            <label for="requestedDate" class="col-sm-4 col-form-label">Date<span class="text-danger">*</span></label>
+            <div class="col-sm-8">
+              <nz-date-picker formControlName="requestedDate" id="requestedDate" nzFormat="yyyy-MM-dd" (ngModelChange)="onDateChange($event)" class="w-100" [nzDisabledDate]="disabledDate"></nz-date-picker>
+            </div>
+          </div>
+          <!-- Select Check Time -->
+          <div class="mb-3 row">
+            <label for="attendanceId" class="col-sm-4 col-form-label">Select Time<span class="text-danger">*</span></label>
+            <div class="col-sm-8">
+              <nz-select formControlName="attendanceId" id="attendanceId" nzPlaceHolder="Select time" class="w-100">
+                <nz-option *ngFor="let time of attendanceCheckTimeResponse" [nzValue]="time.attendanceId" [nzLabel]="time.checkTime | date: 'shortTime'"></nz-option>
+              </nz-select>
+              <small class="text-muted d-block mt-2" *ngIf="!attendanceTimeUpdateForm.get('requestType')?.value || !attendanceTimeUpdateForm.get('requestedDate')?.value">
+                Please select the Request Type and Date above before choosing a time!
+              </small>
+            </div>
+          </div>
+          <!-- Update Time Picker -->
+          <div class="mb-3 row">
+            <label for="updatedTime" class="col-sm-4 col-form-label">Update Time<span class="text-danger">*</span></label>
+            <div class="col-sm-8">
+              <nz-time-picker formControlName="updatedTime" id="updatedTime" nzFormat="HH:mm" class="w-100"></nz-time-picker>
+            </div>
+          </div>
+          <!-- Select Manager -->
+          <div class="mb-3 row">
+            <label for="managerId" class="col-sm-4 col-form-label">Manager<span class="text-danger">*</span></label>
+            <div class="col-sm-8">
+              <nz-select formControlName="managerId" id="managerId" nzPlaceHolder="Select manager" class="w-100">
+                <nz-option *ngFor="let manager of managers" [nzValue]="manager.id" [nzLabel]="manager.name"></nz-option>
+              </nz-select>
+            </div>
+          </div>
+          <!-- Request Reason -->
+          <div class="mb-3 row">
+            <label for="requestReason" class="col-sm-4 col-form-label">Reason<span class="text-danger">*</span></label>
+            <div class="col-sm-8">
+              <textarea formControlName="requestReason" id="requestReason" class="form-control" rows="3"></textarea>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" [disabled]="!attendanceTimeUpdateForm.valid" (click)="submitForm()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- attendance request log modal -->
+
+<!-- Modal -->
+<div id="attendanceLogsModal" class="modal fade" tabindex="-1" aria-labelledby="attendanceLogsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="attendanceLogsModalLabel">Attendance Request Logs</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="errorboxmain text-center" *ngIf="attendanceRequestLog.length==0">
+          <div class="errorboxinner">
+            <div class="errorboxplaceholder mb-2">
+              <img src="assets/images/empty-box.svg" style="width: 80px" />
+            </div>
+            <div class="">
+              <h4>No Data Found</h4>
+              <p class="mb-0">
+                We're unable to locate a record associated with the information you entered.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="logs-container" *ngIf="attendanceRequestLog.length > 0">
+          <div class="log-entry" *ngFor="let log of attendanceRequestLog">
+            <div class="log-header">
+              <h6>Request Type: <span class="badge bg-soft-primary">{{log.attendanceStatus}}</span></h6>
+              <span class="badge bg-soft-warning" *ngIf="log.status == 'PENDING'">Pending</span>
+              <span class="badge bg-soft-success" *ngIf="log.status == 'APPROVED'">Approved</span>
+              <span class="badge bg-soft-danger" *ngIf="log.status == 'REJECTED'">Rejected</span>
+            </div>
+            <p><strong>Date:</strong> {{log.createdDate | date:"MMM dd, yyyy 'at' hh:mm a"}}</p>
+            <p><strong>Original Date:</strong> {{log.oldDate | date:"MMM dd, yyyy 'at' hh:mm a"}}</p>
+            <p><strong>Updated Date:</strong> {{log.updatedDate | date:"MMM dd, yyyy 'at' hh:mm a"}}</p>
+            <p><strong>Manager:</strong> {{log.managerName}}</p>
+            <p><strong>Reason:</strong> {{log.requestReason}}</p>
+          </div>
+         
+             
+           
+        </div>
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div> -->
+    </div>
+  </div>
+</div>
+
