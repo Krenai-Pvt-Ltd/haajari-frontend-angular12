@@ -1400,7 +1400,7 @@ tbody tr {
 }
 /* Author Pushpendra */
 .hr-dashed {
-  border-top: 1px dashed #fff;
+  border-top: 1px dashed #f1f1f1;
 }
 .alert {
   border-radius: 0.125rem;
@@ -1846,3 +1846,7 @@ hr {
   display: block;
 }
 
+.activity .activity-info .icon-info-activity i {
+  width: 24px;
+  height: 24px;
+}
