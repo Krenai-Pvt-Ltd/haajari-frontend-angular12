@@ -499,7 +499,7 @@ span.optional {
   font-size: 12px;
 }
 .apply-leave-main-box {
-  height: 400px;
+  max-height: 400px;
   overflow: auto;
 }
 

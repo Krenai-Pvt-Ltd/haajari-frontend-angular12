@@ -2,12 +2,12 @@ export class LopReversalRequest {
     uuid : string = '';
     lopDays : number = 0;
     lopDaysToBeReversed : number = 0;
-    lopReversalComment : string = '';
+    comment : string = '';
 
-    constructor(uuid : string, lopDays : number, lopDaysToBeReversed : number, lopReversalComment : string){
+    constructor(uuid : string, lopDays : number, lopDaysToBeReversed : number, comment : string){
         this.uuid = uuid;
         this.lopDays = lopDays;
         this.lopDaysToBeReversed = lopDaysToBeReversed;
-        this.lopReversalComment = lopReversalComment;
+        this.comment = comment;
     }
 }

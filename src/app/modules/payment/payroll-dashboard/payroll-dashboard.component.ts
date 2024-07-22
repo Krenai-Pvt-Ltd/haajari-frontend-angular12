@@ -1312,7 +1312,7 @@ export class PayrollDashboardComponent implements OnInit {
       this.lopReversalRequestList = [];
 
       this.lopReversalResponseList.forEach((item) => {
-        let lopReversalRequest = new LopReversalRequest(item.uuid, item.lopDays, item.reversedLopDays, item.lopReversalComment);
+        let lopReversalRequest = new LopReversalRequest(item.uuid, item.lopDays, item.reversedLopDays, item.comment);
         
         this.lopReversalRequestList.push(lopReversalRequest);
       })
@@ -1354,7 +1354,7 @@ export class PayrollDashboardComponent implements OnInit {
                 this.lopReversalResponseList = response.listOfObject.map((lopReversal: LopReversalResponse) => {
                   // Apply cached comment if available
                   if (this.commentCache[lopReversal.uuid]) {
-                    lopReversal.lopReversalComment = this.commentCache[lopReversal.uuid];
+                    lopReversal.comment = this.commentCache[lopReversal.uuid];
                   }
                   return lopReversal;
                 });
@@ -1372,7 +1372,7 @@ export class PayrollDashboardComponent implements OnInit {
     }
 
     updateLopComment(lopReversal: LopReversalResponse, comment: string) {
-      lopReversal.lopReversalComment = comment;
+      lopReversal.comment = comment;
     
       this.commentCache[lopReversal.uuid] = comment;
     }
