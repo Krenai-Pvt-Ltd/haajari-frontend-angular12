@@ -1343,7 +1343,7 @@ export class PayrollDashboardComponent implements OnInit {
       this.lopReversalRequestList = [];
 
       this.lopReversalResponseList.forEach((item) => {
-        let lopReversalRequest = new LopReversalRequest(item.uuid, item.lopDays, item.reversedLopDays, item.lopReversalComment);
+        let lopReversalRequest = new LopReversalRequest(item.uuid, item.lopDays, item.reversedLopDays, item.comment);
         
         this.lopReversalRequestList.push(lopReversalRequest);
       })
@@ -1393,7 +1393,7 @@ getLopReversalResponseByOrganizationIdAndStartDateAndEndDateMethodCall(debounceT
 
               // Apply cached comment if available
               if (this.commentCache[lopReversal.uuid]) {
-                lopReversal.lopReversalComment = this.commentCache[lopReversal.uuid];
+                lopReversal.comment = this.commentCache[lopReversal.uuid];
               }
 
               return lopReversal;
@@ -1420,643 +1420,643 @@ updateReversedLopDays(response: LopReversalResponse, reversedLopDays: number) {
 
 // Common method to update and cache comments
 updateLopComment(response: LopReversalResponse, comment: string) {
-  response.lopReversalComment = comment;
+  response.comment = comment;
   this.commentCache[response.uuid] = comment;
 }
 
 
 
-    extractPreviousMonthNameFromDate(dateString : string){
-      const date = new Date(dateString);
+extractPreviousMonthNameFromDate(dateString : string){
+  const date = new Date(dateString);
+  
+  date.setDate(1);
+  date.setMonth(date.getMonth() - 1);
+
+  const monthFormatter = new Intl.DateTimeFormat('en-US', { month: 'short' });
+  const shortMonthName = monthFormatter.format(date);
+
+  return shortMonthName;
+}
+
+
+  //-------------------------------------
+  // API to fetch shift type list by user
+  selectedLeaveTypeResponse :  LeaveTypeResponse = new LeaveTypeResponse();
+
+  leaveTypeResponseList : LeaveTypeResponse[] = [];
+  getLeaveTypeResponseListByUserUuidMethodCall(uuid : string){
+    this.dataService.getLeaveTypeResponseByUserUuid(uuid).subscribe((response) => {
+      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+        return;
+      } else{
+        this.selectedLeaveTypeResponse = response.listOfObject[0]; //Setting the first object as selected
+        this.lopAdjustmentRequest.leaveType = response.listOfObject[0].name;
+        this.leaveTypeResponseList = response.listOfObject;
+      }
+      console.log(this.leaveTypeResponseList);
+    }, (error) => {
+      console.log(error);
+    })
+  }
+
+  // API to register leave adjustment request
+  lopAdjustmentRequest : LopAdjustmentRequest = new LopAdjustmentRequest();
+  registerLopAdjustmentRequestMethodCall(){
+    debugger;
+    this.dataService.registerLopAdjustmentRequest(this.lopAdjustmentRequest, this.startDate, this.endDate).subscribe((response) => {
+      this.closeLopAdjustmentRequestModal.nativeElement.click();
+      this.helperService.showToast(response.message, this.TOAST_STATUS_SUCCESS);
+      this.getLopSummaryResponseByOrganizationIdAndStartDateAndEndDateMethodCall();
+    }, (error) => {
+      this.helperService.showToast(error.message, this.TOAST_STATUS_ERROR);
+    })
+  }
+
+
+  // Logic to set the values
+  selectLeaveType(leaveTypeResponse : LeaveTypeResponse){
+    this.lopAdjustmentRequest.leaveType = leaveTypeResponse.name;
+  }
+
+  dateRange : Date[] = [];
+  selectDateForLopAdjustmentRequest(dates: Date[]): void {
+    if (dates && dates.length === 2) {
+      this.dateRange[0] = dates[0];
+      this.dateRange[1] = dates[1];
+    }
+
+    this.lopAdjustmentRequest.startDate = this.helperService.formatDateToYYYYMMDD(dates[0]);
+    this.lopAdjustmentRequest.endDate = this.helperService.formatDateToYYYYMMDD(dates[1]);
+  }
+
+
+  // Logic to open lop adjustment modal
+  openLopAdjustmentRequestModal(uuid : string, lopDaysToBeAdjusted : number){
+    this.getLeaveTypeResponseListByUserUuidMethodCall(uuid);
+    this.lopAdjustmentRequest.userUuid = uuid;
+    this.lopAdjustmentRequest.lopDaysToBeAdjusted = lopDaysToBeAdjusted;
+  }
+
+  // Logic to close lop adjustment modal
+  @ViewChild("closeLopAdjustmentRequestModal") closeLopAdjustmentRequestModal !: ElementRef;
+
+  selectLopAdjustmentCount(count : number){
+    console.log(count);
+    this.lopAdjustmentRequest.lopDaysToBeAdjusted = count;
+  }
+
+
+  // Fetching user's leave for payroll
+
+  payrollLeaveResponseList : PayrollLeaveResponse[] = [];
+  getPayrollLeaveResponseMethodCall(){
+    this.preRuleForShimmersAndErrorPlaceholdersForPayrollLeaveResponse();
+    this.dataService.getPayrollLeaveResponse(
+      this.startDate,
+      this.endDate,
+      this.itemPerPage,
+      this.pageNumber,
+      this.search,
+      this.searchBy
+    ).subscribe((response) => {
+      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+        this.dataNotFoundPlaceholderForPayrollLeaveResponse = true;
+      } else{
+        this.payrollLeaveResponseList = response.listOfObject;
+        this.total = response.totalItems;
+        this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+      }
+
+      this.isShimmerForPayrollLeaveResponse = false;
+    }, (error) => {
+      this.networkConnectionErrorPlaceHolderForPayrollLeaveResponse = true;
+      this.isShimmerForPayrollLeaveResponse = false;
+    })
+  }
+
+  userUuid!: string
+  @ViewChild('leaveLogsModalButton') leaveLogsModalButton !: ElementRef;
+  // /userLeaveLogs : UserInfoForPayrollReflection = new UserInfoForPayrollReflection();
+  userLeaveLogs : any;
+  getPayrollLeaveLogResponseMethodCall(userUuid : string){
+    this.userUuid = userUuid;
+    this.dataService.getPayrollLeaveLogsResponse(
+      userUuid,
+      this.startDate,
+      this.endDate
+    ).subscribe((response) => {
+      this.userLeaveLogs = response.listOfObject;
+      console.log(response.listOfObject);
       
-      date.setDate(1);
-      date.setMonth(date.getMonth() - 1);
-
-      const monthFormatter = new Intl.DateTimeFormat('en-US', { month: 'short' });
-      const shortMonthName = monthFormatter.format(date);
-  
-      return shortMonthName;
-    }
-
-
-    //-------------------------------------
-    // API to fetch shift type list by user
-    selectedLeaveTypeResponse :  LeaveTypeResponse = new LeaveTypeResponse();
-
-    leaveTypeResponseList : LeaveTypeResponse[] = [];
-    getLeaveTypeResponseListByUserUuidMethodCall(uuid : string){
-      this.dataService.getLeaveTypeResponseByUserUuid(uuid).subscribe((response) => {
-        if(this.helperService.isListOfObjectNullOrUndefined(response)){
-          return;
-        } else{
-          this.selectedLeaveTypeResponse = response.listOfObject[0]; //Setting the first object as selected
-          this.lopAdjustmentRequest.leaveType = response.listOfObject[0].name;
-          this.leaveTypeResponseList = response.listOfObject;
-        }
-        console.log(this.leaveTypeResponseList);
-      }, (error) => {
-        console.log(error);
-      })
-    }
-
-    // API to register leave adjustment request
-    lopAdjustmentRequest : LopAdjustmentRequest = new LopAdjustmentRequest();
-    registerLopAdjustmentRequestMethodCall(){
-      debugger;
-      this.dataService.registerLopAdjustmentRequest(this.lopAdjustmentRequest, this.startDate, this.endDate).subscribe((response) => {
-        this.closeLopAdjustmentRequestModal.nativeElement.click();
-        this.helperService.showToast(response.message, this.TOAST_STATUS_SUCCESS);
-        this.getLopSummaryResponseByOrganizationIdAndStartDateAndEndDateMethodCall();
-      }, (error) => {
-        this.helperService.showToast(error.message, this.TOAST_STATUS_ERROR);
-      })
-    }
-
-
-    // Logic to set the values
-    selectLeaveType(leaveTypeResponse : LeaveTypeResponse){
-      this.lopAdjustmentRequest.leaveType = leaveTypeResponse.name;
-    }
-
-    dateRange : Date[] = [];
-    selectDateForLopAdjustmentRequest(dates: Date[]): void {
-      if (dates && dates.length === 2) {
-        this.dateRange[0] = dates[0];
-        this.dateRange[1] = dates[1];
-      }
-
-      this.lopAdjustmentRequest.startDate = this.helperService.formatDateToYYYYMMDD(dates[0]);
-      this.lopAdjustmentRequest.endDate = this.helperService.formatDateToYYYYMMDD(dates[1]);
-    }
-
-
-    // Logic to open lop adjustment modal
-    openLopAdjustmentRequestModal(uuid : string, lopDaysToBeAdjusted : number){
-      this.getLeaveTypeResponseListByUserUuidMethodCall(uuid);
-      this.lopAdjustmentRequest.userUuid = uuid;
-      this.lopAdjustmentRequest.lopDaysToBeAdjusted = lopDaysToBeAdjusted;
-    }
-
-    // Logic to close lop adjustment modal
-    @ViewChild("closeLopAdjustmentRequestModal") closeLopAdjustmentRequestModal !: ElementRef;
-
-    selectLopAdjustmentCount(count : number){
-      console.log(count);
-      this.lopAdjustmentRequest.lopDaysToBeAdjusted = count;
-    }
-
-
-    // Fetching user's leave for payroll
-
-    payrollLeaveResponseList : PayrollLeaveResponse[] = [];
-    getPayrollLeaveResponseMethodCall(){
-      this.preRuleForShimmersAndErrorPlaceholdersForPayrollLeaveResponse();
-      this.dataService.getPayrollLeaveResponse(
-        this.startDate,
-        this.endDate,
-        this.itemPerPage,
-        this.pageNumber,
-        this.search,
-        this.searchBy
-      ).subscribe((response) => {
-        if(this.helperService.isListOfObjectNullOrUndefined(response)){
-          this.dataNotFoundPlaceholderForPayrollLeaveResponse = true;
-        } else{
-          this.payrollLeaveResponseList = response.listOfObject;
-          this.total = response.totalItems;
-          this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-        }
-
-        this.isShimmerForPayrollLeaveResponse = false;
-      }, (error) => {
-        this.networkConnectionErrorPlaceHolderForPayrollLeaveResponse = true;
-        this.isShimmerForPayrollLeaveResponse = false;
-      })
-    }
-
-    userUuid!: string
-    @ViewChild('leaveLogsModalButton') leaveLogsModalButton !: ElementRef;
-    // /userLeaveLogs : UserInfoForPayrollReflection = new UserInfoForPayrollReflection();
-    userLeaveLogs : any;
-    getPayrollLeaveLogResponseMethodCall(userUuid : string){
-      this.userUuid = userUuid;
-      this.dataService.getPayrollLeaveLogsResponse(
-        userUuid,
-        this.startDate,
-        this.endDate
-      ).subscribe((response) => {
-        this.userLeaveLogs = response.listOfObject;
-        console.log(response.listOfObject);
-        
-      }, (error) => {
-        
-      })
-    }
-
-    openLeaveLogsModal(userUuid : string){
-      this.getPayrollLeaveLogResponseMethodCall(userUuid);
-      this.leaveLogsModalButton.nativeElement.click();
-    }
-
-    selectedRole : Role = new Role();
-    roles : Role[] = [];
-
-
-
-
-    // #######################################################################
-    // Step 3: Salary changes, Bonus & Overtime
-    salaryChangeResponseList : SalaryChangeResponse[] = [];
-    getSalaryChangeResponseListByOrganizationIdMethodCall(){
-      this.preRuleForShimmersAndErrorPlaceholdersForSalaryChangeResponse();
-      this.dataService.getSalaryChangeResponseListByOrganizationId(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
-
-        if(this.helperService.isListOfObjectNullOrUndefined(response)){
-          this.dataNotFoundPlaceholderForSalaryChangeResponse = true;
-        } else{
-          this.salaryChangeResponseList = response.listOfObject;
-          this.total = response.totalItems;
-          this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-        }
-
-        this.isShimmerForSalaryChangeResponse = false;
-      }, (error) => {
-        this.isShimmerForSalaryChangeResponse = false;
-        this.networkConnectionErrorPlaceHolderForSalaryChangeResponse = true;
-      })
-    }
-
-
-    salaryChangeBonusResponseList : SalaryChangeBonusResponse[] = [];
-    getSalaryChangeBonusResponseListByOrganizationIdMethodCall(debounceTime: number = 300) {
-      this.salaryChangeBonusResponseList = [];
-  
-      if (this.debounceTimer) {
-        clearTimeout(this.debounceTimer);
-      }
-  
-      this.debounceTimer = setTimeout(() => {
-        this.preRuleForShimmersAndErrorPlaceholdersForSalaryChangeBonusResponse();
-        this.dataService
-          .getSalaryChangeBonusResponseListByOrganizationId(
-            this.startDate,
-            this.endDate,
-            this.itemPerPage,
-            this.pageNumber,
-            this.search,
-            this.searchBy
-          )
-          .subscribe(
-            (response) => {
-              if (this.helperService.isListOfObjectNullOrUndefined(response)) {
-                this.dataNotFoundPlaceholderForSalaryChangeBonusResponse = true;
-              } else {
-                this.salaryChangeBonusResponseList = response.listOfObject.map((salaryChangeBonus: SalaryChangeBonusResponse) => {
-                  // Apply cached selection if available
-                  if (this.selectedPayActionCache[salaryChangeBonus.uuid]) {
-                    salaryChangeBonus.payActionType = this.selectedPayActionCache[salaryChangeBonus.uuid];
-                    salaryChangeBonus.payActionTypeId = this.selectedPayActionCache[salaryChangeBonus.uuid].id;
-                  } else {
-                    // Set initial selection based on payActionTypeId
-                    const selectedPayActionType = this.payActionTypeList.find(
-                      (payActionType) => payActionType.id === salaryChangeBonus.payActionTypeId
-                    );
-                    if (selectedPayActionType) {
-                      salaryChangeBonus.payActionType = selectedPayActionType;
-                    }
-                  }
-  
-                  // Apply cached comment if available
-                  if (this.commentCache[salaryChangeBonus.uuid]) {
-                    salaryChangeBonus.comment = this.commentCache[salaryChangeBonus.uuid];
-                  }
-  
-                  return salaryChangeBonus;
-                });
-                this.total = response.totalItems;
-                this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-              }
-              this.isShimmerForSalaryChangeBonusResponse = false;
-            },
-            (error) => {
-              this.isShimmerForSalaryChangeBonusResponse = false;
-              this.networkConnectionErrorPlaceHolderForSalaryChangeBonusResponse = true;
-            }
-          );
-      }, debounceTime);
-    }
-    salaryChangeOvertimeResponseList : SalaryChangeOvertimeResponse[] = [];
-    getSalaryChangeOvertimeResponseListByOrganizationIdMethodCall(){
-      this.preRuleForShimmersAndErrorPlaceholdersForSalaryChangeOvertimeResponse();
-      this.dataService.getSalaryChangeOvertimeResponseListByOrganizationId(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
-
-        if(this.helperService.isListOfObjectNullOrUndefined(response)){
-          this.dataNotFoundPlaceholderForSalaryChangeOvertimeResponse = true;
-        } else{
-          this.salaryChangeOvertimeResponseList = response.listOfObject;
-          this.total = response.totalItems;
-          this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-        }
-
-        this.isShimmerForSalaryChangeOvertimeResponse = false;
-      }, (error) => {
-        this.isShimmerForSalaryChangeOvertimeResponse = false;
-        this.networkConnectionErrorPlaceHolderForSalaryChangeOvertimeResponse = true;
-      })
-    }
-
-
-    registerSalaryChangesAndBonusAndOvertimeMethodCall(CURRENT_TAB_IN_SALARY_CHANGE : number){
-
-      if(CURRENT_TAB_IN_SALARY_CHANGE == this.SALARY_CHANGE){
-        this.registerSalaryChangeListByOrganizationIdMethodCall();
-      }
-
-      if(CURRENT_TAB_IN_SALARY_CHANGE == this.BONUS){
-        this.registerSalaryChangeBonusListByOrganizationIdMethodCall();
-      }
-
-      if(CURRENT_TAB_IN_SALARY_CHANGE == this.OVERTIME){
-
-      }
-    }
-
-    registerSalaryChangeListByOrganizationIdMethodCall(){
-      this.helperService.showToast("Salary changes details saved successfully.", this.TOAST_STATUS_SUCCESS);
-      this.navigateToTab('step8-tab');
-    }
-
-
-    salaryChangeBonusRequestList : SalaryChangeBonusRequest[] = [];
-    registerSalaryChangeBonusListByOrganizationIdMethodCall(){
-      this.salaryChangeBonusRequestList = [];
+    }, (error) => {
       
-      this.salaryChangeBonusResponseList.forEach((item) => {
-        let salaryChangeBonusRequest = new SalaryChangeBonusRequest(item.uuid,item.payActionType.id, item.comment);
+    })
+  }
 
-        this.salaryChangeBonusRequestList.push(salaryChangeBonusRequest);
-      })
+  openLeaveLogsModal(userUuid : string){
+    this.getPayrollLeaveLogResponseMethodCall(userUuid);
+    this.leaveLogsModalButton.nativeElement.click();
+  }
 
-      this.dataService.registerSalaryChangeBonusListByOrganizationId(this.salaryChangeBonusRequestList).subscribe((response) => {
-        this.selectedPayActionCache={};
-        this.commentCache = {};
-        this.helperService.showToast(response.message, this.TOAST_STATUS_SUCCESS);
-        // this.navigateToTab('step9-tab');
-        this.salaryChangeModal.nativeElement.click();
-      }, (error) => {
-        this.helperService.showToast("Error while registering the request!", this.TOAST_STATUS_ERROR);
-      })
-    }
+  selectedRole : Role = new Role();
+  roles : Role[] = [];
 
 
 
-    // ###########################################################
-    // Step 4: EPF, ESI & TDS
 
-   
-    updateFinalAmount(response: any) {
-      if (response.amountToBeAdjusted != null) {
-        response.finalAmount = response.amountToBeAdjusted;
-      } else {
-        response.finalAmount = response.amount;
-      }
-  
-      // Update the cache
-      this.amountCache[response.uuid] = response.amountToBeAdjusted;
-  
-      // Update the list if necessary
-      // const index = this.epfDetailsResponseList.findIndex(detail => detail.uuid == response.uuid);
-      // if (index != -1) {
-      //   this.epfDetailsResponseList[index] = { ...response };
-      // }
-    }
-  
+  // #######################################################################
+  // Step 3: Salary changes, Bonus & Overtime
+  salaryChangeResponseList : SalaryChangeResponse[] = [];
+  getSalaryChangeResponseListByOrganizationIdMethodCall(){
+    this.preRuleForShimmersAndErrorPlaceholdersForSalaryChangeResponse();
+    this.dataService.getSalaryChangeResponseListByOrganizationId(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
 
-    amountCache: { [uuid: string]: number } = {};
-    epfDetailsResponseList : EpfDetailsResponse[] = [];
-    getEpfDetailsResponseListByOrganizationIdMethodCall(debounceTime: number = 300) {
-      this.epfDetailsResponseList = [];
-  
-      if (this.debounceTimer) {
-        clearTimeout(this.debounceTimer);
-      }
-  
-      this.debounceTimer = setTimeout(() => {
-        this.preRuleForShimmersAndErrorPlaceholdersForEpfDetailsResponse();
-        this.dataService
-          .getEpfDetailsResponseListByOrganizationId(
-            this.startDate,
-            this.endDate,
-            this.itemPerPage,
-            this.pageNumber,
-            this.search,
-            this.searchBy
-          )
-          .subscribe(
-            (response) => {
-              if (this.helperService.isListOfObjectNullOrUndefined(response)) {
-                this.dataNotFoundPlaceholderForEpfDetailsResponse = true;
-              } else {
-                this.epfDetailsResponseList = response.listOfObject.map((item: EpfDetailsResponse) => {
-                  // Apply cached amount if available
-                  if (this.amountCache[item.uuid]) {
-                    item.amountToBeAdjusted = this.amountCache[item.uuid];
-                  }
-                  item.finalAmount = item.amountToBeAdjusted || item.amount;
-                  return item;
-                });
-  
-                this.total = response.totalItems;
-                this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-              }
-              this.isShimmerForEpfDetailsResponse = false;
-            },
-            (error) => {
-              this.networkConnectionErrorPlaceHolderForEpfDetailsResponse = true;
-              this.isShimmerForEpfDetailsResponse = false;
-            }
-          );
-      }, debounceTime);
-    }
-
-    
-    esiDetailsResponseList : EsiDetailsResponse[] = [];
-    getEsiDetailsResponseListByOrganizationIdMethodCall(debounceTime: number = 300) {
-      this.esiDetailsResponseList = [];
-  
-      if (this.debounceTimer) {
-        clearTimeout(this.debounceTimer);
-      }
-  
-      this.debounceTimer = setTimeout(() => {
-        this.preRuleForShimmersAndErrorPlaceholdersForEsiDetailsResponse();
-        this.dataService
-          .getEsiDetailsResponseListByOrganizationId(
-            this.startDate,
-            this.endDate,
-            this.itemPerPage,
-            this.pageNumber,
-            this.search,
-            this.searchBy
-          )
-          .subscribe(
-            (response) => {
-              if (this.helperService.isListOfObjectNullOrUndefined(response)) {
-                this.dataNotFoundPlaceholderForEsiDetailsResponse = true;
-              } else {
-                this.esiDetailsResponseList = response.listOfObject.map((item: EsiDetailsResponse) => {
-                  // Apply cached amount if available
-                  if (this.amountCache[item.uuid]) {
-                    item.amountToBeAdjusted = this.amountCache[item.uuid];
-                  }
-                  item.finalAmount = item.amountToBeAdjusted || item.amount;
-                  return item;
-                });
-  
-                this.total = response.totalItems;
-                this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-              }
-              this.isShimmerForEsiDetailsResponse = false;
-            },
-            (error) => {
-              this.networkConnectionErrorPlaceHolderForEsiDetailsResponse = true;
-              this.isShimmerForEsiDetailsResponse = false;
-            }
-          );
-      }, debounceTime);
-    }
-
-    tdsDetailsResponseList : TdsDetailsResponse[] = [];
-    getTdsDetailsResponseListByOrganizationIdMethodCall(debounceTime: number = 300) {
-      this.tdsDetailsResponseList = [];
-  
-      if (this.debounceTimer) {
-        clearTimeout(this.debounceTimer);
-      }
-  
-      this.debounceTimer = setTimeout(() => {
-        this.preRuleForShimmersAndErrorPlaceholdersForTdsDetailsResponse();
-        this.dataService
-          .getTdsDetailsResponseListByOrganizationId(
-            this.startDate,
-            this.endDate,
-            this.itemPerPage,
-            this.pageNumber,
-            this.search,
-            this.searchBy
-          )
-          .subscribe(
-            (response) => {
-              if (this.helperService.isListOfObjectNullOrUndefined(response)) {
-                this.dataNotFoundPlaceholderForTdsDetailsResponse = true;
-              } else {
-                this.tdsDetailsResponseList = response.listOfObject.map((item: TdsDetailsResponse) => {
-                  // Apply cached amount if available
-                  if (this.amountCache[item.uuid]) {
-                    item.amountToBeAdjusted = this.amountCache[item.uuid];
-                  }
-                  item.finalAmount = item.amountToBeAdjusted || item.amount;
-                  return item;
-                });
-  
-                this.total = response.totalItems;
-                this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-              }
-              this.isShimmerForTdsDetailsResponse = false;
-            },
-            (error) => {
-              this.networkConnectionErrorPlaceHolderForTdsDetailsResponse = true;
-              this.isShimmerForTdsDetailsResponse = false;
-            }
-          );
-      }, debounceTime);
-    }
-
-
-    modifiedValuesMap = new Map<number, any>();
-
-
-
-    // updateEsiFinalAmount(esiDetailsResponse : EsiDetailsResponse) {
-    //   if (esiDetailsResponse.amountToBeAdjusted != null) {
-    //     esiDetailsResponse.finalAmount = esiDetailsResponse.amountToBeAdjusted;
-    //   } else {
-    //     esiDetailsResponse.finalAmount = esiDetailsResponse.amount;
-    //   }
-    // }
-
-    // updateTdsFinalAmount(tdsDetailsResponse : TdsDetailsResponse) {
-    //   if (tdsDetailsResponse.amountToBeAdjusted != null) {
-    //     tdsDetailsResponse.finalAmount = tdsDetailsResponse.amountToBeAdjusted;
-    //   } else {
-    //     tdsDetailsResponse.finalAmount = tdsDetailsResponse.amount;
-    //   }
-    // }
-
-
-    registerEpfEsiTdsMethodCall(CURRENT_TAB_IN_EPF_ESI_TDS : number){
-
-      console.log("REGISTRATION_STARTED...");
-      console.log(CURRENT_TAB_IN_EPF_ESI_TDS);
-
-      if(CURRENT_TAB_IN_EPF_ESI_TDS == this.EPF){
-        console.log("EPF_REGISTRATION_STARTED...");
-        this.registerEpfDetailsListByOrganizationIdMethodCall();
+      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+        this.dataNotFoundPlaceholderForSalaryChangeResponse = true;
+      } else{
+        this.salaryChangeResponseList = response.listOfObject;
+        this.total = response.totalItems;
+        this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
       }
 
-      if(CURRENT_TAB_IN_EPF_ESI_TDS == this.ESI){
-        console.log("ESI_REGISTRATION_STARTED...");
-        this.registerEsiDetailsListByOrganizationIdMethodCall();
-      }
+      this.isShimmerForSalaryChangeResponse = false;
+    }, (error) => {
+      this.isShimmerForSalaryChangeResponse = false;
+      this.networkConnectionErrorPlaceHolderForSalaryChangeResponse = true;
+    })
+  }
 
-      if(CURRENT_TAB_IN_EPF_ESI_TDS == this.TDS){
-        console.log("TDS_REGISTRATION_STARTED...");
-        this.registerTdsDetailsListByOrganizationIdMethodCall();
-      }
+
+  salaryChangeBonusResponseList : SalaryChangeBonusResponse[] = [];
+  getSalaryChangeBonusResponseListByOrganizationIdMethodCall(debounceTime: number = 300) {
+    this.salaryChangeBonusResponseList = [];
+
+    if (this.debounceTimer) {
+      clearTimeout(this.debounceTimer);
     }
 
-
-    epfDetailsRequestList : EpfDetailsRequest[] = [];
-    registerEpfDetailsListByOrganizationIdMethodCall(){
-      this.epfDetailsRequestList = [];
-
-      this.epfDetailsResponseList.forEach((item) => {
-        let epfDetailsRequest = new EpfDetailsRequest(item.uuid, item.finalAmount);
-        this.epfDetailsRequestList.push(epfDetailsRequest);
-      })
-
-      this.dataService.registerEpfDetailsListByOrganizationId(this.startDate, this.endDate, this.epfDetailsRequestList).subscribe((response) => {
-        this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
-        this.amountCache = {};
-        this.navigateToTab('step11-tab');
-      }, (error) => {
-        this.helperService.showToast("Error while adjusting the epf details!", Key.TOAST_STATUS_ERROR);
-      })
-    }
-
-
-    esiDetailsRequestList :EsiDetailsRequest[] = [];
-    registerEsiDetailsListByOrganizationIdMethodCall(){
-      this.esiDetailsRequestList = [];
-
-      this.esiDetailsResponseList.forEach((item) => {
-        let esiDetailsRequest = new EsiDetailsRequest(item.uuid, item.finalAmount);
-        this.esiDetailsRequestList.push(esiDetailsRequest);
-      })
-
-      this.dataService.registerEsiDetailsListByOrganizationId(this.startDate, this.endDate, this.esiDetailsRequestList).subscribe((response) => {
-        this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
-        this.amountCache = {};
-        this.navigateToTab('step12-tab');
-      }, (error) => {
-        this.helperService.showToast("Error while adjusting the esi details!", Key.TOAST_STATUS_ERROR);
-      })
-    }
-
-
-    tdsDetailsRequestList :TdsDetailsRequest[] = [];
-    registerTdsDetailsListByOrganizationIdMethodCall(){
-      this.tdsDetailsRequestList = [];
-
-      this.tdsDetailsResponseList.forEach((item) => {
-        let tdsDetailsRequest = new TdsDetailsRequest(item.uuid, item.finalAmount);
-        this.tdsDetailsRequestList.push(tdsDetailsRequest);
-      })
-      
-      this.dataService.registerTdsDetailsListByOrganizationId(this.startDate, this.endDate, this.tdsDetailsRequestList).subscribe((response) => {
-        this.amountCache = {};
-        this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
-        this.epfEsiTdsModal.nativeElement.click();
-      }, (error) => {
-        this.helperService.showToast("Error while adjusting the tds details!", Key.TOAST_STATUS_ERROR);
-      })
-    }
-
-    approveOrDeny(requestId: number, requestedString: string) {
+    this.debounceTimer = setTimeout(() => {
+      this.preRuleForShimmersAndErrorPlaceholdersForSalaryChangeBonusResponse();
       this.dataService
-        .approveOrRejectLeaveOfUser(requestId, requestedString)
-        .subscribe({
-          next: (logs) => {
-          this.getPayrollLeaveLogResponseMethodCall(this.userUuid);
-            // this.leaveLogsModalButton.nativeElement.click();
-  
-            // Show toast message
-            let message =
-              requestedString === 'approved'
-                ? 'Leave approved successfully!'
-                : 'Leave rejected successfully!';
-            this.helperService.showToast(message, Key.TOAST_STATUS_SUCCESS);
-          },
-          error: (error) => {
-            
-            this.helperService.showToast(
-              'Error processing leave request!',
-              Key.TOAST_STATUS_ERROR
-            );
-          },
-        });
-    }
-  
-
-    RUN_PAYROLL_LOADER : boolean = false;
-    generateSalaryReportMethodCall(): void {
-      this.RUN_PAYROLL_LOADER = true;
-      this.dataService.generateSalaryReport(this.startDate, this.endDate).subscribe({
-        next: (response) => {
-          this.getOrganizationIndividualMonthSalaryDataMethodCall(this.currentMonthResponse);
-          const downloadLink = document.createElement('a');
-          downloadLink.href = response.object.reportExcelLink;
-          downloadLink.download = 'Report_JULY_1720181370937.xlsx';
-          downloadLink.click();
-          console.log(response);
-          this.RUN_PAYROLL_LOADER = false;
-          this.helperService.showToast('Payroll generated successfully.', Key.TOAST_STATUS_SUCCESS);
-        },
-        error: (error) => {
-          this.helperService.showToast('Error while generating the Payroll!', Key.TOAST_STATUS_ERROR);
-          this.RUN_PAYROLL_LOADER = false;
-        },
-      });
-    } 
-
-   
-    saveAndContinue(){
-      this.lopSummaryTab();
-      this.helperService.showToast('Leave details updated successfully.', Key.TOAST_STATUS_SUCCESS);
-      this.step5Tab.nativeElement.click();  
-      
-    }
-
-
-    payrollLogs: any[] = [];
-    isPayrollHistoryPlaceholder = true;
-    dataNotFoundPlaceholderForPayrollHistory : boolean = false;
-    networkConnectionErrorPlaceHolderForPayrollHistory : boolean = false;
-    getPayrollLogs(): void {
-      this.payrollLogs = [];
-      this.dataService.getGeneratedPayrollMonthlyLogs(this.startDate, this.endDate, this.pageNumber, this.itemPerPage)
+        .getSalaryChangeBonusResponseListByOrganizationId(
+          this.startDate,
+          this.endDate,
+          this.itemPerPage,
+          this.pageNumber,
+          this.search,
+          this.searchBy
+        )
         .subscribe(
-          (response: any) => {
-            if(response.listOfObject.length==0){
-              this.dataNotFoundPlaceholderForPayrollHistory = true;
-              console.log("null")
-            } else{
-              this.payrollLogs = response.listOfObject;
+          (response) => {
+            if (this.helperService.isListOfObjectNullOrUndefined(response)) {
+              this.dataNotFoundPlaceholderForSalaryChangeBonusResponse = true;
+            } else {
+              this.salaryChangeBonusResponseList = response.listOfObject.map((salaryChangeBonus: SalaryChangeBonusResponse) => {
+                // Apply cached selection if available
+                if (this.selectedPayActionCache[salaryChangeBonus.uuid]) {
+                  salaryChangeBonus.payActionType = this.selectedPayActionCache[salaryChangeBonus.uuid];
+                  salaryChangeBonus.payActionTypeId = this.selectedPayActionCache[salaryChangeBonus.uuid].id;
+                } else {
+                  // Set initial selection based on payActionTypeId
+                  const selectedPayActionType = this.payActionTypeList.find(
+                    (payActionType) => payActionType.id === salaryChangeBonus.payActionTypeId
+                  );
+                  if (selectedPayActionType) {
+                    salaryChangeBonus.payActionType = selectedPayActionType;
+                  }
+                }
+
+                // Apply cached comment if available
+                if (this.commentCache[salaryChangeBonus.uuid]) {
+                  salaryChangeBonus.comment = this.commentCache[salaryChangeBonus.uuid];
+                }
+
+                return salaryChangeBonus;
+              });
               this.total = response.totalItems;
               this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
             }
-        
-            
-            // this.groupLogsByDate();
-            this.isPayrollHistoryPlaceholder = this.payrollLogs.length === 0;
+            this.isShimmerForSalaryChangeBonusResponse = false;
           },
-          (error: any) => {
-            console.error('Error fetching report logs:', error);
-            this.isPayrollHistoryPlaceholder = true;
-            this.networkConnectionErrorPlaceHolderForPayrollHistory = true;
+          (error) => {
+            this.isShimmerForSalaryChangeBonusResponse = false;
+            this.networkConnectionErrorPlaceHolderForSalaryChangeBonusResponse = true;
           }
         );
+    }, debounceTime);
+  }
+  salaryChangeOvertimeResponseList : SalaryChangeOvertimeResponse[] = [];
+  getSalaryChangeOvertimeResponseListByOrganizationIdMethodCall(){
+    this.preRuleForShimmersAndErrorPlaceholdersForSalaryChangeOvertimeResponse();
+    this.dataService.getSalaryChangeOvertimeResponseListByOrganizationId(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
+
+      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+        this.dataNotFoundPlaceholderForSalaryChangeOvertimeResponse = true;
+      } else{
+        this.salaryChangeOvertimeResponseList = response.listOfObject;
+        this.total = response.totalItems;
+        this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+      }
+
+      this.isShimmerForSalaryChangeOvertimeResponse = false;
+    }, (error) => {
+      this.isShimmerForSalaryChangeOvertimeResponse = false;
+      this.networkConnectionErrorPlaceHolderForSalaryChangeOvertimeResponse = true;
+    })
+  }
+
+
+  registerSalaryChangesAndBonusAndOvertimeMethodCall(CURRENT_TAB_IN_SALARY_CHANGE : number){
+
+    if(CURRENT_TAB_IN_SALARY_CHANGE == this.SALARY_CHANGE){
+      this.registerSalaryChangeListByOrganizationIdMethodCall();
     }
+
+    if(CURRENT_TAB_IN_SALARY_CHANGE == this.BONUS){
+      this.registerSalaryChangeBonusListByOrganizationIdMethodCall();
+    }
+
+    if(CURRENT_TAB_IN_SALARY_CHANGE == this.OVERTIME){
+
+    }
+  }
+
+  registerSalaryChangeListByOrganizationIdMethodCall(){
+    this.helperService.showToast("Salary changes details saved successfully.", this.TOAST_STATUS_SUCCESS);
+    this.navigateToTab('step8-tab');
+  }
+
+
+  salaryChangeBonusRequestList : SalaryChangeBonusRequest[] = [];
+  registerSalaryChangeBonusListByOrganizationIdMethodCall(){
+    this.salaryChangeBonusRequestList = [];
+    
+    this.salaryChangeBonusResponseList.forEach((item) => {
+      let salaryChangeBonusRequest = new SalaryChangeBonusRequest(item.uuid,item.payActionType.id, item.comment);
+
+      this.salaryChangeBonusRequestList.push(salaryChangeBonusRequest);
+    })
+
+    this.dataService.registerSalaryChangeBonusListByOrganizationId(this.salaryChangeBonusRequestList).subscribe((response) => {
+      this.selectedPayActionCache={};
+      this.commentCache = {};
+      this.helperService.showToast(response.message, this.TOAST_STATUS_SUCCESS);
+      // this.navigateToTab('step9-tab');
+      this.salaryChangeModal.nativeElement.click();
+    }, (error) => {
+      this.helperService.showToast("Error while registering the request!", this.TOAST_STATUS_ERROR);
+    })
+  }
+
+
+
+  // ###########################################################
+  // Step 4: EPF, ESI & TDS
+
+  
+  updateFinalAmount(response: any) {
+    if (response.amountToBeAdjusted != null) {
+      response.finalAmount = response.amountToBeAdjusted;
+    } else {
+      response.finalAmount = response.amount;
+    }
+
+    // Update the cache
+    this.amountCache[response.uuid] = response.amountToBeAdjusted;
+
+    // Update the list if necessary
+    // const index = this.epfDetailsResponseList.findIndex(detail => detail.uuid == response.uuid);
+    // if (index != -1) {
+    //   this.epfDetailsResponseList[index] = { ...response };
+    // }
+  }
+
+
+  amountCache: { [uuid: string]: number } = {};
+  epfDetailsResponseList : EpfDetailsResponse[] = [];
+  getEpfDetailsResponseListByOrganizationIdMethodCall(debounceTime: number = 300) {
+    this.epfDetailsResponseList = [];
+
+    if (this.debounceTimer) {
+      clearTimeout(this.debounceTimer);
+    }
+
+    this.debounceTimer = setTimeout(() => {
+      this.preRuleForShimmersAndErrorPlaceholdersForEpfDetailsResponse();
+      this.dataService
+        .getEpfDetailsResponseListByOrganizationId(
+          this.startDate,
+          this.endDate,
+          this.itemPerPage,
+          this.pageNumber,
+          this.search,
+          this.searchBy
+        )
+        .subscribe(
+          (response) => {
+            if (this.helperService.isListOfObjectNullOrUndefined(response)) {
+              this.dataNotFoundPlaceholderForEpfDetailsResponse = true;
+            } else {
+              this.epfDetailsResponseList = response.listOfObject.map((item: EpfDetailsResponse) => {
+                // Apply cached amount if available
+                if (this.amountCache[item.uuid]) {
+                  item.amountToBeAdjusted = this.amountCache[item.uuid];
+                }
+                item.finalAmount = item.amountToBeAdjusted || item.amount;
+                return item;
+              });
+
+              this.total = response.totalItems;
+              this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+            }
+            this.isShimmerForEpfDetailsResponse = false;
+          },
+          (error) => {
+            this.networkConnectionErrorPlaceHolderForEpfDetailsResponse = true;
+            this.isShimmerForEpfDetailsResponse = false;
+          }
+        );
+    }, debounceTime);
+  }
+
+  
+  esiDetailsResponseList : EsiDetailsResponse[] = [];
+  getEsiDetailsResponseListByOrganizationIdMethodCall(debounceTime: number = 300) {
+    this.esiDetailsResponseList = [];
+
+    if (this.debounceTimer) {
+      clearTimeout(this.debounceTimer);
+    }
+
+    this.debounceTimer = setTimeout(() => {
+      this.preRuleForShimmersAndErrorPlaceholdersForEsiDetailsResponse();
+      this.dataService
+        .getEsiDetailsResponseListByOrganizationId(
+          this.startDate,
+          this.endDate,
+          this.itemPerPage,
+          this.pageNumber,
+          this.search,
+          this.searchBy
+        )
+        .subscribe(
+          (response) => {
+            if (this.helperService.isListOfObjectNullOrUndefined(response)) {
+              this.dataNotFoundPlaceholderForEsiDetailsResponse = true;
+            } else {
+              this.esiDetailsResponseList = response.listOfObject.map((item: EsiDetailsResponse) => {
+                // Apply cached amount if available
+                if (this.amountCache[item.uuid]) {
+                  item.amountToBeAdjusted = this.amountCache[item.uuid];
+                }
+                item.finalAmount = item.amountToBeAdjusted || item.amount;
+                return item;
+              });
+
+              this.total = response.totalItems;
+              this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+            }
+            this.isShimmerForEsiDetailsResponse = false;
+          },
+          (error) => {
+            this.networkConnectionErrorPlaceHolderForEsiDetailsResponse = true;
+            this.isShimmerForEsiDetailsResponse = false;
+          }
+        );
+    }, debounceTime);
+  }
+
+  tdsDetailsResponseList : TdsDetailsResponse[] = [];
+  getTdsDetailsResponseListByOrganizationIdMethodCall(debounceTime: number = 300) {
+    this.tdsDetailsResponseList = [];
+
+    if (this.debounceTimer) {
+      clearTimeout(this.debounceTimer);
+    }
+
+    this.debounceTimer = setTimeout(() => {
+      this.preRuleForShimmersAndErrorPlaceholdersForTdsDetailsResponse();
+      this.dataService
+        .getTdsDetailsResponseListByOrganizationId(
+          this.startDate,
+          this.endDate,
+          this.itemPerPage,
+          this.pageNumber,
+          this.search,
+          this.searchBy
+        )
+        .subscribe(
+          (response) => {
+            if (this.helperService.isListOfObjectNullOrUndefined(response)) {
+              this.dataNotFoundPlaceholderForTdsDetailsResponse = true;
+            } else {
+              this.tdsDetailsResponseList = response.listOfObject.map((item: TdsDetailsResponse) => {
+                // Apply cached amount if available
+                if (this.amountCache[item.uuid]) {
+                  item.amountToBeAdjusted = this.amountCache[item.uuid];
+                }
+                item.finalAmount = item.amountToBeAdjusted || item.amount;
+                return item;
+              });
+
+              this.total = response.totalItems;
+              this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+            }
+            this.isShimmerForTdsDetailsResponse = false;
+          },
+          (error) => {
+            this.networkConnectionErrorPlaceHolderForTdsDetailsResponse = true;
+            this.isShimmerForTdsDetailsResponse = false;
+          }
+        );
+    }, debounceTime);
+  }
+
+
+  modifiedValuesMap = new Map<number, any>();
+
+
+
+  // updateEsiFinalAmount(esiDetailsResponse : EsiDetailsResponse) {
+  //   if (esiDetailsResponse.amountToBeAdjusted != null) {
+  //     esiDetailsResponse.finalAmount = esiDetailsResponse.amountToBeAdjusted;
+  //   } else {
+  //     esiDetailsResponse.finalAmount = esiDetailsResponse.amount;
+  //   }
+  // }
+
+  // updateTdsFinalAmount(tdsDetailsResponse : TdsDetailsResponse) {
+  //   if (tdsDetailsResponse.amountToBeAdjusted != null) {
+  //     tdsDetailsResponse.finalAmount = tdsDetailsResponse.amountToBeAdjusted;
+  //   } else {
+  //     tdsDetailsResponse.finalAmount = tdsDetailsResponse.amount;
+  //   }
+  // }
+
+
+  registerEpfEsiTdsMethodCall(CURRENT_TAB_IN_EPF_ESI_TDS : number){
+
+    console.log("REGISTRATION_STARTED...");
+    console.log(CURRENT_TAB_IN_EPF_ESI_TDS);
+
+    if(CURRENT_TAB_IN_EPF_ESI_TDS == this.EPF){
+      console.log("EPF_REGISTRATION_STARTED...");
+      this.registerEpfDetailsListByOrganizationIdMethodCall();
+    }
+
+    if(CURRENT_TAB_IN_EPF_ESI_TDS == this.ESI){
+      console.log("ESI_REGISTRATION_STARTED...");
+      this.registerEsiDetailsListByOrganizationIdMethodCall();
+    }
+
+    if(CURRENT_TAB_IN_EPF_ESI_TDS == this.TDS){
+      console.log("TDS_REGISTRATION_STARTED...");
+      this.registerTdsDetailsListByOrganizationIdMethodCall();
+    }
+  }
+
+
+  epfDetailsRequestList : EpfDetailsRequest[] = [];
+  registerEpfDetailsListByOrganizationIdMethodCall(){
+    this.epfDetailsRequestList = [];
+
+    this.epfDetailsResponseList.forEach((item) => {
+      let epfDetailsRequest = new EpfDetailsRequest(item.uuid, item.finalAmount);
+      this.epfDetailsRequestList.push(epfDetailsRequest);
+    })
+
+    this.dataService.registerEpfDetailsListByOrganizationId(this.startDate, this.endDate, this.epfDetailsRequestList).subscribe((response) => {
+      this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+      this.amountCache = {};
+      this.navigateToTab('step11-tab');
+    }, (error) => {
+      this.helperService.showToast("Error while adjusting the epf details!", Key.TOAST_STATUS_ERROR);
+    })
+  }
+
+
+  esiDetailsRequestList :EsiDetailsRequest[] = [];
+  registerEsiDetailsListByOrganizationIdMethodCall(){
+    this.esiDetailsRequestList = [];
+
+    this.esiDetailsResponseList.forEach((item) => {
+      let esiDetailsRequest = new EsiDetailsRequest(item.uuid, item.finalAmount);
+      this.esiDetailsRequestList.push(esiDetailsRequest);
+    })
+
+    this.dataService.registerEsiDetailsListByOrganizationId(this.startDate, this.endDate, this.esiDetailsRequestList).subscribe((response) => {
+      this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+      this.amountCache = {};
+      this.navigateToTab('step12-tab');
+    }, (error) => {
+      this.helperService.showToast("Error while adjusting the esi details!", Key.TOAST_STATUS_ERROR);
+    })
+  }
+
+
+  tdsDetailsRequestList :TdsDetailsRequest[] = [];
+  registerTdsDetailsListByOrganizationIdMethodCall(){
+    this.tdsDetailsRequestList = [];
+
+    this.tdsDetailsResponseList.forEach((item) => {
+      let tdsDetailsRequest = new TdsDetailsRequest(item.uuid, item.finalAmount);
+      this.tdsDetailsRequestList.push(tdsDetailsRequest);
+    })
+    
+    this.dataService.registerTdsDetailsListByOrganizationId(this.startDate, this.endDate, this.tdsDetailsRequestList).subscribe((response) => {
+      this.amountCache = {};
+      this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+      this.epfEsiTdsModal.nativeElement.click();
+    }, (error) => {
+      this.helperService.showToast("Error while adjusting the tds details!", Key.TOAST_STATUS_ERROR);
+    })
+  }
+
+  approveOrDeny(requestId: number, requestedString: string) {
+    this.dataService
+      .approveOrRejectLeaveOfUser(requestId, requestedString)
+      .subscribe({
+        next: (logs) => {
+        this.getPayrollLeaveLogResponseMethodCall(this.userUuid);
+          // this.leaveLogsModalButton.nativeElement.click();
+
+          // Show toast message
+          let message =
+            requestedString === 'approved'
+              ? 'Leave approved successfully!'
+              : 'Leave rejected successfully!';
+          this.helperService.showToast(message, Key.TOAST_STATUS_SUCCESS);
+        },
+        error: (error) => {
+          
+          this.helperService.showToast(
+            'Error processing leave request!',
+            Key.TOAST_STATUS_ERROR
+          );
+        },
+      });
+  }
+
+
+  RUN_PAYROLL_LOADER : boolean = false;
+  generateSalaryReportMethodCall(): void {
+    this.RUN_PAYROLL_LOADER = true;
+    this.dataService.generateSalaryReport(this.startDate, this.endDate).subscribe({
+      next: (response) => {
+        this.getOrganizationIndividualMonthSalaryDataMethodCall(this.currentMonthResponse);
+        const downloadLink = document.createElement('a');
+        downloadLink.href = response.object.reportExcelLink;
+        downloadLink.download = 'Report_JULY_1720181370937.xlsx';
+        downloadLink.click();
+        console.log(response);
+        this.RUN_PAYROLL_LOADER = false;
+        this.helperService.showToast('Payroll generated successfully.', Key.TOAST_STATUS_SUCCESS);
+      },
+      error: (error) => {
+        this.helperService.showToast('Error while generating the Payroll!', Key.TOAST_STATUS_ERROR);
+        this.RUN_PAYROLL_LOADER = false;
+      },
+    });
+  } 
+
+  
+  saveAndContinue(){
+    this.lopSummaryTab();
+    this.helperService.showToast('Leave details updated successfully.', Key.TOAST_STATUS_SUCCESS);
+    this.step5Tab.nativeElement.click();  
+    
+  }
+
+
+  payrollLogs: any[] = [];
+  isPayrollHistoryPlaceholder = true;
+  dataNotFoundPlaceholderForPayrollHistory : boolean = false;
+  networkConnectionErrorPlaceHolderForPayrollHistory : boolean = false;
+  getPayrollLogs(): void {
+    this.payrollLogs = [];
+    this.dataService.getGeneratedPayrollMonthlyLogs(this.startDate, this.endDate, this.pageNumber, this.itemPerPage)
+      .subscribe(
+        (response: any) => {
+          if(response.listOfObject.length==0){
+            this.dataNotFoundPlaceholderForPayrollHistory = true;
+            console.log("null")
+          } else{
+            this.payrollLogs = response.listOfObject;
+            this.total = response.totalItems;
+            this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+          }
+      
+          
+          // this.groupLogsByDate();
+          this.isPayrollHistoryPlaceholder = this.payrollLogs.length === 0;
+        },
+        (error: any) => {
+          console.error('Error fetching report logs:', error);
+          this.isPayrollHistoryPlaceholder = true;
+          this.networkConnectionErrorPlaceHolderForPayrollHistory = true;
+        }
+      );
+  }
   
     
 
