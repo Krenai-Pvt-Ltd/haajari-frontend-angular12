@@ -19,6 +19,10 @@
     text-align: left;
 }
 
+.table-design{
+  border: 1px solid #6d68ff;
+}
+
 .errorboxmain {
     /* min-height: 20vh; */
     background-color: #fff;

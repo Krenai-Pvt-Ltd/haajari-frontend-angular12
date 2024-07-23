@@ -7,4 +7,19 @@ export class UserDto {
       this.name = name;
     }
   }
+
+  export interface AttendanceCheckTimeResponse {
+    attendanceId: number;
+    checkTime: Date;
   
+  }
+
+  export class AttendanceTimeUpdateRequestDto {
+
+   attendanceId!: number;
+   updatedTime!: Date;
+   managerId!: number;
+   requestReason!: String;
+  }
+  
+
