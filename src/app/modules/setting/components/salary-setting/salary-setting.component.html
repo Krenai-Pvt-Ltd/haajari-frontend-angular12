@@ -515,6 +515,66 @@
             <div class="border-box"></div>
           </div>
 
+          <!-- Salary Upload -->
+
+          <div class="col-md-4 mt-3">
+            <div class="form-roe-data">
+              <h5>Upload Salary Details</h5>
+              <p>A quick snapshot of your company.</p>
+            </div>
+          </div>
+          <div class="col-md-7 mt-3">
+            <!-- Section to show the uploaded document -->
+  
+            <div class="row">
+              <div class="col-md-12">
+               
+                <div class="alert alert-light mb-0 excel-uplode-file-box text-center">
+                  <input
+                  id="fileSelect"
+                  type="file"
+                  name="img[]"
+                  accept=".xlsx"
+                  class="input"
+                  (change)="selectFile($event)"
+                />
+                  <img src="assets/images/documentation.svg" style="width: 50px" class="pb-3" />
+                  <p class="">
+                    Drag file here to upload<br />
+                    or,
+                    <u><a class="text-primary" href="#!">choose file</a></u>
+                  </p>
+                  <p>
+                    <span class="text-primary">
+                      <u>
+                        <a class="text-primary" href="{{sampleExcelFile}}" target="_blank">Download a sample Excel file</a>
+                      </u>
+                    </span>, update its data, and upload it back with the updated content on our platform
+                  </p>
+                  <div *ngIf="isProgressToggle" class="spinner-border text-success" role="status"></div>
+                  <!-- <input type="file" id="hrpolicies" name="hrpolicies" (change)="onFileSelectedHrPolicies($event)" /> -->
+                </div>
+              </div>
+            </div>
+            
+            
+            <div>
+              <div class="row mt-3 mb-3" *ngIf="lastUploadedSalaryDoc">
+                <div class="col-md-12 whatapp-login-input d-flex justify-content-between align-items-center">
+                  <div>Last Uploaded Salary Doc | <span>{{ lastUploadedSalaryDocName }}</span></div>
+                  <div>
+                    <!-- <i class="bi bi-eye-fill text-primary" (click)="viewDocument()"></i> -->
+                    <i class="bi bi-download text-primary ms-3" (click)="downloadDocument()"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="border-box"></div>
+          </div>
+
           <!-- Managing statutories -->
           <div class="col-md-4 mt-3 mb-3">
             <div class="form-roe-data">

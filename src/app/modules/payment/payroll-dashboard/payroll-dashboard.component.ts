@@ -168,6 +168,7 @@ export class PayrollDashboardComponent implements OnInit {
   // ----------------------------------------------------------
   // Attendance, Leaves and Present Days tab selection
   leavesTab(){
+    
     this.CURRENT_TAB = this.LEAVES;
     this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE = this.LEAVES;
     this.resetCriteriaFilter();
@@ -1059,6 +1060,7 @@ export class PayrollDashboardComponent implements OnInit {
     this.sortBy = 'id';
     this.search = '';
     this.searchBy = 'name';
+    
   }
 
   resetCriteriaFilterMicro() {
@@ -1275,6 +1277,8 @@ export class PayrollDashboardComponent implements OnInit {
       })
 
       this.dataService.registerLopSummaryRequestByOrganizationIdAndStartDateAndEndDate(this.lopSummaryRequestList, this.startDate, this.endDate).subscribe((response) => {
+        this.lopSummaryCommentCache = {};
+        this.adjustedLopDaysCache = {};
         this.helperService.showToast("LOP summary has been successfully saved.", this.TOAST_STATUS_SUCCESS);
         this.navigateToTab('step6-tab'); //Navigating to the Lop reversal tab
       }, (error) => {
@@ -1283,25 +1287,52 @@ export class PayrollDashboardComponent implements OnInit {
       })
     }
 
-    lopSummaryResponseList : LopSummaryResponse[] = [];
-    getLopSummaryResponseByOrganizationIdAndStartDateAndEndDateMethodCall(){
+    lopSummaryResponseList: LopSummaryResponse[] = [];
+    adjustedLopDaysCache: { [uuid: string]: number } = {};
+    lopSummaryCommentCache: { [uuid: string]: string } = {};
+    
+    getLopSummaryResponseByOrganizationIdAndStartDateAndEndDateMethodCall() {
       this.preRuleForShimmersAndErrorPlaceholdersForLopSummary();
-      this.dataService.getLopSummaryResponseByOrganizationIdAndStartDateAndEndDate(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
-
-        if(this.helperService.isListOfObjectNullOrUndefined(response)){
-          this.dataNotFoundPlaceholderForLopSummary = true;
-        } else{
-          this.lopSummaryResponseList = response.listOfObject;
-          this.total = response.totalItems;
-          this.lastPageNumber = Math.ceil(this.total/this.itemPerPage);
-          // console.log(this.lopSummaryResponseList);
+      this.dataService.getLopSummaryResponseByOrganizationIdAndStartDateAndEndDate(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe(
+        (response) => {
+          if (this.helperService.isListOfObjectNullOrUndefined(response)) {
+            this.dataNotFoundPlaceholderForLopSummary = true;
+          } else {
+            this.lopSummaryResponseList = response.listOfObject.map((item: LopSummaryResponse) => {
+              // Apply cached adjusted LOP days if available
+              if (this.adjustedLopDaysCache[item.uuid]) {
+                item.adjustedLopDays = this.adjustedLopDaysCache[item.uuid];
+              }
+    
+              // Apply cached comment if available
+              if (this.lopSummaryCommentCache[item.uuid]) {
+                item.lopSummaryComment = this.lopSummaryCommentCache[item.uuid];
+              }
+    
+              return item;
+            });
+    
+            this.total = response.totalItems;
+            this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+          }
+    
+          this.isShimmerForLopSummary = false;
+        },
+        (error) => {
+          this.networkConnectionErrorPlaceHolderForLopSummary = true;
+          this.isShimmerForLopSummary = false;
         }
-
-        this.isShimmerForLopSummary = false;
-      }, (error) => {
-        this.networkConnectionErrorPlaceHolderForLopSummary = true;
-        this.isShimmerForLopSummary = false;
-      })
+      );
+    }
+    
+    // Save adjusted LOP days to cache
+    saveAdjustedLopDaysToCache(uuid: string, adjustedLopDays: number) {
+      this.adjustedLopDaysCache[uuid] = adjustedLopDays;
+    }
+    
+    // Save comment to cache
+    saveLopSummaryCommentToCache(uuid: string, comment: string) {
+      this.lopSummaryCommentCache[uuid] = comment;
     }
 
 
@@ -1319,6 +1350,8 @@ export class PayrollDashboardComponent implements OnInit {
 
       this.dataService.registerLopReversalRequestByOrganizationIdAndStartDateAndEndDate(this.lopReversalRequestList, this.startDate, this.endDate).subscribe((response) => {
         this.helperService.showToast("LOP reversed successfully.", this.TOAST_STATUS_SUCCESS);
+        this.commentCache = {};
+        this.reversedLopDaysCache = {};
         this.attendanceAndLeaveModal.nativeElement.click();
       }, (error) => {
         this.helperService.showToast("Error while saving the LOP Reversal!", this.TOAST_STATUS_ERROR);
@@ -1326,56 +1359,71 @@ export class PayrollDashboardComponent implements OnInit {
       })
     }
 
-    lopReversalResponseList : LopReversalResponse[] = [];
-  
-    getLopReversalResponseByOrganizationIdAndStartDateAndEndDateMethodCall(debounceTime: number = 300) {
-      this.lopReversalResponseList = [];
-  
-      if (this.debounceTimer) {
-        clearTimeout(this.debounceTimer);
-      }
-  
-      this.debounceTimer = setTimeout(() => {
-        this.preRuleForShimmersAndErrorPlaceholdersForLopReversal();
-        this.dataService
-          .getLopReversalResponseByOrganizationIdAndStartDateAndEndDate(
-            this.startDate,
-            this.endDate,
-            this.itemPerPage,
-            this.pageNumber,
-            this.search,
-            this.searchBy
-          )
-          .subscribe(
-            (response) => {
-              if (this.helperService.isListOfObjectNullOrUndefined(response)) {
-                this.dataNotFoundPlaceholderForLopReversal = true;
-              } else {
-                this.lopReversalResponseList = response.listOfObject.map((lopReversal: LopReversalResponse) => {
-                  // Apply cached comment if available
-                  if (this.commentCache[lopReversal.uuid]) {
-                    lopReversal.lopReversalComment = this.commentCache[lopReversal.uuid];
-                  }
-                  return lopReversal;
-                });
-                this.total = response.totalItems;
-                this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-              }
-              this.isShimmerForLopReversal = false;
-            },
-            (error) => {
-              this.networkConnectionErrorPlaceHolderForLopReversal = true;
-              this.isShimmerForLopReversal = false;
-            }
-          );
-      }, debounceTime);
-    }
+    lopReversalResponseList: LopReversalResponse[] = [];
+reversedLopDaysCache: { [uuid: string]: number } = {};
 
-    updateLopComment(lopReversal: LopReversalResponse, comment: string) {
-      lopReversal.lopReversalComment = comment;
-    
-      this.commentCache[lopReversal.uuid] = comment;
-    }
+getLopReversalResponseByOrganizationIdAndStartDateAndEndDateMethodCall(debounceTime: number = 300) {
+  this.lopReversalResponseList = [];
+  
+  if (this.debounceTimer) {
+    clearTimeout(this.debounceTimer);
+  }
+  
+  this.debounceTimer = setTimeout(() => {
+    this.preRuleForShimmersAndErrorPlaceholdersForLopReversal();
+    this.dataService
+      .getLopReversalResponseByOrganizationIdAndStartDateAndEndDate(
+        this.startDate,
+        this.endDate,
+        this.itemPerPage,
+        this.pageNumber,
+        this.search,
+        this.searchBy
+      )
+      .subscribe(
+        (response) => {
+          if (this.helperService.isListOfObjectNullOrUndefined(response)) {
+            this.dataNotFoundPlaceholderForLopReversal = true;
+          } else {
+            this.lopReversalResponseList = response.listOfObject.map((lopReversal: LopReversalResponse) => {
+              // Apply cached reversed LOP days if available
+              if (this.reversedLopDaysCache[lopReversal.uuid]) {
+                lopReversal.reversedLopDays = this.reversedLopDaysCache[lopReversal.uuid];
+              }
+
+              // Apply cached comment if available
+              if (this.commentCache[lopReversal.uuid]) {
+                lopReversal.lopReversalComment = this.commentCache[lopReversal.uuid];
+              }
+
+              return lopReversal;
+            });
+
+            this.total = response.totalItems;
+            this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+          }
+          this.isShimmerForLopReversal = false;
+        },
+        (error) => {
+          this.networkConnectionErrorPlaceHolderForLopReversal = true;
+          this.isShimmerForLopReversal = false;
+        }
+      );
+  }, debounceTime);
+}
+
+// Common method to update and cache reversed LOP days
+updateReversedLopDays(response: LopReversalResponse, reversedLopDays: number) {
+  response.reversedLopDays = reversedLopDays;
+  this.reversedLopDaysCache[response.uuid] = reversedLopDays;
+}
+
+// Common method to update and cache comments
+updateLopComment(response: LopReversalResponse, comment: string) {
+  response.lopReversalComment = comment;
+  this.commentCache[response.uuid] = comment;
+}
+
 
 
     extractPreviousMonthNameFromDate(dateString : string){

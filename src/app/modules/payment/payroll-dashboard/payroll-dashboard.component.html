@@ -278,6 +278,7 @@
                           <!--end col-->
                           <div class="col-auto align-self-center">
                             <div class="button-items">
+                              <button type="button" class="btn btn-outline-secondary btn-round"> Preview Payroll </button>
                               <button type="button" class="btn btn-outline-primary btn-round"
                                 (click)="generateSalaryReportMethodCall()">
                                 <ng-container *ngIf="RUN_PAYROLL_LOADER; else runPayrollLoaderFalseCondition">
@@ -291,7 +292,7 @@
                                   <div>Run Payroll</div>
                                 </ng-template>
                               </button>
-                              <!-- <button type="button" class="btn btn-outline-secondary btn-round"> Review Employee </button> -->
+                             
                             </div>
                           </div>
                           <!--end col-->
@@ -1457,45 +1458,40 @@
                               </tbody>
                             </ng-container>
                             <ng-template #lopSummaryResponseListData>
-                              <ng-container *ngIf="
-                                !isShimmerForLopSummary &&
-                                  lopSummaryResponseList.length != 0;
-                                else errorInFetchingLopSummaryResponseListData
-                              ">
-                                <tbody *ngFor="
-                                  let lopSummaryResponse of lopSummaryResponseList
-                                    | paginate
-                                      : {
-                                          itemsPerPage: itemPerPage,
-                                          currentPage: pageNumber,
-                                          totalItems: total
-                                        }">
+                              <ng-container *ngIf="!isShimmerForLopSummary && lopSummaryResponseList.length != 0; else errorInFetchingLopSummaryResponseListData">
+                                <tbody *ngFor="let lopSummaryResponse of lopSummaryResponseList | paginate : { itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total }">
                                   <tr>
                                     <td>{{ lopSummaryResponse.name }}</td>
                                     <td>{{ lopSummaryResponse.email }}</td>
                                     <td>{{ lopSummaryResponse.lopDays }}</td>
                                     <td>
-                                      <input class="comment-input p-2" type="number" placeholder="Days count"
-                                        [(ngModel)]="lopSummaryResponse.adjustedLopDays"
-                                        [ngModelOptions]="{standalone: true}" />
-                                      <a data-bs-toggle="modal" data-bs-target="#adjustLop"
+                                      <input 
+                                        class="comment-input p-2" 
+                                        type="number" 
+                                        placeholder="Days count" 
+                                        [(ngModel)]="lopSummaryResponse.adjustedLopDays" 
+                                        (ngModelChange)="saveAdjustedLopDaysToCache(lopSummaryResponse.uuid, $event)"
+                                        [ngModelOptions]="{ standalone: true }" />
+                                      <a 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#adjustLop" 
                                         (click)="openLopAdjustmentRequestModal(lopSummaryResponse.uuid, lopSummaryResponse.adjustedLopDays)">Adjust</a>
                                     </td>
-                                    <!-- <td>{{ lopSummaryResponse.adjustedLopDays }}</td> -->
                                     <td>{{ lopSummaryResponse.finalLopDays }}</td>
                                     <td>
-                                      <input class="comment-input p-2" type="text" placeholder="Write the comment here"
-                                        [(ngModel)]="lopSummaryResponse.lopSummaryComment"
-                                        [ngModelOptions]="{standalone: true}" />
+                                      <input 
+                                        class="comment-input p-2" 
+                                        type="text" 
+                                        placeholder="Write the comment here" 
+                                        [(ngModel)]="lopSummaryResponse.lopSummaryComment" 
+                                        (ngModelChange)="saveLopSummaryCommentToCache(lopSummaryResponse.uuid, $event)"
+                                        [ngModelOptions]="{ standalone: true }" />
                                     </td>
-                                    <!-- <td class="text-start">
-                                    <a>
-                                      <i class="bi bi-pencil-square"></i>
-                                    </a>
-                                  </td> -->
                                   </tr>
                                 </tbody>
                               </ng-container>
+                              
+                              
                             </ng-template>
                             <ng-template #errorInFetchingLopSummaryResponseListData>
                               <tbody>
@@ -1591,48 +1587,35 @@
                               </tbody>
                             </ng-container>
                             <ng-template #lopReversalResponseListData>
-                              <ng-container *ngIf="
-                                !isShimmerForLopReversal &&
-                                  lopReversalResponseList.length != 0;
-                                else errorInFetchingLopReversalResponseListData
-                              ">
-                                <tbody *ngFor="let lopReversalResponse of lopReversalResponseList
-                                    | paginate
-                                      : {
-                                          itemsPerPage: itemPerPage,
-                                          currentPage: pageNumber,
-                                          totalItems: total
-                                        }
-                                ">
+                              <ng-container *ngIf="!isShimmerForLopReversal && lopReversalResponseList.length != 0; else errorInFetchingLopReversalResponseListData">
+                                <tbody *ngFor="let lopReversalResponse of lopReversalResponseList | paginate : { itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total }">
                                   <tr>
                                     <td>{{ lopReversalResponse.name }}</td>
                                     <td>{{ lopReversalResponse.email }}</td>
-                                    <td>
-                                      {{ extractPreviousMonthNameFromDate(
-                                      startDate
-                                      )
-                                      }}
-                                    </td>
+                                    <td>{{ extractPreviousMonthNameFromDate(startDate) }}</td>
                                     <td>{{ lopReversalResponse.lopDays }}</td>
                                     <td>
-                                      <input class="comment-input p-2" type="number" placeholder="Days count"
-                                        [(ngModel)]="lopReversalResponse.reversedLopDays"
+                                      <input 
+                                        class="comment-input p-2" 
+                                        type="number" 
+                                        placeholder="Days count" 
+                                        [(ngModel)]="lopReversalResponse.reversedLopDays" 
+                                        (ngModelChange)="updateReversedLopDays(lopReversalResponse, $event)"
                                         [ngModelOptions]="{ standalone: true }" />
                                     </td>
                                     <td>
-                                      <input class="comment-input p-2" type="text" placeholder="Write the comment here"
-                                        [(ngModel)]="lopReversalResponse.lopReversalComment"
-                                        (change)="updateLopComment(lopReversalResponse, lopReversalResponse.lopReversalComment)" />
+                                      <input 
+                                        class="comment-input p-2" 
+                                        type="text" 
+                                        placeholder="Write the comment here" 
+                                        [(ngModel)]="lopReversalResponse.lopReversalComment" 
+                                        (change)="updateLopComment(lopReversalResponse, lopReversalResponse.lopReversalComment)"
+                                        [ngModelOptions]="{ standalone: true }" />
                                     </td>
-
-                                    <!-- <td class="text-start">
-                                    <a>
-                                      <i class="bi bi-pencil-square"></i>
-                                    </a>
-                                  </td> -->
                                   </tr>
                                 </tbody>
                               </ng-container>
+                              
                             </ng-template>
                             <ng-template #errorInFetchingLopReversalResponseListData>
                               <tbody>
