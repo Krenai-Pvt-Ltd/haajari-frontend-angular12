@@ -75,8 +75,9 @@
                 <div class="card">
                   <div class="card-body">
                     <div class="row align-items-center">
-                      <div class="col text-center" style="cursor: pointer;" data-bs-toggle="modal"
-                        data-bs-target="#systemEntriesModal" (click)="getTotalAssetsStatusWiseData('ALL')">
+                      <!-- style="cursor: pointer;" data-bs-toggle="modal"
+                        data-bs-target="#systemEntriesModal" (click)="getTotalAssetsStatusWiseData('ALL')" -->
+                      <div class="col text-center" >
                         <span class="h5  fw-bold">{{totalAssetData?.totalAsset || 0}}</span>
                         <h6 class="text-uppercase text-muted mt-2 m-0 font-11">Total Assets</h6>
                       </div>
@@ -93,8 +94,9 @@
                 <div class="card">
                   <div class="card-body">
                     <div class="row align-items-center">
-                      <div class="col text-center" style="cursor: pointer;" data-bs-toggle="modal"
-                        data-bs-target="#systemEntriesModal" (click)="getTotalAssetsStatusWiseData('AVAILABLE')">
+                      <!-- style="cursor: pointer;" data-bs-toggle="modal"
+                        data-bs-target="#systemEntriesModal" (click)="getTotalAssetsStatusWiseData('AVAILABLE')" -->
+                      <div class="col text-center" >
                         <span class="h5  fw-bold">{{totalAssetData?.totalAvailableAsset || 0}}</span>
                         <h6 class="text-uppercase text-muted mt-2 m-0 font-11">Available Assets</h6>
                       </div>
@@ -111,8 +113,9 @@
                 <div class="card">
                   <div class="card-body">
                     <div class="row align-items-center">
-                      <div class="col text-center" style="cursor: pointer;" data-bs-toggle="modal"
-                        data-bs-target="#systemEntriesModal" (click)="getTotalAssetsStatusWiseData('ASSIGNED')">
+                      <!-- style="cursor: pointer;" data-bs-toggle="modal"
+                        data-bs-target="#systemEntriesModal" (click)="getTotalAssetsStatusWiseData('ASSIGNED')" -->
+                      <div class="col text-center" >
                         <span class="h5  fw-bold">{{totalAssetData?.totalAssignedAsset || 0}}</span>
                         <h6 class="text-uppercase text-muted mt-2 m-0 font-11">Assigned Assets</h6>
                       </div>
@@ -129,8 +132,9 @@
                 <div class="card">
                   <div class="card-body">
                     <div class="row align-items-center">
-                      <div class="col text-center" style="cursor: pointer;" data-bs-toggle="modal"
-                        data-bs-target="#systemEntriesModal" (click)="getTotalAssetsStatusWiseData('UNAVAILABLE')">
+                      <!-- style="cursor: pointer;" data-bs-toggle="modal"
+                        data-bs-target="#systemEntriesModal" (click)="getTotalAssetsStatusWiseData('UNAVAILABLE')" -->
+                      <div class="col text-center" >
                         <span class="h5  fw-bold">{{totalAssetData?.totalUnavailableAsset || 0}}</span>
                         <h6 class="text-uppercase text-muted mt-2 m-0 font-11">Unavailable Assets</h6>
                       </div>
@@ -213,17 +217,13 @@
                       <i class="bi bi-plus" style="font-size: 18px"></i> Create Asset </a>
                   </div>
                 </div> <!--end row-->
-
-
               </div><!--end card-header-->
-              <div class="card-body">
-
                 <div class="table-responsive">
                   <table class="table mb-0">
                     <thead class="table-light">
                       <tr>
-                        <th>Assets_ID</th>
-                        <th>Assets Name</th>
+                        <!-- <th>Assets_ID</th> -->
+                        <th style="min-width: 100px;">Assets Name</th>
                         <th>Sr Number</th>
                         <th>Expire Date</th>
                         <th>Purchased</th>
@@ -254,10 +254,10 @@
                         </td>
                       </tr>
                     </tbody>
-                    <tbody *ngIf="totalCount > 0">
+                    <tbody *ngIf="totalCount > 0" class="table-design">
                       <tr *ngFor="let ad of assetData; let i = index">
                         <!-- <td>#{{ad.assetId || 'N/A'}}</td> -->
-                        <td>#{{ i + 1 + (pageNumber - 1) * itemPerPage }}</td>
+                        <!-- <td>#{{ i + 1 + (pageNumber - 1) * itemPerPage }}</td> -->
                         <td>{{ad.assetName || 'N/A'}}</td>
                         <td>{{ad.serialNumber || 'N/A'}}</td>
                         <td>{{ad.expiryDate || 'N/A'}}</td>
@@ -267,20 +267,28 @@
                         <td>{{ad.location || 'N/A'}}</td>
                         <td>{{ad.vendorName || 'N/A'}}</td>
                         <td>
+
                           <span [ngClass]="{
-                                        'bg-soft-success': ad.status === 'ASSIGNED',
-                                        'bg-soft-danger': ad.status === 'UNAVAILABLE',
-                                        'bg-soft-warning': ad.status === 'AVAILABLE'
-                                      }">{{ ad.status }}</span>
-                          <ng-container *ngIf="ad.status === 'ASSIGNED'"> - {{ ad.userName }}</ng-container>
+                            'badge-outline-success': ad.status === 'ASSIGNED',
+                            'badge-outline-danger': ad.status === 'UNAVAILABLE',
+                            'badge-outline-warning': ad.status === 'AVAILABLE'
+                          }" class="badge rounded-pill" data-bs-toggle="modal" data-bs-target="#assignRejectModal"
+                          (click)="assignOrRejectModalStrings(ad.status, ad.assetId)">{{ ad.status }} <i class="ti ti-edit-circle"></i></span>
+                          <br><span class="badge bg-light text-dark" *ngIf="ad.status === 'ASSIGNED'">{{ad.userName}}</span>
                         </td>
 
                         <td *ngIf="ad.status === 'UNAVAILABLE'">
-                          <i class="bi bi-trash text-danger" data-bs-toggle="modal"
-                            data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)"></i>
+                          <!-- <i class="bi bi-trash text-danger" data-bs-toggle="modal"
+                            data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)"></i> -->
+                            <div class="btn-group">
+                              <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center" style="margin-left: 5px;" data-bs-toggle="modal"
+                              data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)">
+                                <i class="fas fa-trash-alt font-16"></i>
+                              </div>
+                             </div>
                         </td>
                         <td *ngIf="ad.status === 'AVAILABLE'">
-                          <i class="fas fa-bullhorn text-success" ngbTooltip="Assign User" style="cursor: pointer"
+                          <!-- <i class="fas fa-bullhorn text-success" ngbTooltip="Assign User" style="cursor: pointer"
                             data-bs-toggle="modal" data-bs-target="#assignRejectModal"
                             (click)="assignOrRejectModalStrings(ad.status, ad.assetId)"></i>
                           <span style="cursor: pointer" (click)="makeAssetUnavailable('UNAVAILABLE', ad.assetId)"
@@ -290,23 +298,43 @@
                             data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)"></i>
                           <i class="bi bi-pencil" style="cursor: pointer;" data-bs-toggle="modal"
                             data-bs-target="#createAssetModal" ngbTooltip="Update Asset"
-                            (click)="assignAssetId(ad.assetId)"></i>
+                            (click)="assignAssetId(ad.assetId)"></i> -->
+
+                            <div class="btn-group">
+
+                              <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center" style="margin-left: 5px;" (click)="makeAssetUnavailable('UNAVAILABLE', ad.assetId)"
+                              ngbTooltip="Mark as unavailable">
+                                <i class="fas fa-ban font-16"></i>
+                              </div>
+                              <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center" style="margin-left: 5px;" data-bs-toggle="modal"
+                              data-bs-target="#createAssetModal" ngbTooltip="Update Asset" (click)="assignAssetId(ad.assetId)">
+                                <i class="fas fa-wrench font-16"></i>
+                              </div>
+                              <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center" style="margin-left: 5px;" data-bs-toggle="modal"
+                              data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)">
+                                <i class="fas fa-trash-alt font-16"></i>
+                              </div>
+                             </div>
                         </td>
                         <td *ngIf="ad.status === 'ASSIGNED'">
-                          <i class="fas fa-bullhorn text-muted" ngbTooltip="Return Entry" style="cursor: pointer"
-                            data-bs-toggle="modal" data-bs-target="#assignRejectModal"
-                            (click)="assignOrRejectModalStrings(ad.status, ad.assetId)"></i>
-                          <span style="cursor: pointer" (click)="makeAssetUnavailable('UNAVAILABLE', ad.assetId)"
-                            ngbTooltip="Mark as unavailable" placement="top"><i
-                              class="mdi mdi-arrow-up-drop-circle-outline text-success ml-1"></i></span>
-                          <i class="bi bi-trash text-danger" data-bs-toggle="modal"
-                            data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)"></i>
-                          <i class="bi bi-pencil" style="cursor: pointer;" data-bs-toggle="modal"
-                            data-bs-target="#createAssetModal" ngbTooltip="Update Asset"
-                            (click)="assignAssetId(ad.assetId)"></i>
+                        
+
+                          <div class="btn-group">
+
+                            <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center" style="margin-left: 5px;" (click)="makeAssetUnavailable('UNAVAILABLE', ad.assetId)"
+                            ngbTooltip="Mark as unavailable">
+                              <i class="fas fa-ban font-16"></i>
+                            </div>
+                            <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center" style="margin-left: 5px;" data-bs-toggle="modal"
+                            data-bs-target="#createAssetModal" ngbTooltip="Update Asset" (click)="assignAssetId(ad.assetId)">
+                              <i class="fas fa-wrench font-16"></i>
+                            </div>
+                            <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center" style="margin-left: 5px;" data-bs-toggle="modal"
+                            data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)">
+                              <i class="fas fa-trash-alt font-16"></i>
+                            </div>
+                           </div>
                         </td>
-
-
                       </tr><!--end tr-->
                       <tr>
                         <td colspan="11">
@@ -347,8 +375,6 @@
                   </table>
                 </div>
                 <!-- Pagination -->
-
-              </div><!--end card-body-->
             </div>
           </div>
         </div>
@@ -512,7 +538,7 @@
       <div class="modal-header">
         <h5 class="modal-title" id="systemEntriesModalLabel">{{systemModalString}}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
+      </div>      
       <div class="onboarding-date d-flex align-items-center" style="gap: 10px; width: 100%">
         <form role="search" class="searching ng-untouched ng-pristine ng-valid" style="width: 100%">
           <div class="form-group" style="width: 100%; position: relative">
@@ -527,7 +553,6 @@
           </div>
         </form>
       </div>
-
       <div class="errorboxmain text-center" *ngIf="totalAssetsStatusWiseData.length == 0">
         <div class="errorboxinner">
           <div class="errorboxplaceholder mb-2">

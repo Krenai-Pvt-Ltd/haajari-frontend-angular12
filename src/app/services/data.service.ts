@@ -26,7 +26,7 @@ import { UserBankDetailRequest } from '../models/user-bank-detail-request';
 import { UserEmergencyContactDetailsRequest } from '../models/user-emergency-contact-details-request';
 import { AdditionalNotes } from '../models/additional-notes';
 import { AttendanceRuleDefinitionRequest } from '../models/attendance-rule-definition-request';
-import { UserDto } from '../models/user-dto.model';
+import { AttendanceTimeUpdateRequestDto, UserDto } from '../models/user-dto.model';
 import { UserDocumentsDetailsRequest } from '../models/user-documents-details-request';
 import { LeaveSettingResponse } from '../models/leave-setting-response';
 import { LeaveSettingCategoryResponse } from '../models/leave-categories-response';
@@ -3535,6 +3535,95 @@ export class DataService {
   registerLopReversalApplication(lopReversalApplicationRequest : LopReversalApplicationRequest): Observable<any>{
 
     return this.httpClient.post<any>(`${this.baseUrl}/lop-reversal-application/register`, lopReversalApplicationRequest, {});
+  }
+  
+  importSalaryExcel(file: File, fileName: string): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    formData.append('fileName', fileName);
+
+    return this.httpClient.put(`${this.baseUrl}/salary/import-salary-excel`, formData);
+  }
+
+  saveSalaryExcelLog(fireBaseUrl: string): Observable<any> {
+    const url = `${this.baseUrl}/salary/save-salary-excel`;
+    const params = new HttpParams()
+      .set('firebase_url', fireBaseUrl);
+
+    return this.httpClient.put(url,{}, { params });
+  }
+
+  getSalaryDetailExcel(): Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/last-salary-detail-log`, {});
+  }
+
+  getAssetForUser(userUuid:string, search: string, pageNumber: number, itemPerPage: number): Observable<any> {
+    const url = `${this.baseUrl}/asset/allocation/get/asset/allocation/user/entries`;
+    let params = new HttpParams()
+      .set('userUuid', userUuid)
+      .set('search', search)
+      .set('pageNumber', pageNumber)
+      .set('itemPerPage', itemPerPage);
+    return this.httpClient.get<any>(url, { params }).pipe(
+      catchError((error) => {
+        throw error;
+      })
+    );
+  }
+
+  getAssetLogsForUser(userUuid: string, search: string): Observable<any> {
+    const url = `${this.baseUrl}/asset/allocation/get/asset/allocation/user/logs`;
+    let params = new HttpParams()
+      .set('userUuid', userUuid)
+      .set('search', search)
+    return this.httpClient.get<any>(url, { params }).pipe(
+      catchError((error) => {
+        throw error;
+      })
+    );
+  }
+
+  getAttendanceChecktimeList(userUuid : string, requestedDate: any, status : string): Observable<any>{
+    const params = new HttpParams()
+    .set('userUuid', userUuid)
+    .set('requestedDate', requestedDate)
+    .set('status', status);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/checktime/list`, {params});
+  }
+
+  sendAttendanceTimeUpdateRequest(userId: string, attendanceTimeUpdateRequestDto: AttendanceTimeUpdateRequestDto): Observable<any> {
+    const params = new HttpParams()
+    .set('userUuid', userId)
+    const url = `${this.baseUrl}/attendance/send/attendance/update/request`;
+    return this.httpClient.post<any>(url, attendanceTimeUpdateRequestDto, {params});
+  }
+
+
+  getAttendanceRequestLog(userUuid : string): Observable<any>{
+    const params = new HttpParams()
+    .set('userUuid', userUuid)
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/attendance/request/logs`, {params});
+  }
+
+  getFullAttendanceRequestLog(): Observable<any>{
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/full/attendance/request/logs`);
+  }
+
+  getAttendanceRequests(): Observable<any>{
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/attendance/requests`);
+  }
+
+
+  approveOrRejectAttendanceRequest(attendanceReqId: number, requestString: string): Observable<any> {
+    const params = new HttpParams()
+    .set('attendanceRequestId', attendanceReqId)
+    .set('requestString',requestString);
+    const url = `${this.baseUrl}/attendance/approve/reject/attendance/requests`;
+    return this.httpClient.put<any>(url, {}, {params});
   }
 
 }

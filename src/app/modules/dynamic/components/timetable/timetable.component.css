@@ -917,3 +917,52 @@ td.text-right {
 .view-button:hover {
   background-color: #0056b3;
 }
+
+
+.logs-container {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.log-entry {
+  padding: 15px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.log-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+.log-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.log-header h6 {
+  margin: 0;
+}
+
+.log-header .badge {
+  font-size: 0.9rem;
+}
+
+hr {
+  margin: 10px 0;
+}
+
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.action-buttons button {
+  margin-left: 10px;
+}
+

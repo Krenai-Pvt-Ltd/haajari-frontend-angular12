@@ -10,7 +10,7 @@ import { Subject } from 'rxjs';
 import { UserLeaveRequest } from 'src/app/models/user-leave-request';
 import { FormBuilder, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import { FullCalendarComponent } from '@fullcalendar/angular';
-import { UserDto } from 'src/app/models/user-dto.model';
+import { AttendanceCheckTimeResponse, AttendanceTimeUpdateRequestDto, UserDto } from 'src/app/models/user-dto.model';
 import { saveAs } from 'file-saver';
 import { HttpClient } from '@angular/common/http';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
@@ -54,6 +54,7 @@ import { EmployeePayslipDeductionResponse } from 'src/app/models/employee-paysli
 import { EmployeePayslipLogResponse } from 'src/app/employee-payslip-log-response';
 import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 import { LopReversalApplicationRequest } from 'src/app/models/lop-reversal-application-request';
+import { OrganizationAssetResponse } from 'src/app/models/asset-category-respose';
 
 @Component({
   selector: 'app-employee-profile',
@@ -90,7 +91,8 @@ export class EmployeeProfileComponent implements OnInit {
     private roleService: RoleBasedAccessControlService,
     public location: Location,
     public domSanitizer: DomSanitizer,
-    private afStorage: AngularFireStorage
+    private afStorage: AngularFireStorage,
+    private sanitizer: DomSanitizer,
   ) {
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
@@ -222,6 +224,15 @@ export class EmployeeProfileComponent implements OnInit {
       daysCount: [null, [Validators.required, Validators.pattern("^[0-9]*$")]],
       notes: [''],
       userUuid: ['']
+    });
+    this.getHrPolicy();
+    this.attendanceTimeUpdateForm = this.fb.group({
+      requestType: [null, [Validators.required]],
+      requestedDate: [null, [Validators.required]],
+      attendanceId: [null, [Validators.required]],
+      updatedTime: [null, [Validators.required]],
+      managerId: [null, [Validators.required]],
+      requestReason: [null, [Validators.required, Validators.maxLength(200)]]
     });
   }
 
@@ -2335,6 +2346,7 @@ export class EmployeeProfileComponent implements OnInit {
   activeAttendanceTabFlag: boolean = false;
   activeFinancesTabFlag: boolean = false;
   activeDocumentsTabFlag: boolean = false;
+  activeAssetsTabFlag: boolean = false;
   activeProfileTabFlag: boolean = false;
 
   activeTabs(activeTabString: string) {
@@ -2343,30 +2355,42 @@ export class EmployeeProfileComponent implements OnInit {
       this.activeAttendanceTabFlag = false;
       this.activeFinancesTabFlag = false;
       this.activeDocumentsTabFlag = false;
+      this.activeAssetsTabFlag = false;
       this.activeProfileTabFlag = false;
     } else if (activeTabString === 'attendance') {
       this.activeHomeTabFlag = false;
       this.activeAttendanceTabFlag = true;
       this.activeFinancesTabFlag = false;
       this.activeDocumentsTabFlag = false;
+      this.activeAssetsTabFlag = false;
       this.activeProfileTabFlag = false;
     } else if (activeTabString === 'finances') {
       this.activeHomeTabFlag = false;
       this.activeAttendanceTabFlag = false;
       this.activeFinancesTabFlag = true;
       this.activeDocumentsTabFlag = false;
+      this.activeAssetsTabFlag = false;
+      this.activeProfileTabFlag = false;
+    }else if (activeTabString === 'assets') {
+      this.activeHomeTabFlag = false;
+      this.activeAttendanceTabFlag = false;
+      this.activeFinancesTabFlag = false;
+      this.activeDocumentsTabFlag = false;
+      this.activeAssetsTabFlag = true;
       this.activeProfileTabFlag = false;
     } else if (activeTabString === 'documents') {
       this.activeHomeTabFlag = false;
       this.activeAttendanceTabFlag = false;
       this.activeFinancesTabFlag = false;
       this.activeDocumentsTabFlag = true;
+      this.activeAssetsTabFlag = false;
       this.activeProfileTabFlag = false;
     } else if (activeTabString === 'profile') {
       this.activeHomeTabFlag = false;
       this.activeAttendanceTabFlag = false;
       this.activeFinancesTabFlag = false;
       this.activeDocumentsTabFlag = false;
+      this.activeAssetsTabFlag = false;
       this.activeProfileTabFlag = true;
     }
   }
@@ -2778,4 +2802,219 @@ return
       }
     );
   }}
+
+  //  new 
+
+  search: string = '';
+  pageNumber: number = 1;
+  itemPerPage: number = 6;
+  assetData: OrganizationAssetResponse[] = [];
+  totalCount: number = 0;
+  crossFlag: boolean = false;
+  getAssetData(): void {
+    this.dataService.getAssetForUser(this.userId, this.search, this.pageNumber, this.itemPerPage)
+      .subscribe(
+        (response) => {
+          this.assetData = response.object;
+          this.totalCount = response.totalItems;
+        },
+        (error) => {
+          console.error('Error fetching asset data:', error);
+        }
+      );
+  }
+
+  searchAssets(): void {
+    this.crossFlag = this.search.length > 0;
+    this.pageNumber = 1;
+    this.getAssetData();
+  }
+
+  clearSearch(): void {
+    this.crossFlag = false;
+    this.search = '';
+    this.pageNumber = 1;
+    this.getAssetData();
+  }
+
+  changePage(page: number | string): void {
+    if (typeof page === 'string') {
+      if (page === 'prev' && this.pageNumber > 1) {
+        this.pageNumber--;
+      } else if (page === 'next' && this.pageNumber < Math.ceil(this.totalCount / this.itemPerPage)) {
+        this.pageNumber++;
+      }
+    } else {
+      this.pageNumber = page;
+    }
+    this.getAssetData();
+  }
+
+  totalPages(): number {
+    return Math.ceil(this.totalCount / this.itemPerPage);
+  }
+
+  get startIndex(): number {
+    return Math.min((this.pageNumber - 1) * this.itemPerPage + 1, this.totalCount);
+  }
+
+  get endIndex(): number {
+    return Math.min(this.pageNumber * this.itemPerPage, this.totalCount);
+  }
+
+  get pages(): number[] {
+    const totalPages = Math.ceil(this.totalCount / this.itemPerPage);
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
+  }
+
+  //  asset logs 
+
+  isAssetErrorPlaceholder: boolean = false;
+  userAssetLog: any;
+  isAssetShimmer: boolean = false;
+  isAssetPlaceholder: boolean = false;
+  searchAssetLogs: string = '';
+  pageNumberAsset: number = 1;
+  itemPerPageAsset: number = 8;
+
+  getAssetLogsForUserByUuid(): void {
+    this.isAssetShimmer = true;
+    this.dataService.getAssetLogsForUser(this.userId, this.searchAssetLogs)
+      .subscribe(
+        (response) => {
+          this.userAssetLog = response.listOfObject;
+          this.isAssetShimmer = false;
+          if(response.listOfObject==null || this.userAssetLog.length == 0) {
+          this.isAssetPlaceholder = true; 
+          }
+        },
+        (error) => {
+          this.isAssetErrorPlaceholder = true;
+          this.isAssetShimmer = false;
+        }
+      );
+  }
+  
+
+  // hr policy 
+
+
+  fileUrl!: string;
+  docsUploadedDate: any;
+  getHrPolicy(): void {
+    this.dataService.getOrganizationHrPolicies().subscribe(response => {
+      this.fileUrl = response.object.hrPolicyDoc;
+      this.docsUploadedDate = response.object.docsUploadedDate;
+      console.log('policy retrieved successfully', response.object);
+    }, (error) => {
+      console.log(error);
+    });
+  }
+
+  previewStringDoc: SafeResourceUrl | null = null;
+  isPDFDoc: boolean = false;
+  isImageDoc: boolean = false;
+
+  @ViewChild('openDocModalButton') openDocModalButton!: ElementRef;
+  getFileName(url: string): string {
+    return url.split('/').pop() || 'Hr Policy Doc';
+  }
+
+  private updateFileTypeDoc(url: string) {
+    const extension = url.split('?')[0].split('.').pop()?.toLowerCase();
+    // this.isImage2 = ['png', 'jpg', 'jpeg', 'gif'].includes(extension!);
+    // this.isPDF = extension === 'pdf';
+  }
+
+  openViewModalDoc(url: string): void {
+    debugger
+    // const fileExtension = url.split('.').pop()?.toLowerCase();
+    const fileExtension = url.split('?')[0].split('.').pop()?.toLowerCase();
+    // this.isPDF = fileExtension === 'pdf';
+    if (fileExtension === 'doc' || fileExtension === 'docx') {
+      // this.previewString = this.sanitizer.bypassSecurityTrustResourceUrl(`https://docs.google.com/gview?url=${url}&embedded=true`);
+      this.previewStringDoc = this.sanitizer.bypassSecurityTrustResourceUrl(`https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true`);
+    } else {
+      this.previewStringDoc = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    }
+    this.openDocModalButton.nativeElement.click();
+  }
+
+  downloadFileDoc(url: string): void {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = this.getFileName(url);
+    link.click();
+  }
+
+
+
+  //  attendance update fucnionality 
+  attendanceCheckTimeResponse : AttendanceCheckTimeResponse[] = [];
+  getAttendanceChecktimeListDate(): void {
+    const formattedDate = this.datePipe.transform(this.requestedDate, 'yyyy-MM-dd');
+    this.dataService.getAttendanceChecktimeList(this.userId, formattedDate, this.statusString).subscribe(response => {
+      this.attendanceCheckTimeResponse = response.listOfObject;
+      console.log('checktime retrieved successfully', response.listOfObject);
+    }, (error) => {
+      console.log(error);
+    });
+  }
+
+  attendanceTimeUpdateForm!: FormGroup;
+  requestedDate!: Date;
+  statusString!: string;
+
+
+  submitForm(): void {
+    if (this.attendanceTimeUpdateForm.valid) {
+      const attendanceTimeUpdateRequest: AttendanceTimeUpdateRequestDto = this.attendanceTimeUpdateForm.value;
+      this.dataService.sendAttendanceTimeUpdateRequest(this.userId, this.attendanceTimeUpdateForm.value).subscribe(
+        (response) => {
+          console.log('Request sent successfully', response);
+          this.resetForm();
+          document.getElementById('attendanceUpdateModal')?.click();
+          this.getAttendanceRequestLogData();
+        },
+        (error) => {
+          console.error('Error sending request:', error);
+        }
+      );
+    }
+  }
+
+  onDateChange(date: Date | null): void {
+    if (date) {
+      this.requestedDate = date; 
+      this.statusString = this.attendanceTimeUpdateForm.get('requestType')?.value || '';
+      this.getAttendanceChecktimeListDate();
+    }
+  }
+
+
+  resetForm(): void {
+    this.attendanceTimeUpdateForm.reset();
+  }
+
+
+disabledDate = (current: Date): boolean => {
+  return moment(current).isAfter(moment(), 'day');
 }
+
+attendanceRequestLog: any[] = [];
+  getAttendanceRequestLogData(): void {
+    this.dataService.getAttendanceRequestLog(this.userId).subscribe(response => {
+      this.attendanceRequestLog = response.listOfObject;
+      console.log('logs retrieved successfully', response.listOfObject);
+    }, (error) => {
+      console.log(error);
+    });
+  }
+  
+
+  
+
+  
+}
+
+

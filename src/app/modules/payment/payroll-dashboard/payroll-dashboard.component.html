@@ -220,6 +220,28 @@
                             </div>
                             <!--end row-->
                           </div>
+                          <!--end col-->
+                          <div class="col-auto align-self-center">
+                            <div class="button-items">
+                              <button type="button" class="btn btn-outline-secondary btn-round"> Preview Payroll
+                              </button>
+                              <button type="button" class="btn btn-outline-primary btn-round"
+                                (click)="generateSalaryReportMethodCall()">
+                                <ng-container *ngIf="RUN_PAYROLL_LOADER; else runPayrollLoaderFalseCondition">
+                                  <div class="dot-opacity-loader">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                  </div>
+                                </ng-container>
+                                <ng-template #runPayrollLoaderFalseCondition>
+                                  <div>Run Payroll</div>
+                                </ng-template>
+                              </button>
+
+                            </div>
+                          </div>
+                          <!--end col-->
                         </div>
                         <div class="col-md-6 payroll-step" (click)="salaryChangeTab()">
                           <div class="card-body bg-soft-success mt-3" data-bs-toggle="modal"
@@ -1364,15 +1386,13 @@
                                 </tr>
                               </tbody>
                             </ng-container>
-
                           </ng-template>
                           <ng-template #errorInFetchingPayrollLeaveResponseListData>
                             <tbody>
                               <tr>
                                 <td colspan="8">
-                                  <div class="errorboxmain" *ngIf="
-                                      networkConnectionErrorPlaceHolderForPayrollLeaveResponse
-                                    ">
+                                  <div class="errorboxmain"
+                                    *ngIf="networkConnectionErrorPlaceHolderForPayrollLeaveResponse">
                                     <div class="errorboxinner text-center">
                                       <div class="errorboxplaceholder mb-2">
                                         <img src="assets/images/signal.svg" style="width: 100px" />
@@ -1464,19 +1484,10 @@
                             </tbody>
                           </ng-container>
                           <ng-template #lopSummaryResponseListData>
-                            <ng-container *ngIf="
-                                !isShimmerForLopSummary &&
-                                  lopSummaryResponseList.length != 0;
-                                else errorInFetchingLopSummaryResponseListData
-                              ">
-                              <tbody *ngFor="
-                                  let lopSummaryResponse of lopSummaryResponseList
-                                    | paginate
-                                      : {
-                                          itemsPerPage: itemPerPage,
-                                          currentPage: pageNumber,
-                                          totalItems: total
-                                        }">
+                            <ng-container
+                              *ngIf="!isShimmerForLopSummary && lopSummaryResponseList.length != 0; else errorInFetchingLopSummaryResponseListData">
+                              <tbody
+                                *ngFor="let lopSummaryResponse of lopSummaryResponseList | paginate : { itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total }">
                                 <tr>
                                   <td>{{ lopSummaryResponse.name }}</td>
                                   <td>{{ lopSummaryResponse.email }}</td>
@@ -1484,26 +1495,23 @@
                                   <td>
                                     <input class="comment-input p-2" type="number" placeholder="Days count"
                                       [(ngModel)]="lopSummaryResponse.adjustedLopDays"
-                                      [ngModelOptions]="{standalone: true}" />
+                                      (ngModelChange)="saveAdjustedLopDaysToCache(lopSummaryResponse.uuid, $event)"
+                                      [ngModelOptions]="{ standalone: true }" />
                                     <a data-bs-toggle="modal" data-bs-target="#adjustLop"
                                       (click)="openLopAdjustmentRequestModal(lopSummaryResponse.uuid, lopSummaryResponse.adjustedLopDays)">Adjust</a>
                                   </td>
-                                  <!-- <td>{{ lopSummaryResponse.adjustedLopDays }}</td> -->
                                   <td>{{ lopSummaryResponse.finalLopDays }}</td>
                                   <td>
                                     <input class="comment-input p-2" type="text" placeholder="Write the comment here"
                                       [(ngModel)]="lopSummaryResponse.lopSummaryComment"
-                                      [ngModelOptions]="{standalone: true}" />
+                                      (ngModelChange)="saveLopSummaryCommentToCache(lopSummaryResponse.uuid, $event)"
+                                      [ngModelOptions]="{ standalone: true }" />
                                   </td>
-                                  <!-- <td class="text-start">
-                                    <a>
-                                      <i class="bi bi-pencil-square"></i>
-                                    </a>
-                                  </td> -->
                                 </tr>
                               </tbody>
                             </ng-container>
                           </ng-template>
+
                           <ng-template #errorInFetchingLopSummaryResponseListData>
                             <tbody>
                               <tr>
@@ -1598,49 +1606,32 @@
                             </tbody>
                           </ng-container>
                           <ng-template #lopReversalResponseListData>
-                            <ng-container *ngIf="
-                                !isShimmerForLopReversal &&
-                                  lopReversalResponseList.length != 0;
-                                else errorInFetchingLopReversalResponseListData
-                              ">
-                              <tbody *ngFor="let lopReversalResponse of lopReversalResponseList
-                                    | paginate
-                                      : {
-                                          itemsPerPage: itemPerPage,
-                                          currentPage: pageNumber,
-                                          totalItems: total
-                                        }
-                                ">
+                            <ng-container
+                              *ngIf="!isShimmerForLopReversal && lopReversalResponseList.length != 0; else errorInFetchingLopReversalResponseListData">
+                              <tbody
+                                *ngFor="let lopReversalResponse of lopReversalResponseList | paginate : { itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total }">
                                 <tr>
                                   <td>{{ lopReversalResponse.name }}</td>
                                   <td>{{ lopReversalResponse.email }}</td>
-                                  <td>
-                                    {{ extractPreviousMonthNameFromDate(
-                                    startDate
-                                    )
-                                    }}
-                                  </td>
+                                  <td>{{ extractPreviousMonthNameFromDate(startDate) }}</td>
                                   <td>{{ lopReversalResponse.lopDays }}</td>
                                   <td>
                                     <input class="comment-input p-2" type="number" placeholder="Days count"
                                       [(ngModel)]="lopReversalResponse.reversedLopDays"
+                                      (ngModelChange)="updateReversedLopDays(lopReversalResponse, $event)"
                                       [ngModelOptions]="{ standalone: true }" />
                                   </td>
                                   <td>
                                     <input class="comment-input p-2" type="text" placeholder="Write the comment here"
-                                      [(ngModel)]="lopReversalResponse.comment"
-                                      (change)="updateLopComment(lopReversalResponse, lopReversalResponse.comment)" />
+                                      [(ngModel)]="lopReversalResponse.lopReversalComment"
+                                      (change)="updateLopComment(lopReversalResponse, lopReversalResponse.lopReversalComment)"
+                                      [ngModelOptions]="{ standalone: true }" />
                                   </td>
-
-                                  <!-- <td class="text-start">
-                                    <a>
-                                      <i class="bi bi-pencil-square"></i>
-                                    </a>
-                                  </td> -->
                                 </tr>
                               </tbody>
                             </ng-container>
                           </ng-template>
+
                           <ng-template #errorInFetchingLopReversalResponseListData>
                             <tbody>
                               <tr>
@@ -1665,9 +1656,9 @@
                               <tr>
                                 <td colspan="8">
                                   <div class="errorboxmain" *ngIf="
-                                      dataNotFoundPlaceholderForLopReversal &&
-                                      !networkConnectionErrorPlaceHolderForLopReversal
-                                    ">
+                                              dataNotFoundPlaceholderForLopReversal &&
+                                              !networkConnectionErrorPlaceHolderForLopReversal
+                                            ">
                                     <div class="errorboxinner text-center">
                                       <div class="errorboxplaceholder mb-2">
                                         <img src="assets/images/empty-folder.svg" style="width: 100px" />
@@ -1697,9 +1688,9 @@
               <!-- pagination -->
               <div class="pagination pl-3 align-items-center justify-content-between"
                 *ngIf="(total > itemPerPage - 1 || (pageNumber === lastPageNumber && lastPageNumber !== 1)) && 
-                ((CURRENT_TAB == LEAVES && !dataNotFoundPlaceholderForPayrollLeaveResponse && !networkConnectionErrorPlaceHolderForPayrollLeaveResponse) || 
-                  (CURRENT_TAB == LOP_SUMMARY && !dataNotFoundPlaceholderForLopSummary && !networkConnectionErrorPlaceHolderForLopSummary) || 
-                  (CURRENT_TAB == LOP_REVERSAL && !dataNotFoundPlaceholderForLopReversal && !networkConnectionErrorPlaceHolderForLopReversal))">
+                          ((CURRENT_TAB == LEAVES && !dataNotFoundPlaceholderForPayrollLeaveResponse && !networkConnectionErrorPlaceHolderForPayrollLeaveResponse) || 
+                            (CURRENT_TAB == LOP_SUMMARY && !dataNotFoundPlaceholderForLopSummary && !networkConnectionErrorPlaceHolderForLopSummary) || 
+                            (CURRENT_TAB == LOP_REVERSAL && !dataNotFoundPlaceholderForLopReversal && !networkConnectionErrorPlaceHolderForLopReversal))">
                 <p style="padding-left: 15px"> Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total
                   }} employees </p>
                 <div>
