@@ -6,5 +6,5 @@ export class LopReversalResponse {
     lopMonth : string = '';
     adjustedLopDays : number = 0;
     reversedLopDays : number = 0;
-    lopReversalComment : string = '';
+    comment : string = '';
 }

@@ -87,7 +87,7 @@ export class LeaveManagementComponent implements OnInit {
   }
 
   logInUserUuid: string = '';
-  ROLE: string | null = '';
+  ROLE: string | null |any = '';
   currentNewDate: any;
   currentDate: Date = new Date();
 

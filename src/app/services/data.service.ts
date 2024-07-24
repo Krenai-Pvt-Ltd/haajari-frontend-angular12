@@ -69,6 +69,8 @@ import { EpfDetailsRequest } from '../models/epf-details-request';
 import { EsiDetailsRequest } from '../models/esi-details-request';
 import { TdsDetailsRequest } from '../models/tds-details-request';
 import { AssetCategoryRequest, OrganizationAssetRequest } from '../models/asset-category-respose';
+import { LopReversalApplicationRequest } from '../models/lop-reversal-application-request';
+import { SalaryChangeOvertimeRequest } from '../models/salary-change-overtime-request';
 
 @Injectable({
   providedIn: 'root',
@@ -2968,7 +2970,7 @@ export class DataService {
     .set('start_date', startDate)
     .set('end_date', endDate);
 
-    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/register-lop-summary`, lopReversalRequestList, {params});
+    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/register-lop-reversal`, lopReversalRequestList, {params});
   }
 
   saveOrganizationHrPolicies(policyDocString: string): Observable<any> {
@@ -3112,7 +3114,11 @@ export class DataService {
   }
 
   registerSalaryChangeBonusListByOrganizationId(salaryChangeBonusRequestList : SalaryChangeBonusRequest[]): Observable<any>{
-    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/salary-change`, salaryChangeBonusRequestList);
+    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/salary-change/bonus`, salaryChangeBonusRequestList);
+  }
+
+  registerSalaryChangeOvertimeListByOrganizationId(salaryChangeOvertimeRequestList : SalaryChangeOvertimeRequest[]): Observable<any>{
+    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/salary-change/overtime`, salaryChangeOvertimeRequestList);
   }
 
   getEpfDetailsResponseListByOrganizationId(
@@ -3353,6 +3359,14 @@ export class DataService {
     return this.httpClient.put<any>(`${this.baseUrl}/salary/send-payslip-email`,salaryResponse, {params});
   }
 
+  sendPayslipViaSlack(
+    salaryResponse: any, payslipMonth: string 
+  ): Observable<any>{
+    const params = new HttpParams()
+    .set('payslip_month', payslipMonth)
+    return this.httpClient.put<any>(`${this.baseUrl}/salary/send-payslip-slack`,salaryResponse, {params});
+  }
+
 
   getGeneratedPayrollMonthlyLogs(startDate: string, endDate: string, pageNumber: number, itemsPerPage : number): Observable<any> {
     const url = `${this.baseUrl}/generate-reports/get-salary-reports-logs`;
@@ -3531,6 +3545,11 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/salary/month-wise/pay-slip-log`, {params});
   }
 
+
+  registerLopReversalApplication(lopReversalApplicationRequest : LopReversalApplicationRequest): Observable<any>{
+
+    return this.httpClient.post<any>(`${this.baseUrl}/lop-reversal-application/register`, lopReversalApplicationRequest, {});
+  }
   
   importSalaryExcel(file: File, fileName: string): Observable<any> {
     const formData: FormData = new FormData();
@@ -3551,6 +3570,7 @@ export class DataService {
   getSalaryDetailExcel(): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/salary/last-salary-detail-log`, {});
   }
+
   getAssetForUser(userUuid:string, search: string, pageNumber: number, itemPerPage: number): Observable<any> {
     const url = `${this.baseUrl}/asset/allocation/get/asset/allocation/user/entries`;
     let params = new HttpParams()
@@ -3611,13 +3631,29 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/attendance/requests`);
   }
 
-
   approveOrRejectAttendanceRequest(attendanceReqId: number, requestString: string): Observable<any> {
     const params = new HttpParams()
     .set('attendanceRequestId', attendanceReqId)
     .set('requestString',requestString);
     const url = `${this.baseUrl}/attendance/approve/reject/attendance/requests`;
     return this.httpClient.put<any>(url, {}, {params});
+  }
+
+  getPayrollProcessStepByOrganizationIdAndStartDateAndEndDate(startDate: string , endDate: string):Observable<any>{
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/step`, {params});
+  }
+
+  registerPayrollProcessStepByOrganizationIdAndStartDateAndEndDate(startDate: string, endDate: string, payrollProcessStepId: number):Observable<any>{
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+    .set('payroll_process_step_id', payrollProcessStepId);
+
+    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/step`,{}, {params});
   }
 
 }

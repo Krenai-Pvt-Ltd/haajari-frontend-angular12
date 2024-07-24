@@ -151,6 +151,16 @@ export class PaymentHistoryComponent implements OnInit {
           console.error('Error sending payslip via Email:', error);
         }
       );
+    } else if (channel === 'slack') {
+      this.dataService.sendPayslipViaSlack(salaryResponses, this.payslipMonth).subscribe(
+        (result) => {
+          this.helperService.showToast("Payslip sent successfully via Slack", Key.TOAST_STATUS_SUCCESS);
+        },
+        (error) => {
+          this.helperService.showToast("Payslip can't be sent via Slack", Key.TOAST_STATUS_ERROR);
+          console.error('Error sending payslip via Slack:', error);
+        }
+      );
     }
   }
   

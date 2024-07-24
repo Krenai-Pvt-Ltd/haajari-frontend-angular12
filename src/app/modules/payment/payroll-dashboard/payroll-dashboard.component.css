@@ -150,6 +150,10 @@
   cursor: pointer;
 }
 
+.payroll-step:hover{
+  color: #000 !important;
+  background-color: #F1F1F1 !important;
+}
 
 .dot-opacity-loader {
   display: flex;
@@ -255,4 +259,3 @@
   font-size: 14px;
   color: #777;
 }
-
