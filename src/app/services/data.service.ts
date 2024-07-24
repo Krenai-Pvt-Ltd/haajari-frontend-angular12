@@ -3531,7 +3531,6 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/salary/month-wise/pay-slip-log`, {params});
   }
 
-<<<<<<< HEAD
   
   importSalaryExcel(file: File, fileName: string): Observable<any> {
     const formData: FormData = new FormData();
@@ -3552,7 +3551,6 @@ export class DataService {
   getSalaryDetailExcel(): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/salary/last-salary-detail-log`, {});
   }
-=======
   getAssetForUser(userUuid:string, search: string, pageNumber: number, itemPerPage: number): Observable<any> {
     const url = `${this.baseUrl}/asset/allocation/get/asset/allocation/user/entries`;
     let params = new HttpParams()
@@ -3622,5 +3620,4 @@ export class DataService {
     return this.httpClient.put<any>(url, {}, {params});
   }
 
->>>>>>> 9326d9338be8dca8b4282e57a8dba6dcaf88e3eb
 }

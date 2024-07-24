@@ -5,6 +5,7 @@ import { SubscriptionPlan } from 'src/app/models/SubscriptionPlan';
 import { SubscriptionPlanReq } from 'src/app/models/SubscriptionPlanReq';
 import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
 import { Location } from '@angular/common';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 declare var Razorpay: any;
 
 @Component({
@@ -25,15 +26,17 @@ export class BillingPaymentComponent implements OnInit {
     private _activeRouter: ActivatedRoute,
     private _subscriptionPlanService: SubscriptionPlanService,
     private router: Router,
-    private _location: Location
+    private _location: Location,
+    private roleBased: RoleBasedAccessControlService
   ) {
     let token = localStorage.getItem('token')!;
     const helper = new JwtHelperService();
-    this.orgUuid = helper.decodeToken(token).orgRefId;
+    // this.orgUuid = helper.decodeToken(token).orgRefId;
   }
 
   ngOnInit(): void {
     window.scroll(0, 0);
+    this.orgUuid = this.roleBased.getOrgRefUUID();
     this.getPlanPurchasedStatus();
     this.getSubscriptionPlanDetails();
     this.getActiveUserCount();
@@ -109,7 +112,7 @@ export class BillingPaymentComponent implements OnInit {
   }
 
   processingPayment: boolean = false;
-  razorKey: string = 'rzp_test_XIXZn1GUfeV9Mf';
+  razorKey: string = 'rzp_test_Wd1RYd0fng3673';
   hajiri_logo: string = '../../../../../assets/images/hajiri-icon.png';
 
   openRazorPay(): void {
