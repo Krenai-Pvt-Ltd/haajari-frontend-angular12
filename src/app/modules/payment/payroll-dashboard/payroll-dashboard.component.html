@@ -13,37 +13,41 @@
             <div class="file-box" *ngFor="let monthResponse of monthResponseList"
               [class.disabled]="monthResponse.disable" [ngClass]="{
                 'selected-month-color':
-                  monthResponse.month == selectedMonth &&
-                  monthResponse.year == selectedYear
+                  monthResponse.firstDate == startDate &&
+                  monthResponse.lastDate == endDate
               }">
               <div class="text-center"
                 (click)="getOrganizationIndividualMonthSalaryDataMethodCall(monthResponse); getOrganizationPreviousMonthSalaryDataMethodCall(monthResponse); getPayrollLogs(); getPayrollProcessStepByOrganizationIdAndStartDateAndEndDateMethodCall();">
                 <h6 class="text-truncate">
-                  {{ monthResponse.month }} - {{ monthResponse.year }}
+                  {{ monthResponse.firstDate | date: 'MMM' }} - {{ monthResponse.firstDate | date: 'yyyy' }}
                 </h6>
-                <small class="text-muted">{{ monthResponse.firstDate | dateFormatter }}
-                  {{ monthResponse.month }} - {{ monthResponse.lastDate | dateFormatter }}
-                  {{ monthResponse.month }}</small>
+                <small class="text-muted">
+                  {{ monthResponse.firstDate | date: 'dd MMM' }} - {{ monthResponse.lastDate | date: 'dd MMM' }}
+                </small>
                 <!-- Condition for hr tag -->
                 <!-- [ngClass]="{'text-blue' : (monthResponse.month == selectedMonth && monthResponse.year == selectedYear)}" -->
                 <hr class="hr" />
                 <small [ngClass]="{
-                    'text-blue':
-                      monthResponse.month == selectedMonth &&
-                      monthResponse.year == selectedYear,
-                    'text-success':
-                      monthResponse.status == 'Completed' &&
-                      !(
-                        monthResponse.month == selectedMonth &&
-                        monthResponse.year == selectedYear
-                      ),
-                    'text-warning':
-                      monthResponse.status == 'Current' &&
-                      !(
-                        monthResponse.month == selectedMonth &&
-                        monthResponse.year == selectedYear
-                      )
-                  }">
+                  'text-blue':
+                    (monthResponse.firstDate == startDate &&
+                    monthResponse.lastDate== endDate) || (monthResponse.status == 'Current' &&
+                    !(
+                      monthResponse.firstDate == startDate &&
+                      monthResponse.lastDate == endDate
+                    )),
+                  'text-success':
+                    monthResponse.status == 'Completed' &&
+                    !(
+                      monthResponse.firstDate == startDate &&
+                      monthResponse.lastDate == endDate
+                    ),
+                  'text-warning':
+                    monthResponse.status == 'Pending' &&
+                    !(
+                      monthResponse.firstDate == startDate &&
+                      monthResponse.lastDate == endDate
+                    )
+                }">
                   {{ monthResponse.status }}
                 </small>
               </div>

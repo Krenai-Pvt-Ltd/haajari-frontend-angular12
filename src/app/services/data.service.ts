@@ -3656,4 +3656,10 @@ export class DataService {
     return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/step`,{}, {params});
   }
 
+  getMonthResponseListByYear(date: string): Observable<any>{
+    const params = new HttpParams()
+    .set('date', date);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/month-response-list`, {params});
+  }
 }
