@@ -69,6 +69,7 @@ import { EpfDetailsRequest } from '../models/epf-details-request';
 import { EsiDetailsRequest } from '../models/esi-details-request';
 import { TdsDetailsRequest } from '../models/tds-details-request';
 import { AssetCategoryRequest, OrganizationAssetRequest } from '../models/asset-category-respose';
+import { LopReversalApplicationRequest } from '../models/lop-reversal-application-request';
 
 @Injectable({
   providedIn: 'root',
@@ -3537,6 +3538,31 @@ export class DataService {
     .set('end_date', endDate);
 
     return this.httpClient.get<any>(`${this.baseUrl}/salary/month-wise/pay-slip-log`, {params});
+  }
+
+  registerLopReversalApplication(lopReversalApplicationRequest : LopReversalApplicationRequest): Observable<any>{
+
+    return this.httpClient.post<any>(`${this.baseUrl}/lop-reversal-application/register`, lopReversalApplicationRequest, {});
+  }
+  
+  importSalaryExcel(file: File, fileName: string): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    formData.append('fileName', fileName);
+
+    return this.httpClient.put(`${this.baseUrl}/salary/import-salary-excel`, formData);
+  }
+
+  saveSalaryExcelLog(fireBaseUrl: string): Observable<any> {
+    const url = `${this.baseUrl}/salary/save-salary-excel`;
+    const params = new HttpParams()
+      .set('firebase_url', fireBaseUrl);
+
+    return this.httpClient.put(url,{}, { params });
+  }
+
+  getSalaryDetailExcel(): Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/last-salary-detail-log`, {});
   }
 
   getAssetForUser(userUuid:string, search: string, pageNumber: number, itemPerPage: number): Observable<any> {

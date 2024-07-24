@@ -1,4 +1,7 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { finalize } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
 import { ESIContributionRate } from 'src/app/models/e-si-contribution-rate';
 import { PFContributionRate } from 'src/app/models/p-f-contribution-rate';
@@ -26,11 +29,13 @@ export class SalarySettingComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private helperService: HelperService,
-    private confirmationDialogService: ConfirmationDialogService
+    private confirmationDialogService: ConfirmationDialogService,
+    private afStorage: AngularFireStorage
   ) {}
 
   ngOnInit(): void {
     window.scroll(0, 0);
+    this.getSalaryDetailExcelMethodCall();
     this.getAllSalaryCalculationModeMethodCall();
     this.getSalaryCalculationModeByOrganizationIdMethodCall();
     this.getPFContributionRateMethodCall();
@@ -50,6 +55,8 @@ export class SalarySettingComponent implements OnInit {
   sort : string = ''
   sortBy : string = 'name';
   staffs: Staff[] = [];
+  sampleExcelFile: string = 'https://firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/sampleFile%2Femployee_salary_detail_sample.xlsx?alt=media&token=8a0ed26e-55a7-4987-876a-bff44f62e2ce';
+
 
   CURRENT_TAB_IN_SALARY_TEMPLATE = Key.SALARY_TEMPLATE_STEP;
 
@@ -859,5 +866,122 @@ export class SalarySettingComponent implements OnInit {
 
   onTableDataChange(event: any) {
     this.pageNumber = event;
+  }
+
+  fileName: any;
+  currentFileUpload: any;
+
+  importToggle: boolean = false;
+  isProgressToggle: boolean = false;
+  isErrorToggle: boolean = false;
+  errorMessage: string = '';
+
+  importLoading: boolean = false;
+  importReport: any[] = new Array();
+  totalItems: number = 0;
+  uploadDate: Date = new Date();
+
+  selectFile(event: any) {
+    if (event.target.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.currentFileUpload = file;
+      this.fileName = file.name;
+      this.uploadUserFile(file, this.fileName);
+    }
+  }
+
+  uploadUserFile(file: File, fileName: string) {
+    this.importToggle = true;
+    this.isProgressToggle = true;
+    this.isErrorToggle = false;
+    this.errorMessage = '';
+
+    this.dataService.importSalaryExcel(file, fileName).subscribe(
+      (response: any) => {
+        if (response.status) {
+          this.uploadToFirebase(file);
+        } else {
+          this.handleError(response.message);
+        }
+      },
+      (error: HttpErrorResponse) => {
+        this.handleError(error.error.message || 'An error occurred during file upload.');
+      }
+    );
+  }
+
+  uploadToFirebase(file: File) {
+    const filePath = `uploads/${file.name}`;
+    const fileRef = this.afStorage.ref(filePath);
+    const task = this.afStorage.upload(filePath, file);
+  
+    task.snapshotChanges().pipe(
+      finalize(() => {
+        fileRef.getDownloadURL().subscribe(url => {
+          // console.log('File uploaded successfully! Download URL:', url);
+          this.saveEventLog(url);
+          this.importToggle = false;
+          this.isProgressToggle = false;
+        });
+      })
+    ).subscribe();
+  }
+  
+  private saveEventLog(url: string) {
+    this.dataService.saveSalaryExcelLog(url).subscribe(
+      response => {
+        this.helperService.showToast("Salary Detail saved successfully", Key.TOAST_STATUS_SUCCESS )
+        // console.log('Event log saved successfully:', response);
+        this.getSalaryDetailExcelMethodCall();
+      },
+      error => {
+        this.helperService.showToast("Error saving salary detail", Key.TOAST_STATUS_ERROR )
+        console.error('Error saving event log:', error);
+      }
+    );
+  }
+
+  private handleError(message: string) {
+    this.importToggle = true;
+    this.isErrorToggle = true;
+    this.isProgressToggle = false;
+    this.errorMessage = message;
+  }
+
+  lastUploadedSalaryDoc: string = '';
+  lastUploadedSalaryDocName: string = '';
+  getSalaryDetailExcelMethodCall() {
+    this.dataService.getSalaryDetailExcel().subscribe(
+      (response: any) => {
+        if (response.status && response.object && response.object.url) {
+          this.lastUploadedSalaryDoc = response.object.url;
+          this.lastUploadedSalaryDocName = this.extractFileName(this.lastUploadedSalaryDoc);
+        } else {
+          this.lastUploadedSalaryDoc = '';
+          this.lastUploadedSalaryDocName = '';
+        }
+      },
+      (error) => {
+        console.error('Error fetching last uploaded salary document', error);
+        this.lastUploadedSalaryDoc = '';
+        this.lastUploadedSalaryDocName = '';
+      }
+    );
+  }
+
+  extractFileName(url: string): string {
+    const decodedUrl = decodeURIComponent(url);
+    const matches = decodedUrl.match(/.*\/(.+\..+?)\?/);
+    return matches ? matches[1] : 'Unknown File';
+  }
+
+
+ 
+
+  downloadDocument() {
+    const link = document.createElement('a');
+    link.href = this.lastUploadedSalaryDoc;
+    link.download = 'Salary_Detail_Doc.pdf'; 
+    link.click();
   }
 }

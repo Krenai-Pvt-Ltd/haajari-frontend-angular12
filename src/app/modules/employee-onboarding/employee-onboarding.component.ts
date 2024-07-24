@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
   selector: 'app-employee-onboarding',
@@ -8,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class EmployeeOnboardingComponent implements OnInit {
 
-  constructor(private router : Router) { 
+  constructor(private router : Router, public roleBasedAccessControlService: RoleBasedAccessControlService) { 
   }
   isTrue: boolean=false;
   ngOnInit(): void {
