@@ -6,7 +6,6 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { Key } from 'src/app/constant/key';
-import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Injectable({
@@ -15,7 +14,6 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 export class AuthGuard implements CanActivate {
   constructor(
     private router: Router,
-    private helperService: HelperService, 
     private rbacService: RoleBasedAccessControlService,
   ) {}
 
@@ -23,10 +21,8 @@ export class AuthGuard implements CanActivate {
   ROLE: any;
   ONBOARDING_STEP: any;
   async ngOnInit(): Promise<void> {
-    this.UUID =this.rbacService.userInfo.uuid;
-    //  await this.rbacService.getUUID();
-    this.ROLE = this.rbacService.userInfo.role;
-    // await this.rbacService.getRole();
+    this.UUID = await this.rbacService.getUUID();
+    this.ROLE = await this.rbacService.getRole();
     this.ONBOARDING_STEP = await this.rbacService.getOnboardingStep();
   }
 
@@ -48,26 +44,13 @@ export class AuthGuard implements CanActivate {
     //   this.router.navigate(['/organization-onboarding/personal-information']);
     // }
 
-//TODO uncomments
-    // await this.rbacService.isUserInfoInitialized();
+    await this.rbacService.isUserInfoInitializedMethod();
 
-    var role="";
-    if(this.rbacService.userInfo){
-      role=this.rbacService?.userInfo.role;
-    }else{
-      var userinfo=await this.helperService.getDecodedValueFromToken();
-      var role:string=userinfo?.role
-    }
     if (route !== null && route.routeConfig !== null) {
-      //TODO: uncomment if required
-      // if (
-      //   (await this.rbacService.getRole()) == Key.USER &&
-      //   route.routeConfig.path == 'dashboard'
-      // ) {
-        if (
-          (role) == Key.USER &&
-          route.routeConfig.path == 'dashboard'
-        ) {
+      if (
+        (await this.rbacService.getRole()) == Key.USER &&
+        route.routeConfig.path == 'dashboard'
+      ) {
         this.router.navigate(['/employee-profile'], {
           queryParams: {
             userId: await this.rbacService.getUUID(),

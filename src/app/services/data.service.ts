@@ -3625,13 +3625,30 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/attendance/requests`);
   }
 
-
   approveOrRejectAttendanceRequest(attendanceReqId: number, requestString: string): Observable<any> {
     const params = new HttpParams()
     .set('attendanceRequestId', attendanceReqId)
     .set('requestString',requestString);
     const url = `${this.baseUrl}/attendance/approve/reject/attendance/requests`;
     return this.httpClient.put<any>(url, {}, {params});
+  }
+
+  getPayrollProcessStepByOrganizationIdAndStartDateAndEndDate(startDate: string , endDate: string):Observable<any>{
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/step`, {params});
+  }
+
+  registerPayrollProcessStepByOrganizationIdAndStartDateAndEndDate(startDate: string, endDate: string, payrollProcessStepId: number):Observable<any>{
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+    .set('payroll_process_step_id', payrollProcessStepId);
+
+    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/step`, {params});
   }
 
 }

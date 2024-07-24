@@ -1,2 +1,2 @@
-<router-outlet (activate)="showSidebar()" *ngIf="this.roleBasedAccessControlService.isResolved"></router-outlet>
+<router-outlet (activate)="showSidebar()"></router-outlet>
 <app-employee-onboarding-sidebar *ngIf="isTrue"> </app-employee-onboarding-sidebar>

@@ -63,58 +63,30 @@ export class LoginComponent implements OnInit {
   ROLE: any;
   UUID: any;
 
-  // signIn() {
-
-  //   this.loginButtonLoader = true;
-  //   this.dataService.loginUser(this.email, this.password).subscribe(async response => {
-
-  //     console.log(response);
-  //     this.helperService.subModuleResponseList = response.subModuleResponseList;
-
-  //     localStorage.setItem('token', response.tokenResponse.access_token);
-  //     localStorage.setItem('refresh_token', response.tokenResponse.refresh_token);
-
-  //     this.ROLE = await this.rbacService.getRole();
-  //     this.UUID = await this.rbacService.getUuid();
-
-  //     if (this.ROLE === 'USER') {
-  //       this.router.navigate(['/employee-profile'], { queryParams: { userId: this.UUID, dashboardActive: 'true' } });
-  //     } else {
-  //       const helper = new JwtHelperService();
-  //       const onboardingStep = helper.decodeToken(response.tokenResponse.access_token).statusResponse;
-  //         if (onboardingStep == "5") {
-  //           this.router.navigate(['/dashboard']);
-  //         } else {
-  //           this.router.navigate(['/organization-onboarding/personal-information']);
-  //         }
-  //     }
-
-  //   }, (error) => {
-  //     console.log(error.error.message);
-  //     this.errorMessage = error.error.message;
-  //     this.loginButtonLoader = false;
-  //   })
-  // }
+  
   signIn() {
     debugger
     this.loginButtonLoader = true;
     this.dataService
       .loginUser(this.email, this.password)
       .pipe(
-        tap(async (response) => { 
+        tap((response) => {
           console.log(response);
           this.helperService.subModuleResponseList =
             response.subModuleResponseList;
-
           localStorage.setItem('token', response.tokenResponse.access_token);
           localStorage.setItem(
             'refresh_token',
             response.tokenResponse.refresh_token
           );
-          await this.rbacService.initializeUserInfo();
-          this.ROLE=  this.rbacService.userInfo.role
-          // this.rbacService.getRole();
-          this.UUID = this.rbacService.userInfo!.uuid;
+        }),
+        switchMap(() => this.rbacService.getRole()),
+        tap((ROLE) => {
+          this.ROLE = ROLE;
+        }),
+        switchMap(() => this.rbacService.getUUID()),
+        tap((UUID) => {
+          this.UUID = UUID;
 
           if (this.ROLE === 'USER') {
             this.router.navigate(['/employee-profile'], {
@@ -137,9 +109,8 @@ export class LoginComponent implements OnInit {
             }
           }
         }),
-       
-       
         catchError((error) => {
+          console.log(error.error.message);
           this.errorMessage = error.error.message;
           this.loginButtonLoader = false;
           return of(null); // handle error appropriately
