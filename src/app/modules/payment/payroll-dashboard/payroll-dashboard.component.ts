@@ -416,6 +416,8 @@ export class PayrollDashboardComponent implements OnInit {
     this.getFirstAndLastDateOfMonth(new Date());
     this.countPayrollDashboardEmployeeByOrganizationIdMethodCall();
     this.getPayActionTypeListMethodCall();
+    this.getPayrollProcessStepByOrganizationIdAndStartDateAndEndDateMethodCall();
+
 
     this.getOrganizationRegistrationDateMethodCall();
     this.getMonthResponseList(this.selectedDate);
@@ -457,6 +459,7 @@ export class PayrollDashboardComponent implements OnInit {
     if (enabledMonthResponse) {
       this.getOrganizationIndividualMonthSalaryDataMethodCall(enabledMonthResponse);
       this.getOrganizationPreviousMonthSalaryDataMethodCall(enabledMonthResponse);
+      this.getPayrollProcessStepByOrganizationIdAndStartDateAndEndDateMethodCall();
     }
   }
 
@@ -1196,6 +1199,7 @@ export class PayrollDashboardComponent implements OnInit {
   //Registering new joinee and user exit data to employee month wise salary data
   newJoineeAndUserExitRequestList: NewJoineeAndUserExitRequest[] = [];
   registerNewJoineeAndUserExitMethodCall() {
+    debugger;
     if (this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == this.NEW_JOINEE) {
       this.newJoineeAndUserExitRequestList = [];
 
@@ -1228,16 +1232,27 @@ export class PayrollDashboardComponent implements OnInit {
       }
       
       this.dataService.registerNewJoineeAndUserExit(this.newJoineeAndUserExitRequestList, this.startDate, this.endDate).subscribe((response) => {
-        console.log(this.CURRENT_TAB_IN_EMPLOYEE_CHANGE);
         this.selectedPayActionCache={};
         this.commentCache = {};
         this.helperService.showToast(response.message, this.TOAST_STATUS_SUCCESS);
         if (this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == this.NEW_JOINEE) {
-          this.navigateToTab('step2-tab'); //Navigating to the user exit tab
+          this.dataService.registerPayrollProcessStepByOrganizationIdAndStartDateAndEndDate(this.startDate, this.endDate, this.USER_EXIT).subscribe((response)=>{
+            this.navigateToTab('step2-tab');
+          }, ((error) => {
+            console.log(error);
+          }))
         } else if (this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == this.USER_EXIT) {
-          this.navigateToTab('step3-tab'); //Navigating to the full and final settlement tab
+          this.dataService.registerPayrollProcessStepByOrganizationIdAndStartDateAndEndDate(this.startDate, this.endDate, this.FINAL_SETTLEMENT).subscribe((response)=>{
+            this.navigateToTab('step3-tab');
+          }, ((error) => {
+            console.log(error);
+          }))
         } else if (this.CURRENT_TAB_IN_EMPLOYEE_CHANGE == this.FINAL_SETTLEMENT){
-          this.employeeChangeModal.nativeElement.click();
+          this.dataService.registerPayrollProcessStepByOrganizationIdAndStartDateAndEndDate(this.startDate, this.endDate, this.LEAVES).subscribe((response)=>{
+            this.employeeChangeModal.nativeElement.click();
+          }, ((error) => {
+            console.log(error);
+          }))
         }
 
       }, (error) => {
@@ -2060,7 +2075,17 @@ extractPreviousMonthNameFromDate(dateString : string){
   
     
 
+  // ########################--Validation--##############################
+  PAYROLL_PROCESS_STEP : number = 0;
+  getPayrollProcessStepByOrganizationIdAndStartDateAndEndDateMethodCall(){
+    this.dataService.getPayrollProcessStepByOrganizationIdAndStartDateAndEndDate(this.startDate, this.endDate).subscribe((response) => {
+      if(response != null){
+        this.PAYROLL_PROCESS_STEP = response.count;
+      }
+    }, (error) => {
 
+    })
+  }
 }
 
 

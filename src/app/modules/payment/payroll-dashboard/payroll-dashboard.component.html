@@ -17,7 +17,7 @@
                   monthResponse.year == selectedYear
               }">
               <div class="text-center"
-                (click)="getOrganizationIndividualMonthSalaryDataMethodCall(monthResponse); getOrganizationPreviousMonthSalaryDataMethodCall(monthResponse); getPayrollLogs()">
+                (click)="getOrganizationIndividualMonthSalaryDataMethodCall(monthResponse); getOrganizationPreviousMonthSalaryDataMethodCall(monthResponse); getPayrollLogs(); getPayrollProcessStepByOrganizationIdAndStartDateAndEndDateMethodCall();">
                 <h6 class="text-truncate">
                   {{ monthResponse.month }} - {{ monthResponse.year }}
                 </h6>
@@ -179,9 +179,10 @@
                   <div class="tab-content my-3">
                     <div class="tab-pane fade show active" id="wallet_BTC" role="tabpanel">
                       <div class="row">
-                        <div class="col-md-6 payroll-step" (click)="newJoineeTab()">
-                          <div class="card-body bg-soft-success mt-3" data-bs-toggle="modal"
-                            data-bs-target="#createteam">
+                        <div class="col-md-6" (click)="newJoineeTab()">
+                          <div class="card-body mt-3 payroll-step"
+                            [ngClass]="{'bg-soft-success': PAYROLL_PROCESS_STEP > 3, 'bg-soft-warning': PAYROLL_PROCESS_STEP <= 3}"
+                            data-bs-toggle="modal" data-bs-target="#createteam">
                             <div class="row">
                               <div class="col-auto">
                                 <img src="assets/images/creative-idea.svg" alt="user" height="50"
@@ -189,8 +190,16 @@
                               </div>
                               <!--end col-->
                               <div class="col align-self-center">
-                                <p class="font-14 mb-2"> Employee Changes <span class="task-priority-icon float-end">
-                                    <i class="ti ti-checks text-success"></i>
+                                <p class="font-14 mb-2"> Employee Changes
+                                  <span class="task-priority-icon float-end">
+                                    <!-- <ng-container *ngIf="PAYROLL_PROCESS_STEP > 3">
+                                      <i class="ti ti-checks text-success"></i>
+                                    </ng-container>
+                                    <ng-template>
+
+                                    </ng-template> -->
+                                    <i
+                                      [ngClass]="{'ti ti-checks text-success': PAYROLL_PROCESS_STEP > 3,'ti ti-circle-1': PAYROLL_PROCESS_STEP <= 3}"></i>
                                   </span>
                                 </p>
                                 <small class="text-muted">Nov 19.2023, 05:39 PM -Pushpendra</small>
@@ -200,8 +209,12 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-6 payroll-step" (click)="leavesTab()">
-                          <div class="card-body bg-soft-success mt-3" data-bs-toggle="modal" data-bs-target="#leaves">
+
+                        <div class="col-md-6" (click)="leavesTab()">
+                          <div class="card-body mt-3 payroll-step"
+                            [ngClass]="{'bg-soft-success': PAYROLL_PROCESS_STEP > 6, 'bg-soft-warning': PAYROLL_PROCESS_STEP <= 6}"
+                            data-bs-toggle="modal" data-bs-target="#leaves"
+                            [class.disabled]="PAYROLL_PROCESS_STEP <= 3">
                             <div class="row">
                               <div class="col-auto">
                                 <img src="assets/images/schedule.svg" alt="user" height="50"
@@ -211,7 +224,8 @@
                               <div class="col align-self-center">
                                 <p class="font-14 mb-2"> Attendance, Leave & Present Days <span
                                     class="task-priority-icon float-end">
-                                    <i class="ti ti-checks text-success"></i>
+                                    <i
+                                      [ngClass]="{'ti ti-checks text-success': PAYROLL_PROCESS_STEP > 6,'ti ti-circle-2': PAYROLL_PROCESS_STEP <= 6}"></i>
                                   </span>
                                 </p>
                                 <small class="text-muted">Nov 19.2023, 05:39 PM -Pushpendra</small>
@@ -221,31 +235,12 @@
                             <!--end row-->
                           </div>
                           <!--end col-->
-                          <div class="col-auto align-self-center">
-                            <div class="button-items">
-                              <button type="button" class="btn btn-outline-secondary btn-round"> Preview Payroll
-                              </button>
-                              <button type="button" class="btn btn-outline-primary btn-round"
-                                (click)="generateSalaryReportMethodCall()">
-                                <ng-container *ngIf="RUN_PAYROLL_LOADER; else runPayrollLoaderFalseCondition">
-                                  <div class="dot-opacity-loader">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                  </div>
-                                </ng-container>
-                                <ng-template #runPayrollLoaderFalseCondition>
-                                  <div>Run Payroll</div>
-                                </ng-template>
-                              </button>
-
-                            </div>
-                          </div>
-                          <!--end col-->
                         </div>
-                        <div class="col-md-6 payroll-step" (click)="salaryChangeTab()">
-                          <div class="card-body bg-soft-success mt-3" data-bs-toggle="modal"
-                            data-bs-target="#salarychange">
+                        <div class="col-md-6" (click)="salaryChangeTab()">
+                          <div class="card-body mt-3 payroll-step"
+                            [ngClass]="{'bg-soft-success': PAYROLL_PROCESS_STEP > 9, 'bg-soft-warning': PAYROLL_PROCESS_STEP <= 9}"
+                            data-bs-toggle="modal" data-bs-target="#salarychange"
+                            [class.disabled]="PAYROLL_PROCESS_STEP <= 6">
                             <div class="row">
                               <div class="col-auto">
                                 <img src="assets/images/business-report.svg" alt="user" height="50"
@@ -255,7 +250,8 @@
                               <div class="col align-self-center">
                                 <p class="font-14 mb-2"> Salary Revision, Overtime & Deduction <span
                                     class="task-priority-icon float-end">
-                                    <i class="ti ti-checks text-success"></i>
+                                    <i
+                                      [ngClass]="{'ti ti-checks text-success': PAYROLL_PROCESS_STEP > 9,'ti ti-circle-3': PAYROLL_PROCESS_STEP <= 9}"></i>
                                   </span>
                                 </p>
                                 <small class="text-muted">Nov 19.2023, 05:39 PM -Pushpendra</small>
@@ -265,9 +261,11 @@
                             <!--end row-->
                           </div>
                         </div>
-                        <div class="col-md-6 payroll-step" (click)="epfTab()">
-                          <div class="card-body bg-soft-success mt-3" data-bs-toggle="modal"
-                            data-bs-target="#epf_esi_tds">
+                        <div class="col-md-6" (click)="epfTab()">
+                          <div class="card-body mt-3 payroll-step"
+                            [ngClass]="{'bg-soft-success': PAYROLL_PROCESS_STEP > 12, 'bg-soft-warning': PAYROLL_PROCESS_STEP <= 12}"
+                            data-bs-toggle="modal" data-bs-target="#epf_esi_tds"
+                            [class.disabled]="PAYROLL_PROCESS_STEP <= 9">
                             <div class="row">
                               <div class="col-auto">
                                 <img src="assets/images/card-reader.svg" alt="user" height="50"
@@ -277,7 +275,8 @@
                               <div class="col align-self-center">
                                 <p class="font-14 mb-2"> EPF, ESI & TDS (OVERRIDE) <span
                                     class="task-priority-icon float-end">
-                                    <i class="ti ti-checks text-success"></i>
+                                    <i
+                                      [ngClass]="{'ti ti-checks text-success': PAYROLL_PROCESS_STEP > 12,'ti ti-circle-4': PAYROLL_PROCESS_STEP <= 12}"></i>
                                   </span>
                                 </p>
                                 <small class="text-muted">Nov 19.2023, 05:39 PM -Pushpendra </small>
@@ -303,7 +302,7 @@
                         <div class="col-auto align-self-center">
                           <div class="button-items">
                             <button type="button" class="btn btn-outline-primary btn-round"
-                              (click)="generateSalaryReportMethodCall()">
+                              [disabled]="PAYROLL_PROCESS_STEP < 13" (click)="generateSalaryReportMethodCall()">
                               <ng-container *ngIf="RUN_PAYROLL_LOADER; else runPayrollLoaderFalseCondition">
                                 <div class="dot-opacity-loader">
                                   <span></span>
@@ -1623,8 +1622,8 @@
                                   </td>
                                   <td>
                                     <input class="comment-input p-2" type="text" placeholder="Write the comment here"
-                                      [(ngModel)]="lopReversalResponse.lopReversalComment"
-                                      (change)="updateLopComment(lopReversalResponse, lopReversalResponse.lopReversalComment)"
+                                      [(ngModel)]="lopReversalResponse.comment"
+                                      (change)="updateLopComment(lopReversalResponse, lopReversalResponse.comment)"
                                       [ngModelOptions]="{ standalone: true }" />
                                   </td>
                                 </tr>

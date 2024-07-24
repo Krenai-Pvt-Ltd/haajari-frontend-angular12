@@ -4,8 +4,6 @@ import { ModulesWithSubmodules } from '../models/modules-with-submodules';
 import { ModuleResponse } from '../models/module-response';
 import { resolve } from 'dns';
 import { Observable } from 'rxjs';
-import { reject } from 'lodash';
-import { ActivationEnd, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -16,98 +14,39 @@ export class RoleBasedAccessControlService {
   }
 
   userInfo: any;
-  currentRoute: string='';
-  // userInfoInitialized!: any;
-  isResolved: boolean = false;
+  isUserInfoInitialized: boolean = false;
+  private userInfoInitialized: Promise<void>;
 
-  constructor(private helperService: HelperService, private _router: Router) {
-  //  this.initializeUserInfo();
+  constructor(private helperService: HelperService) {
+    this.userInfoInitialized = this.initializeUserInfo();
+  }
 
-    if (this._router != undefined) {
-      console.log("_router is not undefined" )
-
-      this._router.events.subscribe(async val => {
-        console.log("INSIDE LOOP _router is not undefined" +this.currentRoute+"----")
-
-        // !this.isRefreshingToken && !this.Routes.AUTH_ROUTES.includes(this.currentRoute)
-        if (val instanceof ActivationEnd && this.currentRoute!=""  ) { 
-
-          //@ts-ignore
-          this.currentRoute = val.snapshot._routerState.url.split("?")[0];
-          // console.log("route=======", this.currentRoute);
-          // if (!this.Routes.AUTH_ROUTES.includes(String(this.currentRoute))) {
-            // var refresh_token = localStorage.getItem(Constant.REFRESH_TOKEN_STR); 
-
-            // this.isTokenExpired = this._authenticationService?.isTokenExpiredWithoutRedirection();
-             console.log("getmodules called from data service " )
-         await  this.initializeUserInfo();
-          // }
-        }
-
-      });
-
-
+  private async initializeUserInfo(): Promise<void> {
+    try {
+      this.userInfo = await this.helperService.getDecodedValueFromToken();
+      this.isUserInfoInitialized = true;
+    } catch (error) {
+      console.error('Error fetching decoded value from token:', error);
     }
-    //  this.initializeUserInfo();
   }
 
-   async initializeUserInfo() {
- 
-    return new Promise(async (resolve, reject) => {
-      try {
-        this.userInfo = await this.helperService.getDecodedValueFromToken();
-        // await this.getRoleTemp();
-        this.isResolved=true;
-      console.log("  this.isResolved=true;",  this.isResolved)
-        resolve(true);
-      } catch (error) {
-        reject(false);
-      }
-  
-    })
-    // .then(async x => {
-
-    //     await this.getRole();
-    //     this.isResolved=true;
-    //   console.log("  this.isResolved=true;",  this.isResolved )
-      
-    // });
+  isUserInfoInitializedMethod(): Promise<void> {
+    return this.userInfoInitialized;
   }
-
-  // isUserInfoInitialized(): Promise<void> {
-  //   return this.userInfoInitialized;
-  // }
 
   async getRole() {
-    return this.userInfo.role;
-    // return new Promise(async (resolve, reject) => {
-
-    // let role = null;
-    // // this.userInfo = await this.helperService.getDecodedValueFromToken()
-     
-    //     // this.userInfo = response;
-    //     role = this.userInfo.role;
-    //     console.log(role);
-    //     resolve(role);
-   
-    // });
-  }
-
-  async getRoleDecoded() {
-    return new Promise(async (resolve, reject) => {
-
     let role = null;
-    // this.userInfo = await this.helperService.getDecodedValueFromToken()
-     
-        // this.userInfo = response;
+    this.userInfo = await this.helperService.getDecodedValueFromToken();
+    await this.helperService
+      .getDecodedValueFromToken()
+      .then((response: any) => {
+        this.userInfo = response;
         role = this.userInfo.role;
-        console.log(role);
-        resolve(role);
-   
-    });
+      });
+    return role;
   }
 
-  getRoleVal() {
+  getRoles() {
     return this.userInfo.role;
   }
 
@@ -137,7 +76,6 @@ export class RoleBasedAccessControlService {
   }
 
   async hasAccessToSubmodule(subModuleRouteValue: string): Promise<boolean> {
-    debugger;
     return new Promise<boolean>(async (resolve, reject) => {
       try {
         let subModules = this.helperService.subModuleResponseList;
@@ -146,10 +84,14 @@ export class RoleBasedAccessControlService {
           subModules == null ||
           subModules.length == 0
         ) {
-          subModules = await this.helperService.getAccessibleSubModuleResponseMethodCall();
+          subModules =
+            await this.helperService.getAccessibleSubModuleResponseMethodCall();
         }
         for (const subModule of subModules) {
-          if (subModule.description === subModuleRouteValue && subModule.isAccessible) {
+          if (
+            subModule.description === subModuleRouteValue &&
+            subModule.isAccessible
+          ) {
             resolve(true);
             return;
           }

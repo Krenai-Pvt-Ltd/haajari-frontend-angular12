@@ -75,7 +75,7 @@ export class HeaderComponent implements OnInit {
 
   async getUserUUID() {
     this.UUID = await this.rbacService.getUUID();
-    this.ROLE = await this.rbacService.getRoleVal();
+    this.ROLE = await this.rbacService.getRole();
     this.ORGANIZATION_UUID = await this.rbacService.getOrgRefUUID();
   }
 
@@ -134,7 +134,7 @@ export class HeaderComponent implements OnInit {
   show: boolean = false;
 
   shouldDisplay(moduleName: string): boolean {
-    const role :any = this.rbacService.getRole(); 
+    const role = this.rbacService.getRoles(); 
     const modulesToShowForManager = [
       'dashboard',
       'team',
