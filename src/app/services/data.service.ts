@@ -3354,6 +3354,14 @@ export class DataService {
     return this.httpClient.put<any>(`${this.baseUrl}/salary/send-payslip-email`,salaryResponse, {params});
   }
 
+  sendPayslipViaSlack(
+    salaryResponse: any, payslipMonth: string 
+  ): Observable<any>{
+    const params = new HttpParams()
+    .set('payslip_month', payslipMonth)
+    return this.httpClient.put<any>(`${this.baseUrl}/salary/send-payslip-slack`,salaryResponse, {params});
+  }
+
 
   getGeneratedPayrollMonthlyLogs(startDate: string, endDate: string, pageNumber: number, itemsPerPage : number): Observable<any> {
     const url = `${this.baseUrl}/generate-reports/get-salary-reports-logs`;

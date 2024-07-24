@@ -179,6 +179,10 @@
                 <i class="fab fa-whatsapp"></i>
                 <small>&nbsp;&nbsp;Send By WhatsApp</small>
               </button>
+              <button type="button" class="btn btn-de-secondary" (click)="sendPayslipPdf('slack')">
+                <i class="fab fa-whatsapp"></i>
+                <small>&nbsp;&nbsp;Send By Slack</small>
+              </button>
               </div>
               <div class="btn-group ms-1">
                 <button [disabled]="!selectedEmployeeIds || selectedEmployeeIds.length === 0"  type="button" class="btn  btn-de-secondary" (click)="generateSalarySlipMethodCall()">
