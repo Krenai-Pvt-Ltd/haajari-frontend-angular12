@@ -2124,6 +2124,11 @@ extractPreviousMonthNameFromDate(dateString : string){
         console.log(response);
         this.RUN_PAYROLL_LOADER = false;
         this.helperService.showToast('Payroll generated successfully.', Key.TOAST_STATUS_SUCCESS);
+        this.dataService.registerPayrollProcessStepByOrganizationIdAndStartDateAndEndDate(this.startDate, this.endDate, Key.PAYROLL_PORCESSED).subscribe((response)=>{
+          this.getPayrollProcessStepByOrganizationIdAndStartDateAndEndDateMethodCall();
+        }, ((error) => {
+          console.log(error);
+        }))  
       },
       error: (error) => {
         this.helperService.showToast('Error while generating the Payroll!', Key.TOAST_STATUS_ERROR);

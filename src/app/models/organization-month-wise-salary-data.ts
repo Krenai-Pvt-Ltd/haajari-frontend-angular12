@@ -6,4 +6,6 @@ export class OrganizationMonthWiseSalaryData {
   netPay: number = 0;
   totalAmount: number = 0;
   month : string = '';
+  updatedBy : string = '';
+  updatedDate : Date = new Date();
 }

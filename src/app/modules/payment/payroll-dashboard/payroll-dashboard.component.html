@@ -284,8 +284,10 @@
                         <div class="col">
                           <div class="media">
                             <div class="media-body align-self-center">
-                              <p class="text-muted font-12 mb-0 mt-2"> Last Preview Run On 10 JUL at 11:30 PM By
-                                Pushpendra </p>
+                              <p class="text-muted font-12 mb-0 mt-2"> Last Preview Run On
+                                {{organizationMonthWiseSalaryData?.updatedDate | date: 'dd MMM'}} at
+                                {{organizationMonthWiseSalaryData?.updatedDate | date:'shortTime'}} By
+                                {{organizationMonthWiseSalaryData?.updatedBy}} </p>
                             </div>
                             <!--end media body-->
                           </div>

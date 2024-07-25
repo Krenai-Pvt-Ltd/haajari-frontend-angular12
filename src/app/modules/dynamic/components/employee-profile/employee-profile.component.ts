@@ -1961,19 +1961,11 @@ export class EmployeeProfileComponent implements OnInit {
 
     // Disable if the month is before the organization registration month
     if (
-      dateYear < organizationRegistrationYear || (dateYear === organizationRegistrationYear && dateMonth < organizationRegistrationMonth)
+      (dateYear < organizationRegistrationYear) || (dateYear === organizationRegistrationYear && dateMonth < organizationRegistrationMonth) || (dateYear > currentYear) || (dateMonth != currentMonth - 1)
     ) {
       return true;
     }
 
-    // Disable if the month is after the current month
-    if (
-      dateYear > currentYear || (dateYear === currentYear && dateMonth >= currentMonth)
-    ) {
-      return true;
-    }
-
-    // Enable the month if it's from January 2023 to the current month
     return false;
   };
 
