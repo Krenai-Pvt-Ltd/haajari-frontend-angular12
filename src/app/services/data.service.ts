@@ -3656,4 +3656,9 @@ export class DataService {
     return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/step`,{}, {params});
   }
 
+  getAdminPersonalDetail():Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/users/personal-detail/admin`, {});
+  }
+
+
 }
