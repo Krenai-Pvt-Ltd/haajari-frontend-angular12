@@ -73,6 +73,7 @@ export class TimetableComponent implements OnInit {
     this.selectedDate = date;
     this.getAttendanceDetailsCountMethodCall();
     this.getAttendanceDetailsReportByDateMethodCall();
+    this.getHolidayForOrganization();
   }
 
   disableDates = (current: Date): boolean => {
@@ -172,6 +173,7 @@ export class TimetableComponent implements OnInit {
     this.getAttendanceDetailsCountMethodCall();
     this.getAttendanceDetailsReportByDateMethodCall();
     this.getActiveUsersCountMethodCall();
+    this.getHolidayForOrganization();
   }
 
   dateRangeInputValue: string = '';
@@ -819,6 +821,33 @@ export class TimetableComponent implements OnInit {
         }
       );
     }
+  }
+
+  // ############################################
+
+ checkHoliday:boolean = false;
+ showPlaceholder:boolean = false;
+
+ getHolidayForOrganization(){
+   
+    this.dataService.getHolidayForOrganization(this.helperService.formatDateToYYYYMMDD(this.selectedDate))
+    .subscribe(
+      (response) => {
+        this.checkHoliday = response.object;
+        console.log(response);
+        console.error("Response", response.object);
+
+        if (this.checkHoliday == true) {
+          this.showPlaceholder = true; 
+        } else if (this.checkHoliday == false){
+          this.showPlaceholder = false; 
+        }
+        
+      },
+      (error) =>{
+        console.error('Error details:', error);
+      }
+  )
   }
 
   

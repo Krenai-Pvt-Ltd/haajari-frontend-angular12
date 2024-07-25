@@ -3485,9 +3485,10 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/salary/month-wise/pay-slip-log`, {params});
   }
 
-
-  
-
-
+getHolidayForOrganization(date: string): Observable<any>{
+  const params = new HttpParams()
+  .set('date', date)
+  return this.httpClient.get<any>(`${this.baseUrl}/holiday/check-holiday`,{params});
+}
   
 }

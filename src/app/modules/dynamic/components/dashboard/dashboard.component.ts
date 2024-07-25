@@ -31,6 +31,8 @@ import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-refl
 import { AttendanceDetailsResponse } from 'src/app/models/attendance-details-response';
 import { DayStartAndDayEnd } from 'src/app/models/day-start-and-day-end';
 import { StartDateAndEndDate } from 'src/app/models/start-date-and-end-date';
+import { error } from 'jquery';
+import { Console } from 'console';
 
 @Component({
   selector: 'app-dashboard',
@@ -177,6 +179,7 @@ export class DashboardComponent implements OnInit {
     this.getTeamNames();
     window.scroll(0, 0);
     this.getOrganizationRegistrationDateMethodCall();
+    
     // this.checkAccessToken();
 
     // const today = dayjs();
@@ -212,6 +215,7 @@ export class DashboardComponent implements OnInit {
     this.getMonthlyChartData();
     this.getLateUsers();
     // this.getAttendanceDetailsReportByDateMethodCall();
+    this.getHolidayForOrganization();
   }
 
   isShimmer = false;
@@ -1251,4 +1255,33 @@ getAbsentFlag(str: string, count:number) {
       this.absentFlag = false;
     }
   }
+
+
+  // ############################################
+
+ checkHoliday:boolean = false;
+ showPlaceholder:boolean = false;
+
+ getHolidayForOrganization(){
+    debugger
+    this.dataService.getHolidayForOrganization(this.helperService.formatDateToYYYYMMDD(this.selectedDate))
+    .subscribe(
+      (response) => {
+        this.checkHoliday = response.object;
+        console.log(response);
+        console.error("Response", response.object);
+
+        if (this.checkHoliday == true) {
+          this.showPlaceholder = true; 
+        } else if (this.checkHoliday == false){
+          this.showPlaceholder = false; 
+        }
+        
+      },
+      (error) =>{
+        console.error('Error details:', error);
+      }
+  )
+  }
+
 }
