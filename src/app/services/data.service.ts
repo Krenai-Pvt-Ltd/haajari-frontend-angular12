@@ -3656,18 +3656,15 @@ export class DataService {
     return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/step`,{}, {params});
   }
 
-<<<<<<< HEAD
   getAdminPersonalDetail():Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/users/personal-detail/admin`, {});
   }
 
 
-=======
   getMonthResponseListByYear(date: string): Observable<any>{
     const params = new HttpParams()
     .set('date', date);
 
     return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/month-response-list`, {params});
   }
->>>>>>> 568a7d0701215eb440028aa537d57d82d1f041ac
 }
