@@ -195,11 +195,10 @@
                   class="bi bi-chevron-right"></i></span>
             </div>
           </div>
-          <div class="add-filtter d-flex align-items-center justify-content-end" style="gap: 10px"
-            *ngIf="(ROLE | async) === ADMIN">
-            <a>Unprocessed Logs <i class="bi bi-list-ol"></i></a>
-            <p style="color: #a1a0a0; margin-bottom: 0px">|</p>
-            <a (click)="downloadAttedanceReport(selectedDate)">Daily Report <i
+          <div class="add-filtter d-flex align-items-center justify-content-end" style="gap: 10px">
+            <a data-bs-toggle="modal" data-bs-target="#unprocessedLogsModal" *ngIf="((ROLE | async) === ADMIN) || (ROLE | async) === MANAGER" (click)="getAttendanceRequestsData()">Unprocessed Logs <i class="bi bi-list-ol"></i></a>
+            <p style="color: #a1a0a0; margin-bottom: 0px" *ngIf="(ROLE | async) === ADMIN">|</p>
+            <a (click)="downloadAttedanceReport(selectedDate)" *ngIf="(ROLE | async) === ADMIN">Daily Report <i
               style="
                 font-size: 16px;
                 color: #6666f3;
@@ -211,8 +210,8 @@
                 'bi bi-download': !rotateToggle
               }"
             ></i></a>
-            <p style="color: #a1a0a0; margin-bottom: 0px">|</p>
-            <a routerLink="/setting/attendance-setting">Settings <i class="bi bi-gear"></i></a>
+            <p style="color: #a1a0a0; margin-bottom: 0px" *ngIf="(ROLE | async) === ADMIN">|</p>
+            <a routerLink="/setting/attendance-setting" *ngIf="(ROLE | async) === ADMIN">Settings <i class="bi bi-gear"></i></a>
           </div>
         </div>
       </div>
@@ -900,6 +899,103 @@
           <span><i class="bi bi-download"></i> Download</span>
         </button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="unprocessedLogsModal" tabindex="-1" aria-labelledby="unprocessedLogsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="unprocessedLogsModalLabel">Unprocessed Logs</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Nav Tabs -->
+        <ul class="nav nav-tabs" id="unprocessedLogsTabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="requests-tab" data-bs-toggle="tab" data-bs-target="#requests" type="button" role="tab" aria-controls="requests" aria-selected="true" >Requests</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="logs-tab" data-bs-toggle="tab" data-bs-target="#logs" type="button" role="tab" aria-controls="logs" aria-selected="false" (click)="getFullAttendanceRequestLogData()">Logs</button>
+          </li>
+        </ul>
+        <!-- Tab Content -->
+        <div class="tab-content" id="unprocessedLogsTabsContent">
+          <div class="tab-pane fade show active" id="requests" role="tabpanel" aria-labelledby="requests-tab">
+            <!-- Requests Content -->
+            <div class="errorboxmain text-center" *ngIf="attendanceRequests.length==0">
+              <div class="errorboxinner">
+                <div class="errorboxplaceholder mb-2">
+                  <img src="assets/images/empty-box.svg" style="width: 80px" />
+                </div>
+                <div class="">
+                  <h4>No Data Found</h4>
+                  <p class="mb-0">
+                    We're unable to locate a record associated with the information you entered.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="logs-container" *ngIf="attendanceRequests.length > 0">
+              <div class="log-entry" *ngFor="let log of attendanceRequests">
+                <div class="log-header">
+                  <h6>Request Type: <span class="badge bg-soft-primary">{{log.attendanceStatus}}</span></h6>
+                  <span class="badge bg-soft-warning" *ngIf="log.status == 'PENDING'">Pending</span>
+                  <span class="badge bg-soft-success" *ngIf="log.status == 'APPROVED'">Approved</span>
+                  <span class="badge bg-soft-danger" *ngIf="log.status == 'REJECTED'">Rejected</span>
+                </div>
+                <p><strong>Date:</strong> {{log.createdDate | date:"MMM dd, yyyy 'at' hh:mm a"}}</p>
+                <p><strong>Original Date:</strong> {{log.oldDate | date:"MMM dd, yyyy 'at' hh:mm a"}}</p>
+                <p><strong>Updated Date:</strong> {{log.updatedDate | date:"MMM dd, yyyy 'at' hh:mm a"}}</p>
+                <p><strong>Manager:</strong> {{log.managerName}}</p>
+                <p><strong>Reason:</strong> {{log.requestReason}}</p>
+                <div class="action-buttons" style="justify-content: flex-end;">
+                  <button class="btn btn-soft-success" (click)="approveOrRequest(log.id, 'APPROVE')">Approve</button>
+                  <button class="btn btn-soft-danger" (click)="approveOrRequest(log.id, 'REJECT')">Reject</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="logs" role="tabpanel" aria-labelledby="logs-tab">
+            <!-- Logs Content -->
+            <div class="modal-body">
+              <div class="errorboxmain text-center" *ngIf="attendanceFullRequestLog.length==0">
+                <div class="errorboxinner">
+                  <div class="errorboxplaceholder mb-2">
+                    <img src="assets/images/empty-box.svg" style="width: 80px" />
+                  </div>
+                  <div class="">
+                    <h4>No Data Found</h4>
+                    <p class="mb-0">
+                      We're unable to locate a record associated with the information you entered.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="logs-container" *ngIf="attendanceFullRequestLog.length > 0">
+                <div class="log-entry" *ngFor="let log of attendanceFullRequestLog">
+                  <div class="log-header">
+                    <h6>Request Type: <span class="badge bg-soft-primary">{{log.attendanceStatus}}</span></h6>
+                    <span class="badge bg-soft-warning" *ngIf="log.status == 'PENDING'">Pending</span>
+                    <span class="badge bg-soft-success" *ngIf="log.status == 'APPROVED'">Approved</span>
+                    <span class="badge bg-soft-danger" *ngIf="log.status == 'REJECTED'">Rejected</span>
+                  </div>
+                  <p><strong>Date:</strong> {{log.createdDate | date:"MMM dd, yyyy 'at' hh:mm a"}}</p>
+                  <p><strong>Original Date:</strong> {{log.oldDate | date:"MMM dd, yyyy 'at' hh:mm a"}}</p>
+                  <p><strong>Updated Date:</strong> {{log.updatedDate | date:"MMM dd, yyyy 'at' hh:mm a"}}</p>
+                  <p><strong>Manager:</strong> {{log.managerName}}</p>
+                  <p><strong>Reason:</strong> {{log.requestReason}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div> -->
     </div>
   </div>
 </div>

@@ -171,17 +171,21 @@
                 <i class="fas fa-exclamation-circle"></i>
                 <small>&nbsp;&nbsp;Hold Payslip</small>
               </button>              
-                <button type="button" class="btn  btn-de-secondary ">
-                  <i class="fas fa-envelope-open"></i>
-                  <small>&nbsp;&nbsp;Send By Mail</small>
-                </button>
-                <button type="button" class="btn  btn-de-secondary ">
-                  <i class="fab fa-whatsapp"></i>
-                  <small>&nbsp;&nbsp;Send By WhatsApp</small>
-                </button>
+              <button type="button" class="btn btn-de-secondary" (click)="sendPayslipPdf('email')">
+                <i class="fas fa-envelope-open"></i>
+                <small>&nbsp;&nbsp;Send By Mail</small>
+              </button>
+              <button type="button" class="btn btn-de-secondary" (click)="sendPayslipPdf('whatsapp')">
+                <i class="fab fa-whatsapp"></i>
+                <small>&nbsp;&nbsp;Send By WhatsApp</small>
+              </button>
+              <button type="button" class="btn btn-de-secondary" (click)="sendPayslipPdf('slack')">
+                <i class="fab fa-whatsapp"></i>
+                <small>&nbsp;&nbsp;Send By Slack</small>
+              </button>
               </div>
               <div class="btn-group ms-1">
-                <button type="button" class="btn  btn-de-secondary">
+                <button [disabled]="!selectedEmployeeIds || selectedEmployeeIds.length === 0"  type="button" class="btn  btn-de-secondary" (click)="generateSalarySlipMethodCall()">
                   <i class="fas fa-cogs"></i>
                   <small>&nbsp;&nbsp;Generate</small>
                 </button>
@@ -251,22 +255,22 @@
                         <input
                           type="checkbox"
                           [checked]="selectedEmployeeIds.includes(employee.uuid)"
-                          (change)="selectUser(employee.uuid)"
+                          (change)="selectUser(employee)"
                         />
                       </td>
-                      <td>{{ employee.name }}</td>
-                      <td>{{ employee.email }}</td>
-                      <td>{{ employee.department }}</td>
+                      <td>{{ employee.name ? employee.name : '-'}}</td>
+                      <td>{{ employee.email ? employee.email : '-' }}</td>
+                      <td>{{ employee.department ? employee.department : '-' }}</td>
                       <td>
                         <span
-                          class="badge rounded-pill"
-                          [ngClass]="{
-                            'badge-soft-success': employee.payActionType == 'PROCESS AS SALARY',
-                            'badge-soft-danger': employee.payActionType == 'HOLD SALARY'
-                          }"
-                        >
-                          {{ employee.payActionType ? employee.payActionType : 'PROCESS AS SALARY' }}
-                        </span>
+                        class="badge rounded-pill"
+                        [ngClass]="{
+                            'badge-soft-success': !employee.payActionType || employee.payActionType === 'PROCESS AS SALARY',
+                            'badge-soft-danger': employee.payActionType === 'HOLD SALARY'
+                        }"
+                    >
+                        {{ employee.payActionType ? employee.payActionType : 'PROCESS AS SALARY' }}
+                    </span>                    
                       </td>
                       <td>
                         <span
@@ -281,32 +285,39 @@
                       </td>
                       <td>
                         <div class="btn-group" role="group" aria-label="Basic example">
-                          <button
-                            type="button"
-                            class="btn btn-light"
-                            ngbTooltip="Download"
-                            placement="top"
-                          >
-                            <i class="ti ti-download"></i>
-                          </button>
-                          <button
-                            type="button"
-                            class="btn btn-light"
-                            ngbTooltip="View"
-                            placement="top"
-                          >
-                            <i class="ti ti-eye"></i>
-                          </button>
-                          <button
-                            type="button"
-                            class="btn btn-light"
-                            ngbTooltip="Send"
-                            placement="top"
-                          >
-                            <i class="ti ti-send"></i>
-                          </button>
+                            <button
+                                type="button"
+                                class="btn btn-light"
+                                ngbTooltip="Download"
+                                placement="top"
+                                (click)="downloadPdf(employee.paySlipUrl)"
+                                [disabled]="!employee.paySlipUrl"
+                            >
+                                <i class="ti ti-download"></i>
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-light"
+                                ngbTooltip="View"
+                                placement="top"
+                                (click)="viewPdf(employee.paySlipUrl)"
+                                [disabled]="!employee.paySlipUrl"
+                            >
+                                <i class="ti ti-eye"></i>
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-light"
+                                ngbTooltip="Send"
+                                placement="top"
+                                (click)="sendPayslipPdf('email',employeeMonthWiseSalaryDataList)"
+                                [disabled]="!employee.paySlipUrl"
+                            >
+                                <i class="ti ti-send"></i>
+                            </button>
                         </div>
-                      </td>                                         
+                    </td>
+                                                           
                     </tr>
                   </tbody>
                 </ng-container>

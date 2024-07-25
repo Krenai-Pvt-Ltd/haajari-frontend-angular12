@@ -499,7 +499,7 @@ span.optional {
   font-size: 12px;
 }
 .apply-leave-main-box {
-  height: 400px;
+  max-height: 400px;
   overflow: auto;
 }
 
@@ -1400,7 +1400,7 @@ tbody tr {
 }
 /* Author Pushpendra */
 .hr-dashed {
-  border-top: 1px dashed #fff;
+  border-top: 1px dashed #f1f1f1;
 }
 .alert {
   border-radius: 0.125rem;
@@ -1728,4 +1728,125 @@ tbody tr {
 
 .card-body-header-icon>i{
   font-size: 22px;
+}
+
+.table .table-light {
+  color: #8997bd;
+  font-weight: 400;
+  vertical-align: middle;
+  border-color: #ececec;
+  font-size: 12px !important;
+}
+.table .table-light th {
+  font-size: 12px;
+  line-height: 21px;
+  font-weight: 400;
+  background-color: #f5f5f5;
+  text-align: left;
+}
+.table td{
+  font-size: 12px;
+  line-height: 21px;
+  font-weight: 200 !important;
+  text-align: left;
+}
+
+.errorboxmain {
+  /* min-height: 20vh; */
+  background-color: #fff;
+  box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, 0.05);
+  border-radius: 6px;
+}
+.errorboxmain {
+  padding: 15px;
+}
+.search-icon {
+  font-size: 12px !important;
+  position: absolute !important;
+  top: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  color: var(--tb-secondary-color) !important;
+}
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+}
+tbody tr:last-child{
+  border-bottom: none;
+}
+
+/*  new css for attendance requets modal */
+
+.modal-content {
+  padding: 20px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-title {
+  margin: 0;
+}
+
+.form-label {
+  font-weight: bold;
+}
+
+.form-control,
+.form-select {
+  margin-top: 10px;
+}
+
+.mb-3 {
+  margin-bottom: 15px;
+}
+
+.logs-container {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.log-entry {
+  padding: 10px 0;
+}
+
+.log-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.log-header h6 {
+  margin: 0;
+}
+
+.log-header .badge {
+  font-size: 0.9rem;
+}
+
+hr {
+  margin: 10px 0;
+}
+.text-muted {
+  color: #6c757d; 
+}
+
+.mt-2 {
+  margin-top: 0.5rem; 
+}
+
+.d-block {
+  display: block;
+}
+
+.activity .activity-info .icon-info-activity i {
+  width: 24px;
+  height: 24px;
 }

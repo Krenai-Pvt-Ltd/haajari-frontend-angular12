@@ -849,6 +849,58 @@ export class TimetableComponent implements OnInit {
       }
   )
   }
+attendanceFullRequestLog: any[] = [];
+getFullAttendanceRequestLogData(): void {
+  this.dataService.getFullAttendanceRequestLog().subscribe(response => {
+    this.attendanceFullRequestLog = response.listOfObject;
+    console.log('logs retrieved successfully', response.listOfObject);
+  }, (error) => {
+    console.log(error);
+  });
+}
+
+
+attendanceRequests: any[] = [];
+getAttendanceRequestsData(): void {
+  this.dataService.getAttendanceRequests().subscribe(response => {
+    this.attendanceRequests = response.listOfObject;
+    console.log('requests retrieved successfully', response.listOfObject);
+  }, (error) => {
+    console.log(error);
+  });
+}
+
+approveOrRequest(id:number, reqString: string) {
+  this.dataService.approveOrRejectAttendanceRequest(id, reqString).subscribe(response => {
+    console.log('requests retrieved successfully', response.listOfObject);
+    if(response.message == 'APPROVE') {
+    this.helperService.showToast(
+      'Request Approved Successfully',
+      Key.TOAST_STATUS_SUCCESS
+    );
+  } else if (response.message == 'REJECT') {
+    this.helperService.showToast(
+      'Request Rejected Successfully',
+      Key.TOAST_STATUS_SUCCESS
+    );
+  }
+  this.getAttendanceRequestsData();
+  this.getFullAttendanceRequestLogData();
+
+  }, (error) => {
+    console.log(error);
+    this.helperService.showToast(
+      'Error',
+      Key.TOAST_STATUS_ERROR
+    );
+  });
+
+  
+
+}
+
+
+
 
   
 }

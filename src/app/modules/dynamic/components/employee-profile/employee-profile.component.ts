@@ -10,7 +10,7 @@ import { Subject } from 'rxjs';
 import { UserLeaveRequest } from 'src/app/models/user-leave-request';
 import { FormBuilder, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import { FullCalendarComponent } from '@fullcalendar/angular';
-import { UserDto } from 'src/app/models/user-dto.model';
+import { AttendanceCheckTimeResponse, AttendanceTimeUpdateRequestDto, UserDto } from 'src/app/models/user-dto.model';
 import { saveAs } from 'file-saver';
 import { HttpClient } from '@angular/common/http';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
@@ -47,13 +47,14 @@ import { SalaryTemplateComponentResponse } from 'src/app/models/salary-template-
 import { AppraisalRequest } from 'src/app/models/appraisal-request';
 import { BonusRequest } from 'src/app/models/bonus-request';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
-import { Chart } from 'chart.js';
+
 import { EmployeePayslipResponse } from 'src/app/models/employee-payslip-response';
 import { EmployeePayslipBreakupResponse } from 'src/app/models/employee-payslip-breakup-response';
 import { EmployeePayslipDeductionResponse } from 'src/app/models/employee-payslip-deduction-response';
 import { EmployeePayslipLogResponse } from 'src/app/employee-payslip-log-response';
-import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
+import { LopReversalApplicationRequest } from 'src/app/models/lop-reversal-application-request';
+import { OrganizationAssetResponse } from 'src/app/models/asset-category-respose';
 
 @Component({
   selector: 'app-employee-profile',
@@ -69,6 +70,7 @@ export class EmployeeProfileComponent implements OnInit {
     new UserExperienceDetailRequest();
 
   userLeaveForm!: FormGroup;
+  lopReversalApplicationRequestForm!: FormGroup;
   @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
 
   ROLE: any;
@@ -90,7 +92,7 @@ export class EmployeeProfileComponent implements OnInit {
     public location: Location,
     public domSanitizer: DomSanitizer,
     private afStorage: AngularFireStorage,
-    private msg: NzMessageService
+    private sanitizer: DomSanitizer,
   ) {
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
@@ -216,6 +218,22 @@ export class EmployeeProfileComponent implements OnInit {
     this.getUserLeaveReq();
     this.getUserLeaveLogByUuid();
     this.getTotalExperiences();
+
+    this.lopReversalApplicationRequestForm = this.fb.group({
+      selectedDate: [null, Validators.required],
+      daysCount: [null, [Validators.required, Validators.pattern("^[0-9]*$")]],
+      notes: [''],
+      userUuid: ['']
+    });
+    this.getHrPolicy();
+    this.attendanceTimeUpdateForm = this.fb.group({
+      requestType: [null, [Validators.required]],
+      requestedDate: [null, [Validators.required]],
+      attendanceId: [null, [Validators.required]],
+      updatedTime: [null, [Validators.required]],
+      managerId: [null, [Validators.required]],
+      requestReason: [null, [Validators.required, Validators.maxLength(200)]]
+    });
   }
 
   getRoleData() {
@@ -816,8 +834,9 @@ export class EmployeeProfileComponent implements OnInit {
   // ******************************************************************
   userLeaveRequest: UserLeaveRequest = new UserLeaveRequest();
 
-  @ViewChild('requestLeaveCloseModel')
-  requestLeaveCloseModel!: ElementRef;
+  @ViewChild('requestLeaveCloseModel') requestLeaveCloseModel!: ElementRef;
+  @ViewChild('closeLopReversalRequestModal') closeLopReversalRequestModal!: ElementRef;
+
 
   // @ViewChild('userLeaveForm') userLeaveForm: NgForm;
 
@@ -832,8 +851,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.userLeaveRequest.optNotes = '';
     this.selectedManagerId = 0;
   }
-  @ViewChild(FormGroupDirective)
-  formGroupDirective!: FormGroupDirective;
+  @ViewChild(FormGroupDirective) formGroupDirective!: FormGroupDirective;
   submitLeaveLoader: boolean = false;
   @ViewChild('fileInput') fileInput!: ElementRef;
   saveLeaveRequestUser() {
@@ -872,6 +890,39 @@ export class EmployeeProfileComponent implements OnInit {
           // console.log(error.body);
         }
       );
+  }
+
+  lopReversalApplicationRequestButtonLoader : boolean = false;
+  submitLopReversalApplicationRequest(){
+    if (this.lopReversalApplicationRequestForm.valid) {
+      this.lopReversalApplicationRequestButtonLoader = true;
+      const request = new LopReversalApplicationRequest();
+      request.startDate = this.startDate;
+      request.endDate = this.endDate;
+      request.daysCount = +this.lopReversalApplicationRequestForm.get('daysCount')?.value; // Cast the value to a number
+      request.notes = this.lopReversalApplicationRequestForm.get('notes')?.value;
+      request.userUuid = this.userId;
+      
+      this.dataService.registerLopReversalApplication(request).subscribe((response) => {
+        if(response.message != null){
+          this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+          this.closeLopReversalRequestModal.nativeElement.click();
+          this.lopReversalApplicationRequestButtonLoader = false;
+        }
+      }, (error) => {
+        this.lopReversalApplicationRequestButtonLoader = false;
+        this.helperService.showToast('Error while registering the request!', Key.TOAST_STATUS_ERROR);
+      })
+    }
+  }
+
+  resetLopReversalApplicationRequestForm(){
+    this.lopReversalApplicationRequestForm = this.fb.group({
+      selectedDate: [null, Validators.required],
+      daysCount: [null, [Validators.required, Validators.pattern("^[0-9]*$")]],
+      notes: [''],
+      userUuid: ['']
+    });
   }
 
   dayShiftToggle: boolean = false;
@@ -1880,17 +1931,44 @@ export class EmployeeProfileComponent implements OnInit {
 
     // Disable if the month is before the organization registration month
     if (
-      dateYear < organizationRegistrationYear ||
-      (dateYear === organizationRegistrationYear &&
-        dateMonth < organizationRegistrationMonth)
+      dateYear < organizationRegistrationYear || (dateYear === organizationRegistrationYear && dateMonth < organizationRegistrationMonth)
     ) {
       return true;
     }
 
     // Disable if the month is after the current month
     if (
-      dateYear > currentYear ||
-      (dateYear === currentYear && dateMonth > currentMonth)
+      dateYear > currentYear || (dateYear === currentYear && dateMonth > currentMonth)
+    ) {
+      return true;
+    }
+
+    // Enable the month if it's from January 2023 to the current month
+    return false;
+  };
+
+  disableMonthsForLopReversal = (date: Date): boolean => {
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
+    const dateYear = date.getFullYear();
+    const dateMonth = date.getMonth();
+    const organizationRegistrationYear = new Date(
+      this.organizationRegistrationDate
+    ).getFullYear();
+    const organizationRegistrationMonth = new Date(
+      this.organizationRegistrationDate
+    ).getMonth();
+
+    // Disable if the month is before the organization registration month
+    if (
+      dateYear < organizationRegistrationYear || (dateYear === organizationRegistrationYear && dateMonth < organizationRegistrationMonth)
+    ) {
+      return true;
+    }
+
+    // Disable if the month is after the current month
+    if (
+      dateYear > currentYear || (dateYear === currentYear && dateMonth >= currentMonth)
     ) {
       return true;
     }
@@ -2268,6 +2346,7 @@ export class EmployeeProfileComponent implements OnInit {
   activeAttendanceTabFlag: boolean = false;
   activeFinancesTabFlag: boolean = false;
   activeDocumentsTabFlag: boolean = false;
+  activeAssetsTabFlag: boolean = false;
   activeProfileTabFlag: boolean = false;
 
   activeTabs(activeTabString: string) {
@@ -2276,30 +2355,42 @@ export class EmployeeProfileComponent implements OnInit {
       this.activeAttendanceTabFlag = false;
       this.activeFinancesTabFlag = false;
       this.activeDocumentsTabFlag = false;
+      this.activeAssetsTabFlag = false;
       this.activeProfileTabFlag = false;
     } else if (activeTabString === 'attendance') {
       this.activeHomeTabFlag = false;
       this.activeAttendanceTabFlag = true;
       this.activeFinancesTabFlag = false;
       this.activeDocumentsTabFlag = false;
+      this.activeAssetsTabFlag = false;
       this.activeProfileTabFlag = false;
     } else if (activeTabString === 'finances') {
       this.activeHomeTabFlag = false;
       this.activeAttendanceTabFlag = false;
       this.activeFinancesTabFlag = true;
       this.activeDocumentsTabFlag = false;
+      this.activeAssetsTabFlag = false;
+      this.activeProfileTabFlag = false;
+    }else if (activeTabString === 'assets') {
+      this.activeHomeTabFlag = false;
+      this.activeAttendanceTabFlag = false;
+      this.activeFinancesTabFlag = false;
+      this.activeDocumentsTabFlag = false;
+      this.activeAssetsTabFlag = true;
       this.activeProfileTabFlag = false;
     } else if (activeTabString === 'documents') {
       this.activeHomeTabFlag = false;
       this.activeAttendanceTabFlag = false;
       this.activeFinancesTabFlag = false;
       this.activeDocumentsTabFlag = true;
+      this.activeAssetsTabFlag = false;
       this.activeProfileTabFlag = false;
     } else if (activeTabString === 'profile') {
       this.activeHomeTabFlag = false;
       this.activeAttendanceTabFlag = false;
       this.activeFinancesTabFlag = false;
       this.activeDocumentsTabFlag = false;
+      this.activeAssetsTabFlag = false;
       this.activeProfileTabFlag = true;
     }
   }
@@ -2574,18 +2665,6 @@ export class EmployeeProfileComponent implements OnInit {
       this.domSanitizer.bypassSecurityTrustResourceUrl(objectUrl);
   }
 
-  // Function to handle file selection
-  handleChange(info: NzUploadChangeParam): void {
-    if (info.file.status !== 'uploading') {
-      console.log(info.file, info.fileList);
-    }
-    if (info.file.status === 'done') {
-      this.msg.success(`${info.file.name} file uploaded successfully.`);
-    } else if (info.file.status === 'error') {
-      this.msg.error(`${info.file.name} file upload failed.`);
-    }
-  }
-
   onFileSelected(event: Event): void {
     
     const element = event.currentTarget as HTMLInputElement;
@@ -2642,8 +2721,7 @@ export class EmployeeProfileComponent implements OnInit {
 
   @ViewChild('appraisalRequestModalButton') appraisalRequestModalButton !: ElementRef
   openAppraisalRequestModal(){
-    debugger
-  this.getEmployeeCtcMethodCall();
+    this.getEmployeeCtcMethodCall();
   }
 
   appraisalRequest: AppraisalRequest = {
@@ -2675,7 +2753,7 @@ export class EmployeeProfileComponent implements OnInit {
       },
       (error) => {
         console.error('Error submitting appraisal request:', error);
-        this.helperService.showToast("Error submitting appraisal request", Key.TOAST_STATUS_ERROR);
+        this.helperService.showToast("Error submitting appraisal request!", Key.TOAST_STATUS_ERROR);
        
       }
     );
@@ -2724,4 +2802,219 @@ return
       }
     );
   }}
+
+  //  new 
+
+  search: string = '';
+  pageNumber: number = 1;
+  itemPerPage: number = 6;
+  assetData: OrganizationAssetResponse[] = [];
+  totalCount: number = 0;
+  crossFlag: boolean = false;
+  getAssetData(): void {
+    this.dataService.getAssetForUser(this.userId, this.search, this.pageNumber, this.itemPerPage)
+      .subscribe(
+        (response) => {
+          this.assetData = response.object;
+          this.totalCount = response.totalItems;
+        },
+        (error) => {
+          console.error('Error fetching asset data:', error);
+        }
+      );
+  }
+
+  searchAssets(): void {
+    this.crossFlag = this.search.length > 0;
+    this.pageNumber = 1;
+    this.getAssetData();
+  }
+
+  clearSearch(): void {
+    this.crossFlag = false;
+    this.search = '';
+    this.pageNumber = 1;
+    this.getAssetData();
+  }
+
+  changePage(page: number | string): void {
+    if (typeof page === 'string') {
+      if (page === 'prev' && this.pageNumber > 1) {
+        this.pageNumber--;
+      } else if (page === 'next' && this.pageNumber < Math.ceil(this.totalCount / this.itemPerPage)) {
+        this.pageNumber++;
+      }
+    } else {
+      this.pageNumber = page;
+    }
+    this.getAssetData();
+  }
+
+  totalPages(): number {
+    return Math.ceil(this.totalCount / this.itemPerPage);
+  }
+
+  get startIndex(): number {
+    return Math.min((this.pageNumber - 1) * this.itemPerPage + 1, this.totalCount);
+  }
+
+  get endIndex(): number {
+    return Math.min(this.pageNumber * this.itemPerPage, this.totalCount);
+  }
+
+  get pages(): number[] {
+    const totalPages = Math.ceil(this.totalCount / this.itemPerPage);
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
+  }
+
+  //  asset logs 
+
+  isAssetErrorPlaceholder: boolean = false;
+  userAssetLog: any;
+  isAssetShimmer: boolean = false;
+  isAssetPlaceholder: boolean = false;
+  searchAssetLogs: string = '';
+  pageNumberAsset: number = 1;
+  itemPerPageAsset: number = 8;
+
+  getAssetLogsForUserByUuid(): void {
+    this.isAssetShimmer = true;
+    this.dataService.getAssetLogsForUser(this.userId, this.searchAssetLogs)
+      .subscribe(
+        (response) => {
+          this.userAssetLog = response.listOfObject;
+          this.isAssetShimmer = false;
+          if(response.listOfObject==null || this.userAssetLog.length == 0) {
+          this.isAssetPlaceholder = true; 
+          }
+        },
+        (error) => {
+          this.isAssetErrorPlaceholder = true;
+          this.isAssetShimmer = false;
+        }
+      );
+  }
+  
+
+  // hr policy 
+
+
+  fileUrl!: string;
+  docsUploadedDate: any;
+  getHrPolicy(): void {
+    this.dataService.getOrganizationHrPolicies().subscribe(response => {
+      this.fileUrl = response.object.hrPolicyDoc;
+      this.docsUploadedDate = response.object.docsUploadedDate;
+      console.log('policy retrieved successfully', response.object);
+    }, (error) => {
+      console.log(error);
+    });
+  }
+
+  previewStringDoc: SafeResourceUrl | null = null;
+  isPDFDoc: boolean = false;
+  isImageDoc: boolean = false;
+
+  @ViewChild('openDocModalButton') openDocModalButton!: ElementRef;
+  getFileName(url: string): string {
+    return url.split('/').pop() || 'Hr Policy Doc';
+  }
+
+  private updateFileTypeDoc(url: string) {
+    const extension = url.split('?')[0].split('.').pop()?.toLowerCase();
+    // this.isImage2 = ['png', 'jpg', 'jpeg', 'gif'].includes(extension!);
+    // this.isPDF = extension === 'pdf';
+  }
+
+  openViewModalDoc(url: string): void {
+    debugger
+    // const fileExtension = url.split('.').pop()?.toLowerCase();
+    const fileExtension = url.split('?')[0].split('.').pop()?.toLowerCase();
+    // this.isPDF = fileExtension === 'pdf';
+    if (fileExtension === 'doc' || fileExtension === 'docx') {
+      // this.previewString = this.sanitizer.bypassSecurityTrustResourceUrl(`https://docs.google.com/gview?url=${url}&embedded=true`);
+      this.previewStringDoc = this.sanitizer.bypassSecurityTrustResourceUrl(`https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true`);
+    } else {
+      this.previewStringDoc = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    }
+    this.openDocModalButton.nativeElement.click();
+  }
+
+  downloadFileDoc(url: string): void {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = this.getFileName(url);
+    link.click();
+  }
+
+
+
+  //  attendance update fucnionality 
+  attendanceCheckTimeResponse : AttendanceCheckTimeResponse[] = [];
+  getAttendanceChecktimeListDate(): void {
+    const formattedDate = this.datePipe.transform(this.requestedDate, 'yyyy-MM-dd');
+    this.dataService.getAttendanceChecktimeList(this.userId, formattedDate, this.statusString).subscribe(response => {
+      this.attendanceCheckTimeResponse = response.listOfObject;
+      console.log('checktime retrieved successfully', response.listOfObject);
+    }, (error) => {
+      console.log(error);
+    });
+  }
+
+  attendanceTimeUpdateForm!: FormGroup;
+  requestedDate!: Date;
+  statusString!: string;
+
+
+  submitForm(): void {
+    if (this.attendanceTimeUpdateForm.valid) {
+      const attendanceTimeUpdateRequest: AttendanceTimeUpdateRequestDto = this.attendanceTimeUpdateForm.value;
+      this.dataService.sendAttendanceTimeUpdateRequest(this.userId, this.attendanceTimeUpdateForm.value).subscribe(
+        (response) => {
+          console.log('Request sent successfully', response);
+          this.resetForm();
+          document.getElementById('attendanceUpdateModal')?.click();
+          this.getAttendanceRequestLogData();
+        },
+        (error) => {
+          console.error('Error sending request:', error);
+        }
+      );
+    }
+  }
+
+  onDateChange(date: Date | null): void {
+    if (date) {
+      this.requestedDate = date; 
+      this.statusString = this.attendanceTimeUpdateForm.get('requestType')?.value || '';
+      this.getAttendanceChecktimeListDate();
+    }
+  }
+
+
+  resetForm(): void {
+    this.attendanceTimeUpdateForm.reset();
+  }
+
+
+disabledDate = (current: Date): boolean => {
+  return moment(current).isAfter(moment(), 'day');
 }
+
+attendanceRequestLog: any[] = [];
+  getAttendanceRequestLogData(): void {
+    this.dataService.getAttendanceRequestLog(this.userId).subscribe(response => {
+      this.attendanceRequestLog = response.listOfObject;
+      console.log('logs retrieved successfully', response.listOfObject);
+    }, (error) => {
+      console.log(error);
+    });
+  }
+  
+
+  
+
+  
+}
+
+
