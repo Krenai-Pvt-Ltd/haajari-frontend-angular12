@@ -826,8 +826,10 @@ export class PayrollDashboardComponent implements OnInit {
 
   selectedPayActionType : PayActionType = new PayActionType();
   selectPayActionType(payActionType : PayActionType, response : any){
+    debugger
     if(response != undefined && response != null){
       response.payActionTypeId = payActionType.id;
+      response.payActionType = payActionType;
       this.selectedPayActionCache[response.uuid] = payActionType;
     }
   }
@@ -838,6 +840,8 @@ export class PayrollDashboardComponent implements OnInit {
       return 'PROCESS AS SALARY';
     }
   }
+
+  
 
 
   // User selection to generate the payout
@@ -1081,6 +1085,7 @@ export class PayrollDashboardComponent implements OnInit {
   //Fetching the user exit data
   userExitResponseList: UserExitResponse[] = [];
   getUserExitByOrganizationIdMethodCall(debounceTime: number = 300) {
+    debugger
     this.userExitResponseList = [];
 
     if (this.debounceTimer) {
@@ -1110,6 +1115,7 @@ export class PayrollDashboardComponent implements OnInit {
                 if (this.selectedPayActionCache[exit.uuid]) {
                   exit.payActionType = this.selectedPayActionCache[exit.uuid];
                   exit.payActionTypeId = this.selectedPayActionCache[exit.uuid].id;
+                  console.log(exit.name, exit.payActionType)
                 } else {
                   // Set initial selection based on payActionTypeId
                   const selectedPayActionType = this.payActionTypeList.find(
