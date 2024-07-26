@@ -70,6 +70,7 @@ import { EsiDetailsRequest } from '../models/esi-details-request';
 import { TdsDetailsRequest } from '../models/tds-details-request';
 import { AssetCategoryRequest, OrganizationAssetRequest } from '../models/asset-category-respose';
 import { LopReversalApplicationRequest } from '../models/lop-reversal-application-request';
+import { SalaryChangeOvertimeRequest } from '../models/salary-change-overtime-request';
 
 @Injectable({
   providedIn: 'root',
@@ -2969,7 +2970,7 @@ export class DataService {
     .set('start_date', startDate)
     .set('end_date', endDate);
 
-    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/register-lop-summary`, lopReversalRequestList, {params});
+    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/register-lop-reversal`, lopReversalRequestList, {params});
   }
 
   saveOrganizationHrPolicies(policyDocString: string): Observable<any> {
@@ -3113,7 +3114,11 @@ export class DataService {
   }
 
   registerSalaryChangeBonusListByOrganizationId(salaryChangeBonusRequestList : SalaryChangeBonusRequest[]): Observable<any>{
-    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/salary-change`, salaryChangeBonusRequestList);
+    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/salary-change/bonus`, salaryChangeBonusRequestList);
+  }
+
+  registerSalaryChangeOvertimeListByOrganizationId(salaryChangeOvertimeRequestList : SalaryChangeOvertimeRequest[]): Observable<any>{
+    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/salary-change/overtime`, salaryChangeOvertimeRequestList);
   }
 
   getEpfDetailsResponseListByOrganizationId(
@@ -3540,6 +3545,7 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/salary/month-wise/pay-slip-log`, {params});
   }
 
+
   registerLopReversalApplication(lopReversalApplicationRequest : LopReversalApplicationRequest): Observable<any>{
 
     return this.httpClient.post<any>(`${this.baseUrl}/lop-reversal-application/register`, lopReversalApplicationRequest, {});
@@ -3642,13 +3648,23 @@ export class DataService {
   }
 
   registerPayrollProcessStepByOrganizationIdAndStartDateAndEndDate(startDate: string, endDate: string, payrollProcessStepId: number):Observable<any>{
-
     const params = new HttpParams()
     .set('start_date', startDate)
     .set('end_date', endDate)
     .set('payroll_process_step_id', payrollProcessStepId);
 
-    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/step`, {params});
+    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/step`,{}, {params});
   }
 
+  getAdminPersonalDetail():Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/users/personal-detail/admin`, {});
+  }
+
+
+  getMonthResponseListByYear(date: string): Observable<any>{
+    const params = new HttpParams()
+    .set('date', date);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/month-response-list`, {params});
+  }
 }
