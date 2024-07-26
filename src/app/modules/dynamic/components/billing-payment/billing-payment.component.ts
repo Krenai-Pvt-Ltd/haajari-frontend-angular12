@@ -125,9 +125,13 @@ export class BillingPaymentComponent implements OnInit {
         noOfEmployee: this.sbscriptionPlanReq.noOfEmployee,
       },
       // ,
-      // "theme": {
-      //   "color": "#2196f3"
-      // }
+      "theme": {
+        "color": "#6666f3"
+      }
+      
+        // "theme": {
+        //     "color": "#3399cc" // Blue color theme
+        // }
     };
     var rzp = new Razorpay(options);
     rzp.open();
