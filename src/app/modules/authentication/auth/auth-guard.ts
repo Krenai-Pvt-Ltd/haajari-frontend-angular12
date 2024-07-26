@@ -44,7 +44,7 @@ export class AuthGuard implements CanActivate {
     //   this.router.navigate(['/organization-onboarding/personal-information']);
     // }
 
-    await this.rbacService.isUserInfoInitialized();
+    await this.rbacService.isUserInfoInitializedMethod();
 
     if (route !== null && route.routeConfig !== null) {
       if (

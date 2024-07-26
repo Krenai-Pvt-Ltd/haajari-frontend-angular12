@@ -67,6 +67,12 @@ export class HeaderComponent implements OnInit {
   UUID: any;
   ORGANIZATION_UUID: any;
 
+  DASHBOARD: boolean = false;
+  PEOPLE: boolean = false;
+  MANAGEMENT: boolean = false;
+  PAYROLL: boolean = false;
+  COMPANY: boolean = false;
+
   async getUserUUID() {
     this.UUID = await this.rbacService.getUUID();
     this.ROLE = await this.rbacService.getRole();
@@ -128,7 +134,7 @@ export class HeaderComponent implements OnInit {
   show: boolean = false;
 
   shouldDisplay(moduleName: string): boolean {
-    const role = this.rbacService.getRoles(); // Assuming getRole returns a Promise<string>
+    const role = this.rbacService.getRoles(); 
     const modulesToShowForManager = [
       'dashboard',
       'team',
@@ -138,7 +144,7 @@ export class HeaderComponent implements OnInit {
       'leave-management',
     ];
     const modulesToShowForUser = ['team', 'project', 'leave-management'];
-     const modulesToShowForHRADMIN = ['onboarding'];
+    const modulesToShowForHRADMIN = ['onboarding'];
 
     return (
       role === Key.ADMIN ||
@@ -148,10 +154,14 @@ export class HeaderComponent implements OnInit {
     );
   }
 
+  // shouldDisplay(subModuleName: string){
+  //   debugger;
+  //   return this.rbacService.hasAccessToSubmodule(subModuleName);
+  // }
+
   activeTab: string = '';
 
-  routeToSeetings(settingType: string) {
-    debugger;
+  routeToSettings(settingType: string) {
     //  this.activeTab=settingType;
     let navigationExtra: NavigationExtras = {
       queryParams: { setting: settingType },
@@ -159,14 +169,13 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/setting/account-settings'], navigationExtra);
   }
 
-  OrgSubsPlanMonthDetail: OrganizationSubscriptionPlanMonthDetail =
-    new OrganizationSubscriptionPlanMonthDetail();
+  orgSubsPlanMonthDetail: OrganizationSubscriptionPlanMonthDetail = new OrganizationSubscriptionPlanMonthDetail();
   getOrgSubsPlanMonthDetail() {
     this._subscriptionPlanService
       .getOrgSubsPlanMonthDetail()
       .subscribe((response) => {
         if (response.status) {
-          this.OrgSubsPlanMonthDetail = response.object;
+          this.orgSubsPlanMonthDetail = response.object;
         }
       });
   }

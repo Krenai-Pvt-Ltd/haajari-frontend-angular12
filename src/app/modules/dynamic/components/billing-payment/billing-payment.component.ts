@@ -5,6 +5,9 @@ import { SubscriptionPlan } from 'src/app/models/SubscriptionPlan';
 import { SubscriptionPlanReq } from 'src/app/models/SubscriptionPlanReq';
 import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
 import { Location } from '@angular/common';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import { DataService } from 'src/app/services/data.service';
+import { AdminPersonalDetailResponse } from 'src/app/models/admin-personal-detail-response';
 declare var Razorpay: any;
 
 @Component({
@@ -21,47 +24,42 @@ export class BillingPaymentComponent implements OnInit {
   monthlyAmount: number = 0;
   annualAmount: number = 0;
   orgUuid: string = '';
+  name!: string;
+  email!: string;
+  phoneNumber!: string;
+
   constructor(
     private _activeRouter: ActivatedRoute,
     private _subscriptionPlanService: SubscriptionPlanService,
     private router: Router,
-    private _location: Location
+    private _location: Location,
+    private roleBased: RoleBasedAccessControlService,
+    private dataService: DataService
   ) {
     let token = localStorage.getItem('token')!;
     const helper = new JwtHelperService();
-    this.orgUuid = helper.decodeToken(token).orgRefId;
+    // this.orgUuid = helper.decodeToken(token).orgRefId;
   }
 
   ngOnInit(): void {
     window.scroll(0, 0);
+    this.orgUuid = this.roleBased.getOrgRefUUID();
     this.getPlanPurchasedStatus();
     this.getSubscriptionPlanDetails();
     this.getActiveUserCount();
     this.selecrPlanType('annual');
+    this.getAdminPersonalDetailMethodCall();
+  }
+  getAdminPersonalDetailMethodCall() {
+    this.dataService.getAdminPersonalDetail().subscribe((response: AdminPersonalDetailResponse) => {
+      this.name = response.name;
+      this.email = response.email;
+      this.phoneNumber = response.phoneNumber;
+    }, error => {
+      console.error('Error fetching admin details', error);
+    });
   }
 
-  getSubscriptionPlanDetails() {
-    debugger;
-    let id = this._activeRouter.snapshot.queryParamMap.get('id')!;
-    this._subscriptionPlanService
-      .getSubscriptionPlan(id)
-      .subscribe((response) => {
-        if (response.status) {
-          this.subscriptionPlan = response.object;
-          this.sbscriptionPlanReq.amount =
-            this.sbscriptionPlanReq.noOfEmployee *
-              this.subscriptionPlan.amount *
-              12 -
-            (this.sbscriptionPlanReq.noOfEmployee *
-              this.subscriptionPlan.amount *
-              20 *
-              12) /
-              100;
-          this.taxAmount = (this.sbscriptionPlanReq.amount * 18) / 100;
-          this.totalAmount = this.sbscriptionPlanReq.amount + this.taxAmount;
-        }
-      });
-  }
 
   totalEmployee: number = 0;
   getActiveUserCount() {
@@ -73,29 +71,7 @@ export class BillingPaymentComponent implements OnInit {
     });
   }
 
-  selecrPlanType(value: string) {
-    debugger;
-    this.sbscriptionPlanReq.planType = value;
-    this.sbscriptionPlanReq.amount =
-      this.sbscriptionPlanReq.noOfEmployee * this.subscriptionPlan?.amount;
-    if (this.sbscriptionPlanReq.planType == 'annual') {
-      this.sbscriptionPlanReq.amount =
-        this.sbscriptionPlanReq.noOfEmployee *
-          this.subscriptionPlan?.amount *
-          12 -
-        (this.sbscriptionPlanReq.noOfEmployee *
-          this.subscriptionPlan?.amount *
-          20 *
-          12) /
-          100;
-    }
-    this.taxAmount = (this.sbscriptionPlanReq.amount * 18) / 100;
-    this.totalAmount = this.sbscriptionPlanReq.amount + this.taxAmount;
-
-    this.couponCode = '';
-    this.isCouponVerify = false;
-    this.couponDiscount = 0;
-  }
+  
 
   getCalcu(value: any) {
     this.sbscriptionPlanReq.amount = 0;
@@ -104,12 +80,14 @@ export class BillingPaymentComponent implements OnInit {
     this.annualAmount =
       this.monthlyAmount * 12 - (this.monthlyAmount * 12 * 20) / 100;
     this.selecrPlanType('annual');
-    this.couponCode = '';
-    this.getCouponInput();
+    // this.couponCode = '';
+    // this.getCouponInput();
   }
 
   processingPayment: boolean = false;
-  razorKey: string = 'rzp_test_XIXZn1GUfeV9Mf';
+  razorKey: string = 
+  // 'rzp_test_Wd1RYd0fng3673'; // Test
+  'rzp_live_twiokSC5krYrnQ'
   hajiri_logo: string = '../../../../../assets/images/hajiri-icon.png';
 
   openRazorPay(): void {
@@ -133,13 +111,13 @@ export class BillingPaymentComponent implements OnInit {
         confirm_close: true,
         // "ondismiss": this.markPaymentFailed.bind(this)
       },
-      // "prefill": {
-      //   "name": 'Your Name',
-      //   "email": 'xyz@test.com'
-      // },
+      "prefill": {
+        "name": this.name,
+        "email": this.email,
+        "contact":this.phoneNumber
+      },
       notes: {
         orgUuid: this.orgUuid,
-        orderId: 'order-12',
         type: 'subscription order',
         planType: this.sbscriptionPlanReq.planType,
         orderFrom: 'Hajiri',
@@ -147,9 +125,13 @@ export class BillingPaymentComponent implements OnInit {
         noOfEmployee: this.sbscriptionPlanReq.noOfEmployee,
       },
       // ,
-      // "theme": {
-      //   "color": "#2196f3"
-      // }
+      "theme": {
+        "color": "#6666f3"
+      }
+      
+        // "theme": {
+        //     "color": "#3399cc" // Blue color theme
+        // }
     };
     var rzp = new Razorpay(options);
     rzp.open();
@@ -192,21 +174,6 @@ export class BillingPaymentComponent implements OnInit {
   isCouponVerify: boolean = false;
   tempTotalAmount: number = 0;
   couponDiscount: number = 0;
-  applyCoupon() {
-    this._subscriptionPlanService
-      .verifyCoupon(this.couponCode, this.totalAmount)
-      .subscribe((response) => {
-        if (response.status) {
-          this.coupon = response.object;
-          this.tempTotalAmount = this.totalAmount;
-          this.couponDiscount = this.totalAmount - response.totalItems;
-          this.totalAmount = response.totalItems;
-          this.isCouponVerify = true;
-        } else {
-          this.message = 'Invalid coupon code';
-        }
-      });
-  }
 
   getCouponInput() {
     this.message = '';
@@ -216,4 +183,63 @@ export class BillingPaymentComponent implements OnInit {
     this.isCouponVerify = false;
     this.couponDiscount = 0;
   }
+
+  originalAmount: number = 0;
+
+  applyCoupon() {
+      this._subscriptionPlanService
+          .verifyCoupon(this.couponCode, this.originalAmount)
+          .subscribe((response) => {
+              if (response.status) {
+                  this.coupon = response.object;
+                  this.tempTotalAmount = this.originalAmount;
+                  this.couponDiscount = this.originalAmount - response.totalItems;
+                  this.sbscriptionPlanReq.amount = response.totalItems;
+                  this.isCouponVerify = true;
+                  this.calculateTotalAmount();
+              } else {
+                  this.message = 'Invalid coupon code';
+              }
+          });
+  }
+  
+  selecrPlanType(value: string) {
+      this.sbscriptionPlanReq.planType = value;
+      this.originalAmount = this.sbscriptionPlanReq.noOfEmployee * this.subscriptionPlan?.amount;
+      this.sbscriptionPlanReq.amount = this.originalAmount;
+      if (this.sbscriptionPlanReq.planType == 'annual') {
+          this.originalAmount = this.sbscriptionPlanReq.noOfEmployee *
+              this.subscriptionPlan?.amount * 12 - (this.sbscriptionPlanReq.noOfEmployee *
+              this.subscriptionPlan?.amount * 20 * 12) / 100;
+          this.sbscriptionPlanReq.amount = this.originalAmount;
+      }
+      if (this.isCouponVerify) {
+          this.applyCoupon(); 
+      } else {
+          this.calculateTotalAmount();
+      }
+  }
+  
+  calculateTotalAmount() {
+      this.taxAmount = (this.sbscriptionPlanReq.amount * 18) / 100;
+      this.totalAmount = this.sbscriptionPlanReq.amount + this.taxAmount;
+  }
+  
+  getSubscriptionPlanDetails() {
+      let id = this._activeRouter.snapshot.queryParamMap.get('id')!;
+      this._subscriptionPlanService
+          .getSubscriptionPlan(id)
+          .subscribe((response) => {
+              if (response.status) {
+                  this.subscriptionPlan = response.object;
+                  this.originalAmount = this.sbscriptionPlanReq.noOfEmployee *
+                      this.subscriptionPlan.amount * 12 - (this.sbscriptionPlanReq.noOfEmployee *
+                      this.subscriptionPlan.amount * 20 * 12) / 100;
+                  this.sbscriptionPlanReq.amount = this.originalAmount;
+                  this.calculateTotalAmount();
+              }
+          });
+  }
+  
+
 }

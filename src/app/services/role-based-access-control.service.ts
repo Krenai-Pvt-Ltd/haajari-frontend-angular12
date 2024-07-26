@@ -14,6 +14,7 @@ export class RoleBasedAccessControlService {
   }
 
   userInfo: any;
+  isUserInfoInitialized: boolean = false;
   private userInfoInitialized: Promise<void>;
 
   constructor(private helperService: HelperService) {
@@ -23,12 +24,13 @@ export class RoleBasedAccessControlService {
   private async initializeUserInfo(): Promise<void> {
     try {
       this.userInfo = await this.helperService.getDecodedValueFromToken();
+      this.isUserInfoInitialized = true;
     } catch (error) {
       console.error('Error fetching decoded value from token:', error);
     }
   }
 
-  isUserInfoInitialized(): Promise<void> {
+  isUserInfoInitializedMethod(): Promise<void> {
     return this.userInfoInitialized;
   }
 

@@ -53,6 +53,7 @@ import { EmployeePayslipBreakupResponse } from 'src/app/models/employee-payslip-
 import { EmployeePayslipDeductionResponse } from 'src/app/models/employee-payslip-deduction-response';
 import { EmployeePayslipLogResponse } from 'src/app/employee-payslip-log-response';
 import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
+import { LopReversalApplicationRequest } from 'src/app/models/lop-reversal-application-request';
 import { OrganizationAssetResponse } from 'src/app/models/asset-category-respose';
 
 @Component({
@@ -69,6 +70,7 @@ export class EmployeeProfileComponent implements OnInit {
     new UserExperienceDetailRequest();
 
   userLeaveForm!: FormGroup;
+  lopReversalApplicationRequestForm!: FormGroup;
   @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
 
   ROLE: any;
@@ -216,6 +218,13 @@ export class EmployeeProfileComponent implements OnInit {
     this.getUserLeaveReq();
     this.getUserLeaveLogByUuid();
     this.getTotalExperiences();
+
+    this.lopReversalApplicationRequestForm = this.fb.group({
+      selectedDate: [null, Validators.required],
+      daysCount: [null, [Validators.required, Validators.pattern("^[0-9]*$")]],
+      notes: [''],
+      userUuid: ['']
+    });
     this.getHrPolicy();
     this.attendanceTimeUpdateForm = this.fb.group({
       requestType: [null, [Validators.required]],
@@ -825,8 +834,9 @@ export class EmployeeProfileComponent implements OnInit {
   // ******************************************************************
   userLeaveRequest: UserLeaveRequest = new UserLeaveRequest();
 
-  @ViewChild('requestLeaveCloseModel')
-  requestLeaveCloseModel!: ElementRef;
+  @ViewChild('requestLeaveCloseModel') requestLeaveCloseModel!: ElementRef;
+  @ViewChild('closeLopReversalRequestModal') closeLopReversalRequestModal!: ElementRef;
+
 
   // @ViewChild('userLeaveForm') userLeaveForm: NgForm;
 
@@ -841,8 +851,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.userLeaveRequest.optNotes = '';
     this.selectedManagerId = 0;
   }
-  @ViewChild(FormGroupDirective)
-  formGroupDirective!: FormGroupDirective;
+  @ViewChild(FormGroupDirective) formGroupDirective!: FormGroupDirective;
   submitLeaveLoader: boolean = false;
   @ViewChild('fileInput') fileInput!: ElementRef;
   saveLeaveRequestUser() {
@@ -881,6 +890,39 @@ export class EmployeeProfileComponent implements OnInit {
           // console.log(error.body);
         }
       );
+  }
+
+  lopReversalApplicationRequestButtonLoader : boolean = false;
+  submitLopReversalApplicationRequest(){
+    if (this.lopReversalApplicationRequestForm.valid) {
+      this.lopReversalApplicationRequestButtonLoader = true;
+      const request = new LopReversalApplicationRequest();
+      request.startDate = this.startDate;
+      request.endDate = this.endDate;
+      request.daysCount = +this.lopReversalApplicationRequestForm.get('daysCount')?.value; // Cast the value to a number
+      request.notes = this.lopReversalApplicationRequestForm.get('notes')?.value;
+      request.userUuid = this.userId;
+      
+      this.dataService.registerLopReversalApplication(request).subscribe((response) => {
+        if(response.message != null){
+          this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+          this.closeLopReversalRequestModal.nativeElement.click();
+          this.lopReversalApplicationRequestButtonLoader = false;
+        }
+      }, (error) => {
+        this.lopReversalApplicationRequestButtonLoader = false;
+        this.helperService.showToast('Error while registering the request!', Key.TOAST_STATUS_ERROR);
+      })
+    }
+  }
+
+  resetLopReversalApplicationRequestForm(){
+    this.lopReversalApplicationRequestForm = this.fb.group({
+      selectedDate: [null, Validators.required],
+      daysCount: [null, [Validators.required, Validators.pattern("^[0-9]*$")]],
+      notes: [''],
+      userUuid: ['']
+    });
   }
 
   dayShiftToggle: boolean = false;
@@ -1889,22 +1931,41 @@ export class EmployeeProfileComponent implements OnInit {
 
     // Disable if the month is before the organization registration month
     if (
-      dateYear < organizationRegistrationYear ||
-      (dateYear === organizationRegistrationYear &&
-        dateMonth < organizationRegistrationMonth)
+      dateYear < organizationRegistrationYear || (dateYear === organizationRegistrationYear && dateMonth < organizationRegistrationMonth)
     ) {
       return true;
     }
 
     // Disable if the month is after the current month
     if (
-      dateYear > currentYear ||
-      (dateYear === currentYear && dateMonth > currentMonth)
+      dateYear > currentYear || (dateYear === currentYear && dateMonth > currentMonth)
     ) {
       return true;
     }
 
     // Enable the month if it's from January 2023 to the current month
+    return false;
+  };
+
+  disableMonthsForLopReversal = (date: Date): boolean => {
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
+    const dateYear = date.getFullYear();
+    const dateMonth = date.getMonth();
+    const organizationRegistrationYear = new Date(
+      this.organizationRegistrationDate
+    ).getFullYear();
+    const organizationRegistrationMonth = new Date(
+      this.organizationRegistrationDate
+    ).getMonth();
+
+    // Disable if the month is before the organization registration month
+    if (
+      (dateYear < organizationRegistrationYear) || (dateYear === organizationRegistrationYear && dateMonth < organizationRegistrationMonth) || (dateYear > currentYear) || (dateMonth != currentMonth - 1)
+    ) {
+      return true;
+    }
+
     return false;
   };
 
@@ -2596,18 +2657,6 @@ export class EmployeeProfileComponent implements OnInit {
       this.domSanitizer.bypassSecurityTrustResourceUrl(objectUrl);
   }
 
-  // Function to handle file selection
-  handleChange(info: NzUploadChangeParam): void {
-    if (info.file.status !== 'uploading') {
-      console.log(info.file, info.fileList);
-    }
-    if (info.file.status === 'done') {
-      // this.msg.success(`${info.file.name} file uploaded successfully.`);
-    } else if (info.file.status === 'error') {
-      // this.msg.error(`${info.file.name} file upload failed.`);
-    }
-  }
-
   onFileSelected(event: Event): void {
     
     const element = event.currentTarget as HTMLInputElement;
@@ -2664,8 +2713,7 @@ export class EmployeeProfileComponent implements OnInit {
 
   @ViewChild('appraisalRequestModalButton') appraisalRequestModalButton !: ElementRef
   openAppraisalRequestModal(){
-    debugger
-  this.getEmployeeCtcMethodCall();
+    this.getEmployeeCtcMethodCall();
   }
 
   appraisalRequest: AppraisalRequest = {
@@ -2697,7 +2745,7 @@ export class EmployeeProfileComponent implements OnInit {
       },
       (error) => {
         console.error('Error submitting appraisal request:', error);
-        this.helperService.showToast("Error submitting appraisal request", Key.TOAST_STATUS_ERROR);
+        this.helperService.showToast("Error submitting appraisal request!", Key.TOAST_STATUS_ERROR);
        
       }
     );

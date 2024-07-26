@@ -881,3 +881,10 @@ tbody tr {
   width: 560px !important;
   max-width: 560px !important;
 }
+
+.text-primary {
+  color: #007bff; /* Ensure this is a visible color */
+}
+a.text-primary:hover {
+  color: #0056b3; /* Optional hover effect */
+}

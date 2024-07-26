@@ -13,7 +13,7 @@
   <div class="menu-content h-100">
     <div class="menu-body navbar-vertical">
       <div id="sidebarCollapse">
-        <ng-containner *ngIf="ROLE === USER; else dashboardCondition">
+        <ng-containner *ngIf="ROLE == USER; else dashboardCondition">
           <div class="">
             <ul class="sidebar-menu">
               <li class="pointer" [ngClass]="{ 'sidebar-menu-active': activeTab === 'dashboard' }"
@@ -21,7 +21,8 @@
                 <a class="sidebar-menu-link sidebar-menu-link">
                   <span class="  ">
                     <i class="bi bi-house-door menu-icon pr-2"></i>
-                    Dashboard</span>
+                    Dashboard
+                  </span>
                 </a>
               </li>
             </ul>
@@ -29,7 +30,7 @@
         </ng-containner>
         <ng-template #dashboardCondition>
           <!-- {{ROLE}} -->
-          <div class="" *ngIf="ROLE === ADMIN || ROLE === MANAGER">
+          <div class="" *ngIf="ROLE == ADMIN || ROLE == MANAGER">
             <ul class="sidebar-menu">
               <li class="pointer" routerLinkActive="sidebar-menu-active" routerLink="/dashboard">
                 <a class="sidebar-menu-link sidebar-menu-link">
@@ -41,11 +42,8 @@
             </ul>
           </div>
         </ng-template>
-        <!-- <div class="">
-                <ul class="sidebar-menu">
-                    <li class="" routerLinkActive="iUctsy" routerLink="/dashboard" style="cursor: pointer; ">
-                        <a class="sidebar-menu-link sidebar-menu-link">
-                -->
+
+
         <div class="">
           <div class="sidebar-menu-heding">PEOPLE</div>
           <ul class="sidebar-menu">
@@ -63,6 +61,7 @@
             </li>
           </ul>
         </div>
+
         <div class="" *ngIf="ROLE !== 'HR ADMIN'">
           <div class="sidebar-menu-heding">MANAGEMENT</div>
           <ul class="sidebar-menu">
@@ -80,31 +79,7 @@
                 <span class=" "><i class="bi bi-alarm menu-icon"></i> Leaves</span>
               </a>
             </li>
-            <li class="pointer" *ngIf="ROLE === ADMIN && ORGANIZATION_UUID == KRENAI_UUID">
-              <!-- <a
-                class="sidebar-menu-link"
-                data-bs-toggle="collapse"
-                href="#collapseExample"
-                role="button"
-                aria-expanded="false"
-                aria-controls="collapseExample"
-              >
-                <div class=""></div>
-                <div class="d-flex align-items-center justify-content-between">
-                  <span class=" "
-                    ><i
-                      data-bs-toggle="collapse"
-                      href="#collapseExample"
-                      role="button"
-                      aria-expanded="false"
-                      aria-controls="collapseExample"
-                      class="bi bi-caret-right menu-icon projectIcon collapsed"
-                    ></i>
-                    Payroll</span
-                  >
-                </div>
-              </a> -->
-
+            <!-- <li class="pointer" *ngIf="ROLE === ADMIN && ORGANIZATION_UUID == KRENAI_UUID">
               <a class="sidebar-menu-link collapsed" data-bs-toggle="collapse" href="#collapseExample" role="button"
                 aria-expanded="false" aria-controls="collapseExample">
                 <div class=""></div>
@@ -125,7 +100,7 @@
                   <li>
                     <a class="project-link" routerLink="/payment/bonus-and-deduction">
                       <i class="ti ti-gift"></i>
-                      <p class="mb-0">Bouns And Deduction</p>
+                      <p class="mb-0">Bouns & Deduction</p>
                     </a>
                   </li>
                   <li>
@@ -142,7 +117,7 @@
                   </li>
                 </ul>
               </div>
-            </li>
+            </li> -->
             <li class="pointer" *ngIf="shouldDisplay('reports')" routerLinkActive="sidebar-menu-active"
               routerLink="/reports">
               <a class="sidebar-menu-link">
@@ -156,7 +131,7 @@
               </a>
             </li>
             <!-- else projectCondition -->
-            <ng-container *ngIf="ROLE === ADMIN && ORGANIZATION_UUID == KRENAI_UUID">
+            <!-- <ng-container *ngIf="ROLE === ADMIN && ORGANIZATION_UUID == KRENAI_UUID">
               <li class="pointer" *ngIf="shouldDisplay('project')">
                 <a class="sidebar-menu-link">
                   <div class=""></div>
@@ -185,7 +160,7 @@
                   </ul>
                 </div>
               </li>
-            </ng-container>
+            </ng-container> -->
             <!-- <ng-template #projectCondition>
               <li class="pointer" *ngIf="shouldDisplay('project')">
                 <a class="sidebar-menu-link">
@@ -229,61 +204,48 @@
             </ng-template> -->
           </ul>
         </div>
-        <div class="" *ngIf="ROLE !== ADMIN && ROLE !== 'HR ADMIN'" style="margin-bottom: 130px">
+
+        <div class="" *ngIf="ROLE == ADMIN && ORGANIZATION_UUID == KRENAI_UUID">
+          <div class="sidebar-menu-heding">PAYROLL</div>
+          <ul class="sidebar-menu">
+            <li class="pointer" routerLinkActive="sidebar-menu-active" routerLink="/payment/payroll-dashboard">
+              <a class="sidebar-menu-link">
+                <span class=" "><i class="ti ti-apps"></i> Dashboard</span>
+              </a>
+            </li>
+            <li class="pointer" routerLinkActive="sidebar-menu-active" routerLink="/payment/bonus-and-deduction">
+              <a class="sidebar-menu-link">
+                <span class=" "><i class="ti ti-gift"></i> Bouns & Deduction</span>
+              </a>
+            </li>
+            <li class="pointer" routerLinkActive="sidebar-menu-active" routerLink="/payment/epf-esi-tds">
+              <a class="sidebar-menu-link">
+                <span class=" "><i class="ti ti-scissors"></i> EPF, ESI & TDS</span>
+              </a>
+            </li>
+            <li class="pointer" routerLinkActive="sidebar-menu-active" routerLink="/payment/payment-history">
+              <a class="sidebar-menu-link">
+                <span class=" "><i class="bi bi-receipt-cutoff"></i> Generate Salary Slip</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+
+        <div class="" *ngIf="ROLE == USER" style="margin-bottom: 130px">
           <div class="sidebar-menu-heding">ACCOUNT SETTINGS</div>
           <ul class="sidebar-menu">
             <li class="pointer" [ngClass]="{
                 'sidebar-menu-active': activeTab === 'accountDetails'
               }" routerLinkActive="sidebar-menu-active" routerLink="/setting/account-settings?setting=accountDetails"
-              (click)="routeToSeetings('accountDetails')">
+              (click)="routeToSettings('accountDetails')">
               <a class="sidebar-menu-link">
                 <span class=" "><i class="bi bi-gear menu-icon"></i> Account Details</span>
               </a>
             </li>
           </ul>
-          <!-- <ul class="sidebar-menu">
-            <li
-              class="pointer"
-              [ngClass]="{ 'sidebar-menu-active': activeTab === 'security' }"
-              routerLinkActive="sidebar-menu-active"
-              routerLink="/setting/account-settings?setting=security"
-              (click)="routeToSeetings('security')"
-            >
-              <a class="sidebar-menu-link">
-                <span class=" "
-                  ><i class="bi bi-gear menu-icon"></i>Security</span
-                >
-              </a>
-            </li>
-          </ul>
-          <ul class="sidebar-menu">
-            <li
-              class="pointer"
-              [ngClass]="{
-                'sidebar-menu-active': activeTab === 'profilePreferences'
-              }"
-              routerLinkActive="sidebar-menu-active"
-              routerLink="/setting/account-settings?setting=profilePreferences"
-              (click)="routeToSeetings('profilePreferences')"
-            >
-              <a class="sidebar-menu-link">
-                <span class=" "
-                  ><i class="bi bi-gear menu-icon"></i>Profile Preferences</span
-                >
-              </a>
-            </li>
-          </ul> -->
-          <!-- <ul class="sidebar-menu">
-                   <li class="pointer" [ngClass]="{'sidebar-menu-active': activeTab === 'referralProgram'}" routerLinkActive="iUctsy" routerLink="/setting/account-settings?setting=referralProgram" (click)="routeToSeetings('referralProgram')" >
-                      
-                       <a class=" sidebar-menu-link">
-                           <div class="">
-                           </div>
-                           <span class=" "><i class="bi bi-gear menu-icon"></i>Referral Program</span>
-                       </a>
-                   </li>
-                   </ul> -->
         </div>
+
         <div class="" *ngIf="shouldDisplay('onboarding') && ROLE !== 'HR ADMIN'" style="margin-bottom: 130px">
           <div class="sidebar-menu-heding">COMPANY</div>
           <ul class="sidebar-menu">
@@ -312,21 +274,16 @@
                   Setting</span>
               </a>
             </li>
-            <!-- <li class="pointer" >
-                      <a class=" sidebar-menu-link">
-                          <div class="">
-                      </div>
-                      <span class=" ">  <i class="bi bi-file-earmark-code menu-icon"></i> Document </span>
-                      </a>
-                      </li> -->
+
             <li class="pointer" routerLinkActive="sidebar-menu-active" routerLink="/role">
               <a class="sidebar-menu-link">
-                <span class=" "><i class="bi bi-person-check menu-icon"></i> Admin
-                  Permission</span>
+                <span class=" "><i class="bi bi-person-check menu-icon"></i> Admin Permission</span>
               </a>
             </li>
           </ul>
         </div>
+
+
         <div class="log-out-btn-box">
           <div class="plan-box d-flex align-items-center justify-content-between">
             <div class="">
@@ -335,8 +292,8 @@
             <div class="" style="cursor: pointer">
               <a class="mb-0" routerLink="/setting/billing"><i class="bi bi-lightning-fill"></i>
                 {{
-                OrgSubsPlanMonthDetail.planName
-                ? OrgSubsPlanMonthDetail.planName
+                orgSubsPlanMonthDetail.planName
+                ? orgSubsPlanMonthDetail.planName
                 : "Upgrade"
                 }}
               </a>
