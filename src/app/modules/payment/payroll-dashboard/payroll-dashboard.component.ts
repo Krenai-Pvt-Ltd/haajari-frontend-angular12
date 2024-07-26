@@ -145,8 +145,19 @@ export class PayrollDashboardComponent implements OnInit {
     }
   }
 
-  // ----------------------------------------------------------
-  //Exmployee changes tab selection
+  // ------------------------------
+  //Exmployee changes selection
+  employeeChangesSection(PAYROLL_PROCESS_STEP : number){
+    if(PAYROLL_PROCESS_STEP == this.FINAL_SETTLEMENT){
+      this.finalSettlementTab();
+      this.navigateToTab('step3-tab');
+    } else if(PAYROLL_PROCESS_STEP == this.USER_EXIT){
+      this.userExitTab();
+      this.navigateToTab('step2-tab');
+    } else{
+      this.newJoineeTab();
+    }
+  }
   newJoineeTab() {
     this.CURRENT_TAB = this.NEW_JOINEE;
     this.CURRENT_TAB_IN_EMPLOYEE_CHANGE = this.NEW_JOINEE;
@@ -170,8 +181,18 @@ export class PayrollDashboardComponent implements OnInit {
 
   // ----------------------------------------------------------
   // Attendance, Leaves and Present Days tab selection
+  attendanceAndLeaveSection(PAYROLL_PROCESS_STEP : number){
+    if(PAYROLL_PROCESS_STEP == this.LOP_REVERSAL){
+      this.lopReversalTab();
+      this.navigateToTab('step6-tab');
+    } else if(PAYROLL_PROCESS_STEP == this.LOP_SUMMARY){
+      this.lopSummaryTab();
+      this.navigateToTab('step5-tab');
+    } else{
+      this.leavesTab();
+    }
+  }
   leavesTab(){
-    
     this.CURRENT_TAB = this.LEAVES;
     this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE = this.LEAVES;
     this.resetCriteriaFilter();
@@ -195,6 +216,17 @@ export class PayrollDashboardComponent implements OnInit {
 
   // ----------------------------------------------------------
   // Salary Changes, Bonus and Overtime tab selection
+  salaryChangeSection(PAYROLL_PROCESS_STEP : number){
+    if(PAYROLL_PROCESS_STEP == this.OVERTIME){
+      this.overtimeTab();
+      this.navigateToTab('step9-tab');
+    } else if(PAYROLL_PROCESS_STEP == this.BONUS){
+      this.bonusTab();
+      this.navigateToTab('step8-tab');
+    } else{
+      this.salaryChangeTab();
+    }
+  }
   salaryChangeTab(){
     this.CURRENT_TAB = this.SALARY_CHANGE;
     this.CURRENT_TAB_IN_SALARY_CHANGE = this.SALARY_CHANGE;
@@ -218,6 +250,17 @@ export class PayrollDashboardComponent implements OnInit {
 
   // -----------------------------------------
   // EPF, ESI & TDS
+  epfEsiTdsSection(PAYROLL_PROCESS_STEP : number){
+    if(PAYROLL_PROCESS_STEP == this.TDS){
+      this.tdsTab();
+      this.navigateToTab('step12-tab');
+    } else if(PAYROLL_PROCESS_STEP == this.ESI){
+      this.esiTab();
+      this.navigateToTab('step11-tab');
+    } else{
+      this.epfTab();
+    }
+  }
   epfTab(){
     this.CURRENT_TAB = this.EPF;
     this.CURRENT_TAB_IN_EPF_ESI_TDS = this.EPF;
