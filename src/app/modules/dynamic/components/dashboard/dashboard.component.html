@@ -212,7 +212,8 @@
       <div class="row mb-3" *ngIf="lateEmployeeAttendanceDetailsResponseList.length > 0">
         <div class="col-md-12">
           <div class="col d-flex align-items-center justify-content-between mb-3">
-            <h4 class="card-title" style="font-size: 18px">Late Employee</h4>
+            <h4 class="card-title" style="font-size: 18px" data-bs-toggle="modal"
+              data-bs-target="#billing-and-subscription">Late Employee</h4>
             <ng-container *ngIf="lateEmployeeDataLoaderButton; else viewAllAndViewLess">
               <div class="dot-opacity-loader">
                 <span></span>
@@ -1092,11 +1093,11 @@
                                           {{
                                           getDayFromDate(dayWiseStatus.date)
                                           }}
-                                          
+
                                         </th>
                                       </ng-container>
 
-                                      
+
                                     </tr>
                                     <tr>
                                       <td></td>
@@ -1114,14 +1115,16 @@
                                             blue:
                                               dayWiseStatus.status == WEEKEND ||
                                               dayWiseStatus.status == HOLIDAY
-                                          }" (mouseenter)="fetchAttendanceDetails(attendanceReportResponse.userEmail, dayWiseStatus.date)">
+                                          }"
+                                          (mouseenter)="fetchAttendanceDetails(attendanceReportResponse.userEmail, dayWiseStatus.date)">
                                           {{
                                           dayWiseStatus.status[0] == "U"
                                           ? "A"
                                           : dayWiseStatus.status[0]
                                           }}
 
-                                          <span class="user-details p-3" *ngIf=" dayWiseStatus.status == HALFDAY || dayWiseStatus.status == PRESENT"> 
+                                          <span class="user-details p-3"
+                                            *ngIf=" dayWiseStatus.status == HALFDAY || dayWiseStatus.status == PRESENT">
                                             <h5 class="p-0">Attendance Details</h5>
                                             <!-- <div class=" p-0" *ngIf="loadingFlag">
                                               <div class="spinner-grow text-primary" role="status">
@@ -1129,30 +1132,40 @@
                                               </div>  
                                             </div> -->
                                             <div class="p-0 d-flex justify-content-center" *ngIf="loadingFlag">
-                                              <div class="spinner-grow text-secondary" style="width: 10px; height: 10px;" role="status">
+                                              <div class="spinner-grow text-secondary"
+                                                style="width: 10px; height: 10px;" role="status">
                                                 <span class="visually-hidden">Loading...</span>
                                               </div>
-                                              <div class="spinner-grow text-secondary" style="width: 10px; height: 10px;" role="status">
+                                              <div class="spinner-grow text-secondary"
+                                                style="width: 10px; height: 10px;" role="status">
                                                 <span class="visually-hidden">Loading...</span>
                                               </div>
-                                              <div class="spinner-grow text-secondary" style="width: 10px; height: 10px;" role="status">
+                                              <div class="spinner-grow text-secondary"
+                                                style="width: 10px; height: 10px;" role="status">
                                                 <span class="visually-hidden">Loading...</span>
                                               </div>
                                             </div>
-                                            
-                                            
-                                            <div class=" p-0" *ngIf="userAttendanceDetailDateWise?.checkInTime!=null && !loadingFlag">
-                                              <p class="mb-0">Check In Time: {{userAttendanceDetailDateWise.checkInTime | date:'shortTime' }}</p>
-                                              <p class="mb-0">Check Out Time: {{userAttendanceDetailDateWise.checkOutTime | date:'shortTime' || '-'}}</p>
-                                              <p class="mb-0">Total Hours: {{userAttendanceDetailDateWise.totalWorkingHours}}</p>
-                                              <p class="mb-0">Total Break: {{userAttendanceDetailDateWise.breakCount}}</p>
-                                              <p class="mb-0">Break Duration: {{userAttendanceDetailDateWise.totalBreakHours}}</p>
+
+
+                                            <div class=" p-0"
+                                              *ngIf="userAttendanceDetailDateWise?.checkInTime!=null && !loadingFlag">
+                                              <p class="mb-0">Check In Time: {{userAttendanceDetailDateWise.checkInTime
+                                                | date:'shortTime' }}</p>
+                                              <p class="mb-0">Check Out Time:
+                                                {{userAttendanceDetailDateWise.checkOutTime | date:'shortTime' || '-'}}
+                                              </p>
+                                              <p class="mb-0">Total Hours:
+                                                {{userAttendanceDetailDateWise.totalWorkingHours}}</p>
+                                              <p class="mb-0">Total Break: {{userAttendanceDetailDateWise.breakCount}}
+                                              </p>
+                                              <p class="mb-0">Break Duration:
+                                                {{userAttendanceDetailDateWise.totalBreakHours}}</p>
                                             </div>
                                             <!-- <div class=" p-0" *ngIf="userAttendanceDetailDateWise?.checkInTime==null">
                                               <p class="mb-0">No Data Found :)</p>   
                                             </div> -->
                                           </span>
-                                          
+
                                         </td>
                                       </ng-container>
                                     </tr>
@@ -1499,19 +1512,19 @@
   <div class="modal-dialog modal-md">
     <div class="modal-content">
       <div class="modal-header">
-       
+
         <h5 class="modal-title" id="transactionModalLabel" *ngIf="filterCriteria === 'PRESENT'">
-           Present Users
+          Present Users
         </h5>
         <!-- {{absentFlag}} -->
         <h5 class="modal-title" id="transactionModalLabel" *ngIf="filterCriteria === 'ABSENT' && absentFlag">
           Absent Users
-       </h5>
-       <h5 class="modal-title" id="transactionModalLabel" *ngIf="filterCriteria === 'ABSENT' && !absentFlag">
-        Not Marked Users
-     </h5>
-   
-       
+        </h5>
+        <h5 class="modal-title" id="transactionModalLabel" *ngIf="filterCriteria === 'ABSENT' && !absentFlag">
+          Not Marked Users
+        </h5>
+
+
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="onboarding-date d-flex align-items-center" style="gap: 10px; width: 100%">
@@ -1548,17 +1561,18 @@
           </div>
         </div>
       </div>
-     
+
       <div class="modal-body mt-0 pt-0" *ngIf="attendanceDetailsResponseList.length > 0">
         <!-- <div class="card-body"> -->
-         
+
         <ul class="list-unstyled m-0 ps-0 transaction-history" *ngFor="let attendList of attendanceDetailsResponseList">
           <li class="align-items-center d-flex justify-content-between">
             <div class="media">
               <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center">
                 <img src="{{ attendList.image }}" alt="" class="rounded-circle thumb-sm me-1"
                   *ngIf="attendList.image" />
-                <span class="members-name-new" id="user-first-name-logo" *ngIf="!attendList.image">{{ attendList.name[0]}}</span>
+                <span class="members-name-new" id="user-first-name-logo" *ngIf="!attendList.image">{{
+                  attendList.name[0]}}</span>
                 <!-- <span class="thumb-xl justify-content-center d-flex align-items-center bg-soft-success rounded-circle me-2" *ngIf="!attendList.image">{{ attendList.name[0] }}</span> -->
               </div>
               <div class="media-body align-self-center ms-3">
@@ -1629,8 +1643,8 @@
 
         <h5 class="modal-title" id="transactionModalLabel">
           Break Users
-       </h5>
-       
+        </h5>
+
         <!-- <h5 class="modal-title" id="breakUsersModalLabel">
           Break Users List
         </h5> -->
@@ -1641,7 +1655,8 @@
           <div class="form-group" style="width: 100%; position: relative">
             <input type="text" id="searchText" placeholder="Search by name or email..."
               class="form-control me-2 ng-untouched ng-pristine ng-valid" (keyup)="searchBreak()"
-              [(ngModel)]="searchTermBreak" [ngModelOptions]="{ standalone: true }" style="padding: 10px 40px; border: none;" />
+              [(ngModel)]="searchTermBreak" [ngModelOptions]="{ standalone: true }"
+              style="padding: 10px 40px; border: none;" />
             <!-- <button
                 type="button"
                 class="btn close-btn"
@@ -1766,9 +1781,9 @@
       <div class="modal-header">
         <h5 class="modal-title" id="transactionModalLabel">
           Late Users
-       </h5>
-       
-       
+        </h5>
+
+
         <!-- <h5 class="modal-title" id="lateUsersModalLabel">
           Late Users List
         </h5> -->
@@ -1779,7 +1794,8 @@
           <div class="form-group" style="width: 100%; position: relative">
             <input type="text" id="searchText" placeholder="Search by name or email..."
               class="form-control me-2 ng-untouched ng-pristine ng-valid" (keyup)="searchLate()"
-              [(ngModel)]="searchTermLate" [ngModelOptions]="{ standalone: true }" style="padding: 10px 40px; border: none;" />
+              [(ngModel)]="searchTermLate" [ngModelOptions]="{ standalone: true }"
+              style="padding: 10px 40px; border: none;" />
             <!-- <button
                   type="button"
                   class="btn close-btn"
@@ -1831,7 +1847,8 @@
               </div>
               <!--end media body-->
             </div>
-            <span class="text-danger">{{ user.checkInTime | date:'shortTime'}} <span style="color: black;">|</span> Late by - {{user.lateDuration | durationFormat }}</span>
+            <span class="text-danger">{{ user.checkInTime | date:'shortTime'}} <span style="color: black;">|</span> Late
+              by - {{user.lateDuration | durationFormat }}</span>
           </li>
         </ul>
 
@@ -1881,10 +1898,10 @@
   <div class="modal-dialog modal-md">
     <div class="modal-content">
       <div class="modal-header">
-       
+
 
         <h5 class="modal-title" id="leaveUsersModalLabel">
-          Leave Users 
+          Leave Users
         </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
@@ -1893,7 +1910,8 @@
           <div class="form-group" style="width: 100%; position: relative">
             <input type="text" id="searchText" placeholder="Search by name or email..."
               class="form-control me-2 ng-untouched ng-pristine ng-valid" (keyup)="searchLeave()"
-              [(ngModel)]="searchTermLeave" [ngModelOptions]="{ standalone: true }" style="padding: 10px 40px; border: none;" />
+              [(ngModel)]="searchTermLeave" [ngModelOptions]="{ standalone: true }"
+              style="padding: 10px 40px; border: none;" />
             <!-- <button
                 type="button"
                 class="btn close-btn"
@@ -2007,6 +2025,66 @@
           Close
         </button>
       </div> -->
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="billing-and-subscription" #billingAndSubscriptionModal data-bs-backdrop="static"
+  tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-sub-header">
+          <h3 class="mb-0 mt-2">Billing & Subscription</h3>
+          <p class="text-muted">Choose a plan for your organization:</p>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <!-- Your modal content here -->
+          <div class="col-md-4" *ngFor="let subscription of subscriptionList">
+            <div class="bill-detail">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <div class="d-flex align-items-center" style="gap: 15px">
+                    <h3>{{ subscription.name }}</h3>
+                  </div>
+                  <small class="text-muted">{{ subscription.description }}</small>
+                </div>
+                <div class="justify-content-end d-flex align-items-end" style="flex-direction: column">
+                  <h3>₹{{ subscription.amount }}</h3>
+                  <small class="text-muted">Per User</small>
+                </div>
+              </div>
+              <hr />
+              <div class="mt-3">
+                <h5>Features</h5>
+                <ul class="plan-featured">
+                  <li *ngFor="let service of subscription.serviceList" class="text-muted">
+                    <i class="bi bi-check2"></i> {{ service }}
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <button type="button" class="btn free-trial">
+                  Start your free trial <i class="bi bi-arrow-right"></i>
+                </button>
+                <!-- <button type="button" *ngIf="subscription.isPurchased == 0 && !isPurchased" class="btn switch-plan">
+                  Subscribe
+                </button>
+                <button type="button" *ngIf="subscription.isPurchased == 1 && isPurchased"
+                  class="btn btn-primary w-100">
+                  Current Plan
+                </button> -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row d-flex mt-3">
+          <p><b>Attention!!</b> After starting the free trial you'll be able to use our services.</p>
+        </div>
+      </div>
     </div>
   </div>
 </div>

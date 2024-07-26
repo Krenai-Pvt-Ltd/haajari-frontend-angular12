@@ -104,46 +104,46 @@
                   <li class="list-inline-item">
                     <div class="ps-3">
                       <p class="text-muted font-12 mb-0">TOTAL PAYROLL COST</p>
-                      <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData?.totalAmount || '0' }}
+                      <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData?.totalAmount || 0 }}
                       </h5>
                       <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{
-                        organizationPreviousMonthSalaryData?.totalAmount || '0' }}</small>
+                        organizationPreviousMonthSalaryData?.totalAmount || 0 }}</small>
                     </div>
                   </li>
                   <li class="list-inline-item">
                     <div class="ps-3">
                       <p class="text-muted font-12 mb-0">TDS</p>
-                      <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData?.tdsAmount || '0' }}
+                      <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData?.tdsAmount || 0 }}
                       </h5>
                       <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{
-                        organizationPreviousMonthSalaryData?.tdsAmount || '0' }}</small>
+                        organizationPreviousMonthSalaryData?.tdsAmount || 0 }}</small>
                     </div>
                   </li>
                   <li class="list-inline-item">
                     <div class="ps-3">
                       <p class="text-muted font-12 mb-0">EPF</p>
-                      <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData?.epfAmount || '0' }}
+                      <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData?.epfAmount || 0 }}
                       </h5>
                       <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{
-                        organizationPreviousMonthSalaryData?.epfAmount || '0' }}</small>
+                        organizationPreviousMonthSalaryData?.epfAmount || 0 }}</small>
                     </div>
                   </li>
                   <li class="list-inline-item">
                     <div class="ps-3">
                       <p class="text-muted font-12 mb-0">ESI</p>
-                      <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData?.esiAmount || '0' }}
+                      <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData?.esiAmount || 0 }}
                       </h5>
                       <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{
-                        organizationPreviousMonthSalaryData?.esiAmount || '0' }}</small>
+                        organizationPreviousMonthSalaryData?.esiAmount || 0 }}</small>
                     </div>
                   </li>
                   <li class="list-inline-item">
                     <div class="ps-3">
                       <p class="text-muted font-12 mb-0">NET PAY</p>
-                      <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData?.netPay || '0' }}
+                      <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData?.netPay || 0 }}
                       </h5>
                       <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{
-                        organizationPreviousMonthSalaryData?.netPay || '0' }}</small>
+                        organizationPreviousMonthSalaryData?.netPay || 0 }}</small>
                     </div>
                   </li>
                 </ul>
@@ -177,7 +177,7 @@
                   <div class="tab-content my-3">
                     <div class="tab-pane fade show active" id="wallet_BTC" role="tabpanel">
                       <div class="row">
-                        <div class="col-md-6" (click)="newJoineeTab()">
+                        <div class="col-md-6" (click)="employeeChangesSection(PAYROLL_PROCESS_STEP)">
                           <div class="card-body mt-3 payroll-step"
                             [ngClass]="{'bg-soft-success': PAYROLL_PROCESS_STEP > FINAL_SETTLEMENT, 'bg-soft-warning': PAYROLL_PROCESS_STEP <= FINAL_SETTLEMENT}"
                             data-bs-toggle="modal" data-bs-target="#createteam">
@@ -200,7 +200,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-6" (click)="leavesTab()">
+                        <div class="col-md-6" (click)="attendanceAndLeaveSection(PAYROLL_PROCESS_STEP)">
                           <div class="card-body mt-3 payroll-step"
                             [ngClass]="{'bg-soft-success': PAYROLL_PROCESS_STEP > LOP_REVERSAL, 'bg-soft-warning': PAYROLL_PROCESS_STEP <= LOP_REVERSAL}"
                             data-bs-toggle="modal" data-bs-target="#leaves"
@@ -227,7 +227,7 @@
                           </div>
                           <!--end col-->
                         </div>
-                        <div class="col-md-6" (click)="salaryChangeTab()">
+                        <div class="col-md-6" (click)="salaryChangeSection(PAYROLL_PROCESS_STEP)">
                           <div class="card-body mt-3 payroll-step"
                             [ngClass]="{'bg-soft-success': PAYROLL_PROCESS_STEP > OVERTIME, 'bg-soft-warning': PAYROLL_PROCESS_STEP <= OVERTIME}"
                             data-bs-toggle="modal" data-bs-target="#salarychange"
@@ -253,7 +253,7 @@
                             <!--end row-->
                           </div>
                         </div>
-                        <div class="col-md-6" (click)="epfTab()">
+                        <div class="col-md-6" (click)="epfEsiTdsSection(PAYROLL_PROCESS_STEP)">
                           <div class="card-body mt-3 payroll-step"
                             [ngClass]="{'bg-soft-success': PAYROLL_PROCESS_STEP > TDS, 'bg-soft-warning': PAYROLL_PROCESS_STEP <= TDS}"
                             data-bs-toggle="modal" data-bs-target="#epf_esi_tds"
@@ -284,8 +284,10 @@
                         <div class="col">
                           <div class="media">
                             <div class="media-body align-self-center">
-                              <p class="text-muted font-12 mb-0 mt-2"> Last Preview Run On 10 JUL at 11:30 PM By
-                                Pushpendra </p>
+                              <p class="text-muted font-12 mb-0 mt-2"> Last Preview Run On
+                                {{organizationMonthWiseSalaryData?.updatedDate | date: 'dd MMM'}} at
+                                {{organizationMonthWiseSalaryData?.updatedDate | date:'shortTime'}} By
+                                {{organizationMonthWiseSalaryData?.updatedBy}} </p>
                             </div>
                             <!--end media body-->
                           </div>
@@ -1466,7 +1468,7 @@
                                   <td>{{ lopReversalResponse.name }}</td>
                                   <td>{{ lopReversalResponse.email }}</td>
                                   <td>{{ extractPreviousMonthNameFromDate(startDate) }}</td>
-                                  <td>{{ lopReversalResponse.lopDays }}</td>
+                                  <td>{{ lopReversalResponse?.lopDays || 0}}</td>
                                   <td>
                                     <input class="comment-input p-2" type="number" placeholder="Days count"
                                       [(ngModel)]="lopReversalResponse.reversedLopDays"
