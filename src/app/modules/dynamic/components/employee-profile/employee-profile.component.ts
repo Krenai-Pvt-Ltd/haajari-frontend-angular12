@@ -2185,9 +2185,7 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
   getOnboardingFormPreviewMethodCall() {
-    
-    const userUuid =
-      new URLSearchParams(window.location.search).get('userId') || '';
+    const userUuid = new URLSearchParams(window.location.search).get('userId') || '';
     if (userUuid) {
       this.dataService.getOnboardingFormPreview(userUuid).subscribe(
         (preview) => {

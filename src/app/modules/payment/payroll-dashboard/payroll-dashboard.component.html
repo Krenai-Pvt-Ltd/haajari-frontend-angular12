@@ -456,13 +456,17 @@
                   <h4 class="card-title">Average Pay Distribution</h4>
                 </div>
                 <div class="col-auto">
-                  <small>06 Feb - 06 Mar</small>
+                  <small>{{this.startDate | date: 'MMM - YYYY'}}</small>
                 </div>
               </div>
             </div>
             <div class="card-body">
               <div class="text-center">
-                <img src="assets/images/chart-2.jpeg" width="300" />
+                <ngx-charts-pie-chart [view]="view" [scheme]="colorScheme" [results]="single"
+                [legend]="showLegend" [explodeSlices]="explodeSlices" [labels]="showLabels"
+                [doughnut]="doughnut" [gradient]="gradient"
+                (select)="onSelect($event)">
+              </ngx-charts-pie-chart>
               </div>
             </div>
           </div>
