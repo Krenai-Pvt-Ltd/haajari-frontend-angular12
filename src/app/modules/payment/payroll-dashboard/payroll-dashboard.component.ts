@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { resolveSanitizationFn } from '@angular/compiler/src/render3/view/template';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Color, ScaleType } from '@swimlane/ngx-charts';
 import { clear } from 'console';
 import { resolve } from 'dns';
 import { reject } from 'lodash';
@@ -465,6 +466,7 @@ export class PayrollDashboardComponent implements OnInit {
     this.getMonthResponseListByYearMethodCall(this.selectedDate);
     this.getOrganizationIndividualMonthSalaryDataMethodCall(this.currentMonthResponse);
     this.getOrganizationPreviousMonthSalaryDataMethodCall(this.currentMonthResponse);
+    this.payrollChartMehthodCall();
 
   }
 
@@ -708,6 +710,7 @@ export class PayrollDashboardComponent implements OnInit {
           } else {
             this.organizationMonthWiseSalaryData = response.object;
             this.countPayrollDashboardEmployeeByOrganizationIdMethodCall();
+            this.payrollChartMehthodCall();
           }
           this.isShimmer = false;
         },
@@ -2234,6 +2237,118 @@ extractPreviousMonthNameFromDate(dateString : string){
       );
   }
   
+  view: [number, number] = [400, 270]; // explicitly define as tuple
+  // options
+  showLegend: boolean = false;
+  showLabels: boolean = true;
+  explodeSlices: boolean = false;
+  doughnut: boolean = true;
+  gradient: boolean = true;
+
+  colorScheme: Color = {
+    name: 'custom',
+    selectable: true,
+    group: ScaleType.Ordinal,
+    domain: ['#02EC', '#02E59C', '#6666f3', '#FE3636', '#DE1001', '#AE3636', '#888']
+  };
+
+  // chart data
+  single = [
+    {
+      name: 'Total',
+      value: 0
+    },
+    {
+      name: 'Gross Pay',
+      value: 0
+    },
+    {
+      name: 'Net Pay',
+      value: 0
+    },
+    {
+      name: 'EPF',
+      value: 0
+    },
+    {
+      name: 'ESI',
+      value: 0
+    },
+    {
+      name: 'TDS',
+      value: 0
+    },
+    {
+      name: 'Not Found',
+      value: 0.1
+    }
+  ];
+
+  onSelect(event: any) {
+    console.log(event);
+  }
+
+  payrollChartMehthodCall(){
+    this.single = [
+      {
+        name: 'Total',
+        value: this.organizationMonthWiseSalaryData.totalAmount
+      },
+      {
+        name: 'Gross Pay',
+        value: this.organizationMonthWiseSalaryData.grossPay
+      },
+      {
+        name: 'Net Pay',
+        value: this.organizationMonthWiseSalaryData.netPay
+      },
+      {
+        name: 'EPF',
+        value: this.organizationMonthWiseSalaryData.epfAmount
+      },
+      {
+        name: 'ESI',
+        value: this.organizationMonthWiseSalaryData.esiAmount
+      },
+      {
+        name: 'TDS',
+        value: this.organizationMonthWiseSalaryData.tdsAmount
+      }
+    ];
+  }
+
+  payrollChartDataNotFoundMehthodCall(){
+    this.single = [
+      {
+        name: 'Total',
+        value: 0
+      },
+      {
+        name: 'Gross Pay',
+        value: 0
+      },
+      {
+        name: 'Net Pay',
+        value: 0
+      },
+      {
+        name: 'EPF',
+        value: 0
+      },
+      {
+        name: 'ESI',
+        value: 0
+      },
+      {
+        name: 'TDS',
+        value: 0
+      },
+      {
+        name: 'No data found!',
+        value: 0.1
+      }
+    ];
+  }
     
 
   // ########################--Validation--##############################
@@ -2247,6 +2362,8 @@ extractPreviousMonthNameFromDate(dateString : string){
 
     })
   }
+
+
 }
 
 

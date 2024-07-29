@@ -228,9 +228,9 @@ export class DashboardComponent implements OnInit {
     this.getPurchasedStatus();
   }
 
-  ngAfterViewInit(): void {
-    this.modalService.open(this.billingAndSubscriptionModal, { backdrop: 'static', keyboard: false });
-  }
+  // ngAfterViewInit(): void {
+  //   this.modalService.open(this.billingAndSubscriptionModal, { backdrop: 'static', keyboard: false });
+  // }
 
   isShimmer = false;
   dataNotFoundPlaceholder = false;
@@ -1311,6 +1311,7 @@ export class DashboardComponent implements OnInit {
   name!: string;
   email!: string;
   phoneNumber!: string;
+  BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE : boolean = true;
 
 
   getAdminPersonalDetailMethodCall() {
