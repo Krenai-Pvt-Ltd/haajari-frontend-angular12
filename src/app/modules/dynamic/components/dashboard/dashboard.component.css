@@ -570,7 +570,7 @@ span.members-name-new {
 .bill-detail {
   background-color: #fff;
   padding: 15px;
-  border-radius: 2px;
+  border-radius: 5px;
   border: 1px solid #f1f1f1;
   box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, 0.05);
   height: 430px;
@@ -876,4 +876,13 @@ button.btn.add-card-btn {
 .active-col{
   border: 1px solid lightgray;
   border-radius: 5px;
+}
+
+.fixed-height {
+  height: 80vh; /* Adjust this value as per your requirement */
+}
+
+.modal-body {
+  overflow-y: auto;
+  height: calc(80vh - 100px); /* Adjust this value based on your modal header/footer height */
 }
