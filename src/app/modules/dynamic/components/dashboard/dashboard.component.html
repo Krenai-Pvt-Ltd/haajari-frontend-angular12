@@ -212,7 +212,7 @@
       <div class="row mb-3" *ngIf="lateEmployeeAttendanceDetailsResponseList.length > 0">
         <div class="col-md-12">
           <div class="col d-flex align-items-center justify-content-between mb-3">
-            <h4 class="card-title" style="font-size: 18px" data-bs-toggle="modal" data-bs-target="#billing-and-subscription">Late Employee</h4>
+            <h4 class="card-title" style="font-size: 18px" >Late Employee</h4>
             <ng-container *ngIf="lateEmployeeDataLoaderButton; else viewAllAndViewLess">
               <div class="dot-opacity-loader">
                 <span></span>
@@ -2029,7 +2029,13 @@
 </div>
 
 
-<div class="modal fade" id="billing-and-subscription" #billingAndSubscriptionModal data-bs-backdrop="static"
+<!-- Hidden button trigger modal -->
+<button type="button" id="billingModal" class="btn btn-primary" data-bs-toggle="modal" #billingModal
+  data-bs-target="#billingAndSubscriptionModal" style="display: none;">
+</button>
+
+
+<div class="modal fade" id="billingAndSubscriptionModal" #billingAndSubscriptionModal data-bs-backdrop="static"
   tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content fixed-height">
@@ -2043,8 +2049,8 @@
         <ng-container *ngIf="BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE else billingAndSubscriptionModalToggle">
           <div class="row">
             <!-- Your modal content here -->
-            <div class="col-md-4" *ngFor="let subscription of subscriptionList">
-              <div class="bill-detail">
+            <div class="col-md-4" *ngFor="let subscription of subscriptionList" (click)="selectSubscription(subscription.id)">
+              <div class="bill-detail" [ngClass]="{'selected': subscription.id === selectedSubscriptionId}">
                 <div class="d-flex justify-content-between align-items-center">
                   <div>
                     <div class="d-flex align-items-center" style="gap: 15px">
@@ -2067,23 +2073,21 @@
                   </ul>
                 </div>
                 <div>
-                  <button type="button" class="btn free-trial">
-                    Start your free trial <i class="bi bi-arrow-right"></i>
+                  <button type="button" class="btn free-trial" [ngClass]="{'filled': subscription.id === selectedSubscriptionId}" (click)="routeToBillingPaymentPage(subscription.id)">
+                    Subscribe <i class="bi bi-arrow-right"></i>
                   </button>
-                  <!-- <button type="button" *ngIf="subscription.isPurchased == 0 && !isPurchased" class="btn switch-plan">
-                    Subscribe
-                  </button>
-                  <button type="button" *ngIf="subscription.isPurchased == 1 && isPurchased"
-                    class="btn btn-primary w-100">
-                    Current Plan
-                  </button> -->
                 </div>
               </div>
             </div>
           </div>
           <div class="row d-flex mt-3">
-            <p><b>Attention!!</b> After starting the free trial you'll be able to use our services. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Enim itaque neque in molestias eos. Quibusdam, saepe qui tempore hic maiores quas, tempora quisquam optio impedit nobis ipsa est illum deleniti! Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta voluptate rem exercitationem asperiores iusto veritatis quidem obcaecati, fugit provident optio explicabo, culpa aspernatur quis pariatur harum dolorum ducimus impedit corrupti.</p>
+            <p><b>Attention!!</b> After starting the free trial, you will have access to all premium features of our service for 30 days. During this period, you can explore the full range of functionalities including advanced analytics, priority customer support, and seamless integration with third-party tools. Please note that the free trial is limited to one trial per user. At the end of the trial period, you will need to select a subscription plan to continue using the premium features. If you choose not to subscribe, your account will be downgraded to the free tier with limited access to features.</p>
           </div>
+          
+       
+      
+    
+      
         </ng-container>
         <ng-template #billingAndSubscriptionModalToggle>
           <div class="row">
@@ -2159,16 +2163,17 @@
                   <h5>Coupon</h5>
                   <div class="mt-3">
                     <div class="row d-flex justify-content-center align-items-center contract-plan">
-                      <div class="" style="width: 80%;">
+                      <div class="position-relative" style="width: 80%;">
                         <input type="text" class="form-control" [(ngModel)]="couponCode" name="coupon" placeholder="Enter Coupon Code" (keyup)="getCouponInput()" required>
-                        <span class="btn btn-link position-absolute end-0 text-decoration-none" style="margin-right: 20px; font-size: 20px;color: green;" *ngIf="!isCouponVerify">
+                        <span class="position-absolute end-0 top-50 translate-middle-y text-decoration-none" style="font-size: 20px; color: green; right: 18px !important;" *ngIf="isCouponVerify">
                           <i class="bi bi-check2-circle"></i>
                         </span>
                       </div>
-                      <div class="" style="width: 20%;">
+                      <div style="width: 20%;">
                         <button class="btn btn-primary" (click)="applyCoupon()">Apply</button>
                       </div>
                     </div>
+                    
                     <p *ngIf="message !=''" class="error text-danger">{{message}}</p>
                   </div>
                 </div>
@@ -2195,6 +2200,10 @@
                 <div class="" style="width:100%;">
                   <button class="btn proceed-add" [disabled]="employeeForm.invalid || paymentMethod == '' || sbscriptionPlanReq.planType == '' || sbscriptionPlanReq.planType == null" (click)="proceedToPay()">Proceed to Payment</button>
                 </div>
+                <div class="" style="width:100%;">
+                  <button class="btn btn-secondary proceed-add" (click)="toggleBack()">Go Back</button>
+                </div>
+                
               </div>
             </div>
             <!-- <div class="col-md-1"></div> -->
