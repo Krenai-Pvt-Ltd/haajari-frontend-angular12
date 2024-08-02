@@ -6,7 +6,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { Observable, Subject, iif } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
 import * as dayjs from 'dayjs';
@@ -1282,6 +1282,13 @@ getAbsentFlag(str: string, count:number) {
         console.error('Error details:', error);
       }
   )
+  }
+
+  routeToUserProfile(uuid: string) {
+    let navExtra: NavigationExtras = {
+      queryParams: { userId: uuid },
+    };
+    this.router.navigate(['/employee-profile'], navExtra);
   }
 
 }

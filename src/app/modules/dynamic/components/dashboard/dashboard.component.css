@@ -564,3 +564,11 @@ span.members-name-new {
   display: block;
 }
 
+.Regular-data {
+  cursor: pointer;
+}
+
+.Regular-data:hover {
+  color: #6666f3 !important;
+  text-decoration: underline;
+}

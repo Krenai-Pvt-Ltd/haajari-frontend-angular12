@@ -332,7 +332,8 @@
                         }}</span>
                     </div>
 
-                    <h5 class="pro-title">
+                    <h5 class="pro-title Regular-data"
+                            (click)="routeToUserProfile(lateEmployeeAttendanceDetailsResponse.uuid)" >
                       {{ lateEmployeeAttendanceDetailsResponse.name }}
                     </h5>
                     <p class="mb-0 text-muted late-employ-email">
@@ -488,9 +489,11 @@
                                 object-fit: cover;
                               " />
                           </span>
-                          <span class="members-name" *ngIf="performer.image == null">{{ performer.name[0] }}</span>
+                          <span class="members-name" *ngIf="performer.image == null"
+                          >{{ performer.name[0] }}</span>
                           <div class="media-body ms-3 align-self-center">
-                            <h5 class="pro-title m-0">{{ performer.name }}</h5>
+                            <h5 class="pro-title m-0 Regular-data" 
+                            (click)="routeToUserProfile(performer.uuid)" >{{ performer.name }}</h5>
                             <p class="mb-0 text-muted late-employ-email">
                               {{ performer.email }}
                             </p>
@@ -1040,15 +1043,15 @@
                                   ? 'none'
                                   : '1px solid #f7f7f7'
                               }">
-                              <td class="text-left plandtlMainicon">
+                              <td class="text-left plandtlMainicon " >
                                 <i class="bi bi-chevron-right month-d projectdIcon collapsed" data-bs-toggle="collapse"
                                   [attr.href]="'#collapseExamplesheet' + i" role="button" aria-expanded="false"
-                                  aria-controls="collapseExamplesheet0" (click)="toggleCollapse(i)"></i>
-                                {{
-                                extractFirstNameFromEmail(
-                                attendanceReportResponse.userName
-                                )
-                                }}
+                                  aria-controls="collapseExamplesheet0" (click)="toggleCollapse(i)"
+                                   ></i>
+                                   <span class = "Regular-data" (click)="routeToUserProfile(attendanceReportResponse.userUuid)"
+                                   style="cursor: pointer;">
+                                    {{ extractFirstNameFromEmail(attendanceReportResponse.userName) }}
+                                  </span>
                                 <p class="attendance-name">
                                   {{ attendanceReportResponse.userEmail }}
                                 </p>

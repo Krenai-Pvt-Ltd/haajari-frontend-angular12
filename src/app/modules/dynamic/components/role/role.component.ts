@@ -537,4 +537,11 @@ export class RoleComponent implements OnInit {
     this.pageNumberUser = event;
     // this.getAllRolesMethodCall();
   }
+
+  routeToUserProfile(uuid: string) {
+    let navExtra: NavigationExtras = {
+      queryParams: { userId: uuid },
+    };
+    this.router.navigate(['/employee-profile'], navExtra);
+  }
 }
