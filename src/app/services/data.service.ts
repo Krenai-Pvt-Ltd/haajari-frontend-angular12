@@ -3662,6 +3662,11 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/step`,{}, {params});
   }
 
+  getAdminPersonalDetail():Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/users/personal-detail/admin`, {});
+  }
+
+
   getMonthResponseListByYear(date: string): Observable<any>{
     const params = new HttpParams()
     .set('date', date);

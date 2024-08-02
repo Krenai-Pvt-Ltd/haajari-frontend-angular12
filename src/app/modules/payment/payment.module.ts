@@ -17,6 +17,8 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 import { LeaveSummaryComponent } from './leave-summary/leave-summary.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+
 
 
 
@@ -41,7 +43,8 @@ import { LeaveSummaryComponent } from './leave-summary/leave-summary.component';
     NzDatePickerModule,
     NzDropDownModule,
     NgxPaginationModule,
-    NgxShimmerLoadingModule
+    NgxShimmerLoadingModule,
+    NgxChartsModule
   ],
 })
 export class PaymentModule {}

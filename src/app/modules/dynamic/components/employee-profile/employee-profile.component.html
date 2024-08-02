@@ -860,7 +860,7 @@
                               <label class="btn btn-outline-primary active" for="btncheck1">Today</label>
                               <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off" />
                               <label class="btn btn-outline-light text-primary" for="btncheck2" data-bs-toggle="modal"
-                                data-bs-target="#attendanceUpdateModal"> <i class="bi bi-megaphone-fill"></i>
+                                data-bs-target="#attendanceUpdateModal"  *ngIf="userRoleFlag && ROLE!= 'ADMIN'"> <i class="bi bi-megaphone-fill"></i>
                                 Request</label>
                               <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off" />
                               <label class="btn btn-outline-light text-primary" for="btncheck3" data-bs-toggle="modal"
@@ -1696,7 +1696,8 @@
                             <ngx-charts-pie-chart [view]="view" [scheme]="colorScheme" [results]="single"
                               [legend]="showLegend" [explodeSlices]="explodeSlices" [labels]="showLabels"
                               [doughnut]="doughnut" [gradient]="gradient"
-                              (select)="onSelect($event)"></ngx-charts-pie-chart>
+                              (select)="onSelect($event)">
+                            </ngx-charts-pie-chart>
                             <!-- <div class="center-label">
                               {{ getCenterLabel() }}
                             </div> -->
