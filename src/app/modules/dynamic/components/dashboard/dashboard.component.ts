@@ -56,6 +56,7 @@ export class DashboardComponent implements OnInit {
     private _activeRouter: ActivatedRoute,
     private roleBasedAccessControlService: RoleBasedAccessControlService
   ) {
+    
     const currentDate = moment();
     this.startDateStr = currentDate.startOf('month').format('YYYY-MM-DD');
     this.endDateStr = currentDate.endOf('month').format('YYYY-MM-DD');
@@ -78,7 +79,7 @@ export class DashboardComponent implements OnInit {
   searchText: string = '';
   searchBy: string = '';
   dataFetchingType: string = '';
-
+  selectedSubscriptionId: number = 3;
   // selected: { startDate: dayjs.Dayjs, endDate: dayjs.Dayjs } | null = null;
   myAttendanceData: Record<string, AttendenceDto[]> = {};
   myAttendanceDataLength = 0;
@@ -187,6 +188,10 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.orgUuid = this.roleBasedAccessControlService.getOrgRefUUID();
+    this.getActiveUserCount();
+    this.selecrPlanType('annual');
+this.getAdminPersonalDetailMethodCall();
     this.getTeamNames();
     window.scroll(0, 0);
     this.getOrganizationRegistrationDateMethodCall();
@@ -1271,7 +1276,7 @@ export class DashboardComponent implements OnInit {
   }
 
 
-  @ViewChild('billingAndSubscriptionModal', { static: true }) billingAndSubscriptionModal!: ElementRef;
+ 
 
   subscriptionList: any[] = new Array();
   loading: boolean = false;
@@ -1289,11 +1294,34 @@ export class DashboardComponent implements OnInit {
       });
   }
 
+  selectSubscription(subscriptionId: number) {
+    this.selectedSubscriptionId = subscriptionId;
+  } 
+
   isPurchased: boolean = false;
+  @ViewChild('billingModal') billingModal!: ElementRef;
   getPurchasedStatus() {
     this._subscriptionPlanService.getPurchasedStatus().subscribe((response) => {
       this.isPurchased = response;
+
+      if (this.isPurchased == true) {
+        
+      } else {
+        this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = true
+        this.billingModal.nativeElement.click();
+       
+      }
     });
+  }
+
+  routeToBillingPaymentPage(plandId : any) {
+this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = false
+this.getSubscriptionPlanDetails(plandId);
+  }
+
+
+  toggleBack() {
+    this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = true;
   }
 
 
@@ -1311,7 +1339,7 @@ export class DashboardComponent implements OnInit {
   name!: string;
   email!: string;
   phoneNumber!: string;
-  BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE : boolean = true;
+  BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE !: boolean ;
 
 
   getAdminPersonalDetailMethodCall() {
@@ -1386,10 +1414,9 @@ export class DashboardComponent implements OnInit {
         subscriptionPlanId: this.subscriptionPlan.id,
         noOfEmployee: this.sbscriptionPlanReq.noOfEmployee,
       },
-      // ,
-      // "theme": {
-      //   "color": "#2196f3"
-      // }
+      "theme": {
+        "color": "#6666f3"
+      }
     };
     var rzp = new Razorpay(options);
     rzp.open();
@@ -1483,8 +1510,8 @@ export class DashboardComponent implements OnInit {
       this.totalAmount = this.sbscriptionPlanReq.amount + this.taxAmount;
   }
   
-  getSubscriptionPlanDetails() {
-      let id = this._activeRouter.snapshot.queryParamMap.get('id')!;
+  getSubscriptionPlanDetails(id: any) {
+      
       this._subscriptionPlanService
           .getSubscriptionPlan(id)
           .subscribe((response) => {

@@ -886,3 +886,27 @@ button.btn.add-card-btn {
   overflow-y: auto;
   height: calc(80vh - 100px); /* Adjust this value based on your modal header/footer height */
 }
+
+.bill-detail {
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+  transition: border-color 0.3s, background-color 0.3s;
+  cursor: pointer;
+}
+
+.bill-detail.selected {
+  border-color: #6666f3;
+  background-color: #f0f0ff;
+}
+
+.btn.free-trial {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.btn.free-trial.filled {
+  background-color: #6666f3;
+  color: #fff;
+}
+
+

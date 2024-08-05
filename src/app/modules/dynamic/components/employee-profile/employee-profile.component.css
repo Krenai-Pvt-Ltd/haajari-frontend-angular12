@@ -1850,3 +1850,8 @@ hr {
   width: 24px;
   height: 24px;
 }
+.thumb-xl{
+  height: 52px;
+  width: 52px;
+  margin-right: 10px;
+}
