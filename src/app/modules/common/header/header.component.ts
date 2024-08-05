@@ -61,6 +61,7 @@ export class HeaderComponent implements OnInit {
   USER = Key.USER;
   MANAGER = Key.MANAGER;
   KRENAI_UUID = Key.KRENAI_UUID;
+  DEMO_ORGANIZATION_UUID = Key.DEMO_ORGANIZATION_UUID;
 
   // ROLE = this.rbacService.getRole();
   ROLE: any;

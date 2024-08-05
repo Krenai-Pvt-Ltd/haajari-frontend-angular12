@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { resolveSanitizationFn } from '@angular/compiler/src/render3/view/template';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Color, ScaleType } from '@swimlane/ngx-charts';
+import { Color, LegendPosition, ScaleType } from '@swimlane/ngx-charts';
 import { clear } from 'console';
 import { resolve } from 'dns';
 import { reject } from 'lodash';
@@ -2244,26 +2244,19 @@ extractPreviousMonthNameFromDate(dateString : string){
   explodeSlices: boolean = false;
   doughnut: boolean = true;
   gradient: boolean = true;
+  // legendPosition: LegendPosition = 'above' as LegendPosition;
 
   colorScheme: Color = {
     name: 'custom',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ['#02EC', '#02E59C', '#6666f3', '#FE3636', '#DE1001', '#AE3636', '#888']
+    domain: ['#6666f3', '#FFA500', '#F8D7D7', '#EB5050', '#E9E9FF', '#02E59C', '#888']
   };
 
   // chart data
   single = [
     {
       name: 'Total',
-      value: 0
-    },
-    {
-      name: 'Gross Pay',
-      value: 0
-    },
-    {
-      name: 'Net Pay',
       value: 0
     },
     {
@@ -2276,6 +2269,14 @@ extractPreviousMonthNameFromDate(dateString : string){
     },
     {
       name: 'TDS',
+      value: 0
+    },
+    {
+      name: 'Net Pay',
+      value: 0
+    },
+    {
+      name: 'Gross Pay',
       value: 0
     },
     {
@@ -2295,14 +2296,6 @@ extractPreviousMonthNameFromDate(dateString : string){
         value: this.organizationMonthWiseSalaryData.totalAmount
       },
       {
-        name: 'Gross Pay',
-        value: this.organizationMonthWiseSalaryData.grossPay
-      },
-      {
-        name: 'Net Pay',
-        value: this.organizationMonthWiseSalaryData.netPay
-      },
-      {
         name: 'EPF',
         value: this.organizationMonthWiseSalaryData.epfAmount
       },
@@ -2313,6 +2306,14 @@ extractPreviousMonthNameFromDate(dateString : string){
       {
         name: 'TDS',
         value: this.organizationMonthWiseSalaryData.tdsAmount
+      },
+      {
+        name: 'Net Pay',
+        value: this.organizationMonthWiseSalaryData.netPay
+      },
+      {
+        name: 'Gross Pay',
+        value: this.organizationMonthWiseSalaryData.grossPay
       }
     ];
   }
