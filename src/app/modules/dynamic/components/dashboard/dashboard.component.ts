@@ -57,6 +57,8 @@ export class DashboardComponent implements OnInit {
     private roleBasedAccessControlService: RoleBasedAccessControlService
   ) {
     
+    console.log(this.roleBasedAccessControlService.isUserInfoInitialized,"--9999-----");
+    
     const currentDate = moment();
     this.startDateStr = currentDate.startOf('month').format('YYYY-MM-DD');
     this.endDateStr = currentDate.endOf('month').format('YYYY-MM-DD');

@@ -1,7 +1,9 @@
 <div class="container-scroller"
-    *ngIf="(key.HEADER_ROUTES.includes(this._router.url.split('?')[0])) && this.roleBasedAccessControlService.isUserInfoInitialized">
+    *ngIf="(key.HEADER_ROUTES.includes(this._router.url.split('?')[0])) && this.roleBasedAccessControlService.isUserInfoInitialized  && this.roleBasedAccessControlService.userInfo">
     <div class="horizontal-menu">
         <app-header></app-header>
+        {{this.roleBasedAccessControlService.isUserInfoInitialized}}
     </div>
 </div>
 <router-outlet *ngIf="this.roleBasedAccessControlService.isUserInfoInitialized"></router-outlet>
+

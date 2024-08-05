@@ -28,11 +28,12 @@ export class HelperService {
 
   async getDecodedValueFromToken(): Promise<any> {
     
-    return new Promise<any>((resolve, reject) => {
+    return new Promise<any>(async (resolve, reject) => {
       try {
         const token = localStorage.getItem('token');
         if (token != null) {
-          const decodedValue: any = jwtDecode(token);
+          const decodedValue: any = await jwtDecode(token);
+          console.log("decodedValue",decodedValue)
           resolve(decodedValue);
         } else {
           reject('Token is null!');
