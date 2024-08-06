@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -33,7 +33,8 @@ export class BillingAndSubscriptionPageComponent implements OnInit {
     private modalService: NgbModal, 
     private _subscriptionPlanService: SubscriptionPlanService,
     private _activeRouter: ActivatedRoute,
-    private roleBasedAccessControlService: RoleBasedAccessControlService
+    private roleBasedAccessControlService: RoleBasedAccessControlService,
+    private ngZone:NgZone
   ) {
     
   
@@ -41,11 +42,13 @@ export class BillingAndSubscriptionPageComponent implements OnInit {
     const helper = new JwtHelperService();
   }
   ngOnInit(): void {
+    this.getPurchasedStatus();
+    this.orgUuid = this.roleBasedAccessControlService.getOrgRefUUID();
     this.selecrPlanType('annual');
     this.getActiveUserCount();
     this.getAdminPersonalDetailMethodCall();
     this.getAllSubscription();
-    this.getPurchasedStatus();
+
   }
 
   routeToUserDashboard() {
@@ -78,9 +81,10 @@ export class BillingAndSubscriptionPageComponent implements OnInit {
   isPurchased: boolean = false;
   // @ViewChild('billingModal') billingModal!: ElementRef;
   getPurchasedStatus() {
+    debugger;
     this._subscriptionPlanService.getPurchasedStatus().subscribe((response) => {
       this.isPurchased = response;
-
+console.log(this.isPurchased)
       if (this.isPurchased == true) {
         this.routeToUserDashboard();
       } else {
@@ -153,8 +157,8 @@ this.getSubscriptionPlanDetails(plandId);
 
   processingPayment: boolean = false;
   razorKey: string = 
-  // 'rzp_test_Wd1RYd0fng3673'; // Test
-  'rzp_live_twiokSC5krYrnQ'
+  'rzp_test_Wd1RYd0fng3673'; // Test
+  // 'rzp_live_twiokSC5krYrnQ'
   hajiri_logo: string = '../../../../../assets/images/hajiri-icon.png';
 
   openRazorPay(): void {
@@ -201,23 +205,26 @@ this.getSubscriptionPlanDetails(plandId);
 
   isPaymentDone: boolean = false;
   checkout(value: any) {
-    console.log('transaction id', value);
+    debugger
+    this.ngZone.run(() => {
+    console.log('new transaction id', value);
     // this.isPaymentDone = true;
-
-    window.location.reload();
-    this.routeToUserDashboard();
+    this.router.navigate(['/dashboard']);
+    // window.location.reload();
+  })
 
   }
 
   isPlanPurchased: boolean = false;
   getPlanPurchasedStatus() {
+    debugger
     let id = this._activeRouter.snapshot.queryParamMap.get('id')!;
     this._subscriptionPlanService
       .getPlanPurchasedStatus(id)
       .subscribe((response) => {
         this.isPlanPurchased = response;
         if (this.isPlanPurchased) {
-          this.router.navigate(['/setting/success']);
+          this.router.navigate(['/dashboard']);
         }
       });
   }
