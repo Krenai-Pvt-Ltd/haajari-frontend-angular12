@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { resolveSanitizationFn } from '@angular/compiler/src/render3/view/template';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Color, LegendPosition, ScaleType } from '@swimlane/ngx-charts';
 import { clear } from 'console';
 import { resolve } from 'dns';
 import { reject } from 'lodash';
@@ -145,8 +146,19 @@ export class PayrollDashboardComponent implements OnInit {
     }
   }
 
-  // ----------------------------------------------------------
-  //Exmployee changes tab selection
+  // ------------------------------
+  //Exmployee changes selection
+  employeeChangesSection(PAYROLL_PROCESS_STEP : number){
+    if(PAYROLL_PROCESS_STEP == this.FINAL_SETTLEMENT){
+      this.finalSettlementTab();
+      this.navigateToTab('step3-tab');
+    } else if(PAYROLL_PROCESS_STEP == this.USER_EXIT){
+      this.userExitTab();
+      this.navigateToTab('step2-tab');
+    } else{
+      this.newJoineeTab();
+    }
+  }
   newJoineeTab() {
     this.CURRENT_TAB = this.NEW_JOINEE;
     this.CURRENT_TAB_IN_EMPLOYEE_CHANGE = this.NEW_JOINEE;
@@ -170,8 +182,18 @@ export class PayrollDashboardComponent implements OnInit {
 
   // ----------------------------------------------------------
   // Attendance, Leaves and Present Days tab selection
+  attendanceAndLeaveSection(PAYROLL_PROCESS_STEP : number){
+    if(PAYROLL_PROCESS_STEP == this.LOP_REVERSAL){
+      this.lopReversalTab();
+      this.navigateToTab('step6-tab');
+    } else if(PAYROLL_PROCESS_STEP == this.LOP_SUMMARY){
+      this.lopSummaryTab();
+      this.navigateToTab('step5-tab');
+    } else{
+      this.leavesTab();
+    }
+  }
   leavesTab(){
-    
     this.CURRENT_TAB = this.LEAVES;
     this.CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE = this.LEAVES;
     this.resetCriteriaFilter();
@@ -195,6 +217,17 @@ export class PayrollDashboardComponent implements OnInit {
 
   // ----------------------------------------------------------
   // Salary Changes, Bonus and Overtime tab selection
+  salaryChangeSection(PAYROLL_PROCESS_STEP : number){
+    if(PAYROLL_PROCESS_STEP == this.OVERTIME){
+      this.overtimeTab();
+      this.navigateToTab('step9-tab');
+    } else if(PAYROLL_PROCESS_STEP == this.BONUS){
+      this.bonusTab();
+      this.navigateToTab('step8-tab');
+    } else{
+      this.salaryChangeTab();
+    }
+  }
   salaryChangeTab(){
     this.CURRENT_TAB = this.SALARY_CHANGE;
     this.CURRENT_TAB_IN_SALARY_CHANGE = this.SALARY_CHANGE;
@@ -218,6 +251,17 @@ export class PayrollDashboardComponent implements OnInit {
 
   // -----------------------------------------
   // EPF, ESI & TDS
+  epfEsiTdsSection(PAYROLL_PROCESS_STEP : number){
+    if(PAYROLL_PROCESS_STEP == this.TDS){
+      this.tdsTab();
+      this.navigateToTab('step12-tab');
+    } else if(PAYROLL_PROCESS_STEP == this.ESI){
+      this.esiTab();
+      this.navigateToTab('step11-tab');
+    } else{
+      this.epfTab();
+    }
+  }
   epfTab(){
     this.CURRENT_TAB = this.EPF;
     this.CURRENT_TAB_IN_EPF_ESI_TDS = this.EPF;
@@ -422,6 +466,7 @@ export class PayrollDashboardComponent implements OnInit {
     this.getMonthResponseListByYearMethodCall(this.selectedDate);
     this.getOrganizationIndividualMonthSalaryDataMethodCall(this.currentMonthResponse);
     this.getOrganizationPreviousMonthSalaryDataMethodCall(this.currentMonthResponse);
+    this.payrollChartMehthodCall();
 
   }
 
@@ -665,6 +710,7 @@ export class PayrollDashboardComponent implements OnInit {
           } else {
             this.organizationMonthWiseSalaryData = response.object;
             this.countPayrollDashboardEmployeeByOrganizationIdMethodCall();
+            this.payrollChartMehthodCall();
           }
           this.isShimmer = false;
         },
@@ -826,8 +872,10 @@ export class PayrollDashboardComponent implements OnInit {
 
   selectedPayActionType : PayActionType = new PayActionType();
   selectPayActionType(payActionType : PayActionType, response : any){
+    debugger
     if(response != undefined && response != null){
       response.payActionTypeId = payActionType.id;
+      response.payActionType = payActionType;
       this.selectedPayActionCache[response.uuid] = payActionType;
     }
   }
@@ -838,6 +886,8 @@ export class PayrollDashboardComponent implements OnInit {
       return 'PROCESS AS SALARY';
     }
   }
+
+  
 
 
   // User selection to generate the payout
@@ -1081,6 +1131,7 @@ export class PayrollDashboardComponent implements OnInit {
   //Fetching the user exit data
   userExitResponseList: UserExitResponse[] = [];
   getUserExitByOrganizationIdMethodCall(debounceTime: number = 300) {
+    debugger
     this.userExitResponseList = [];
 
     if (this.debounceTimer) {
@@ -1110,6 +1161,7 @@ export class PayrollDashboardComponent implements OnInit {
                 if (this.selectedPayActionCache[exit.uuid]) {
                   exit.payActionType = this.selectedPayActionCache[exit.uuid];
                   exit.payActionTypeId = this.selectedPayActionCache[exit.uuid].id;
+                  console.log(exit.name, exit.payActionType)
                 } else {
                   // Set initial selection based on payActionTypeId
                   const selectedPayActionType = this.payActionTypeList.find(
@@ -2124,6 +2176,11 @@ extractPreviousMonthNameFromDate(dateString : string){
         console.log(response);
         this.RUN_PAYROLL_LOADER = false;
         this.helperService.showToast('Payroll generated successfully.', Key.TOAST_STATUS_SUCCESS);
+        this.dataService.registerPayrollProcessStepByOrganizationIdAndStartDateAndEndDate(this.startDate, this.endDate, Key.PAYROLL_PORCESSED).subscribe((response)=>{
+          this.getPayrollProcessStepByOrganizationIdAndStartDateAndEndDateMethodCall();
+        }, ((error) => {
+          console.log(error);
+        }))  
       },
       error: (error) => {
         this.helperService.showToast('Error while generating the Payroll!', Key.TOAST_STATUS_ERROR);
@@ -2180,6 +2237,119 @@ extractPreviousMonthNameFromDate(dateString : string){
       );
   }
   
+  view: [number, number] = [400, 270]; // explicitly define as tuple
+  // options
+  showLegend: boolean = false;
+  showLabels: boolean = true;
+  explodeSlices: boolean = false;
+  doughnut: boolean = true;
+  gradient: boolean = true;
+  // legendPosition: LegendPosition = 'above' as LegendPosition;
+
+  colorScheme: Color = {
+    name: 'custom',
+    selectable: true,
+    group: ScaleType.Ordinal,
+    domain: ['#6666f3', '#FFA500', '#F8D7D7', '#EB5050', '#E9E9FF', '#02E59C', '#888']
+  };
+
+  // chart data
+  single = [
+    {
+      name: 'Total',
+      value: 0
+    },
+    {
+      name: 'EPF',
+      value: 0
+    },
+    {
+      name: 'ESI',
+      value: 0
+    },
+    {
+      name: 'TDS',
+      value: 0
+    },
+    {
+      name: 'Net Pay',
+      value: 0
+    },
+    {
+      name: 'Gross Pay',
+      value: 0
+    },
+    {
+      name: 'Not Found',
+      value: 0.1
+    }
+  ];
+
+  onSelect(event: any) {
+    console.log(event);
+  }
+
+  payrollChartMehthodCall(){
+    this.single = [
+      {
+        name: 'Total',
+        value: this.organizationMonthWiseSalaryData.totalAmount
+      },
+      {
+        name: 'EPF',
+        value: this.organizationMonthWiseSalaryData.epfAmount
+      },
+      {
+        name: 'ESI',
+        value: this.organizationMonthWiseSalaryData.esiAmount
+      },
+      {
+        name: 'TDS',
+        value: this.organizationMonthWiseSalaryData.tdsAmount
+      },
+      {
+        name: 'Net Pay',
+        value: this.organizationMonthWiseSalaryData.netPay
+      },
+      {
+        name: 'Gross Pay',
+        value: this.organizationMonthWiseSalaryData.grossPay
+      }
+    ];
+  }
+
+  payrollChartDataNotFoundMehthodCall(){
+    this.single = [
+      {
+        name: 'Total',
+        value: 0
+      },
+      {
+        name: 'Gross Pay',
+        value: 0
+      },
+      {
+        name: 'Net Pay',
+        value: 0
+      },
+      {
+        name: 'EPF',
+        value: 0
+      },
+      {
+        name: 'ESI',
+        value: 0
+      },
+      {
+        name: 'TDS',
+        value: 0
+      },
+      {
+        name: 'No data found!',
+        value: 0.1
+      }
+    ];
+  }
     
 
   // ########################--Validation--##############################
@@ -2193,6 +2363,8 @@ extractPreviousMonthNameFromDate(dateString : string){
 
     })
   }
+
+
 }
 
 

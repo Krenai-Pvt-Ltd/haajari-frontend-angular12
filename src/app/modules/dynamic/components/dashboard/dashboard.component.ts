@@ -6,7 +6,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject, iif } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
 import * as dayjs from 'dayjs';
@@ -31,6 +31,13 @@ import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-refl
 import { AttendanceDetailsResponse } from 'src/app/models/attendance-details-response';
 import { DayStartAndDayEnd } from 'src/app/models/day-start-and-day-end';
 import { StartDateAndEndDate } from 'src/app/models/start-date-and-end-date';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
+import { AdminPersonalDetailResponse } from 'src/app/models/admin-personal-detail-response';
+import { SubscriptionPlan } from 'src/app/models/SubscriptionPlan';
+import { SubscriptionPlanReq } from 'src/app/models/SubscriptionPlanReq';
+import { JwtHelperService } from '@auth0/angular-jwt';
+declare var Razorpay: any;
 
 @Component({
   selector: 'app-dashboard',
@@ -43,8 +50,13 @@ export class DashboardComponent implements OnInit {
     private router: Router,
     private datePipe: DatePipe,
     private helperService: HelperService,
-    private rbacService: RoleBasedAccessControlService
+    private rbacService: RoleBasedAccessControlService,
+    private modalService: NgbModal, 
+    private _subscriptionPlanService: SubscriptionPlanService,
+    private _activeRouter: ActivatedRoute,
+    private roleBasedAccessControlService: RoleBasedAccessControlService
   ) {
+    
     const currentDate = moment();
     this.startDateStr = currentDate.startOf('month').format('YYYY-MM-DD');
     this.endDateStr = currentDate.endOf('month').format('YYYY-MM-DD');
@@ -53,6 +65,8 @@ export class DashboardComponent implements OnInit {
     this.month = currentDate.format('MMMM');
 
     this.getFirstAndLastDateOfMonth(this.selectedDate);
+    let token = localStorage.getItem('token')!;
+    const helper = new JwtHelperService();
   }
 
   itemPerPage: number = 12;
@@ -65,7 +79,7 @@ export class DashboardComponent implements OnInit {
   searchText: string = '';
   searchBy: string = '';
   dataFetchingType: string = '';
-
+  selectedSubscriptionId: number = 3;
   // selected: { startDate: dayjs.Dayjs, endDate: dayjs.Dayjs } | null = null;
   myAttendanceData: Record<string, AttendenceDto[]> = {};
   myAttendanceDataLength = 0;
@@ -174,6 +188,10 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.orgUuid = this.roleBasedAccessControlService.getOrgRefUUID();
+    this.getActiveUserCount();
+    this.selecrPlanType('annual');
+this.getAdminPersonalDetailMethodCall();
     this.getTeamNames();
     window.scroll(0, 0);
     this.getOrganizationRegistrationDateMethodCall();
@@ -211,8 +229,13 @@ export class DashboardComponent implements OnInit {
     this.getWeeklyChartData();
     this.getMonthlyChartData();
     this.getLateUsers();
-    // this.getAttendanceDetailsReportByDateMethodCall();
+    this.getAllSubscription();
+    this.getPurchasedStatus();
   }
+
+  // ngAfterViewInit(): void {
+  //   this.modalService.open(this.billingAndSubscriptionModal, { backdrop: 'static', keyboard: false });
+  // }
 
   isShimmer = false;
   dataNotFoundPlaceholder = false;
@@ -1242,13 +1265,265 @@ export class DashboardComponent implements OnInit {
       );
   }
 
-absentFlag:boolean = false;
-getAbsentFlag(str: string, count:number) {
+  absentFlag:boolean = false;
+  getAbsentFlag(str: string, count:number) {
 
-    if((str === 'ABSENT') ) {
-      this.absentFlag = true;
-    }else  if((str === 'Not Marked')) {
-      this.absentFlag = false;
+      if((str === 'ABSENT') ) {
+        this.absentFlag = true;
+      }else  if((str === 'Not Marked')) {
+        this.absentFlag = false;
+      }
+  }
+
+
+ 
+
+  subscriptionList: any[] = new Array();
+  loading: boolean = false;
+  getAllSubscription() {
+    debugger;
+    this.loading = true;
+    this._subscriptionPlanService
+      .getAllSubscriptionPlan()
+      .subscribe((response) => {
+        if (response.status) {
+          this.subscriptionList = response.object;
+          this.loading = false;
+        }
+        this.loading = false;
+      });
+  }
+
+  selectSubscription(subscriptionId: number) {
+    this.selectedSubscriptionId = subscriptionId;
+  } 
+
+  isPurchased: boolean = false;
+  @ViewChild('billingModal') billingModal!: ElementRef;
+  getPurchasedStatus() {
+    this._subscriptionPlanService.getPurchasedStatus().subscribe((response) => {
+      this.isPurchased = response;
+
+      if (this.isPurchased == true) {
+        
+      } else {
+        // this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = true
+        // this.billingModal.nativeElement.click();
+        this.router.navigate(['/billing-and-subscription']);
+       
+      }
+    });
+  }
+
+  routeToBillingPaymentPage(plandId : any) {
+this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = false
+this.getSubscriptionPlanDetails(plandId);
+  }
+
+
+  toggleBack() {
+    this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = true;
+  }
+
+
+
+
+
+  subscriptionPlan: SubscriptionPlan = new SubscriptionPlan();
+  sbscriptionPlanReq: SubscriptionPlanReq = new SubscriptionPlanReq();
+  activeUserCount: number = 0;
+  taxAmount: number = 0;
+  totalAmount: number = 0;
+  monthlyAmount: number = 0;
+  annualAmount: number = 0;
+  orgUuid: string = '';
+  name!: string;
+  email!: string;
+  phoneNumber!: string;
+  BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE !: boolean ;
+
+
+  getAdminPersonalDetailMethodCall() {
+    this.dataService.getAdminPersonalDetail().subscribe((response: AdminPersonalDetailResponse) => {
+      this.name = response.name;
+      this.email = response.email;
+      this.phoneNumber = response.phoneNumber;
+    }, error => {
+      console.error('Error fetching admin details', error);
+    });
+  }
+
+
+  totalEmployee: number = 0;
+  getActiveUserCount() {
+    debugger;
+    this._subscriptionPlanService.getActiveUserCount().subscribe((response) => {
+      if (response.status) {
+        this.sbscriptionPlanReq.noOfEmployee = response.totalItems;
+      }
+    });
+  }
+
+  getCalcu(value: any) {
+    this.sbscriptionPlanReq.amount = 0;
+    this.taxAmount = 0;
+    this.monthlyAmount = value * this.subscriptionPlan?.amount;
+    this.annualAmount =
+      this.monthlyAmount * 12 - (this.monthlyAmount * 12 * 20) / 100;
+    this.selecrPlanType('annual');
+    // this.couponCode = '';
+    // this.getCouponInput();
+  }
+
+  processingPayment: boolean = false;
+  razorKey: string = 
+  // 'rzp_test_Wd1RYd0fng3673'; // Test
+  'rzp_live_twiokSC5krYrnQ'
+  hajiri_logo: string = '../../../../../assets/images/hajiri-icon.png';
+
+  openRazorPay(): void {
+    debugger;
+    // var response ={'razorpay_payment_id':"BY_PASS"};
+    //this.payDues(response);
+    //return;
+    // this.orderId = this._data.cart.id + '';
+    //  console.log(this.invoice.payableAmount);
+
+    this.processingPayment = false;
+
+    var options = {
+      key: this.razorKey,
+      amount: Math.round(this.totalAmount) * 100,
+      name: 'Hajiri',
+      description: 'Test Transaction',
+      image: this.hajiri_logo,
+      handler: this.checkout.bind(this),
+      modal: {
+        confirm_close: true,
+        // "ondismiss": this.markPaymentFailed.bind(this)
+      },
+      "prefill": {
+        "name": this.name,
+        "email": this.email,
+        "contact":this.phoneNumber
+      },
+      notes: {
+        orgUuid: this.orgUuid,
+        type: 'subscription order',
+        planType: this.sbscriptionPlanReq.planType,
+        orderFrom: 'Hajiri',
+        subscriptionPlanId: this.subscriptionPlan.id,
+        noOfEmployee: this.sbscriptionPlanReq.noOfEmployee,
+      },
+      "theme": {
+        "color": "#6666f3"
+      }
+    };
+    var rzp = new Razorpay(options);
+    rzp.open();
+  }
+
+  isPaymentDone: boolean = false;
+  checkout(value: any) {
+    console.log('transaction id', value);
+    // this.isPaymentDone = true;
+    window.location.reload();
+  }
+
+  isPlanPurchased: boolean = false;
+  getPlanPurchasedStatus() {
+    let id = this._activeRouter.snapshot.queryParamMap.get('id')!;
+    this._subscriptionPlanService
+      .getPlanPurchasedStatus(id)
+      .subscribe((response) => {
+        this.isPlanPurchased = response;
+        if (this.isPlanPurchased) {
+          this.router.navigate(['/setting/success']);
+        }
+      });
+  }
+
+  paymentMethod: string = '';
+  selectPaymentMethod(value: any) {
+    this.paymentMethod = value;
+  }
+
+  proceedToPay() {
+    if (this.paymentMethod == 'razorpay') {
+      this.openRazorPay();
     }
+  }
+
+  couponCode: string = '';
+  coupon: any;
+  message: string = '';
+  isCouponVerify: boolean = false;
+  tempTotalAmount: number = 0;
+  couponDiscount: number = 0;
+
+  getCouponInput() {
+    this.message = '';
+    if (this.isCouponVerify) {
+      this.totalAmount = this.tempTotalAmount;
+    }
+    this.isCouponVerify = false;
+    this.couponDiscount = 0;
+  }
+
+  originalAmount: number = 0;
+
+  applyCoupon() {
+      this._subscriptionPlanService
+          .verifyCoupon(this.couponCode, this.originalAmount)
+          .subscribe((response) => {
+              if (response.status) {
+                  this.coupon = response.object;
+                  this.tempTotalAmount = this.originalAmount;
+                  this.couponDiscount = this.originalAmount - response.totalItems;
+                  this.sbscriptionPlanReq.amount = response.totalItems;
+                  this.isCouponVerify = true;
+                  this.calculateTotalAmount();
+              } else {
+                  this.message = 'Invalid coupon code';
+              }
+          });
+  }
+  
+  selecrPlanType(value: string) {
+      this.sbscriptionPlanReq.planType = value;
+      this.originalAmount = this.sbscriptionPlanReq.noOfEmployee * this.subscriptionPlan?.amount;
+      this.sbscriptionPlanReq.amount = this.originalAmount;
+      if (this.sbscriptionPlanReq.planType == 'annual') {
+          this.originalAmount = this.sbscriptionPlanReq.noOfEmployee *
+              this.subscriptionPlan?.amount * 12 - (this.sbscriptionPlanReq.noOfEmployee *
+              this.subscriptionPlan?.amount * 20 * 12) / 100;
+          this.sbscriptionPlanReq.amount = this.originalAmount;
+      }
+      if (this.isCouponVerify) {
+          this.applyCoupon(); 
+      } else {
+          this.calculateTotalAmount();
+      }
+  }
+  
+  calculateTotalAmount() {
+      this.taxAmount = (this.sbscriptionPlanReq.amount * 18) / 100;
+      this.totalAmount = this.sbscriptionPlanReq.amount + this.taxAmount;
+  }
+  
+  getSubscriptionPlanDetails(id: any) {
+      
+      this._subscriptionPlanService
+          .getSubscriptionPlan(id)
+          .subscribe((response) => {
+              if (response.status) {
+                  this.subscriptionPlan = response.object;
+                  this.originalAmount = this.sbscriptionPlanReq.noOfEmployee *
+                      this.subscriptionPlan.amount * 12 - (this.sbscriptionPlanReq.noOfEmployee *
+                      this.subscriptionPlan.amount * 20 * 12) / 100;
+                  this.sbscriptionPlanReq.amount = this.originalAmount;
+                  this.calculateTotalAmount();
+              }
+          });
   }
 }

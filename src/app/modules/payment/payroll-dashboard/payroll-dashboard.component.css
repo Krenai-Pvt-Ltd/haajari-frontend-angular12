@@ -259,3 +259,11 @@
   font-size: 14px;
   color: #777;
 }
+/* payroll-dashboard.component.css */
+ngx-charts-legend text {
+  display: none;
+}
+
+ngx-charts-legend .legend-title {
+  display: none;
+}

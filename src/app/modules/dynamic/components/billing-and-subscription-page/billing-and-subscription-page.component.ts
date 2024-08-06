@@ -1,21 +1,114 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import * as moment from 'moment';
+import { Key } from 'src/app/constant/key';
+import { AdminPersonalDetailResponse } from 'src/app/models/admin-personal-detail-response';
+import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
+import { OrganizationSubscriptionPlanMonthDetail } from 'src/app/models/OrganizationSubscriptionPlanMonthDetail';
 import { SubscriptionPlan } from 'src/app/models/SubscriptionPlan';
 import { SubscriptionPlanReq } from 'src/app/models/SubscriptionPlanReq';
-import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
-import { Location } from '@angular/common';
-import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { DataService } from 'src/app/services/data.service';
-import { AdminPersonalDetailResponse } from 'src/app/models/admin-personal-detail-response';
+import { HelperService } from 'src/app/services/helper.service';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
 declare var Razorpay: any;
-
 @Component({
-  selector: 'app-billing-payment',
-  templateUrl: './billing-payment.component.html',
-  styleUrls: ['./billing-payment.component.css'],
+  selector: 'app-billing-and-subscription-page',
+  templateUrl: './billing-and-subscription-page.component.html',
+  styleUrls: ['./billing-and-subscription-page.component.css']
 })
-export class BillingPaymentComponent implements OnInit {
+export class BillingAndSubscriptionPageComponent implements OnInit {
+
+
+  constructor(
+    private dataService: DataService,
+    private router: Router,
+    private datePipe: DatePipe,
+    private helperService: HelperService,
+    private rbacService: RoleBasedAccessControlService,
+    private modalService: NgbModal, 
+    private _subscriptionPlanService: SubscriptionPlanService,
+    private _activeRouter: ActivatedRoute,
+    private roleBasedAccessControlService: RoleBasedAccessControlService,
+    private ngZone:NgZone
+  ) {
+    
+  
+    let token = localStorage.getItem('token')!;
+    const helper = new JwtHelperService();
+  }
+  ngOnInit(): void {
+    this.getPurchasedStatus();
+    this.orgUuid = this.roleBasedAccessControlService.getOrgRefUUID();
+    this.selecrPlanType('annual');
+    this.getActiveUserCount();
+    this.getAdminPersonalDetailMethodCall();
+    this.getAllSubscription();
+
+  }
+
+  routeToUserDashboard() {
+    
+    this.router.navigate(['/dashboard']);
+  }
+
+  selectedSubscriptionId: number = 3;
+
+  subscriptionList: any[] = new Array();
+  loading: boolean = false;
+  getAllSubscription() {
+    debugger;
+    this.loading = true;
+    this._subscriptionPlanService
+      .getAllSubscriptionPlan()
+      .subscribe((response) => {
+        if (response.status) {
+          this.subscriptionList = response.object;
+          this.loading = false;
+        }
+        this.loading = false;
+      });
+  }
+
+  selectSubscription(subscriptionId: number) {
+    this.selectedSubscriptionId = subscriptionId;
+  } 
+
+  isPurchased: boolean = false;
+  // @ViewChild('billingModal') billingModal!: ElementRef;
+  getPurchasedStatus() {
+    debugger;
+    this._subscriptionPlanService.getPurchasedStatus().subscribe((response) => {
+      this.isPurchased = response;
+console.log(this.isPurchased)
+      if (this.isPurchased == true) {
+        this.routeToUserDashboard();
+      } else {
+        this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = true
+        // this.billingModal.nativeElement.click();
+       
+      }
+    });
+  }
+
+  routeToBillingPaymentPage(plandId : any) {
+this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = false
+this.getSubscriptionPlanDetails(plandId);
+  }
+
+
+  toggleBack() {
+    this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = true;
+  }
+
+
+
+
+
   subscriptionPlan: SubscriptionPlan = new SubscriptionPlan();
   sbscriptionPlanReq: SubscriptionPlanReq = new SubscriptionPlanReq();
   activeUserCount: number = 0;
@@ -27,29 +120,9 @@ export class BillingPaymentComponent implements OnInit {
   name!: string;
   email!: string;
   phoneNumber!: string;
+  BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE : boolean = true ;
 
-  constructor(
-    private _activeRouter: ActivatedRoute,
-    private _subscriptionPlanService: SubscriptionPlanService,
-    private router: Router,
-    private _location: Location,
-    private roleBased: RoleBasedAccessControlService,
-    private dataService: DataService
-  ) {
-    let token = localStorage.getItem('token')!;
-    const helper = new JwtHelperService();
-    // this.orgUuid = helper.decodeToken(token).orgRefId;
-  }
 
-  ngOnInit(): void {
-    window.scroll(0, 0);
-    this.orgUuid = this.roleBased.getOrgRefUUID();
-    this.getPlanPurchasedStatus();
-    this.getSubscriptionPlanDetails();
-    this.getActiveUserCount();
-    this.selecrPlanType('annual');
-    this.getAdminPersonalDetailMethodCall();
-  }
   getAdminPersonalDetailMethodCall() {
     this.dataService.getAdminPersonalDetail().subscribe((response: AdminPersonalDetailResponse) => {
       this.name = response.name;
@@ -71,8 +144,6 @@ export class BillingPaymentComponent implements OnInit {
     });
   }
 
-  
-
   getCalcu(value: any) {
     this.sbscriptionPlanReq.amount = 0;
     this.taxAmount = 0;
@@ -86,8 +157,8 @@ export class BillingPaymentComponent implements OnInit {
 
   processingPayment: boolean = false;
   razorKey: string = 
-  // 'rzp_test_Wd1RYd0fng3673'; // Test
-  'rzp_live_twiokSC5krYrnQ'
+  'rzp_test_Wd1RYd0fng3673'; // Test
+  // 'rzp_live_twiokSC5krYrnQ'
   hajiri_logo: string = '../../../../../assets/images/hajiri-icon.png';
 
   openRazorPay(): void {
@@ -124,14 +195,9 @@ export class BillingPaymentComponent implements OnInit {
         subscriptionPlanId: this.subscriptionPlan.id,
         noOfEmployee: this.sbscriptionPlanReq.noOfEmployee,
       },
-      // ,
       "theme": {
         "color": "#6666f3"
       }
-      
-        // "theme": {
-        //     "color": "#3399cc" // Blue color theme
-        // }
     };
     var rzp = new Razorpay(options);
     rzp.open();
@@ -139,20 +205,26 @@ export class BillingPaymentComponent implements OnInit {
 
   isPaymentDone: boolean = false;
   checkout(value: any) {
-    console.log('transaction id', value);
+    debugger
+    this.ngZone.run(() => {
+    console.log('new transaction id', value);
     // this.isPaymentDone = true;
-    window.location.reload();
+    this.router.navigate(['/dashboard']);
+    // window.location.reload();
+  })
+
   }
 
   isPlanPurchased: boolean = false;
   getPlanPurchasedStatus() {
+    debugger
     let id = this._activeRouter.snapshot.queryParamMap.get('id')!;
     this._subscriptionPlanService
       .getPlanPurchasedStatus(id)
       .subscribe((response) => {
         this.isPlanPurchased = response;
         if (this.isPlanPurchased) {
-          this.router.navigate(['/setting/success']);
+          this.router.navigate(['/dashboard']);
         }
       });
   }
@@ -225,8 +297,8 @@ export class BillingPaymentComponent implements OnInit {
       this.totalAmount = this.sbscriptionPlanReq.amount + this.taxAmount;
   }
   
-  getSubscriptionPlanDetails() {
-      let id = this._activeRouter.snapshot.queryParamMap.get('id')!;
+  getSubscriptionPlanDetails(id: any) {
+      
       this._subscriptionPlanService
           .getSubscriptionPlan(id)
           .subscribe((response) => {
@@ -239,7 +311,9 @@ export class BillingPaymentComponent implements OnInit {
                   this.calculateTotalAmount();
               }
           });
-  }
   
+  }
 
+    
+ 
 }
