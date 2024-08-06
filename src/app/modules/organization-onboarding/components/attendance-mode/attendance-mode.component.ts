@@ -100,6 +100,7 @@ export class AttendanceModeComponent implements OnInit {
 
   isAttendanceModeLoader: boolean = false;
   goToDashboardSection() {
+    debugger;
     this.isAttendanceModeLoader = true;
     this.dataService.markStepAsCompleted(5);
     // this.onboardingService.saveOrgOnboardingStep(5).subscribe();

@@ -112,7 +112,7 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
         break;
       }
       case '5': {
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/billing-and-subscription']);
         // console.log("Step 5 is calling");
         break;
       }
