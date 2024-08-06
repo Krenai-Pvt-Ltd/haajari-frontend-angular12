@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing & Subscription</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
+  
+    
+    
+</head>
+<body>
+    <!-- Full Screen Layout -->
+    <div class="full-screen">
+        <div class="page-header">
+            <h3>Billing & Subscription</h3>
+        </div>
+        <div class="container mt-4" >
+            <!-- Subscription Plans -->
+            <div class="row" *ngIf="BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE">
+                <div class="col-md-4 mb-3" *ngFor="let subscription of subscriptionList" (click)="selectSubscription(subscription.id)">
+                    <div class="card border-light shadow-sm p-3 rounded-3 cursor-pointer" [ngClass]="{'border-primary': subscription.id === selectedSubscriptionId}">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h4 class="mb-1">{{ subscription.name }}</h4>
+                                <small class="text-muted">{{ subscription.description }}</small>
+                            </div>
+                            <div class="text-end">
+                                <h4 class="mb-1">₹{{ subscription.amount }}</h4>
+                                <small class="text-muted">Per User</small>
+                            </div>
+                        </div>
+                        <hr />
+                        <h5 class="mt-3">Features</h5>
+                        <ul class="list-unstyled">
+                            <li *ngFor="let service of subscription.serviceList" class="text-muted">
+                                <i class="bi bi-check2 me-2"></i> {{ service }}
+                            </li>
+                        </ul>
+                        <button type="button" class="btn btn-primary w-100 mt-3" [ngClass]="{'btn-secondary': subscription.id !== selectedSubscriptionId}" (click)="routeToBillingPaymentPage(subscription.id)">
+                            Subscribe <i class="bi bi-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="alert alert-info mt-3" *ngIf="BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE">
+                <strong>Attention!</strong> Starting the free trial grants access to all premium features for 30 days. Post-trial, select a subscription plan to continue accessing premium features. Otherwise, your account will revert to the free tier.
+            </div>
+    
+            <!-- Payment Details -->
+            <div class="row" *ngIf="!BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE">
+                <div class="col-md-8">
+                    <div class="payment-detail mb-3">
+                        <form #employeeForm="ngForm">
+                            <div class="mb-3">
+                                <label for="employeeNumber" class="form-label">Total Employees</label>
+                                <input type="number" min="2" id="employeeNumber" class="form-control" [(ngModel)]="sbscriptionPlanReq.noOfEmployee" name="employeeNumber" placeholder="Enter number of employees" (keyup)="getCalcu(employeeNumber.value)" #employeeNumber="ngModel" required>
+                                <div *ngIf="employeeForm?.touched && employeeForm.invalid" class="text-danger mt-2">Minimum 2 employees required.</div>
+                            </div>
+                        </form>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="card border-light shadow-sm rounded-3" [ngClass]="{'border-primary': sbscriptionPlanReq.planType == 'annual'}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Annual Plan (20% off)</h5>
+                                        <p class="card-text">Amount: ₹{{sbscriptionPlanReq.noOfEmployee*subscriptionPlan.amount*12 - (sbscriptionPlanReq.noOfEmployee*subscriptionPlan.amount*20*12)/100 | number: '1.0-0'}}</p>
+                                        <button type="button" class="btn btn-outline-primary" *ngIf="sbscriptionPlanReq.planType !== 'annual'" (click)="selecrPlanType('annual')">Select <i class="bi bi-arrow-up-right ms-2"></i></button>
+                                        <button type="button" class="btn btn-primary" *ngIf="sbscriptionPlanReq.planType === 'annual'">Selected <i class="bi bi-check2 ms-2"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="card border-light shadow-sm rounded-3" [ngClass]="{'border-primary': sbscriptionPlanReq.planType == 'monthly'}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Monthly Plan</h5>
+                                        <p class="card-text">Amount: ₹{{sbscriptionPlanReq.noOfEmployee*subscriptionPlan.amount}}</p>
+                                        <button type="button" class="btn btn-outline-primary" *ngIf="sbscriptionPlanReq.planType !== 'monthly'" (click)="selecrPlanType('monthly')">Select <i class="bi bi-arrow-up-right ms-2"></i></button>
+                                        <button type="button" class="btn btn-primary" *ngIf="sbscriptionPlanReq.planType === 'monthly'">Selected <i class="bi bi-check2 ms-2"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <h5>Coupon</h5>
+                            <div class="input-group">
+                                <input type="text" class="form-control" [(ngModel)]="couponCode" name="coupon" placeholder="Enter Coupon Code" (keyup)="getCouponInput()" required>
+                                <button class="btn btn-primary" (click)="applyCoupon()">Apply</button>
+                                <span class="input-group-text" *ngIf="isCouponVerify">
+                                    <i class="bi bi-check2-circle text-success"></i>
+                                </span>
+                            </div>
+                            <p *ngIf="message" class="text-danger mt-2">{{message}}</p>
+                        </div>
+                        <div class="mb-3">
+                            <h5>Payment Method</h5>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="paymentMethod" id="razorpay" value="razorpay" [checked]="paymentMethod=='razorpay'" (change)="selectPaymentMethod('razorpay')">
+                                <label class="form-check-label" for="razorpay">Razorpay</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="paymentMethod" id="wallet" value="wallet" [checked]="paymentMethod=='wallet'" (change)="selectPaymentMethod('wallet')">
+                                <label class="form-check-label" for="wallet">Wallet</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between border-top pt-3 mt-3">
+                        <button type="button" class="btn btn-secondary" (click)="toggleBack()">Back</button>
+                        <button type="button" class="btn btn-primary" [disabled]="!paymentMethod" (click)="proceedToPay()">Proceed</button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-light shadow-sm rounded-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Order Recap</h5>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>No of Employees:</span>
+                                <span>{{sbscriptionPlanReq.noOfEmployee || 0}}</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Amount:</span>
+                                <span>₹{{originalAmount | number: '1.0-0'}}</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2" *ngIf="couponDiscount > 0">
+                                <span>Coupon Discount:</span>
+                                <span>₹{{couponDiscount | number: '1.0-0'}}</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2" *ngIf="couponDiscount > 0">
+                                <span>Discounted Amount:</span>
+                                <span>₹{{sbscriptionPlanReq.amount | number: '1.0-0'}}</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Tax:</span>
+                                <span>18%</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Tax Amount:</span>
+                                <span>₹{{taxAmount | number: '1.0-0'}}</span>
+                            </div>
+                            <div class="d-flex justify-content-between border-top pt-2 mt-2">
+                                <span class="text-primary fw-bold">Total Amount:</span>
+                                <span class="text-primary fw-bold">₹{{totalAmount | number: '1.0-0'}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

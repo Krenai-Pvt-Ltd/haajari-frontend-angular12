@@ -38,6 +38,7 @@ import { LeaveManagementComponent } from './components/leave-management/leave-ma
 
 import { EmployeeAttendancePhotoComponent } from './employee-attendance-photo/employee-attendance-photo.component';
 import { AssetsComponent } from './components/assets/assets.component';
+import { BillingAndSubscriptionPageComponent } from './components/billing-and-subscription-page/billing-and-subscription-page.component';
 
 
   const routes: Routes = [{ path: '', redirectTo: '/dashboard', pathMatch:'full'},
@@ -70,7 +71,8 @@ import { AssetsComponent } from './components/assets/assets.component';
     {path : 'unauthorized', component: UnauthorizedComponent},
     {path : 'leave-management', component: LeaveManagementComponent},
     {path : 'attendance-photo', component: EmployeeAttendancePhotoComponent},
-    {path : 'unauthorized', component: UnauthorizedComponent}
+    {path : 'unauthorized', component: UnauthorizedComponent},
+    {path : 'billing-and-subscription', component: BillingAndSubscriptionPageComponent}
   ] }
   ];
 

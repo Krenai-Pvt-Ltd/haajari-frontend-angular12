@@ -32,6 +32,10 @@ export class AttendanceModeComponent implements OnInit {
     this.getOrganizationAddressDetailMethodCall();
   }
 
+  routeToBilling() {
+    this.router.navigate(['/billing-and-subscription']);
+  }
+
   isUpdate: boolean = false;
   currentAttendanceModeId: number = 0;
   isAttendanceModeSelected: boolean = false;
@@ -102,7 +106,7 @@ export class AttendanceModeComponent implements OnInit {
     this.onboardingService.saveOrgOnboardingStep(5).subscribe((resp) => {
       this.onboardingService.refreshOnboarding();
     });
-    this.router.navigate(['/dashboard']);
+    this.router.navigate(['/billing-and-subscription']);
     this.dataService.sendOnboardingNotificationInWhatsapp().subscribe(
       (response) => {
         console.log('Messages Sent Successfully');
