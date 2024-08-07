@@ -42,8 +42,9 @@ export class BillingAndSubscriptionPageComponent implements OnInit {
     const helper = new JwtHelperService();
   }
   ngOnInit(): void {
-    this.getPurchasedStatus();
     this.orgUuid = this.roleBasedAccessControlService.getOrgRefUUID();
+    this.getPurchasedStatus();
+   
     this.selecrPlanType('annual');
     this.getActiveUserCount();
     this.getAdminPersonalDetailMethodCall();

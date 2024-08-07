@@ -107,7 +107,7 @@ export class AttendanceModeComponent implements OnInit {
     this.onboardingService.saveOrgOnboardingStep(5).subscribe((resp) => {
       this.onboardingService.refreshOnboarding();
     });
-    this.router.navigate(['/billing-and-subscription']);
+    this.router.navigate(['/dashboard']);
     this.dataService.sendOnboardingNotificationInWhatsapp().subscribe(
       (response) => {
         console.log('Messages Sent Successfully');

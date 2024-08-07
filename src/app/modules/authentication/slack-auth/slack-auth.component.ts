@@ -104,7 +104,7 @@ export class SlackAuthComponent implements OnInit {
 
   navigateToRoute(): void {
     debugger;
-    this.router.navigate(['/billing-and-subscription']);
+    this.router.navigate(['/dashboard']);
     this.helperService.showToast(
       'Please add shift settings in the Attendance Settings section and leave settings in the Leave Settings section to establish shift rules for your organization’s users and assign their leave quotas, if not already configured.',
       Key.TOAST_STATUS_SUCCESS
