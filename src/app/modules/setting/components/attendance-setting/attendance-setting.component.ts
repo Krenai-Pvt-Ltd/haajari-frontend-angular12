@@ -2324,4 +2324,15 @@ formatMinutesToTime(minutes: number): string {
     date.setHours(hours, minutes, seconds, 0); // Set milliseconds to 0
     return date;
   }
+
+
+
+  // ################--Overtime Pre/Post hour configuration--################
+  PRE_HOUR : boolean = false;
+  POST_HOUR : boolean = false;
+
+  setPreHours(){
+    this.PRE_HOUR = true;
+  }
+
 }

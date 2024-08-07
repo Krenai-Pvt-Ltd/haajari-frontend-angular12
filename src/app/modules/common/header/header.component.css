@@ -104,7 +104,7 @@
 }
 .menu-body.navbar-vertical {
   overflow-x: scroll;
-  height: 600px;
+  height: 90vh;
 }
 .menu-body.navbar-vertical::-webkit-scrollbar {
   display: none;
@@ -293,12 +293,12 @@ span.add-project {
 @media screen and (max-width: 2600px) {
   .menu-body.navbar-vertical {
     overflow-x: auto;
-    height: 640px;
+    height: 90vh;
   }
 }
 @media screen and (max-width: 1300px) {
   .menu-body.navbar-vertical {
     overflow-x: auto;
-    height: 600px;
+    height: 90vh;
   }
 }
