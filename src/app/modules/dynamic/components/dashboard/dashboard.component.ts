@@ -1309,8 +1309,9 @@ this.getAdminPersonalDetailMethodCall();
       if (this.isPurchased == true) {
         
       } else {
-        this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = true
-        this.billingModal.nativeElement.click();
+        // this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = true
+        // this.billingModal.nativeElement.click();
+        this.router.navigate(['/billing-and-subscription']);
        
       }
     });

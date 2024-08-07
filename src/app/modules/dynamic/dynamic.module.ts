@@ -80,6 +80,7 @@ import { AssetsComponent } from './components/assets/assets.component';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { BillingAndSubscriptionPageComponent } from './components/billing-and-subscription-page/billing-and-subscription-page.component';
 
 
 
@@ -129,6 +130,7 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
     EmployeeProfileComponent,
     LeaveManagementComponent,
     AssetsComponent,
+    BillingAndSubscriptionPageComponent,
   ],
   imports: [
     CommonModule,

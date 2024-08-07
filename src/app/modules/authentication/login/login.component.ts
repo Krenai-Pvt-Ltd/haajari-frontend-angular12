@@ -507,14 +507,15 @@ export class LoginComponent implements OnInit {
             ).role;
             if (role == 'ADMIN') {
               if (onboardingStep == '5') {
-                this.router.navigate(['/dashboard']);
+                this.router.navigate(['/billing-and-subscription']);
+
               } else {
                 this.router.navigate([
                   '/organization-onboarding/personal-information',
                 ]);
               }
             } else {
-              this.router.navigate(['/dashboard']);
+              this.router.navigate(['/billing-and-subscription']);
             }
           } else {
             this.isOtpVerify = true;
