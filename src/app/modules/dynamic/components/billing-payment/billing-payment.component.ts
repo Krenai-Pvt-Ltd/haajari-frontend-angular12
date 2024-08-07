@@ -117,6 +117,7 @@ export class BillingPaymentComponent implements OnInit {
         "contact":this.phoneNumber
       },
       notes: {
+        couponCode : this.couponCode,
         orgUuid: this.orgUuid,
         type: 'subscription order',
         planType: this.sbscriptionPlanReq.planType,

@@ -244,7 +244,7 @@ export class Key {
   get_mail = '/user-notification/mail';
 
   //Coupon
-  verify_coupon = '/coupon';
+  verify_coupon = '/coupon/verify';
 
   check_user_email_existence = '/users/check-email-existence';
   check_user_phone_existence = '/users/check-phone-existence';
