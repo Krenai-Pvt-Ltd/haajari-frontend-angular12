@@ -507,7 +507,7 @@ export class LoginComponent implements OnInit {
             ).role;
             if (role == 'ADMIN') {
               if (onboardingStep == '5') {
-                this.router.navigate(['/billing-and-subscription']);
+                this.router.navigate(['/dashboard']);
 
               } else {
                 this.router.navigate([
@@ -515,7 +515,7 @@ export class LoginComponent implements OnInit {
                 ]);
               }
             } else {
-              this.router.navigate(['/billing-and-subscription']);
+              this.router.navigate(['/dashboard']);
             }
           } else {
             this.isOtpVerify = true;
