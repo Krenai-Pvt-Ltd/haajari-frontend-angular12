@@ -71,6 +71,7 @@ import { TdsDetailsRequest } from '../models/tds-details-request';
 import { AssetCategoryRequest, OrganizationAssetRequest } from '../models/asset-category-respose';
 import { LopReversalApplicationRequest } from '../models/lop-reversal-application-request';
 import { SalaryChangeOvertimeRequest } from '../models/salary-change-overtime-request';
+import { OvertimeSettingRequest } from '../models/overtime-setting-request';
 
 @Injectable({
   providedIn: 'root',
@@ -2605,8 +2606,7 @@ export class DataService {
     organizationWeekoffInformation: OrganizationWeekoffInformation[]
   ): Observable<any> {
     return this.httpClient.put<any>(
-      `${this.baseUrl}/holiday/update-weekoffs`,
-      organizationWeekoffInformation,
+      `${this.baseUrl}/holiday/update-weekoffs`, organizationWeekoffInformation,
       {}
     );
   }
@@ -3666,5 +3666,9 @@ export class DataService {
     .set('date', date);
 
     return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/month-response-list`, {params});
+  }
+
+  enableOrDisableOvertimeSetting(overtimeSettingRequest : OvertimeSettingRequest): Observable<any>{
+    return this.httpClient.post<any>(`${this.baseUrl}/overtime/setting/enable-disable`, overtimeSettingRequest, {});
   }
 }

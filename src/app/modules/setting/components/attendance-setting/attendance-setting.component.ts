@@ -35,6 +35,7 @@ import { OrganizationShiftTimingRequest } from 'src/app/models/organization-shif
 import { OrganizationShiftTimingResponse } from 'src/app/models/organization-shift-timing-response';
 import { OrganizationShiftTimingWithShiftTypeResponse } from 'src/app/models/organization-shift-timing-with-shift-type-response';
 import { OrganizationWeekoffInformation } from 'src/app/models/organization-weekoff-information';
+import { OvertimeSettingRequest } from 'src/app/models/overtime-setting-request';
 import { OvertimeType } from 'src/app/models/overtime-type';
 import { ShiftType } from 'src/app/models/shift-type';
 import { Staff } from 'src/app/models/staff';
@@ -2324,4 +2325,31 @@ formatMinutesToTime(minutes: number): string {
     date.setHours(hours, minutes, seconds, 0); // Set milliseconds to 0
     return date;
   }
+
+
+
+  // ################--Overtime Pre/Post hour configuration--################
+  // PRE_HOUR : boolean = false;
+  // POST_HOUR : boolean = false;
+
+  PRE_HOUR = Key.PRE_HOUR;
+  POST_HOUR = Key.POST_HOUR;
+
+  PRE_HOUR_TOGGLE : boolean = false;
+  POST_HOUR_TOGGLE : boolean = false;
+  
+
+
+
+
+
+  overtimeSettingRequest : OvertimeSettingRequest = new OvertimeSettingRequest();
+  enableOrDisableOvertimeSettingMethodCall(){
+    this.dataService.enableOrDisableOvertimeSetting(this.overtimeSettingRequest).subscribe((response) => {
+
+    }, (error) => {
+
+    })
+  }
+
 }
