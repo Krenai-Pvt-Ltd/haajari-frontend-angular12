@@ -303,7 +303,7 @@
                             <p class="mb-0">
                               In Time |
                               <span style="color: #3f988f">{{
-                                organizationShiftTimingResponse.inTime
+                                organizationShiftTimingResponse.inTime | date:'shortTime'
                               }}</span>
                             </p>
                           </div>
@@ -313,7 +313,7 @@
                             <p class="mb-0">
                               Out Time |
                               <span style="color: #3f988f">{{
-                                organizationShiftTimingResponse.outTime
+                                organizationShiftTimingResponse.outTime | date:'shortTime'
                               }}</span>
                             </p>
                           </div>
@@ -333,7 +333,7 @@
                             <p class="mb-0">
                               Break Time |
                               <span style="color: #3f988f">{{
-                                organizationShiftTimingResponse.startLunch
+                                organizationShiftTimingResponse.startLunch | date:'shortTime'
                               }}</span>
                             </p>
                           </div>
@@ -343,7 +343,7 @@
                             <p class="mb-0">
                               Back Time |
                               <span style="color: #3f988f">{{
-                                organizationShiftTimingResponse.endLunch
+                                organizationShiftTimingResponse.endLunch | date:'shortTime'
                               }}</span>
                             </p>
                           </div>
@@ -776,22 +776,15 @@
                   <div class="col-md-4">
                     <div class="mb-3">
                       <label for="inTime" class="pb-2">In Time</label>
-                      <input
-                        id="inTime"
-                        type="time"
-                        class="form-control"
-                        required
+                      <nz-time-picker
                         [(ngModel)]="organizationShiftTimingRequest.inTime"
-                        name="inTime"
-                        (change)="calculateTimes()"
-                      />
-                      <div
-                        *ngIf="
-                          organizationShiftTimingValidationErrors['inTime']
-                        "
-                        class="text-danger"
-                      >
-                        {{ organizationShiftTimingValidationErrors["inTime"] }}
+                        [nzUse12Hours]="true"
+                        nzFormat="h:mm a"
+                        (ngModelChange)="onTimeChange('inTime', $event)"
+                        [ngModelOptions]="{ standalone: true }"
+                      ></nz-time-picker>
+                      <div *ngIf="organizationShiftTimingValidationErrors['inTime']" class="text-danger">
+                        {{ organizationShiftTimingValidationErrors['inTime'] }}
                       </div>
                     </div>
                   </div>
@@ -799,30 +792,18 @@
                   <div class="col-md-4">
                     <div class="mb-3">
                       <label for="outTime" class="pb-2">Out Time</label>
-                      <input
-                        id="outTime"
-                        type="time"
-                        [class.is-invalid]="
-                          organizationShiftTimingValidationErrors['outTime']
-                        "
-                        class="form-control"
-                        required
+                      <nz-time-picker
                         [(ngModel)]="organizationShiftTimingRequest.outTime"
-                        name="outTime"
-                        (change)="calculateTimes()"
-                      />
-                      <!-- Error Message for Out Time -->
-                      <div
-                        *ngIf="
-                          organizationShiftTimingValidationErrors['outTime']
-                        "
-                        class="text-danger"
-                      >
-                        {{ organizationShiftTimingValidationErrors["outTime"] }}
+                        [nzUse12Hours]="true"
+                        nzFormat="h:mm a"
+                        (ngModelChange)="onTimeChange('outTime', $event)"
+                        [ngModelOptions]="{ standalone: true }"
+                      ></nz-time-picker>
+                      <div *ngIf="organizationShiftTimingValidationErrors['outTime']" class="text-danger">
+                        {{ organizationShiftTimingValidationErrors['outTime'] }}
                       </div>
                     </div>
                   </div>
-
                   <!-- Working Hours Display -->
                   <div class="col-md-4">
                     <div class="mb-3">
@@ -844,65 +825,36 @@
                   <!-- Lunch Break Start Time Input -->
                   <div class="col-md-4">
                     <div class="mb-3">
-                      <label for="lunchBreakStartTime" class="pb-2"
-                        >Lunch Break Start Time</label
-                      >
-                      <input
-                        id="lunchBreakStartTime"
-                        type="time"
-                        [class.is-invalid]="
-                          organizationShiftTimingValidationErrors['startLunch']
-                        "
-                        class="form-control"
-                        required
+                      <label for="lunchBreakStartTime" class="pb-2">Lunch Break Start Time</label>
+                      <nz-time-picker
                         [(ngModel)]="organizationShiftTimingRequest.startLunch"
-                        name="lunchBreakStartTime"
-                        (change)="calculateTimes()"
-                      />
-                      <div
-                        *ngIf="
-                          organizationShiftTimingValidationErrors['startLunch']
-                        "
-                        class="text-danger"
-                      >
-                        {{
-                          organizationShiftTimingValidationErrors["startLunch"]
-                        }}
+                        [nzUse12Hours]="true"
+                        nzFormat="h:mm a"
+                        (ngModelChange)="onTimeChange('startLunch', $event)"
+                        [ngModelOptions]="{ standalone: true }"
+                      ></nz-time-picker>
+                      <div *ngIf="organizationShiftTimingValidationErrors['startLunch']" class="text-danger">
+                        {{ organizationShiftTimingValidationErrors['startLunch'] }}
                       </div>
                     </div>
                   </div>
-
+                  
                   <!-- Lunch Break End Time Input -->
                   <div class="col-md-4">
                     <div class="mb-3">
-                      <label for="lunchBreakEndTime" class="pb-2"
-                        >Lunch Break End Time</label
-                      >
-                      <input
-                        id="lunchBreakEndTime"
-                        type="time"
-                        [class.is-invalid]="
-                          organizationShiftTimingValidationErrors['endLunch']
-                        "
-                        class="form-control"
-                        required
+                      <label for="lunchBreakEndTime" class="pb-2">Lunch Break End Time</label>
+                      <nz-time-picker
                         [(ngModel)]="organizationShiftTimingRequest.endLunch"
-                        name="lunchBreakEndTime"
-                        (change)="calculateTimes()"
-                      />
-                      <div
-                        *ngIf="
-                          organizationShiftTimingValidationErrors['endLunch']
-                        "
-                        class="text-danger"
-                      >
-                        {{
-                          organizationShiftTimingValidationErrors["endLunch"]
-                        }}
+                        [nzUse12Hours]="true"
+                        nzFormat="h:mm a"
+                        (ngModelChange)="onTimeChange('endLunch', $event)"
+                        [ngModelOptions]="{ standalone: true }"
+                      ></nz-time-picker>
+                      <div *ngIf="organizationShiftTimingValidationErrors['endLunch']" class="text-danger">
+                        {{ organizationShiftTimingValidationErrors['endLunch'] }}
                       </div>
                     </div>
                   </div>
-
                   <!-- Lunch Break Duration Display -->
                   <div class="col-md-4">
                     <div class="mb-3">
