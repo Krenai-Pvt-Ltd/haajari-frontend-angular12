@@ -86,8 +86,8 @@ export class BillingPaymentComponent implements OnInit {
 
   processingPayment: boolean = false;
   razorKey: string = 
-  'rzp_test_Wd1RYd0fng3673'; // Test
-  // 'rzp_live_twiokSC5krYrnQ'
+  // 'rzp_test_Wd1RYd0fng3673'; // Test
+  'rzp_live_twiokSC5krYrnQ'
   hajiri_logo: string = '../../../../../assets/images/hajiri-icon.png';
 
   openRazorPay(): void {
