@@ -39,6 +39,7 @@ import { LeaveManagementComponent } from './components/leave-management/leave-ma
 import { EmployeeAttendancePhotoComponent } from './employee-attendance-photo/employee-attendance-photo.component';
 import { AssetsComponent } from './components/assets/assets.component';
 import { BillingAndSubscriptionPageComponent } from './components/billing-and-subscription-page/billing-and-subscription-page.component';
+import { CoinsComponent } from './components/coins/coins.component';
 
 
   const routes: Routes = [{ path: '', redirectTo: '/dashboard', pathMatch:'full'},
@@ -59,6 +60,7 @@ import { BillingAndSubscriptionPageComponent } from './components/billing-and-su
     {path: 'employee-onboarding-sidebar', component: EmployeeOnboardingSidebarComponent},
     {path: 'reports', component: ReportsComponent, canActivate: [AuthGuard], data: { requiredSubmodule: '/reports' }},
     { path: 'assets', component: AssetsComponent, canActivate: [AuthGuard], data: { requiredSubmodule: '/assets' }},
+    { path: 'coins', component: CoinsComponent, canActivate: [AuthGuard], data: { requiredSubmodule: '/coins' }},
     {path: 'employee-profile', component: EmployeeProfileComponent, canActivate: [AuthGuard], data: { requiredSubmodule: '/employee-profile' }},
     {path: 'testing', component: TestingComponent},
     {path: 'privacy', component: PrivacyComponent, canActivate: [AuthGuard], data: { requiredSubmodule: '/privacy' }},
