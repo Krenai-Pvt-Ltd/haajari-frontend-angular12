@@ -169,9 +169,7 @@ export class BillingComponent implements OnInit {
   }
 
   processingPayment: boolean = false;
-  razorKey: string = 
-  // 'rzp_test_Wd1RYd0fng3673'; // Test
-  'rzp_live_twiokSC5krYrnQ'
+  readonly razorKey = Key.razorKey;
   hajiri_logo: string = '../../../../../assets/images/hajiri-icon.png';
 
   openRazorPay(): void {
@@ -200,6 +198,7 @@ export class BillingComponent implements OnInit {
       //   "email": 'xyz@test.com'
       // },
       notes: {
+        
         orgUuid: this.orgUuid,
         orderId: this.invoiceNo,
         type: this.paymentFor,
