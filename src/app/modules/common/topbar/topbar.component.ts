@@ -146,6 +146,9 @@ export class TopbarComponent implements OnInit {
   UUID : any;
   orgUuid:any;
   async getUuids(){
+
+    console.log("---",JSON.stringify(this.rbacService.userInfo))
+
     this.UUID = await this.rbacService.getUUID();
     this.orgUuid = await this.rbacService.getOrgRefUUID();
     this.getFirebase(this.orgUuid,this.UUID);

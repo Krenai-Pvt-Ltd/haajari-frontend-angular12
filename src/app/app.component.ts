@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Key } from './constant/key';
 import { HelperService } from './services/helper.service';
+import { RoleBasedAccessControlService } from './services/role-based-access-control.service';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +18,7 @@ export class AppComponent implements OnInit{
   readonly key = Key;
   _router : any;
   constructor(private router: Router,
+    public rbacService: RoleBasedAccessControlService,
     private _helperService : HelperService){
       this._helperService.toastSubscription.subscribe(value=>{
         this.isShowToast=value;

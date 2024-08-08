@@ -333,6 +333,10 @@ export class Key {
   public static SALARY_TEMPLATE_STEP = 'SALARY_TEMPLATE_STEP';
   public static STAFF_SELECTION_STEP = 'STAFF_SELECTION_STEP';
 
+  //Overtime configuration hour type
+  public static PRE_HOUR = 1;
+  public static POST_HOUR = 2;
+
 }
 
 

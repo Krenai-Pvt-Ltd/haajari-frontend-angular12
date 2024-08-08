@@ -21,6 +21,7 @@ export class DynamicComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // console.log(this.roleBasedAccessControlService.isUserInfoInitialized,"-------");
     
   }
 

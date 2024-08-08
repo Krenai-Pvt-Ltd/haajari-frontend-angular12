@@ -72,6 +72,8 @@ import { AssetCategoryRequest, OrganizationAssetRequest } from '../models/asset-
 import { LopReversalApplicationRequest } from '../models/lop-reversal-application-request';
 import { SalaryChangeOvertimeRequest } from '../models/salary-change-overtime-request';
 import { AllocateCoinsRoleWiseRequest, AllocateCoinsRoleWiseResponse } from '../models/allocate-coins-role-wise-request';
+import { OvertimeSettingRequest } from '../models/overtime-setting-request';
+
 
 @Injectable({
   providedIn: 'root',
@@ -2606,8 +2608,7 @@ export class DataService {
     organizationWeekoffInformation: OrganizationWeekoffInformation[]
   ): Observable<any> {
     return this.httpClient.put<any>(
-      `${this.baseUrl}/holiday/update-weekoffs`,
-      organizationWeekoffInformation,
+      `${this.baseUrl}/holiday/update-weekoffs`, organizationWeekoffInformation,
       {}
     );
   }
@@ -3679,5 +3680,9 @@ export class DataService {
 
   getRoleWiseAllocatedCoins(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/super-coin-allocation/get/role/wise/coins/info`);
+  }
+
+  enableOrDisableOvertimeSetting(overtimeSettingRequest : OvertimeSettingRequest): Observable<any>{
+    return this.httpClient.post<any>(`${this.baseUrl}/overtime/setting/enable-disable`, overtimeSettingRequest, {});
   }
 }
