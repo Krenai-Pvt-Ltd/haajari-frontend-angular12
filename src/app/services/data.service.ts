@@ -71,7 +71,9 @@ import { TdsDetailsRequest } from '../models/tds-details-request';
 import { AssetCategoryRequest, OrganizationAssetRequest } from '../models/asset-category-respose';
 import { LopReversalApplicationRequest } from '../models/lop-reversal-application-request';
 import { SalaryChangeOvertimeRequest } from '../models/salary-change-overtime-request';
+import { AllocateCoinsRoleWiseRequest, AllocateCoinsRoleWiseResponse } from '../models/allocate-coins-role-wise-request';
 import { OvertimeSettingRequest } from '../models/overtime-setting-request';
+
 
 @Injectable({
   providedIn: 'root',
@@ -3666,6 +3668,18 @@ export class DataService {
     .set('date', date);
 
     return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/month-response-list`, {params});
+  }
+
+  getRoles(): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/super-coin-allocation/get/roles`);
+  }
+
+  allocateCoinsRoleAndOrganizationWise(allocateCoinsRoleWiseRequest: AllocateCoinsRoleWiseRequest): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/super-coin-allocation/allocate/coins`, allocateCoinsRoleWiseRequest, {});
+  }
+
+  getRoleWiseAllocatedCoins(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/super-coin-allocation/get/role/wise/coins/info`);
   }
 
   enableOrDisableOvertimeSetting(overtimeSettingRequest : OvertimeSettingRequest): Observable<any>{
