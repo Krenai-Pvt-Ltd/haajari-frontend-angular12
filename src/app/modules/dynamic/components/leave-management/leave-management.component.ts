@@ -890,4 +890,5 @@ export class LeaveManagementComponent implements OnInit {
     this.closeModal.nativeElement.click();
     this.helperService.routeToUserProfile(uuid);
   }
+
 }

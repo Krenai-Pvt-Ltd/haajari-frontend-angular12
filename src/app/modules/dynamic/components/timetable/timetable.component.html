@@ -93,6 +93,7 @@
         </div>
       </div>
 
+      <ng-container *ngIf="!showPlaceholder; else notShowPlaceholder">
       <div class="search-bar pt-2 pb-2 mt-3">
         <div class="row m-0">
           <div class="col-md-12 d-flex align-items-center" style="border: 1px solid #f1f1f1">
@@ -138,30 +139,194 @@
       </div>
 
       <div>
+        
+          <ng-container *ngIf="
+          isShimmerForAttendanceDetailsResponse &&
+            !dataNotFoundForAttendanceDetailsResponse &&
+            !networkConnectionErrorForAttendanceDetailsResposne;
+          else attendanceDetailsResponseData
+        ">
+        <div class="monthly-section mt-3" *ngFor="let item of [].constructor(6)">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="m">
+                <ngx-shimmer-loading [width]="'30%'" [height]="'15px'"></ngx-shimmer-loading>
+              </div>
+              <div class="mt-1">
+                <ngx-shimmer-loading [width]="'40%'" [height]="'15px'"></ngx-shimmer-loading>
+              </div>
+              <div class="mt-1">
+                <ngx-shimmer-loading [width]="'35%'" [height]="'15px'"></ngx-shimmer-loading>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-4" *ngFor="let item of [].constructor(6)">
+                  <div class="">
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"></ngx-shimmer-loading>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+          </ng-container>
+
+          <ng-template #attendanceDetailsResponseData>
         <ng-container *ngIf="
-            isShimmerForAttendanceDetailsResponse &&
+            attendanceDetailsResponseList !== null &&
+              attendanceDetailsResponseList !== undefined &&
+              attendanceDetailsResponseList.length !== 0 &&
               !dataNotFoundForAttendanceDetailsResponse &&
               !networkConnectionErrorForAttendanceDetailsResposne;
-            else attendanceDetailsResponseData
+            else errorInFetchingAttendanceDetailsResponseData
           ">
-          <div class="monthly-section mt-3" *ngFor="let item of [].constructor(6)">
+          <div class="monthly-section mt-3" *ngFor="
+              let attendanceDetailsResponse of attendanceDetailsResponseList
+                | paginate
+                  : {
+                      itemsPerPage: itemPerPage,
+                      currentPage: pageNumber,
+                      totalItems: total
+                    }
+            ">
             <div class="row">
               <div class="col-md-6">
-                <div class="m">
-                  <ngx-shimmer-loading [width]="'30%'" [height]="'15px'"></ngx-shimmer-loading>
-                </div>
-                <div class="mt-1">
-                  <ngx-shimmer-loading [width]="'40%'" [height]="'15px'"></ngx-shimmer-loading>
-                </div>
-                <div class="mt-1">
-                  <ngx-shimmer-loading [width]="'35%'" [height]="'15px'"></ngx-shimmer-loading>
+                <div class="Regular-data">
+                  <h5 class="route-to-userprofile" (click)="routeToUserProfile(attendanceDetailsResponse.uuid)"> {{
+                    attendanceDetailsResponse.name }} </h5>
+                  <p [ngClass]="{
+                      'in-time-color':
+                        attendanceDetailsResponse.currentStatus == 'Working',
+                      'break-color':
+                        attendanceDetailsResponse.currentStatus ==
+                          'On Break' ||
+                        attendanceDetailsResponse.currentStatus == 'On Leave',
+                      'out-time-color':
+                        attendanceDetailsResponse.currentStatus ==
+                          'Checked Out' ||
+                        attendanceDetailsResponse.currentStatus == 'Absent' ||
+                        attendanceDetailsResponse.currentStatus ==
+                          'Not Marked'
+                    }">
+                    {{ attendanceDetailsResponse.currentStatus }}
+                  </p>
+                  <div class="add-note d-flex" style="gap: 10px">
+                    <a href="" data-bs-toggle="modal" data-bs-target="#addnotes"
+                      (click)="addNotesModel(attendanceDetailsResponse.uuid)">
+                      Add Note</a>
+                    <a>|</a>
+                    <a href="" data-bs-toggle="modal" data-bs-target="#viewlog"
+                      (click)="viewLogs(attendanceDetailsResponse.uuid)">
+                      View Logs</a>
+                  </div>
                 </div>
               </div>
               <div class="col-md-6">
-                <div class="row">
-                  <div class="col-md-4" *ngFor="let item of [].constructor(6)">
-                    <div class="">
-                      <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"></ngx-shimmer-loading>
+                <div class="row position-relative">
+                  <div class="col-md-4">
+                    <div class="in-time">
+                      <span>In </span><span>|</span>
+                      <p class="mb-0">
+                        {{
+                        attendanceDetailsResponse.checkInTime | timeFormat
+                        }}
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="in-time">
+                      <span>Out </span> <span>|</span>
+                      <p class="mb-0">
+                        {{
+                        attendanceDetailsResponse.checkOutTime | timeFormat
+                        }}
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="in-time">
+                      <span>Total Hours </span><span>|</span>
+                      <p class="mb-0">
+                        {{
+                        attendanceDetailsResponse.totalWorkingHours
+                        | durationFormat
+                        }}
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="in-time">
+                      <span>Total Break</span> <span>|</span>
+                      <p class="mb-0">
+                        ({{ attendanceDetailsResponse.breakCount }})
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4" *ngIf="attendanceDetailsResponse.breakCount !== 0">
+                    <div class="in-time total-break-time-box position-relativ" (mouseover)="
+                        getAttendanceDetailsBreakTimingsReportByDateByUserMethodCall(
+                          attendanceDetailsResponse
+                        )
+                      ">
+                      <span>Break Timings</span> <span>|</span>
+                      <p class="mb-0">
+                        &nbsp; &nbsp;<i style="color: black" id="dropdownMenuButton" class="bi bi-chevron-down"></i>
+                      </p>
+                      <div class="total-braek-time">
+                        <div *ngIf="
+                            attendanceDetailsResponse.breakTimingsList !==
+                              null &&
+                              attendanceDetailsResponse.breakTimingsList !==
+                                undefined &&
+                              attendanceDetailsResponse.breakTimingsList
+                                .length !== 0;
+                            else errorInFetchingBreakTimings
+                          ">
+                          <table class="table">
+                            <thead class="table-light">
+                              <tr>
+                                <th class="text-left">Break</th>
+                                <th class="text-left">Back</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="
+                                  let breakTimings of attendanceDetailsResponse.breakTimingsList
+                                ">
+                                <td class="text-left">
+                                  {{ breakTimings.breakTime | timeFormat }}
+                                </td>
+                                <td class="text-left">
+                                  {{ breakTimings.backTime | timeFormat }}
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <ng-template #errorInFetchingBreakTimings>
+                        </ng-template>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4" *ngIf="attendanceDetailsResponse.breakCount === 0">
+                    <div class="in-time">
+                      <span style="color: #009688">No breaks taken! 😐</span>
+                      <!-- <p class="mb-0">({{attendanceDetailsResponse.breakCount}}) </p> -->
+                    </div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <div class="in-time">
+                      <span>Total Hours </span><span>|</span>
+                      <p class="mb-0">
+                        {{
+                        attendanceDetailsResponse.totalBreakHours
+                        | durationFormat
+                        }}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -169,198 +334,35 @@
             </div>
           </div>
         </ng-container>
+          </ng-template>
 
-        <ng-template #attendanceDetailsResponseData>
-          <ng-container *ngIf="
-              attendanceDetailsResponseList !== null &&
-                attendanceDetailsResponseList !== undefined &&
-                attendanceDetailsResponseList.length !== 0 &&
-                !dataNotFoundForAttendanceDetailsResponse &&
-                !networkConnectionErrorForAttendanceDetailsResposne;
-              else errorInFetchingAttendanceDetailsResponseData
-            ">
-            <div class="monthly-section mt-3" *ngFor="
-                let attendanceDetailsResponse of attendanceDetailsResponseList
-                  | paginate
-                    : {
-                        itemsPerPage: itemPerPage,
-                        currentPage: pageNumber,
-                        totalItems: total
-                      }
-              ">
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="Regular-data">
-                    <h5 class="route-to-userprofile" (click)="routeToUserProfile(attendanceDetailsResponse.uuid)"> {{
-                      attendanceDetailsResponse.name }} </h5>
-                    <p [ngClass]="{
-                        'in-time-color':
-                          attendanceDetailsResponse.currentStatus == 'Working',
-                        'break-color':
-                          attendanceDetailsResponse.currentStatus ==
-                            'On Break' ||
-                          attendanceDetailsResponse.currentStatus == 'On Leave',
-                        'out-time-color':
-                          attendanceDetailsResponse.currentStatus ==
-                            'Checked Out' ||
-                          attendanceDetailsResponse.currentStatus == 'Absent' ||
-                          attendanceDetailsResponse.currentStatus ==
-                            'Not Marked'
-                      }">
-                      {{ attendanceDetailsResponse.currentStatus }}
-                    </p>
-                    <div class="add-note d-flex" style="gap: 10px">
-                      <a href="" data-bs-toggle="modal" data-bs-target="#addnotes"
-                        (click)="addNotesModel(attendanceDetailsResponse.uuid)">
-                        Add Note</a>
-                      <a>|</a>
-                      <a href="" data-bs-toggle="modal" data-bs-target="#viewlog"
-                        (click)="viewLogs(attendanceDetailsResponse.uuid)">
-                        View Logs</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="row position-relative">
-                    <div class="col-md-4">
-                      <div class="in-time">
-                        <span>In </span><span>|</span>
-                        <p class="mb-0">
-                          {{
-                          attendanceDetailsResponse.checkInTime | timeFormat
-                          }}
-                        </p>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="in-time">
-                        <span>Out </span> <span>|</span>
-                        <p class="mb-0">
-                          {{
-                          attendanceDetailsResponse.checkOutTime | timeFormat
-                          }}
-                        </p>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="in-time">
-                        <span>Total Hours </span><span>|</span>
-                        <p class="mb-0">
-                          {{
-                          attendanceDetailsResponse.totalWorkingHours
-                          | durationFormat
-                          }}
-                        </p>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="in-time">
-                        <span>Total Break</span> <span>|</span>
-                        <p class="mb-0">
-                          ({{ attendanceDetailsResponse.breakCount }})
-                        </p>
-                      </div>
-                    </div>
-
-                    <div class="col-md-4" *ngIf="attendanceDetailsResponse.breakCount !== 0">
-                      <div class="in-time total-break-time-box position-relativ" (mouseover)="
-                          getAttendanceDetailsBreakTimingsReportByDateByUserMethodCall(
-                            attendanceDetailsResponse
-                          )
-                        ">
-                        <span>Break Timings</span> <span>|</span>
-                        <p class="mb-0">
-                          &nbsp; &nbsp;<i style="color: black" id="dropdownMenuButton" class="bi bi-chevron-down"></i>
-                        </p>
-                        <div class="total-braek-time">
-                          <div *ngIf="
-                              attendanceDetailsResponse.breakTimingsList !==
-                                null &&
-                                attendanceDetailsResponse.breakTimingsList !==
-                                  undefined &&
-                                attendanceDetailsResponse.breakTimingsList
-                                  .length !== 0;
-                              else errorInFetchingBreakTimings
-                            ">
-                            <table class="table">
-                              <thead class="table-light">
-                                <tr>
-                                  <th class="text-left">Break</th>
-                                  <th class="text-left">Back</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr *ngFor="
-                                    let breakTimings of attendanceDetailsResponse.breakTimingsList
-                                  ">
-                                  <td class="text-left">
-                                    {{ breakTimings.breakTime | timeFormat }}
-                                  </td>
-                                  <td class="text-left">
-                                    {{ breakTimings.backTime | timeFormat }}
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                          <ng-template #errorInFetchingBreakTimings>
-                          </ng-template>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-md-4" *ngIf="attendanceDetailsResponse.breakCount === 0">
-                      <div class="in-time">
-                        <span style="color: #009688">No breaks taken! 😐</span>
-                        <!-- <p class="mb-0">({{attendanceDetailsResponse.breakCount}}) </p> -->
-                      </div>
-                    </div>
-
-                    <div class="col-md-4">
-                      <div class="in-time">
-                        <span>Total Hours </span><span>|</span>
-                        <p class="mb-0">
-                          {{
-                          attendanceDetailsResponse.totalBreakHours
-                          | durationFormat
-                          }}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          <ng-template #errorInFetchingAttendanceDetailsResponseData>
+        <div class="errorboxmain" *ngIf="networkConnectionErrorForAttendanceDetailsResposne">
+          <div class="errorboxinner text-center">
+            <div class="errorboxplaceholder mb-2">
+              <img src="assets/images/signal.svg" style="width: 80px" />
             </div>
-          </ng-container>
-        </ng-template>
-
-        <ng-template #errorInFetchingAttendanceDetailsResponseData>
-          <div class="errorboxmain" *ngIf="networkConnectionErrorForAttendanceDetailsResposne">
-            <div class="errorboxinner text-center">
-              <div class="errorboxplaceholder mb-2">
-                <img src="assets/images/signal.svg" style="width: 80px" />
-              </div>
-              <div class="">
-                <h4>Something went wrong</h4>
-                <p>
-                  An error occurred while processing your request. Please
-                  refresh the page and try again.
-                </p>
-              </div>
+            <div class="">
+              <h4>Something went wrong</h4>
+              <p>
+                An error occurred while processing your request. Please
+                refresh the page and try again.
+              </p>
             </div>
           </div>
+        </div>
 
-          <div class="errorboxmain" *ngIf="dataNotFoundForAttendanceDetailsResponse">
-            <div class="errorboxinner text-center">
-              <div class="errorboxplaceholder mb-2">
-                <img src="assets/images/empty-folder.svg" style="width: 80px" />
-              </div>
-
-              <h4>No Data Found</h4>
-              <p>Sorry, We can't show you the data at this moment!</p>
+        <div class="errorboxmain" *ngIf="dataNotFoundForAttendanceDetailsResponse">
+          <div class="errorboxinner text-center">
+            <div class="errorboxplaceholder mb-2">
+              <img src="assets/images/empty-folder.svg" style="width: 80px" />
             </div>
+
+            <h4>No Data Found</h4>
+            <p>Sorry, We can't show you the data at this moment!</p>
           </div>
-        </ng-template>
+        </div>
+          </ng-template>
 
         <div class="modal fade bs-example-modal-center" id="addnotes" tabindex="-1" role="dialog"
           aria-labelledby="mySmallModalLabel" aria-hidden="true">
@@ -646,6 +648,22 @@
           </div>
         </div>
       </div>
+    </ng-container>
+    <ng-template #notShowPlaceholder>
+      <div class="errorboxmain">
+        <div class="errorboxinner text-center">
+          <div class="errorboxplaceholder mb-2">
+            <img src="assets/images/empty-box.svg" style="width: 80px" />
+          </div>
+          <div class="">
+            <h4>Data Not Found</h4>
+            <p>
+             
+            </p>
+          </div>
+        </div>
+      </div>
+    </ng-template>
     </div>
   </div>
 </div>

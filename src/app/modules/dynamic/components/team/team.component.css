@@ -1111,3 +1111,12 @@ button.btn.close-btn {
     opacity: 1;
   }
 }
+
+.Regular-data {
+  cursor: pointer;
+}
+
+.Regular-data:hover {
+  color: #6666f3 !important;
+  text-decoration: underline;
+}

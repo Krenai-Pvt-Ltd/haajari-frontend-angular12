@@ -508,3 +508,12 @@ span.leave-rejected {
   margin-bottom: -1px;
   margin-right: 1rem;
 }
+
+.Regular-data {
+  cursor: pointer;
+}
+
+.Regular-data:hover {
+  color: #6666f3 !important;
+  text-decoration: underline;
+}
