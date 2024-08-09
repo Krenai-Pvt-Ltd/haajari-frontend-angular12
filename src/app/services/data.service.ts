@@ -3668,7 +3668,23 @@ export class DataService {
     return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/month-response-list`, {params});
   }
 
-  enableOrDisableOvertimeSetting(overtimeSettingRequest : OvertimeSettingRequest): Observable<any>{
-    return this.httpClient.post<any>(`${this.baseUrl}/overtime/setting/enable-disable`, overtimeSettingRequest, {});
+  enableOrDisablePreHourOvertimeSetting(overtimeSettingRequest : OvertimeSettingRequest): Observable<any>{
+
+    return this.httpClient.post<any>(`${this.baseUrl}/overtime/setting/pre-hour/enable-disable`, overtimeSettingRequest);
+  }
+
+  enableOrDisablePostHourOvertimeSetting(overtimeSettingRequest : OvertimeSettingRequest): Observable<any>{
+
+    return this.httpClient.post<any>(`${this.baseUrl}/overtime/setting/post-hour/enable-disable`, overtimeSettingRequest);
+  }
+
+  getPreHourOvertimeSettingResponse(): Observable<any>{
+    
+    return this.httpClient.get<any>(`${this.baseUrl}/overtime/setting/pre-hour`, {});
+  }
+
+  getPostHourOvertimeSettingResponse(): Observable<any>{
+    
+    return this.httpClient.get<any>(`${this.baseUrl}/overtime/setting/post-hour`, {});
   }
 }
