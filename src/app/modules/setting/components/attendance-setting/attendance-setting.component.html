@@ -359,17 +359,17 @@
                   <div class="categryCustomizeinfo">
                     <label for="customizecategory" class="mb-0">
                       <h3>Pre Hrs.</h3>
-                      <p>Define the number of hours before shift start to be counted as overtime.</p>
+                      <p>Number of hours before shift start to be counted as overtime.</p>
                     </label>
                   </div>
                   <div class="pre-hour-value">
-                    <p>11:23 hrs.</p>
+                    <p>{{preHourOvertimeSettingResponse.hour | date : 'h:mm a'}} hrs.</p>
                   </div>
                   <div class="active-check">
                     <nz-switch
-                      
+                      [ngModel]="preHourOvertimeSettingResponse.accessibility"
                       [nzControl]="true"
-                      [nzLoading]="false" (click)="setPreHours()">
+                      [nzLoading]="preHourOvertimeSettingResponse.loading" (click)="preHourModal(preHourOvertimeSettingResponse.accessibility)">
                     </nz-switch>
                   </div>
                 </div>
@@ -380,16 +380,18 @@
                   <div class="categryCustomizeinfo">
                     <label for="customizecategory" class="mb-0">
                       <h3>Post Hrs.</h3>
-                      <p>Define the number of hours after shift end to be counted as overtime.</p>
+                      <p>Number of hours after shift end to be counted as overtime.</p>
                     </label>
                   </div>
                   <div class="post-hour-value">
-                    <p>11:23 hrs.</p>
+                    <p>{{postHourOvertimeSettingResponse.hour}} hrs.</p>
                   </div>
                   <div class="active-check">
                     <nz-switch
+                      [ngModel]="postHourOvertimeSettingResponse.accessibility"
                       [nzControl]="true"
-                      [nzLoading]="false"></nz-switch>
+                      [nzLoading]="postHourOvertimeSettingResponse.loading" (click)="postHourModal(postHourOvertimeSettingResponse.accessibility)">
+                    </nz-switch>
                   </div>
                 </div>
               </div>
@@ -418,8 +420,7 @@
                 <div class="d-flex align-items-center justify-content-between mb-3">
                   <small class="text-muted d-flex align-items-center gap-3 mb-0">
                     <span class="universal"></span> National Holiday's </small>
-                  <small class="text-muted">{{ universalHolidaysNumber
-                  }}</small>
+                  <small class="text-muted">{{ universalHolidaysNumber }}</small>
                 </div>
                 <div class="d-flex align-items-center justify-content-between mb-3">
                   <small class="text-muted d-flex align-items-center gap-3 mb-0">
@@ -1987,8 +1988,8 @@
                   <li role="presentation" class="nav-item">
                     <button id="profile-tab" data-bs-toggle="tab" [class.disabled]="
                         (!customCheckbox &&
-                          !halfDayCheckbox &&
-                          !fullDayCheckbox) ||
+                        !halfDayCheckbox &&
+                        !fullDayCheckbox) ||
                         selectedCustomOvertimeType?.type == '' ||
                         selectedHalfDayOvertimeType?.type == '' ||
                         selectedFullDayOvertimeType?.type == '' ||
@@ -2926,45 +2927,61 @@
   </div>
 </div>
 
-<div *ngIf="PRE_HOUR" class="modal" id="pre-hour" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+<div *ngIf="PRE_HOUR_TOGGLE" class="modal show d-block" id="pre-hour" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Pre Hrs.</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <h5 class="modal-title">Define Pre Hrs.</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #preHourModalViewChildReference></button>
       </div>
       <div class="modal-body">
         <form #holidayForm="ngForm">
-          <div *ngFor="let holiday of holidayList; let i = index" class="form-group row mb-3">
-            <div class="col-md-6">
-              <input type="text" name="holidayName{{ i }}" [(ngModel)]="holiday.name" class="form-control whatapp-login-input" placeholder="Enter Holiday Name" required />
-            </div>
-            <div class="col-md-5">
-              <nz-date-picker class="nz-overlay-container whatapp-login-input" name="holidayDate{{ i }}" [(ngModel)]="holiday.date" ngModel required nzPlaceHolder="Select Holiday Date"></nz-date-picker>
-            </div>
-            <div class="col-md-1">
-              <!-- <button
-              type="button"
-              class="btn btn-outline-danger"
-              (click)="removeHoliday(i)"
-              *ngIf="holidayList.length > 1"
-            >
-              Remove
-            </button> -->
-              <button type="button" class="btn btn-soft-danger btn-icon-square-sm" style="padding: 24px" (click)="removeHoliday(i)" *ngIf="holidayList.length > 1">
-                <i class="bi bi-trash"></i>
-              </button>
+          <label for="exampleInputEmail1" class="pb-2">Enter the number of hours before shift start to be counted as overtime.</label>
+          <div class="form-group row mb-3" style="width: 100%;">
+            <nz-time-picker nzFormat="HH:mm" (ngModelChange)="updatePreHourOvertimeSetting($event)" nzPlaceHolder="Enter duration here" [nzDisabledHours]="disabledHours" required></nz-time-picker>
+          </div>
+        </form>
+      </div>
+      <div class="d-flex justify-content-end modal-footer">
+        <button type="submit" class="btn btn-outline-primary btn-round" (click)="enableOrDisablePreHourOvertimeSettingMethodCall()"> Submit </button>
+        <!-- <div class="dot-opacity-loader" *ngIf="PRE_HOUR_SUBMIT_BUTTON_TOGGLE">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="POST_HOUR_TOGGLE" class="modal show d-block" id="post-hour" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Define Post Hrs.</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #postHourModalViewChildReference></button>
+      </div>
+      <div class="modal-body">
+        <form #holidayForm="ngForm">
+          <label for="exampleInputEmail1" class="pb-2">Enter the number of hours after shift end to be counted as overtime.</label>
+          <div class="form-group row mb-3">
+            <div class="d-flex justify-content-between align-items-center">
+              <nz-time-picker nzFormat="HH:mm" (ngModelChange)="updatePostHourOvertimeSetting($event)" nzPlaceHolder="Enter duration here" [nzDisabledHours]="disabledHours" required>
+              </nz-time-picker>
+              <span>
+                <b>hrs.</b>
+              </span>
             </div>
           </div>
         </form>
       </div>
       <div class="d-flex justify-content-between modal-footer">
-        <button type="submit" class="btn btn-outline-primary btn-round"> Submit </button>
-        <div class="dot-opacity-loader" *ngIf="isCustomHolidayLoader">
+        <button type="submit" class="btn btn-outline-primary btn-round" (click)="enableOrDisablePostHourOvertimeSettingMethodCall()"> Submit </button>
+        <!-- <div class="dot-opacity-loader" *ngIf="POST_HOUR_SUBMIT_BUTTON_TOGGLE">
           <span></span>
           <span></span>
           <span></span>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

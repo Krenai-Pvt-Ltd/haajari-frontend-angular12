@@ -3676,6 +3676,25 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/month-response-list`, {params});
   }
 
+  enableOrDisablePreHourOvertimeSetting(overtimeSettingRequest : OvertimeSettingRequest): Observable<any>{
+
+    return this.httpClient.post<any>(`${this.baseUrl}/overtime/setting/pre-hour/enable-disable`, overtimeSettingRequest);
+  }
+
+  enableOrDisablePostHourOvertimeSetting(overtimeSettingRequest : OvertimeSettingRequest): Observable<any>{
+
+    return this.httpClient.post<any>(`${this.baseUrl}/overtime/setting/post-hour/enable-disable`, overtimeSettingRequest);
+  }
+
+  getPreHourOvertimeSettingResponse(): Observable<any>{
+    
+    return this.httpClient.get<any>(`${this.baseUrl}/overtime/setting/pre-hour`, {});
+  }
+
+  getPostHourOvertimeSettingResponse(): Observable<any>{
+    
+    return this.httpClient.get<any>(`${this.baseUrl}/overtime/setting/post-hour`, {});
+  }  
   getRoles(): Observable<any> {
     return this.httpClient.get(`${this.baseUrl}/super-coin-allocation/get/roles`);
   }

@@ -36,6 +36,7 @@ import { OrganizationShiftTimingResponse } from 'src/app/models/organization-shi
 import { OrganizationShiftTimingWithShiftTypeResponse } from 'src/app/models/organization-shift-timing-with-shift-type-response';
 import { OrganizationWeekoffInformation } from 'src/app/models/organization-weekoff-information';
 import { OvertimeSettingRequest } from 'src/app/models/overtime-setting-request';
+import { OvertimeSettingResponse } from 'src/app/models/overtime-setting-response';
 import { OvertimeType } from 'src/app/models/overtime-type';
 import { ShiftType } from 'src/app/models/shift-type';
 import { Staff } from 'src/app/models/staff';
@@ -86,6 +87,8 @@ export class AttendanceSettingComponent implements OnInit {
     this.getCustomHolidays();
     this.getWeeklyHolidays();
     this.getWeekDays();
+    this.getPreHourOvertimeSettingResponseMethodCall();
+    this.getPostHourOvertimeSettingResponseMethodCall();
   }
 
   isShimmer = false;
@@ -2335,21 +2338,95 @@ formatMinutesToTime(minutes: number): string {
   PRE_HOUR = Key.PRE_HOUR;
   POST_HOUR = Key.POST_HOUR;
 
+  ENABLE = Key.ENABLE;
+  DISABLE = Key.DISABLE;
+
   PRE_HOUR_TOGGLE : boolean = false;
   POST_HOUR_TOGGLE : boolean = false;
+
+  PRE_HOUR_SUBMIT_BUTTON_TOGGLE : boolean = false;
+  POST_HOUR_SUBMIT_BUTTON_TOGGLE : boolean = false;
+
+
+  preHourModal(accessibility : boolean){
+    this.preHourOvertimeSettingResponse.loading = true;
+    if(!accessibility){
+      this.PRE_HOUR_TOGGLE = true;
+      this.overtimeSettingRequest.accessibility = this.ENABLE;
+    } else{
+      this.PRE_HOUR_TOGGLE = false;
+      this.overtimeSettingRequest.accessibility = this.DISABLE;
+    }
+
+  }
+
+  postHourModal(accessibility : boolean){
+    this.postHourOvertimeSettingResponse.loading = true;
+    if(!accessibility){
+      this.POST_HOUR_TOGGLE = true;
+      this.overtimeSettingRequest.accessibility = this.ENABLE;
+    } else{
+      this.POST_HOUR_TOGGLE = false;
+      this.overtimeSettingRequest.accessibility = this.DISABLE;
+    }
+  }
+
+  setPreHours(accessibility : number){
+
+  }
+
+  setPostHours(accessibility : number){
+
+  }
+
+  updatePreHourOvertimeSetting(event : any){
+    this.overtimeSettingRequest.hour = this.helperService.formatDateToHHmmss(event);
+  }
+
+  updatePostHourOvertimeSetting(event : any){
+    this.overtimeSettingRequest.hour = this.helperService.formatDateToHHmmss(event);
+  }
   
-
-
-
-
+  @ViewChild("preHourModal") preHourModalViewChildReference !: ElementRef;
+  @ViewChild("postHourModal") postHourModalViewChildReference !: ElementRef;
 
   overtimeSettingRequest : OvertimeSettingRequest = new OvertimeSettingRequest();
-  enableOrDisableOvertimeSettingMethodCall(){
-    this.dataService.enableOrDisableOvertimeSetting(this.overtimeSettingRequest).subscribe((response) => {
-
+  enableOrDisablePreHourOvertimeSettingMethodCall(){
+    this.PRE_HOUR_SUBMIT_BUTTON_TOGGLE = true;
+    this.dataService.enableOrDisablePreHourOvertimeSetting(this.overtimeSettingRequest).subscribe((response) => {
+      // this.PRE_HOUR_SUBMIT_BUTTON_TOGGLE = false;
+      this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
     }, (error) => {
-
+      // this.PRE_HOUR_SUBMIT_BUTTON_TOGGLE = false;
+      this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
     })
   }
 
+  enableOrDisablePostHourOvertimeSettingMethodCall(){
+    this.dataService.enableOrDisablePostHourOvertimeSetting(this.overtimeSettingRequest).subscribe((response) => {
+      // this.POST_HOUR_SUBMIT_BUTTON_TOGGLE = false;
+      this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+    }, (error) => {
+      // this.POST_HOUR_SUBMIT_BUTTON_TOGGLE = false;
+      this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+    })
+  }
+
+  preHourOvertimeSettingResponse : OvertimeSettingResponse = new OvertimeSettingResponse();
+  postHourOvertimeSettingResponse : OvertimeSettingResponse = new OvertimeSettingResponse();
+  getPreHourOvertimeSettingResponseMethodCall(){
+    this.dataService.getPreHourOvertimeSettingResponse().subscribe((response) => {
+      this.preHourOvertimeSettingResponse = response.object;
+    }, (error) => {
+      console.log(error);
+    })
+  }
+
+  getPostHourOvertimeSettingResponseMethodCall(){
+    this.dataService.getPostHourOvertimeSettingResponse().subscribe((response) => {
+      this.postHourOvertimeSettingResponse = response.object;
+    }, (error) => {
+      console.log(error);
+    })
+  }
 }

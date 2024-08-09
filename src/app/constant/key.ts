@@ -337,6 +337,10 @@ export class Key {
   public static PRE_HOUR = 1;
   public static POST_HOUR = 2;
 
+  //
+  public static ENABLE = 1;
+  public static DISABLE = 2;
+
 }
 
 
