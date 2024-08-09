@@ -337,6 +337,11 @@ export class Key {
   public static PRE_HOUR = 1;
   public static POST_HOUR = 2;
 
+
+  // RazorPay Key
+
+  // public static razorKey =  'rzp_test_Wd1RYd0fng3673'; // Test
+  public static razorKey = 'rzp_live_twiokSC5krYrnQ'  // Live
   //
   public static ENABLE = 1;
   public static DISABLE = 2;

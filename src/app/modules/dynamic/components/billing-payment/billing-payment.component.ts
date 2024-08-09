@@ -8,6 +8,7 @@ import { Location } from '@angular/common';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { DataService } from 'src/app/services/data.service';
 import { AdminPersonalDetailResponse } from 'src/app/models/admin-personal-detail-response';
+import { Key } from 'src/app/constant/key';
 declare var Razorpay: any;
 
 @Component({
@@ -85,9 +86,8 @@ export class BillingPaymentComponent implements OnInit {
   }
 
   processingPayment: boolean = false;
-  razorKey: string = 
-  // 'rzp_test_Wd1RYd0fng3673'; // Test
-  'rzp_live_twiokSC5krYrnQ'
+  verifiedCoupon!: string;
+  readonly razorKey = Key.razorKey;
   hajiri_logo: string = '../../../../../assets/images/hajiri-icon.png';
 
   openRazorPay(): void {
@@ -117,7 +117,7 @@ export class BillingPaymentComponent implements OnInit {
         "contact":this.phoneNumber
       },
       notes: {
-        couponCode : this.couponCode,
+        couponCode: this.verifiedCoupon,
         orgUuid: this.orgUuid,
         type: 'subscription order',
         planType: this.sbscriptionPlanReq.planType,
@@ -189,10 +189,12 @@ export class BillingPaymentComponent implements OnInit {
 
   applyCoupon() {
       this._subscriptionPlanService
-          .verifyCoupon(this.couponCode, this.originalAmount)
+          .verifyCoupon(this.couponCode, this.originalAmount, this.sbscriptionPlanReq.planType)
           .subscribe((response) => {
               if (response.status) {
+                this.message = '';
                   this.coupon = response.object;
+                  this.verifiedCoupon = response.object.couponCode;
                   this.tempTotalAmount = this.originalAmount;
                   this.couponDiscount = this.originalAmount - response.totalItems;
                   this.sbscriptionPlanReq.amount = response.totalItems;
@@ -204,6 +206,7 @@ export class BillingPaymentComponent implements OnInit {
           });
   }
   
+
   selecrPlanType(value: string) {
       this.sbscriptionPlanReq.planType = value;
       this.originalAmount = this.sbscriptionPlanReq.noOfEmployee * this.subscriptionPlan?.amount;

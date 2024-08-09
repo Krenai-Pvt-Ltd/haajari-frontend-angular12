@@ -157,9 +157,7 @@ this.getSubscriptionPlanDetails(plandId);
   }
 
   processingPayment: boolean = false;
-  razorKey: string = 
-  // 'rzp_test_Wd1RYd0fng3673'; // Test
-  'rzp_live_twiokSC5krYrnQ'
+  readonly razorKey = Key.razorKey;
   hajiri_logo: string = '../../../../../assets/images/hajiri-icon.png';
 
   openRazorPay(): void {
@@ -189,6 +187,7 @@ this.getSubscriptionPlanDetails(plandId);
         "contact":this.phoneNumber
       },
       notes: {
+        couponCode: this.verifiedCoupon,
         orgUuid: this.orgUuid,
         type: 'subscription order',
         planType: this.sbscriptionPlanReq.planType,
@@ -243,6 +242,7 @@ this.getSubscriptionPlanDetails(plandId);
 
   couponCode: string = '';
   coupon: any;
+  verifiedCoupon !: string;
   message: string = '';
   isCouponVerify: boolean = false;
   tempTotalAmount: number = 0;
@@ -261,10 +261,13 @@ this.getSubscriptionPlanDetails(plandId);
 
   applyCoupon() {
       this._subscriptionPlanService
-          .verifyCoupon(this.couponCode, this.originalAmount)
+          .verifyCoupon(this.couponCode, this.originalAmount, this.sbscriptionPlanReq.planType)
           .subscribe((response) => {
               if (response.status) {
+                 this.message = '';
                   this.coupon = response.object;
+                  this.verifiedCoupon = response.object.couponCode;
+                  console.log(this.verifiedCoupon);
                   this.tempTotalAmount = this.originalAmount;
                   this.couponDiscount = this.originalAmount - response.totalItems;
                   this.sbscriptionPlanReq.amount = response.totalItems;
