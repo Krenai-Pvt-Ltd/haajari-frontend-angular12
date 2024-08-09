@@ -232,4 +232,13 @@ export class HelperService {
     });
   }
 
+  formatHHmmssToHHmm(time: string): string {
+    const timeParts = time.split(':');
+  
+    const hours = timeParts[0];
+    const minutes = timeParts[1];
+  
+    return `${hours}:${minutes}`;
+  }
+
 }

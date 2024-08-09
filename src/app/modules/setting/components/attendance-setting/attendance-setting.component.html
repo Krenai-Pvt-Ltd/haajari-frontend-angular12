@@ -343,7 +343,7 @@
           </div>
 
 
-          <!-- <div class="col-md-12">
+          <div class="col-md-12">
             <div class="border-box"></div>
           </div>
           <div class="col-md-4 mt-3 mb-3">
@@ -362,8 +362,8 @@
                       <p>Number of hours before shift start to be counted as overtime.</p>
                     </label>
                   </div>
-                  <div class="pre-hour-value">
-                    <p>{{preHourOvertimeSettingResponse.hour | date : 'h:mm a'}} hrs.</p>
+                  <div class="pre-hour-value" *ngIf="preHourOvertimeSettingResponse.hour != null && preHourOvertimeSettingResponse.hour != undefined">
+                    <p>{{this.helperService.formatHHmmssToHHmm(preHourOvertimeSettingResponse.hour)}} hrs.</p>
                   </div>
                   <div class="active-check">
                     <nz-switch
@@ -383,8 +383,8 @@
                       <p>Number of hours after shift end to be counted as overtime.</p>
                     </label>
                   </div>
-                  <div class="post-hour-value">
-                    <p>{{postHourOvertimeSettingResponse.hour}} hrs.</p>
+                  <div class="post-hour-value" *ngIf="postHourOvertimeSettingResponse.hour != null && postHourOvertimeSettingResponse.hour != undefined">
+                    <p>{{this.helperService.formatHHmmssToHHmm(postHourOvertimeSettingResponse.hour)}} hrs.</p>
                   </div>
                   <div class="active-check">
                     <nz-switch
@@ -396,7 +396,7 @@
                 </div>
               </div>
             </div>
-          </div> -->
+          </div>
 
           <div class="col-md-12">
             <div class="border-box"></div>
@@ -2932,7 +2932,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Define Pre Hrs.</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #preHourModalViewChildReference></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="preHourModalClose()"></button>
       </div>
       <div class="modal-body">
         <form #holidayForm="ngForm">
@@ -2959,7 +2959,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Define Post Hrs.</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #postHourModalViewChildReference></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="postHourModalClose()"></button>
       </div>
       <div class="modal-body">
         <form #holidayForm="ngForm">
@@ -2977,11 +2977,6 @@
       </div>
       <div class="d-flex justify-content-between modal-footer">
         <button type="submit" class="btn btn-outline-primary btn-round" (click)="enableOrDisablePostHourOvertimeSettingMethodCall()"> Submit </button>
-        <!-- <div class="dot-opacity-loader" *ngIf="POST_HOUR_SUBMIT_BUTTON_TOGGLE">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div> -->
       </div>
     </div>
   </div>

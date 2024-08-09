@@ -60,7 +60,7 @@ export class AttendanceSettingComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private datePipe: DatePipe,
-    private helperService: HelperService,
+    public helperService: HelperService,
     private fb: FormBuilder,
     private router: Router,
     private el: ElementRef,
@@ -2380,21 +2380,31 @@ formatMinutesToTime(minutes: number): string {
   }
 
   updatePreHourOvertimeSetting(event : any){
+    debugger;
     this.overtimeSettingRequest.hour = this.helperService.formatDateToHHmmss(event);
   }
 
   updatePostHourOvertimeSetting(event : any){
     this.overtimeSettingRequest.hour = this.helperService.formatDateToHHmmss(event);
   }
+
+  preHourModalClose(){
+    this.PRE_HOUR_TOGGLE = false;
+    this.preHourOvertimeSettingResponse.loading = false;
+  }
+
+  postHourModalClose(){
+    this.POST_HOUR_TOGGLE = false;
+    this.postHourOvertimeSettingResponse.loading = false;
+  }
   
-  @ViewChild("preHourModal") preHourModalViewChildReference !: ElementRef;
-  @ViewChild("postHourModal") postHourModalViewChildReference !: ElementRef;
 
   overtimeSettingRequest : OvertimeSettingRequest = new OvertimeSettingRequest();
   enableOrDisablePreHourOvertimeSettingMethodCall(){
-    this.PRE_HOUR_SUBMIT_BUTTON_TOGGLE = true;
+    // this.PRE_HOUR_SUBMIT_BUTTON_TOGGLE = true;
     this.dataService.enableOrDisablePreHourOvertimeSetting(this.overtimeSettingRequest).subscribe((response) => {
       // this.PRE_HOUR_SUBMIT_BUTTON_TOGGLE = false;
+      this.preHourModalClose();
       this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
     }, (error) => {
       // this.PRE_HOUR_SUBMIT_BUTTON_TOGGLE = false;
@@ -2405,6 +2415,7 @@ formatMinutesToTime(minutes: number): string {
   enableOrDisablePostHourOvertimeSettingMethodCall(){
     this.dataService.enableOrDisablePostHourOvertimeSetting(this.overtimeSettingRequest).subscribe((response) => {
       // this.POST_HOUR_SUBMIT_BUTTON_TOGGLE = false;
+      this.postHourModalClose();
       this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
     }, (error) => {
       // this.POST_HOUR_SUBMIT_BUTTON_TOGGLE = false;
