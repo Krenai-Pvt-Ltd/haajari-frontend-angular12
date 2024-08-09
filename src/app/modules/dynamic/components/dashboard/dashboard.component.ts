@@ -6,6 +6,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { NavigationExtras} from '@angular/router';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject, iif } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
@@ -31,6 +32,8 @@ import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-refl
 import { AttendanceDetailsResponse } from 'src/app/models/attendance-details-response';
 import { DayStartAndDayEnd } from 'src/app/models/day-start-and-day-end';
 import { StartDateAndEndDate } from 'src/app/models/start-date-and-end-date';
+import { error } from 'jquery';
+import { Console } from 'console';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
 import { AdminPersonalDetailResponse } from 'src/app/models/admin-personal-detail-response';
@@ -197,6 +200,7 @@ this.getAdminPersonalDetailMethodCall();
     this.getTeamNames();
     window.scroll(0, 0);
     this.getOrganizationRegistrationDateMethodCall();
+    
     // this.checkAccessToken();
 
     // const today = dayjs();
@@ -231,6 +235,8 @@ this.getAdminPersonalDetailMethodCall();
     this.getWeeklyChartData();
     this.getMonthlyChartData();
     this.getLateUsers();
+    // this.getAttendanceDetailsReportByDateMethodCall();
+    this.getHolidayForOrganization();
     this.getAllSubscription();
     this.getPurchasedStatus();
   }
@@ -1454,6 +1460,41 @@ this.getSubscriptionPlanDetails(plandId);
     if (this.paymentMethod == 'razorpay') {
       this.openRazorPay();
     }
+  }
+
+
+  // ############################################
+
+ checkHoliday:boolean = false;
+ showPlaceholder:boolean = false;
+
+ getHolidayForOrganization(){
+    debugger
+    this.dataService.getHolidayForOrganization(this.helperService.formatDateToYYYYMMDD(this.selectedDate))
+    .subscribe(
+      (response) => {
+        this.checkHoliday = response.object;
+        console.log(response);
+        console.error("Response", response.object);
+
+        if (this.checkHoliday == true) {
+          this.showPlaceholder = true; 
+        } else if (this.checkHoliday == false){
+          this.showPlaceholder = false; 
+        }
+        
+      },
+      (error) =>{
+        console.error('Error details:', error);
+      }
+  )
+  }
+
+  routeToUserProfile(uuid: string) {
+    let navExtra: NavigationExtras = {
+      queryParams: { userId: uuid },
+    };
+    this.router.navigate(['/employee-profile'], navExtra);
   }
 
   couponCode: string = '';

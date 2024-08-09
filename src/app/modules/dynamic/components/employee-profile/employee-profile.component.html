@@ -1836,6 +1836,7 @@
                     <div class="col-lg-12">
                       <div class="d-flex align-items-center justify-content-between mb-3">
                         <h4 class="card-title mt-0">Employee Documents</h4>
+                        
                         <div *ngIf="
                             user!.employeeOnboardingStatus?.response ==
                               'APPROVED' && adminRoleFlag
@@ -1845,7 +1846,7 @@
                         </div>
                       </div>
                       <div class="file-box-content row">
-                        <ng-container *ngIf="onboardingPreviewData.userDocuments">
+                        <ng-container *ngIf="onboardingPreviewData.userDocuments; else noDataFound">
                           <div *ngIf="
                               onboardingPreviewData.userDocuments
                                 .secondarySchoolCertificate
@@ -2064,7 +2065,23 @@
                             </div>
                           </div>
                         </ng-container>
+                        <ng-template #noDataFound>
+                          <div class="errorboxmain" *ngIf="!showPlaceholder">
+                            <div class="errorboxinner text-center">
+                              <div class="errorboxplaceholder mb-2">
+                                <img src="assets/images/empty-box.svg" style="width: 80px" />
+                              </div>
+                              <div class="">
+                                <h4>Data Not Found</h4>
+                                <p>
+                                 
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </ng-template>
                       </div>
+
                       <div class="row">
                         <div class="col-12">
                           <h4 class="card-title my-3">Company Documents</h4>

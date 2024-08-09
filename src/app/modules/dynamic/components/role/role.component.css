@@ -515,3 +515,12 @@ margin-bottom: 0px;
     pointer-events: none; /* Prevents clicking and interactions */
     opacity: 0.5; /* Visual cue for being disabled */
 }
+
+.Regular-data {
+    cursor: pointer;
+  }
+  
+  .Regular-data:hover {
+    color: #6666f3 !important;
+    text-decoration: underline;
+  }

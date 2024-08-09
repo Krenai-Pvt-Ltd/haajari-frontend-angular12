@@ -1,5 +1,5 @@
 export class OvertimeSettingRequest {
-    hour : string = '';
-    hourType : number = 0;
-    accessibility !: boolean;
+    hour !: Date;
+    upadtedHour : string = '';
+    accessibility : number = 0;
 }
