@@ -340,8 +340,8 @@ export class Key {
 
   // RazorPay Key
 
-  public static razorKey =  'rzp_test_Wd1RYd0fng3673'; // Test
-  // public static razorKey = 'rzp_live_twiokSC5krYrnQ'  // Live
+  // public static razorKey =  'rzp_test_Wd1RYd0fng3673'; // Test
+  public static razorKey = 'rzp_live_twiokSC5krYrnQ'  // Live
   //
   public static ENABLE = 1;
   public static DISABLE = 2;
