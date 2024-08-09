@@ -1313,7 +1313,7 @@ this.getAdminPersonalDetailMethodCall();
       this.isPurchased = response;
 
       if (this.isPurchased == true) {
-        
+        this.router.navigate(['/dashboard']);
       } else {
         // this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = true
         // this.billingModal.nativeElement.click();
