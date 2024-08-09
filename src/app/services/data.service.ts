@@ -3685,4 +3685,19 @@ export class DataService {
   enableOrDisableOvertimeSetting(overtimeSettingRequest : OvertimeSettingRequest): Observable<any>{
     return this.httpClient.post<any>(`${this.baseUrl}/overtime/setting/enable-disable`, overtimeSettingRequest, {});
   }
+
+  getRoleWiseAllocatedCoinsInformationById(allocateSuperCoinsId: number): Observable<any> {
+    let params = new HttpParams().set('allocateSuperCoinsId', allocateSuperCoinsId);
+    return this.httpClient.get(`${this.baseUrl}/super-coin-allocation/get/role/wise/coins/info/by/id`, { params });
+  }
+
+  deleteRoleWiseAllocatedCoinsInformationById(allocateSuperCoinsId: number): Observable<ResponseEntityObject> {
+    const params = new HttpParams().set('allocateSuperCoinsId', allocateSuperCoinsId);
+    return this.httpClient.delete<ResponseEntityObject>(`${this.baseUrl}/super-coin-allocation/delete/by/id`, { params });
+  }
+
+  getSuperCoinsResponseForEmployee(userUuid: string): Observable<any> {
+    let params = new HttpParams().set('userUuid', userUuid);
+    return this.httpClient.get(`${this.baseUrl}/super-coin-allocation/get/super/coins/data/for/employee`, { params });
+  }
 }
