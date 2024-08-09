@@ -60,6 +60,8 @@ export class DashboardComponent implements OnInit {
     private roleBasedAccessControlService: RoleBasedAccessControlService
   ) {
     
+    console.log(this.roleBasedAccessControlService.isUserInfoInitialized,"--9999-----");
+    
     const currentDate = moment();
     this.startDateStr = currentDate.startOf('month').format('YYYY-MM-DD');
     this.endDateStr = currentDate.endOf('month').format('YYYY-MM-DD');
@@ -1313,8 +1315,9 @@ this.getAdminPersonalDetailMethodCall();
       if (this.isPurchased == true) {
         
       } else {
-        this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = true
-        this.billingModal.nativeElement.click();
+        // this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = true
+        // this.billingModal.nativeElement.click();
+        this.router.navigate(['/billing-and-subscription']);
        
       }
     });

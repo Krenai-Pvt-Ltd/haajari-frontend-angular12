@@ -340,11 +340,6 @@
   color: blue;
 }
 
-.active-check {
-  text-align: center;
-  margin: 0 auto;
-}
-
 .noactive-check i {
   font-size: 26px;
   color: #444;
@@ -436,7 +431,7 @@
 }
 
 .categryCustomizeinfo {
-  width: 90%;
+  width: 75%;
 }
 
 .categryCustomizeinfo label {
@@ -1321,4 +1316,16 @@ nz-date-picker.nz-overlay-container.whatapp-login-input {
 
 nz-time-picker {
   margin: 0 8px 12px 0;
+}
+
+.pre-hour-value, .post-hour-value{
+  text-align: center;
+}
+
+.pre-hour-value p, .post-hour-value p{
+  font-size: 12px;
+  color: #6666f3;
+  background-color: #E9E9FF;
+  padding: 3px 7px;
+  border-radius: 15px;
 }

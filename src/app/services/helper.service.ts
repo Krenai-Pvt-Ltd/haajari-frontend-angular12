@@ -28,11 +28,12 @@ export class HelperService {
 
   async getDecodedValueFromToken(): Promise<any> {
     
-    return new Promise<any>((resolve, reject) => {
+    return new Promise<any>(async (resolve, reject) => {
       try {
         const token = localStorage.getItem('token');
         if (token != null) {
-          const decodedValue: any = jwtDecode(token);
+          const decodedValue: any = await jwtDecode(token);
+          console.log("decodedValue",decodedValue)
           resolve(decodedValue);
         } else {
           reject('Token is null!');
@@ -114,6 +115,9 @@ export class HelperService {
   formatDateToHHmm(date : Date){
     return formatDate(date, 'HH:mm', 'en-US');
   }
+
+
+
   
 
   toastSubscription:Subject<boolean> = new Subject<boolean>();
@@ -125,8 +129,11 @@ export class HelperService {
   start(){
     this.toastSubscription.next(true);
   }
-  toastMessage:string="";
-  toastColorStatus:string="";
+
+
+
+  toastMessage : string = '';
+  toastColorStatus : string = '';
   showToast(message:string, colorStatus:string){
     this.toastMessage = message;
     this.toastColorStatus = colorStatus;
@@ -137,8 +144,8 @@ export class HelperService {
   }
 
 
-  private data: any;
 
+  private data: any;
   setData(data: any) {
     this.data = data;
   }

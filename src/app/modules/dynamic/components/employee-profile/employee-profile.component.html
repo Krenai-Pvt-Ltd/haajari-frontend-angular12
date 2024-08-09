@@ -1211,6 +1211,37 @@
                   <!--end row-->
                 </div>
                 <div class="p-3" id="payslip" role="" *ngIf="activeFinancesTabFlag">
+
+                  <div class="row mt-1">
+                    <div class="col-md-12 search-area" style="
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                      ">
+                      <div class="col-md-2">
+                        <nz-date-picker nzMode="month" [nzSize]="size" [(ngModel)]="selectedDate"
+                          (ngModelChange)="onMonthChange($event)" [nzDisabledDate]="disableMonths"></nz-date-picker>
+                      </div>
+                      <div class="add-filtter d-flex align-items-center justify-content-end" style="gap: 10px">
+                        <ng-container *ngIf="userRoleFlag; else salaryConfiguration">
+                          <span class="bonus-appraisal-configuration" style="cursor: pointer;"
+                            (click)="goToManageStatutory()">Edit salary configuration <i class="bi bi-pencil"></i>
+                          </span>
+                        </ng-container>
+                        <ng-template #salaryConfiguration>
+                          <span class="bonus-appraisal-configuration" style="cursor: pointer;"
+                            (click)="openBonusRequestModal()">Add Bonus</span> | <span
+                            class="bonus-appraisal-configuration" style="cursor: pointer;"
+                            (click)="openAppraisalRequestModal()">Appraise Now</span> | <span
+                            class="bonus-appraisal-configuration" style="cursor: pointer;"
+                            (click)="goToManageStatutory()">View users' configuration <i
+                              class="bi bi-arrow-right"></i>
+                          </span>
+                        </ng-template>
+                      </div>
+                    </div>
+                  </div>
+
                   <div id="configure-salary-setting" class="errorboxmain" style="min-height: 45vh" *ngIf="
                       salaryConfigurationStepId == CONFIGURE_SALARY_SETTING
                     " (click)="goToManageStatutory()">
@@ -1660,39 +1691,10 @@
                     </div>
                   </div>
                   <div id="pay_slip" *ngIf="salaryConfigurationStepId == PAY_SLIP">
-                    <div class="row d-flex justify-content-between">
-                      <div class="col-md-8">
-                        <h4>Payroll Details:</h4>
-                        <p class="text-muted">Here you can view the detailed breakdown of your payroll.</p>
-                      </div>
-                      <div class="col-md-4">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                          <div style="cursor: pointer;">
-                            <ng-container *ngIf="userRoleFlag; else salaryConfiguration">
-                              <span class="bonus-appraisal-configuration" style="cursor: pointer;"
-                                (click)="goToManageStatutory()">Edit salary configuration <i class="bi bi-pencil"></i>
-                              </span>
-                            </ng-container>
-                            <ng-template #salaryConfiguration>
-                              <span class="bonus-appraisal-configuration" style="cursor: pointer;"
-                                (click)="openBonusRequestModal()">Add Bonus</span> | <span
-                                class="bonus-appraisal-configuration" style="cursor: pointer;"
-                                (click)="openAppraisalRequestModal()">Appraise Now</span> | <span
-                                class="bonus-appraisal-configuration" style="cursor: pointer;"
-                                (click)="goToManageStatutory()">View users' configuration <i
-                                  class="bi bi-arrow-right"></i>
-                              </span>
-                            </ng-template>
-                          </div>
-                        </div>
-                        <nz-date-picker nzMode="month" [nzSize]="size" [(ngModel)]="selectedDate"
-                          (ngModelChange)="onMonthChange($event)" [nzDisabledDate]="disableMonths"></nz-date-picker>
-                      </div>
-                    </div>
                     <div class="row justify-content-center">
                       <div class="col-md-8">
                         <div class="row my-4">
-                          <div class="col-md-6" style="margin-top: -120px;">
+                          <div class="col-md-6" style="margin-top: -92px;">
                             <ngx-charts-pie-chart [view]="view" [scheme]="colorScheme" [results]="single"
                               [legend]="showLegend" [explodeSlices]="explodeSlices" [labels]="showLabels"
                               [doughnut]="doughnut" [gradient]="gradient"
@@ -1702,7 +1704,7 @@
                               {{ getCenterLabel() }}
                             </div> -->
                           </div>
-                          <div class="col-md-6">
+                          <div class="col-md-6 mt-3">
                             <h4>Payroll Summary</h4>
                             <p class="text-muted">From {{this.startDate | date: 'dd'}} - {{this.endDate | date: 'dd
                               MMMM, yyyy'}}</p>
@@ -1726,89 +1728,96 @@
                           </div>
                         </div>
                         <!-- Second Section -->
-                        <div class="row pay-slip-breakup">
-                          <div class="col-md-4 mb-4"
-                            *ngFor="let employeePayslipBreakupResponse of employeePayslipBreakupResponseList">
+
+                        <div class="row">
+                          <div class="col-md-4" *ngFor="let employeePayslipBreakupResponse of employeePayslipBreakupResponseList">
+                              <div class="card">
+                                  <div class="card-body"> 
+                                      <div class="media">
+
+                                        <div class="d-flex justify-content-center align-items-center thumb-xl bg-light-alt rounded-circle mx-auto">
+                                          <i class="{{employeePayslipBreakupResponse.iconClass}} font-30 align-self-center text-muted"></i>
+                                        </div>
+
+                                          <div class="media-body align-self-center"> 
+                                              <div class="coin-bal">                                                        
+                                                  <h4 class="mt-0 mb-1 font-22 fw-bold">₹{{employeePayslipBreakupResponse.amount}}</h4>
+                                                  <p class="text-muted mb-0 ">{{employeePayslipBreakupResponse.name}}</p>
+                                              </div>                                                                                              
+                                          </div><!--end media body-->
+                                      </div><!--end media-->
+                                  </div><!--end card-body--> 
+                              </div><!--end card-->
+                          </div><!--end col-->     
+                          
+                          <div class="col-md-4" *ngIf="employeePayslipDeductionResponse.epfAmount > 0">
                             <div class="card">
-                              <div class="card-body">
-                                <div class="card-body-header">
-                                  <h5 class="card-title">{{employeePayslipBreakupResponse.name}}</h5>
-                                  <span class="card-body-header-icon">
-                                    <i class="{{employeePayslipBreakupResponse.iconClass}}"></i>
-                                  </span>
-                                </div>
-                                <h3>₹{{employeePayslipBreakupResponse.amount}}</h3>
-                                <p class="card-text text-muted">Last Update: 26 Aug 2022</p>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-md-4 mb-4" *ngIf="employeePayslipDeductionResponse.epfAmount > 0">
-                            <div class="card">
-                              <div class="card-body">
-                                <div class="card-body-header">
-                                  <h5 class="card-title">EPF</h5>
-                                  <span class="card-body-header-icon">
-                                    <i class="bi bi-piggy-bank"></i>
-                                  </span>
-                                </div>
-                                <h3>₹{{employeePayslipDeductionResponse.epfAmount}}</h3>
-                                <p class="card-text text-muted">Last Update: 1 Feb 2023</p>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-md-4 mb-4" *ngIf="employeePayslipDeductionResponse.esiAmount > 0">
-                            <div class="card">
-                              <div class="card-body">
-                                <div class="card-body-header">
-                                  <h5 class="card-title">ESI</h5>
-                                  <span class="card-body-header-icon">
-                                    <i class="bi bi-receipt-cutoff"></i>
-                                  </span>
-                                </div>
-                                <h3>₹{{employeePayslipDeductionResponse.esiAmount}}</h3>
-                                <p class="card-text text-muted">Last Update: 20 Mar 2023</p>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-md-4 mb-4" *ngIf="employeePayslipDeductionResponse.tdsAmount > 0">
-                            <div class="card">
-                              <div class="card-body">
-                                <div class="card-body-header">
-                                  <h5 class="card-title">TDS</h5>
-                                  <span class="card-body-header-icon">
-                                    <i class="bi bi-bank"></i>
-                                  </span>
-                                </div>
-                                <h3>₹{{employeePayslipDeductionResponse.tdsAmount}}</h3>
-                                <p class="card-text text-muted">Last Update: 5 Apr 2023</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                                <div class="card-body"> 
+                                    <div class="media">
+                                      <div class="d-flex justify-content-center align-items-center thumb-xl bg-light-alt rounded-circle mx-auto">
+                                        <i class="bi bi-piggy-bank font-30 align-self-center text-muted"></i>
+                                      </div>
+
+                                        <div class="media-body align-self-center"> 
+                                            <div class="coin-bal">                                                        
+                                                <h4 class="mt-0 mb-1 font-22 fw-bold">₹{{employeePayslipDeductionResponse.epfAmount}}</h4>
+                                                <p class="text-muted mb-0 ">EPF</p>
+                                            </div>                                                                                              
+                                        </div><!--end media body-->
+                                    </div><!--end media-->
+                                </div><!--end card-body--> 
+                            </div><!--end card-->
+                        </div><!--end col-->     
+
+                        <div class="col-md-4" *ngIf="employeePayslipDeductionResponse.esiAmount > 0">
+                          <div class="card">
+                              <div class="card-body"> 
+                                  <div class="media">
+                                    <div class="d-flex justify-content-center align-items-center thumb-xl bg-light-alt rounded-circle mx-auto">
+                                      <i class="bi bi-receipt-cutoff font-30 align-self-center text-muted"></i>
+                                    </div>
+                                      <div class="media-body align-self-center"> 
+                                          <div class="coin-bal">                                                        
+                                              <h4 class="mt-0 mb-1 font-22 fw-bold">₹{{employeePayslipDeductionResponse.esiAmount}}</h4>
+                                              <p class="text-muted mb-0 ">ESI</p>
+                                          </div>                                                                                              
+                                      </div><!--end media body-->
+                                  </div><!--end media-->
+                              </div><!--end card-body--> 
+                          </div><!--end card-->
+                      </div><!--end col-->     
+
+                      <div class="col-md-4" *ngIf="employeePayslipDeductionResponse.tdsAmount > 0">
+                        <div class="card">
+                            <div class="card-body"> 
+                                <div class="media">
+                                  <div class="d-flex justify-content-center align-items-center thumb-xl bg-light-alt rounded-circle mx-auto">
+                                    <i class="bi bi-receipt-cutoff font-30 align-self-center text-muted"></i>
+                                  </div>
+                                    <div class="media-body align-self-center"> 
+                                        <div class="coin-bal">                                                        
+                                            <h4 class="mt-0 mb-1 font-22 fw-bold">₹{{employeePayslipDeductionResponse.tdsAmount}}</h4>
+                                            <p class="text-muted mb-0 ">TDS</p>
+                                        </div>                                                                                              
+                                    </div><!--end media body-->
+                                </div><!--end media-->
+                            </div><!--end card-body--> 
+                        </div><!--end card-->
+                    </div><!--end col-->     
+
                       </div>
+                    </div>
                       <div class="col-md-4 mt-3">
-                        <div class="documents-container">
-                          <div class="documents-header">
-                            <h2 style="color: #6666f3;">Pay Slip Log</h2>
-                          </div>
-                          <div class="documents-update">Last Update:
-                            {{employeePayslipLogResponseList[0]?.paySlipGeneratedDate | date : 'd MMM, y'}}
-                          </div>
-                          <div class="document-item"
-                            *ngFor="let employeePayslipLogResponse of employeePayslipLogResponseList">
-                            <div class="document-details">
-                              <i class="bi bi-file-earmark-text"></i>
-                              <p>{{employeePayslipLogResponse.paySlipMonth | date: 'MMMM, yyyy' }} Payslip
-                                <span>PDF</span>
-                              </p>
-                            </div>
-                            <div class="document-actions">
-                              <p>{{employeePayslipLogResponse.paySlipGeneratedDate | date:"dd MMM yy, hh:mm a"}}</p>
-                              <i class="bi bi-download"
-                                (click)="downloadPaySlip(employeePayslipLogResponse.paySlipUrl, 'Payslip')"></i>
-                            </div>
-                          </div>
-                        </div>
+                      
+                        <ul class="list-group">
+                          <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let employeePayslipLogResponse of employeePayslipLogResponseList">
+                              <div>
+                                  <p style="margin-bottom: 0px;"><i class="la la-check text-muted font-16 me-2"></i>Payslip - {{employeePayslipLogResponse.paySlipMonth | date: 'MMMM, yyyy' }} </p><small style="margin-left: 24px;" class="text-muted">{{employeePayslipLogResponse.paySlipGeneratedDate | date:"dd MMM yy, hh:mm a"}}</small>
+                              </div>
+                              <span class="badge badge-outline-success badge-pill"><i class="ti ti-arrow-bar-to-down"></i>Download</span>
+                          </li>
+                      </ul>
+
                       </div>
                     </div>
                     <!-- <div style="
@@ -3686,9 +3695,9 @@
 
 <!--  modal attendace update request  -->
 <!-- Button to trigger the modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#attendanceUpdateModal">
+<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#attendanceUpdateModal">
   Request Attendance Time Update
-</button>
+</button> -->
 
 <!-- Modal -->
 <div class="modal fade" id="attendanceUpdateModal" tabindex="-1" aria-labelledby="attendanceUpdateModalLabel"

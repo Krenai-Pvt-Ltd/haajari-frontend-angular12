@@ -34,6 +34,7 @@ export class Key {
     '/task-manager',
     '/payment',
     '/assets',
+    '/coins',
     '/userlist',
     '/addtoslack',
     '/waiting',
@@ -85,6 +86,7 @@ export class Key {
     '/employee-onboarding-sidebar',
     '/reports',
     '/assets',
+    '/coins',
     '/employee-profile',
     '/add-role',
     '/setting/billing',
@@ -207,6 +209,7 @@ export class Key {
 
   // Krenai UUID
   public static KRENAI_UUID = '60811bf3-ae1e-11ee-9597-784f4361d885';
+  public static DEMO_ORGANIZATION_UUID = '8d3cc5c2-21a7-11ef-98b2-0a3b903b1973';
 
   base_url = 'http://localhost:8080/api/v2';
 
@@ -241,7 +244,7 @@ export class Key {
   get_mail = '/user-notification/mail';
 
   //Coupon
-  verify_coupon = '/coupon';
+  verify_coupon = '/coupon/verify';
 
   check_user_email_existence = '/users/check-email-existence';
   check_user_phone_existence = '/users/check-phone-existence';
@@ -329,6 +332,10 @@ export class Key {
   //Salary template tab
   public static SALARY_TEMPLATE_STEP = 'SALARY_TEMPLATE_STEP';
   public static STAFF_SELECTION_STEP = 'STAFF_SELECTION_STEP';
+
+  //Overtime configuration hour type
+  public static PRE_HOUR = 1;
+  public static POST_HOUR = 2;
 
 }
 

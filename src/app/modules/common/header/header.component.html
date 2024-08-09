@@ -130,6 +130,12 @@
                 <span class=" "><i class="bi bi-box menu-icon"></i> Assets</span>
               </a>
             </li>
+            <li class="pointer" *ngIf="shouldDisplay('coins') || ORGANIZATION_UUID == KRENAI_UUID" routerLinkActive="sidebar-menu-active"
+            routerLink="/coins">
+            <a class="sidebar-menu-link">
+              <span class=" "><i class="bi bi-coin menu-icon"></i> Super Coins</span>
+            </a>
+          </li>
             <!-- else projectCondition -->
             <!-- <ng-container *ngIf="ROLE === ADMIN && ORGANIZATION_UUID == KRENAI_UUID">
               <li class="pointer" *ngIf="shouldDisplay('project')">
@@ -205,7 +211,7 @@
           </ul>
         </div>
 
-        <div class="" *ngIf="ROLE == ADMIN && ORGANIZATION_UUID == KRENAI_UUID">
+        <div class="" *ngIf="ROLE == ADMIN && (ORGANIZATION_UUID == KRENAI_UUID || ORGANIZATION_UUID == DEMO_ORGANIZATION_UUID)">
           <div class="sidebar-menu-heding">PAYROLL</div>
           <ul class="sidebar-menu">
             <li class="pointer" routerLinkActive="sidebar-menu-active" routerLink="/payment/payroll-dashboard">
@@ -215,7 +221,7 @@
             </li>
             <li class="pointer" routerLinkActive="sidebar-menu-active" routerLink="/payment/bonus-and-deduction">
               <a class="sidebar-menu-link">
-                <span class=" "><i class="ti ti-gift"></i> Bouns & Deduction</span>
+                <span class=" "><i class="ti ti-gift"></i> Bonus & Deduction</span>
               </a>
             </li>
             <li class="pointer" routerLinkActive="sidebar-menu-active" routerLink="/payment/epf-esi-tds">

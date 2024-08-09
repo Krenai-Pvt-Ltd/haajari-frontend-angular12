@@ -63,14 +63,13 @@ export class LoginComponent implements OnInit {
   ROLE: any;
   UUID: any;
 
-  
   signIn() {
     debugger
     this.loginButtonLoader = true;
     this.dataService
       .loginUser(this.email, this.password)
       .pipe(
-        tap((response) => {
+        tap(async (response) => {
           console.log(response);
           this.helperService.subModuleResponseList =
             response.subModuleResponseList;
@@ -79,45 +78,99 @@ export class LoginComponent implements OnInit {
             'refresh_token',
             response.tokenResponse.refresh_token
           );
-        }),
-        switchMap(() => this.rbacService.getRole()),
-        tap((ROLE) => {
-          this.ROLE = ROLE;
-        }),
-        switchMap(() => this.rbacService.getUUID()),
-        tap((UUID) => {
-          this.UUID = UUID;
+         await this.rbacService.initializeUserInfo();
+         this.UUID=this.rbacService.userInfo.uuid;
+         this.ROLE = this.rbacService.userInfo.role;
 
-          if (this.ROLE === 'USER') {
-            this.router.navigate(['/employee-profile'], {
-              queryParams: { userId: this.UUID, dashboardActive: 'true' },
-            });
-          } else if (this.ROLE == 'HR ADMIN') {
-             this.router.navigate(['/employee-onboarding-data']);
-          } else {
-            const helper = new JwtHelperService();
-            const token = localStorage.getItem('token');
-            if (token != null) {
-              const onboardingStep = helper.decodeToken(token).statusResponse;
-              if (onboardingStep == '5') {
-                this.router.navigate(['/dashboard']);
-              } else {
-                this.router.navigate([
-                  '/organization-onboarding/personal-information',
-                ]);
-              }
+         if (this.ROLE === 'USER') {
+          this.router.navigate(['/employee-profile'], {
+            queryParams: { userId: this.UUID, dashboardActive: 'true' },
+          });
+        } else if (this.ROLE == 'HR ADMIN') {
+           this.router.navigate(['/employee-onboarding-data']);
+        } else {
+          const helper = new JwtHelperService();
+          const token = localStorage.getItem('token');
+          if (token != null) {
+            const onboardingStep = helper.decodeToken(token).statusResponse;
+            if (onboardingStep == '5') {
+              this.router.navigate(['/dashboard']);
+            } else {
+              this.router.navigate([
+                '/organization-onboarding/personal-information',
+              ]);
             }
           }
+        }
         }),
+        
+        switchMap(() => this.rbacService!.userInfo!.uuid),
+       
         catchError((error) => {
-          console.log(error.error.message);
-          this.errorMessage = error.error.message;
+          console.log(error);
+          // this.errorMessage = error.error.message;
           this.loginButtonLoader = false;
           return of(null); // handle error appropriately
         })
       )
       .subscribe();
   }
+  // signIn() {
+  //   debugger
+  //   this.loginButtonLoader = true;
+  //   this.dataService
+  //     .loginUser(this.email, this.password)
+  //     .pipe(
+  //       tap(async (response) => {
+  //         console.log(response);
+  //         this.helperService.subModuleResponseList =
+  //           response.subModuleResponseList;
+  //         localStorage.setItem('token', response.tokenResponse.access_token);
+  //         localStorage.setItem(
+  //           'refresh_token',
+  //           response.tokenResponse.refresh_token
+  //         );
+  //        await this.rbacService.initializeUserInfo();
+  //        this.UUID=this.rbacService.userInfo.uuid
+  //       }),
+  //       switchMap(() => this.rbacService.getRole()),
+  //       tap((ROLE) => {
+  //         this.ROLE = ROLE;
+  //       }),
+  //       switchMap(() => this.rbacService!.userInfo!.uuid),
+  //       tap((UUID) => {
+  //         this.UUID = UUID;
+
+  //         if (this.ROLE === 'USER') {
+  //           this.router.navigate(['/employee-profile'], {
+  //             queryParams: { userId: this.UUID, dashboardActive: 'true' },
+  //           });
+  //         } else if (this.ROLE == 'HR ADMIN') {
+  //            this.router.navigate(['/employee-onboarding-data']);
+  //         } else {
+  //           const helper = new JwtHelperService();
+  //           const token = localStorage.getItem('token');
+  //           if (token != null) {
+  //             const onboardingStep = helper.decodeToken(token).statusResponse;
+  //             if (onboardingStep == '5') {
+  //               this.router.navigate(['/dashboard']);
+  //             } else {
+  //               this.router.navigate([
+  //                 '/organization-onboarding/personal-information',
+  //               ]);
+  //             }
+  //           }
+  //         }
+  //       }),
+  //       catchError((error) => {
+  //         console.log(error);
+  //         // this.errorMessage = error.error.message;
+  //         this.loginButtonLoader = false;
+  //         return of(null); // handle error appropriately
+  //       })
+  //     )
+  //     .subscribe();
+  // }
   // signIn2() {
   //   debugger
   //   this.loginButtonLoader = true;
@@ -455,6 +508,7 @@ export class LoginComponent implements OnInit {
             if (role == 'ADMIN') {
               if (onboardingStep == '5') {
                 this.router.navigate(['/dashboard']);
+
               } else {
                 this.router.navigate([
                   '/organization-onboarding/personal-information',

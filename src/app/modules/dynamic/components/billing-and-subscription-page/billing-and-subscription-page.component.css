@@ -1,0 +1,166 @@
+/* Full-screen container with a gradient background and centered content */
+.full-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    overflow-y: auto;
+    z-index: 1050;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem; /* Increased padding for better spacing */
+}
+
+/* Page header with a vibrant gradient background and shadow */
+.page-header {
+    width: 100%;
+    background: linear-gradient(135deg, #6610f2 0%, #007bff 100%);
+    color: white; /* Ensure the text color is white */
+    text-align: center;
+    border-radius: 0 0 1rem 1rem; /* Rounded corners at the bottom */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Heavier shadow */
+    padding: 2rem; /* Increased padding */
+    font-size: 2rem; /* Larger font size */
+    position: relative; /* For positioning decorative elements */
+    overflow: hidden; /* Hide overflow for decorative elements */
+}
+
+/* Adding a decorative element */
+.page-header::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 80px; /* Height of the decorative element */
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 100%);
+    border-radius: 50% 50% 0 0;
+    z-index: 0; /* Behind the text */
+}
+
+.page-header h3 {
+    position: relative; /* To stack text above decorative element */
+    z-index: 1;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4); /* Text shadow for better readability */
+    color: white; /* Ensure the text color is white */
+}
+
+
+/* Card styling with a subtle shadow and rounded corners */
+.card {
+    border: none;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Heavier shadow for emphasis */
+    margin: 1rem 0; /* Margin for spacing between cards */
+    width: 100%; /* Full width */
+    max-width: 100%; /* Ensure it doesn't exceed container width */
+}
+
+/* Card body with enhanced padding and spacing */
+.card-body {
+    padding: 2rem; /* Increased padding for better content spacing */
+}
+
+/* Buttons with gradient backgrounds and hover effects */
+.btn-primary {
+    background: linear-gradient(135deg, #6610f2 0%, #007bff 100%);
+    border: none;
+    color: white;
+    border-radius: 0.25rem;
+    padding: 0.75rem 1.5rem; /* Larger padding for buttons */
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #007bff 0%, #6610f2 100%);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Heavier shadow on hover */
+}
+
+.btn-secondary {
+    background: #6c757d;
+    border: none;
+    color: white;
+    border-radius: 0.25rem;
+    padding: 0.75rem 1.5rem; /* Larger padding for buttons */
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background: #5a6268;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Heavier shadow on hover */
+}
+
+/* Input group styling with rounded corners and a border */
+.input-group {
+    border-radius: 0.25rem;
+    border: 1px solid #ced4da;
+    margin-bottom: 1rem;
+}
+
+.input-group .form-control {
+    border-radius: 0.25rem 0 0 0.25rem;
+}
+
+.input-group .btn {
+    border-radius: 0 0.25rem 0.25rem 0;
+}
+
+/* Enhanced text styling for better readability */
+.text-primary {
+    color: #007bff !important;
+}
+
+.text-success {
+    color: #28a745 !important;
+}
+
+.text-danger {
+    color: #dc3545 !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .page-header {
+        font-size: 1.5rem;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        padding: 0.5rem 1.25rem;
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .page-header {
+        font-size: 1.25rem;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .card-body {
+        padding: 1rem;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        padding: 0.5rem 1rem;
+        font-size: 0.75rem;
+    }
+
+    .full-screen {
+        padding: 1rem; /* Adjusted padding for smaller screens */
+    }
+}
