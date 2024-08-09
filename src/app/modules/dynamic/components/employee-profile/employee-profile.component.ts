@@ -78,6 +78,7 @@ export class EmployeeProfileComponent implements OnInit {
   hideDetailsFlag: boolean = false;
   adminRoleFlag: boolean = false;
   userRoleFlag: boolean = false;
+  showPlaceholder: boolean = false;
 
   constructor(
     private dataService: DataService,
