@@ -3001,6 +3001,16 @@ attendanceRequestLog: any[] = [];
       console.log(error);
     });
   }
+
+  //  super coins func 
+
+  getSuperCoinsResponseForEmployeeData() {
+    this.dataService.getSuperCoinsResponseForEmployee(this.userId).subscribe(response => {
+
+    }, (error) => {
+      console.log(error);
+    });
+  }
   
 
   

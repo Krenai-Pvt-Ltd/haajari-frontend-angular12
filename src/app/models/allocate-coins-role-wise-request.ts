@@ -7,11 +7,12 @@ export interface AllocateCoinsRoleWiseRequest {
   }
 
   export interface RolesForSuperCoinsResponse {
-    id: number;
-    name: string;
+    roleId: number;
+    roleName: string;
   }
 
   export interface AllocateCoinsRoleWiseResponse {
+    id: number;
     allocatedCoins: number;
     donateLimitForManager: number;
     donateLimitForUser: number;

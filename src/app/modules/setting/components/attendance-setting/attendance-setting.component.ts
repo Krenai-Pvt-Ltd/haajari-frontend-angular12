@@ -2356,6 +2356,7 @@ formatMinutesToTime(minutes: number): string {
     } else{
       this.PRE_HOUR_TOGGLE = false;
       this.overtimeSettingRequest.accessibility = this.DISABLE;
+      this.enableOrDisablePreHourOvertimeSettingMethodCall();
     }
 
   }
@@ -2368,34 +2369,28 @@ formatMinutesToTime(minutes: number): string {
     } else{
       this.POST_HOUR_TOGGLE = false;
       this.overtimeSettingRequest.accessibility = this.DISABLE;
+      this.enableOrDisablePostHourOvertimeSettingMethodCall();
     }
   }
 
-  setPreHours(accessibility : number){
-
-  }
-
-  setPostHours(accessibility : number){
-
-  }
-
   updatePreHourOvertimeSetting(event : any){
-    debugger;
-    this.overtimeSettingRequest.hour = this.helperService.formatDateToHHmmss(event);
+    this.overtimeSettingRequest.upadtedHour = this.helperService.formatDateToHHmmss(event);
   }
 
   updatePostHourOvertimeSetting(event : any){
-    this.overtimeSettingRequest.hour = this.helperService.formatDateToHHmmss(event);
+    this.overtimeSettingRequest.upadtedHour = this.helperService.formatDateToHHmmss(event);
   }
 
   preHourModalClose(){
     this.PRE_HOUR_TOGGLE = false;
     this.preHourOvertimeSettingResponse.loading = false;
+    this.overtimeSettingRequest = new OvertimeSettingRequest();
   }
 
   postHourModalClose(){
     this.POST_HOUR_TOGGLE = false;
     this.postHourOvertimeSettingResponse.loading = false;
+    this.overtimeSettingRequest = new OvertimeSettingRequest();
   }
   
 
@@ -2404,6 +2399,7 @@ formatMinutesToTime(minutes: number): string {
     // this.PRE_HOUR_SUBMIT_BUTTON_TOGGLE = true;
     this.dataService.enableOrDisablePreHourOvertimeSetting(this.overtimeSettingRequest).subscribe((response) => {
       // this.PRE_HOUR_SUBMIT_BUTTON_TOGGLE = false;
+      this.getPreHourOvertimeSettingResponseMethodCall();
       this.preHourModalClose();
       this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
     }, (error) => {
@@ -2415,6 +2411,7 @@ formatMinutesToTime(minutes: number): string {
   enableOrDisablePostHourOvertimeSettingMethodCall(){
     this.dataService.enableOrDisablePostHourOvertimeSetting(this.overtimeSettingRequest).subscribe((response) => {
       // this.POST_HOUR_SUBMIT_BUTTON_TOGGLE = false;
+      this.getPostHourOvertimeSettingResponseMethodCall();
       this.postHourModalClose();
       this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
     }, (error) => {
