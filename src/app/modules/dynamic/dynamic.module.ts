@@ -81,6 +81,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { BillingAndSubscriptionPageComponent } from './components/billing-and-subscription-page/billing-and-subscription-page.component';
+import { CoinsComponent } from './components/coins/coins.component';
 
 
 
@@ -131,6 +132,7 @@ import { BillingAndSubscriptionPageComponent } from './components/billing-and-su
     LeaveManagementComponent,
     AssetsComponent,
     BillingAndSubscriptionPageComponent,
+    CoinsComponent,
   ],
   imports: [
     CommonModule,
