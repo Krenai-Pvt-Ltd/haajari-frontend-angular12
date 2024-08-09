@@ -261,10 +261,10 @@ this.getSubscriptionPlanDetails(plandId);
 
   applyCoupon() {
       this._subscriptionPlanService
-          .verifyCoupon(this.couponCode, this.originalAmount)
+          .verifyCoupon(this.couponCode, this.originalAmount, this.sbscriptionPlanReq.planType)
           .subscribe((response) => {
               if (response.status) {
-                
+                 this.message = '';
                   this.coupon = response.object;
                   this.verifiedCoupon = response.object.couponCode;
                   console.log(this.verifiedCoupon);

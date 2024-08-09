@@ -189,9 +189,10 @@ export class BillingPaymentComponent implements OnInit {
 
   applyCoupon() {
       this._subscriptionPlanService
-          .verifyCoupon(this.couponCode, this.originalAmount)
+          .verifyCoupon(this.couponCode, this.originalAmount, this.sbscriptionPlanReq.planType)
           .subscribe((response) => {
               if (response.status) {
+                this.message = '';
                   this.coupon = response.object;
                   this.verifiedCoupon = response.object.couponCode;
                   this.tempTotalAmount = this.originalAmount;
@@ -205,6 +206,7 @@ export class BillingPaymentComponent implements OnInit {
           });
   }
   
+
   selecrPlanType(value: string) {
       this.sbscriptionPlanReq.planType = value;
       this.originalAmount = this.sbscriptionPlanReq.noOfEmployee * this.subscriptionPlan?.amount;

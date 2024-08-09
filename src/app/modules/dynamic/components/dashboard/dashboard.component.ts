@@ -1479,9 +1479,10 @@ this.getSubscriptionPlanDetails(plandId);
 
   applyCoupon() {
       this._subscriptionPlanService
-          .verifyCoupon(this.couponCode, this.originalAmount)
+          .verifyCoupon(this.couponCode, this.originalAmount, this.sbscriptionPlanReq.planType)
           .subscribe((response) => {
               if (response.status) {
+                this.message = '';
                 this.verifiedCoupon = response.object.couponCode;
                   this.coupon = response.object;
                   this.tempTotalAmount = this.originalAmount;
