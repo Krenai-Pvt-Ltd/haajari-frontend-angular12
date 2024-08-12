@@ -2404,7 +2404,8 @@ formatMinutesToTime(minutes: number): string {
       this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
     }, (error) => {
       // this.PRE_HOUR_SUBMIT_BUTTON_TOGGLE = false;
-      this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+      this.preHourOvertimeSettingResponse.loading = false;
+      this.helperService.showToast('Error while upating the Pre Hours!', Key.TOAST_STATUS_ERROR);
     })
   }
 
@@ -2416,7 +2417,8 @@ formatMinutesToTime(minutes: number): string {
       this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
     }, (error) => {
       // this.POST_HOUR_SUBMIT_BUTTON_TOGGLE = false;
-      this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+      this.postHourOvertimeSettingResponse.loading = false;
+      this.helperService.showToast('Error while upating the Post Hours!', Key.TOAST_STATUS_ERROR);
     })
   }
 

@@ -55,6 +55,7 @@ import { EmployeePayslipLogResponse } from 'src/app/employee-payslip-log-respons
 import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 import { LopReversalApplicationRequest } from 'src/app/models/lop-reversal-application-request';
 import { OrganizationAssetResponse } from 'src/app/models/asset-category-respose';
+import { OvertimeRequestDTO } from 'src/app/models/overtime-request-dto';
 
 @Component({
   selector: 'app-employee-profile',
@@ -71,6 +72,7 @@ export class EmployeeProfileComponent implements OnInit {
 
   userLeaveForm!: FormGroup;
   lopReversalApplicationRequestForm!: FormGroup;
+  overtimeRequestForm!: FormGroup;
   @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
 
   ROLE: any;
@@ -923,6 +925,15 @@ export class EmployeeProfileComponent implements OnInit {
       daysCount: [null, [Validators.required, Validators.pattern("^[0-9]*$")]],
       notes: [''],
       userUuid: ['']
+    });
+  }
+
+  resetOvertimeRequestForm(){
+    this.overtimeRequestForm = this.fb.group({
+      startTime: [null, Validators.required],
+      endTime: [null, [Validators.required, Validators.pattern("^[0-9]*$")]],
+      workingHour: [''],
+      managerUuid: ['']
     });
   }
 
@@ -3012,6 +3023,35 @@ attendanceRequestLog: any[] = [];
     });
   }
   
+
+  
+  // Requesting for overtime
+  dateRange : Date[] = [];
+  
+  selectTimeForOvertimeRequest(dates: Array<Date | null> | Date | Date[] | null): void {
+    // Handle array of dates
+    if (Array.isArray(dates)) {
+      if (dates.length === 2) {
+        this.overtimeRequestDTO.startTime = dates[0] ? new Date(dates[0]) : null;
+        this.overtimeRequestDTO.endTime = dates[1] ? new Date(dates[1]) : null;
+        this.overtimeRequestDTO.workingHour = this.helperService.durationBetweenTwoDatesInHHmmssFormat(this.overtimeRequestDTO.startTime, this.overtimeRequestDTO.endTime);
+        console.log("Working Hour: "+this.overtimeRequestDTO.workingHour);
+      } else {
+        // Handle case where array length is not 2 if necessary
+        console.warn('Expected array with 2 dates, but got:', dates);
+      }
+    } else if (dates instanceof Date) {
+      // Handle single date case if needed
+      console.log('Single Date Selected:', dates);
+    } else if (dates === null) {
+      // Handle null case
+      this.overtimeRequestDTO.startTime = null;
+      this.overtimeRequestDTO.endTime = null;
+    }
+  }
+  
+
+  overtimeRequestDTO : OvertimeRequestDTO = new OvertimeRequestDTO();
 
   
 

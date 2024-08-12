@@ -241,4 +241,22 @@ export class HelperService {
     return `${hours}:${minutes}`;
   }
 
+  durationBetweenTwoDatesInHHmmssFormat(startTime : Date | null, endTime : Date | null){
+
+    if(startTime != null && endTime != null){
+      const diffInMillis = startTime.getTime() - endTime.getTime();
+
+      const totalSeconds = Math.floor(diffInMillis / 1000);
+      const totalMinutes = Math.floor(totalSeconds / 60);
+      const totalHours = Math.floor(totalMinutes / 60);
+  
+      const remSeconds = totalSeconds % 60;
+      const remMinutes = totalMinutes % 60;
+  
+      return `${totalHours}:${totalMinutes}:${totalSeconds}`;
+    }
+
+    return null;
+  }
+
 }
