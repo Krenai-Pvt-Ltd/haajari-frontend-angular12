@@ -3034,7 +3034,7 @@ attendanceRequestLog: any[] = [];
       if (dates.length === 2) {
         this.overtimeRequestDTO.startTime = dates[0] ? new Date(dates[0]) : null;
         this.overtimeRequestDTO.endTime = dates[1] ? new Date(dates[1]) : null;
-        this.overtimeRequestDTO.workingHour = this.helperService.durationBetweenTwoDatesInHHmmssFormat(this.overtimeRequestDTO.startTime, this.overtimeRequestDTO.endTime);
+        this.overtimeRequestDTO.workingHour = this.helperService.durationBetweenTwoDatesInHHmmssFormat(this.overtimeRequestDTO.endTime, this.overtimeRequestDTO.startTime);
         console.log("Working Hour: "+this.overtimeRequestDTO.workingHour);
       } else {
         // Handle case where array length is not 2 if necessary
@@ -3045,14 +3045,30 @@ attendanceRequestLog: any[] = [];
       console.log('Single Date Selected:', dates);
     } else if (dates === null) {
       // Handle null case
-      this.overtimeRequestDTO.startTime = null;
       this.overtimeRequestDTO.endTime = null;
     }
   }
   
 
   overtimeRequestDTO : OvertimeRequestDTO = new OvertimeRequestDTO();
+  registerOvertimeRequestMethodCall(){
+    this.dataService.registerOvertimeRequest(this.overtimeRequestDTO).subscribe((response) => {
+      this.clearOvertimeRequestModal();
+      this.closeOvertimeRequestModal.nativeElement.click();
+      this.helperService.showToast('Overtime request submitted successfully.', Key.TOAST_STATUS_SUCCESS);
+    }, (error) => {
+      this.helperService.showToast('Error while submitting the request!', Key.TOAST_STATUS_ERROR);
+    })
 
+  }
+
+
+  @ViewChild("closeOvertimeRequestModal") closeOvertimeRequestModal !: ElementRef;
+  clearOvertimeRequestModal(){
+    this.overtimeRequestDTO = new OvertimeRequestDTO();
+    this.overtimeRequestDTO.startTime = null;
+    this.overtimeRequestDTO.endTime = null;
+  }
   
 
   

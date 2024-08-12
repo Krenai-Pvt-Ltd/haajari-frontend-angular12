@@ -253,7 +253,7 @@ export class HelperService {
       const remSeconds = totalSeconds % 60;
       const remMinutes = totalMinutes % 60;
   
-      return `${totalHours}:${totalMinutes}:${totalSeconds}`;
+      return `${totalHours.toString().padStart(2, '0')}:${remMinutes.toString().padStart(2, '0')}:${remSeconds.toString().padStart(2, '0')}`;
     }
 
     return null;
