@@ -985,6 +985,8 @@
                           <i class="bi bi-plus" style="font-size: 20px"></i>Apply for a Leave </a>
                         <a class="btn" data-bs-toggle="modal" data-bs-target=".lop-reversal-request">
                           <i class="bi bi-plus" style="font-size: 20px"></i>Apply for Lop Reversal </a>
+                        <a class="btn" data-bs-toggle="modal" data-bs-target=".overtime-request">
+                          <i class="bi bi-plus" style="font-size: 20px"></i>Request for Overtime</a>
                       </div>
                       <ng-container *ngIf="
                           userLeave.length !== 0 && !leaveCountPlaceholderFlag
@@ -3345,6 +3347,110 @@
           </div>
         </div>
       </div>
+
+
+      <div class="modal fade overtime-request" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered mx-auto">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h6 class="modal-title m-0" id="exampleModalCenterTitle">Request for Overtime</h6>
+              <button type="button" class="btn-close" id="overtimeRequestModal" data-bs-dismiss="modal"
+                aria-label="Close" #closeOvertimeRequestModal (click)="clearOvertimeRequestModal()"></button>
+            </div>
+            <div class="modal-body">
+              <div class="overtime-main-box">
+                <form nz-form #overtimeRequestForm="ngForm">
+                  <div class="mb-2" nz-form-item>
+                    <nz-form-label nzFor="selectedDate" style="padding-bottom: 6px">Pick up the date and time:</nz-form-label>
+                    <nz-form-control nzErrorTip="Please select a valid date time.">
+                      <nz-range-picker
+                        [nzShowTime]="{ nzFormat: 'HH:mm' }"
+                        nzFormat="yyyy-MM-dd HH:mm"
+                        ngModel
+                        (ngModelChange)="selectTimeForOvertimeRequest($event)"
+                        (nzOnCalendarChange)="selectTimeForOvertimeRequest($event)"
+                        (nzOnOk)="selectTimeForOvertimeRequest($event)"
+                      ></nz-range-picker>
+                    </nz-form-control>
+                  </div>
+                  <div class="mb-2" nz-form-item>
+                    <nz-form-label nzFor="workingHour" style="padding-bottom: 6px">Overtime Working Hour:</nz-form-label>
+                    <nz-form-control nzErrorTip="Please enter a valid working hour.">
+                      <input nz-input nzSize="default" [(ngModel)]="overtimeRequestDTO.workingHour"
+                      name="workingHour" placeholder="HH:mm:ss" #workingHour="ngModel"/>
+                    </nz-form-control>
+                  </div>
+                  <div class="mb-2" nz-form-item>
+                    <nz-form-label nzFor="manager" style="padding-bottom: 6px;">Select Manager:</nz-form-label>
+                    <nz-form-control>
+                      <nz-select nzShowSearch nzAllowClear style="width: 100%;" nzPlaceHolder="Select manager" 
+                        [(ngModel)]="overtimeRequestDTO.managerId" name="managerUuid">
+                        <nz-option *ngFor="let manager of managers" [nzLabel]="manager.name" [nzValue]="manager.id"></nz-option>
+                      </nz-select>
+                    </nz-form-control>
+                  </div>
+                  <div class="d-flex justify-content-end modal-footer">
+                    <button 
+                      type="submit" 
+                      class="btn btn-outline-primary btn-round" 
+                      [disabled]="!overtimeRequestForm.form.valid" 
+                      (click)="registerOvertimeRequestMethodCall()"> 
+                      Submit 
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+    <!-- <div *ngIf="POST_HOUR_TOGGLE" class="modal show d-block" id="post-hour" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Define Post Hrs.</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="postHourModalClose()"></button>
+          </div>
+          <div class="modal-body">
+            <form nz-form #postHourOvertimeSettingForm="ngForm">
+              forr
+              <nz-form-item>
+                <nz-form-label [nzFor]="'postHour'">Enter the number of hours before shift start to be counted as overtime</nz-form-label>
+                <nz-form-control nzErrorTip="Please enter a valid hour.">
+                  <nz-time-picker 
+                    id="postHour" 
+                    nzFormat="HH:mm" 
+                    [(ngModel)]="overtimeSettingRequest.hour" 
+                    (ngModelChange)="updatePostHourOvertimeSetting($event)" 
+                    nzPlaceHolder="Enter duration here" 
+                    [nzDisabledHours]="disabledHours" 
+                    required 
+                    name="postHour" 
+                    #postHour="ngModel">
+                  </nz-time-picker>
+                </nz-form-control>
+              </nz-form-item>
+              <div class="d-flex justify-content-end modal-footer">
+                <button 
+                  type="submit" 
+                  class="btn btn-outline-primary btn-round" 
+                  [disabled]="postHourOvertimeSettingForm.invalid" 
+                  (click)="enableOrDisablePostHourOvertimeSettingMethodCall()"> 
+                  Submit 
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+
 
       <!-- show image modal -->
       <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#showImageModal"
