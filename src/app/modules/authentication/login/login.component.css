@@ -415,6 +415,11 @@
     margin-top: 15px !important;
     padding: 10px !important;
   }
+  .errortxt {
+    color: red;
+    font-size: 12px;
+    text-align: left;
+  }
 }
 
 @media (max-width: 1024px) {
@@ -519,5 +524,10 @@
   .create-password-warning {
     margin-top: 15px !important;
     padding: 10px !important;
+  }
+  .errortxt {
+    color: red;
+    font-size: 10px;
+    text-align: left;
   }
 }
