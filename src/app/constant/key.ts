@@ -165,7 +165,7 @@ export class Key {
   public static ADMIN = 'ADMIN';
   public static USER = 'USER';
   public static MANAGER = 'MANAGER';
-  public static HRADMIN = 'HR ADMIN'
+  public static HRADMIN = 'HR ADMIN';
 
   // Day wise status
   public static PRESENT = 'Present';
@@ -211,10 +211,10 @@ export class Key {
   public static KRENAI_UUID = '60811bf3-ae1e-11ee-9597-784f4361d885';
   public static DEMO_ORGANIZATION_UUID = '8d3cc5c2-21a7-11ef-98b2-0a3b903b1973';
 
-  base_url = 'http://localhost:8080/api/v2';
+  // base_url = 'http://localhost:8080/api/v2';
 
   /* ------------------  Staging urls ----------------*/
-  // base_url = 'https://staging.hajiri.work/api/v2';
+  base_url = 'https://staging.hajiri.work/api/v2';
 
   /* ------------------  Production urls ----------------*/
   // base_url = 'https://production.hajiri.work/api/v2';
@@ -253,7 +253,8 @@ export class Key {
   create_user = '/whatsapp-user-onboarding/create';
 
   get_onboarding_user = '/whatsapp-user-onboarding/onboarding-user';
-  get_onboarding_user_for_emp_onboarding_data = '/whatsapp-user-onboarding/onboarding-user-for-employee-onboarding-data';
+  get_onboarding_user_for_emp_onboarding_data =
+    '/whatsapp-user-onboarding/onboarding-user-for-employee-onboarding-data';
   delete_onboarding_user = '/whatsapp-user-onboarding/delete';
   edit_onboarding_user = '/whatsapp-user-onboarding/update';
 
@@ -305,8 +306,6 @@ export class Key {
   // Payroll History
   public static PAYROLL_HISTORY = 13;
 
-
-
   //Attendance rule type ids
   public static DEDUCTION_RULE_DEFINITION = 1;
   public static OVERTIME_RULE_DEFINITION = 2;
@@ -319,7 +318,6 @@ export class Key {
   //Overtime pay types
   public static FIX_AMOUNT_STEP = 1;
 
-
   //Date initial and last hours
   public static INITIAL_HOUR = '00:00:00';
   public static END_HOUR = '23:59:59';
@@ -327,7 +325,6 @@ export class Key {
   // Status
   public static PENDING = 13;
   public static APPROVED = 14;
-
 
   //Salary template tab
   public static SALARY_TEMPLATE_STEP = 'SALARY_TEMPLATE_STEP';
@@ -337,16 +334,11 @@ export class Key {
   public static PRE_HOUR = 1;
   public static POST_HOUR = 2;
 
-
   // RazorPay Key
 
   // public static razorKey =  'rzp_test_Wd1RYd0fng3673'; // Test
-  public static razorKey = 'rzp_live_twiokSC5krYrnQ'  // Live
+  public static razorKey = 'rzp_live_twiokSC5krYrnQ'; // Live
   //
   public static ENABLE = 1;
   public static DISABLE = 2;
-
 }
-
-
-
