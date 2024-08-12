@@ -4,7 +4,11 @@
       <div class="row mt-4">
         <div class="col-md-3">
           <div class="employe-onbording">
-            <div class="orderpcardinfo d-flex justify-content-between" style="cursor: pointer;" (click)="selectStatus('APPROVED')">
+            <div
+              class="orderpcardinfo d-flex justify-content-between"
+              style="cursor: pointer"
+              (click)="selectStatus('APPROVED')"
+            >
               <div class="orderpcardleft">
                 <h6>Verified</h6>
                 <h5>{{ verificationCount.approvedEmployees || 0 }}</h5>
@@ -19,7 +23,11 @@
         </div>
         <div class="col-md-3">
           <div class="employe-onbording">
-            <div class="orderpcardinfo d-flex justify-content-between" style="cursor: pointer;" (click)="selectStatus('PENDING')">
+            <div
+              class="orderpcardinfo d-flex justify-content-between"
+              style="cursor: pointer"
+              (click)="selectStatus('PENDING')"
+            >
               <div class="orderpcardleft">
                 <h6>Pending Verification</h6>
                 <h5>{{ verificationCount.pendingEmployees || 0 }}</h5>
@@ -32,10 +40,14 @@
             </div>
           </div>
         </div>
-        
+
         <div class="col-md-3">
           <div class="employe-onbording">
-            <div class="orderpcardinfo d-flex justify-content-between" style="cursor: pointer;" (click)="selectStatus('REJECTED')">
+            <div
+              class="orderpcardinfo d-flex justify-content-between"
+              style="cursor: pointer"
+              (click)="selectStatus('REJECTED')"
+            >
               <div class="orderpcardleft">
                 <h6>Rejected</h6>
                 <h5>{{ verificationCount.rejectedEmployees || 0 }}</h5>
@@ -50,7 +62,11 @@
         </div>
         <div class="col-md-3">
           <div class="employe-onbording">
-            <div class="orderpcardinfo d-flex justify-content-between" style="cursor: pointer;" (click)="selectStatus('REQUESTED')">
+            <div
+              class="orderpcardinfo d-flex justify-content-between"
+              style="cursor: pointer"
+              (click)="selectStatus('REQUESTED')"
+            >
               <div class="orderpcardleft">
                 <h6>Requested</h6>
                 <h5>{{ verificationCount.requestedCount || 0 }}</h5>
@@ -528,6 +544,11 @@
                             >All</a
                           >
                         </li>
+                        <!-- <li style="cursor: default;"> -->
+                          <!-- <h6 class="dropdown-item text-secondary text-sm-start">Status Wise </h6>  -->
+                        <!-- </li> -->
+                        <li class="dropdown-header" aria-disabled="true">Status Wise</li>
+                       
                         <li>
                           <a
                             class="dropdown-item"
@@ -554,6 +575,24 @@
                             class="dropdown-item"
                             (click)="selectStatus('REJECTED')"
                             >Rejected</a
+                          >
+                        </li>
+                        <!-- <li style="cursor: default;"> -->
+                          <!-- <h6 class="dropdown-item text-secondary text-sm-start" >Accessibility Wise </h6>  -->
+                        <!-- </li> -->
+                        <li class="dropdown-header" aria-disabled="true">Accessibility Wise</li>
+                        <li>
+                          <a
+                            class="dropdown-item"
+                            (click)="selectStatus('ACTIVE')"
+                            >Active</a
+                          >
+                        </li>
+                        <li>
+                          <a
+                            class="dropdown-item"
+                            (click)="selectStatus('INACTIVE')"
+                            >Inactive</a
                           >
                         </li>
                       </ul>
@@ -597,7 +636,7 @@
                       </div>
                     </form>
                   </div>
-                  <div *ngIf="!errorToggleTop" style="width: 30%">
+                  <div *ngIf="!errorToggleTop" style="width: 50%">
                     <div class="add-filtter text-end">
                       <a
                         data-bs-toggle="modal"
@@ -607,7 +646,18 @@
                         <i class="bi bi-plus" style="font-size: 18px"></i>
                         Add New Members
                       </a>
+                      <a
+                      data-bs-toggle="modal"
+                      data-bs-target="#sampleFileModal"
+                      type="button"
+                    >
+                      <i class="bi bi-upload" style="font-size: 18px"></i>
+                     Upload Members
+                    </a>
                     </div>
+                    <!-- <div class="add-filtter text-end">
+                     
+                    </div> -->
                   </div>
                 </div>
               </div>
@@ -1072,6 +1122,50 @@
                 </div>
                 <div class="col-md-12">
                   <div class="mb-3">
+                    <label for="phoneNumber" class="pb-2"
+                      >Phone Number
+                      <span class="text-optional"> (Optional)</span>
+                    </label>
+                    <input
+                      type="text"
+                      mask="0000000000"
+                      class="form-control whatapp-login-input"
+                      id="phoneNumber"
+                      name="phoneNumber"
+                      placeholder="Phone number"
+                      [(ngModel)]="userPersonalInformationRequest.phoneNumber"
+                      minlength="10"
+                      maxlength="10"
+                      pattern="[0-9]*"
+                      #phoneNumberField="ngModel"
+                    />
+                    <!-- Error Message for Phone Number -->
+                    <div
+                      *ngIf="
+                        phoneNumberField.touched &&
+                        phoneNumberField.errors?.pattern
+                      "
+                    >
+                      <p class="errortxt mt-2 mb-0" style="color: red">
+                        <i class="bi bi-exclamation-circle"></i> Enter a valid
+                        10-digit phone number.
+                      </p>
+                      <p
+                        class="errortxt mt-2 mb-0"
+                        style="color: red"
+                        *ngIf="
+                          phoneNumberField.errors?.minlength ||
+                          phoneNumberField.errors?.maxlength
+                        "
+                      >
+                        <i class="bi bi-exclamation-circle"></i> Phone number
+                        should be of 10 digits.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="mb-3">
                     <label for="email" class="pb-2"
                       >Email Id <span class="text-optional">*</span>
                     </label>
@@ -1157,50 +1251,6 @@
                   </div>
                 </div>
 
-                <div class="col-md-12">
-                  <div class="mb-3">
-                    <label for="phoneNumber" class="pb-2"
-                      >Phone Number
-                      <span class="text-optional"> (Optional)</span>
-                    </label>
-                    <input
-                      type="text"
-                      mask="0000000000"
-                      class="form-control whatapp-login-input"
-                      id="phoneNumber"
-                      name="phoneNumber"
-                      placeholder="Phone number"
-                      [(ngModel)]="userPersonalInformationRequest.phoneNumber"
-                      minlength="10"
-                      maxlength="10"
-                      pattern="[0-9]*"
-                      #phoneNumberField="ngModel"
-                    />
-                    <!-- Error Message for Phone Number -->
-                    <div
-                      *ngIf="
-                        phoneNumberField.touched &&
-                        phoneNumberField.errors?.pattern
-                      "
-                    >
-                      <p class="errortxt mt-2 mb-0" style="color: red">
-                        <i class="bi bi-exclamation-circle"></i> Enter a valid
-                        10-digit phone number.
-                      </p>
-                      <p
-                        class="errortxt mt-2 mb-0"
-                        style="color: red"
-                        *ngIf="
-                          phoneNumberField.errors?.minlength ||
-                          phoneNumberField.errors?.maxlength
-                        "
-                      >
-                        <i class="bi bi-exclamation-circle"></i> Phone number
-                        should be of 10 digits.
-                      </p>
-                    </div>
-                  </div>
-                </div>
                 <!-- Template -->
               </div>
             </div>
@@ -1318,3 +1368,385 @@
     </div>
   </div>
 </div>
+
+<!-- Trigger Button for Modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sampleFileModal" id="uploadMembersModal">
+  Open Sample File Modal
+</button>
+<!-- Modal -->
+<div class="modal fade" id="sampleFileModal" tabindex="-1" aria-labelledby="sampleFileModalLabel" aria-hidden="true" #sampleFileModal>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="sampleFileModalLabel">Sample Excel File</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeButtonExcelModal></button>
+      </div>
+      <div class="modal-body">
+
+        <ng-container
+        *ngIf="
+          !isShimmer &&
+          onboardUserList.length == 0 &&
+          !networkConnectionErrorPlaceholder
+        "
+      >
+          <div class="col-md-12">
+            <div class="card-body mt-0 p-0">
+              <div class="alert alert-light mb-0" role="alert">
+                <h4 class="alert-heading font-18">
+                  Download the Sample Excel File!
+                </h4>
+                <p>
+                  Look for the sample file titled "Sample_Data.xlsx" and
+                  click on the download button to save it to your
+                  computer.
+                </p>
+                <p>
+                  Take a moment to review the existing data in the Excel
+                  file. This will help you understand the structure and
+                  content of the data before making any updates.
+                </p>
+                <p>
+                  <span class="text-primary"
+                    ><u
+                      ><a class="text-primary" href="{{ sampleFileUrl }}"
+                        >Download a sample Excel file</a
+                      ></u
+                    > </span
+                  >, update its data, and upload it back with the updated
+                  content on our platform
+                </p>
+              </div>
+            </div>
+            <div class="card-body mt-3 p-0">
+              <div
+                class="alert alert-light mb-0 excel-uplode-file-box text-center"
+              >
+                <input
+                  id="fileSelect"
+                  type="file"
+                  name="img[]"
+                  accept=".xlsx"
+                  class="input"
+                  (change)="selectFile($event)"
+                />
+                <img
+                  src="assets/images/excel.svg"
+                  style="width: 50px"
+                  class="pb-3"
+                />
+                <p class="">
+                  Drag file here to upload<br />
+                  or,
+                  <u
+                    ><a class="text-primary" href="#!">
+                      choose file
+                    </a></u
+                  >
+                </p>
+                <div
+                  *ngIf="isProgressToggle"
+                  class="spinner-border text-success"
+                  role="status"
+                ></div>
+              </div>
+            </div>
+          </div>
+          <div
+                  class="alert alert-light mb-0 mt-4 bg-soft-warning create-password-warning text-start"
+                  role="alert"
+                  *ngIf="
+                    alreadyUsedPhoneNumberArray.length > 0 ||
+                    alreadyUsedEmailArray.length > 0 ||
+                    isErrorToggle
+                  "
+                >
+                  <h4 class="alert-heading font-18">Attention!</h4>
+                  <p *ngIf="alreadyUsedPhoneNumberArray.length > 0">
+                    Phone Numbers:
+                    {{ formatAsCommaSeparated(alreadyUsedPhoneNumberArray) }}
+                  </p>
+                  <p *ngIf="alreadyUsedEmailArray.length > 0">
+                    Emails: {{ formatAsCommaSeparated(alreadyUsedEmailArray) }}
+                  </p>
+                  <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p>
+                  <!-- <div *ngFor="let pn of alreadyUsedPhoneNumberArray">
+                    {{ pn }}
+                  </div>
+                  <div *ngFor="let ea of alreadyUsedEmailArray">
+                    {{ ea }}
+                  </div> -->
+                  <p *ngIf="!isErrorToggle">
+                    These credentials are already registered with us!
+                  </p>
+                </div>
+                </ng-container>
+                <ng-container
+                *ngIf="
+                  isShimmer &&
+                    onboardUserList.length == 0 &&
+                    !networkConnectionErrorPlaceholder;
+                  else onboardUserListCondition
+                "
+              >
+                <div class="">
+                  <div class="text-end">
+                    <ngx-shimmer-loading
+                      [width]="'30%'"
+                      [height]="'40px'"
+                      style="border-radius: 50%"
+                    ></ngx-shimmer-loading>
+                  </div>
+                </div>
+                <div
+                  class="mt-3 mb-2"
+                  style="
+                    border: 1px solid #f5f5f5;
+                    padding: 5px;
+                    border-radius: 6px;
+                  "
+                  *ngFor="let number of [1, 2, 3, 4, 5]"
+                >
+                  <div class="row mt-3">
+                    <div class="col-md-2">
+                      <div class="">
+                        <ngx-shimmer-loading
+                          [width]="'100%'"
+                          [height]="'30px'"
+                          style="border-radius: 50%"
+                        ></ngx-shimmer-loading>
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="">
+                        <ngx-shimmer-loading
+                          [width]="'100%'"
+                          [height]="'30px'"
+                          style="border-radius: 50%"
+                        ></ngx-shimmer-loading>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="">
+                        <ngx-shimmer-loading
+                          [width]="'100%'"
+                          [height]="'30px'"
+                          style="border-radius: 50%"
+                        ></ngx-shimmer-loading>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="">
+                        <ngx-shimmer-loading
+                          [width]="'100%'"
+                          [height]="'30px'"
+                          style="border-radius: 50%"
+                        ></ngx-shimmer-loading>
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="">
+                        <ngx-shimmer-loading
+                          [width]="'100%'"
+                          [height]="'30px'"
+                          style="border-radius: 50%"
+                        ></ngx-shimmer-loading>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+
+              <ng-template #onboardUserListCondition>
+                <ng-container
+                  *ngIf="
+                    !isShimmer &&
+                      onboardUserList.length != 0 &&
+                      !networkConnectionErrorPlaceholder;
+                    else errorInOnboardUserListCondition
+                  "
+                >
+                  <div class="row mt-0">
+                    <div
+                      class="d-flex align-items-center justify-content-end mb-2 p-0"
+                      
+                    >
+                      <input
+                        #fileInput
+                        id="fileSelect"
+                        type="file"
+                        name="img[]"
+                        accept=".xlsx"
+                        class="input"
+                        style="display: none"
+                        (change)="selectFile($event)"
+                      />
+                      <button
+                        type="button"
+                        class="btn add-excel"
+                        (click)="fileInput.click()"
+                      >
+                        <i
+                          *ngIf="!isProgressToggle"
+                          class="bi bi-file-earmark-excel"
+                          style="
+                            position: relative;
+                            top: -1px;
+                            padding-right: 6px;
+                          "
+                        ></i>
+                        <div
+                          *ngIf="isProgressToggle"
+                          class="spinner-border text-primary excel-spinner"
+                          role="status"
+                        ></div>
+                        Excel Upload
+                      </button>
+                      <!-- <p
+                        style="color: #d7d7d7; margin-bottom: 0px"
+                        class="ng-star-inserted"
+                      >
+                        |
+                      </p>
+                      <button
+                        type="button"
+                        class="btn add-excel"
+                        data-bs-toggle="modal"
+                        data-bs-target="#munal-upload"
+                        (click)="selectMethod('mannual')"
+                      >
+                        <i class="bi bi-journal-check"></i> Manual Upload
+                      </button> -->
+                    </div>
+                    <div
+                      class="alert alert-light mb-0 mt-4 bg-soft-warning create-password-warning text-start"
+                      role="alert"
+                      *ngIf="
+                        alreadyUsedPhoneNumberArray.length > 0 ||
+                        alreadyUsedEmailArray.length > 0 ||
+                        isErrorToggle
+                      "
+                    >
+                      <h4 class="alert-heading font-18">Attention!</h4>
+                      <!-- <div *ngFor="let pn of alreadyUsedPhoneNumberArray">
+                        {{ pn }}
+                      </div>
+                      <div *ngFor="let ea of alreadyUsedEmailArray">
+                        {{ ea }}
+                      </div> -->
+                      <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p>
+                      <p *ngIf="alreadyUsedPhoneNumberArray.length > 0">
+                        Phone Numbers:
+                        {{
+                          formatAsCommaSeparated(alreadyUsedPhoneNumberArray)
+                        }}
+                      </p>
+                      <p *ngIf="alreadyUsedEmailArray.length > 0">
+                        Emails:
+                        {{ formatAsCommaSeparated(alreadyUsedEmailArray) }}
+                      </p>
+                      <p *ngIf="!isErrorToggle">
+                        These credentials are already registered with us!
+                      </p>
+                    </div>
+                    <table class="table">
+                      <thead class="thead-light table-design">
+                        <tr>
+                          <th style="width: 5%" class="text-center">#</th>
+                          <th style="width: 25%" class="text-left">Name</th>
+                          <th
+                            style="width: 20%"
+                            class="text-left"
+                           
+                          >
+                            Phone
+                          </th>
+                          <th style="width: 25%" class="text-left">Email</th>
+                          <th style="width: 20%" class="text-center">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody class="table-design">
+                        <tr
+                          *ngFor="
+                            let onboardUser of onboardUserList;
+                            let i = index
+                          "
+                        >
+                          <td>
+                            <p class="tableinfo mb-0 text-left">
+                              <b>{{ i + 1 }}</b>
+                            </p>
+                          </td>
+                          <td>
+                            <p class="tableinfo mb-0 text-left">
+                              <b>{{ onboardUser.name }}</b>
+                            </p>
+                          </td>
+                          <td>
+                            <p class="tableinfo mb-0 text-left">
+                              <b>{{ onboardUser.phone }}</b>
+                            </p>
+                          </td>
+                          <td>
+                            <p class="tableinfo mb-0 text-left">
+                              <b>{{
+                                onboardUser.email ? onboardUser.email : "N/A"
+                              }}</b>
+                            </p>
+                          </td>
+                          <td>
+                            <div class="d-flex justify-content-center gap-3">
+                              <!-- <p
+                                class="tableinfo mb-0 pointer text-center"
+                                style="color: darkblue"
+                                
+                                (click)="openUserEditModal(onboardUser)"
+                              >
+                                <i class="bi bi-pencil-square"></i>
+                              </p> -->
+                              <p
+                                class="tableinfo mb-0 pointer text-center text-danger mb-2"
+                                (click)="deleteNewUser(onboardUser.id)"
+                              >
+                                <i class="bi bi-trash text-danger"></i>
+                              </p>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div class="d-flex justify-content-end mt-3">
+                      <button type="button" class="btn btn-primary" (click)="sendEmailToUsers()">
+                       <span *ngIf="!sendMailExcelUserFlag"> Send Email </span> 
+                        <div class="dot-opacity-loader" *ngIf="sendMailExcelUserFlag">
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                </ng-container>
+              </ng-template>
+
+              <ng-template #errorInOnboardUserListCondition>
+                <div
+                  class="errorboxmain"
+                  *ngIf="networkConnectionErrorPlaceholder"
+                >
+                  <div class="errorboxinner text-center">
+                    <div class="errorboxplaceholder mb-2">
+                      <img src="assets/images/signal.svg" style="width: 80px" />
+                    </div>
+
+                    <h4>Something went wrong!</h4>
+
+                    <p>An error occurred while processing your request!</p>
+                  </div>
+                </div>
+              </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+

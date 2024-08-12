@@ -166,7 +166,6 @@ export class RoleComponent implements OnInit {
               console.log(data);
             });
             this.roles[i].count = this.num;
-            console.log(this.num);
           }
           this.totalUser = data.totalItems;
           if (
@@ -176,7 +175,6 @@ export class RoleComponent implements OnInit {
           ) {
             this.dataNotFoundPlaceholderForRolesAndSecurity = true;
           }
-          console.log(this.roles);
         },
         (error) => {
           this.networkConnectionErrorPlaceHolderForRolesAndSecurity = true;
@@ -244,7 +242,6 @@ export class RoleComponent implements OnInit {
             this.moduleRequestList.push(moduleRequest);
           }
         }
-        console.log(this.moduleResponse);
       },
       (error) => {
         console.log(error);
@@ -256,7 +253,6 @@ export class RoleComponent implements OnInit {
   createRoleMethodCall() {
     this.dataService.createRole(this.roleRequest).subscribe(
       (data) => {
-        console.log(data);
         this.getAllRolesMethodCall();
         this.createRoleModalClose.nativeElement.click();
       },
@@ -266,7 +262,6 @@ export class RoleComponent implements OnInit {
     );
   }
   updateRoleWithPermissionsMethodCall() {
-    console.log(this.moduleRequestList);
 
     const uniqueModuleRequestList = [];
 
@@ -284,12 +279,11 @@ export class RoleComponent implements OnInit {
       }
     }
 
-    console.log(uniqueModuleRequestList);
     this.roleRequest.moduleRequestList = uniqueModuleRequestList;
 
     this.dataService.updateRoleWithPermissions(this.roleRequest).subscribe(
       (data) => {
-        console.log(data);
+        // console.log(data);
       },
       (error) => {
         console.log(error);
@@ -322,7 +316,6 @@ export class RoleComponent implements OnInit {
       }
     }
 
-    console.log(this.moduleRequestList);
     this.roleRequest.moduleRequestList = this.moduleRequestList;
   }
 
@@ -356,7 +349,6 @@ export class RoleComponent implements OnInit {
   deleteUser(id: number) {
     this.dataService.deleteUserOfRoleAndSecurity(id).subscribe(
       (data) => {
-        console.log('user delted successfully');
         this.getUserAndControlRolesByFilterMethodCall();
         this.helperService.showToast(
           'Deleted successfully.',
@@ -373,7 +365,6 @@ export class RoleComponent implements OnInit {
   deleteRolesWithUsers(id: number) {
     this.dataService.deleteRolesOfRoleAndSecurity(id).subscribe(
       (data) => {
-        console.log('deleted successfully');
         this.getAllRolesMethodCall();
         this.helperService.showToast(
           'Role deleted successfully.',
@@ -471,7 +462,6 @@ export class RoleComponent implements OnInit {
             ) {
               this.dataNotFoundPlaceholderForUserAndControl = true;
             }
-            console.log(this.userAndControlRoles, this.total);
           },
           (error) => {
             console.log(error);
@@ -546,5 +536,12 @@ export class RoleComponent implements OnInit {
   onTableDataChangeUser(event: any) {
     this.pageNumberUser = event;
     // this.getAllRolesMethodCall();
+  }
+
+  routeToUserProfile(uuid: string) {
+    let navExtra: NavigationExtras = {
+      queryParams: { userId: uuid },
+    };
+    this.router.navigate(['/employee-profile'], navExtra);
   }
 }

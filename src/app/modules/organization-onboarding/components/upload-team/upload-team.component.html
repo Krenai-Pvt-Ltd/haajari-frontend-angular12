@@ -286,6 +286,7 @@
                         class="btn add-excel"
                         data-bs-toggle="modal"
                         data-bs-target="#munal-upload"
+                        (click)="selectMethod('mannual')"
                       >
                         <i class="bi bi-journal-check"></i> Manual Upload
                       </button>
@@ -723,10 +724,7 @@
               [disabled]="!allUsersValid()"
             >
               <span *ngIf="!isManualUploadSubmitLoader">Submit</span>
-              <div
-                class="dot-opacity-loader"
-                *ngIf="isManualUploadSubmitLoader"
-              >
+              <div class="submit-loader" *ngIf="isManualUploadSubmitLoader">
                 <span></span>
                 <span></span>
                 <span></span>

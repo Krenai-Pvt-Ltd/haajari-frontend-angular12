@@ -24,6 +24,11 @@ body {
   color: #6060f6 !important;
 }
 
+.disabled-div {
+  pointer-events: none;
+  opacity: 0.5; /* Optional: to visually indicate that the div is disabled */
+}
+
 .md-drppicker {
   position: absolute !important;
   font-family: Roboto, sans-serif;
@@ -312,3 +317,6 @@ nz-date-picker {
   top: 0px;
   left: 33px;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

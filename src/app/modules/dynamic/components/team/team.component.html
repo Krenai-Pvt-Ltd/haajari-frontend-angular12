@@ -64,7 +64,7 @@
                   data-bs-toggle="modal"
                   data-bs-target="#createteam2"
                   type="button"
-                  *ngIf="ROLE != 'USER'"
+                  *ngIf="ROLE == 'ADMIN'"
                 >
                   <i class="bi bi-plus" style="font-size: 18px"></i> Create Team
                 </a>
@@ -566,7 +566,7 @@
                                           <p class="m-0 mt-3 font-12 mb-0" style="color: red;">Manager isn't assigned yet!</p>
                                       </div> -->
                   <div>
-                    <h4 class="m-0 mt-3 font-13 mb-0 fw-bold">
+                    <h4 class="m-0 mt-3 font-13 mb-0 fw-bold Regular-data" (click)="routeToUserDetails(team.manager.uuid)" >
                       {{ capitalizeFirstLetter(team.manager.name) }}
                       <span style="padding-left: 8px" class="maneger-point">
                         <i
@@ -1516,8 +1516,8 @@
                       </div>
                       <div>
                         <h6 class="mb-0 mt-0">
-                          {{ capitalizeFirstLetter(ul.name) }}
-                        </h6>
+                       {{ capitalizeFirstLetter(ul.name) }}
+                    </h6>
                         <p class="mb-0">{{ ul.email }}</p>
                       </div>
                     </div>

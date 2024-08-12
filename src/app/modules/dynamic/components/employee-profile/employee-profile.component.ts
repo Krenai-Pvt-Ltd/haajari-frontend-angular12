@@ -8,15 +8,9 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import { DataService } from 'src/app/services/data.service';
 import { Subject } from 'rxjs';
 import { UserLeaveRequest } from 'src/app/models/user-leave-request';
-import {
-  FormBuilder,
-  FormGroup,
-  FormGroupDirective,
-  NgForm,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import { FullCalendarComponent } from '@fullcalendar/angular';
-import { UserDto } from 'src/app/models/user-dto.model';
+import { AttendanceCheckTimeResponse, AttendanceTimeUpdateRequestDto, UserDto } from 'src/app/models/user-dto.model';
 import { saveAs } from 'file-saver';
 import { HttpClient } from '@angular/common/http';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
@@ -49,6 +43,19 @@ import { finalize } from 'rxjs/operators';
 import { EmployeeCompanyDocumentsRequest } from 'src/app/models/employee-company-documents-request';
 import { keys } from 'lodash';
 import { UserDocumentsDetailsRequest } from 'src/app/models/user-documents-details-request';
+import { SalaryTemplateComponentResponse } from 'src/app/models/salary-template-component-response';
+import { AppraisalRequest } from 'src/app/models/appraisal-request';
+import { BonusRequest } from 'src/app/models/bonus-request';
+import { Color, ScaleType } from '@swimlane/ngx-charts';
+
+import { EmployeePayslipResponse } from 'src/app/models/employee-payslip-response';
+import { EmployeePayslipBreakupResponse } from 'src/app/models/employee-payslip-breakup-response';
+import { EmployeePayslipDeductionResponse } from 'src/app/models/employee-payslip-deduction-response';
+import { EmployeePayslipLogResponse } from 'src/app/employee-payslip-log-response';
+import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
+import { LopReversalApplicationRequest } from 'src/app/models/lop-reversal-application-request';
+import { OrganizationAssetResponse } from 'src/app/models/asset-category-respose';
+
 @Component({
   selector: 'app-employee-profile',
   templateUrl: './employee-profile.component.html',
@@ -63,6 +70,7 @@ export class EmployeeProfileComponent implements OnInit {
     new UserExperienceDetailRequest();
 
   userLeaveForm!: FormGroup;
+  lopReversalApplicationRequestForm!: FormGroup;
   @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
 
   ROLE: any;
@@ -70,6 +78,7 @@ export class EmployeeProfileComponent implements OnInit {
   hideDetailsFlag: boolean = false;
   adminRoleFlag: boolean = false;
   userRoleFlag: boolean = false;
+  showPlaceholder: boolean = false;
 
   constructor(
     private dataService: DataService,
@@ -83,7 +92,8 @@ export class EmployeeProfileComponent implements OnInit {
     private roleService: RoleBasedAccessControlService,
     public location: Location,
     public domSanitizer: DomSanitizer,
-    private afStorage: AngularFireStorage
+    private afStorage: AngularFireStorage,
+    private sanitizer: DomSanitizer,
   ) {
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
@@ -101,6 +111,12 @@ export class EmployeeProfileComponent implements OnInit {
         eveningShift: [false],
       });
     }
+
+    Object.assign(this, { single: this.single });
+
+    const currentDate = moment();
+    this.startDate = currentDate.startOf('month').format('YYYY-MM-DD');
+    this.endDate = currentDate.endOf('month').format('YYYY-MM-DD');
   }
 
   goBack() {
@@ -139,6 +155,11 @@ export class EmployeeProfileComponent implements OnInit {
   MANAGER = Key.MANAGER;
   USER = Key.USER;
 
+  @ViewChild("paySlipTab") paySlipTab !: ElementRef; 
+  goToPaySlipTab(){
+    this.paySlipTab.nativeElement.click();
+  }
+
   isSalaryPlaceholderFlag: boolean = false;
   // tokenUserRoleFlag:boolean=false;
   currentDate: Date = new Date();
@@ -146,10 +167,12 @@ export class EmployeeProfileComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.activeTabs('home');
     window.scroll(0, 0);
+    this.getOrganizationRegistrationDateMethodCall();
     this.getOnboardingFormPreviewMethodCall();
     this.getAllTaxRegimeMethodCall();
     this.getStatutoryByOrganizationIdMethodCall();
     this.getSalaryConfigurationStepMethodCall();
+    this.getSalaryTemplateComponentByUserUuidMethodCall();
     // this.getEmployeeCompanyDocumentsMethodCall();
 
     this.ROLE = await this.roleService.getRole();
@@ -196,6 +219,22 @@ export class EmployeeProfileComponent implements OnInit {
     this.getUserLeaveReq();
     this.getUserLeaveLogByUuid();
     this.getTotalExperiences();
+
+    this.lopReversalApplicationRequestForm = this.fb.group({
+      selectedDate: [null, Validators.required],
+      daysCount: [null, [Validators.required, Validators.pattern("^[0-9]*$")]],
+      notes: [''],
+      userUuid: ['']
+    });
+    this.getHrPolicy();
+    this.attendanceTimeUpdateForm = this.fb.group({
+      requestType: [null, [Validators.required]],
+      requestedDate: [null, [Validators.required]],
+      attendanceId: [null, [Validators.required]],
+      updatedTime: [null, [Validators.required]],
+      managerId: [null, [Validators.required]],
+      requestReason: [null, [Validators.required, Validators.maxLength(200)]]
+    });
   }
 
   getRoleData() {
@@ -265,7 +304,7 @@ export class EmployeeProfileComponent implements OnInit {
   approvedToggle = false;
   @ViewChild('closeRejectModalButton') closeRejectModalButton!: ElementRef;
   updateStatusUserByUuid(type: string) {
-    debugger;
+    
     if (type == 'REJECTED') {
       this.toggle = true;
       this.setReasonOfRejectionMethodCall();
@@ -321,7 +360,7 @@ export class EmployeeProfileComponent implements OnInit {
   // }
 
   // getTotalPresentAbsentMonthwise(): void {
-  //   debugger;
+  //   
   //   this.dataService
   //     .getUserAttendanceDetailsByDateDuration(
   //       this.userId,
@@ -376,7 +415,7 @@ export class EmployeeProfileComponent implements OnInit {
   clientX: string = '0px';
   clientY: string = '0px';
   openModal(mouseEnterInfo: any): void {
-    debugger;
+    
     if (!this.attendanceDetailModalToggle) {
       // console.log("events : ", mouseEnterInfo.event);
       this.userAttendanceDetailDateWise.checkInTime = '';
@@ -426,13 +465,13 @@ export class EmployeeProfileComponent implements OnInit {
   @ViewChild('closeAttendanceDetailModalButton')
   closeAttendanceDetailModalButton!: ElementRef;
   mouseLeaveInfo(mouseEnterInfo: any): void {
-    debugger;
+    
     this.closeAttendanceModal();
   }
 
   // });
   getUserAttendanceDataFromDate(sDate: string, eDate: string): void {
-    debugger;
+    
     this.dataService
       .getUserAttendanceDetailsByDateDuration(this.userId, 'USER', sDate, eDate)
       .subscribe(
@@ -672,7 +711,7 @@ export class EmployeeProfileComponent implements OnInit {
   forwordFlag: boolean = false;
 
   goforward() {
-    debugger;
+    
     const calendarApi = this.calendarComponent.getApi();
 
     calendarApi.next();
@@ -695,7 +734,7 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
   changeForwardButtonVisibilty(calendarApi: any) {
-    debugger;
+    
     var enrolmentDate = new Date(this.prevDate);
     if (calendarApi?.getDate().getFullYear() != new Date().getFullYear()) {
       this.forwordFlag = true;
@@ -722,7 +761,7 @@ export class EmployeeProfileComponent implements OnInit {
 
   backwardFlag: boolean = true;
   goBackward() {
-    debugger;
+    
     const calendarApi = this.calendarComponent.getApi();
     var date = new Date(this.prevDate);
     var month = date.getMonth();
@@ -796,8 +835,9 @@ export class EmployeeProfileComponent implements OnInit {
   // ******************************************************************
   userLeaveRequest: UserLeaveRequest = new UserLeaveRequest();
 
-  @ViewChild('requestLeaveCloseModel')
-  requestLeaveCloseModel!: ElementRef;
+  @ViewChild('requestLeaveCloseModel') requestLeaveCloseModel!: ElementRef;
+  @ViewChild('closeLopReversalRequestModal') closeLopReversalRequestModal!: ElementRef;
+
 
   // @ViewChild('userLeaveForm') userLeaveForm: NgForm;
 
@@ -812,12 +852,11 @@ export class EmployeeProfileComponent implements OnInit {
     this.userLeaveRequest.optNotes = '';
     this.selectedManagerId = 0;
   }
-  @ViewChild(FormGroupDirective)
-  formGroupDirective!: FormGroupDirective;
+  @ViewChild(FormGroupDirective) formGroupDirective!: FormGroupDirective;
   submitLeaveLoader: boolean = false;
   @ViewChild('fileInput') fileInput!: ElementRef;
   saveLeaveRequestUser() {
-    debugger;
+    
 
     if (this.userLeaveForm.invalid || this.isFileUploaded) {
       return;
@@ -852,6 +891,39 @@ export class EmployeeProfileComponent implements OnInit {
           // console.log(error.body);
         }
       );
+  }
+
+  lopReversalApplicationRequestButtonLoader : boolean = false;
+  submitLopReversalApplicationRequest(){
+    if (this.lopReversalApplicationRequestForm.valid) {
+      this.lopReversalApplicationRequestButtonLoader = true;
+      const request = new LopReversalApplicationRequest();
+      request.startDate = this.startDate;
+      request.endDate = this.endDate;
+      request.daysCount = +this.lopReversalApplicationRequestForm.get('daysCount')?.value; // Cast the value to a number
+      request.notes = this.lopReversalApplicationRequestForm.get('notes')?.value;
+      request.userUuid = this.userId;
+      
+      this.dataService.registerLopReversalApplication(request).subscribe((response) => {
+        if(response.message != null){
+          this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+          this.closeLopReversalRequestModal.nativeElement.click();
+          this.lopReversalApplicationRequestButtonLoader = false;
+        }
+      }, (error) => {
+        this.lopReversalApplicationRequestButtonLoader = false;
+        this.helperService.showToast('Error while registering the request!', Key.TOAST_STATUS_ERROR);
+      })
+    }
+  }
+
+  resetLopReversalApplicationRequestForm(){
+    this.lopReversalApplicationRequestForm = this.fb.group({
+      selectedDate: [null, Validators.required],
+      daysCount: [null, [Validators.required, Validators.pattern("^[0-9]*$")]],
+      notes: [''],
+      userUuid: ['']
+    });
   }
 
   dayShiftToggle: boolean = false;
@@ -918,7 +990,7 @@ export class EmployeeProfileComponent implements OnInit {
   selectStatusFlag: boolean = false;
   isLeaveErrorPlaceholder: boolean = false;
   getUserLeaveLogByUuid() {
-    debugger;
+    
     this.isLeaveShimmer = true;
     // this.selectStatusFlag=true;
 
@@ -1138,7 +1210,7 @@ export class EmployeeProfileComponent implements OnInit {
   pancardString: string = '';
   // isDocumentsShimmer:boolean=false;
   getEmployeeDocumentsDetailsByUuid() {
-    debugger;
+    
     // this.isDocumentsShimmer=true;
     this.dataService.getEmployeeDocumentAsList(this.userId).subscribe(
       (data) => {
@@ -1223,7 +1295,7 @@ export class EmployeeProfileComponent implements OnInit {
   hideNextButton: boolean = false;
   @ViewChild('openViewModal') openViewModal!: ElementRef;
   openPdfModel(viewString: string, docsName: string) {
-    debugger;
+    
     this.nextOpenDocName = docsName;
     this.downloadString = viewString;
     this.previewString =
@@ -1446,7 +1518,7 @@ export class EmployeeProfileComponent implements OnInit {
 
   @ViewChild('openRejectModal') openRejectModal!: ElementRef;
   setReasonOfRejectionMethodCall() {
-    debugger;
+    
     this.dataService
       .setReasonOfRejection(this.userId, this.reasonOfRejectionProfile)
       .subscribe(
@@ -1566,6 +1638,73 @@ export class EmployeeProfileComponent implements OnInit {
     this.switchValueForProfessionalTax = false;
   }
 
+
+
+  isShimmerForSalaryTemplate = false;
+  dataNotFoundPlaceholderForSalaryTemplate = false;
+  networkConnectionErrorPlaceHolderForSalaryTemplate = false;
+  preRuleForShimmersAndErrorPlaceholdersForSalaryTemplateMethodCall() {
+    this.isShimmerForSalaryTemplate = true;
+    this.dataNotFoundPlaceholderForSalaryTemplate = false;
+    this.networkConnectionErrorPlaceHolderForSalaryTemplate = false;
+  }
+
+  isShimmerForEmployeePayslipResponse = false;
+  dataNotFoundPlaceholderForEmployeePayslipResponse = false;
+  networkConnectionErrorPlaceHolderForEmployeePayslipResponse = false;
+  preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipResponseMethodCall() {
+    this.isShimmerForEmployeePayslipResponse = true;
+    this.dataNotFoundPlaceholderForEmployeePayslipResponse = false;
+    this.networkConnectionErrorPlaceHolderForEmployeePayslipResponse = false;
+  }
+
+  isShimmerForEmployeePayslipBreakupResponse = false;
+  dataNotFoundPlaceholderForEmployeePayslipBreakupResponse = false;
+  networkConnectionErrorPlaceHolderForEmployeePayslipBreakupResponse = false;
+  preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipBreakupResponseMethodCall() {
+    this.isShimmerForEmployeePayslipBreakupResponse = true;
+    this.dataNotFoundPlaceholderForEmployeePayslipBreakupResponse = false;
+    this.networkConnectionErrorPlaceHolderForEmployeePayslipBreakupResponse = false;
+  }
+
+  isShimmerForEmployeePayslipDeductionResponse = false;
+  dataNotFoundPlaceholderForEmployeePayslipDeductionResponse = false;
+  networkConnectionErrorPlaceHolderForEmployeePayslipDeductionResponse = false;
+  preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipDeductionResponseMethodCall() {
+    this.isShimmerForEmployeePayslipDeductionResponse = true;
+    this.dataNotFoundPlaceholderForEmployeePayslipDeductionResponse = false;
+    this.networkConnectionErrorPlaceHolderForEmployeePayslipDeductionResponse = false;
+  }
+
+  isShimmerForEmployeePayslipLogResponse = false;
+  dataNotFoundPlaceholderForEmployeePayslipLogResponse = false;
+  networkConnectionErrorPlaceHolderForEmployeePayslipLogResponse = false;
+  preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipLogResponseMethodCall() {
+    this.isShimmerForEmployeePayslipLogResponse = true;
+    this.dataNotFoundPlaceholderForEmployeePayslipLogResponse = false;
+    this.networkConnectionErrorPlaceHolderForEmployeePayslipLogResponse = false;
+  }
+
+
+  salaryTemplateComponentResponse: SalaryTemplateComponentResponse = new SalaryTemplateComponentResponse();
+  getSalaryTemplateComponentByUserUuidMethodCall() {
+    
+    this.preRuleForShimmersAndErrorPlaceholdersForSalaryTemplateMethodCall();
+    this.dataService.getSalaryTemplateComponentByUserUuid().subscribe((response) => {
+
+        if(this.helperService.isObjectNullOrUndefined(response)){
+          this.dataNotFoundPlaceholderForSalaryTemplate = true;
+        } else{
+          this.salaryTemplateComponentResponse = response.object;
+        }
+        this.isShimmerForSalaryTemplate = false;
+      },
+      (error) => {
+        this.networkConnectionErrorPlaceHolderForSalaryTemplate = true;
+      }
+    );
+  }
+
   salaryConfigurationStepId: number = 0;
   getSalaryConfigurationStepMethodCall() {
     this.dataService.getSalaryConfigurationStep().subscribe(
@@ -1628,7 +1767,7 @@ export class EmployeeProfileComponent implements OnInit {
 
   statutoryResponseList: StatutoryResponse[] = [];
   getStatutoryByOrganizationIdMethodCall() {
-    debugger;
+    
     this.dataService.getStatutoryByOrganizationId().subscribe(
       (response) => {
         this.statutoryResponseList = response.listOfObject;
@@ -1730,12 +1869,8 @@ export class EmployeeProfileComponent implements OnInit {
 
   goToManageStatutory() {
     this.salaryConfigurationStepId = this.MANAGE_STATUTORY;
-    const configureSalarySettingDiv = document.getElementById(
-      'configure-salary-setting'
-    ) as HTMLInputElement | null;
-    const manageStatutoryDiv = document.getElementById(
-      'manage-statutory'
-    ) as HTMLInputElement | null;
+    const configureSalarySettingDiv = document.getElementById('configure-salary-setting') as HTMLInputElement | null;
+    const manageStatutoryDiv = document.getElementById('manage-statutory') as HTMLInputElement | null;
 
     if (configureSalarySettingDiv) {
       configureSalarySettingDiv.style.display = 'none';
@@ -1745,6 +1880,281 @@ export class EmployeeProfileComponent implements OnInit {
       }
     }
   }
+
+  goToPaySlip(){
+    this.salaryConfigurationStepId = this.PAY_SLIP;
+    const paySlipDiv = document.getElementById('pay_slip') as HTMLInputElement | null;
+    const manageStatutoryDiv = document.getElementById('manage-statutory') as HTMLInputElement | null;
+
+    if(manageStatutoryDiv){
+      manageStatutoryDiv.style.display = 'none';
+
+      if(paySlipDiv){
+        paySlipDiv.style.display = 'block';
+      }
+    }
+  }
+
+
+  size: 'large' | 'small' | 'default' = 'small';
+  selectedDate: Date = new Date();
+  startDate: string = '';
+  endDate: string = '';
+
+  onMonthChange(month: Date): void {
+    this.selectedDate = month;
+    this.getFirstAndLastDateOfMonth(this.selectedDate);
+
+    this.financeSectionMethodCall();
+
+  }
+
+  getFirstAndLastDateOfMonth(selectedDate: Date) {
+
+    this.startDate = this.helperService.formatDateToYYYYMMDD(
+      new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1),
+    );
+    this.endDate = this.helperService.formatDateToYYYYMMDD(
+      new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0),
+    );
+  }
+  disableMonths = (date: Date): boolean => {
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
+    const dateYear = date.getFullYear();
+    const dateMonth = date.getMonth();
+    const organizationRegistrationYear = new Date(
+      this.organizationRegistrationDate
+    ).getFullYear();
+    const organizationRegistrationMonth = new Date(
+      this.organizationRegistrationDate
+    ).getMonth();
+
+    // Disable if the month is before the organization registration month
+    if (
+      dateYear < organizationRegistrationYear || (dateYear === organizationRegistrationYear && dateMonth < organizationRegistrationMonth)
+    ) {
+      return true;
+    }
+
+    // Disable if the month is after the current month
+    if (
+      dateYear > currentYear || (dateYear === currentYear && dateMonth > currentMonth)
+    ) {
+      return true;
+    }
+
+    // Enable the month if it's from January 2023 to the current month
+    return false;
+  };
+
+  disableMonthsForLopReversal = (date: Date): boolean => {
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
+    const dateYear = date.getFullYear();
+    const dateMonth = date.getMonth();
+    const organizationRegistrationYear = new Date(
+      this.organizationRegistrationDate
+    ).getFullYear();
+    const organizationRegistrationMonth = new Date(
+      this.organizationRegistrationDate
+    ).getMonth();
+
+    // Disable if the month is before the organization registration month
+    if (
+      (dateYear < organizationRegistrationYear) || (dateYear === organizationRegistrationYear && dateMonth < organizationRegistrationMonth) || (dateYear > currentYear) || (dateMonth != currentMonth - 1)
+    ) {
+      return true;
+    }
+
+    return false;
+  };
+
+  organizationRegistrationDate: string = '';
+  getOrganizationRegistrationDateMethodCall() {
+    
+    this.dataService.getOrganizationRegistrationDate().subscribe(
+      (response) => {
+        this.organizationRegistrationDate = response;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  
+
+
+  // Finance Section APIs
+  financeSectionMethodCall(){
+    this.getEmployeePayslipResponseByUserUuidMethodCall();
+    this.getEmployeePayslipBreakupResponseByUserUuidMethodCall();
+    this.getEmployeePayslipDeductionResponseByUserUuidMethodCall();
+    this.getEmployeePayslipLogResponseByUserUuidMethodCall();
+  }
+
+  employeePayslipResponse : EmployeePayslipResponse = new EmployeePayslipResponse();
+  getEmployeePayslipResponseByUserUuidMethodCall(){
+    this.preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipResponseMethodCall();
+    this.dataService.getEmployeePayslipResponseByUserUuid(this.userId, this.startDate, this.endDate).subscribe((response) => {
+      if(this.helperService.isObjectNullOrUndefined(response)){
+        this.dataNotFoundPlaceholderForEmployeePayslipResponse = true;
+        this.employeePayslipResponse = new EmployeePayslipResponse();
+        this.payrollChartDataNotFoundMehthodCall();
+      } else{
+        this.employeePayslipResponse = response.object;
+        this.payrollChartMehthodCall();
+      }
+      this.isShimmerForEmployeePayslipResponse = false;
+    }, (error) => {
+      this.networkConnectionErrorPlaceHolderForEmployeePayslipResponse = true;
+      this.isShimmerForEmployeePayslipResponse = false;
+    })
+  }
+
+
+  employeePayslipBreakupResponseList : EmployeePayslipBreakupResponse[] = [];
+  getEmployeePayslipBreakupResponseByUserUuidMethodCall(){
+    this.preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipBreakupResponseMethodCall();
+    this.dataService.getEmployeePayslipBreakupResponseByUserUuid(this.userId, this.startDate, this.endDate).subscribe((response) => {
+      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+        this.dataNotFoundPlaceholderForEmployeePayslipBreakupResponse = true;
+        this.employeePayslipBreakupResponseList = [];
+      } else{
+        this.employeePayslipBreakupResponseList = response.listOfObject;
+      }
+
+      this.isShimmerForEmployeePayslipBreakupResponse = true;
+    }, (error) => {
+      this.networkConnectionErrorPlaceHolderForEmployeePayslipBreakupResponse = true;
+      this.isShimmerForEmployeePayslipBreakupResponse = true;
+    })
+  }
+
+  employeePayslipDeductionResponse : EmployeePayslipDeductionResponse = new EmployeePayslipDeductionResponse();
+  getEmployeePayslipDeductionResponseByUserUuidMethodCall(){
+    this.preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipDeductionResponseMethodCall();
+    this.dataService.getEmployeePayslipDeductionResponseByUserUuid(this.userId, this.startDate, this.endDate).subscribe((response) => {
+      if(this.helperService.isObjectNullOrUndefined(response)){
+        this.dataNotFoundPlaceholderForEmployeePayslipDeductionResponse = true;
+      } else{
+        this.employeePayslipDeductionResponse = response.object;
+      }
+
+      this.isShimmerForEmployeePayslipDeductionResponse = true;
+    }, (error) => {
+      this.networkConnectionErrorPlaceHolderForEmployeePayslipDeductionResponse = true;
+      this.isShimmerForEmployeePayslipDeductionResponse = true;
+    })
+  }
+
+  employeePayslipLogResponseList : EmployeePayslipLogResponse[] = [];
+  getEmployeePayslipLogResponseByUserUuidMethodCall(){
+    this.preRuleForShimmersAndErrorPlaceholdersForEmployeePayslipLogResponseMethodCall();
+    this.dataService.getEmployeePayslipLogResponseByUserUuid(this.userId, this.startDate, this.endDate).subscribe((response) => {
+      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+        this.dataNotFoundPlaceholderForEmployeePayslipLogResponse = true;
+      } else{
+        this.employeePayslipLogResponseList = response.listOfObject;
+      }
+      this.isShimmerForEmployeePayslipLogResponse = false;
+    }, (error) => {
+      this.isShimmerForEmployeePayslipLogResponse = false;
+      this.networkConnectionErrorPlaceHolderForEmployeePayslipLogResponse = true;
+    })
+  }
+
+  downloadPaySlip(url: string, name: string){
+    this.helperService.downloadPdf(url, name);
+  }
+
+  // #################-- Payroll chart code --###########################
+  
+  view: [number, number] = [375, 375]; // explicitly define as tuple
+  // options
+  showLegend: boolean = false;
+  showLabels: boolean = true;
+  explodeSlices: boolean = false;
+  doughnut: boolean = true;
+  gradient: boolean = true;
+
+  colorScheme: Color = {
+    name: 'custom',
+    selectable: true,
+    group: ScaleType.Ordinal,
+    domain: ['#6666f3', '#FE3636', '#02E59C', '#888']
+  };
+
+  // chart data
+  single = [
+    {
+      name: 'Net Pay',
+      value: 0
+    },
+    {
+      name: 'Deduction',
+      value: 0
+    },
+    {
+      name: 'Gross Pay',
+      value: 0
+    },
+    {
+      name: 'Not Found',
+      value: 0
+    }
+  ];
+
+  onSelect(event: any) {
+    console.log(event);
+  }
+
+  payrollChartMehthodCall(){
+    this.single = [
+      {
+        name: 'Net Pay',
+        value: this.employeePayslipResponse.netPay
+      },
+      {
+        name: 'Deduction',
+        value: this.employeePayslipResponse.deduction
+      },
+      {
+        name: 'Gross Pay',
+        value: this.employeePayslipResponse.grossPay
+      }
+    ];
+  }
+
+  payrollChartDataNotFoundMehthodCall(){
+    this.single = [
+      {
+        name: 'Net Pay',
+        value: 0
+      },
+      {
+        name: 'Deduction',
+        value: 0
+      },
+      {
+        name: 'Gross Pay',
+        value: 0
+      },
+      {
+        name: 'No data found!',
+        value: 0.1
+      }
+    ];
+  }
+
+
+  // getCenterLabel(): string {
+  //   const totalValue = this.single.reduce((sum, item) => sum + item.value, 0);
+  //   return totalValue.toString();
+  // }
+
+  // ===================================================
 
   secondarySchoolCertificateFileName: string = '';
   highSchoolCertificateFileName1: string = '';
@@ -1776,9 +2186,7 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
   getOnboardingFormPreviewMethodCall() {
-    debugger;
-    const userUuid =
-      new URLSearchParams(window.location.search).get('userId') || '';
+    const userUuid = new URLSearchParams(window.location.search).get('userId') || '';
     if (userUuid) {
       this.dataService.getOnboardingFormPreview(userUuid).subscribe(
         (preview) => {
@@ -1929,6 +2337,7 @@ export class EmployeeProfileComponent implements OnInit {
   activeAttendanceTabFlag: boolean = false;
   activeFinancesTabFlag: boolean = false;
   activeDocumentsTabFlag: boolean = false;
+  activeAssetsTabFlag: boolean = false;
   activeProfileTabFlag: boolean = false;
 
   activeTabs(activeTabString: string) {
@@ -1937,30 +2346,42 @@ export class EmployeeProfileComponent implements OnInit {
       this.activeAttendanceTabFlag = false;
       this.activeFinancesTabFlag = false;
       this.activeDocumentsTabFlag = false;
+      this.activeAssetsTabFlag = false;
       this.activeProfileTabFlag = false;
     } else if (activeTabString === 'attendance') {
       this.activeHomeTabFlag = false;
       this.activeAttendanceTabFlag = true;
       this.activeFinancesTabFlag = false;
       this.activeDocumentsTabFlag = false;
+      this.activeAssetsTabFlag = false;
       this.activeProfileTabFlag = false;
     } else if (activeTabString === 'finances') {
       this.activeHomeTabFlag = false;
       this.activeAttendanceTabFlag = false;
       this.activeFinancesTabFlag = true;
       this.activeDocumentsTabFlag = false;
+      this.activeAssetsTabFlag = false;
+      this.activeProfileTabFlag = false;
+    }else if (activeTabString === 'assets') {
+      this.activeHomeTabFlag = false;
+      this.activeAttendanceTabFlag = false;
+      this.activeFinancesTabFlag = false;
+      this.activeDocumentsTabFlag = false;
+      this.activeAssetsTabFlag = true;
       this.activeProfileTabFlag = false;
     } else if (activeTabString === 'documents') {
       this.activeHomeTabFlag = false;
       this.activeAttendanceTabFlag = false;
       this.activeFinancesTabFlag = false;
       this.activeDocumentsTabFlag = true;
+      this.activeAssetsTabFlag = false;
       this.activeProfileTabFlag = false;
     } else if (activeTabString === 'profile') {
       this.activeHomeTabFlag = false;
       this.activeAttendanceTabFlag = false;
       this.activeFinancesTabFlag = false;
       this.activeDocumentsTabFlag = false;
+      this.activeAssetsTabFlag = false;
       this.activeProfileTabFlag = true;
     }
   }
@@ -1992,7 +2413,7 @@ export class EmployeeProfileComponent implements OnInit {
   documentName: string = '';
 
   addNewDocument() {
-    debugger;
+    
     this.addMoreDocModalButton.nativeElement.click();
     if (!this.onboardingPreviewData.employeeCompanyDocuments) {
       this.onboardingPreviewData.employeeCompanyDocuments = [];
@@ -2089,7 +2510,7 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
   assignAdditionalDocumentUrl(index: number, url: string): void {
-    debugger;
+    
     if (!this.employeeCompanyDocuments) {
       this.onboardingPreviewData.employeeCompanyDocuments = [];
     }
@@ -2115,7 +2536,7 @@ export class EmployeeProfileComponent implements OnInit {
   // }
 
   setEmployeeCompanyDocumentsMethodCall(): void {
-    debugger;
+    
     if (this.onboardingPreviewData.employeeCompanyDocuments == null) {
       this.onboardingPreviewData.employeeCompanyDocuments = [];
     }
@@ -2171,7 +2592,7 @@ export class EmployeeProfileComponent implements OnInit {
   // }
 
   deleteCompanyDocByIdMethodCall(id: number) {
-    debugger; // Correct placement of the semicolon
+     // Correct placement of the semicolon
     const userUuid = new URLSearchParams(window.location.search).get('userId');
     if (userUuid) {
       this.dataService.deleteEmployeeCompanyDocById(id, userUuid).subscribe(
@@ -2235,9 +2656,8 @@ export class EmployeeProfileComponent implements OnInit {
       this.domSanitizer.bypassSecurityTrustResourceUrl(objectUrl);
   }
 
-  // Function to handle file selection
   onFileSelected(event: Event): void {
-    debugger;
+    
     const element = event.currentTarget as HTMLInputElement;
     const fileList: FileList | null = element.files;
 
@@ -2289,4 +2709,313 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
   downloadFile(link: string) {}
+
+  @ViewChild('appraisalRequestModalButton') appraisalRequestModalButton !: ElementRef
+  openAppraisalRequestModal(){
+    this.getEmployeeCtcMethodCall();
+  }
+
+  appraisalRequest: AppraisalRequest = {
+    effectiveDate: new Date(),
+    userUuid: '',
+    previousCtc: 0,
+    updatedCtc: 0
+  };
+
+  getEmployeeCtcMethodCall() {
+    this.dataService.getEmployeeSalary(this.userId).subscribe(
+      (data: AppraisalRequest) => {
+        this.appraisalRequest = data;
+    
+        this.appraisalRequestModalButton.nativeElement.click();
+      },
+      (error) => {
+        console.error('Error fetching employee CTC:', error);
+      
+      }
+    );
+  }
+  submitAppraisalRequest() {
+    this.appraisalRequest.userUuid = this.userId;
+    this.dataService.saveAppraisalRequest(this.appraisalRequest).subscribe(
+      (response) => {
+        this.helperService.showToast("Appraisal request submitted successfully", Key.TOAST_STATUS_SUCCESS);
+        this.appraisalRequestModalButton.nativeElement.click();
+      },
+      (error) => {
+        console.error('Error submitting appraisal request:', error);
+        this.helperService.showToast("Error submitting appraisal request!", Key.TOAST_STATUS_ERROR);
+       
+      }
+    );
+  }
+
+  openBonusRequestModal(){
+    this.bonusRequest.amount = 0;
+    this.bonusRequest.comment='';
+    this.bonusRequestModalButton.nativeElement.click();
+  }
+
+  @ViewChild("bonusRequestModalButton") bonusRequestModalButton !: ElementRef;
+
+  bonusRequest: BonusRequest = {
+    startDate: new Date(),
+    endDate: new Date(),
+    amount: 0,
+    comment: ""
+  };
+
+  isFormInvalid: boolean = false;
+@ViewChild ('bonusForm') bonusForm !: NgForm
+checkFormValidation(){
+if(this.bonusForm.invalid){
+this.isFormInvalid = true;
+return
+} else {
+  this.isFormInvalid = false;
 }
+}
+
+
+  submitBonus() {
+    if(this.isFormInvalid==true){
+      return
+    } else{
+    this.dataService.registerBonus(this.bonusRequest, this.userId).subscribe(
+      (response) => {
+        this.helperService.showToast("Bonus request submitted successfully", Key.TOAST_STATUS_SUCCESS);
+        this.bonusRequestModalButton.nativeElement.click();
+      },
+      (error) => {
+        console.error('Error submitting bonus request:', error);
+        this.helperService.showToast("Error submitting bonus request", Key.TOAST_STATUS_ERROR);
+       
+      }
+    );
+  }}
+
+  //  new 
+
+  search: string = '';
+  pageNumber: number = 1;
+  itemPerPage: number = 6;
+  assetData: OrganizationAssetResponse[] = [];
+  totalCount: number = 0;
+  crossFlag: boolean = false;
+  getAssetData(): void {
+    this.dataService.getAssetForUser(this.userId, this.search, this.pageNumber, this.itemPerPage)
+      .subscribe(
+        (response) => {
+          this.assetData = response.object;
+          this.totalCount = response.totalItems;
+        },
+        (error) => {
+          console.error('Error fetching asset data:', error);
+        }
+      );
+  }
+
+  searchAssets(): void {
+    this.crossFlag = this.search.length > 0;
+    this.pageNumber = 1;
+    this.getAssetData();
+  }
+
+  clearSearch(): void {
+    this.crossFlag = false;
+    this.search = '';
+    this.pageNumber = 1;
+    this.getAssetData();
+  }
+
+  changePage(page: number | string): void {
+    if (typeof page === 'string') {
+      if (page === 'prev' && this.pageNumber > 1) {
+        this.pageNumber--;
+      } else if (page === 'next' && this.pageNumber < Math.ceil(this.totalCount / this.itemPerPage)) {
+        this.pageNumber++;
+      }
+    } else {
+      this.pageNumber = page;
+    }
+    this.getAssetData();
+  }
+
+  totalPages(): number {
+    return Math.ceil(this.totalCount / this.itemPerPage);
+  }
+
+  get startIndex(): number {
+    return Math.min((this.pageNumber - 1) * this.itemPerPage + 1, this.totalCount);
+  }
+
+  get endIndex(): number {
+    return Math.min(this.pageNumber * this.itemPerPage, this.totalCount);
+  }
+
+  get pages(): number[] {
+    const totalPages = Math.ceil(this.totalCount / this.itemPerPage);
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
+  }
+
+  //  asset logs 
+
+  isAssetErrorPlaceholder: boolean = false;
+  userAssetLog: any;
+  isAssetShimmer: boolean = false;
+  isAssetPlaceholder: boolean = false;
+  searchAssetLogs: string = '';
+  pageNumberAsset: number = 1;
+  itemPerPageAsset: number = 8;
+
+  getAssetLogsForUserByUuid(): void {
+    this.isAssetShimmer = true;
+    this.dataService.getAssetLogsForUser(this.userId, this.searchAssetLogs)
+      .subscribe(
+        (response) => {
+          this.userAssetLog = response.listOfObject;
+          this.isAssetShimmer = false;
+          if(response.listOfObject==null || this.userAssetLog.length == 0) {
+          this.isAssetPlaceholder = true; 
+          }
+        },
+        (error) => {
+          this.isAssetErrorPlaceholder = true;
+          this.isAssetShimmer = false;
+        }
+      );
+  }
+  
+
+  // hr policy 
+
+
+  fileUrl!: string;
+  docsUploadedDate: any;
+  getHrPolicy(): void {
+    this.dataService.getOrganizationHrPolicies().subscribe(response => {
+      this.fileUrl = response.object.hrPolicyDoc;
+      this.docsUploadedDate = response.object.docsUploadedDate;
+      console.log('policy retrieved successfully', response.object);
+    }, (error) => {
+      console.log(error);
+    });
+  }
+
+  previewStringDoc: SafeResourceUrl | null = null;
+  isPDFDoc: boolean = false;
+  isImageDoc: boolean = false;
+
+  @ViewChild('openDocModalButton') openDocModalButton!: ElementRef;
+  getFileName(url: string): string {
+    return url.split('/').pop() || 'Hr Policy Doc';
+  }
+
+  private updateFileTypeDoc(url: string) {
+    const extension = url.split('?')[0].split('.').pop()?.toLowerCase();
+    // this.isImage2 = ['png', 'jpg', 'jpeg', 'gif'].includes(extension!);
+    // this.isPDF = extension === 'pdf';
+  }
+
+  openViewModalDoc(url: string): void {
+    debugger
+    // const fileExtension = url.split('.').pop()?.toLowerCase();
+    const fileExtension = url.split('?')[0].split('.').pop()?.toLowerCase();
+    // this.isPDF = fileExtension === 'pdf';
+    if (fileExtension === 'doc' || fileExtension === 'docx') {
+      // this.previewString = this.sanitizer.bypassSecurityTrustResourceUrl(`https://docs.google.com/gview?url=${url}&embedded=true`);
+      this.previewStringDoc = this.sanitizer.bypassSecurityTrustResourceUrl(`https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true`);
+    } else {
+      this.previewStringDoc = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    }
+    this.openDocModalButton.nativeElement.click();
+  }
+
+  downloadFileDoc(url: string): void {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = this.getFileName(url);
+    link.click();
+  }
+
+
+
+  //  attendance update fucnionality 
+  attendanceCheckTimeResponse : AttendanceCheckTimeResponse[] = [];
+  getAttendanceChecktimeListDate(): void {
+    const formattedDate = this.datePipe.transform(this.requestedDate, 'yyyy-MM-dd');
+    this.dataService.getAttendanceChecktimeList(this.userId, formattedDate, this.statusString).subscribe(response => {
+      this.attendanceCheckTimeResponse = response.listOfObject;
+      console.log('checktime retrieved successfully', response.listOfObject);
+    }, (error) => {
+      console.log(error);
+    });
+  }
+
+  attendanceTimeUpdateForm!: FormGroup;
+  requestedDate!: Date;
+  statusString!: string;
+
+
+  submitForm(): void {
+    if (this.attendanceTimeUpdateForm.valid) {
+      const attendanceTimeUpdateRequest: AttendanceTimeUpdateRequestDto = this.attendanceTimeUpdateForm.value;
+      this.dataService.sendAttendanceTimeUpdateRequest(this.userId, this.attendanceTimeUpdateForm.value).subscribe(
+        (response) => {
+          console.log('Request sent successfully', response);
+          this.resetForm();
+          document.getElementById('attendanceUpdateModal')?.click();
+          this.getAttendanceRequestLogData();
+        },
+        (error) => {
+          console.error('Error sending request:', error);
+        }
+      );
+    }
+  }
+
+  onDateChange(date: Date | null): void {
+    if (date) {
+      this.requestedDate = date; 
+      this.statusString = this.attendanceTimeUpdateForm.get('requestType')?.value || '';
+      this.getAttendanceChecktimeListDate();
+    }
+  }
+
+
+  resetForm(): void {
+    this.attendanceTimeUpdateForm.reset();
+  }
+
+
+disabledDate = (current: Date): boolean => {
+  return moment(current).isAfter(moment(), 'day');
+}
+
+attendanceRequestLog: any[] = [];
+  getAttendanceRequestLogData(): void {
+    this.dataService.getAttendanceRequestLog(this.userId).subscribe(response => {
+      this.attendanceRequestLog = response.listOfObject;
+      console.log('logs retrieved successfully', response.listOfObject);
+    }, (error) => {
+      console.log(error);
+    });
+  }
+
+  //  super coins func 
+
+  getSuperCoinsResponseForEmployeeData() {
+    this.dataService.getSuperCoinsResponseForEmployee(this.userId).subscribe(response => {
+
+    }, (error) => {
+      console.log(error);
+    });
+  }
+  
+
+  
+
+  
+}
+
+

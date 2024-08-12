@@ -9,12 +9,11 @@
 
 
 
-<div class="container-scroller" *ngIf="(key.TOPBAR_ROUTES.includes(this._router.url.split('?')[0]))">
+<div class="container-scroller" *ngIf="(key.TOPBAR_ROUTES.includes(this._router.url.split('?')[0])) && this.rbacService.isUserInfoInitialized">
     <div class="horizontal-menu">
         <app-topbar></app-topbar>
     </div>
 </div>
-
 <router-outlet></router-outlet>
 <app-notifaction-tost *ngIf="isShowToast"></app-notifaction-tost>
 

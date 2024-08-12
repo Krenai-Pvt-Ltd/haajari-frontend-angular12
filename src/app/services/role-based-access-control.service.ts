@@ -14,43 +14,64 @@ export class RoleBasedAccessControlService {
   }
 
   userInfo: any;
-  private userInfoInitialized: Promise<void>;
+  isUserInfoInitialized: boolean = false;
+  private userInfoInitialized: Promise<void>|any;
 
   constructor(private helperService: HelperService) {
-    this.userInfoInitialized = this.initializeUserInfo();
+   
+     this.LoadAsync();
+
+    
   }
 
-  private async initializeUserInfo(): Promise<void> {
+
+  private LoadAsync = async () => {
+    this.userInfoInitialized =  this.initializeUserInfo();
+ };
+  public async initializeUserInfo(): Promise<void> {
     try {
-      this.userInfo = await this.helperService.getDecodedValueFromToken();
+     await this.helperService.getDecodedValueFromToken().then((res:any)=>{
+        console.log(res)
+        this.userInfo=res;
+        this.userInfo!.uuid=res.uuid;
+        console.log("updated uuid",  this.userInfo!.uuid)
+        this.isUserInfoInitialized = true;
+      });
+     
     } catch (error) {
       console.error('Error fetching decoded value from token:', error);
     }
   }
 
-  isUserInfoInitialized(): Promise<void> {
+  isUserInfoInitializedMethod(): Promise<void> {
     return this.userInfoInitialized;
   }
 
   async getRole() {
     let role = null;
-    this.userInfo = await this.helperService.getDecodedValueFromToken();
-    await this.helperService
-      .getDecodedValueFromToken()
-      .then((response: any) => {
-        this.userInfo = response;
-        role = this.userInfo.role;
-      });
-    return role;
+    // this.userInfo = await this.helperService.getDecodedValueFromToken();
+    // this.userInfo= await this.helperService
+    //   .getDecodedValueFromToken()
+    //   .then((response: any) => {
+    //     this.userInfo = response;
+    //     role = this.userInfo.role;
+      // });
+    return this.userInfo.role;
   }
 
   getRoles() {
-    return this.userInfo.role;
+    console.log("role is ",this.userInfo)
+    return this.userInfo!.role;
   }
 
   async getUUID(): Promise<string> {
     // return Promise.resolve(this.userInfo!.uuid);\
+    // if(this.userInfo){
     return Promise.resolve(this.userInfo!.uuid);
+    // }else{
+    //   return Promise.resolve("");
+
+    // }
   }
 
   async getOnboardingStep(): Promise<number> {
@@ -66,7 +87,14 @@ export class RoleBasedAccessControlService {
   // }
 
   getOrgRefUUID() {
-    return this.userInfo!.orgRefId;
+    //TODO
+    // console.log(this.userInfo)
+    if(this.userInfo){
+      return this.userInfo!.orgRefId;
+
+    }else{
+      return this.userInfo;
+    }
   }
 
   getUuid() {

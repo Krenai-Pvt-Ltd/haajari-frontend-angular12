@@ -223,12 +223,13 @@
                   >
                     <a class="dropdown-item">All</a>
                   </li>
-                  <li
+                  <li 
+                 
                     class="ng-star-inserted"
                     *ngFor="let tn of teamNameList"
                     (click)="selectTeam(tn.teamName)"
                   >
-                    <a class="dropdown-item"> {{ tn.teamName }} </a>
+                    <a class="dropdown-item" > {{ tn.teamName }} </a>
                   </li>
                 </ul>
               </div>
@@ -311,13 +312,12 @@
                           <div class="align-self-center">
                             <div class="btn btn-xs btn-light btn-round">
                               {{
-                                formatDateIn(
-                                  formatDate(fullLogList.leaveDate)
-                                ) || "N/A"
-                              }}&nbsp;
-                              <span>{{
-                                formatTime(fullLogList.leaveDate) || "N/A"
-                              }}</span>
+                                fullLogList.leaveDate | date:'medium' || "N/A"
+                              }}
+                              <!-- &nbsp; -->
+                              <!-- <span>{{
+                                fullLogList.leaveDate | date:'medium' || "N/A"
+                              }}</span> -->
                             </div>
                           </div>
                         </div>
@@ -325,8 +325,7 @@
                       <div class="media align-items-center">
                         <div class="media-body ms-2 align-self-center">
                           <h5
-                            class="m-0"
-                            style="cursor: pointer"
+                            class="m-0 Regular-data"
                             (click)="routeToUserProfile(fullLogList.uuid)"
                           >
                             {{ fullLogList.username }}
@@ -457,6 +456,7 @@
                   <span
                     class="badge rounded-pill badge-outline-warning"
                     style="margin-left: 10px"
+                    *ngIf="totalCountOfPendingCounts > 0"
                     >{{ totalCountOfPendingCounts }}</span
                   ></a
                 >
@@ -536,12 +536,13 @@
                                 </h6>
                                 <small
                                   >{{
-                                    formatDateIn(formatDate(pl.leaveDate)) ||
+                                    pl.leaveDate | date:'medium' ||
                                       "N/A"
-                                  }}&nbsp;
+                                  }}
+                                  <!-- &nbsp;
                                   <span>{{
-                                    formatTime(pl.leaveDate) || "N/A"
-                                  }}</span>
+                                    pl.leaveDate | date:'medium' || "N/A"
+                                  }}</span> -->
                                 </small>
                               </div>
                             </div>
@@ -549,8 +550,7 @@
                           <div class="media align-items-center">
                             <div class="media-body ms-2 align-self-center">
                               <h5
-                                class="m-0"
-                                style="cursor: pointer"
+                                class="m-0 Regular-data"
                                 (click)="routeToUserProfile(pl.uuid)"
                               >
                                 {{ pl.username }}
@@ -605,18 +605,19 @@
                   <div><small>Loading...</small></div>
                 </div>
               </div>
+
+              <!--  [ngClass]="{
+                    'leave-history-box': pendingLeavesSize > 1,
+                    'leave-history-box-if-pending-null': pendingLeavesSize == 0,
+                    'leave-history-box-if-pending-one': pendingLeavesSize == 1
+                  }" -->
               <div
                 class="pt-3 pb-3"
                 id="attendance"
                 role=""
                 *ngIf="activeAttendanceTabFlag"
               >
-                <div
-                  [ngClass]="{
-                    'leave-history-box': pendingLeavesSize > 1,
-                    'leave-history-box-if-pending-null': pendingLeavesSize == 0,
-                    'leave-history-box-if-pending-one': pendingLeavesSize == 1
-                  }"
+                <div class = "leave-history-box-if-pending-null"
                   #logContainerOfApprovedRejected
                   (scroll)="scrollDownRecentActivityOfApprovedRejected($event)"
                 >
@@ -682,12 +683,13 @@
                                 </h6>
                                 <small
                                   >{{
-                                    formatDateIn(formatDate(arl.leaveDate)) ||
+                                    arl.leaveDate | date:'medium' ||
                                       "N/A"
-                                  }}&nbsp;
+                                  }}
+                                  <!-- &nbsp;
                                   <span>{{
-                                    formatTime(arl.leaveDate) || "N/A"
-                                  }}</span>
+                                    arl.leaveDate | date:'medium' || "N/A"
+                                  }}</span> -->
                                 </small>
                               </div>
                             </div>
@@ -695,8 +697,7 @@
                           <div class="media align-items-center">
                             <div class="media-body ms-2 align-self-center">
                               <h5
-                                class="m-0"
-                                style="cursor: pointer"
+                                class="m-0 Regular-data"
                                 (click)="routeToUserProfile(arl.uuid)"
                               >
                                 {{ arl.username }}

@@ -6,7 +6,8 @@ import { LoginComponent } from './login/login.component';
 import { NewLoginComponent } from './new-login/new-login.component';
 import { SlackAuthComponent } from './slack-auth/slack-auth.component';
 import { OtpVerificationComponent } from './otp-verification/otp-verification.component';
-import { SignInWithSlackComponent } from './user-sign-in-with-slack-auth/sign-in-with-slack.component';
+import { SignInWithSlackComponent } from './sign-in-with-slack-auth/sign-in-with-slack.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
@@ -24,6 +25,7 @@ const routes: Routes = [
       { path: 'new-login', component: NewLoginComponent },
       { path: 'login', component: LoginComponent },
       { path: 'otp-verification', component: OtpVerificationComponent },
+      { path: 'signup', component: SignUpComponent },
     ],
   },
 ];

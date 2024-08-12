@@ -47,13 +47,14 @@ export class RequestInterceptorService implements HttpInterceptor {
   constructor(private dataService : DataService, private router : Router) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    debugger;
     const token = localStorage.getItem('token');
     if (token !== null) {
       request = this.addTokenToHeaders(request, token);
   
       return next.handle(request).pipe(
         catchError(error => {
-          if (error.status === 401 || error.status === 403 || error.status === 400) {
+          if (error.status === 401 || error.status === 400) {
             return this.dataService.refreshFirebaseAccessToken().pipe(
               switchMap((newToken: any) => {
                 if (newToken) {

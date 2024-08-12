@@ -87,7 +87,7 @@ export class LeaveManagementComponent implements OnInit {
   }
 
   logInUserUuid: string = '';
-  ROLE: string | null = '';
+  ROLE: string | null |any = '';
   currentNewDate: any;
   currentDate: Date = new Date();
 
@@ -405,6 +405,7 @@ export class LeaveManagementComponent implements OnInit {
               ? 'Leave approved successfully!'
               : 'Leave rejected successfully!';
           this.helperService.showToast(message, Key.TOAST_STATUS_SUCCESS);
+          this.getTotalCountOfPendingLeaves();
         },
         error: (error) => {
           console.error('There was an error!', error);
@@ -889,4 +890,5 @@ export class LeaveManagementComponent implements OnInit {
     this.closeModal.nativeElement.click();
     this.helperService.routeToUserProfile(uuid);
   }
+
 }

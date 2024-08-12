@@ -6,6 +6,7 @@ import { Organization } from 'src/app/models/organization';
 import { DataService } from 'src/app/services/data.service';
 import { jwtDecode } from 'jwt-decode';
 import { Key } from 'src/app/constant/key';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-slack-auth',
@@ -16,13 +17,15 @@ export class SlackAuthComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private httpClient: HttpClient,
-    private router: Router
+    private router: Router,
+    private helperService: HelperService
   ) {}
 
   ngOnInit(): void {
     debugger;
     //this.convertAccessTokenFromCode();
     this.registerOrganizationByCodeParam();
+    this.continueInSlack();
   }
 
   isSuccessComponent: boolean = false;
@@ -45,7 +48,7 @@ export class SlackAuthComponent implements OnInit {
     }
     this.errorFlag = false;
     this.dataService
-      .registerOrganizationUsingCodeParam(codeParam, stateParam)
+      .registerOrganizationUsingCodeParam(codeParam, stateParam, this.helperService.getTimeZone())
       .subscribe(
         (response: any) => {
           console.log(response.object);
@@ -65,30 +68,33 @@ export class SlackAuthComponent implements OnInit {
           debugger;
           console.log(decodedValue);
 
-          if (
-            decodedValue.httpCustomStatus === 'UPDATED' &&
-            decodedValue.statusResponse === 'Registration Completed'
-          ) {
-            this.isRouteDashboard = true;
+          this.isRouteDashboard = true;
             this.isRouteOnboarding = false;
-            // this.router.navigate(['/dashboard']);
-          } else {
-            this.isRouteDashboard = false;
-            this.isRouteOnboarding = true;
-            // this.router.navigate([
-            //   '/organization-onboarding/personal-information',
-            // ]);
-          }
+          // if (
+          //   decodedValue.httpCustomStatus === 'UPDATED' &&
+          //   decodedValue.statusResponse === 'Attendance Rule Setting'
+          // ) {
+            
+          //   this.router.navigate(['/dashboard']);
+          // }
+          // } else {
+          //   this.isRouteDashboard = false;
+          //   this.isRouteOnboarding = true;
+          //   // this.router.navigate([
+          //   //   '/organization-onboarding/personal-information',
+          //   // ]);
+          // }
         },
         (error) => {
           console.log(error);
           if (error.error.message === 'false') {
             this.errorMessage =
-              'Your email is already registered on Hajiri with another workspace.';
+              'It appears that your email is already registered with Hajiri under a different workspace.';
             this.errorFlag = false;
           } else {
             this.errorFlag = true;
-            this.errorMessage = 'false';
+            this.errorMessage =
+              'If you encounter any issues, we encourage you to utilize our contact form to reach out for assistance Or Login Again';
           }
           this.isSuccessComponent = false;
           this.isErrorComponent = true;
@@ -98,11 +104,11 @@ export class SlackAuthComponent implements OnInit {
 
   navigateToRoute(): void {
     debugger;
-    if (this.isRouteOnboarding) {
-      this.router.navigate(['/organization-onboarding/personal-information']);
-    } else if (this.isRouteDashboard) {
-      this.router.navigate(['/dashboard']);
-    }
+    this.router.navigate(['/dashboard']);
+    this.helperService.showToast(
+      'Please add shift settings in the Attendance Settings section and leave settings in the Leave Settings section to establish shift rules for your organization’s users and assign their leave quotas, if not already configured.',
+      Key.TOAST_STATUS_SUCCESS
+    );
   }
 
   redirectToLogin() {
@@ -119,7 +125,7 @@ export class SlackAuthComponent implements OnInit {
   workspaceName: any;
   slackWorkspaceUrl: string = '';
   continueInSlack() {
-    this.workspaceName = localStorage.getItem('WORKSPACENAME');
+    // this.workspaceName = localStorage.getItem('WORKSPACENAME');
     this.slackWorkspaceUrl = `https://slack.com/app_redirect?app=A05QD5T9EK1&tab=home`;
     // window.location.href = slackWorkspaceUrl;
   }

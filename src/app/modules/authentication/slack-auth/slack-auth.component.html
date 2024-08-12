@@ -130,7 +130,7 @@
               style="width: 160px"
             />
           </div>
-          <h1>Hajiri Added to Slack Successfully!</h1>
+          <h1>Hajiri added to Slack successfully!</h1>
           <p class="mb-0 slack-addes-para">
             To Get started, take a look at our User Guide.
             <a
@@ -141,16 +141,14 @@
             >
             <br />
             Login to Hajiri web dashboard.
-            <a
-              style="color: #6666f3 !important"
-              (click)="navigateToRoute()"
-              *ngIf="isRouteDashboard"
+            <a style="color: #6666f3 !important" (click)="navigateToRoute()"
               >Dashboard</a
             >
           </p>
           <p></p>
 
           <div class="mt-5">
+            <!-- {{ slackWorkspaceUrl }} -->
             <a
               [href]="slackWorkspaceUrl"
               class="btn add-to-slack-btn"
@@ -170,13 +168,15 @@
 
 <div class="error-page" *ngIf="isErrorComponent">
   <img src="assets/images/onbording-eroor.jpg" style="width: 200px" />
-  <h1>Something Went Wrong</h1>
+  <h1>We're Sorry, but an Unexpected Error Occurred</h1>
   <p class="" *ngIf="!errorFlag">
     {{ errorMessage }}
   </p>
   <p class="" *ngIf="errorFlag">
     {{ errorMessage }}
-    <a href="https://www.hajiri.in/contact.html" style="color: blue">Help</a>
+    <a href="https://www.hajiri.in/contact.html" style="color: blue"
+      >Contact Form</a
+    >
   </p>
 
   <button

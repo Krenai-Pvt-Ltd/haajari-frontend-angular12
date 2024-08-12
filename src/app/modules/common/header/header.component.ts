@@ -61,11 +61,18 @@ export class HeaderComponent implements OnInit {
   USER = Key.USER;
   MANAGER = Key.MANAGER;
   KRENAI_UUID = Key.KRENAI_UUID;
+  DEMO_ORGANIZATION_UUID = Key.DEMO_ORGANIZATION_UUID;
 
   // ROLE = this.rbacService.getRole();
   ROLE: any;
   UUID: any;
   ORGANIZATION_UUID: any;
+
+  DASHBOARD: boolean = false;
+  PEOPLE: boolean = false;
+  MANAGEMENT: boolean = false;
+  PAYROLL: boolean = false;
+  COMPANY: boolean = false;
 
   async getUserUUID() {
     this.UUID = await this.rbacService.getUUID();
@@ -128,7 +135,7 @@ export class HeaderComponent implements OnInit {
   show: boolean = false;
 
   shouldDisplay(moduleName: string): boolean {
-    const role = this.rbacService.getRoles(); // Assuming getRole returns a Promise<string>
+    const role = this.rbacService.getRoles(); 
     const modulesToShowForManager = [
       'dashboard',
       'team',
@@ -138,18 +145,24 @@ export class HeaderComponent implements OnInit {
       'leave-management',
     ];
     const modulesToShowForUser = ['team', 'project', 'leave-management'];
+    const modulesToShowForHRADMIN = ['onboarding'];
 
     return (
       role === Key.ADMIN ||
       (role === Key.MANAGER && modulesToShowForManager.includes(moduleName)) ||
-      (role === Key.USER && modulesToShowForUser.includes(moduleName))
+      (role === Key.USER && modulesToShowForUser.includes(moduleName)) ||
+      (role === Key.HRADMIN && modulesToShowForHRADMIN.includes(moduleName))
     );
   }
 
+  // shouldDisplay(subModuleName: string){
+  //   debugger;
+  //   return this.rbacService.hasAccessToSubmodule(subModuleName);
+  // }
+
   activeTab: string = '';
 
-  routeToSeetings(settingType: string) {
-    debugger;
+  routeToSettings(settingType: string) {
     //  this.activeTab=settingType;
     let navigationExtra: NavigationExtras = {
       queryParams: { setting: settingType },
@@ -157,14 +170,13 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/setting/account-settings'], navigationExtra);
   }
 
-  OrgSubsPlanMonthDetail: OrganizationSubscriptionPlanMonthDetail =
-    new OrganizationSubscriptionPlanMonthDetail();
+  orgSubsPlanMonthDetail: OrganizationSubscriptionPlanMonthDetail = new OrganizationSubscriptionPlanMonthDetail();
   getOrgSubsPlanMonthDetail() {
     this._subscriptionPlanService
       .getOrgSubsPlanMonthDetail()
       .subscribe((response) => {
         if (response.status) {
-          this.OrgSubsPlanMonthDetail = response.object;
+          this.orgSubsPlanMonthDetail = response.object;
         }
       });
   }

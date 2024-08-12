@@ -25,7 +25,7 @@ export class AddShiftTimeComponent implements OnInit {
     private router: Router,
     private _location: Location,
     private helperService: HelperService,
-    private onboardingService: OrganizationOnboardingService,
+    private onboardingService: OrganizationOnboardingService
   ) {}
 
   ngOnInit(): void {
@@ -67,7 +67,7 @@ export class AddShiftTimeComponent implements OnInit {
         // this.isBackLoading = false;
         // this.onboardingService.refreshOnboarding();
       },
-      (error) => {},
+      (error) => {}
     );
   }
 
@@ -80,7 +80,7 @@ export class AddShiftTimeComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-      },
+      }
     );
   }
 
@@ -117,7 +117,7 @@ export class AddShiftTimeComponent implements OnInit {
         },
         (error) => {
           console.error(error);
-        },
+        }
       );
   }
 
@@ -134,17 +134,17 @@ export class AddShiftTimeComponent implements OnInit {
           this.loading = false;
           this.helperService.showToast(
             'Shift Timing registered successfully',
-            Key.TOAST_STATUS_SUCCESS,
+            Key.TOAST_STATUS_SUCCESS
           );
           this.router.navigate(['/organization-onboarding/shift-time-list']);
         },
         (error) => {
           this.helperService.showToast(
             'Shift creation failed!',
-            Key.TOAST_STATUS_ERROR,
+            Key.TOAST_STATUS_ERROR
           );
           this.loading = false;
-        },
+        }
       );
   }
 
@@ -173,7 +173,7 @@ export class AddShiftTimeComponent implements OnInit {
       (error) => {
         console.log(error);
         // this.networkConnectionErrorPlaceHolder = true;
-      },
+      }
     );
   }
 
@@ -236,7 +236,7 @@ export class AddShiftTimeComponent implements OnInit {
         this.selectedStaffsUuids.includes(staff.uuid)
       ) {
         this.selectedStaffsUuids = this.selectedStaffsUuids.filter(
-          (uuid) => uuid !== staff.uuid,
+          (uuid) => uuid !== staff.uuid
         );
       }
     });
@@ -269,7 +269,7 @@ export class AddShiftTimeComponent implements OnInit {
       this.staffs.forEach((staff) => {
         if (this.selectedStaffsUuids.includes(staff.uuid)) {
           this.selectedStaffsUuids = this.selectedStaffsUuids.filter(
-            (uuid) => uuid !== staff.uuid,
+            (uuid) => uuid !== staff.uuid
           );
         }
       });
@@ -285,7 +285,6 @@ export class AddShiftTimeComponent implements OnInit {
   }
 
   selectAllUsers(isChecked: boolean) {
-
     this.isAllUsersSelected = isChecked;
     this.isAllSelected = isChecked; // Make sure this reflects the change on the current page
     this.staffs.forEach((staff) => (staff.selected = isChecked)); // Update each staff's selected property
@@ -349,90 +348,188 @@ export class AddShiftTimeComponent implements OnInit {
     );
   }
 
+  onTimeChange(field: keyof OrganizationShiftTimingRequest, value: Date): void {
+
+    
+    // Set the field value directly
+    switch (field) {
+        case 'inTime':
+            this.organizationShiftTimingRequest.inTime = value;
+            break;
+        case 'outTime':
+            this.organizationShiftTimingRequest.outTime = value;
+            break;
+        case 'startLunch':
+            this.organizationShiftTimingRequest.startLunch = value;
+            break;
+        case 'endLunch':
+            this.organizationShiftTimingRequest.endLunch = value;
+            break;
+        default:
+            break;
+
+    }
+
+    this.calculateTimes();
+
+}
+  
+
+  // calculateTimes(): void {
+  //   const { inTime, outTime, startLunch, endLunch } =
+  //     this.organizationShiftTimingRequest;
+
+  //   // Reset errors and calculated times
+  //   this.organizationShiftTimingValidationErrors = {};
+  //   this.organizationShiftTimingRequest.lunchHour = '';
+  //   this.organizationShiftTimingRequest.workingHour = '';
+
+  //   // Helper function to convert time string to minutes
+  //   const timeToMinutes = (time: any) => {
+  //     if (!time) return 0;
+  //     const [hours, minutes] = time.split(':').map(Number);
+  //     return hours * 60 + minutes;
+  //   };
+
+  //   // Convert times to minutes
+  //   const inTimeMinutes = timeToMinutes(inTime);
+  //   const outTimeMinutes = timeToMinutes(outTime);
+  //   const startLunchMinutes = timeToMinutes(startLunch);
+  //   const endLunchMinutes = timeToMinutes(endLunch);
+
+  //   // Check for valid in and out times
+  //   if (inTime && outTime) {
+  //     if (outTimeMinutes < inTimeMinutes) {
+  //       this.organizationShiftTimingValidationErrors['outTime'] =
+  //         'Out time must be after in time.';
+  //     } else {
+  //       const totalWorkedMinutes = outTimeMinutes - inTimeMinutes;
+  //       this.organizationShiftTimingRequest.workingHour =
+  //         this.formatMinutesToTime(totalWorkedMinutes);
+  //     }
+  //   }
+
+  //   // Check for valid lunch start time
+  //   if (
+  //     startLunch &&
+  //     (startLunchMinutes < inTimeMinutes || startLunchMinutes > outTimeMinutes)
+  //   ) {
+  //     this.organizationShiftTimingValidationErrors['startLunch'] =
+  //       'Lunch time should be within in and out times.';
+  //   }
+
+  //   // Check for valid lunch end time
+  //   if (
+  //     endLunch &&
+  //     (endLunchMinutes < inTimeMinutes || endLunchMinutes > outTimeMinutes)
+  //   ) {
+  //     this.organizationShiftTimingValidationErrors['endLunch'] =
+  //       'Lunch time should be within in and out times.';
+  //   }
+
+  //   // Calculate lunch hour and adjust working hours if lunch times are valid
+  //   if (startLunch && endLunch && startLunchMinutes < endLunchMinutes) {
+  //     const lunchBreakMinutes = endLunchMinutes - startLunchMinutes;
+  //     this.organizationShiftTimingRequest.lunchHour =
+  //       this.formatMinutesToTime(lunchBreakMinutes);
+
+  //     if (this.organizationShiftTimingRequest.workingHour) {
+  //       const adjustedWorkedMinutes =
+  //         timeToMinutes(this.organizationShiftTimingRequest.workingHour) -
+  //         lunchBreakMinutes;
+  //       this.organizationShiftTimingRequest.workingHour =
+  //         this.formatMinutesToTime(adjustedWorkedMinutes);
+  //     }
+  //   }
+
+  //   // Additional validation for lunch times
+  //   if (startLunch && endLunch) {
+  //     if (endLunchMinutes <= startLunchMinutes) {
+  //       this.organizationShiftTimingValidationErrors['endLunch'] =
+  //         'Please enter a valid back time from lunch.';
+  //     }
+  //     if (startLunchMinutes >= endLunchMinutes) {
+  //       this.organizationShiftTimingValidationErrors['startLunch'] =
+  //         'Please enter a valid lunch start time.';
+  //     }
+  //   }
+  // }
+
+
+
   calculateTimes(): void {
-    const { inTime, outTime, startLunch, endLunch } =
-      this.organizationShiftTimingRequest;
+    const { inTime, outTime, startLunch, endLunch } = this.organizationShiftTimingRequest;
 
     // Reset errors and calculated times
     this.organizationShiftTimingValidationErrors = {};
     this.organizationShiftTimingRequest.lunchHour = '';
     this.organizationShiftTimingRequest.workingHour = '';
 
-    // Helper function to convert time string to minutes
-    const timeToMinutes = (time: any) => {
-      if (!time) return 0;
-      const [hours, minutes] = time.split(':').map(Number);
-      return hours * 60 + minutes;
+    // Helper function to convert Date object to minutes from start of the day in local time
+    const dateToLocalMinutes = (date: Date | undefined) => {
+        if (!date) return 0;
+        const localDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+        const hours = localDate.getHours();
+        const minutes = localDate.getMinutes();
+        return hours * 60 + minutes;
     };
 
-    // Convert times to minutes
-    const inTimeMinutes = timeToMinutes(inTime);
-    const outTimeMinutes = timeToMinutes(outTime);
-    const startLunchMinutes = timeToMinutes(startLunch);
-    const endLunchMinutes = timeToMinutes(endLunch);
+    // Convert times to local minutes
+    const inTimeMinutes = dateToLocalMinutes(inTime);
+    const outTimeMinutes = dateToLocalMinutes(outTime);
+    const startLunchMinutes = dateToLocalMinutes(startLunch);
+    const endLunchMinutes = dateToLocalMinutes(endLunch);
 
     // Check for valid in and out times
     if (inTime && outTime) {
-      if (outTimeMinutes < inTimeMinutes) {
-        this.organizationShiftTimingValidationErrors['outTime'] =
-          'Out time must be after in time.';
-      } else {
-        const totalWorkedMinutes = outTimeMinutes - inTimeMinutes;
-        this.organizationShiftTimingRequest.workingHour =
-          this.formatMinutesToTime(totalWorkedMinutes);
-      }
+        if (outTimeMinutes <= inTimeMinutes) {
+            this.organizationShiftTimingValidationErrors['outTime'] = 'Out time must be after in time.';
+        } else {
+            const totalWorkedMinutes = outTimeMinutes - inTimeMinutes;
+            this.organizationShiftTimingRequest.workingHour = this.formatMinutesToTime(totalWorkedMinutes);
+        }
     }
 
     // Check for valid lunch start time
-    if (
-      startLunch &&
-      (startLunchMinutes < inTimeMinutes || startLunchMinutes > outTimeMinutes)
-    ) {
-      this.organizationShiftTimingValidationErrors['startLunch'] =
-        'Lunch time should be within in and out times.';
+    if (startLunch && (startLunchMinutes <= inTimeMinutes || startLunchMinutes >= outTimeMinutes)) {
+        this.organizationShiftTimingValidationErrors['startLunch'] = 'Lunch time should be within in and out times.';
     }
 
     // Check for valid lunch end time
-    if (
-      endLunch &&
-      (endLunchMinutes < inTimeMinutes || endLunchMinutes > outTimeMinutes)
-    ) {
-      this.organizationShiftTimingValidationErrors['endLunch'] =
-        'Lunch time should be within in and out times.';
+    if (endLunch && (endLunchMinutes <= inTimeMinutes || endLunchMinutes >= outTimeMinutes)) {
+        this.organizationShiftTimingValidationErrors['endLunch'] = 'Lunch time should be within in and out times.';
     }
 
     // Calculate lunch hour and adjust working hours if lunch times are valid
     if (startLunch && endLunch && startLunchMinutes < endLunchMinutes) {
-      const lunchBreakMinutes = endLunchMinutes - startLunchMinutes;
-      this.organizationShiftTimingRequest.lunchHour =
-        this.formatMinutesToTime(lunchBreakMinutes);
+        const lunchBreakMinutes = endLunchMinutes - startLunchMinutes;
+        this.organizationShiftTimingRequest.lunchHour = this.formatMinutesToTime(lunchBreakMinutes);
 
-      if (this.organizationShiftTimingRequest.workingHour) {
-        const adjustedWorkedMinutes =
-          timeToMinutes(this.organizationShiftTimingRequest.workingHour) -
-          lunchBreakMinutes;
-        this.organizationShiftTimingRequest.workingHour =
-          this.formatMinutesToTime(adjustedWorkedMinutes);
-      }
+        if (this.organizationShiftTimingRequest.workingHour) {
+            const workingHourMinutes = this.organizationShiftTimingRequest.workingHour.split(':').map(Number);
+            const totalWorkingMinutes = workingHourMinutes[0] * 60 + workingHourMinutes[1];
+            const adjustedWorkedMinutes = totalWorkingMinutes - lunchBreakMinutes;
+            this.organizationShiftTimingRequest.workingHour = this.formatMinutesToTime(adjustedWorkedMinutes);
+        }
     }
 
     // Additional validation for lunch times
     if (startLunch && endLunch) {
-      if (endLunchMinutes <= startLunchMinutes) {
-        this.organizationShiftTimingValidationErrors['endLunch'] =
-          'Please enter a valid back time from lunch.';
-      }
-      if (startLunchMinutes >= endLunchMinutes) {
-        this.organizationShiftTimingValidationErrors['startLunch'] =
-          'Please enter a valid lunch start time.';
-      }
+        if (endLunchMinutes <= startLunchMinutes) {
+            this.organizationShiftTimingValidationErrors['endLunch'] = 'Please enter a valid back time from lunch.';
+        }
+        if (startLunchMinutes >= endLunchMinutes) {
+            this.organizationShiftTimingValidationErrors['startLunch'] = 'Please enter a valid lunch start time.';
+        }
     }
-  }
+}
 
   formatMinutesToTime(minutes: any) {
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
-    return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
+    return `${hours.toString().padStart(2, '0')}:${mins
+      .toString()
+      .padStart(2, '0')}`;
   }
 
   submitShiftTimingForm(): void {
@@ -454,7 +551,7 @@ export class AddShiftTimeComponent implements OnInit {
     this.getUserByFiltersMethodCall();
   }
 
-  backToShiftTime(){
+  backToShiftTime() {
     this.SHIFT_TIME_STEP_ID = Key.SHIFT_TIME;
   }
 
@@ -466,7 +563,7 @@ export class AddShiftTimeComponent implements OnInit {
       },
       (error) => {
         console.log('error');
-      },
+      }
     );
   }
 }

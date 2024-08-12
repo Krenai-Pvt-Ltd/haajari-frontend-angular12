@@ -1,4 +1,7 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { finalize } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
 import { ESIContributionRate } from 'src/app/models/e-si-contribution-rate';
 import { PFContributionRate } from 'src/app/models/p-f-contribution-rate';
@@ -6,11 +9,13 @@ import { SalaryCalculationMode } from 'src/app/models/salary-calculation-mode';
 import { SalaryComponent } from 'src/app/models/salary-component';
 import { SalaryTemplateComponentRequest } from 'src/app/models/salary-template-component-request';
 import { SalaryTemplateComponentResponse } from 'src/app/models/salary-template-component-response';
+import { Staff } from 'src/app/models/staff';
 import { Statutory } from 'src/app/models/statutory';
 import { StatutoryAttribute } from 'src/app/models/statutory-attribute';
 import { StatutoryAttributeResponse } from 'src/app/models/statutory-attribute-response';
 import { StatutoryRequest } from 'src/app/models/statutory-request';
 import { StatutoryResponse } from 'src/app/models/statutory-response';
+import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-reflection';
 import { ConfirmationDialogService } from 'src/app/services/confirmation-dialog.service';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -24,11 +29,13 @@ export class SalarySettingComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private helperService: HelperService,
-    private confirmationDialogService: ConfirmationDialogService
+    private confirmationDialogService: ConfirmationDialogService,
+    private afStorage: AngularFireStorage
   ) {}
 
   ngOnInit(): void {
     window.scroll(0, 0);
+    this.getSalaryDetailExcelMethodCall();
     this.getAllSalaryCalculationModeMethodCall();
     this.getSalaryCalculationModeByOrganizationIdMethodCall();
     this.getPFContributionRateMethodCall();
@@ -36,6 +43,47 @@ export class SalarySettingComponent implements OnInit {
     this.getAllStatutoriesMethodCall();
     this.getAllSalaryTemplateComponentByOrganizationIdMethodCall();
     this.getAllSalaryComponentsMethodCall();
+  }
+
+  //Variable for pagination
+  pageNumber : number = 1;
+  itemPerPage : number = 8;
+  total : number = 0;
+  lastPageNumber : number = 1;
+  searchText : string = '';
+  searchBy : string = 'name';
+  sort : string = ''
+  sortBy : string = 'name';
+  staffs: Staff[] = [];
+  sampleExcelFile: string = 'https://firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/sampleFile%2Femployee_salary_detail_sample.xlsx?alt=media&token=8a0ed26e-55a7-4987-876a-bff44f62e2ce';
+
+
+  CURRENT_TAB_IN_SALARY_TEMPLATE = Key.SALARY_TEMPLATE_STEP;
+
+  SALARY_TEMPLATE_STEP = Key.SALARY_TEMPLATE_STEP;
+  STAFF_SELECTION_STEP = Key.STAFF_SELECTION_STEP;
+
+  @ViewChild('salaryTemplateTab', { static: false }) salaryTemplateTab!: ElementRef;
+  @ViewChild('staffSelectionTab', { static: false }) staffSelectionTab!: ElementRef;
+
+  //Tab navigation
+  salaryTemplateTabClick(){
+    this.CURRENT_TAB_IN_SALARY_TEMPLATE = Key.SALARY_TEMPLATE_STEP;
+    this.resetCriteriaFilter();
+  }
+  
+  staffSelectionTabClick(){
+    this.CURRENT_TAB_IN_SALARY_TEMPLATE = Key.STAFF_SELECTION_STEP;
+    this.resetCriteriaFilter();
+    this.getUserByFiltersMethodCall();
+  }
+
+  goToSalaryTemplateTab(){
+    this.salaryTemplateTab.nativeElement.click();
+  }
+
+  goToStaffSelectionTab(){
+    this.staffSelectionTab.nativeElement.click();
   }
 
   //Code for toggle buttons in statutories section
@@ -82,6 +130,15 @@ export class SalarySettingComponent implements OnInit {
     this.isShimmerForSalaryTemplate = true;
     this.dataNotFoundPlaceholderForSalaryTemplate = false;
     this.networkConnectionErrorPlaceHolderForSalaryTemplate = false;
+  }
+
+  isShimmerForSalaryTemplateStaffSelection = false;
+  dataNotFoundPlaceholderForSalaryTemplateStaffSelection = false;
+  networkConnectionErrorPlaceHolderForSalaryTemplateStaffSelection = false;
+  preRuleForShimmersAndErrorPlaceholdersForSalaryTemplateStaffSelectionMethodCall() {
+    this.isShimmerForSalaryTemplateStaffSelection = true;
+    this.dataNotFoundPlaceholderForSalaryTemplateStaffSelection = false;
+    this.networkConnectionErrorPlaceHolderForSalaryTemplateStaffSelection = false;
   }
 
   //Fetching all the salary calculation mode from the database
@@ -143,7 +200,7 @@ export class SalarySettingComponent implements OnInit {
           );
         },
         (error) => {
-          console.log(error);
+          // console.log(error);
           this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
         }
       );
@@ -255,7 +312,7 @@ export class SalarySettingComponent implements OnInit {
     this.statutoryRequest.statutoryAttributeRequestList =
       this.statutoryAttributeResponseList;
 
-    console.log(this.statutoryAttributeResponseList);
+    // console.log(this.statutoryAttributeResponseList);
 
     if (statutoryResponse.switchValue === false) {
       if (statutoryResponse.id == this.EPF_ID) {
@@ -333,7 +390,7 @@ export class SalarySettingComponent implements OnInit {
                 const matchingESIRate = this.eSIContributionRateList.find(
                   (iterator) => iterator.statutoryAttribute.id === attr.id
                 );
-                console.log(this.eSIContributionRateList);
+                // console.log(this.eSIContributionRateList);
                 if (matchingESIRate) {
                   if (
                     attr.value === undefined ||
@@ -363,7 +420,7 @@ export class SalarySettingComponent implements OnInit {
   ) {
     statutoryAttribute.value = pFContributionRate.name;
 
-    console.log(this.statutoryAttributeResponseList);
+    // console.log(this.statutoryAttributeResponseList);
 
     if (
       index === 0 &&
@@ -388,8 +445,7 @@ export class SalarySettingComponent implements OnInit {
   readonly HRA_ID = Key.HRA_ID;
 
   salaryTemplateRegisterButtonLoader: boolean = false;
-  salaryTemplateComponentRequest: SalaryTemplateComponentRequest =
-    new SalaryTemplateComponentRequest();
+  salaryTemplateComponentRequest: SalaryTemplateComponentRequest = new SalaryTemplateComponentRequest();
 
   registerSalaryTemplateMethodCall() {
     debugger;
@@ -416,7 +472,7 @@ export class SalarySettingComponent implements OnInit {
       }
     });
 
-    console.log(this.salaryTemplateComponentRequest);
+    this.salaryTemplateComponentRequest.userUuids = this.selectedStaffsUuids;
 
     this.dataService
       .registerSalaryTemplate(this.salaryTemplateComponentRequest)
@@ -475,11 +531,12 @@ export class SalarySettingComponent implements OnInit {
 
   salaryTemplateComponentResponseList: SalaryTemplateComponentResponse[] = [];
   getAllSalaryTemplateComponentByOrganizationIdMethodCall() {
+    debugger;
     this.preRuleForShimmersAndErrorPlaceholdersForSalaryTemplateMethodCall();
     this.dataService.getAllSalaryTemplateComponentByOrganizationId().subscribe(
       (response) => {
         this.salaryTemplateComponentResponseList = response.listOfObject;
-        if (this.salaryTemplateComponentResponseList.length === 1) {
+        if (this.salaryTemplateComponentResponseList.length == 1) {
           this.activeIndex = 0;
         }
 
@@ -502,18 +559,14 @@ export class SalarySettingComponent implements OnInit {
   @ViewChild('salaryTemplateModal') salaryTemplateModal!: ElementRef;
   @ViewChild('cancelSalaryTemplateModal')
   cancelSalaryTemplateModal!: ElementRef;
-  updateSalaryTemplateComponentBySalaryTemplateId(
-    salaryTemplateComponentResponse: SalaryTemplateComponentResponse
-  ) {
+  updateSalaryTemplateComponentBySalaryTemplateId(salaryTemplateComponentResponse: SalaryTemplateComponentResponse, type : string) {
+    
     this.salaryTemplateComponentRequest.id = salaryTemplateComponentResponse.id;
-    this.salaryTemplateComponentRequest.name =
-      salaryTemplateComponentResponse.name;
-    this.salaryTemplateComponentRequest.description =
-      salaryTemplateComponentResponse.description;
-    this.salaryTemplateComponentRequest.salaryComponentRequestList =
-      salaryTemplateComponentResponse.salaryComponentResponseList;
-    this.salaryTemplateComponentRequest.userUuids =
-      salaryTemplateComponentResponse.userUuids;
+    this.salaryTemplateComponentRequest.name = salaryTemplateComponentResponse.name;
+    this.salaryTemplateComponentRequest.description = salaryTemplateComponentResponse.description;
+    this.salaryTemplateComponentRequest.salaryComponentRequestList = salaryTemplateComponentResponse.salaryComponentResponseList;
+    this.salaryTemplateComponentRequest.userUuids = salaryTemplateComponentResponse.userUuids;
+    this.selectedStaffsUuids = salaryTemplateComponentResponse.userUuids;
 
     salaryTemplateComponentResponse.salaryComponentResponseList.forEach(
       (salaryComponentResponse) => {
@@ -530,11 +583,20 @@ export class SalarySettingComponent implements OnInit {
     this.salaryComponentList.sort(
       (a, b) => (b.toggle ? 1 : 0) - (a.toggle ? 1 : 0)
     );
+
+    if(type == this.STAFF_SELECTION_STEP){
+      this.staffSelectionTab.nativeElement.click();
+    }
   }
 
   clearSalaryTemplateModal() {
     this.salaryTemplateComponentRequest = new SalaryTemplateComponentRequest();
     this.getAllSalaryComponentsMethodCall();
+    this.resetCriteriaFilter();
+    this.selectedStaffsUuids = [];
+    this.getUserByFiltersMethodCall();
+    this.isAllUsersSelected = false;
+    this.salaryTemplateTab.nativeElement.click();
   }
 
   // toggleSalaryComponent(salaryComponent: SalaryComponent): void {
@@ -571,5 +633,355 @@ export class SalarySettingComponent implements OnInit {
       this.activeIndex = null;
       this.activeIndex = index;
     }
+  }
+
+
+
+// ##### Staff selection ############
+
+  // Selection functionality
+  isAllUsersSelected: boolean = false;
+  selectedStaffsUuids: string[] = [];
+  selectedStaffs: Staff[] = [];
+  isAllSelected: boolean = false;
+  totalUserCount: number = 0
+
+  //Method to select all the user
+  selectAll(checked: boolean) {
+    this.isAllSelected = checked;
+    this.staffs.forEach((staff) => (staff.selected = checked));
+
+    // Update the selectedStaffsUuids based on the current page selection
+    if (checked) {
+      this.staffs.forEach((staff) => {
+        if (!this.selectedStaffsUuids.includes(staff.uuid)) {
+          this.selectedStaffsUuids.push(staff.uuid);
+        }
+      });
+    } else {
+      this.staffs.forEach((staff) => {
+        if (this.selectedStaffsUuids.includes(staff.uuid)) {
+          this.selectedStaffsUuids = this.selectedStaffsUuids.filter(
+            (uuid) => uuid !== staff.uuid
+          );
+        }
+      });
+    }
+
+    this.checkIndividualSelection();
+  }
+
+  //Method to select all users on a page
+  selectAllUsers(event: any) {
+    const isChecked = event.target.checked;
+    this.isAllSelected = isChecked; // Make sure this reflects the change on the current page
+    this.staffs.forEach((staff) => (staff.selected = isChecked));
+
+    if (isChecked) {
+      // If selecting all, add all user UUIDs to the selectedStaffsUuids list
+      this.getAllUserUuidsMethodCall().then((allUuids) => {
+        this.selectedStaffsUuids = allUuids;
+      });
+    } else {
+      this.selectedStaffsUuids = [];
+    }
+  }
+
+  //Method to unselect all users
+  unselectAllUsers() {
+    this.isAllUsersSelected = false;
+    this.isAllSelected = false;
+    this.staffs.forEach((staff) => (staff.selected = false));
+    this.selectedStaffsUuids = [];
+  }
+
+  checkIndividualSelection() {
+    this.isAllUsersSelected = this.staffs.every((staff) => staff.selected);
+    this.isAllSelected = this.isAllUsersSelected;
+    this.updateSelectedStaffs();
+  }
+
+  checkAndUpdateAllSelected() {
+    this.isAllSelected =
+      this.staffs.length > 0 && this.staffs.every((staff) => staff.selected);
+    this.isAllUsersSelected = this.selectedStaffsUuids.length === this.total;
+  }
+
+  updateSelectedStaffs() {
+    this.staffs.forEach((staff) => {
+      if (staff.selected && !this.selectedStaffsUuids.includes(staff.uuid)) {
+        this.selectedStaffsUuids.push(staff.uuid);
+      } else if (
+        !staff.selected &&
+        this.selectedStaffsUuids.includes(staff.uuid)
+      ) {
+        this.selectedStaffsUuids = this.selectedStaffsUuids.filter(
+          (uuid) => uuid !== staff.uuid
+        );
+      }
+    });
+
+    this.checkAndUpdateAllSelected();
+  }
+
+  //Method to search users
+  searchUsers() {
+    this.getUserByFiltersMethodCall();
+  }
+
+  //Method to clear search text
+  clearSearchText() {
+    this.searchText = '';
+    this.getUserByFiltersMethodCall();
+  }
+
+  //Method to get user list by pagination
+  getUserByFiltersMethodCall() {
+    this.staffs = [];
+    this.preRuleForShimmersAndErrorPlaceholdersForSalaryTemplateStaffSelectionMethodCall();
+    this.dataService.getUsersByFilter(this.itemPerPage, this.pageNumber, 'asc', 'id', this.searchText, '', this.selectedTeamId)
+      .subscribe(
+        (response) => {
+          if(response.users == undefined || response.users == null || response.users.length == 0){
+            this.dataNotFoundPlaceholderForSalaryTemplateStaffSelection = true;
+            this.isShimmerForSalaryTemplateStaffSelection = false;
+          }
+          this.staffs = response.users.map((staff: Staff) => ({
+            ...staff,
+            selected: this.selectedStaffsUuids.includes(staff.uuid),
+          }));
+          
+          if (this.selectedTeamId == 0 && this.searchText == '') {
+            this.totalUserCount = response.count;
+          }
+          this.total = response.count;
+          this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+          this.pageNumber = Math.min(this.pageNumber, this.lastPageNumber);
+          this.isAllSelected = this.staffs.every((staff) => staff.selected);
+
+          this.isShimmerForSalaryTemplateStaffSelection = false;
+          this.checkIndividualSelection();
+        },
+        (error) => {
+          console.error(error);
+          this.isShimmerForSalaryTemplateStaffSelection = false;
+          this.networkConnectionErrorPlaceHolderForSalaryTemplateStaffSelection = true;
+        }
+      );
+  }
+
+  // Fetching all the uuids of the users by organization
+  allUserUuids: string[] = [];
+  async getAllUserUuidsMethodCall() {
+    return new Promise<string[]>((resolve, reject) => {
+      this.dataService.getAllUserUuids().subscribe({
+        next: (response) => {
+          this.allUserUuids = response.listOfObject;
+          resolve(this.allUserUuids);
+        },
+        error: (error) => {
+          reject(error);
+        },
+      });
+    });
+  }
+
+
+  //Reset criteria filter
+  resetCriteriaFilter() {
+    this.itemPerPage = 8;
+    this.pageNumber = 1;
+    this.lastPageNumber = 0;
+    this.total = 0;
+    this.sort = 'asc';
+    this.sortBy = 'id';
+    this.searchText = '';
+    this.searchBy = 'name';
+  }
+
+
+  selectedTeamName: string = 'All';
+  selectedTeamId: number = 0;
+  page = 0;
+  selectTeam(teamId: number) {
+    debugger;
+    if (teamId === 0) {
+      this.selectedTeamName = 'All';
+    } else {
+      const selectedTeam = this.teamNameList.find(
+        (team) => team.teamId === teamId
+      );
+      this.selectedTeamName = selectedTeam ? selectedTeam.teamName : 'All';
+    }
+    this.page = 0;
+    this.itemPerPage = 10;
+    // this.fullLeaveLogs = [];
+    // this.selectedTeamName = teamName;
+    this.selectedTeamId = teamId;
+    this.getUserByFiltersMethodCall();
+  }
+
+  teamNameList: UserTeamDetailsReflection[] = [];
+  teamId: number = 0;
+  getTeamNames() {
+    debugger;
+    this.dataService.getAllTeamNames().subscribe({
+      next: (response: any) => {
+        this.teamNameList = response.object;
+      },
+      error: (error) => {
+        console.error('Failed to fetch team names:', error);
+      },
+    });
+  }
+
+  // Pagination
+  changePage(page: number | string) {
+    if (typeof page === 'number') {
+      this.pageNumber = page;
+    } else if (page === 'prev' && this.pageNumber > 1) {
+      this.pageNumber--;
+    } else if (page === 'next' && this.pageNumber < this.totalPages) {
+      this.pageNumber++;
+    }
+
+    this.getUserByFiltersMethodCall();
+  }
+
+  getPages(): number[] {
+    const totalPages = Math.ceil(this.total / this.itemPerPage);
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.total / this.itemPerPage);
+  }
+  getStartIndex(): number {
+    return (this.pageNumber - 1) * this.itemPerPage + 1;
+  }
+  getEndIndex(): number {
+    const endIndex = this.pageNumber * this.itemPerPage;
+    return endIndex > this.total ? this.total : endIndex;
+  }
+
+  onTableDataChange(event: any) {
+    this.pageNumber = event;
+  }
+
+  fileName: any;
+  currentFileUpload: any;
+
+  importToggle: boolean = false;
+  isProgressToggle: boolean = false;
+  isErrorToggle: boolean = false;
+  errorMessage: string = '';
+
+  importLoading: boolean = false;
+  importReport: any[] = new Array();
+  totalItems: number = 0;
+  uploadDate: Date = new Date();
+
+  selectFile(event: any) {
+    if (event.target.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.currentFileUpload = file;
+      this.fileName = file.name;
+      this.uploadUserFile(file, this.fileName);
+    }
+  }
+
+  uploadUserFile(file: File, fileName: string) {
+    this.importToggle = true;
+    this.isProgressToggle = true;
+    this.isErrorToggle = false;
+    this.errorMessage = '';
+
+    this.dataService.importSalaryExcel(file, fileName).subscribe(
+      (response: any) => {
+        if (response.status) {
+          this.uploadToFirebase(file);
+        } else {
+          this.handleError(response.message);
+        }
+      },
+      (error: HttpErrorResponse) => {
+        this.handleError(error.error.message || 'An error occurred during file upload.');
+      }
+    );
+  }
+
+  uploadToFirebase(file: File) {
+    const filePath = `uploads/${file.name}`;
+    const fileRef = this.afStorage.ref(filePath);
+    const task = this.afStorage.upload(filePath, file);
+  
+    task.snapshotChanges().pipe(
+      finalize(() => {
+        fileRef.getDownloadURL().subscribe(url => {
+          // console.log('File uploaded successfully! Download URL:', url);
+          this.saveEventLog(url);
+          this.importToggle = false;
+          this.isProgressToggle = false;
+        });
+      })
+    ).subscribe();
+  }
+  
+  private saveEventLog(url: string) {
+    this.dataService.saveSalaryExcelLog(url).subscribe(
+      response => {
+        this.helperService.showToast("Salary Detail saved successfully", Key.TOAST_STATUS_SUCCESS )
+        // console.log('Event log saved successfully:', response);
+        this.getSalaryDetailExcelMethodCall();
+      },
+      error => {
+        this.helperService.showToast("Error saving salary detail", Key.TOAST_STATUS_ERROR )
+        console.error('Error saving event log:', error);
+      }
+    );
+  }
+
+  private handleError(message: string) {
+    this.importToggle = true;
+    this.isErrorToggle = true;
+    this.isProgressToggle = false;
+    this.errorMessage = message;
+  }
+
+  lastUploadedSalaryDoc: string = '';
+  lastUploadedSalaryDocName: string = '';
+  getSalaryDetailExcelMethodCall() {
+    this.dataService.getSalaryDetailExcel().subscribe(
+      (response: any) => {
+        if (response.status && response.object && response.object.url) {
+          this.lastUploadedSalaryDoc = response.object.url;
+          this.lastUploadedSalaryDocName = this.extractFileName(this.lastUploadedSalaryDoc);
+        } else {
+          this.lastUploadedSalaryDoc = '';
+          this.lastUploadedSalaryDocName = '';
+        }
+      },
+      (error) => {
+        console.error('Error fetching last uploaded salary document', error);
+        this.lastUploadedSalaryDoc = '';
+        this.lastUploadedSalaryDocName = '';
+      }
+    );
+  }
+
+  extractFileName(url: string): string {
+    const decodedUrl = decodeURIComponent(url);
+    const matches = decodedUrl.match(/.*\/(.+\..+?)\?/);
+    return matches ? matches[1] : 'Unknown File';
+  }
+
+
+ 
+
+  downloadDocument() {
+    const link = document.createElement('a');
+    link.href = this.lastUploadedSalaryDoc;
+    link.download = 'Salary_Detail_Doc.pdf'; 
+    link.click();
   }
 }

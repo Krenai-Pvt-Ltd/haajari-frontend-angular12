@@ -7,9 +7,9 @@
             <div class="card-header p-0 pb-3 bg-white">
               <h4 class="card-title">Shift Management</h4>
               <p class="text-muted mb-0">
-                To enhance your experience and ensure accurate communication on
-                our platform, we kindly ask you to review and update your
-                personal information.
+                To enhance your experience and ensure accurate shift scheduling
+                and communication within our platform, we kindly ask you to
+                review and update your shift information.
               </p>
             </div>
           </div>
@@ -36,8 +36,13 @@
                           <div class="col-md-6">
                             <div class="form-fild">
                               <label for="exampleInputEmail1" class="pb-2"
-                                >Shift Type</label
-                              >
+                                >Shift Type
+                                <i
+                                  class="bi bi-exclamation-circle tolltip-icon"
+                                  ngbTooltip="Please select the shift type for this shift template of your organization: day, night, or rotational shift."
+                                  placement="top"
+                                ></i
+                              ></label>
                               <div class="dropdown">
                                 <button
                                   class="btn btn-secondary dropdown-toggle new-dropdown profile-input"
@@ -80,8 +85,13 @@
                           <div class="col-md-6">
                             <div class="mb-3">
                               <label for="shiftName" class="pb-2"
-                                >Shift Name</label
-                              >
+                                >Shift Name
+                                <i
+                                  class="bi bi-exclamation-circle tolltip-icon"
+                                  ngbTooltip="Please write a unique name for this shift of your organization to assign users."
+                                  placement="top"
+                                ></i
+                              ></label>
                               <input
                                 type="text"
                                 class="form-control profile-input"
@@ -121,14 +131,17 @@
                                 <h4 class="card-title">Shift Timing</h4>
                                 <p class="text-muted mb-0">
                                   To enhance your experience and ensure accurate
-                                  communication on our platform, we kindly ask
-                                  you to review and update your personal
-                                  information.
+                                  shift management, please review and update the
+                                  following shift details for your organization.
+                                  Fill in the check-in time, check-out time,
+                                  lunch break start time, and lunch break end
+                                  time in the fields below.
                                 </p>
                               </div>
                             </div>
                           </div>
-                          <div class="col-md-4">
+                          <!-- In Time  -->
+                          <!-- <div class="col-md-4">
                             <div class="mb-3">
                               <label for="inTime" class="pb-2">In Time</label>
                               <input
@@ -157,14 +170,25 @@
                                 }}
                               </div>
                             </div>
-                          </div>
-                          <!-- Out Time Input -->
-                          <!-- <div class="col-md-4"><div class="mb-3"><label for="outTime" class="pb-2">Out Time</label><input id="outTime" type="time" class="form-control" required 
-                                             [(ngModel)]="organizationShiftTimingRequest.outTime" name="outTime"
-                                             (change)="calculateTimes()"><div *ngIf="organizationShiftTimingRequest.errors['outTime']" class="text-danger">
-                                             {{ organizationShiftTimingRequest.errors['outTime'] }}
-                                             </div></div></div> -->
+                          </div> -->
+
                           <div class="col-md-4">
+                            <div class="mb-3">
+                              <label for="inTime" class="pb-2">In Time</label>
+                              <nz-time-picker
+                                [(ngModel)]="organizationShiftTimingRequest.inTimeDate"
+                                [nzUse12Hours]="true"
+                                nzFormat="h:mm a"
+                                (ngModelChange)="onTimeChange('inTime', $event)"
+                                [ngModelOptions]="{ standalone: true }"
+                              ></nz-time-picker>
+                              <div *ngIf="organizationShiftTimingValidationErrors['inTime']" class="text-danger">
+                                {{ organizationShiftTimingValidationErrors['inTime']  }}
+                              </div>
+                            </div>
+                          </div>
+                          <!-- Out Time -->
+                          <!-- <div class="col-md-4">
                             <div class="mb-3">
                               <label for="outTime" class="pb-2">Out Time</label>
                               <input
@@ -183,7 +207,7 @@
                                 name="outTime"
                                 (change)="calculateTimes()"
                               />
-                              <!-- Error Message for Out Time -->
+                            
                               <div
                                 *ngIf="
                                   organizationShiftTimingValidationErrors[
@@ -197,6 +221,22 @@
                                     "outTime"
                                   ]
                                 }}
+                              </div>
+                            </div>
+                          </div> -->
+
+                          <div class="col-md-4">
+                            <div class="mb-3">
+                              <label for="outTime" class="pb-2">Out Time</label>
+                              <nz-time-picker
+                                [(ngModel)]="organizationShiftTimingRequest.outTimeDate"
+                                [nzUse12Hours]="true"
+                                nzFormat="h:mm a"
+                                (ngModelChange)="onTimeChange('outTime', $event)"
+                                [ngModelOptions]="{ standalone: true }"
+                              ></nz-time-picker>
+                              <div *ngIf="organizationShiftTimingValidationErrors['outTime']" class="text-danger">
+                                {{ organizationShiftTimingValidationErrors['outTime'] }}
                               </div>
                             </div>
                           </div>
@@ -220,7 +260,7 @@
                             </div>
                           </div>
                           <!-- Lunch Break Start Time Input -->
-                          <div class="col-md-4">
+                          <!-- <div class="col-md-4">
                             <div class="mb-3">
                               <label for="lunchBreakStartTime" class="pb-2"
                                 >Lunch Break Start Time</label
@@ -256,9 +296,25 @@
                                 }}
                               </div>
                             </div>
+                          </div> -->
+
+                          <div class="col-md-4">
+                            <div class="mb-3">
+                              <label for="lunchBreakStartTime" class="pb-2">Lunch Break Start Time</label>
+                              <nz-time-picker
+                                [(ngModel)]="organizationShiftTimingRequest.startLunchDate"
+                                [nzUse12Hours]="true"
+                                nzFormat="h:mm a"
+                                (ngModelChange)="onTimeChange('startLunch', $event)"
+                                [ngModelOptions]="{ standalone: true }"
+                              ></nz-time-picker>
+                              <div *ngIf="organizationShiftTimingValidationErrors['startLunch']" class="text-danger">
+                                {{ organizationShiftTimingValidationErrors['startLunch'] }}
+                              </div>
+                            </div>
                           </div>
                           <!-- Lunch Break End Time Input -->
-                          <div class="col-md-4">
+                          <!-- <div class="col-md-4">
                             <div class="mb-3">
                               <label for="lunchBreakEndTime" class="pb-2"
                                 >Lunch Break End Time</label
@@ -292,6 +348,22 @@
                                     "endLunch"
                                   ]
                                 }}
+                              </div>
+                            </div>
+                          </div> -->
+
+                          <div class="col-md-4">
+                            <div class="mb-3">
+                              <label for="lunchBreakEndTime" class="pb-2">Lunch Break End Time</label>
+                              <nz-time-picker
+                                [(ngModel)]="organizationShiftTimingRequest.endLunchDate"
+                                [nzUse12Hours]="true"
+                                nzFormat="h:mm a"
+                                (ngModelChange)="onTimeChange('endLunch', $event)"
+                                [ngModelOptions]="{ standalone: true }"
+                              ></nz-time-picker>
+                              <div *ngIf="organizationShiftTimingValidationErrors['endLunch']" class="text-danger">
+                                {{ organizationShiftTimingValidationErrors['endLunch']  }}
                               </div>
                             </div>
                           </div>
@@ -569,17 +641,44 @@
                               </div>
                             </div>
                           </ng-template>
-                          <div class="mt-3" style="display: flex; justify-content: space-between">
+                          <div
+                            class="mt-3"
+                            style="
+                              display: flex;
+                              justify-content: space-between;
+                            "
+                          >
                             <button
                               type="submit"
-                              class="btn btn-outline-secondary btn-round" (click)="backToShiftTime()">
-                              <span><i class="bi bi-arrow-left" style="padding-left: 8px"></i> Back </span>
+                              class="btn btn-outline-secondary btn-round"
+                              (click)="backToShiftTime()"
+                            >
+                              <span
+                                ><i
+                                  class="bi bi-arrow-left"
+                                  style="padding-left: 8px"
+                                ></i>
+                                Back
+                              </span>
                             </button>
                             <button
                               type="submit"
                               class="btn btn-outline-primary btn-round"
-                              [disabled]="shiftForm.invalid || this.selectedStaffsUuids.length < 1" (click)="registerOrganizationShiftTimingMethodCall()">
-                              <span> Create Shift Time <i class="bi bi-arrow-right" style="padding-left: 8px"></i></span>
+                              [disabled]="
+                                shiftForm.invalid ||
+                                this.selectedStaffsUuids.length < 1
+                              "
+                              (click)="
+                                registerOrganizationShiftTimingMethodCall()
+                              "
+                            >
+                              <span>
+                                Create Shift Time
+                                <i
+                                  class="bi bi-arrow-right"
+                                  style="padding-left: 8px"
+                                ></i
+                              ></span>
                             </button>
                           </div>
                         </div>
@@ -596,24 +695,33 @@
               role="alert"
             >
               <h4 class="alert-heading font-18">Attention!</h4>
-              <p>
-                We're excited to enhance your experience on our platform by
-                allowing you to personalize your profiles with images.
-                <br />Please note the following guidelines for profile images:
-              </p>
-              <p class="mb-0">
-                <i class="la la-arrow-right text-secondary me-2"></i>Size:
-                400x400 pixels
-              </p>
-              <p class="mb-0">
-                <i class="la la-arrow-right text-secondary me-2"></i>Accepted
-                formats: JPG and PNG
-              </p>
-              <p class="mt-2">
-                We're excited to enhance your experience on our platform by
-                allowing you to personalize your profiles with images.
-                <br />Please note the following guidelines for profile images:
-              </p>
+              <div>
+                <!-- <p>
+                  We're dedicated to optimizing your organizational management
+                  experience by enabling you to configure shift settings
+                  effectively. Please be informed about the importance of
+                  setting up shifts for your organization:
+                </p> -->
+
+                <small>
+                  <b>Assign Users:</b>
+                  Assign your organization's users to specific shift template to
+                  facilitate check-in, check-out, break, and return from break
+                  procedures.
+                </small>
+                <small>
+                  <b>Notification Management:</b>
+                  These notifications are automatically generated by the system
+                  once you've set up shifts in your organization and assigned
+                  users to the corresponding templates. They are designed to
+                  inform users about their check-in, check-out procedure times
+                  as per the specified template. </small
+                ><br />
+                <p>
+                  You can create multiple shifts and assign users accordingly
+                  using shift template.
+                </p>
+              </div>
             </div>
           </div>
           <div class="row">

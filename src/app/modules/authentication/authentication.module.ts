@@ -12,7 +12,8 @@ import { LoginComponent } from './login/login.component';
 import { OtpVerificationComponent } from './otp-verification/otp-verification.component';
 import { NgOtpInputModule } from 'ng-otp-input';
 import { NgxMaskModule } from 'ngx-mask';
-import { SignInWithSlackComponent } from './user-sign-in-with-slack-auth/sign-in-with-slack.component';
+import { SignInWithSlackComponent } from './sign-in-with-slack-auth/sign-in-with-slack.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { SignInWithSlackComponent } from './user-sign-in-with-slack-auth/sign-in
     AddToSlackComponent,
     OtpVerificationComponent,
     SignInWithSlackComponent,
+    SignUpComponent,
   ],
   imports: [
     CommonModule,

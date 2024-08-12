@@ -107,7 +107,8 @@
               href="https://slack.com/oauth/v2/authorize?client_id=2411087939271.5829197320647&scope=app_mentions:read,channels:history,channels:read,chat:write,chat:write.customize,chat:write.public,commands,files:write,groups:read,im:history,im:read,team:read,users.profile:read,users:read,users:read.email,im:write&user_scope=users:read&redirect_uri=https://app.hajiri.in/auth/slackauth&state="
             > -->
             <!-- {{ authUrl }} -->
-            <a [href]="authUrl">
+            <!-- [href]="authUrl" -->
+            <a href="#" (click)="getSlackAuthUrlForSignInWithSlack($event)">
               <div
                 class="p-2 d-flex align-items-center justify-content-between"
               >
@@ -391,8 +392,7 @@
               <!-- Second page login button -->
               <button
                 type="submit"
-                class="btn btn-primary d-flex align-items-center justify-content-center mt-3"
-                style="padding: 10px 25px; width: 100%; height: 45px"
+                class="btn btn-primary w-100 mt-1 btn-fix-height"
                 *ngIf="
                   !verifyOtpButtonFlag && enterPasswordFlag && !isWhatsappLogin
                 "
@@ -412,8 +412,7 @@
               <!-- send otp Button shown when Email Login -->
               <button
                 type="submit"
-                class="btn btn-primary d-flex align-items-center justify-content-center mt-3"
-                style="padding: 10px 25px; width: 100%; height: 45px"
+                class="btn btn-primary w-100 mt-1 btn-fix-height"
                 [disabled]="email == null || email == ''"
                 *ngIf="verifyOtpButtonFlag && isEmailLogin && !showOtpInput"
                 (click)="sendUserOtpToMail()"
@@ -609,13 +608,17 @@
         >
           <ul class="mb-1">
             <li>
-              <a href="#!">About </a>
+              <a href="https://www.hajiri.in/about.html">About </a>
             </li>
             <li>
-              <a href="#!">Terms Of Service </a>
+              <a href="https://www.hajiri.in/terms-condition.html"
+                >Terms Of Service
+              </a>
             </li>
             <li>
-              <a href="#!">Privacy Policy </a>
+              <a href="https://www.hajiri.in/privacy-policy.html"
+                >Privacy Policy
+              </a>
             </li>
             <li>
               <a href="#!">Settings </a>

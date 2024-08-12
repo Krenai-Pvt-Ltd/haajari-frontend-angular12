@@ -86,14 +86,15 @@ export class OrganizationPersonalInformationComponent implements OnInit {
       onboardingVia: '',
     },
   };
-
+  timeZone: string = '';
   loading: boolean = false;
   registerOrganizationPersonalInformation(): Promise<boolean> {
     return new Promise((resolve, reject) => {
       // this.loading = true;
+      this.timeZone = this.helperService.getTimeZone();
       this.dataService
         .registerOrganizationPersonalInformation(
-          this.organizationPersonalInformation
+          this.organizationPersonalInformation, this.timeZone
         )
         .subscribe(
           async (response) => {
@@ -312,15 +313,20 @@ export class OrganizationPersonalInformationComponent implements OnInit {
   }
 
   /************ GET CURRENT LOCATION ***********/
+
+  fetchCurrentLocationLoader: boolean = false;
   locationLoader: boolean = false;
   currentLocation() {
+    debugger;
     this.locationLoader = true;
+    this.fetchCurrentLocationLoader = true;
     this.getCurrentLocation()
       .then((coords) => {
         this.placesService
           .getLocationDetails(coords.latitude, coords.longitude)
           .then((details) => {
             this.locationLoader = false;
+
             console.log('formatted_address:', details);
             this.organizationPersonalInformation.addressLine1 =
               details.formatted_address;
@@ -344,10 +350,19 @@ export class OrganizationPersonalInformationComponent implements OnInit {
               this.organizationPersonalInformation.pincode =
                 details.address_components[6].long_name;
             }
+            this.fetchCurrentLocationLoader = false;
           })
-          .catch((error) => console.error(error));
+          .catch((error) => {
+            console.error(error);
+            this.fetchCurrentLocationLoader = false;
+          });
+        // this.fetchCurrentLocationLoader = false;
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error(error);
+        this.fetchCurrentLocationLoader = false;
+      });
+    // this.fetchCurrentLocationLoader = false;
   }
 
   getCurrentLocation(): Promise<{ latitude: number; longitude: number }> {

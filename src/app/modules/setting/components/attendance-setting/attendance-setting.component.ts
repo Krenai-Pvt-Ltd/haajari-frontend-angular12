@@ -35,6 +35,8 @@ import { OrganizationShiftTimingRequest } from 'src/app/models/organization-shif
 import { OrganizationShiftTimingResponse } from 'src/app/models/organization-shift-timing-response';
 import { OrganizationShiftTimingWithShiftTypeResponse } from 'src/app/models/organization-shift-timing-with-shift-type-response';
 import { OrganizationWeekoffInformation } from 'src/app/models/organization-weekoff-information';
+import { OvertimeSettingRequest } from 'src/app/models/overtime-setting-request';
+import { OvertimeSettingResponse } from 'src/app/models/overtime-setting-response';
 import { OvertimeType } from 'src/app/models/overtime-type';
 import { ShiftType } from 'src/app/models/shift-type';
 import { Staff } from 'src/app/models/staff';
@@ -58,7 +60,7 @@ export class AttendanceSettingComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private datePipe: DatePipe,
-    private helperService: HelperService,
+    public helperService: HelperService,
     private fb: FormBuilder,
     private router: Router,
     private el: ElementRef,
@@ -85,6 +87,8 @@ export class AttendanceSettingComponent implements OnInit {
     this.getCustomHolidays();
     this.getWeeklyHolidays();
     this.getWeekDays();
+    this.getPreHourOvertimeSettingResponseMethodCall();
+    this.getPostHourOvertimeSettingResponseMethodCall();
   }
 
   isShimmer = false;
@@ -1282,6 +1286,7 @@ export class AttendanceSettingComponent implements OnInit {
         weekOffType: day.weekOffType,
         userUuids: this.selectedStaffsUuids,
       }));
+      console.log("InTime: " + this.organizationShiftTimingRequest.inTime);
     this.dataService
       .registerShiftTiming(this.organizationShiftTimingRequest)
       .subscribe(
@@ -1332,94 +1337,80 @@ export class AttendanceSettingComponent implements OnInit {
   organizationShiftTimingValidationErrors: { [key: string]: string } = {};
 
   calculateTimes(): void {
-    debugger;
-    const { inTime, outTime, startLunch, endLunch } =
-      this.organizationShiftTimingRequest;
+    const { inTime, outTime, startLunch, endLunch } = this.organizationShiftTimingRequest;
 
     // Reset errors and calculated times
     this.organizationShiftTimingValidationErrors = {};
     this.organizationShiftTimingRequest.lunchHour = '';
     this.organizationShiftTimingRequest.workingHour = '';
 
-    // Helper function to convert time string to minutes
-    const timeToMinutes = (time: any) => {
-      if (!time) return 0;
-      const [hours, minutes] = time.split(':').map(Number);
-      return hours * 60 + minutes;
+    // Helper function to convert Date object to minutes from start of the day in local time
+    const dateToLocalMinutes = (date: Date | undefined) => {
+        if (!date) return 0;
+        const localDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+        const hours = localDate.getHours();
+        const minutes = localDate.getMinutes();
+        return hours * 60 + minutes;
     };
 
-    // Convert times to minutes
-    const inTimeMinutes = timeToMinutes(inTime);
-    const outTimeMinutes = timeToMinutes(outTime);
-    const startLunchMinutes = timeToMinutes(startLunch);
-    const endLunchMinutes = timeToMinutes(endLunch);
+    // Convert times to local minutes
+    const inTimeMinutes = dateToLocalMinutes(inTime);
+    const outTimeMinutes = dateToLocalMinutes(outTime);
+    const startLunchMinutes = dateToLocalMinutes(startLunch);
+    const endLunchMinutes = dateToLocalMinutes(endLunch);
 
     // Check for valid in and out times
     if (inTime && outTime) {
-      if (outTimeMinutes < inTimeMinutes) {
-        this.organizationShiftTimingValidationErrors['outTime'] =
-          'Out time must be after in time.';
-      } else {
-        const totalWorkedMinutes = outTimeMinutes - inTimeMinutes;
-        this.organizationShiftTimingRequest.workingHour =
-          this.formatMinutesToTime(totalWorkedMinutes);
-      }
+        if (outTimeMinutes <= inTimeMinutes) {
+            this.organizationShiftTimingValidationErrors['outTime'] = 'Out time must be after in time.';
+        } else {
+            const totalWorkedMinutes = outTimeMinutes - inTimeMinutes;
+            this.organizationShiftTimingRequest.workingHour = this.formatMinutesToTime(totalWorkedMinutes);
+        }
     }
 
     // Check for valid lunch start time
-    if (
-      startLunch &&
-      (startLunchMinutes < inTimeMinutes || startLunchMinutes > outTimeMinutes)
-    ) {
-      this.organizationShiftTimingValidationErrors['startLunch'] =
-        'Lunch time should be within in and out times.';
+    if (startLunch && (startLunchMinutes <= inTimeMinutes || startLunchMinutes >= outTimeMinutes)) {
+        this.organizationShiftTimingValidationErrors['startLunch'] = 'Lunch time should be within in and out times.';
     }
 
     // Check for valid lunch end time
-    if (
-      endLunch &&
-      (endLunchMinutes < inTimeMinutes || endLunchMinutes > outTimeMinutes)
-    ) {
-      this.organizationShiftTimingValidationErrors['endLunch'] =
-        'Lunch time should be within in and out times.';
+    if (endLunch && (endLunchMinutes <= inTimeMinutes || endLunchMinutes >= outTimeMinutes)) {
+        this.organizationShiftTimingValidationErrors['endLunch'] = 'Lunch time should be within in and out times.';
     }
 
     // Calculate lunch hour and adjust working hours if lunch times are valid
     if (startLunch && endLunch && startLunchMinutes < endLunchMinutes) {
-      const lunchBreakMinutes = endLunchMinutes - startLunchMinutes;
-      this.organizationShiftTimingRequest.lunchHour =
-        this.formatMinutesToTime(lunchBreakMinutes);
+        const lunchBreakMinutes = endLunchMinutes - startLunchMinutes;
+        this.organizationShiftTimingRequest.lunchHour = this.formatMinutesToTime(lunchBreakMinutes);
 
-      if (this.organizationShiftTimingRequest.workingHour) {
-        const adjustedWorkedMinutes =
-          timeToMinutes(this.organizationShiftTimingRequest.workingHour) -
-          lunchBreakMinutes;
-        this.organizationShiftTimingRequest.workingHour =
-          this.formatMinutesToTime(adjustedWorkedMinutes);
-      }
+        if (this.organizationShiftTimingRequest.workingHour) {
+            const workingHourMinutes = this.organizationShiftTimingRequest.workingHour.split(':').map(Number);
+            const totalWorkingMinutes = workingHourMinutes[0] * 60 + workingHourMinutes[1];
+            const adjustedWorkedMinutes = totalWorkingMinutes - lunchBreakMinutes;
+            this.organizationShiftTimingRequest.workingHour = this.formatMinutesToTime(adjustedWorkedMinutes);
+        }
     }
 
     // Additional validation for lunch times
     if (startLunch && endLunch) {
-      if (endLunchMinutes <= startLunchMinutes) {
-        this.organizationShiftTimingValidationErrors['endLunch'] =
-          'Please enter a valid back time from lunch.';
-      }
-      if (startLunchMinutes >= endLunchMinutes) {
-        this.organizationShiftTimingValidationErrors['startLunch'] =
-          'Please enter a valid lunch start time.';
-      }
+        if (endLunchMinutes <= startLunchMinutes) {
+            this.organizationShiftTimingValidationErrors['endLunch'] = 'Please enter a valid back time from lunch.';
+        }
+        if (startLunchMinutes >= endLunchMinutes) {
+            this.organizationShiftTimingValidationErrors['startLunch'] = 'Please enter a valid lunch start time.';
+        }
     }
-  }
+}
 
-  // Helper function to format minutes back to HH:mm format
-  formatMinutesToTime(minutes: any) {
+// Helper method to format minutes into HH:mm format
+formatMinutesToTime(minutes: number): string {
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
-    return `${hours.toString().padStart(2, '0')}:${mins
-      .toString()
-      .padStart(2, '0')}`;
-  }
+    return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
+}
+
+
 
   private formatDuration(duration: number): string {
     const hours = Math.floor(duration / 1000 / 60 / 60);
@@ -1505,10 +1496,10 @@ export class AttendanceSettingComponent implements OnInit {
             ) {
               // Iterate through each shift in the organizationShiftTimingResponseList
               item.organizationShiftTimingResponseList.forEach((shift) => {
-                shift.inTimeDate = this.convertTime(shift.inTime);
-                shift.outTimeDate = this.convertTime(shift.outTime);
-                shift.startLunchDate = this.convertTime(shift.startLunch);
-                shift.endLunchDate = this.convertTime(shift.endLunch);
+                shift.inTimeDate = shift.inTime;
+                shift.outTimeDate = shift.outTime;
+                shift.startLunchDate = shift.startLunch;
+                shift.endLunchDate = shift.endLunch;
                 console.log(shift.inTime, shift.outTime);
               });
             }
@@ -2293,23 +2284,34 @@ export class AttendanceSettingComponent implements OnInit {
   // organizationShiftTimingValidationErrors: any = {};
 
   onTimeChange(field: keyof OrganizationShiftTimingRequest, value: Date): void {
-    let formattedTime = '';
-    console.log(value);
-    if (value) {
-      formattedTime = this.convertTo24HourFormat(value);
-    }
 
-    if (this.isKeyOfOrganizationShiftTimingRequest(field)) {
-      (this.organizationShiftTimingRequest as any)[field] = formattedTime;
+    
+    // Set the field value directly
+    switch (field) {
+        case 'inTime':
+            this.organizationShiftTimingRequest.inTime = value;
+            break;
+        case 'outTime':
+            this.organizationShiftTimingRequest.outTime = value;
+            break;
+        case 'startLunch':
+            this.organizationShiftTimingRequest.startLunch = value;
+            break;
+        case 'endLunch':
+            this.organizationShiftTimingRequest.endLunch = value;
+            break;
+        default:
+            break;
+
     }
 
     this.calculateTimes();
-    console.log(`Time for ${field} changed: `, formattedTime);
-  }
 
-  isKeyOfOrganizationShiftTimingRequest(
-    key: string
-  ): key is keyof OrganizationShiftTimingRequest {
+}
+
+
+
+  isKeyOfOrganizationShiftTimingRequest(key: string): key is keyof OrganizationShiftTimingRequest {
     return key in this.organizationShiftTimingRequest;
   }
 
@@ -2325,5 +2327,114 @@ export class AttendanceSettingComponent implements OnInit {
     const date = new Date();
     date.setHours(hours, minutes, seconds, 0); // Set milliseconds to 0
     return date;
+  }
+
+
+
+  // ################--Overtime Pre/Post hour configuration--################
+  // PRE_HOUR : boolean = false;
+  // POST_HOUR : boolean = false;
+
+  PRE_HOUR = Key.PRE_HOUR;
+  POST_HOUR = Key.POST_HOUR;
+
+  ENABLE = Key.ENABLE;
+  DISABLE = Key.DISABLE;
+
+  PRE_HOUR_TOGGLE : boolean = false;
+  POST_HOUR_TOGGLE : boolean = false;
+
+  PRE_HOUR_SUBMIT_BUTTON_TOGGLE : boolean = false;
+  POST_HOUR_SUBMIT_BUTTON_TOGGLE : boolean = false;
+
+
+  preHourModal(accessibility : boolean){
+    this.preHourOvertimeSettingResponse.loading = true;
+    if(!accessibility){
+      this.PRE_HOUR_TOGGLE = true;
+      this.overtimeSettingRequest.accessibility = this.ENABLE;
+    } else{
+      this.PRE_HOUR_TOGGLE = false;
+      this.overtimeSettingRequest.accessibility = this.DISABLE;
+      this.enableOrDisablePreHourOvertimeSettingMethodCall();
+    }
+
+  }
+
+  postHourModal(accessibility : boolean){
+    this.postHourOvertimeSettingResponse.loading = true;
+    if(!accessibility){
+      this.POST_HOUR_TOGGLE = true;
+      this.overtimeSettingRequest.accessibility = this.ENABLE;
+    } else{
+      this.POST_HOUR_TOGGLE = false;
+      this.overtimeSettingRequest.accessibility = this.DISABLE;
+      this.enableOrDisablePostHourOvertimeSettingMethodCall();
+    }
+  }
+
+  updatePreHourOvertimeSetting(event : any){
+    this.overtimeSettingRequest.upadtedHour = this.helperService.formatDateToHHmmss(event);
+  }
+
+  updatePostHourOvertimeSetting(event : any){
+    this.overtimeSettingRequest.upadtedHour = this.helperService.formatDateToHHmmss(event);
+  }
+
+  preHourModalClose(){
+    this.PRE_HOUR_TOGGLE = false;
+    this.preHourOvertimeSettingResponse.loading = false;
+    this.overtimeSettingRequest = new OvertimeSettingRequest();
+  }
+
+  postHourModalClose(){
+    this.POST_HOUR_TOGGLE = false;
+    this.postHourOvertimeSettingResponse.loading = false;
+    this.overtimeSettingRequest = new OvertimeSettingRequest();
+  }
+  
+
+  overtimeSettingRequest : OvertimeSettingRequest = new OvertimeSettingRequest();
+  enableOrDisablePreHourOvertimeSettingMethodCall(){
+    // this.PRE_HOUR_SUBMIT_BUTTON_TOGGLE = true;
+    this.dataService.enableOrDisablePreHourOvertimeSetting(this.overtimeSettingRequest).subscribe((response) => {
+      // this.PRE_HOUR_SUBMIT_BUTTON_TOGGLE = false;
+      this.getPreHourOvertimeSettingResponseMethodCall();
+      this.preHourModalClose();
+      this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+    }, (error) => {
+      // this.PRE_HOUR_SUBMIT_BUTTON_TOGGLE = false;
+      this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+    })
+  }
+
+  enableOrDisablePostHourOvertimeSettingMethodCall(){
+    this.dataService.enableOrDisablePostHourOvertimeSetting(this.overtimeSettingRequest).subscribe((response) => {
+      // this.POST_HOUR_SUBMIT_BUTTON_TOGGLE = false;
+      this.getPostHourOvertimeSettingResponseMethodCall();
+      this.postHourModalClose();
+      this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+    }, (error) => {
+      // this.POST_HOUR_SUBMIT_BUTTON_TOGGLE = false;
+      this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+    })
+  }
+
+  preHourOvertimeSettingResponse : OvertimeSettingResponse = new OvertimeSettingResponse();
+  postHourOvertimeSettingResponse : OvertimeSettingResponse = new OvertimeSettingResponse();
+  getPreHourOvertimeSettingResponseMethodCall(){
+    this.dataService.getPreHourOvertimeSettingResponse().subscribe((response) => {
+      this.preHourOvertimeSettingResponse = response.object;
+    }, (error) => {
+      console.log(error);
+    })
+  }
+
+  getPostHourOvertimeSettingResponseMethodCall(){
+    this.dataService.getPostHourOvertimeSettingResponse().subscribe((response) => {
+      this.postHourOvertimeSettingResponse = response.object;
+    }, (error) => {
+      console.log(error);
+    })
   }
 }

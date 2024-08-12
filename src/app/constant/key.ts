@@ -33,6 +33,8 @@ export class Key {
     '/team',
     '/task-manager',
     '/payment',
+    '/assets',
+    '/coins',
     '/userlist',
     '/addtoslack',
     '/waiting',
@@ -56,7 +58,7 @@ export class Key {
     '/upload-team',
     '/central-leave-management',
     '/payment/payroll-dashboard',
-    '/payment/tds',
+    '/payment/epf-esi-tds',
     '/payment/bonus-and-deduction',
     '/payment/payment-history',
     '/payment/payroll-dashboard/leave-summary',
@@ -83,6 +85,8 @@ export class Key {
     '/role',
     '/employee-onboarding-sidebar',
     '/reports',
+    '/assets',
+    '/coins',
     '/employee-profile',
     '/add-role',
     '/setting/billing',
@@ -94,7 +98,7 @@ export class Key {
     '/upload-team',
     '/central-leave-management',
     '/payment/payroll-dashboard',
-    '/payment/tds',
+    '/payment/epf-esi-tds',
     '/payment/bonus-and-deduction',
     '/payment/payment-history',
     '/payment/payroll-dashboard/leave-summary',
@@ -161,6 +165,7 @@ export class Key {
   public static ADMIN = 'ADMIN';
   public static USER = 'USER';
   public static MANAGER = 'MANAGER';
+  public static HRADMIN = 'HR ADMIN';
 
   // Day wise status
   public static PRESENT = 'Present';
@@ -204,6 +209,7 @@ export class Key {
 
   // Krenai UUID
   public static KRENAI_UUID = '60811bf3-ae1e-11ee-9597-784f4361d885';
+  public static DEMO_ORGANIZATION_UUID = '8d3cc5c2-21a7-11ef-98b2-0a3b903b1973';
 
   // base_url = 'http://localhost:8080/api/v2';
 
@@ -238,7 +244,7 @@ export class Key {
   get_mail = '/user-notification/mail';
 
   //Coupon
-  verify_coupon = '/coupon';
+  verify_coupon = '/coupon/verify';
 
   check_user_email_existence = '/users/check-email-existence';
   check_user_phone_existence = '/users/check-phone-existence';
@@ -247,6 +253,8 @@ export class Key {
   create_user = '/whatsapp-user-onboarding/create';
 
   get_onboarding_user = '/whatsapp-user-onboarding/onboarding-user';
+  get_onboarding_user_for_emp_onboarding_data =
+    '/whatsapp-user-onboarding/onboarding-user-for-employee-onboarding-data';
   delete_onboarding_user = '/whatsapp-user-onboarding/delete';
   edit_onboarding_user = '/whatsapp-user-onboarding/update';
 
@@ -272,9 +280,31 @@ export class Key {
   public static FINAL_SETTLEMENT_STEP = 3;
 
   //User type in Employee change
-  public static NEW_JOINEE = 'New Joinee';
-  public static USER_EXIT = 'User Exit';
-  public static REGULAR = 'Regular';
+  public static NEW_JOINEE = 1;
+  public static USER_EXIT = 2;
+  public static FINAL_SETTLEMENT = 3;
+
+  //Attendance, Leave & Present Days
+  public static LEAVES = 4;
+  public static LOP_SUMMARY = 5;
+  public static LOP_REVERSAL = 6;
+
+  //Salary change, bonus and deduction
+  public static SALARY_CHANGE = 7;
+  public static BONUS = 8;
+  public static OVERTIME = 9;
+
+  //EPF, ESI & TDS
+  public static EPF = 10;
+  public static ESI = 11;
+  public static TDS = 12;
+
+  //Payroll steps
+  public static PAYROLL_STEP_COMPLETED = 13;
+  public static PAYROLL_PORCESSED = 14;
+
+  // Payroll History
+  public static PAYROLL_HISTORY = 13;
 
   //Attendance rule type ids
   public static DEDUCTION_RULE_DEFINITION = 1;
@@ -287,4 +317,28 @@ export class Key {
 
   //Overtime pay types
   public static FIX_AMOUNT_STEP = 1;
+
+  //Date initial and last hours
+  public static INITIAL_HOUR = '00:00:00';
+  public static END_HOUR = '23:59:59';
+
+  // Status
+  public static PENDING = 13;
+  public static APPROVED = 14;
+
+  //Salary template tab
+  public static SALARY_TEMPLATE_STEP = 'SALARY_TEMPLATE_STEP';
+  public static STAFF_SELECTION_STEP = 'STAFF_SELECTION_STEP';
+
+  //Overtime configuration hour type
+  public static PRE_HOUR = 1;
+  public static POST_HOUR = 2;
+
+  // RazorPay Key
+
+  // public static razorKey =  'rzp_test_Wd1RYd0fng3673'; // Test
+  public static razorKey = 'rzp_live_twiokSC5krYrnQ'; // Live
+  //
+  public static ENABLE = 1;
+  public static DISABLE = 2;
 }

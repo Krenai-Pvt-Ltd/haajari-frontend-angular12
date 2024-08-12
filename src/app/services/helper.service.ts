@@ -8,6 +8,7 @@ import { ModuleResponse } from '../models/module-response';
 import { RoleBasedAccessControlService } from './role-based-access-control.service';
 import { formatDate } from '@angular/common';
 import { NavigationExtras, Router } from '@angular/router';
+import * as saveAs from 'file-saver';
 
 @Injectable({
   providedIn: 'root'
@@ -27,17 +28,19 @@ export class HelperService {
 
   async getDecodedValueFromToken(): Promise<any> {
     
-    return new Promise<any>((resolve, reject) => {
+    return new Promise<any>(async (resolve, reject) => {
       try {
         const token = localStorage.getItem('token');
         if (token != null) {
-          const decodedValue: any = jwtDecode(token);
+          const decodedValue: any = await jwtDecode(token);
+          console.log("decodedValue",decodedValue)
           resolve(decodedValue);
         } else {
-          reject('Token is null');
+          reject('Token is null!');
         }
       } catch (error) {
         reject(error);
+        
       }
     });
   }
@@ -67,6 +70,19 @@ export class HelperService {
         return "";
     }
 
+  }
+
+  formatToDateTime(date : Date){
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+
+    const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    
+    return formattedDate;
   }
 
   formatDateToYYYYMMDD(date: Date): string {
@@ -99,6 +115,9 @@ export class HelperService {
   formatDateToHHmm(date : Date){
     return formatDate(date, 'HH:mm', 'en-US');
   }
+
+
+
   
 
   toastSubscription:Subject<boolean> = new Subject<boolean>();
@@ -110,8 +129,11 @@ export class HelperService {
   start(){
     this.toastSubscription.next(true);
   }
-  toastMessage:string="";
-  toastColorStatus:string="";
+
+
+
+  toastMessage : string = '';
+  toastColorStatus : string = '';
   showToast(message:string, colorStatus:string){
     this.toastMessage = message;
     this.toastColorStatus = colorStatus;
@@ -122,8 +144,8 @@ export class HelperService {
   }
 
 
-  private data: any;
 
+  private data: any;
   setData(data: any) {
     this.data = data;
   }
@@ -152,6 +174,7 @@ export class HelperService {
   }
 
   isListOfObjectNullOrUndefined(response : any){
+    debugger;
     if(response == undefined || response == null || response.listOfObject == undefined || response.listOfObject == null || response.listOfObject.length == 0){
       return true;
     } else{
@@ -159,29 +182,29 @@ export class HelperService {
     }
   }
 
-    //Ignore keys during search
-    ignoreKeysDuringSearch(event : Event){
-      if (event instanceof KeyboardEvent) {
-        const ignoreKeys = [
-          'Shift',
-          'Control',
-          'Alt',
-          'Meta',
-          'ArrowLeft',
-          'ArrowRight',
-          'ArrowUp',
-          'ArrowDown',
-          'Escape',
-        ];
-  
-        const isCmdA =
-          (event.key === 'a' || event.key === 'A') &&
-          (event.metaKey || event.ctrlKey);
-        if (ignoreKeys.includes(event.key) || isCmdA) {
-          return;
-        }
+  //Ignore keys during search
+  ignoreKeysDuringSearch(event : Event){
+    if (event instanceof KeyboardEvent) {
+      const ignoreKeys = [
+        'Shift',
+        'Control',
+        'Alt',
+        'Meta',
+        'ArrowLeft',
+        'ArrowRight',
+        'ArrowUp',
+        'ArrowDown',
+        'Escape',
+      ];
+
+      const isCmdA =
+        (event.key === 'a' || event.key === 'A') &&
+        (event.metaKey || event.ctrlKey);
+      if (ignoreKeys.includes(event.key) || isCmdA) {
+        return;
       }
     }
+  }
 
   // route to user's profile
   routeToUserProfile(uuid: string) {
@@ -199,5 +222,23 @@ export class HelperService {
     return shortMonthName;
   }
 
+  getTimeZone(): string {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone;
+  }
+
+  downloadPdf(url: string, name: string) {
+    this.httpClient.get(url, { responseType: 'blob' }).subscribe(blob => {
+      saveAs(blob, name+'.pdf');
+    });
+  }
+
+  formatHHmmssToHHmm(time: string): string {
+    const timeParts = time.split(':');
+  
+    const hours = timeParts[0];
+    const minutes = timeParts[1];
+  
+    return `${hours}:${minutes}`;
+  }
 
 }

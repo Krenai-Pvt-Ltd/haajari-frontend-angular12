@@ -29,6 +29,7 @@ import { ConfirmationDialogComponent } from './modules/sharable/confirmation-dia
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { BillAndSubscriptionComponent } from './modules/sharable/bill-and-subscription/bill-and-subscription.component';
 
 // import { OnboardingSidebarResponse } from './models/onboarding-sidebar-response';
 
@@ -40,6 +41,7 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
     DurationPickerComponent,
     UnauthorizedComponent,
     ConfirmationDialogComponent,
+    BillAndSubscriptionComponent,
 
     // AuthenticationComponent,
   ],
