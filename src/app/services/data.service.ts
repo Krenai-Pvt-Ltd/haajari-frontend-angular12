@@ -3750,6 +3750,33 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/overtime/log/response/get-by-user-uuid`, {params});
   }
 
+  getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDate(startDate : string, endDate : string): Observable<any>{
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/overtime/log/response/get-by-organization-uuid`, {params});
+  }
+
+  getOvertimeRequestResponseByOrganizationUuidAndStartDateAndEndDate(startDate : string, endDate : string): Observable<any>{
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/overtime/response/get-by-organization-uuid`, {params});
+  }
+
+  getOvertimePendingRequestResponseByOrganizationUuidAndStartDateAndEndDate(startDate : string, endDate : string): Observable<any>{
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/overtime/pending/response/get-by-organization-uuid`, {params});
+  }
+
   getLopReversalApplicationResponseListByUserUuid(userUuid : string): Observable<any>{
 
     const params = new HttpParams()

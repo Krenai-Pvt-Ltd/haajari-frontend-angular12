@@ -21,6 +21,8 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import * as saveAs from 'file-saver';
 import { DatePipe } from '@angular/common';
+import { OvertimeRequestLogResponse } from 'src/app/models/overtime-request-log-response';
+import { OvertimeResponseDTO } from 'src/app/models/overtime-response-dto';
 
 // import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
 
@@ -323,12 +325,12 @@ export class TimetableComponent implements OnInit {
 
   isShimmerForAttendanceDetailsResponse: boolean = false;
   dataNotFoundForAttendanceDetailsResponse: boolean = false;
-  networkConnectionErrorForAttendanceDetailsResposne: boolean = false;
+  networkConnectionErrorForAttendanceDetailsResponse: boolean = false;
 
   preRuleForShimmersAndOtherConditionsMethodCall() {
     this.isShimmerForAttendanceDetailsResponse = true;
     this.dataNotFoundForAttendanceDetailsResponse = false;
-    this.networkConnectionErrorForAttendanceDetailsResposne = false;
+    this.networkConnectionErrorForAttendanceDetailsResponse = false;
   }
 
   attendanceDetailsResponseList: AttendanceDetailsResponse[] = [];
@@ -369,7 +371,7 @@ export class TimetableComponent implements OnInit {
           },
           (error) => {
             console.log(error);
-            this.networkConnectionErrorForAttendanceDetailsResposne = true;
+            this.networkConnectionErrorForAttendanceDetailsResponse = true;
           }
         );
     }, debounceTime);
@@ -894,13 +896,173 @@ approveOrRequest(id:number, reqString: string) {
       Key.TOAST_STATUS_ERROR
     );
   });
-
-  
-
 }
 
+  // Tab in Attedance section
+  ATTENDANCE_TAB = Key.ATTENDANCE_TAB;
+  OVERTIME_TAB = Key.OVERTIME_TAB;
+  UPDATION_REQUEST_TAB = Key.UPDATION_REQUEST_TAB;
+
+  ACTIVE_TAB = Key.ATTENDANCE_TAB;
+  changeTab(tabId : number){
+    this.ACTIVE_TAB = tabId;
+  }
+
+
+  // Tab in Overtime tab section
+  OVERTIME_PENDING_REQUEST_TAB = Key.OVERTIME_PENDING_REQUEST_TAB;
+  OVERTIME_LOG_TAB = Key.OVERTIME_LOG_TAB;
+
+  ACTIVE_TAB_IN_OVERTIME_TAB = Key.OVERTIME_PENDING_REQUEST_TAB;
+  changeLogTabInOvertimeTab(tabId : number){
+    this.ACTIVE_TAB_IN_OVERTIME_TAB = tabId;
+  }
+
+  // Tab in Updation request tab section
+  UPDATION_REQUEST_PENDING_REQUEST_TAB = Key.UPDATION_REQUEST_PENDING_REQUEST_TAB;
+  UPDATION_REQUEST_LOG_TAB = Key.UPDATION_REQUEST_LOG_TAB;
+
+  ACTIVE_TAB_IN_UPDATION_REQUEST_TAB = Key.UPDATION_REQUEST_PENDING_REQUEST_TAB;
+  changeLogTabInUpdationRequestTab(tabId : number){
+    this.ACTIVE_TAB_IN_UPDATION_REQUEST_TAB = tabId;
+  }
+
+
+  startDate: string = '';
+  endDate: string = '';
+  onMonthChange(month: Date): void {
+    console.log('Month is getting selected');
+    this.selectedDate = month;
+    this.getFirstAndLastDateOfMonth(this.selectedDate);
+    // this.getAttendanceReportByDateDurationMethodCall();
+  }
+
+  getFirstAndLastDateOfMonth(selectedDate: Date) {
+
+    this.startDate = this.helperService.formatDateToYYYYMMDD(
+      new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1),
+    );
+    this.endDate = this.helperService.formatDateToYYYYMMDD(
+      new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0),
+    );
+  }
+
+  disableMonths = (date: Date): boolean => {
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
+    const dateYear = date.getFullYear();
+    const dateMonth = date.getMonth();
+    const organizationRegistrationYear = new Date(
+      this.organizationRegistrationDate
+    ).getFullYear();
+    const organizationRegistrationMonth = new Date(
+      this.organizationRegistrationDate
+    ).getMonth();
+
+    // Disable if the month is before the organization registration month
+    if (
+      dateYear < organizationRegistrationYear ||
+      (dateYear === organizationRegistrationYear &&
+        dateMonth < organizationRegistrationMonth)
+    ) {
+      return true;
+    }
+
+    // Disable if the month is after the current month
+    if (
+      dateYear > currentYear ||
+      (dateYear === currentYear && dateMonth > currentMonth)
+    ) {
+      return true;
+    }
+
+    // Enable the month if it's from January 2023 to the current month
+    return false;
+  };
 
 
 
+  // ####################--Overtime tab response list--######################
+  isShimmerForOvertimeRequestLogResponse: boolean = false;
+  dataNotFoundForOvertimeRequestLogResponse: boolean = false;
+  networkConnectionErrorForOvertimeRequestLogResponse: boolean = false;
+
+  preRuleForShimmersAndErrorPlaceholdersForOvertimeRequestLogResponseMethodCall() {
+    this.isShimmerForOvertimeRequestLogResponse = true;
+    this.dataNotFoundForOvertimeRequestLogResponse = false;
+    this.networkConnectionErrorForOvertimeRequestLogResponse = false;
+  }
+
+  isShimmerForOvertimeRequestResponse: boolean = false;
+  dataNotFoundForOvertimeRequestResponse: boolean = false;
+  networkConnectionErrorForOvertimeRequestResponse: boolean = false;
+
+  preRuleForShimmersAndErrorPlaceholdersForOvertimeRequestResponseMethodCall() {
+    this.isShimmerForOvertimeRequestResponse = true;
+    this.dataNotFoundForOvertimeRequestResponse = false;
+    this.networkConnectionErrorForOvertimeRequestResponse = false;
+  }
+
+  isShimmerForOvertimePendingRequestResponse: boolean = false;
+  dataNotFoundForOvertimePendingRequestResponse: boolean = false;
+  networkConnectionErrorForOvertimePendingRequestResponse: boolean = false;
+
+  preRuleForShimmersAndErrorPlaceholdersForOvertimePendingRequestResponseMethodCall() {
+    this.isShimmerForOvertimePendingRequestResponse = true;
+    this.dataNotFoundForOvertimePendingRequestResponse = false;
+    this.networkConnectionErrorForOvertimePendingRequestResponse = false;
+  }
+
+
+  overtimeRequestLogResponseList : OvertimeRequestLogResponse[] = [];
+  getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDateMethodCall(){
+    this.preRuleForShimmersAndErrorPlaceholdersForOvertimeRequestLogResponseMethodCall();
+    this.dataService.getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDate(this.startDate, this.endDate).subscribe((response) => {
+      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+        this.dataNotFoundForOvertimeRequestLogResponse = true;
+      } else{
+        this.overtimeRequestLogResponseList = response.listOfObject;
+      }
+
+      this.isShimmerForOvertimeRequestLogResponse = false;
+    }, (error) => {
+      this.isShimmerForOvertimeRequestLogResponse = false;
+      this.networkConnectionErrorForOvertimeRequestLogResponse = true;
+    })
+  }
+
+  overtimeRequestResponseList : OvertimeResponseDTO[] = [];
+  getOvertimeRequestResponseByOrganizationUuidAndStartDateAndEndDateMethodCall(){
+    this.preRuleForShimmersAndErrorPlaceholdersForOvertimeRequestResponseMethodCall();
+    this.dataService.getOvertimeRequestResponseByOrganizationUuidAndStartDateAndEndDate(this.startDate, this.endDate).subscribe((response) => {
+      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+        this.dataNotFoundForOvertimeRequestResponse = true;
+      } else{
+        this.overtimeRequestResponseList = response.listOfObject;
+      }
+
+      this.isShimmerForOvertimeRequestResponse = false;
+    }, (error) => {
+      this.isShimmerForOvertimeRequestResponse = false;
+      this.networkConnectionErrorForOvertimeRequestResponse = true;
+    })
+  }
+
+  overtimePendingRequestResponseList : OvertimeResponseDTO[] = [];
+  getOvertimePendingRequestResponseByOrganizationUuidAndStartDateAndEndDateMethodCall(){
+    this.preRuleForShimmersAndErrorPlaceholdersForOvertimePendingRequestResponseMethodCall();
+    this.dataService.getOvertimePendingRequestResponseByOrganizationUuidAndStartDateAndEndDate(this.startDate, this.endDate).subscribe((response) => {
+      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+        this.dataNotFoundForOvertimePendingRequestResponse = true;
+      } else{
+        this.overtimePendingRequestResponseList = response.listOfObject;
+      }
+
+      this.isShimmerForOvertimePendingRequestResponse = false;
+    }, (error) => {
+      this.isShimmerForOvertimePendingRequestResponse = false;
+      this.networkConnectionErrorForOvertimePendingRequestResponse = true;
+    })
+  }
   
 }

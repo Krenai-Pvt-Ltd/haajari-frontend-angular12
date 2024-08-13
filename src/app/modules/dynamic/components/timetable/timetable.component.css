@@ -966,3 +966,59 @@ hr {
   margin-left: 10px;
 }
 
+.attendance-section-tab{
+  /* width: 35%; */
+  padding: 1px;
+  border: 1px solid #E9E9FF;
+  border-radius: 30px;
+  /* background-color: #F1F1FD; */
+  box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, 0.05);
+}
+.attendance-section-tab a{
+  /* border: 1px solid black; */
+  padding: 10px 15px;
+  margin-bottom: 0px;
+  border-radius: 30px;
+  color: #6666f3 !important;
+  font-size: 15px;
+  /* font-weight: 500; */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.attendance-section-tab a:hover{
+  background-color: #F1F1FD;
+}
+
+.active-tab {
+  background-color: #E9E9FF;
+}
+
+.nav-tabs {
+  box-shadow: none !important;
+}
+
+.nav-tabs {
+  border-bottom: 1px solid #dee2e6;
+}
+
+.nav-tabs .nav-item {
+  margin-bottom: -1px;
+  margin-right: 1rem;
+}
+
+.nav-tabs .nav-link.active {
+  border-bottom: 2px solid #6666f3;
+  color: #6666f3;
+  background-color: transparent;
+}
+.nav-tabs .nav-link {
+  font-style: normal;
+  border-radius: 0px 0 0 0;
+  border: none;
+  padding: 7px 10px;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 21px;
+  color: #404040;
+}

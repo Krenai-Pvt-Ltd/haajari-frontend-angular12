@@ -348,4 +348,19 @@ export class Key {
   public static OVERTIME_LOG = 2;
   public static LOP_REVERSAL_LOG = 3;
 
+
+  // Tabs in Attendance Section
+  public static ATTENDANCE_TAB = 1;
+  public static OVERTIME_TAB = 2;
+  public static UPDATION_REQUEST_TAB = 3;
+
+  // Tabs in Overtime Section
+  public static OVERTIME_PENDING_REQUEST_TAB = 1;
+  public static OVERTIME_LOG_TAB = 2;
+
+
+  // Tabs in Updation request section
+  public static UPDATION_REQUEST_PENDING_REQUEST_TAB = 1;
+  public static UPDATION_REQUEST_LOG_TAB = 2;
+
 }

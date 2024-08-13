@@ -13,17 +13,26 @@
               <span id="attendance-date" class="approved-left active-color" (click)="selectPreviousDay()"><i
                   class="bi bi-chevron-left"></i></span>
 
-              <div class="text-center attendance-date">
-                <p class="attendance-date">Attendance Date</p>
-                <nz-date-picker class="attendance-date" nzMode="date" [nzSize]="size" [(ngModel)]="selectedDate"
-                  (ngModelChange)="onDateChange($event)" [nzDisabledDate]="disableDates"></nz-date-picker>
-              </div>
+              <ng-container *ngIf="ACTIVE_TAB == ATTENDANCE_TAB; else attendanceSectionOtherTabCondition">
+                <div class="attendance-date">
+                  <p class="text-start attendance-date">Attendance Date</p>
+                  <nz-date-picker class="attendance-date" nzMode="date" [nzSize]="size" [(ngModel)]="selectedDate"
+                    (ngModelChange)="onDateChange($event)" [nzDisabledDate]="disableDates"></nz-date-picker>
+                </div>
+              </ng-container>
+              <ng-template #attendanceSectionOtherTabCondition>
+                <div class="attendance-date">
+                  <p class="text-start attendance-date">Month Selection</p>
+                  <nz-date-picker class="attendance-date" nzMode="month" [nzSize]="size" [(ngModel)]="selectedDate"
+                    (ngModelChange)="onMonthChange($event)" [nzDisabledDate]="disableMonths"></nz-date-picker>
+                </div>
+              </ng-template>
 
               <span id="attendance-date" class="approved-right active-color" (click)="selectNextDay()"><i
                   class="bi bi-chevron-right"></i></span>
             </div>
           </div>
-          <div class="add-filtter d-flex align-items-center justify-content-end" style="gap: 10px">
+          <!-- <div class="add-filtter d-flex align-items-center justify-content-end" style="gap: 10px">
             <a data-bs-toggle="modal" data-bs-target="#unprocessedLogsModal" *ngIf="((ROLE | async) === ADMIN) || (ROLE | async) === MANAGER" (click)="getAttendanceRequestsData()">Unprocessed Logs <i class="bi bi-list-ol"></i></a>
             <p style="color: #a1a0a0; margin-bottom: 0px" *ngIf="(ROLE | async) === ADMIN">|</p>
             <a (click)="downloadAttedanceReport(selectedDate)" *ngIf="(ROLE | async) === ADMIN">Daily Report <i
@@ -40,630 +49,818 @@
             ></i></a>
             <p style="color: #a1a0a0; margin-bottom: 0px" *ngIf="(ROLE | async) === ADMIN">|</p>
             <a routerLink="/setting/attendance-setting" *ngIf="(ROLE | async) === ADMIN">Settings <i class="bi bi-gear"></i></a>
-          </div>
-        </div>
-      </div>
-
-      <div class="attendance-sheet mt-4">
-        <div class="row">
-          <div class="col-md-6 d-flex align-items-center justify-content-end">
-            <div class="all-approved">
-              <!-- <p class="mb-0">
-                <i
-                  class="bi bi-check-circle-fill"
-                  style="padding-right: 5px"
-                ></i>
-                All Approved
-              </p> -->
-            </div>
-          </div>
-        </div>
-        <div class="attendance-deta mb-2 mt-3">
-          <div class="d-flex align-items-center justify-content-between">
-            <div class="staf">
-              <p>Total Staff</p>
-              <h5>{{ attendanceDetailsCountResponse.totalUsers }}</h5>
-            </div>
-            <div class="staf">
-              <p>Present</p>
-              <h5>{{ attendanceDetailsCountResponse.presentUsers }}</h5>
-            </div>
-            <div class="staf">
-              <p>Absent</p>
-              <h5>{{ attendanceDetailsCountResponse.absentUsers }}</h5>
-            </div>
-            <div class="staf">
-              <p>Not Marked</p>
-              <h5>{{ attendanceDetailsCountResponse.unmarkedUsers }}</h5>
-              <!-- <h5>{{halfDayUsers}}</h5> -->
-            </div>
-            <div class="staf">
-              <p>Half Day</p>
-              <h5>{{ attendanceDetailsCountResponse.halfDayUsers }}</h5>
-            </div>
-            <div class="staf">
-              <p>OverTime</p>
-              <h5>{{ attendanceDetailsCountResponse.overTimeUsers }}</h5>
-            </div>
-            <div class="staf">
-              <p>On Leave</p>
-              <h5>{{ attendanceDetailsCountResponse.usersOnLeave }}</h5>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <ng-container *ngIf="!showPlaceholder; else notShowPlaceholder">
-      <div class="search-bar pt-2 pb-2 mt-3">
-        <div class="row m-0">
-          <div class="col-md-12 d-flex align-items-center" style="border: 1px solid #f1f1f1">
-            <div class="" style="width: 200px">
-              <div class="" style="position: relative">
-                <div class="dropdown" style="width: 100%">
-                  <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
-                    class="btn btn-secondary dropdown-toggle new-deopdown">
-                    {{ filterCriteria }}
-                    <i class="bi bi-chevron-down" style="color: #444; font-size: 15px"></i>
-                  </button>
-                  <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%">
-                    <li *ngFor="let filterCriteriaIterator of filterCriteriaList">
-                      <a class="dropdown-item" (click)="selectFilterCriteria(filterCriteriaIterator)">
-                        {{ filterCriteriaIterator }}
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="searchbr-ui w-100" id="attendanceDataTopbar">
-              <form novalidate="" role="search" (submit)="searchUsers($event)"
-                class="searching ng-untouched ng-pristine ng-valid">
-                <div class="form-group" style="position: relative">
-                  <input type="text" id="searchText" placeholder="Search by name and role"
-                    class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
-                    (keyup)="searchUsers($event)" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }"
-                    style="padding: 10px 40px" />
-                  <button *ngIf="searchText.length !== 0" type="button" class="btn close-btn"
-                    (click)="clearSearchText()">
-                    <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-                  </button>
-                  <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px"></i>
-                </div>
-              </form>
-            </div>
-          </div>
-          <!-- <div class="col-md-3">
-            
           </div> -->
+          <div class="d-flex align-items-center justify-content-center attendance-section-tab">
+            <a (click)="changeTab(ATTENDANCE_TAB)" [ngClass]="{'active-tab': ACTIVE_TAB == ATTENDANCE_TAB}">Attendance</a>
+            <a (click)="changeTab(OVERTIME_TAB)" [ngClass]="{'active-tab': ACTIVE_TAB == OVERTIME_TAB}">Overtime</a>
+            <a (click)="changeTab(UPDATION_REQUEST_TAB)" [ngClass]="{'active-tab': ACTIVE_TAB == UPDATION_REQUEST_TAB}">Updation request</a>
+          </div>
         </div>
       </div>
 
-      <div>
-        
-          <ng-container *ngIf="
-          isShimmerForAttendanceDetailsResponse &&
-            !dataNotFoundForAttendanceDetailsResponse &&
-            !networkConnectionErrorForAttendanceDetailsResposne;
-          else attendanceDetailsResponseData
-        ">
-        <div class="monthly-section mt-3" *ngFor="let item of [].constructor(6)">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="m">
-                <ngx-shimmer-loading [width]="'30%'" [height]="'15px'"></ngx-shimmer-loading>
-              </div>
-              <div class="mt-1">
-                <ngx-shimmer-loading [width]="'40%'" [height]="'15px'"></ngx-shimmer-loading>
-              </div>
-              <div class="mt-1">
-                <ngx-shimmer-loading [width]="'35%'" [height]="'15px'"></ngx-shimmer-loading>
+      <div class="tab-content">
+        <div class="row" *ngIf="ACTIVE_TAB == ATTENDANCE_TAB">
+          <div class="attendance-sheet mt-4">
+            <div class="row">
+              <div class="col-md-6 d-flex align-items-center justify-content-end">
+                <div class="all-approved">
+                  <!-- <p class="mb-0">
+                    <i
+                      class="bi bi-check-circle-fill"
+                      style="padding-right: 5px"
+                    ></i>
+                    All Approved
+                  </p> -->
+                </div>
               </div>
             </div>
-            <div class="col-md-6">
-              <div class="row">
-                <div class="col-md-4" *ngFor="let item of [].constructor(6)">
-                  <div class="">
-                    <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"></ngx-shimmer-loading>
-                  </div>
+            <div class="attendance-deta mb-2 mt-3">
+              <div class="d-flex align-items-center justify-content-between">
+                <div class="staf">
+                  <p>Total Staff</p>
+                  <h5>{{ attendanceDetailsCountResponse.totalUsers }}</h5>
+                </div>
+                <div class="staf">
+                  <p>Present</p>
+                  <h5>{{ attendanceDetailsCountResponse.presentUsers }}</h5>
+                </div>
+                <div class="staf">
+                  <p>Absent</p>
+                  <h5>{{ attendanceDetailsCountResponse.absentUsers }}</h5>
+                </div>
+                <div class="staf">
+                  <p>Not Marked</p>
+                  <h5>{{ attendanceDetailsCountResponse.unmarkedUsers }}</h5>
+                  <!-- <h5>{{halfDayUsers}}</h5> -->
+                </div>
+                <div class="staf">
+                  <p>Half Day</p>
+                  <h5>{{ attendanceDetailsCountResponse.halfDayUsers }}</h5>
+                </div>
+                <div class="staf">
+                  <p>OverTime</p>
+                  <h5>{{ attendanceDetailsCountResponse.overTimeUsers }}</h5>
+                </div>
+                <div class="staf">
+                  <p>On Leave</p>
+                  <h5>{{ attendanceDetailsCountResponse.usersOnLeave }}</h5>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-          </ng-container>
-
-          <ng-template #attendanceDetailsResponseData>
-        <ng-container *ngIf="
-            attendanceDetailsResponseList !== null &&
-              attendanceDetailsResponseList !== undefined &&
-              attendanceDetailsResponseList.length !== 0 &&
-              !dataNotFoundForAttendanceDetailsResponse &&
-              !networkConnectionErrorForAttendanceDetailsResposne;
-            else errorInFetchingAttendanceDetailsResponseData
-          ">
-          <div class="monthly-section mt-3" *ngFor="
-              let attendanceDetailsResponse of attendanceDetailsResponseList
-                | paginate
-                  : {
-                      itemsPerPage: itemPerPage,
-                      currentPage: pageNumber,
-                      totalItems: total
-                    }
-            ">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="Regular-data">
-                  <h5 class="route-to-userprofile" (click)="routeToUserProfile(attendanceDetailsResponse.uuid)"> {{
-                    attendanceDetailsResponse.name }} </h5>
-                  <p [ngClass]="{
-                      'in-time-color':
-                        attendanceDetailsResponse.currentStatus == 'Working',
-                      'break-color':
-                        attendanceDetailsResponse.currentStatus ==
-                          'On Break' ||
-                        attendanceDetailsResponse.currentStatus == 'On Leave',
-                      'out-time-color':
-                        attendanceDetailsResponse.currentStatus ==
-                          'Checked Out' ||
-                        attendanceDetailsResponse.currentStatus == 'Absent' ||
-                        attendanceDetailsResponse.currentStatus ==
-                          'Not Marked'
-                    }">
-                    {{ attendanceDetailsResponse.currentStatus }}
-                  </p>
-                  <div class="add-note d-flex" style="gap: 10px">
-                    <a href="" data-bs-toggle="modal" data-bs-target="#addnotes"
-                      (click)="addNotesModel(attendanceDetailsResponse.uuid)">
-                      Add Note</a>
-                    <a>|</a>
-                    <a href="" data-bs-toggle="modal" data-bs-target="#viewlog"
-                      (click)="viewLogs(attendanceDetailsResponse.uuid)">
-                      View Logs</a>
+          <ng-container *ngIf="!showPlaceholder; else notShowPlaceholder">
+          <div class="search-bar pt-2 pb-2 mt-3">
+            <div class="row m-0">
+              <div class="col-md-12 d-flex align-items-center" style="border: 1px solid #f1f1f1">
+                <div class="" style="width: 200px">
+                  <div class="" style="position: relative">
+                    <div class="dropdown" style="width: 100%">
+                      <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
+                        class="btn btn-secondary dropdown-toggle new-deopdown">
+                        {{ filterCriteria }}
+                        <i class="bi bi-chevron-down" style="color: #444; font-size: 15px"></i>
+                      </button>
+                      <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%">
+                        <li *ngFor="let filterCriteriaIterator of filterCriteriaList">
+                          <a class="dropdown-item" (click)="selectFilterCriteria(filterCriteriaIterator)">
+                            {{ filterCriteriaIterator }}
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
+                <div class="searchbr-ui w-100" id="attendanceDataTopbar">
+                  <form novalidate="" role="search" (submit)="searchUsers($event)"
+                    class="searching ng-untouched ng-pristine ng-valid">
+                    <div class="form-group" style="position: relative">
+                      <input type="text" id="searchText" placeholder="Search by name and role"
+                        class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
+                        (keyup)="searchUsers($event)" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }"
+                        style="padding: 10px 40px" />
+                      <button *ngIf="searchText.length !== 0" type="button" class="btn close-btn"
+                        (click)="clearSearchText()">
+                        <i class="bi bi-x mt-auto mb-auto pl-3"></i>
+                      </button>
+                      <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px"></i>
+                    </div>
+                  </form>
+                </div>
               </div>
-              <div class="col-md-6">
-                <div class="row position-relative">
-                  <div class="col-md-4">
-                    <div class="in-time">
-                      <span>In </span><span>|</span>
-                      <p class="mb-0">
-                        {{
-                        attendanceDetailsResponse.checkInTime | timeFormat
-                        }}
-                      </p>
-                    </div>
+              <!-- <div class="col-md-3">
+                
+              </div> -->
+            </div>
+          </div>
+    
+          <div>
+            
+              <ng-container *ngIf="
+              isShimmerForAttendanceDetailsResponse &&
+                !dataNotFoundForAttendanceDetailsResponse &&
+                !networkConnectionErrorForAttendanceDetailsResposne;
+              else attendanceDetailsResponseData
+            ">
+            <div class="monthly-section mt-3" *ngFor="let item of [].constructor(6)">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="m">
+                    <ngx-shimmer-loading [width]="'30%'" [height]="'15px'"></ngx-shimmer-loading>
                   </div>
-                  <div class="col-md-4">
-                    <div class="in-time">
-                      <span>Out </span> <span>|</span>
-                      <p class="mb-0">
-                        {{
-                        attendanceDetailsResponse.checkOutTime | timeFormat
-                        }}
-                      </p>
-                    </div>
+                  <div class="mt-1">
+                    <ngx-shimmer-loading [width]="'40%'" [height]="'15px'"></ngx-shimmer-loading>
                   </div>
-                  <div class="col-md-4">
-                    <div class="in-time">
-                      <span>Total Hours </span><span>|</span>
-                      <p class="mb-0">
-                        {{
-                        attendanceDetailsResponse.totalWorkingHours
-                        | durationFormat
-                        }}
-                      </p>
-                    </div>
+                  <div class="mt-1">
+                    <ngx-shimmer-loading [width]="'35%'" [height]="'15px'"></ngx-shimmer-loading>
                   </div>
-                  <div class="col-md-4">
-                    <div class="in-time">
-                      <span>Total Break</span> <span>|</span>
-                      <p class="mb-0">
-                        ({{ attendanceDetailsResponse.breakCount }})
-                      </p>
-                    </div>
-                  </div>
-
-                  <div class="col-md-4" *ngIf="attendanceDetailsResponse.breakCount !== 0">
-                    <div class="in-time total-break-time-box position-relativ" (mouseover)="
-                        getAttendanceDetailsBreakTimingsReportByDateByUserMethodCall(
-                          attendanceDetailsResponse
-                        )
-                      ">
-                      <span>Break Timings</span> <span>|</span>
-                      <p class="mb-0">
-                        &nbsp; &nbsp;<i style="color: black" id="dropdownMenuButton" class="bi bi-chevron-down"></i>
-                      </p>
-                      <div class="total-braek-time">
-                        <div *ngIf="
-                            attendanceDetailsResponse.breakTimingsList !==
-                              null &&
-                              attendanceDetailsResponse.breakTimingsList !==
-                                undefined &&
-                              attendanceDetailsResponse.breakTimingsList
-                                .length !== 0;
-                            else errorInFetchingBreakTimings
-                          ">
-                          <table class="table">
-                            <thead class="table-light">
-                              <tr>
-                                <th class="text-left">Break</th>
-                                <th class="text-left">Back</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr *ngFor="
-                                  let breakTimings of attendanceDetailsResponse.breakTimingsList
-                                ">
-                                <td class="text-left">
-                                  {{ breakTimings.breakTime | timeFormat }}
-                                </td>
-                                <td class="text-left">
-                                  {{ breakTimings.backTime | timeFormat }}
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                        <ng-template #errorInFetchingBreakTimings>
-                        </ng-template>
+                </div>
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-4" *ngFor="let item of [].constructor(6)">
+                      <div class="">
+                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"></ngx-shimmer-loading>
                       </div>
                     </div>
                   </div>
-
-                  <div class="col-md-4" *ngIf="attendanceDetailsResponse.breakCount === 0">
-                    <div class="in-time">
-                      <span style="color: #009688">No breaks taken! 😐</span>
-                      <!-- <p class="mb-0">({{attendanceDetailsResponse.breakCount}}) </p> -->
-                    </div>
-                  </div>
-
-                  <div class="col-md-4">
-                    <div class="in-time">
-                      <span>Total Hours </span><span>|</span>
-                      <p class="mb-0">
-                        {{
-                        attendanceDetailsResponse.totalBreakHours
-                        | durationFormat
-                        }}
+                </div>
+              </div>
+            </div>
+              </ng-container>
+    
+              <ng-template #attendanceDetailsResponseData>
+            <ng-container *ngIf="
+                attendanceDetailsResponseList !== null &&
+                  attendanceDetailsResponseList !== undefined &&
+                  attendanceDetailsResponseList.length !== 0 &&
+                  !dataNotFoundForAttendanceDetailsResponse &&
+                  !networkConnectionErrorForAttendanceDetailsResposne;
+                else errorInFetchingAttendanceDetailsResponseData
+              ">
+              <div class="monthly-section mt-3" *ngFor="
+                  let attendanceDetailsResponse of attendanceDetailsResponseList
+                    | paginate
+                      : {
+                          itemsPerPage: itemPerPage,
+                          currentPage: pageNumber,
+                          totalItems: total
+                        }
+                ">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="Regular-data">
+                      <h5 class="route-to-userprofile" (click)="routeToUserProfile(attendanceDetailsResponse.uuid)"> {{
+                        attendanceDetailsResponse.name }} </h5>
+                      <p [ngClass]="{
+                          'in-time-color':
+                            attendanceDetailsResponse.currentStatus == 'Working',
+                          'break-color':
+                            attendanceDetailsResponse.currentStatus ==
+                              'On Break' ||
+                            attendanceDetailsResponse.currentStatus == 'On Leave',
+                          'out-time-color':
+                            attendanceDetailsResponse.currentStatus ==
+                              'Checked Out' ||
+                            attendanceDetailsResponse.currentStatus == 'Absent' ||
+                            attendanceDetailsResponse.currentStatus ==
+                              'Not Marked'
+                        }">
+                        {{ attendanceDetailsResponse.currentStatus }}
                       </p>
+                      <div class="add-note d-flex" style="gap: 10px">
+                        <a href="" data-bs-toggle="modal" data-bs-target="#addnotes"
+                          (click)="addNotesModel(attendanceDetailsResponse.uuid)">
+                          Add Note</a>
+                        <a>|</a>
+                        <a href="" data-bs-toggle="modal" data-bs-target="#viewlog"
+                          (click)="viewLogs(attendanceDetailsResponse.uuid)">
+                          View Logs</a>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </ng-container>
-          </ng-template>
-
-          <ng-template #errorInFetchingAttendanceDetailsResponseData>
-        <div class="errorboxmain" *ngIf="networkConnectionErrorForAttendanceDetailsResposne">
-          <div class="errorboxinner text-center">
-            <div class="errorboxplaceholder mb-2">
-              <img src="assets/images/signal.svg" style="width: 80px" />
-            </div>
-            <div class="">
-              <h4>Something went wrong</h4>
-              <p>
-                An error occurred while processing your request. Please
-                refresh the page and try again.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="errorboxmain" *ngIf="dataNotFoundForAttendanceDetailsResponse">
-          <div class="errorboxinner text-center">
-            <div class="errorboxplaceholder mb-2">
-              <img src="assets/images/empty-folder.svg" style="width: 80px" />
-            </div>
-
-            <h4>No Data Found</h4>
-            <p>Sorry, We can't show you the data at this moment!</p>
-          </div>
-        </div>
-          </ng-template>
-
-        <div class="modal fade bs-example-modal-center" id="addnotes" tabindex="-1" role="dialog"
-          aria-labelledby="mySmallModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered mx-auto">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h6 class="modal-title m-0" id="exampleModalCenterTitle">
-                  Add Notes
-                </h6>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <div class="">
-                  <div class="mb-3">
-                    <label for="username" style="padding-bottom: 6px">Notes Title</label>
-                    <input type="text" id="username" placeholder="Enter title ..." name="username" required=""
-                      class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="additionalNotes.title" />
-                  </div>
-                  <div class="mb-3">
-                    <label for="message" style="padding-bottom: 6px">Message</label>
-                    <textarea class="form-control" rows="5" id="message" style="height: 100px !important"
-                      [(ngModel)]="additionalNotes.message"></textarea>
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" #addNotesModalClose>
-                  Close
-                </button>
-                <button type="button" class="btn btn-primary save-changes" (click)="addAdditionalNotesMethodCall()">
-                  Submit
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="modal fade" id="viewlog" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
-          aria-hidden="true" #viewlog>
-          <div class="modal-dialog modal-dialog-centered mx-auto" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
-                  Attendance Log
-                </h6>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <!-- modal-header -->
-              <div class="modal-body">
-                <div class="">
-                  <div class="mt-2">
-                    <div class="scroll-box-logs">
-                      <ng-container *ngIf="
-                          isShimmer &&
-                            attendanceLogResponseList.length === 0 &&
-                            !dataNotFoundPlaceholder &&
-                            !networkConnectionErrorPlaceHolder;
-                          else attendanceLogResponseData
-                        ">
-                        <ul class="loges-loding" *ngFor="let item of [].constructor(5)">
-                          <li>
-                            <h6>
-                              <ngx-shimmer-loading [width]="'90%'" [height]="'15px'"></ngx-shimmer-loading>
-                            </h6>
-                            <h6 class="mt-1">
-                              <ngx-shimmer-loading [width]="'40%'" [height]="'10px'"></ngx-shimmer-loading>
-                            </h6>
-                            <h6 class="mt-1">
-                              <ngx-shimmer-loading [width]="'60%'" [height]="'10px'"></ngx-shimmer-loading>
-                            </h6>
-                          </li>
-                        </ul>
-                      </ng-container>
-
-                      <ng-template #attendanceLogResponseData>
-                        <ng-container *ngIf="
-                            attendanceLogResponseList.length !== 0 &&
-                              !dataNotFoundPlaceholder &&
-                              !networkConnectionErrorPlaceHolder;
-                            else errorInFetchingAttendanceLogData
+                  <div class="col-md-6">
+                    <div class="row position-relative">
+                      <div class="col-md-4">
+                        <div class="in-time">
+                          <span>In </span><span>|</span>
+                          <p class="mb-0">
+                            {{
+                            attendanceDetailsResponse.checkInTime | timeFormat
+                            }}
+                          </p>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="in-time">
+                          <span>Out </span> <span>|</span>
+                          <p class="mb-0">
+                            {{
+                            attendanceDetailsResponse.checkOutTime | timeFormat
+                            }}
+                          </p>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="in-time">
+                          <span>Total Hours </span><span>|</span>
+                          <p class="mb-0">
+                            {{
+                            attendanceDetailsResponse.totalWorkingHours
+                            | durationFormat
+                            }}
+                          </p>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="in-time">
+                          <span>Total Break</span> <span>|</span>
+                          <p class="mb-0">
+                            ({{ attendanceDetailsResponse.breakCount }})
+                          </p>
+                        </div>
+                      </div>
+    
+                      <div class="col-md-4" *ngIf="attendanceDetailsResponse.breakCount !== 0">
+                        <div class="in-time total-break-time-box position-relativ" (mouseover)="
+                            getAttendanceDetailsBreakTimingsReportByDateByUserMethodCall(
+                              attendanceDetailsResponse
+                            )
                           ">
-                          <ul class="acitivity-timeline-2 list-unstyled mb-0" *ngFor="
-                              let attendanceLogResponse of attendanceLogResponseList
-                            ">
-                            <li>
-                              <!-- in-time-color out-time-color break-color break-back-color -->
-                              <h6 class="fs-md mt-0" *ngIf="
-                                  attendanceLogResponse.operationPerformedBy !==
-                                  null
-                                ">
-                                {{ attendanceLogResponse.operationType
-                                }}<span class="added-by" style="padding-left: 10px">(Added By -
-                                  {{
-                                  attendanceLogResponse.operationPerformedBy
-                                  }})</span>
-
-                              </h6>
-                              <h6 class="fs-md mt-0 attendance-log" *ngIf="
-                                  attendanceLogResponse.operationPerformedBy ===
-                                  null
-                                " [ngClass]="{
-                                  'in-time-color':
-                                    attendanceLogResponse.operationType == 'in',
-                                  'out-time-color':
-                                    attendanceLogResponse.operationType ==
-                                    'out',
-                                  'break-color':
-                                    attendanceLogResponse.operationType ==
-                                    'break',
-                                  'break-back-color':
-                                    attendanceLogResponse.operationType ==
-                                    'back'
-                                }">
-
-                                <span>
-                                  {{ attendanceLogResponse.operationType }} |
-                                  {{
-                                  attendanceLogResponse.operationTime
-                                  | timeFormat
-                                  }} </span>
-                                <!-- <div class="icons">
-                                  <i class="location-icon fas fa-map-marker-alt"
-                                    *ngIf="attendanceLogResponse.latString!=null && attendanceLogResponse.longString!=null"
-                                    (click)="openAddressModal(attendanceLogResponse.latString, attendanceLogResponse.longString)"></i>
-                                  <i class="eye-icon fas fa-eye" *ngIf="attendanceLogResponse.imageUrlString!=null"
-                                    (click)="openSelfieModal(attendanceLogResponse.imageUrlString)"></i>
-                                </div> -->
-                              </h6>
-                              <div style=" display: block; margin-top: 5px; color: #6c757d; ">
-                                <span style=" font-size: 13px; font-weight: 600; vertical-align: middle; ">
-                                  <i class=" bi bi-calendar3" style="margin-right: 5px"></i>
-                                  {{
-                                  attendanceLogResponse.operationTime
-                                  | dateFormat
-                                  }}
-                                  |
-                                  {{
-                                  attendanceLogResponse.operationTime
-                                  | timeFormat
-                                  }}
-                                </span>
-                              </div>
-                              <div class="d-flex align-items-center mb-2 mt-2 gap-3">
-                                <p class="mb-0" style="font-size: 14px">
-                                  <span><b>Notes</b></span><span> : </span>
-                                  {{ attendanceLogResponse.additionalNotes }}
-                                </p>
-                              </div>
-                              <!-- <div class="icons">
-                                <i class="location-icon fas fa-map-marker-alt"
-                                  *ngIf="attendanceLogResponse.latString!=null && attendanceLogResponse.longString!=null"
-                                  (click)="openAddressModal(attendanceLogResponse.latString, attendanceLogResponse.longString)"></i>
-                                <i class="eye-icon fas fa-eye" *ngIf="attendanceLogResponse.imageUrlString!=null"
-                                  (click)="openSelfieModal(attendanceLogResponse.imageUrlString)"></i>
-                              </div> -->
-                              <!-- Location as text -->
-                                  <!-- <div *ngIf="attendanceLogResponse.latString != null && attendanceLogResponse.longString != null">    
-                                    <p class="mb-0 mt-0" style="font-size: 14px">
-                                      <span style="display: block; justify-content: space-between;"><b>Location: <i class="location-icon fas fa-map-marker-alt" style="display: flex; justify-content: flex-end;"
-                                        *ngIf="attendanceLogResponse.latString!=null && attendanceLogResponse.longString!=null"
-                                        (click)="openAddressModal(attendanceLogResponse.latString, attendanceLogResponse.longString)"></i></b>
-                                      </span>  
-                                      <span>{{ attendanceLogResponse.currentAddress || 'N/A'}}
-                                      
-                                      </span>
-                                      
-                                    </p>
-
-                                  </div> -->
-                                  <!-- Image -->
-                                  <!-- <div *ngIf="attendanceLogResponse.imageUrlString != null">
-                                    <i class="eye-icon fas fa-eye" style="display: flex; justify-content: flex-end;" *ngIf="attendanceLogResponse.imageUrlString!=null"
-                                        (click)="openSelfieModal(attendanceLogResponse.imageUrlString)"></i>
-                                    <img [src]="attendanceLogResponse.imageUrlString" alt="User Image" style="max-width: 100px; max-height: 100px;">
-                                  </div> -->
-
-                                  <div class="card" *ngIf="attendanceLogResponse.latString != null && attendanceLogResponse.longString != null">
-                                    <div class="card-content justify-content-start">
-                                      <div class="image-section" *ngIf="attendanceLogResponse.imageUrlString != null">
-                                        <img [src]="attendanceLogResponse.imageUrlString" alt="User Image" class="user-image">
-                                      </div>
-                                      <div class="info-section">
-                                        <div>
-                                          <p class="mb-0 mt-0 location-text">
-                                            <span><b>Location:</b></span>
-                                            <span class="location-address">{{ attendanceLogResponse.currentAddress || 'N/A'}}</span>
-                                          </p>
-                                        </div>
-                                        <div class="button-section btn-sm">
-                                          <button class="btn-sm"   *ngIf="attendanceLogResponse.imageUrlString != null" (click)="openSelfieModal(attendanceLogResponse.imageUrlString)" class="view-button">View Selfie</button>
-                                          <button class="btn-sm" *ngIf="attendanceLogResponse.latString != null && attendanceLogResponse.longString != null" (click)="openAddressModal(attendanceLogResponse.latString, attendanceLogResponse.longString)" class="view-button">View Location</button>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  
-                            </li>
-                          </ul>
-                        </ng-container>
-                      </ng-template>
-                      <ng-template #errorInFetchingAttendanceLogData>
-                        <div class="empty-file" *ngIf="dataNotFoundPlaceholder">
-                          <div class="errorboxmain">
-                            <div class="errorboxinner">
-                              <div class="errorboxplaceholder mb-2">
-                                <img src="assets/images/empty-box.svg" style="width: 80px" />
-                              </div>
-                              <div class="">
-                                <h4>No Data Found</h4>
-                                <p class="mb-0">
-                                  Attendance log doesn't exist for this user
-                                </p>
-                              </div>
+                          <span>Break Timings</span> <span>|</span>
+                          <p class="mb-0">
+                            &nbsp; &nbsp;<i style="color: black" id="dropdownMenuButton" class="bi bi-chevron-down"></i>
+                          </p>
+                          <div class="total-braek-time">
+                            <div *ngIf="
+                                attendanceDetailsResponse.breakTimingsList !==
+                                  null &&
+                                  attendanceDetailsResponse.breakTimingsList !==
+                                    undefined &&
+                                  attendanceDetailsResponse.breakTimingsList
+                                    .length !== 0;
+                                else errorInFetchingBreakTimings
+                              ">
+                              <table class="table">
+                                <thead class="table-light">
+                                  <tr>
+                                    <th class="text-left">Break</th>
+                                    <th class="text-left">Back</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="
+                                      let breakTimings of attendanceDetailsResponse.breakTimingsList
+                                    ">
+                                    <td class="text-left">
+                                      {{ breakTimings.breakTime | timeFormat }}
+                                    </td>
+                                    <td class="text-left">
+                                      {{ breakTimings.backTime | timeFormat }}
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
                             </div>
+                            <ng-template #errorInFetchingBreakTimings>
+                            </ng-template>
                           </div>
                         </div>
-
-                        <div class="empty-file" *ngIf="networkConnectionErrorPlaceHolder">
-                          <div class="errorboxmain">
-                            <div class="errorboxinner text-center">
-                              <div class="errorboxplaceholder mb-2">
-                                <img src="assets/images/signal.svg" style="width: 80px" />
-                              </div>
-                              <div class="">
-                                <h4>Something went wrong</h4>
-                                <p>
-                                  An error occurred while processing your
-                                  request. Please refresh the page and try
-                                  again.
-                                </p>
-                              </div>
-                            </div>
-                          </div>
+                      </div>
+    
+                      <div class="col-md-4" *ngIf="attendanceDetailsResponse.breakCount === 0">
+                        <div class="in-time">
+                          <span style="color: #009688">No breaks taken! 😐</span>
+                          <!-- <p class="mb-0">({{attendanceDetailsResponse.breakCount}}) </p> -->
                         </div>
-                      </ng-template>
+                      </div>
+    
+                      <div class="col-md-4">
+                        <div class="in-time">
+                          <span>Total Hours </span><span>|</span>
+                          <p class="mb-0">
+                            {{
+                            attendanceDetailsResponse.totalBreakHours
+                            | durationFormat
+                            }}
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <!-- modal-body -->
-              <!-- <div class="modal-footer d-flex align-items-center justify-content-end">
-                <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close" >
-                  Cancel
-                </button>
-              </div> -->
-              <!-- modal-footer -->
+            </ng-container>
+              </ng-template>
+    
+              <ng-template #errorInFetchingAttendanceDetailsResponseData>
+            <div class="errorboxmain" *ngIf="networkConnectionErrorForAttendanceDetailsResposne">
+              <div class="errorboxinner text-center">
+                <div class="errorboxplaceholder mb-2">
+                  <img src="assets/images/signal.svg" style="width: 80px" />
+                </div>
+                <div class="">
+                  <h4>Something went wrong</h4>
+                  <p>
+                    An error occurred while processing your request. Please
+                    refresh the page and try again.
+                  </p>
+                </div>
+              </div>
             </div>
-            <!-- modal-content -->
+    
+            <div class="errorboxmain" *ngIf="dataNotFoundForAttendanceDetailsResponse">
+              <div class="errorboxinner text-center">
+                <div class="errorboxplaceholder mb-2">
+                  <img src="assets/images/empty-folder.svg" style="width: 80px" />
+                </div>
+    
+                <h4>No Data Found</h4>
+                <p>Sorry, We can't show you the data at this moment!</p>
+              </div>
+            </div>
+              </ng-template>
+    
+            <div class="modal fade bs-example-modal-center" id="addnotes" tabindex="-1" role="dialog"
+              aria-labelledby="mySmallModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered mx-auto">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h6 class="modal-title m-0" id="exampleModalCenterTitle">
+                      Add Notes
+                    </h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="">
+                      <div class="mb-3">
+                        <label for="username" style="padding-bottom: 6px">Notes Title</label>
+                        <input type="text" id="username" placeholder="Enter title ..." name="username" required=""
+                          class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="additionalNotes.title" />
+                      </div>
+                      <div class="mb-3">
+                        <label for="message" style="padding-bottom: 6px">Message</label>
+                        <textarea class="form-control" rows="5" id="message" style="height: 100px !important"
+                          [(ngModel)]="additionalNotes.message"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" #addNotesModalClose>
+                      Close
+                    </button>
+                    <button type="button" class="btn btn-primary save-changes" (click)="addAdditionalNotesMethodCall()">
+                      Submit
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+    
+            <div class="modal fade" id="viewlog" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
+              aria-hidden="true" #viewlog>
+              <div class="modal-dialog modal-dialog-centered mx-auto" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
+                      Attendance Log
+                    </h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <!-- modal-header -->
+                  <div class="modal-body">
+                    <div class="">
+                      <div class="mt-2">
+                        <div class="scroll-box-logs">
+                          <ng-container *ngIf="
+                              isShimmer &&
+                                attendanceLogResponseList.length === 0 &&
+                                !dataNotFoundPlaceholder &&
+                                !networkConnectionErrorPlaceHolder;
+                              else attendanceLogResponseData
+                            ">
+                            <ul class="loges-loding" *ngFor="let item of [].constructor(5)">
+                              <li>
+                                <h6>
+                                  <ngx-shimmer-loading [width]="'90%'" [height]="'15px'"></ngx-shimmer-loading>
+                                </h6>
+                                <h6 class="mt-1">
+                                  <ngx-shimmer-loading [width]="'40%'" [height]="'10px'"></ngx-shimmer-loading>
+                                </h6>
+                                <h6 class="mt-1">
+                                  <ngx-shimmer-loading [width]="'60%'" [height]="'10px'"></ngx-shimmer-loading>
+                                </h6>
+                              </li>
+                            </ul>
+                          </ng-container>
+    
+                          <ng-template #attendanceLogResponseData>
+                            <ng-container *ngIf="
+                                attendanceLogResponseList.length !== 0 &&
+                                  !dataNotFoundPlaceholder &&
+                                  !networkConnectionErrorPlaceHolder;
+                                else errorInFetchingAttendanceLogData
+                              ">
+                              <ul class="acitivity-timeline-2 list-unstyled mb-0" *ngFor="
+                                  let attendanceLogResponse of attendanceLogResponseList
+                                ">
+                                <li>
+                                  <!-- in-time-color out-time-color break-color break-back-color -->
+                                  <h6 class="fs-md mt-0" *ngIf="
+                                      attendanceLogResponse.operationPerformedBy !==
+                                      null
+                                    ">
+                                    {{ attendanceLogResponse.operationType
+                                    }}<span class="added-by" style="padding-left: 10px">(Added By -
+                                      {{
+                                      attendanceLogResponse.operationPerformedBy
+                                      }})</span>
+    
+                                  </h6>
+                                  <h6 class="fs-md mt-0 attendance-log" *ngIf="
+                                      attendanceLogResponse.operationPerformedBy ===
+                                      null
+                                    " [ngClass]="{
+                                      'in-time-color':
+                                        attendanceLogResponse.operationType == 'in',
+                                      'out-time-color':
+                                        attendanceLogResponse.operationType ==
+                                        'out',
+                                      'break-color':
+                                        attendanceLogResponse.operationType ==
+                                        'break',
+                                      'break-back-color':
+                                        attendanceLogResponse.operationType ==
+                                        'back'
+                                    }">
+    
+                                    <span>
+                                      {{ attendanceLogResponse.operationType }} |
+                                      {{
+                                      attendanceLogResponse.operationTime
+                                      | timeFormat
+                                      }} </span>
+                                    <!-- <div class="icons">
+                                      <i class="location-icon fas fa-map-marker-alt"
+                                        *ngIf="attendanceLogResponse.latString!=null && attendanceLogResponse.longString!=null"
+                                        (click)="openAddressModal(attendanceLogResponse.latString, attendanceLogResponse.longString)"></i>
+                                      <i class="eye-icon fas fa-eye" *ngIf="attendanceLogResponse.imageUrlString!=null"
+                                        (click)="openSelfieModal(attendanceLogResponse.imageUrlString)"></i>
+                                    </div> -->
+                                  </h6>
+                                  <div style=" display: block; margin-top: 5px; color: #6c757d; ">
+                                    <span style=" font-size: 13px; font-weight: 600; vertical-align: middle; ">
+                                      <i class=" bi bi-calendar3" style="margin-right: 5px"></i>
+                                      {{
+                                      attendanceLogResponse.operationTime
+                                      | dateFormat
+                                      }}
+                                      |
+                                      {{
+                                      attendanceLogResponse.operationTime
+                                      | timeFormat
+                                      }}
+                                    </span>
+                                  </div>
+                                  <div class="d-flex align-items-center mb-2 mt-2 gap-3">
+                                    <p class="mb-0" style="font-size: 14px">
+                                      <span><b>Notes</b></span><span> : </span>
+                                      {{ attendanceLogResponse.additionalNotes }}
+                                    </p>
+                                  </div>
+                                  <!-- <div class="icons">
+                                    <i class="location-icon fas fa-map-marker-alt"
+                                      *ngIf="attendanceLogResponse.latString!=null && attendanceLogResponse.longString!=null"
+                                      (click)="openAddressModal(attendanceLogResponse.latString, attendanceLogResponse.longString)"></i>
+                                    <i class="eye-icon fas fa-eye" *ngIf="attendanceLogResponse.imageUrlString!=null"
+                                      (click)="openSelfieModal(attendanceLogResponse.imageUrlString)"></i>
+                                  </div> -->
+                                  <!-- Location as text -->
+                                      <!-- <div *ngIf="attendanceLogResponse.latString != null && attendanceLogResponse.longString != null">    
+                                        <p class="mb-0 mt-0" style="font-size: 14px">
+                                          <span style="display: block; justify-content: space-between;"><b>Location: <i class="location-icon fas fa-map-marker-alt" style="display: flex; justify-content: flex-end;"
+                                            *ngIf="attendanceLogResponse.latString!=null && attendanceLogResponse.longString!=null"
+                                            (click)="openAddressModal(attendanceLogResponse.latString, attendanceLogResponse.longString)"></i></b>
+                                          </span>  
+                                          <span>{{ attendanceLogResponse.currentAddress || 'N/A'}}
+                                          
+                                          </span>
+                                          
+                                        </p>
+    
+                                      </div> -->
+                                      <!-- Image -->
+                                      <!-- <div *ngIf="attendanceLogResponse.imageUrlString != null">
+                                        <i class="eye-icon fas fa-eye" style="display: flex; justify-content: flex-end;" *ngIf="attendanceLogResponse.imageUrlString!=null"
+                                            (click)="openSelfieModal(attendanceLogResponse.imageUrlString)"></i>
+                                        <img [src]="attendanceLogResponse.imageUrlString" alt="User Image" style="max-width: 100px; max-height: 100px;">
+                                      </div> -->
+    
+                                      <div class="card" *ngIf="attendanceLogResponse.latString != null && attendanceLogResponse.longString != null">
+                                        <div class="card-content justify-content-start">
+                                          <div class="image-section" *ngIf="attendanceLogResponse.imageUrlString != null">
+                                            <img [src]="attendanceLogResponse.imageUrlString" alt="User Image" class="user-image">
+                                          </div>
+                                          <div class="info-section">
+                                            <div>
+                                              <p class="mb-0 mt-0 location-text">
+                                                <span><b>Location:</b></span>
+                                                <span class="location-address">{{ attendanceLogResponse.currentAddress || 'N/A'}}</span>
+                                              </p>
+                                            </div>
+                                            <div class="button-section btn-sm">
+                                              <button class="btn-sm"   *ngIf="attendanceLogResponse.imageUrlString != null" (click)="openSelfieModal(attendanceLogResponse.imageUrlString)" class="view-button">View Selfie</button>
+                                              <button class="btn-sm" *ngIf="attendanceLogResponse.latString != null && attendanceLogResponse.longString != null" (click)="openAddressModal(attendanceLogResponse.latString, attendanceLogResponse.longString)" class="view-button">View Location</button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      
+                                </li>
+                              </ul>
+                            </ng-container>
+                          </ng-template>
+                          <ng-template #errorInFetchingAttendanceLogData>
+                            <div class="empty-file" *ngIf="dataNotFoundPlaceholder">
+                              <div class="errorboxmain">
+                                <div class="errorboxinner">
+                                  <div class="errorboxplaceholder mb-2">
+                                    <img src="assets/images/empty-box.svg" style="width: 80px" />
+                                  </div>
+                                  <div class="">
+                                    <h4>No Data Found</h4>
+                                    <p class="mb-0">
+                                      Attendance log doesn't exist for this user
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+    
+                            <div class="empty-file" *ngIf="networkConnectionErrorPlaceHolder">
+                              <div class="errorboxmain">
+                                <div class="errorboxinner text-center">
+                                  <div class="errorboxplaceholder mb-2">
+                                    <img src="assets/images/signal.svg" style="width: 80px" />
+                                  </div>
+                                  <div class="">
+                                    <h4>Something went wrong</h4>
+                                    <p>
+                                      An error occurred while processing your
+                                      request. Please refresh the page and try
+                                      again.
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </ng-template>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- modal-body -->
+                  <!-- <div class="modal-footer d-flex align-items-center justify-content-end">
+                    <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close" >
+                      Cancel
+                    </button>
+                  </div> -->
+                  <!-- modal-footer -->
+                </div>
+                <!-- modal-content -->
+              </div>
+              <!-- modal-dialog -->
+            </div>
+            <!-- modal -->
+    
+            <!-- Pagination -->
+            <div class="pagination pl-3" *ngIf="
+                (total > 7 && attendanceDetailsResponseList.length > 7) ||
+                (pageNumber === lastPageNumber && lastPageNumber !== 1)
+              ">
+              <p class="mb-0" style="padding-left: 15px">
+                Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
+                {{ total }} items
+              </p>
+              <div class="row">
+                <div class="col-md-12">
+                  <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-end">
+                      <li class="page-item" [class.disabled]="pageNumber == 1">
+                        <a class="page-link" href="javascript:void(0);" aria-label="Previous" (click)="changePage('prev')">
+                          <span aria-hidden="true">&laquo;</span>
+                        </a>
+                      </li>
+                      <li class="page-item" *ngFor="let page of getPages()" [class.active]="pageNumber == page">
+                        <a class="page-link" href="javascript:void(0);" (click)="changePage(page)">{{ page }}</a>
+                      </li>
+                      <li class="page-item" [class.disabled]="pageNumber == totalPages">
+                        <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changePage('next')">
+                          <span aria-hidden="true">&raquo;</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+              </div>
+            </div>
           </div>
-          <!-- modal-dialog -->
+          </ng-container>
+          <ng-template #notShowPlaceholder>
+            <div class="errorboxmain">
+              <div class="errorboxinner text-center">
+                <div class="errorboxplaceholder mb-2">
+                  <img src="assets/images/empty-box.svg" style="width: 80px" />
+                </div>
+                <div class="">
+                  <h4>Data Not Found</h4>
+                  <p>
+                  
+                  </p>
+                </div>
+              </div>
+            </div>
+          </ng-template>
         </div>
-        <!-- modal -->
-
-        <!-- Pagination -->
-        <div class="pagination pl-3" *ngIf="
-            (total > 7 && attendanceDetailsResponseList.length > 7) ||
-            (pageNumber === lastPageNumber && lastPageNumber !== 1)
-          ">
-          <p class="mb-0" style="padding-left: 15px">
-            Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
-            {{ total }} items
-          </p>
-          <div class="row">
-            <div class="col-md-12">
-              <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-end">
-                  <li class="page-item" [class.disabled]="pageNumber == 1">
-                    <a class="page-link" href="javascript:void(0);" aria-label="Previous" (click)="changePage('prev')">
-                      <span aria-hidden="true">&laquo;</span>
+        <div class="row" *ngIf="ACTIVE_TAB == OVERTIME_TAB">
+          <!-- <ul class="nav nav-tabs bg-light border-top" role="tablist">
+            <li class="nav-item" (click)="changeLogTabInOvertimeTab(OVERTIME_PENDING_REQUEST_TAB)">
+              <a class="nav-link" [ngClass]="{'active': ACTIVE_TAB_IN_OVERTIME_TAB === OVERTIME_PENDING_REQUEST_TAB}" data-bs-toggle="tab" href="#leave-log" role="tab" aria-selected="true">Requests</a>
+            </li>
+            <li class="nav-item" (click)="changeLogTabInOvertimeTab(OVERTIME_LOG_TAB);">
+              <a class="nav-link" [ngClass]="{'active': ACTIVE_TAB_IN_OVERTIME_TAB === OVERTIME_LOG_TAB}" data-bs-toggle="tab" href="#overtime-log" role="tab" aria-selected="false">Logs</a>
+            </li>
+          </ul> -->
+          
+          <div class="row p-2 mt-3">
+            <div class="col-md-6" *ngIf="ACTIVE_TAB_IN_OVERTIME_TAB == OVERTIME_PENDING_REQUEST_TAB">
+              <div class="my-leave-log">
+                <div class="my-leave-log-hedding d-flex align-items-center justify-content-between leave-request-padding mb-1">
+                  <h4>Overtime Requests</h4>
+                  <!-- <a href="" class="view-loges-btn">View All <i class="bi bi-chevron-right"></i></a> -->
+                  <a href="" class="view-loges-btn" *ngIf="ROLE != 'ADMIN'" data-bs-toggle="modal" data-bs-target=".apply-leave">Apply for leaves <i class="bi bi-chevron-right"></i>
+                  </a>
+                </div>
+                <ul class="nav nav-tabs bg-white border-top" role="tablist">
+                  <li class="nav-item" (click)="activeTabs('home')">
+                    <a class="nav-link active" data-bs-toggle="tab" href="#home" role="tab" aria-selected="true">Pending requests <span class="badge rounded-pill badge-outline-warning" style="margin-left: 10px" *ngIf="totalCountOfPendingCounts > 0">{{ totalCountOfPendingCounts }}</span>
                     </a>
                   </li>
-                  <li class="page-item" *ngFor="let page of getPages()" [class.active]="pageNumber == page">
-                    <a class="page-link" href="javascript:void(0);" (click)="changePage(page)">{{ page }}</a>
-                  </li>
-                  <li class="page-item" [class.disabled]="pageNumber == totalPages">
-                    <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changePage('next')">
-                      <span aria-hidden="true">&raquo;</span>
-                    </a>
+                  <li class="nav-item" (click)="activeTabs('attendance')">
+                    <a class="nav-link" data-bs-toggle="tab" href="#attendance" role="tab" aria-selected="true">Overtime History</a>
                   </li>
                 </ul>
-              </nav>
+                <div class="tab-content">
+                  <div class="pt-3 pb-3" id="home" role="" *ngIf="activeHomeTabFlag">
+                    <div class="leave-history-box" #logContainerOfPendingLeaves (scroll)="scrollDownRecentActivityOfPendingLeaves($event)">
+                      <div class="errorboxmain text-center" *ngIf="pendingLeaves.length == 0">
+                        <div class="errorboxinner">
+                          <div class="errorboxplaceholder mb-2">
+                            <img src="assets/images/empty-box.svg" style="width: 80px" />
+                          </div>
+                          <div class="">
+                            <h4>No Data Found</h4>
+                            <p class="mb-0"> We're unable to locate a record associated with the information you entered. </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row mt-2" *ngFor="let pl of pendingLeaves">
+                        <div class="col-auto">
+                          <img *ngIf="pl.image" src="{{ pl.image }}" alt="" class="thumb-md rounded-circle" style="width: 32px; height: 32px" />
+                          <img *ngIf="!pl.image" src="assets/images/user.png" alt="" class="thumb-md rounded-circle" style="width: 32px; height: 32px" />
+                        </div>
+                        <!--end col-->
+                        <div class="col">
+                          <div class="comment-body ms-n2 bg-light-alt p-3">
+                            <div class="activity-info-text">
+                              <div class="float-end">
+                                <div class="dropdown d-inline-block">
+                                  <div class="align-self-center">
+                                    <h6 class="fw-semibold">
+                                      <span class="badge badge-outline-primary">
+                                        {{ pl.totalDays }} Days | {{ pl.leaveType }}</span>
+                                    </h6>
+                                    <small>{{ pl.leaveDate | date:'medium' ||
+                                          "N/A"
+                                      }}
+                                      <!-- &nbsp;
+                                      <span>{{
+                                        pl.leaveDate | date:'medium' || "N/A"
+                                      }}</span> -->
+                                    </small>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="media align-items-center">
+                                <div class="media-body ms-2 align-self-center">
+                                  <h5 class="m-0 Regular-data" (click)="routeToUserProfile(pl.uuid)">
+                                    {{ pl.username }}
+                                  </h5>
+                                  <p> Duration: <u>{{ formatDateIn(formatDate(pl.startDate)) }} - {{ formatDateIn(formatDate(pl.endDate)) }}</u>
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                            <a href="#" class="text-primary" (click)="getPendingLeave(pl.id, pl.leaveType)" data-bs-toggle="modal" data-bs-target="#leave-appervo">
+                              <i class="fas fa-external-link-square-alt me-1"></i>View </a>
+                          </div>
+                        </div>
+                        <!--end col-->
+                      </div>
+                    </div>
+                    <div class="align-self-center text-center mt-2" *ngIf="!initialLoadDoneOfPendingLeaves">
+                      <button type="button" class="btn btn-xs btn-light btn-round" *ngIf="pendingLeavesSize > 4" (click)="loadMorePendingLeaves()"> Load More <i class="bi bi-chevron-down"></i>
+                      </button>
+                    </div>
+                    <div class="text-center load-more-btn" *ngIf="isPendingLoader && pendingLeavesSize > 4">
+                      <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+                      <div>
+                        <small>Loading...</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="pt-3 pb-3" id="attendance" role="" *ngIf="activeAttendanceTabFlag">
+                    <div class="leave-history-box-if-pending-null" #logContainerOfApprovedRejected (scroll)="scrollDownRecentActivityOfApprovedRejected($event)">
+                      <div class="errorboxmain text-center" *ngIf="approvedRejectedLeaves.length == 0">
+                        <div class="errorboxinner">
+                          <div class="errorboxplaceholder mb-2">
+                            <img src="assets/images/empty-box.svg" style="width: 80px" />
+                          </div>
+                          <div class="">
+                            <h4>No Data Found</h4>
+                            <p class="mb-0"> We're unable to locate a record associated with the information you entered. </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row mt-2" *ngFor="let arl of approvedRejectedLeaves">
+                        <div class="col-auto">
+                          <img *ngIf="arl.image" src="{{ arl.image }}" alt="" class="thumb-md rounded-circle" style="width: 32px; height: 32px" />
+                          <img *ngIf="!arl.image" src="assets/images/user.png" alt="" class="thumb-md rounded-circle" style="width: 32px; height: 32px" />
+                        </div>
+                        <!--end col-->
+                        <div class="col">
+                          <div class="comment-body ms-n2 p-3" [ngClass]="{
+                              'bg-soft-success': arl.status == 'approved',
+                              'bg-soft-danger': arl.status == 'rejected'
+                            }">
+                            <div class="activity-info-text">
+                              <div class="float-end">
+                                <div class="dropdown d-inline-block">
+                                  <div class="align-self-center">
+                                    <h6 class="fw-semibold">
+                                      <span class="badge badge-outline-primary">
+                                        {{ arl.totalDays }} Days | {{ arl.leaveType }}</span>
+                                    </h6>
+                                    <small>{{ arl.leaveDate | date:'medium' ||
+                                          "N/A"
+                                      }}
+                                      <!-- &nbsp;
+                                      <span>{{
+                                        arl.leaveDate | date:'medium' || "N/A"
+                                      }}</span> -->
+                                    </small>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="media align-items-center">
+                                <div class="media-body ms-2 align-self-center">
+                                  <h5 class="m-0 Regular-data" (click)="routeToUserProfile(arl.uuid)">
+                                    {{ arl.username }}
+                                    <i class="ti ti-checks bg-soft-success" *ngIf="arl.status == 'approved'"></i>
+                                    <i class="ti ti-x bg-soft-danger" *ngIf="arl.status == 'rejected'"></i>
+                                  </h5>
+                                  <p> Duration: <u>{{ formatDateIn(formatDate(arl.startDate)) }} - {{ formatDateIn(formatDate(arl.endDate)) }}</u>
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--end col-->
+                      </div>
+                    </div>
+                    <div class="align-self-center text-center mt-2" *ngIf="!initialLoadDoneOfApprovedRejected">
+                      <button type="button" class="btn btn-xs btn-light btn-round" *ngIf="approvedRejectedLeavesSize > 4" (click)="loadMoreApprovedRejectedLogs()"> Load More <i class="bi bi-chevron-down"></i>
+                      </button>
+                    </div>
+                    <div class="text-center load-more-btn" *ngIf="
+                        isApprovedRejectedLoader && approvedRejectedLeavesSize > 4
+                      ">
+                      <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+                      <div>
+                        <small>Loading...</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+
             </div>
           </div>
+
         </div>
+        <div class="row" *ngIf="ACTIVE_TAB == UPDATION_REQUEST_TAB"></div>
       </div>
-    </ng-container>
-    <ng-template #notShowPlaceholder>
-      <div class="errorboxmain">
-        <div class="errorboxinner text-center">
-          <div class="errorboxplaceholder mb-2">
-            <img src="assets/images/empty-box.svg" style="width: 80px" />
-          </div>
-          <div class="">
-            <h4>Data Not Found</h4>
-            <p>
-             
-            </p>
-          </div>
-        </div>
-      </div>
-    </ng-template>
     </div>
   </div>
 </div>
