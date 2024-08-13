@@ -325,6 +325,7 @@ export class Key {
   // Status
   public static PENDING = 13;
   public static APPROVED = 14;
+  public static REJECTED = 15;
 
   //Salary template tab
   public static SALARY_TEMPLATE_STEP = 'SALARY_TEMPLATE_STEP';
@@ -341,4 +342,10 @@ export class Key {
   //
   public static ENABLE = 1;
   public static DISABLE = 2;
+
+  // Logs tab in attendance section
+  public static LEAVE_LOG = 1;
+  public static OVERTIME_LOG = 2;
+  public static LOP_REVERSAL_LOG = 3;
+
 }

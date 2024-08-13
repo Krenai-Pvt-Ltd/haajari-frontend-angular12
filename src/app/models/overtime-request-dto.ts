@@ -5,4 +5,5 @@ export class OvertimeRequestDTO {
     endTime !: Date | CompatibleDate | null;
     workingHour : string | null = '';
     managerId : string | null = '';
+    note : string = '';
 }
