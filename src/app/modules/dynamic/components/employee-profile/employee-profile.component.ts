@@ -56,6 +56,8 @@ import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 import { LopReversalApplicationRequest } from 'src/app/models/lop-reversal-application-request';
 import { OrganizationAssetResponse } from 'src/app/models/asset-category-respose';
 import { OvertimeRequestDTO } from 'src/app/models/overtime-request-dto';
+import { OvertimeRequestLogResponse } from 'src/app/models/overtime-request-log-response';
+import { LopReversalApplicationResponse } from 'src/app/models/lop-reversal-application-response';
 
 @Component({
   selector: 'app-employee-profile',
@@ -82,11 +84,13 @@ export class EmployeeProfileComponent implements OnInit {
   userRoleFlag: boolean = false;
   showPlaceholder: boolean = false;
 
+  readonly key = Key;
+
   constructor(
     private dataService: DataService,
     private datePipe: DatePipe,
     private activateRoute: ActivatedRoute,
-    private helperService: HelperService,
+    public helperService: HelperService,
     private fb: FormBuilder,
     private http: HttpClient,
     private firebaseStorage: AngularFireStorage,
@@ -1650,6 +1654,25 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
 
+  // ####################--Shimmers for Logs in Attendance tab--#########################
+
+  isShimmerForOvertimeLog = false;
+  dataNotFoundPlaceholderForOvertimeLog = false;
+  networkConnectionErrorPlaceHolderForOvertimeLog = false;
+  preRuleForShimmersAndErrorPlaceholdersForOvertimeLogMethodCall() {
+    this.isShimmerForOvertimeLog = true;
+    this.dataNotFoundPlaceholderForOvertimeLog = false;
+    this.networkConnectionErrorPlaceHolderForOvertimeLog = false;
+  }
+
+  isShimmerForLopReversalApplication = false;
+  dataNotFoundPlaceholderForLopReversalApplication = false;
+  networkConnectionErrorPlaceHolderForLopReversalApplication = false;
+  preRuleForShimmersAndErrorPlaceholdersForLopReversalApplicationMethodCall() {
+    this.isShimmerForLopReversalApplication = true;
+    this.dataNotFoundPlaceholderForLopReversalApplication = false;
+    this.networkConnectionErrorPlaceHolderForLopReversalApplication = false;
+  }
 
   isShimmerForSalaryTemplate = false;
   dataNotFoundPlaceholderForSalaryTemplate = false;
@@ -3056,6 +3079,7 @@ attendanceRequestLog: any[] = [];
       this.clearOvertimeRequestModal();
       this.closeOvertimeRequestModal.nativeElement.click();
       this.helperService.showToast('Overtime request submitted successfully.', Key.TOAST_STATUS_SUCCESS);
+      this.getOvertimeRequestLogResponseByUserUuidMethodCall();
     }, (error) => {
       this.helperService.showToast('Error while submitting the request!', Key.TOAST_STATUS_ERROR);
     })
@@ -3071,6 +3095,53 @@ attendanceRequestLog: any[] = [];
   }
   
 
+  LEAVE_LOG_TOGGLE : boolean = false;
+  OVERTIME_LOG_TOGGLE : boolean = false;
+  LOP_REVERSAL_LOG_TOGGLE : boolean = false;
+
+  LEAVE_LOG = Key.LEAVE_LOG;
+  OVERTIME_LOG = Key.OVERTIME_LOG;
+  LOP_REVERSAL_LOG = Key.LOP_REVERSAL_LOG;
+
+  ACTIVE_LOG_TAB = Key.LEAVE_LOG;
+
+  changeLogTabInAttendanceTab(tabId : number){
+    this.ACTIVE_LOG_TAB = tabId;
+  }
+
+  overtimeRequestLogResponseList : OvertimeRequestLogResponse[] = [];
+  getOvertimeRequestLogResponseByUserUuidMethodCall(){
+    this.preRuleForShimmersAndErrorPlaceholdersForOvertimeLogMethodCall();
+    this.dataService.getOvertimeRequestLogResponseByUserUuid(this.userId).subscribe((response) => {
+      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+        this.dataNotFoundPlaceholderForOvertimeLog = true;
+      } else{
+        this.overtimeRequestLogResponseList = response.listOfObject;
+      }
+
+      this.isShimmerForOvertimeLog = false;
+    }, (error) => {
+      this.isShimmerForOvertimeLog = false;
+      this.networkConnectionErrorPlaceHolderForOvertimeLog = true;
+    })
+  }
+
+
+  lopReversalApplicationResponseList : LopReversalApplicationResponse[] = [];
+  getLopReversalApplicationLogResponseListByUserUuidMethodCall(){
+    this.preRuleForShimmersAndErrorPlaceholdersForLopReversalApplicationMethodCall();
+    this.dataService.getLopReversalApplicationResponseListByUserUuid(this.userId).subscribe((response) => {
+      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+        this.dataNotFoundPlaceholderForLopReversalApplication = true;
+      } else{
+        this.lopReversalApplicationResponseList = response.listOfObject;
+      }
+      this.isShimmerForLopReversalApplication = false;
+    }, (error) => {
+      this.isShimmerForLopReversalApplication = false;
+      this.networkConnectionErrorPlaceHolderForLopReversalApplication = true;
+    })
+  }
   
 }
 

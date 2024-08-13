@@ -3742,12 +3742,19 @@ getHolidayForOrganization(date: string): Observable<any>{
 
   }
 
-  getOvertimeRequestLogResponse(itemPerPage : number, pageNumber : number): Observable<any>{
+  getOvertimeRequestLogResponseByUserUuid(userUuid : string): Observable<any>{
 
     const params = new HttpParams()
-    .set('item_per_page', itemPerPage)
-    .set('page_number', pageNumber);
+    .set('user_uuid', userUuid);
 
-    return this.httpClient.get<any>(`${this.baseUrl}/overtime/log/response`, {params});
+    return this.httpClient.get<any>(`${this.baseUrl}/overtime/log/response/get-by-user-uuid`, {params});
+  }
+
+  getLopReversalApplicationResponseListByUserUuid(userUuid : string): Observable<any>{
+
+    const params = new HttpParams()
+    .set('user_uuid', userUuid);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/lop-reversal-application/response/get-by-user-uuid`, {params});
   }
 }
