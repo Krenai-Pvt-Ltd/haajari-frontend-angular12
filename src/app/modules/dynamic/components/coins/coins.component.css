@@ -10,3 +10,14 @@
     margin-bottom: 10px;
     color: #6a7886;
   }
+
+  .category{ 
+    max-height: 200px;
+    overflow-y: auto; 
+  }
+  
+    
+  .scroll-table {
+    max-height: 200px;
+  }
+
