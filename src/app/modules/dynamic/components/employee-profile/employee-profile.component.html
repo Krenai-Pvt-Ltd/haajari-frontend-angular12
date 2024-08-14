@@ -224,15 +224,56 @@
               <div class="tab-content">
                 <div class="p-3" id="home" role="" *ngIf="activeHomeTabFlag">
                   <div class="row">
+                    <div class="align-items-center d-flex justify-content-end add-filtter mb-2"
+                    >
+                    <a class="btn" data-bs-toggle="modal" data-bs-target="#donateCoinsModal">
+                      <i class="bi bi-plus" style="font-size: 20px"></i>Donate Coins </a>
+                  </div>
                     <div class="col-md-3">
                       <div class="card report-card">
+                        <div class="card report-card">
+                          <div class="card-body">
+                            <div class="row d-flex justify-content-center">
+                              <div class="col">
+                                <p class="text-dark mb-1 fw-semibold">Company Policy Document </p>
+                                <h4 class="font-12 fw-bold">Last Updated -  </h4>
+                                <p class="mb-0 text-truncate text-muted font-11">
+                                  
+                                   <span class="text-muted d-block font-12">{{docsUploadedDate | date:"MMM
+                                    dd, yyyy 'at' hh:mm a" || 'N/A'
+                                    }}  <span *ngIf="fileUrl">
+                                      <i class="bi bi-eye-fill text-primary"  style="cursor: pointer;"
+                                    (click)="openViewModalDoc(fileUrl)"></i>
+                                  <i class="bi bi-download text-primary ms-2"  style="cursor: pointer;"
+                                     (click)="downloadFileDoc(fileUrl)"></i>
+                                    </span></span>
+                                </p>
+                                <!-- <div class="d-flex align-items-center mt-1">
+                                  <i class="bi bi-eye-fill text-primary"  style="cursor: pointer;"
+                                  (click)="openViewModalDoc(fileUrl)"></i>
+                                <i class="bi bi-download text-primary ms-3"  style="cursor: pointer;"
+                                   (click)="downloadFileDoc(fileUrl)"></i>
+  
+                                </div> -->
+                              </div>
+                              <div class="col-auto align-self-center">
+                                <div class="bg-light-alt d-flex justify-content-center align-items-center thumb-md rounded-circle">
+                                  <img src="assets/images/policy_doc.svg" style="width: 50px;">
+                                </div>
+                      
+                              </div>
+                             
+                            </div>
+                          </div>
+                          <!--end card-body-->
+                        </div>
                         <div class="card-body">
                           <div class="row d-flex justify-content-center">
                             <div class="col">
-                              <p class="text-dark mb-1 fw-semibold">Budget</p>
-                              <h4 class="font-18 fw-bold">$24100</h4>
+                              <p class="text-dark mb-1 fw-semibold">Monthly Assigned Coins</p>
+                              <h4 class="font-18 fw-bold">{{employeeSuperCoinsResponse.currentMonthTotalCoins}} / {{employeeSuperCoinsResponse.totalSuperCoins || 0/0}}</h4>
                               <p class="mb-0 text-truncate text-muted font-11">
-                                <span class="text-dark">$14k</span> Total used budgets
+                                <span class="text-dark">{{employeeSuperCoinsResponse.totalGainedCoins || 0}}</span> Total Gained Coins
                               </p>
                             </div>
                             <div class="col-auto align-self-center">
@@ -527,10 +568,10 @@
                         <div class="card-body">
                           <div class="row d-flex justify-content-center">
                             <div class="col">
-                              <p class="text-dark mb-1 fw-semibold">Budget</p>
-                              <h4 class="font-22 fw-bold">$24100</h4>
+                              <p class="text-dark mb-1 fw-semibold">Remaining Coins</p>
+                              <h4 class="font-22 fw-bold">{{employeeSuperCoinsResponse.currentMonthTotalCoins || 0}}</h4>
                               <p class="mb-0 text-truncate text-muted font-11">
-                                <span class="text-dark">$14k</span> Total used budgets
+                                <span class="text-dark">{{employeeSuperCoinsResponse.totalDonatedCoins || 0}}</span> Total Donated Coins
                               </p>
                             </div>
                             <div class="col-auto align-self-center">
@@ -713,54 +754,7 @@
                     </div>
                     <!--end col-->
                     <div class="col-md-5">
-                      <div class="card-body">
-                        <!-- <div> -->
-                        <div class="activity">
-                          <!-- {{fileUrl}} -->
-                          <div class="activity-info">
-                            <div class="icon-info-activity">
-                              <i class="bi bi-file-earmark-bar-graph bg-soft-primary"></i>
-                            </div>
-                            <div class="activity-info-text">
-                              <div class="d-flex justify-content-between align-items-center">
-                                <h6 class="m-0 w-75">Company Policy Doc</h6>
-                                <span class="text-muted d-block font-12">Last Updated - {{docsUploadedDate | date:"MMM
-                                  dd, yyyy 'at' hh:mm a" || 'N/A'
-                                  }}</span>
-                              </div>
-                              <div>
-                                <div *ngIf="fileUrl" class="row mt-3">
-                                  <div
-                                    class="col-md-12 whatapp-login-input d-flex justify-content-between align-items-center">
-                                    <div>Policy Doc </div>
-                                    <div>
-                                      <i class="bi bi-eye-fill text-primary" ngbTooltip="Preview Policy Doc"
-                                        placement="top" (click)="openViewModalDoc(fileUrl)"></i>
-                                      <i class="bi bi-download text-primary ms-3" ngbTooltip="Download Policy Doc"
-                                        placement="top" (click)="downloadFileDoc(fileUrl)"></i>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="errorboxmain text-center mt-3" *ngIf="!fileUrl" style="height: 10px;">
-                                  <div class="errorboxinner">
-                                    <div class="errorboxplaceholder mb-2">
-                                      <img src="assets/images/empty-box.svg" style="width: 50px" />
-                                    </div>
-                                    <div class="" style="width: 120px">
-                                      <h4>No Data Found</h4>
-                                      <!-- <p class="mb-0">
-                                          We're unable to locate a record associated with the information you entered.
-                                        </p> -->
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <!--end activity-->
-                        <!-- </div> -->
-                      </div>
+                      <!-- *ngIf="userRoleFlag && ROLE!= 'ADMIN'" -->
                       <div class="project-task-card mb-2 alert alert-warning p-2">
                         <span class="badge badge-soft-primary mb-2">Pushpendra Singh</span>
                         <h5 class="my-1 font-16"> Customer Care Crusader Thank you, [Employee's Name], for your
@@ -3832,6 +3826,53 @@
       <!-- <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div> -->
+    </div>
+  </div>
+</div>
+
+<!-- donate coins modal -->
+
+<div class="modal fade" id="donateCoinsModal" tabindex="-1" aria-labelledby="donateCoinsModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="donateCoinsModalLabel">Donate Coins</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- [formGroup]="donateCoinsForm"  -->
+        <form >
+          <!-- Select User -->
+          <div class="mb-3 row">
+            <label for="userId" class="col-sm-4 col-form-label">Select User<span class="text-danger">*</span></label>
+            <div class="col-sm-8">
+              <nz-select formControlName="userId" id="userId" nzPlaceHolder="Select user" class="w-100">
+                <nz-option *ngFor="let user of donateCoinsUserList" [nzValue]="user.userId" [nzLabel]="user.userName"></nz-option>
+              </nz-select>
+            </div>
+          </div>
+          <!-- Enter Coins -->
+          <div class="mb-3 row">
+            <label for="coins" class="col-sm-4 col-form-label">Coins<span class="text-danger">*</span></label>
+            <div class="col-sm-8">
+              <input type="number" formControlName="coins" id="coins" class="form-control" placeholder="Enter coins"
+                min="1">
+            </div>
+          </div>
+          <!-- Donation Reason -->
+          <div class="mb-3 row">
+            <label for="donationReason" class="col-sm-4 col-form-label">Reason<span class="text-danger">*</span></label>
+            <div class="col-sm-8">
+              <textarea formControlName="donationReason" id="donationReason" class="form-control" rows="3"
+                placeholder="Enter reason"></textarea>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="d-flex justify-content-end">
+        <button type="button" class="btn btn-primary" >Donate</button>
+      </div>
     </div>
   </div>
 </div>

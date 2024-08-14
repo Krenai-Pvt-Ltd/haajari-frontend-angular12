@@ -55,6 +55,8 @@ import { EmployeePayslipLogResponse } from 'src/app/employee-payslip-log-respons
 import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 import { LopReversalApplicationRequest } from 'src/app/models/lop-reversal-application-request';
 import { OrganizationAssetResponse } from 'src/app/models/asset-category-respose';
+import { EmployeeSuperCoinsResponse } from 'src/app/models/employee-super-coins-response';
+import { DonateCoinsUserList } from 'src/app/models/allocate-coins-role-wise-request';
 
 @Component({
   selector: 'app-employee-profile',
@@ -235,6 +237,9 @@ export class EmployeeProfileComponent implements OnInit {
       managerId: [null, [Validators.required]],
       requestReason: [null, [Validators.required, Validators.maxLength(200)]]
     });
+    debugger
+    this.getSuperCoinsResponseForEmployeeData();
+    this.getUserListToDonateCoins();
   }
 
   getRoleData() {
@@ -3004,13 +3009,35 @@ attendanceRequestLog: any[] = [];
 
   //  super coins func 
 
+  employeeSuperCoinsResponse: EmployeeSuperCoinsResponse = {
+    totalSuperCoins: 0,
+    totalDonatedCoins: 0,
+    totalGainedCoins: 0,
+    currentMonthTotalCoins: 0
+  };
   getSuperCoinsResponseForEmployeeData() {
+    console.log('this.userId' + this.userId);
     this.dataService.getSuperCoinsResponseForEmployee(this.userId).subscribe(response => {
-
+        console.log("success");
+        this.employeeSuperCoinsResponse = response.object;
     }, (error) => {
       console.log(error);
     });
   }
+
+  donateCoinsUserList: DonateCoinsUserList[] = [];
+
+  getUserListToDonateCoins(): void {
+    this.dataService.getUserListToDonateCoins(this.userId).subscribe(data => {
+      this.donateCoinsUserList = data.listOfObject;
+    },
+    error => {
+      console.error("Error fetching roles", error);
+    });
+  }
+
+
+  
   
 
   
