@@ -498,12 +498,17 @@ span.optional {
   color: #8997bd;
   font-size: 12px;
 }
-.apply-leave-main-box {
+
+.apply-leave-main-box, .overtime-request-main-box {
   max-height: 400px;
   overflow: auto;
 }
 
 .apply-leave-main-box::-webkit-scrollbar {
+  display: none;
+}
+
+.overtime-request-main-box::-webkit-scrollbar {
   display: none;
 }
 

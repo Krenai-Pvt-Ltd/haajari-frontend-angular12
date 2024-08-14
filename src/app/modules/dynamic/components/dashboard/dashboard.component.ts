@@ -1317,7 +1317,10 @@ this.getAdminPersonalDetailMethodCall();
       } else {
         // this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = true
         // this.billingModal.nativeElement.click();
-        this.router.navigate(['/billing-and-subscription']);
+        if (this.ROLE=="ADMIN") {
+          this.router.navigate(['/billing-and-subscription']);
+        }
+        
        
       }
     });
@@ -1384,9 +1387,8 @@ this.getSubscriptionPlanDetails(plandId);
   }
 
   processingPayment: boolean = false;
-  razorKey: string = 
-  // 'rzp_test_Wd1RYd0fng3673'; // Test
-  'rzp_live_twiokSC5krYrnQ'
+  verifiedCoupon !: string;
+  readonly razorKey = Key.razorKey;
   hajiri_logo: string = '../../../../../assets/images/hajiri-icon.png';
 
   openRazorPay(): void {
@@ -1416,6 +1418,7 @@ this.getSubscriptionPlanDetails(plandId);
         "contact":this.phoneNumber
       },
       notes: {
+        couponCode: this.verifiedCoupon,
         orgUuid: this.orgUuid,
         type: 'subscription order',
         planType: this.sbscriptionPlanReq.planType,
@@ -1517,9 +1520,11 @@ this.getSubscriptionPlanDetails(plandId);
 
   applyCoupon() {
       this._subscriptionPlanService
-          .verifyCoupon(this.couponCode, this.originalAmount)
+          .verifyCoupon(this.couponCode, this.originalAmount, this.sbscriptionPlanReq.planType)
           .subscribe((response) => {
               if (response.status) {
+                this.message = '';
+                this.verifiedCoupon = response.object.couponCode;
                   this.coupon = response.object;
                   this.tempTotalAmount = this.originalAmount;
                   this.couponDiscount = this.originalAmount - response.totalItems;

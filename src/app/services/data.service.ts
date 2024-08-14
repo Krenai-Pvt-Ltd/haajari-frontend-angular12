@@ -73,6 +73,7 @@ import { LopReversalApplicationRequest } from '../models/lop-reversal-applicatio
 import { SalaryChangeOvertimeRequest } from '../models/salary-change-overtime-request';
 import { AllocateCoinsRoleWiseRequest, AllocateCoinsRoleWiseResponse, AllocateCoinsToBadgeRequest } from '../models/allocate-coins-role-wise-request';
 import { OvertimeSettingRequest } from '../models/overtime-setting-request';
+import { OvertimeRequestDTO } from '../models/overtime-request-dto';
 
 
 @Injectable({
@@ -3751,5 +3752,36 @@ getHolidayForOrganization(date: string): Observable<any>{
   getUserListToDonateCoins(userUuid: string): Observable<any> {
     let params = new HttpParams().set('userUuid', userUuid);
     return this.httpClient.get(`${this.baseUrl}/super-coin-allocation/get/user/list/to/donate/coins`, { params });
+  }
+   
+  registerOvertimeRequest(overtimeRequestDTO : OvertimeRequestDTO): Observable<any>{
+
+    return this.httpClient.post<any>(`${this.baseUrl}/overtime/register`, overtimeRequestDTO, {});
+  }
+
+  approveOrRejectOvertime(overtimeRequestId : number, requestTypeId : number): Observable<any>{
+
+    const params = new HttpParams()
+    .set('overtime_request_id', overtimeRequestId)
+    .set('request_type_id', requestTypeId);
+
+    return this.httpClient.post<any>(`${this.baseUrl}/overtime/register`, {params});
+
+  }
+
+  getOvertimeRequestLogResponseByUserUuid(userUuid : string): Observable<any>{
+
+    const params = new HttpParams()
+    .set('user_uuid', userUuid);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/overtime/log/response/get-by-user-uuid`, {params});
+  }
+
+  getLopReversalApplicationResponseListByUserUuid(userUuid : string): Observable<any>{
+
+    const params = new HttpParams()
+    .set('user_uuid', userUuid);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/lop-reversal-application/response/get-by-user-uuid`, {params});
   }
 }
