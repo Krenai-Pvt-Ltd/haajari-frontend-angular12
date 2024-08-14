@@ -10,26 +10,26 @@
           ">
           <div class="col-md-6">
             <div class="date-all-approved d-flex align-items-center" style="gap: 20px">
-              <span id="attendance-date" class="approved-left active-color" (click)="selectPreviousDay()"><i
-                  class="bi bi-chevron-left"></i></span>
 
               <ng-container *ngIf="ACTIVE_TAB == ATTENDANCE_TAB; else attendanceSectionOtherTabCondition">
+                <span id="attendance-date" class="approved-left active-color" (click)="selectPreviousDay()"><i class="bi bi-chevron-left"></i></span>
                 <div class="attendance-date">
                   <p class="text-start attendance-date">Attendance Date</p>
                   <nz-date-picker class="attendance-date" nzMode="date" [nzSize]="size" [(ngModel)]="selectedDate"
                     (ngModelChange)="onDateChange($event)" [nzDisabledDate]="disableDates"></nz-date-picker>
                 </div>
+                <span id="attendance-date" class="approved-right active-color" (click)="selectNextDay()"><i class="bi bi-chevron-right"></i></span>
               </ng-container>
               <ng-template #attendanceSectionOtherTabCondition>
+                <span id="attendance-date" class="approved-left active-color" (click)="selectPreviousMonth()"><i class="bi bi-chevron-left"></i></span>
                 <div class="attendance-date">
                   <p class="text-start attendance-date">Month Selection</p>
                   <nz-date-picker class="attendance-date" nzMode="month" [nzSize]="size" [(ngModel)]="selectedDate"
                     (ngModelChange)="onMonthChange($event)" [nzDisabledDate]="disableMonths"></nz-date-picker>
                 </div>
+                <span id="attendance-date" class="approved-right active-color" (click)="selectNextMonth()"><i class="bi bi-chevron-right"></i></span>
               </ng-template>
 
-              <span id="attendance-date" class="approved-right active-color" (click)="selectNextDay()"><i
-                  class="bi bi-chevron-right"></i></span>
             </div>
           </div>
           <!-- <div class="add-filtter d-flex align-items-center justify-content-end" style="gap: 10px">
@@ -52,7 +52,7 @@
           </div> -->
           <div class="d-flex align-items-center justify-content-center attendance-section-tab">
             <a (click)="changeTab(ATTENDANCE_TAB)" [ngClass]="{'active-tab': ACTIVE_TAB == ATTENDANCE_TAB}">Attendance</a>
-            <a (click)="changeTab(OVERTIME_TAB)" [ngClass]="{'active-tab': ACTIVE_TAB == OVERTIME_TAB}">Overtime</a>
+            <a (click)="changeTab(OVERTIME_TAB);" [ngClass]="{'active-tab': ACTIVE_TAB == OVERTIME_TAB}">Overtime</a>
             <a (click)="changeTab(UPDATION_REQUEST_TAB)" [ngClass]="{'active-tab': ACTIVE_TAB == UPDATION_REQUEST_TAB}">Updation request</a>
           </div>
         </div>
@@ -158,7 +158,7 @@
               <ng-container *ngIf="
               isShimmerForAttendanceDetailsResponse &&
                 !dataNotFoundForAttendanceDetailsResponse &&
-                !networkConnectionErrorForAttendanceDetailsResposne;
+                !networkConnectionErrorForAttendanceDetailsResponse;
               else attendanceDetailsResponseData
             ">
             <div class="monthly-section mt-3" *ngFor="let item of [].constructor(6)">
@@ -193,7 +193,7 @@
                   attendanceDetailsResponseList !== undefined &&
                   attendanceDetailsResponseList.length !== 0 &&
                   !dataNotFoundForAttendanceDetailsResponse &&
-                  !networkConnectionErrorForAttendanceDetailsResposne;
+                  !networkConnectionErrorForAttendanceDetailsResponse;
                 else errorInFetchingAttendanceDetailsResponseData
               ">
               <div class="monthly-section mt-3" *ngFor="
@@ -352,7 +352,7 @@
               </ng-template>
     
               <ng-template #errorInFetchingAttendanceDetailsResponseData>
-            <div class="errorboxmain" *ngIf="networkConnectionErrorForAttendanceDetailsResposne">
+            <div class="errorboxmain" *ngIf="networkConnectionErrorForAttendanceDetailsResponse">
               <div class="errorboxinner text-center">
                 <div class="errorboxplaceholder mb-2">
                   <img src="assets/images/signal.svg" style="width: 80px" />
@@ -680,38 +680,85 @@
             </div>
           </ng-template>
         </div>
+
         <div class="row" *ngIf="ACTIVE_TAB == OVERTIME_TAB">
-          <!-- <ul class="nav nav-tabs bg-light border-top" role="tablist">
-            <li class="nav-item" (click)="changeLogTabInOvertimeTab(OVERTIME_PENDING_REQUEST_TAB)">
-              <a class="nav-link" [ngClass]="{'active': ACTIVE_TAB_IN_OVERTIME_TAB === OVERTIME_PENDING_REQUEST_TAB}" data-bs-toggle="tab" href="#leave-log" role="tab" aria-selected="true">Requests</a>
-            </li>
-            <li class="nav-item" (click)="changeLogTabInOvertimeTab(OVERTIME_LOG_TAB);">
-              <a class="nav-link" [ngClass]="{'active': ACTIVE_TAB_IN_OVERTIME_TAB === OVERTIME_LOG_TAB}" data-bs-toggle="tab" href="#overtime-log" role="tab" aria-selected="false">Logs</a>
-            </li>
-          </ul> -->
-          
           <div class="row p-2 mt-3">
-            <div class="col-md-6" *ngIf="ACTIVE_TAB_IN_OVERTIME_TAB == OVERTIME_PENDING_REQUEST_TAB">
+            <div class="col-md-6">
               <div class="my-leave-log">
-                <div class="my-leave-log-hedding d-flex align-items-center justify-content-between leave-request-padding mb-1">
-                  <h4>Overtime Requests</h4>
-                  <!-- <a href="" class="view-loges-btn">View All <i class="bi bi-chevron-right"></i></a> -->
-                  <a href="" class="view-loges-btn" *ngIf="ROLE != 'ADMIN'" data-bs-toggle="modal" data-bs-target=".apply-leave">Apply for leaves <i class="bi bi-chevron-right"></i>
-                  </a>
+                <div class="my-leave-log-hedding">
+                  <h4>Requests</h4>
                 </div>
-                <ul class="nav nav-tabs bg-white border-top" role="tablist">
-                  <li class="nav-item" (click)="activeTabs('home')">
-                    <a class="nav-link active" data-bs-toggle="tab" href="#home" role="tab" aria-selected="true">Pending requests <span class="badge rounded-pill badge-outline-warning" style="margin-left: 10px" *ngIf="totalCountOfPendingCounts > 0">{{ totalCountOfPendingCounts }}</span>
-                    </a>
+                <hr style="margin-bottom: 10px" />
+                <ul class="nav nav-tabs bg-white" role="tablist">
+                  <li class="nav-item" (click)="changeLogTabInOvertimeTab(OVERTIME_PENDING_REQUEST_TAB)">
+                    <a class="nav-link" [ngClass]="{'active': ACTIVE_TAB_IN_OVERTIME_TAB == OVERTIME_PENDING_REQUEST_TAB}" data-bs-toggle="tab" href="#overtime-pending-request" role="tab" aria-selected="true">Pending requests</a>
                   </li>
-                  <li class="nav-item" (click)="activeTabs('attendance')">
-                    <a class="nav-link" data-bs-toggle="tab" href="#attendance" role="tab" aria-selected="true">Overtime History</a>
+                  <li class="nav-item" (click)="changeLogTabInOvertimeTab(OVERTIME_HISTORY_TAB);">
+                    <a class="nav-link" [ngClass]="{'active': ACTIVE_TAB_IN_OVERTIME_TAB == OVERTIME_HISTORY_TAB}" data-bs-toggle="tab" href="#overtime-history" role="tab" aria-selected="false">Overtime History</a>
                   </li>
                 </ul>
                 <div class="tab-content">
-                  <div class="pt-3 pb-3" id="home" role="" *ngIf="activeHomeTabFlag">
-                    <div class="leave-history-box" #logContainerOfPendingLeaves (scroll)="scrollDownRecentActivityOfPendingLeaves($event)">
-                      <div class="errorboxmain text-center" *ngIf="pendingLeaves.length == 0">
+                  <div class="pt-3 pb-3" id="overtime-pending-request" role="" *ngIf="ACTIVE_TAB_IN_OVERTIME_TAB == OVERTIME_PENDING_REQUEST_TAB">
+                    
+                    <ng-container *ngIf="isShimmerForOvertimePendingRequestResponse && overtimePendingRequestResponseList.length == 0 && !dataNotFoundForOvertimePendingRequestResponse && !networkConnectionErrorForOvertimePendingRequestResponse; else overtimePendingRequestResponseListCondition">
+
+                    </ng-container>
+
+                    <ng-template #overtimePendingRequestResponseListCondition>
+                      <ng-container *ngIf="!isShimmerForOvertimePendingRequestResponse && overtimePendingRequestResponseList.length != 0 && !dataNotFoundForOvertimePendingRequestResponse && !networkConnectionErrorForOvertimePendingRequestResponse; else errorWhileFetchingOvertimePendingRequestResponseListCondition">
+                        <div class="leave-history-box">
+                          <div class="row mt-2" *ngFor="let overtimePendingRequestResponse of overtimePendingRequestResponseList">
+                            <div class="col-auto">
+                              <img *ngIf="overtimePendingRequestResponse.userImage" src="{{ overtimePendingRequestResponse.userImage }}" alt="" class="thumb-md rounded-circle" style="width: 32px; height: 32px" />
+                              <img *ngIf="!overtimePendingRequestResponse.userImage" src="assets/images/user.png" alt="" class="thumb-md rounded-circle" style="width: 32px; height: 32px" />
+                            </div>
+                            <!--end col-->
+                            <div class="col">
+                              <div class="comment-body ms-n2 bg-light-alt p-3">
+                                <div class="activity-info-text">
+                                  <div class="float-end">
+                                    <div class="dropdown d-inline-block">
+                                      <div class="align-self-center">
+                                        <h6 class="fw-semibold">
+                                          <span class="badge badge-outline-primary"> Duration | {{ this.helperService.formatHHmmssToHHmm(overtimePendingRequestResponse.workingHour) }} hrs.</span>
+                                        </h6>
+                                        <small>{{ overtimePendingRequestResponse.createdDate | date:'medium' || "N/A" }}</small>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="media align-items-center">
+                                    <div class="media-body ms-2 align-self-center">
+                                      <h5 class="m-0 Regular-data" (click)="routeToUserProfile(overtimePendingRequestResponse.userUuid)">
+                                        {{ overtimePendingRequestResponse.userName }}
+                                      </h5>
+                                      <p> Time: <u>{{ overtimePendingRequestResponse.startTime | date : 'd MMM, h:mm a'}} - {{ overtimePendingRequestResponse.endTime | date : 'd MMM, h:mm a' }}</u>
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- <a href="#" class="text-primary" (click)="getPendingLeave(pl.id, pl.leaveType)" data-bs-toggle="modal" data-bs-target="#leave-appervo">
+                                  <i class="fas fa-external-link-square-alt me-1"></i>View </a> -->
+                              </div>
+                            </div>
+                            <!--end col-->
+                          </div>
+                        </div>
+
+                        <!-- <div class="align-self-center text-center mt-2" *ngIf="!initialLoadDoneOfPendingLeaves">
+                          <button type="button" class="btn btn-xs btn-light btn-round" *ngIf="pendingLeavesSize > 4" (click)="loadMorePendingLeaves()"> Load More <i class="bi bi-chevron-down"></i>
+                          </button>
+                        </div>
+                        <div class="text-center load-more-btn" *ngIf="isPendingLoader && pendingLeavesSize > 4">
+                          <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+                          <div>
+                            <small>Loading...</small>
+                          </div>
+                        </div> -->
+                      </ng-container>
+                    </ng-template>
+
+                    <ng-template #errorWhileFetchingOvertimePendingRequestResponseListCondition>
+                      <div class="errorboxmain text-center" *ngIf="dataNotFoundForOvertimePendingRequestResponse && !networkConnectionErrorForOvertimePendingRequestResponse">
                         <div class="errorboxinner">
                           <div class="errorboxplaceholder mb-2">
                             <img src="assets/images/empty-box.svg" style="width: 80px" />
@@ -722,64 +769,84 @@
                           </div>
                         </div>
                       </div>
-                      <div class="row mt-2" *ngFor="let pl of pendingLeaves">
-                        <div class="col-auto">
-                          <img *ngIf="pl.image" src="{{ pl.image }}" alt="" class="thumb-md rounded-circle" style="width: 32px; height: 32px" />
-                          <img *ngIf="!pl.image" src="assets/images/user.png" alt="" class="thumb-md rounded-circle" style="width: 32px; height: 32px" />
-                        </div>
-                        <!--end col-->
-                        <div class="col">
-                          <div class="comment-body ms-n2 bg-light-alt p-3">
-                            <div class="activity-info-text">
-                              <div class="float-end">
-                                <div class="dropdown d-inline-block">
-                                  <div class="align-self-center">
-                                    <h6 class="fw-semibold">
-                                      <span class="badge badge-outline-primary">
-                                        {{ pl.totalDays }} Days | {{ pl.leaveType }}</span>
-                                    </h6>
-                                    <small>{{ pl.leaveDate | date:'medium' ||
-                                          "N/A"
-                                      }}
-                                      <!-- &nbsp;
-                                      <span>{{
-                                        pl.leaveDate | date:'medium' || "N/A"
-                                      }}</span> -->
-                                    </small>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="media align-items-center">
-                                <div class="media-body ms-2 align-self-center">
-                                  <h5 class="m-0 Regular-data" (click)="routeToUserProfile(pl.uuid)">
-                                    {{ pl.username }}
-                                  </h5>
-                                  <p> Duration: <u>{{ formatDateIn(formatDate(pl.startDate)) }} - {{ formatDateIn(formatDate(pl.endDate)) }}</u>
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                            <a href="#" class="text-primary" (click)="getPendingLeave(pl.id, pl.leaveType)" data-bs-toggle="modal" data-bs-target="#leave-appervo">
-                              <i class="fas fa-external-link-square-alt me-1"></i>View </a>
-                          </div>
-                        </div>
-                        <!--end col-->
-                      </div>
-                    </div>
-                    <div class="align-self-center text-center mt-2" *ngIf="!initialLoadDoneOfPendingLeaves">
-                      <button type="button" class="btn btn-xs btn-light btn-round" *ngIf="pendingLeavesSize > 4" (click)="loadMorePendingLeaves()"> Load More <i class="bi bi-chevron-down"></i>
-                      </button>
-                    </div>
-                    <div class="text-center load-more-btn" *ngIf="isPendingLoader && pendingLeavesSize > 4">
-                      <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
-                      <div>
-                        <small>Loading...</small>
-                      </div>
-                    </div>
+                    </ng-template>
                   </div>
-                  <div class="pt-3 pb-3" id="attendance" role="" *ngIf="activeAttendanceTabFlag">
-                    <div class="leave-history-box-if-pending-null" #logContainerOfApprovedRejected (scroll)="scrollDownRecentActivityOfApprovedRejected($event)">
-                      <div class="errorboxmain text-center" *ngIf="approvedRejectedLeaves.length == 0">
+
+
+
+                  <div class="pt-3 pb-3" id="overtime-history" role="" *ngIf="ACTIVE_TAB_IN_OVERTIME_TAB == OVERTIME_HISTORY_TAB">
+
+
+                    <ng-container *ngIf="isShimmerForOvertimeRequestResponse && overtimeRequestResponseList.length == 0 && !dataNotFoundForOvertimeRequestResponse && !networkConnectionErrorForOvertimeRequestResponse; else overtimeRequestResponseListCondition">
+
+                    </ng-container>
+                    <ng-template #overtimeRequestResponseListCondition>
+                      <ng-container *ngIf="!isShimmerForOvertimeRequestResponse && overtimeRequestResponseList.length != 0 && !dataNotFoundForOvertimeRequestResponse && !networkConnectionErrorForOvertimeRequestResponse; else errorWhileFetchingOvertimeRequestResponseListCondition">
+                        <!-- #logContainerOfApprovedRejected (scroll)="scrollDownRecentActivityOfApprovedRejected($event)" -->
+                        <div class="leave-history-box-if-pending-null">
+                          <div class="row mt-2" *ngFor="let overtimeRequestResponse of overtimeRequestResponseList">
+                            <div class="col-auto">
+                              <img *ngIf="overtimeRequestResponse.userImage" src="{{ overtimeRequestResponse.userImage }}" alt="" class="thumb-md rounded-circle" style="width: 32px; height: 32px" />
+                              <img *ngIf="!overtimeRequestResponse.userImage" src="assets/images/user.png" alt="" class="thumb-md rounded-circle" style="width: 32px; height: 32px" />
+                            </div>
+                            <!--end col-->
+                            <div class="col">
+                              <div class="comment-body ms-n2 p-3" [ngClass]="{
+                                  'bg-soft-success': overtimeRequestResponse.requestStatusId == key.APPROVED,
+                                  'bg-soft-danger': overtimeRequestResponse.requestStatusId == key.REJECTED
+                                }">
+                                <div class="activity-info-text">
+                                  <div class="float-end">
+                                    <div class="dropdown d-inline-block">
+                                      <div class="align-self-center">
+                                        <h6 class="fw-semibold">
+                                          <span class="badge badge-outline-primary"> Duration | {{ this.helperService.formatHHmmssToHHmm(overtimeRequestResponse.workingHour) }}</span>
+                                        </h6>
+                                        <small>{{ overtimeRequestResponse.createdDate | date:'medium' ||
+                                              "N/A"
+                                          }}
+                                          <!-- &nbsp;
+                                          <span>{{
+                                            arl.leaveDate | date:'medium' || "N/A"
+                                          }}</span> -->
+                                        </small>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="media align-items-center">
+                                    <div class="media-body ms-2 align-self-center">
+                                      <h5 class="m-0 Regular-data" (click)="routeToUserProfile(overtimeRequestResponse.userUuid)">
+                                        {{ overtimeRequestResponse.userName }}
+                                        <i class="ti ti-checks bg-soft-success" *ngIf="overtimeRequestResponse.requestStatusId == key.APPROVED"></i>
+                                        <i class="ti ti-x bg-soft-danger" *ngIf="overtimeRequestResponse.requestStatusId == key.REJECTED"></i>
+                                      </h5>
+                                      <p> Time: <u>{{ overtimeRequestResponse.startTime | date : 'd MMM, h:mm a'}} - {{ overtimeRequestResponse.endTime | date : 'd MMM, h:mm a' }}</u>
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!--end col-->
+                          </div>
+                        </div>
+                        <!-- <div class="align-self-center text-center mt-2" *ngIf="!initialLoadDoneOfApprovedRejected">
+                          <button type="button" class="btn btn-xs btn-light btn-round" *ngIf="approvedRejectedLeavesSize > 4" (click)="loadMoreApprovedRejectedLogs()"> Load More <i class="bi bi-chevron-down"></i>
+                          </button>
+                        </div>
+                        <div class="text-center load-more-btn" *ngIf="
+                            isApprovedRejectedLoader && approvedRejectedLeavesSize > 4
+                          ">
+                          <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+                          <div>
+                            <small>Loading...</small>
+                          </div>
+                        </div> -->
+                        
+                      </ng-container>
+                    </ng-template>
+                    <ng-template #errorWhileFetchingOvertimeRequestResponseListCondition>
+                      <div class="errorboxmain text-center" *ngIf="dataNotFoundForOvertimeRequestResponse && !networkConnectionErrorForOvertimeRequestResponse">
                         <div class="errorboxinner">
                           <div class="errorboxplaceholder mb-2">
                             <img src="assets/images/empty-box.svg" style="width: 80px" />
@@ -790,75 +857,134 @@
                           </div>
                         </div>
                       </div>
-                      <div class="row mt-2" *ngFor="let arl of approvedRejectedLeaves">
-                        <div class="col-auto">
-                          <img *ngIf="arl.image" src="{{ arl.image }}" alt="" class="thumb-md rounded-circle" style="width: 32px; height: 32px" />
-                          <img *ngIf="!arl.image" src="assets/images/user.png" alt="" class="thumb-md rounded-circle" style="width: 32px; height: 32px" />
-                        </div>
-                        <!--end col-->
-                        <div class="col">
-                          <div class="comment-body ms-n2 p-3" [ngClass]="{
-                              'bg-soft-success': arl.status == 'approved',
-                              'bg-soft-danger': arl.status == 'rejected'
-                            }">
-                            <div class="activity-info-text">
-                              <div class="float-end">
-                                <div class="dropdown d-inline-block">
-                                  <div class="align-self-center">
-                                    <h6 class="fw-semibold">
-                                      <span class="badge badge-outline-primary">
-                                        {{ arl.totalDays }} Days | {{ arl.leaveType }}</span>
-                                    </h6>
-                                    <small>{{ arl.leaveDate | date:'medium' ||
-                                          "N/A"
-                                      }}
-                                      <!-- &nbsp;
-                                      <span>{{
-                                        arl.leaveDate | date:'medium' || "N/A"
-                                      }}</span> -->
-                                    </small>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="media align-items-center">
-                                <div class="media-body ms-2 align-self-center">
-                                  <h5 class="m-0 Regular-data" (click)="routeToUserProfile(arl.uuid)">
-                                    {{ arl.username }}
-                                    <i class="ti ti-checks bg-soft-success" *ngIf="arl.status == 'approved'"></i>
-                                    <i class="ti ti-x bg-soft-danger" *ngIf="arl.status == 'rejected'"></i>
-                                  </h5>
-                                  <p> Duration: <u>{{ formatDateIn(formatDate(arl.startDate)) }} - {{ formatDateIn(formatDate(arl.endDate)) }}</u>
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <!--end col-->
-                      </div>
-                    </div>
-                    <div class="align-self-center text-center mt-2" *ngIf="!initialLoadDoneOfApprovedRejected">
-                      <button type="button" class="btn btn-xs btn-light btn-round" *ngIf="approvedRejectedLeavesSize > 4" (click)="loadMoreApprovedRejectedLogs()"> Load More <i class="bi bi-chevron-down"></i>
-                      </button>
-                    </div>
-                    <div class="text-center load-more-btn" *ngIf="
-                        isApprovedRejectedLoader && approvedRejectedLeavesSize > 4
-                      ">
-                      <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
-                      <div>
-                        <small>Loading...</small>
-                      </div>
-                    </div>
+                    </ng-template>
+
                   </div>
                 </div>
               </div>
             </div>
             <div class="col-md-6">
+              <div class="my-leave-log">
+                <div class="my-leave-log-hedding">
+                  <h4>Logs</h4>
+                </div>
+                <hr style="margin-bottom: 10px" />
+                <!-- <div class="mb-3 d-flex align-items-center" style="border: 1px solid #f1f1f1; border-radius: 2px" *ngIf="ROLE != 'USER'">
+                  <div class="dropdown" style="width: 35%" *ngIf="ROLE != 'USER' || fullLeaveLogs.length > 0">
+                    <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
+                      {{ selectedTeamName ? selectedTeamName : "All" }}
+                      <i class="bi bi-chevron-down" style="color: #444; font-size: 15px"></i>
+                    </button>
+                    <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu team-dropdown" style="width: 100%">
+                      <li class="ng-star-inserted" *ngIf="selectedTeamName" (click)="selectTeam('')">
+                        <a class="dropdown-item">All</a>
+                      </li>
+                      <li class="ng-star-inserted" *ngFor="let tn of teamNameList" (click)="selectTeam(tn.teamName)">
+                        <a class="dropdown-item"> {{ tn.teamName }} </a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="form-group pb-1" style="width: 65%; position: relative">
+                    <input type="text" id="searchText" placeholder="Search" [(ngModel)]="searchString" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px; border: none !important" (keyup)="searchLeaves()" />
+                    <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px" *ngIf="searchString == ''"></i>
+                    <i class="bi bi-x search-icon" style="margin: auto; margin-left: 10px" *ngIf="searchString != ''" (click)="clearSearchUsers()"></i>
+                  </div>
+                </div> -->
 
+
+
+                <ng-container *ngIf="isShimmerForOvertimeRequestLogResponse && overtimeRequestLogResponseList.length == 0 && !dataNotFoundForOvertimeRequestLogResponse && !networkConnectionErrorForOvertimeRequestLogResponse; else overtimeRequestLogResponseListCondition">
+
+                </ng-container>
+
+                <ng-template #overtimeRequestLogResponseListCondition>
+                  <ng-container *ngIf="!isShimmerForOvertimeRequestLogResponse && overtimeRequestLogResponseList.length != 0 && !dataNotFoundForOvertimeRequestLogResponse && !networkConnectionErrorForOvertimeRequestLogResponse; else errorWhileFetchingOvertimeRequestLogResponseListCondition">
+                    <!-- #logContainer (scroll)="scrollDownRecentActivity($event)" -->
+                    <div class="leave-logs">
+                      <div class="activity" *ngFor="let overtimeRequestLogResponse of overtimeRequestLogResponseList">
+                        <div class="activity-info">
+                          <div class="icon-info-activity">
+                            <i class="ti ti-clock bg-soft-warning" *ngIf="overtimeRequestLogResponse.requestStatusId == key.PENDING"></i>
+                            <!-- <i class="ti ti-clock bg-soft-warning" *ngIf="fullLogList.status == 'requested'"></i> -->
+                            <i class="ti ti-checks bg-soft-success" *ngIf="overtimeRequestLogResponse.requestStatusId == key.APPROVED"></i>
+                            <i class="ti ti-x bg-soft-danger" *ngIf="overtimeRequestLogResponse.requestStatusId == key.REJECTED"></i>
+                          </div>
+                          <div class="activity-info-text">
+                            <div>
+                              <div class="float-end">
+                                <div class="dropdown d-inline-block">
+                                  <div class="align-self-center">
+                                    <div class="btn btn-xs btn-light btn-round">
+                                      {{ overtimeRequestLogResponse.createdDate | date:'medium' || "N/A" }}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="media align-items-center">
+                                <div class="media-body ms-2 align-self-center">
+                                  <h5 class="m-0 Regular-data" (click)="routeToUserProfile(overtimeRequestLogResponse.userUuid)">
+                                    {{ overtimeRequestLogResponse.userName }}
+                                  </h5>
+                                  <p class="text-muted font-12 mb-0">
+                                    <span style="color: orange" class="ng-star-inserted" *ngIf="overtimeRequestLogResponse.requestStatusId == key.PENDING">Applied <span> To </span>
+                                    </span>
+                                    <span style="color: green" class="ng-star-inserted" *ngIf="overtimeRequestLogResponse.requestStatusId == key.APPROVED">Approved <span> By </span>
+                                    </span>
+                                    <span style="color: rgb(255, 55, 0)" class="ng-star-inserted" *ngIf="overtimeRequestLogResponse.requestStatusId == key.REJECTED">Rejected <span> By </span>
+                                    </span>
+                                    <!-- <span style="color: rgb(155, 235, 234)" class="ng-star-inserted" *ngIf="fullLogList.status == 'requested'">Requested <span> To </span>
+                                    </span> -->
+                                    {{ overtimeRequestLogResponse.managerName }}
+                                  </p>
+                                </div>
+                              </div>
+                              <hr class="hr-dashed" />
+                              <div class="d-flex justify-content-between">
+                                <p> Time: <u>{{ overtimeRequestLogResponse.startTime | date : 'd MMM, h:mm a'}} - {{ overtimeRequestLogResponse.endTime | date : 'd MMM, h:mm a' }}</u></p>
+                                <h6 class="fw-semibold">
+                                  <span class="badge badge-outline-primary">Duration | {{ this.helperService.formatHHmmssToHHmm(overtimeRequestLogResponse.workingHour) }} hrs.</span>
+                                </h6>
+                              </div>
+                              <p class="text-muted mb-0">{{ overtimeRequestLogResponse.note }}</p>
+                            </div>
+                            <hr class="hr-dashed" />
+                          </div>
+                        </div>
+                      </div>
+                      <!--end activity-->
+                    </div>
+
+                    <!-- <div class="align-self-center text-center mt-2" *ngIf="!isFullLeaveLoader && !initialLoadDone">
+                      <button type="button" class="btn btn-xs btn-light btn-round" *ngIf="fullLeaveLogSize > 9" (click)="loadMoreLogs()"> Load More <i class="bi bi-chevron-down"></i>
+                      </button>
+                    </div>
+                    <div class="text-center load-more-btn" *ngIf="isFullLeaveLoader && fullLeaveLogSize > 9">
+                      <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+                      <div>
+                        <small>Loading...</small>
+                      </div>
+                    </div> -->
+                  </ng-container>
+                </ng-template>
+                <ng-template #errorWhileFetchingOvertimeRequestLogResponseListCondition>
+                  <div class="errorboxmain text-center" *ngIf="dataNotFoundForOvertimeRequestLogResponse && !networkConnectionErrorForOvertimeRequestLogResponse">
+                    <div class="errorboxinner">
+                      <div class="errorboxplaceholder mb-2">
+                        <img src="assets/images/empty-box.svg" style="width: 80px" />
+                      </div>
+                      <div class="">
+                        <h4>No Data Found</h4>
+                        <p class="mb-0"> We're unable to locate a record associated with the information you entered. </p>
+                      </div>
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
             </div>
           </div>
 
         </div>
+
         <div class="row" *ngIf="ACTIVE_TAB == UPDATION_REQUEST_TAB"></div>
       </div>
     </div>

@@ -1,5 +1,7 @@
 export class OvertimeResponseDTO {
+    userUuid : string = '';
     userName : string = '';
+    userImage : string = '';
     managerName : string = '';
     startTime !: Date;
     endTime !: Date;

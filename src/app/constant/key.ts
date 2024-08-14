@@ -356,7 +356,7 @@ export class Key {
 
   // Tabs in Overtime Section
   public static OVERTIME_PENDING_REQUEST_TAB = 1;
-  public static OVERTIME_LOG_TAB = 2;
+  public static OVERTIME_HISTORY_TAB = 2;
 
 
   // Tabs in Updation request section

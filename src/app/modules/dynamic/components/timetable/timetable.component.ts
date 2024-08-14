@@ -36,7 +36,7 @@ export class TimetableComponent implements OnInit {
   model: any;
   constructor(
     private dataService: DataService,
-    private helperService: HelperService,
+    public helperService: HelperService,
     private router: Router,
     private rbacService: RoleBasedAccessControlService,
     private cdr: ChangeDetectorRef,
@@ -44,6 +44,28 @@ export class TimetableComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private datePipe: DatePipe
   ) {}
+
+  ngOnInit(): void {
+    window.scroll(0, 0);
+    this.getOrganizationRegistrationDateMethodCall();
+    this.inputDate = this.getCurrentDate();
+    this.assignRole();
+
+    const today = dayjs();
+    const oneWeekAgo = today.subtract(1, 'week');
+    this.selected = {
+      startDate: oneWeekAgo,
+      endDate: today,
+    };
+
+    this.updateDateRangeInputValue();
+    this.getFirstAndLastDateOfMonth(this.selectedDate);
+    // this.getDataFromDate();
+    this.getAttendanceDetailsCountMethodCall();
+    this.getAttendanceDetailsReportByDateMethodCall();
+    this.getActiveUsersCountMethodCall();
+    this.getHolidayForOrganization();
+  }
 
   loginDetails = this.helperService.getDecodedValueFromToken();
   assignRole() {
@@ -61,6 +83,7 @@ export class TimetableComponent implements OnInit {
   WEEKEND = Key.WEEKEND;
   HOLIDAY = Key.HOLIDAY;
 
+  readonly key = Key;
   ROLE = this.rbacService.getRole();
 
   ADMIN = Key.ADMIN;
@@ -147,6 +170,32 @@ export class TimetableComponent implements OnInit {
     this.getAttendanceDetailsCountMethodCall();
   }
 
+  selectPreviousMonth(){
+
+    let currentDate = new Date(this.selectedDate);
+    currentDate.setDate(currentDate.getMonth() - 1);
+
+    if (currentDate < new Date(this.organizationRegistrationDate)) {
+      return;
+    }
+
+    this.selectedDate = new Date(currentDate);
+    this.onMonthChange(currentDate);
+  }
+
+  selectNextMonth(){
+    const currentDateObject = this.selectedDate;
+    const tomorrow = new Date(currentDateObject);
+    tomorrow.setDate(currentDateObject.getMonth() + 1);
+
+    if (tomorrow >= new Date()) {
+      return;
+    }
+
+    this.selectedDate = tomorrow;
+    this.onMonthChange(tomorrow);
+  }
+
   private formatDate(date: Date): string {
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -157,26 +206,6 @@ export class TimetableComponent implements OnInit {
   selected: { startDate: dayjs.Dayjs; endDate: dayjs.Dayjs } | null = null;
   myAttendanceData: Record<string, AttendenceDto[]> = {};
 
-  ngOnInit(): void {
-    window.scroll(0, 0);
-    this.getOrganizationRegistrationDateMethodCall();
-    this.inputDate = this.getCurrentDate();
-    this.assignRole();
-
-    const today = dayjs();
-    const oneWeekAgo = today.subtract(1, 'week');
-    this.selected = {
-      startDate: oneWeekAgo,
-      endDate: today,
-    };
-
-    this.updateDateRangeInputValue();
-    // this.getDataFromDate();
-    this.getAttendanceDetailsCountMethodCall();
-    this.getAttendanceDetailsReportByDateMethodCall();
-    this.getActiveUsersCountMethodCall();
-    this.getHolidayForOrganization();
-  }
 
   dateRangeInputValue: string = '';
 
@@ -906,17 +935,12 @@ approveOrRequest(id:number, reqString: string) {
   ACTIVE_TAB = Key.ATTENDANCE_TAB;
   changeTab(tabId : number){
     this.ACTIVE_TAB = tabId;
+
+    if(tabId == this.OVERTIME_TAB || tabId == this.UPDATION_REQUEST_TAB){
+      this.onMonthChange(new Date());
+    }
   }
 
-
-  // Tab in Overtime tab section
-  OVERTIME_PENDING_REQUEST_TAB = Key.OVERTIME_PENDING_REQUEST_TAB;
-  OVERTIME_LOG_TAB = Key.OVERTIME_LOG_TAB;
-
-  ACTIVE_TAB_IN_OVERTIME_TAB = Key.OVERTIME_PENDING_REQUEST_TAB;
-  changeLogTabInOvertimeTab(tabId : number){
-    this.ACTIVE_TAB_IN_OVERTIME_TAB = tabId;
-  }
 
   // Tab in Updation request tab section
   UPDATION_REQUEST_PENDING_REQUEST_TAB = Key.UPDATION_REQUEST_PENDING_REQUEST_TAB;
@@ -934,7 +958,16 @@ approveOrRequest(id:number, reqString: string) {
     console.log('Month is getting selected');
     this.selectedDate = month;
     this.getFirstAndLastDateOfMonth(this.selectedDate);
-    // this.getAttendanceReportByDateDurationMethodCall();
+
+    if(this.ACTIVE_TAB == this.OVERTIME_TAB){
+      this.getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();
+      this.getOvertimeRequestResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();
+      this.getOvertimePendingRequestResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();
+    }
+
+    if(this.ACTIVE_TAB == this.UPDATION_REQUEST_TAB){
+      
+    }
   }
 
   getFirstAndLastDateOfMonth(selectedDate: Date) {
@@ -983,6 +1016,16 @@ approveOrRequest(id:number, reqString: string) {
 
 
   // ####################--Overtime tab response list--######################
+
+  // Tab in Overtime tab section
+  OVERTIME_PENDING_REQUEST_TAB = Key.OVERTIME_PENDING_REQUEST_TAB;
+  OVERTIME_HISTORY_TAB = Key.OVERTIME_HISTORY_TAB;
+
+  ACTIVE_TAB_IN_OVERTIME_TAB = Key.OVERTIME_PENDING_REQUEST_TAB;
+  changeLogTabInOvertimeTab(tabId : number){
+    this.ACTIVE_TAB_IN_OVERTIME_TAB = tabId;
+  }
+
   isShimmerForOvertimeRequestLogResponse: boolean = false;
   dataNotFoundForOvertimeRequestLogResponse: boolean = false;
   networkConnectionErrorForOvertimeRequestLogResponse: boolean = false;
