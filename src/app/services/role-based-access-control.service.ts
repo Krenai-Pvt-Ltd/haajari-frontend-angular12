@@ -19,6 +19,7 @@ export class RoleBasedAccessControlService {
 
   constructor(private helperService: HelperService) {
    
+    debugger
      this.LoadAsync();
 
     
@@ -29,6 +30,7 @@ export class RoleBasedAccessControlService {
     this.userInfoInitialized =  this.initializeUserInfo();
  };
   public async initializeUserInfo(): Promise<void> {
+    debugger
     try {
      await this.helperService.getDecodedValueFromToken().then((res:any)=>{
         console.log(res)
@@ -39,15 +41,18 @@ export class RoleBasedAccessControlService {
       });
      
     } catch (error) {
+      // this.isUserInfoInitialized = true;
       console.error('Error fetching decoded value from token:', error);
     }
   }
 
   isUserInfoInitializedMethod(): Promise<void> {
+    debugger
     return this.userInfoInitialized;
   }
 
   async getRole() {
+    debugger
     let role = null;
     // this.userInfo = await this.helperService.getDecodedValueFromToken();
     // this.userInfo= await this.helperService
@@ -60,11 +65,13 @@ export class RoleBasedAccessControlService {
   }
 
   getRoles() {
+    debugger
     // console.log("role is ",this.userInfo)
     return this.userInfo!.role;
   }
 
   async getUUID(): Promise<string> {
+    debugger
     // return Promise.resolve(this.userInfo!.uuid);\
     // if(this.userInfo){
     return Promise.resolve(this.userInfo!.uuid);
@@ -75,6 +82,7 @@ export class RoleBasedAccessControlService {
   }
 
   async getOnboardingStep(): Promise<number> {
+    debugger
     return Promise.resolve(this.userInfo!.onboardingStep);
   }
 
@@ -87,6 +95,7 @@ export class RoleBasedAccessControlService {
   // }
 
   getOrgRefUUID() {
+    debugger
     //TODO
     // console.log(this.userInfo)
     if(this.userInfo){
@@ -98,10 +107,12 @@ export class RoleBasedAccessControlService {
   }
 
   getUuid() {
+    debugger
     return this.userInfo!.uuid;
   }
 
   async hasAccessToSubmodule(subModuleRouteValue: string): Promise<boolean> {
+    debugger
     return new Promise<boolean>(async (resolve, reject) => {
       try {
         let subModules = this.helperService.subModuleResponseList;
