@@ -55,6 +55,9 @@ import { EmployeePayslipLogResponse } from 'src/app/employee-payslip-log-respons
 import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 import { LopReversalApplicationRequest } from 'src/app/models/lop-reversal-application-request';
 import { OrganizationAssetResponse } from 'src/app/models/asset-category-respose';
+import { OvertimeRequestDTO } from 'src/app/models/overtime-request-dto';
+import { OvertimeRequestLogResponse } from 'src/app/models/overtime-request-log-response';
+import { LopReversalApplicationResponse } from 'src/app/models/lop-reversal-application-response';
 
 @Component({
   selector: 'app-employee-profile',
@@ -71,6 +74,7 @@ export class EmployeeProfileComponent implements OnInit {
 
   userLeaveForm!: FormGroup;
   lopReversalApplicationRequestForm!: FormGroup;
+  overtimeRequestForm!: FormGroup;
   @ViewChild('calendar') calendarComponent!: FullCalendarComponent;
 
   ROLE: any;
@@ -80,11 +84,13 @@ export class EmployeeProfileComponent implements OnInit {
   userRoleFlag: boolean = false;
   showPlaceholder: boolean = false;
 
+  readonly key = Key;
+
   constructor(
     private dataService: DataService,
     private datePipe: DatePipe,
     private activateRoute: ActivatedRoute,
-    private helperService: HelperService,
+    public helperService: HelperService,
     private fb: FormBuilder,
     private http: HttpClient,
     private firebaseStorage: AngularFireStorage,
@@ -926,6 +932,15 @@ export class EmployeeProfileComponent implements OnInit {
     });
   }
 
+  resetOvertimeRequestForm(){
+    this.overtimeRequestForm = this.fb.group({
+      startTime: [null, Validators.required],
+      endTime: [null, [Validators.required, Validators.pattern("^[0-9]*$")]],
+      workingHour: [''],
+      managerUuid: ['']
+    });
+  }
+
   dayShiftToggle: boolean = false;
   eveningShiftToggle: boolean = false;
 
@@ -1639,6 +1654,25 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
 
+  // ####################--Shimmers for Logs in Attendance tab--#########################
+
+  isShimmerForOvertimeLog = false;
+  dataNotFoundPlaceholderForOvertimeLog = false;
+  networkConnectionErrorPlaceHolderForOvertimeLog = false;
+  preRuleForShimmersAndErrorPlaceholdersForOvertimeLogMethodCall() {
+    this.isShimmerForOvertimeLog = true;
+    this.dataNotFoundPlaceholderForOvertimeLog = false;
+    this.networkConnectionErrorPlaceHolderForOvertimeLog = false;
+  }
+
+  isShimmerForLopReversalApplication = false;
+  dataNotFoundPlaceholderForLopReversalApplication = false;
+  networkConnectionErrorPlaceHolderForLopReversalApplication = false;
+  preRuleForShimmersAndErrorPlaceholdersForLopReversalApplicationMethodCall() {
+    this.isShimmerForLopReversalApplication = true;
+    this.dataNotFoundPlaceholderForLopReversalApplication = false;
+    this.networkConnectionErrorPlaceHolderForLopReversalApplication = false;
+  }
 
   isShimmerForSalaryTemplate = false;
   dataNotFoundPlaceholderForSalaryTemplate = false;
@@ -3014,7 +3048,100 @@ attendanceRequestLog: any[] = [];
   
 
   
+  // Requesting for overtime
+  dateRange : Date[] = [];
+  
+  selectTimeForOvertimeRequest(dates: Array<Date | null> | Date | Date[] | null): void {
+    // Handle array of dates
+    if (Array.isArray(dates)) {
+      if (dates.length === 2) {
+        this.overtimeRequestDTO.startTime = dates[0] ? new Date(dates[0]) : null;
+        this.overtimeRequestDTO.endTime = dates[1] ? new Date(dates[1]) : null;
+        this.overtimeRequestDTO.workingHour = this.helperService.durationBetweenTwoDatesInHHmmssFormat(this.overtimeRequestDTO.endTime, this.overtimeRequestDTO.startTime);
+        console.log("Working Hour: "+this.overtimeRequestDTO.workingHour);
+      } else {
+        // Handle case where array length is not 2 if necessary
+        console.warn('Expected array with 2 dates, but got:', dates);
+      }
+    } else if (dates instanceof Date) {
+      // Handle single date case if needed
+      console.log('Single Date Selected:', dates);
+    } else if (dates === null) {
+      // Handle null case
+      this.overtimeRequestDTO.endTime = null;
+    }
+  }
+  
 
+  overtimeRequestDTO : OvertimeRequestDTO = new OvertimeRequestDTO();
+  registerOvertimeRequestMethodCall(){
+    this.dataService.registerOvertimeRequest(this.overtimeRequestDTO).subscribe((response) => {
+      this.clearOvertimeRequestModal();
+      this.closeOvertimeRequestModal.nativeElement.click();
+      this.helperService.showToast('Overtime request submitted successfully.', Key.TOAST_STATUS_SUCCESS);
+      this.getOvertimeRequestLogResponseByUserUuidMethodCall();
+    }, (error) => {
+      this.helperService.showToast('Error while submitting the request!', Key.TOAST_STATUS_ERROR);
+    })
+
+  }
+
+
+  @ViewChild("closeOvertimeRequestModal") closeOvertimeRequestModal !: ElementRef;
+  clearOvertimeRequestModal(){
+    this.overtimeRequestDTO = new OvertimeRequestDTO();
+    this.overtimeRequestDTO.startTime = null;
+    this.overtimeRequestDTO.endTime = null;
+  }
+  
+
+  LEAVE_LOG_TOGGLE : boolean = false;
+  OVERTIME_LOG_TOGGLE : boolean = false;
+  LOP_REVERSAL_LOG_TOGGLE : boolean = false;
+
+  LEAVE_LOG = Key.LEAVE_LOG;
+  OVERTIME_LOG = Key.OVERTIME_LOG;
+  LOP_REVERSAL_LOG = Key.LOP_REVERSAL_LOG;
+
+  ACTIVE_LOG_TAB = Key.LEAVE_LOG;
+
+  changeLogTabInAttendanceTab(tabId : number){
+    this.ACTIVE_LOG_TAB = tabId;
+  }
+
+  overtimeRequestLogResponseList : OvertimeRequestLogResponse[] = [];
+  getOvertimeRequestLogResponseByUserUuidMethodCall(){
+    this.preRuleForShimmersAndErrorPlaceholdersForOvertimeLogMethodCall();
+    this.dataService.getOvertimeRequestLogResponseByUserUuid(this.userId).subscribe((response) => {
+      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+        this.dataNotFoundPlaceholderForOvertimeLog = true;
+      } else{
+        this.overtimeRequestLogResponseList = response.listOfObject;
+      }
+
+      this.isShimmerForOvertimeLog = false;
+    }, (error) => {
+      this.isShimmerForOvertimeLog = false;
+      this.networkConnectionErrorPlaceHolderForOvertimeLog = true;
+    })
+  }
+
+
+  lopReversalApplicationResponseList : LopReversalApplicationResponse[] = [];
+  getLopReversalApplicationLogResponseListByUserUuidMethodCall(){
+    this.preRuleForShimmersAndErrorPlaceholdersForLopReversalApplicationMethodCall();
+    this.dataService.getLopReversalApplicationResponseListByUserUuid(this.userId).subscribe((response) => {
+      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+        this.dataNotFoundPlaceholderForLopReversalApplication = true;
+      } else{
+        this.lopReversalApplicationResponseList = response.listOfObject;
+      }
+      this.isShimmerForLopReversalApplication = false;
+    }, (error) => {
+      this.isShimmerForLopReversalApplication = false;
+      this.networkConnectionErrorPlaceHolderForLopReversalApplication = true;
+    })
+  }
   
 }
 

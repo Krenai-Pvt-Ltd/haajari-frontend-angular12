@@ -312,7 +312,7 @@ export class EmployeeOnboardingFormComponent implements OnInit {
             //   this.routeToLastSavedStep(this.lastSavedStep);
             // }
             if (adminUuid) {
-              await this.getAdminVerifiedForOnboardingUpdateMethodCall(); // This will now work
+              await this.getAdminVerifiedForOnboardingUpdateMethodCall();
             }
             if (
               response.employeeOnboardingFormStatus.response ==

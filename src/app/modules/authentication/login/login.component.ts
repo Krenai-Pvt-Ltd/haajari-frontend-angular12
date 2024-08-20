@@ -485,7 +485,7 @@ export class LoginComponent implements OnInit {
     this.dataService
       .verifyOtpByWhatsappNew(this.phoneNumber, this.otp)
       .subscribe(
-        (response: any) => {
+        async (response: any) => {
           if (response.status) {
             this.loading = false;
             this.helperService.subModuleResponseList =
@@ -498,6 +498,7 @@ export class LoginComponent implements OnInit {
               'refresh_token',
               response.object.tokenResponse.refresh_token
             );
+            await this.rbacService.initializeUserInfo();
             const helper = new JwtHelperService();
             const onboardingStep = helper.decodeToken(
               response.object.tokenResponse.access_token

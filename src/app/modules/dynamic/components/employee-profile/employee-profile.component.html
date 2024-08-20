@@ -203,8 +203,7 @@
                   <a class="nav-link active" data-bs-toggle="tab" href="#home" role="tab" aria-selected="true">Home</a>
                 </li>
                 <li class="nav-item" (click)="activeTabs('attendance'); getAttendanceRequestLogData()">
-                  <a class="nav-link" data-bs-toggle="tab" href="#attendance" role="tab"
-                    aria-selected="true">Attendance</a>
+                  <a class="nav-link" data-bs-toggle="tab" href="#attendance" role="tab" aria-selected="true">Attendance</a>
                 </li>
                 <li class="nav-item" (click)="activeTabs('finances'); financeSectionMethodCall()">
                   <a class="nav-link" data-bs-toggle="tab" href="#payslip" role="tab" aria-selected="false">Finances</a>
@@ -979,12 +978,14 @@
                     <!--end col-->
                     <div class="col-lg-6">
                       <!--end card-->
-                      <div class="align-items-center d-flex justify-content-end add-filtter mb-2"
+                      <div class="d-flex justify-content-end align-items-center add-filtter mb-2"
                         *ngIf="userRoleFlag && ROLE!= 'ADMIN'">
                         <a class="btn" data-bs-toggle="modal" data-bs-target=".apply-leave">
-                          <i class="bi bi-plus" style="font-size: 20px"></i>Apply for a Leave </a>
+                          <i class="bi bi-plus" style="font-size: 15px"></i>Apply for a Leave </a>
                         <a class="btn" data-bs-toggle="modal" data-bs-target=".lop-reversal-request">
-                          <i class="bi bi-plus" style="font-size: 20px"></i>Apply for Lop Reversal </a>
+                          <i class="bi bi-plus" style="font-size: 15px"></i>Apply for Lop Reversal </a>
+                        <a class="btn" data-bs-toggle="modal" data-bs-target=".overtime-request">
+                          <i class="bi bi-plus" style="font-size: 15px"></i>Request for Overtime</a>
                       </div>
                       <ng-container *ngIf="
                           userLeave.length !== 0 && !leaveCountPlaceholderFlag
@@ -1014,196 +1015,550 @@
                           </div>
                         </div>
                       </ng-container>
+
+<!-- 
                       <div class="row">
-                        <div class="col-md-12" *ngIf="isLeaveShimmer">
-                          <div class="leves-type-s mb-2">
-                            <div class="row">
-                              <div class="col-md-4">
-                                <h4>
-                                  <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                </h4>
-                              </div>
-                              <div class="col-md-2">
-                                <h4>
-                                  <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                </h4>
-                              </div>
-                              <div class="col-md-2">
-                                <h4>
-                                  <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                </h4>
-                              </div>
-                              <div class="col-md-2">
-                                <h4>
-                                  <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                </h4>
-                              </div>
-                              <div class="col-md-2">
-                                <h4>
-                                  <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                </h4>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="leves-type-s mb-2">
-                            <div class="row">
-                              <div class="col-md-4">
-                                <h4>
-                                  <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                </h4>
-                              </div>
-                              <div class="col-md-2">
-                                <h4>
-                                  <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                </h4>
-                              </div>
-                              <div class="col-md-2">
-                                <h4>
-                                  <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                </h4>
-                              </div>
-                              <div class="col-md-2">
-                                <h4>
-                                  <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                </h4>
-                              </div>
-                              <div class="col-md-2">
-                                <h4>
-                                  <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                </h4>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="leves-type-s mb-2">
-                            <div class="row">
-                              <div class="col-md-4">
-                                <h4>
-                                  <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                </h4>
-                              </div>
-                              <div class="col-md-2">
-                                <h4>
-                                  <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                </h4>
-                              </div>
-                              <div class="col-md-2">
-                                <h4>
-                                  <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                </h4>
-                              </div>
-                              <div class="col-md-2">
-                                <h4>
-                                  <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                </h4>
-                              </div>
-                              <div class="col-md-2">
-                                <h4>
-                                  <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
-                                </h4>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                        <ul class="nav nav-tabs bg-light border-top" role="tablist">
+                          <li class="nav-item" (click)="changeLogTabInAttendanceTab(LEAVE_LOG)">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#leave-log" role="tab" aria-selected="true">Leave</a>
+                          </li>
+                          <li class="nav-item" (click)="changeLogTabInAttendanceTab(OVERTIME_LOG); financeSectionMethodCall()">
+                            <a class="nav-link" data-bs-toggle="tab" href="#overtime-log" role="tab" aria-selected="false">Overtime</a>
+                          </li>
+                          <li class="nav-item" (click)="changeLogTabInAttendanceTab(LOP_REVERSAL_LOG); getAttendanceRequestLogData()">
+                            <a class="nav-link" data-bs-toggle="tab" href="#lop-reversal-log" role="tab" aria-selected="true">Lop Reversal</a>
+                          </li>
+                        </ul>
+                      </div> -->
+                      <div class="row">
+                        <ul class="nav nav-tabs bg-light border-top" role="tablist">
+                          <li class="nav-item" (click)="changeLogTabInAttendanceTab(LEAVE_LOG)">
+                            <a class="nav-link" [ngClass]="{'active': ACTIVE_LOG_TAB === LEAVE_LOG}" data-bs-toggle="tab" href="#leave-log" role="tab" aria-selected="true">Leave</a>
+                          </li>
+                          <li class="nav-item" (click)="changeLogTabInAttendanceTab(OVERTIME_LOG); getOvertimeRequestLogResponseByUserUuidMethodCall()">
+                            <a class="nav-link" [ngClass]="{'active': ACTIVE_LOG_TAB === OVERTIME_LOG}" data-bs-toggle="tab" href="#overtime-log" role="tab" aria-selected="false">Overtime</a>
+                          </li>
+                          <li class="nav-item" (click)="changeLogTabInAttendanceTab(LOP_REVERSAL_LOG); getLopReversalApplicationLogResponseListByUserUuidMethodCall()">
+                            <a class="nav-link" [ngClass]="{'active': ACTIVE_LOG_TAB === LOP_REVERSAL_LOG}" data-bs-toggle="tab" href="#lop-reversal-log" role="tab" aria-selected="true">Lop Reversal</a>
+                          </li>
+                        </ul>
                       </div>
-                      <div class="errorboxmain text-center" *ngIf="!isLeaveShimmer && isLeaveErrorPlaceholder">
-                        <div class="errorboxinner">
-                          <div class="errorboxplaceholder mb-2">
-                            <img src="assets/images/signal.svg" style="width: 80px" />
-                          </div>
-                          <div class="">
-                            <h4>Something went wrong!</h4>
-                            <p class="mb-0"> An error occurred while processing your request. Please refresh the page
-                              and try again. </p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="errorboxmain text-center" *ngIf="!isLeaveShimmer && isLeavePlaceholder">
-                        <div class="errorboxinner">
-                          <div class="errorboxplaceholder mb-2">
-                            <img src="assets/images/empty-box.svg" style="width: 80px" />
-                          </div>
-                          <div class="">
-                            <h4>No Data Found</h4>
-                            <p class="mb-0"> We're unable to locate a record associated with the information you
-                              entered. </p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="leave-logs" style="max-height: 450px; overflow: scroll"
-                        *ngIf="!isLeaveShimmer && !isLeavePlaceholder">
-                        <div class="activity" *ngFor="let leaves of userLeaveLog">
-                          <div class="activity-info">
-                            <div class="icon-info-activity">
-                              <i class="ti ti-clock bg-soft-warning" *ngIf="leaves.status == 'pending'"></i>
-                              <i class="ti ti-checks bg-soft-success" *ngIf="leaves.status == 'approved'"></i>
-                              <i class="ti ti-x bg-soft-danger" *ngIf="leaves.status == 'rejected'"></i>
+                      
+
+                      <br>
+
+                      <div class="tab-content">
+                        <div class="" id="leave-log" *ngIf="ACTIVE_LOG_TAB == LEAVE_LOG">
+                          <div class="row">
+                            <div class="col-md-12" id="leave-log" *ngIf="isLeaveShimmer">
+                              <div class="leves-type-s mb-2">
+                                <div class="row">
+                                  <div class="col-md-4">
+                                    <h4>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </h4>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <h4>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </h4>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <h4>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </h4>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <h4>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </h4>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <h4>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </h4>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="leves-type-s mb-2">
+                                <div class="row">
+                                  <div class="col-md-4">
+                                    <h4>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </h4>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <h4>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </h4>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <h4>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </h4>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <h4>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </h4>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <h4>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </h4>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="leves-type-s mb-2">
+                                <div class="row">
+                                  <div class="col-md-4">
+                                    <h4>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </h4>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <h4>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </h4>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <h4>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </h4>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <h4>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </h4>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <h4>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </h4>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
-                            <div class="activity-info-text">
-                              <div>
-                                <div class="float-end">
-                                  <div class="dropdown d-inline-block">
-                                    <div class="align-self-center">
-                                      <div class="btn btn-xs btn-light btn-round">
-                                        {{ leaves.leaveDate | date:'medium'
-                                        || "N/A"
-                                        }}
-                                        <!-- &nbsp;
-                                        <span>{{
-                                          formatTime(leaves.leaveDate) || "N/A"
-                                        }}</span> -->
+                          </div>
+                          <div class="errorboxmain text-center" *ngIf="!isLeaveShimmer && isLeaveErrorPlaceholder">
+                            <div class="errorboxinner">
+                              <div class="errorboxplaceholder mb-2">
+                                <img src="assets/images/signal.svg" style="width: 80px" />
+                              </div>
+                              <div class="">
+                                <h4>Something went wrong!</h4>
+                                <p class="mb-0"> An error occurred while processing your request. Please refresh the page
+                                  and try again. </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="errorboxmain text-center" *ngIf="!isLeaveShimmer && isLeavePlaceholder">
+                            <div class="errorboxinner">
+                              <div class="errorboxplaceholder mb-2">
+                                <img src="assets/images/empty-box.svg" style="width: 80px" />
+                              </div>
+                              <div class="">
+                                <h4>No Data Found</h4>
+                                <p class="mb-0"> We're unable to locate a record associated with the information you
+                                  entered. </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="leave-logs" style="max-height: 450px; overflow: scroll" *ngIf="!isLeaveShimmer && !isLeavePlaceholder">
+                            <div class="activity" *ngFor="let leaves of userLeaveLog">
+                              <div class="activity-info">
+                                <div class="icon-info-activity">
+                                  <i class="ti ti-clock bg-soft-warning" *ngIf="leaves.status == 'pending'"></i>
+                                  <i class="ti ti-checks bg-soft-success" *ngIf="leaves.status == 'approved'"></i>
+                                  <i class="ti ti-x bg-soft-danger" *ngIf="leaves.status == 'rejected'"></i>
+                                </div>
+                                <div class="activity-info-text">
+                                  <div>
+                                    <div class="float-end">
+                                      <div class="dropdown d-inline-block">
+                                        <div class="align-self-center">
+                                          <div class="btn btn-xs btn-light btn-round">
+                                            {{ leaves.leaveDate | date:'medium' || "N/A" }}
+                                          </div>
+                                          <!-- {{ leaves.docFileLink }} -->
+                                        </div>
                                       </div>
-                                      <!-- {{ leaves.docFileLink }} -->
+                                    </div>
+                                    <div class="media align-items-center">
+                                      <div class="media-body ms-2 align-self-center">
+                                        <h5 class="m-0">{{ leaves.username }}</h5>
+                                        <p class="text-muted font-12 mb-0">
+                                          <span style="color: orange" class="ng-star-inserted" *ngIf="leaves.status == 'pending'">Applied <span> To </span>
+                                          </span>
+                                          <span style="color: green" class="ng-star-inserted" *ngIf="leaves.status == 'approved'">Approved <span> By </span>
+                                          </span>
+                                          <span style="color: rgb(255, 55, 0)" class="ng-star-inserted" *ngIf="leaves.status == 'rejected'">Rejected <span> By </span>
+                                          </span>
+                                          {{ leaves.manager?.name }}
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <hr class="hr-dashed" />
+                                    <div class="d-flex justify-content-between">
+                                      <p> Duration: <u>{{ formatDateIn(formatDate(leaves.startDate)) }} - {{ formatDateIn(formatDate(leaves.endDate)) }}</u></p>
+                                      <h6 class="fw-semibold">
+                                        <span class="badge badge-outline-primary">{{ calculateDateDifference(leaves.endDate, leaves.startDate) || "N/A" }} Days | {{ leaves.leaveType }}</span>
+                                      </h6>
+                                    </div>
+                                    <p class="text-muted mb-0">{{ leaves.optNotes }}</p>
+                                  </div>
+                                  <div class="mt-3">
+                                    <a class="text-primary" *ngIf="leaves.docFileLink != null" (click)="downloadSingleImage(leaves.docFileLink)"> Declaration <i class="bi bi-arrow-down"></i></a>
+                                  </div>
+                                  <hr class="hr-dashed" />
+                                </div>
+                              </div>
+                            </div>
+                            <!--end activity-->
+                          </div>
+                        </div>
+
+                        <div class="" id="overtime-log" *ngIf="ACTIVE_LOG_TAB == OVERTIME_LOG">
+                          <ng-container *ngIf="isShimmerForOvertimeLog && overtimeRequestLogResponseList.length == 0 && !dataNotFoundPlaceholderForOvertimeLog && !networkConnectionErrorPlaceHolderForOvertimeLog; else overtimeRequestLogResponseListCondition">
+                            <div class="row">
+                              <div class="col-md-12" id="leave-log">
+                                <div class="leves-type-s mb-2">
+                                  <div class="row">
+                                    <div class="col-md-4">
+                                      <h4>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                      </h4>
+                                    </div>
+                                    <div class="col-md-2">
+                                      <h4>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                      </h4>
+                                    </div>
+                                    <div class="col-md-2">
+                                      <h4>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                      </h4>
+                                    </div>
+                                    <div class="col-md-2">
+                                      <h4>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                      </h4>
+                                    </div>
+                                    <div class="col-md-2">
+                                      <h4>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                      </h4>
                                     </div>
                                   </div>
                                 </div>
-                                <div class="media align-items-center">
-                                  <div class="media-body ms-2 align-self-center">
-                                    <h5 class="m-0">{{ leaves.username }}</h5>
-                                    <p class="text-muted font-12 mb-0">
-                                      <span style="color: orange" class="ng-star-inserted"
-                                        *ngIf="leaves.status == 'pending'">Applied <span> To </span>
-                                      </span>
-                                      <span style="color: green" class="ng-star-inserted"
-                                        *ngIf="leaves.status == 'approved'">Approved <span> By </span>
-                                      </span>
-                                      <span style="color: rgb(255, 55, 0)" class="ng-star-inserted"
-                                        *ngIf="leaves.status == 'rejected'">Rejected <span> By </span>
-                                      </span>
-                                      {{ leaves.manager?.name }}
-                                    </p>
+                                <div class="leves-type-s mb-2">
+                                  <div class="row">
+                                    <div class="col-md-4">
+                                      <h4>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                      </h4>
+                                    </div>
+                                    <div class="col-md-2">
+                                      <h4>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                      </h4>
+                                    </div>
+                                    <div class="col-md-2">
+                                      <h4>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                      </h4>
+                                    </div>
+                                    <div class="col-md-2">
+                                      <h4>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                      </h4>
+                                    </div>
+                                    <div class="col-md-2">
+                                      <h4>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                      </h4>
+                                    </div>
                                   </div>
                                 </div>
-                                <hr class="hr-dashed" />
-                                <div class="d-flex justify-content-between">
-                                  <p> Duration: <u>{{ formatDateIn(
-                                      formatDate(leaves.startDate)
-                                      )
-                                      }} - {{ formatDateIn(formatDate(leaves.endDate))
-                                      }}</u>
-                                  </p>
-                                  <h6 class="fw-semibold">
-                                    <span class="badge badge-outline-primary">{{ calculateDateDifference(
-                                      leaves.endDate,
-                                      leaves.startDate
-                                      ) || "N/A"
-                                      }} Days | {{ leaves.leaveType }}</span>
-                                  </h6>
+                                <div class="leves-type-s mb-2">
+                                  <div class="row">
+                                    <div class="col-md-4">
+                                      <h4>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                      </h4>
+                                    </div>
+                                    <div class="col-md-2">
+                                      <h4>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                      </h4>
+                                    </div>
+                                    <div class="col-md-2">
+                                      <h4>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                      </h4>
+                                    </div>
+                                    <div class="col-md-2">
+                                      <h4>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                      </h4>
+                                    </div>
+                                    <div class="col-md-2">
+                                      <h4>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                      </h4>
+                                    </div>
+                                  </div>
                                 </div>
-                                <p class="text-muted mb-0">
-                                  {{ leaves.optNotes }}
-                                </p>
                               </div>
-                              <div class="mt-3">
-                                <a class="text-primary" *ngIf="leaves.docFileLink != null" (click)="
-                                    downloadSingleImage(leaves.docFileLink)
-                                  "> Declaration <i class="bi bi-arrow-down"></i>
-                                </a>
-                              </div>
-                              <hr class="hr-dashed" />
                             </div>
-                          </div>
+                          </ng-container>
+                          <ng-template #overtimeRequestLogResponseListCondition>
+                            <ng-container *ngIf="!isShimmerForOvertimeLog && overtimeRequestLogResponseList.length != 0 && !dataNotFoundPlaceholderForOvertimeLog && !networkConnectionErrorPlaceHolderForOvertimeLog; else errorWhileFetchingOvertimeRequestLogResponseListCondition">
+                              <div class="leave-logs" style="max-height: 450px; overflow: scroll">
+                                <div class="activity" *ngFor="let overtimeRequestLogResponse of overtimeRequestLogResponseList">
+                                  <div class="activity-info">
+                                    <div class="icon-info-activity">
+                                      <i class="ti ti-clock bg-soft-warning" *ngIf="overtimeRequestLogResponse.requestStatusId == key.PENDING"></i>
+                                      <i class="ti ti-checks bg-soft-success" *ngIf="overtimeRequestLogResponse.requestStatusId == key.APPROVED"></i>
+                                      <i class="ti ti-x bg-soft-danger" *ngIf="overtimeRequestLogResponse.requestStatusId == key.REJECTED"></i>
+                                    </div>
+                                    <div class="activity-info-text">
+                                      <div>
+                                        <div class="float-end">
+                                          <div class="dropdown d-inline-block">
+                                            <div class="align-self-center">
+                                              <div class="btn btn-xs btn-light btn-round">
+                                                {{ overtimeRequestLogResponse.createdDate | date:'medium' || "N/A" }}
+                                              </div>
+                                              <!-- {{ leaves.docFileLink }} -->
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="media align-items-center">
+                                          <div class="media-body ms-2 align-self-center">
+                                            <p class="text-muted font-12 mb-0">
+                                              <span style="color: orange" class="ng-star-inserted" *ngIf="overtimeRequestLogResponse.requestStatusId == key.PENDING">Applied <span> To </span>
+                                              </span>
+                                              <span style="color: green" class="ng-star-inserted" *ngIf="overtimeRequestLogResponse.requestStatusId == key.APPROVED">Approved <span> By </span>
+                                              </span>
+                                              <span style="color: rgb(255, 55, 0)" class="ng-star-inserted" *ngIf="overtimeRequestLogResponse.requestStatusId == key.REJECTED">Rejected <span> By </span>
+                                              </span>
+                                              {{ overtimeRequestLogResponse.managerName }}
+                                            </p>
+                                          </div>
+                                        </div>
+                                        <hr class="hr-dashed" />
+                                        <div class="d-flex justify-content-between">
+                                          <p> Time: <u>{{ overtimeRequestLogResponse.startTime | date : 'd MMM, h:mm a'}} - {{ overtimeRequestLogResponse.endTime | date : 'd MMM, h:mm a' }}</u></p>
+                                          <h6 class="fw-semibold">
+                                            <span class="badge badge-outline-primary">Duration | {{this.helperService.formatHHmmssToHHmm(overtimeRequestLogResponse.workingHour)}} hrs.</span>
+                                          </h6>
+                                        </div>
+                                        <p class="text-muted mb-0">{{ overtimeRequestLogResponse.note }}</p>
+                                      </div>
+                                      <hr class="hr-dashed" />
+                                    </div>
+                                  </div>
+                                </div>
+                                <!--end activity-->
+                              </div>
+                            </ng-container>
+                          </ng-template>
+                          <ng-template #errorWhileFetchingOvertimeRequestLogResponseListCondition >
+                            <div class="errorboxmain text-center" *ngIf="!dataNotFoundPlaceholderForOvertimeLog && networkConnectionErrorPlaceHolderForOvertimeLog">
+                              <div class="errorboxinner">
+                                <div class="errorboxplaceholder mb-2">
+                                  <img src="assets/images/signal.svg" style="width: 80px" />
+                                </div>
+                                <div class="">
+                                  <h4>Something went wrong!</h4>
+                                  <p class="mb-0"> An error occurred while processing your request. Please refresh the page
+                                    and try again. </p>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="errorboxmain text-center" *ngIf="dataNotFoundPlaceholderForOvertimeLog && !networkConnectionErrorPlaceHolderForOvertimeLog">
+                              <div class="errorboxinner">
+                                <div class="errorboxplaceholder mb-2">
+                                  <img src="assets/images/empty-box.svg" style="width: 80px" />
+                                </div>
+                                <div class="">
+                                  <h4>No Data Found</h4>
+                                  <p class="mb-0"> We're unable to locate a record associated with the information you
+                                    entered. </p>
+                                </div>
+                              </div>
+                            </div>
+                          </ng-template>
                         </div>
-                        <!--end activity-->
+
+                        <div class="" id="lop-reversal-log" *ngIf="ACTIVE_LOG_TAB == LOP_REVERSAL_LOG">
+                          <ng-container *ngIf="isShimmerForLopReversalApplication && lopReversalApplicationResponseList.length == 0 && !dataNotFoundPlaceholderForLopReversalApplication && !networkConnectionErrorPlaceHolderForLopReversalApplication; else lopReversalApplicationResponseListCondition">
+                            <div class="row">
+                              <div class="col-md-12" id="leave-log">
+                                <div class="leves-type-s mb-2">
+                                  <div class="row">
+                                    <div class="col-md-4">
+                                      <h4>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                      </h4>
+                                    </div>
+                                    <div class="col-md-2">
+                                      <h4>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                      </h4>
+                                    </div>
+                                    <div class="col-md-2">
+                                      <h4>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                      </h4>
+                                    </div>
+                                    <div class="col-md-2">
+                                      <h4>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                      </h4>
+                                    </div>
+                                    <div class="col-md-2">
+                                      <h4>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                      </h4>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="leves-type-s mb-2">
+                                  <div class="row">
+                                    <div class="col-md-4">
+                                      <h4>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                      </h4>
+                                    </div>
+                                    <div class="col-md-2">
+                                      <h4>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                      </h4>
+                                    </div>
+                                    <div class="col-md-2">
+                                      <h4>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                      </h4>
+                                    </div>
+                                    <div class="col-md-2">
+                                      <h4>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                      </h4>
+                                    </div>
+                                    <div class="col-md-2">
+                                      <h4>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                      </h4>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="leves-type-s mb-2">
+                                  <div class="row">
+                                    <div class="col-md-4">
+                                      <h4>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                      </h4>
+                                    </div>
+                                    <div class="col-md-2">
+                                      <h4>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                      </h4>
+                                    </div>
+                                    <div class="col-md-2">
+                                      <h4>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                      </h4>
+                                    </div>
+                                    <div class="col-md-2">
+                                      <h4>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                      </h4>
+                                    </div>
+                                    <div class="col-md-2">
+                                      <h4>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                      </h4>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </ng-container>
+                          <ng-template #lopReversalApplicationResponseListCondition>
+                            <ng-container *ngIf="!isShimmerForLopReversalApplication && lopReversalApplicationResponseList.length != 0 && !dataNotFoundPlaceholderForLopReversalApplication && !networkConnectionErrorPlaceHolderForLopReversalApplication; else errorWhileFetchingLopReversalApplicationResponseListCondition">
+                              <div class="leave-logs" style="max-height: 450px; overflow: scroll">
+                                <div class="activity" *ngFor="let lopReversalApplicationResponse of lopReversalApplicationResponseList">
+                                  <div class="activity-info">
+                                    <div class="icon-info-activity">
+                                      <i class="ti ti-clock bg-soft-warning"></i>
+                                      <!-- <i class="ti ti-checks bg-soft-success" *ngIf="overtimeRequestLogResponse.requestStatusId == key.APPROVED"></i>
+                                      <i class="ti ti-x bg-soft-danger" *ngIf="overtimeRequestLogResponse.requestStatusId == key.REJECTED"></i> -->
+                                    </div>
+                                    <div class="activity-info-text">
+                                      <div>
+                                        <div class="float-end">
+                                          <div class="dropdown d-inline-block">
+                                            <div class="align-self-center">
+                                              <div class="btn btn-xs btn-light btn-round">
+                                                {{ lopReversalApplicationResponse.createdDate | date:'medium' || "N/A" }}
+                                              </div>
+                                              <!-- {{ leaves.docFileLink }} -->
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="media align-items-center">
+                                          <div class="media-body ms-2 align-self-center">
+                                            <p class="text-muted font-12 mb-0">
+                                              <span style="color: orange" class="ng-star-inserted">Applied 
+                                              </span>
+                                              for <span>{{ lopReversalApplicationResponse.requestedDaysCount }}</span> days
+                                            </p>
+                                          </div>
+                                        </div>
+                                        <hr class="hr-dashed" />
+                                        <div class="d-flex justify-content-between">
+                                          <p> Month: <u>{{ lopReversalApplicationResponse.startDate | date : 'MMM, y'}}</u></p>
+                                          <h6 class="fw-semibold">
+                                            <span class="badge badge-outline-primary">Approved Days | {{lopReversalApplicationResponse.reversedDaysCount || 0}}</span>
+                                          </h6>
+                                        </div>
+                                        <p class="text-muted mb-0">{{ lopReversalApplicationResponse.notes }}</p>
+                                      </div>
+                                      <hr class="hr-dashed" />
+                                    </div>
+                                  </div>
+                                </div>
+                                <!--end activity-->
+                              </div>
+                            </ng-container>
+                          </ng-template>
+                          <ng-template #errorWhileFetchingLopReversalApplicationResponseListCondition >
+                            <div class="errorboxmain text-center" *ngIf="!dataNotFoundPlaceholderForLopReversalApplication && networkConnectionErrorPlaceHolderForLopReversalApplication">
+                              <div class="errorboxinner">
+                                <div class="errorboxplaceholder mb-2">
+                                  <img src="assets/images/signal.svg" style="width: 80px" />
+                                </div>
+                                <div class="">
+                                  <h4>Something went wrong!</h4>
+                                  <p class="mb-0"> An error occurred while processing your request. Please refresh the page and try again. </p>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="errorboxmain text-center" *ngIf="dataNotFoundPlaceholderForLopReversalApplication && !networkConnectionErrorPlaceHolderForLopReversalApplication">
+                              <div class="errorboxinner">
+                                <div class="errorboxplaceholder mb-2">
+                                  <img src="assets/images/empty-box.svg" style="width: 80px" />
+                                </div>
+                                <div class="">
+                                  <h4>No Data Found</h4>
+                                  <p class="mb-0"> We're unable to locate a record associated with the information you entered. </p>
+                                </div>
+                              </div>
+                            </div>
+                          </ng-template>
+                        </div>
                       </div>
                     </div>
                     <!--end col-->
@@ -1211,7 +1566,6 @@
                   <!--end row-->
                 </div>
                 <div class="p-3" id="payslip" role="" *ngIf="activeFinancesTabFlag">
-
                   <div class="row mt-1">
                     <div class="col-md-12 search-area" style="
                         display: flex;
@@ -2490,8 +2844,7 @@
                             <td>
                               <p class="mb-0 persnaol"> Personal Information <img src="assets/images/edit-text.svg"
                                   class="right-icon" style="width: 14px; margin-right: 8px" *ngIf="
-                                    ROLE === 'ADMIN' ||
-                                    (ROLE == 'MANAGER' && isManagerBoolean)
+                                    ROLE === 'ADMIN'
                                   " (click)="
                                     routeToUserDetails(
                                       '/employee-onboarding/employee-onboarding-form'
@@ -2573,8 +2926,7 @@
                             <td>
                               <p class="mb-0 persnaol"> Address Details <img src="assets/images/edit-text.svg"
                                   class="right-icon" style="width: 14px; margin-right: 8px" *ngIf="
-                                    ROLE === 'ADMIN' ||
-                                    (ROLE == 'MANAGER' && isManagerBoolean)
+                                    ROLE === 'ADMIN' 
                                   " (click)="
                                     routeToUserDetails(
                                       '/employee-onboarding/employee-address-detail'
@@ -2706,8 +3058,7 @@
                                   class="right-icon"
                                   style="width: 14px; margin-right: 8px"
                                   *ngIf="
-                                    ROLE === 'ADMIN' ||
-                                    (ROLE == 'MANAGER' && isManagerBoolean)
+                                    ROLE === 'ADMIN' 
                                   "
                                   (click)="
                                     routeToUserDetails(
@@ -2752,8 +3103,7 @@
                               <p class="mb-0 persnaol"> Reference <span class="text-optional">(Optional)</span>
                                 <img src="assets/images/edit-text.svg" class="right-icon"
                                   style="width: 14px; margin-right: 8px" *ngIf="
-                                    ROLE === 'ADMIN' ||
-                                    (ROLE == 'MANAGER' && isManagerBoolean)
+                                    ROLE === 'ADMIN' 
                                   " (click)="
                                     routeToUserDetails(
                                       '/employee-onboarding/employee-document'
@@ -2827,8 +3177,7 @@
                             <td>
                               <p class="mb-0 persnaol"> Academic Details <img src="assets/images/edit-text.svg"
                                   class="right-icon" style="width: 14px; margin-right: 8px" *ngIf="
-                                    ROLE === 'ADMIN' ||
-                                    (ROLE == 'MANAGER' && isManagerBoolean)
+                                    ROLE === 'ADMIN' 
                                   " (click)="
                                     routeToUserDetails(
                                       '/employee-onboarding/acadmic'
@@ -2903,8 +3252,7 @@
                             <td>
                               <p class="mb-0 persnaol"> Experience <img src="assets/images/edit-text.svg"
                                   class="right-icon" style="width: 14px; margin-right: 8px" *ngIf="
-                                    ROLE === 'ADMIN' ||
-                                    (ROLE == 'MANAGER' && isManagerBoolean)
+                                    ROLE === 'ADMIN' 
                                   " (click)="
                                     routeToUserDetails(
                                       '/employee-onboarding/employee-experience'
@@ -2993,8 +3341,7 @@
                             <td>
                               <p class="mb-0 persnaol"> Bank Details <img src="assets/images/edit-text.svg"
                                   class="right-icon" style="width: 14px; margin-right: 8px" *ngIf="
-                                    ROLE === 'ADMIN' ||
-                                    (ROLE == 'MANAGER' && isManagerBoolean)
+                                    ROLE === 'ADMIN' 
                                   " (click)="
                                     routeToUserDetails(
                                       '/employee-onboarding/bank-details'
@@ -3056,8 +3403,7 @@
                             <td>
                               <p class="mb-0 persnaol"> Emergency Contact <img src="assets/images/edit-text.svg"
                                   class="right-icon" style="width: 14px; margin-right: 8px" *ngIf="
-                                    ROLE === 'ADMIN' ||
-                                    (ROLE == 'MANAGER' && isManagerBoolean)
+                                    ROLE === 'ADMIN' 
                                   " (click)="
                                     routeToUserDetails(
                                       '/employee-onboarding/emergency-contact'
@@ -3345,6 +3691,132 @@
           </div>
         </div>
       </div>
+      
+
+
+      <div class="modal fade overtime-request" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered mx-auto">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h6 class="modal-title m-0" id="exampleModalCenterTitle">Request for Overtime</h6>
+              <button type="button" class="btn-close" id="overtimeRequestModal" data-bs-dismiss="modal"
+                aria-label="Close" #closeOvertimeRequestModal (click)="clearOvertimeRequestModal()"></button>
+            </div>
+            <div class="modal-body">
+              <div class="overtime-main-box">
+                <form nz-form #overtimeRequestForm="ngForm">
+                  <div class="mb-2" nz-form-item>
+                    <nz-form-label nzFor="selectedDate" style="padding-bottom: 6px">Pick up the date and time:</nz-form-label>
+                    <nz-form-control nzErrorTip="Please select a valid date time.">
+                      <nz-range-picker
+                        [nzShowTime]="{ nzFormat: 'HH:mm' }"
+                        nzFormat="yyyy-MM-dd HH:mm"
+                        ngModel
+                        required
+                        (ngModelChange)="selectTimeForOvertimeRequest($event)"
+                        (nzOnCalendarChange)="selectTimeForOvertimeRequest($event)"
+                        (nzOnOk)="selectTimeForOvertimeRequest($event)"
+                      ></nz-range-picker>
+                    </nz-form-control>
+                  </div>
+                  <div class="mb-2" nz-form-item>
+                    <nz-form-label nzFor="workingHour" style="padding-bottom: 6px">Overtime Working Hour:</nz-form-label>
+                    <nz-form-control nzErrorTip="Please enter a valid working hour.">
+                      <input 
+                        nz-input 
+                        nzSize="default" 
+                        [(ngModel)]="overtimeRequestDTO.workingHour"
+                        name="workingHour" 
+                        [disabled]="true"
+                        placeholder="HH:mm:ss" 
+                        #workingHour="ngModel"
+                        required/>
+                    </nz-form-control>
+                  </div>
+                  <div class="mb-2" nz-form-item>
+                    <nz-form-label nzFor="manager" style="padding-bottom: 6px;">Select Manager:</nz-form-label>
+                    <nz-form-control>
+                      <nz-select 
+                        nzShowSearch 
+                        nzAllowClear 
+                        style="width: 100%;" 
+                        nzPlaceHolder="Select manager" 
+                        [(ngModel)]="overtimeRequestDTO.managerId" 
+                        name="managerUuid"
+                        required>
+                        <nz-option *ngFor="let manager of managers" [nzLabel]="manager.name" [nzValue]="manager.id"></nz-option>
+                      </nz-select>
+                    </nz-form-control>
+                  </div>
+                  <div class="mb-2" nz-form-item>
+                    <nz-form-label nzFor="notes" style="padding-bottom: 6px">Add Notes(Optional):</nz-form-label>
+                    <nz-form-control>
+                      <textarea nz-input placeholder="Write a note here" rows="4" [(ngModel)]="overtimeRequestDTO.note" name="overtimeNote"></textarea>
+                    </nz-form-control>
+                  </div>
+                  <div class="d-flex justify-content-end modal-footer">
+                    <button 
+                      type="submit" 
+                      class="btn btn-outline-primary btn-round" 
+                      [disabled]="!overtimeRequestForm.form.valid" 
+                      (click)="registerOvertimeRequestMethodCall()"> 
+                      Submit 
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+
+
+
+
+
+    <!-- <div *ngIf="POST_HOUR_TOGGLE" class="modal show d-block" id="post-hour" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Define Post Hrs.</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="postHourModalClose()"></button>
+          </div>
+          <div class="modal-body">
+            <form nz-form #postHourOvertimeSettingForm="ngForm">
+              forr
+              <nz-form-item>
+                <nz-form-label [nzFor]="'postHour'">Enter the number of hours before shift start to be counted as overtime</nz-form-label>
+                <nz-form-control nzErrorTip="Please enter a valid hour.">
+                  <nz-time-picker 
+                    id="postHour" 
+                    nzFormat="HH:mm" 
+                    [(ngModel)]="overtimeSettingRequest.hour" 
+                    (ngModelChange)="updatePostHourOvertimeSetting($event)" 
+                    nzPlaceHolder="Enter duration here" 
+                    [nzDisabledHours]="disabledHours" 
+                    required 
+                    name="postHour" 
+                    #postHour="ngModel">
+                  </nz-time-picker>
+                </nz-form-control>
+              </nz-form-item>
+              <div class="d-flex justify-content-end modal-footer">
+                <button 
+                  type="submit" 
+                  class="btn btn-outline-primary btn-round" 
+                  [disabled]="postHourOvertimeSettingForm.invalid" 
+                  (click)="enableOrDisablePostHourOvertimeSettingMethodCall()"> 
+                  Submit 
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+
 
       <!-- show image modal -->
       <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#showImageModal"

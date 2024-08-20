@@ -31,6 +31,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { BillAndSubscriptionComponent } from './modules/sharable/bill-and-subscription/bill-and-subscription.component';
 
+
 // import { OnboardingSidebarResponse } from './models/onboarding-sidebar-response';
 
 @NgModule({
@@ -67,7 +68,7 @@ import { BillAndSubscriptionComponent } from './modules/sharable/bill-and-subscr
     DragDropModule,
     MatDialogModule,
     MatButtonModule,
-    NzSwitchModule,
+    NzSwitchModule
     // OnboardingSidebarResponse
 
     // CalendarModule.forRoot({
