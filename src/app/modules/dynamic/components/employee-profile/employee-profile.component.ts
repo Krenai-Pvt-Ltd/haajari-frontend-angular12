@@ -56,7 +56,7 @@ import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 import { LopReversalApplicationRequest } from 'src/app/models/lop-reversal-application-request';
 import { OrganizationAssetResponse } from 'src/app/models/asset-category-respose';
 import { EmployeeSuperCoinsResponse } from 'src/app/models/employee-super-coins-response';
-import { DonateCoinsUserList } from 'src/app/models/allocate-coins-role-wise-request';
+import { DonateCoinsUserList, DonateSuperCoinsReasonResponse } from 'src/app/models/allocate-coins-role-wise-request';
 import { OvertimeRequestDTO } from 'src/app/models/overtime-request-dto';
 import { OvertimeRequestLogResponse } from 'src/app/models/overtime-request-log-response';
 import { LopReversalApplicationResponse } from 'src/app/models/lop-reversal-application-response';
@@ -119,6 +119,14 @@ export class EmployeeProfileComponent implements OnInit {
         eveningShift: [false],
       });
     }
+
+    this.donateCoinsForm = this.fb.group({
+      userId: ['', Validators.required],
+      coins: [null, [Validators.required, Validators.min(1)]],
+      reason: [''],
+      donationReason: ['']
+    });
+
 
     Object.assign(this, { single: this.single });
 
@@ -243,9 +251,16 @@ export class EmployeeProfileComponent implements OnInit {
       managerId: [null, [Validators.required]],
       requestReason: [null, [Validators.required, Validators.maxLength(200)]]
     });
+    this.donateCoinsForm = this.fb.group({
+      userId: ['', Validators.required],
+      coins: ['', [Validators.required, Validators.min(1)]],
+      reason: [''],
+      donationReason: ['']
+    });
     debugger
     this.getSuperCoinsResponseForEmployeeData();
     this.getUserListToDonateCoins();
+    this.getDonateSuperCoinReasonData();
   }
 
   getRoleData() {
@@ -3068,6 +3083,29 @@ attendanceRequestLog: any[] = [];
     error => {
       console.error("Error fetching roles", error);
     });
+  }
+
+  donateSuperCoinReasonList: DonateSuperCoinsReasonResponse[] = [];
+  getDonateSuperCoinReasonData(): void {
+    this.dataService.getDonateSuperCoinReason().subscribe(data => {
+      this.donateSuperCoinReasonList = data.listOfObject;
+    },
+    error => {
+      console.error("Error fetching roles", error);
+    });
+  }
+
+  donateCoinsForm!: FormGroup;
+  isReasonTyped: boolean = false;
+  toggleReason(isTyped: boolean): void {
+    this.isReasonTyped = isTyped;
+    if (this.donateCoinsForm) {
+      if (isTyped) {
+        this.donateCoinsForm.get('reason')?.reset();
+      } else {
+        this.donateCoinsForm.get('donationReason')?.reset();
+      }
+    }
   }
 
 
