@@ -71,7 +71,7 @@ import { TdsDetailsRequest } from '../models/tds-details-request';
 import { AssetCategoryRequest, OrganizationAssetRequest } from '../models/asset-category-respose';
 import { LopReversalApplicationRequest } from '../models/lop-reversal-application-request';
 import { SalaryChangeOvertimeRequest } from '../models/salary-change-overtime-request';
-import { AllocateCoinsRoleWiseRequest, AllocateCoinsRoleWiseResponse } from '../models/allocate-coins-role-wise-request';
+import { AllocateCoinsRoleWiseRequest, AllocateCoinsRoleWiseResponse, AllocateCoinsToBadgeRequest } from '../models/allocate-coins-role-wise-request';
 import { OvertimeSettingRequest } from '../models/overtime-setting-request';
 import { OvertimeRequestDTO } from '../models/overtime-request-dto';
 
@@ -3701,7 +3701,7 @@ getHolidayForOrganization(date: string): Observable<any>{
   }
 
   allocateCoinsRoleAndOrganizationWise(allocateCoinsRoleWiseRequest: AllocateCoinsRoleWiseRequest): Observable<any> {
-    return this.httpClient.post(`${this.baseUrl}/super-coin-allocation/allocate/coins`, allocateCoinsRoleWiseRequest, {});
+    return this.httpClient.put(`${this.baseUrl}/super-coin-allocation/allocate/coins`, allocateCoinsRoleWiseRequest, {});
   }
 
   getRoleWiseAllocatedCoins(): Observable<any> {
@@ -3727,6 +3727,42 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get(`${this.baseUrl}/super-coin-allocation/get/super/coins/data/for/employee`, { params });
   }
 
+  getRemainingBadges(): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/super-coin-allocation/get/remaining/badges`);
+  }
+
+  allocateCoinsForBadgeOrganizationWise(allocateCoinsToBadgeRequest: AllocateCoinsToBadgeRequest): Observable<any> {
+    return this.httpClient.put(`${this.baseUrl}/super-coin-allocation/allocate/coins/for/Badges`, allocateCoinsToBadgeRequest, {});
+  }
+
+  getBadgeCoinsInfo(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/super-coin-allocation/get/badge/coins/info`);
+  }
+
+  getBadgeCoinsInformationById(allocatedCoinsToBadgeId: number): Observable<any> {
+    let params = new HttpParams().set('allocatedCoinsToBadgeId', allocatedCoinsToBadgeId);
+    return this.httpClient.get(`${this.baseUrl}/super-coin-allocation/get/badge/coins/info/by/id`, { params });
+  }
+
+  deleteBadgeCoinsAllocationInfoById(allocatedCoinsToBadgeId: number): Observable<ResponseEntityObject> {
+    const params = new HttpParams().set('allocatedCoinsToBadgeId', allocatedCoinsToBadgeId);
+    return this.httpClient.delete<ResponseEntityObject>(`${this.baseUrl}/super-coin-allocation/delete/badge/coins/info/by/id`, { params });
+  }
+
+  getUserListToDonateCoins(userUuid: string): Observable<any> {
+    let params = new HttpParams().set('userUuid', userUuid);
+    return this.httpClient.get(`${this.baseUrl}/super-coin-allocation/get/user/list/to/donate/coins`, { params });
+  }
+
+  getDonateSuperCoinReason(): Observable<any> {
+    // let params = new HttpParams().set('userUuid', userUuid);
+    return this.httpClient.get(`${this.baseUrl}/super-coin-allocation/get/donate/coins/reason`);
+  }
+
+
+  
+  
+  // shivendra overtime code
   registerOvertimeRequest(overtimeRequestDTO : OvertimeRequestDTO): Observable<any>{
 
     return this.httpClient.post<any>(`${this.baseUrl}/overtime/register`, overtimeRequestDTO, {});

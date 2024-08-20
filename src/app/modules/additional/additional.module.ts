@@ -7,6 +7,12 @@ import { LeaveRequestFormComponent } from './components/leave-request-form/leave
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SlackInstallationSuccessfullComponent } from './components/slack-installation-successfull/slack-installation-successfull.component';
 import { InternalServerErrorPageComponent } from './components/internal-server-error-page/internal-server-error-page.component';
+import { EmployeeAttendancePhotoComponent } from './components/employee-attendance-photo/employee-attendance-photo.component';
+import { EmployeeLocationValidatorComponent } from './components/employee-location-validator/employee-location-validator.component';
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+import { WebcamModule } from 'ngx-webcam';
+import { AgmCoreModule } from '@agm/core';
+import { LinkExpiredPageComponent } from './components/link-expired-page/link-expired-page.component';
 
 
 @NgModule({
@@ -14,13 +20,22 @@ import { InternalServerErrorPageComponent } from './components/internal-server-e
     AdditionalComponent,
     LeaveRequestFormComponent,
     SlackInstallationSuccessfullComponent,
-    InternalServerErrorPageComponent
+    InternalServerErrorPageComponent,
+    EmployeeAttendancePhotoComponent,
+    EmployeeLocationValidatorComponent,
+    LinkExpiredPageComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    AdditionalRoutingModule
+    AdditionalRoutingModule,
+    WebcamModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyB6SQE_TmOLpGLohpMLl-6FzdwJJAU9MnA',
+      libraries: ['places'],
+    }),
+    GooglePlaceModule
   ]
 })
 export class AdditionalModule { }
