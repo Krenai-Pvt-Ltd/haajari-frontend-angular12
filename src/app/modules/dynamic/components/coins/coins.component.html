@@ -377,7 +377,7 @@ aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="fa
 </div>
 </div>
 
-<div class="modal fade" id="allocateCoinsForBadgeModal" tabindex="-1" aria-labelledby="allocateCoinsForBadgeModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+<!-- <div class="modal fade" id="allocateCoinsForBadgeModal" tabindex="-1" aria-labelledby="allocateCoinsForBadgeModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
@@ -416,5 +416,63 @@ aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="fa
       </div>
     </div>
   </div>
+</div> -->
+
+
+<div class="modal fade" id="allocateCoinsForBadgeModal" tabindex="-1" aria-labelledby="allocateCoinsForBadgeModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="allocateCoinsForBadgeModalLabel">Allocate Super Coins</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeSuperCoinsForBadgesModal></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="allocateCoinsForBadgesForm" (ngSubmit)="onSubmitBadges()">
+          <div class="mb-3">
+            <label for="badgeId" class="form-label">Select Badge <span class="text-danger">*</span></label>
+            <nz-select class="form-control" formControlName="badgeId" nzShowSearch nzPlaceHolder="Select a badge" nzSize="large">
+              <nz-option *ngFor="let badge of badges" [nzValue]="badge.badgeId" [nzLabel]="badge.badgeName"></nz-option>
+            </nz-select>
+            <div *ngIf="allocateCoinsForBadgesForm.get('badgeId')!.invalid && (allocateCoinsForBadgesForm.get('badgeId')!.dirty || allocateCoinsForBadgesForm.get('badgeId')!.touched)" class="text-danger">
+              Badge selection is required.
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="assignedMinCoins" class="form-label">Badge Name <span class="text-danger">*</span></label>
+            <input type="number" class="form-control" id="assignedMinCoins" formControlName="assignedMinCoins" placeholder="Enter allocated min coins">
+            <div *ngIf="allocateCoinsForBadgesForm.get('assignedMinCoins')!.invalid && (allocateCoinsForBadgesForm.get('assignedMinCoins')!.dirty || allocateCoinsForBadgesForm.get('assignedMinCoins')!.touched)" class="text-danger">
+              Allocated min coins are required.
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="assignedMinCoins" class="form-label">Badge Logo <span class="text-danger">*</span></label>
+            <input type="number" class="form-control" id="assignedMinCoins" formControlName="assignedMinCoins" placeholder="Enter allocated min coins">
+            <div *ngIf="allocateCoinsForBadgesForm.get('assignedMinCoins')!.invalid && (allocateCoinsForBadgesForm.get('assignedMinCoins')!.dirty || allocateCoinsForBadgesForm.get('assignedMinCoins')!.touched)" class="text-danger">
+              Allocated min coins are required.
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="assignedMinCoins" class="form-label">Allocated Min Coins <span class="text-danger">*</span></label>
+            <input type="number" class="form-control" id="assignedMinCoins" formControlName="assignedMinCoins" placeholder="Enter allocated min coins">
+            <div *ngIf="allocateCoinsForBadgesForm.get('assignedMinCoins')!.invalid && (allocateCoinsForBadgesForm.get('assignedMinCoins')!.dirty || allocateCoinsForBadgesForm.get('assignedMinCoins')!.touched)" class="text-danger">
+              Allocated min coins are required.
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="assignedMaxCoins" class="form-label">Allocated Max Coins <span class="text-danger">*</span></label>
+            <input type="number" class="form-control" id="assignedMaxCoins" formControlName="assignedMaxCoins" placeholder="Enter allocated max coins">
+            <div *ngIf="allocateCoinsForBadgesForm.get('assignedMaxCoins')!.invalid && (allocateCoinsForBadgesForm.get('assignedMaxCoins')!.dirty || allocateCoinsForBadgesForm.get('assignedMaxCoins')!.touched)" class="text-danger">
+              Allocated max coins are required.
+            </div>
+          </div>
+          <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-primary" [disabled]="allocateCoinsForBadgesForm.invalid">Allocate</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
+
+
 

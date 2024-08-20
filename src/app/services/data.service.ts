@@ -3753,7 +3753,16 @@ getHolidayForOrganization(date: string): Observable<any>{
     let params = new HttpParams().set('userUuid', userUuid);
     return this.httpClient.get(`${this.baseUrl}/super-coin-allocation/get/user/list/to/donate/coins`, { params });
   }
-   
+
+  getDonateSuperCoinReason(): Observable<any> {
+    // let params = new HttpParams().set('userUuid', userUuid);
+    return this.httpClient.get(`${this.baseUrl}/super-coin-allocation/get/donate/coins/reason`);
+  }
+
+
+  
+  
+  // shivendra overtime code
   registerOvertimeRequest(overtimeRequestDTO : OvertimeRequestDTO): Observable<any>{
 
     return this.httpClient.post<any>(`${this.baseUrl}/overtime/register`, overtimeRequestDTO, {});

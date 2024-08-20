@@ -46,6 +46,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    debugger
     window.scroll(0, 0);
     this.checkAttendanceLocationLinkStatusMethodCall();
     const userUuid = new URLSearchParams(window.location.search).get(
@@ -71,7 +72,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
         userUuid: new URLSearchParams(window.location.search).get('userUuid'),
       },
     };
-    this.router.navigate(['/attendance-photo'], navExtra);
+    this.router.navigate(['/additional/attendance-photo'], navExtra);
   }
 
   enableSubmitToggle: boolean = false;
@@ -382,6 +383,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
 
   isInvalid: boolean = false;
   checkAttendanceLocationLinkStatusMethodCall() {
+    debugger
     const uniqueId = new URLSearchParams(window.location.search).get(
       'uniqueId'
     );

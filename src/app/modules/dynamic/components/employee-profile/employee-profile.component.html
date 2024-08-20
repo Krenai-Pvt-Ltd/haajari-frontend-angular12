@@ -4312,8 +4312,7 @@
 
 <!-- donate coins modal -->
 
-<div class="modal fade" id="donateCoinsModal" tabindex="-1" aria-labelledby="donateCoinsModalLabel"
-  aria-hidden="true">
+<div class="modal fade" id="donateCoinsModal" tabindex="-1" aria-labelledby="donateCoinsModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
@@ -4321,8 +4320,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <!-- [formGroup]="donateCoinsForm"  -->
-        <form >
+        <form [formGroup]="donateCoinsForm">
           <!-- Select User -->
           <div class="mb-3 row">
             <label for="userId" class="col-sm-4 col-form-label">Select User<span class="text-danger">*</span></label>
@@ -4332,26 +4330,53 @@
               </nz-select>
             </div>
           </div>
+
           <!-- Enter Coins -->
           <div class="mb-3 row">
             <label for="coins" class="col-sm-4 col-form-label">Coins<span class="text-danger">*</span></label>
             <div class="col-sm-8">
-              <input type="number" formControlName="coins" id="coins" class="form-control" placeholder="Enter coins"
-                min="1">
+              <input type="number" formControlName="coins" id="coins" class="form-control" placeholder="Enter coins" min="1">
             </div>
           </div>
-          <!-- Donation Reason -->
+
+          <!-- Toggle Between Select Reason and Type Reason -->
           <div class="mb-3 row">
+            <label class="col-sm-4 col-form-label">Reason<span class="text-danger">*</span></label>
+            <div class="col-sm-8">
+              <div class="form-check">
+                <input type="radio" id="selectReasonToggle" name="reasonToggle" class="form-check-input"
+                       [value]="false" [(ngModel)]="isReasonTyped" (change)="toggleReason(false)">
+                <label for="selectReasonToggle" class="form-check-label">Select Reason</label>
+              </div>
+              <div class="form-check">
+                <input type="radio" id="typeReasonToggle" name="reasonToggle" class="form-check-input"
+                       [value]="true" [(ngModel)]="isReasonTyped" (change)="toggleReason(true)">
+                <label for="typeReasonToggle" class="form-check-label">Type Reason</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Conditionally Render Reason Inputs -->
+          <div class="mb-3 row" *ngIf="!isReasonTyped">
+            <label for="reason" class="col-sm-4 col-form-label">Select Reason<span class="text-danger">*</span></label>
+            <div class="col-sm-8">
+              <nz-select formControlName="reason" id="reason" nzPlaceHolder="Select reason" class="w-100">
+                <nz-option *ngFor="let r of donateSuperCoinReasonList" [nzValue]="r.reason" [nzLabel]="r.reason"></nz-option>
+              </nz-select>
+            </div>
+          </div>
+
+          <div class="mb-3 row" *ngIf="isReasonTyped">
             <label for="donationReason" class="col-sm-4 col-form-label">Reason<span class="text-danger">*</span></label>
             <div class="col-sm-8">
-              <textarea formControlName="donationReason" id="donationReason" class="form-control" rows="3"
-                placeholder="Enter reason"></textarea>
+              <textarea formControlName="donationReason" id="donationReason" class="form-control" rows="3" placeholder="Enter reason"></textarea>
             </div>
           </div>
+
         </form>
       </div>
       <div class="d-flex justify-content-end">
-        <button type="button" class="btn btn-primary" >Donate</button>
+        <button type="button" class="btn btn-primary" [disabled]="donateCoinsForm.invalid">Donate</button>
       </div>
     </div>
   </div>

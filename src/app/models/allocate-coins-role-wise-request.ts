@@ -30,6 +30,8 @@ export interface AllocateCoinsRoleWiseRequest {
     assignedMinCoins: number;
     assignedMaxCoins: number;
     badgeId: number;
+    badgeName: string;
+    badgeLogo: string;
   }
 
   export interface CoinsForBadgesResponse {
@@ -45,5 +47,12 @@ export interface AllocateCoinsRoleWiseRequest {
     userId: number;
     userName: string;
   }
+
+  export interface DonateSuperCoinsReasonResponse {
+    id: number;
+    reason: string;
+  }
+
+  
   
   
