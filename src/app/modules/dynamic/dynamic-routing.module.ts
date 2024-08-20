@@ -30,13 +30,11 @@ import { EmployeeOnboardingSidebarComponent } from '../employee-onboarding/emplo
 import { EmployeeOnboardingDataComponent } from './components/employee-onboarding-data/employee-onboarding-data.component';
 import { BillingPaymentComponent } from './components/billing-payment/billing-payment.component';
 import { SuccessComponent } from './components/success/success.component';
-import { EmployeeLocationValidatorComponent } from './employee-location-validator/employee-location-validator.component';
 import { UnauthorizedComponent } from '../sharable/unauthorized/unauthorized.component';
 import { LeaveManagementComponent } from './components/leave-management/leave-management.component';
 
 
 
-import { EmployeeAttendancePhotoComponent } from './employee-attendance-photo/employee-attendance-photo.component';
 import { AssetsComponent } from './components/assets/assets.component';
 import { BillingAndSubscriptionPageComponent } from './components/billing-and-subscription-page/billing-and-subscription-page.component';
 import { CoinsComponent } from './components/coins/coins.component';
@@ -69,10 +67,10 @@ import { CoinsComponent } from './components/coins/coins.component';
     {path : 'billing', component: BillingComponent, canActivate: [AuthGuard], data: { requiredSubmodule: '/billing' }},
     {path : 'billing-payment', component: BillingPaymentComponent, canActivate: [AuthGuard], data: { requiredSubmodule: '/billing-payment' }},
     {path : 'success', component: SuccessComponent},
-    {path : 'location-validator', component: EmployeeLocationValidatorComponent},
+    // {path : 'location-validator', component: EmployeeLocationValidatorComponent},
     {path : 'unauthorized', component: UnauthorizedComponent},
     {path : 'leave-management', component: LeaveManagementComponent},
-    {path : 'attendance-photo', component: EmployeeAttendancePhotoComponent},
+    // {path : 'attendance-photo', component: EmployeeAttendancePhotoComponent},
     {path : 'unauthorized', component: UnauthorizedComponent},
     {path : 'billing-and-subscription', component: BillingAndSubscriptionPageComponent}
   ] }
