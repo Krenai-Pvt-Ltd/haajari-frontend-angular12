@@ -690,10 +690,10 @@
                 </div>
                 <hr style="margin-bottom: 10px" />
                 <ul class="nav nav-tabs bg-white" role="tablist">
-                  <li class="nav-item" (click)="changeLogTabInOvertimeTab(OVERTIME_PENDING_REQUEST_TAB)">
-                    <a class="nav-link" [ngClass]="{'active': ACTIVE_TAB_IN_OVERTIME_TAB == OVERTIME_PENDING_REQUEST_TAB}" data-bs-toggle="tab" href="#overtime-pending-request" role="tab" aria-selected="true">Pending requests</a>
+                  <li class="nav-item" (click)="changeLogTabInOvertimeTab(OVERTIME_PENDING_REQUEST_TAB); getOvertimePendingRequestResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();">
+                    <a class="nav-link" [ngClass]="{'active': ACTIVE_TAB_IN_OVERTIME_TAB == OVERTIME_PENDING_REQUEST_TAB}" data-bs-toggle="tab" href="#overtime-pending-request" role="tab" aria-selected="true">Pending requests <span class="badge rounded-pill badge-outline-warning" style="margin-left: 10px" *ngIf="pendingRequestCount > 0">{{ pendingRequestCount }}</span></a>
                   </li>
-                  <li class="nav-item" (click)="changeLogTabInOvertimeTab(OVERTIME_HISTORY_TAB);">
+                  <li class="nav-item" (click)="changeLogTabInOvertimeTab(OVERTIME_HISTORY_TAB); getOvertimeRequestResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();">
                     <a class="nav-link" [ngClass]="{'active': ACTIVE_TAB_IN_OVERTIME_TAB == OVERTIME_HISTORY_TAB}" data-bs-toggle="tab" href="#overtime-history" role="tab" aria-selected="false">Overtime History</a>
                   </li>
                 </ul>
@@ -736,8 +736,8 @@
                                     </div>
                                   </div>
                                 </div>
-                                <!-- <a href="#" class="text-primary" (click)="getPendingLeave(pl.id, pl.leaveType)" data-bs-toggle="modal" data-bs-target="#leave-appervo">
-                                  <i class="fas fa-external-link-square-alt me-1"></i>View </a> -->
+                                <a href="#" class="text-primary" (click)="getOvertimeRequestActionResponseMethodCall(overtimePendingRequestResponse)" data-bs-toggle="modal" data-bs-target="#overtime-request-action">
+                                  <i class="fas fa-external-link-square-alt me-1"></i>View </a>
                               </div>
                             </div>
                             <!--end col-->
@@ -800,7 +800,7 @@
                                     <div class="dropdown d-inline-block">
                                       <div class="align-self-center">
                                         <h6 class="fw-semibold">
-                                          <span class="badge badge-outline-primary"> Duration | {{ this.helperService.formatHHmmssToHHmm(overtimeRequestResponse.workingHour) }}</span>
+                                          <span class="badge badge-outline-primary"> Duration | {{ this.helperService.formatHHmmssToHHmm(overtimeRequestResponse.workingHour) }} hrs.</span>
                                         </h6>
                                         <small>{{ overtimeRequestResponse.createdDate | date:'medium' ||
                                               "N/A"
@@ -869,6 +869,27 @@
                   <h4>Logs</h4>
                 </div>
                 <hr style="margin-bottom: 10px" />
+                <div class="mb-3 d-flex align-items-center" style="border: 1px solid #f1f1f1; border-radius: 2px">
+                  <!-- <div class="dropdown" style="width: 35%" *ngIf="overtimePendingRequestResponseList.length > 0">
+                    <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
+                      {{ selectedTeamName ? selectedTeamName : "All" }}
+                      <i class="bi bi-chevron-down" style="color: #444; font-size: 15px"></i>
+                    </button>
+                    <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu team-dropdown" style="width: 100%">
+                      <li class="ng-star-inserted" *ngIf="selectedTeamName" (click)="selectTeam('')">
+                        <a class="dropdown-item">All</a>
+                      </li>
+                      <li class="ng-star-inserted" *ngFor="let tn of teamNameList" (click)="selectTeam(tn.teamName)">
+                        <a class="dropdown-item"> {{ tn.teamName }} </a>
+                      </li>
+                    </ul>
+                  </div> -->
+                  <!-- <div class="form-group pb-1" style="width: 65%; position: relative">
+                    <input type="text" id="searchText" placeholder="Search by name or email" [(ngModel)]="searchText" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px; border: none !important" (keyup)="searchOvertimeRequestLogResponse()" />
+                    <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px" *ngIf="searchText == ''"></i>
+                    <i class="bi bi-x search-icon" style="margin: auto; margin-left: 10px" *ngIf="searchText != ''" (click)="clearSearchUsers()"></i>
+                  </div> -->
+                </div>
                 <!-- <div class="mb-3 d-flex align-items-center" style="border: 1px solid #f1f1f1; border-radius: 2px" *ngIf="ROLE != 'USER'">
                   <div class="dropdown" style="width: 35%" *ngIf="ROLE != 'USER' || fullLeaveLogs.length > 0">
                     <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
@@ -1147,6 +1168,81 @@
       <!-- <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div> -->
+    </div>
+  </div>
+</div>
+
+<!-- overtime request action modal -->
+<div class="modal fade" id="overtime-request-action" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 570px" role="document">
+    <div class="modal-content">
+      <div class="modal-body p-5">
+        <button type="button" class="overtime-request-action-close-btn" data-bs-dismiss="modal" aria-label="Close" #closeOvertimeRequestActionModal>
+          <i class="bi bi-x" style="line-height: 20px"></i>
+        </button>
+        <div class="text-center overtime-request-action-modal">
+          <div class="d-flex align-items-start justify-content-between">
+            <div class="d-flex align-items-center profile-details" style="gap: 15px">
+              <div class="profile-user-img">
+                <img [src]="
+                    overtimeRequestActionResponse.userImage || 'assets/images/user.png'
+                  " style="width: 50px; height: 50px; object-fit: cover" />
+              </div>
+              <div>
+                <h4 style="cursor: pointer" (click)="this.helperService.routeToUserProfile(overtimeRequestActionResponse.userUuid)">
+                  {{ overtimeRequestActionResponse.userName }}
+                </h4>
+                <p>{{ overtimeRequestActionResponse.userEmail }}</p>
+              </div>
+            </div>
+            <div class="total-holidey-live">
+              <h5>
+                <p>
+                  {{ overtimeRequestActionResponse.createdDate
+                      | date : "dd MMM yyyy hh:mm a"
+                  }}
+                </p>
+              </h5>
+              <!-- <h5>{{ formatDateIn(formatDate(specificLeaveRequest.startDate)) }} - {{ formatDateIn(formatDate(specificLeaveRequest.endDate)) }}</h5> -->
+            </div>
+          </div>
+          <div class="mt-4">
+            <div class="overtime-request-action-field">
+              <p><span>Time: </span><u>{{ overtimeRequestActionResponse.startTime | date : 'd MMM, h:mm a'}} - {{ overtimeRequestActionResponse.endTime | date : 'd MMM, h:mm a' }}</u></p>
+              <p><span>Duration: </span>{{this.helperService.formatHHmmssToHHmm(overtimeRequestActionResponse.workingHour)}} hrs.</p>
+              <p><span>Applied To: </span>{{ overtimeRequestActionResponse.managerName }}</p>
+              <p><span>Note: </span>{{ overtimeRequestActionResponse.note }}</p>
+            </div>
+            <!-- *ngIf="
+            specificLeaveRequest.managerUuid === logInUserUuid ||
+            ROLE == 'ADMIN'" -->
+            <div class="d-flex align-items-center justify-content-end" style="gap: 10px">
+              <!-- Reject Button -->
+              <button class="btn reject-btn" type="button" (click)="approveOrRejectOvertimeRequestMethodCall(overtimeRequestActionResponse.overtimeRequestId, this.key.REJECTED)">
+                <div *ngIf="rejectLoader; else rejectLabel">
+                  <div class="dot-opacity-loader-reject">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </div>
+                <ng-template #rejectLabel>Reject</ng-template>
+              </button>
+              <!-- Approve Button -->
+              <button class="btn approve-btn" type="button" (click)="approveOrRejectOvertimeRequestMethodCall(overtimeRequestActionResponse.overtimeRequestId, this.key.APPROVED)">
+                <div *ngIf="approveLoader; else approveLabel">
+                  <div class="dot-opacity-loader-approve">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </div>
+                <ng-template #approveLabel>Approve</ng-template>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -23,6 +23,7 @@ import * as saveAs from 'file-saver';
 import { DatePipe } from '@angular/common';
 import { OvertimeRequestLogResponse } from 'src/app/models/overtime-request-log-response';
 import { OvertimeResponseDTO } from 'src/app/models/overtime-response-dto';
+import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-reflection';
 
 // import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
 
@@ -344,6 +345,7 @@ export class TimetableComponent implements OnInit {
   itemPerPage: number = 8;
   pageNumber: number = 1;
   searchText: string = '';
+  searchBy: string = '';
   total: number = 0;
 
   lastPageNumber = 0;
@@ -963,6 +965,7 @@ approveOrRequest(id:number, reqString: string) {
       this.getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();
       this.getOvertimeRequestResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();
       this.getOvertimePendingRequestResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();
+      // this.getTeamNames();
     }
 
     if(this.ACTIVE_TAB == this.UPDATION_REQUEST_TAB){
@@ -1060,7 +1063,7 @@ approveOrRequest(id:number, reqString: string) {
   overtimeRequestLogResponseList : OvertimeRequestLogResponse[] = [];
   getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDateMethodCall(){
     this.preRuleForShimmersAndErrorPlaceholdersForOvertimeRequestLogResponseMethodCall();
-    this.dataService.getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDate(this.startDate, this.endDate).subscribe((response) => {
+    this.dataService.getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDate(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.searchText, this.searchBy).subscribe((response) => {
       if(this.helperService.isListOfObjectNullOrUndefined(response)){
         this.dataNotFoundForOvertimeRequestLogResponse = true;
       } else{
@@ -1091,6 +1094,7 @@ approveOrRequest(id:number, reqString: string) {
     })
   }
 
+  pendingRequestCount : number = 0;
   overtimePendingRequestResponseList : OvertimeResponseDTO[] = [];
   getOvertimePendingRequestResponseByOrganizationUuidAndStartDateAndEndDateMethodCall(){
     this.preRuleForShimmersAndErrorPlaceholdersForOvertimePendingRequestResponseMethodCall();
@@ -1099,6 +1103,7 @@ approveOrRequest(id:number, reqString: string) {
         this.dataNotFoundForOvertimePendingRequestResponse = true;
       } else{
         this.overtimePendingRequestResponseList = response.listOfObject;
+        this.pendingRequestCount = this.overtimePendingRequestResponseList.length;
       }
 
       this.isShimmerForOvertimePendingRequestResponse = false;
@@ -1107,5 +1112,79 @@ approveOrRequest(id:number, reqString: string) {
       this.networkConnectionErrorForOvertimePendingRequestResponse = true;
     })
   }
+
+
+  overtimeRequestActionResponse : OvertimeResponseDTO = new OvertimeResponseDTO();
+  getOvertimeRequestActionResponseMethodCall(overtimeResponseDTO : OvertimeResponseDTO){
+    this.overtimeRequestActionResponse = overtimeResponseDTO;
+    console.log(this.overtimeRequestActionResponse);
+  }
+
+
+  @ViewChild("closeOvertimeRequestActionModal") closeOvertimeRequestActionModal !: ElementRef;
+  approveLoader : boolean = false;
+  rejectLoader : boolean = false;
+  approveOrRejectOvertimeRequestMethodCall(overtimeRequestId : number, requestTypeId : number){
+    if(requestTypeId == this.key.APPROVED){
+      this.approveLoader = true;
+    } else if(requestTypeId == this.key.REJECTED){
+      this.rejectLoader = true;
+    }
+
+    this.dataService.approveOrRejectOvertimeRequest(overtimeRequestId, requestTypeId).subscribe((response) => {
+      this.approveLoader = false;
+      this.rejectLoader = false;
+      this.closeOvertimeRequestActionModal.nativeElement.click();
+      this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+      this.getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();
+      this.getOvertimePendingRequestResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();
+    }, (error) => {
+      this.approveLoader = false;
+      this.rejectLoader = false;
+      this.helperService.showToast("Error while approving the request!", Key.TOAST_STATUS_ERROR);
+    })
+  }
+
+
+  //Search in overtime logs
+  // teamNameList: UserTeamDetailsReflection[] = [];
+
+  // teamId: number = 0;
+  // getTeamNames() {
+  //   debugger;
+  //   this.dataService.getAllTeamNames().subscribe({
+  //     next: (response: any) => {
+  //       this.teamNameList = response.object;
+  //     },
+  //     error: (error) => {
+  //       console.error('Failed to fetch team names:', error);
+  //     },
+  //   });
+  // }
+  
+  // selectedTeamName : string = '';
+  // selectTeam(teamName: string) {
+  //   this.pageNumber = 1;
+  //   this.itemPerPage = 8;
+  //   this.overtimePendingRequestResponseList = [];
+  //   this.selectedTeamName = teamName;
+  //   this.getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();
+  // }
+
+  // searchOvertimeRequestLogResponse() {
+  //   this.pageNumber = 1;
+  //   this.itemPerPage = 8;
+  //   this.overtimePendingRequestResponseList = [];
+  //   this.getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();
+  // }
+
+  // clearSearchUsers() {
+  //   this.pageNumber = 0;
+  //   this.itemPerPage = 8;
+  //   this.overtimePendingRequestResponseList = [];
+  //   this.searchText = '';
+  //   this.searchBy = '';
+  //   this.getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();
+  // }
   
 }

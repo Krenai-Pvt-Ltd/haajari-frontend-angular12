@@ -3759,13 +3759,13 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.post<any>(`${this.baseUrl}/overtime/register`, overtimeRequestDTO, {});
   }
 
-  approveOrRejectOvertime(overtimeRequestId : number, requestTypeId : number): Observable<any>{
+  approveOrRejectOvertimeRequest(overtimeRequestId : number, requestTypeId : number): Observable<any>{
 
     const params = new HttpParams()
     .set('overtime_request_id', overtimeRequestId)
     .set('request_type_id', requestTypeId);
 
-    return this.httpClient.post<any>(`${this.baseUrl}/overtime/register`, {params});
+    return this.httpClient.post<any>(`${this.baseUrl}/overtime/approve-reject`, {}, {params});
 
   }
 
@@ -3777,11 +3777,15 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/overtime/log/response/get-by-user-uuid`, {params});
   }
 
-  getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDate(startDate : string, endDate : string): Observable<any>{
+  getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDate(startDate : string, endDate : string, itemPerPage : number, pageNumber : number, searchText : string, searchBy : string): Observable<any>{
 
     const params = new HttpParams()
     .set('start_date', startDate)
-    .set('end_date', endDate);
+    .set('end_date', endDate)
+    .set('item_per_page', itemPerPage)
+    .set('page_number', pageNumber)
+    .set('search_text', searchText)
+    .set('search_by', searchBy);
 
     return this.httpClient.get<any>(`${this.baseUrl}/overtime/log/response/get-by-organization-uuid`, {params});
   }

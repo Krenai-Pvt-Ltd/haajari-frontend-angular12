@@ -1031,7 +1031,7 @@ hr {
   border: 1px solid #f1f1f1;
   box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, 0.05);
   border-radius: 6px;
-  height: 550px;
+  height: 70vh;
 }
 
 .my-leave-log-hedding h4 {
@@ -1169,21 +1169,21 @@ span.leave-rejected {
   border: 1px solid #eb5050;
 }
 
-.leave-appervo-modal h4 {
+.overtime-request-action-modal h4 {
   font-size: 18px !important;
   color: #000;
   font-weight: 500;
   padding-bottom: 5px;
 }
 
-.leave-appervo-modal h5 {
+.overtime-request-action-modal h5 {
   font-size: 14px !important;
   color: #444;
   font-weight: 400;
   padding-bottom: 15px;
 }
 
-.leave-appervo-modal p {
+.overtime-request-action-modal p {
   color: #8d93a1 !important;
   font-weight: 400;
   font-size: 13px;
@@ -1192,7 +1192,7 @@ span.leave-rejected {
   text-align: justify;
 }
 
-.leave-request-modat-close-btn {
+.overtime-request-action-close-btn {
   position: absolute;
   top: -12px;
   right: -12px;
@@ -1314,12 +1314,12 @@ span.leave-rejected {
 
 .leave-history-box {
   /* max-height: 214px; */
-  max-height: 370px;
+  max-height: 52vh;
   overflow: scroll;
 }
 
 .leave-history-box-if-pending-null {
-  max-height: 380px;
+  max-height: 52vh;
   overflow: scroll;
 }
 
@@ -1427,6 +1427,26 @@ span.leave-rejected {
   animation: dotOpacity 1.4s infinite ease-in-out both;
 }
 
+.dot-opacity-loader-reject span{
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #EB5050; /* Bootstrap primary color for example, change as needed */
+  margin: 0 4px;
+  animation: dotOpacity 1.4s infinite ease-in-out both;
+}
+
+.dot-opacity-loader-approve span{
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #3E993E; /* Bootstrap primary color for example, change as needed */
+  margin: 0 4px;
+  animation: dotOpacity 1.4s infinite ease-in-out both;
+}
+
 .dot-opacity-loader span:nth-child(1) {
   animation-delay: -0.32s;
 }
@@ -1449,4 +1469,10 @@ span.leave-rejected {
 
 .activity .activity-info:last-child ::before {
   border: none;
+}
+.overtime-request-action-field p{
+  line-height: normal;
+}
+.overtime-request-action-field p>span{
+  font-weight: bold;
 }
