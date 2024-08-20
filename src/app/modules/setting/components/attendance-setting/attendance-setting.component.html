@@ -194,9 +194,7 @@
                             </div>
                             <div class="">
                               <h6 class="text-truncate mb-0">
-                                {{ organizationShiftTimingWithShiftTypeResponse
-                                    .shiftType.name
-                                }}
+                                {{ organizationShiftTimingWithShiftTypeResponse.shiftType.name }}
                               </h6>
                               <small class="text-muted">Define the shift timing rules for the employees</small>
                             </div>
@@ -2929,6 +2927,7 @@
   </div>
 </div>
 
+
 <div *ngIf="PRE_HOUR_TOGGLE" class="modal show d-block" id="pre-hour" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -2937,19 +2936,38 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="preHourModalClose()"></button>
       </div>
       <div class="modal-body">
-        <form #preHourOvertimeSettingForm="ngForm">
-          <label for="exampleInputEmail1" class="pb-2">Enter the number of hours before shift start to be counted as overtime.</label>
-          <div class="form-group row mb-3" style="width: 100%;">
-            <nz-time-picker nzFormat="HH:mm" [(ngModel)]="overtimeSettingRequest.hour" [ngModelOptions]="{standalone: true}" (ngModelChange)="updatePreHourOvertimeSetting($event)" nzPlaceHolder="Enter duration here" [nzDisabledHours]="disabledHours" required></nz-time-picker>
+        <form nz-form #preHourOvertimeSettingForm="ngForm">
+          <nz-form-item>
+            <nz-form-label [nzFor]="'preHour'">Enter the number of hours before shift start to be counted as overtime</nz-form-label>
+            <nz-form-control nzErrorTip="Please enter a valid hour.">
+              <nz-time-picker 
+                id="preHour" 
+                nzFormat="HH:mm" 
+                [(ngModel)]="overtimeSettingRequest.hour" 
+                (ngModelChange)="updatePreHourOvertimeSetting($event)" 
+                nzPlaceHolder="Enter duration here" 
+                [nzDisabledHours]="disabledHours" 
+                required 
+                name="preHour" 
+                #preHour="ngModel">
+              </nz-time-picker>
+            </nz-form-control>
+          </nz-form-item>
+          <div class="d-flex justify-content-end modal-footer">
+            <button 
+              type="submit" 
+              class="btn btn-outline-primary btn-round" 
+              [disabled]="preHourOvertimeSettingForm.invalid" 
+              (click)="enableOrDisablePreHourOvertimeSettingMethodCall()"> 
+              Submit 
+            </button>
           </div>
         </form>
-      </div>
-      <div class="d-flex justify-content-end modal-footer">
-        <button type="submit" class="btn btn-outline-primary btn-round" (click)="enableOrDisablePreHourOvertimeSettingMethodCall()"> Submit </button>
       </div>
     </div>
   </div>
 </div>
+
 
 <div *ngIf="POST_HOUR_TOGGLE" class="modal show d-block" id="post-hour" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -2959,15 +2977,33 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="postHourModalClose()"></button>
       </div>
       <div class="modal-body">
-        <form #postHourOvertimeSettingForm="ngForm">
-          <label for="exampleInputEmail1" class="pb-2">Enter the number of hours after shift end to be counted as overtime.</label>
-          <div class="form-group row mb-3" style="width: 100%;">
-            <nz-time-picker nzFormat="HH:mm" [(ngModel)]="overtimeSettingRequest.hour" [ngModelOptions]="{standalone: true}" (ngModelChange)="updatePostHourOvertimeSetting($event)" nzPlaceHolder="Enter duration here" [nzDisabledHours]="disabledHours" required></nz-time-picker>
+        <form nz-form #postHourOvertimeSettingForm="ngForm">
+          <nz-form-item>
+            <nz-form-label [nzFor]="'postHour'">Enter the number of hours before shift start to be counted as overtime</nz-form-label>
+            <nz-form-control nzErrorTip="Please enter a valid hour.">
+              <nz-time-picker 
+                id="postHour" 
+                nzFormat="HH:mm" 
+                [(ngModel)]="overtimeSettingRequest.hour" 
+                (ngModelChange)="updatePostHourOvertimeSetting($event)" 
+                nzPlaceHolder="Enter duration here" 
+                [nzDisabledHours]="disabledHours" 
+                required 
+                name="postHour" 
+                #postHour="ngModel">
+              </nz-time-picker>
+            </nz-form-control>
+          </nz-form-item>
+          <div class="d-flex justify-content-end modal-footer">
+            <button 
+              type="submit" 
+              class="btn btn-outline-primary btn-round" 
+              [disabled]="postHourOvertimeSettingForm.invalid" 
+              (click)="enableOrDisablePostHourOvertimeSettingMethodCall()"> 
+              Submit 
+            </button>
           </div>
         </form>
-      </div>
-      <div class="d-flex justify-content-end modal-footer">
-        <button type="submit" class="btn btn-outline-primary btn-round" (click)="enableOrDisablePostHourOvertimeSettingMethodCall()"> Submit </button>
       </div>
     </div>
   </div>

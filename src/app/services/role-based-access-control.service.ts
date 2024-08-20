@@ -60,7 +60,7 @@ export class RoleBasedAccessControlService {
   }
 
   getRoles() {
-    console.log("role is ",this.userInfo)
+    // console.log("role is ",this.userInfo)
     return this.userInfo!.role;
   }
 

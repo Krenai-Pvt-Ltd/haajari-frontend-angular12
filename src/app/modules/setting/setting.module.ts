@@ -21,7 +21,7 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzCalendarModule } from 'ng-zorro-antd/calendar';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
-
+import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgOtpInputModule } from 'ng-otp-input';
@@ -34,6 +34,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { AgmCoreModule } from '@agm/core';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+
 
 @NgModule({
   declarations: [
@@ -71,6 +73,8 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
     NzSelectModule,
     ImageCropperModule,
     NzInputNumberModule,
+    NzButtonModule,
+    NzFormModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyB6SQE_TmOLpGLohpMLl-6FzdwJJAU9MnA',
       libraries: ['places'],
