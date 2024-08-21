@@ -511,3 +511,7 @@ input::-webkit-inner-spin-button {
 .contract-plan {
   margin-bottom: 10px;
 }
+
+.select-option-hedding img {
+  width: 100px;
+}
