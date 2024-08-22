@@ -171,31 +171,30 @@ export class TimetableComponent implements OnInit {
     this.getAttendanceDetailsCountMethodCall();
   }
 
-  selectPreviousMonth(){
-
-    let currentDate = new Date(this.selectedDate);
-    currentDate.setDate(currentDate.getMonth() - 1);
-
+  selectPreviousMonth() {
+    const currentDate = new Date(this.selectedDate);
+    currentDate.setMonth(currentDate.getMonth() - 1);  // Use setMonth instead of setDate
+  
     if (currentDate < new Date(this.organizationRegistrationDate)) {
       return;
     }
-
-    this.selectedDate = new Date(currentDate);
+  
+    this.selectedDate = currentDate;
     this.onMonthChange(currentDate);
   }
-
-  selectNextMonth(){
-    const currentDateObject = this.selectedDate;
-    const tomorrow = new Date(currentDateObject);
-    tomorrow.setDate(currentDateObject.getMonth() + 1);
-
-    if (tomorrow >= new Date()) {
+  
+  selectNextMonth() {
+    const currentDate = new Date(this.selectedDate);
+    currentDate.setMonth(currentDate.getMonth() + 1);  // Use setMonth instead of setDate
+  
+    if (currentDate >= new Date()) {
       return;
     }
-
-    this.selectedDate = tomorrow;
-    this.onMonthChange(tomorrow);
+  
+    this.selectedDate = currentDate;
+    this.onMonthChange(currentDate);
   }
+  
 
   private formatDate(date: Date): string {
     const year = date.getFullYear();
