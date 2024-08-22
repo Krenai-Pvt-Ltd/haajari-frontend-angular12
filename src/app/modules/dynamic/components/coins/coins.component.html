@@ -154,7 +154,7 @@
                          <tbody *ngIf="coinsForBadges.length >0">
                            <tr *ngFor="let cfb of coinsForBadges; let i = index" >
                              <td ><b>{{i+1}}</b></td>
-                             <td class="text-center"><img src="{{ cfb.badgeLogo }}" style="width:40px;" alt="" height="110" class="rounded-circle" /></td>
+                             <td class="text-center"><img src="{{ cfb.badgeLogo }}" style="width:40px; height: 40px;" alt="" height="110" class="rounded-circle" /></td>
                              <td class="text-center">{{cfb.badgeName}}</td> 
                              
                              <td class="text-center">{{cfb.assignedDate | date: 'dd MMM, yyyy'}}</td>
@@ -428,39 +428,43 @@ aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="fa
       </div>
       <div class="modal-body">
         <form [formGroup]="allocateCoinsForBadgesForm" (ngSubmit)="onSubmitBadges()">
-          <div class="mb-3">
-            <label for="badgeId" class="form-label">Select Badge <span class="text-danger">*</span></label>
-            <nz-select class="form-control" formControlName="badgeId" nzShowSearch nzPlaceHolder="Select a badge" nzSize="large">
-              <nz-option *ngFor="let badge of badges" [nzValue]="badge.badgeId" [nzLabel]="badge.badgeName"></nz-option>
-            </nz-select>
-            <div *ngIf="allocateCoinsForBadgesForm.get('badgeId')!.invalid && (allocateCoinsForBadgesForm.get('badgeId')!.dirty || allocateCoinsForBadgesForm.get('badgeId')!.touched)" class="text-danger">
-              Badge selection is required.
-            </div>
+          <div class="text-danger p-2" *ngIf="errorString" style="background-color: rgb(255, 216, 216);">
+             {{errorString}}
           </div>
           <div class="mb-3">
-            <label for="assignedMinCoins" class="form-label">Badge Name <span class="text-danger">*</span></label>
-            <input type="number" class="form-control" id="assignedMinCoins" formControlName="assignedMinCoins" placeholder="Enter allocated min coins">
-            <div *ngIf="allocateCoinsForBadgesForm.get('assignedMinCoins')!.invalid && (allocateCoinsForBadgesForm.get('assignedMinCoins')!.dirty || allocateCoinsForBadgesForm.get('assignedMinCoins')!.touched)" class="text-danger">
-              Allocated min coins are required.
+            <label for="badgeName" class="form-label">Badge Name <span class="text-danger">*</span></label>
+            <!-- {{allocateCoinstoBadgeId}} -->
+            <input type="text" class="form-control" id="badgeName" formControlName="badgeName" placeholder="Enter badge name" required>
+            <div *ngIf="allocateCoinsForBadgesForm.get('badgeName')?.invalid && (allocateCoinsForBadgesForm.get('badgeName')?.dirty || allocateCoinsForBadgesForm.get('badgeName')?.touched)" class="text-danger">
+              Badge name is required.
             </div>
-          </div>
+          </div>          
           <div class="mb-3">
-            <label for="assignedMinCoins" class="form-label">Badge Logo <span class="text-danger">*</span></label>
-            <input type="number" class="form-control" id="assignedMinCoins" formControlName="assignedMinCoins" placeholder="Enter allocated min coins">
-            <div *ngIf="allocateCoinsForBadgesForm.get('assignedMinCoins')!.invalid && (allocateCoinsForBadgesForm.get('assignedMinCoins')!.dirty || allocateCoinsForBadgesForm.get('assignedMinCoins')!.touched)" class="text-danger">
-              Allocated min coins are required.
+            <label for="badgeLogo" class="form-label">Badge Logo <span class="text-danger">*</span></label>
+            <label for="badgeLogoInput" class="image-upload-label">
+              <div class="bannerplacehld">
+                <img *ngIf="imagePreviewUrl; else placeholder" [src]="imagePreviewUrl" alt="Image Preview">
+                <ng-template #placeholder>
+                  <img src="assets/images/update-min.svg" alt="Placeholder">
+                </ng-template>
+              </div>
+              <p *ngIf="!imagePreviewUrl">Upload badge logo</p>
+            </label>
+            <input type="file" class="form-control-file" id="badgeLogoInput" (change)="onFileSelected($event)" accept="image/jpeg, image/png, image/jpg" hidden>
+            <div *ngIf="allocateCoinsForBadgesForm.get('badgeLogo')!.invalid && (allocateCoinsForBadgesForm.get('badgeLogo')!.dirty || allocateCoinsForBadgesForm.get('badgeLogo')!.touched)" class="text-danger">
+              Badge logo is required.
             </div>
           </div>
           <div class="mb-3">
             <label for="assignedMinCoins" class="form-label">Allocated Min Coins <span class="text-danger">*</span></label>
-            <input type="number" class="form-control" id="assignedMinCoins" formControlName="assignedMinCoins" placeholder="Enter allocated min coins">
+            <input type="number" class="form-control" id="assignedMinCoins" formControlName="assignedMinCoins" placeholder="Enter allocated min coins" required>
             <div *ngIf="allocateCoinsForBadgesForm.get('assignedMinCoins')!.invalid && (allocateCoinsForBadgesForm.get('assignedMinCoins')!.dirty || allocateCoinsForBadgesForm.get('assignedMinCoins')!.touched)" class="text-danger">
               Allocated min coins are required.
             </div>
           </div>
           <div class="mb-3">
             <label for="assignedMaxCoins" class="form-label">Allocated Max Coins <span class="text-danger">*</span></label>
-            <input type="number" class="form-control" id="assignedMaxCoins" formControlName="assignedMaxCoins" placeholder="Enter allocated max coins">
+            <input type="number" class="form-control" id="assignedMaxCoins" formControlName="assignedMaxCoins" placeholder="Enter allocated max coins" required>
             <div *ngIf="allocateCoinsForBadgesForm.get('assignedMaxCoins')!.invalid && (allocateCoinsForBadgesForm.get('assignedMaxCoins')!.dirty || allocateCoinsForBadgesForm.get('assignedMaxCoins')!.touched)" class="text-danger">
               Allocated max coins are required.
             </div>
@@ -473,6 +477,7 @@ aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="fa
     </div>
   </div>
 </div>
+
 
 
 
