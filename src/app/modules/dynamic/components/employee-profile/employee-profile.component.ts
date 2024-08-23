@@ -3077,8 +3077,10 @@ attendanceRequestLog: any[] = [];
   donateCoinsUserList: DonateCoinsUserList[] = [];
 
   getUserListToDonateCoins(): void {
+    debugger
     this.dataService.getUserListToDonateCoins(this.userId).subscribe(data => {
       this.donateCoinsUserList = data.listOfObject;
+      // console.log('this.donateCoinsUserList',this.donateCoinsUserList);
     },
     error => {
       console.error("Error fetching roles", error);
@@ -3097,13 +3099,16 @@ attendanceRequestLog: any[] = [];
 
   donateCoinsForm!: FormGroup;
   isReasonTyped: boolean = false;
+  isReason: number = 0; 
   toggleReason(isTyped: boolean): void {
     this.isReasonTyped = isTyped;
     if (this.donateCoinsForm) {
       if (isTyped) {
-        this.donateCoinsForm.get('reason')?.reset();
+        // this.donateCoinsForm.get('reason')?.reset();
+        this.isReasonTyped = true;
       } else {
-        this.donateCoinsForm.get('donationReason')?.reset();
+        // this.donateCoinsForm.get('donationReason')?.reset();
+        this.isReasonTyped = false;
       }
     }
   }

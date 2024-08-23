@@ -7,6 +7,7 @@ import { DataService } from 'src/app/services/data.service';
 import { jwtDecode } from 'jwt-decode';
 import { Key } from 'src/app/constant/key';
 import { HelperService } from 'src/app/services/helper.service';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
   selector: 'app-slack-auth',
@@ -18,7 +19,8 @@ export class SlackAuthComponent implements OnInit {
     private dataService: DataService,
     private httpClient: HttpClient,
     private router: Router,
-    private helperService: HelperService
+    private helperService: HelperService,
+    private rbacService: RoleBasedAccessControlService
   ) {}
 
   ngOnInit(): void {
@@ -50,13 +52,15 @@ export class SlackAuthComponent implements OnInit {
     this.dataService
       .registerOrganizationUsingCodeParam(codeParam, stateParam, this.helperService.getTimeZone())
       .subscribe(
-        (response: any) => {
+        async (response: any) => {
           console.log(response.object);
           this.isSuccessComponent = true;
           this.isErrorComponent = false;
 
           localStorage.setItem('token', response.object.access_token);
           localStorage.setItem('refresh_token', response.object.refresh_token);
+
+          await this.rbacService.initializeUserInfo();
 
           debugger;
           const decodedValue = this.decodeFirebaseAccessToken(

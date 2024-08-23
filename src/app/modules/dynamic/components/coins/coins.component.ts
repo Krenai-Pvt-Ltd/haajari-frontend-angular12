@@ -302,6 +302,8 @@ getBadgeCoinsInfoData(): void {
 }
 
   resetAllocateCoinsForBadgesForm() {
+    this.allocateCoinsForBadgesForm.get('badgeName')?.enable();
+    this.imagePreviewUrl = '';
     this.errorString = '';
     this.allocateCoinstoBadgeId = 0;
     this.allocateCoinsForBadgesForm.reset();
