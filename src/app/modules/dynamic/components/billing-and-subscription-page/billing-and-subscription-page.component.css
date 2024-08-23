@@ -11,18 +11,6 @@
   font-weight: 600;
   color: #444;
 }
-.nav-tabs {
-  border-bottom: none;
-}
-
-.plan-select-tab ul {
-  width: fit-content;
-  margin: 1.5rem auto 0rem;
-  background-color: #fff;
-  padding: 0px;
-  border-radius: 2px;
-  border: 1px solid #f1f1f1;
-}
 
 .save-discount {
   background-color: #6666f3;
@@ -74,71 +62,6 @@ ul.plan-featured {
   color: #6666f3 !important;
 }
 
-.preRangeSliderCard:not(:last-child) {
-  margin-bottom: 1.5rem;
-}
-.prjAmontCostslider {
-  background: linear-gradient(
-    to right,
-    #6666f3 0%,
-    #6666f3 25%,
-    rgb(255, 255, 255) 25%,
-    white 100%
-  );
-  border: solid 1px #f2f2f2;
-  border-radius: 8px;
-  height: 7px;
-  width: 100%;
-  outline: none;
-  transition: background 450ms ease-in;
-  -webkit-appearance: none;
-  margin-bottom: 25px;
-  padding: 0px;
-  margin-top: 15px;
-}
-
-.prjAmontCostslider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-  border: 2px solid #ffffff;
-  background-color: #6666f3;
-  border-radius: 50%;
-}
-
-.preRangeSliderCard > label {
-  margin-bottom: 0.7rem;
-  font-weight: 500;
-  color: #444;
-  font-size: 12px;
-  display: flex;
-  align-items: baseline;
-  gap: 5px;
-}
-
-.preRangeSliderCard:not(:last-child) {
-  margin-bottom: 1.5rem;
-}
-.prjPayTerms {
-  background: linear-gradient(
-    to right,
-    #0a57fd 0%,
-    #0a57fd 0%,
-    #fff 0%,
-    #fff 100%
-  );
-  border: solid 1px #f2f2f2;
-  border-radius: 8px;
-  height: 10px;
-  width: 100%;
-  outline: none;
-  transition: background 450ms ease-in;
-  -webkit-appearance: none;
-  margin-bottom: 25px;
-  padding: 0px;
-}
-
 .prjPayTerms::-webkit-slider-thumb {
   -webkit-appearance: none;
   width: 20px;
@@ -149,34 +72,7 @@ ul.plan-featured {
   border-radius: 50%;
 }
 
-.preSliderlabel {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 12px;
-  position: relative;
-  margin: -0.4rem 0rem 0rem;
-}
-.preSliderlabel span {
-  position: relative;
-  display: inline-block;
-  text-align: center;
-  min-width: 16px;
-  color: #8d93a1;
-  font-size: 10px;
-}
-/* .preSliderlabel span::after {
-  position: absolute;
-  content: "";
-  width: 1px;
-  height: 7px;
-  background-color: #cbcbcb;
-  top: 17px;
-  left: 10px;
-} */
-
 .select-employ-box {
-  /* width: 600px; */
   margin: 0 auto;
 }
 
