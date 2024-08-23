@@ -141,9 +141,13 @@
             >
             <br />
             Login to Hajiri web dashboard.
-            <a style="color: #6666f3 !important" (click)="navigateToRoute()"
+            <a style="color: #6666f3 !important" (click)="redirectNow()"
               >Dashboard</a
             >
+            <br />
+            <span style="color: #6666f3 !important">
+             You will be redirected to the dashboard in {{ countdown }} seconds...
+            </span>
           </p>
           <p></p>
 
