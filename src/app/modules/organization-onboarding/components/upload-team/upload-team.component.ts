@@ -152,6 +152,8 @@ export class UploadTeamComponent implements OnInit {
     this.importToggle = true;
     this.isProgressToggle = true;
     this.isErrorToggle = false;
+    this.alreadyUsedPhoneNumberArray = 0;
+    this.alreadyUsedEmailArray = 0;
     this.errorMessage = '';
     this._onboardingService.userImport(file, fileName).subscribe(
       (response: any) => {
@@ -358,6 +360,7 @@ export class UploadTeamComponent implements OnInit {
   }
 
   deleteUser(id: number) {
+   
     this._onboardingService.deleteOnboardUser(id).subscribe(
       (response: any) => {
         if (response.status) {
@@ -366,6 +369,9 @@ export class UploadTeamComponent implements OnInit {
       },
       (error) => {}
     );
+    this.isErrorToggle = false;
+    this.alreadyUsedPhoneNumberArray = 0;
+    this.alreadyUsedEmailArray = 0;
   }
 
   isNumberExist: boolean = false;

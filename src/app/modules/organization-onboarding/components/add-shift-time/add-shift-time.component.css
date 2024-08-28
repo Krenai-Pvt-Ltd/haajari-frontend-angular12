@@ -122,3 +122,9 @@ button.btn.close-btn {
     opacity: 1;
   }
 }
+
+
+.text-danger {
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}

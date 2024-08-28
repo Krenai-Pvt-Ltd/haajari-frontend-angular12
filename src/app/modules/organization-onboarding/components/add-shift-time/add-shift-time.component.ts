@@ -20,6 +20,11 @@ export class AddShiftTimeComponent implements OnInit {
     new OrganizationShiftTimingRequest();
   selectedShiftType: ShiftType = new ShiftType();
 
+  defaultInOpenTime: Date = new Date();
+  defaultOutOpenTime: Date = new Date();
+  defaultStartLunchOpenTime: Date = new Date();
+  defaultEndLunchOpenTime: Date = new Date();
+
   constructor(
     private dataService: DataService,
     private router: Router,
@@ -33,6 +38,10 @@ export class AddShiftTimeComponent implements OnInit {
     this.getShiftTypeMethodCall();
     this.getUserByFiltersMethodCall();
     this.getAllShiftTimingsMethodCall();
+    this.defaultInOpenTime.setMinutes(0, 0, 0);
+    this.defaultOutOpenTime.setMinutes(0, 0, 0);
+    this.defaultStartLunchOpenTime.setMinutes(0, 0, 0);
+    this.defaultEndLunchOpenTime.setMinutes(0, 0, 0);
   }
 
   backPage() {
@@ -339,6 +348,7 @@ export class AddShiftTimeComponent implements OnInit {
     //   this.onboardingService.refreshOnboarding();
     // });
     // this.onboardingService.refreshOnboarding();
+    this.selectAll(true);
   }
 
   organizationShiftTimingValidationErrors: { [key: string]: string } = {};
@@ -346,6 +356,7 @@ export class AddShiftTimeComponent implements OnInit {
     return (
       Object.keys(this.organizationShiftTimingValidationErrors).length === 0
     );
+    
   }
 
   onTimeChange(field: keyof OrganizationShiftTimingRequest, value: Date): void {
