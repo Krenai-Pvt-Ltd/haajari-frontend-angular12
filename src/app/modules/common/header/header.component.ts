@@ -16,6 +16,10 @@ import { SubscriptionPlanService } from 'src/app/services/subscription-plan.serv
 export class HeaderComponent implements OnInit {
   loggedInUser: LoggedInUser = new LoggedInUser();
 
+  private _key: Key = new Key();
+  private baseUrl = this._key.base_url;
+  showSuperCoinFlag:boolean = false;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -49,6 +53,12 @@ export class HeaderComponent implements OnInit {
         this.activeTab = 'referralProgram';
       }
     });
+
+    if((this.baseUrl === 'https://staging.hajiri.work/api/v2') || (this.baseUrl === 'http://localhost:8080/api/v2')) {
+        this.showSuperCoinFlag = true;
+    } else {
+       this.showSuperCoinFlag = false;
+    }
 
     this.getOrgSubsPlanMonthDetail();
   }
