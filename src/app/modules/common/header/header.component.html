@@ -130,7 +130,7 @@
                 <span class=" "><i class="bi bi-box menu-icon"></i> Assets</span>
               </a>
             </li>
-            <li class="pointer" *ngIf="shouldDisplay('coins') && ORGANIZATION_UUID == KRENAI_UUID" routerLinkActive="sidebar-menu-active"
+            <li class="pointer" *ngIf="shouldDisplay('coins') && ROLE === ADMIN && ORGANIZATION_UUID == KRENAI_UUID && showSuperCoinFlag" routerLinkActive="sidebar-menu-active"
             routerLink="/coins">
             <a class="sidebar-menu-link">
               <span class=" "><i class="bi bi-coin menu-icon"></i> Super Coins</span>
