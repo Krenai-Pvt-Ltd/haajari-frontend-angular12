@@ -30,6 +30,11 @@ import { finalize } from 'rxjs/operators';
 import { constant } from 'src/app/constant/constant';
 import { DomSanitizer } from '@angular/platform-browser';
 
+interface AddressComponent {
+  long_name: string;
+  short_name: string;
+  types: string[];
+}
 @Component({
   selector: 'app-organization-personal-information',
   templateUrl: './organization-personal-information.component.html',
@@ -314,56 +319,105 @@ export class OrganizationPersonalInformationComponent implements OnInit {
 
   /************ GET CURRENT LOCATION ***********/
 
-  fetchCurrentLocationLoader: boolean = false;
-  locationLoader: boolean = false;
-  currentLocation() {
-    debugger;
-    this.locationLoader = true;
-    this.fetchCurrentLocationLoader = true;
-    this.getCurrentLocation()
-      .then((coords) => {
-        this.placesService
-          .getLocationDetails(coords.latitude, coords.longitude)
-          .then((details) => {
-            this.locationLoader = false;
+fetchCurrentLocationLoader: boolean = false;
+locationLoader: boolean = false;
 
-            console.log('formatted_address:', details);
-            this.organizationPersonalInformation.addressLine1 =
-              details.formatted_address;
-            this.organizationPersonalInformation.addressLine2 = '';
-            if (details.address_components[1].types[0] === 'locality') {
-              this.organizationPersonalInformation.city =
-                details.address_components[2].long_name;
+currentLocation() {
+  debugger;
+  this.locationLoader = true;
+  this.fetchCurrentLocationLoader = true;
+
+  this.getCurrentLocation()
+    .then((coords) => {
+      this.placesService
+        .getLocationDetails(coords.latitude, coords.longitude)
+        .then((details) => {
+          this.locationLoader = false;
+          this.fetchCurrentLocationLoader = false;
+
+          // Update only the relevant properties
+          this.organizationPersonalInformation.addressLine1 = details.formatted_address;
+          this.organizationPersonalInformation.addressLine2 = '';
+
+          // Dynamically retrieve address components
+          const addressComponents: AddressComponent[] = details.address_components || [];
+          
+          addressComponents.forEach((component: AddressComponent) => {
+            const types = component.types || [];
+            if (types.includes('locality')) {
+              this.organizationPersonalInformation.city = component.long_name;
+            } else if (types.includes('administrative_area_level_1')) {
+              this.organizationPersonalInformation.state = component.long_name;
+            } else if (types.includes('country')) {
+              this.organizationPersonalInformation.country = component.long_name;
+            } else if (types.includes('postal_code')) {
+              this.organizationPersonalInformation.pincode = component.long_name;
             }
-            if (
-              details.address_components[4].types[0] ===
-              'administrative_area_level_1'
-            ) {
-              this.organizationPersonalInformation.state =
-                details.address_components[4].long_name;
-            }
-            if (details.address_components[5].types[0] === 'country') {
-              this.organizationPersonalInformation.country =
-                details.address_components[5].long_name;
-            }
-            if (details.address_components[6].types[0] === 'postal_code') {
-              this.organizationPersonalInformation.pincode =
-                details.address_components[6].long_name;
-            }
-            this.fetchCurrentLocationLoader = false;
-          })
-          .catch((error) => {
-            console.error(error);
-            this.fetchCurrentLocationLoader = false;
           });
-        // this.fetchCurrentLocationLoader = false;
-      })
-      .catch((error) => {
-        console.error(error);
-        this.fetchCurrentLocationLoader = false;
-      });
-    // this.fetchCurrentLocationLoader = false;
-  }
+        })
+        .catch((error) => {
+          console.error('Error fetching location details:', error);
+          this.locationLoader = false;
+          this.fetchCurrentLocationLoader = false;
+        });
+    })
+    .catch((error) => {
+      console.error('Error fetching current location:', error);
+      this.locationLoader = false;
+      this.fetchCurrentLocationLoader = false;
+    });
+}
+
+  // fetchCurrentLocationLoader: boolean = false;
+  // locationLoader: boolean = false;
+  // currentLocation() {
+  //   debugger;
+  //   this.locationLoader = true;
+  //   this.fetchCurrentLocationLoader = true;
+  //   this.getCurrentLocation()
+  //     .then((coords) => {
+  //       this.placesService
+  //         .getLocationDetails(coords.latitude, coords.longitude)
+  //         .then((details) => {
+  //           this.locationLoader = false;
+
+  //           console.log('formatted_address:', details);
+  //           this.organizationPersonalInformation.addressLine1 =
+  //             details.formatted_address;
+  //           this.organizationPersonalInformation.addressLine2 = '';
+  //           if (details.address_components[1].types[0] === 'locality') {
+  //             this.organizationPersonalInformation.city =
+  //               details.address_components[2].long_name;
+  //           }
+  //           if (
+  //             details.address_components[4].types[0] ===
+  //             'administrative_area_level_1'
+  //           ) {
+  //             this.organizationPersonalInformation.state =
+  //               details.address_components[4].long_name;
+  //           }
+  //           if (details.address_components[5].types[0] === 'country') {
+  //             this.organizationPersonalInformation.country =
+  //               details.address_components[5].long_name;
+  //           }
+  //           if (details.address_components[6].types[0] === 'postal_code') {
+  //             this.organizationPersonalInformation.pincode =
+  //               details.address_components[6].long_name;
+  //           }
+  //           this.fetchCurrentLocationLoader = false;
+  //         })
+  //         .catch((error) => {
+  //           console.error(error);
+  //           this.fetchCurrentLocationLoader = false;
+  //         });
+  //       // this.fetchCurrentLocationLoader = false;
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //       this.fetchCurrentLocationLoader = false;
+  //     });
+  //   // this.fetchCurrentLocationLoader = false;
+  // }
 
   getCurrentLocation(): Promise<{ latitude: number; longitude: number }> {
     return new Promise((resolve, reject) => {

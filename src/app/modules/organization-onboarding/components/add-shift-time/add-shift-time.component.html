@@ -36,13 +36,13 @@
                           <div class="col-md-6">
                             <div class="form-fild">
                               <label for="exampleInputEmail1" class="pb-2"
-                                >Shift Type
-                                <i
+                                >Shift Type 
+                                <!-- <i
                                   class="bi bi-exclamation-circle tolltip-icon"
                                   ngbTooltip="Please select the shift type for this shift template of your organization: day, night, or rotational shift."
                                   placement="top"
-                                ></i
-                              ></label>
+                                ></i>  -->
+                              <span class="text-danger">*</span></label>
                               <div class="dropdown">
                                 <button
                                   class="btn btn-secondary dropdown-toggle new-dropdown profile-input"
@@ -50,6 +50,7 @@
                                   id="dropdownMenuButton1"
                                   data-bs-toggle="dropdown"
                                   aria-expanded="false"
+                                  [ngClass]="{'is-invalid': !selectedShiftType?.name && shiftForm.submitted}"
                                   style="
                                     text-align: left;
                                     background-color: white;
@@ -86,12 +87,12 @@
                             <div class="mb-3">
                               <label for="shiftName" class="pb-2"
                                 >Shift Name
-                                <i
+                                <!-- <i
                                   class="bi bi-exclamation-circle tolltip-icon"
                                   ngbTooltip="Please write a unique name for this shift of your organization to assign users."
                                   placement="top"
-                                ></i
-                              ></label>
+                                ></i>  -->
+                                <span class="text-danger">*</span></label>
                               <input
                                 type="text"
                                 class="form-control profile-input"
@@ -107,16 +108,16 @@
                                 required
                               />
                             </div>
-                            <div *ngIf="shiftName?.dirty">
+                            <div  *ngIf="shiftName?.dirty">
                               <p
-                                class="errortxt mb-2"
+                                class="errortxt mb-2 text-danger"
                                 *ngIf="shiftName.errors?.required"
                               >
                                 <i class="bi bi-exclamation-circle"></i>
                                 Shift Name is required.
                               </p>
                               <p
-                                class="errortxt mb-2"
+                                class="errortxt mb-2 text-danger"
                                 *ngIf="shiftName.errors?.minlength"
                               >
                                 <i class="bi bi-exclamation-circle"></i>
@@ -174,11 +175,12 @@
 
                           <div class="col-md-4">
                             <div class="mb-3">
-                              <label for="inTime" class="pb-2">In Time</label>
+                              <label for="inTime" class="pb-2">In Time <span class="text-danger">*</span></label>
                               <nz-time-picker
                                 [(ngModel)]="organizationShiftTimingRequest.inTimeDate"
                                 [nzUse12Hours]="true"
                                 nzFormat="h:mm a"
+                                [nzDefaultOpenValue]="defaultInOpenTime"
                                 (ngModelChange)="onTimeChange('inTime', $event)"
                                 [ngModelOptions]="{ standalone: true }"
                               ></nz-time-picker>
@@ -227,11 +229,12 @@
 
                           <div class="col-md-4">
                             <div class="mb-3">
-                              <label for="outTime" class="pb-2">Out Time</label>
+                              <label for="outTime" class="pb-2">Out Time <span class="text-danger">*</span></label>
                               <nz-time-picker
                                 [(ngModel)]="organizationShiftTimingRequest.outTimeDate"
                                 [nzUse12Hours]="true"
                                 nzFormat="h:mm a"
+                                [nzDefaultOpenValue]="defaultOutOpenTime"
                                 (ngModelChange)="onTimeChange('outTime', $event)"
                                 [ngModelOptions]="{ standalone: true }"
                               ></nz-time-picker>
@@ -300,11 +303,12 @@
 
                           <div class="col-md-4">
                             <div class="mb-3">
-                              <label for="lunchBreakStartTime" class="pb-2">Lunch Break Start Time</label>
+                              <label for="lunchBreakStartTime" class="pb-2">Lunch Break Start Time <span class="text-danger">*</span></label>
                               <nz-time-picker
                                 [(ngModel)]="organizationShiftTimingRequest.startLunchDate"
                                 [nzUse12Hours]="true"
                                 nzFormat="h:mm a"
+                                [nzDefaultOpenValue]="defaultStartLunchOpenTime"
                                 (ngModelChange)="onTimeChange('startLunch', $event)"
                                 [ngModelOptions]="{ standalone: true }"
                               ></nz-time-picker>
@@ -354,11 +358,12 @@
 
                           <div class="col-md-4">
                             <div class="mb-3">
-                              <label for="lunchBreakEndTime" class="pb-2">Lunch Break End Time</label>
+                              <label for="lunchBreakEndTime" class="pb-2">Lunch Break End Time <span class="text-danger">*</span></label>
                               <nz-time-picker
                                 [(ngModel)]="organizationShiftTimingRequest.endLunchDate"
                                 [nzUse12Hours]="true"
                                 nzFormat="h:mm a"
+                                [nzDefaultOpenValue]="defaultEndLunchOpenTime"
                                 (ngModelChange)="onTimeChange('endLunch', $event)"
                                 [ngModelOptions]="{ standalone: true }"
                               ></nz-time-picker>
@@ -386,14 +391,14 @@
                               />
                             </div>
                           </div>
-                          <div
+                          <!-- <div
                             class="mt-3"
                             style="display: flex; justify-content: flex-end"
                           >
                             <button
                               type="submit"
                               class="btn btn-outline-primary btn-round"
-                              [disabled]="shiftForm.invalid"
+                              [disabled]="shiftForm.invalid || !selectedShiftType?.name || !organizationShiftTimingRequest.inTimeDate || !organizationShiftTimingRequest.outTimeDate || !organizationShiftTimingRequest.startLunchDate || !organizationShiftTimingRequest.endLunchDate"
                               (click)="staffActiveTabInShiftTimingMethod()"
                             >
                               <span>
@@ -404,7 +409,7 @@
                                 ></i
                               ></span>
                             </button>
-                          </div>
+                          </div> -->
                         </div>
                         <div
                           class="row mt-3 mb-3 align-items-center"
@@ -641,7 +646,7 @@
                               </div>
                             </div>
                           </ng-template>
-                          <div
+                          <!-- <div
                             class="mt-3"
                             style="
                               display: flex;
@@ -680,7 +685,7 @@
                                 ></i
                               ></span>
                             </button>
-                          </div>
+                          </div> -->
                         </div>
                       </form>
                     </div>
@@ -729,11 +734,12 @@
             <div class="col-md-8">
               <div
                 class="next-btn-box d-flex align-items-center justify-content-between"
+                *ngIf="SHIFT_TIME_STEP_ID == SHIFT_TIME_ID"
               >
                 <button
                   class="btn btn-outline-secondary btn-round previous-btn"
                   type="button"
-                  [disabled]="SHIFT_TIME_STEP_ID == STAFF_SELECTION_ID"
+                 
                   (click)="backPage()"
                 >
                   <i
@@ -747,7 +753,23 @@
                   ></i>
                   Previous
                 </button>
+                
                 <button
+                  type="submit"
+                  class="btn btn-outline-primary btn-round"
+                  [disabled]="shiftForm.invalid || !selectedShiftType?.name || !organizationShiftTimingRequest.inTimeDate || !organizationShiftTimingRequest.outTimeDate || !organizationShiftTimingRequest.startLunchDate || !organizationShiftTimingRequest.endLunchDate"
+                  (click)="staffActiveTabInShiftTimingMethod()"
+                 
+                >
+                  <span>
+                    Staff Selection
+                    <i
+                      class="bi bi-arrow-right"
+                      style="padding-left: 8px"
+                    ></i
+                  ></span>
+                </button>
+                <!-- <button
                   type="submit"
                   class="btn btn-outline-primary btn-round"
                   [disabled]="shiftForm.invalid"
@@ -757,6 +779,41 @@
                     Next
                     <i class="bi bi-arrow-right" style="padding-left: 8px"></i>
                   </span>
+                </button> -->
+              </div>
+              <div class="next-btn-box d-flex align-items-center justify-content-between"
+              *ngIf="SHIFT_TIME_STEP_ID == STAFF_SELECTION_ID">
+                <button
+                  type="submit"
+                  class="btn btn-outline-secondary btn-round previous-btn"
+                  (click)="backToShiftTime()"
+                >
+                  <span
+                    ><i
+                      class="bi bi-arrow-left"
+                      style="padding-left: 8px"
+                    ></i>
+                    Back
+                  </span>
+                </button>
+                <button
+                  type="submit"
+                  class="btn btn-outline-primary btn-round"
+                  [disabled]="
+                    shiftForm.invalid ||
+                    this.selectedStaffsUuids.length < 1
+                  "
+                  (click)="
+                    registerOrganizationShiftTimingMethodCall()
+                  "
+                >
+                  <span>
+                    Create Shift Time
+                    <i
+                      class="bi bi-arrow-right"
+                      style="padding-left: 8px"
+                    ></i
+                  ></span>
                 </button>
               </div>
             </div>

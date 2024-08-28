@@ -269,7 +269,7 @@ export class ShiftTimeListComponent implements OnInit {
         (error) => {
           console.log(error);
           this.helperService.showToast(
-            'Shift Timing registered successfully',
+            'Error In Shift Creation',
             Key.TOAST_STATUS_ERROR
           );
         }
