@@ -1561,16 +1561,10 @@
                 </div>
                 <div class="p-3" id="payslip" role="" *ngIf="activeFinancesTabFlag">
                   <div class="row mt-1">
-                    <div class="col-md-12 search-area" style="
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                      ">
-                      <div class="col-md-2">
-                        <nz-date-picker nzMode="month" [nzSize]="size" [(ngModel)]="selectedDate"
-                          (ngModelChange)="onMonthChange($event)" [nzDisabledDate]="disableMonths"></nz-date-picker>
+                      <div class="col-md-8 d-flex justify-content-between align-items-center">
+                        <h3>Payroll Dashboard:</h3>
                       </div>
-                      <div class="add-filtter d-flex align-items-center justify-content-end" style="gap: 10px">
+                      <div class="col-md-4 add-filtter" style="gap: 10px">
                         <ng-container *ngIf="userRoleFlag; else salaryConfiguration">
                           <span class="bonus-appraisal-configuration" style="cursor: pointer;"
                             (click)="goToManageStatutory()">Edit salary configuration <i class="bi bi-pencil"></i>
@@ -1586,13 +1580,11 @@
                               class="bi bi-arrow-right"></i>
                           </span>
                         </ng-template>
-                      </div>
+                        <nz-date-picker nzMode="month" [nzSize]="size" [(ngModel)]="selectedDate" (ngModelChange)="onMonthChange($event)" [nzDisabledDate]="disableMonths"></nz-date-picker>
                     </div>
                   </div>
 
-                  <div id="configure-salary-setting" class="errorboxmain" style="min-height: 45vh" *ngIf="
-                      salaryConfigurationStepId == CONFIGURE_SALARY_SETTING
-                    " (click)="goToManageStatutory()">
+                  <div id="configure-salary-setting" class="errorboxmain" style="min-height: 45vh" *ngIf="salaryConfigurationStepId == CONFIGURE_SALARY_SETTING" (click)="goToManageStatutory()">
                     <div class="errorboxinner text-center">
                       <div class="errorboxplaceholder mb-2">
                         <img src="assets/images/empty-box.svg" style="width: 80px" />
