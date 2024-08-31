@@ -11,6 +11,11 @@ import { HelperService } from 'src/app/services/helper.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 import { PlacesService } from 'src/app/services/places.service';
 
+interface AddressComponent {
+  long_name: string;
+  short_name: string;
+  types: string[];
+}
 @Component({
   selector: 'app-attendance-mode',
   templateUrl: './attendance-mode.component.html',
@@ -210,60 +215,112 @@ export class AttendanceModeComponent implements OnInit {
       }
     });
   }
-  fetchCurrentLocationLoader: boolean = false;
-  locationLoader: boolean = false;
-  currentLocation() {
-    debugger;
-    this.locationLoader = true;
-    this.fetchCurrentLocationLoader = true;
-    this.getCurrentLocation()
-      .then((coords) => {
-        this.placesService
-          .getLocationDetails(coords.latitude, coords.longitude)
-          .then((details) => {
-            this.locationLoader = false;
-            this.organizationAddressDetail = new OrganizationAddressDetail();
-            // this.organizationAddressDetail.id = id;
-            this.organizationAddressDetail.longitude = coords.longitude;
-            this.organizationAddressDetail.latitude = coords.latitude;
+// new fetch current location code
+fetchCurrentLocationLoader: boolean = false;
+locationLoader: boolean = false;
 
-            console.log('formatted_address:', details);
-            this.organizationAddressDetail.addressLine1 =
-              details.formatted_address;
-            this.organizationAddressDetail.addressLine2 = '';
-            if (details.address_components[1].types[0] === 'locality') {
-              this.organizationAddressDetail.city =
-                details.address_components[2].long_name;
+currentLocation() {
+  debugger
+  this.locationLoader = true;
+  this.fetchCurrentLocationLoader = true;
+  
+  this.getCurrentLocation()
+    .then((coords) => {
+      this.placesService
+        .getLocationDetails(coords.latitude, coords.longitude)
+        .then((details) => {
+          this.locationLoader = false;
+          this.fetchCurrentLocationLoader = false;
+          
+          this.organizationAddressDetail = new OrganizationAddressDetail();
+          this.organizationAddressDetail.longitude = coords.longitude;
+          this.organizationAddressDetail.latitude = coords.latitude;
+          this.organizationAddressDetail.addressLine1 = details.formatted_address;
+          this.organizationAddressDetail.addressLine2 = '';
+
+          // Dynamically retrieve address components
+          const addressComponents: AddressComponent[] = details.address_components || [];
+
+          addressComponents.forEach((component: AddressComponent) => {
+            const types = component.types || [];
+            if (types.includes('locality')) {
+              this.organizationAddressDetail.city = component.long_name;
+            } else if (types.includes('administrative_area_level_1')) {
+              this.organizationAddressDetail.state = component.long_name;
+            } else if (types.includes('country')) {
+              this.organizationAddressDetail.country = component.long_name;
+            } else if (types.includes('postal_code')) {
+              this.organizationAddressDetail.pincode = component.long_name;
             }
-            if (
-              details.address_components[4].types[0] ===
-              'administrative_area_level_1'
-            ) {
-              this.organizationAddressDetail.state =
-                details.address_components[4].long_name;
-            }
-            if (details.address_components[5].types[0] === 'country') {
-              this.organizationAddressDetail.country =
-                details.address_components[5].long_name;
-            }
-            if (details.address_components[6].types[0] === 'postal_code') {
-              this.organizationAddressDetail.pincode =
-                details.address_components[6].long_name;
-            }
-            this.fetchCurrentLocationLoader = false;
-          })
-          .catch((error) => {
-            console.error(error);
-            this.fetchCurrentLocationLoader = false;
           });
-        // this.fetchCurrentLocationLoader = false;
-      })
-      .catch((error) => {
-        console.error(error);
-        this.fetchCurrentLocationLoader = false;
-      });
-    // this.fetchCurrentLocationLoader = false;
-  }
+
+        })
+        .catch((error) => {
+          console.error('Error fetching location details:', error);
+          this.locationLoader = false;
+          this.fetchCurrentLocationLoader = false;
+        });
+    })
+    .catch((error) => {
+      console.error('Error fetching current location:', error);
+      this.locationLoader = false;
+      this.fetchCurrentLocationLoader = false;
+    });
+}
+  // fetchCurrentLocationLoader: boolean = false;
+  // locationLoader: boolean = false;
+  // currentLocation() {
+  //   debugger;
+  //   this.locationLoader = true;
+  //   this.fetchCurrentLocationLoader = true;
+  //   this.getCurrentLocation()
+  //     .then((coords) => {
+  //       this.placesService
+  //         .getLocationDetails(coords.latitude, coords.longitude)
+  //         .then((details) => {
+  //           this.locationLoader = false;
+  //           this.organizationAddressDetail = new OrganizationAddressDetail();
+  //           // this.organizationAddressDetail.id = id;
+  //           this.organizationAddressDetail.longitude = coords.longitude;
+  //           this.organizationAddressDetail.latitude = coords.latitude;
+
+  //           console.log('formatted_address:', details);
+  //           this.organizationAddressDetail.addressLine1 =
+  //             details.formatted_address;
+  //           this.organizationAddressDetail.addressLine2 = '';
+  //           if (details.address_components[1].types[0] === 'locality') {
+  //             this.organizationAddressDetail.city =
+  //               details.address_components[2].long_name;
+  //           }
+  //           if (
+  //             details.address_components[4].types[0] ===
+  //             'administrative_area_level_1'
+  //           ) {
+  //             this.organizationAddressDetail.state =
+  //               details.address_components[4].long_name;
+  //           }
+  //           if (details.address_components[5].types[0] === 'country') {
+  //             this.organizationAddressDetail.country =
+  //               details.address_components[5].long_name;
+  //           }
+  //           if (details.address_components[6].types[0] === 'postal_code') {
+  //             this.organizationAddressDetail.pincode =
+  //               details.address_components[6].long_name;
+  //           }
+  //           this.fetchCurrentLocationLoader = false;
+  //         })
+  //         .catch((error) => {
+  //           console.error(error);
+  //           this.fetchCurrentLocationLoader = false;
+  //         });
+  //       // this.fetchCurrentLocationLoader = false;
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //       this.fetchCurrentLocationLoader = false;
+  //     });
+  //   // this.fetchCurrentLocationLoader = false;
+  // }
 
   getCurrentLocation(): Promise<{ latitude: number; longitude: number }> {
     return new Promise((resolve, reject) => {

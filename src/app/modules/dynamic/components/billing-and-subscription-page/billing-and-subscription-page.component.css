@@ -1,166 +1,223 @@
-/* Full-screen container with a gradient background and centered content */
-.full-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    overflow-y: auto;
-    z-index: 1050;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem; /* Increased padding for better spacing */
+.topbar-section h5 {
+  font-size: 16px;
+  font-weight: 600;
 }
 
-/* Page header with a vibrant gradient background and shadow */
-.page-header {
-    width: 100%;
-    background: linear-gradient(135deg, #6610f2 0%, #007bff 100%);
-    color: white; /* Ensure the text color is white */
-    text-align: center;
-    border-radius: 0 0 1rem 1rem; /* Rounded corners at the bottom */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Heavier shadow */
-    padding: 2rem; /* Increased padding */
-    font-size: 2rem; /* Larger font size */
-    position: relative; /* For positioning decorative elements */
-    overflow: hidden; /* Hide overflow for decorative elements */
+.select-plan-hedding {
+  text-align: center;
+}
+.select-plan-hedding h5 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #444;
 }
 
-/* Adding a decorative element */
-.page-header::before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    height: 80px; /* Height of the decorative element */
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 100%);
-    border-radius: 50% 50% 0 0;
-    z-index: 0; /* Behind the text */
+.save-discount {
+  background-color: #6666f3;
+  color: #fff;
+  font-size: 10px;
+  border-radius: 20px;
+  padding: 5px 15px;
+  margin-left: 10px;
+}
+.plan-box {
+  border-radius: 10px;
 }
 
-.page-header h3 {
-    position: relative; /* To stack text above decorative element */
-    z-index: 1;
-    margin: 0;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4); /* Text shadow for better readability */
-    color: white; /* Ensure the text color is white */
+.plan-heading h5 {
+  font-size: 16px;
+  font-weight: 500;
+  color: #444;
+  margin-bottom: 3px !important;
 }
 
-
-/* Card styling with a subtle shadow and rounded corners */
-.card {
-    border: none;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Heavier shadow for emphasis */
-    margin: 1rem 0; /* Margin for spacing between cards */
-    width: 100%; /* Full width */
-    max-width: 100%; /* Ensure it doesn't exceed container width */
+.plan-heading {
+  background-color: #eff5ff;
+  padding: 20px 10px;
+  border-radius: 10px 10px 0px 0px;
 }
 
-/* Card body with enhanced padding and spacing */
-.card-body {
-    padding: 2rem; /* Increased padding for better content spacing */
+.plan-featured {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 10px;
+}
+.plan-featured li {
+  line-height: 30px;
+  font-size: 12px;
 }
 
-/* Buttons with gradient backgrounds and hover effects */
-.btn-primary {
-    background: linear-gradient(135deg, #6610f2 0%, #007bff 100%);
-    border: none;
-    color: white;
-    border-radius: 0.25rem;
-    padding: 0.75rem 1.5rem; /* Larger padding for buttons */
-    transition: background 0.3s ease, box-shadow 0.3s ease;
+ul.plan-featured {
+  border: none !important;
+  margin: 0rem auto 0rem !important;
 }
 
-.btn-primary:hover {
-    background: linear-gradient(135deg, #007bff 0%, #6610f2 100%);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Heavier shadow on hover */
+.active-plan {
+  border: 1px solid #6666f3;
+  z-index: 999;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  transform: scale(1.1);
+}
+.active-plan .plan-heading h5 {
+  color: #6666f3 !important;
 }
 
-.btn-secondary {
-    background: #6c757d;
-    border: none;
-    color: white;
-    border-radius: 0.25rem;
-    padding: 0.75rem 1.5rem; /* Larger padding for buttons */
-    transition: background 0.3s ease, box-shadow 0.3s ease;
+.prjPayTerms::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  border: 2px solid #ffffff;
+  background-color: #0a57fd;
+  border-radius: 50%;
 }
 
-.btn-secondary:hover {
-    background: #5a6268;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Heavier shadow on hover */
+.select-employ-box {
+  margin: 0 auto;
 }
 
-/* Input group styling with rounded corners and a border */
-.input-group {
-    border-radius: 0.25rem;
-    border: 1px solid #ced4da;
-    margin-bottom: 1rem;
+.estimate-usage label {
+  font-weight: 500;
+  color: #8d93a1;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
-.input-group .form-control {
-    border-radius: 0.25rem 0 0 0.25rem;
+.currntValeSpan {
+  display: inline-block;
+  padding: 3px 6px;
+  border-bottom: 0px solid #dddd;
+  min-width: fit-content;
+  text-align: center;
+  color: #353535;
+  font-size: 14px;
+  background-color: #eff5ff;
+  margin-left: 6px;
+  border-radius: 5px;
 }
 
-.input-group .btn {
-    border-radius: 0 0.25rem 0.25rem 0;
+.switch-plan {
+  background-color: transparent;
+  color: #6666f3;
+  border: 1px solid #6666f3;
+  font-size: 14px;
+  height: 35px;
 }
 
-/* Enhanced text styling for better readability */
-.text-primary {
-    color: #007bff !important;
+.payment-history {
+  border: 1px solid #ccc;
+  box-shadow: 0 0 0.875rem #343a400d;
+  padding: 15px;
+  border-radius: 5px;
 }
 
-.text-success {
-    color: #28a745 !important;
+.select-option-hedding h3 {
+  font-size: 42px;
+  color: #444;
+  font-weight: 700;
 }
 
-.text-danger {
-    color: #dc3545 !important;
+.transparent-pricing {
+  color: #6666f3;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .page-header {
-        font-size: 1.5rem;
-        padding: 1.5rem;
-        margin-bottom: 1.5rem;
-    }
-
-    .card-body {
-        padding: 1.5rem;
-    }
-
-    .btn-primary,
-    .btn-secondary {
-        padding: 0.5rem 1.25rem;
-        font-size: 0.875rem;
-    }
+.total-user-count h5 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #000;
+  width: 70px;
 }
 
-@media (max-width: 576px) {
-    .page-header {
-        font-size: 1.25rem;
-        padding: 1rem;
-        margin-bottom: 1rem;
-    }
+.total-user-count p {
+  font-size: 13px;
+  font-weight: 500;
+  color: #5a6268;
+}
 
-    .card-body {
-        padding: 1rem;
-    }
+.annually {
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  line-height: 24px !important;
+}
 
-    .btn-primary,
-    .btn-secondary {
-        padding: 0.5rem 1rem;
-        font-size: 0.75rem;
-    }
+.planBox {
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  box-shadow: 0 0 0.875rem #343a400d;
+}
 
-    .full-screen {
-        padding: 1rem; /* Adjusted padding for smaller screens */
-    }
+.planHadding {
+  padding: 15px;
+  border-bottom: 1px solid #ccc;
+}
+
+.planFeatured ul li {
+  list-style: none;
+  line-height: 35px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #000;
+}
+
+.planFeatured ul {
+  padding-left: 0px !important;
+}
+.planHadding h4 {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 24px;
+  color: #000;
+  margin-bottom: 5px !important;
+}
+.planHadding p {
+  font-size: 13px;
+  font-weight: 400;
+  color: #444;
+  line-height: 30px;
+}
+
+.planHadding h1 {
+  font-size: 40px;
+  font-weight: 700;
+  color: #000;
+  line-height: 30px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.planActive {
+  border: 1px solid #6666f3;
+}
+
+.planActive .planHadding {
+  border-bottom: 1px solid #6666f3;
+}
+
+.planActive .planHadding h4 {
+  color: #6666f3 !important;
+}
+.planActive .planHadding h1 {
+  color: #6666f3;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+.payment-history h5 {
+  margin-bottom: 0;
+  margin-top: 0;
+  font-size: 16px;
+}
+.contract-plan p {
+  font-size: 12px;
+  color: #878a9a;
+}
+.contract-plan {
+  margin-bottom: 10px;
+}
+
+.select-option-hedding img {
+  width: 100px;
 }

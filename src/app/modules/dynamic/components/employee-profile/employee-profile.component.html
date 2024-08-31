@@ -223,11 +223,11 @@
               <div class="tab-content">
                 <div class="p-3" id="home" role="" *ngIf="activeHomeTabFlag">
                   <div class="row">
-                    <div class="align-items-center d-flex justify-content-end add-filtter mb-2"
+                    <!-- <div class="align-items-center d-flex justify-content-end add-filtter mb-2"
                     >
                     <a class="btn" data-bs-toggle="modal" data-bs-target="#donateCoinsModal">
                       <i class="bi bi-plus" style="font-size: 20px"></i>Donate Coins </a>
-                  </div>
+                  </div> -->
                     <div class="col-md-3">
                       <div class="card report-card">
                         <div class="card report-card">
@@ -270,7 +270,7 @@
                           <div class="row d-flex justify-content-center">
                             <div class="col">
                               <p class="text-dark mb-1 fw-semibold">Monthly Assigned Coins</p>
-                              <h4 class="font-18 fw-bold">{{employeeSuperCoinsResponse.currentMonthTotalCoins}} / {{employeeSuperCoinsResponse.totalSuperCoins || 0/0}}</h4>
+                              <h4 class="font-18 fw-bold">{{employeeSuperCoinsResponse.currentMonthTotalCoins}} / {{employeeSuperCoinsResponse.totalSuperCoins || 0}}</h4>
                               <p class="mb-0 text-truncate text-muted font-11">
                                 <span class="text-dark">{{employeeSuperCoinsResponse.totalGainedCoins || 0}}</span> Total Gained Coins
                               </p>
@@ -2837,7 +2837,8 @@
                             <td>
                               <p class="mb-0 persnaol"> Personal Information <img src="assets/images/edit-text.svg"
                                   class="right-icon" style="width: 14px; margin-right: 8px" *ngIf="
-                                    ROLE === 'ADMIN'
+                                    ROLE === 'ADMIN' ||
+                                    (ROLE == 'MANAGER' && isManagerBoolean)
                                   " (click)="
                                     routeToUserDetails(
                                       '/employee-onboarding/employee-onboarding-form'
@@ -2919,7 +2920,8 @@
                             <td>
                               <p class="mb-0 persnaol"> Address Details <img src="assets/images/edit-text.svg"
                                   class="right-icon" style="width: 14px; margin-right: 8px" *ngIf="
-                                    ROLE === 'ADMIN' 
+                                    ROLE === 'ADMIN' ||
+                                    (ROLE == 'MANAGER' && isManagerBoolean)
                                   " (click)="
                                     routeToUserDetails(
                                       '/employee-onboarding/employee-address-detail'
@@ -3051,7 +3053,8 @@
                                   class="right-icon"
                                   style="width: 14px; margin-right: 8px"
                                   *ngIf="
-                                    ROLE === 'ADMIN' 
+                                    ROLE === 'ADMIN' ||
+                                    (ROLE == 'MANAGER' && isManagerBoolean)
                                   "
                                   (click)="
                                     routeToUserDetails(
@@ -3096,7 +3099,8 @@
                               <p class="mb-0 persnaol"> Reference <span class="text-optional">(Optional)</span>
                                 <img src="assets/images/edit-text.svg" class="right-icon"
                                   style="width: 14px; margin-right: 8px" *ngIf="
-                                    ROLE === 'ADMIN' 
+                                    ROLE === 'ADMIN' ||
+                                    (ROLE == 'MANAGER' && isManagerBoolean)
                                   " (click)="
                                     routeToUserDetails(
                                       '/employee-onboarding/employee-document'
@@ -3170,7 +3174,8 @@
                             <td>
                               <p class="mb-0 persnaol"> Academic Details <img src="assets/images/edit-text.svg"
                                   class="right-icon" style="width: 14px; margin-right: 8px" *ngIf="
-                                    ROLE === 'ADMIN' 
+                                    ROLE === 'ADMIN' ||
+                                    (ROLE == 'MANAGER' && isManagerBoolean)
                                   " (click)="
                                     routeToUserDetails(
                                       '/employee-onboarding/acadmic'
@@ -3245,7 +3250,8 @@
                             <td>
                               <p class="mb-0 persnaol"> Experience <img src="assets/images/edit-text.svg"
                                   class="right-icon" style="width: 14px; margin-right: 8px" *ngIf="
-                                    ROLE === 'ADMIN' 
+                                    ROLE === 'ADMIN' ||
+                                    (ROLE == 'MANAGER' && isManagerBoolean)
                                   " (click)="
                                     routeToUserDetails(
                                       '/employee-onboarding/employee-experience'
@@ -3334,7 +3340,8 @@
                             <td>
                               <p class="mb-0 persnaol"> Bank Details <img src="assets/images/edit-text.svg"
                                   class="right-icon" style="width: 14px; margin-right: 8px" *ngIf="
-                                    ROLE === 'ADMIN' 
+                                    ROLE === 'ADMIN' ||
+                                    (ROLE == 'MANAGER' && isManagerBoolean)
                                   " (click)="
                                     routeToUserDetails(
                                       '/employee-onboarding/bank-details'
@@ -3396,7 +3403,8 @@
                             <td>
                               <p class="mb-0 persnaol"> Emergency Contact <img src="assets/images/edit-text.svg"
                                   class="right-icon" style="width: 14px; margin-right: 8px" *ngIf="
-                                    ROLE === 'ADMIN' 
+                                    ROLE === 'ADMIN' ||
+                                    (ROLE == 'MANAGER' && isManagerBoolean)
                                   " (click)="
                                     routeToUserDetails(
                                       '/employee-onboarding/emergency-contact'
@@ -4303,12 +4311,12 @@
 
 <!-- donate coins modal -->
 
-<div class="modal fade" id="donateCoinsModal" tabindex="-1" aria-labelledby="donateCoinsModalLabel" aria-hidden="true">
+<div class="modal fade" id="donateCoinsModal" tabindex="-1" aria-labelledby="donateCoinsModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="donateCoinsModalLabel">Donate Coins</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #conateCoinCloseModel></button>
       </div>
       <div class="modal-body">
         <form [formGroup]="donateCoinsForm">
@@ -4335,13 +4343,11 @@
             <label class="col-sm-4 col-form-label">Reason<span class="text-danger">*</span></label>
             <div class="col-sm-8">
               <div class="form-check">
-                <input type="radio" id="selectReasonToggle" name="reasonToggle" class="form-check-input"
-                       [value]="false" [(ngModel)]="isReasonTyped" (change)="toggleReason(false)">
+                <input type="radio" id="selectReasonToggle" name="reasonToggle" class="form-check-input" [value]="false" [(ngModel)]="isReasonTyped" [checked]="!isReasonTyped" [ngModelOptions]="{standalone: true}" (click)="toggleReason(false)" >
                 <label for="selectReasonToggle" class="form-check-label">Select Reason</label>
               </div>
               <div class="form-check">
-                <input type="radio" id="typeReasonToggle" name="reasonToggle" class="form-check-input"
-                       [value]="true" [(ngModel)]="isReasonTyped" (change)="toggleReason(true)">
+                <input type="radio" id="typeReasonToggle" name="reasonToggle" class="form-check-input" [value]="true" [(ngModel)]="isReasonTyped" [checked]="isReasonTyped" [ngModelOptions]="{standalone: true}" (click)="toggleReason(true)">
                 <label for="typeReasonToggle" class="form-check-label">Type Reason</label>
               </div>
             </div>
@@ -4358,7 +4364,7 @@
           </div>
 
           <div class="mb-3 row" *ngIf="isReasonTyped">
-            <label for="donationReason" class="col-sm-4 col-form-label">Reason<span class="text-danger">*</span></label>
+            <label for="donationReason" class="col-sm-4 col-form-label">Type Reason<span class="text-danger">*</span></label>
             <div class="col-sm-8">
               <textarea formControlName="donationReason" id="donationReason" class="form-control" rows="3" placeholder="Enter reason"></textarea>
             </div>
@@ -4367,8 +4373,9 @@
         </form>
       </div>
       <div class="d-flex justify-content-end">
-        <button type="button" class="btn btn-primary" [disabled]="donateCoinsForm.invalid">Donate</button>
+        <button type="button" class="btn btn-primary">Donate</button>
       </div>
     </div>
   </div>
 </div>
+

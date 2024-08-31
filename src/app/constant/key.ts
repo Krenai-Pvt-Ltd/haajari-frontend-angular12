@@ -337,8 +337,8 @@ export class Key {
 
   // RazorPay Key
 
-  public static razorKey =  'rzp_test_Wd1RYd0fng3673'; // Test
-  // public static razorKey = 'rzp_live_twiokSC5krYrnQ'  // Live
+  // public static razorKey =  'rzp_test_Wd1RYd0fng3673'; // Test
+  public static razorKey = 'rzp_live_twiokSC5krYrnQ'  // Live
   //
   public static ENABLE = 1;
   public static DISABLE = 2;
@@ -347,7 +347,6 @@ export class Key {
   public static LEAVE_LOG = 1;
   public static OVERTIME_LOG = 2;
   public static LOP_REVERSAL_LOG = 3;
-
 
   // Tabs in Attendance Section
   public static ATTENDANCE_TAB = 1;

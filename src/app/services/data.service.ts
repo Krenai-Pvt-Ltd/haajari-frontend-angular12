@@ -3731,8 +3731,9 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get(`${this.baseUrl}/super-coin-allocation/get/remaining/badges`);
   }
 
-  allocateCoinsForBadgeOrganizationWise(allocateCoinsToBadgeRequest: AllocateCoinsToBadgeRequest): Observable<any> {
-    return this.httpClient.put(`${this.baseUrl}/super-coin-allocation/allocate/coins/for/Badges`, allocateCoinsToBadgeRequest, {});
+  allocateCoinsForBadgeOrganizationWise(allocateCoinsToBadgeRequest: AllocateCoinsToBadgeRequest, allocateCoinstoBadgeId:number): Observable<any> {
+    let params = new HttpParams().set('allocateCoinstoBadgeId', allocateCoinstoBadgeId);
+    return this.httpClient.put(`${this.baseUrl}/super-coin-allocation/allocate/coins/for/Badges`, allocateCoinsToBadgeRequest, {params});
   }
 
   getBadgeCoinsInfo(): Observable<any> {

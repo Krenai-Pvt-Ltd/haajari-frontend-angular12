@@ -323,10 +323,14 @@
                   "
                   class="text-danger text-start"
                 >
-                  <p *ngIf="emailInput.errors.required">
+                  <p
+                    class="errortxt mt-3 mb-0 text-danger text-left"
+                    *ngIf="emailInput.errors.required"
+                  >
                     <i class="bi bi-exclamation-circle"></i> Email is required.
                   </p>
                   <p
+                    class="errortxt mt-3 mb-0 text-danger text-left"
                     *ngIf="
                       !emailInput.errors.required && emailInput.errors.pattern
                     "
