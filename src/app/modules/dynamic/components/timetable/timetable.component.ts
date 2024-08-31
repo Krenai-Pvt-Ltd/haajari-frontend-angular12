@@ -173,7 +173,7 @@ export class TimetableComponent implements OnInit {
 
   selectPreviousMonth() {
     const currentDate = new Date(this.selectedDate);
-    currentDate.setMonth(currentDate.getMonth() - 1);  // Use setMonth instead of setDate
+    currentDate.setMonth(currentDate.getMonth() - 1);
   
     if (currentDate < new Date(this.organizationRegistrationDate)) {
       return;
@@ -185,7 +185,7 @@ export class TimetableComponent implements OnInit {
   
   selectNextMonth() {
     const currentDate = new Date(this.selectedDate);
-    currentDate.setMonth(currentDate.getMonth() + 1);  // Use setMonth instead of setDate
+    currentDate.setMonth(currentDate.getMonth() + 1);
   
     if (currentDate >= new Date()) {
       return;
