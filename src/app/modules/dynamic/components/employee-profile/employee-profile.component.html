@@ -205,7 +205,7 @@
                 <li class="nav-item" (click)="activeTabs('attendance'); getAttendanceRequestLogData()">
                   <a class="nav-link" data-bs-toggle="tab" href="#attendance" role="tab" aria-selected="true">Attendance</a>
                 </li>
-                <li class="nav-item" (click)="activeTabs('finances'); financeSectionMethodCall()" *ngIf="ROLE == ADMIN">
+                <li class="nav-item" (click)="activeTabs('finances'); financeSectionMethodCall()" *ngIf="(ROLE == ADMIN) || (UUID == userId)">
                   <a class="nav-link" data-bs-toggle="tab" href="#payslip" role="tab" aria-selected="false">Finances</a>
                 </li>
                 <li class="nav-item" (click)="activeTabs('documents')">
