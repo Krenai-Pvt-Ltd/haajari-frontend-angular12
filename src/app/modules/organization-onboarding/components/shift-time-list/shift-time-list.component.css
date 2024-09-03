@@ -129,13 +129,13 @@
 }
 
 .add-shift-main-box {
-  border: 1px solid #f1f1f1;
+  background-color: #f6f6f6;
   border-radius: 2px;
 }
 
-.add-shift-box {
+/* .add-shift-box {
   border-bottom: 1px solid #f1f1f1;
-}
+} */
 
 .text-truncate.mb-0 {
   font-size: 14px;
@@ -148,7 +148,7 @@
 }
 
 .shift-time {
-  background-color: #f5f8fa;
+  background-color: #fff;
   border-radius: 2px;
 }
 
@@ -163,13 +163,20 @@
 }
 
 .automation-rules-toogel-btn {
-  background-color: #fff;
-  border-radius: 5px;
-  padding: 8px 8px;
+  background-color: #f6f6f6;
+  border-radius: 4px;
+  padding: 4px 4px;
   color: #444;
 }
 
 .shift-in-out-time p {
   font-size: 12px;
   color: #000 !important;
+}
+.shift-in-out-box {
+  background-color: #e7eeff;
+}
+
+.employ-list svg {
+  width: 18px;
 }

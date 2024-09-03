@@ -5,8 +5,8 @@
         <div class="col-md-12">
           <div class="persnol-details">
             <div class="card-header p-0 pb-3 bg-white">
-              <h4 class="card-title">Shift Time</h4>
-              <p class="text-muted mb-0">
+              <h4 class="card-title-headding mb-1">Shift Time</h4>
+              <p class="mb-0">
                 To enhance your experience and ensure accurate shift scheduling
                 and communication within our platform, we kindly ask you to
                 review and update your shift information.
@@ -122,14 +122,14 @@
               </div>
             </ng-container>
             <div
-              class="add-shift-main-box mt-5"
+              class="add-shift-main-box mt-3"
               *ngIf="
                 !allShiftTimingsLoader &&
                 organizationShiftTimingWithShiftTypeResponseList.length > 0
               "
             >
               <div
-                class="add-shift-box d-flex align-items-center justify-content-between p-3"
+                class="add-shift-box d-flex align-items-center justify-content-between p-3 border-bottom"
               >
                 <div class="">
                   <h6 class="text-truncate mb-0">Shifts</h6>
@@ -139,14 +139,13 @@
                     class="add-shift-time-btn"
                     routerLink="/organization-onboarding/add-shift-time"
                     ><i class="bi bi-plus"></i>
-                    Add More Shifts
+                    Add Shift Time
                   </a>
                 </div>
               </div>
 
-              <div class="shift-setting-box">
+              <div class="shift-time p-3 m-3">
                 <div
-                  class="shift-time p-3 m-3"
                   *ngFor="
                     let organizationShiftTimingWithShiftTypeResponse of organizationShiftTimingWithShiftTypeResponseList;
                     let i = index
@@ -159,47 +158,146 @@
                       <div class="d-flex align-items-center gap-3">
                         <div class="">
                           <span
-                            class="automation-rules-icon d-flex align-items-center justify-content-center"
+                            data-bs-toggle="collapse"
+                            role="button"
+                            class="automation-rules-toogel-btn pointer"
+                            [attr.data-bs-target]="'#multiCollapseExample' + i"
+                            [attr.aria-controls]="'multiCollapseExample' + i"
+                            [attr.aria-expanded]="
+                              activeIndex == i ? 'true' : 'false'
+                            "
+                            (click)="toggleCollapse(i)"
                           >
-                            <img src="assets/images/rule-icon.svg" />
+                            <i class="bi bi-chevron-down"></i>
                           </span>
                         </div>
                         <div class="">
-                          <h6 class="text-truncate mb-0">
+                          <h5 class="alert-heading font-14 mb-0">
                             {{
                               organizationShiftTimingWithShiftTypeResponse
                                 .shiftType.name
                             }}
-                          </h6>
-                          <small class="text-muted"
-                            >Define the late entry rules for the
-                            employees</small
-                          >
+                          </h5>
                         </div>
                       </div>
-                      <div class="">
-                        <!-- <span
-                          class="automation-rules-toogel-btn pointer"
-                          data-bs-toggle="collapse"
-                          href="#multiCollapseExample1"
-                          role="button"
-                          aria-expanded="false"
-                          aria-controls="multiCollapseExample1"
-                          ><i class="bi bi-chevron-down"></i
-                        ></span> -->
-
+                      <div
+                        class="employ-list d-flex align-items-center gap-3"
+                        *ngFor="
+                          let organizationShiftTimingResponse of organizationShiftTimingWithShiftTypeResponse.organizationShiftTimingResponseList
+                        "
+                      >
                         <span
-                          data-bs-toggle="collapse"
-                          role="button"
-                          class="automation-rules-toogel-btn pointer"
-                          [attr.data-bs-target]="'#multiCollapseExample' + i"
-                          [attr.aria-controls]="'multiCollapseExample' + i"
-                          [attr.aria-expanded]="
-                            activeIndex == i ? 'true' : 'false'
+                          class="pointer"
+                          data-bs-toggle="modal"
+                          data-bs-target="#shiftTime"
+                          (click)="
+                            updateOrganizationShiftTiming(
+                              organizationShiftTimingResponse,
+                              'STAFF_SELECTION'
+                            )
                           "
-                          (click)="toggleCollapse(i)"
                         >
-                          <i class="bi bi-chevron-down"></i>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="26"
+                            height="26"
+                            viewBox="0 0 26 26"
+                            fill="none"
+                          >
+                            <mask
+                              id="mask0_1563_1033"
+                              style="mask-type: alpha"
+                              maskUnits="userSpaceOnUse"
+                              x="0"
+                              y="0"
+                              width="26"
+                              height="26"
+                            >
+                              <rect width="26" height="26" fill="#444444" />
+                            </mask>
+                            <g mask="url(#mask0_1563_1033)">
+                              <path
+                                d="M5.41406 20.5846H6.78069L17.8702 9.49509L16.5036 8.12847L5.41406 19.218V20.5846ZM3.78906 22.2096V18.5431L18.0788 4.25961C18.2425 4.11084 18.4234 3.99591 18.6213 3.91484C18.8193 3.83359 19.027 3.79297 19.2442 3.79297C19.4614 3.79297 19.6717 3.83152 19.8752 3.90862C20.0789 3.98571 20.2592 4.10831 20.4161 4.27641L21.7391 5.61595C21.9072 5.77285 22.027 5.95341 22.0985 6.15761C22.17 6.36182 22.2057 6.56603 22.2057 6.77024C22.2057 6.98817 22.1685 7.19608 22.0941 7.39397C22.0198 7.59204 21.9014 7.77295 21.7391 7.93672L7.4556 22.2096H3.78906ZM17.175 8.8237L16.5036 8.12847L17.8702 9.49509L17.175 8.8237Z"
+                                fill="#444444"
+                              />
+                            </g>
+                          </svg>
+                        </span>
+                        <span
+                          class="pointer"
+                          data-bs-toggle="modal"
+                          data-bs-target="#shiftTime"
+                          (click)="
+                            updateOrganizationShiftTiming(
+                              organizationShiftTimingResponse,
+                              'SHIFT_TIME'
+                            )
+                          "
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="26"
+                            height="26"
+                            viewBox="0 0 26 26"
+                            fill="none"
+                          >
+                            <mask
+                              id="mask0_1563_1030"
+                              style="mask-type: alpha"
+                              maskUnits="userSpaceOnUse"
+                              x="0"
+                              y="0"
+                              width="26"
+                              height="26"
+                            >
+                              <rect width="26" height="26" fill="#D9D9D9" />
+                            </mask>
+                            <g mask="url(#mask0_1563_1030)">
+                              <path
+                                d="M1.94531 20.9155V18.507C1.94531 17.9487 2.0894 17.4504 2.37756 17.0122C2.66573 16.574 3.05058 16.2331 3.53213 15.9896C4.56165 15.486 5.59687 15.0977 6.63777 14.8247C7.67885 14.5519 8.82295 14.4155 10.07 14.4155C11.3173 14.4155 12.4614 14.5519 13.5023 14.8247C14.5434 15.0977 15.5787 15.486 16.6082 15.9896C17.0898 16.2331 17.4746 16.574 17.7628 17.0122C18.051 17.4504 18.195 17.9487 18.195 18.507V20.9155H1.94531ZM20.3617 20.9155V18.3737C20.3617 17.6627 20.1877 16.985 19.8395 16.3406C19.4913 15.6964 18.9973 15.1436 18.3575 14.6823C19.0839 14.7906 19.7736 14.9582 20.4264 15.1852C21.0791 15.4123 21.7021 15.6807 22.2952 15.9904C22.8549 16.289 23.2872 16.641 23.5919 17.0464C23.8967 17.4515 24.0491 17.894 24.0491 18.3737V20.9155H20.3617ZM10.07 12.6654C9.02733 12.6654 8.13476 12.2941 7.39231 11.5517C6.64987 10.8091 6.27865 9.91641 6.27865 8.8737C6.27865 7.83099 6.64987 6.93841 7.39231 6.19597C8.13476 5.45334 9.02733 5.08203 10.07 5.08203C11.1128 5.08203 12.0054 5.45334 12.748 6.19597C13.4905 6.93841 13.8617 7.83099 13.8617 8.8737C13.8617 9.91641 13.4905 10.8091 12.748 11.5517C12.0054 12.2941 11.1128 12.6654 10.07 12.6654ZM19.4241 8.8737C19.4241 9.91641 19.0529 10.8091 18.3104 11.5517C17.568 12.2941 16.6754 12.6654 15.6327 12.6654C15.5105 12.6654 15.3549 12.6515 15.166 12.6237C14.977 12.5959 14.8215 12.5653 14.6994 12.5321C15.1266 12.0184 15.4549 11.4486 15.6844 10.8226C15.9137 10.1966 16.0284 9.54663 16.0284 8.87262C16.0284 8.19842 15.9114 7.55086 15.6774 6.92993C15.4434 6.30918 15.1174 5.73772 14.6994 5.21555C14.8549 5.15994 15.0104 5.12383 15.166 5.10722C15.3215 5.09043 15.4771 5.08203 15.6327 5.08203C16.6754 5.08203 17.568 5.45334 18.3104 6.19597C19.0529 6.93841 19.4241 7.83099 19.4241 8.8737ZM3.57004 19.2905H16.57V18.507C16.57 18.2807 16.5134 18.0794 16.4002 17.903C16.2872 17.7266 16.1077 17.5724 15.8618 17.4404C14.9702 16.9807 14.0522 16.6324 13.1077 16.3956C12.1632 16.1588 11.1507 16.0405 10.07 16.0405C8.9896 16.0405 7.97713 16.1588 7.03265 16.3956C6.08816 16.6324 5.17013 16.9807 4.27854 17.4404C4.03263 17.5724 3.85306 17.7266 3.73985 17.903C3.62665 18.0794 3.57004 18.2807 3.57004 18.507V19.2905ZM10.07 11.0404C10.6659 11.0404 11.1759 10.8282 11.6003 10.4039C12.0246 9.9796 12.2367 9.46953 12.2367 8.8737C12.2367 8.27786 12.0246 7.7678 11.6003 7.34349C11.1759 6.91918 10.6659 6.70703 10.07 6.70703C9.47421 6.70703 8.96414 6.91918 8.53983 7.34349C8.11553 7.7678 7.90338 8.27786 7.90338 8.8737C7.90338 9.46953 8.11553 9.9796 8.53983 10.4039C8.96414 10.8282 9.47421 11.0404 10.07 11.0404Z"
+                                fill="#444444"
+                              />
+                            </g>
+                          </svg>
+                        </span>
+                        <span
+                          class="pointer"
+                          (click)="
+                            deleteOrganizationShiftTimingMethodCall(
+                              organizationShiftTimingResponse.id
+                            )
+                          "
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="26"
+                            height="27"
+                            viewBox="0 0 26 27"
+                            fill="none"
+                          >
+                            <mask
+                              id="mask0_1563_1027"
+                              style="mask-type: alpha"
+                              maskUnits="userSpaceOnUse"
+                              x="0"
+                              y="0"
+                              width="26"
+                              height="27"
+                            >
+                              <rect
+                                y="0.164062"
+                                width="26"
+                                height="26"
+                                fill="#D9D9D9"
+                              />
+                            </mask>
+                            <g mask="url(#mask0_1563_1027)">
+                              <path
+                                d="M7.91673 22.3736C7.37651 22.3736 6.91501 22.1823 6.53223 21.7997C6.14963 21.4169 5.95833 20.9554 5.95833 20.4152V6.66524H4.875V5.04024H9.75V4.08203H16.25V5.04024H21.125V6.66524H20.0417V20.4152C20.0417 20.9624 19.8521 21.4257 19.4729 21.8048C19.0938 22.184 18.6305 22.3736 18.0833 22.3736H7.91673ZM18.4167 6.66524H7.58333V20.4152C7.58333 20.5125 7.61457 20.5924 7.67704 20.6549C7.73951 20.7173 7.81941 20.7486 7.91673 20.7486H18.0833C18.1667 20.7486 18.2431 20.7138 18.3124 20.6443C18.3819 20.575 18.4167 20.4986 18.4167 20.4152V6.66524ZM10.1877 18.5819H11.8124V8.83191H10.1877V18.5819ZM14.1876 18.5819H15.8123V8.83191H14.1876V18.5819Z"
+                                fill="#FF0000"
+                              />
+                            </g>
+                          </svg>
                         </span>
                       </div>
                     </div>
@@ -212,7 +310,7 @@
                         let organizationShiftTimingResponse of organizationShiftTimingWithShiftTypeResponse.organizationShiftTimingResponseList
                       "
                     >
-                      <div
+                      <!-- <div
                         class="d-flex align-items-center justify-content-between mt-3"
                       >
                         <div class="">
@@ -225,9 +323,6 @@
                           </p>
                         </div>
                         <div class="d-flex align-items-center gap-4">
-                          <!-- <i class="bi bi-pencil pointer"></i>
-                          <i class="bi bi-people"></i>
-                          <i class="bi bi-trash pointer text-danger"></i> -->
 
                           <a
                             style="cursor: pointer"
@@ -241,12 +336,7 @@
                             "
                             ><i class="bi bi-people"></i
                           ></a>
-                          <p
-                            style="color: #d7d7d7; margin-bottom: 0px"
-                            class="ng-star-inserted"
-                          >
-                            |
-                          </p>
+
                           <a
                             style="cursor: pointer"
                             data-bs-toggle="modal"
@@ -259,12 +349,6 @@
                             "
                             ><i class="bi bi-pencil pointer"></i
                           ></a>
-                          <p
-                            style="color: #d7d7d7; margin-bottom: 0px"
-                            class="ng-star-inserted"
-                          >
-                            |
-                          </p>
 
                           <a
                             style="cursor: pointer"
@@ -295,15 +379,16 @@
                             <span style="background-color: #6666f3"></span>
                           </div>
                         </div>
-                      </div>
+                      </div> -->
 
-                      <div class="shift-in-out-box bg-white row mt-3 p-3 m-0">
+                      <div class="shift-in-out-box row mt-3 p-3 m-0">
                         <div class="col-md-4">
                           <div class="shift-in-out-time mb-3">
                             <p class="mb-0">
                               In Time |
                               <span style="color: #3f988f">{{
-                                organizationShiftTimingResponse.inTime | date:'shortTime'
+                                organizationShiftTimingResponse.inTime
+                                  | date : "shortTime"
                               }}</span>
                             </p>
                           </div>
@@ -313,7 +398,8 @@
                             <p class="mb-0">
                               Out Time |
                               <span style="color: #3f988f">{{
-                                organizationShiftTimingResponse.outTime | date:'shortTime'
+                                organizationShiftTimingResponse.outTime
+                                  | date : "shortTime"
                               }}</span>
                             </p>
                           </div>
@@ -333,7 +419,8 @@
                             <p class="mb-0">
                               Break Time |
                               <span style="color: #3f988f">{{
-                                organizationShiftTimingResponse.startLunch | date:'shortTime'
+                                organizationShiftTimingResponse.startLunch
+                                  | date : "shortTime"
                               }}</span>
                             </p>
                           </div>
@@ -343,7 +430,8 @@
                             <p class="mb-0">
                               Back Time |
                               <span style="color: #3f988f">{{
-                                organizationShiftTimingResponse.endLunch | date:'shortTime'
+                                organizationShiftTimingResponse.endLunch
+                                  | date : "shortTime"
                               }}</span>
                             </p>
                           </div>
@@ -783,8 +871,13 @@
                         (ngModelChange)="onTimeChange('inTime', $event)"
                         [ngModelOptions]="{ standalone: true }"
                       ></nz-time-picker>
-                      <div *ngIf="organizationShiftTimingValidationErrors['inTime']" class="text-danger">
-                        {{ organizationShiftTimingValidationErrors['inTime'] }}
+                      <div
+                        *ngIf="
+                          organizationShiftTimingValidationErrors['inTime']
+                        "
+                        class="text-danger"
+                      >
+                        {{ organizationShiftTimingValidationErrors["inTime"] }}
                       </div>
                     </div>
                   </div>
@@ -799,8 +892,13 @@
                         (ngModelChange)="onTimeChange('outTime', $event)"
                         [ngModelOptions]="{ standalone: true }"
                       ></nz-time-picker>
-                      <div *ngIf="organizationShiftTimingValidationErrors['outTime']" class="text-danger">
-                        {{ organizationShiftTimingValidationErrors['outTime'] }}
+                      <div
+                        *ngIf="
+                          organizationShiftTimingValidationErrors['outTime']
+                        "
+                        class="text-danger"
+                      >
+                        {{ organizationShiftTimingValidationErrors["outTime"] }}
                       </div>
                     </div>
                   </div>
@@ -825,7 +923,9 @@
                   <!-- Lunch Break Start Time Input -->
                   <div class="col-md-4">
                     <div class="mb-3">
-                      <label for="lunchBreakStartTime" class="pb-2">Lunch Break Start Time</label>
+                      <label for="lunchBreakStartTime" class="pb-2"
+                        >Lunch Break Start Time</label
+                      >
                       <nz-time-picker
                         [(ngModel)]="organizationShiftTimingRequest.startLunch"
                         [nzUse12Hours]="true"
@@ -833,16 +933,25 @@
                         (ngModelChange)="onTimeChange('startLunch', $event)"
                         [ngModelOptions]="{ standalone: true }"
                       ></nz-time-picker>
-                      <div *ngIf="organizationShiftTimingValidationErrors['startLunch']" class="text-danger">
-                        {{ organizationShiftTimingValidationErrors['startLunch'] }}
+                      <div
+                        *ngIf="
+                          organizationShiftTimingValidationErrors['startLunch']
+                        "
+                        class="text-danger"
+                      >
+                        {{
+                          organizationShiftTimingValidationErrors["startLunch"]
+                        }}
                       </div>
                     </div>
                   </div>
-                  
+
                   <!-- Lunch Break End Time Input -->
                   <div class="col-md-4">
                     <div class="mb-3">
-                      <label for="lunchBreakEndTime" class="pb-2">Lunch Break End Time</label>
+                      <label for="lunchBreakEndTime" class="pb-2"
+                        >Lunch Break End Time</label
+                      >
                       <nz-time-picker
                         [(ngModel)]="organizationShiftTimingRequest.endLunch"
                         [nzUse12Hours]="true"
@@ -850,8 +959,15 @@
                         (ngModelChange)="onTimeChange('endLunch', $event)"
                         [ngModelOptions]="{ standalone: true }"
                       ></nz-time-picker>
-                      <div *ngIf="organizationShiftTimingValidationErrors['endLunch']" class="text-danger">
-                        {{ organizationShiftTimingValidationErrors['endLunch'] }}
+                      <div
+                        *ngIf="
+                          organizationShiftTimingValidationErrors['endLunch']
+                        "
+                        class="text-danger"
+                      >
+                        {{
+                          organizationShiftTimingValidationErrors["endLunch"]
+                        }}
                       </div>
                     </div>
                   </div>

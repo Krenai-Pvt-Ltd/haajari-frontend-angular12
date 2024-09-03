@@ -28,6 +28,7 @@ export class UploadTeamComponent implements OnInit {
   userList: UserReq[] = new Array();
   databaseHelper: DatabaseHelper = new DatabaseHelper();
   sampleFileUrl: string = ''; //put sample file url
+  viewMore: boolean = true;
 
   @ViewChild('importModalOpen') importModalOpen!: ElementRef;
 
@@ -360,7 +361,6 @@ export class UploadTeamComponent implements OnInit {
   }
 
   deleteUser(id: number) {
-   
     this._onboardingService.deleteOnboardUser(id).subscribe(
       (response: any) => {
         if (response.status) {
@@ -466,5 +466,15 @@ export class UploadTeamComponent implements OnInit {
         console.log('error');
       }
     );
+  }
+
+  showUserList: boolean = false;
+
+  viewUserList() {
+    if (this.showUserList == false) {
+      this.showUserList = true;
+    } else {
+      this.showUserList = false;
+    }
   }
 }

@@ -19,6 +19,12 @@
   position: absolute;
   right: 15px;
 }
+
+.profile-input i {
+  position: absolute;
+  right: 15px;
+}
+
 button.btn.close-btn {
   border-radius: 6px;
   padding: 7px 12px;
@@ -122,7 +128,6 @@ button.btn.close-btn {
     opacity: 1;
   }
 }
-
 
 .text-danger {
   font-size: 0.875rem;

@@ -18,10 +18,18 @@ p.tableinfo.mb-0 {
 .munal-deta-upload-modal::-webkit-scrollbar {
   display: none;
 }
-a.munal-add-more-btn {
+.munal-add-more-btn {
   color: #6666f4 !important;
   font-size: 14px;
   font-weight: 400;
+  background-color: transparent;
+  padding: 0px;
+  border: none;
+}
+.munal-add-more-btn svg {
+  width: 20px;
+  position: relative;
+  top: -1px;
 }
 .tableinfo i {
   font-size: 16px;
@@ -162,6 +170,73 @@ a.munal-add-more-btn {
 .spreter {
   height: 25px;
   border-right: 1px solid #e6e7e9;
+}
+
+.error-spreter {
+  height: 15px;
+  border-right: 1px solid #d9d9d9;
+}
+.close-btn {
+  background-color: transparent;
+  border: none;
+  padding: 0px;
+}
+.side-img {
+  height: 160px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.total-people {
+  background-color: #b7b7ff;
+  border-radius: 2px;
+  padding: 10px 10px 10px 20px;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+  width: 300px;
+}
+.manualUploadForm {
+  background-color: #fff;
+}
+
+.mannualSubmit {
+  background-color: #6666f2;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 2px;
+}
+.userName {
+  background-color: #fff;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 15px;
+  color: #6666f2;
+  line-height: 22px;
+}
+.userList:first-child {
+  padding-top: 0px !important;
+}
+.userList:last-child {
+  padding-bottom: 0px !important;
+}
+
+.addUserRemvo {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500px;
+}
+
+.addUserRemvo svg {
+  width: 15px;
+  position: relative;
+  top: -1px;
 }
 @keyframes dotOpacity {
   0%,

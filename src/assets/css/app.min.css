@@ -9406,8 +9406,8 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   border-radius: 2.462px;
   height: 43px !important;
   font-weight: 400 !important;
-  font-size: 14px !important;
-  line-height: 18px !important;
+  font-size: 13px !important;
+  line-height: 16px !important;
   color: #8d93a1 !important;
   box-shadow: none !important;
   outline: none !important;
@@ -9443,7 +9443,7 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   padding-right: 30px;
 }
 .previous-btn {
-  margin-left: 300px;
+  margin-left: 285px;
 }
 
 /* @media screen and (max-width: 2600px) {
@@ -9696,4 +9696,23 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   line-height: 27.086px; /* 146.667% */
   letter-spacing: 0.369px;
   text-transform: capitalize;
+}
+.excel-file-error {
+  position: fixed;
+  bottom: 68px;
+  left: 0px;
+  width: 100%;
+  z-index: 999;
+  background-color: #fbf1f1;
+  padding: 15px;
+}
+
+.shiftManagement {
+  position: fixed;
+  bottom: 68px;
+  left: 0px;
+  width: 100%;
+  z-index: 999;
+  background-color: #fff8f2;
+  padding: 15px;
 }
