@@ -40,6 +40,7 @@ a.munal-add-more-btn {
   font-size: 14px !important;
   font-weight: 500;
   color: #6666f4 !important;
+  padding: 0px;
 }
 .mt-130 {
   margin-top: 130px;
@@ -61,15 +62,19 @@ a.munal-add-more-btn {
 .bg-soft-warning:hover {
   background-color: rgba(255, 159, 67, 0.08) !important;
 }
-.alert-light:hover .alert-heading {
+/* .alert-light:hover .alert-heading {
   color: orange !important;
-}
+} */
 .create-password-warning > p {
   color: #6b6b6b;
   font-size: 13px;
   font-weight: 300;
 }
 
+.textDecrotion:hover {
+  text-decoration: underline;
+  color: #6666f4 !important;
+}
 .dot-opacity-loader {
   display: flex;
   align-items: center;
@@ -131,6 +136,33 @@ a.munal-add-more-btn {
   animation-delay: -0.16s;
 }
 
+.sampleExcelFileBox {
+  border: 1px dashed rgba(102, 102, 242, 0.4);
+  background-color: rgba(244, 247, 255, 0.5) !important;
+}
+.excelUploadBtn {
+  background-color: #2e2ef6;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 2px;
+  min-width: 150px;
+}
+.excelUploadBtn svg {
+  position: relative;
+  top: -1px;
+  width: 20px;
+  padding-left: 3px;
+}
+.add-excel svg {
+  width: 16px;
+  position: relative;
+  top: -3px;
+}
+.spreter {
+  height: 25px;
+  border-right: 1px solid #e6e7e9;
+}
 @keyframes dotOpacity {
   0%,
   80%,

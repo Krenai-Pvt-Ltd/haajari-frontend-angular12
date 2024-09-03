@@ -17,8 +17,10 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="card-header p-0 pb-3 bg-white">
-                  <h4 class="card-title">Employee Creation</h4>
-                  <p class="text-muted mb-0">
+                  <h4 class="card-title-headding mb-1">
+                    Provide Your Employee Information
+                  </h4>
+                  <p class="mb-0">
                     Please ensure that all required fields are accurately filled
                     out when creating employee profiles in our HR system. This
                     will help us maintain up-to-date records and provide better
@@ -34,39 +36,32 @@
                   !networkConnectionErrorPlaceholder
                 "
               >
-                <div class="col-md-8">
-                  <div class="card-body mt-5 p-0">
-                    <div class="alert alert-light mb-0" role="alert">
-                      <h4 class="alert-heading font-18">
+                <div class="col-md-12">
+                  <div class="card-body mt-3 p-0">
+                    <div class="alert alert-light mb-0 sampleExcelFileBox">
+                      <h4 class="alert-heading font-14">
                         Download the Sample Excel File!
                       </h4>
-                      <p>
-                        Look for the sample file titled "Sample_Data.xlsx" and
-                        click on the download button to save it to your
-                        computer.
-                      </p>
-                      <p>
-                        Take a moment to review the existing data in the Excel
-                        file. This will help you understand the structure and
-                        content of the data before making any updates.
-                      </p>
-                      <p>
-                        <span class="text-primary"
-                          ><u
-                            ><a class="text-primary" href="{{ sampleFileUrl }}"
-                              >Download a sample Excel file</a
-                            ></u
-                          > </span
-                        >, update its data, and upload it back with the updated
+                      <p class="mb-0">
+                        Look Tor the sample Tlle titlea sample vala.xisx ana
+                        click on the aownioaa button to save it to vour
+                        computer. Take a moment to review the existing data in
+                        the Excel file. This will help you understand the
+                        structure and content of the data before making any
+                        updates.
+                        <a
+                          class="text-primary textDecrotion"
+                          href="{{ sampleFileUrl }}"
+                          >Download a sample Excel file.</a
+                        >
+                        update its data, and upload it back with the updated
                         content on our platform
                       </p>
                     </div>
                   </div>
                   <div class="card-body mt-3 p-0">
-                    <div
-                      class="alert alert-light mb-0 excel-uplode-file-box text-center"
-                    >
-                      <input
+                    <div class="alert alert-light mb-0 excel-uplode-file-box">
+                      <!-- <input
                         id="fileSelect"
                         type="file"
                         name="img[]"
@@ -92,12 +87,183 @@
                         *ngIf="isProgressToggle"
                         class="spinner-border text-success"
                         role="status"
-                      ></div>
+                      ></div> -->
+
+                      <div
+                        class="d-flex align-items-center justify-content-between gap-3"
+                      >
+                        <div style="width: 15%">
+                          <img
+                            src="assets/images/excel-img.svg"
+                            style="width: 100%"
+                          />
+                        </div>
+                        <div
+                          class="d-flex align-items-center justify-content-between"
+                          style="width: 85%"
+                        >
+                          <div>
+                            <h5 class="alert-heading font-15 mb-2">
+                              Generate Your Employee List via Excel
+                            </h5>
+                            <p class="mb-0">
+                              Effortlessly create and manage your employee list
+                              by uploading an <br />
+                              organised Excel sheet.
+                            </p>
+                          </div>
+                          <div class="">
+                            <button
+                              class="btn excelUploadBtn"
+                              onclick="document.getElementById('fileSelect').click();"
+                            >
+                              Excel Upload
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="22"
+                                height="22"
+                                viewBox="0 0 22 22"
+                                fill="none"
+                              >
+                                <mask
+                                  id="mask0_1530_1347"
+                                  style="mask-type: alpha"
+                                  maskUnits="userSpaceOnUse"
+                                  x="0"
+                                  y="0"
+                                  width="22"
+                                  height="22"
+                                >
+                                  <rect
+                                    x="0.117188"
+                                    y="0.515625"
+                                    width="20.9709"
+                                    height="20.9709"
+                                    fill="#D9D9D9"
+                                  />
+                                </mask>
+                                <g mask="url(#mask0_1530_1347)">
+                                  <path
+                                    d="M14.2477 11.8758H3.60938V10.1282H14.2477L9.35452 5.23502L10.5997 4.01172L17.59 11.002L10.5997 17.9923L9.35452 16.769L14.2477 11.8758Z"
+                                    fill="white"
+                                  />
+                                </g>
+                              </svg>
+                            </button>
+                            <input
+                              id="fileSelect"
+                              type="file"
+                              name="img[]"
+                              accept=".xlsx"
+                              class="input"
+                              style="display: none"
+                              (change)="selectFile($event)"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body mt-3 p-0">
+                    <div class="alert alert-light mb-0 excel-uplode-file-box">
+                      <div
+                        class="d-flex align-items-center justify-content-between gap-3"
+                      >
+                        <div style="width: 15%">
+                          <img
+                            src="assets/images/manually-img.svg"
+                            style="width: 100%"
+                          />
+                        </div>
+                        <div
+                          class="d-flex align-items-center justify-content-between"
+                          style="width: 85%"
+                        >
+                          <div>
+                            <h5 class="alert-heading font-15 mb-2">
+                              Manually Build Your Employee List
+                            </h5>
+                            <p class="mb-0">
+                              Enter employee details one by one to create a
+                              personalized list <br />
+                              tailored to your needs.
+                            </p>
+                          </div>
+                          <div class="">
+                            <button
+                              class="btn excelUploadBtn"
+                              data-bs-toggle="modal"
+                              data-bs-target="#munal-upload"
+                            >
+                              Manually Upload
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="22"
+                                height="22"
+                                viewBox="0 0 22 22"
+                                fill="none"
+                              >
+                                <mask
+                                  id="mask0_1530_1347"
+                                  style="mask-type: alpha"
+                                  maskUnits="userSpaceOnUse"
+                                  x="0"
+                                  y="0"
+                                  width="22"
+                                  height="22"
+                                >
+                                  <rect
+                                    x="0.117188"
+                                    y="0.515625"
+                                    width="20.9709"
+                                    height="20.9709"
+                                    fill="#D9D9D9"
+                                  />
+                                </mask>
+                                <g mask="url(#mask0_1530_1347)">
+                                  <path
+                                    d="M14.2477 11.8758H3.60938V10.1282H14.2477L9.35452 5.23502L10.5997 4.01172L17.59 11.002L10.5997 17.9923L9.35452 16.769L14.2477 11.8758Z"
+                                    fill="white"
+                                  />
+                                </g>
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- <input
+                        id="fileSelect"
+                        type="file"
+                        name="img[]"
+                        accept=".xlsx"
+                        class="input"
+                        (change)="selectFile($event)"
+                      />
+                      <img
+                        src="assets/images/excel.svg"
+                        style="width: 50px"
+                        class="pb-3"
+                      />
+                      <p class="">
+                        Drag file here to upload<br />
+                        or,
+                        <u
+                          ><a class="text-primary" href="#!">
+                            choose file
+                          </a></u
+                        >
+                      </p>
+                      <div
+                        *ngIf="isProgressToggle"
+                        class="spinner-border text-success"
+                        role="status"
+                      ></div> -->
                     </div>
                   </div>
                 </div>
 
-                <div class="col-md-4">
+                <!-- <div class="col-md-4">
                   <div class="card-body mt-0 bg-soft-warning">
                     <div class="pt-3">
                       <img
@@ -123,7 +289,7 @@
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> -->
                 <div
                   class="alert alert-light mb-0 mt-4 bg-soft-warning create-password-warning text-start"
                   role="alert"
@@ -239,57 +405,108 @@
                     else errorInOnboardUserListCondition
                   "
                 >
-                  <div class="row mt-4">
+                  <div class="row mt-3">
                     <div
-                      class="d-flex align-items-center justify-content-end mb-3 p-0"
+                      class="d-flex align-items-center justify-content-between mb-3 p-0"
                       *ngIf="onboardingViaString != 'SLACK'"
                     >
-                      <input
-                        #fileInput
-                        id="fileSelect"
-                        type="file"
-                        name="img[]"
-                        accept=".xlsx"
-                        class="input"
-                        style="display: none"
-                        (change)="selectFile($event)"
-                      />
-                      <button
-                        type="button"
-                        class="btn add-excel"
-                        (click)="fileInput.click()"
-                      >
-                        <i
+                      <div>
+                        <h5 class="alert-heading font-14 mb-0">
+                          Employee List
+                        </h5>
+                      </div>
+
+                      <div class="d-flex gap-3">
+                        <input
+                          #fileInput
+                          id="fileSelect"
+                          type="file"
+                          name="img[]"
+                          accept=".xlsx"
+                          class="input"
+                          style="display: none"
+                          (change)="selectFile($event)"
+                        />
+                        <button
+                          type="button"
+                          class="btn add-excel"
+                          (click)="fileInput.click()"
+                        >
+                          <!-- <i
                           *ngIf="!isProgressToggle"
                           class="bi bi-file-earmark-excel"
-                          style="
-                            position: relative;
-                            top: -1px;
-                            padding-right: 6px;
-                          "
-                        ></i>
-                        <div
-                          *ngIf="isProgressToggle"
-                          class="spinner-border text-primary excel-spinner"
-                          role="status"
-                        ></div>
-                        Excel Upload
-                      </button>
-                      <p
-                        style="color: #d7d7d7; margin-bottom: 0px"
-                        class="ng-star-inserted"
-                      >
-                        |
-                      </p>
-                      <button
-                        type="button"
-                        class="btn add-excel"
-                        data-bs-toggle="modal"
-                        data-bs-target="#munal-upload"
-                        (click)="selectMethod('mannual')"
-                      >
-                        <i class="bi bi-journal-check"></i> Manual Upload
-                      </button>
+                          style="padding-right: 6px"
+                        ></i> -->
+
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                          >
+                            <mask
+                              id="mask0_1549_4381"
+                              style="mask-type: alpha"
+                              maskUnits="userSpaceOnUse"
+                              x="0"
+                              y="0"
+                              width="24"
+                              height="24"
+                            >
+                              <rect width="24" height="24" fill="#D9D9D9" />
+                            </mask>
+                            <g mask="url(#mask0_1549_4381)">
+                              <path
+                                d="M8 18H16V16H8V18ZM8 14H16V12H8V14ZM6 22C5.45 22 4.97917 21.8042 4.5875 21.4125C4.19583 21.0208 4 20.55 4 20V4C4 3.45 4.19583 2.97917 4.5875 2.5875C4.97917 2.19583 5.45 2 6 2H14L20 8V20C20 20.55 19.8042 21.0208 19.4125 21.4125C19.0208 21.8042 18.55 22 18 22H6ZM13 9V4H6V20H18V9H13Z"
+                                fill="#6666F2"
+                              />
+                            </g>
+                          </svg>
+                          <div
+                            *ngIf="isProgressToggle"
+                            class="spinner-border text-primary excel-spinner"
+                            role="status"
+                          ></div>
+                          Excel Upload
+                        </button>
+
+                        <span class="spreter"></span>
+                        <button
+                          type="button"
+                          class="btn add-excel"
+                          data-bs-toggle="modal"
+                          data-bs-target="#munal-upload"
+                          (click)="selectMethod('mannual')"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                          >
+                            <mask
+                              id="mask0_1549_4386"
+                              style="mask-type: alpha"
+                              maskUnits="userSpaceOnUse"
+                              x="0"
+                              y="0"
+                              width="24"
+                              height="24"
+                            >
+                              <rect width="24" height="24" fill="#D9D9D9" />
+                            </mask>
+                            <g mask="url(#mask0_1549_4386)">
+                              <path
+                                d="M9.94844 21C9.49844 21 9.06927 20.9042 8.66094 20.7125C8.2526 20.5208 7.90677 20.25 7.62344 19.9L1.14844 11.925L1.79844 11.3C2.1151 10.9833 2.4901 10.8 2.92344 10.75C3.35677 10.7 3.74844 10.8 4.09844 11.05L6.99844 13.075V3C6.99844 2.71667 7.09427 2.47917 7.28594 2.2875C7.4776 2.09583 7.7151 2 7.99844 2C8.28177 2 8.51927 2.09583 8.71094 2.2875C8.9026 2.47917 8.99844 2.71667 8.99844 3V16.925L6.22344 14.975L9.17344 18.625C9.27344 18.7417 9.3901 18.8333 9.52344 18.9C9.65677 18.9667 9.79844 19 9.94844 19H16.9984C17.5484 19 18.0193 18.8042 18.4109 18.4125C18.8026 18.0208 18.9984 17.55 18.9984 17V10C18.9984 9.71667 19.0943 9.47917 19.2859 9.2875C19.4776 9.09583 19.7151 9 19.9984 9C20.2818 9 20.5193 9.09583 20.7109 9.2875C20.9026 9.47917 20.9984 9.71667 20.9984 10V17C20.9984 18.1 20.6068 19.0417 19.8234 19.825C19.0401 20.6083 18.0984 21 16.9984 21H9.94844ZM10.9984 13V7C10.9984 6.71667 11.0943 6.47917 11.2859 6.2875C11.4776 6.09583 11.7151 6 11.9984 6C12.2818 6 12.5193 6.09583 12.7109 6.2875C12.9026 6.47917 12.9984 6.71667 12.9984 7V13H10.9984ZM14.9984 13V8C14.9984 7.71667 15.0943 7.47917 15.2859 7.2875C15.4776 7.09583 15.7151 7 15.9984 7C16.2818 7 16.5193 7.09583 16.7109 7.2875C16.9026 7.47917 16.9984 7.71667 16.9984 8V13H14.9984Z"
+                                fill="#6666F2"
+                              />
+                            </g>
+                          </svg>
+                          Manual Upload
+                        </button>
+                      </div>
                     </div>
                     <div
                       class="alert alert-light mb-0 mt-4 bg-soft-warning create-password-warning text-start"
@@ -322,68 +539,56 @@
                         These credentials are already registered with us!
                       </p>
                     </div>
-                    <table class="table">
-                      <thead class="thead-light table-design">
+                    <table class="table table-striped">
+                      <thead class="thead-light">
                         <tr>
-                          <th style="width: 5%" class="text-center">#</th>
+                          <th style="width: 5%" class="text-center">Count</th>
                           <th style="width: 25%" class="text-left">Name</th>
+                          <th style="width: 25%" class="text-left">
+                            Email Address
+                          </th>
                           <th
                             style="width: 20%"
                             class="text-left"
                             *ngIf="onboardingViaString != 'SLACK'"
                           >
-                            Phone
+                            Phone Number
                           </th>
-                          <th style="width: 25%" class="text-left">Email</th>
+
                           <th style="width: 20%" class="text-center">Action</th>
                         </tr>
                       </thead>
-                      <tbody class="table-design">
+                      <tbody class="">
                         <tr
                           *ngFor="
                             let onboardUser of onboardUserList;
                             let i = index
                           "
                         >
-                          <td>
-                            <p class="tableinfo mb-0 text-left">
-                              <b>{{ i + 1 }}</b>
-                            </p>
+                          <td class="text-center">
+                            {{ i + 1 }}
                           </td>
+                          <td>{{ onboardUser.name }}</td>
                           <td>
-                            <p class="tableinfo mb-0 text-left">
-                              <b>{{ onboardUser.name }}</b>
-                            </p>
+                            {{ onboardUser.email ? onboardUser.email : "N/A" }}
                           </td>
                           <td *ngIf="onboardingViaString != 'SLACK'">
-                            <p class="tableinfo mb-0 text-left">
-                              <b>{{ onboardUser.phone }}</b>
-                            </p>
+                            {{ onboardUser.phone }}
                           </td>
-                          <td>
-                            <p class="tableinfo mb-0 text-left">
-                              <b>{{
-                                onboardUser.email ? onboardUser.email : "N/A"
-                              }}</b>
-                            </p>
-                          </td>
-                          <td>
-                            <div class="d-flex justify-content-center gap-3">
-                              <p
-                                class="tableinfo mb-0 pointer text-center"
-                                style="color: darkblue"
-                                *ngIf="onboardingViaString != 'SLACK'"
-                                (click)="openUserEditModal(onboardUser)"
-                              >
-                                <i class="bi bi-pencil-square"></i>
-                              </p>
-                              <p
-                                class="tableinfo mb-0 pointer text-center text-danger mb-2"
-                                (click)="deleteUser(onboardUser.id)"
-                              >
-                                <i class="bi bi-trash text-danger"></i>
-                              </p>
-                            </div>
+
+                          <td
+                            class="d-flex align-items-center justify-content-center gap-2"
+                          >
+                            <a
+                              *ngIf="onboardingViaString != 'SLACK'"
+                              (click)="openUserEditModal(onboardUser)"
+                              ><i class="las la-pen text-primary font-16"></i
+                            ></a>
+                            <a (click)="deleteUser(onboardUser.id)"
+                              ><i
+                                class="las la-trash-alt text-danger font-16"
+                              ></i
+                            ></a>
                           </td>
                         </tr>
                       </tbody>
