@@ -122,7 +122,7 @@
               </div>
             </ng-container>
             <div
-              class="add-shift-main-box mt-3"
+              class="add-shift-main-box mt-3 pb-1"
               *ngIf="
                 !allShiftTimingsLoader &&
                 organizationShiftTimingWithShiftTypeResponseList.length > 0
@@ -172,7 +172,10 @@
                           </span>
                         </div>
                         <div class="">
-                          <h5 class="alert-heading font-14 mb-0">
+                          <h5
+                            class="alert-heading font-14 mb-0"
+                            style="font-weight: 400"
+                          >
                             {{
                               organizationShiftTimingWithShiftTypeResponse
                                 .shiftType.name
@@ -449,6 +452,129 @@
                       </div>
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-3">
+              <div class="row">
+                <div class="col-md-12">
+                  <form
+                    novalidate=""
+                    role="search"
+                    (submit)="searchUsers()"
+                    class="searching"
+                  >
+                    <div class="form-group" style="position: relative">
+                      <input
+                        type="search"
+                        id="searchText"
+                        placeholder="Search by Name or Role "
+                        class="form-control profile-input me-2"
+                        (keyup)="searchUsers()"
+                        [(ngModel)]="searchText"
+                        [ngModelOptions]="{ standalone: true }"
+                        style="padding: 10px 30px"
+                      />
+                      <i
+                        class="bi bi-search search-icon"
+                        style="margin: auto; margin-left: 10px"
+                      ></i>
+                    </div>
+                  </form>
+                </div>
+
+                <div class="mt-3">
+                  <div
+                    class="d-flex align-items-center justify-content-between mb-3"
+                  >
+                    <h5 class="alert-heading font-14 mb-0">Employee List</h5>
+
+                    <div class="d-flex align-items-center gap-3">
+                      <p class="mb-0" style="font-weight: 400">
+                        <span class="text-primary"> 34 </span> selected of
+                        <span class="text-primary"> 34 </span>
+                      </p>
+                      <span class="error-spreter"></span>
+                      <button class="p-0 btn removeBtn pointer">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                        >
+                          <mask
+                            id="mask0_1624_4338"
+                            style="mask-type: alpha"
+                            maskUnits="userSpaceOnUse"
+                            x="0"
+                            y="0"
+                            width="24"
+                            height="24"
+                          >
+                            <rect
+                              y="0.25"
+                              width="23.5"
+                              height="23.5"
+                              fill="#D9D9D9"
+                            />
+                          </mask>
+                          <g mask="url(#mask0_1624_4338)">
+                            <path
+                              d="M6.26146 18.8568L4.89062 17.4859L10.374 12.0026L4.89062 6.51927L6.26146 5.14844L11.7448 10.6318L17.2281 5.14844L18.599 6.51927L13.1156 12.0026L18.599 17.4859L17.2281 18.8568L11.7448 13.3734L6.26146 18.8568Z"
+                              fill="#FD0808"
+                            />
+                          </g>
+                        </svg>
+                        Remove All
+                      </button>
+                    </div>
+                  </div>
+                  <table class="table table-striped">
+                    <thead class="thead-light">
+                      <tr>
+                        <th style="width: 5%" class="text-center">
+                          <input
+                            type="checkbox"
+                            class="form-check-input pointer"
+                          />
+                        </th>
+                        <th style="width: 5%" class="text-center">Count</th>
+                        <th style="width: 25%" class="text-left">Name</th>
+                        <th style="width: 25%" class="text-left">
+                          Email Address
+                        </th>
+                        <th style="width: 20%" class="text-left">
+                          Phone Number
+                        </th>
+
+                        <!-- <th style="width: 20%" class="text-center">Action</th> -->
+                      </tr>
+                    </thead>
+                    <tbody class="">
+                      <tr *ngFor="let item of [].constructor(10)">
+                        <td class="text-center">
+                          <input
+                            type="checkbox"
+                            class="form-check-input pointer"
+                          />
+                        </td>
+                        <td class="text-center">1</td>
+                        <td>Yogesh Kumar</td>
+                        <td>Yogesh@krenai.com</td>
+                        <td>91 9549901868</td>
+
+                        <!-- <td
+                          class="d-flex align-items-center justify-content-center gap-2"
+                        >
+                          <a
+                            ><i class="las la-trash-alt text-danger font-16"></i
+                          ></a>
+                        </td> -->
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
@@ -732,9 +858,13 @@
   aria-labelledby="exampleModalDefaultLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog modal-lg" role="document">
+  <div
+    class="modal-dialog modal-dialog-centered"
+    style="max-width: 900px"
+    role="document"
+  >
     <div class="modal-content">
-      <div class="modal-header">
+      <!-- <div class="modal-header">
         <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
           Shift Time
         </h6>
@@ -746,9 +876,8 @@
           (click)="clearShiftTimingModel()"
           #closeShiftTimingModal
         ></button>
-      </div>
-      <!--end modal-header-->
-      <div class="modal-body">
+      </div> -->
+      <!-- <div class="modal-body">
         <div class="">
           <ul id="myTab" role="tablist" class="nav nav-tabs">
             <li role="presentation" class="nav-item">
@@ -800,9 +929,7 @@
                 (ngSubmit)="submitShiftTimingForm()"
               >
                 <div class="row p-3">
-                  <!-- Dropdown for Shift Type -->
                   <div class="col-md-6">
-                    <!-- Existing dropdown code for shift types -->
                     <div class="form-fild">
                       <label for="exampleInputEmail1" class="pb-2"
                         >Shift Type</label
@@ -844,7 +971,6 @@
                     </div>
                   </div>
 
-                  <!-- Shift Name Input -->
                   <div class="col-md-6">
                     <div class="mb-3">
                       <label for="shiftName" class="pb-2">Shift Name</label>
@@ -860,7 +986,6 @@
                     </div>
                   </div>
 
-                  <!-- In Time Input -->
                   <div class="col-md-4">
                     <div class="mb-3">
                       <label for="inTime" class="pb-2">In Time</label>
@@ -902,7 +1027,6 @@
                       </div>
                     </div>
                   </div>
-                  <!-- Working Hours Display -->
                   <div class="col-md-4">
                     <div class="mb-3">
                       <label for="workingHours" class="pb-2"
@@ -920,7 +1044,6 @@
                     </div>
                   </div>
 
-                  <!-- Lunch Break Start Time Input -->
                   <div class="col-md-4">
                     <div class="mb-3">
                       <label for="lunchBreakStartTime" class="pb-2"
@@ -946,7 +1069,6 @@
                     </div>
                   </div>
 
-                  <!-- Lunch Break End Time Input -->
                   <div class="col-md-4">
                     <div class="mb-3">
                       <label for="lunchBreakEndTime" class="pb-2"
@@ -971,7 +1093,6 @@
                       </div>
                     </div>
                   </div>
-                  <!-- Lunch Break Duration Display -->
                   <div class="col-md-4">
                     <div class="mb-3">
                       <label for="totalLunchBreakDuration" class="pb-2"
@@ -990,7 +1111,6 @@
                   </div>
                 </div>
 
-                <!-- Submit Button -->
                 <div class="modal-footer">
                   <button
                     type="submit"
@@ -1122,7 +1242,6 @@
                           (change)="selectAll(isAllSelected)"
                         />
                       </th>
-                      <!-- <th style="width:25%; padding: 12px 15px;">S. No.</th> -->
                       <th style="width: 25%; padding: 12px 15px">Name</th>
 
                       <th
@@ -1183,7 +1302,6 @@
                           />
                         </div>
                       </td>
-                      <!-- <td style="padding: 12px 15px;">{{ i+1 }}</td> -->
                       <td style="padding: 12px 15px">{{ staff.name }}</td>
                       <td
                         style="padding: 12px 15px"
@@ -1201,7 +1319,6 @@
                   </tbody>
                 </table>
               </div>
-              <!-- *ngIf="staffs.length > 8" -->
               <div
                 class="pagination pl-3 align-items-center justify-content-between"
                 *ngIf="itemPerPage > 8"
@@ -1270,6 +1387,193 @@
                   >
                     Submit
                   </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <div class="modal-body p-0 employee-List-heigt">
+        <div class="row">
+          <div class="col-md-3" style="padding-right: 0px">
+            <div
+              class="employee-List-side-image persnol-details d-flex align-items-start justify-content-center gap-2"
+              style="
+                background-image: url(../assets/images/employee-List-side-image.svg);
+                border-radius: 0px;
+                flex-direction: column;
+              "
+            >
+              <div class="text-center">
+                <img src="assets/images/side-img.svg" style="width: 70%" />
+              </div>
+              <h5 class="alert-heading font-16 text-white mb-0">
+                Employee List
+              </h5>
+              <p class="mb-0 text-white">
+                This is the list of Employee who are part of this shift
+              </p>
+
+              <div class="left-arrow">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="41"
+                  height="42"
+                  viewBox="0 0 41 42"
+                  fill="none"
+                >
+                  <g clip-path="url(#clip0_1633_4694)">
+                    <path
+                      d="M31.5083 20.5045L22.2229 11.2191C21.8894 10.8296 21.3032 10.7842 20.9137 11.1179C20.5242 11.4514 20.4788 12.0376 20.8125 12.4271C20.8436 12.4634 20.8774 12.4973 20.9137 12.5283L28.6113 20.2352H-8.14961C-8.66239 20.2352 -9.07812 20.651 -9.07812 21.1638C-9.07812 21.6767 -8.66239 22.0923 -8.14961 22.0923H28.6113L20.9137 29.7899C20.5242 30.1234 20.4788 30.7096 20.8125 31.0991C21.1461 31.4886 21.7322 31.534 22.1217 31.2004C22.158 31.1692 22.1919 31.1354 22.2229 31.0991L31.5084 21.8137C31.8683 21.4516 31.8683 20.8667 31.5083 20.5045Z"
+                      fill="white"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_1633_4694">
+                      <rect
+                        width="40.8564"
+                        height="40.8564"
+                        fill="white"
+                        transform="translate(0 0.726562)"
+                      />
+                    </clipPath>
+                  </defs>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-9" style="padding-left: 0px">
+            <div class="p-3">
+              <div>
+                <div class="row">
+                  <div class="">
+                    <div
+                      class="d-flex align-items-center justify-content-between mb-3"
+                    >
+                      <h5 class="alert-heading font-14 mb-0">Employee List</h5>
+
+                      <div class="d-flex align-items-center gap-3">
+                        <p class="mb-0" style="font-weight: 400">
+                          <span class="text-primary"> 34 </span> selected of
+                          <span class="text-primary"> 34 </span>
+                        </p>
+                        <!-- <span class="error-spreter"></span>
+                        <button class="p-0 btn removeBtn pointer">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                          >
+                            <mask
+                              id="mask0_1624_4338"
+                              style="mask-type: alpha"
+                              maskUnits="userSpaceOnUse"
+                              x="0"
+                              y="0"
+                              width="24"
+                              height="24"
+                            >
+                              <rect
+                                y="0.25"
+                                width="23.5"
+                                height="23.5"
+                                fill="#D9D9D9"
+                              />
+                            </mask>
+                            <g mask="url(#mask0_1624_4338)">
+                              <path
+                                d="M6.26146 18.8568L4.89062 17.4859L10.374 12.0026L4.89062 6.51927L6.26146 5.14844L11.7448 10.6318L17.2281 5.14844L18.599 6.51927L13.1156 12.0026L18.599 17.4859L17.2281 18.8568L11.7448 13.3734L6.26146 18.8568Z"
+                                fill="#FD0808"
+                              />
+                            </g>
+                          </svg>
+                          Remove All
+                        </button> -->
+                      </div>
+                    </div>
+
+                    <div class="col-md-12 mb-3">
+                      <form
+                        novalidate=""
+                        role="search"
+                        (submit)="searchUsers()"
+                        class="searching"
+                      >
+                        <div class="form-group" style="position: relative">
+                          <input
+                            type="search"
+                            id="searchText"
+                            placeholder="Search by Name or Role "
+                            class="form-control profile-input me-2"
+                            (keyup)="searchUsers()"
+                            [(ngModel)]="searchText"
+                            [ngModelOptions]="{ standalone: true }"
+                            style="padding: 10px 30px"
+                          />
+                          <i
+                            class="bi bi-search search-icon"
+                            style="margin: auto; margin-left: 10px"
+                          ></i>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="employ-list-height">
+                      <table class="table table-striped">
+                        <thead class="thead-light">
+                          <tr>
+                            <th style="width: 2%" class="text-center">
+                              <input
+                                type="checkbox"
+                                class="form-check-input pointer"
+                              />
+                            </th>
+                            <th style="width: 2%" class="text-center">Count</th>
+                            <th style="width: 25%" class="text-left">Name</th>
+                            <th style="width: 25%" class="text-left">
+                              Email Address
+                            </th>
+                            <th style="width: 20%" class="text-left">
+                              Phone Number
+                            </th>
+
+                            <!-- <th style="width: 10%" class="text-center"></th> -->
+                          </tr>
+                        </thead>
+                        <tbody class="">
+                          <tr *ngFor="let item of [].constructor(8)">
+                            <td class="text-center">
+                              <input
+                                type="checkbox"
+                                class="form-check-input pointer"
+                              />
+                            </td>
+                            <td class="text-center">1</td>
+                            <td>Yogesh Kumar</td>
+                            <td>Yogesh@krenai.com</td>
+                            <td>91 9549901868</td>
+
+                            <!-- <td
+                              class="d-flex align-items-center justify-content-center gap-2"
+                            >
+                              <a
+                                ><i
+                                  class="las la-trash-alt text-danger font-16"
+                                ></i
+                              ></a>
+                            </td> -->
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div
+                      class="employ-lost-footer border-top p-2 d-flex align-items-center justify-content-end"
+                    >
+                      <button class="btn mannualSubmit">Submit</button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

@@ -9317,9 +9317,11 @@ display:block
   font-size: 12px !important;
   border-bottom: 1px solid #e6e7e9 !important;
   color: #000 !important;
-  line-height: 10px;
 }
-
+.error-spreter {
+  height: 15px;
+  border-right: 1px solid #d9d9d9;
+}
 .form-control {
   display: block;
   width: 100%;
@@ -9715,4 +9717,12 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   z-index: 999;
   background-color: #fff8f2;
   padding: 15px;
+}
+
+.mannualSubmit {
+  background-color: #6666f2;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 2px;
 }

@@ -165,7 +165,7 @@
 .automation-rules-toogel-btn {
   background-color: #f6f6f6;
   border-radius: 4px;
-  padding: 4px 4px;
+  padding: 5px 5px;
   color: #444;
 }
 
@@ -179,4 +179,51 @@
 
 .employ-list svg {
   width: 18px;
+}
+
+.search-icon {
+  font-size: 12px;
+  position: absolute;
+  top: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  color: var(--tb-secondary-color);
+}
+.removeBtn {
+  font-size: 12px;
+  font-weight: 500;
+  color: #fd0808;
+}
+.removeBtn svg {
+  width: 15px;
+  position: relative;
+  top: -1px;
+}
+.employee-List-side-image {
+  height: 500px;
+}
+
+.left-arrow svg {
+  width: 20px;
+  height: 20px;
+  position: relative;
+  top: -1px;
+}
+.employee-List-heigt {
+  height: 500px;
+}
+
+.employ-list-height {
+  height: 300px;
+  overflow: scroll;
+}
+.employ-list-height::-webkit-scrollbar {
+  display: none;
+}
+
+.employ-lost-footer {
+  position: absolute;
+  width: 100%;
+  bottom: -87px;
 }
