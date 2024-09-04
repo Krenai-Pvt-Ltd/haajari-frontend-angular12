@@ -542,10 +542,7 @@ export class DataService {
 
     const params = new HttpParams().set('refresh_token', refreshToken);
 
-    return this.httpClient.get<any>(
-      `${this.baseUrl}/firebase/refresh-access-token`,
-      { params }
-    );
+    return this.httpClient.get<any>(`${this.baseUrl}/firebase/refresh-access-token`, { params });
   }
 
   registerOnboardingDetails(

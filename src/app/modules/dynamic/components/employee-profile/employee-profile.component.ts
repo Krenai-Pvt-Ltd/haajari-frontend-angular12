@@ -2041,6 +2041,7 @@ export class EmployeeProfileComponent implements OnInit {
 
 
   // Finance Section APIs
+  showFinanceData : boolean = false;
   financeSectionMethodCall(){
     this.getEmployeePayslipResponseByUserUuidMethodCall();
     this.getEmployeePayslipBreakupResponseByUserUuidMethodCall();
