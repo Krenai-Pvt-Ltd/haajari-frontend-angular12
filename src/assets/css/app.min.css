@@ -9710,6 +9710,9 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   z-index: 999;
   background-color: #fbf1f1;
   padding: 15px;
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: contain;
 }
 
 .shiftManagement {
@@ -9720,6 +9723,8 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   z-index: 999;
   background-color: #fff8f2;
   padding: 15px;
+  background-repeat: no-repeat;
+  background-position: right center;
 }
 
 .mannualSubmit {

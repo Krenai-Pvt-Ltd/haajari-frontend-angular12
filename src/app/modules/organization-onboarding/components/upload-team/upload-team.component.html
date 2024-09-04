@@ -46,13 +46,15 @@
                         Use this Excel template to organize and input your
                         employee data correctly. Review the sample structure to
                         avoid errors.
+                        <br />
                         <a
                           class="text-primary textDecrotion"
                           href="{{ sampleFileUrl }}"
                           >Download a sample Excel file.</a
                         >
-                        Once you've updated the file, upload it back to the
-                        platform for enrol all employees.
+
+                        nce you've updated the file, upload it back to the
+                        platform for enrol all employees
                       </p>
                     </div>
                   </div>
@@ -182,9 +184,9 @@
                             </h5>
                             <p class="mb-0">
                               Add employee details individually if you prefer to
-                              build a customized and <br />
-                              specific list tailored to your organizational
-                              needs.
+                              build a <br />
+                              customized and specific list tailored to your
+                              organizational needs.
                             </p>
                           </div>
                           <div class="">
@@ -627,37 +629,80 @@
               <div class="col-md-4"></div>
               <div class="col-md-8">
                 <div
-                  class="excel-file-error previous-btn d-flex gap-3 align-items-center"
+                  class="excel-file-error d-flex align-items-center justify-content-between"
+                  style="background-image: url(../assets/images/vector-3.svg)"
                 >
-                  <div class="">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="36"
-                      height="34"
-                      viewBox="0 0 36 34"
-                      fill="none"
-                    >
-                      <path
-                        d="M35.252 25.9588L22.5349 2.58153C20.4917 -0.858226 15.511 -0.862796 13.4651 2.58153L0.748609 25.9588C-1.34009 29.4736 1.1887 33.9245 5.2825 33.9245H30.7171C34.8074 33.9245 37.3407 29.4772 35.252 25.9588ZM18 29.7058C16.8372 29.7058 15.8906 28.7592 15.8906 27.5964C15.8906 26.4336 16.8372 25.487 18 25.487C19.1628 25.487 20.1094 26.4336 20.1094 27.5964C20.1094 28.7592 19.1628 29.7058 18 29.7058ZM20.1094 21.2683C20.1094 22.4311 19.1628 23.3777 18 23.3777C16.8372 23.3777 15.8906 22.4311 15.8906 21.2683V10.7214C15.8906 9.55857 16.8372 8.61203 18 8.61203C19.1628 8.61203 20.1094 9.55857 20.1094 10.7214V21.2683Z"
-                        fill="#FF2F2F"
-                      />
-                    </svg>
+                  <div class="d-flex align-items-center gap-3 previous-btn">
+                    <div>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="36"
+                        height="34"
+                        viewBox="0 0 36 34"
+                        fill="none"
+                      >
+                        <path
+                          d="M35.252 25.9588L22.5349 2.58153C20.4917 -0.858226 15.511 -0.862796 13.4651 2.58153L0.748609 25.9588C-1.34009 29.4736 1.1887 33.9245 5.2825 33.9245H30.7171C34.8074 33.9245 37.3407 29.4772 35.252 25.9588ZM18 29.7058C16.8372 29.7058 15.8906 28.7592 15.8906 27.5964C15.8906 26.4336 16.8372 25.487 18 25.487C19.1628 25.487 20.1094 26.4336 20.1094 27.5964C20.1094 28.7592 19.1628 29.7058 18 29.7058ZM20.1094 21.2683C20.1094 22.4311 19.1628 23.3777 18 23.3777C16.8372 23.3777 15.8906 22.4311 15.8906 21.2683V10.7214C15.8906 9.55857 16.8372 8.61203 18 8.61203C19.1628 8.61203 20.1094 9.55857 20.1094 10.7214V21.2683Z"
+                          fill="#FF2F2F"
+                        />
+                      </svg>
+                    </div>
+                    <div class="">
+                      <h5 class="alert-heading text-danger font-12 mb-2">
+                        Attention! It seems like some of the list are not
+                        matching with the requirements. These list you can see
+                        here.
+                      </h5>
+                      <div class="d-flex align-items-center gap-2">
+                        <p class="mb-0 font-11">
+                          <b>Duplicate phone number</b>
+                        </p>
+                        <span class="error-spreter"></span>
+                        <p class="mb-0 font-11">
+                          <b>Duplicate email id :</b> You can check this error
+                          log here.
+                        </p>
+                      </div>
+                    </div>
                   </div>
                   <div class="">
-                    <h5 class="alert-heading text-danger font-12 mb-2">
-                      Attention! It seems all the necessary data is already
-                      available.
-                    </h5>
-                    <div class="d-flex align-items-center gap-3">
-                      <p class="mb-0 font-11">
-                        <b>Phone Number :</b> 1234567, 123456789,
-                        123456789,1234567890
-                      </p>
-                      <span class="error-spreter"></span>
-                      <p class="mb-0 font-11">
-                        <b>Email :</b> 1234567, 123456789, 123456789,1234567890
-                      </p>
-                    </div>
+                    <button
+                      class="btn download-eroor"
+                      style="margin-right: 15px"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="27"
+                        height="28"
+                        viewBox="0 0 27 28"
+                        fill="none"
+                      >
+                        <mask
+                          id="mask0_2035_1932"
+                          style="mask-type: alpha"
+                          maskUnits="userSpaceOnUse"
+                          x="0"
+                          y="0"
+                          width="27"
+                          height="28"
+                        >
+                          <rect
+                            x="0.335938"
+                            y="0.761719"
+                            width="26.521"
+                            height="26.521"
+                            fill="#D9D9D9"
+                          />
+                        </mask>
+                        <g mask="url(#mask0_2035_1932)">
+                          <path
+                            d="M13.5981 18.4441L8.07294 12.9189L9.62 11.3166L12.4931 14.1897V5.18359H14.7032V14.1897L17.5763 11.3166L19.1234 12.9189L13.5981 18.4441ZM6.9679 22.8643C6.36012 22.8643 5.83983 22.6479 5.40702 22.2151C4.97422 21.7822 4.75781 21.262 4.75781 20.6542V17.3391H6.9679V20.6542H20.2284V17.3391H22.4385V20.6542C22.4385 21.262 22.2221 21.7822 21.7893 22.2151C21.3565 22.6479 20.8362 22.8643 20.2284 22.8643H6.9679Z"
+                            fill="#FF2F2F"
+                          />
+                        </g>
+                      </svg>
+                      Download error log
+                    </button>
                   </div>
                 </div>
                 <div
@@ -1018,11 +1063,11 @@
               <div class="col-md-8">
                 <div class="manualUploadDetail persnol-details p-0">
                   <h5 class="alert-heading text-white font-18 mb-2">
-                    Manual Upload
+                    Manual Employee Entry
                   </h5>
                   <p class="mb-0 text-white">
-                    Enter employee details one by one to create a personalized
-                    list tailored to your needs.
+                    Enter employee details one at a time to create a
+                    personalized and accurate employee list
                   </p>
 
                   <div

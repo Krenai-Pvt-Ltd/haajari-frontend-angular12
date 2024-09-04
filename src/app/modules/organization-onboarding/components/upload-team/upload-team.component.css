@@ -245,3 +245,12 @@ p.tableinfo.mb-0 {
     opacity: 1;
   }
 }
+
+.download-eroor {
+  background-color: #ffdcd7;
+  color: #ff2f2f;
+}
+
+.download-eroor svg {
+  width: 20px;
+}
