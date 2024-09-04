@@ -851,7 +851,7 @@ export class TimetableComponent implements OnInit {
   )
   }
 attendanceFullRequestLog: any[] = [];
-pageNumberFullAttendanceRequest: number = 0;
+pageNumberFullAttendanceRequest: number = 1;
 itemPerPageFullAttendanceRequest: number = 5;
 totalAttendanceRequestCount: number = 0;
 isRequestLoader: boolean = false;
@@ -878,7 +878,27 @@ getFullAttendanceRequestLogData(debounceTime: number = 300) {
   });
 }
 
+initialLoadDoneforFullLogs: boolean = false;
+@ViewChild('logContainerforFullLogs') logContainerforFullLogs!: ElementRef<HTMLDivElement>;
+scrollDownRecentActivityforFullLogs(event: any) {
+  debugger
+  if (!this.initialLoadDoneforFullLogs) return;
+
+  if(this.totalAttendanceRequestCount < ((this.pageNumberFullAttendanceRequest - 1) * this.itemPerPageFullAttendanceRequest)) {
+    return;
+  }
+  const target = event.target as HTMLElement;
+  const atBottom =
+    target.scrollHeight - (target.scrollTop + target.clientHeight) < 10;
+
+  if (atBottom) {
+    this.pageNumberFullAttendanceRequest++;
+    this.getFullAttendanceRequestLogData();
+  }
+}
+
 loadMoreLogs(): void {
+  this.initialLoadDoneforFullLogs = true;
   this.pageNumberFullAttendanceRequest++;
   // this.attendanceRequestLog = [];
   this.getFullAttendanceRequestLogData();
@@ -886,13 +906,13 @@ loadMoreLogs(): void {
 
 onSearchChangeOfFullAttendanceLogs(searchValue: string): void {
   this.fullAttendanceRequestSearchString = searchValue;
-  this.pageNumberFullAttendanceRequest = 0; 
+  this.pageNumberFullAttendanceRequest = 1; 
   this.attendanceFullRequestLog = []; 
   this.getFullAttendanceRequestLogData();
 }
 
 openLogs() {
-  this.pageNumberFullAttendanceRequest = 0;
+  this.pageNumberFullAttendanceRequest = 1;
   this.totalAttendanceRequestCount = 0;
   this.attendanceFullRequestLog = [];
   this.fullAttendanceRequestSearchString = '';
@@ -900,7 +920,7 @@ openLogs() {
 }
 
 clearSearchUsersOfFullLogs() {
-  this.pageNumberFullAttendanceRequest = 0;
+  this.pageNumberFullAttendanceRequest = 1;
   this.totalAttendanceRequestCount = 0;
   this.attendanceFullRequestLog = [];
   this.fullAttendanceRequestSearchString = '';
@@ -908,7 +928,7 @@ clearSearchUsersOfFullLogs() {
 }
 
 attendanceRequests: any[] = [];
-pageNumberAttendanceRequest: number = 0;
+pageNumberAttendanceRequest: number = 1;
 itemPerPageAttendanceRequest: number = 5;
 fullAttendanceRequestCount: number = 0;
 isFullRequestLoader: boolean = false;
@@ -934,7 +954,28 @@ getAttendanceRequestsData(debounceTime: number = 300) {
 });
 }
 
+initialLoadDone: boolean = false;
+@ViewChild('logContainer') logContainer!: ElementRef<HTMLDivElement>;
+scrollDownRecentActivity(event: any) {
+  debugger
+  if (!this.initialLoadDone) return;
+
+  if(this.fullAttendanceRequestCount < ((this.pageNumberAttendanceRequest - 1) * this.itemPerPageAttendanceRequest)) {
+    return;
+  }
+  const target = event.target as HTMLElement;
+  const atBottom =
+    target.scrollHeight - (target.scrollTop + target.clientHeight) < 10;
+
+  if (atBottom) {
+    this.pageNumberAttendanceRequest++;
+    this.getAttendanceRequestsData();
+  }
+}
+
+
 loadMoreAttendanceRequestLogs(): void {
+  this.initialLoadDone = true;
   this.pageNumberAttendanceRequest++;
   // this.attendanceRequestLog = [];
   this.getAttendanceRequestsData();
@@ -942,14 +983,14 @@ loadMoreAttendanceRequestLogs(): void {
 
 onSearchChange(searchValue: string): void {
   this.attendanceRequestSearchString = searchValue;
-  this.pageNumberAttendanceRequest = 0; 
+  this.pageNumberAttendanceRequest = 1; 
   this.attendanceRequests = []; 
   this.getAttendanceRequestsData();
 }
 
 clearSearchUsersOfRequestLogs() {
   debugger
-  this.pageNumberAttendanceRequest = 0;
+  this.pageNumberAttendanceRequest = 1;
   this.fullAttendanceRequestCount = 0;
   this.attendanceRequests = [];
   this.attendanceRequestSearchString = '';
@@ -958,10 +999,10 @@ clearSearchUsersOfRequestLogs() {
 
 clearAttendanceRequestLogs() {
   this.attendanceRequests = [];
-  this.pageNumberAttendanceRequest = 0; 
+  this.pageNumberAttendanceRequest = 1; 
   this.attendanceRequestSearchString =  '';
   this.attendanceFullRequestLog = [];
-  this.pageNumberFullAttendanceRequest = 0;
+  this.pageNumberFullAttendanceRequest = 1;
   this.fullAttendanceRequestSearchString = '';
   this.fullAttendanceRequestCount = 0;
   this.totalAttendanceRequestCount = 0;
@@ -984,10 +1025,10 @@ approveOrReject(id:number, reqString: string) {
 
   this.totalAttendanceRequestCount = 0;
   this.attendanceRequestSearchString = '';
-  this.pageNumberAttendanceRequest = 0; 
+  this.pageNumberAttendanceRequest = 1; 
   this.attendanceRequests = []; 
   this.getAttendanceRequestsData();
-  this.pageNumberFullAttendanceRequest = 0;
+  this.pageNumberFullAttendanceRequest = 1;
   this.fullAttendanceRequestCount = 0;
   this.attendanceFullRequestLog = [];
   this.fullAttendanceRequestSearchString = '';

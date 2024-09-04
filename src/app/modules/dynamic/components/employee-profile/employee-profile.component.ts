@@ -3210,7 +3210,7 @@ disabledDate = (current: Date): boolean => {
 //   }
 
 attendanceRequestLog: any[] = [];
-pageNumberAttendanceLogs: number = 0;
+pageNumberAttendanceLogs: number = 1;
 itemPerPageAttendanceLogs: number = 5;
 fullAttendanceLogCount: number = 0;
 isFullLogLoader: boolean = false;
@@ -3236,16 +3236,38 @@ getAttendanceRequestLogData(debounceTime: number = 300) {
 }, debounceTime);
 });
 }
+initialLoadDone: boolean = false;
+@ViewChild('logContainer') logContainer!: ElementRef<HTMLDivElement>;
+scrollDownRecentActivity(event: any) {
+  debugger
+  if (!this.initialLoadDone) return;
+
+  if(this.fullAttendanceLogCount < ((this.pageNumberAttendanceLogs - 1) * this.itemPerPageAttendanceLogs)) {
+    return;
+  }
+  const target = event.target as HTMLElement;
+  const atBottom =
+    target.scrollHeight - (target.scrollTop + target.clientHeight) < 10;
+
+  if (atBottom) {
+    this.pageNumberAttendanceLogs++;
+    this.getAttendanceRequestLogData();
+  }
+}
 
 loadMoreLogs(): void {
+  this.initialLoadDone = true;
   this.pageNumberAttendanceLogs++;
   // this.attendanceRequestLog = [];
   this.getAttendanceRequestLogData();
+  // setTimeout(() => {
+  //   this.scrollToBottom();
+  // }, 500);
 }
 
 closeAttendanceFunc() {
   this.attendanceRequestLog = [];
-  this.pageNumberAttendanceLogs = 0;
+  this.pageNumberAttendanceLogs = 1;
 }
 
 

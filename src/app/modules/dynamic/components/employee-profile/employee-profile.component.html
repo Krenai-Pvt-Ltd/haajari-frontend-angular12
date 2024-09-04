@@ -4410,7 +4410,9 @@
         <h5 class="modal-title" id="attendanceLogsModalLabel">Attendance Request Logs</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeAttendanceFunc()"></button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" >
+      <!-- <div #logContainer
+      (scroll)="scrollDownRecentActivity($event)"> -->
         <!-- Show No Data Found -->
         <div class="errorboxmain text-center" *ngIf="fullAttendanceLogCount == 0">
           <div class="errorboxinner">
@@ -4426,7 +4428,8 @@
           </div>
         </div>
         <!-- Show Logs -->
-        <div class="logs-container" *ngIf="fullAttendanceLogCount > 0">
+        <div class="logs-container" *ngIf="fullAttendanceLogCount > 0" #logContainer
+          (scroll)="scrollDownRecentActivity($event)">
           <div class="activity" *ngFor="let log of attendanceRequestLog">
             <div class="activity-info">
               <div class="icon-info-activity">
@@ -4474,12 +4477,12 @@
           </div>
 
           <!-- Load More Button -->
-          <div class="align-self-center text-center mt-2" *ngIf="fullAttendanceLogCount > itemPerPageAttendanceLogs && !isFullLogLoader">
+          <div class="align-self-center text-center mt-2" *ngIf="fullAttendanceLogCount > itemPerPageAttendanceLogs && !isFullLogLoader && !initialLoadDone">
             <button type="button" class="btn btn-xs btn-light btn-round" (click)="loadMoreLogs()">
               Load More <i class="bi bi-chevron-down"></i>
             </button>
           </div>
-          <div class="text-center load-more-btn" *ngIf="isFullLogLoader">
+          <div class="text-center load-more-btn" *ngIf="isFullLogLoader && !initialLoadDone">
             <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
             <div><small>Loading...</small></div>
           </div>

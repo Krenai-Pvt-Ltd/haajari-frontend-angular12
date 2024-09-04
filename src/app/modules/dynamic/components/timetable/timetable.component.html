@@ -752,6 +752,8 @@
         <!-- Tab Content -->
         <div class="tab-content" id="unprocessedLogsTabsContent">
           <div class="tab-pane fade show active" id="requests" role="tabpanel" aria-labelledby="requests-tab">
+            <!-- <div #logContainer
+            (scroll)="scrollDownRecentActivity($event)"> -->
             <!-- Requests Content -->
             <div class="search-bar mb-1 mt-2 form-group position-relative">
               
@@ -786,7 +788,8 @@
                 </div>
               </div>
             </div>
-            <div class="logs-container" *ngIf="fullAttendanceRequestCount > 0">
+            <div class="logs-container" *ngIf="fullAttendanceRequestCount > 0" #logContainer
+              (scroll)="scrollDownRecentActivity($event)">
               <div class="log-entry" *ngFor="let log of attendanceRequests">
                 <!-- <h6>Attendance Update Request</h6> -->
                 <div class="log-header" *ngIf="log.requestType === 'UPDATE'">
@@ -822,20 +825,23 @@
                 </div>
               </div>
               <!-- Load More Button -->
-                <div class="align-self-center text-center mt-2" *ngIf="fullAttendanceRequestCount > itemPerPageAttendanceRequest && !isFullRequestLoader">
+                <div class="align-self-center text-center mt-2" *ngIf="fullAttendanceRequestCount > itemPerPageAttendanceRequest && !isFullRequestLoader && !initialLoadDone">
                   <button type="button" class="btn btn-xs btn-light btn-round" (click)="loadMoreAttendanceRequestLogs()">
                     Load More <i class="bi bi-chevron-down"></i>
                   </button>
                 </div>
-                <div class="text-center load-more-btn" *ngIf="isFullRequestLoader">
+                <div class="text-center load-more-btn" *ngIf="isFullRequestLoader && !initialLoadDone">
                   <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
                   <div><small>Loading...</small></div>
                 </div>
             </div>
+            
           </div>
           <div class="tab-pane fade" id="logs" role="tabpanel" aria-labelledby="logs-tab">
             <!-- Logs Content -->
             <div class="modal-body">
+               <!-- <div #logContainerforFullLogs
+               (scroll)="scrollDownRecentActivityforFullLogs($event)" > -->
               <div class="search-bar mb-1 mt-2 form-group position-relative">
                 <input 
                   type="text" 
@@ -869,7 +875,8 @@
                   </div>
                 </div>
               </div>
-              <div class="logs-container" *ngIf="totalAttendanceRequestCount > 0">
+              <div class="logs-container" *ngIf="totalAttendanceRequestCount > 0" #logContainerforFullLogs
+                (scroll)="scrollDownRecentActivityforFullLogs($event)">
                 <div class="activity" *ngFor="let log of attendanceFullRequestLog">
                   <div class="activity-info">
                     <div class="icon-info-activity">
@@ -917,16 +924,18 @@
                 </div>
       
                 <!-- Load More Button -->
-                <div class="align-self-center text-center mt-2" *ngIf="totalAttendanceRequestCount > itemPerPageFullAttendanceRequest && !isRequestLoader">
+                 {{initialLoadDoneforFullLogs}}
+                <div class="align-self-center text-center mt-2" *ngIf="totalAttendanceRequestCount > itemPerPageFullAttendanceRequest && !isRequestLoader && !initialLoadDoneforFullLogs">
                   <button type="button" class="btn btn-xs btn-light btn-round" (click)="loadMoreLogs()">
                     Load More <i class="bi bi-chevron-down"></i>
                   </button>
                 </div>
-                <div class="text-center load-more-btn" *ngIf="isRequestLoader">
+                <div class="text-center load-more-btn" *ngIf="isRequestLoader && !initialLoadDoneforFullLogs">
                   <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
                   <div><small>Loading...</small></div>
                 </div>
               </div>
+            
 
             </div>
           </div>
