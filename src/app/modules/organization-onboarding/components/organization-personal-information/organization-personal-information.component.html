@@ -14,11 +14,108 @@
                           Personal Information
                         </h4>
                         <p class="mb-0">
-                          To enhance your experience and ensure accurate
-                          communication on our platform, we kindly ask you to
-                          review and update your personal information.
+                          Provide your company name and contact information to
+                          establish your account and maintain smooth
+                          communication.
                         </p>
                       </div>
+                    </div>
+                    <div class="col-md-12 mt-3 ml-3">
+                      <div class="profile-photo-box">
+                        <div class="row">
+                          <div class="col-md-6 pr-0">
+                            <div class="attention-box p-3">
+                              <h4 class="alert-heading font-14">Attention!</h4>
+                              <p>
+                                We’re excited to help you showcase your brand on
+                                our platform by uploading your company logo.
+                              </p>
+
+                              <h5 class="alert-heading font-13">
+                                Please note the following guidelines for your
+                                company logo:
+                              </h5>
+                              <p class="mb-0">
+                                <i
+                                  class="la la-arrow-right text-secondary me-1"
+                                ></i>
+                                Size: 400x400 pixels
+                              </p>
+                              <p class="mb-0">
+                                <i
+                                  class="la la-arrow-right text-secondary me-1"
+                                ></i>
+                                Accepted formats: JPG and PNG
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div
+                              class="profile-image p-3 d-flex align-items-center justify-content-center flex-column"
+                            >
+                              <span
+                                class="profile-image-upload d-flex align-items-center justify-content-center position-relative"
+                              >
+                                <div
+                                  *ngIf="organizationPersonalInformation.logo"
+                                  class="profile-img-remove text-center position-absolute pointer d-flex align-items-center justify-content-center"
+                                >
+                                  <i
+                                    class="remove-icon bg-white"
+                                    (click)="onDeleteImage()"
+                                  ></i>
+                                </div>
+                                <svg
+                                  *ngIf="!organizationPersonalInformation.logo"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#image-picker"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="83"
+                                  height="84"
+                                  viewBox="0 0 83 84"
+                                  fill="none"
+                                >
+                                  <path
+                                    d="M53.6051 12.6998C44.691 12.5216 35.4966 17.6262 32.9745 29.1445C22.7095 25.6408 13.4412 32.5512 14.4039 43.585C9.03309 45.7559 5.25781 51.0029 5.25781 57.17C5.25781 65.2906 11.7953 71.8281 19.9159 71.8281H37.7222C37.7173 66.893 37.7069 56.9907 37.7069 55.115L33.5312 56.6284C30.5019 57.9339 28.2644 54.1191 30.8587 51.7439L38.7597 44.0656C40.5643 42.261 42.7197 42.468 44.3173 44.0656L52.2183 51.7439C54.8126 54.1191 52.5752 57.9339 49.5458 56.6284L45.3701 55.115V71.8281H63.1612C71.2818 71.8281 77.8193 65.2906 77.8193 57.17C77.8193 51.1931 74.2717 46.0838 69.1642 43.7975C79.0608 24.5038 66.6335 12.96 53.6051 12.6998Z"
+                                    fill="#CACACA"
+                                  />
+                                  <path
+                                    d="M53.6047 12.6981C53.1081 12.6883 52.5631 12.7054 52.066 12.7274C40.6806 30.6706 58.2762 43.7949 69.1637 43.7949C79.0603 24.5012 66.633 12.9583 53.6047 12.6981Z"
+                                    fill="#808080"
+                                  />
+                                </svg>
+
+                                <img
+                                  style="width: 70px"
+                                  src="{{
+                                    organizationPersonalInformation.logo
+                                  }}"
+                                  *ngIf="organizationPersonalInformation.logo"
+                                />
+                              </span>
+
+                              <a
+                                data-bs-toggle="modal"
+                                data-bs-target="#image-picker"
+                                class="upload-image mt-2"
+                                >Upload Image</a
+                              >
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12 mt-3">
+                      <!-- <div class="card-header p-0 pb-3 bg-white">
+                        <h4 class="card-title-headding mb-1">
+                          Personal Information
+                        </h4>
+                        <p class="mb-0">
+                          Provide your company name and contact information to
+                          establish your account and maintain smooth
+                          communication.
+                        </p>
+                      </div> -->
                       <div class="row mt-3">
                         <div class="col-md-6">
                           <div class="mb-3">
@@ -243,325 +340,6 @@
                               <i class="bi bi-exclamation-circle"></i> Your
                               email format is not correct.
                             </p>
-                          </div>
-                        </div>
-                        <div class="col-md-12 mt-4">
-                          <div class="card-header p-0 pb-3 bg-white">
-                            <h4 class="card-title-headding mb-1">
-                              Address Information
-                            </h4>
-                            <p class="mb-0">
-                              To ensure seamless delivery and accurate
-                              communication, we kindly request you to review and
-                              update your address information.
-                            </p>
-                          </div>
-                        </div>
-                        <div class="col-md-12 mt-3">
-                          <div class="mb-3">
-                            <label class="pb-2"
-                              >Address
-                              <span class="text-optional">*</span></label
-                            >
-                            <div class="position-relative">
-                              <input
-                                type="text"
-                                class="form-control profile-input"
-                                placeholder="Floor No., Building Name, Street or Locality"
-                                [(ngModel)]="
-                                  organizationPersonalInformation.addressLine1
-                                "
-                                #addressLine1="ngModel"
-                                id="addressline1"
-                                ngx-google-places-autocomplete
-                                (keydown)="
-                                  preventLeadingWhitespaceAndNumber($event)
-                                "
-                                (onAddressChange)="handleAddressChange($event)"
-                                name="addressLine1"
-                                style="padding-right: 220px"
-                                required
-                              />
-                              <!-- {{ fetchCurrentLocationLoader }} -->
-                              <a
-                                class="fetch-location"
-                                (click)="currentLocation()"
-                              >
-                                <span *ngIf="!fetchCurrentLocationLoader"
-                                  ><i
-                                    class="ti ti-current-location"
-                                    style="padding-right: 8px"
-                                  ></i
-                                  >Fetch Current Location
-                                </span>
-                                <div
-                                  class="loader-fetching-location"
-                                  *ngIf="fetchCurrentLocationLoader"
-                                >
-                                  <i
-                                    class="ti ti-current-location"
-                                    style="padding-right: 8px"
-                                  ></i>
-                                  Fetching
-                                  <span></span>
-                                  <span></span>
-                                  <span></span>
-                                </div>
-                              </a>
-                            </div>
-                          </div>
-                          <div *ngIf="addressLine1.touched || isFormInvalid">
-                            <p
-                              class="errortxt text-danger mb-2"
-                              *ngIf="addressLine1.errors?.required"
-                            >
-                              <i class="bi bi-exclamation-circle"></i>
-                              Address is required.
-                            </p>
-                          </div>
-                        </div>
-                        <div class="col-md-3">
-                          <div class="mb-3">
-                            <label for="city" class="pb-2"
-                              >City <span class="text-optional">*</span></label
-                            >
-                            <input
-                              type="text"
-                              maxlength="30"
-                              #city="ngModel"
-                              required
-                              class="form-control profile-input"
-                              id="city"
-                              (keydown)="
-                                preventLeadingWhitespaceAndNumber($event)
-                              "
-                              name="city"
-                              [(ngModel)]="organizationPersonalInformation.city"
-                              aria-describedby="phoneHelp"
-                              placeholder="Enter City"
-                            />
-                          </div>
-                          <div *ngIf="city.touched || isFormInvalid">
-                            <p
-                              class="errortxt text-danger mb-2"
-                              *ngIf="city.errors?.required"
-                            >
-                              <i class="bi bi-exclamation-circle"></i>
-                              City is required.
-                            </p>
-                            <p
-                              class="errortxt text-danger mb-2"
-                              *ngIf="city.errors?.maxlength"
-                            >
-                              <i class="bi bi-exclamation-circle"></i> Maximum
-                              30 characters allowed.
-                            </p>
-                          </div>
-                        </div>
-                        <div class="col-md-3">
-                          <div class="mb-3">
-                            <label for="state" class="pb-2"
-                              >State <span class="text-optional">*</span></label
-                            >
-                            <input
-                              type="text"
-                              required
-                              maxlength="30"
-                              #state="ngModel"
-                              class="form-control profile-input"
-                              id="state"
-                              name="state"
-                              (keydown)="
-                                preventLeadingWhitespaceAndNumber($event)
-                              "
-                              [(ngModel)]="
-                                organizationPersonalInformation.state
-                              "
-                              aria-describedby="phoneHelp"
-                              placeholder="Enter State"
-                            />
-                          </div>
-                          <div *ngIf="state.touched || isFormInvalid">
-                            <p
-                              class="errortxt text-danger mt-2 mb-0"
-                              *ngIf="state.errors?.required"
-                            >
-                              <i class="bi bi-exclamation-circle"></i>
-                              State is required.
-                            </p>
-                            <p
-                              class="errortxt text-danger mb-2"
-                              *ngIf="state.errors?.maxlength"
-                            >
-                              <i class="bi bi-exclamation-circle"></i> Maximum
-                              30 characters allowed.
-                            </p>
-                          </div>
-                        </div>
-                        <div class="col-md-3">
-                          <div class="mb-3">
-                            <label for="country" class="pb-2"
-                              >Country
-                              <span class="text-optional">*</span></label
-                            >
-                            <input
-                              type="text"
-                              required
-                              maxlength="30"
-                              #country="ngModel"
-                              class="form-control profile-input"
-                              id="country"
-                              name="country"
-                              (keydown)="
-                                preventLeadingWhitespaceAndNumber($event)
-                              "
-                              [(ngModel)]="
-                                organizationPersonalInformation.country
-                              "
-                              aria-describedby="phoneHelp"
-                              placeholder="Enter Country"
-                            />
-                          </div>
-                          <div *ngIf="country.touched || isFormInvalid">
-                            <p
-                              class="errortxt text-danger mb-2"
-                              *ngIf="country.errors?.required"
-                            >
-                              <i class="bi bi-exclamation-circle"></i>
-                              Country is required.
-                            </p>
-                            <p
-                              class="errortxt text-danger mb-2"
-                              *ngIf="country.errors?.maxlength"
-                            >
-                              <i class="bi bi-exclamation-circle"></i> Maximum
-                              30 characters allowed.
-                            </p>
-                          </div>
-                        </div>
-                        <div class="col-md-3">
-                          <div class="mb-3">
-                            <label for="pincode" class="pb-2"
-                              >Pincode
-                              <span class="text-optional">*</span></label
-                            >
-                            <input
-                              type="text"
-                              required
-                              #pincode="ngModel"
-                              mask="000000"
-                              class="form-control profile-input"
-                              id="pincode"
-                              name="pincode"
-                              [(ngModel)]="
-                                organizationPersonalInformation.pincode
-                              "
-                              aria-describedby="phoneHelp"
-                              placeholder="Enter Pincode"
-                            />
-                          </div>
-                          <div *ngIf="pincode.touched || isFormInvalid">
-                            <p
-                              class="errortxt text-danger mb-2"
-                              *ngIf="pincode.errors?.required"
-                            >
-                              <i class="bi bi-exclamation-circle"></i>
-                              Pincode is required.
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-md-12 mt-4">
-                      <div class="card-header p-0 pb-3 bg-white">
-                        <h4 class="card-title-headding mb-1">Profile Image</h4>
-                        <p class="mb-0">Upload your profile picture</p>
-                      </div>
-                    </div>
-
-                    <div class="col-md-12 mt-3 ml-3">
-                      <div class="profile-photo-box">
-                        <div class="row">
-                          <div class="col-md-6 pr-0">
-                            <div class="attention-box p-3">
-                              <h4 class="alert-heading font-14">Attention!</h4>
-                              <p>
-                                We're excited to enhance your experience on our
-                                platform by allowing you to personalize your
-                                profiles with images.
-                              </p>
-
-                              <h5 class="alert-heading font-13">
-                                Please note the following guidelines for profile
-                                images:
-                              </h5>
-                              <p class="mb-0">
-                                <i
-                                  class="la la-arrow-right text-secondary me-1"
-                                ></i>
-                                Size: 400x400 pixels
-                              </p>
-                              <p class="mb-0">
-                                <i
-                                  class="la la-arrow-right text-secondary me-1"
-                                ></i>
-                                Accepted formats: JPG and PNG
-                              </p>
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div
-                              class="profile-image p-3 d-flex align-items-center justify-content-center flex-column"
-                            >
-                              <span
-                                class="profile-image-upload d-flex align-items-center justify-content-center position-relative"
-                              >
-                                <div
-                                  *ngIf="organizationPersonalInformation.logo"
-                                  class="profile-img-remove text-center position-absolute pointer d-flex align-items-center justify-content-center"
-                                >
-                                  <i
-                                    class="remove-icon bg-white"
-                                    (click)="onDeleteImage()"
-                                  ></i>
-                                </div>
-                                <svg
-                                  *ngIf="!organizationPersonalInformation.logo"
-                                  data-bs-toggle="modal"
-                                  data-bs-target="#image-picker"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="83"
-                                  height="84"
-                                  viewBox="0 0 83 84"
-                                  fill="none"
-                                >
-                                  <path
-                                    d="M53.6051 12.6998C44.691 12.5216 35.4966 17.6262 32.9745 29.1445C22.7095 25.6408 13.4412 32.5512 14.4039 43.585C9.03309 45.7559 5.25781 51.0029 5.25781 57.17C5.25781 65.2906 11.7953 71.8281 19.9159 71.8281H37.7222C37.7173 66.893 37.7069 56.9907 37.7069 55.115L33.5312 56.6284C30.5019 57.9339 28.2644 54.1191 30.8587 51.7439L38.7597 44.0656C40.5643 42.261 42.7197 42.468 44.3173 44.0656L52.2183 51.7439C54.8126 54.1191 52.5752 57.9339 49.5458 56.6284L45.3701 55.115V71.8281H63.1612C71.2818 71.8281 77.8193 65.2906 77.8193 57.17C77.8193 51.1931 74.2717 46.0838 69.1642 43.7975C79.0608 24.5038 66.6335 12.96 53.6051 12.6998Z"
-                                    fill="#CACACA"
-                                  />
-                                  <path
-                                    d="M53.6047 12.6981C53.1081 12.6883 52.5631 12.7054 52.066 12.7274C40.6806 30.6706 58.2762 43.7949 69.1637 43.7949C79.0603 24.5012 66.633 12.9583 53.6047 12.6981Z"
-                                    fill="#808080"
-                                  />
-                                </svg>
-
-                                <img
-                                  style="width: 70px"
-                                  src="{{
-                                    organizationPersonalInformation.logo
-                                  }}"
-                                  *ngIf="organizationPersonalInformation.logo"
-                                />
-                              </span>
-
-                              <a
-                                data-bs-toggle="modal"
-                                data-bs-target="#image-picker"
-                                class="upload-image mt-2"
-                                >Upload Image</a
-                              >
-                            </div>
                           </div>
                         </div>
                       </div>

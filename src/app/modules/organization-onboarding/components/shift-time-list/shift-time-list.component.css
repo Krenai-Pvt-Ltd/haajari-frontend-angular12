@@ -225,6 +225,33 @@
 .employ-lost-footer {
   position: absolute;
   width: 100%;
-  bottom: -87px;
+  bottom: -82px;
   left: 0px;
+}
+
+/* .close-btn svg {
+  position: relative;
+  top: -1px;
+  width: 15px;
+} */
+.side-img {
+  height: 100px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.profile-input i {
+  position: absolute;
+  right: 15px;
+}
+.employ-list-close-btn svg {
+  position: relative;
+  top: -1px;
+  width: 15px;
+}
+
+.add-new svg {
+  width: 15px;
+  position: relative;
+  top: -1px;
 }

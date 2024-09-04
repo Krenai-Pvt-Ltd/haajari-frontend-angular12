@@ -4,7 +4,7 @@
 .left-sidebar-onbording {
   min-width: 285px;
   max-width: 285px;
-  background-color: #f8fafb;
+  background: linear-gradient(180deg, #f4f4f4 0%, #f8f8f8 56.31%, #e4ebff 100%);
   min-height: 100vh;
   -webkit-transition: 0.3s;
   transition: 0.3s;
@@ -57,4 +57,97 @@
   font-size: 28px;
   line-height: 0;
   cursor: pointer;
+}
+.step-count {
+  font-size: 13px !important;
+  color: #000 !important;
+  font-weight: 400 !important;
+}
+
+.step-count span {
+  padding-left: 5px;
+  font-weight: 500;
+}
+
+.sideBarStep {
+  border-left: 4px solid #6666f2;
+  height: 25%;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+.sideBarStep:after {
+  content: "";
+  position: absolute;
+  left: -20px;
+  bottom: 0px;
+  border-top: none;
+  border-left: none;
+  border-right: 30px solid #6666f2;
+  border-bottom: 30px solid transparent;
+  transform: rotate(44deg);
+}
+.company-information h5 {
+  color: #000;
+  font-weight: 600;
+  line-height: 24px;
+}
+.company-information p {
+  color: #000;
+  font-weight: 300;
+}
+
+.company-information svg {
+  width: 25px;
+  position: relative;
+  top: -1px;
+  height: 20px;
+}
+.pending-step h5 {
+  line-height: 40px;
+  color: rgba(153, 153, 153, 0.85);
+  font-weight: 500;
+}
+
+.complete-step h5 {
+  line-height: 35px;
+  color: #000;
+  font-weight: 500;
+}
+
+.complete-step svg {
+  width: 18px;
+}
+
+.sideBarStep-one {
+  border-left: 4px solid #6666f2;
+  height: 25%;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  transition: 1s;
+}
+.sideBarStep-one:after {
+  content: "";
+  position: absolute;
+  left: -20px;
+  bottom: 0px;
+  border-top: none;
+  border-left: none;
+  border-right: 30px solid #6666f2;
+  border-bottom: 30px solid transparent;
+  transform: rotate(44deg);
+  /* background-image: url(../assets/images/polygon-2.svg); */
+  /* width: 20px;
+  height: 20px; */
+}
+
+.sideBarStep-two {
+  height: 40%;
+}
+.sideBarStep-three {
+  height: 50%;
+}
+.sideBarStep-fore {
+  height: 60%;
 }

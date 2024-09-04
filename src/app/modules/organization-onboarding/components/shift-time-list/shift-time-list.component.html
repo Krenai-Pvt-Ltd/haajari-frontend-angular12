@@ -192,13 +192,7 @@
                         <span
                           class="pointer"
                           data-bs-toggle="modal"
-                          data-bs-target="#shiftTime"
-                          (click)="
-                            updateOrganizationShiftTiming(
-                              organizationShiftTimingResponse,
-                              'STAFF_SELECTION'
-                            )
-                          "
+                          data-bs-target="#munal-upload"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -860,7 +854,7 @@
 >
   <div
     class="modal-dialog modal-dialog-centered"
-    style="max-width: 900px"
+    style="max-width: 1000px"
     role="document"
   >
     <div class="modal-content">
@@ -1404,8 +1398,11 @@
                 flex-direction: column;
               "
             >
-              <div class="text-center">
-                <img src="assets/images/side-img.svg" style="width: 70%" />
+              <div class="text-center mb-3">
+                <img
+                  src="assets/images/employee-list-img.svg"
+                  style="width: 70%"
+                />
               </div>
               <h5 class="alert-heading font-16 text-white mb-0">
                 Employee List
@@ -1447,6 +1444,32 @@
               <div>
                 <div class="row">
                   <div class="">
+                    <div class="col-md-12 mb-3">
+                      <form
+                        novalidate=""
+                        role="search"
+                        (submit)="searchUsers()"
+                        class="searching"
+                      >
+                        <div class="form-group" style="position: relative">
+                          <input
+                            type="search"
+                            id="searchText"
+                            placeholder="Search by Name "
+                            class="form-control profile-input me-2"
+                            (keyup)="searchUsers()"
+                            [(ngModel)]="searchText"
+                            [ngModelOptions]="{ standalone: true }"
+                            style="padding: 10px 30px"
+                          />
+                          <i
+                            class="bi bi-search search-icon"
+                            style="margin: auto; margin-left: 10px"
+                          ></i>
+                        </div>
+                      </form>
+                    </div>
+
                     <div
                       class="d-flex align-items-center justify-content-between mb-3"
                     >
@@ -1454,7 +1477,7 @@
                         Selected Employee List
                       </h5>
 
-                      <div class="d-flex align-items-center gap-3">
+                      <div class="d-flex align-items-center gap-2">
                         <p
                           class="mb-0"
                           style="font-weight: 400; color: #000; font-size: 12px"
@@ -1462,7 +1485,7 @@
                           <span class="text-primary"> 34 </span> selected of
                           <span class="text-primary"> 34 </span>
                         </p>
-                        <!-- <span class="error-spreter"></span>
+                        <span class="error-spreter"></span>
                         <button class="p-0 btn removeBtn pointer">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -1495,34 +1518,42 @@
                             </g>
                           </svg>
                           Remove All
-                        </button> -->
-                      </div>
-                    </div>
+                        </button>
 
-                    <div class="col-md-12 mb-3">
-                      <form
-                        novalidate=""
-                        role="search"
-                        (submit)="searchUsers()"
-                        class="searching"
-                      >
-                        <div class="form-group" style="position: relative">
-                          <input
-                            type="search"
-                            id="searchText"
-                            placeholder="Search by Name or Role "
-                            class="form-control profile-input me-2"
-                            (keyup)="searchUsers()"
-                            [(ngModel)]="searchText"
-                            [ngModelOptions]="{ standalone: true }"
-                            style="padding: 10px 30px"
-                          />
-                          <i
-                            class="bi bi-search search-icon"
-                            style="margin: auto; margin-left: 10px"
-                          ></i>
-                        </div>
-                      </form>
+                        <button
+                          _ngcontent-vta-c393=""
+                          type="button"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                          class="close-btn employ-list-close-btn"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                          >
+                            <mask
+                              id="mask0_1633_4750"
+                              style="mask-type: alpha"
+                              maskUnits="userSpaceOnUse"
+                              x="0"
+                              y="0"
+                              width="24"
+                              height="24"
+                            >
+                              <rect width="23.5" height="23.5" fill="#D9D9D9" />
+                            </mask>
+                            <g mask="url(#mask0_1633_4750)">
+                              <path
+                                d="M6.26146 18.6068L4.89062 17.2359L10.374 11.7526L4.89062 6.26927L6.26146 4.89844L11.7448 10.3818L17.2281 4.89844L18.599 6.26927L13.1156 11.7526L18.599 17.2359L17.2281 18.6068L11.7448 13.1234L6.26146 18.6068Z"
+                                fill="#070707"
+                              />
+                            </g>
+                          </svg>
+                        </button>
+                      </div>
                     </div>
                     <div class="employ-list-height">
                       <table class="table table-striped">
@@ -1543,7 +1574,7 @@
                               Phone Number
                             </th>
 
-                            <!-- <th style="width: 10%" class="text-center"></th> -->
+                            <th style="width: 5%" class="text-center"></th>
                           </tr>
                         </thead>
                         <tbody class="">
@@ -1559,23 +1590,57 @@
                             <td>Yogesh@krenai.com</td>
                             <td>91 9549901868</td>
 
-                            <!-- <td
+                            <td
                               class="d-flex align-items-center justify-content-center gap-2"
                             >
-                              <a
+                              <a class="pointer"
                                 ><i
                                   class="las la-trash-alt text-danger font-16"
                                 ></i
                               ></a>
-                            </td> -->
+                            </td>
                           </tr>
                         </tbody>
                       </table>
                     </div>
 
                     <div
-                      class="employ-lost-footer border-top p-2 d-flex align-items-center justify-content-end"
+                      class="employ-lost-footer border-top p-2 d-flex align-items-center justify-content-between"
                     >
+                      <button class="btn text-primary add-new p-0">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="30"
+                          height="31"
+                          viewBox="0 0 30 31"
+                          fill="none"
+                        >
+                          <mask
+                            id="mask0_1633_5282"
+                            style="mask-type: alpha"
+                            maskUnits="userSpaceOnUse"
+                            x="0"
+                            y="0"
+                            width="30"
+                            height="31"
+                          >
+                            <rect
+                              x="0.296875"
+                              y="0.730469"
+                              width="29.5385"
+                              height="29.5385"
+                              fill="#D9D9D9"
+                            />
+                          </mask>
+                          <g mask="url(#mask0_1633_5282)">
+                            <path
+                              d="M13.8377 16.729H6.45312V14.2674H13.8377V6.88281H16.2993V14.2674H23.6839V16.729H16.2993V24.1136H13.8377V16.729Z"
+                              fill="#6666F2"
+                            />
+                          </g>
+                        </svg>
+                        Add new user
+                      </button>
                       <button class="btn mannualSubmit">Submit</button>
                     </div>
                   </div>
@@ -1584,6 +1649,275 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button
+  class="d-none"
+  data-bs-toggle="modal"
+  data-bs-target="#munal-upload"
+></button>
+<div
+  class="modal fade"
+  id="munal-upload"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-dialog-centered"
+    style="max-width: 500px"
+    role="document"
+  >
+    <div class="modal-content">
+      <div
+        class="modal-body manualUpload p-0"
+        style="
+          background-image: url(../assets/images/manual-upload-back-img.svg);
+        "
+      >
+        <div
+          class="d-flex align-items-center justify-content-end pt-2"
+          style="padding-right: 10px"
+        >
+          <button
+            type="button"
+            class="close-btn"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+            #closeButton
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="30"
+              height="30"
+              viewBox="0 0 30 30"
+              fill="none"
+            >
+              <mask
+                id="mask0_1531_457"
+                style="mask-type: alpha"
+                maskUnits="userSpaceOnUse"
+                x="0"
+                y="0"
+                width="30"
+                height="30"
+              >
+                <rect width="30" height="30" fill="#D9D9D9" />
+              </mask>
+              <g mask="url(#mask0_1531_457)">
+                <path
+                  d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                  fill="white"
+                />
+              </g>
+            </svg>
+          </button>
+        </div>
+
+        <div class="row p-3 pb-4 pt-0 align-items-center">
+          <div class="col-md-8">
+            <div class="manualUploadDetail persnol-details p-0">
+              <h5 class="alert-heading text-white font-18 mb-2">
+                Shift Timing
+              </h5>
+              <p class="mb-0 text-white">
+                The time slot when this shift will begin.
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div
+              class="side-img"
+              style="
+                background-image: url(../assets/images/shift-timing-img.svg);
+              "
+            ></div>
+          </div>
+        </div>
+        <div class="manualUploadForm p-3">
+          <form
+            #shiftForm="ngForm"
+            ngNativeValidate
+            (ngSubmit)="submitShiftTimingForm()"
+          >
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-fild mb-3">
+                  <label for="exampleInputEmail1" class="pb-2"
+                    >Shift Type</label
+                  >
+
+                  <div class="dropdown">
+                    <button
+                      class="btn btn-secondary dropdown-toggle profile-input"
+                      type="button"
+                      id="dropdownMenuButton1"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                      style="
+                        text-align: left;
+                        background-color: white;
+                        color: black;
+                        border-color: #ced4da;
+                        width: 100%;
+                      "
+                    >
+                      {{ selectedShiftType?.name || "Select shift type" }}
+                      <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <ul
+                      class="dropdown-menu"
+                      aria-labelledby="dropdownMenuButton1"
+                      style="width: 100%"
+                    >
+                      <li *ngFor="let shiftType of shiftTypeList">
+                        <a
+                          class="dropdown-item"
+                          (click)="selectShiftType(shiftType)"
+                        >
+                          {{ shiftType.name }}
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="mb-3">
+                  <label for="shiftName" class="pb-2">Shift Name</label>
+                  <input
+                    type="text"
+                    class="form-control profile-input"
+                    id="shiftName"
+                    placeholder="Shift name"
+                    required
+                    [(ngModel)]="organizationShiftTimingRequest.name"
+                    name="shiftName"
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label for="inTime" class="pb-2">In Time</label>
+                  <nz-time-picker
+                    [(ngModel)]="organizationShiftTimingRequest.inTime"
+                    [nzUse12Hours]="true"
+                    nzFormat="h:mm a"
+                    (ngModelChange)="onTimeChange('inTime', $event)"
+                    [ngModelOptions]="{ standalone: true }"
+                  ></nz-time-picker>
+                  <div
+                    *ngIf="organizationShiftTimingValidationErrors['inTime']"
+                    class="text-danger"
+                  >
+                    {{ organizationShiftTimingValidationErrors["inTime"] }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label for="outTime" class="pb-2">Out Time</label>
+                  <nz-time-picker
+                    [(ngModel)]="organizationShiftTimingRequest.outTime"
+                    [nzUse12Hours]="true"
+                    nzFormat="h:mm a"
+                    (ngModelChange)="onTimeChange('outTime', $event)"
+                    [ngModelOptions]="{ standalone: true }"
+                  ></nz-time-picker>
+                  <div
+                    *ngIf="organizationShiftTimingValidationErrors['outTime']"
+                    class="text-danger"
+                  >
+                    {{ organizationShiftTimingValidationErrors["outTime"] }}
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label for="workingHours" class="pb-2">Working Hours</label>
+                  <input
+                    id="workingHours"
+                    type="text"
+                    class="form-control"
+                    readonly
+                    [(ngModel)]="organizationShiftTimingRequest.workingHour"
+                    name="workingHours"
+                    placeholder="Working hours"
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label for="lunchBreakStartTime" class="pb-2"
+                    >Lunch Break Start Time</label
+                  >
+                  <nz-time-picker
+                    [(ngModel)]="organizationShiftTimingRequest.startLunch"
+                    [nzUse12Hours]="true"
+                    nzFormat="h:mm a"
+                    (ngModelChange)="onTimeChange('startLunch', $event)"
+                    [ngModelOptions]="{ standalone: true }"
+                  ></nz-time-picker>
+                  <div
+                    *ngIf="
+                      organizationShiftTimingValidationErrors['startLunch']
+                    "
+                    class="text-danger"
+                  >
+                    {{ organizationShiftTimingValidationErrors["startLunch"] }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label for="lunchBreakEndTime" class="pb-2"
+                    >Lunch Break End Time</label
+                  >
+                  <nz-time-picker
+                    [(ngModel)]="organizationShiftTimingRequest.endLunch"
+                    [nzUse12Hours]="true"
+                    nzFormat="h:mm a"
+                    (ngModelChange)="onTimeChange('endLunch', $event)"
+                    [ngModelOptions]="{ standalone: true }"
+                  ></nz-time-picker>
+                  <div
+                    *ngIf="organizationShiftTimingValidationErrors['endLunch']"
+                    class="text-danger"
+                  >
+                    {{ organizationShiftTimingValidationErrors["endLunch"] }}
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="mb-3">
+                  <label for="totalLunchBreakDuration" class="pb-2"
+                    >Total Lunch Break Duration</label
+                  >
+                  <input
+                    id="totalLunchBreakDuration"
+                    type="text"
+                    class="form-control"
+                    readonly
+                    [(ngModel)]="organizationShiftTimingRequest.lunchHour"
+                    name="totalLunchBreakDuration"
+                    placeholder="Lunch break hours"
+                  />
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="border-top d-flex align-items-center justify-content-end p-3">
+        <button class="btn mannualSubmit">Submit</button>
       </div>
     </div>
   </div>

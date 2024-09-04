@@ -9403,7 +9403,7 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
 }
 
 .profile-input {
-  background-color: rgba(236, 236, 236, 0.21) !important;
+  background-color: rgba(236, 236, 236, 0.21);
   border: 1px solid #cacaca !important;
   border-radius: 2.462px;
   height: 43px !important;
@@ -9415,6 +9415,9 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   outline: none !important;
 }
 
+.mannualSubmit:hover {
+  color: #fff;
+}
 .whatapp-login-input {
   background-color: #fff !important;
   border: 1px solid #f1f1f1 !important;
@@ -9595,7 +9598,7 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   border-radius: 10px;
   z-index: 999;
   position: relative;
-  padding-top: 30px;
+  /* padding-top: 30px; */
 }
 .persnol-details h5 {
   font-size: 22px;
@@ -9692,9 +9695,9 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
 
 .card-title-headding {
   color: #6666f2;
-  font-size: 18px;
+  font-size: 16px;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 27.086px; /* 146.667% */
   letter-spacing: 0.369px;
   text-transform: capitalize;
@@ -9725,4 +9728,18 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   font-size: 12px;
   font-weight: 500;
   border-radius: 2px;
+}
+
+.mb-100 {
+  margin-bottom: 100px;
+}
+
+.close-btn {
+  background-color: transparent;
+  border: none;
+  padding: 0px;
+}
+
+.manualUploadForm {
+  background-color: #fff;
 }
