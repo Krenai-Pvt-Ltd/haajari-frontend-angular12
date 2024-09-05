@@ -470,11 +470,15 @@ export class UploadTeamComponent implements OnInit {
 
   showUserList: boolean = false;
 
+  // viewUserList() {
+  //   if (this.showUserList == false) {
+  //     this.showUserList = true;
+  //   } else {
+  //     this.showUserList = false;
+  //   }
+  // }
+
   viewUserList() {
-    if (this.showUserList == false) {
-      this.showUserList = true;
-    } else {
-      this.showUserList = false;
-    }
+    this.showUserList = !this.showUserList;
   }
 }
