@@ -22,7 +22,7 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
     private router: Router,
     private helperService: HelperService,
     private rbacService: RoleBasedAccessControlService,
-    private modalService: NgbModal,
+    private modalService: NgbModal
   ) {}
 
   onboardingViaString: string = '';
@@ -171,7 +171,7 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-      },
+      }
     );
   }
 
