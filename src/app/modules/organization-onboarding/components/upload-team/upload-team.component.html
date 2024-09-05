@@ -431,6 +431,7 @@
                             height="24"
                             viewBox="0 0 24 24"
                             fill="none"
+                            *ngIf="!isProgressToggle"
                           >
                             <mask
                               id="mask0_1549_4381"
@@ -495,7 +496,7 @@
                         </button>
                       </div>
                     </div>
-                    <div
+                    <!-- <div
                       class="alert alert-light mb-0 mt-4 bg-soft-warning create-password-warning text-start"
                       role="alert"
                       *ngIf="
@@ -505,12 +506,6 @@
                       "
                     >
                       <h4 class="alert-heading font-18">Attention!</h4>
-                      <!-- <div *ngFor="let pn of alreadyUsedPhoneNumberArray">
-                        {{ pn }}
-                      </div>
-                      <div *ngFor="let ea of alreadyUsedEmailArray">
-                        {{ ea }}
-                      </div> -->
                       <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p>
                       <p *ngIf="alreadyUsedPhoneNumberArray.length > 0">
                         Phone Numbers:
@@ -525,7 +520,7 @@
                       <p *ngIf="!isErrorToggle">
                         These credentials are already registered with us!
                       </p>
-                    </div>
+                    </div> -->
                     <table class="table table-striped">
                       <thead class="thead-light">
                         <tr>
@@ -1262,7 +1257,7 @@
                 <div class="col-md-12">
                   <div class="mb-3">
                     <label class="mb-2"
-                      >Email Id <span class="text-optional">*</span></label
+                      >Email Id</label
                     >
                     <input
                       type="email"
@@ -1312,7 +1307,7 @@
           <div
             class="modal-footer border-top d-flex align-items-center justify-content-between p-3"
           >
-            <button (click)="addUser()" class="munal-add-more-btn">
+            <!-- <button (click)="addUser()" class="munal-add-more-btn">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="30"
@@ -1344,14 +1339,21 @@
                 </g>
               </svg>
               Add new user
-            </button>
+            </button> -->
 
             <button
               class="btn mannualSubmit"
               (click)="submit()"
-              [disabled]="!allUsersValid()"
+              [disabled]="this.userList.length < 2"
             >
               Submit
+            </button>
+            <button
+              class="btn mannualSubmit"
+              (click)="addUser()"
+              [disabled]="!currentUsersValid()"
+            >
+              Save And Add New
             </button>
           </div>
         </div>
