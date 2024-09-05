@@ -13,24 +13,30 @@ import { OrganizationOnboardingComponent } from './organization-onboarding.compo
 import { AttendanceModeComponent } from './components/attendance-mode/attendance-mode.component';
 import { ShiftTimeListComponent } from './components/shift-time-list/shift-time-list.component';
 
-const routes: Routes = [{ path: '', component: OrganizationOnboardingComponent,
-children:[
-  {path: 'personal-information', component: OrganizationPersonalInformationComponent},
-  {path: 'leave-rule-setup', component: LeaveRuleSetupComponent},
-  {path: 'holiday-rule-setup', component: HolidayRuleSetupComponent},
-  {path: 'automation-rules', component: AutomationRulesComponent},
-  {path: 'leave-setting-create', component: LeaveSettingCreateComponent},
-  {path: 'add-shift-time', component: AddShiftTimeComponent},
-  {path: 'holiday-setting', component: HolidaySettingComponent},
-  {path: 'upload-team', component: UploadTeamComponent},
-  {path: 'attendance-mode', component: AttendanceModeComponent},
-  {path: 'shift-time-list', component: ShiftTimeListComponent}
-  ]
-
-}];
+const routes: Routes = [
+  {
+    path: '',
+    component: OrganizationOnboardingComponent,
+    children: [
+      {
+        path: 'personal-information',
+        component: OrganizationPersonalInformationComponent,
+      },
+      { path: 'leave-rule-setup', component: LeaveRuleSetupComponent },
+      { path: 'holiday-rule-setup', component: HolidayRuleSetupComponent },
+      { path: 'automation-rules', component: AutomationRulesComponent },
+      { path: 'leave-setting-create', component: LeaveSettingCreateComponent },
+      { path: 'add-shift-time', component: AddShiftTimeComponent },
+      { path: 'holiday-setting', component: HolidaySettingComponent },
+      { path: 'upload-team', component: UploadTeamComponent },
+      { path: 'attendance-mode', component: AttendanceModeComponent },
+      { path: 'shift-time-list', component: ShiftTimeListComponent },
+    ],
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class OrganizationOnboardingRoutingModule { }
+export class OrganizationOnboardingRoutingModule {}

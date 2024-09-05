@@ -3,14 +3,48 @@
     <div class="container-fluid">
       <div class="persnol-details mb-5">
         <div class="row">
+          <div class="">
+            <div clss="col-md-12">
+              <div class="card-header p-0 pb-3 bg-white">
+                <h4 class="card-title-headding mb-1">
+                  Employee Shift Assignments
+                </h4>
+                <p class="mb-0 font-11">
+                  Ensure that every team member is assigned to the correct
+                  shift, optimizing your operational efficiency and maintaining
+                  clear working hours across your organization. Once this is
+                  complete, your employee scheduling will be fully configured.
+                </p>
+              </div>
+            </div>
+            <div class="col-md-12 mt-3 mb-3">
+              <div
+                class="shift-creation-pending d-flex align-items-center justify-content-center"
+              >
+                <img
+                  src="assets/images/shift-creation-img.svg"
+                  style="width: 110px"
+                />
+
+                <h5 class="alert-heading font-18 mb-1 mt-3">
+                  Shift Creation Pending
+                </h5>
+                <p class="mb-0 font-11">No shift has been created yet</p>
+                <button class="btn createShift mt-3">
+                  <i class="bi bi-plus-lg"></i> Create Shift
+                </button>
+              </div>
+            </div>
+          </div>
+
           <div clss="col-md-12">
             <div class="card-header p-0 pb-3 bg-white">
               <h4 class="card-title-headding mb-1">Create New Shift</h4>
-              <p class="mb-0">
+              <p class="mb-0 font-11">
                 Establish the working hours and break times for your
                 organization. These shifts will be assigned to employees in the
-                next step, ensuring that your company's operational needs are
-                met efficiently.
+                next step, ensuring that your company's operational needs
+                <br />are met efficiently.
               </p>
             </div>
           </div>
@@ -42,7 +76,7 @@
                               >
                               <div class="dropdown">
                                 <button
-                                  class="btn btn-secondary dropdown-toggle profile-input"
+                                  class="btn dropdown-toggle profile-input"
                                   type="button"
                                   id="dropdownMenuButton1"
                                   data-bs-toggle="dropdown"
@@ -133,7 +167,7 @@
                                 <h4 class="card-title-headding mb-1">
                                   Shift Timing
                                 </h4>
-                                <p class="mb-0">
+                                <p class="mb-0 font-11">
                                   To enhance your experience and ensure accurate
                                   shift management, please review and update the
                                   following shift details for your organization.
@@ -455,10 +489,11 @@
                         </div>
                         <div
                           class="row mt-3 mb-3 align-items-center"
-                          *ngIf="SHIFT_TIME_STEP_ID == STAFF_SELECTION_ID"
+                          *ngIf="SHIFT_TIME_STEP_ID == SHIFT_TIME_ID"
                         >
+                          <!-- *ngIf="SHIFT_TIME_STEP_ID == STAFF_SELECTION_ID" -->
                           <!-- <table><tbody><tr><td></td><td><input type="search"></td></tr></tbody></table> -->
-                          <div class="col-md-6">
+                          <!-- <div class="col-md-6">
                             <form
                               novalidate=""
                               role="search"
@@ -532,14 +567,14 @@
                                 ></span>
                               </div>
                             </div>
-                          </div>
+                          </div> -->
                           <ng-container
                             *ngIf="
                               staffs.length != 0;
                               else noDataFoundCondition
                             "
                           >
-                            <div class="col-md-12 mt-3">
+                            <!-- <div class="col-md-12 mt-3">
                               <table class="table">
                                 <thead class="thead-light table-design">
                                   <tr>
@@ -614,7 +649,212 @@
                                   </tr>
                                 </tbody>
                               </table>
+                            </div> -->
+
+                            <div class="mt-3">
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <form
+                                    novalidate=""
+                                    role="search"
+                                    (submit)="searchUsers()"
+                                    class="searching ng-untouched ng-pristine ng-valid"
+                                  >
+                                    <div
+                                      class="form-group"
+                                      style="position: relative"
+                                    >
+                                      <input
+                                        type="search"
+                                        id="searchText"
+                                        placeholder="Search by name and role"
+                                        class="form-control profile-input ng-untouched ng-pristine ng-valid searchform-padding"
+                                        style="padding: 10px 50px 10px 40px"
+                                        (keyup)="searchUsers()"
+                                        [(ngModel)]="searchText"
+                                        [ngModelOptions]="{ standalone: true }"
+                                      />
+                                      <button
+                                        type="button"
+                                        (click)="clearSearch()"
+                                        class="btn close-btn"
+                                      >
+                                        <i
+                                          *ngIf="searchText != ''"
+                                          class="bi bi-x"
+                                        ></i>
+                                      </button>
+                                      <i
+                                        class="bi bi-search search-icon"
+                                        style="
+                                          position: absolute;
+                                          top: 50%;
+                                          transform: translateY(-50%);
+                                          left: 10px;
+                                        "
+                                      ></i>
+                                    </div>
+                                  </form>
+                                </div>
+
+                                <div class="mt-3">
+                                  <div
+                                    class="d-flex align-items-center justify-content-between mb-3"
+                                  >
+                                    <h5 class="alert-heading font-14 mb-0">
+                                      Employee List
+                                    </h5>
+
+                                    <div
+                                      class="d-flex align-items-center gap-2"
+                                      *ngIf="selectedStaffsUuids.length !== 0"
+                                    >
+                                      <p class="mb-0" style="font-weight: 400">
+                                        <span class="text-primary">
+                                          {{ selectedStaffsUuids.length }}
+                                        </span>
+                                        selected of
+                                        <span class="text-primary">
+                                          {{ total }}</span
+                                        >
+                                      </p>
+                                      <span class="error-spreter"></span>
+                                      <button class="p-0 btn removeBtn pointer">
+                                        <svg
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          width="24"
+                                          height="24"
+                                          viewBox="0 0 24 24"
+                                          fill="none"
+                                        >
+                                          <mask
+                                            id="mask0_1624_4338"
+                                            style="mask-type: alpha"
+                                            maskUnits="userSpaceOnUse"
+                                            x="0"
+                                            y="0"
+                                            width="24"
+                                            height="24"
+                                          >
+                                            <rect
+                                              y="0.25"
+                                              width="23.5"
+                                              height="23.5"
+                                              fill="#D9D9D9"
+                                            />
+                                          </mask>
+                                          <g mask="url(#mask0_1624_4338)">
+                                            <path
+                                              d="M6.26146 18.8568L4.89062 17.4859L10.374 12.0026L4.89062 6.51927L6.26146 5.14844L11.7448 10.6318L17.2281 5.14844L18.599 6.51927L13.1156 12.0026L18.599 17.4859L17.2281 18.8568L11.7448 13.3734L6.26146 18.8568Z"
+                                              fill="#FD0808"
+                                            />
+                                          </g>
+                                        </svg>
+                                        Remove All
+                                      </button>
+                                    </div>
+                                  </div>
+                                  <table class="table table-striped">
+                                    <thead class="thead-light">
+                                      <tr>
+                                        <th
+                                          style="width: 5%"
+                                          class="text-center"
+                                        >
+                                          <input
+                                            type="checkbox"
+                                            style="cursor: pointer"
+                                            class="form-check-input"
+                                            [(ngModel)]="isAllSelected"
+                                            (change)="selectAll(isAllSelected)"
+                                            [ngModelOptions]="{
+                                              standalone: true
+                                            }"
+                                          />
+                                        </th>
+                                        <th
+                                          style="width: 5%"
+                                          class="text-center"
+                                        >
+                                          Count
+                                        </th>
+                                        <th
+                                          style="width: 25%"
+                                          class="text-left"
+                                        >
+                                          Name
+                                        </th>
+                                        <th
+                                          style="width: 25%"
+                                          class="text-left"
+                                        >
+                                          Email Address
+                                        </th>
+                                        <th
+                                          style="width: 20%"
+                                          class="text-left"
+                                        >
+                                          Phone Number
+                                        </th>
+
+                                        <!-- <th style="width: 20%" class="text-center">Action</th> -->
+                                      </tr>
+                                    </thead>
+                                    <tbody class="">
+                                      <tr
+                                        *ngFor="
+                                          let staff of staffs
+                                            | paginate
+                                              : {
+                                                  itemsPerPage: itemPerPage,
+                                                  currentPage: pageNumber,
+                                                  totalItems: total
+                                                }
+                                        "
+                                      >
+                                        <td class="text-center">
+                                          <input
+                                            type="checkbox"
+                                            style="cursor: pointer"
+                                            class="form-check-input"
+                                            [(ngModel)]="staff.selected"
+                                            (change)="
+                                              checkIndividualSelection()
+                                            "
+                                            [ngModelOptions]="{
+                                              standalone: true
+                                            }"
+                                          />
+                                        </td>
+                                        <td class="text-center">1</td>
+                                        <td>{{ staff.name }}</td>
+                                        <td>
+                                          {{
+                                            staff.email ? staff.email : "N/A"
+                                          }}
+                                        </td>
+                                        <td>
+                                          {{
+                                            staff.phoneNumber
+                                              ? staff.phoneNumber
+                                              : "N/A"
+                                          }}
+                                        </td>
+
+                                        <!-- <td
+                          class="d-flex align-items-center justify-content-center gap-2"
+                        >
+                          <a
+                            ><i class="las la-trash-alt text-danger font-16"></i
+                          ></a>
+                        </td> -->
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
                             </div>
+
                             <div
                               class="pagination pl-3 align-items-center justify-content-between"
                               *ngIf="itemPerPage > 8"
@@ -796,11 +1036,11 @@
                 *ngIf="SHIFT_TIME_STEP_ID == SHIFT_TIME_ID"
               >
                 <button
-                  class="btn btn-outline-secondary btn-round previous-btn"
+                  class="btn previousBtn previous-btn"
                   type="button"
                   (click)="backPage()"
                 >
-                  <i
+                  <!-- <i
                     class="bi bi-arrow-left"
                     style="
                       padding-right: 3px;
@@ -808,27 +1048,70 @@
                       position: relative;
                       top: -1px;
                     "
-                  ></i>
+                  ></i> -->
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 22 22"
+                    fill="none"
+                  >
+                    <path
+                      d="M19.75 10.6714C19.75 10.8588 19.6914 11.011 19.5743 11.1281C19.4572 11.2452 19.305 11.3038 19.1177 11.3038H3.59011L7.73547 15.4491C7.87599 15.5896 7.94625 15.7536 7.94625 15.9409C7.94625 16.1283 7.87599 16.2805 7.73547 16.3976C7.59495 16.5147 7.43101 16.5733 7.24365 16.5733C7.05628 16.5733 6.89234 16.5264 6.75182 16.4328L1.48229 11.1632C1.38861 11.0227 1.34177 10.8588 1.34177 10.6714C1.34177 10.484 1.38861 10.3201 1.48229 10.1796L6.75182 4.91005C6.89234 4.81637 7.05628 4.76953 7.24365 4.76953C7.43101 4.76953 7.59495 4.82808 7.73547 4.94518C7.87599 5.06228 7.94625 5.21451 7.94625 5.40188C7.94625 5.58924 7.87599 5.75318 7.73547 5.8937L3.59011 10.0391H19.1177C19.305 10.0391 19.4572 10.0976 19.5743 10.2147C19.6914 10.3318 19.75 10.484 19.75 10.6714Z"
+                      fill="black"
+                    />
+                  </svg>
                   Previous
                 </button>
-
-                <button
-                  type="submit"
-                  class="btn btn-outline-primary btn-round"
-                  [disabled]="
+                <!-- [disabled]="
                     shiftForm.invalid ||
                     !selectedShiftType?.name ||
                     !organizationShiftTimingRequest.inTimeDate ||
                     !organizationShiftTimingRequest.outTimeDate ||
                     !organizationShiftTimingRequest.startLunchDate ||
                     !organizationShiftTimingRequest.endLunchDate
-                  "
+                  " -->
+
+                <button
+                  type="submit"
+                  class="btn nextBtn"
                   (click)="staffActiveTabInShiftTimingMethod()"
                 >
                   <span>
-                    Staff Selection
-                    <i class="bi bi-arrow-right" style="padding-left: 8px"></i
-                  ></span>
+                    Next
+                    <!-- <i class="bi bi-arrow-right" style="padding-left: 8px"></i> -->
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="25"
+                      height="25"
+                      viewBox="0 0 25 25"
+                      fill="none"
+                    >
+                      <mask
+                        id="mask0_2043_143"
+                        style="mask-type: alpha"
+                        maskUnits="userSpaceOnUse"
+                        x="0"
+                        y="0"
+                        width="25"
+                        height="25"
+                      >
+                        <rect
+                          x="0.921875"
+                          y="0.671875"
+                          width="24"
+                          height="24"
+                          fill="#D9D9D9"
+                        />
+                      </mask>
+                      <g mask="url(#mask0_2043_143)">
+                        <path
+                          d="M16.9359 13.5625H4V11.4375H16.9359L10.9859 5.4875L12.5 4L21 12.5L12.5 21L10.9859 19.5125L16.9359 13.5625Z"
+                          fill="#6666F2"
+                        />
+                      </g>
+                    </svg>
+                  </span>
                 </button>
                 <!-- <button
                   type="submit"

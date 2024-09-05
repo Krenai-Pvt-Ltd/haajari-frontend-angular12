@@ -133,3 +133,27 @@ button.btn.close-btn {
   font-size: 0.875rem;
   margin-top: 0.25rem;
 }
+
+.shift-creation-pending {
+  background-color: #f6f6f6;
+  padding: 20px;
+  border: 1px solid #e6e7e9;
+  border-radius: 2px;
+  flex-direction: column;
+}
+
+.createShift {
+  border: 1px solid #6666f3;
+  color: #6666f3;
+  border-radius: 2px;
+}
+.removeBtn {
+  font-size: 12px;
+  font-weight: 500;
+  color: #fd0808;
+}
+.removeBtn svg {
+  width: 15px;
+  position: relative;
+  top: -1px;
+}
