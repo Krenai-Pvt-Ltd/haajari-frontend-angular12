@@ -45,7 +45,7 @@ export class TimetableComponent implements OnInit {
 
   loginDetails = this.helperService.getDecodedValueFromToken();
   assignRole() {
-    this.role = this.rbacService.getRole();
+    this.role =   this.rbacService.getRole();
     this.userUuid = this.rbacService.getUUID();
     this.orgRefId = this.rbacService.getOrgRefUUID();
   }
@@ -154,12 +154,13 @@ export class TimetableComponent implements OnInit {
 
   selected: { startDate: dayjs.Dayjs; endDate: dayjs.Dayjs } | null = null;
   myAttendanceData: Record<string, AttendenceDto[]> = {};
-
-  ngOnInit(): void {
+  logInUserUuid: string = '';
+  async ngOnInit(): Promise<void> {
     window.scroll(0, 0);
     this.getOrganizationRegistrationDateMethodCall();
     this.inputDate = this.getCurrentDate();
     this.assignRole();
+    this.logInUserUuid = await this.rbacService.getUUID();
 
     const today = dayjs();
     const oneWeekAgo = today.subtract(1, 'week');
@@ -850,27 +851,164 @@ export class TimetableComponent implements OnInit {
   )
   }
 attendanceFullRequestLog: any[] = [];
-getFullAttendanceRequestLogData(): void {
-  this.dataService.getFullAttendanceRequestLog().subscribe(response => {
-    this.attendanceFullRequestLog = response.listOfObject;
+pageNumberFullAttendanceRequest: number = 1;
+itemPerPageFullAttendanceRequest: number = 5;
+totalAttendanceRequestCount: number = 0;
+isRequestLoader: boolean = false;
+fullAttendanceRequestSearchString: string = '';
+getFullAttendanceRequestLogData(debounceTime: number = 300) {
+
+  return new Promise((resolve, reject) => {
+  this.isRequestLoader = true;
+  if (this.debounceTimer) {
+    clearTimeout(this.debounceTimer);
+  } 
+  this.debounceTimer = setTimeout(() => {
+  this.dataService.getFullAttendanceRequestLog(this.pageNumberFullAttendanceRequest, this.itemPerPageFullAttendanceRequest, this.fullAttendanceRequestSearchString).subscribe(response => {
+    // this.attendanceFullRequestLog = response.listOfObject;
+    this.attendanceFullRequestLog = [...this.attendanceFullRequestLog, ...response.object];
+    this.totalAttendanceRequestCount = response.totalItems;
+    this.isRequestLoader = false;
     console.log('logs retrieved successfully', response.listOfObject);
   }, (error) => {
     console.log(error);
+    this.isRequestLoader = false;
+  });
+   }, debounceTime);
   });
 }
 
+initialLoadDoneforFullLogs: boolean = false;
+@ViewChild('logContainerforFullLogs') logContainerforFullLogs!: ElementRef<HTMLDivElement>;
+scrollDownRecentActivityforFullLogs(event: any) {
+  debugger
+  if (!this.initialLoadDoneforFullLogs) return;
+
+  if(this.totalAttendanceRequestCount < ((this.pageNumberFullAttendanceRequest - 1) * this.itemPerPageFullAttendanceRequest)) {
+    return;
+  }
+  const target = event.target as HTMLElement;
+  const atBottom =
+    target.scrollHeight - (target.scrollTop + target.clientHeight) < 10;
+
+  if (atBottom) {
+    this.pageNumberFullAttendanceRequest++;
+    this.getFullAttendanceRequestLogData();
+  }
+}
+
+loadMoreLogs(): void {
+  this.initialLoadDoneforFullLogs = true;
+  this.pageNumberFullAttendanceRequest++;
+  // this.attendanceRequestLog = [];
+  this.getFullAttendanceRequestLogData();
+}
+
+onSearchChangeOfFullAttendanceLogs(searchValue: string): void {
+  this.fullAttendanceRequestSearchString = searchValue;
+  this.pageNumberFullAttendanceRequest = 1; 
+  this.attendanceFullRequestLog = []; 
+  this.getFullAttendanceRequestLogData();
+}
+
+openLogs() {
+  this.pageNumberFullAttendanceRequest = 1;
+  this.totalAttendanceRequestCount = 0;
+  this.attendanceFullRequestLog = [];
+  this.fullAttendanceRequestSearchString = '';
+  this.getFullAttendanceRequestLogData();
+}
+
+clearSearchUsersOfFullLogs() {
+  this.pageNumberFullAttendanceRequest = 1;
+  this.totalAttendanceRequestCount = 0;
+  this.attendanceFullRequestLog = [];
+  this.fullAttendanceRequestSearchString = '';
+  this.getFullAttendanceRequestLogData();
+}
 
 attendanceRequests: any[] = [];
-getAttendanceRequestsData(): void {
-  this.dataService.getAttendanceRequests().subscribe(response => {
-    this.attendanceRequests = response.listOfObject;
+pageNumberAttendanceRequest: number = 1;
+itemPerPageAttendanceRequest: number = 5;
+fullAttendanceRequestCount: number = 0;
+isFullRequestLoader: boolean = false;
+attendanceRequestSearchString: string = '';
+getAttendanceRequestsData(debounceTime: number = 300) {
+  return new Promise((resolve, reject) => {
+  this.isFullRequestLoader = true;
+  if (this.debounceTimer) {
+    clearTimeout(this.debounceTimer);
+  }
+  this.debounceTimer = setTimeout(() => {
+  this.dataService.getAttendanceRequests(this.pageNumberAttendanceRequest, this.itemPerPageAttendanceRequest, this.attendanceRequestSearchString).subscribe(response => {
+    // this.attendanceRequests = response.listOfObject;
+    this.attendanceRequests = [...this.attendanceRequests, ...response.object];
+    this.fullAttendanceRequestCount = response.totalItems;
+    this.isFullRequestLoader = false;
     console.log('requests retrieved successfully', response.listOfObject);
   }, (error) => {
+    this.isFullRequestLoader = false;
     console.log(error);
   });
+}, debounceTime);
+});
 }
 
-approveOrRequest(id:number, reqString: string) {
+initialLoadDone: boolean = false;
+@ViewChild('logContainer') logContainer!: ElementRef<HTMLDivElement>;
+scrollDownRecentActivity(event: any) {
+  debugger
+  if (!this.initialLoadDone) return;
+
+  if(this.fullAttendanceRequestCount < ((this.pageNumberAttendanceRequest - 1) * this.itemPerPageAttendanceRequest)) {
+    return;
+  }
+  const target = event.target as HTMLElement;
+  const atBottom =
+    target.scrollHeight - (target.scrollTop + target.clientHeight) < 10;
+
+  if (atBottom) {
+    this.pageNumberAttendanceRequest++;
+    this.getAttendanceRequestsData();
+  }
+}
+
+
+loadMoreAttendanceRequestLogs(): void {
+  this.initialLoadDone = true;
+  this.pageNumberAttendanceRequest++;
+  // this.attendanceRequestLog = [];
+  this.getAttendanceRequestsData();
+}
+
+onSearchChange(searchValue: string): void {
+  this.attendanceRequestSearchString = searchValue;
+  this.pageNumberAttendanceRequest = 1; 
+  this.attendanceRequests = []; 
+  this.getAttendanceRequestsData();
+}
+
+clearSearchUsersOfRequestLogs() {
+  debugger
+  this.pageNumberAttendanceRequest = 1;
+  this.fullAttendanceRequestCount = 0;
+  this.attendanceRequests = [];
+  this.attendanceRequestSearchString = '';
+  this.getAttendanceRequestsData();
+}
+
+clearAttendanceRequestLogs() {
+  this.attendanceRequests = [];
+  this.pageNumberAttendanceRequest = 1; 
+  this.attendanceRequestSearchString =  '';
+  this.attendanceFullRequestLog = [];
+  this.pageNumberFullAttendanceRequest = 1;
+  this.fullAttendanceRequestSearchString = '';
+  this.fullAttendanceRequestCount = 0;
+  this.totalAttendanceRequestCount = 0;
+}
+
+approveOrReject(id:number, reqString: string) {
   this.dataService.approveOrRejectAttendanceRequest(id, reqString).subscribe(response => {
     console.log('requests retrieved successfully', response.listOfObject);
     if(response.message == 'APPROVE') {
@@ -884,7 +1022,16 @@ approveOrRequest(id:number, reqString: string) {
       Key.TOAST_STATUS_SUCCESS
     );
   }
+
+  this.totalAttendanceRequestCount = 0;
+  this.attendanceRequestSearchString = '';
+  this.pageNumberAttendanceRequest = 1; 
+  this.attendanceRequests = []; 
   this.getAttendanceRequestsData();
+  this.pageNumberFullAttendanceRequest = 1;
+  this.fullAttendanceRequestCount = 0;
+  this.attendanceFullRequestLog = [];
+  this.fullAttendanceRequestSearchString = '';
   this.getFullAttendanceRequestLogData();
 
   }, (error) => {
