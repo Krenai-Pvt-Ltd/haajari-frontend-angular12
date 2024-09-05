@@ -232,34 +232,6 @@
                           </div>
                         </div>
                       </div>
-
-                      <!-- <input
-                        id="fileSelect"
-                        type="file"
-                        name="img[]"
-                        accept=".xlsx"
-                        class="input"
-                        (change)="selectFile($event)"
-                      />
-                      <img
-                        src="assets/images/excel.svg"
-                        style="width: 50px"
-                        class="pb-3"
-                      />
-                      <p class="">
-                        Drag file here to upload<br />
-                        or,
-                        <u
-                          ><a class="text-primary" href="#!">
-                            choose file
-                          </a></u
-                        >
-                      </p>
-                      <div
-                        *ngIf="isProgressToggle"
-                        class="spinner-border text-success"
-                        role="status"
-                      ></div> -->
                     </div>
                   </div>
                 </div>
@@ -281,12 +253,7 @@
                     Emails: {{ formatAsCommaSeparated(alreadyUsedEmailArray) }}
                   </p>
                   <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p>
-                  <!-- <div *ngFor="let pn of alreadyUsedPhoneNumberArray">
-                    {{ pn }}
-                  </div>
-                  <div *ngFor="let ea of alreadyUsedEmailArray">
-                    {{ ea }}
-                  </div> -->
+                 
                   <p *ngIf="!isErrorToggle">
                     These credentials are already registered with us!
                   </p>
