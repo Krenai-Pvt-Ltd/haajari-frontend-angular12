@@ -23,7 +23,7 @@
               >
                 <img
                   src="assets/images/shift-creation-img.svg"
-                  style="width: 110px"
+                  style="width: 90px"
                 />
 
                 <h5 class="alert-heading font-18 mb-1 mt-3">
@@ -34,6 +34,14 @@
                   <i class="bi bi-plus-lg"></i> Create Shift
                 </button>
               </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="col-md-8">
+              <div class="shift-TimingsAssist p-3"></div>
+            </div>
+            <div class="col-md-4">
+              <div class="AssistVideo"></div>
             </div>
           </div>
 
@@ -489,7 +497,7 @@
                         </div>
                         <div
                           class="row mt-3 mb-3 align-items-center"
-                          *ngIf="SHIFT_TIME_STEP_ID == SHIFT_TIME_ID"
+                          *ngIf="SHIFT_TIME_STEP_ID == STAFF_SELECTION_ID"
                         >
                           <!-- *ngIf="SHIFT_TIME_STEP_ID == STAFF_SELECTION_ID" -->
                           <!-- <table><tbody><tr><td></td><td><input type="search"></td></tr></tbody></table> -->
@@ -706,17 +714,29 @@
                                     </h5>
 
                                     <div
-                                      class="d-flex align-items-center gap-2"
+                                      class="d-flex align-items-center gap-3"
                                       *ngIf="selectedStaffsUuids.length !== 0"
                                     >
                                       <p class="mb-0" style="font-weight: 400">
+                                        <span class="text-primary"> 1523 </span>
+                                        Employees Add
+                                      </p>
+                                      <p class="mb-0" style="font-weight: 400">
+                                        All
                                         <span class="text-primary">
                                           {{ selectedStaffsUuids.length }}
                                         </span>
-                                        selected of
+                                        Employees on this page are selected
+                                      </p>
+                                      <p
+                                        class="mb-0 selectAll"
+                                        style="font-weight: 400"
+                                      >
+                                        Select all
                                         <span class="text-primary">
-                                          {{ total }}</span
-                                        >
+                                          {{ total }}
+                                        </span>
+                                        Employees
                                       </p>
                                       <span class="error-spreter"></span>
                                       <button class="p-0 btn removeBtn pointer">
@@ -750,7 +770,7 @@
                                             />
                                           </g>
                                         </svg>
-                                        Remove All
+                                        Clear Selection
                                       </button>
                                     </div>
                                   </div>

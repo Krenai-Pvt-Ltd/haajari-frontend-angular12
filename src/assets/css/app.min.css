@@ -9733,7 +9733,7 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   background-color: #fff8f2;
   padding: 15px;
   background-repeat: no-repeat;
-  background-position: right center;
+  background-position: right 40px;
 }
 .font-19 {
   font-size: 19px !important;
@@ -9787,6 +9787,20 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
 .previousBtn svg {
   width: 17px;
   height: 17px;
+  position: relative;
+  top: -1px;
+}
+
+.removeBtn {
+  font-size: 12px;
+  font-weight: 500;
+  color: #fd0808;
+}
+.removeBtn:hover {
+  color: #fd0808;
+}
+.removeBtn svg {
+  width: 15px;
   position: relative;
   top: -1px;
 }

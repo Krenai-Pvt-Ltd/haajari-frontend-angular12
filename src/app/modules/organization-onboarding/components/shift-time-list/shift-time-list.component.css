@@ -142,7 +142,7 @@
 }
 
 .add-shift-time-btn {
-  font-size: 14px;
+  font-size: 13px;
   color: #6666f3 !important;
   font-weight: 500;
 }
@@ -178,7 +178,7 @@
 }
 
 .employ-list svg {
-  width: 18px;
+  width: 16px;
 }
 
 .search-icon {
@@ -245,4 +245,9 @@
   width: 15px;
   position: relative;
   top: -1px;
+}
+.bi::before,
+[class*=" bi-"]::before,
+[class^="bi-"]::before {
+  font-weight: 600 !important;
 }
