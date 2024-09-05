@@ -190,16 +190,7 @@
   align-items: center;
   color: var(--tb-secondary-color);
 }
-.removeBtn {
-  font-size: 12px;
-  font-weight: 500;
-  color: #fd0808;
-}
-.removeBtn svg {
-  width: 15px;
-  position: relative;
-  top: -1px;
-}
+
 .employee-List-side-image {
   height: 500px;
 }
