@@ -68,12 +68,15 @@
   margin-top: 60px;
 }
 .active {
-  border: 1px dashed #0cb562;
-  background-color: #0cb56208;
+  border: 1px solid #1f1fa5 !important;
+  /* background-color: #0cb56208; */
+  border-radius: 2px !important;
 }
 
 .attendance-mode-card {
-  height: 255px;
+  background-color: #f9fafb;
+  border-radius: 2px;
+  border: 1px solid #f9fafb;
 }
 
 .dot-opacity-loader {
@@ -115,16 +118,25 @@
 a.fetch-location {
   position: absolute;
   right: 0px;
-  top: 30px;
+  border: 0px;
+  top: 0px;
   border-radius: 0 2px 2px 0;
-  opacity: 0.8;
-  background: #e9e9ff;
-  padding: 11px 20px;
+  background: #e2e2ff;
+  padding: 10.4px 20px;
   font-size: 14px;
   text-decoration: none;
   cursor: pointer;
+  color: #6666f4 !important;
 }
 
+.featch-location {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -65px;
+  padding: 7px;
+  /* bottom: -4px; */
+}
 /*  fetch loc */
 
 .loader-fetching-location {
@@ -197,4 +209,17 @@ a.fetch-location {
   40% {
     opacity: 1;
   }
+}
+
+.side-img {
+  height: 100px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.add-location svg {
+  width: 15px;
+  position: relative;
+  top: -1px;
 }
