@@ -149,7 +149,7 @@ p.tableinfo.mb-0 {
   background-color: rgba(244, 247, 255, 0.5) !important;
 }
 .excelUploadBtn {
-  background-color: #2e2ef6;
+  background-color: #6666f2;
   color: #fff;
   font-size: 12px;
   font-weight: 500;
@@ -253,4 +253,20 @@ p.tableinfo.mb-0 {
 
 .download-eroor svg {
   width: 20px;
+}
+
+.manualemployList {
+  max-height: 220px;
+  overflow: scroll;
+}
+
+.manualemployList::-webkit-scrollbar {
+  display: none;
+}
+
+.editDeleteBtn svg {
+  position: relative;
+  top: -1px;
+  width: 17px;
+  height: 17px;
 }

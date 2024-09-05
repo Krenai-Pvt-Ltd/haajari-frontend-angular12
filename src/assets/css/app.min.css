@@ -9606,11 +9606,20 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   margin-top: 0px;
   color: #000;
 }
+.subHeading {
+  font-size: 22px;
+  margin-bottom: 5px;
+  margin-top: 0px;
+  color: #121212 !important;
+  font-weight: 500 !important;
+  word-spacing: 1px;
+}
 
 .persnol-details p {
   font-size: 12px;
   font-weight: 300;
   color: #000;
+  word-spacing: 1px;
 }
 
 .modal-content .modal-header .modal-title {
@@ -9726,6 +9735,9 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   background-repeat: no-repeat;
   background-position: right center;
 }
+.font-19 {
+  font-size: 19px !important;
+}
 
 .mannualSubmit {
   background-color: #6666f2;
@@ -9747,4 +9759,34 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
 
 .manualUploadForm {
   background-color: #fff;
+}
+
+.attentionList p {
+  color: #121212;
+}
+
+.nextBtn {
+  color: #6666f2 !important;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.nextBtn svg {
+  width: 17px;
+  height: 17px;
+  position: relative;
+  top: -1px;
+}
+
+.previousBtn {
+  color: #121212 !important;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.previousBtn svg {
+  width: 17px;
+  height: 17px;
+  position: relative;
+  top: -1px;
 }

@@ -20,11 +20,12 @@
                   <h4 class="card-title-headding mb-1">
                     Provide Your Employee Information
                   </h4>
-                  <p class="mb-0">
+                  <p class="mb-0 font-11">
                     Please ensure that all fields are completed accurately to
                     create and maintain precise employee records. This will
-                    ensure smooth HR operations and effective management of your
-                    workforce.
+                    ensure smooth HR operations and effective management of
+                    <br />
+                    your workforce.
                   </p>
                 </div>
               </div>
@@ -42,7 +43,7 @@
                       <h4 class="alert-heading font-14">
                         Download the Sample Excel File!
                       </h4>
-                      <p class="mb-0">
+                      <p class="mb-0 font-11">
                         Use this Excel template to organize and input your
                         employee data correctly. Review the sample structure to
                         avoid errors.
@@ -98,14 +99,14 @@
                           />
                         </div>
                         <div
-                          class="d-flex align-items-center justify-content-between"
+                          class="d-flex align-items-center attentionList justify-content-between"
                           style="width: 85%"
                         >
                           <div>
                             <h5 class="alert-heading font-15 mb-2">
                               Upload Employee Data via Excel
                             </h5>
-                            <p class="mb-0">
+                            <p class="mb-0 font-11">
                               Streamline the process by uploading your organized
                               employee data directly <br />
                               from the Excel sheet
@@ -175,14 +176,14 @@
                           />
                         </div>
                         <div
-                          class="d-flex align-items-center justify-content-between"
+                          class="d-flex align-items-center attentionList justify-content-between"
                           style="width: 85%"
                         >
                           <div>
                             <h5 class="alert-heading font-15 mb-2">
                               Manually Enter Employee Details
                             </h5>
-                            <p class="mb-0">
+                            <p class="mb-0 font-11">
                               Add employee details individually if you prefer to
                               build a <br />
                               customized and specific list tailored to your
@@ -577,18 +578,78 @@
                           </td>
 
                           <td
-                            class="d-flex align-items-center justify-content-center gap-2"
+                            class="d-flex align-items-center justify-content-center editDeleteBtn gap-2"
                           >
                             <a
                               *ngIf="onboardingViaString != 'SLACK'"
                               (click)="openUserEditModal(onboardUser)"
-                              ><i class="las la-pen text-primary font-16"></i
-                            ></a>
-                            <a (click)="deleteUser(onboardUser.id)"
-                              ><i
-                                class="las la-trash-alt text-danger font-16"
-                              ></i
-                            ></a>
+                            >
+                              <!-- <i class="las la-pen text-primary font-16"></i> -->
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="25"
+                                height="25"
+                                viewBox="0 0 25 25"
+                                fill="none"
+                              >
+                                <mask
+                                  id="mask0_2026_656"
+                                  style="mask-type: alpha"
+                                  maskUnits="userSpaceOnUse"
+                                  x="0"
+                                  y="0"
+                                  width="25"
+                                  height="25"
+                                >
+                                  <rect
+                                    x="0.429688"
+                                    y="0.378906"
+                                    width="23.7026"
+                                    height="23.7026"
+                                    fill="#D9D9D9"
+                                  />
+                                </mask>
+                                <g mask="url(#mask0_2026_656)">
+                                  <path
+                                    d="M5.36584 19.1416H6.77319L16.4271 9.48771L15.0197 8.08037L5.36584 17.7342V19.1416ZM3.39062 21.1168V16.9195L16.4271 3.90772C16.6246 3.72666 16.8427 3.58675 17.0814 3.48799C17.32 3.38922 17.571 3.33984 17.8344 3.33984C18.0978 3.33984 18.3529 3.38922 18.5998 3.48799C18.8467 3.58675 19.0607 3.73489 19.2418 3.93241L20.5997 5.31506C20.7972 5.49612 20.9413 5.71011 21.0318 5.95701C21.1223 6.20391 21.1676 6.45081 21.1676 6.69772C21.1676 6.96108 21.1223 7.2121 21.0318 7.45077C20.9413 7.68944 20.7972 7.90754 20.5997 8.10506L7.58796 21.1168H3.39062ZM15.7111 8.79639L15.0197 8.08037L16.4271 9.48771L15.7111 8.79639Z"
+                                    fill="#6666F2"
+                                  />
+                                </g>
+                              </svg>
+                            </a>
+                            <a (click)="deleteUser(onboardUser.id)">
+                              <!-- <i class="las la-trash-alt text-danger font-16" ></i> -->
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                              >
+                                <mask
+                                  id="mask0_2026_632"
+                                  style="mask-type: alpha"
+                                  maskUnits="userSpaceOnUse"
+                                  x="0"
+                                  y="0"
+                                  width="24"
+                                  height="24"
+                                >
+                                  <rect
+                                    y="0.269531"
+                                    width="23.7026"
+                                    height="23.7026"
+                                    fill="#D9D9D9"
+                                  />
+                                </mask>
+                                <g mask="url(#mask0_2026_632)">
+                                  <path
+                                    d="M6.91595 21.0074C6.37277 21.0074 5.90777 20.814 5.52095 20.4272C5.13414 20.0404 4.94073 19.5754 4.94073 19.0322V6.1933H3.95312V4.21808H8.89117V3.23047H14.8168V4.21808H19.7549V6.1933H18.7673V19.0322C18.7673 19.5754 18.5739 20.0404 18.187 20.4272C17.8002 20.814 17.3352 21.0074 16.792 21.0074H6.91595ZM16.792 6.1933H6.91595V19.0322H16.792V6.1933ZM8.89117 17.057H10.8664V8.16852H8.89117V17.057ZM12.8416 17.057H14.8168V8.16852H12.8416V17.057Z"
+                                    fill="#FF0404"
+                                  />
+                                </g>
+                              </svg>
+                            </a>
                           </td>
                         </tr>
                       </tbody>
@@ -709,12 +770,24 @@
                   class="next-btn-box d-flex align-items-center justify-content-between"
                 >
                   <button
-                    class="btn btn-outline-secondary btn-round previous-btn"
+                    class="btn previousBtn previous-btn"
                     type="button"
                     (click)="backPage()"
                   >
-                    <span *ngIf="!isPreviousLoading"
-                      ><i class="bi bi-arrow-left"></i> Previous</span
+                    <span *ngIf="!isPreviousLoading">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="22"
+                        height="22"
+                        viewBox="0 0 22 22"
+                        fill="none"
+                      >
+                        <path
+                          d="M19.75 10.6714C19.75 10.8588 19.6914 11.011 19.5743 11.1281C19.4572 11.2452 19.305 11.3038 19.1177 11.3038H3.59011L7.73547 15.4491C7.87599 15.5896 7.94625 15.7536 7.94625 15.9409C7.94625 16.1283 7.87599 16.2805 7.73547 16.3976C7.59495 16.5147 7.43101 16.5733 7.24365 16.5733C7.05628 16.5733 6.89234 16.5264 6.75182 16.4328L1.48229 11.1632C1.38861 11.0227 1.34177 10.8588 1.34177 10.6714C1.34177 10.484 1.38861 10.3201 1.48229 10.1796L6.75182 4.91005C6.89234 4.81637 7.05628 4.76953 7.24365 4.76953C7.43101 4.76953 7.59495 4.82808 7.73547 4.94518C7.87599 5.06228 7.94625 5.21451 7.94625 5.40188C7.94625 5.58924 7.87599 5.75318 7.73547 5.8937L3.59011 10.0391H19.1177C19.305 10.0391 19.4572 10.0976 19.5743 10.2147C19.6914 10.3318 19.75 10.484 19.75 10.6714Z"
+                          fill="black"
+                        />
+                      </svg>
+                      Previous</span
                     >
 
                     <div class="dot-opacity-loader" *ngIf="isPreviousLoading">
@@ -723,15 +796,41 @@
                       <span></span>
                     </div>
                   </button>
-                  <button
-                    type="submit"
-                    class="btn btn-outline-primary btn-round"
-                    (click)="next()"
-                  >
+                  <button type="submit" class="btn nextBtn" (click)="next()">
                     <span *ngIf="!isNextloading"
                       >Next
-                      <i class="bi bi-arrow-right" style="padding-left: 8px"></i
-                    ></span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="25"
+                        height="25"
+                        viewBox="0 0 25 25"
+                        fill="none"
+                      >
+                        <mask
+                          id="mask0_2043_143"
+                          style="mask-type: alpha"
+                          maskUnits="userSpaceOnUse"
+                          x="0"
+                          y="0"
+                          width="25"
+                          height="25"
+                        >
+                          <rect
+                            x="0.921875"
+                            y="0.671875"
+                            width="24"
+                            height="24"
+                            fill="#D9D9D9"
+                          />
+                        </mask>
+                        <g mask="url(#mask0_2043_143)">
+                          <path
+                            d="M16.9359 13.5625H4V11.4375H16.9359L10.9859 5.4875L12.5 4L21 12.5L12.5 21L10.9859 19.5125L16.9359 13.5625Z"
+                            fill="#6666F2"
+                          />
+                        </g>
+                      </svg>
+                    </span>
                     <div class="dot-opacity-loader" *ngIf="isNextloading">
                       <span></span>
                       <span></span>
@@ -1095,63 +1194,68 @@
               </div>
             </div>
 
-            <div class="border-top p-3" *ngIf="showUserList">
-              <div
-                class="d-flex align-items-center justify-content-between persnol-details userList p-0 pt-3 pb-1"
-                *ngFor="let item of [].constructor(5)"
-              >
-                <div class="d-flex align-items-center gap-3">
-                  <div>
-                    <span class="userName">Y</span>
-                  </div>
-                  <div>
-                    <h5 class="alert-heading text-white font-13 mb-1">
-                      Mrinali Tiwari
-                    </h5>
-                    <div class="d-flex align-items-center gap-2">
-                      <p class="mb-0 text-white font-11">mrinali@gmail.com</p>
-                      <span class="error-spreter"></span>
-                      <p class="mb-0 text-white font-11">+91 2345678923</p>
+            <div
+              class="p-3"
+              style="border-top: 1px solid #ffffff3d !important"
+              *ngIf="showUserList"
+            >
+              <div class="manualemployList">
+                <div
+                  class="d-flex align-items-center justify-content-between persnol-details userList p-0 pt-3 pb-1"
+                  *ngFor="let item of [].constructor(5)"
+                >
+                  <div class="d-flex align-items-center gap-3">
+                    <div>
+                      <span class="userName">Y</span>
+                    </div>
+                    <div>
+                      <h5 class="alert-heading text-white font-13 mb-1">
+                        Mrinali Tiwari
+                      </h5>
+                      <div class="d-flex align-items-center gap-2">
+                        <p class="mb-0 text-white font-11">mrinali@gmail.com</p>
+                        <span class="error-spreter"></span>
+                        <p class="mb-0 text-white font-11">+91 2345678923</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="">
-                  <button class="btn p-0 addUserRemvo">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="22"
-                      height="23"
-                      viewBox="0 0 22 23"
-                      fill="none"
-                    >
-                      <mask
-                        id="mask0_1549_739"
-                        style="mask-type: alpha"
-                        maskUnits="userSpaceOnUse"
-                        x="0"
-                        y="0"
+                  <div class="">
+                    <button class="btn p-0 addUserRemvo">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
                         width="22"
                         height="23"
+                        viewBox="0 0 22 23"
+                        fill="none"
                       >
-                        <rect
-                          y="0.550781"
-                          width="21.8948"
-                          height="21.8948"
-                          fill="white"
-                        />
-                      </mask>
-                      <g mask="url(#mask0_1549_739)">
-                        <path
-                          d="M6.38529 19.7102C5.88353 19.7102 5.454 19.5315 5.09669 19.1742C4.73938 18.8169 4.56072 18.3874 4.56072 17.8856V6.02591H3.64844V4.20135H8.20985V3.28906H13.6836V4.20135H18.245V6.02591H17.3327V17.8856C17.3327 18.3874 17.154 18.8169 16.7967 19.1742C16.4394 19.5315 16.0099 19.7102 15.5081 19.7102H6.38529ZM15.5081 6.02591H6.38529V17.8856H15.5081V6.02591ZM8.20985 16.061H10.0344V7.85048H8.20985V16.061ZM11.859 16.061H13.6836V7.85048H11.859V16.061Z"
-                          fill="white"
-                        />
-                      </g>
-                    </svg>
-                    Remove
-                  </button>
+                        <mask
+                          id="mask0_1549_739"
+                          style="mask-type: alpha"
+                          maskUnits="userSpaceOnUse"
+                          x="0"
+                          y="0"
+                          width="22"
+                          height="23"
+                        >
+                          <rect
+                            y="0.550781"
+                            width="21.8948"
+                            height="21.8948"
+                            fill="white"
+                          />
+                        </mask>
+                        <g mask="url(#mask0_1549_739)">
+                          <path
+                            d="M6.38529 19.7102C5.88353 19.7102 5.454 19.5315 5.09669 19.1742C4.73938 18.8169 4.56072 18.3874 4.56072 17.8856V6.02591H3.64844V4.20135H8.20985V3.28906H13.6836V4.20135H18.245V6.02591H17.3327V17.8856C17.3327 18.3874 17.154 18.8169 16.7967 19.1742C16.4394 19.5315 16.0099 19.7102 15.5081 19.7102H6.38529ZM15.5081 6.02591H6.38529V17.8856H15.5081V6.02591ZM8.20985 16.061H10.0344V7.85048H8.20985V16.061ZM11.859 16.061H13.6836V7.85048H11.859V16.061Z"
+                            fill="white"
+                          />
+                        </g>
+                      </svg>
+                      Remove
+                    </button>
+                  </div>
                 </div>
               </div>
-
               <div class="d-flex align-items-center justify-content-end mt-2">
                 <span
                   *ngIf="showUserList"
@@ -1292,9 +1396,9 @@
             </div>
           </div>
           <div
-            class="modal-footer border-top d-flex align-items-center justify-content-between p-3"
+            class="modal-footer border-top d-flex align-items-center justify-content-end gap-2 p-3"
           >
-            <button (click)="addUser()" class="munal-add-more-btn">
+            <!-- <button (click)="addUser()" class="munal-add-more-btn">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="30"
@@ -1326,7 +1430,7 @@
                 </g>
               </svg>
               Add new user
-            </button>
+            </button> -->
 
             <button
               class="btn mannualSubmit"
