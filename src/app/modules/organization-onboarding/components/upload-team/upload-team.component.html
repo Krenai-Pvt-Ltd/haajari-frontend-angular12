@@ -686,6 +686,78 @@
                   class="next-btn-box d-flex align-items-center justify-content-between"
                 >
                   <button
+                    class="btn previousBtn previous-btn"
+                    type="button"
+                    (click)="backPage()"
+                  >
+                    <span *ngIf="!isPreviousLoading">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="22"
+                        height="22"
+                        viewBox="0 0 22 22"
+                        fill="none"
+                      >
+                        <path
+                          d="M19.75 10.6714C19.75 10.8588 19.6914 11.011 19.5743 11.1281C19.4572 11.2452 19.305 11.3038 19.1177 11.3038H3.59011L7.73547 15.4491C7.87599 15.5896 7.94625 15.7536 7.94625 15.9409C7.94625 16.1283 7.87599 16.2805 7.73547 16.3976C7.59495 16.5147 7.43101 16.5733 7.24365 16.5733C7.05628 16.5733 6.89234 16.5264 6.75182 16.4328L1.48229 11.1632C1.38861 11.0227 1.34177 10.8588 1.34177 10.6714C1.34177 10.484 1.38861 10.3201 1.48229 10.1796L6.75182 4.91005C6.89234 4.81637 7.05628 4.76953 7.24365 4.76953C7.43101 4.76953 7.59495 4.82808 7.73547 4.94518C7.87599 5.06228 7.94625 5.21451 7.94625 5.40188C7.94625 5.58924 7.87599 5.75318 7.73547 5.8937L3.59011 10.0391H19.1177C19.305 10.0391 19.4572 10.0976 19.5743 10.2147C19.6914 10.3318 19.75 10.484 19.75 10.6714Z"
+                          fill="black"
+                        />
+                      </svg>
+                      Previous</span
+                    >
+
+                    <div class="dot-opacity-loader" *ngIf="isPreviousLoading">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                  </button>
+                  <button type="submit" class="btn nextBtn" (click)="next()">
+                    <span *ngIf="!isNextloading"
+                      >Next
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="25"
+                        height="25"
+                        viewBox="0 0 25 25"
+                        fill="none"
+                      >
+                        <mask
+                          id="mask0_2043_143"
+                          style="mask-type: alpha"
+                          maskUnits="userSpaceOnUse"
+                          x="0"
+                          y="0"
+                          width="25"
+                          height="25"
+                        >
+                          <rect
+                            x="0.921875"
+                            y="0.671875"
+                            width="24"
+                            height="24"
+                            fill="#D9D9D9"
+                          />
+                        </mask>
+                        <g mask="url(#mask0_2043_143)">
+                          <path
+                            d="M16.9359 13.5625H4V11.4375H16.9359L10.9859 5.4875L12.5 4L21 12.5L12.5 21L10.9859 19.5125L16.9359 13.5625Z"
+                            fill="#6666F2"
+                          />
+                        </g>
+                      </svg>
+                    </span>
+                    <div class="dot-opacity-loader" *ngIf="isNextloading">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                  </button>
+                </div>
+                <!-- <div
+                  class="next-btn-box d-flex align-items-center justify-content-between"
+                >
+                  <button
                     class="btn btn-outline-secondary btn-round previous-btn"
                     type="button"
                     (click)="backPage()"
@@ -715,7 +787,7 @@
                       <span></span>
                     </div>
                   </button>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -1049,7 +1121,7 @@
 
                   <div class="total-people mt-4 d-flex align-items-center justify-content-between">
                     <h5 class="mb-0 alert-heading text-white font-18">{{ userList.length - 1 }} People</h5>
-                    <span *ngIf="!showUserList  && userList.length > 1" class="font-16 pointer" (click)="viewUserList()">
+                    <span *ngIf="!showUserList  && userList.length > 1" class="font-16 pointer" style="font-weight: 500" ngIg="viewMore" (click)="viewUserList()">
                       View <i class="bi bi-caret-down-fill"></i>
                     </span>
                   </div>
@@ -1078,12 +1150,13 @@
                 ></div>
               </div>
             </div>
+            <!-- {{showUserList}} -->
             <div
               class="p-3"
               style="border-top: 1px solid #ffffff3d !important"
-              *ngIf="showUserList"
+             
             >
-              <div class="manualemployList">
+              <div class="manualemployList" *ngIf="showUserList">
                 <div
                   class="d-flex align-items-center justify-content-between persnol-details userList p-0 pt-3 pb-1"
                   *ngFor="let user of userList | slice:0:-1; let i = index"
@@ -1103,6 +1176,36 @@
                   </div>
                   <div>
                     <button class="btn p-0 addUserRemvo" (click)="removeUser(i)">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="22"
+                        height="23"
+                        viewBox="0 0 22 23"
+                        fill="none"
+                      >
+                        <mask
+                          id="mask0_1549_739"
+                          style="mask-type: alpha"
+                          maskUnits="userSpaceOnUse"
+                          x="0"
+                          y="0"
+                          width="22"
+                          height="23"
+                        >
+                          <rect
+                            y="0.550781"
+                            width="21.8948"
+                            height="21.8948"
+                            fill="white"
+                          />
+                        </mask>
+                        <g mask="url(#mask0_1549_739)">
+                          <path
+                            d="M6.38529 19.7102C5.88353 19.7102 5.454 19.5315 5.09669 19.1742C4.73938 18.8169 4.56072 18.3874 4.56072 17.8856V6.02591H3.64844V4.20135H8.20985V3.28906H13.6836V4.20135H18.245V6.02591H17.3327V17.8856C17.3327 18.3874 17.154 18.8169 16.7967 19.1742C16.4394 19.5315 16.0099 19.7102 15.5081 19.7102H6.38529ZM15.5081 6.02591H6.38529V17.8856H15.5081V6.02591ZM8.20985 16.061H10.0344V7.85048H8.20985V16.061ZM11.859 16.061H13.6836V7.85048H11.859V16.061Z"
+                            fill="white"
+                          />
+                        </g>
+                      </svg>
                       Remove
                     </button>
                   </div>
@@ -1120,6 +1223,7 @@
                 ></span>
               </div>
             </div>
+          
             <div class="manualUploadForm p-3" *ngIf="!showUserList">
               <div class="row" *ngFor="let user of userList| slice:-1; let i = index">
                 <div class="col-md-12">
