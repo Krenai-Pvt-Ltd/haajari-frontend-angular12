@@ -90,27 +90,32 @@
 .company-information h5 {
   color: #000;
   font-weight: 600;
-  line-height: 24px;
+  line-height: 28px;
 }
 .company-information p {
-  color: #000;
+  color: #6b6b6b;
   font-weight: 300;
+  line-height: 17px;
 }
 
 .company-information svg {
-  width: 25px;
+  width: 30px;
   position: relative;
   top: -1px;
-  height: 20px;
+  height: 30px;
+}
+
+.company-information {
+  padding-top: 50px;
 }
 .pending-step h5 {
-  line-height: 40px;
+  line-height: 50px;
   color: rgba(153, 153, 153, 0.85);
   font-weight: 500;
 }
 
 .complete-step h5 {
-  line-height: 35px;
+  line-height: 30px;
   color: #000;
   font-weight: 500;
 }
@@ -121,22 +126,32 @@
 
 .sideBarStep-one {
   border-left: 4px solid #6666f2;
-  height: 25%;
+  height: 18%;
   position: absolute;
   left: 0px;
   top: 0px;
   transition: 1s;
 }
-.sideBarStep-one:after {
+/* .sideBarStep-one:after {
   content: "";
   position: absolute;
-  left: -20px;
+  left: -62px;
   bottom: 0px;
   border-top: none;
   border-left: none;
   border-right: 30px solid #6666f2;
   border-bottom: 30px solid transparent;
-  transform: rotate(44deg);
+  transform: rotate(50deg);
+  background-color: #6666f2;
+  width: 74px;
+  height: 38px;
+} */
+
+.sideBarStep-one img {
+  left: -5px;
+  position: absolute;
+  bottom: -10px;
+  width: 18px;
 }
 
 .sideBarStep-two {
@@ -147,4 +162,8 @@
 }
 .sideBarStep-fore {
   height: 60%;
+}
+
+.pending-step h5 svg {
+  width: 15px;
 }
