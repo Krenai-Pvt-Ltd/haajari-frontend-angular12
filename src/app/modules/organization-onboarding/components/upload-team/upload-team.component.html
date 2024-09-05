@@ -305,6 +305,34 @@
                     </div>
                   </div>
                 </div> -->
+                <div
+                  class="alert alert-light mb-0 mt-4 bg-soft-warning create-password-warning text-start"
+                  role="alert"
+                  *ngIf="
+                    alreadyUsedPhoneNumberArray.length > 0 ||
+                    alreadyUsedEmailArray.length > 0 ||
+                    isErrorToggle
+                  "
+                >
+                  <h4 class="alert-heading font-18">Attention!</h4>
+                  <p *ngIf="alreadyUsedPhoneNumberArray.length > 0">
+                    Phone Numbers:
+                    {{ formatAsCommaSeparated(alreadyUsedPhoneNumberArray) }}
+                  </p>
+                  <p *ngIf="alreadyUsedEmailArray.length > 0">
+                    Emails: {{ formatAsCommaSeparated(alreadyUsedEmailArray) }}
+                  </p>
+                  <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p>
+                  <!-- <div *ngFor="let pn of alreadyUsedPhoneNumberArray">
+                    {{ pn }}
+                  </div>
+                  <div *ngFor="let ea of alreadyUsedEmailArray">
+                    {{ ea }}
+                  </div> -->
+                  <p *ngIf="!isErrorToggle">
+                    These credentials are already registered with us!
+                  </p>
+                </div>
               </ng-container>
 
               <ng-container
@@ -419,12 +447,7 @@
                           class="btn add-excel"
                           (click)="fileInput.click()"
                         >
-                          <!-- <i
-                          *ngIf="!isProgressToggle"
-                          class="bi bi-file-earmark-excel"
-                          style="padding-right: 6px"
-                        ></i> -->
-
+                  
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="24"
@@ -506,6 +529,7 @@
                       "
                     >
                       <h4 class="alert-heading font-18">Attention!</h4>
+                  
                       <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p>
                       <p *ngIf="alreadyUsedPhoneNumberArray.length > 0">
                         Phone Numbers:
