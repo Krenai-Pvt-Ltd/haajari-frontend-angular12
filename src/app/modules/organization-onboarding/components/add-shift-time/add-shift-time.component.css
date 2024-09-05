@@ -157,4 +157,39 @@ button.btn.close-btn {
 
 .shift-TimingsAssist {
   background-color: #f6f6f6;
+  border-radius: 2px;
+}
+
+.bi::before,
+[class*=" bi-"]::before,
+[class^="bi-"]::before {
+  font-weight: 600 !important;
+}
+
+.shift-TimingsAssist svg {
+  width: 25px;
+  height: 25px;
+}
+
+.learn-more {
+  color: #6666f3;
+  font-size: 14px;
+  font-weight: 500;
+}
+.learn-more svg {
+  width: 15px;
+  height: 15px;
+}
+.AssistVideo {
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  border-radius: 0px 3px 3px 0px;
+}
+.playBtn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
 }
