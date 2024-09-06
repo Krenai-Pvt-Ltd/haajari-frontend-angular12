@@ -45,13 +45,13 @@ export class AddShiftTimeComponent implements OnInit {
   }
 
   backPage() {
-    if(this.isNoShiftCreated) {
-      this.isNoShiftCreated = false
-    }else {
-    this.checkShiftTimingExistsMethodCall();
-    }
-
+    // if(this.isNoShiftCreated) {
+    //   this.isNoShiftCreated = false
+    // }else {
     // this.checkShiftTimingExistsMethodCall();
+    // }
+
+    this.checkShiftTimingExistsMethodCall();
   }
 
   isAddShiftBackLoading: boolean = false;
