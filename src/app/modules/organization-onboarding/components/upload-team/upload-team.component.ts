@@ -166,13 +166,14 @@ export class UploadTeamComponent implements OnInit {
           console.log(this.onboardUserList.length);
           this.alreadyUsedPhoneNumberArray = response.arrayOfString;
           this.alreadyUsedEmailArray = response.arrayOfString2;
+          
         } else {
           this.importToggle = true;
           this.isErrorToggle = true;
           this.isProgressToggle = false;
           this.errorMessage = response.message;
         }
-
+        this.getOrgExcelLogLink();
         // this.importToggle = false;
       },
       (error) => {
@@ -234,6 +235,7 @@ export class UploadTeamComponent implements OnInit {
   }
   isManualUploadSubmitLoader: boolean = false;
   submit() {
+    debugger
     this.isManualUploadSubmitLoader = true;
     if (this.allUsersValid()) {
       this.create();
@@ -254,12 +256,26 @@ export class UploadTeamComponent implements OnInit {
 
   // Use this method to determine if all users are valid
   allUsersValid(): boolean {
+    debugger
     return (
       !this.isNumberExist &&
       !this.isEmailExist &&
-      this.userList.every((u) => this.isValidUser(u))
+      this.userList.slice(0, -1).every((u) => this.isValidUser(u))
     );
   }
+
+  currentUsersValid(): boolean {
+    debugger;
+    // const previousEntriesValid = this.userList.slice(0, -1).every((u) => this.isValidUser(u));
+    const lastEntryValid = this.isValidUser(this.userList[this.userList.length - 1]);
+  
+    return (
+      !this.isNumberExist &&
+      !this.isEmailExist &&
+      lastEntryValid
+    );
+  }
+
 
   resetManualUploadModal() {
     debugger;
@@ -284,7 +300,7 @@ export class UploadTeamComponent implements OnInit {
   createLoading: boolean = false;
   create() {
     debugger;
-    this.userListReq.userList = this.userList;
+    this.userListReq.userList = this.userList.slice(0, -1);
     this.createLoading = true;
     this._onboardingService.createOnboardUser(this.userListReq).subscribe(
       (response: any) => {
@@ -470,11 +486,41 @@ export class UploadTeamComponent implements OnInit {
 
   showUserList: boolean = false;
 
+  // viewUserList() {
+  //   if (this.showUserList == false) {
+  //     this.showUserList = true;
+  //   } else {
+  //     this.showUserList = false;
+  //   }
+  // }
+
   viewUserList() {
-    if (this.showUserList == false) {
-      this.showUserList = true;
-    } else {
-      this.showUserList = false;
+    this.showUserList = !this.showUserList;
+  }
+
+  excelLogLink!: string;
+  getOrgExcelLogLink() {
+    this.excelLogLink = '';
+    this.dataService.getOrgExcelLogLink().subscribe(
+      (response) => {
+        this.excelLogLink = response.object;
+        console.log('excelLink ' + response.object);
+      },
+      (error) => {
+        console.log('error');
+      }
+    );
+  }
+
+  downloadExcelLog() {
+    if (this.excelLogLink) {
+      const link = document.createElement('a');
+      link.href = this.excelLogLink;
+      link.setAttribute('download', 'Organization_Excel_Log.xlsx'); // Set file name
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
   }
+  
 }
