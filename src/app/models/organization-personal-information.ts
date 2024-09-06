@@ -19,3 +19,16 @@ export class OrganizationPersonalInformation {
 //   organizationPic!: any; 
   organization: Organization=new Organization();
 }
+
+export class OrganizationPersonalInformationMain {
+
+  id: number=0;
+  adminName: string = '';
+  name: string='';
+  email: string='';
+  password: string='';
+  logo: string='';
+  phoneNumber: string='';
+//   organizationPic!: any; 
+  organization: Organization=new Organization();
+}

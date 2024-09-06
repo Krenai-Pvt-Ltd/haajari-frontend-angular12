@@ -20,12 +20,11 @@
                   <h4 class="card-title-headding mb-1">
                     Provide Your Employee Information
                   </h4>
-                  <p class="mb-0 font-11">
+                  <p class="mb-0">
                     Please ensure that all fields are completed accurately to
                     create and maintain precise employee records. This will
-                    ensure smooth HR operations and effective management of
-                    <br />
-                    your workforce.
+                    ensure smooth HR operations and effective management of your
+                    workforce.
                   </p>
                 </div>
               </div>
@@ -43,7 +42,7 @@
                       <h4 class="alert-heading font-14">
                         Download the Sample Excel File!
                       </h4>
-                      <p class="mb-0 font-11">
+                      <p class="mb-0">
                         Use this Excel template to organize and input your
                         employee data correctly. Review the sample structure to
                         avoid errors.
@@ -99,14 +98,14 @@
                           />
                         </div>
                         <div
-                          class="d-flex align-items-center attentionList justify-content-between"
+                          class="d-flex align-items-center justify-content-between"
                           style="width: 85%"
                         >
                           <div>
                             <h5 class="alert-heading font-15 mb-2">
                               Upload Employee Data via Excel
                             </h5>
-                            <p class="mb-0 font-11">
+                            <p class="mb-0">
                               Streamline the process by uploading your organized
                               employee data directly <br />
                               from the Excel sheet
@@ -117,6 +116,20 @@
                               class="btn excelUploadBtn"
                               onclick="document.getElementById('fileSelect').click();"
                             >
+                            <!-- <div
+                            *ngIf="isProgressToggle"
+                            class="spinner-border text-success"
+                            role="status"
+                            ></div> -->
+                            <!-- <div class="spinner-border text-light" role="status" *ngIf="isProgressToggle">
+                              <span class="sr-only">Loading...</span>
+                            </div> -->
+                            <div class="dot-opacity-loader" *ngIf="isProgressToggle">
+                              <span></span>
+                              <span></span>
+                              <span></span>
+                            </div>
+                             <span *ngIf="!isProgressToggle">
                               Excel Upload
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -149,6 +162,7 @@
                                   />
                                 </g>
                               </svg>
+                            </span>
                             </button>
                             <input
                               id="fileSelect"
@@ -176,14 +190,14 @@
                           />
                         </div>
                         <div
-                          class="d-flex align-items-center attentionList justify-content-between"
+                          class="d-flex align-items-center justify-content-between"
                           style="width: 85%"
                         >
                           <div>
                             <h5 class="alert-heading font-15 mb-2">
                               Manually Enter Employee Details
                             </h5>
-                            <p class="mb-0 font-11">
+                            <p class="mb-0">
                               Add employee details individually if you prefer to
                               build a <br />
                               customized and specific list tailored to your
@@ -235,7 +249,35 @@
                     </div>
                   </div>
                 </div>
-                <div
+
+                <!-- <div class="col-md-4">
+                  <div class="card-body mt-0 bg-soft-warning">
+                    <div class="pt-3">
+                      <img
+                        src="assets/images/small/business.png"
+                        alt=""
+                        class="img-fluid px-3 mb-2"
+                      />
+                      <footer class="blockquote-footer font-14">
+                        Efficiency Redefined:
+                        <cite title="Source Title"
+                          >Seamlessly Create Employees in Your Hajiri System
+                        </cite>
+                      </footer>
+                      <div class="py-2">
+                        <button
+                          class="btn btn-outline-primary btn-square"
+                          data-bs-toggle="modal"
+                          data-bs-target="#munal-upload"
+                          type="button"
+                        >
+                          Click Here To Create
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+                <!-- <div
                   class="alert alert-light mb-0 mt-4 bg-soft-warning create-password-warning text-start"
                   role="alert"
                   *ngIf="
@@ -257,7 +299,7 @@
                   <p *ngIf="!isErrorToggle">
                     These credentials are already registered with us!
                   </p>
-                </div>
+                </div> -->
               </ng-container>
 
               <ng-container
@@ -379,6 +421,7 @@
                             height="24"
                             viewBox="0 0 24 24"
                             fill="none"
+                            *ngIf="!isProgressToggle"
                           >
                             <mask
                               id="mask0_1549_4381"
@@ -443,7 +486,7 @@
                         </button>
                       </div>
                     </div>
-                    <div
+                    <!-- <div
                       class="alert alert-light mb-0 mt-4 bg-soft-warning create-password-warning text-start"
                       role="alert"
                       *ngIf="
@@ -468,7 +511,7 @@
                       <p *ngIf="!isErrorToggle">
                         These credentials are already registered with us!
                       </p>
-                    </div>
+                    </div> -->
                     <table class="table table-striped">
                       <thead class="thead-light">
                         <tr>
@@ -507,78 +550,18 @@
                           </td>
 
                           <td
-                            class="d-flex align-items-center justify-content-center editDeleteBtn gap-2"
+                            class="d-flex align-items-center justify-content-center gap-2"
                           >
                             <a
                               *ngIf="onboardingViaString != 'SLACK'"
                               (click)="openUserEditModal(onboardUser)"
-                            >
-                              <!-- <i class="las la-pen text-primary font-16"></i> -->
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="25"
-                                height="25"
-                                viewBox="0 0 25 25"
-                                fill="none"
-                              >
-                                <mask
-                                  id="mask0_2026_656"
-                                  style="mask-type: alpha"
-                                  maskUnits="userSpaceOnUse"
-                                  x="0"
-                                  y="0"
-                                  width="25"
-                                  height="25"
-                                >
-                                  <rect
-                                    x="0.429688"
-                                    y="0.378906"
-                                    width="23.7026"
-                                    height="23.7026"
-                                    fill="#D9D9D9"
-                                  />
-                                </mask>
-                                <g mask="url(#mask0_2026_656)">
-                                  <path
-                                    d="M5.36584 19.1416H6.77319L16.4271 9.48771L15.0197 8.08037L5.36584 17.7342V19.1416ZM3.39062 21.1168V16.9195L16.4271 3.90772C16.6246 3.72666 16.8427 3.58675 17.0814 3.48799C17.32 3.38922 17.571 3.33984 17.8344 3.33984C18.0978 3.33984 18.3529 3.38922 18.5998 3.48799C18.8467 3.58675 19.0607 3.73489 19.2418 3.93241L20.5997 5.31506C20.7972 5.49612 20.9413 5.71011 21.0318 5.95701C21.1223 6.20391 21.1676 6.45081 21.1676 6.69772C21.1676 6.96108 21.1223 7.2121 21.0318 7.45077C20.9413 7.68944 20.7972 7.90754 20.5997 8.10506L7.58796 21.1168H3.39062ZM15.7111 8.79639L15.0197 8.08037L16.4271 9.48771L15.7111 8.79639Z"
-                                    fill="#6666F2"
-                                  />
-                                </g>
-                              </svg>
-                            </a>
-                            <a (click)="deleteUser(onboardUser.id)">
-                              <!-- <i class="las la-trash-alt text-danger font-16" ></i> -->
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                              >
-                                <mask
-                                  id="mask0_2026_632"
-                                  style="mask-type: alpha"
-                                  maskUnits="userSpaceOnUse"
-                                  x="0"
-                                  y="0"
-                                  width="24"
-                                  height="24"
-                                >
-                                  <rect
-                                    y="0.269531"
-                                    width="23.7026"
-                                    height="23.7026"
-                                    fill="#D9D9D9"
-                                  />
-                                </mask>
-                                <g mask="url(#mask0_2026_632)">
-                                  <path
-                                    d="M6.91595 21.0074C6.37277 21.0074 5.90777 20.814 5.52095 20.4272C5.13414 20.0404 4.94073 19.5754 4.94073 19.0322V6.1933H3.95312V4.21808H8.89117V3.23047H14.8168V4.21808H19.7549V6.1933H18.7673V19.0322C18.7673 19.5754 18.5739 20.0404 18.187 20.4272C17.8002 20.814 17.3352 21.0074 16.792 21.0074H6.91595ZM16.792 6.1933H6.91595V19.0322H16.792V6.1933ZM8.89117 17.057H10.8664V8.16852H8.89117V17.057ZM12.8416 17.057H14.8168V8.16852H12.8416V17.057Z"
-                                    fill="#FF0404"
-                                  />
-                                </g>
-                              </svg>
-                            </a>
+                              ><i class="las la-pen text-primary font-16"></i
+                            ></a>
+                            <a (click)="deleteUser(onboardUser.id)"
+                              ><i
+                                class="las la-trash-alt text-danger font-16"
+                              ></i
+                            ></a>
                           </td>
                         </tr>
                       </tbody>
@@ -621,6 +604,10 @@
                 <div
                   class="excel-file-error d-flex align-items-center justify-content-between"
                   style="background-image: url(../assets/images/vector-3.svg)"
+                  *ngIf="
+                  alreadyUsedPhoneNumberArray.length > 0 ||
+                  alreadyUsedEmailArray.length > 0 ||
+                  isErrorToggle"
                 >
                   <div class="d-flex align-items-center gap-3 previous-btn">
                     <div>
@@ -644,21 +631,25 @@
                         here.
                       </h5>
                       <div class="d-flex align-items-center gap-2">
-                        <p class="mb-0 font-11">
+                        <p class="mb-0 font-11" *ngIf="alreadyUsedPhoneNumberArray.length > 0">
                           <b>Duplicate phone number</b>
                         </p>
                         <span class="error-spreter"></span>
-                        <p class="mb-0 font-11">
+                        <p class="mb-0 font-11" *ngIf="alreadyUsedEmailArray.length > 0">
                           <b>Duplicate email id :</b> You can check this error
                           log here.
                         </p>
+                        <P class="mb-0 font-11" *ngIf="isErrorToggle">
+                          <b>Error :</b> {{errorMessage}}
+                        </P>
                       </div>
                     </div>
                   </div>
-                  <div class="">
+                  <div class="" *ngIf="excelLogLink">
                     <button
                       class="btn download-eroor"
                       style="margin-right: 15px"
+                      (click)="downloadExcelLog()"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -767,6 +758,40 @@
                     </div>
                   </button>
                 </div>
+                <!-- <div
+                  class="next-btn-box d-flex align-items-center justify-content-between"
+                >
+                  <button
+                    class="btn btn-outline-secondary btn-round previous-btn"
+                    type="button"
+                    (click)="backPage()"
+                  >
+                    <span *ngIf="!isPreviousLoading"
+                      ><i class="bi bi-arrow-left"></i> Previous</span
+                    >
+
+                    <div class="dot-opacity-loader" *ngIf="isPreviousLoading">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                  </button>
+                  <button
+                    type="submit"
+                    class="btn btn-outline-primary btn-round"
+                    (click)="next()"
+                  >
+                    <span *ngIf="!isNextloading"
+                      >Next
+                      <i class="bi bi-arrow-right" style="padding-left: 8px"></i
+                    ></span>
+                    <div class="dot-opacity-loader" *ngIf="isNextloading">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                  </button>
+                </div> -->
               </div>
             </div>
           </div>
@@ -1098,7 +1123,14 @@
                     personalized and accurate employee list
                   </p>
 
-                  <div
+                  <div class="total-people mt-4 d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0 alert-heading text-white font-18">{{ userList.length - 1 }} People</h5>
+                    <span *ngIf="!showUserList  && userList.length > 1" class="font-16 pointer" style="font-weight: 500" ngIg="viewMore" (click)="viewUserList()">
+                      View <i class="bi bi-caret-down-fill"></i>
+                    </span>
+                  </div>
+
+                  <!-- <div
                     class="total-people mt-4 d-flex align-items-center justify-content-between"
                   >
                     <h5 class="mb-0 alert-heading text-white font-18">
@@ -1112,7 +1144,7 @@
                       (click)="viewUserList()"
                       >View <i class="bi bi-caret-down-fill"></i
                     ></span>
-                  </div>
+                  </div> -->
                 </div>
               </div>
               <div class="col-md-4">
@@ -1122,33 +1154,32 @@
                 ></div>
               </div>
             </div>
+            <!-- {{showUserList}} -->
             <div
               class="p-3"
-              style="border-top: 1px solid #ffffff3d !important"
-              *ngIf="showUserList"
+              style="border-top: 1px solid #ffffff3d !important"  *ngIf="showUserList"
+             
             >
               <div class="manualemployList">
                 <div
                   class="d-flex align-items-center justify-content-between persnol-details userList p-0 pt-3 pb-1"
-                  *ngFor="let item of [].constructor(5)"
+                  *ngFor="let user of userList | slice:0:-1; let i = index"
                 >
                   <div class="d-flex align-items-center gap-3">
                     <div>
-                      <span class="userName">Y</span>
+                      <span class="userName">{{ user.name.charAt(0).toUpperCase() }}</span>
                     </div>
                     <div>
-                      <h5 class="alert-heading text-white font-13 mb-1">
-                        Mrinali Tiwari
-                      </h5>
+                      <h5 class="alert-heading text-white font-13 mb-1">{{ user.name }}</h5>
                       <div class="d-flex align-items-center gap-2">
-                        <p class="mb-0 text-white font-11">mrinali@gmail.com</p>
+                        <p class="mb-0 text-white font-11">{{ user.email || 'N/A'}}</p>
                         <span class="error-spreter"></span>
-                        <p class="mb-0 text-white font-11">+91 2345678923</p>
+                        <p class="mb-0 text-white font-11">{{ user.phone }}</p>
                       </div>
                     </div>
                   </div>
-                  <div class="">
-                    <button class="btn p-0 addUserRemvo">
+                  <div>
+                    <button class="btn p-0 addUserRemvo" (click)="removeUser(i)">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="22"
@@ -1183,7 +1214,7 @@
                     </button>
                   </div>
                 </div>
-              </div>
+
               <div class="d-flex align-items-center justify-content-end mt-2">
                 <span
                   *ngIf="showUserList"
@@ -1196,135 +1227,137 @@
                 ></span>
               </div>
             </div>
-            <div class="manualUploadForm p-3" *ngIf="!showUserList">
-              <div class="row" *ngFor="let user of userList; let i = index">
-                <div class="col-md-12">
-                  <div class="mb-3">
-                    <label class="mb-2">
-                      Employee Name <span class="text-optional">*</span></label
+          
+           
+          </div>
+          <div class="manualUploadForm p-3" *ngIf="!showUserList">
+            <div class="row" *ngFor="let user of userList| slice:-1; let i = index">
+              <div class="col-md-12">
+                <div class="mb-3">
+                  <label class="mb-2">
+                    Employee Name <span class="text-optional">*</span></label
+                  >
+                  <input
+                    type="text"
+                    name="userName{{ i }}"
+                    [(ngModel)]="user.name"
+                    class="form-control profile-input"
+                    placeholder="Enter Employee Name"
+                    #name="ngModel"
+                    minlength="3"
+                    required
+                  />
+                  <div *ngIf="name?.dirty || isFormInvalid">
+                    <p
+                      class="errortxt mt-2 mb-2"
+                      *ngIf="name.errors?.required"
                     >
-                    <input
-                      type="text"
-                      name="userName{{ i }}"
-                      [(ngModel)]="user.name"
-                      class="form-control profile-input"
-                      placeholder="Enter Employee Name"
-                      #name="ngModel"
-                      minlength="3"
-                      required
-                    />
-                    <div *ngIf="name?.dirty || isFormInvalid">
-                      <p
-                        class="errortxt mt-2 mb-2"
-                        *ngIf="name.errors?.required"
-                      >
-                        <i class="bi bi-exclamation-circle"></i> Name is
-                        required.
-                      </p>
-                      <p
-                        class="errortxt mt-2 mb-2"
-                        *ngIf="name.errors?.minlength"
-                      >
-                        <i class="bi bi-exclamation-circle"></i> Please enter a
-                        valid name.
-                      </p>
-                    </div>
+                      <i class="bi bi-exclamation-circle"></i> Name is
+                      required.
+                    </p>
+                    <p
+                      class="errortxt mt-2 mb-2"
+                      *ngIf="name.errors?.minlength"
+                    >
+                      <i class="bi bi-exclamation-circle"></i> Please enter a
+                      valid name.
+                    </p>
                   </div>
                 </div>
-                <div class="col-md-12">
-                  <div class="mb-3">
-                    <label class="mb-2"
-                      >Phone Number <span class="text-optional">*</span></label
-                    >
-                    <input
-                      type="tel"
-                      name="userPhone{{ i }}"
-                      [(ngModel)]="user.phone"
-                      placeholder="Enter Whatsapp Number"
-                      minlength="10"
-                      maxlength="10"
-                      class="form-control profile-input"
-                      (keyup)="checkNumberExistance(i, user.phone, user.uuid)"
-                      #phone="ngModel"
-                      required
-                    />
+              </div>
+              <div class="col-md-12">
+                <div class="mb-3">
+                  <label class="mb-2"
+                    >Phone Number <span class="text-optional">*</span></label
+                  >
+                  <input
+                    type="tel"
+                    name="userPhone{{ i }}"
+                    [(ngModel)]="user.phone"
+                    placeholder="Enter Whatsapp Number"
+                    minlength="10"
+                    maxlength="10"
+                    class="form-control profile-input"
+                    (keyup)="checkNumberExistance(i, user.phone, user.uuid)"
+                    #phone="ngModel"
+                    required
+                  />
+                  <p
+                    *ngIf="userList[i].isPhoneExist"
+                    class="error text-muted"
+                  >
+                    <i class="bi bi-exclamation-circle"></i> Phone number is
+                    already exist.
+                  </p>
+                  <div *ngIf="phone?.dirty || isFormInvalid">
                     <p
-                      *ngIf="userList[i].isPhoneExist"
-                      class="error text-muted"
+                      class="errortxt mt-2 mb-2"
+                      *ngIf="phone.errors?.required"
                     >
                       <i class="bi bi-exclamation-circle"></i> Phone number is
-                      already exist.
+                      required.
                     </p>
-                    <div *ngIf="phone?.dirty || isFormInvalid">
-                      <p
-                        class="errortxt mt-2 mb-2"
-                        *ngIf="phone.errors?.required"
-                      >
-                        <i class="bi bi-exclamation-circle"></i> Phone numer is
-                        required.
-                      </p>
-                      <p
-                        class="errortxt mt-2 mb-2"
-                        *ngIf="phone.errors?.minlength"
-                      >
-                        <i class="bi bi-exclamation-circle"></i> Please enter a
-                        valid phone no.
-                      </p>
-                    </div>
+                    <p
+                      class="errortxt mt-2 mb-2"
+                      *ngIf="phone.errors?.minlength"
+                    >
+                      <i class="bi bi-exclamation-circle"></i> Please enter a
+                      valid phone no.
+                    </p>
                   </div>
                 </div>
-                <div class="col-md-12">
-                  <div class="mb-3">
-                    <label class="mb-2"
-                      >Email Id <span class="text-optional">*</span></label
-                    >
-                    <input
-                      type="email"
-                      name="userEmail{{ i }}"
-                      [(ngModel)]="user.email"
-                      #email="ngModel"
-                      pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}"
-                      placeholder="Enter Email"
-                      class="form-control profile-input"
-                      (keyup)="checkEmailExistance(i, user.email, user.uuid)"
-                    />
+              </div>
+              <div class="col-md-12">
+                <div class="mb-3">
+                  <label class="mb-2"
+                    >Email Id</label
+                  >
+                  <input
+                    type="email"
+                    name="userEmail{{ i }}"
+                    [(ngModel)]="user.email"
+                    #email="ngModel"
+                    pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}"
+                    placeholder="Enter Email"
+                    class="form-control profile-input"
+                    (keyup)="checkEmailExistance(i, user.email, user.uuid)"
+                  />
+                  <p
+                    *ngIf="userList[i].isEmailExist"
+                    class="error text-muted"
+                  >
+                    This email already exist.
+                  </p>
+                  <div *ngIf="email?.dirty || isFormInvalid">
                     <p
-                      *ngIf="userList[i].isEmailExist"
-                      class="error text-muted"
+                      class="errortxt mt-2 mb-2"
+                      *ngIf="email.errors?.required"
                     >
-                      This email already exist.
+                      <i class="bi bi-exclamation-circle"></i> Email Id is
+                      required.
                     </p>
-                    <div *ngIf="email?.dirty || isFormInvalid">
-                      <p
-                        class="errortxt mt-2 mb-2"
-                        *ngIf="email.errors?.required"
-                      >
-                        <i class="bi bi-exclamation-circle"></i> Email Id is
-                        required.
-                      </p>
-                      <p class="errortxt mt-2 mb-2" *ngIf="email.errors?.email">
-                        <i class="bi bi-exclamation-circle"></i> Please enter a
-                        valid email.
-                      </p>
-                      <p class="errortxt mb-2" *ngIf="email.errors?.pattern">
-                        <i class="bi bi-exclamation-circle"></i> Please enter a
-                        valid email.
-                      </p>
-                    </div>
-                    <div
-                      class="leave-delet-btn pointer position-absolute"
-                      (click)="removeUser(i)"
-                      *ngIf="i > 0"
-                    >
-                      <i class="bi bi-trash"></i>
-                    </div>
+                    <p class="errortxt mt-2 mb-2" *ngIf="email.errors?.email">
+                      <i class="bi bi-exclamation-circle"></i> Please enter a
+                      valid email.
+                    </p>
+                    <p class="errortxt mb-2" *ngIf="email.errors?.pattern">
+                      <i class="bi bi-exclamation-circle"></i> Please enter a
+                      valid email.
+                    </p>
                   </div>
+                  <!-- <div
+                    class="leave-delet-btn pointer position-absolute"
+                    (click)="removeUser(i)"
+                    *ngIf="i > 0"
+                  >
+                    <i class="bi bi-trash"></i>
+                  </div> -->
                 </div>
               </div>
             </div>
           </div>
           <div
-            class="modal-footer border-top d-flex align-items-center justify-content-end gap-2 p-3"
+            class="modal-footer border-top d-flex align-items-center justify-content-between p-3 bg-white"
           >
             <!-- <button (click)="addUser()" class="munal-add-more-btn">
               <svg
@@ -1363,9 +1396,16 @@
             <button
               class="btn mannualSubmit"
               (click)="submit()"
-              [disabled]="!allUsersValid()"
+              [disabled]="this.userList.length < 2"
             >
               Submit
+            </button>
+            <button
+              class="btn mannualSubmit"
+              (click)="addUser()"
+              [disabled]="!currentUsersValid()"
+            >
+              Save And Add New
             </button>
           </div>
         </div>
