@@ -101,7 +101,12 @@
                 >
                   <div class="text-center position-relative">
                     <img src="assets/images/video-img.svg" style="width: 75%" />
-                    <span class="playBtn">
+                    <span
+                      class="playBtn pointer"
+                      type="button"
+                      data-bs-toggle="modal"
+                      data-bs-target="#video-modal"
+                    >
                       <img src="assets/images/play-btn.svg" />
                     </span>
                   </div>
@@ -1216,17 +1221,29 @@
               >
                 <button
                   type="submit"
-                  class="btn btn-outline-secondary btn-round previous-btn"
+                  class="btn previousBtn previous-btn"
                   (click)="backToShiftTime()"
                 >
-                  <span
-                    ><i class="bi bi-arrow-left" style="padding-left: 8px"></i>
+                  <span>
+                    <!-- <i class="bi bi-arrow-left" style="padding-left: 8px"></i> -->
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="22"
+                      height="22"
+                      viewBox="0 0 22 22"
+                      fill="none"
+                    >
+                      <path
+                        d="M19.75 10.6714C19.75 10.8588 19.6914 11.011 19.5743 11.1281C19.4572 11.2452 19.305 11.3038 19.1177 11.3038H3.59011L7.73547 15.4491C7.87599 15.5896 7.94625 15.7536 7.94625 15.9409C7.94625 16.1283 7.87599 16.2805 7.73547 16.3976C7.59495 16.5147 7.43101 16.5733 7.24365 16.5733C7.05628 16.5733 6.89234 16.5264 6.75182 16.4328L1.48229 11.1632C1.38861 11.0227 1.34177 10.8588 1.34177 10.6714C1.34177 10.484 1.38861 10.3201 1.48229 10.1796L6.75182 4.91005C6.89234 4.81637 7.05628 4.76953 7.24365 4.76953C7.43101 4.76953 7.59495 4.82808 7.73547 4.94518C7.87599 5.06228 7.94625 5.21451 7.94625 5.40188C7.94625 5.58924 7.87599 5.75318 7.73547 5.8937L3.59011 10.0391H19.1177C19.305 10.0391 19.4572 10.0976 19.5743 10.2147C19.6914 10.3318 19.75 10.484 19.75 10.6714Z"
+                        fill="black"
+                      />
+                    </svg>
                     Back
                   </span>
                 </button>
                 <button
                   type="submit"
-                  class="btn btn-outline-primary btn-round"
+                  class="btn nextBtn"
                   [disabled]="
                     shiftForm.invalid || this.selectedStaffsUuids.length < 1
                   "
@@ -1234,8 +1251,39 @@
                 >
                   <span>
                     Create Shift Time
-                    <i class="bi bi-arrow-right" style="padding-left: 8px"></i
-                  ></span>
+                    <!-- <i class="bi bi-arrow-right" style="padding-left: 8px"></i> -->
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="25"
+                      height="25"
+                      viewBox="0 0 25 25"
+                      fill="none"
+                    >
+                      <mask
+                        id="mask0_2043_143"
+                        style="mask-type: alpha"
+                        maskUnits="userSpaceOnUse"
+                        x="0"
+                        y="0"
+                        width="25"
+                        height="25"
+                      >
+                        <rect
+                          x="0.921875"
+                          y="0.671875"
+                          width="24"
+                          height="24"
+                          fill="#D9D9D9"
+                        />
+                      </mask>
+                      <g mask="url(#mask0_2043_143)">
+                        <path
+                          d="M16.9359 13.5625H4V11.4375H16.9359L10.9859 5.4875L12.5 4L21 12.5L12.5 21L10.9859 19.5125L16.9359 13.5625Z"
+                          fill="#6666F2"
+                        />
+                      </g>
+                    </svg>
+                  </span>
                 </button>
               </div>
             </div>
@@ -1245,3 +1293,50 @@
     </div>
   </div>
 </div>
+
+<!--video Modal -->
+<div
+  class="modal fade"
+  id="video-modal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  data-bs-backdrop="static"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-dialog-centered"
+    role="document"
+    style="max-width: 800px"
+  >
+    <div class="modal-content">
+      <div
+        class="modal-body p-0"
+        id="youtube-video"
+        style="border: 2px solid #fff; height: 504px"
+      >
+        <div class="closebtn">
+          <button
+            type="button"
+            id="close_one"
+            onclick="stop()"
+            class="close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+            style="top: -15px; right: -15px"
+          >
+            <i class="bi bi-x"></i>
+          </button>
+        </div>
+        <iframe
+          width="100%"
+          id="videoId"
+          height="500"
+          src="https://www.youtube.com/embed/m1vxzFLCwCI?si=PrImOedKUTzaaTkY"
+          title="YouTube video player"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+<!--video Modal -->
