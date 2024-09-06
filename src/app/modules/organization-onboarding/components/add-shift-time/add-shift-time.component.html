@@ -176,10 +176,11 @@
                                         width: 100%;
                                       "
                                     >
-                                      {{
+                                      <!-- {{
                                         selectedShiftType?.name ||
                                           "Select shift type"
-                                      }}
+                                      }} -->
+                                        Day
                                       <i class="bi bi-chevron-down"></i>
                                     </button>
                                     <ul
@@ -187,14 +188,20 @@
                                       aria-labelledby="dropdownMenuButton1"
                                       style="width: 100%"
                                     >
-                                      <li *ngFor="let shiftType of shiftTypeList">
+                                     <li> <a
+                                      class="dropdown-item" 
+                                    >
+                                    Day   
+                                    </a> </li>
+                                      <!-- <li *ngFor="let shiftType of shiftTypeList">
                                         <a
                                           class="dropdown-item"
                                           (click)="selectShiftType(shiftType)"
                                         >
                                           {{ shiftType.name }}
+                                           
                                         </a>
-                                      </li>
+                                      </li> -->
                                     </ul>
                                   </div>
                                 </div>
@@ -790,12 +797,22 @@
 
                                         <div
                                           class="d-flex align-items-center gap-3"
-                                          *ngIf="selectedStaffsUuids.length !== 0"
+                                          *ngIf="selectedStaffsUuids.length == 0"
                                         >
                                           <p class="mb-0" style="font-weight: 400">
-                                            <span class="text-primary"> 1523 </span>
+                                            <span class="text-primary"> {{ total }} </span>
                                             Employees Add
                                           </p>
+                                          </div>
+
+                                        <div
+                                          class="d-flex align-items-center gap-3"
+                                          *ngIf="selectedStaffsUuids.length !== 0"
+                                        >
+                                          <!-- <p class="mb-0" style="font-weight: 400">
+                                            <span class="text-primary"> {{ total }} </span>
+                                            Employees Add
+                                          </p> -->
                                           <p class="mb-0" style="font-weight: 400">
                                             All
                                             <span class="text-primary">
@@ -806,6 +823,7 @@
                                           <p
                                             class="mb-0 selectAll"
                                             style="font-weight: 400"
+                                           (click)="selectAll(true)" 
                                           >
                                             Select all
                                             <span class="text-primary">
@@ -814,7 +832,7 @@
                                             Employees
                                           </p>
                                           <span class="error-spreter"></span>
-                                          <button class="p-0 btn removeBtn pointer">
+                                          <button class="p-0 btn removeBtn pointer" (click)="unselectAllUsers()">
                                             <svg
                                               xmlns="http://www.w3.org/2000/svg"
                                               width="24"
@@ -1071,7 +1089,7 @@
                   </div>
                 </div>
               </div>
-              <!-- <div class="col-md-12 mb-3">
+          <!-- <div class="col-md-12 mb-3">
             <div
               class="alert alert-light mb-0 mt-4 bg-soft-warning"
               role="alert"
