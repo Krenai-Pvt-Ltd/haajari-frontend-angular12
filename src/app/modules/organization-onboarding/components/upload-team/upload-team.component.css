@@ -149,12 +149,17 @@ p.tableinfo.mb-0 {
   background-color: rgba(244, 247, 255, 0.5) !important;
 }
 .excelUploadBtn {
-  background-color: #6666f2;
+  /* background-color: #6666f2;
   color: #fff;
   font-size: 12px;
   font-weight: 500;
+  border-radius: 2px; */
+  /* min-width: 150px; */
+  background-color: transparent;
+  color: #6666f2;
+  font-size: 14px;
+  font-weight: 500;
   border-radius: 2px;
-  min-width: 150px;
 }
 .excelUploadBtn svg {
   position: relative;
@@ -275,4 +280,24 @@ p.tableinfo.mb-0 {
   font-weight: 500;
     font-size: 13px;
     margin: 0;
+}
+.excel-uplode-file-box {
+  padding-right: 40px;
+}
+.delete-text h5 {
+  line-height: 26px;
+}
+
+.edit-delet-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.submit-add-more {
+  background-color: #fbfbfb;
+  border: 1px solid #e6e7e9;
+  border-radius: 2px;
+  color: #4a4a4a;
+  font-size: 12px;
+  font-weight: 500;
 }

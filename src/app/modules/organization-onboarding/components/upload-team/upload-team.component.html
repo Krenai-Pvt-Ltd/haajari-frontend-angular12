@@ -91,7 +91,7 @@
                       <div
                         class="d-flex align-items-center justify-content-between gap-3"
                       >
-                        <div style="width: 15%">
+                        <div style="width: 14%">
                           <img
                             src="assets/images/excel-img.svg"
                             style="width: 100%"
@@ -116,53 +116,56 @@
                               class="btn excelUploadBtn"
                               onclick="document.getElementById('fileSelect').click();"
                             >
-                            <!-- <div
+                              <!-- <div
                             *ngIf="isProgressToggle"
                             class="spinner-border text-success"
                             role="status"
                             ></div> -->
-                            <!-- <div class="spinner-border text-light" role="status" *ngIf="isProgressToggle">
+                              <!-- <div class="spinner-border text-light" role="status" *ngIf="isProgressToggle">
                               <span class="sr-only">Loading...</span>
                             </div> -->
-                            <div class="dot-opacity-loader" *ngIf="isProgressToggle">
-                              <span></span>
-                              <span></span>
-                              <span></span>
-                            </div>
-                             <span *ngIf="!isProgressToggle">
-                              Excel Upload
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="22"
-                                height="22"
-                                viewBox="0 0 22 22"
-                                fill="none"
+                              <div
+                                class="dot-opacity-loader"
+                                *ngIf="isProgressToggle"
                               >
-                                <mask
-                                  id="mask0_1530_1347"
-                                  style="mask-type: alpha"
-                                  maskUnits="userSpaceOnUse"
-                                  x="0"
-                                  y="0"
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                              </div>
+                              <span *ngIf="!isProgressToggle">
+                                Excel Upload
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
                                   width="22"
                                   height="22"
+                                  viewBox="0 0 22 22"
+                                  fill="none"
                                 >
-                                  <rect
-                                    x="0.117188"
-                                    y="0.515625"
-                                    width="20.9709"
-                                    height="20.9709"
-                                    fill="#D9D9D9"
-                                  />
-                                </mask>
-                                <g mask="url(#mask0_1530_1347)">
-                                  <path
-                                    d="M14.2477 11.8758H3.60938V10.1282H14.2477L9.35452 5.23502L10.5997 4.01172L17.59 11.002L10.5997 17.9923L9.35452 16.769L14.2477 11.8758Z"
-                                    fill="white"
-                                  />
-                                </g>
-                              </svg>
-                            </span>
+                                  <mask
+                                    id="mask0_2163_292"
+                                    style="mask-type: alpha"
+                                    maskUnits="userSpaceOnUse"
+                                    x="0"
+                                    y="0"
+                                    width="22"
+                                    height="22"
+                                  >
+                                    <rect
+                                      x="0.117188"
+                                      y="0.515625"
+                                      width="20.9709"
+                                      height="20.9709"
+                                      fill="#D9D9D9"
+                                    />
+                                  </mask>
+                                  <g mask="url(#mask0_2163_292)">
+                                    <path
+                                      d="M14.2477 11.8758H3.60938V10.1282H14.2477L9.35452 5.23502L10.5997 4.01172L17.59 11.002L10.5997 17.9923L9.35452 16.769L14.2477 11.8758Z"
+                                      fill="#6666F2"
+                                    />
+                                  </g>
+                                </svg>
+                              </span>
                             </button>
                             <input
                               id="fileSelect"
@@ -183,7 +186,7 @@
                       <div
                         class="d-flex align-items-center justify-content-between gap-3"
                       >
-                        <div style="width: 15%">
+                        <div style="width: 14%">
                           <img
                             src="assets/images/manually-img.svg"
                             style="width: 100%"
@@ -219,7 +222,7 @@
                                 fill="none"
                               >
                                 <mask
-                                  id="mask0_1530_1347"
+                                  id="mask0_2163_292"
                                   style="mask-type: alpha"
                                   maskUnits="userSpaceOnUse"
                                   x="0"
@@ -235,10 +238,10 @@
                                     fill="#D9D9D9"
                                   />
                                 </mask>
-                                <g mask="url(#mask0_1530_1347)">
+                                <g mask="url(#mask0_2163_292)">
                                   <path
                                     d="M14.2477 11.8758H3.60938V10.1282H14.2477L9.35452 5.23502L10.5997 4.01172L17.59 11.002L10.5997 17.9923L9.35452 16.769L14.2477 11.8758Z"
-                                    fill="white"
+                                    fill="#6666F2"
                                   />
                                 </g>
                               </svg>
@@ -415,7 +418,6 @@
                           class="btn add-excel"
                           (click)="fileInput.click()"
                         >
-                  
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="24"
@@ -551,18 +553,83 @@
                           </td>
 
                           <td
-                            class="d-flex align-items-center justify-content-center gap-2"
+                            class="d-flex align-items-center justify-content-center gap-2 edit-delet-btn"
                           >
                             <a
                               *ngIf="onboardingViaString != 'SLACK'"
                               (click)="openUserEditModal(onboardUser)"
-                              ><i class="las la-pen text-primary font-16"></i
-                            ></a>
-                            <a (click)="deleteUser(onboardUser.id)"
-                              ><i
-                                class="las la-trash-alt text-danger font-16"
-                              ></i
-                            ></a>
+                            >
+                              <!-- <i class="las la-pen text-primary font-16"></i> -->
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="25"
+                                height="24"
+                                viewBox="0 0 25 24"
+                                fill="none"
+                              >
+                                <mask
+                                  id="mask0_2026_635"
+                                  style="mask-type: alpha"
+                                  maskUnits="userSpaceOnUse"
+                                  x="0"
+                                  y="0"
+                                  width="25"
+                                  height="24"
+                                >
+                                  <rect
+                                    x="0.429688"
+                                    y="0.269531"
+                                    width="23.7026"
+                                    height="23.7026"
+                                    fill="#D9D9D9"
+                                  />
+                                </mask>
+                                <g mask="url(#mask0_2026_635)">
+                                  <path
+                                    d="M5.36584 19.0322H6.77319L16.4271 9.37834L15.0197 7.97099L5.36584 17.6249V19.0322ZM3.39062 21.0074V16.8101L16.4271 3.79834C16.6246 3.61728 16.8427 3.47737 17.0814 3.37861C17.32 3.27985 17.571 3.23047 17.8344 3.23047C18.0978 3.23047 18.3529 3.27985 18.5998 3.37861C18.8467 3.47737 19.0607 3.62551 19.2418 3.82303L20.5997 5.20569C20.7972 5.38675 20.9413 5.60073 21.0318 5.84763C21.1223 6.09454 21.1676 6.34144 21.1676 6.58834C21.1676 6.8517 21.1223 7.10272 21.0318 7.34139C20.9413 7.58006 20.7972 7.79816 20.5997 7.99568L7.58796 21.0074H3.39062ZM15.7111 8.68701L15.0197 7.97099L16.4271 9.37834L15.7111 8.68701Z"
+                                    fill="#6666F2"
+                                  />
+                                </g>
+                              </svg>
+                            </a>
+                            <!-- (click)="deleteUser(onboardUser.id)" -->
+                            <a
+                              data-bs-toggle="modal"
+                              data-bs-target="#delete-modal"
+                              type="button"
+                            >
+                              <!-- <i class="las la-trash-alt text-danger font-16" ></i> -->
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                              >
+                                <mask
+                                  id="mask0_2026_632"
+                                  style="mask-type: alpha"
+                                  maskUnits="userSpaceOnUse"
+                                  x="0"
+                                  y="0"
+                                  width="24"
+                                  height="24"
+                                >
+                                  <rect
+                                    y="0.269531"
+                                    width="23.7026"
+                                    height="23.7026"
+                                    fill="#D9D9D9"
+                                  />
+                                </mask>
+                                <g mask="url(#mask0_2026_632)">
+                                  <path
+                                    d="M6.91595 21.0074C6.37277 21.0074 5.90777 20.814 5.52095 20.4272C5.13414 20.0404 4.94073 19.5754 4.94073 19.0322V6.1933H3.95312V4.21808H8.89117V3.23047H14.8168V4.21808H19.7549V6.1933H18.7673V19.0322C18.7673 19.5754 18.5739 20.0404 18.187 20.4272C17.8002 20.814 17.3352 21.0074 16.792 21.0074H6.91595ZM16.792 6.1933H6.91595V19.0322H16.792V6.1933ZM8.89117 17.057H10.8664V8.16852H8.89117V17.057ZM12.8416 17.057H14.8168V8.16852H12.8416V17.057Z"
+                                    fill="#FF0404"
+                                  />
+                                </g>
+                              </svg>
+                            </a>
                           </td>
                         </tr>
                       </tbody>
@@ -606,9 +673,10 @@
                   class="excel-file-error d-flex align-items-center justify-content-between"
                   style="background-image: url(../assets/images/vector-3.svg)"
                   *ngIf="
-                  alreadyUsedPhoneNumberArray.length > 0 ||
-                  alreadyUsedEmailArray.length > 0 ||
-                  isErrorToggle"
+                    alreadyUsedPhoneNumberArray.length > 0 ||
+                    alreadyUsedEmailArray.length > 0 ||
+                    isErrorToggle
+                  "
                 >
                   <div class="d-flex align-items-center gap-3 previous-btn">
                     <div>
@@ -632,16 +700,22 @@
                         here.
                       </h5>
                       <div class="d-flex align-items-center gap-2">
-                        <p class="mb-0 font-11" *ngIf="alreadyUsedPhoneNumberArray.length > 0">
+                        <p
+                          class="mb-0 font-11"
+                          *ngIf="alreadyUsedPhoneNumberArray.length > 0"
+                        >
                           <b>Duplicate phone number</b>
                         </p>
                         <span class="error-spreter"></span>
-                        <p class="mb-0 font-11" *ngIf="alreadyUsedEmailArray.length > 0">
+                        <p
+                          class="mb-0 font-11"
+                          *ngIf="alreadyUsedEmailArray.length > 0"
+                        >
                           <b>Duplicate email id :</b> You can check this error
                           log here.
                         </p>
                         <P class="mb-0 font-11" *ngIf="isErrorToggle">
-                          <b>Error :</b> {{errorMessage}}
+                          <b>Error :</b> {{ errorMessage }}
                         </P>
                       </div>
                     </div>
@@ -1124,9 +1198,19 @@
                     personalized and accurate employee list
                   </p>
 
-                  <div class="total-people mt-4 d-flex align-items-center justify-content-between">
-                    <h5 class="mb-0 alert-heading text-white font-18">{{ userList.length - 1 }} People</h5>
-                    <span *ngIf="!showUserList  && userList.length > 1" class="font-16 pointer" style="font-weight: 500" ngIg="viewMore" (click)="viewUserList()">
+                  <div
+                    class="total-people mt-4 d-flex align-items-center justify-content-between"
+                  >
+                    <h5 class="mb-0 alert-heading text-white font-18">
+                      {{ userList.length - 1 }} People
+                    </h5>
+                    <span
+                      *ngIf="!showUserList && userList.length > 1"
+                      class="font-16 pointer"
+                      style="font-weight: 500"
+                      ngIg="viewMore"
+                      (click)="viewUserList()"
+                    >
                       View <i class="bi bi-caret-down-fill"></i>
                     </span>
                   </div>
@@ -1158,29 +1242,38 @@
             <!-- {{showUserList}} -->
             <div
               class="p-3"
-              style="border-top: 1px solid #ffffff3d !important"  *ngIf="showUserList"
-             
+              style="border-top: 1px solid #ffffff3d !important"
+              *ngIf="showUserList"
             >
               <div class="manualemployList">
                 <div
                   class="d-flex align-items-center justify-content-between persnol-details userList p-0 pt-3 pb-1"
-                  *ngFor="let user of userList | slice:0:-1; let i = index"
+                  *ngFor="let user of userList | slice : 0 : -1; let i = index"
                 >
                   <div class="d-flex align-items-center gap-3">
                     <div>
-                      <span class="userName">{{ user.name.charAt(0).toUpperCase() }}</span>
+                      <span class="userName">{{
+                        user.name.charAt(0).toUpperCase()
+                      }}</span>
                     </div>
                     <div>
-                      <h5 class="alert-heading text-white font-13 mb-1">{{ user.name }}</h5>
+                      <h5 class="alert-heading text-white font-13 mb-1">
+                        {{ user.name }}
+                      </h5>
                       <div class="d-flex align-items-center gap-2">
-                        <p class="mb-0 text-white font-11">{{ user.email || 'N/A'}}</p>
+                        <p class="mb-0 text-white font-11">
+                          {{ user.email || "N/A" }}
+                        </p>
                         <span class="error-spreter"></span>
                         <p class="mb-0 text-white font-11">{{ user.phone }}</p>
                       </div>
                     </div>
                   </div>
                   <div>
-                    <button class="btn p-0 addUserRemvo" (click)="removeUser(i)">
+                    <button
+                      class="btn p-0 addUserRemvo"
+                      (click)="removeUser(i)"
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="22"
@@ -1216,151 +1309,150 @@
                   </div>
                 </div>
 
-              <div class="d-flex align-items-center justify-content-end mt-2">
-                <span
-                  *ngIf="showUserList"
-                  class="font-14 pointer text-white"
-                  style="font-weight: 500"
-                  ngIg="viewMore"
-                  (click)="viewUserList()"
-                  >View Less
-                  <i class="bi bi-caret-up-fill" style="padding-left: 5px"></i
-                ></span>
+                <div class="d-flex align-items-center justify-content-end mt-2">
+                  <span
+                    *ngIf="showUserList"
+                    class="font-14 pointer text-white"
+                    style="font-weight: 500"
+                    ngIg="viewMore"
+                    (click)="viewUserList()"
+                    >View Less
+                    <i class="bi bi-caret-up-fill" style="padding-left: 5px"></i
+                  ></span>
+                </div>
               </div>
             </div>
-          
-           
-          </div>
-          <div class="manualUploadForm p-3" *ngIf="!showUserList">
-            <div class="row" *ngFor="let user of userList| slice:-1; let i = index">
-              <div class="col-md-12">
-                <div class="mb-3">
-                  <label class="mb-2">
-                    Employee Name <span class="text-optional">*</span></label
-                  >
-                  <input
-                    type="text"
-                    name="userName{{ i }}"
-                    [(ngModel)]="user.name"
-                    class="form-control profile-input"
-                    placeholder="Enter Employee Name"
-                    #name="ngModel"
-                    minlength="3"
-                    required
-                  />
-                  <div *ngIf="name?.dirty || isFormInvalid">
-                    <p
-                      class="errortxt mt-2 mb-2"
-                      *ngIf="name.errors?.required"
+            <div class="manualUploadForm p-3" *ngIf="!showUserList">
+              <div
+                class="row"
+                *ngFor="let user of userList | slice : -1; let i = index"
+              >
+                <div class="col-md-12">
+                  <div class="mb-3">
+                    <label class="mb-2">
+                      Employee Name <span class="text-optional">*</span></label
                     >
-                      <i class="bi bi-exclamation-circle"></i> Name is
-                      required.
-                    </p>
-                    <p
-                      class="errortxt mt-2 mb-2"
-                      *ngIf="name.errors?.minlength"
-                    >
-                      <i class="bi bi-exclamation-circle"></i> Please enter a
-                      valid name.
-                    </p>
+                    <input
+                      type="text"
+                      name="userName{{ i }}"
+                      [(ngModel)]="user.name"
+                      class="form-control profile-input"
+                      placeholder="Enter Employee Name"
+                      #name="ngModel"
+                      minlength="3"
+                      required
+                    />
+                    <div *ngIf="name?.dirty || isFormInvalid">
+                      <p
+                        class="errortxt mt-2 mb-2"
+                        *ngIf="name.errors?.required"
+                      >
+                        <i class="bi bi-exclamation-circle"></i> Name is
+                        required.
+                      </p>
+                      <p
+                        class="errortxt mt-2 mb-2"
+                        *ngIf="name.errors?.minlength"
+                      >
+                        <i class="bi bi-exclamation-circle"></i> Please enter a
+                        valid name.
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-md-12">
-                <div class="mb-3">
-                  <label class="mb-2"
-                    >Phone Number <span class="text-optional">*</span></label
-                  >
-                  <input
-                    type="tel"
-                    name="userPhone{{ i }}"
-                    [(ngModel)]="user.phone"
-                    placeholder="Enter Whatsapp Number"
-                    minlength="10"
-                    maxlength="10"
-                    class="form-control profile-input"
-                    (keyup)="checkNumberExistance(i, user.phone, user.uuid)"
-                    #phone="ngModel"
-                    required
-                  />
-                  <p
-                    *ngIf="userList[i].isPhoneExist"
-                    class="error text-muted"
-                  >
-                    <i class="bi bi-exclamation-circle"></i> Phone number is
-                    already exist.
-                  </p>
-                  <div *ngIf="phone?.dirty || isFormInvalid">
+                <div class="col-md-12">
+                  <div class="mb-3">
+                    <label class="mb-2"
+                      >Phone Number <span class="text-optional">*</span></label
+                    >
+                    <input
+                      type="tel"
+                      name="userPhone{{ i }}"
+                      [(ngModel)]="user.phone"
+                      placeholder="Enter Whatsapp Number"
+                      minlength="10"
+                      maxlength="10"
+                      class="form-control profile-input"
+                      (keyup)="checkNumberExistance(i, user.phone, user.uuid)"
+                      #phone="ngModel"
+                      required
+                    />
                     <p
-                      class="errortxt mt-2 mb-2"
-                      *ngIf="phone.errors?.required"
+                      *ngIf="userList[i].isPhoneExist"
+                      class="error text-muted"
                     >
                       <i class="bi bi-exclamation-circle"></i> Phone number is
-                      required.
+                      already exist.
                     </p>
-                    <p
-                      class="errortxt mt-2 mb-2"
-                      *ngIf="phone.errors?.minlength"
-                    >
-                      <i class="bi bi-exclamation-circle"></i> Please enter a
-                      valid phone no.
-                    </p>
+                    <div *ngIf="phone?.dirty || isFormInvalid">
+                      <p
+                        class="errortxt mt-2 mb-2"
+                        *ngIf="phone.errors?.required"
+                      >
+                        <i class="bi bi-exclamation-circle"></i> Phone number is
+                        required.
+                      </p>
+                      <p
+                        class="errortxt mt-2 mb-2"
+                        *ngIf="phone.errors?.minlength"
+                      >
+                        <i class="bi bi-exclamation-circle"></i> Please enter a
+                        valid phone no.
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-md-12">
-                <div class="mb-3">
-                  <label class="mb-2"
-                    >Email Id</label
-                  >
-                  <input
-                    type="email"
-                    name="userEmail{{ i }}"
-                    [(ngModel)]="user.email"
-                    #email="ngModel"
-                    pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}"
-                    placeholder="Enter Email"
-                    class="form-control profile-input"
-                    (keyup)="checkEmailExistance(i, user.email, user.uuid)"
-                  />
-                  <p
-                    *ngIf="userList[i].isEmailExist"
-                    class="error text-muted"
-                  >
-                    This email already exist.
-                  </p>
-                  <div *ngIf="email?.dirty || isFormInvalid">
+                <div class="col-md-12">
+                  <div class="mb-3">
+                    <label class="mb-2">Email Id</label>
+                    <input
+                      type="email"
+                      name="userEmail{{ i }}"
+                      [(ngModel)]="user.email"
+                      #email="ngModel"
+                      pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}"
+                      placeholder="Enter Email"
+                      class="form-control profile-input"
+                      (keyup)="checkEmailExistance(i, user.email, user.uuid)"
+                    />
                     <p
-                      class="errortxt mt-2 mb-2"
-                      *ngIf="email.errors?.required"
+                      *ngIf="userList[i].isEmailExist"
+                      class="error text-muted"
                     >
-                      <i class="bi bi-exclamation-circle"></i> Email Id is
-                      required.
+                      This email already exist.
                     </p>
-                    <p class="errortxt mt-2 mb-2" *ngIf="email.errors?.email">
-                      <i class="bi bi-exclamation-circle"></i> Please enter a
-                      valid email.
-                    </p>
-                    <p class="errortxt mb-2" *ngIf="email.errors?.pattern">
-                      <i class="bi bi-exclamation-circle"></i> Please enter a
-                      valid email.
-                    </p>
-                  </div>
-                  <!-- <div
+                    <div *ngIf="email?.dirty || isFormInvalid">
+                      <p
+                        class="errortxt mt-2 mb-2"
+                        *ngIf="email.errors?.required"
+                      >
+                        <i class="bi bi-exclamation-circle"></i> Email Id is
+                        required.
+                      </p>
+                      <p class="errortxt mt-2 mb-2" *ngIf="email.errors?.email">
+                        <i class="bi bi-exclamation-circle"></i> Please enter a
+                        valid email.
+                      </p>
+                      <p class="errortxt mb-2" *ngIf="email.errors?.pattern">
+                        <i class="bi bi-exclamation-circle"></i> Please enter a
+                        valid email.
+                      </p>
+                    </div>
+                    <!-- <div
                     class="leave-delet-btn pointer position-absolute"
                     (click)="removeUser(i)"
                     *ngIf="i > 0"
                   >
                     <i class="bi bi-trash"></i>
                   </div> -->
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div
-            class="modal-footer border-top d-flex align-items-center justify-content-between p-3 bg-white"
-          >
-            <!-- <button (click)="addUser()" class="munal-add-more-btn">
+            <div
+              class="modal-footer border-top d-flex align-items-center justify-content-end p-3 bg-white gap-3"
+            >
+              <!-- <button (click)="addUser()" class="munal-add-more-btn">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="30"
@@ -1394,19 +1486,106 @@
               Add new user
             </button> -->
 
+              <button
+                class="btn submit-add-more"
+                (click)="addUser()"
+                [disabled]="!currentUsersValid()"
+              >
+                Submit & Add more
+              </button>
+              <button
+                class="btn mannualSubmit"
+                (click)="submit()"
+                [disabled]="this.userList.length < 2"
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button
+  class="d-none"
+  data-bs-toggle="modal"
+  data-bs-target="#delete-modal"
+></button>
+<div
+  class="modal fade"
+  id="delete-modal"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-dialog-centered"
+    style="max-width: 500px"
+    role="document"
+  >
+    <div class="modal-content">
+      <div class="modal-body p-0 delete-text">
+        <div
+          class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4"
+        >
+          <div class="delete-close-btn">
             <button
-              class="btn mannualSubmit"
-              (click)="submit()"
-              [disabled]="this.userList.length < 2"
+              type="button"
+              class="close-btn"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+              #closeButton
+              (click)="resetManualUploadModal()"
             >
-              Submit
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="30"
+                height="30"
+                viewBox="0 0 30 30"
+                fill="none"
+              >
+                <mask
+                  id="mask0_2031_1331"
+                  style="mask-type: alpha"
+                  maskUnits="userSpaceOnUse"
+                  x="0"
+                  y="0"
+                  width="30"
+                  height="30"
+                >
+                  <rect width="30" height="30" fill="#D9D9D9" />
+                </mask>
+                <g mask="url(#mask0_2031_1331)">
+                  <path
+                    d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                    fill="black"
+                  />
+                </g>
+              </svg>
             </button>
+          </div>
+          <img src="/assets/images/delete-img.svg" style="width: 70px" />
+        </div>
+        <div class="bg-white p-4 text-center">
+          <h5 class="alert-heading font-18 mb-2">
+            Are you sure you want to delete <br />
+            this Employee ?
+          </h5>
+          <p class="font-11">You will not be able to recover this</p>
+
+          <div class="mt-4 d-flex align-items-center flex-column">
+            <button class="btn continue-btn">Continue</button>
             <button
-              class="btn mannualSubmit"
-              (click)="addUser()"
-              [disabled]="!currentUsersValid()"
+              class="btn cancel-btn pt-2"
+              type="button"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+              #closeButton
+              (click)="resetManualUploadModal()"
             >
-              Save And Add New
+              Cancel
             </button>
           </div>
         </div>
