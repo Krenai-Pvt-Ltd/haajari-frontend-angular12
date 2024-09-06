@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-md-12">
           <div class="persnol-details">
-            <div
+            <!-- <div
               class="d-flex justify-content-between mb-2"
               *ngIf="selectedMethod == ''"
             >
@@ -13,7 +13,7 @@
                   <h5 class="mb-0">Employee Details</h5>
                 </div>
               </div>
-            </div>
+            </div> -->
             <div class="row">
               <div class="col-md-12">
                 <div class="card-header p-0 pb-3 bg-white">
@@ -390,7 +390,7 @@
                     else errorInOnboardUserListCondition
                   "
                 >
-                  <div class="row mt-3">
+                  <div class="col-md-12 mt-3">
                     <div
                       class="d-flex align-items-center justify-content-between mb-3 p-0"
                       *ngIf="onboardingViaString != 'SLACK'"
@@ -517,6 +517,13 @@
                     <table class="table table-striped">
                       <thead class="thead-light">
                         <tr>
+                          <th style="width: 5%" class="text-center">
+                            <input
+                              type="checkbox"
+                              style="cursor: pointer"
+                              class="form-check-input"
+                            />
+                          </th>
                           <th style="width: 5%" class="text-center">Count</th>
                           <th style="width: 25%" class="text-left">Name</th>
                           <th style="width: 25%" class="text-left">
@@ -530,7 +537,7 @@
                             Phone Number
                           </th>
 
-                          <th style="width: 20%" class="text-center">Action</th>
+                          <th style="width: 10%" class="text-center">Action</th>
                         </tr>
                       </thead>
                       <tbody class="">
@@ -540,6 +547,13 @@
                             let i = index
                           "
                         >
+                          <td class="text-center">
+                            <input
+                              type="checkbox"
+                              style="cursor: pointer"
+                              class="form-check-input"
+                            />
+                          </td>
                           <td class="text-center">
                             {{ i + 1 }}
                           </td>
@@ -1200,7 +1214,7 @@
                   <div
                     class="total-people mt-4 d-flex align-items-center justify-content-between"
                   >
-                    <h5 class="mb-0 alert-heading text-white font-18">
+                    <h5 class="mb-0 alert-heading text-white font-16">
                       {{ userList.length - 1 }} People
                     </h5>
                     <span
