@@ -2655,6 +2655,7 @@ mark {
   font-weight: 400;
   vertical-align: middle;
   border-color: #e8ebf3;
+  padding: 15px;
 }
 
 /* .table td {
@@ -9317,6 +9318,7 @@ display:block
   font-size: 12px !important;
   border-bottom: 1px solid #e6e7e9 !important;
   color: #000 !important;
+  padding: 15px;
 }
 .error-spreter {
   height: 15px;
@@ -9406,7 +9408,7 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   background-color: rgba(236, 236, 236, 0.21);
   border: 1px solid #cacaca !important;
   border-radius: 2.462px;
-  height: 43px !important;
+  height: 42px !important;
   font-weight: 400 !important;
   font-size: 13px !important;
   line-height: 16px !important;
@@ -9801,6 +9803,41 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
 }
 .removeBtn svg {
   width: 15px;
+  position: relative;
+  top: -1px;
+}
+
+.delete-image {
+  background-color: #ffedea;
+}
+.continue-btn {
+  font-size: 14px;
+  font-weight: 500;
+  background-color: #fa2626;
+  border-radius: 2px;
+  color: #fff;
+  min-width: 115px;
+}
+.continue-btn:hover {
+  color: #fff;
+}
+.cancel-btn {
+  background-color: transparent;
+  color: #000;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 10px;
+}
+
+.delete-close-btn {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.delete-close-btn svg {
+  width: 20px;
+  height: 20px;
   position: relative;
   top: -1px;
 }
