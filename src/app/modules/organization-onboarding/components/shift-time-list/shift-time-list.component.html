@@ -1650,9 +1650,7 @@
           <div class="col-md-4">
             <div
               class="side-img"
-              style="
-                background-image: url(../assets/images/shift-timing-img.svg);
-              "
+              style="background-image: url(../assets/images/shift-time.svg)"
             ></div>
           </div>
         </div>
@@ -1775,7 +1773,7 @@
               <div class="col-md-4">
                 <div class="mb-3">
                   <label for="lunchBreakStartTime" class="pb-2"
-                    >Lunch Break Start Time</label
+                    >Lunch Start Time</label
                   >
                   <nz-time-picker
                     [(ngModel)]="organizationShiftTimingRequest.startLunch"
@@ -1798,7 +1796,7 @@
               <div class="col-md-4">
                 <div class="mb-3">
                   <label for="lunchBreakEndTime" class="pb-2"
-                    >Lunch Break End Time</label
+                    >Lunch End Time</label
                   >
                   <nz-time-picker
                     [(ngModel)]="organizationShiftTimingRequest.endLunch"
@@ -1817,8 +1815,8 @@
               </div>
               <div class="col-md-4">
                 <div class="mb-3">
-                  <label for="totalLunchBreakDuration" class="pb-2"
-                    >Total Lunch Break Duration</label
+                  <label for="totalLunchBreakDuration" class="pb-2">
+                    Lunch Total Time</label
                   >
                   <input
                     id="totalLunchBreakDuration"
@@ -1827,7 +1825,7 @@
                     readonly
                     [(ngModel)]="organizationShiftTimingRequest.lunchHour"
                     name="totalLunchBreakDuration"
-                    placeholder="Lunch break hours"
+                    placeholder="Lunch Total Time"
                   />
                 </div>
               </div>

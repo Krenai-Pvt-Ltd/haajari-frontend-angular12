@@ -115,9 +115,9 @@
 }
 
 .complete-step h5 {
-  line-height: 30px;
+  line-height: 50px;
   color: #000;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .complete-step svg {
@@ -155,13 +155,13 @@
 }
 
 .sideBarStep-two {
-  height: 40%;
+  height: 30%;
 }
 .sideBarStep-three {
-  height: 50%;
+  height: 40%;
 }
 .sideBarStep-fore {
-  height: 60%;
+  height: 50%;
 }
 
 .pending-step h5 svg {
