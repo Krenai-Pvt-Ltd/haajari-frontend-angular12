@@ -175,7 +175,7 @@ nz-date-picker {
 .ant-picker {
   border: 1px solid #cacaca !important;
   width: 100% !important ;
-  height: 43px !important;
+  height: 42px !important;
   border-radius: 2px !important;
   background-color: rgba(236, 236, 236, 0.21);
 }

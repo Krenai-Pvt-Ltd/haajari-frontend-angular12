@@ -9330,7 +9330,9 @@ display:block
   padding: 0.4rem 1rem;
   font-size: 0.875rem;
   font-weight: 400;
-  height: 40px !important;
+  height: 42px !important;
+  border: 1px solid #cacaca;
+  border-radius: 2px !important;
 }
 /*# sourceMappingURL=app.min.css.map */
 .pt-2 {
