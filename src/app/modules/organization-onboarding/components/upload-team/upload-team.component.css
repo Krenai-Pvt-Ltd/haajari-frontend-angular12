@@ -278,8 +278,8 @@ p.tableinfo.mb-0 {
 
 .headTag {
   font-weight: 500;
-    font-size: 13px;
-    margin: 0;
+  font-size: 13px;
+  margin: 0;
 }
 .excel-uplode-file-box {
   padding-right: 40px;
@@ -300,4 +300,38 @@ p.tableinfo.mb-0 {
   color: #4a4a4a;
   font-size: 12px;
   font-weight: 500;
+}
+
+.pagnition p span {
+  color: #444;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.pagnition p {
+  color: #444;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+}
+
+.pagnition-left {
+  border: 1px solid #444;
+  border-radius: 20px 0px 0px 20px;
+  padding: 2px 12px;
+  background-color: transparent;
+  color: #444;
+  line-height: 24px;
+}
+.pagnition-right {
+  border: 1px solid #444;
+  border-radius: 0px 20px 20px 0px;
+  padding: 2px 12px;
+  background-color: transparent;
+  color: #444;
+  border-left: none;
+  line-height: 24px;
 }
