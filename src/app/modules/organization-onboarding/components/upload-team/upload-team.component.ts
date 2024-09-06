@@ -166,13 +166,14 @@ export class UploadTeamComponent implements OnInit {
           console.log(this.onboardUserList.length);
           this.alreadyUsedPhoneNumberArray = response.arrayOfString;
           this.alreadyUsedEmailArray = response.arrayOfString2;
+          
         } else {
           this.importToggle = true;
           this.isErrorToggle = true;
           this.isProgressToggle = false;
           this.errorMessage = response.message;
         }
-
+        this.getOrgExcelLogLink();
         // this.importToggle = false;
       },
       (error) => {
@@ -496,4 +497,30 @@ export class UploadTeamComponent implements OnInit {
   viewUserList() {
     this.showUserList = !this.showUserList;
   }
+
+  excelLogLink!: string;
+  getOrgExcelLogLink() {
+    this.excelLogLink = '';
+    this.dataService.getOrgExcelLogLink().subscribe(
+      (response) => {
+        this.excelLogLink = response.object;
+        console.log('excelLink ' + response.object);
+      },
+      (error) => {
+        console.log('error');
+      }
+    );
+  }
+
+  downloadExcelLog() {
+    if (this.excelLogLink) {
+      const link = document.createElement('a');
+      link.href = this.excelLogLink;
+      link.setAttribute('download', 'Organization_Excel_Log.xlsx'); // Set file name
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  }
+  
 }

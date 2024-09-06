@@ -639,13 +639,17 @@
                           <b>Duplicate email id :</b> You can check this error
                           log here.
                         </p>
+                        <P class="mb-0 font-11" *ngIf="isErrorToggle">
+                          <b>Error :</b> {{errorMessage}}
+                        </P>
                       </div>
                     </div>
                   </div>
-                  <div class="">
+                  <div class="" *ngIf="excelLogLink">
                     <button
                       class="btn download-eroor"
                       style="margin-right: 15px"
+                      (click)="downloadExcelLog()"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -1153,10 +1157,10 @@
             <!-- {{showUserList}} -->
             <div
               class="p-3"
-              style="border-top: 1px solid #ffffff3d !important"
+              style="border-top: 1px solid #ffffff3d !important"  *ngIf="showUserList"
              
             >
-              <div class="manualemployList" *ngIf="showUserList">
+              <div class="manualemployList">
                 <div
                   class="d-flex align-items-center justify-content-between persnol-details userList p-0 pt-3 pb-1"
                   *ngFor="let user of userList | slice:0:-1; let i = index"
@@ -1224,129 +1228,130 @@
               </div>
             </div>
           
-            <div class="manualUploadForm p-3" *ngIf="!showUserList">
-              <div class="row" *ngFor="let user of userList| slice:-1; let i = index">
-                <div class="col-md-12">
-                  <div class="mb-3">
-                    <label class="mb-2">
-                      Employee Name <span class="text-optional">*</span></label
+           
+          </div>
+          <div class="manualUploadForm p-3" *ngIf="!showUserList">
+            <div class="row" *ngFor="let user of userList| slice:-1; let i = index">
+              <div class="col-md-12">
+                <div class="mb-3">
+                  <label class="mb-2">
+                    Employee Name <span class="text-optional">*</span></label
+                  >
+                  <input
+                    type="text"
+                    name="userName{{ i }}"
+                    [(ngModel)]="user.name"
+                    class="form-control profile-input"
+                    placeholder="Enter Employee Name"
+                    #name="ngModel"
+                    minlength="3"
+                    required
+                  />
+                  <div *ngIf="name?.dirty || isFormInvalid">
+                    <p
+                      class="errortxt mt-2 mb-2"
+                      *ngIf="name.errors?.required"
                     >
-                    <input
-                      type="text"
-                      name="userName{{ i }}"
-                      [(ngModel)]="user.name"
-                      class="form-control profile-input"
-                      placeholder="Enter Employee Name"
-                      #name="ngModel"
-                      minlength="3"
-                      required
-                    />
-                    <div *ngIf="name?.dirty || isFormInvalid">
-                      <p
-                        class="errortxt mt-2 mb-2"
-                        *ngIf="name.errors?.required"
-                      >
-                        <i class="bi bi-exclamation-circle"></i> Name is
-                        required.
-                      </p>
-                      <p
-                        class="errortxt mt-2 mb-2"
-                        *ngIf="name.errors?.minlength"
-                      >
-                        <i class="bi bi-exclamation-circle"></i> Please enter a
-                        valid name.
-                      </p>
-                    </div>
+                      <i class="bi bi-exclamation-circle"></i> Name is
+                      required.
+                    </p>
+                    <p
+                      class="errortxt mt-2 mb-2"
+                      *ngIf="name.errors?.minlength"
+                    >
+                      <i class="bi bi-exclamation-circle"></i> Please enter a
+                      valid name.
+                    </p>
                   </div>
                 </div>
-                <div class="col-md-12">
-                  <div class="mb-3">
-                    <label class="mb-2"
-                      >Phone Number <span class="text-optional">*</span></label
-                    >
-                    <input
-                      type="tel"
-                      name="userPhone{{ i }}"
-                      [(ngModel)]="user.phone"
-                      placeholder="Enter Whatsapp Number"
-                      minlength="10"
-                      maxlength="10"
-                      class="form-control profile-input"
-                      (keyup)="checkNumberExistance(i, user.phone, user.uuid)"
-                      #phone="ngModel"
-                      required
-                    />
+              </div>
+              <div class="col-md-12">
+                <div class="mb-3">
+                  <label class="mb-2"
+                    >Phone Number <span class="text-optional">*</span></label
+                  >
+                  <input
+                    type="tel"
+                    name="userPhone{{ i }}"
+                    [(ngModel)]="user.phone"
+                    placeholder="Enter Whatsapp Number"
+                    minlength="10"
+                    maxlength="10"
+                    class="form-control profile-input"
+                    (keyup)="checkNumberExistance(i, user.phone, user.uuid)"
+                    #phone="ngModel"
+                    required
+                  />
+                  <p
+                    *ngIf="userList[i].isPhoneExist"
+                    class="error text-muted"
+                  >
+                    <i class="bi bi-exclamation-circle"></i> Phone number is
+                    already exist.
+                  </p>
+                  <div *ngIf="phone?.dirty || isFormInvalid">
                     <p
-                      *ngIf="userList[i].isPhoneExist"
-                      class="error text-muted"
+                      class="errortxt mt-2 mb-2"
+                      *ngIf="phone.errors?.required"
                     >
                       <i class="bi bi-exclamation-circle"></i> Phone number is
-                      already exist.
+                      required.
                     </p>
-                    <div *ngIf="phone?.dirty || isFormInvalid">
-                      <p
-                        class="errortxt mt-2 mb-2"
-                        *ngIf="phone.errors?.required"
-                      >
-                        <i class="bi bi-exclamation-circle"></i> Phone number is
-                        required.
-                      </p>
-                      <p
-                        class="errortxt mt-2 mb-2"
-                        *ngIf="phone.errors?.minlength"
-                      >
-                        <i class="bi bi-exclamation-circle"></i> Please enter a
-                        valid phone no.
-                      </p>
-                    </div>
+                    <p
+                      class="errortxt mt-2 mb-2"
+                      *ngIf="phone.errors?.minlength"
+                    >
+                      <i class="bi bi-exclamation-circle"></i> Please enter a
+                      valid phone no.
+                    </p>
                   </div>
                 </div>
-                <div class="col-md-12">
-                  <div class="mb-3">
-                    <label class="mb-2"
-                      >Email Id</label
-                    >
-                    <input
-                      type="email"
-                      name="userEmail{{ i }}"
-                      [(ngModel)]="user.email"
-                      #email="ngModel"
-                      pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}"
-                      placeholder="Enter Email"
-                      class="form-control profile-input"
-                      (keyup)="checkEmailExistance(i, user.email, user.uuid)"
-                    />
+              </div>
+              <div class="col-md-12">
+                <div class="mb-3">
+                  <label class="mb-2"
+                    >Email Id</label
+                  >
+                  <input
+                    type="email"
+                    name="userEmail{{ i }}"
+                    [(ngModel)]="user.email"
+                    #email="ngModel"
+                    pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}"
+                    placeholder="Enter Email"
+                    class="form-control profile-input"
+                    (keyup)="checkEmailExistance(i, user.email, user.uuid)"
+                  />
+                  <p
+                    *ngIf="userList[i].isEmailExist"
+                    class="error text-muted"
+                  >
+                    This email already exist.
+                  </p>
+                  <div *ngIf="email?.dirty || isFormInvalid">
                     <p
-                      *ngIf="userList[i].isEmailExist"
-                      class="error text-muted"
+                      class="errortxt mt-2 mb-2"
+                      *ngIf="email.errors?.required"
                     >
-                      This email already exist.
+                      <i class="bi bi-exclamation-circle"></i> Email Id is
+                      required.
                     </p>
-                    <div *ngIf="email?.dirty || isFormInvalid">
-                      <p
-                        class="errortxt mt-2 mb-2"
-                        *ngIf="email.errors?.required"
-                      >
-                        <i class="bi bi-exclamation-circle"></i> Email Id is
-                        required.
-                      </p>
-                      <p class="errortxt mt-2 mb-2" *ngIf="email.errors?.email">
-                        <i class="bi bi-exclamation-circle"></i> Please enter a
-                        valid email.
-                      </p>
-                      <p class="errortxt mb-2" *ngIf="email.errors?.pattern">
-                        <i class="bi bi-exclamation-circle"></i> Please enter a
-                        valid email.
-                      </p>
-                    </div>
-                    <!-- <div
-                      class="leave-delet-btn pointer position-absolute"
-                      (click)="removeUser(i)"
-                      *ngIf="i > 0"
-                    >
-                      <i class="bi bi-trash"></i>
-                    </div> -->
+                    <p class="errortxt mt-2 mb-2" *ngIf="email.errors?.email">
+                      <i class="bi bi-exclamation-circle"></i> Please enter a
+                      valid email.
+                    </p>
+                    <p class="errortxt mb-2" *ngIf="email.errors?.pattern">
+                      <i class="bi bi-exclamation-circle"></i> Please enter a
+                      valid email.
+                    </p>
                   </div>
+                  <!-- <div
+                    class="leave-delet-btn pointer position-absolute"
+                    (click)="removeUser(i)"
+                    *ngIf="i > 0"
+                  >
+                    <i class="bi bi-trash"></i>
+                  </div> -->
                 </div>
               </div>
             </div>

@@ -338,6 +338,12 @@ export class DataService {
     );
   }
 
+  getOrgExcelLogLink(): Observable<any> {
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/whatsapp-user-onboarding/get-excel-link`
+    );
+  }
+
   getAllShiftTimings(): Observable<any> {
     return this.httpClient.get<any>(
       `${this.baseUrl}/organization-shift-timing/get/all`
