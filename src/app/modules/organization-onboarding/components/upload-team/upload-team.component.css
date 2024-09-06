@@ -275,6 +275,12 @@ p.tableinfo.mb-0 {
   width: 17px;
   height: 17px;
 }
+
+.headTag {
+  font-weight: 500;
+    font-size: 13px;
+    margin: 0;
+}
 .excel-uplode-file-box {
   padding-right: 40px;
 }

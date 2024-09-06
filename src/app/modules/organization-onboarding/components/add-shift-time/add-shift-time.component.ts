@@ -45,6 +45,12 @@ export class AddShiftTimeComponent implements OnInit {
   }
 
   backPage() {
+    // if(this.isNoShiftCreated) {
+    //   this.isNoShiftCreated = false
+    // }else {
+    // this.checkShiftTimingExistsMethodCall();
+    // }
+
     this.checkShiftTimingExistsMethodCall();
   }
 
@@ -576,5 +582,10 @@ export class AddShiftTimeComponent implements OnInit {
         console.log('error');
       }
     );
+  }
+
+  isNoShiftCreated: boolean = false;
+  createNewShift() {
+    this.isNoShiftCreated = true;
   }
 }
