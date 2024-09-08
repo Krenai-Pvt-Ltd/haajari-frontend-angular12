@@ -213,7 +213,7 @@
                               data-bs-toggle="modal"
                               data-bs-target="#munal-upload"
                             >
-                            Single Enrollment
+                              Single Enrollment
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="22"
@@ -402,7 +402,6 @@
                       </div>
 
                       <div class="d-flex gap-3">
-                        <p class="headTag">Add more employee via: </p>
                         <input
                           #fileInput
                           id="fileSelect"
@@ -485,7 +484,7 @@
                               />
                             </g>
                           </svg>
-                           Single Enrollment
+                          Single Enrollment
                         </button>
                       </div>
                     </div>
@@ -566,84 +565,87 @@
                             {{ onboardUser.phone }}
                           </td>
 
-                          <td
-                            class="d-flex align-items-center justify-content-center gap-2 edit-delet-btn"
-                          >
-                            <a
-                              *ngIf="onboardingViaString != 'SLACK'"
-                              (click)="openUserEditModal(onboardUser)"
+                          <td>
+                            <div
+                              class="d-flex align-items-center justify-content-center gap-2 edit-delet-btn"
                             >
-                              <!-- <i class="las la-pen text-primary font-16"></i> -->
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="25"
-                                height="24"
-                                viewBox="0 0 25 24"
-                                fill="none"
+                              <a
+                                *ngIf="onboardingViaString != 'SLACK'"
+                                (click)="openUserEditModal(onboardUser)"
                               >
-                                <mask
-                                  id="mask0_2026_635"
-                                  style="mask-type: alpha"
-                                  maskUnits="userSpaceOnUse"
-                                  x="0"
-                                  y="0"
+                                <!-- <i class="las la-pen text-primary font-16"></i> -->
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
                                   width="25"
                                   height="24"
+                                  viewBox="0 0 25 24"
+                                  fill="none"
                                 >
-                                  <rect
-                                    x="0.429688"
-                                    y="0.269531"
-                                    width="23.7026"
-                                    height="23.7026"
-                                    fill="#D9D9D9"
-                                  />
-                                </mask>
-                                <g mask="url(#mask0_2026_635)">
-                                  <path
-                                    d="M5.36584 19.0322H6.77319L16.4271 9.37834L15.0197 7.97099L5.36584 17.6249V19.0322ZM3.39062 21.0074V16.8101L16.4271 3.79834C16.6246 3.61728 16.8427 3.47737 17.0814 3.37861C17.32 3.27985 17.571 3.23047 17.8344 3.23047C18.0978 3.23047 18.3529 3.27985 18.5998 3.37861C18.8467 3.47737 19.0607 3.62551 19.2418 3.82303L20.5997 5.20569C20.7972 5.38675 20.9413 5.60073 21.0318 5.84763C21.1223 6.09454 21.1676 6.34144 21.1676 6.58834C21.1676 6.8517 21.1223 7.10272 21.0318 7.34139C20.9413 7.58006 20.7972 7.79816 20.5997 7.99568L7.58796 21.0074H3.39062ZM15.7111 8.68701L15.0197 7.97099L16.4271 9.37834L15.7111 8.68701Z"
-                                    fill="#6666F2"
-                                  />
-                                </g>
-                              </svg>
-                            </a>
-                            <!-- (click)="deleteUser(onboardUser.id)" -->
-                            <a
-                              data-bs-toggle="modal"
-                              data-bs-target="#delete-modal"
-                              type="button"
-                            >
-                              <!-- <i class="las la-trash-alt text-danger font-16" ></i> -->
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
+                                  <mask
+                                    id="mask0_2026_635"
+                                    style="mask-type: alpha"
+                                    maskUnits="userSpaceOnUse"
+                                    x="0"
+                                    y="0"
+                                    width="25"
+                                    height="24"
+                                  >
+                                    <rect
+                                      x="0.429688"
+                                      y="0.269531"
+                                      width="23.7026"
+                                      height="23.7026"
+                                      fill="#D9D9D9"
+                                    />
+                                  </mask>
+                                  <g mask="url(#mask0_2026_635)">
+                                    <path
+                                      d="M5.36584 19.0322H6.77319L16.4271 9.37834L15.0197 7.97099L5.36584 17.6249V19.0322ZM3.39062 21.0074V16.8101L16.4271 3.79834C16.6246 3.61728 16.8427 3.47737 17.0814 3.37861C17.32 3.27985 17.571 3.23047 17.8344 3.23047C18.0978 3.23047 18.3529 3.27985 18.5998 3.37861C18.8467 3.47737 19.0607 3.62551 19.2418 3.82303L20.5997 5.20569C20.7972 5.38675 20.9413 5.60073 21.0318 5.84763C21.1223 6.09454 21.1676 6.34144 21.1676 6.58834C21.1676 6.8517 21.1223 7.10272 21.0318 7.34139C20.9413 7.58006 20.7972 7.79816 20.5997 7.99568L7.58796 21.0074H3.39062ZM15.7111 8.68701L15.0197 7.97099L16.4271 9.37834L15.7111 8.68701Z"
+                                      fill="#6666F2"
+                                    />
+                                  </g>
+                                </svg>
+                              </a>
+                              <!-- (click)="deleteUser(onboardUser.id)" -->
+                              <a
+                                data-bs-toggle="modal"
+                                data-bs-target="#delete-modal"
+                                type="button"
+                                (click)="deleteUserId(onboardUser.id)"
                               >
-                                <mask
-                                  id="mask0_2026_632"
-                                  style="mask-type: alpha"
-                                  maskUnits="userSpaceOnUse"
-                                  x="0"
-                                  y="0"
+                                <!-- <i class="las la-trash-alt text-danger font-16" ></i> -->
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
                                   width="24"
                                   height="24"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
                                 >
-                                  <rect
-                                    y="0.269531"
-                                    width="23.7026"
-                                    height="23.7026"
-                                    fill="#D9D9D9"
-                                  />
-                                </mask>
-                                <g mask="url(#mask0_2026_632)">
-                                  <path
-                                    d="M6.91595 21.0074C6.37277 21.0074 5.90777 20.814 5.52095 20.4272C5.13414 20.0404 4.94073 19.5754 4.94073 19.0322V6.1933H3.95312V4.21808H8.89117V3.23047H14.8168V4.21808H19.7549V6.1933H18.7673V19.0322C18.7673 19.5754 18.5739 20.0404 18.187 20.4272C17.8002 20.814 17.3352 21.0074 16.792 21.0074H6.91595ZM16.792 6.1933H6.91595V19.0322H16.792V6.1933ZM8.89117 17.057H10.8664V8.16852H8.89117V17.057ZM12.8416 17.057H14.8168V8.16852H12.8416V17.057Z"
-                                    fill="#FF0404"
-                                  />
-                                </g>
-                              </svg>
-                            </a>
+                                  <mask
+                                    id="mask0_2026_632"
+                                    style="mask-type: alpha"
+                                    maskUnits="userSpaceOnUse"
+                                    x="0"
+                                    y="0"
+                                    width="24"
+                                    height="24"
+                                  >
+                                    <rect
+                                      y="0.269531"
+                                      width="23.7026"
+                                      height="23.7026"
+                                      fill="#D9D9D9"
+                                    />
+                                  </mask>
+                                  <g mask="url(#mask0_2026_632)">
+                                    <path
+                                      d="M6.91595 21.0074C6.37277 21.0074 5.90777 20.814 5.52095 20.4272C5.13414 20.0404 4.94073 19.5754 4.94073 19.0322V6.1933H3.95312V4.21808H8.89117V3.23047H14.8168V4.21808H19.7549V6.1933H18.7673V19.0322C18.7673 19.5754 18.5739 20.0404 18.187 20.4272C17.8002 20.814 17.3352 21.0074 16.792 21.0074H6.91595ZM16.792 6.1933H6.91595V19.0322H16.792V6.1933ZM8.89117 17.057H10.8664V8.16852H8.89117V17.057ZM12.8416 17.057H14.8168V8.16852H12.8416V17.057Z"
+                                      fill="#FF0404"
+                                    />
+                                  </g>
+                                </svg>
+                              </a>
+                            </div>
                           </td>
                         </tr>
                       </tbody>
@@ -1550,8 +1552,7 @@
               class="close-btn"
               data-bs-dismiss="modal"
               aria-label="Close"
-              #closeButton
-              (click)="resetManualUploadModal()"
+              #closeButtonDeleteUser
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -1590,14 +1591,12 @@
           <p class="font-11">You will not be able to recover this</p>
 
           <div class="mt-4 d-flex align-items-center flex-column">
-            <button class="btn continue-btn">Continue</button>
+            <button class="btn continue-btn" (click)="deleteUser()">Continue</button>
             <button
               class="btn cancel-btn pt-2"
               type="button"
               data-bs-dismiss="modal"
               aria-label="Close"
-              #closeButton
-              (click)="resetManualUploadModal()"
             >
               Cancel
             </button>

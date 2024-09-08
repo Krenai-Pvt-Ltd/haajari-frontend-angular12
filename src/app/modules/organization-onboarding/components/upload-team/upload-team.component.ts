@@ -376,8 +376,30 @@ export class UploadTeamComponent implements OnInit {
     );
   }
 
-  deleteUser(id: number) {
-    this._onboardingService.deleteOnboardUser(id).subscribe(
+  @ViewChild("closeButtonDeleteUser") closeButtonDeleteUser!: ElementRef;
+  deleteUser() {
+    this._onboardingService.deleteOnboardUser(this.idToDeleteUser).subscribe(
+      (response: any) => {
+        if (response.status) {
+          this.getUser();
+          this.closeButtonDeleteUser.nativeElement.click();
+        }
+      },
+      (error) => {}
+    );
+    this.isErrorToggle = false;
+    this.alreadyUsedPhoneNumberArray = 0;
+    this.alreadyUsedEmailArray = 0;
+  }
+
+  idToDeleteUser : number = 0;
+  deleteUserId(id: number) {
+    this.idToDeleteUser = id;
+  }
+  
+  listOfIds!: number[];
+  deleteUsers() {
+    this._onboardingService.deleteOnboardUsers(this.listOfIds).subscribe(
       (response: any) => {
         if (response.status) {
           this.getUser();
@@ -389,6 +411,7 @@ export class UploadTeamComponent implements OnInit {
     this.alreadyUsedPhoneNumberArray = 0;
     this.alreadyUsedEmailArray = 0;
   }
+
 
   isNumberExist: boolean = false;
   checkNumberExistance(index: number, number: string, uuid: string) {
