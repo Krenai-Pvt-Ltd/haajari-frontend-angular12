@@ -19,7 +19,7 @@
 
       <!-- sideBarStep-one sideBarStep-three sideBarStep-fore -->
 
-      <div class="sideBarStep-one sideBarStep-three">
+      <div [ngClass]="getStepClass()">
         <img src="assets/images/polygon-2.svg" />
       </div>
       <div class="step-personal-information">
@@ -42,7 +42,7 @@
       </div> -->
       <div class="">
         <div class="complete-step pt-3 border-bottom">
-          <h5 class="font-13 d-flex align-items-center gap-2">
+          <h5 class="font-13 d-flex align-items-center gap-2" *ngIf="STEP_ID > 1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="29"
@@ -75,7 +75,7 @@
             </svg>
             Personal Information
           </h5>
-          <h5 class="font-13 d-flex align-items-center gap-2">
+          <h5 class="font-13 d-flex align-items-center gap-2" *ngIf="STEP_ID > 2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="29"
@@ -108,7 +108,7 @@
             </svg>
             Employee Creation
           </h5>
-          <!-- <h5 class="font-13 d-flex align-items-center gap-2">
+          <h5 class="font-13 d-flex align-items-center gap-2" *ngIf="STEP_ID > 3">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="29"
@@ -140,10 +140,10 @@
               </defs>
             </svg>
             Shift Management
-          </h5> -->
+          </h5>
         </div>
         <div class="company-information pb-4">
-          <!-- <div>
+          <div *ngIf="STEP_ID === 1">
             <div class="text-center">
               <img
                 src="assets/images/company-information-img.svg"
@@ -182,8 +182,8 @@
                 </clipPath>
               </defs>
             </svg>
-          </div> -->
-          <!-- <div>
+          </div>
+          <div *ngIf="STEP_ID === 2">
             <div class="text-center">
             <img
               src="assets/images/complete-employee-img.svg"
@@ -221,8 +221,8 @@
                 </clipPath>
               </defs>
             </svg>
-          </div> -->
-          <div>
+          </div>
+          <div *ngIf="STEP_ID === 3">
             <div class="text-center">
               <img
                 src="assets/images/organization-shifts-img.svg"
@@ -263,7 +263,7 @@
               </defs>
             </svg>
           </div>
-          <!-- <div>
+          <div *ngIf="STEP_ID === 4">
             <div class="text-center">
               <img
                 src="assets/images/attendance-method-img.svg"
@@ -300,11 +300,11 @@
                 </clipPath>
               </defs>
             </svg>
-          </div> -->
+          </div>
         </div>
 
         <div class="pending-step pt-3 border-top">
-          <!-- <h5 class="font-11 d-flex align-items-center gap-2">
+          <h5 class="font-11 d-flex align-items-center gap-2" *ngIf="STEP_ID < 2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -322,8 +322,8 @@
               />
             </svg>
             Employee Creation
-          </h5> -->
-          <!-- <h5 class="font-11 d-flex align-items-center gap-2">
+          </h5>
+          <h5 class="font-11 d-flex align-items-center gap-2" *ngIf="STEP_ID < 3">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -341,8 +341,8 @@
               />
             </svg>
             Shift Management
-          </h5> -->
-          <h5 class="font-11 d-flex align-items-center gap-2">
+          </h5>
+          <h5 class="font-11 d-flex align-items-center gap-2" *ngIf="STEP_ID < 4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"

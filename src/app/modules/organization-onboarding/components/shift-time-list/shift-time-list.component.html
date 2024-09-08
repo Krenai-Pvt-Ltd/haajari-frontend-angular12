@@ -145,13 +145,12 @@
                   </a>
                 </div>
               </div>
-
-              <div class="shift-time p-2 m-3">
-                <div
+              <div   *ngFor="
+              let organizationShiftTimingWithShiftTypeResponse of organizationShiftTimingWithShiftTypeResponseList;">
+                <div class="shift-time p-2 m-3" 
                   *ngFor="
-                    let organizationShiftTimingWithShiftTypeResponse of organizationShiftTimingWithShiftTypeResponseList;
-                    let i = index
-                  "
+                          let organizationShiftTimingResponse of organizationShiftTimingWithShiftTypeResponse.organizationShiftTimingResponseList; let i = index
+                        "
                 >
                   <div class="">
                     <div
@@ -179,22 +178,25 @@
                             style="font-weight: 400"
                           >
                             {{
-                              organizationShiftTimingWithShiftTypeResponse
-                                .shiftType.name
+                              organizationShiftTimingResponse.name
                             }}
                           </h5>
                         </div>
                       </div>
                       <div
                         class="employ-list d-flex align-items-center gap-3"
-                        *ngFor="
-                          let organizationShiftTimingResponse of organizationShiftTimingWithShiftTypeResponse.organizationShiftTimingResponseList
-                        "
+                        
                       >
                         <span
                           class="pointer"
                           data-bs-toggle="modal"
                           data-bs-target="#munal-upload"
+                          (click)="
+                              updateOrganizationShiftTiming(
+                                organizationShiftTimingResponse,
+                                'SHIFT_TIME'
+                              )
+                            "
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -227,7 +229,7 @@
                           data-bs-toggle="modal"
                           data-bs-target="#shiftTime"
                           (click)="
-                            updateOrganizationShiftTiming(
+                            updateOrganizationShiftTimingUser(
                               organizationShiftTimingResponse,
                               'SHIFT_TIME'
                             )
@@ -305,81 +307,7 @@
                       class="collapse multi-collapse"
                       [id]="'multiCollapseExample' + i"
                       [class.show]="activeIndex === i"
-                      *ngFor="
-                        let organizationShiftTimingResponse of organizationShiftTimingWithShiftTypeResponse.organizationShiftTimingResponseList
-                      "
                     >
-                      <!-- <div
-                        class="d-flex align-items-center justify-content-between mt-3"
-                      >
-                        <div class="">
-                          <p class="mb-0">
-                            <i
-                              class="bi bi-arrow-right"
-                              style="padding-right: 10px"
-                            ></i>
-                            {{ organizationShiftTimingResponse.name }}
-                          </p>
-                        </div>
-                        <div class="d-flex align-items-center gap-4">
-
-                          <a
-                            style="cursor: pointer"
-                            data-bs-toggle="modal"
-                            data-bs-target="#shiftTime"
-                            (click)="
-                              updateOrganizationShiftTiming(
-                                organizationShiftTimingResponse,
-                                'STAFF_SELECTION'
-                              )
-                            "
-                            ><i class="bi bi-people"></i
-                          ></a>
-
-                          <a
-                            style="cursor: pointer"
-                            data-bs-toggle="modal"
-                            data-bs-target="#shiftTime"
-                            (click)="
-                              updateOrganizationShiftTiming(
-                                organizationShiftTimingResponse,
-                                'SHIFT_TIME'
-                              )
-                            "
-                            ><i class="bi bi-pencil pointer"></i
-                          ></a>
-
-                          <a
-                            style="cursor: pointer"
-                            class="delete-rule"
-                            (click)="
-                              deleteOrganizationShiftTimingMethodCall(
-                                organizationShiftTimingResponse.id
-                              )
-                            "
-                            *ngIf="
-                              !deleteOrganizationShiftTimingTemplateLoader(
-                                organizationShiftTimingResponse.id
-                              )
-                            "
-                          >
-                            <i class="bi bi-trash pointer text-danger"></i>
-                          </a>
-                          <div
-                            class="dot-opacity-loader"
-                            *ngIf="
-                              deleteOrganizationShiftTimingTemplateLoader(
-                                organizationShiftTimingResponse.id
-                              )
-                            "
-                          >
-                            <span style="background-color: #6666f3"></span>
-                            <span style="background-color: #6666f3"></span>
-                            <span style="background-color: #6666f3"></span>
-                          </div>
-                        </div>
-                      </div> -->
-
                       <div class="shift-in-out-box row mt-2 p-3 m-0">
                         <div class="col-md-4">
                           <div class="shift-in-out-time mb-3">
@@ -452,213 +380,6 @@
               </div>
             </div>
 
-            <!-- <div
-              class=""
-              *ngIf="
-                !allShiftTimingsLoader &&
-                organizationShiftTimingWithShiftTypeResponseList.length > 0
-              "
-            >
-              <div>
-                <div
-                  class="d-flex align-items-center justify-content-end mt-3 p-0"
-                >
-                  <a
-                    type="button"
-                    class="btn add-shift-time"
-                    routerLink="/organization-onboarding/add-shift-time"
-                  >
-                    + Add more shift
-                  </a>
-                </div>
-                <div
-                  class="rule-main-box mt-4"
-                  *ngFor="
-                    let organizationShiftTimingWithShiftTypeResponse of organizationShiftTimingWithShiftTypeResponseList
-                  "
-                >
-                  <div
-                    class="attendance-boxx d-flex align-items-center justify-content-between"
-                  >
-                    <div class="late-rule">
-                      <h5>
-                        {{
-                          organizationShiftTimingWithShiftTypeResponse.shiftType
-                            .name
-                        }}
-                      </h5>
-                    </div>
-                  </div>
-
-                  <div
-                    class="row mt-2 p-2"
-                    *ngFor="
-                      let organizationShiftTimingResponse of organizationShiftTimingWithShiftTypeResponse.organizationShiftTimingResponseList
-                    "
-                  >
-                    <div
-                      class="col-md-12 d-flex justify-content-between align-items-center pb-2"
-                    >
-                      <p
-                        class="mb-0 mb-2"
-                        style="font-size: 12px; font-weight: 500"
-                      >
-                        {{ organizationShiftTimingResponse.name }}
-                      </p>
-                      <div
-                        class="late-btn d-flex align-items-center justify-content-end mb-2"
-                        style="gap: 15px; margin-right: 15px"
-                      >
-                        <a
-                          style="cursor: pointer"
-                          data-bs-toggle="modal"
-                          data-bs-target="#shiftTime"
-                          (click)="
-                            updateOrganizationShiftTiming(
-                              organizationShiftTimingResponse,
-                              'STAFF_SELECTION'
-                            )
-                          "
-                          ><i class="bi bi-person-circle"></i> User</a
-                        >
-                        <p
-                          style="color: #d7d7d7; margin-bottom: 0px"
-                          class="ng-star-inserted"
-                        >
-                          |
-                        </p>
-                        <a
-                          style="cursor: pointer"
-                          data-bs-toggle="modal"
-                          data-bs-target="#shiftTime"
-                          (click)="
-                            updateOrganizationShiftTiming(
-                              organizationShiftTimingResponse,
-                              'SHIFT_TIME'
-                            )
-                          "
-                          ><i class="bi bi-pencil-square"></i> Edit</a
-                        >
-                        <p
-                          style="color: #d7d7d7; margin-bottom: 0px"
-                          class="ng-star-inserted"
-                        >
-                          |
-                        </p>
-
-                        <a
-                          style="cursor: pointer"
-                          class="delete-rule"
-                          (click)="
-                            deleteOrganizationShiftTimingMethodCall(
-                              organizationShiftTimingResponse.id
-                            )
-                          "
-                          *ngIf="
-                            !deleteOrganizationShiftTimingTemplateLoader(
-                              organizationShiftTimingResponse.id
-                            )
-                          "
-                        >
-                          <i class="bi bi-trash"></i> Delete</a
-                        >
-                        <div
-                          class="dot-opacity-loader"
-                          *ngIf="
-                            deleteOrganizationShiftTimingTemplateLoader(
-                              organizationShiftTimingResponse.id
-                            )
-                          "
-                        >
-                          <span style="background-color: #6666f3"></span>
-                          <span style="background-color: #6666f3"></span>
-                          <span style="background-color: #6666f3"></span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-md-4">
-                      <div class="shift-deta">
-                        <p class="mb-0">
-                          In Time |
-                          <span style="color: #009688">{{
-                            organizationShiftTimingResponse.inTime
-                          }}</span>
-                        </p>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="shift-deta">
-                        <p class="mb-0">
-                          Out Time |
-                          <span style="color: #009688">{{
-                            organizationShiftTimingResponse.outTime
-                          }}</span>
-                        </p>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="shift-deta">
-                        <p class="mb-0">
-                          Working Hours |
-                          <span style="color: #009688">{{
-                            organizationShiftTimingResponse.workingHour
-                          }}</span>
-                        </p>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="shift-deta">
-                        <p class="mb-0">
-                          Break Time |
-                          <span style="color: #009688">{{
-                            organizationShiftTimingResponse.startLunch
-                          }}</span>
-                        </p>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="shift-deta">
-                        <p class="mb-0">
-                          Back Time |
-                          <span style="color: #009688">{{
-                            organizationShiftTimingResponse.endLunch
-                          }}</span>
-                        </p>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="shift-deta">
-                        <p class="mb-0">
-                          Total Break Hours |
-                          <span style="color: #009688">
-                            {{
-                              organizationShiftTimingResponse.lunchHour
-                            }}</span
-                          >
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div> -->
-
-            <!-- <div class="mt-5" *ngIf="!allShiftTimingsLoader && organizationShiftTimingWithShiftTypeResponseList.length==0">
-                                                <div class="errorboxmain">
-                                                    <div class="errorboxinner">
-                                                        <div class="">
-                                                            <button type="button"
-                                                                routerLink="/organization-onboarding/add-shift-time"
-                                                                class="btn btn-primary skip-btn" routerLink="/organization-onboarding/add-shift-time"> Add Shift Time
-                                                            </button>
-                                                            <p class="skip-btn-para">You can assign different shift's to your employees </p>
-                                                        </div>
-
-                                                        
-                                                    </div>
-                                                </div>
-                                        </div> -->
           </div>
 
           <div class="row">
@@ -1682,7 +1403,7 @@
                         width: 100%;
                       "
                     >
-                      {{ selectedShiftType?.name || "Select shift type" }}
+                      {{ selectedShiftType?.name || "Day Shift" }}
                       <i class="bi bi-chevron-down"></i>
                     </button>
                     <ul
@@ -1690,14 +1411,22 @@
                       aria-labelledby="dropdownMenuButton1"
                       style="width: 100%"
                     >
-                      <li *ngFor="let shiftType of shiftTypeList">
+                    <li>
+                      <a
+                        class="dropdown-item"
+                       
+                      >
+                        Day Shift
+                      </a>
+                    </li>
+                      <!-- <li *ngFor="let shiftType of shiftTypeList">
                         <a
                           class="dropdown-item"
                           (click)="selectShiftType(shiftType)"
                         >
                           {{ shiftType.name }}
                         </a>
-                      </li>
+                      </li> -->
                     </ul>
                   </div>
                 </div>
@@ -1725,6 +1454,7 @@
                     [(ngModel)]="organizationShiftTimingRequest.inTime"
                     [nzUse12Hours]="true"
                     nzFormat="h:mm a"
+                    [nzDefaultOpenValue]="defaultInOpenTime"
                     (ngModelChange)="onTimeChange('inTime', $event)"
                     [ngModelOptions]="{ standalone: true }"
                   ></nz-time-picker>
@@ -1744,6 +1474,7 @@
                     [(ngModel)]="organizationShiftTimingRequest.outTime"
                     [nzUse12Hours]="true"
                     nzFormat="h:mm a"
+                    [nzDefaultOpenValue]="defaultOutOpenTime"
                     (ngModelChange)="onTimeChange('outTime', $event)"
                     [ngModelOptions]="{ standalone: true }"
                   ></nz-time-picker>
@@ -1779,6 +1510,7 @@
                     [(ngModel)]="organizationShiftTimingRequest.startLunch"
                     [nzUse12Hours]="true"
                     nzFormat="h:mm a"
+                    [nzDefaultOpenValue]="defaultStartLunchOpenTime"
                     (ngModelChange)="onTimeChange('startLunch', $event)"
                     [ngModelOptions]="{ standalone: true }"
                   ></nz-time-picker>
@@ -1802,6 +1534,7 @@
                     [(ngModel)]="organizationShiftTimingRequest.endLunch"
                     [nzUse12Hours]="true"
                     nzFormat="h:mm a"
+                    [nzDefaultOpenValue]="defaultEndLunchOpenTime"
                     (ngModelChange)="onTimeChange('endLunch', $event)"
                     [ngModelOptions]="{ standalone: true }"
                   ></nz-time-picker>

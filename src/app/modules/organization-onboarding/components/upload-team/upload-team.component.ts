@@ -324,13 +324,18 @@ export class UploadTeamComponent implements OnInit {
 
   onboardUserList: any[] = new Array();
   loading: boolean = false;
+  totalOnboardingUserListCount: number = 0;
+
+  page: number = 0;
+  size: number = 5;
   getUser() {
     this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
     this.loading = true;
-    this._onboardingService.getOnboardUser().subscribe(
+    this._onboardingService.getOnboardUser(this.page, this.size).subscribe(
       (response: any) => {
         if (response.status) {
           this.onboardUserList = response.object;
+          this.totalOnboardingUserListCount = response.totalItems;
         } else {
           this.onboardUserList = [];
           this.dataNotFoundPlaceholder = true;
@@ -345,6 +350,52 @@ export class UploadTeamComponent implements OnInit {
       }
     );
   }
+
+  allUserIds: any[] = [];
+  getAllUser() {
+    this._onboardingService.getAllOnboardUser().subscribe(
+      (response: any) => {
+        if (response.status) {
+          this.allUserIds = response.object; 
+          this.listOfIds = this.allUserIds.map(user => user.id); 
+          // this.listOfIds = [...this.allUserIds]; 
+        }
+      },
+      (error) => {
+      }
+    );
+  }
+
+  
+
+  getRowNumber(index: number): number {
+    return (this.page) * this.size + index + 1;
+  }
+
+  nextPage() {
+    if (this.onboardUserList.length === this.size) {
+      // this.unselectAllUsers();
+      this.onboardUserList = [];
+      this.page++;
+      this.getUser();
+    }
+  }
+  
+  previousPage() {
+    if (this.page > 0) {
+      // this.unselectAllUsers();
+      this.onboardUserList = [];
+      this.page--;
+      this.getUser();
+    }
+  }
+
+  get currentDisplayedCount(): number {
+    const previousPagesCount = this.page * this.size;
+    const currentPageCount = this.onboardUserList.length;
+    return previousPagesCount + currentPageCount;
+  }
+
 
   @ViewChild('userEditModal') userEditModal!: ElementRef;
   openUserEditModal(user: any) {
@@ -376,11 +427,15 @@ export class UploadTeamComponent implements OnInit {
     );
   }
 
-  deleteUser(id: number) {
-    this._onboardingService.deleteOnboardUser(id).subscribe(
+  @ViewChild("closeButtonDeleteUser") closeButtonDeleteUser!: ElementRef;
+  deleteUser() {
+    this._onboardingService.deleteOnboardUser(this.idToDeleteUser).subscribe(
       (response: any) => {
         if (response.status) {
           this.getUser();
+          this.page = 0;
+          this.getUser();
+          this.closeButtonDeleteUser.nativeElement.click();
         }
       },
       (error) => {}
@@ -389,6 +444,65 @@ export class UploadTeamComponent implements OnInit {
     this.alreadyUsedPhoneNumberArray = 0;
     this.alreadyUsedEmailArray = 0;
   }
+
+  idToDeleteUser : number = 0;
+  deleteUserId(id: number) {
+    this.idToDeleteUser = id;
+  }
+  
+  listOfIds: number[] = [];
+
+  deleteUsers() {
+    this._onboardingService.deleteOnboardUsers(this.listOfIds).subscribe(
+      (response: any) => {
+        if (response.status) {
+          this.getUser();
+          this.listOfIds = [];
+          this.isSelectAll = false;
+        }
+      },
+      (error) => {}
+    );
+    this.isErrorToggle = false;
+    this.alreadyUsedPhoneNumberArray = 0;
+    this.alreadyUsedEmailArray = 0;
+  }
+
+  isSelectAll: boolean = false; 
+
+
+  toggleUserSelection(userId: number, event: Event): void {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    if (isChecked) {
+      this.listOfIds.push(userId); 
+    } else {
+      this.listOfIds = this.listOfIds.filter(id => id !== userId); 
+    }
+    this.isSelectAll = this.onboardUserList.length === this.listOfIds.length;
+  }
+
+  
+  toggleSelectAll(event: Event): void {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    if (isChecked) {
+      this.listOfIds = this.onboardUserList.map(user => user.id); 
+    } else {
+      this.listOfIds = []; 
+    }
+    this.isSelectAll = isChecked;
+  }
+
+  selectAllPageUsers() {
+    this.getAllUser();
+    this.isSelectAll = true;
+  }
+
+  unselectAllUsers() {
+   this.listOfIds = [];
+   this.isSelectAll = false;
+  }
+
+
 
   isNumberExist: boolean = false;
   checkNumberExistance(index: number, number: string, uuid: string) {
@@ -428,6 +542,7 @@ export class UploadTeamComponent implements OnInit {
   }
   isNextloading: boolean = false;
   next() {
+    debugger
     // setTimeout(() => {
     this.isNextloading = true;
     // }, 1000);
@@ -443,7 +558,9 @@ export class UploadTeamComponent implements OnInit {
     if (this.shiftTimingExists) {
       this._router.navigate(['/organization-onboarding/shift-time-list']);
     } else {
-      this._router.navigate(['/organization-onboarding/add-shift-time']);
+      // this._router.navigate(['/organization-onboarding/add-shift-time']);
+      this._router.navigate(['/organization-onboarding/add-shift-placeholder']);
+      //  routerLink="/organization-onboarding/add-shift-placeholder"
     }
 
     // this._onboardingService.refreshOnboarding();

@@ -488,32 +488,99 @@
                         </button>
                       </div>
                     </div>
-                    <!-- <div
-                      class="alert alert-light mb-0 mt-4 bg-soft-warning create-password-warning text-start"
-                      role="alert"
-                      *ngIf="
-                        alreadyUsedPhoneNumberArray.length > 0 ||
-                        alreadyUsedEmailArray.length > 0 ||
-                        isErrorToggle
-                      "
+                    <div
+                    class="d-flex align-items-center justify-content-between mb-3"
+                  >
+                    <h5 class="alert-heading font-14 mb-0">
+                      <!-- Employee List -->
+                    </h5>
+
+                    <div
+                    class="d-flex align-items-center gap-3"
+                    *ngIf="listOfIds.length === 0"
+                  >
+                    <p
+                      class="mb-0"
+                      style="font-weight: 400"
                     >
-                      <h4 class="alert-heading font-18">Attention!</h4>
-                  
-                      <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p>
-                      <p *ngIf="alreadyUsedPhoneNumberArray.length > 0">
-                        Phone Numbers:
-                        {{
-                          formatAsCommaSeparated(alreadyUsedPhoneNumberArray)
-                        }}
+                      <span class="text-primary">
+                        {{totalOnboardingUserListCount}}
+                      </span>
+                       User 
+                    </p>
+                    </div>
+
+                    <div
+                      class="d-flex align-items-center gap-3"
+                      *ngIf="listOfIds.length > 0"
+                    >
+                      <p
+                        class="mb-0"
+                        style="font-weight: 400"
+                      >
+                        All
+                        <span class="text-primary">
+                          {{ listOfIds?.length }}
+                        </span>
+                        Employees on this page are selected
                       </p>
-                      <p *ngIf="alreadyUsedEmailArray.length > 0">
-                        Emails:
-                        {{ formatAsCommaSeparated(alreadyUsedEmailArray) }}
+                      <p
+                        class="mb-0 selectAll"
+                        style="font-weight: 400; cursor: pointer;"
+                        (click)="selectAllPageUsers()"
+                      >
+                        Select all
+                        <span class="text-primary">
+                          {{ totalOnboardingUserListCount }}
+                        </span>
+                        Users
                       </p>
-                      <p *ngIf="!isErrorToggle">
-                        These credentials are already registered with us!
+                      <p
+                        class="mb-0 selectAll"
+                        style="font-weight: 400; cursor: pointer;"
+                        (click)="deleteUsers()"
+                      >
+                        Delete Selected Users
                       </p>
-                    </div> -->
+                      <span class="error-spreter"></span>
+                      <button
+                        class="p-0 btn removeBtn pointer"
+                        (click)="unselectAllUsers()"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                        >
+                          <mask
+                            id="mask0_1624_4338"
+                            style="mask-type: alpha"
+                            maskUnits="userSpaceOnUse"
+                            x="0"
+                            y="0"
+                            width="24"
+                            height="24"
+                          >
+                            <rect
+                              y="0.25"
+                              width="23.5"
+                              height="23.5"
+                              fill="#D9D9D9"
+                            />
+                          </mask>
+                          <g mask="url(#mask0_1624_4338)">
+                            <path
+                              d="M6.26146 18.8568L4.89062 17.4859L10.374 12.0026L4.89062 6.51927L6.26146 5.14844L11.7448 10.6318L17.2281 5.14844L18.599 6.51927L13.1156 12.0026L18.599 17.4859L17.2281 18.8568L11.7448 13.3734L6.26146 18.8568Z"
+                              fill="#FD0808"
+                            />
+                          </g>
+                        </svg>
+                        Clear Selection
+                      </button>
+                    </div>
+                  </div>
                     <table class="table table-striped">
                       <thead class="thead-light">
                         <tr>
@@ -522,6 +589,8 @@
                               type="checkbox"
                               style="cursor: pointer"
                               class="form-check-input"
+                              (change)="toggleSelectAll($event)"
+                              [checked]="isSelectAll"
                             />
                           </th>
                           <th style="width: 5%" class="text-center">Count</th>
@@ -552,10 +621,12 @@
                               type="checkbox"
                               style="cursor: pointer"
                               class="form-check-input"
+                              (change)="toggleUserSelection(onboardUser.id, $event)"
+                              [checked]="listOfIds?.includes(onboardUser.id)"
                             />
                           </td>
                           <td class="text-center">
-                            {{ i + 1 }}
+                            {{ getRowNumber(i) }}
                           </td>
                           <td>{{ onboardUser.name }}</td>
                           <td>
@@ -611,6 +682,7 @@
                                 data-bs-toggle="modal"
                                 data-bs-target="#delete-modal"
                                 type="button"
+                                (click)="deleteUserId(onboardUser.id)"
                               >
                                 <!-- <i class="las la-trash-alt text-danger font-16" ></i> -->
                                 <svg
@@ -653,17 +725,18 @@
 
                   <div
                     class="col-md-12 mt-2 d-flex align-items-center justify-content-end pagnition"
+                    *ngIf="totalOnboardingUserListCount > size"
                   >
                     <div
                       class="d-flex align-items-center justify-content-end"
                       style="gap: 15px"
                     >
-                      <p class="mb-0"><span>3</span> of <span>30</span></p>
+                      <p class="mb-0"><span>{{currentDisplayedCount}}</span> of <span>{{totalOnboardingUserListCount}}</span></p>
                       <div>
-                        <button class="pagnition-left">
+                        <button class="pagnition-left" (click)="previousPage()" [disabled]="page === 0">
                           <i class="bi bi-caret-left-fill"></i>
                         </button>
-                        <button class="pagnition-right">
+                        <button class="pagnition-right" (click)="nextPage()" [disabled]="onboardUserList.length < size">
                           <i class="bi bi-caret-right-fill"></i>
                         </button>
                       </div>
@@ -1015,6 +1088,7 @@
       tabindex="-1"
       role="dialog"
       aria-hidden="true"
+      data-bs-backdrop="static" data-bs-keyboard="false"
     >
       <div
         class="modal-dialog modal-dialog-centered"
@@ -1532,7 +1606,13 @@
                 (click)="submit()"
                 [disabled]="this.userList.length < 2"
               >
-                Submit
+              <div class="dot-opacity-white-loader" *ngIf="createLoading">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <span *ngIf="!createLoading">Submit</span>
+                
               </button>
             </div>
           </div>
@@ -1570,8 +1650,7 @@
               class="close-btn"
               data-bs-dismiss="modal"
               aria-label="Close"
-              #closeButton
-              (click)="resetManualUploadModal()"
+              #closeButtonDeleteUser
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -1610,14 +1689,12 @@
           <p class="font-11">You will not be able to recover this</p>
 
           <div class="mt-4 d-flex align-items-center flex-column">
-            <button class="btn continue-btn">Continue</button>
+            <button class="btn continue-btn" (click)="deleteUser()">Continue</button>
             <button
               class="btn cancel-btn pt-2"
               type="button"
               data-bs-dismiss="modal"
               aria-label="Close"
-              #closeButton
-              (click)="resetManualUploadModal()"
             >
               Cancel
             </button>

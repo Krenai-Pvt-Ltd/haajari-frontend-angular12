@@ -109,6 +109,13 @@ export class OrganizationOnboardingService {
     );
   }
 
+  deleteOnboardUsers(id: any) {
+    debugger;
+    return this._httpClient.delete(
+      this._key.base_url + this._key.delete_onboarding_user,
+    );
+  }
+
   editOnboardUser(userReq: UserReq) {
     debugger;
     return this._httpClient.put(
