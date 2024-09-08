@@ -651,15 +651,45 @@
                       </tbody>
                     </table>
                   </div>
+
+                  <div
+                    class="col-md-12 mt-2 d-flex align-items-center justify-content-end pagnition"
+                  >
+                    <div
+                      class="d-flex align-items-center justify-content-end"
+                      style="gap: 15px"
+                    >
+                      <p class="mb-0"><span>3</span> of <span>30</span></p>
+                      <div>
+                        <button class="pagnition-left">
+                          <i class="bi bi-caret-left-fill"></i>
+                        </button>
+                        <button class="pagnition-right">
+                          <i class="bi bi-caret-right-fill"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </ng-container>
               </ng-template>
 
               <ng-template #errorInOnboardUserListCondition>
                 <div
+                  style="height: 30%; margin-top: 20%"
                   class="errorboxmain"
                   *ngIf="networkConnectionErrorPlaceholder"
                 >
-                  <div class="errorboxinner text-center">
+                  <nz-empty
+                    nzNotFoundImage="assets/images/signal.svg"
+                    [nzNotFoundContent]="contentTpl"
+                  >
+                    <ng-template #contentTpl>
+                      <h4>Something went wrong!</h4>
+
+                      <p>An error occurred while processing your request!</p>
+                    </ng-template>
+                  </nz-empty>
+                  <!-- <div class="errorboxinner text-center">
                     <div class="errorboxplaceholder mb-2">
                       <img src="assets/images/signal.svg" style="width: 80px" />
                     </div>
@@ -667,19 +697,8 @@
                     <h4>Something went wrong!</h4>
 
                     <p>An error occurred while processing your request!</p>
-                  </div>
+                  </div> -->
                 </div>
-                <!-- <div class="errorboxmaintop" style="box-shadow: none; padding: 5px; padding-left: 0px;"
-                                *ngIf="networkConnectionErrorPlaceholder">
-                                <div class="errorboxinner" style="display: flex; align-items: center; gap: 10px;">
-                                    <div class="errorboxplaceholder mb-2">
-                                        <img src="assets/images/signal.svg"/>
-                                    </div>
-                                    <div class="">
-                                        <h6 style="font-size: 13px; margin-bottom: 0px;">Something went wrong!</h6>
-                                    </div>
-                                </div>
-                            </div> -->
               </ng-template>
             </div>
             <div class="row">
