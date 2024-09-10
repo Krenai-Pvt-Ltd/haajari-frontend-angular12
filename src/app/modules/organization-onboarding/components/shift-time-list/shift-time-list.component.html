@@ -1084,6 +1084,42 @@
               <div>
                 <div class="row">
                   <div class="">
+                    <div class="userModalCloseBtn">
+                      <button
+                          _ngcontent-vta-c393=""
+                          type="button"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                          class="close-btn employ-list-close-btn"
+                          #closeButtonEditStaffInfo
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                          >
+                            <mask
+                              id="mask0_1633_4750"
+                              style="mask-type: alpha"
+                              maskUnits="userSpaceOnUse"
+                              x="0"
+                              y="0"
+                              width="24"
+                              height="24"
+                            >
+                              <rect width="23.5" height="23.5" fill="#D9D9D9" />
+                            </mask>
+                            <g mask="url(#mask0_1633_4750)">
+                              <path
+                                d="M6.26146 18.6068L4.89062 17.2359L10.374 11.7526L4.89062 6.26927L6.26146 4.89844L11.7448 10.3818L17.2281 4.89844L18.599 6.26927L13.1156 11.7526L18.599 17.2359L17.2281 18.6068L11.7448 13.1234L6.26146 18.6068Z"
+                                fill="#070707"
+                              />
+                            </g>
+                          </svg>
+                        </button>
+                    </div>
                     <div class="col-md-12 mb-3">
                       <form
                         novalidate=""
@@ -1112,6 +1148,7 @@
 
                     <div
                       class="d-flex align-items-center justify-content-between mb-3"
+                      *ngIf="selectedStaffsUuids.length > 0"
                     >
                       <h5 class="alert-heading font-14 mb-0">
                         Selected Employee List
@@ -1122,11 +1159,18 @@
                           class="mb-0"
                           style="font-weight: 400; color: #000; font-size: 12px"
                         >
-                          <span class="text-primary"> 34 </span> selected of
-                          <span class="text-primary"> 34 </span>
+                          <span class="text-primary"> {{ selectedStaffsUuids.length }} </span> selected of
+                          <span class="text-primary"> {{ total }} </span>
                         </p>
+                        <p
+                        class="mb-0 selectAll"
+                        style="font-weight: 400; cursor: pointer;"
+                        (click)="selectAllUsers(true)"
+                      >
+                      Select all {{ total }} users
+                      </p>
                         <span class="error-spreter"></span>
-                        <button class="p-0 btn removeBtn pointer">
+                        <button class="p-0 btn removeBtn pointer" (click)="unselectAllUsers()">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="24"
@@ -1160,39 +1204,7 @@
                           Remove All
                         </button>
 
-                        <button
-                          _ngcontent-vta-c393=""
-                          type="button"
-                          data-bs-dismiss="modal"
-                          aria-label="Close"
-                          class="close-btn employ-list-close-btn"
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                          >
-                            <mask
-                              id="mask0_1633_4750"
-                              style="mask-type: alpha"
-                              maskUnits="userSpaceOnUse"
-                              x="0"
-                              y="0"
-                              width="24"
-                              height="24"
-                            >
-                              <rect width="23.5" height="23.5" fill="#D9D9D9" />
-                            </mask>
-                            <g mask="url(#mask0_1633_4750)">
-                              <path
-                                d="M6.26146 18.6068L4.89062 17.2359L10.374 11.7526L4.89062 6.26927L6.26146 4.89844L11.7448 10.3818L17.2281 4.89844L18.599 6.26927L13.1156 11.7526L18.599 17.2359L17.2281 18.6068L11.7448 13.1234L6.26146 18.6068Z"
-                                fill="#070707"
-                              />
-                            </g>
-                          </svg>
-                        </button>
+                        
                       </div>
                     </div>
                     <div class="employ-list-height">
@@ -1203,6 +1215,8 @@
                               <input
                                 type="checkbox"
                                 class="form-check-input pointer"
+                                [(ngModel)]="isAllSelected"
+                                (change)="selectAll(isAllSelected)"
                               />
                             </th>
                             <th style="width: 2%" class="text-center">Count</th>
@@ -1214,23 +1228,54 @@
                               Phone Number
                             </th>
 
-                            <th style="width: 5%" class="text-center"></th>
+                            <!-- <th style="width: 5%" class="text-center"></th> -->
                           </tr>
                         </thead>
+                        <tbody *ngIf="staffs.length == 0">
+                          <tr>
+                            <td colspan="5">
+                              <div
+                                class="errorboxmain bg-white d-flex align-items-center justify-content-center"
+                              >
+                                <div class="errorboxinner">
+                                  <div class="errorboxplaceholder mb-2">
+                                    <img
+                                      src="assets/images/addnewproduct.svg"
+                                      style="width: 100px"
+                                    />
+                                  </div>
+      
+                                  <h4>No Data Found</h4>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
                         <tbody class="">
-                          <tr *ngFor="let item of [].constructor(8)">
+                          <tr *ngFor="
+                          let staff of staffs
+                            | paginate
+                              : {
+                                  itemsPerPage: itemPerPage,
+                                  currentPage: pageNumber,
+                                  totalItems: total
+                                };
+                                let i = index
+                        ">
                             <td class="text-center">
                               <input
                                 type="checkbox"
                                 class="form-check-input pointer"
+                                [(ngModel)]="staff.selected"
+                                (change)="checkIndividualSelection()"
                               />
                             </td>
-                            <td class="text-center">1</td>
-                            <td>Yogesh Kumar</td>
-                            <td>Yogesh@krenai.com</td>
-                            <td>91 9549901868</td>
+                            <td class="text-center"> {{ getRowNumber(i) }}</td>
+                            <td>{{ staff.name }}</td>
+                            <td> {{ staff.email || 'N/A'}}</td>
+                            <td>{{ staff.phoneNumber ? staff.phoneNumber : "N/A" }}</td>
 
-                            <td
+                            <!-- <td
                               class="d-flex align-items-center justify-content-center gap-2"
                             >
                               <a class="pointer"
@@ -1238,16 +1283,68 @@
                                   class="las la-trash-alt text-danger font-16"
                                 ></i
                               ></a>
-                            </td>
+                            </td> -->
                           </tr>
                         </tbody>
                       </table>
-                    </div>
 
-                    <div
-                      class="employ-lost-footer border-top p-2 d-flex align-items-center justify-content-between"
+                      <div
+                      class="pagination pl-3 align-items-center justify-content-between"
+                      *ngIf="total > 5"
                     >
-                      <button class="btn text-primary add-new p-0">
+                      <p style="padding-left: 15px">
+                        Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
+                        {{ total }} teams
+                      </p>
+                      <div>
+                        <nav aria-label="Page navigation example">
+                          <ul class="pagination justify-content-end">
+                            <li class="page-item" [class.disabled]="pageNumber == 1">
+                              <a
+                                class="page-link"
+                                href="javascript:void(0);"
+                                aria-label="Previous"
+                                (click)="changePage('prev')"
+                              >
+                                <span aria-hidden="true">&laquo;</span>
+                              </a>
+                            </li>
+                            <li
+                              class="page-item"
+                              *ngFor="let page of getPages()"
+                              [class.active]="pageNumber == page"
+                            >
+                              <a
+                                class="page-link"
+                                href="javascript:void(0);"
+                                (click)="changePage(page)"
+                                >{{ page }}</a
+                              >
+                            </li>
+                            <li
+                              class="page-item"
+                              [class.disabled]="pageNumber == totalPages"
+                            >
+                              <a
+                                class="page-link"
+                                href="javascript:void(0);"
+                                aria-label="Next"
+                                (click)="changePage('next')"
+                              >
+                                <span aria-hidden="true">&raquo;</span>
+                              </a>
+                            </li>
+                          </ul>
+                        </nav>
+                      </div>
+                    </div>
+                    </div>
+                  
+                    <div
+                      class="employ-lost-footer border-top p-2 d-flex align-items-center justify-content-end"
+                    >
+                    <!-- {{isEditStaffLoader}} -->
+                      <!-- <button class="btn text-primary add-new p-0">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="30"
@@ -1280,8 +1377,16 @@
                           </g>
                         </svg>
                         Add new user
+                      </button> -->
+                      <button class="btn mannualSubmit" (click)="editShiftStaffInfo()">
+                        <span *ngIf="!isEditStaffLoader">Submit</span>
+                        <div class="dot-opacity-white-loader" *ngIf="isEditStaffLoader">
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                        </div>
+                        <!-- Submit -->
                       </button>
-                      <button class="btn mannualSubmit">Submit</button>
                     </div>
                   </div>
                 </div>
@@ -1379,7 +1484,7 @@
           <form
             #shiftForm="ngForm"
             ngNativeValidate
-            (ngSubmit)="submitShiftTimingForm()"
+            
           >
             <div class="row">
               <div class="col-md-12">
@@ -1443,6 +1548,7 @@
                     required
                     [(ngModel)]="organizationShiftTimingRequest.name"
                     name="shiftName"
+                    disabled
                   />
                 </div>
               </div>
@@ -1567,8 +1673,94 @@
         </div>
       </div>
       <div class="border-top d-flex align-items-center justify-content-end p-3">
-        <button class="btn mannualSubmit">Submit</button>
+        <button class="btn mannualSubmit" 
+        [disabled]="shiftForm.invalid || !organizationShiftTimingRequest.inTimeDate || !organizationShiftTimingRequest.outTimeDate || !organizationShiftTimingRequest.startLunchDate || !organizationShiftTimingRequest.endLunchDate"
+        (click)="submitShiftTimingForm()">Submit</button>
       </div>
     </div>
   </div>
 </div>
+
+<button
+  class="d-none"
+  data-bs-toggle="modal"
+  data-bs-target="#delete-modal"
+></button>
+<div
+  class="modal fade"
+  id="delete-modal"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-dialog-centered"
+    style="max-width: 500px"
+    role="document"
+  >
+    <div class="modal-content">
+      <div class="modal-body p-0 delete-text">
+        <div
+          class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4"
+        >
+          <div class="delete-close-btn">
+            <button
+              type="button"
+              class="close-btn"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+              #closeButtonDeleteUser
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="30"
+                height="30"
+                viewBox="0 0 30 30"
+                fill="none"
+              >
+                <mask
+                  id="mask0_2031_1331"
+                  style="mask-type: alpha"
+                  maskUnits="userSpaceOnUse"
+                  x="0"
+                  y="0"
+                  width="30"
+                  height="30"
+                >
+                  <rect width="30" height="30" fill="#D9D9D9" />
+                </mask>
+                <g mask="url(#mask0_2031_1331)">
+                  <path
+                    d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                    fill="black"
+                  />
+                </g>
+              </svg>
+            </button>
+          </div>
+          <img src="/assets/images/delete-img.svg" style="width: 70px" />
+        </div>
+        <div class="bg-white p-4 text-center">
+          <h5 class="alert-heading font-18 mb-2">
+            Are you sure you want to delete <br />
+            this Employee ?
+          </h5>
+          <p class="font-11">You will not be able to recover this</p>
+
+          <div class="mt-4 d-flex align-items-center flex-column">
+            <button class="btn continue-btn" >Continue</button>
+            <button
+              class="btn cancel-btn pt-2"
+              type="button"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

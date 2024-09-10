@@ -44,7 +44,7 @@ export class ShiftTimeListComponent implements OnInit {
   }
 
   selectedStaffsUuids: string[] = [];
-  itemPerPage: number = 8;
+  itemPerPage: number = 5;
   pageNumber: number = 1;
   total!: number;
   rowNumber: number = 1;
@@ -99,6 +99,11 @@ export class ShiftTimeListComponent implements OnInit {
           console.error(error);
         }
       );
+  }
+
+
+  getRowNumber(index: number): number {
+    return (this.pageNumber - 1) * this.itemPerPage + index + 1;
   }
 
   deleteOrganizationShiftTimingTemplateLoader(id: any): boolean {
@@ -219,7 +224,7 @@ export class ShiftTimeListComponent implements OnInit {
     this.organizationShiftTimingRequest = organizationShiftTimingResponse;
     this.organizationShiftTimingRequest.shiftTypeId =
       organizationShiftTimingResponse.shiftType.id;
-    // this.selectedStaffsUuids = organizationShiftTimingResponse.userUuids;
+    this.selectedStaffsUuids = organizationShiftTimingResponse.userUuids;
 
     // this.getShiftTypeMethodCall();
     // this.selectedShiftType = organizationShiftTimingResponse.shiftType;
@@ -277,12 +282,15 @@ export class ShiftTimeListComponent implements OnInit {
   registerOrganizationShiftTimingMethodCall() {
     debugger;
     this.organizationShiftTimingRequest.userUuids = this.selectedStaffsUuids;
+    this.organizationShiftTimingRequest.shiftTypeId = 1;
+    this.organizationShiftTimingRequest.weekdayInfos = [];
 
     this.dataService
       .registerShiftTiming(this.organizationShiftTimingRequest)
       .subscribe(
         (response) => {
           debugger;
+          this.isEditStaffLoader = false;
           // console.log(response);
           this.closeShiftTimingModal.nativeElement.click();
           this.getAllShiftTimingsMethodCall();
@@ -290,16 +298,27 @@ export class ShiftTimeListComponent implements OnInit {
             'Shift Timing registered successfully',
             Key.TOAST_STATUS_SUCCESS
           );
+         
           this.dataService.markStepAsCompleted(5);
         },
         (error) => {
           console.log(error);
+          this.isEditStaffLoader = false;
           this.helperService.showToast(
             'Error In Shift Creation',
             Key.TOAST_STATUS_ERROR
           );
         }
       );
+  }
+
+  @ViewChild("closeButtonEditStaffInfo") closeButtonEditStaffInfo!: ElementRef;
+  isEditStaffLoader: boolean = false;
+  editShiftStaffInfo() {
+    this.isEditStaffLoader = true;
+    this.registerOrganizationShiftTimingMethodCall();
+    this.closeButtonEditStaffInfo.nativeElement.click();
+
   }
 
   // ##### Pagination ############
@@ -522,8 +541,8 @@ calculateTimes(): void {
 
   // Reset errors and calculated times
   this.organizationShiftTimingValidationErrors = {};
-  this.organizationShiftTimingRequest.lunchHour = '';
-  this.organizationShiftTimingRequest.workingHour = '';
+  // this.organizationShiftTimingRequest.lunchHour = '';
+  // this.organizationShiftTimingRequest.workingHour = '';
 
   // Helper function to convert Date object to minutes from start of the day in local time
   const dateToLocalMinutes = (date: Date | undefined) => {
@@ -621,12 +640,14 @@ calculateTimes(): void {
   }
 
   submitShiftTimingForm(): void {
+    debugger
     this.calculateTimes();
-    if (this.isValidForm()) {
-      // Proceed with form submission logic
-    } else {
-      // Handle invalid form case
-    }
+    this.registerOrganizationShiftTimingMethodCall();
+    // if (this.isValidForm()) {
+    //   this.registerOrganizationShiftTimingMethodCall();
+    // } else {
+    //  return;
+    // }
   }
 
   skipShiftSetting() {}
