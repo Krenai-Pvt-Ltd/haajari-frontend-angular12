@@ -117,6 +117,7 @@ export class Key {
     '/organization-onboarding/upload-team',
     '/organization-onboarding/shift-time-list',
     '/organization-onboarding/attendance-mode',
+    '/organization-onboarding/add-shift-placeholder',
   ];
 
   // Deduction Ids

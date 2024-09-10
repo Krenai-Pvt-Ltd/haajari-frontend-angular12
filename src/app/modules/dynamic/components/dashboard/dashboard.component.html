@@ -746,27 +746,38 @@
                     </button>
                   </div>
                 </div>
+               
+                <div class="" style="width: 15%">
+                  <div class="dropdown deshboard-date-filter">
+                    <nz-date-picker nzMode="month" [nzSize]="size" [(ngModel)]="selectedDate"
+                      (ngModelChange)="onMonthChange($event)" [nzDisabledDate]="disableMonths"></nz-date-picker>
+                  </div>
+                </div>
                 <div class="" style="width: 15%">
                   <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle new-deopdown" type="button"
                       id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
-                      [disabled]="attendanceReportResponseList.length === 0">
-                      Download <i class="bi bi-chevron-down"></i>
+                      [disabled]="attendanceReportResponseList.length === 0" (click)="
+                      downloadAttendanceDataInExcelFormatMethodCall()">
+                      <span *ngIf="!downloadingFlag">Download</span>
+                      <div
+                      class="dot-opacity-loader"
+                      *ngIf="downloadingFlag"
+                    >
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                      <!-- <i class="bi bi-chevron-down"></i> -->
                     </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%">
+                    <!-- <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%">
                       <li>
                         <a id="attendance-data-download-in-excel-format" class="dropdown-item" (click)="
                             downloadAttendanceDataInExcelFormatMethodCall()
                           ">Excel</a>
                       </li>
                       <li><a class="dropdown-item">CSV</a></li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="" style="width: 15%">
-                  <div class="dropdown deshboard-date-filter">
-                    <nz-date-picker nzMode="month" [nzSize]="size" [(ngModel)]="selectedDate"
-                      (ngModelChange)="onMonthChange($event)" [nzDisabledDate]="disableMonths"></nz-date-picker>
+                    </ul> -->
                   </div>
                 </div>
               </div>

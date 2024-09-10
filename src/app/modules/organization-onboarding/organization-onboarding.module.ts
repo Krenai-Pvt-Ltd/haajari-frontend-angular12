@@ -34,6 +34,7 @@ import { AttendanceModeComponent } from './components/attendance-mode/attendance
 import { ShiftTimeListComponent } from './components/shift-time-list/shift-time-list.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { AddShiftPlaceholderComponent } from './components/add-shift-placeholder/add-shift-placeholder.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
     UploadTeamComponent,
     AttendanceModeComponent,
     ShiftTimeListComponent,
+    AddShiftPlaceholderComponent,
   ],
   imports: [
     CommonModule,

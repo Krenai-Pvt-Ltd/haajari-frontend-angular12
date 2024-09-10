@@ -88,10 +88,22 @@ export class OrganizationOnboardingService {
     );
   }
 
-  getOnboardUser() {
+  getOnboardUser(page:number, size:number) {
+    debugger;
+    const params = new HttpParams()
+      .set('page', page)
+      .set('size', size)
+    return this._httpClient.get(
+      this._key.base_url + this._key.get_onboarding_user,{
+        params,
+      }
+    );
+  }
+
+  getAllOnboardUser() {
     debugger;
     return this._httpClient.get(
-      this._key.base_url + this._key.get_onboarding_user,
+      this._key.base_url + this._key.get_onboarding_user + '/all'
     );
   }
 
@@ -109,10 +121,14 @@ export class OrganizationOnboardingService {
     );
   }
 
-  deleteOnboardUsers(id: any) {
+  deleteOnboardUsers(ids: any) {
     debugger;
+    const params = new HttpParams()
+      .set('ids', ids)
     return this._httpClient.delete(
-      this._key.base_url + this._key.delete_onboarding_user,
+      this._key.base_url + this._key.delete_onboarding_user,{
+        params
+      }
     );
   }
 
