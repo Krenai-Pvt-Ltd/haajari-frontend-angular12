@@ -1,0 +1,140 @@
+<div class="onboarding-box">
+  <div
+    class="onboardingRightImg"
+    style="background-image: url(assets/images/onbording-right-img.svg)"
+  >
+    <div class="container p-4">
+      <div class="">
+        <img src="assets/images/HAjiRi.svg" style="width: 120px" />
+      </div>
+      <div
+        class="onboarding-step d-flex align-items-center justify-content-center flex-column"
+      >
+        <div
+          class="d-flex align-items-center justify-content-center gap-3 pb-4"
+        >
+          <img src="assets/images/whatsapp-logo-1.svg" style="width: 35px" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="30"
+            height="30"
+            viewBox="0 0 30 30"
+            fill="none"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M8.91365 18.5045H21.8137L19.0195 21.2987L20.7426 23.0218L25.617 18.1474C25.9655 17.7989 26.0703 17.2749 25.8814 16.8191C25.6925 16.3646 25.2477 16.0673 24.7554 16.0673H8.91365V18.5045ZM21.0996 11.1929H8.21784L11.0316 8.4023L9.31579 6.67188L4.39998 11.5463C4.04902 11.8936 3.94299 12.4188 4.13066 12.8758C4.31954 13.3315 4.76433 13.6301 5.25786 13.6301H21.0996V11.1929Z"
+              fill="black"
+            />
+          </svg>
+          <img src="assets/images/hajiri-white-logo.png" style="width: 30px" />
+        </div>
+        <div class="text-center">
+          <h5>Enter Your WhatsApp Number</h5>
+          <p>Please provide a registered WhatsApp number.</p>
+        </div>
+
+        <!-- <div class="text-center">
+          <h5>Check your WhatsApp for OTP</h5>
+          <p>
+            We’ve sent a 6-digit OTP on
+            <span class="text-primary pointer">897659876.</span> This code
+            expires <br />
+            shortly, so please enter it soon.
+          </p>
+        </div> -->
+
+        <div class="row mt-4">
+          <div class="col-md-12">
+            <div class="onboarding-form">
+              <label class="mb-2">Enter Number</label>
+              <input
+                type="text"
+                required=""
+                mask="0000000000"
+                id="examplePhoneNumber1"
+                name="examplePhoneNumber1"
+                a
+                placeholder="Enter Number"
+                class="form-control whatapp-login-input"
+              />
+
+              <button
+                type="submit"
+                class="btn btn-soft-primary w-100 mt-3 btn-fix-height"
+              >
+                <span>Send OTP</span>
+              </button>
+
+              <p class="mb-0 mt-3 noteText">
+                <span class="text-primary">Note:</span> Please ensure that the
+                mobile number provided is registered with WhatsApp to receive
+                OTP and other process-related notifications.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex align-items-center justify-content-center footer-text">
+        <p class="mb-0">
+          By signing, you are creating a COMMIT account, and you agree to COMMIT
+          <a href="" class="text-primary"> Terms of Use</a> and
+          <a href="" class="text-primary"> Privacy Policy.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="onboardingLeftImg"
+    style="background-image: url(assets/images/onbording-left-img.svg)"
+  ></div>
+</div>
+
+<!--video Modal -->
+<div
+  class="modal fade"
+  id="video-modal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  data-bs-backdrop="static"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-dialog-centered"
+    role="document"
+    style="max-width: 800px"
+  >
+    <div class="modal-content">
+      <div
+        class="modal-body p-0"
+        id="youtube-video"
+        style="border: 2px solid #fff; height: 504px"
+      >
+        <div class="closebtn">
+          <button
+            type="button"
+            id="close_one"
+            onclick="stop()"
+            class="close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+            style="top: -15px; right: -15px"
+          >
+            <i class="bi bi-x"></i>
+          </button>
+        </div>
+        <iframe
+          width="100%"
+          id="videoId"
+          height="500"
+          src="https://www.youtube.com/embed/m1vxzFLCwCI?si=PrImOedKUTzaaTkY"
+          title="YouTube video player"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+<!--video Modal -->
