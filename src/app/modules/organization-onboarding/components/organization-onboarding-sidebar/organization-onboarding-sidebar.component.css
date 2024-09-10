@@ -126,7 +126,7 @@
 
 .sideBarStep-one {
   border-left: 4px solid #6666f2;
-  height: 18%;
+  height: 15%;
   position: absolute;
   left: 0px;
   top: 0px;
@@ -155,13 +155,13 @@
 }
 
 .sideBarStep-two {
-  height: 25%;
+  height: 20%;
 }
 .sideBarStep-three {
-  height: 33%;
+  height: 25%;
 }
 .sideBarStep-four {
-  height: 40%;
+  height: 30%;
 }
 
 .pending-step h5 svg {
