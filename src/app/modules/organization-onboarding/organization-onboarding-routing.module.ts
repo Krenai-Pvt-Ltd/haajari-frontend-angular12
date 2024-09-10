@@ -12,6 +12,7 @@ import { UploadTeamComponent } from './components/upload-team/upload-team.compon
 import { OrganizationOnboardingComponent } from './organization-onboarding.component';
 import { AttendanceModeComponent } from './components/attendance-mode/attendance-mode.component';
 import { ShiftTimeListComponent } from './components/shift-time-list/shift-time-list.component';
+import { AddShiftPlaceholderComponent } from './components/add-shift-placeholder/add-shift-placeholder.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,7 @@ const routes: Routes = [
       { path: 'upload-team', component: UploadTeamComponent },
       { path: 'attendance-mode', component: AttendanceModeComponent },
       { path: 'shift-time-list', component: ShiftTimeListComponent },
+      { path: 'add-shift-placeholder', component: AddShiftPlaceholderComponent },
     ],
   },
 ];
