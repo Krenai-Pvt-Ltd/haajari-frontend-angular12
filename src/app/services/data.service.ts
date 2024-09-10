@@ -338,6 +338,12 @@ export class DataService {
     );
   }
 
+  getOrgExcelLogLink(): Observable<any> {
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/whatsapp-user-onboarding/get-excel-link`
+    );
+  }
+
   getAllShiftTimings(): Observable<any> {
     return this.httpClient.get<any>(
       `${this.baseUrl}/organization-shift-timing/get/all`
@@ -3615,29 +3621,40 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/checktime/list`, {params});
   }
 
-  sendAttendanceTimeUpdateRequest(userId: string, attendanceTimeUpdateRequestDto: AttendanceTimeUpdateRequestDto): Observable<any> {
+  sendAttendanceTimeUpdateRequest(userId: string, attendanceTimeUpdateRequestDto: AttendanceTimeUpdateRequestDto, requestType: string, choosenDateString: string): Observable<any> {
     const params = new HttpParams()
-    .set('userUuid', userId)
+    .set('userUuid', userId).set('requestType', requestType).set('choosenDateString', choosenDateString);
     const url = `${this.baseUrl}/attendance/send/attendance/update/request`;
     return this.httpClient.post<any>(url, attendanceTimeUpdateRequestDto, {params});
   }
 
 
-  getAttendanceRequestLog(userUuid : string): Observable<any>{
+  getAttendanceRequestLog(userUuid : string, pageNumber: number, itemPerPage: number): Observable<any>{
     const params = new HttpParams()
-    .set('userUuid', userUuid)
+    .set('userUuid', userUuid).set('pageNumber', pageNumber)
+    .set('itemPerPage', itemPerPage);
 
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/attendance/request/logs`, {params});
   }
 
-  getFullAttendanceRequestLog(): Observable<any>{
-
-    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/full/attendance/request/logs`);
+  getFullAttendanceRequestLog(pageNumber: number, itemPerPage: number,searchString:string ): Observable<any>{
+    const params = new HttpParams()
+    .set('pageNumber', pageNumber)
+    .set('itemPerPage', itemPerPage).set('searchString', searchString);
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/full/attendance/request/logs`, {params});
   }
 
-  getAttendanceRequests(): Observable<any>{
+  getAttendanceRequests(pageNumber: number, itemPerPage: number,searchString:string ): Observable<any>{
+    const params = new HttpParams()
+    .set('pageNumber', pageNumber)
+    .set('itemPerPage', itemPerPage).set('searchString', searchString);
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/attendance/requests`, {params});
+  }
 
-    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/attendance/requests`);
+  getAttendanceExistanceStatus(userUuid: string, selectedDate: any): Observable<any>{
+    const params = new HttpParams()
+    .set('userUuid', userUuid).set('selectedDate', selectedDate);
+     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/attendance/existance/status`, {params});
   }
 
   approveOrRejectAttendanceRequest(attendanceReqId: number, requestString: string): Observable<any> {

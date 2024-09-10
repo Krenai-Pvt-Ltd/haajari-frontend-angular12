@@ -28,6 +28,7 @@ export class UploadTeamComponent implements OnInit {
   userList: UserReq[] = new Array();
   databaseHelper: DatabaseHelper = new DatabaseHelper();
   sampleFileUrl: string = ''; //put sample file url
+  viewMore: boolean = true;
 
   @ViewChild('importModalOpen') importModalOpen!: ElementRef;
 
@@ -165,13 +166,14 @@ export class UploadTeamComponent implements OnInit {
           console.log(this.onboardUserList.length);
           this.alreadyUsedPhoneNumberArray = response.arrayOfString;
           this.alreadyUsedEmailArray = response.arrayOfString2;
+          
         } else {
           this.importToggle = true;
           this.isErrorToggle = true;
           this.isProgressToggle = false;
           this.errorMessage = response.message;
         }
-
+        this.getOrgExcelLogLink();
         // this.importToggle = false;
       },
       (error) => {
@@ -233,6 +235,7 @@ export class UploadTeamComponent implements OnInit {
   }
   isManualUploadSubmitLoader: boolean = false;
   submit() {
+    debugger
     this.isManualUploadSubmitLoader = true;
     if (this.allUsersValid()) {
       this.create();
@@ -253,12 +256,26 @@ export class UploadTeamComponent implements OnInit {
 
   // Use this method to determine if all users are valid
   allUsersValid(): boolean {
+    debugger
     return (
       !this.isNumberExist &&
       !this.isEmailExist &&
-      this.userList.every((u) => this.isValidUser(u))
+      this.userList.slice(0, -1).every((u) => this.isValidUser(u))
     );
   }
+
+  currentUsersValid(): boolean {
+    debugger;
+    // const previousEntriesValid = this.userList.slice(0, -1).every((u) => this.isValidUser(u));
+    const lastEntryValid = this.isValidUser(this.userList[this.userList.length - 1]);
+  
+    return (
+      !this.isNumberExist &&
+      !this.isEmailExist &&
+      lastEntryValid
+    );
+  }
+
 
   resetManualUploadModal() {
     debugger;
@@ -283,7 +300,7 @@ export class UploadTeamComponent implements OnInit {
   createLoading: boolean = false;
   create() {
     debugger;
-    this.userListReq.userList = this.userList;
+    this.userListReq.userList = this.userList.slice(0, -1);
     this.createLoading = true;
     this._onboardingService.createOnboardUser(this.userListReq).subscribe(
       (response: any) => {
@@ -307,13 +324,18 @@ export class UploadTeamComponent implements OnInit {
 
   onboardUserList: any[] = new Array();
   loading: boolean = false;
+  totalOnboardingUserListCount: number = 0;
+
+  page: number = 0;
+  size: number = 5;
   getUser() {
     this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
     this.loading = true;
-    this._onboardingService.getOnboardUser().subscribe(
+    this._onboardingService.getOnboardUser(this.page, this.size).subscribe(
       (response: any) => {
         if (response.status) {
           this.onboardUserList = response.object;
+          this.totalOnboardingUserListCount = response.totalItems;
         } else {
           this.onboardUserList = [];
           this.dataNotFoundPlaceholder = true;
@@ -328,6 +350,52 @@ export class UploadTeamComponent implements OnInit {
       }
     );
   }
+
+  allUserIds: any[] = [];
+  getAllUser() {
+    this._onboardingService.getAllOnboardUser().subscribe(
+      (response: any) => {
+        if (response.status) {
+          this.allUserIds = response.object; 
+          this.listOfIds = this.allUserIds.map(user => user.id); 
+          // this.listOfIds = [...this.allUserIds]; 
+        }
+      },
+      (error) => {
+      }
+    );
+  }
+
+  
+
+  getRowNumber(index: number): number {
+    return (this.page) * this.size + index + 1;
+  }
+
+  nextPage() {
+    if (this.onboardUserList.length === this.size) {
+      // this.unselectAllUsers();
+      this.onboardUserList = [];
+      this.page++;
+      this.getUser();
+    }
+  }
+  
+  previousPage() {
+    if (this.page > 0) {
+      // this.unselectAllUsers();
+      this.onboardUserList = [];
+      this.page--;
+      this.getUser();
+    }
+  }
+
+  get currentDisplayedCount(): number {
+    const previousPagesCount = this.page * this.size;
+    const currentPageCount = this.onboardUserList.length;
+    return previousPagesCount + currentPageCount;
+  }
+
 
   @ViewChild('userEditModal') userEditModal!: ElementRef;
   openUserEditModal(user: any) {
@@ -359,12 +427,15 @@ export class UploadTeamComponent implements OnInit {
     );
   }
 
-  deleteUser(id: number) {
-   
-    this._onboardingService.deleteOnboardUser(id).subscribe(
+  @ViewChild("closeButtonDeleteUser") closeButtonDeleteUser!: ElementRef;
+  deleteUser() {
+    this._onboardingService.deleteOnboardUser(this.idToDeleteUser).subscribe(
       (response: any) => {
         if (response.status) {
           this.getUser();
+          this.page = 0;
+          this.getUser();
+          this.closeButtonDeleteUser.nativeElement.click();
         }
       },
       (error) => {}
@@ -373,6 +444,65 @@ export class UploadTeamComponent implements OnInit {
     this.alreadyUsedPhoneNumberArray = 0;
     this.alreadyUsedEmailArray = 0;
   }
+
+  idToDeleteUser : number = 0;
+  deleteUserId(id: number) {
+    this.idToDeleteUser = id;
+  }
+  
+  listOfIds: number[] = [];
+
+  deleteUsers() {
+    this._onboardingService.deleteOnboardUsers(this.listOfIds).subscribe(
+      (response: any) => {
+        if (response.status) {
+          this.getUser();
+          this.listOfIds = [];
+          this.isSelectAll = false;
+        }
+      },
+      (error) => {}
+    );
+    this.isErrorToggle = false;
+    this.alreadyUsedPhoneNumberArray = 0;
+    this.alreadyUsedEmailArray = 0;
+  }
+
+  isSelectAll: boolean = false; 
+
+
+  toggleUserSelection(userId: number, event: Event): void {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    if (isChecked) {
+      this.listOfIds.push(userId); 
+    } else {
+      this.listOfIds = this.listOfIds.filter(id => id !== userId); 
+    }
+    this.isSelectAll = this.onboardUserList.length === this.listOfIds.length;
+  }
+
+  
+  toggleSelectAll(event: Event): void {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    if (isChecked) {
+      this.listOfIds = this.onboardUserList.map(user => user.id); 
+    } else {
+      this.listOfIds = []; 
+    }
+    this.isSelectAll = isChecked;
+  }
+
+  selectAllPageUsers() {
+    this.getAllUser();
+    this.isSelectAll = true;
+  }
+
+  unselectAllUsers() {
+   this.listOfIds = [];
+   this.isSelectAll = false;
+  }
+
+
 
   isNumberExist: boolean = false;
   checkNumberExistance(index: number, number: string, uuid: string) {
@@ -412,6 +542,7 @@ export class UploadTeamComponent implements OnInit {
   }
   isNextloading: boolean = false;
   next() {
+    debugger
     // setTimeout(() => {
     this.isNextloading = true;
     // }, 1000);
@@ -427,7 +558,9 @@ export class UploadTeamComponent implements OnInit {
     if (this.shiftTimingExists) {
       this._router.navigate(['/organization-onboarding/shift-time-list']);
     } else {
-      this._router.navigate(['/organization-onboarding/add-shift-time']);
+      // this._router.navigate(['/organization-onboarding/add-shift-time']);
+      this._router.navigate(['/organization-onboarding/add-shift-placeholder']);
+      //  routerLink="/organization-onboarding/add-shift-placeholder"
     }
 
     // this._onboardingService.refreshOnboarding();
@@ -467,4 +600,44 @@ export class UploadTeamComponent implements OnInit {
       }
     );
   }
+
+  showUserList: boolean = false;
+
+  // viewUserList() {
+  //   if (this.showUserList == false) {
+  //     this.showUserList = true;
+  //   } else {
+  //     this.showUserList = false;
+  //   }
+  // }
+
+  viewUserList() {
+    this.showUserList = !this.showUserList;
+  }
+
+  excelLogLink!: string;
+  getOrgExcelLogLink() {
+    this.excelLogLink = '';
+    this.dataService.getOrgExcelLogLink().subscribe(
+      (response) => {
+        this.excelLogLink = response.object;
+        console.log('excelLink ' + response.object);
+      },
+      (error) => {
+        console.log('error');
+      }
+    );
+  }
+
+  downloadExcelLog() {
+    if (this.excelLogLink) {
+      const link = document.createElement('a');
+      link.href = this.excelLogLink;
+      link.setAttribute('download', 'Organization_Excel_Log.xlsx'); // Set file name
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  }
+  
 }
