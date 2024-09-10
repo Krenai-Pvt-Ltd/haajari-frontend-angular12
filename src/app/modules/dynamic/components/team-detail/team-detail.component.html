@@ -173,7 +173,14 @@ ad                <div class="col-sm-12">
                               *ngIf="ul.image === null"
                               >{{ ul.name[0] }}</span
                             >
-                            <p class="mb-0 Regular-data" (click)="routeToUserDetails(ul.uuid)">
+                            <p class="mb-0 Regular-data" (click)="routeToUserDetails(ul.uuid)" *ngIf="localStorageRoleAdminFlag">
+                              {{ capitalizeFirstLetter(ul.name) }}
+                              <i
+                                class="bi bi-patch-check-fill"
+                                *ngIf="ul.roleId == 3"
+                              ></i>
+                            </p>
+                            <p class="mb-0" *ngIf="!localStorageRoleAdminFlag">
                               {{ capitalizeFirstLetter(ul.name) }}
                               <i
                                 class="bi bi-patch-check-fill"
@@ -209,7 +216,7 @@ ad                <div class="col-sm-12">
                                 class="dropdown-menu dropdown-menu-end list-top"
                                 aria-labelledby="dLabel1"
                               >
-                                <div class="manager-list">
+                                <div class="manager-list" *ngIf="localStorageRoleAdminFlag">
                                   <a
                                     class="dropdown-item"
                                     *ngIf="ul.roleId == 2"
@@ -222,7 +229,7 @@ ad                <div class="col-sm-12">
                                     >Make Manager
                                   </a>
                                 </div>
-                                <div class="manager-list">
+                                <div class="manager-list" *ngIf="localStorageRoleAdminFlag">
                                   <a
                                     class="dropdown-item"
                                     *ngIf="ul.roleId == 3"
@@ -242,7 +249,7 @@ ad                <div class="col-sm-12">
                                     >View Profile</a
                                   >
                                 </div>
-                                <div class="manager-list remove-team">
+                                <div class="manager-list remove-team" *ngIf="localStorageRoleAdminFlag">
                                   <a
                                     class="dropdown-item StaticMenuItemBase-button"
                                     data-bs-toggle="modal"
