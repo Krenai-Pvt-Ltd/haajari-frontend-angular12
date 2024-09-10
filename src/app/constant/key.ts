@@ -362,4 +362,25 @@ export class Key {
   public static UPDATION_REQUEST_PENDING_REQUEST_TAB = 1;
   public static UPDATION_REQUEST_LOG_TAB = 2;
 
+  // Gender
+  public static ALL = 1;
+  public static MALE = 2;
+  public static FEMALE = 3;
+  public static OTHERS = 4;
+
+  // Unused leave action
+  public static LAPSE = 1;
+  public static CARRY_FORWARD = 2;
+  public static ENCASH = 3;
+
+  // Leave Cycle
+  public static MONTHLY = 1;
+  public static QUARTERLY = 2;
+  public static HALF_YEARLY = 3;
+  public static YEARLY = 4;
+
+  // Leave renewal cycle
+  public static ANNUAL_YEAR = 1;
+  public static FINANCIAL_YEAR = 2;
+
 }

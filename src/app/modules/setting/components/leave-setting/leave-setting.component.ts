@@ -11,6 +11,7 @@ import { template } from 'lodash';
 import * as moment from 'moment';
 import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
+import { LeaveTemplateRequest } from 'src/app/leave-template-request';
 import { FullLeaveSettingRequest } from 'src/app/models/Full-Leave-Setting-Request';
 import { FullLeaveSettingResponse } from 'src/app/models/full-leave-setting-response';
 import { LeaveSettingCategoryResponse } from 'src/app/models/leave-categories-response';
@@ -20,6 +21,7 @@ import { StaffSelectionUserList } from 'src/app/models/staff-selection-userlist'
 import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-reflection';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { YearType } from 'src/app/year-type';
 
 @Component({
   selector: 'app-leave-setting',
@@ -55,6 +57,7 @@ export class LeaveSettingComponent implements OnInit {
     this.getTeamNames();
     this.getUserByFiltersMethodCall(0);
     this.getFullLeaveSettingInformation();
+    this.getYearTypeListMethodCall();
     // this.findUsersOfLeaveSetting(30);
 
     const leaveId = localStorage.getItem('tempId');
@@ -1390,4 +1393,52 @@ export class LeaveSettingComponent implements OnInit {
     // this.getUserByFiltersMethodCall();
     this.findUsersOfLeaveSetting(this.idOfLeaveSetting);
   }
+
+  // Code written by Shivendra
+  yearTypeList : YearType[] = [];
+  getYearTypeListMethodCall(){
+    this.dataService.getYearTypeList().subscribe((response) => {
+      if(!this.helperService.isListOfObjectNullOrUndefined(response)){
+        this.yearTypeList = response.listOfObject;
+      } 
+    })
+  }
+  readonly ANNUAL_YEAR = Key.ANNUAL_YEAR;
+  readonly FINANCIAL_YEAR = Key.FINANCIAL_YEAR;
+
+  dateRange: Date[] = [];
+  size: 'large' | 'small' | 'default' = 'small';
+  selectDateForLeaveTemplateRequest(yearType: any) {
+    debugger;
+    if (yearType && yearType.id === this.ANNUAL_YEAR) {
+      this.dateRange[0] = new Date(new Date().getFullYear(), 0, 1); // January 1st
+      this.dateRange[1] = new Date(new Date().getFullYear(), 11, 31); // December 31st
+    }
+  
+    if (yearType && yearType.id === this.FINANCIAL_YEAR) {
+      this.dateRange[0] = new Date(new Date().getFullYear(), 3, 1); // April 1st
+      this.dateRange[1] = new Date(new Date().getFullYear() + 1, 2, 31); // March 31st of the next year
+    }
+  
+    // Format the start and end dates before assigning them to the request object
+    this.leaveTemplateRequest.startDate = this.helperService.formatDateToYYYYMMDD(this.dateRange[0]);
+    this.leaveTemplateRequest.endDate = this.helperService.formatDateToYYYYMMDD(this.dateRange[1]);
+  
+    console.log(this.dateRange[0]);
+    console.log(this.dateRange[1]);
+  }
+  
+  
+  // selectDateForLeaveTemplateRequest(dates: Date[] | null): void {
+  //   // Handle array of dates
+  //   if (Array.isArray(dates)) {
+  //     if (dates.length === 2 && dates[0] != null && dates[1] != null) {
+  //       this.leaveTemplateRequest.startDate = this.helperService.formatDateToYYYYMMDD(dates[0]);
+  //       this.leaveTemplateRequest.endDate = this.helperService.formatDateToYYYYMMDD(dates[1]);
+  //     }
+  //   } 
+  // }
+
+  leaveTemplateRequest : LeaveTemplateRequest = new LeaveTemplateRequest();
+
 }

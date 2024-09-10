@@ -3825,4 +3825,14 @@ getHolidayForOrganization(date: string): Observable<any>{
 
     return this.httpClient.get<any>(`${this.baseUrl}/lop-reversal-application/response/get-by-user-uuid`, {params});
   }
+
+
+  getLeaveCategoryList(): Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/leave-category`, {});
+  }
+
+  getYearTypeList(): Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/year-type/list`, {});
+  }
+
 }

@@ -9,14 +9,10 @@
             </div>
             <div class="">
               <h4>Something went wrong!</h4>
-              <p class="mb-0">
-                An error occurred while processing your request. Please refresh
-                the page and try again.
-              </p>
+              <p class="mb-0"> An error occurred while processing your request. Please refresh the page and try again. </p>
             </div>
           </div>
         </div>
-
         <div class="errorboxmain" *ngIf="leaveSettingPlaceholder && !isLoading">
           <div class="errorboxinner">
             <div class="errorboxplaceholder mb-2">
@@ -26,354 +22,209 @@
               <p class="mb-0">Leave Settings Not Found</p>
             </div>
             <div class="add-filtter mt-2 mb-3" style="text-align: center">
-              <a
-                class="add-filtter"
-                data-bs-toggle="modal"
-                data-bs-target="#requestleave"
-                (click)="emptyAddLeaveSettingRule()"
-                ><i class="bi bi-plus" style="font-size: 23px"></i> Add Leave
-                Settings</a
-              >
+              <a class="add-filtter" data-bs-toggle="modal" data-bs-target="#requestleave" (click)="emptyAddLeaveSettingRule()">
+                <i class="bi bi-plus" style="font-size: 23px"></i> Add Leave Settings </a>
             </div>
           </div>
         </div>
       </div>
       <div class="row mt-2">
-        <div
-          class="col-md-4 mt-3 mb-3"
-          *ngIf="
+        <div class="col-md-4 mt-3 mb-3" *ngIf="
             (!leaveSettingPlaceholder && !isLeaveErrorPlaceholder) || isLoading
-          "
-        >
+          ">
           <div class="form-roe-data">
             <h5>Leave Settings</h5>
             <p>This will be displayed on your profile.</p>
           </div>
         </div>
-
         <div class="col-md-7">
           <div class="row mb-3"></div>
-
           <div *ngIf="isLoading">
             <div class="">
               <div class="text-end">
-                <ngx-shimmer-loading
-                  [width]="'40%'"
-                  [height]="'20px'"
-                  style="border-radius: 50%"
-                ></ngx-shimmer-loading>
+                <ngx-shimmer-loading [width]="'40%'" [height]="'20px'" style="border-radius: 50%"></ngx-shimmer-loading>
               </div>
             </div>
-
-            <div
-              class="mt-3"
-              style="
+            <div class="mt-3" style="
                 border: 1px solid #f5f5f5;
                 padding: 5px;
                 border-radius: 6px;
-              "
-            >
-              <div
-                class="row"
-                style="
+              ">
+              <div class="row" style="
                   border-bottom: 1px solid #f5f5f5;
                   padding-top: 10px;
                   padding-bottom: 10px;
-                "
-              >
+                ">
                 <div class="col-md-6">
                   <div class="">
-                    <ngx-shimmer-loading
-                      [width]="'60%'"
-                      [height]="'20px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
+                    <ngx-shimmer-loading [width]="'60%'" [height]="'20px'" style="border-radius: 50%"></ngx-shimmer-loading>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="text-end">
-                    <ngx-shimmer-loading
-                      [width]="'60%'"
-                      [height]="'20px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
+                    <ngx-shimmer-loading [width]="'60%'" [height]="'20px'" style="border-radius: 50%"></ngx-shimmer-loading>
                   </div>
                 </div>
               </div>
-
               <div class="row mt-3">
                 <div class="col-md-3">
                   <div class="">
-                    <ngx-shimmer-loading
-                      [width]="'100%'"
-                      [height]="'15px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'15px'" style="border-radius: 50%"></ngx-shimmer-loading>
                   </div>
                 </div>
               </div>
-
-              <div
-                class="row mt-2"
-                style="
+              <div class="row mt-2" style="
                   border-bottom: 1px solid #f5f5f5;
                   padding-top: 10px;
                   padding-bottom: 10px;
-                "
-              >
+                ">
                 <div class="col-md-4">
                   <div class="">
-                    <ngx-shimmer-loading
-                      [width]="'100%'"
-                      [height]="'30px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" style="border-radius: 50%"></ngx-shimmer-loading>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="">
-                    <ngx-shimmer-loading
-                      [width]="'100%'"
-                      [height]="'30px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" style="border-radius: 50%"></ngx-shimmer-loading>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="">
-                    <ngx-shimmer-loading
-                      [width]="'100%'"
-                      [height]="'30px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" style="border-radius: 50%"></ngx-shimmer-loading>
                   </div>
                 </div>
               </div>
               <div class="row mt-3">
                 <div class="col-md-3">
                   <div class="">
-                    <ngx-shimmer-loading
-                      [width]="'100%'"
-                      [height]="'15px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'15px'" style="border-radius: 50%"></ngx-shimmer-loading>
                   </div>
                 </div>
               </div>
-
-              <div
-                class="row mt-2"
-                style="
+              <div class="row mt-2" style="
                   border-bottom: 1px solid #f5f5f5;
                   padding-top: 10px;
                   padding-bottom: 10px;
-                "
-              >
+                ">
                 <div class="col-md-4">
                   <div class="">
-                    <ngx-shimmer-loading
-                      [width]="'100%'"
-                      [height]="'30px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" style="border-radius: 50%"></ngx-shimmer-loading>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="">
-                    <ngx-shimmer-loading
-                      [width]="'100%'"
-                      [height]="'30px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" style="border-radius: 50%"></ngx-shimmer-loading>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="">
-                    <ngx-shimmer-loading
-                      [width]="'100%'"
-                      [height]="'30px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" style="border-radius: 50%"></ngx-shimmer-loading>
                   </div>
                 </div>
               </div>
               <div class="row mt-3">
                 <div class="col-md-3">
                   <div class="">
-                    <ngx-shimmer-loading
-                      [width]="'100%'"
-                      [height]="'15px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'15px'" style="border-radius: 50%"></ngx-shimmer-loading>
                   </div>
                 </div>
               </div>
-
-              <div
-                class="row mt-2"
-                style="
+              <div class="row mt-2" style="
                   border-bottom: 1px solid #f5f5f5;
                   padding-top: 10px;
                   padding-bottom: 10px;
-                "
-              >
+                ">
                 <div class="col-md-4">
                   <div class="">
-                    <ngx-shimmer-loading
-                      [width]="'100%'"
-                      [height]="'30px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" style="border-radius: 50%"></ngx-shimmer-loading>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="">
-                    <ngx-shimmer-loading
-                      [width]="'100%'"
-                      [height]="'30px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" style="border-radius: 50%"></ngx-shimmer-loading>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="">
-                    <ngx-shimmer-loading
-                      [width]="'100%'"
-                      [height]="'30px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" style="border-radius: 50%"></ngx-shimmer-loading>
                   </div>
                 </div>
               </div>
               <div class="row mt-3">
                 <div class="col-md-3">
                   <div class="">
-                    <ngx-shimmer-loading
-                      [width]="'100%'"
-                      [height]="'15px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'15px'" style="border-radius: 50%"></ngx-shimmer-loading>
                   </div>
                 </div>
               </div>
-
-              <div
-                class="row mt-2"
-                style="
+              <div class="row mt-2" style="
                   border-bottom: 1px solid #f5f5f5;
                   padding-top: 10px;
                   padding-bottom: 10px;
-                "
-              >
+                ">
                 <div class="col-md-4">
                   <div class="">
-                    <ngx-shimmer-loading
-                      [width]="'100%'"
-                      [height]="'30px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" style="border-radius: 50%"></ngx-shimmer-loading>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="">
-                    <ngx-shimmer-loading
-                      [width]="'100%'"
-                      [height]="'30px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" style="border-radius: 50%"></ngx-shimmer-loading>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="">
-                    <ngx-shimmer-loading
-                      [width]="'100%'"
-                      [height]="'30px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" style="border-radius: 50%"></ngx-shimmer-loading>
                   </div>
                 </div>
               </div>
               <div class="row mt-3">
                 <div class="col-md-3">
                   <div class="">
-                    <ngx-shimmer-loading
-                      [width]="'100%'"
-                      [height]="'15px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'15px'" style="border-radius: 50%"></ngx-shimmer-loading>
                   </div>
                 </div>
               </div>
-
               <div class="row mt-2">
                 <div class="col-md-4">
                   <div class="">
-                    <ngx-shimmer-loading
-                      [width]="'100%'"
-                      [height]="'30px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" style="border-radius: 50%"></ngx-shimmer-loading>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="">
-                    <ngx-shimmer-loading
-                      [width]="'100%'"
-                      [height]="'30px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" style="border-radius: 50%"></ngx-shimmer-loading>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="">
-                    <ngx-shimmer-loading
-                      [width]="'100%'"
-                      [height]="'30px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
+                    <ngx-shimmer-loading [width]="'100%'" [height]="'30px'" style="border-radius: 50%"></ngx-shimmer-loading>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-
-          <div
-            class="add-shift-main-box"
-            *ngIf="
+          <div class="add-shift-main-box" *ngIf="
               !leaveSettingPlaceholder && !isLeaveErrorPlaceholder && !isLoading
-            "
-          >
-            <div
-              class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2"
-            >
+            ">
+            <div class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2">
               <div class="">
                 <h6 class="text-truncate mb-0">Leave</h6>
               </div>
               <div class="" *ngIf="!idFlag">
-                <a
-                  class="add-shift-time-btn"
-                  data-bs-toggle="modal"
-                  data-bs-target="#requestleave"
-                  (click)="emptyAddLeaveSettingRule()"
-                  ><i class="bi bi-plus"></i> Add Leave setting
-                </a>
+                <a class="add-shift-time-btn" data-bs-toggle="modal" data-bs-target="#requestleave" (click)="emptyAddLeaveSettingRule()">
+                  <i class="bi bi-plus"></i> Add Leave setting </a>
               </div>
             </div>
-
-            <div
-              class="shift-time p-3 m-3"
-              *ngFor="
+            <div class="shift-time p-3 m-3" *ngFor="
                 let newLeaveSetting of fullLeaveSettingResponseList;
                 let i = index
-              "
-            >
+              ">
               <div class="">
                 <div class="d-flex align-items-center justify-content-between">
                   <div class="d-flex align-items-center gap-3">
                     <div class="">
-                      <span
-                        class="automation-rules-icon d-flex align-items-center justify-content-center"
-                      >
+                      <span class="automation-rules-icon d-flex align-items-center justify-content-center">
                         <img src="assets/images/rule-icon.svg" />
                       </span>
                     </div>
@@ -381,150 +232,94 @@
                       <h6 class="text-truncate mb-0">
                         {{ newLeaveSetting!.leaveSetting.templateName }}
                       </h6>
-                      <small class="text-muted"
-                        >Define the leave rules for the employees</small
-                      >
+                      <small class="text-muted">Define the leave rules for the employees</small>
                     </div>
                   </div>
                   <div class="d-flex align-items-center gap-3">
                     <div class="d-flex align-items-center gap-3">
-                      <!-- <i class="bi bi-pencil pointer"></i>
-                      <i class="bi bi-trash pointer text-danger"></i> -->
-                      <a
-                        href=""
-                        data-bs-toggle="modal"
-                        data-bs-target="#requestleave"
-                        ><i
-                          class="bi bi-pencil pointer"
-                          style="color: #6666f3"
-                          (click)="
+                      <!-- <i class="bi bi-pencil pointer"></i><i class="bi bi-trash pointer text-danger"></i> -->
+                      <a href="" data-bs-toggle="modal" data-bs-target="#requestleave">
+                        <i class="bi bi-pencil pointer" style="color: #6666f3" (click)="
                             getLeaveSettingInformationById(
                               newLeaveSetting.leaveSetting.id,
                               true
                             )
-                          "
-                        ></i
-                      ></a>
-
-                      <a
-                        class="delete-rule"
-                        (click)="
+                          "></i>
+                      </a>
+                      <a class="delete-rule" (click)="
                           deleteLeaveSettingRule(
                             newLeaveSetting.leaveSetting.id
                           )
-                        "
-                        *ngIf="
+                        " *ngIf="
                           !deleteLeaveTemplateLoader(
                             newLeaveSetting.leaveSetting.id
                           )
-                        "
-                        ><i class="bi bi-trash pointer text-danger"></i
-                      ></a>
-                      <div
-                        class="dot-opacity-loader"
-                        *ngIf="
+                        ">
+                        <i class="bi bi-trash pointer text-danger"></i>
+                      </a>
+                      <div class="dot-opacity-loader" *ngIf="
                           deleteLeaveTemplateLoader(
                             newLeaveSetting.leaveSetting.id
                           )
-                        "
-                      >
+                        ">
                         <span></span>
                         <span></span>
                         <span></span>
                       </div>
                     </div>
-                    <span class="staff-leave-setting bg-white"
-                      >Staff - ({{
-                        newLeaveSetting!.userLeaveRule.length || 0
-                      }})</span
-                    >
-
-                    <span
-                      class="automation-rules-toogel-btn pointer"
-                      data-bs-toggle="collapse"
-                      [attr.data-bs-target]="'#multiCollapseExample' + i"
-                      role="button"
-                      [attr.aria-controls]="'multiCollapseExample' + i"
-                      [attr.aria-expanded]="i == activeIndex ? 'true' : 'false'"
-                      (click)="toggleCollapse(i)"
-                    >
+                    <span class="staff-leave-setting bg-white">Staff - ({{ newLeaveSetting!.userLeaveRule.length || 0
+                      }})</span>
+                    <span class="automation-rules-toogel-btn pointer" data-bs-toggle="collapse" [attr.data-bs-target]="'#multiCollapseExample' + i" role="button" [attr.aria-controls]="'multiCollapseExample' + i" [attr.aria-expanded]="i == activeIndex ? 'true' : 'false'" (click)="toggleCollapse(i)">
                       <i class="bi bi-chevron-down"></i>
                     </span>
                   </div>
                 </div>
                 <!-- class="col-md-4" -->
-                <div
-                  class="collapse multi-collapse"
-                  [id]="'multiCollapseExample' + i"
-                  [class.show]="activeIndex === i"
-                >
+                <div class="collapse multi-collapse" [id]="'multiCollapseExample' + i" [class.show]="activeIndex === i">
                   <div class="row mt-3">
-                    <div
-                      [ngClass]="{
+                    <div [ngClass]="{
                         'col-md-4':
                           newLeaveSetting.leaveSettingCategories.length > 2,
                         'col-md-6':
                           newLeaveSetting.leaveSettingCategories.length == 2,
                         'col-md-12':
                           newLeaveSetting.leaveSettingCategories.length == 1
-                      }"
-                      *ngFor="
+                      }" *ngFor="
                         let category of newLeaveSetting.leaveSettingCategories
-                      "
-                    >
+                      ">
                       <div class="custom-salary">
-                        <div
-                          class="custom-salary-hedding p-3 d-flex align-items-center justify-content-between"
-                        >
+                        <div class="custom-salary-hedding p-3 d-flex align-items-center justify-content-between">
                           <h4 class="mb-0">
                             {{ category?.leaveName || "N/A" }}
                           </h4>
                           <div class="d-flex align-items-center gap-3">
-                            <i
-                              class="bi bi-pencil pointer"
-                              data-bs-toggle="modal"
-                              data-bs-target="#requestleave"
-                              (click)="
+                            <i class="bi bi-pencil pointer" data-bs-toggle="modal" data-bs-target="#requestleave" (click)="
                                 editLeaveCategories(
                                   newLeaveSetting.leaveSetting.id
                                 )
-                              "
-                            ></i>
-                            <i
-                              *ngIf="
+                              "></i>
+                            <i *ngIf="
                                 newLeaveSetting.leaveSettingCategories.length >
                                 1
-                              "
-                              class="bi bi-trash pointer text-danger"
-                              (click)="
+                              " class="bi bi-trash pointer text-danger" (click)="
                                 deleteLeaveSettingCategoryById(category.id)
-                              "
-                            ></i>
+                              "></i>
                           </div>
                         </div>
                         <div class="custom-salary-para p-3">
-                          <div
-                            class="d-flex align-items-center justify-content-between mb-3"
-                          >
+                          <div class="d-flex align-items-center justify-content-between mb-3">
                             <p class="mb-0">Leave Count</p>
-                            <span style="color: #3f988f">{{
-                              category?.leaveCount || "N/A"
+                            <span style="color: #3f988f">{{ category?.leaveCount || "N/A"
                             }}</span>
                           </div>
-                          <div
-                            class="d-flex align-items-center justify-content-between mb-3"
-                          >
+                          <div class="d-flex align-items-center justify-content-between mb-3">
                             <p class="mb-0">Leave Rule</p>
-                            <span style="color: #3f988f">{{
-                              category?.leaveRules || "N/A"
+                            <span style="color: #3f988f">{{ category?.leaveRules || "N/A"
                             }}</span>
                           </div>
-                          <div
-                            class="d-flex align-items-center justify-content-between"
-                          >
+                          <div class="d-flex align-items-center justify-content-between">
                             <p class="mb-0">Carry Forward Limit</p>
-                            <span style="color: #3f988f">{{
-                              category?.carryForwardDays || "N/A"
+                            <span style="color: #3f988f">{{ category?.carryForwardDays || "N/A"
                             }}</span>
                           </div>
                         </div>
@@ -535,490 +330,152 @@
               </div>
             </div>
           </div>
-
           <div class="col-md-1"></div>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-<div
-  class="modal fade"
-  id="requestleave"
-  #requestleave
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="requestLeave"
-  aria-hidden="true"
->
+<div class="modal fade" id="requestleave" #requestleave tabindex="-1" role="dialog" aria-labelledby="requestLeave" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5
-          class="modal-title"
-          id="requestLeave"
-          (click)="emptyAddLeaveSettingRule()"
-          *ngIf="leaveSettingResponse.templateName == ''"
-        >
-          Add Leave Settings
-        </h5>
-        <h5
-          class="modal-title"
-          id="requestLeave"
-          (click)="emptyAddLeaveSettingRule()"
-          *ngIf="leaveSettingResponse.templateName != ''"
-        >
+        <h5 class="modal-title" id="requestLeave" (click)="emptyAddLeaveSettingRule()" *ngIf="leaveSettingResponse.templateName == ''"> Add Leave Settings </h5>
+        <h5 class="modal-title" id="requestLeave" (click)="emptyAddLeaveSettingRule()" *ngIf="leaveSettingResponse.templateName != ''">
           {{ leaveSettingResponse.templateName }}
         </h5>
-
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-          id="requestLeaveCloseModel"
-          #requestLeaveCloseModel
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="requestLeaveCloseModel" #requestLeaveCloseModel></button>
       </div>
-
       <form #leaveSetForm="ngForm">
         <div class="modal-body">
           <div class="">
             <ul id="myTab" role="tablist" class="nav nav-tabs">
               <li role="presentation" class="nav-item">
-                <button
-                  id="home-tab"
-                  data-bs-toggle="tab"
-                  data-bs-target="#home"
-                  type="button"
-                  role="tab"
-                  aria-controls="home"
-                  aria-selected="true"
-                  class="nav-link active"
-                  #templateSettingTab
-                >
-                  Template Setting
-                </button>
+                <button id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true" class="nav-link active" #templateSettingTab> Template Setting </button>
               </li>
               <li role="presentation" class="nav-item">
-                <button
-                  id="profile-tab"
-                  data-bs-toggle="tab"
-                  data-bs-target="#profile"
-                  type="button"
-                  role="tab"
-                  aria-controls="profile"
-                  aria-selected="false"
-                  class="nav-link"
-                  [disabled]="!isFormValid"
-                  #leaveCategoryTab
-                >
-                  Leave Categories
-                </button>
+                <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" class="nav-link" [disabled]="!isFormValid" #leaveCategoryTab> Leave Categories </button>
               </li>
               <li role="presentation" class="nav-item">
-                <button
-                  id="staffSelection-tab"
-                  data-bs-toggle="tab"
-                  data-bs-target="#staffSelection"
-                  type="button"
-                  role="tab"
-                  aria-controls="staffSelection"
-                  aria-selected="false"
-                  class="nav-link"
-                  [disabled]="!form.valid"
-                  (click)="openStaffSelection()"
-                  #staffSelectionTab
-                >
-                  Staff selection
-                </button>
+                <button id="staffSelection-tab" data-bs-toggle="tab" data-bs-target="#staffSelection" type="button" role="tab" aria-controls="staffSelection" aria-selected="false" class="nav-link" [disabled]="!form.valid" (click)="openStaffSelection()" #staffSelectionTab> Staff selection </button>
               </li>
             </ul>
 
+
             <div class="tab-content" id="myTabContent">
+
               <div class="tab-pane fade show active" id="home" role="tabpanel">
+                <form nz-form #leaveSettingForm="ngForm">
+                  <div class="col-md-6 mt-2 mb-2" nz-form-item>
+                    <label for="templateName" class="pb-2">Template Name <i class="bi bi-exclamation-circle tolltip-icon" ngbTooltip="Provide a unique name for your organization's leave template. This name will be used to assign leave quotas to users who belong to this leave template." placement="top"></i></label>
+                    <nz-form-control nzErrorTip="Please enter a valid name.">
+                      <input nz-input [(ngModel)]="leaveTemplateRequest.name" placeholder="Enter the template name here" nzSize="large" minlength="3" maxlength="50" required [ngModelOptions]="{standalone: true}"/>
+                    </nz-form-control>
+                  </div>
+                  <div class="col-md-6 mt-2 mb-2" nz-form-item>
+                    <label for="leaveCycle" class="pb-2">Leave Quota Renew Cycle <i class="bi bi-exclamation-circle tolltip-icon" ngbTooltip="There are two main types: Monthly and Yearly. Monthly credits leave on a monthly basis. Yearly has two subtypes: 'All at Once', where leave is credited once at the start of the year, and 'Monthly Start', where the yearly leave quota is credited at the start of each month (you can choose a cycle from Jan to Dec or Apr to Mar of the next financial year)." placement="top"></i></label>
+                    <nz-form-control nzErrorTip="Please select a valid renewal cycle.">
+                      <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select leave quota renew cycle type" (nzOnChange)="selectDateForLeaveTemplateRequest($event)">
+                        <nz-option *ngFor="let yearType of yearTypeList" [nzValue]="yearType" [nzLabel]="yearType.name"></nz-option>
+                      </nz-select>
+                    </nz-form-control>
+                  </div>
+                  <div class="col-md-6 mt-2 mb-2" nz-form-item>
+                    <label for="leaveCycle" class="pb-2">Leave Period <i class="bi bi-exclamation-circle tolltip-icon" ngbTooltip="There are two main types: Monthly and Yearly. Monthly credits leave on a monthly basis. Yearly has two subtypes: 'All at Once', where leave is credited once at the start of the year, and 'Monthly Start', where the yearly leave quota is credited at the start of each month (you can choose a cycle from Jan to Dec or Apr to Mar of the next financial year)." placement="top"></i></label>
+                    <nz-form-control nzErrorTip="Please select a valid date time.">
+                      <nz-range-picker [(ngModel)]="dateRange" (ngModelChange)="selectDateForLeaveTemplateRequest($event)" required></nz-range-picker>
+                    </nz-form-control>
+                  </div>
+                </form>
                 <form #leaveSettingForm="ngForm">
                   <div class="pt-3 pb-3">
                     <div class="row mb-3">
                       <div class="col-md-12">
                         <div class="">
-                          <label for="templateName" class="pb-2"
-                            >Template Name
-                            <i
-                              class="bi bi-exclamation-circle tolltip-icon"
-                              ngbTooltip="Provide a unique name for your organization's leave template. This name will be used to assign leave quotas to users who belong to this leave template."
-                              placement="top"
-                            ></i
-                          ></label>
-                          <input
-                            [(ngModel)]="leaveSettingResponse.templateName"
-                            [ngModelOptions]="{ standalone: true }"
-                            id="templateName"
-                            name="templateName"
-                            placeholder="Leave Policy"
-                            class="form-control whatapp-login-input"
-                            minlength="3"
-                            maxlength="50"
-                            required
-                            #templateName="ngModel"
-                            (input)="checkFormValidity(leaveSettingForm)"
-                          />
+                          <label for="templateName" class="pb-2">Template Name <i class="bi bi-exclamation-circle tolltip-icon" ngbTooltip="Provide a unique name for your organization's leave template. This name will be used to assign leave quotas to users who belong to this leave template." placement="top"></i>
+                          </label>
+                          <input nz-input [(ngModel)]="leaveSettingResponse.templateName" [ngModelOptions]="{ standalone: true }" id="templateName" name="templateName" placeholder="Leave Policy" class="form-control whatapp-login-input" minlength="3" maxlength="50" required #templateName="ngModel" (input)="checkFormValidity(leaveSettingForm)" />
                         </div>
                         <div>
-                          <span
-                            class="errortxt"
-                            style="color: #eb5050"
-                            *ngIf="errorTemplateNameFlag"
-                          >
-                            Please Enter Leave Template Name First
-                          </span>
+                          <span class="errortxt" style="color: #eb5050" *ngIf="errorTemplateNameFlag"> Please Enter Leave Template Name First </span>
                         </div>
                         <div *ngIf="templateName?.touched">
-                          <p
-                            class="errortxt mt-2 mb-0 text-danger"
-                            *ngIf="templateName.errors?.required"
-                          >
-                            <i class="bi bi-exclamation-circle"></i> This field
-                            is required.
+                          <p class="errortxt mt-2 mb-0 text-danger" *ngIf="templateName.errors?.required">
+                            <i class="bi bi-exclamation-circle"></i> This field is required.
                           </p>
-                          <p
-                            class="errortxt mt-2 mb-0 text-danger"
-                            *ngIf="templateName.errors?.minlength"
-                          >
-                            <i class="bi bi-exclamation-circle"></i> Please
-                            enter minimum five characters name.
+                          <p class="errortxt mt-2 mb-0 text-danger" *ngIf="templateName.errors?.minlength">
+                            <i class="bi bi-exclamation-circle"></i> Please enter minimum five characters name.
                           </p>
                         </div>
                       </div>
                       <div class="col-md-6 mt-3">
                         <div class="">
-                          <label for="leaveCycle" class="pb-2"
-                            >Leave Credit
-                            <i
-                              class="bi bi-exclamation-circle tolltip-icon"
-                              ngbTooltip="There are two main types: Monthly and Yearly. Monthly credits leave on a monthly basis. Yearly has two subtypes: 'All at Once', where leave is credited once at the start of the year, and 'Monthly Start', where the yearly leave quota is credited at the start of each month (you can choose a cycle from Jan to Dec or Apr to Mar of the next financial year)."
-                              placement="top"
-                            ></i
-                          ></label>
-
+                          <label for="leaveCycle" class="pb-2">Leave Renew Cycle <i class="bi bi-exclamation-circle tolltip-icon" ngbTooltip="There are two main types: Monthly and Yearly. Monthly credits leave on a monthly basis. Yearly has two subtypes: 'All at Once', where leave is credited once at the start of the year, and 'Monthly Start', where the yearly leave quota is credited at the start of each month (you can choose a cycle from Jan to Dec or Apr to Mar of the next financial year)." placement="top"></i>
+                          </label>
                           <div class="d-flex" style="gap: 5px">
-                            <div
-                              role="group "
-                              aria-label="Basic radio toggle button group"
-                              class="btn-group enable-disanle-btn"
-                            >
-                              <input
-                                type="radio"
-                                name="btnradio1"
-                                id="Enable1"
-                                autocomplete="off"
-                                checked=""
-                                class="btn-check"
-                                [ngModelOptions]="{ standalone: true }"
-                                id="monthlyRadio"
-                                [(ngModel)]="leaveSettingResponse.leaveCycle"
-                                value="Monthly"
-                              />
-                              <label
-                                class="btn btn-soft-secondary btn-sm"
-                                for="monthlyRadio"
-                                [class.selected]="
+                            <div role="group " aria-label="Basic radio toggle button group" class="btn-group enable-disanle-btn">
+                              <input type="radio" name="btnradio1" id="Enable1" autocomplete="off" checked="" class="btn-check" [ngModelOptions]="{ standalone: true }" id="monthlyRadio" [(ngModel)]="leaveSettingResponse.leaveCycle" value="Year Start" />
+                              <label class="btn btn-soft-secondary btn-sm" for="monthlyRadio" [class.selected]="
                                   leaveSettingResponse.leaveCycle === 'Monthly'
-                                "
-                                >Monthly</label
-                              >
-                              <input
-                                type="radio"
-                                name="leaveCycle"
-                                id="yearlyRadio"
-                                [ngModelOptions]="{ standalone: true }"
-                                [(ngModel)]="leaveSettingResponse.leaveCycle"
-                                value="Yearly"
-                                class="d-none"
-                              />
-                              <label
-                                class="btn btn-soft-secondary btn-sm"
-                                for="yearlyRadio"
-                                [class.selected]="
+                                ">Monthly</label>
+                              <input type="radio" name="leaveCycle" id="yearlyRadio" [ngModelOptions]="{ standalone: true }" [(ngModel)]="leaveSettingResponse.leaveCycle" value="Financial Year Start" class="d-none" />
+                              <label class="btn btn-soft-secondary btn-sm" for="yearlyRadio" [class.selected]="
                                   leaveSettingResponse.leaveCycle === 'Yearly'
-                                "
-                                >Yearly</label
-                              >
-                            </div>
-                            <!-- <div class="count-box">
-                              <input
-                                type="radio"
-                                name="leaveCycle"
-                                [ngModelOptions]="{ standalone: true }"
-                                id="monthlyRadio"
-                                [(ngModel)]="leaveSettingResponse.leaveCycle"
-                                value="Monthly"
-                                class="d-none"
-                              />
-                              <label
-                                for="monthlyRadio"
-                                [class.selected]="
-                                  leaveSettingResponse.leaveCycle === 'Monthly'
-                                "
-                                >Monthly</label
-                              >
-                            </div>
-                            <div class="count-box">
-                              <input
-                                type="radio"
-                                name="leaveCycle"
-                                id="yearlyRadio"
-                                [ngModelOptions]="{ standalone: true }"
-                                [(ngModel)]="leaveSettingResponse.leaveCycle"
-                                value="Yearly"
-                                class="d-none"
-                              />
-                              <label
-                                for="yearlyRadio"
-                                [class.selected]="
-                                  leaveSettingResponse.leaveCycle === 'Yearly'
-                                "
-                                >Yearly</label
-                              >
-                            </div>
-                            <input
-                              type="hidden"
-                              name="leaveCycle"
-                              [ngModelOptions]="{ standalone: true }"
-                              [(ngModel)]="leaveSettingResponse.leaveCycle"
-                              [ngModelOptions]="{ standalone: true }"
-                            /> -->
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        *ngIf="leaveSettingResponse.leaveCycle === 'Yearly'"
-                        class="col-md-12 mt-3"
-                      >
-                        <div class="">
-                          <label for="startDate" class="pb-2"
-                            >Leave Period</label
-                          >
-                          <div class="row">
-                            <div class="col-md-6">
-                              <input
-                                type="date"
-                                name="startDate"
-                                [(ngModel)]="
-                                  leaveSettingResponse.yearlyCycleStart
-                                "
-                                id="startDate"
-                                class="form-control whatapp-login-input"
-                                (change)="updateEndDate()"
-                              />
-                            </div>
-                            <div class="col-md-6">
-                              <input
-                                type="date"
-                                name="endDate"
-                                [(ngModel)]="
-                                  leaveSettingResponse.yearlyCycleEnd
-                                "
-                                id="endDate"
-                                class="form-control whatapp-login-input"
-                                [min]="leaveSettingResponse.yearlyCycleStart"
-                              />
+                                ">Yearly</label>
                             </div>
                           </div>
                         </div>
                       </div>
-                      <div
-                        *ngIf="leaveSettingResponse.leaveCycle === 'Yearly'"
-                        class="col-md-12 mt-3"
-                      >
+                      <div class="col-md-12 mt-3">
                         <div class="">
-                          <label for="accrualType" class="pb-2"
-                            >Accrual Type</label
-                          >
+                          <label for="startDate" class="pb-2">Leave Period</label>
+
+                        </div>
+                      </div>
+                      <div *ngIf="leaveSettingResponse.leaveCycle == 'Yearly'" class="col-md-12 mt-3">
+                        <div class="">
+                          <label for="accrualType" class="pb-2">Accrual Type</label>
                           <div class="dropdown" style="width: 100%">
-                            <button
-                              type="button"
-                              id="accrualTypeDropdown"
-                              data-bs-toggle="dropdown"
-                              aria-expanded="false"
-                              class="btn btn-secondary dropdown-toggle new-deopdown"
-                            >
-                              {{
-                                leaveSettingResponse.accrualType
+                            <button type="button" id="accrualTypeDropdown" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
+                              {{ leaveSettingResponse.accrualType
                                   ? leaveSettingResponse.accrualType
                                   : "Select Accrual"
                               }}
                               <i class="bi bi-chevron-down"></i>
                             </button>
-                            <ul
-                              aria-labelledby="accrualTypeDropdown"
-                              class="dropdown-menu"
-                              style="width: 100%"
-                            >
+                            <ul aria-labelledby="accrualTypeDropdown" class="dropdown-menu" style="width: 100%">
                               <li>
-                                <a
-                                  class="dropdown-item"
-                                  (click)="setAccrualType('All At Once')"
-                                  >All at once</a
-                                >
+                                <a class="dropdown-item" (click)="setAccrualType('All At Once')">All at once</a>
                               </li>
                               <li>
-                                <a
-                                  class="dropdown-item"
-                                  (click)="setAccrualType('Month Start')"
-                                  >Month Start</a
-                                >
+                                <a class="dropdown-item" (click)="setAccrualType('Month Start')">Month Start</a>
                               </li>
-                              <!-- <li><a class="dropdown-item"
-                                                                    (click)="setAccrualType('Month End')">Month End</a>
-                                                            </li> -->
                             </ul>
                           </div>
                         </div>
                       </div>
-
                       <div class="col-md-6 mt-3">
                         <div class="">
-                          <label for="sandwichLeaves" class="pb-2"
-                            >Sandwich Leaves
-                            <i
-                              class="bi bi-exclamation-circle tolltip-icon"
-                              ngbTooltip="This option enables you to decide whether to implement sandwich rules for your organization or not. Sandwich rules mean that if an employee takes a leave on Friday and the weekend (Saturday and Sunday) are non-working days for your organization, then the weekend days will also be counted as leave days."
-                              placement="top"
-                            ></i
-                          ></label>
+                          <label for="sandwichLeaves" class="pb-2">Sandwich Leaves <i class="bi bi-exclamation-circle tolltip-icon" ngbTooltip="This option enables you to decide whether to implement sandwich rules for your organization or not. Sandwich rules mean that if an employee takes a leave on Friday and the weekend (Saturday and Sunday) are non-working days for your organization, then the weekend days will also be counted as leave days." placement="top"></i>
+                          </label>
                           <div class="d-flex" style="gap: 5px">
-                            <div
-                              role="group "
-                              aria-label="Basic radio toggle button group"
-                              class="btn-group enable-disanle-btn"
-                            >
-                              <input
-                                type="radio"
-                                name="sandwichLeaves"
-                                id="countRadio"
-                                [ngModelOptions]="{ standalone: true }"
-                                (change)="setSandwichRules('Count')"
-                                [(ngModel)]="leaveSettingResponse.sandwichRules"
-                                value="Count"
-                                class="d-none"
-                              />
-                              <label
-                                for="countRadio"
-                                [class.selected]="
+                            <div role="group " aria-label="Basic radio toggle button group" class="btn-group enable-disanle-btn">
+                              <input type="radio" name="sandwichLeaves" id="countRadio" [ngModelOptions]="{ standalone: true }" (change)="setSandwichRules('Count')" [(ngModel)]="leaveSettingResponse.sandwichRules" value="Count" class="d-none" />
+                              <label for="countRadio" [class.selected]="
                                   leaveSettingResponse.sandwichRules === 'Count'
-                                "
-                                class="btn btn-soft-secondary btn-sm"
-                                >Yes</label
-                              >
-                              <input
-                                type="radio"
-                                name="sandwichLeaves"
-                                id="ignoreRadio"
-                                [ngModelOptions]="{ standalone: true }"
-                                (change)="setSandwichRules('Ignore')"
-                                [(ngModel)]="leaveSettingResponse.sandwichRules"
-                                value="Ignore"
-                                class="d-none"
-                              />
-                              <label
-                                for="ignoreRadio"
-                                [class.selected]="
+                                " class="btn btn-soft-secondary btn-sm">Yes</label>
+                              <input type="radio" name="sandwichLeaves" id="ignoreRadio" [ngModelOptions]="{ standalone: true }" (change)="setSandwichRules('Ignore')" [(ngModel)]="leaveSettingResponse.sandwichRules" value="Ignore" class="d-none" />
+                              <label for="ignoreRadio" [class.selected]="
                                   leaveSettingResponse.sandwichRules ===
                                   'Ignore'
-                                "
-                                class="btn btn-soft-secondary btn-sm"
-                                >No</label
-                              >
+                                " class="btn btn-soft-secondary btn-sm">No</label>
                             </div>
-
-                            <!-- <div class="count-box">
-                              <input
-                                type="radio"
-                                name="sandwichLeaves"
-                                id="countRadio"
-                                [ngModelOptions]="{ standalone: true }"
-                                (change)="setSandwichRules('Count')"
-                                [(ngModel)]="leaveSettingResponse.sandwichRules"
-                                value="Count"
-                                class="d-none"
-                              />
-                              <label
-                                for="countRadio"
-                                [class.selected]="
-                                  leaveSettingResponse.sandwichRules === 'Count'
-                                "
-                                >Count</label
-                              >
-                            </div>
-                            <div class="count-box">
-                              <input
-                                type="radio"
-                                name="sandwichLeaves"
-                                id="ignoreRadio"
-                                [ngModelOptions]="{ standalone: true }"
-                                (change)="setSandwichRules('Ignore')"
-                                [(ngModel)]="leaveSettingResponse.sandwichRules"
-                                value="Ignore"
-                                class="d-none"
-                              />
-                              <label
-                                for="ignoreRadio"
-                                [class.selected]="
-                                  leaveSettingResponse.sandwichRules ===
-                                  'Ignore'
-                                "
-                                >Ignore</label
-                              >
-                            </div>
-                            <input
-                              type="hidden"
-                              name="sandwichLeaves"
-                              [ngModelOptions]="{ standalone: true }"
-                              [(ngModel)]="leaveSettingResponse.sandwichRules"
-                              [ngModelOptions]="{ standalone: true }"
-                            /> -->
                           </div>
                         </div>
                       </div>
-
-                      <div class="col-md-6 mt-3">
-                        <!-- <div class="">
-                          <label for="monthlyLimit" class="pb-2"
-                            >Total Monthly Leave Limit (Optional)</label
-                          >
-                          <input
-                            type="number"
-                            name="assignedMonthlyLimit"
-                            [(ngModel)]="
-                              leaveSettingResponse.assignedMonthlyLimit
-                            "
-                            id="assignedMonthlyLimit"
-                            class="form-control whatapp-login-input"
-                            placeholder="Enter total limit"
-                            min="0"
-                          />
-                        </div> -->
-                      </div>
-
-                      <!-- <div class="col-md-12 mt-3">
-                                            <button (click)="registerLeaveSettingTemplate()"
-                                                class="btn btn-success">Next</button>
-                                        </div> -->
                     </div>
-                    <div
-                      id="back-and-submit "
-                      class="d-flex justify-content-end align-items-end"
-                    >
-                      <button
-                        type="submit"
-                        [disabled]="!isFormValid"
-                        (click)="goToLeaveCategoryTab()"
-                        class="btn btn-outline-primary btn-round"
-                      >
-                        Next
-                      </button>
+                    <div id="back-and-submit " class="d-flex justify-content-end align-items-end">
+                      <button type="submit" [disabled]="!isFormValid" (click)="goToLeaveCategoryTab()" class="btn btn-outline-primary btn-round"> Next </button>
                     </div>
                   </div>
                 </form>
@@ -1028,14 +485,10 @@
                 <div class="pt-3 pb-3">
                   <form [formGroup]="form">
                     <div formArrayName="categories">
-                      <div
-                        *ngFor="
+                      <div *ngFor="
                           let category of categories.controls;
                           let i = index
-                        "
-                        class="form-group row mb-4 pb-2 position-relative"
-                        [formGroupName]="i"
-                      >
+                        " class="form-group row mb-4 pb-2 position-relative" [formGroupName]="i">
                         <div class="col-md-3">
                           <label class="mb-2">Leave Category Name</label>
                           <!-- <input
@@ -1046,34 +499,13 @@
                             required
                           /> -->
                           <!-- (keydown)="preventLeadingWhitespace($event)" -->
-                          <input
-                            nz-input
-                            (keydown)="preventLeadingWhitespace($event)"
-                            id="leaveName"
-                            name="leaveName"
-                            class="form-control whatapp-login-input"
-                            formControlName="leaveName"
-                            required
-                            (ngModelChange)="onChange($event)"
-                            [nzAutocomplete]="auto"
-                            placeholder="Select Leave Category Name"
-                          />
-                          <nz-autocomplete
-                            #auto
-                            [nzDataSource]="filteredLeaveCategories"
-                          ></nz-autocomplete>
-
-                          <p
-                            class="errortxt mt-2 mb-0 text-danger"
-                            *ngIf="hasError('leaveName', i, 'required')"
-                          >
-                            <i class="bi bi-exclamation-circle"></i> Please fill
-                            this field.
+                          <input nz-input (keydown)="preventLeadingWhitespace($event)" id="leaveName" name="leaveName" class="form-control whatapp-login-input" formControlName="leaveName" required (ngModelChange)="onChange($event)" [nzAutocomplete]="auto" placeholder="Select Leave Category Name" />
+                          <nz-autocomplete #auto [nzDataSource]="filteredLeaveCategories"></nz-autocomplete>
+                          <p class="errortxt mt-2 mb-0 text-danger" *ngIf="hasError('leaveName', i, 'required')">
+                            <i class="bi bi-exclamation-circle"></i> Please fill this field.
                           </p>
                         </div>
-
-                        <div
-                          [ngClass]="{
+                        <div [ngClass]="{
                             'col-md-2':
                               leaveSettingResponse.leaveCycle === 'Yearly' &&
                               leaveSettingResponse.accrualType ===
@@ -1083,31 +515,18 @@
                                 leaveSettingResponse.accrualType !==
                                   'Month Start') ||
                               leaveSettingResponse.leaveCycle === 'Monthly'
-                          }"
-                        >
+                          }">
                           <label class="mb-2">Leave Count</label>
-                          <input
-                            type="number"
-                            formControlName="leaveCount"
-                            class="form-control whatapp-login-input"
-                            [placeholder]="
+                          <input type="number" formControlName="leaveCount" class="form-control whatapp-login-input" [placeholder]="
                               leaveSettingResponse.leaveCycle === 'Monthly'
                                 ? 'Monthly Day Count'
                                 : 'Yearly Day Count'
-                            "
-                            (ngModelChange)="generateDaysDropdown($event, i)"
-                            required
-                          />
-
-                          <p
-                            class="errortxt mt-2 mb-0 text-danger"
-                            *ngIf="
+                            " (ngModelChange)="generateDaysDropdown($event, i)" required />
+                          <p class="errortxt mt-2 mb-0 text-danger" *ngIf="
                               hasError('leaveCount', i, 'required') ||
                               hasError('leaveCount', i, 'min')
-                            "
-                          >
-                            <i class="bi bi-exclamation-circle"></i> Please
-                            enter a valid number.
+                            ">
+                            <i class="bi bi-exclamation-circle"></i> Please enter a valid number.
                           </p>
                           <!-- <span
                             class="text-secondary"
@@ -1123,8 +542,7 @@
                           </span> -->
                         </div>
                         <!-- {{ leaveSettingResponse.accrualType }} -->
-                        <div
-                          [ngClass]="{
+                        <div [ngClass]="{
                             'col-md-2':
                               leaveSettingResponse.leaveCycle === 'Yearly' &&
                               leaveSettingResponse.accrualType ===
@@ -1132,78 +550,41 @@
                             'col-md-3':
                               leaveSettingResponse.leaveCycle === 'Yearly' &&
                               leaveSettingResponse.accrualType !== 'Month Start'
-                          }"
-                          *ngIf="
+                          }" *ngIf="
                             leaveSettingResponse.leaveCycle === 'Yearly' &&
                             leaveSettingResponse.accrualType === 'Month Start'
-                          "
-                        >
+                          ">
                           <label class="mb-2">Monthly Leave Count</label>
-                          <input
-                            #leaveCountBreakupInput
-                            type="number"
-                            class="form-control whatapp-login-input"
-                            [value]="calculateMonthlyLeaveCount(i).toFixed(2)"
-                            readonly
-                          />
+                          <input #leaveCountBreakupInput type="number" class="form-control whatapp-login-input" [value]="calculateMonthlyLeaveCount(i).toFixed(2)" readonly />
                         </div>
                         <div class="col-md-3">
-                          <label class="mb-2" for="leaveRules"
-                            >Unused Leave Rule</label
-                          >
+                          <label class="mb-2" for="leaveRules">Unused Leave Rule</label>
                           <div class="dropdown" style="width: 100%">
-                            <button
-                              type="button"
-                              id="leaveRulesDropdown"
-                              data-bs-toggle="dropdown"
-                              aria-expanded="false"
-                              class="btn btn-secondary dropdown-toggle new-deopdown"
-                            >
-                              {{
-                                categories.controls[i]!.get("leaveRules")?.value
+                            <button type="button" id="leaveRulesDropdown" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
+                              {{ categories.controls[i]!.get("leaveRules")?.value
                                   ? categories.controls[i]!.get("leaveRules")
                                       ?.value
                                   : "Select Rule"
                               }}
                               <i class="bi bi-chevron-down"></i>
                             </button>
-                            <ul
-                              aria-labelledby="leaveRulesDropdown"
-                              class="dropdown-menu"
-                              style="width: 100%"
-                            >
+                            <ul aria-labelledby="leaveRulesDropdown" class="dropdown-menu" style="width: 100%">
                               <li>
-                                <a
-                                  class="dropdown-item"
-                                  (click)="setLeaveRule(i, 'Lapse')"
-                                  >Lapse</a
-                                >
+                                <a class="dropdown-item" (click)="setLeaveRule(i, 'Lapse')">Lapse</a>
                               </li>
                               <li>
-                                <a
-                                  class="dropdown-item"
-                                  (click)="setLeaveRule(i, 'Carry Forward')"
-                                  >Carry Forward</a
-                                >
+                                <a class="dropdown-item" (click)="setLeaveRule(i, 'Carry Forward')">Carry Forward</a>
                               </li>
                               <li>
-                                <a
-                                  class="dropdown-item"
-                                  (click)="setLeaveRule(i, 'Encash')"
-                                  >Encash</a
-                                >
+                                <a class="dropdown-item" (click)="setLeaveRule(i, 'Encash')">Encash</a>
                               </li>
                             </ul>
-
-                            <!-- <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="hasError('leaveRules', i, 'required')">
-                                                                  <i class="bi bi-exclamation-circle"></i> Required.
+                            <!-- <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="hasError('leaveRules', i, 'required')"><i class="bi bi-exclamation-circle"></i> Required.
                                                                 </p>
                                                              -->
                           </div>
                         </div>
-
-                        <div
-                          [ngClass]="{
+                        <div [ngClass]="{
                             'col-md-2':
                               leaveSettingResponse.leaveCycle === 'Yearly' &&
                               leaveSettingResponse.accrualType ===
@@ -1213,8 +594,7 @@
                                 leaveSettingResponse.accrualType !==
                                   'Month Start') ||
                               leaveSettingResponse.leaveCycle === 'Monthly'
-                          }"
-                        >
+                          }">
                           <label class="mb-2">Carry Forward Limit</label>
                           <!-- <input
                             type="number"
@@ -1228,105 +608,48 @@
                                 ?.value === ''
                             "
                           /> -->
-                          <div
-                            *ngIf="
+                          <div *ngIf="
                               categories.controls[i]!.get('leaveRules')
                                 ?.value !== 'Lapse' &&
                               categories.controls[i]!.get('leaveRules')
                                 ?.value !== ''
-                            "
-                            nz-dropdown
-                            [nzDropdownMenu]="menu4"
-                            [nzVisible]="dropdownVisible"
-                          >
-                            <input
-                              nz-input
-                              type="number"
-                              formControlName="carryForwardDays"
-                              class="form-control whatapp-login-input"
-                              placeholder="Select Days"
-                              (click)="toggleDropdown()"
-                            />
-                            <span
-                              nz-icon
-                              class="ant-dropdown-trigger"
-                              (click)="toggleDropdown()"
-                            ></span>
+                            " nz-dropdown [nzDropdownMenu]="menu4" [nzVisible]="dropdownVisible">
+                            <input nz-input type="number" formControlName="carryForwardDays" class="form-control whatapp-login-input" placeholder="Select Days" (click)="toggleDropdown()" />
+                            <span nz-icon class="ant-dropdown-trigger" (click)="toggleDropdown()"></span>
                           </div>
-                          <input
-                            *ngIf="
+                          <input *ngIf="
                               categories.controls[i]!.get('leaveRules')
                                 ?.value === 'Lapse' ||
                               categories.controls[i]!.get('leaveRules')
                                 ?.value === ''
-                            "
-                            nz-input
-                            type="number"
-                            formControlName="carryForwardDays"
-                            class="form-control whatapp-login-input"
-                            [readOnly]="true"
-                            placeholder="Select Days"
-                          />
+                            " nz-input type="number" formControlName="carryForwardDays" class="form-control whatapp-login-input" [readOnly]="true" placeholder="Select Days" />
                           <nz-dropdown-menu #menu4="nzDropdownMenu">
                             <ul nz-menu class="dropdown-scroll">
-                              <li
-                                nz-menu-item
-                                *ngFor="let day of daysCountArray[i]"
-                                (click)="selectCarryForwardDay(day, i)"
-                              >
+                              <li nz-menu-item *ngFor="let day of daysCountArray[i]" (click)="selectCarryForwardDay(day, i)">
                                 <!-- {{ day }} -->
-                                <span
-                                  *ngIf="
+                                <span *ngIf="
                                     day === category.get('leaveCount')?.value
-                                  "
-                                  >All Unused</span
-                                >
-                                <span
-                                  *ngIf="
+                                  ">All Unused</span>
+                                <span *ngIf="
                                     day !== category.get('leaveCount')?.value
-                                  "
-                                  >{{ day }}</span
-                                >
+                                  ">{{ day }}</span>
                               </li>
                             </ul>
                           </nz-dropdown-menu>
                         </div>
-
-                        <div
-                          class="leave-delet-btn"
-                          (click)="deleteRow(i)"
-                          *ngIf="i > 0"
-                        >
+                        <div class="leave-delet-btn" (click)="deleteRow(i)" *ngIf="i > 0">
                           <i class="bi bi-trash"></i>
                         </div>
                       </div>
                     </div>
-
                     <div id="back-and-submit">
-                      <button
-                        type="button"
-                        class="btn add-filtter"
-                        (click)="addRow()"
-                      >
-                        <i class="bi bi-plus" style="font-size: 23px"></i> Add
-                        Leave Category
-                      </button>
-
-                      <button
-                        type="submit"
-                        class="btn btn-outline-primary btn-round"
-                        [disabled]="!form.valid"
-                        (click)="goToStaffSelectionTab()"
-                      >
-                        Next
-                      </button>
+                      <button type="button" class="btn add-filtter" (click)="addRow()">
+                        <i class="bi bi-plus" style="font-size: 23px"></i> Add Leave Category </button>
+                      <button type="submit" class="btn btn-outline-primary btn-round" [disabled]="!form.valid" (click)="goToStaffSelectionTab()"> Next </button>
                     </div>
                   </form>
                 </div>
-
-                <!-- <div>
-                                <button type="button" (click)="saveLeaveCategories()">Save</button>
-                               </div> -->
+                <!-- <div><button type="button" (click)="saveLeaveCategories()">Save</button></div> -->
               </div>
 
               <div class="tab-pane fade" id="staffSelection" role="tabpanel">
@@ -1335,315 +658,156 @@
                   <div class="row mb-3">
                     <div class="">
                       <div class="">
-                        <ul
-                          id="myTab"
-                          role="tablist"
-                          class="nav nav-tabs"
-                          style="border-bottom: 0px"
-                        >
+                        <ul id="myTab" role="tablist" class="nav nav-tabs" style="border-bottom: 0px">
                           <li role="presentation" class="nav-item">
-                            <button
-                              id="home-tab"
-                              data-bs-toggle="tab"
-                              data-bs-target="#userlist"
-                              type="button"
-                              role="tab"
-                              aria-controls="userlist"
-                              aria-selected="true"
-                              class="nav-link staff-section active"
-                              #newStaffSelectionTab
-                            >
-                              Staff selection Userlist
-                            </button>
+                            <button id="home-tab" data-bs-toggle="tab" data-bs-target="#userlist" type="button" role="tab" aria-controls="userlist" aria-selected="true" class="nav-link staff-section active" #newStaffSelectionTab> Staff selection Userlist </button>
                           </li>
                           <li role="presentation" class="nav-item">
-                            <button
-                              id="profile-tab"
-                              data-bs-toggle="tab"
-                              data-bs-target="#mapped"
-                              type="button"
-                              role="tab"
-                              aria-controls="mapped"
-                              aria-selected="false"
-                              class="nav-link staff-section"
-                            >
-                              Mapped Userlist
-                            </button>
+                            <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#mapped" type="button" role="tab" aria-controls="mapped" aria-selected="false" class="nav-link staff-section"> Mapped Userlist </button>
                           </li>
                         </ul>
-
                         <div class="tab-content" id="myTabContent">
-                          <div
-                            class="tab-pane fade show active"
-                            id="userlist"
-                            role="tabpanel"
-                          >
+                          <div class="tab-pane fade show active" id="userlist" role="tabpanel">
                             <div class="mt-3">
                               <!-- border-bottom border-top pt-3 pb-3 -->
-                              <div
-                                class="row border-top border-bottom pb-2 pt-2"
-                              >
+                              <div class="row border-top border-bottom pb-2 pt-2">
                                 <div style="width: 30%; position: relative">
                                   <div class="dropdown" style="width: 100%">
-                                    <button
-                                      type="button"
-                                      id="dropdownMenuButton1"
-                                      data-bs-toggle="dropdown"
-                                      aria-expanded="false"
-                                      class="btn btn-secondary dropdown-toggle new-deopdown"
-                                    >
+                                    <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
                                       {{ selectedTeamName }}
-                                      <i
-                                        class="bi bi-chevron-down"
-                                        style="color: #444; font-size: 15px"
-                                      ></i>
+                                      <i class="bi bi-chevron-down" style="color: #444; font-size: 15px"></i>
                                     </button>
-                                    <ul
-                                      aria-labelledby="dropdownMenuButton1"
-                                      class="dropdown-menu team-dropdown"
-                                      style="
+                                    <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu team-dropdown" style="
                                         width: 100%;
                                         max-height: 200px;
                                         overflow-y: auto;
-                                      "
-                                    >
-                                      <li
-                                        class="ng-star-inserted"
-                                        (click)="selectTeam(0)"
-                                      >
+                                      ">
+                                      <li class="ng-star-inserted" (click)="selectTeam(0)">
                                         <a class="dropdown-item">All</a>
                                       </li>
-                                      <li
-                                        class="ng-star-inserted"
-                                        *ngFor="let tn of teamNameList"
-                                        (click)="selectTeam(tn.teamId)"
-                                      >
-                                        <a class="dropdown-item">{{
-                                          tn.teamName
+                                      <li class="ng-star-inserted" *ngFor="let tn of teamNameList" (click)="selectTeam(tn.teamId)">
+                                        <a class="dropdown-item">{{ tn.teamName
                                         }}</a>
                                       </li>
                                     </ul>
                                   </div>
                                 </div>
                                 <div class="col-md-8">
-                                  <form
-                                    novalidate=""
-                                    role="search"
-                                    (submit)="searchUsers()"
-                                    class="searching ng-untouched ng-pristine ng-valid"
-                                  >
-                                    <div
-                                      class="form-group"
-                                      style="position: relative; width: 300px"
-                                    >
-                                      <input
-                                        type="text"
-                                        id="searchText"
-                                        name="searchUsers"
-                                        placeholder="Search by name and role"
-                                        class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
-                                        (keyup)="searchUsers()"
-                                        [(ngModel)]="searchText"
-                                        [ngModelOptions]="{ standalone: true }"
-                                        style="padding: 10px 50px 10px 30px"
-                                      />
-
-                                      <button
-                                        type="button"
-                                        class="btn close-btn"
-                                        (click)="clearSearchUsers()"
-                                        *ngIf="crossFlag"
-                                      >
+                                  <form novalidate="" role="search" (submit)="searchUsers()" class="searching ng-untouched ng-pristine ng-valid">
+                                    <div class="form-group" style="position: relative; width: 300px">
+                                      <input type="text" id="searchText" name="searchUsers" placeholder="Search by name and role" class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search" (keyup)="searchUsers()" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }" style="padding: 10px 50px 10px 30px" />
+                                      <button type="button" class="btn close-btn" (click)="clearSearchUsers()" *ngIf="crossFlag">
                                         <i class="bi bi-x"></i>
                                       </button>
-                                      <i
-                                        class="bi bi-search search-icon"
-                                        style="
+                                      <i class="bi bi-search search-icon" style="
                                           position: absolute;
                                           top: 50%;
                                           transform: translateY(-50%);
                                           left: 10px;
-                                        "
-                                      ></i>
+                                        "></i>
                                     </div>
                                   </form>
                                 </div>
-                                <div
-                                  class="col-md-4 d-flex justify-content-end"
-                                  style="gap: 10px"
-                                >
+                                <div class="col-md-4 d-flex justify-content-end" style="gap: 10px">
                                   <div class="user-list">
                                     <!-- <h5><span class="total-user-list"
-                                                                                    style="color: #4761f6; background-color: #d1d6f2; padding: 5px; border-radius: 5px"><b>{{total}}</b></span>
-                                                                                    <b>Users</b>
-                                                                            </h5> -->
+                                                                                    style="color: #4761f6; background-color: #d1d6f2; padding: 5px; border-radius: 5px"><b>{{total}}</b></span><b>Users</b></h5> -->
                                   </div>
                                 </div>
                               </div>
-
-                              <div
-                                class="errorboxmain text-center"
-                                *ngIf="
+                              <div class="errorboxmain text-center" *ngIf="
                                   (isStaffEmpty &&
                                     !searchUserPlaceholderFlag) ||
                                   (searchUserPlaceholderFlag && total == 0)
-                                "
-                              >
+                                ">
                                 <div class="errorboxinner">
                                   <div class="errorboxplaceholder mb-2">
-                                    <img
-                                      src="assets/images/empty-box.svg"
-                                      style="width: 80px"
-                                    />
+                                    <img src="assets/images/empty-box.svg" style="width: 80px" />
                                   </div>
                                   <div class="">
                                     <h4>No Data Found</h4>
-                                    <p class="mb-0">
-                                      We're unable to locate a record associated
-                                      with the information you entered.
-                                    </p>
+                                    <p class="mb-0"> We're unable to locate a record associated with the information you entered. </p>
                                   </div>
                                 </div>
                               </div>
-
                               <div *ngIf="total !== 0">
-                                <div
-                                  class=""
-                                  style="
+                                <div class="" style="
                                     display: flex;
                                     justify-content: space-between;
                                     align-items: center;
-                                  "
-                                >
-                                  <div
-                                    class="mt-3 d-flex"
-                                    style="gap: 10px"
-                                    *ngIf="selectedStaffsUuids!.length > 0"
-                                  >
-                                    <ng-container
-                                      *ngIf="
+                                  ">
+                                  <div class="mt-3 d-flex" style="gap: 10px" *ngIf="selectedStaffsUuids!.length > 0">
+                                    <ng-container *ngIf="
                                         selectedStaffsUuids!.length === total;
                                         else elseCondition2
-                                      "
-                                    >
-                                      <span
-                                        (click)="unselectAllUsers()"
-                                        style="
+                                      ">
+                                      <span (click)="unselectAllUsers()" style="
                                           cursor: pointer;
                                           color: #eb5050;
                                           background-color: #fcf1f1;
                                           padding: 5px;
                                           border-radius: 5px;
-                                        "
-                                        >Clear all users <i class="bi bi-x"></i
-                                      ></span>
-                                      <span
-                                        (click)="saveLeaveSettingRules(false)"
-                                        style="
+                                        ">Clear all users <i class="bi bi-x"></i>
+                                      </span>
+                                      <span (click)="saveLeaveSettingRules(false)" style="
                                           cursor: pointer;
                                           color: #4761f6;
                                           background-color: #eef1ff;
                                           padding: 5px;
                                           border-radius: 5px;
-                                        "
-                                        >Add To Rule</span
-                                      >
+                                        ">Add To Rule</span>
                                     </ng-container>
                                     <ng-template #elseCondition2>
-                                      <span
-                                        (click)="selectAllUsers(true)"
-                                        style="
+                                      <span (click)="selectAllUsers(true)" style="
                                           cursor: pointer;
                                           color: #4761f6;
                                           background-color: #eef1ff;
                                           padding: 5px;
                                           border-radius: 5px;
-                                        "
-                                        >Select all {{ total }} users</span
-                                      >
-                                      <span
-                                        (click)="saveLeaveSettingRules(false)"
-                                        style="
+                                        ">Select all {{ total }} users</span>
+                                      <span (click)="saveLeaveSettingRules(false)" style="
                                           cursor: pointer;
                                           color: #4761f6;
                                           background-color: #eef1ff;
                                           padding: 5px;
                                           border-radius: 5px;
-                                        "
-                                        >Add To Rule</span
-                                      >
+                                        ">Add To Rule</span>
                                     </ng-template>
                                   </div>
-
-                                  <div
-                                    class="pt-2"
-                                    *ngIf="selectedStaffsUuids!.length !== 0"
-                                  >
-                                    <ng-container
-                                      *ngIf="
+                                  <div class="pt-2" *ngIf="selectedStaffsUuids!.length !== 0">
+                                    <ng-container *ngIf="
                                         selectedStaffsUuids!.length === total;
                                         else elseCondition1
-                                      "
-                                    >
-                                      <span
-                                        >All <b>{{ total }}</b> users
-                                        selected</span
-                                      >
+                                      ">
+                                      <span>All <b>{{ total }}</b> users selected </span>
                                     </ng-container>
                                     <ng-template #elseCondition1>
-                                      <span
-                                        ><b>{{
-                                          selectedStaffsUuids!.length
-                                        }}</b>
-                                        selected of
-                                        <b>{{ total }}</b></span
-                                      >
-                                      <span
-                                        style="cursor: pointer"
-                                        (click)="unselectAllUsers()"
-                                        ><i class="bi bi-x"></i
-                                      ></span>
+                                      <span>
+                                        <b>{{ selectedStaffsUuids!.length
+                                        }}</b> selected of <b>{{ total }}</b>
+                                      </span>
+                                      <span style="cursor: pointer" (click)="unselectAllUsers()">
+                                        <i class="bi bi-x"></i>
+                                      </span>
                                     </ng-template>
                                   </div>
                                 </div>
-
                                 <table class="table mt-3">
                                   <thead class="thead-light">
                                     <tr>
                                       <th style="width: 0%">
-                                        <input
-                                          type="checkbox"
-                                          style="cursor: pointer"
-                                          [ngModelOptions]="{
+                                        <input type="checkbox" style="cursor: pointer" [ngModelOptions]="{
                                             standalone: true
-                                          }"
-                                          class="form-check-input"
-                                          [(ngModel)]="isAllSelected"
-                                          (change)="selectAll(isAllSelected)"
-                                        />
+                                          }" class="form-check-input" [(ngModel)]="isAllSelected" (change)="selectAll(isAllSelected)" />
                                       </th>
                                       <!-- <th style="width:25%; padding: 12px 15px;">S. No.</th> -->
-                                      <th
-                                        style="width: 25%; padding: 12px 15px"
-                                      >
-                                        Name
-                                      </th>
-                                      <th
-                                        style="width: 50%; padding: 12px 15px"
-                                      >
-                                        Email
-                                      </th>
-
-                                      <th
-                                        style="width: 25%; padding: 12px 15px"
-                                      >
-                                        Action
-                                      </th>
+                                      <th style="width: 25%; padding: 12px 15px"> Name </th>
+                                      <th style="width: 50%; padding: 12px 15px"> Email </th>
+                                      <th style="width: 25%; padding: 12px 15px"> Action </th>
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    <tr
-                                      *ngFor="
+                                    <tr *ngFor="
                                         let staff of staffs
                                           | paginate
                                             : {
@@ -1651,23 +815,14 @@
                                                 currentPage: pageNumber,
                                                 totalItems: total
                                               }
-                                      "
-                                      style="border-bottom: 1px solid #dddddd"
-                                    >
+                                      " style="border-bottom: 1px solid #dddddd">
                                       <td>
                                         <div class="form-check">
-                                          <input
-                                            type="checkbox"
-                                            style="cursor: pointer"
-                                            [ngModelOptions]="{
+                                          <input type="checkbox" style="cursor: pointer" [ngModelOptions]="{
                                               standalone: true
-                                            }"
-                                            class="form-check-input"
-                                            [(ngModel)]="staff.selected"
-                                            (change)="
+                                            }" class="form-check-input" [(ngModel)]="staff.selected" (change)="
                                               checkIndividualSelection()
-                                            "
-                                          />
+                                            " />
                                         </div>
                                       </td>
                                       <!-- <td style="padding: 12px 15px;">{{ i+1 }}</td> -->
@@ -1677,105 +832,53 @@
                                       <td style="padding: 12px 15px">
                                         {{ staff.email }}
                                       </td>
-
                                       <td>
                                         <!-- && !addedUserFlag -->
                                         <!-- *ngIf="!staff.isAdded  -->
                                         <span *ngIf="!staff.isAdded">
-                                          <div
-                                            class="dot-opacity-loader"
-                                            *ngIf="addEmployeeLoader(staff)"
-                                          >
+                                          <div class="dot-opacity-loader" *ngIf="addEmployeeLoader(staff)">
                                             <span></span>
                                             <span></span>
                                             <span></span>
                                           </div>
-                                          <button
-                                            class="btn btn-outline-primary btn-sm editdata-edit"
-                                            [(ngModel)]="staff.selected"
-                                            *ngIf="!addEmployeeLoader(staff)"
-                                            (click)="
+                                          <button class="btn btn-outline-primary btn-sm editdata-edit" [(ngModel)]="staff.selected" *ngIf="!addEmployeeLoader(staff)" (click)="
                                               addUser(
                                                 staff.uuid,
                                                 idOfLeaveSetting
                                               )
-                                            "
-                                          >
-                                            Add
-                                          </button>
+                                            "> Add </button>
                                         </span>
-
                                         <!-- && !addedUserFlag -->
                                         <span *ngIf="staff.isAdded">
-                                          <button
-                                            class="btn btn-outline-primary btn-sm editdata-edit"
-                                            [(ngModel)]="staff.selected"
-                                          >
-                                            Added
-                                          </button>
+                                          <button class="btn btn-outline-primary btn-sm editdata-edit" [(ngModel)]="staff.selected"> Added </button>
                                         </span>
-                                        <!-- <span *ngIf="staff.selected && addedUserFlag">
-                                                                                    <button class="btn btn-outline-primary btn-sm editdata-edit" [(ngModel)]="staff.selected"
-                                                                                    >Added</button>
-                                                                                </span> -->
+                                        <!-- <span *ngIf="staff.selected && addedUserFlag"><button class="btn btn-outline-primary btn-sm editdata-edit" [(ngModel)]="staff.selected"
+                                                                                    >Added</button></span> -->
                                       </td>
                                     </tr>
                                   </tbody>
                                 </table>
                               </div>
                             </div>
-
                             <div class="pagination pl-3" *ngIf="total > 8">
-                              <p class="mb-0" style="padding-left: 15px">
-                                Showing {{ getStartIndex() }} -
-                                {{ getEndIndex() }} of {{ total }} users
-                              </p>
+                              <p class="mb-0" style="padding-left: 15px"> Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} users </p>
                               <div class="row">
                                 <div class="col-md-12">
                                   <nav aria-label="Page navigation example">
                                     <ul class="pagination justify-content-end">
-                                      <li
-                                        class="page-item"
-                                        [class.disabled]="pageNumber == 1"
-                                      >
-                                        <a
-                                          class="page-link"
-                                          href="javascript:void(0);"
-                                          aria-label="Previous"
-                                          (click)="changePage('prev')"
-                                        >
-                                          <span aria-hidden="true"
-                                            >&laquo;</span
-                                          >
+                                      <li class="page-item" [class.disabled]="pageNumber == 1">
+                                        <a class="page-link" href="javascript:void(0);" aria-label="Previous" (click)="changePage('prev')">
+                                          <span aria-hidden="true">&laquo;</span>
                                         </a>
                                       </li>
-                                      <li
-                                        class="page-item"
-                                        *ngFor="let page of getPages()"
-                                        [class.active]="pageNumber == page"
-                                      >
-                                        <a
-                                          class="page-link"
-                                          href="javascript:void(0);"
-                                          (click)="changePage(page)"
-                                          >{{ page }}</a
-                                        >
+                                      <li class="page-item" *ngFor="let page of getPages()" [class.active]="pageNumber == page">
+                                        <a class="page-link" href="javascript:void(0);" (click)="changePage(page)">{{ page }}</a>
                                       </li>
-                                      <li
-                                        class="page-item"
-                                        [class.disabled]="
+                                      <li class="page-item" [class.disabled]="
                                           pageNumber == totalPages
-                                        "
-                                      >
-                                        <a
-                                          class="page-link"
-                                          href="javascript:void(0);"
-                                          aria-label="Next"
-                                          (click)="changePage('next')"
-                                        >
-                                          <span aria-hidden="true"
-                                            >&raquo;</span
-                                          >
+                                        ">
+                                        <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changePage('next')">
+                                          <span aria-hidden="true">&raquo;</span>
                                         </a>
                                       </li>
                                     </ul>
@@ -1784,256 +887,148 @@
                               </div>
                             </div>
                           </div>
-
                           <!--  ######################    Stafff Selectiiiiooooonnnnnn -->
-
-                          <div
-                            class="tab-pane fade"
-                            id="mapped"
-                            role="tabpanel"
-                          >
+                          <div class="tab-pane fade" id="mapped" role="tabpanel">
                             <!-- || (searchSelectedUserPlaceholderFlag && totalUser==0) -->
-
                             <!-- {{isMappedStaffEmpty}} -->
                             <div class="mt-3">
-                              <div
-                                class="row border-top border-bottom pb-2 pt-2"
-                              >
+                              <div class="row border-top border-bottom pb-2 pt-2">
                                 <div style="width: 30%; position: relative">
                                   <div class="dropdown" style="width: 100%">
-                                    <button
-                                      type="button"
-                                      id="dropdownMenuButton1"
-                                      data-bs-toggle="dropdown"
-                                      aria-expanded="false"
-                                      class="btn btn-secondary dropdown-toggle new-deopdown"
-                                    >
+                                    <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
                                       {{ selectedTeamNameOfAddedUsers }}
-                                      <i
-                                        class="bi bi-chevron-down"
-                                        style="color: #444; font-size: 15px"
-                                      ></i>
+                                      <i class="bi bi-chevron-down" style="color: #444; font-size: 15px"></i>
                                     </button>
-                                    <ul
-                                      aria-labelledby="dropdownMenuButton1"
-                                      class="dropdown-menu team-dropdown"
-                                      style="
+                                    <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu team-dropdown" style="
                                         width: 100%;
                                         max-height: 200px;
                                         overflow-y: auto;
-                                      "
-                                    >
-                                      <li
-                                        class="ng-star-inserted"
-                                        (click)="
+                                      ">
+                                      <li class="ng-star-inserted" (click)="
                                           selectTeamSearchForAddedUsers(0)
-                                        "
-                                      >
+                                        ">
                                         <a class="dropdown-item">All</a>
                                       </li>
-                                      <li
-                                        class="ng-star-inserted"
-                                        *ngFor="let tn of teamNameList"
-                                        (click)="
+                                      <li class="ng-star-inserted" *ngFor="let tn of teamNameList" (click)="
                                           selectTeamSearchForAddedUsers(
                                             tn.teamId
                                           )
-                                        "
-                                      >
-                                        <a class="dropdown-item">{{
-                                          tn.teamName
+                                        ">
+                                        <a class="dropdown-item">{{ tn.teamName
                                         }}</a>
                                       </li>
                                     </ul>
                                   </div>
                                 </div>
                                 <div class="col-md-6">
-                                  <form
-                                    novalidate=""
-                                    role="search"
-                                    (submit)="
+                                  <form novalidate="" role="search" (submit)="
                                       searchLeaveUsers(idOfLeaveSetting)
-                                    "
-                                    class="searching ng-untouched ng-pristine ng-valid"
-                                  >
-                                    <div
-                                      class="form-group"
-                                      style="position: relative"
-                                    >
-                                      <input
-                                        type="text"
-                                        id="searchTextUser"
-                                        name="searchLeaveUsers"
-                                        placeholder="Search by name and role"
-                                        class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search"
-                                        (keyup)="
+                                    " class="searching ng-untouched ng-pristine ng-valid">
+                                    <div class="form-group" style="position: relative">
+                                      <input type="text" id="searchTextUser" name="searchLeaveUsers" placeholder="Search by name and role" class="form-control me-2 ng-untouched ng-pristine ng-valid attendance-details-search" (keyup)="
                                           searchLeaveUsers(idOfLeaveSetting)
-                                        "
-                                        [(ngModel)]="searchTextUser"
-                                        [ngModelOptions]="{ standalone: true }"
-                                        style="padding: 10px 50px 10px 30px"
-                                      />
-                                      <button
-                                        type="button"
-                                        class="btn close-btn"
-                                        (click)="clearSearchSelectedUsers()"
-                                        *ngIf="crossFlagUser"
-                                      >
+                                        " [(ngModel)]="searchTextUser" [ngModelOptions]="{ standalone: true }" style="padding: 10px 50px 10px 30px" />
+                                      <button type="button" class="btn close-btn" (click)="clearSearchSelectedUsers()" *ngIf="crossFlagUser">
                                         <i class="bi bi-x"></i>
                                       </button>
-                                      <i
-                                        class="bi bi-search search-icon"
-                                        style="
+                                      <i class="bi bi-search search-icon" style="
                                           position: absolute;
                                           top: 50%;
                                           transform: translateY(-50%);
                                           left: 10px;
-                                        "
-                                      ></i>
+                                        "></i>
                                     </div>
                                   </form>
                                 </div>
-
                                 <div class="col-md-6"></div>
                               </div>
-
-                              <div
-                                class="errorboxmain text-center"
-                                *ngIf="
+                              <div class="errorboxmain text-center" *ngIf="
                                   (isMappedStaffEmpty &&
                                     !searchSelectedUserPlaceholderFlag) ||
                                   (searchSelectedUserPlaceholderFlag &&
                                     totalUser == 0)
-                                "
-                              >
+                                ">
                                 <div class="errorboxinner">
                                   <div class="errorboxplaceholder mb-2">
-                                    <img
-                                      src="assets/images/empty-box.svg"
-                                      style="width: 80px"
-                                    />
+                                    <img src="assets/images/empty-box.svg" style="width: 80px" />
                                   </div>
                                   <div class="">
                                     <h4>No Data Found</h4>
-                                    <p class="mb-0">
-                                      We're unable to locate a record associated
-                                      with the information you entered.
-                                    </p>
+                                    <p class="mb-0"> We're unable to locate a record associated with the information you entered. </p>
                                   </div>
                                 </div>
                               </div>
                               <div *ngIf="totalUser != 0">
-                                <div
-                                  class=""
-                                  style="
+                                <div class="" style="
                                     display: flex;
                                     justify-content: space-between;
                                     align-items: center;
-                                  "
-                                >
-                                  <!-- <th style="width:0%; ">
-                                                                                <input type="checkbox" style="cursor: pointer;" class="form-check-input"
+                                  ">
+                                  <!-- <th style="width:0%; "><input type="checkbox" style="cursor: pointer;" class="form-check-input"
                                                                                        [(ngModel)]="isAllUsersSelected"
-                                                                                       (change)="selectAllUsers($event)">
-                                                                            </th> -->
-                                  <div
-                                    class="mt-3 d-flex"
-                                    style="gap: 10px"
-                                    *ngIf="selectedStaffsUuidsUser!.length > 0"
-                                  >
-                                    <ng-container
-                                      *ngIf="
+                                                                                       (change)="selectAllUsers($event)"></th> -->
+                                  <div class="mt-3 d-flex" style="gap: 10px" *ngIf="selectedStaffsUuidsUser!.length > 0">
+                                    <ng-container *ngIf="
                                         selectedStaffsUuidsUser!.length ===
                                           totalUser;
                                         else elseCondition2
-                                      "
-                                    >
-                                      <span
-                                        (click)="deleteAllUsers()"
-                                        style="
+                                      ">
+                                      <span (click)="deleteAllUsers()" style="
                                           cursor: pointer;
                                           color: #eb5050;
                                           background-color: #fcf1f1;
                                           padding: 5px;
                                           border-radius: 5px;
-                                        "
-                                        >Remove All Users <i class="bi bi-x"></i
-                                      ></span>
-                                      <span
-                                        (click)="unselectAllUsersUser()"
-                                        style="
+                                        ">Remove All Users <i class="bi bi-x"></i>
+                                      </span>
+                                      <span (click)="unselectAllUsersUser()" style="
                                           cursor: pointer;
                                           color: #eb5050;
                                           background-color: #fcf1f1;
                                           padding: 5px;
                                           border-radius: 5px;
-                                        "
-                                        >Clear all users <i class="bi bi-x"></i
-                                      ></span>
+                                        ">Clear all users <i class="bi bi-x"></i>
+                                      </span>
                                     </ng-container>
                                     <!-- selectAllUsersUser(true) -->
                                     <ng-template #elseCondition2>
-                                      <span
-                                        (click)="deleteAllUsers()"
-                                        style="
+                                      <span (click)="deleteAllUsers()" style="
                                           cursor: pointer;
                                           color: #4761f6;
                                           background-color: #eef1ff;
                                           padding: 5px;
                                           border-radius: 5px;
-                                        "
-                                        >Remove all users</span
-                                      >
-                                      <span
-                                        (click)="selectAllUsersUser(true)"
-                                        style="
+                                        ">Remove all users</span>
+                                      <span (click)="selectAllUsersUser(true)" style="
                                           cursor: pointer;
                                           color: #4761f6;
                                           background-color: #eef1ff;
                                           padding: 5px;
                                           border-radius: 5px;
-                                        "
-                                        >Select all {{ totalUser }} users</span
-                                      >
+                                        ">Select all {{ totalUser }} users</span>
                                     </ng-template>
                                   </div>
-
-                                  <div
-                                    class="pt-2"
-                                    *ngIf="
+                                  <div class="pt-2" *ngIf="
                                       selectedStaffsUuidsUser!.length !== 0
-                                    "
-                                  >
-                                    <ng-container
-                                      *ngIf="
+                                    ">
+                                    <ng-container *ngIf="
                                         selectedStaffsUuidsUser!.length ===
                                           totalUser;
                                         else elseCondition1
-                                      "
-                                    >
-                                      <span
-                                        >All <b>{{ totalUser }}</b> users
-                                        selected</span
-                                      >
-                                      <span
-                                        style="cursor: pointer"
-                                        (click)="unselectAllUsersUser()"
-                                        ><i class="bi bi-x"></i
-                                      ></span>
+                                      ">
+                                      <span>All <b>{{ totalUser }}</b> users selected </span>
+                                      <span style="cursor: pointer" (click)="unselectAllUsersUser()">
+                                        <i class="bi bi-x"></i>
+                                      </span>
                                     </ng-container>
                                     <ng-template #elseCondition1>
-                                      <span
-                                        ><b>{{
-                                          selectedStaffsUuidsUser!.length
-                                        }}</b>
-                                        selected of
-                                        <b>{{ totalUser }}</b></span
-                                      >
-                                      <span
-                                        style="cursor: pointer"
-                                        (click)="unselectAllUsersUser()"
-                                        ><i class="bi bi-x"></i
-                                      ></span>
+                                      <span>
+                                        <b>{{ selectedStaffsUuidsUser!.length
+                                        }}</b> selected of <b>{{ totalUser }}</b>
+                                      </span>
+                                      <span style="cursor: pointer" (click)="unselectAllUsersUser()">
+                                        <i class="bi bi-x"></i>
+                                      </span>
                                     </ng-template>
                                   </div>
                                 </div>
@@ -2041,41 +1036,20 @@
                                   <thead class="thead-light">
                                     <tr>
                                       <th style="width: 0%">
-                                        <input
-                                          type="checkbox"
-                                          style="cursor: pointer"
-                                          [ngModelOptions]="{
+                                        <input type="checkbox" style="cursor: pointer" [ngModelOptions]="{
                                             standalone: true
-                                          }"
-                                          class="form-check-input"
-                                          [(ngModel)]="isAllSelectedUser"
-                                          (change)="
+                                          }" class="form-check-input" [(ngModel)]="isAllSelectedUser" (change)="
                                             selectAllUser(isAllSelectedUser)
-                                          "
-                                        />
+                                          " />
                                       </th>
                                       <!-- <th style="width:25%; padding: 12px 15px;">S. No.</th> -->
-                                      <th
-                                        style="width: 25%; padding: 12px 15px"
-                                      >
-                                        Name
-                                      </th>
-                                      <th
-                                        style="width: 50%; padding: 12px 15px"
-                                      >
-                                        Email
-                                      </th>
-
-                                      <th
-                                        style="width: 25%; padding: 12px 15px"
-                                      >
-                                        Action
-                                      </th>
+                                      <th style="width: 25%; padding: 12px 15px"> Name </th>
+                                      <th style="width: 50%; padding: 12px 15px"> Email </th>
+                                      <th style="width: 25%; padding: 12px 15px"> Action </th>
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    <tr
-                                      *ngFor="
+                                    <tr *ngFor="
                                         let newstaff of staffsUser
                                           | paginate
                                             : {
@@ -2083,23 +1057,14 @@
                                                 currentPage: pageNumberUser,
                                                 totalItems: totalUser
                                               }
-                                      "
-                                      style="border-bottom: 1px solid #dddddd"
-                                    >
+                                      " style="border-bottom: 1px solid #dddddd">
                                       <td>
                                         <div class="form-check">
-                                          <input
-                                            type="checkbox"
-                                            style="cursor: pointer"
-                                            [ngModelOptions]="{
+                                          <input type="checkbox" style="cursor: pointer" [ngModelOptions]="{
                                               standalone: true
-                                            }"
-                                            class="form-check-input"
-                                            [(ngModel)]="newstaff.selected"
-                                            (change)="
+                                            }" class="form-check-input" [(ngModel)]="newstaff.selected" (change)="
                                               checkIndividualSelectionUser()
-                                            "
-                                          />
+                                            " />
                                         </div>
                                       </td>
                                       <!-- <td style="padding: 12px 15px;">{{ i+1 }}</td> -->
@@ -2109,22 +1074,11 @@
                                       <td style="padding: 12px 15px">
                                         {{ newstaff.email }}
                                       </td>
-
                                       <td>
-                                        <button
-                                          class="btn btn-outline-primary btn-sm remove"
-                                          *ngIf="
+                                        <button class="btn btn-outline-primary btn-sm remove" *ngIf="
                                             !deleteEmployeeLoader(newstaff)
-                                          "
-                                          (click)="deleteUser(newstaff.uuid)"
-                                        >
-                                          Remove
-                                        </button>
-                                        <div
-                                          class="dot-opacity-loader"
-                                          style="color: #eb5050"
-                                          *ngIf="deleteEmployeeLoader(newstaff)"
-                                        >
+                                          " (click)="deleteUser(newstaff.uuid)"> Remove </button>
+                                        <div class="dot-opacity-loader" style="color: #eb5050" *ngIf="deleteEmployeeLoader(newstaff)">
                                           <span></span>
                                           <span></span>
                                           <span></span>
@@ -2135,60 +1089,27 @@
                                 </table>
                               </div>
                             </div>
-
                             <div class="pagination pl-3" *ngIf="totalUser > 8">
-                              <p class="mb-0" style="padding-left: 15px">
-                                Showing {{ getUserStartIndex() }} -
-                                {{ getUserEndIndex() }} of {{ totalUser }} users
-                              </p>
+                              <p class="mb-0" style="padding-left: 15px"> Showing {{ getUserStartIndex() }} - {{ getUserEndIndex() }} of {{ totalUser }} users </p>
                               <div class="row">
                                 <div class="col-md-12">
                                   <nav aria-label="Page navigation example">
                                     <ul class="pagination justify-content-end">
-                                      <li
-                                        class="page-item"
-                                        [class.disabled]="pageNumberUser == 1"
-                                      >
-                                        <a
-                                          class="page-link"
-                                          href="javascript:void(0);"
-                                          aria-label="Previous"
-                                          (click)="changeUserPage('prev')"
-                                        >
-                                          <span aria-hidden="true"
-                                            >&laquo;</span
-                                          >
+                                      <li class="page-item" [class.disabled]="pageNumberUser == 1">
+                                        <a class="page-link" href="javascript:void(0);" aria-label="Previous" (click)="changeUserPage('prev')">
+                                          <span aria-hidden="true">&laquo;</span>
                                         </a>
                                       </li>
-                                      <li
-                                        class="page-item"
-                                        *ngFor="let userPage of getUserPages()"
-                                        [class.active]="
+                                      <li class="page-item" *ngFor="let userPage of getUserPages()" [class.active]="
                                           pageNumberUser == userPage
-                                        "
-                                      >
-                                        <a
-                                          class="page-link"
-                                          href="javascript:void(0);"
-                                          (click)="changeUserPage(userPage)"
-                                          >{{ userPage }}</a
-                                        >
+                                        ">
+                                        <a class="page-link" href="javascript:void(0);" (click)="changeUserPage(userPage)">{{ userPage }}</a>
                                       </li>
-                                      <li
-                                        class="page-item"
-                                        [class.disabled]="
+                                      <li class="page-item" [class.disabled]="
                                           pageNumberUser == totalUserPages
-                                        "
-                                      >
-                                        <a
-                                          class="page-link"
-                                          href="javascript:void(0);"
-                                          aria-label="Next"
-                                          (click)="changeUserPage('next')"
-                                        >
-                                          <span aria-hidden="true"
-                                            >&raquo;</span
-                                          >
+                                        ">
+                                        <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changeUserPage('next')">
+                                          <span aria-hidden="true">&raquo;</span>
                                         </a>
                                       </li>
                                     </ul>
@@ -2202,24 +1123,12 @@
                     </div>
                   </div>
                   <!-- *ngIf="staffs.length > 8" -->
-
                   <div id="back-and-submit">
-                    <div
-                      class="modal-footer d-flex align-items-center justify-content-end"
-                    >
+                    <div class="modal-footer d-flex align-items-center justify-content-end">
                       <!-- <button type="button" class="btn btn-outline-primary">Back</button> -->
                     </div>
-                    <div
-                      class="modal-footer d-flex align-items-center justify-content-end"
-                    >
-                      <button
-                        type="button"
-                        class="btn btn-outline-primary btn-round"
-                        (click)="saveLeaveSettingRules(true)"
-                        *ngIf="!submitLeaveLoader"
-                      >
-                        Submit
-                      </button>
+                    <div class="modal-footer d-flex align-items-center justify-content-end">
+                      <button type="button" class="btn btn-outline-primary btn-round" (click)="saveLeaveSettingRules(true)" *ngIf="!submitLeaveLoader"> Submit </button>
                       <div class="dot-opacity-loader" *ngIf="submitLeaveLoader">
                         <span></span>
                         <span></span>
@@ -2230,18 +1139,16 @@
                   <!-- </div> -->
                 </div>
               </div>
+
             </div>
+
           </div>
         </div>
-        <!-- <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+        <!-- <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         Cancel
-                    </button>
-                    <button type="submit" class="btn btn-primary">
+                    </button><button type="submit" class="btn btn-primary">
                         Submit
-                    </button>
-
-                </div> -->
+                    </button></div> -->
       </form>
     </div>
   </div>
