@@ -367,6 +367,7 @@
                   class="btn create-team"
                   data-bs-toggle="modal"
                   data-bs-target="#createteam2"
+                  *ngIf="ROLE == 'ADMIN'"
                 >
                   Create Team
                 </button>
@@ -374,7 +375,7 @@
                   type="button"
                   class="btn create-team-on-slack"
                   (click)="getFlagOfSlackPlaceholder()"
-                  *ngIf="onboardingVia == 'SLACK'"
+                  *ngIf="onboardingVia == 'SLACK' && ROLE == 'ADMIN'"
                 >
                   Slack Data Sync..
                 </button>
