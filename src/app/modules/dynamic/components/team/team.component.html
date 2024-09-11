@@ -335,6 +335,36 @@
           <div
             class="col-md-6 d-flex align-items-center justify-content-center"
             style="flex-direction: column"
+            *ngIf="ROLE != 'ADMIN'"
+          >
+            <div class="">
+              <h4>No Data Found</h4>
+              <!-- <p>
+                Create a new team for your organization from here<br />
+                once they finish their onboarding.
+              </p> -->
+
+              <div class="mb-3">
+                <a href="" class="addinh-hiar"
+                  >Learn about adding hire
+                  <i
+                    class="bi bi-arrow-up-right"
+                    style="
+                      padding-left: 8px;
+                      font-size: 12px;
+                      color: #6666f3;
+                      font-weight: bold;
+                    "
+                  ></i
+                ></a>
+              </div>
+               
+            </div>
+          </div>
+          <div
+            class="col-md-6 d-flex align-items-center justify-content-center"
+            style="flex-direction: column"
+            *ngIf="ROLE == 'ADMIN'"
           >
             <div class="">
               <h4>Click 'Create Team' to get started</h4>
@@ -367,6 +397,7 @@
                   class="btn create-team"
                   data-bs-toggle="modal"
                   data-bs-target="#createteam2"
+                  
                 >
                   Create Team
                 </button>
@@ -374,7 +405,7 @@
                   type="button"
                   class="btn create-team-on-slack"
                   (click)="getFlagOfSlackPlaceholder()"
-                  *ngIf="onboardingVia == 'SLACK'"
+                  *ngIf="onboardingVia == 'SLACK' && ROLE == 'ADMIN'"
                 >
                   Slack Data Sync..
                 </button>
@@ -566,7 +597,16 @@
                                           <p class="m-0 mt-3 font-12 mb-0" style="color: red;">Manager isn't assigned yet!</p>
                                       </div> -->
                   <div>
-                    <h4 class="m-0 mt-3 font-13 mb-0 fw-bold Regular-data" (click)="routeToUserDetails(team.manager.uuid)" >
+                    <h4 class="m-0 mt-3 font-13 mb-0 fw-bold Regular-data" (click)="routeToUserDetails(team.manager.uuid)" *ngIf="ROLE == 'ADMIN'">
+                      {{ capitalizeFirstLetter(team.manager.name) }}
+                      <span style="padding-left: 8px" class="maneger-point">
+                        <i
+                          class="bi bi-patch-check-fill"
+                          *ngIf="team.showTick"
+                        ></i
+                      ></span>
+                    </h4>
+                    <h4 class="m-0 mt-3 font-13 mb-0 fw-bold " *ngIf="ROLE != 'ADMIN'">
                       {{ capitalizeFirstLetter(team.manager.name) }}
                       <span style="padding-left: 8px" class="maneger-point">
                         <i

@@ -775,6 +775,7 @@ this.getAdminPersonalDetailMethodCall();
 
   downloadingFlag: boolean = false;
   downloadAttendanceDataInExcelFormatMethodCall() {
+    debugger
     this.downloadingFlag = true;
     this.dataService
       .downloadAttendanceDataInExcelFormat(this.startDate, this.endDate)
