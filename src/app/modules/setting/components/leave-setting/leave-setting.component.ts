@@ -11,11 +11,11 @@ import { template } from 'lodash';
 import * as moment from 'moment';
 import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
-import { LeaveTemplateRequest } from 'src/app/leave-template-request';
 import { FullLeaveSettingRequest } from 'src/app/models/Full-Leave-Setting-Request';
 import { FullLeaveSettingResponse } from 'src/app/models/full-leave-setting-response';
 import { LeaveSettingCategoryResponse } from 'src/app/models/leave-categories-response';
 import { LeaveSettingResponse } from 'src/app/models/leave-setting-response';
+import { LeaveTemplateRequest } from 'src/app/models/leave-template-request';
 import { Staff } from 'src/app/models/staff';
 import { StaffSelectionUserList } from 'src/app/models/staff-selection-userlist';
 import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-reflection';
@@ -653,7 +653,7 @@ export class LeaveSettingComponent implements OnInit {
     this.selectedStaffsUuidsUser = [];
     // this.selectedStaffsUuids.length = 0;
 
-    this.leaveSettingForm.form.reset();
+    // this.leaveSettingForm.form.reset();
     this.leaveSettingResponse = new LeaveSettingResponse();
     this.leaveSettingResponse.templateName = '';
     this.form.reset();
@@ -1214,9 +1214,11 @@ export class LeaveSettingComponent implements OnInit {
   }
 
   onChange(value: string): void {
-    this.filteredLeaveCategories = this.leaveCategories.filter((bank) =>
-      bank.toLowerCase().includes(value.toLowerCase())
-    );
+    if(value != null){
+      this.filteredLeaveCategories = this.leaveCategories.filter((bank) =>
+        bank.toLowerCase().includes(value.toLowerCase())
+      );
+    }
   }
 
   // onChange(value: string): void {
@@ -1407,37 +1409,23 @@ export class LeaveSettingComponent implements OnInit {
   readonly FINANCIAL_YEAR = Key.FINANCIAL_YEAR;
 
   dateRange: Date[] = [];
-  size: 'large' | 'small' | 'default' = 'small';
-  selectDateForLeaveTemplateRequest(yearType: any) {
-    debugger;
-    if (yearType && yearType.id === this.ANNUAL_YEAR) {
-      this.dateRange[0] = new Date(new Date().getFullYear(), 0, 1); // January 1st
-      this.dateRange[1] = new Date(new Date().getFullYear(), 11, 31); // December 31st
+  size: 'large' | 'small' | 'default' = 'small';  
+  selectDateForLeaveTemplateRequest(yearTypeName: string) {
+
+    if (yearTypeName == this.ANNUAL_YEAR) {
+      this.dateRange[0] = new Date(new Date().getFullYear(), 0, 1);
+      this.dateRange[1] = new Date(new Date().getFullYear(), 11, 31);
+    } else if (yearTypeName == this.FINANCIAL_YEAR) {
+      this.dateRange[0] = new Date(new Date().getFullYear(), 3, 1);
+      this.dateRange[1] = new Date(new Date().getFullYear() + 1, 2, 31);
     }
   
-    if (yearType && yearType.id === this.FINANCIAL_YEAR) {
-      this.dateRange[0] = new Date(new Date().getFullYear(), 3, 1); // April 1st
-      this.dateRange[1] = new Date(new Date().getFullYear() + 1, 2, 31); // March 31st of the next year
-    }
-  
-    // Format the start and end dates before assigning them to the request object
+    this.leaveTemplateRequest.yearTypeName = yearTypeName; 
     this.leaveTemplateRequest.startDate = this.helperService.formatDateToYYYYMMDD(this.dateRange[0]);
     this.leaveTemplateRequest.endDate = this.helperService.formatDateToYYYYMMDD(this.dateRange[1]);
-  
-    console.log(this.dateRange[0]);
-    console.log(this.dateRange[1]);
   }
   
-  
-  // selectDateForLeaveTemplateRequest(dates: Date[] | null): void {
-  //   // Handle array of dates
-  //   if (Array.isArray(dates)) {
-  //     if (dates.length === 2 && dates[0] != null && dates[1] != null) {
-  //       this.leaveTemplateRequest.startDate = this.helperService.formatDateToYYYYMMDD(dates[0]);
-  //       this.leaveTemplateRequest.endDate = this.helperService.formatDateToYYYYMMDD(dates[1]);
-  //     }
-  //   } 
-  // }
+  leaveTemplateDefinitionForm !: FormGroup;
 
   leaveTemplateRequest : LeaveTemplateRequest = new LeaveTemplateRequest();
 

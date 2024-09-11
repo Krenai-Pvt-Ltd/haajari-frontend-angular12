@@ -354,192 +354,74 @@
                 <button id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true" class="nav-link active" #templateSettingTab> Template Setting </button>
               </li>
               <li role="presentation" class="nav-item">
-                <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" class="nav-link" [disabled]="!isFormValid" #leaveCategoryTab> Leave Categories </button>
+                <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" class="nav-link" [disabled]="!leaveTemplateDefinitionForm.form.valid" #leaveCategoryTab> Leave Categories </button>
               </li>
               <li role="presentation" class="nav-item">
                 <button id="staffSelection-tab" data-bs-toggle="tab" data-bs-target="#staffSelection" type="button" role="tab" aria-controls="staffSelection" aria-selected="false" class="nav-link" [disabled]="!form.valid" (click)="openStaffSelection()" #staffSelectionTab> Staff selection </button>
               </li>
             </ul>
-
-
             <div class="tab-content" id="myTabContent">
-
               <div class="tab-pane fade show active" id="home" role="tabpanel">
-                <form nz-form #leaveSettingForm="ngForm">
-                  <div class="col-md-6 mt-2 mb-2" nz-form-item>
-                    <label for="templateName" class="pb-2">Template Name <i class="bi bi-exclamation-circle tolltip-icon" ngbTooltip="Provide a unique name for your organization's leave template. This name will be used to assign leave quotas to users who belong to this leave template." placement="top"></i></label>
+                <form nz-form #leaveTemplateDefinitionForm="ngForm">
+                  <!-- Template Name -->
+                  <div class="col-md-6 mt-3 mb-2" nz-form-item>
+                    <label for="templateName" class="pb-2"> Template Name <i class="bi bi-exclamation-circle tolltip-icon" ngbTooltip="Provide a unique name for your organization's leave template. This name will be used to assign leave quotas to users who belong to this leave template." placement="right"></i>
+                    </label>
                     <nz-form-control nzErrorTip="Please enter a valid name.">
-                      <input nz-input [(ngModel)]="leaveTemplateRequest.name" placeholder="Enter the template name here" nzSize="large" minlength="3" maxlength="50" required [ngModelOptions]="{standalone: true}"/>
+                      <input nz-input [(ngModel)]="leaveTemplateRequest.name" placeholder="Enter the template name here" nzSize="large" minlength="3" maxlength="50" name="templateName" #templateName="ngModel" required />
                     </nz-form-control>
                   </div>
+                  <!-- Leave Quota Renewal Cycle -->
                   <div class="col-md-6 mt-2 mb-2" nz-form-item>
-                    <label for="leaveCycle" class="pb-2">Leave Quota Renew Cycle <i class="bi bi-exclamation-circle tolltip-icon" ngbTooltip="There are two main types: Monthly and Yearly. Monthly credits leave on a monthly basis. Yearly has two subtypes: 'All at Once', where leave is credited once at the start of the year, and 'Monthly Start', where the yearly leave quota is credited at the start of each month (you can choose a cycle from Jan to Dec or Apr to Mar of the next financial year)." placement="top"></i></label>
+                    <label for="leaveRenewalCycle" class="pb-2"> Leave Quota Renew Cycle <i class="bi bi-exclamation-circle tolltip-icon" ngbTooltip="There are two main types: Monthly and Yearly. Monthly credits leave on a monthly basis. Yearly has two subtypes: 'All at Once', where leave is credited once at the start of the year, and 'Monthly Start', where the yearly leave quota is credited at the start of each month (you can choose a cycle from Jan to Dec or Apr to Mar of the next financial year)." placement="right"></i>
+                    </label>
                     <nz-form-control nzErrorTip="Please select a valid renewal cycle.">
-                      <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select leave quota renew cycle type" (nzOnChange)="selectDateForLeaveTemplateRequest($event)">
-                        <nz-option *ngFor="let yearType of yearTypeList" [nzValue]="yearType" [nzLabel]="yearType.name"></nz-option>
+                      <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select leave quota renew cycle type" [(ngModel)]="leaveTemplateRequest.yearTypeName" (ngModelChange)="selectDateForLeaveTemplateRequest($event)" name="leaveRenewalCycle" #leaveRenewalCycle="ngModel" required>
+                        <nz-option *ngFor="let yearType of yearTypeList" [nzValue]="yearType.name" [nzLabel]="yearType.name"></nz-option>
                       </nz-select>
                     </nz-form-control>
                   </div>
-                  <div class="col-md-6 mt-2 mb-2" nz-form-item>
-                    <label for="leaveCycle" class="pb-2">Leave Period <i class="bi bi-exclamation-circle tolltip-icon" ngbTooltip="There are two main types: Monthly and Yearly. Monthly credits leave on a monthly basis. Yearly has two subtypes: 'All at Once', where leave is credited once at the start of the year, and 'Monthly Start', where the yearly leave quota is credited at the start of each month (you can choose a cycle from Jan to Dec or Apr to Mar of the next financial year)." placement="top"></i></label>
+                  <!-- Leave Period -->
+                  <div class="col-md-6 mt-3 mb-2" nz-form-item>
+                    <label for="leavePeriod" class="pb-2">Leave Period <i class="bi bi-exclamation-circle tolltip-icon" ngbTooltip="There are two main types: Monthly and Yearly. Monthly credits leave on a monthly basis. Yearly has two subtypes: 'All at Once', where leave is credited once at the start of the year, and 'Monthly Start', where the yearly leave quota is credited at the start of each month (you can choose a cycle from Jan to Dec or Apr to Mar of the next financial year)." placement="right"></i>
+                    </label>
                     <nz-form-control nzErrorTip="Please select a valid date time.">
-                      <nz-range-picker [(ngModel)]="dateRange" (ngModelChange)="selectDateForLeaveTemplateRequest($event)" required></nz-range-picker>
+                      <div class="d-flex justify-content-between align-items-center">
+                        <nz-date-picker [(ngModel)]="dateRange[0]" nzPlaceHolder="Start Date" [ngModelOptions]="{standalone : true}" name="startDate" disabled></nz-date-picker>
+                        <span class="text-muted p-3"> to </span>
+                        <nz-date-picker [(ngModel)]="dateRange[1]" nzPlaceHolder="End Date" [ngModelOptions]="{standalone : true}" name="endDate" disabled></nz-date-picker>
+                      </div>
                     </nz-form-control>
                   </div>
-                </form>
-                <form #leaveSettingForm="ngForm">
-                  <div class="pt-3 pb-3">
-                    <div class="row mb-3">
-                      <div class="col-md-12">
-                        <div class="">
-                          <label for="templateName" class="pb-2">Template Name <i class="bi bi-exclamation-circle tolltip-icon" ngbTooltip="Provide a unique name for your organization's leave template. This name will be used to assign leave quotas to users who belong to this leave template." placement="top"></i>
-                          </label>
-                          <input nz-input [(ngModel)]="leaveSettingResponse.templateName" [ngModelOptions]="{ standalone: true }" id="templateName" name="templateName" placeholder="Leave Policy" class="form-control whatapp-login-input" minlength="3" maxlength="50" required #templateName="ngModel" (input)="checkFormValidity(leaveSettingForm)" />
-                        </div>
-                        <div>
-                          <span class="errortxt" style="color: #eb5050" *ngIf="errorTemplateNameFlag"> Please Enter Leave Template Name First </span>
-                        </div>
-                        <div *ngIf="templateName?.touched">
-                          <p class="errortxt mt-2 mb-0 text-danger" *ngIf="templateName.errors?.required">
-                            <i class="bi bi-exclamation-circle"></i> This field is required.
-                          </p>
-                          <p class="errortxt mt-2 mb-0 text-danger" *ngIf="templateName.errors?.minlength">
-                            <i class="bi bi-exclamation-circle"></i> Please enter minimum five characters name.
-                          </p>
-                        </div>
-                      </div>
-                      <div class="col-md-6 mt-3">
-                        <div class="">
-                          <label for="leaveCycle" class="pb-2">Leave Renew Cycle <i class="bi bi-exclamation-circle tolltip-icon" ngbTooltip="There are two main types: Monthly and Yearly. Monthly credits leave on a monthly basis. Yearly has two subtypes: 'All at Once', where leave is credited once at the start of the year, and 'Monthly Start', where the yearly leave quota is credited at the start of each month (you can choose a cycle from Jan to Dec or Apr to Mar of the next financial year)." placement="top"></i>
-                          </label>
-                          <div class="d-flex" style="gap: 5px">
-                            <div role="group " aria-label="Basic radio toggle button group" class="btn-group enable-disanle-btn">
-                              <input type="radio" name="btnradio1" id="Enable1" autocomplete="off" checked="" class="btn-check" [ngModelOptions]="{ standalone: true }" id="monthlyRadio" [(ngModel)]="leaveSettingResponse.leaveCycle" value="Year Start" />
-                              <label class="btn btn-soft-secondary btn-sm" for="monthlyRadio" [class.selected]="
-                                  leaveSettingResponse.leaveCycle === 'Monthly'
-                                ">Monthly</label>
-                              <input type="radio" name="leaveCycle" id="yearlyRadio" [ngModelOptions]="{ standalone: true }" [(ngModel)]="leaveSettingResponse.leaveCycle" value="Financial Year Start" class="d-none" />
-                              <label class="btn btn-soft-secondary btn-sm" for="yearlyRadio" [class.selected]="
-                                  leaveSettingResponse.leaveCycle === 'Yearly'
-                                ">Yearly</label>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-12 mt-3">
-                        <div class="">
-                          <label for="startDate" class="pb-2">Leave Period</label>
-
-                        </div>
-                      </div>
-                      <div *ngIf="leaveSettingResponse.leaveCycle == 'Yearly'" class="col-md-12 mt-3">
-                        <div class="">
-                          <label for="accrualType" class="pb-2">Accrual Type</label>
-                          <div class="dropdown" style="width: 100%">
-                            <button type="button" id="accrualTypeDropdown" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
-                              {{ leaveSettingResponse.accrualType
-                                  ? leaveSettingResponse.accrualType
-                                  : "Select Accrual"
-                              }}
-                              <i class="bi bi-chevron-down"></i>
-                            </button>
-                            <ul aria-labelledby="accrualTypeDropdown" class="dropdown-menu" style="width: 100%">
-                              <li>
-                                <a class="dropdown-item" (click)="setAccrualType('All At Once')">All at once</a>
-                              </li>
-                              <li>
-                                <a class="dropdown-item" (click)="setAccrualType('Month Start')">Month Start</a>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-6 mt-3">
-                        <div class="">
-                          <label for="sandwichLeaves" class="pb-2">Sandwich Leaves <i class="bi bi-exclamation-circle tolltip-icon" ngbTooltip="This option enables you to decide whether to implement sandwich rules for your organization or not. Sandwich rules mean that if an employee takes a leave on Friday and the weekend (Saturday and Sunday) are non-working days for your organization, then the weekend days will also be counted as leave days." placement="top"></i>
-                          </label>
-                          <div class="d-flex" style="gap: 5px">
-                            <div role="group " aria-label="Basic radio toggle button group" class="btn-group enable-disanle-btn">
-                              <input type="radio" name="sandwichLeaves" id="countRadio" [ngModelOptions]="{ standalone: true }" (change)="setSandwichRules('Count')" [(ngModel)]="leaveSettingResponse.sandwichRules" value="Count" class="d-none" />
-                              <label for="countRadio" [class.selected]="
-                                  leaveSettingResponse.sandwichRules === 'Count'
-                                " class="btn btn-soft-secondary btn-sm">Yes</label>
-                              <input type="radio" name="sandwichLeaves" id="ignoreRadio" [ngModelOptions]="{ standalone: true }" (change)="setSandwichRules('Ignore')" [(ngModel)]="leaveSettingResponse.sandwichRules" value="Ignore" class="d-none" />
-                              <label for="ignoreRadio" [class.selected]="
-                                  leaveSettingResponse.sandwichRules ===
-                                  'Ignore'
-                                " class="btn btn-soft-secondary btn-sm">No</label>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div id="back-and-submit " class="d-flex justify-content-end align-items-end">
-                      <button type="submit" [disabled]="!isFormValid" (click)="goToLeaveCategoryTab()" class="btn btn-outline-primary btn-round"> Next </button>
-                    </div>
+                  <!-- Submit Button -->
+                  <div id="back-and-submit" class="d-flex justify-content-end align-items-end">
+                    <button type="submit" [disabled]="!leaveTemplateDefinitionForm.form.valid" (click)="goToLeaveCategoryTab()" class="btn btn-outline-primary btn-round"> Next </button>
                   </div>
                 </form>
               </div>
-
               <div class="tab-pane fade" id="profile" role="tabpanel">
                 <div class="pt-3 pb-3">
                   <form [formGroup]="form">
                     <div formArrayName="categories">
-                      <div *ngFor="
-                          let category of categories.controls;
-                          let i = index
-                        " class="form-group row mb-4 pb-2 position-relative" [formGroupName]="i">
+                      <div *ngFor="let category of categories.controls; let i = index" class="form-group row mb-4 pb-2 position-relative" [formGroupName]="i">
                         <div class="col-md-3">
                           <label class="mb-2">Leave Category Name</label>
-                          <!-- <input
-                            type="text"
-                            formControlName="leaveName"
-                            class="form-control whatapp-login-input"
-                            placeholder="Enter Leave Name"
-                            required
-                          /> -->
-                          <!-- (keydown)="preventLeadingWhitespace($event)" -->
                           <input nz-input (keydown)="preventLeadingWhitespace($event)" id="leaveName" name="leaveName" class="form-control whatapp-login-input" formControlName="leaveName" required (ngModelChange)="onChange($event)" [nzAutocomplete]="auto" placeholder="Select Leave Category Name" />
                           <nz-autocomplete #auto [nzDataSource]="filteredLeaveCategories"></nz-autocomplete>
+
                           <p class="errortxt mt-2 mb-0 text-danger" *ngIf="hasError('leaveName', i, 'required')">
                             <i class="bi bi-exclamation-circle"></i> Please fill this field.
                           </p>
                         </div>
-                        <div [ngClass]="{
-                            'col-md-2':
-                              leaveSettingResponse.leaveCycle === 'Yearly' &&
-                              leaveSettingResponse.accrualType ===
-                                'Month Start',
-                            'col-md-3':
-                              (leaveSettingResponse.leaveCycle === 'Yearly' &&
-                                leaveSettingResponse.accrualType !==
-                                  'Month Start') ||
-                              leaveSettingResponse.leaveCycle === 'Monthly'
-                          }">
+                        <div class="col-md-2">
                           <label class="mb-2">Leave Count</label>
-                          <input type="number" formControlName="leaveCount" class="form-control whatapp-login-input" [placeholder]="
-                              leaveSettingResponse.leaveCycle === 'Monthly'
-                                ? 'Monthly Day Count'
-                                : 'Yearly Day Count'
-                            " (ngModelChange)="generateDaysDropdown($event, i)" required />
+                          <input type="number" formControlName="leaveCount" class="form-control whatapp-login-input" [placeholder]="'Day Count'" (ngModelChange)="generateDaysDropdown($event, i)" required />
                           <p class="errortxt mt-2 mb-0 text-danger" *ngIf="
                               hasError('leaveCount', i, 'required') ||
                               hasError('leaveCount', i, 'min')
                             ">
                             <i class="bi bi-exclamation-circle"></i> Please enter a valid number.
                           </p>
-                          <!-- <span
-                            class="text-secondary"
-                            *ngIf="
-                              leaveSettingResponse.leaveCycle === 'Yearly' &&
-                              leaveSettingResponse.accrualType !==
-                                'Monthly Start'
-                            "
-                          >
-                            Breakup:
-                            {{ calculateMonthlyLeaveCount(i).toFixed(2) }} Leave
-                            per month
-                          </span> -->
                         </div>
                         <!-- {{ leaveSettingResponse.accrualType }} -->
                         <div [ngClass]="{
@@ -651,7 +533,6 @@
                 </div>
                 <!-- <div><button type="button" (click)="saveLeaveCategories()">Save</button></div> -->
               </div>
-
               <div class="tab-pane fade" id="staffSelection" role="tabpanel">
                 <!-- <div class="tab-pane fade" id="profile" role="tabpanel"> -->
                 <div class="staf-list-box mt-3">
@@ -798,7 +679,7 @@
                                       <th style="width: 0%">
                                         <input type="checkbox" style="cursor: pointer" [ngModelOptions]="{
                                             standalone: true
-                                          }" class="form-check-input" [(ngModel)]="isAllSelected" (change)="selectAll(isAllSelected)" />
+                                          }" class="form-check-input" name="selectAllCheckbox" [(ngModel)]="isAllSelected" (change)="selectAll(isAllSelected)" />
                                       </th>
                                       <!-- <th style="width:25%; padding: 12px 15px;">S. No.</th> -->
                                       <th style="width: 25%; padding: 12px 15px"> Name </th>
@@ -820,7 +701,7 @@
                                         <div class="form-check">
                                           <input type="checkbox" style="cursor: pointer" [ngModelOptions]="{
                                               standalone: true
-                                            }" class="form-check-input" [(ngModel)]="staff.selected" (change)="
+                                            }" class="form-check-input" name="individualSelectionCheckbox" [(ngModel)]="staff.selected" (change)="
                                               checkIndividualSelection()
                                             " />
                                         </div>
@@ -841,16 +722,11 @@
                                             <span></span>
                                             <span></span>
                                           </div>
-                                          <button class="btn btn-outline-primary btn-sm editdata-edit" [(ngModel)]="staff.selected" *ngIf="!addEmployeeLoader(staff)" (click)="
-                                              addUser(
-                                                staff.uuid,
-                                                idOfLeaveSetting
-                                              )
-                                            "> Add </button>
+                                          <button class="btn btn-outline-primary btn-sm editdata-edit" name="addButton" *ngIf="!addEmployeeLoader(staff)" (click)="addUser(staff.uuid, idOfLeaveSetting)"> Add </button>
                                         </span>
                                         <!-- && !addedUserFlag -->
                                         <span *ngIf="staff.isAdded">
-                                          <button class="btn btn-outline-primary btn-sm editdata-edit" [(ngModel)]="staff.selected"> Added </button>
+                                          <button class="btn btn-outline-primary btn-sm editdata-edit" name="addedButton" [(ngModel)]="staff.selected" [ngModelOptions]="{standalone: true}"> Added </button>
                                         </span>
                                         <!-- <span *ngIf="staff.selected && addedUserFlag"><button class="btn btn-outline-primary btn-sm editdata-edit" [(ngModel)]="staff.selected"
                                                                                     >Added</button></span> -->
@@ -1038,7 +914,7 @@
                                       <th style="width: 0%">
                                         <input type="checkbox" style="cursor: pointer" [ngModelOptions]="{
                                             standalone: true
-                                          }" class="form-check-input" [(ngModel)]="isAllSelectedUser" (change)="
+                                          }" class="form-check-input" name="selectAllByPage" [(ngModel)]="isAllSelectedUser" (change)="
                                             selectAllUser(isAllSelectedUser)
                                           " />
                                       </th>
@@ -1060,7 +936,7 @@
                                       " style="border-bottom: 1px solid #dddddd">
                                       <td>
                                         <div class="form-check">
-                                          <input type="checkbox" style="cursor: pointer" [ngModelOptions]="{
+                                          <input type="checkbox" name="individualSelectionByPage" style="cursor: pointer" [ngModelOptions]="{
                                               standalone: true
                                             }" class="form-check-input" [(ngModel)]="newstaff.selected" (change)="
                                               checkIndividualSelectionUser()
@@ -1139,9 +1015,7 @@
                   <!-- </div> -->
                 </div>
               </div>
-
             </div>
-
           </div>
         </div>
         <!-- <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">

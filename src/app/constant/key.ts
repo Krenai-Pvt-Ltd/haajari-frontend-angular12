@@ -381,7 +381,7 @@ export class Key {
   public static YEARLY = 4;
 
   // Leave renewal cycle
-  public static ANNUAL_YEAR = 1;
-  public static FINANCIAL_YEAR = 2;
+  public static ANNUAL_YEAR = 'Annual Year (Jan - Dec)';
+  public static FINANCIAL_YEAR = 'Financial Year (Apr - Mar)';
 
 }
