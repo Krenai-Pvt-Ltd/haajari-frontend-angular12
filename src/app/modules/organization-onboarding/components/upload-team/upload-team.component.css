@@ -210,7 +210,7 @@ p.tableinfo.mb-0 {
   border-radius: 2px;
 }
 .userName {
-  background-color: #fff;
+  background-color: #e4e7ff;
   width: 32px;
   height: 32px;
   display: flex;
@@ -336,7 +336,6 @@ p.tableinfo.mb-0 {
   line-height: 24px;
 }
 
-
 .selectAll {
   background-color: #f4f8ff;
   border: 1px solid #e4e7ff;
@@ -363,4 +362,10 @@ p.tableinfo.mb-0 {
 
 .dot-opacity-white-loader span:nth-child(1) {
   animation-delay: -0.32s;
+}
+
+.addMoreUser svg {
+  width: 15px;
+  position: relative;
+  top: -2px;
 }

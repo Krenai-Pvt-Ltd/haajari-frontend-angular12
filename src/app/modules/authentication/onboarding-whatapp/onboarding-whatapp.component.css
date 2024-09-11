@@ -11,7 +11,7 @@
 .onboardingRightImg {
   background-size: contain;
   background-position: right top;
-  height: 70%;
+  height: 50%;
   background-repeat: no-repeat;
 }
 
@@ -26,7 +26,7 @@
   max-width: 1200px;
 }
 .onboarding-step {
-  height: 80vh;
+  height: 85vh;
 }
 .onboarding-step h5 {
   color: #000;
@@ -141,7 +141,7 @@
 }
 
 .btn-fix-height {
-  height: 42px;
+  height: 48px;
 }
 .noteText {
   color: #878a9a !important;
@@ -159,3 +159,66 @@
   font-weight: 300;
   line-height: 10px;
 }
+.onboarding-form label {
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 12px !important;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px; /* 148.799% */
+  letter-spacing: 0.118px;
+}
+
+.onboarding-form input {
+  border-radius: 2.358px !important;
+  border: 1.179px solid #cacaca;
+  background: rgba(255, 255, 255, 0.75);
+  height: 48px !important;
+}
+
+.verificationActionBtn p {
+  color: #878a9a !important;
+  text-align: center;
+  font-size: 12px !important;
+  font-style: normal;
+  font-weight: 400 !important;
+  line-height: 21px;
+}
+
+.verificationActionBtn button {
+  color: #878a9a !important;
+  text-align: center;
+  font-size: 12px !important;
+  font-style: normal;
+  font-weight: 400 !important;
+}
+
+.editNumber svg {
+  position: relative;
+  top: -1px;
+}
+.otpInput input {
+  height: 48px !important;
+  border-radius: 0px !important;
+  text-align: center;
+}
+
+.active-input {
+  border: 1px solid #6666f2 !important;
+  border-bottom: 4px solid #6666f2 !important;
+}
+
+.active-input:before {
+  contain: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 3px solid #6666f2;
+}
+.otpSection {
+  color: #e7e7e7;
+  font-size: 22px;
+}
+/* .otpInputBox {
+  border: 1px solid #ccc;
+} */

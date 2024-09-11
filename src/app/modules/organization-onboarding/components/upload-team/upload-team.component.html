@@ -1240,30 +1240,47 @@
                     </h5>
                     <span
                       *ngIf="!showUserList && userList.length > 1"
-                      class="font-16 pointer"
+                      class="font-14 pointer"
                       style="font-weight: 500"
                       ngIg="viewMore"
                       (click)="viewUserList()"
                     >
                       View <i class="bi bi-caret-down-fill"></i>
                     </span>
-                  </div>
-
-                  <!-- <div
-                    class="total-people mt-4 d-flex align-items-center justify-content-between"
-                  >
-                    <h5 class="mb-0 alert-heading text-white font-18">
-                      12 People
-                    </h5>
                     <span
-                      *ngIf="!showUserList"
-                      class="font-16 pointer"
+                      *ngIf="showUserList"
+                      class="font-14 pointer addMoreUser"
                       style="font-weight: 500"
-                      ngIg="viewMore"
                       (click)="viewUserList()"
-                      >View <i class="bi bi-caret-down-fill"></i
-                    ></span>
-                  </div> -->
+                    >
+                      Add More
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="22"
+                        height="22"
+                        viewBox="0 0 22 22"
+                        fill="none"
+                      >
+                        <mask
+                          id="mask0_2382_343"
+                          style="mask-type: alpha"
+                          maskUnits="userSpaceOnUse"
+                          x="0"
+                          y="0"
+                          width="22"
+                          height="22"
+                        >
+                          <rect width="22" height="22" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_2382_343)">
+                          <path
+                            d="M10.0781 11.9193H4.57812V10.0859H10.0781V4.58594H11.9115V10.0859H17.4115V11.9193H11.9115V17.4193H10.0781V11.9193Z"
+                            fill="white"
+                          />
+                        </g>
+                      </svg>
+                    </span>
+                  </div>
                 </div>
               </div>
               <div class="col-md-4">
@@ -1274,11 +1291,7 @@
               </div>
             </div>
             <!-- {{showUserList}} -->
-            <div
-              class="p-3"
-              style="border-top: 1px solid #ffffff3d !important"
-              *ngIf="showUserList"
-            >
+            <div class="p-3 bg-white" *ngIf="showUserList">
               <div class="manualemployList">
                 <div
                   class="d-flex align-items-center justify-content-between persnol-details userList p-0 pt-3 pb-1"
@@ -1341,18 +1354,6 @@
                       Remove
                     </button>
                   </div>
-                </div>
-
-                <div class="d-flex align-items-center justify-content-end mt-2">
-                  <span
-                    *ngIf="showUserList"
-                    class="font-14 pointer text-white"
-                    style="font-weight: 500"
-                    ngIg="viewMore"
-                    (click)="viewUserList()"
-                    >View Less
-                    <i class="bi bi-caret-up-fill" style="padding-left: 5px"></i
-                  ></span>
                 </div>
               </div>
             </div>
