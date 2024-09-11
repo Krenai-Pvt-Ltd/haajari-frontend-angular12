@@ -557,50 +557,87 @@ totalAssetsStatusWiseData: StatusWiseTotalAssetsResponse[] = [];
 
   //  chart 
 
-  categoryCounts: any[] = [];
-  colorScheme: any = {
-    domain: ['#FFE082', '#80CBC4', '#FFCCBC', '#9575CD', '#4FC3F7', '#AED581', '#FFD54F', '#FF7043']
-  };
-  // legendPosition: LegendPosition = LegendPosition.Below; 
-  view: [number, number] = [600, 340]; 
-  getCategoryCounts(): void {
-    this.dataService.getCategoryCounts() 
-      .subscribe(
-        (response: any) => {
-          this.categoryCounts = this.formatDataForChart(response.listOfObject);
-        },
-        (error: any) => {
-          console.error('Error fetching category counts:', error);
-        }
-      );
-  }
+categoryCounts: any[] = [];
+// colorScheme: any = {
+//   domain: ['#80CBC4', '#FFE082', '#80CBC4', '#FFCCBC', '#9575CD', '#4FC3F7', '#AED581', '#FFD54F', '#FF7043']
+// };
 
-  private getMonthName(monthNumber: string): string {
-    const monthNames = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-    ];
-    return monthNames[parseInt(monthNumber, 10) - 1];
-  }
+colorScheme: Color = {
+  name: 'custom',
+  selectable: true,
+  group: ScaleType.Ordinal, 
+  domain: ['#80CBC4', '#FFE082', '#80CBC4', '#FFCCBC', '#9575CD', '#4FC3F7', '#AED581', '#FFD54F', '#FF7043']
+};
+view: [number, number] = [700, 340];
+
+getCategoryCounts(): void {
+  debugger
+  this.dataService.getCategoryCounts()
+    .subscribe(
+      (response: any) => {
+        this.categoryCounts = this.formatDataForChart(response.listOfObject);
+      },
+      (error: any) => {
+        console.error('Error fetching category counts:', error);
+      }
+    );
+}
+
+private formatDataForChart(data: any[]): any[] {
+  return data.map((item) => ({
+    name: item.category_name, 
+    series: [{
+      name: 'Count',
+      value: item.category_count 
+    }]
+  }));
+}
+
+
+  // categoryCounts: any[] = [];
+  // colorScheme: any = {
+  //   domain: ['#FFE082', '#80CBC4', '#FFCCBC', '#9575CD', '#4FC3F7', '#AED581', '#FFD54F', '#FF7043']
+  // };
+  // // legendPosition: LegendPosition = LegendPosition.Below; 
+  // view: [number, number] = [600, 340]; 
+  // getCategoryCounts(): void {
+  //   this.dataService.getCategoryCounts() 
+  //     .subscribe(
+  //       (response: any) => {
+  //         this.categoryCounts = this.formatDataForChart(response.listOfObject);
+  //       },
+  //       (error: any) => {
+  //         console.error('Error fetching category counts:', error);
+  //       }
+  //     );
+  // }
+
+  // private getMonthName(monthNumber: string): string {
+  //   const monthNames = [
+  //     'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+  //     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+  //   ];
+  //   return monthNames[parseInt(monthNumber, 10) - 1];
+  // }
   
 
-  private formatDataForChart(data: any[]): any[] {
-    return data.map((item) => {
+  // private formatDataForChart(data: any[]): any[] {
+  //   return data.map((item) => {
       
-      const [year, monthNumber] = item.month.split('-');
-      const monthName = this.getMonthName(monthNumber);
+  //     const [year, monthNumber] = item.month.split('-');
+  //     const monthName = this.getMonthName(monthNumber);
   
-      const series = item.category_array.map((category: any) => ({
-        name: category.category_name,
-        value: category.category_count
-      }));
+  //     const series = item.category_array.map((category: any) => ({
+  //       name: category.category_name,
+  //       value: category.category_count
+  //     }));
   
-      return {
-        name: `${monthName}`, 
-        series: series
-      };
-    });
-  }
+  //     return {
+  //       name: `${monthName}`, 
+  //       series: series
+  //     };
+  //   });
+  // }
   
 
   //  delete asset 
