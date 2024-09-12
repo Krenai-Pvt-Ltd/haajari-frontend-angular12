@@ -10,6 +10,7 @@ import { SignInWithSlackComponent } from './sign-in-with-slack-auth/sign-in-with
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { OnboardingWhatsAppSlackComponent } from './onboarding-whats-app-slack/onboarding-whats-app-slack.component';
 import { OnboardingWhatappComponent } from './onboarding-whatapp/onboarding-whatapp.component';
+import { OrganizationRegistrationFormComponent } from './organization-registration-form/organization-registration-form.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
@@ -35,6 +36,10 @@ const routes: Routes = [
       {
         path: 'onboarding-whatapp',
         component: OnboardingWhatappComponent,
+      },
+      {
+        path: 'organization-registration-form',
+        component: OrganizationRegistrationFormComponent,
       },
     ],
   },

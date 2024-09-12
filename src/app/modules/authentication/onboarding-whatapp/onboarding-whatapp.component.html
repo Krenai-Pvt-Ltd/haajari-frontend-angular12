@@ -30,26 +30,28 @@
           </svg>
           <img src="assets/images/hajiri-white-logo.png" style="width: 30px" />
         </div>
-        <div class="text-center whatsApp-number-box">
+        <div class="text-center whatsApp-number-box" *ngIf="isWhatsappLogin && !showOtpInput">
           <h5>Enter Your WhatsApp Number</h5>
           <p>Please provide a registered WhatsApp number.</p>
         </div>
 
-        <!-- <div class="text-center enter-otp">
+        <div class="text-center enter-otp" *ngIf="showOtpInput && verifyOtpButtonFlag">
           <h5>Check your WhatsApp for OTP</h5>
           <p>
             We’ve sent a 6-digit OTP on
-            <span class="text-primary pointer"><b>897659876.</b></span> This
+            <span class="text-primary">{{
+              whatsappOtp ? phoneNumber : email
+              }}</span> This
             code expires <br />
             shortly, so please enter it soon.
           </p>
-        </div> -->
+        </div>
 
-        <!-- <div class="row mt-4">
+        <div class="row mt-4" *ngIf="isWhatsappLogin && !showOtpInput">
           <div class="col-md-12">
             <div class="onboarding-form">
               <label class="mb-2">Enter Number</label>
-              <input
+              <!-- <input
                 type="text"
                 required=""
                 mask="0000000000"
@@ -58,14 +60,40 @@
                 a
                 placeholder="Enter Number"
                 class="form-control whatapp-login-input"
-              />
+              /> -->
+              <input type="text" required mask="0000000000" class="form-control whatapp-login-input"
+              id="examplePhoneNumber1" name="examplePhoneNumber1" aria-describedby="phoneHelp"
+              placeholder="Phone Number" #phoneNumberOtp="ngModel" [(ngModel)]="phoneNumber"
+              (ngModelChange)="onPhoneNumberChange()" />
 
-              <button
+              <div *ngIf="
+                (phoneNumberOtp.touched && phoneNumberOtp.invalid) ||
+                isFormInvalid
+              ">
+              <p class="errortxt mt-3 mb-0 text-danger text-start" *ngIf="phoneNumberOtp.errors?.required">
+                <i class="bi bi-exclamation-circle"></i>
+                Phone Number is required.
+              </p>
+            </div>
+
+              <!-- <button
                 type="submit"
                 class="btn btn-soft-primary w-100 mt-4 btn-fix-height"
               >
                 <span>Send OTP</span>
-              </button>
+              </button> -->
+              <button class="btn btn-soft-primary w-100 mt-4 btn-fix-height" type="submit" [disabled]="
+                phoneNumber == null ||
+                phoneNumber == '' ||
+                phoneNumber.length != 10
+              " *ngIf="isWhatsappLogin && !showOtpInput" (click)="signInByWhatsapp()">
+              <span *ngIf="!sendOtpLoader">Send OTP</span>
+              <div class="dot-opacity-loader" *ngIf="sendOtpLoader">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </button>
 
               <p class="mb-0 mt-4 noteText">
                 <span class="text-primary">Note:</span> Please ensure that the
@@ -74,15 +102,15 @@
               </p>
             </div>
           </div>
-        </div> -->
+        </div>
 
-        <div class="whatapp-otp-verification row mt-4">
+        <div class="whatapp-otp-verification row mt-4" *ngIf="showOtpInput && verifyOtpButtonFlag">
           <div class="col-md-12">
             <div class="onboarding-form">
               <div
                 class="d-flex align-items-center justify-content-center gap-3 otpInput"
               >
-                <div class="d-flex align-items-center otpInputBox">
+                <!-- <div class="d-flex align-items-center otpInputBox">
                   <input
                     type="text"
                     required=""
@@ -135,19 +163,112 @@
                     name="examplePhoneNumber6"
                     class="form-control whatapp-login-input"
                   />
+                </div> -->
+                <!-- {{activeInputIndex}} -->
+                <div class="d-flex align-items-center otpInputBox">
+                  <input
+                    type="text"
+                    maxlength="1"
+                    [(ngModel)]="otp1"
+                    (input)="moveToNext($event, otp2Input, 2)"
+                    (keydown)="moveToPrevious($event, otp1Input, 1)"
+                    (paste)="handleOtpPaste($event)"
+                    class="form-control whatapp-login-input"
+                    [ngClass]="{'active-input': activeInputIndex === 1}"
+                    #otp1Input
+                    autofocus
+                  />
+                  <input
+                    type="text"
+                    maxlength="1"
+                    [(ngModel)]="otp2"
+                    (input)="moveToNext($event, otp3Input, 3)"
+                    (keydown)="moveToPrevious($event, otp1Input, 1)"
+                    class="form-control whatapp-login-input"
+                    [ngClass]="{'active-input': activeInputIndex === 2}"
+                    #otp2Input
+                  />
+                  <input
+                    type="text"
+                    maxlength="1"
+                    [(ngModel)]="otp3"
+                    (input)="moveToNext($event, otp4Input, 4)"
+                    (keydown)="moveToPrevious($event, otp2Input, 2)"
+                    class="form-control whatapp-login-input"
+                    [ngClass]="{'active-input': activeInputIndex === 3}"
+                    #otp3Input
+                  />
                 </div>
+                
+                <i class="bi bi-dash-lg otpSection"></i>
+                
+                <div class="d-flex align-items-center otpInputBox">
+                  <input
+                    type="text"
+                    maxlength="1"
+                    [(ngModel)]="otp4"
+                    (input)="moveToNext($event, otp5Input, 5)"
+                    (keydown)="moveToPrevious($event, otp3Input, 3)"
+                    class="form-control whatapp-login-input"
+                    [ngClass]="{'active-input': activeInputIndex === 4}"
+                    #otp4Input
+                  />
+                  <input
+                    type="text"
+                    maxlength="1"
+                    [(ngModel)]="otp5"
+                    (input)="moveToNext($event, otp6Input, 6)"
+                    (keydown)="moveToPrevious($event, otp4Input, 4)"
+                    class="form-control whatapp-login-input"
+                    [ngClass]="{'active-input': activeInputIndex === 5}"
+                    #otp5Input
+                  />
+                  <input
+                    type="text"
+                    maxlength="1"
+                    [(ngModel)]="otp6"
+                    (input)="onOtpChange(otp1 + otp2 + otp3 + otp4 + otp5 + otp6)"
+                    (keydown)="moveToPrevious($event, otp5Input, 5)"
+                    class="form-control whatapp-login-input"
+                    [ngClass]="{'active-input': activeInputIndex === 6}"
+                    #otp6Input
+                  />
+                </div>
+                
+                
+                
+                <!-- <div class="otp-input-container">
+                  <ng-otp-input (onInputChange)="onOtpChange($event)" [config]="{ length: 6 }"></ng-otp-input>
+                </div> -->
+               
+      
               </div>
-              <button
+              <div *ngIf="otpErrorMessage">
+                <p class="errortxt mt-3 mb-0 text-danger text-start">
+                  <i class="bi bi-exclamation-circle"></i> {{ otpErrorMessage }}
+                </p>
+              </div>
+              <!-- <button
                 type="submit"
                 class="btn btn-soft-primary w-100 mt-4 btn-fix-height"
               >
                 <span>Verify</span>
-              </button>
+              </button> -->
+              <button class="btn btn-soft-primary w-100 mt-4 btn-fix-height" type="submit"
+            [disabled]="otp == null || otp == '' || otp.length != 6" *ngIf="showOtpInput && verifyOtpButtonFlag"
+            (click)="verifyOtp()">
+            <span *ngIf="!loading">Verify</span>
+            <div class="dot-opacity-loader" *ngIf="loading">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </button>
 
               <div
                 class="mt-3 d-flex align-items-center justify-content-between verificationActionBtn"
               >
-                <button href="" class="editNumber p-0 btn" type="button">
+                <button href="" class="editNumber p-0 btn" type="button" (click)="changeNumber()">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="15"
@@ -173,11 +294,12 @@
                       />
                     </g>
                   </svg>
-                  Edit Number
+                  {{ whatsappOtp ? "Edit Number" : "Change Email Id"
+                }}
                 </button>
                 <p class="mb-0">
                   Can’t find your code?
-                  <a href="" class="text-primary"> Resend code </a>
+                  <a href="" class="text-primary" (click)="resendOtp()" [ngClass]="{ 'disabled-link': time > 0 }"> Resend code <span *ngIf="time > 0">({{ time }})</span></a>
                 </p>
               </div>
             </div>
