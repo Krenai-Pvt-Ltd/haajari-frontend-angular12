@@ -115,7 +115,7 @@
 .toDoStap {
   position: fixed;
   bottom: 0px;
-  right: -20px;
+  right: 0px;
   width: fit-content;
   height: 200px;
 }
@@ -148,6 +148,9 @@
 }
 .planInfo h5 {
   background: linear-gradient(103deg, #6666f2 31.7%, #3b3b8c 82.9%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
@@ -214,6 +217,10 @@
   line-height: 16.209px; /* 115.781% */
   letter-spacing: 0.093px;
 }
+.completeStepPoint {
+  margin-bottom: 10px;
+  cursor: pointer;
+}
 
 .pendingBox {
   border: 1px solid #ccc;
@@ -245,4 +252,30 @@
 }
 .onboardingStapsPoint {
   z-index: 999;
+  position: relative;
+}
+
+.pendingStepPoint {
+  /* border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px; */
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.pendingStepPoint:hover .toStepArrow {
+  background-color: #6666f2;
+  border-radius: 4px;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+
+.bi::before,
+[class*=" bi-"]::before,
+[class^="bi-"]::before {
+  font-weight: 600 !important;
 }
