@@ -16,6 +16,7 @@ import { SignInWithSlackComponent } from './sign-in-with-slack-auth/sign-in-with
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { OnboardingWhatsAppSlackComponent } from './onboarding-whats-app-slack/onboarding-whats-app-slack.component';
 import { OnboardingWhatappComponent } from './onboarding-whatapp/onboarding-whatapp.component';
+import { OrganizationRegistrationFormComponent } from './organization-registration-form/organization-registration-form.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { OnboardingWhatappComponent } from './onboarding-whatapp/onboarding-what
     SignUpComponent,
     OnboardingWhatsAppSlackComponent,
     OnboardingWhatappComponent,
+    OrganizationRegistrationFormComponent,
   ],
   imports: [
     CommonModule,
