@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { truncate } from 'fs';
 import { Subscription, of, timer } from 'rxjs';
 import { catchError, switchMap, take, tap } from 'rxjs/operators';
 import { UserReq } from 'src/app/models/userReq';
@@ -11,11 +12,12 @@ import { OrganizationOnboardingService } from 'src/app/services/organization-onb
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
-  selector: 'app-sign-up',
-  templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.css'],
+  selector: 'app-onboarding-whatapp',
+  templateUrl: './onboarding-whatapp.component.html',
+  styleUrls: ['./onboarding-whatapp.component.css']
 })
-export class SignUpComponent implements OnInit {
+export class OnboardingWhatappComponent implements OnInit {
+
   email: string = '';
   password: string = '';
   confirmPassword: string = '';
@@ -210,7 +212,7 @@ export class SignUpComponent implements OnInit {
       if (this.otp.length == 6) {
         this.verifyOtp();
       }
-    }, 300);
+    }, 500);
   }
 
   @ViewChild('otpInput') otpInput: any;
@@ -373,7 +375,7 @@ export class SignUpComponent implements OnInit {
   @ViewChild('otpVerificationModalButton')
   otpVerificationModalButton!: ElementRef;
   isEmailLogin: boolean = false;
-  isWhatsappLogin: boolean = false;
+  isWhatsappLogin: boolean = true;
   phoneNumber: string = '';
   showOtpInput: boolean = false;
   sendOtpLoader: boolean = false;
@@ -570,4 +572,78 @@ export class SignUpComponent implements OnInit {
     console.log('Matches:', matches);
     return matches ? matches[1] : '';
   }
+
+  otp1: string = '';
+  otp2: string = '';
+  otp3: string = '';
+  otp4: string = '';
+  otp5: string = '';
+  otp6: string = '';
+  activeInputIndex: number = 1;
+  isPasting: boolean = false;
+  // Moves focus to the next input and processes OTP
+  moveToNext(event: any, nextInput: any, index: number) {
+
+    if(this.isPasting) {
+      return;
+    }
+   
+    const input = event.target;
+    const value = input.value;
+  
+   
+    if (value.length >= 1 && nextInput) {
+      nextInput.focus();
+      this.activeInputIndex = index;
+    }
+  
+    
+    this.otp = this.otp1 + this.otp2 + this.otp3 + this.otp4 + this.otp5 + this.otp6;
+  
+   
+    this.onOtpChange(this.otp);
+  }
+  
+  // Handle backspace navigation
+  moveToPrevious(event: any, previousInput: any, index: number) {
+
+    this.otpErrorMessage = '';
+    const input = event.target;
+    if (event.key === 'Backspace' && input.value === '' && previousInput) {
+      previousInput.focus();
+      this.activeInputIndex = index;
+    }
+  
+   
+    this.otp = this.otp1 + this.otp2 + this.otp3 + this.otp4 + this.otp5 + this.otp6;
+    
+    
+    this.onOtpChange(this.otp);
+  }
+
+  handleOtpPaste(event: ClipboardEvent) {
+    this.isPasting = true;
+    // console.log('pasteevent :' + event);
+    const clipboardData = event.clipboardData;
+    const pastedData = clipboardData?.getData('text');
+    
+    if (pastedData && pastedData.length === 6) {
+      this.otp1 = pastedData[0];
+      this.otp2 = pastedData[1];
+      this.otp3 = pastedData[2];
+      this.otp4 = pastedData[3];
+      this.otp5 = pastedData[4];
+      this.otp6 = pastedData[5];
+  
+      this.activeInputIndex = 6;  
+  
+
+      this.onOtpChange(this.otp1 + this.otp2 + this.otp3 + this.otp4 + this.otp5 + this.otp6);
+    }
+    this.debounceTimer = setTimeout(() => {
+     this.isPasting = false;
+    }, 500);
+  }
+  
+
 }
