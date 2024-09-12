@@ -1,0 +1,25 @@
+.upgradePlanSection {
+  background-color: #69e2a2;
+  padding: 5px;
+  z-index: 9999;
+  position: relative;
+}
+.upgradeNow {
+  color: #2f2e41;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 136.942%;
+}
+.upgradeNow a {
+  color: #2f2e41 !important;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 136.942%; /* 24.65px */
+  text-decoration-line: underline;
+  padding-right: 5px;
+}
+.upgradeNow svg {
+  width: 20px;
+}

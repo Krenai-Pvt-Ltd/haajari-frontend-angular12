@@ -1,4 +1,3 @@
-
 <!-- 
 <app-header *ngIf="showHeader"></app-header>
 
@@ -6,13 +5,82 @@
  -->
 <!-- <app-header *ngIf="showHeader"></app-header> -->
 
+<!-- leftbar-tab-menu -->
+<!-- <div
+  class="upgradePlanSection d-flex align-items-center justify-content-center"
+>
+  <p class="mb-0 upgradeNow">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="32"
+      height="32"
+      viewBox="0 0 32 32"
+      fill="none"
+    >
+      <g clip-path="url(#clip0_2612_7447)">
+        <path
+          d="M6.09375 18.9225C17.4185 18.9225 17.5977 7.29688 17.5977 7.29688C17.5977 7.29688 17.7801 18.9225 29.1017 18.9225C17.777 18.9225 17.5977 30.5481 17.5977 30.5481C17.5977 30.5481 17.4153 18.9225 6.09375 18.9225Z"
+          fill="white"
+        />
+        <path
+          d="M23 7.53563C27.8224 7.53563 27.9024 2.58203 27.9024 2.58203C27.9024 2.58203 27.9792 7.53563 32.8048 7.53563C27.9824 7.53563 27.9024 12.4892 27.9024 12.4892C27.9024 12.4892 27.8256 7.53563 23 7.53563Z"
+          fill="white"
+        />
+        <path
+          d="M2.88281 9.00332C6.04121 9.00332 6.09241 5.76172 6.09241 5.76172C6.09241 5.76172 6.14361 9.00332 9.30201 9.00332C6.14361 9.00332 6.09241 12.2449 6.09241 12.2449C6.09241 12.2449 6.04121 9.00332 2.88281 9.00332Z"
+          fill="white"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_2612_7447">
+          <rect width="32" height="32" fill="white" />
+        </clipPath>
+      </defs>
+    </svg>
+    &nbsp;
 
+    <a href=""> Upgrade now </a>
+    and take advantages of our annual discounts (up to 20% off!) &nbsp;
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="32"
+      height="32"
+      viewBox="0 0 32 32"
+      fill="none"
+    >
+      <g clip-path="url(#clip0_2612_7447)">
+        <path
+          d="M6.09375 18.9225C17.4185 18.9225 17.5977 7.29688 17.5977 7.29688C17.5977 7.29688 17.7801 18.9225 29.1017 18.9225C17.777 18.9225 17.5977 30.5481 17.5977 30.5481C17.5977 30.5481 17.4153 18.9225 6.09375 18.9225Z"
+          fill="white"
+        />
+        <path
+          d="M23 7.53563C27.8224 7.53563 27.9024 2.58203 27.9024 2.58203C27.9024 2.58203 27.9792 7.53563 32.8048 7.53563C27.9824 7.53563 27.9024 12.4892 27.9024 12.4892C27.9024 12.4892 27.8256 7.53563 23 7.53563Z"
+          fill="white"
+        />
+        <path
+          d="M2.88281 9.00332C6.04121 9.00332 6.09241 5.76172 6.09241 5.76172C6.09241 5.76172 6.14361 9.00332 9.30201 9.00332C6.14361 9.00332 6.09241 12.2449 6.09241 12.2449C6.09241 12.2449 6.04121 9.00332 2.88281 9.00332Z"
+          fill="white"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_2612_7447">
+          <rect width="32" height="32" fill="white" />
+        </clipPath>
+      </defs>
+    </svg>
+  </p>
+</div> -->
 
-
-<div class="container-scroller" *ngIf="(key.TOPBAR_ROUTES.includes(this._router.url.split('?')[0])) && this.rbacService.isUserInfoInitialized">
-    <div class="horizontal-menu">
-        <app-topbar></app-topbar>
-    </div>
+<div
+  class="container-scroller"
+  *ngIf="
+    key.TOPBAR_ROUTES.includes(this._router.url.split('?')[0]) &&
+    this.rbacService.isUserInfoInitialized
+  "
+>
+  <div class="horizontal-menu">
+    <app-topbar></app-topbar>
+  </div>
 </div>
 <router-outlet></router-outlet>
 <app-notifaction-tost *ngIf="isShowToast"></app-notifaction-tost>
