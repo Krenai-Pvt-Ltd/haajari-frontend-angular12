@@ -14,10 +14,13 @@ import { Key } from 'src/app/constant/key';
 import { FullLeaveSettingRequest } from 'src/app/models/Full-Leave-Setting-Request';
 import { FullLeaveSettingResponse } from 'src/app/models/full-leave-setting-response';
 import { LeaveSettingCategoryResponse } from 'src/app/models/leave-categories-response';
+import { LeaveCategory } from 'src/app/models/leave-category';
+import { LeaveCycle } from 'src/app/models/leave-cycle';
 import { LeaveSettingResponse } from 'src/app/models/leave-setting-response';
 import { LeaveTemplateRequest } from 'src/app/models/leave-template-request';
 import { Staff } from 'src/app/models/staff';
 import { StaffSelectionUserList } from 'src/app/models/staff-selection-userlist';
+import { UnusedLeaveAction } from 'src/app/models/unused-leave-action';
 import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-reflection';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -58,6 +61,8 @@ export class LeaveSettingComponent implements OnInit {
     this.getUserByFiltersMethodCall(0);
     this.getFullLeaveSettingInformation();
     this.getYearTypeListMethodCall();
+    this.getLeaveCycleListMethodCall();
+    this.getUnusedLeaveActionList();
     // this.findUsersOfLeaveSetting(30);
 
     const leaveId = localStorage.getItem('tempId');
@@ -70,6 +75,8 @@ export class LeaveSettingComponent implements OnInit {
       this.localStorageLeaveRuleId = 0;
     }
   }
+
+  
 
   localStorageLeaveRuleId!: number;
 
@@ -150,10 +157,12 @@ export class LeaveSettingComponent implements OnInit {
 
   addRow() {
     const newRow = this.fb.group({
-      leaveName: ['', Validators.required],
+      leaveCategoryName: ['', Validators.required],
+      leaveRenewalCycle: [''],
       leaveCount: ['', [Validators.required, Validators.min(0)]],
-      leaveRules: [''],
+      unusedLeaveAction: [''],
       carryForwardDays: [''],
+      isSandwitchRuleApplicable: ['']
     });
 
     this.categories.push(newRow);
@@ -1397,6 +1406,46 @@ export class LeaveSettingComponent implements OnInit {
   }
 
   // Code written by Shivendra
+  booleanList : string[] = ['Yes', 'No'];
+
+  leaveCategoryList : LeaveCategory[] = [];
+  getLeaveCategoryListMethodCall(){
+    this.dataService.getLeaveCategoryList().subscribe((response) => {
+      if(!this.helperService.isListOfObjectNullOrUndefined(response)){
+        this.leaveCategoryList = response.listOfObject;
+      }
+    }, (error) => {
+
+    })
+  }
+
+  leaveCycleList : LeaveCycle[] = [];
+  getLeaveCycleListMethodCall(){
+    this.dataService.getLeaveCycleList().subscribe((response) => {
+      if(!this.helperService.isListOfObjectNullOrUndefined(response)){
+        this.leaveCycleList = response.listOfObject;
+      }
+    }, (error) => {
+
+    })
+  }
+
+  unusedLeaveActionList : UnusedLeaveAction[] = [];
+  getUnusedLeaveActionList(){
+    this.dataService.getUnusedLeaveActionList().subscribe((response) => {
+      if(!this.helperService.isListOfObjectNullOrUndefined(response)){
+        this.unusedLeaveActionList = response.listOfObject;
+      } 
+    }, (error) => {
+
+    })
+  }
+
+
+
+
+  readonly ANNUAL_YEAR = Key.ANNUAL_YEAR;
+  readonly FINANCIAL_YEAR = Key.FINANCIAL_YEAR;
   yearTypeList : YearType[] = [];
   getYearTypeListMethodCall(){
     this.dataService.getYearTypeList().subscribe((response) => {
@@ -1405,8 +1454,9 @@ export class LeaveSettingComponent implements OnInit {
       } 
     })
   }
-  readonly ANNUAL_YEAR = Key.ANNUAL_YEAR;
-  readonly FINANCIAL_YEAR = Key.FINANCIAL_YEAR;
+
+
+
 
   dateRange: Date[] = [];
   size: 'large' | 'small' | 'default' = 'small';  

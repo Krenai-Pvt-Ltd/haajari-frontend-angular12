@@ -3845,11 +3845,18 @@ getHolidayForOrganization(date: string): Observable<any>{
 
 
   getLeaveCategoryList(): Observable<any>{
-    return this.httpClient.get<any>(`${this.baseUrl}/leave-category`, {});
+    return this.httpClient.get<any>(`${this.baseUrl}/leave-category/list`, {});
   }
 
   getYearTypeList(): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/year-type/list`, {});
   }
 
+  getLeaveCycleList(): Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/leave-cycle/list`, {});
+  }
+
+  getUnusedLeaveActionList(): Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/unused-leave/list`, {});
+  }
 }

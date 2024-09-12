@@ -384,4 +384,7 @@ export class Key {
   public static ANNUAL_YEAR = 'Annual Year (Jan - Dec)';
   public static FINANCIAL_YEAR = 'Financial Year (Apr - Mar)';
 
+  // Sandwitch rule
+  public static YES = 'Yes';
+  public static NO = 'No';
 }

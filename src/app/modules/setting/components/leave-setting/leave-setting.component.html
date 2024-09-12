@@ -400,124 +400,67 @@
                 </form>
               </div>
               <div class="tab-pane fade" id="profile" role="tabpanel">
+
                 <div class="pt-3 pb-3">
                   <form [formGroup]="form">
                     <div formArrayName="categories">
                       <div *ngFor="let category of categories.controls; let i = index" class="form-group row mb-4 pb-2 position-relative" [formGroupName]="i">
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                           <label class="mb-2">Leave Category Name</label>
-                          <input nz-input (keydown)="preventLeadingWhitespace($event)" id="leaveName" name="leaveName" class="form-control whatapp-login-input" formControlName="leaveName" required (ngModelChange)="onChange($event)" [nzAutocomplete]="auto" placeholder="Select Leave Category Name" />
+                          <input (keydown)="preventLeadingWhitespace($event)" id="leaveCategoryName" formControlName="leaveCategoryName" class="form-control" required [nzAutocomplete]="auto" placeholder="Select Leave Category Name" />
                           <nz-autocomplete #auto [nzDataSource]="filteredLeaveCategories"></nz-autocomplete>
-
+                
                           <p class="errortxt mt-2 mb-0 text-danger" *ngIf="hasError('leaveName', i, 'required')">
-                            <i class="bi bi-exclamation-circle"></i> Please fill this field.
+                            <span style="white-space: nowrap;"><i class="bi bi-exclamation-circle"></i> Please fill this field.</span>
+                          </p>
+                        </div>
+                        <div class="col-md-2">
+                          <label class="mb-2">Leave Cycle</label>
+                          <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select Leave Cycle" formControlName="leaveRenewalCycle" required>
+                            <nz-option *ngFor="let leaveCycle of leaveCycleList" [nzValue]="leaveCycle.name" [nzLabel]="leaveCycle.name"></nz-option>
+                          </nz-select>
+                
+                          <p class="errortxt mt-2 mb-0 text-danger" *ngIf="hasError('leaveRenewalCycle', i, 'required')">
+                            <span style="white-space: nowrap;"><i class="bi bi-exclamation-circle"></i> Please fill this field.</span>
                           </p>
                         </div>
                         <div class="col-md-2">
                           <label class="mb-2">Leave Count</label>
-                          <input type="number" formControlName="leaveCount" class="form-control whatapp-login-input" [placeholder]="'Day Count'" (ngModelChange)="generateDaysDropdown($event, i)" required />
-                          <p class="errortxt mt-2 mb-0 text-danger" *ngIf="
-                              hasError('leaveCount', i, 'required') ||
-                              hasError('leaveCount', i, 'min')
-                            ">
-                            <i class="bi bi-exclamation-circle"></i> Please enter a valid number.
+                          <input nz-input type="number" formControlName="leaveCount" class="form-control" [placeholder]="'Day Count'" (ngModelChange)="generateDaysDropdown($event, i)" required />
+                          <p class="errortxt mt-2 mb-0 text-danger" *ngIf="hasError('leaveCount', i, 'required') || hasError('leaveCount', i, 'min')">
+                            <span style="white-space: nowrap;"><i class="bi bi-exclamation-circle"></i> Please enter a valid number.</span>
                           </p>
                         </div>
-                        <!-- {{ leaveSettingResponse.accrualType }} -->
-                        <div [ngClass]="{
-                            'col-md-2':
-                              leaveSettingResponse.leaveCycle === 'Yearly' &&
-                              leaveSettingResponse.accrualType ===
-                                'Month Start',
-                            'col-md-3':
-                              leaveSettingResponse.leaveCycle === 'Yearly' &&
-                              leaveSettingResponse.accrualType !== 'Month Start'
-                          }" *ngIf="
-                            leaveSettingResponse.leaveCycle === 'Yearly' &&
-                            leaveSettingResponse.accrualType === 'Month Start'
-                          ">
-                          <label class="mb-2">Monthly Leave Count</label>
-                          <input #leaveCountBreakupInput type="number" class="form-control whatapp-login-input" [value]="calculateMonthlyLeaveCount(i).toFixed(2)" readonly />
-                        </div>
-                        <div class="col-md-3">
-                          <label class="mb-2" for="leaveRules">Unused Leave Rule</label>
+                        <div class="col-md-2">
+                          <label class="mb-2" for="leaveRules">Unused Leave Action</label>
                           <div class="dropdown" style="width: 100%">
-                            <button type="button" id="leaveRulesDropdown" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
-                              {{ categories.controls[i]!.get("leaveRules")?.value
-                                  ? categories.controls[i]!.get("leaveRules")
-                                      ?.value
-                                  : "Select Rule"
-                              }}
-                              <i class="bi bi-chevron-down"></i>
-                            </button>
-                            <ul aria-labelledby="leaveRulesDropdown" class="dropdown-menu" style="width: 100%">
-                              <li>
-                                <a class="dropdown-item" (click)="setLeaveRule(i, 'Lapse')">Lapse</a>
-                              </li>
-                              <li>
-                                <a class="dropdown-item" (click)="setLeaveRule(i, 'Carry Forward')">Carry Forward</a>
-                              </li>
-                              <li>
-                                <a class="dropdown-item" (click)="setLeaveRule(i, 'Encash')">Encash</a>
-                              </li>
-                            </ul>
-                            <!-- <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="hasError('leaveRules', i, 'required')"><i class="bi bi-exclamation-circle"></i> Required.
-                                                                </p>
-                                                             -->
+                            <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Unused leave action" formControlName="unusedLeaveAction" required>
+                              <nz-option *ngFor="let unusedLeaveAction of unusedLeaveActionList" [nzValue]="unusedLeaveAction.name" [nzLabel]="unusedLeaveAction.name"></nz-option>
+                            </nz-select>
                           </div>
                         </div>
-                        <div [ngClass]="{
-                            'col-md-2':
-                              leaveSettingResponse.leaveCycle === 'Yearly' &&
-                              leaveSettingResponse.accrualType ===
-                                'Month Start',
-                            'col-md-3':
-                              (leaveSettingResponse.leaveCycle === 'Yearly' &&
-                                leaveSettingResponse.accrualType !==
-                                  'Month Start') ||
-                              leaveSettingResponse.leaveCycle === 'Monthly'
-                          }">
+                        <div class="col-md-2">
                           <label class="mb-2">Carry Forward Limit</label>
-                          <!-- <input
-                            type="number"
-                            formControlName="carryForwardDays"
-                            class="form-control whatapp-login-input"
-                            placeholder="Days"
-                            [readOnly]="
-                              categories.controls[i]!.get('leaveRules')
-                                ?.value === 'Lapse' ||
-                              categories.controls[i]!.get('leaveRules')
-                                ?.value === ''
-                            "
-                          /> -->
-                          <div *ngIf="
-                              categories.controls[i]!.get('leaveRules')
-                                ?.value !== 'Lapse' &&
-                              categories.controls[i]!.get('leaveRules')
-                                ?.value !== ''
-                            " nz-dropdown [nzDropdownMenu]="menu4" [nzVisible]="dropdownVisible">
-                            <input nz-input type="number" formControlName="carryForwardDays" class="form-control whatapp-login-input" placeholder="Select Days" (click)="toggleDropdown()" />
+                          <div *ngIf="categories.controls[i]!.get('leaveRules')?.value !== 'Lapse' && categories.controls[i]!.get('leaveRules')?.value !== ''" nz-dropdown [nzDropdownMenu]="menu4" [nzVisible]="dropdownVisible">
+                            <input nz-input type="number" formControlName="carryForwardDays" class="form-control" placeholder="Select Days" (click)="toggleDropdown()" />
                             <span nz-icon class="ant-dropdown-trigger" (click)="toggleDropdown()"></span>
                           </div>
-                          <input *ngIf="
-                              categories.controls[i]!.get('leaveRules')
-                                ?.value === 'Lapse' ||
-                              categories.controls[i]!.get('leaveRules')
-                                ?.value === ''
-                            " nz-input type="number" formControlName="carryForwardDays" class="form-control whatapp-login-input" [readOnly]="true" placeholder="Select Days" />
+                          <input nz-input *ngIf="categories.controls[i]!.get('leaveRules')?.value === 'Lapse' || categories.controls[i]!.get('leaveRules')?.value === ''" nz-input type="number" formControlName="carryForwardDays" class="form-control" [readOnly]="true" placeholder="Select Days" />
                           <nz-dropdown-menu #menu4="nzDropdownMenu">
                             <ul nz-menu class="dropdown-scroll">
                               <li nz-menu-item *ngFor="let day of daysCountArray[i]" (click)="selectCarryForwardDay(day, i)">
-                                <!-- {{ day }} -->
-                                <span *ngIf="
-                                    day === category.get('leaveCount')?.value
-                                  ">All Unused</span>
-                                <span *ngIf="
-                                    day !== category.get('leaveCount')?.value
-                                  ">{{ day }}</span>
+                                <span *ngIf="day === category.get('leaveCount')?.value">All Unused</span>
+                                <span *ngIf="day !== category.get('leaveCount')?.value">{{ day }}</span>
                               </li>
                             </ul>
                           </nz-dropdown-menu>
+                        </div>
+                        <div class="col-md-2">
+                          <label class="mb-2">Sandwich Rule</label>
+                          <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select Leave Cycle" formControlName="isSandwitchRuleApplicable" required>
+                            <nz-option [nzValue]="booleanList[0]" [nzLabel]="booleanList[0]"></nz-option>
+                            <nz-option [nzValue]="booleanList[1]" [nzLabel]="booleanList[1]"></nz-option>
+                          </nz-select>
                         </div>
                         <div class="leave-delet-btn" (click)="deleteRow(i)" *ngIf="i > 0">
                           <i class="bi bi-trash"></i>
@@ -526,11 +469,14 @@
                     </div>
                     <div id="back-and-submit">
                       <button type="button" class="btn add-filtter" (click)="addRow()">
-                        <i class="bi bi-plus" style="font-size: 23px"></i> Add Leave Category </button>
+                        <i class="bi bi-plus" style="font-size: 23px"></i> Add Leave Category
+                      </button>
                       <button type="submit" class="btn btn-outline-primary btn-round" [disabled]="!form.valid" (click)="goToStaffSelectionTab()"> Next </button>
                     </div>
                   </form>
                 </div>
+                
+
                 <!-- <div><button type="button" (click)="saveLeaveCategories()">Save</button></div> -->
               </div>
               <div class="tab-pane fade" id="staffSelection" role="tabpanel">
