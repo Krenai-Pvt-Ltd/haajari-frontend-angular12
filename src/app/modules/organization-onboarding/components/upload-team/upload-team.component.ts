@@ -166,7 +166,6 @@ export class UploadTeamComponent implements OnInit {
           console.log(this.onboardUserList.length);
           this.alreadyUsedPhoneNumberArray = response.arrayOfString;
           this.alreadyUsedEmailArray = response.arrayOfString2;
-          
         } else {
           this.importToggle = true;
           this.isErrorToggle = true;
@@ -235,7 +234,7 @@ export class UploadTeamComponent implements OnInit {
   }
   isManualUploadSubmitLoader: boolean = false;
   submit() {
-    debugger
+    debugger;
     this.isManualUploadSubmitLoader = true;
     if (this.allUsersValid()) {
       this.create();
@@ -256,7 +255,7 @@ export class UploadTeamComponent implements OnInit {
 
   // Use this method to determine if all users are valid
   allUsersValid(): boolean {
-    debugger
+    debugger;
     return (
       !this.isNumberExist &&
       !this.isEmailExist &&
@@ -267,15 +266,12 @@ export class UploadTeamComponent implements OnInit {
   currentUsersValid(): boolean {
     debugger;
     // const previousEntriesValid = this.userList.slice(0, -1).every((u) => this.isValidUser(u));
-    const lastEntryValid = this.isValidUser(this.userList[this.userList.length - 1]);
-  
-    return (
-      !this.isNumberExist &&
-      !this.isEmailExist &&
-      lastEntryValid
+    const lastEntryValid = this.isValidUser(
+      this.userList[this.userList.length - 1]
     );
-  }
 
+    return !this.isNumberExist && !this.isEmailExist && lastEntryValid;
+  }
 
   resetManualUploadModal() {
     debugger;
@@ -331,7 +327,7 @@ export class UploadTeamComponent implements OnInit {
   getUser() {
     this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
     this.loading = true;
-    this._onboardingService.getOnboardUser(this.page, this.size).subscribe(
+    this._onboardingService.getOnboardUser().subscribe(
       (response: any) => {
         if (response.status) {
           this.onboardUserList = response.object;
@@ -353,23 +349,20 @@ export class UploadTeamComponent implements OnInit {
 
   allUserIds: any[] = [];
   getAllUser() {
-    this._onboardingService.getAllOnboardUser().subscribe(
+    this._onboardingService.getOnboardUser().subscribe(
       (response: any) => {
         if (response.status) {
-          this.allUserIds = response.object; 
-          this.listOfIds = this.allUserIds.map(user => user.id); 
-          // this.listOfIds = [...this.allUserIds]; 
+          this.allUserIds = response.object;
+          this.listOfIds = this.allUserIds.map((user) => user.id);
+          // this.listOfIds = [...this.allUserIds];
         }
       },
-      (error) => {
-      }
+      (error) => {}
     );
   }
 
-  
-
   getRowNumber(index: number): number {
-    return (this.page) * this.size + index + 1;
+    return this.page * this.size + index + 1;
   }
 
   nextPage() {
@@ -380,7 +373,7 @@ export class UploadTeamComponent implements OnInit {
       this.getUser();
     }
   }
-  
+
   previousPage() {
     if (this.page > 0) {
       // this.unselectAllUsers();
@@ -395,7 +388,6 @@ export class UploadTeamComponent implements OnInit {
     const currentPageCount = this.onboardUserList.length;
     return previousPagesCount + currentPageCount;
   }
-
 
   @ViewChild('userEditModal') userEditModal!: ElementRef;
   openUserEditModal(user: any) {
@@ -427,7 +419,7 @@ export class UploadTeamComponent implements OnInit {
     );
   }
 
-  @ViewChild("closeButtonDeleteUser") closeButtonDeleteUser!: ElementRef;
+  @ViewChild('closeButtonDeleteUser') closeButtonDeleteUser!: ElementRef;
   deleteUser() {
     this._onboardingService.deleteOnboardUser(this.idToDeleteUser).subscribe(
       (response: any) => {
@@ -445,11 +437,11 @@ export class UploadTeamComponent implements OnInit {
     this.alreadyUsedEmailArray = 0;
   }
 
-  idToDeleteUser : number = 0;
+  idToDeleteUser: number = 0;
   deleteUserId(id: number) {
     this.idToDeleteUser = id;
   }
-  
+
   listOfIds: number[] = [];
 
   deleteUsers() {
@@ -468,26 +460,24 @@ export class UploadTeamComponent implements OnInit {
     this.alreadyUsedEmailArray = 0;
   }
 
-  isSelectAll: boolean = false; 
-
+  isSelectAll: boolean = false;
 
   toggleUserSelection(userId: number, event: Event): void {
     const isChecked = (event.target as HTMLInputElement).checked;
     if (isChecked) {
-      this.listOfIds.push(userId); 
+      this.listOfIds.push(userId);
     } else {
-      this.listOfIds = this.listOfIds.filter(id => id !== userId); 
+      this.listOfIds = this.listOfIds.filter((id) => id !== userId);
     }
     this.isSelectAll = this.onboardUserList.length === this.listOfIds.length;
   }
 
-  
   toggleSelectAll(event: Event): void {
     const isChecked = (event.target as HTMLInputElement).checked;
     if (isChecked) {
-      this.listOfIds = this.onboardUserList.map(user => user.id); 
+      this.listOfIds = this.onboardUserList.map((user) => user.id);
     } else {
-      this.listOfIds = []; 
+      this.listOfIds = [];
     }
     this.isSelectAll = isChecked;
   }
@@ -498,11 +488,9 @@ export class UploadTeamComponent implements OnInit {
   }
 
   unselectAllUsers() {
-   this.listOfIds = [];
-   this.isSelectAll = false;
+    this.listOfIds = [];
+    this.isSelectAll = false;
   }
-
-
 
   isNumberExist: boolean = false;
   checkNumberExistance(index: number, number: string, uuid: string) {
@@ -542,7 +530,7 @@ export class UploadTeamComponent implements OnInit {
   }
   isNextloading: boolean = false;
   next() {
-    debugger
+    debugger;
     // setTimeout(() => {
     this.isNextloading = true;
     // }, 1000);
@@ -639,5 +627,4 @@ export class UploadTeamComponent implements OnInit {
       document.body.removeChild(link);
     }
   }
-  
 }
