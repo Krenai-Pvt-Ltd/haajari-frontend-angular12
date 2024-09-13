@@ -9847,3 +9847,18 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
 .ytp-show-cards-title {
   display: none !important;
 }
+
+.ant-select-single .ant-select-selector {
+  width: 100%;
+  height: 40px !important;
+  padding: 0 11px;
+  border: none !important;
+  background: rgba(236, 236, 236, 0.21) !important;
+}
+
+.ant-select-single .ant-select-selector .ant-select-selection-item,
+.ant-select-single .ant-select-selector .ant-select-selection-placeholder {
+  padding: 0;
+  line-height: 41px !important;
+  transition: all 0.3s;
+}
