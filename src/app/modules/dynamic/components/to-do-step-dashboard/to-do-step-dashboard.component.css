@@ -138,6 +138,7 @@
 }
 .onboardingStapsHedding svg {
   width: 20px;
+  cursor: pointer;
 }
 
 .progress {
@@ -185,8 +186,8 @@
 
 .checdBox {
   background-color: #22d26b;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -194,7 +195,7 @@
   color: #fff;
 }
 .checdBox i {
-  font-size: 16px;
+  font-size: 14px;
   position: relative;
   top: 1px;
   left: -1px;
@@ -223,9 +224,9 @@
 }
 
 .pendingBox {
-  border: 1px solid #ccc;
-  width: 18px;
-  height: 18px;
+  border: 1px solid #d9dade;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -266,8 +267,8 @@
 .pendingStepPoint:hover .toStepArrow {
   background-color: #6666f2;
   border-radius: 4px;
-  width: 25px;
-  height: 25px;
+  width: 23px;
+  height: 23px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -278,4 +279,16 @@
 [class*=" bi-"]::before,
 [class^="bi-"]::before {
   font-weight: 600 !important;
+}
+.closebtn .close {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  border: none;
+  background-color: #fff;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  justify-content: center;
+  box-shadow: rgb(99 99 99 / 0.2) 0 2px 8px 0;
 }
