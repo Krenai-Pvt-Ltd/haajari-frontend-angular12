@@ -318,5 +318,27 @@ nz-date-picker {
   left: 33px;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.primaryBtn {
+  color: #fff !important;
+  font-size: 12px;
+  font-weight: 400;
+  cursor: pointer;
+  background-color: #6666f3;
+  border-radius: 10px;
+  letter-spacing: 0.2px;
+  line-height: normal;
+  padding: 10px 15px;
+}
+.primaryBtn i {
+  margin-right: 2px;
+  font-size: 13px;
+}
