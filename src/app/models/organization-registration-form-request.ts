@@ -1,9 +1,10 @@
 export class OrganizationRegistrationFormRequest {
     organizationName!: string;
-    employeeCount!: number;
+    employeeCount!: string;
     industryType!: string;
     organizationEmail!: string;
     firstName!: string;
     lastName!: string;
     phoneNumber!: string;
+    termsAndConditions!: boolean;
 }
