@@ -17,6 +17,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { OnboardingWhatsAppSlackComponent } from './onboarding-whats-app-slack/onboarding-whats-app-slack.component';
 import { OnboardingWhatappComponent } from './onboarding-whatapp/onboarding-whatapp.component';
 import { OrganizationRegistrationFormComponent } from './organization-registration-form/organization-registration-form.component';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { OrganizationRegistrationFormComponent } from './organization-registrati
     RouterModule,
     ReactiveFormsModule,
     NgOtpInputModule,
+    NzSelectModule,
     NgxMaskModule.forRoot(),
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

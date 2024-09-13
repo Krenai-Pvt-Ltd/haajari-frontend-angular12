@@ -74,6 +74,7 @@ import { SalaryChangeOvertimeRequest } from '../models/salary-change-overtime-re
 import { AllocateCoinsRoleWiseRequest, AllocateCoinsRoleWiseResponse, AllocateCoinsToBadgeRequest } from '../models/allocate-coins-role-wise-request';
 import { OvertimeSettingRequest } from '../models/overtime-setting-request';
 import { OvertimeRequestDTO } from '../models/overtime-request-dto';
+import { OrganizationRegistrationFormRequest } from '../models/organization-registration-form-request';
 
 
 @Injectable({
@@ -3810,5 +3811,10 @@ getHolidayForOrganization(date: string): Observable<any>{
     .set('user_uuid', userUuid);
 
     return this.httpClient.get<any>(`${this.baseUrl}/lop-reversal-application/response/get-by-user-uuid`, {params});
+  }
+
+registerOrganizationRegistrationFormInfo(request: OrganizationRegistrationFormRequest): Observable<any> {
+    const url = `${this.baseUrl}/organization-registration-form/register`;
+    return this.httpClient.post(url, request);
   }
 }
