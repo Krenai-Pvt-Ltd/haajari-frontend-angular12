@@ -1,0 +1,89 @@
+.upgradePlanSection {
+  background-color: #69e2a2;
+  padding: 5px;
+  z-index: 9999;
+  position: relative;
+}
+.upgradeNow {
+  color: #2f2e41;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 136.942%;
+}
+.upgradeNow a {
+  color: #2f2e41 !important;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 136.942%; /* 24.65px */
+  text-decoration-line: underline;
+  padding-right: 5px;
+}
+.upgradeNow svg {
+  width: 20px;
+}
+
+.allPageNotifaction {
+  border-radius: 28px;
+  border: 0.951px solid #c2c2ff;
+  background: #fcfcfc;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.allPageNotifaction:hover {
+  background: #6666f2 !important;
+}
+
+.flotingBtn {
+  position: fixed;
+  bottom: 15px;
+  right: 25px;
+}
+
+.allPageNotifaction svg {
+  width: 20px;
+}
+
+.onboaredinStapBox {
+  border-radius: 10px;
+  border: 0.5px solid #6666f2;
+  background: #fff;
+  box-shadow: -3px 5px 5.9px 0px rgba(98, 98, 98, 0.14);
+  backdrop-filter: blur(4.699999809265137px);
+  position: fixed;
+  bottom: 70px;
+  right: 25px;
+  width: 300px;
+  cursor: pointer;
+}
+.progress {
+  background-color: #f1f1f1;
+  height: 8px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.onboaredinStapBox h5 {
+  color: #3f3636;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 13.759px; /* 76.438% */
+  letter-spacing: 0.36px;
+}
+.onboaredinStapBox h4 {
+  background: linear-gradient(103deg, #6666f2 31.7%, #3b3b8c 82.9%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 13.759px; /* 76.438% */
+  letter-spacing: 0.36px;
+}

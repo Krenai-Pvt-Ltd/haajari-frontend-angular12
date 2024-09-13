@@ -62,6 +62,7 @@ export class Key {
     '/payment/bonus-and-deduction',
     '/payment/payment-history',
     '/payment/payroll-dashboard/leave-summary',
+    '/to-do-step-dashboard',
   ];
 
   public static TOPBAR_ROUTES = [
@@ -102,6 +103,7 @@ export class Key {
     '/payment/bonus-and-deduction',
     '/payment/payment-history',
     '/payment/payroll-dashboard/leave-summary',
+    // '/to-do-step-dashboard',
   ];
 
   public static ORGANIZATION_ONBOARDING_SIDEBAR_ROUTES = [
