@@ -474,13 +474,13 @@ textarea {
 
 .whatapp-login-input {
   background-color: #fff !important;
-  border: 1px solid #f1f1f1 !important;
-  border-radius: 2px !important;
-  height: 50px !important;
+  border: 1px solid #ebebeb !important;
+  border-radius: 10px !important;
+  height: 45px !important;
   font-weight: 400 !important;
-  font-size: 14px !important;
+  font-size: 12px !important;
   line-height: 18px !important;
-  color: #445059 !important;
+  color: #1f1f1f !important;
   box-shadow: none !important;
   outline: none !important;
 }
@@ -744,9 +744,9 @@ Remove
 .bg-soft-warning:hover {
   background-color: rgba(255, 159, 67, 0.08) !important;
 }
-.alert-light:hover .alert-heading {
+/* .alert-light:hover .alert-heading {
   color: orange !important;
-}
+} */
 .stickyColTh,
 .stickyColTd {
   min-width: 200px;

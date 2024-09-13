@@ -318,14 +318,14 @@ nz-date-picker {
   left: 33px;
 }
 
-html,
+/* html,
 body {
   height: 100%;
 }
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-}
+} */
 
 .primaryBtn {
   color: #fff !important;
@@ -337,8 +337,58 @@ body {
   letter-spacing: 0.2px;
   line-height: normal;
   padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: fit-content;
 }
 .primaryBtn i {
   margin-right: 2px;
   font-size: 13px;
+}
+label {
+  font-size: 14px !important;
+  font-weight: 500;
+}
+
+.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  background-color: #fff !important;
+  border: 1px solid #ebebeb !important;
+  border-radius: 10px !important;
+  min-height: 45px !important;
+  font-weight: 400 !important;
+  font-size: 12px !important;
+  line-height: 18px !important;
+  color: #1f1f1f !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+.ant-select-multiple .ant-select-selection-item {
+  background: #f1f1fd;
+  border: 1px solid #f1f1fd;
+  color: #6666f4;
+}
+.ant-select-multiple .ant-select-selection-item-remove {
+  color: rgb(0 0 0 / 64%);
+  line-height: 1.8;
+}
+.ant-select-show-search.ant-select:not(.ant-select-customize-input)
+  .ant-select-selector
+  input::placeholder {
+  font-weight: 400 !important;
+  line-height: 18px !important;
+  color: #1f1f1f !important;
+}
+.ant-select-multiple .ant-select-selection-placeholder {
+  left: 16px;
+}
+
+.ant-select-selection-placeholder {
+  color: #a2a2a2;
+}
+.modal-content .modal-body p, .modal-content h4 {
+  color: #303030;
 }

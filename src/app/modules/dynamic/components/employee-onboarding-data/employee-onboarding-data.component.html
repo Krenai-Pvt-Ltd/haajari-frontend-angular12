@@ -455,8 +455,8 @@ else errorInFetchinglast3PendingUserData"
                               </div>
                               </div>
                             </div>
-                              <div class="d-none justify-content-between align-items-center">
-                                  <!-- Your component.html file -->
+                              <!-- <div class="d-none justify-content-between align-items-center">
+
 
                                   <div class="" style="width: 200px; position: relative;">
                                       <div class="dropdown" style="width: 100%;">
@@ -468,9 +468,7 @@ else errorInFetchinglast3PendingUserData"
                                               <li>
                                                   <a class="dropdown-item" (click)="selectStatus('ALL')">All</a>
                                               </li>
-                                              <!-- <li style="cursor: default;"> -->
-                                              <!-- <h6 class="dropdown-item text-secondary text-sm-start">Status Wise </h6>  -->
-                                              <!-- </li> -->
+                                              
                                               <li class="dropdown-header" aria-disabled="true">Status Wise</li>
 
                                               <li>
@@ -485,9 +483,7 @@ else errorInFetchinglast3PendingUserData"
                                               <li>
                                                   <a class="dropdown-item" (click)="selectStatus('REJECTED')">Rejected</a>
                                               </li>
-                                              <!-- <li style="cursor: default;"> -->
-                                              <!-- <h6 class="dropdown-item text-secondary text-sm-start" >Accessibility Wise </h6>  -->
-                                              <!-- </li> -->
+
                                               <li class="dropdown-header" aria-disabled="true">Accessibility Wise</li>
                                               <li>
                                                   <a class="dropdown-item" (click)="selectStatus('ACTIVE')">Active</a>
@@ -529,11 +525,9 @@ else errorInFetchinglast3PendingUserData"
                                               Upload Members
                                           </a>
                                       </div>
-                                      <!-- <div class="add-filtter text-end">
-                   
-                  </div> -->
+                            
                                   </div>
-                              </div>
+                              </div> -->
                           </div>
 
                           <!-- </div> -->
@@ -592,7 +586,7 @@ else errorInFetchinglast3PendingUserData"
                                           <td>
                                               <span class="mb-0 weekly-pro-email" *ngIf="user.teamNames.length == 0"> {{ "N/A" }}</span>
                                               <span class="teme-maneger mb-0" *ngIf="user.teamNames.length > 2">
-                                                  {{ user.teamNames[0] }}...<a class="user-avatar"><i class="bi bi-plus" ngbTooltip="{{ user.teamNames }}" placement="top"` ></i>{{ user.teamNames.length - 1 }}</a>
+                                                  {{ user.teamNames[0] }}...<a class="user-avatar" ngbTooltip="{{ user.teamNames }}" placement="top"><i class="bi bi-plus" ></i>{{ user.teamNames.length - 1 }}</a>
                                               </span>
                                               <span class="teme-maneger mb-0" *ngIf="user.teamNames.length < 3">
                                                   {{ user.teamNames }}
@@ -836,12 +830,7 @@ else errorInFetchinglast3PendingUserData"
                                       <input type="text" class="form-control whatapp-login-input" id="name" name="name" placeholder="Name" [(ngModel)]="userPersonalInformationRequest.name" required #nameField="ngModel" />
                                       <!-- Error Message for Name -->
                                       <div
-                                          *ngIf="
-                      userPersonalInformationRequest.name != null &&
-                      nameField.touched &&
-                      nameField.errors?.required
-                    "
-                                      >
+                                          *ngIf=" userPersonalInformationRequest.name != null && nameField.touched && nameField.errors?.required ">
                                           <p class="errortxt mt-2 mb-0" style="color: red;"><i class="bi bi-exclamation-circle"></i> Name is required.</p>
                                       </div>
                                   </div>
@@ -1049,18 +1038,10 @@ else errorInFetchinglast3PendingUserData"
                           </div>
                       </div>
                       <div class="card-body mt-3 p-0">
-                          <div class="alert alert-light mb-0 excel-uplode-file-box text-center">
+                          <div class="alert alert-light mb-0 excel-uplode-file-box text-center" style="    border: 2px dashed #dddd;">
                               <input id="fileSelect" type="file" name="img[]" accept=".xlsx" class="input" (change)="selectFile($event)" />
                               <img src="assets/images/excel.svg" style="width: 50px;" class="pb-3" />
-                              <p class="">
-                                  Drag file here to upload<br />
-                                  or,
-                                  <u>
-                                      <a class="text-primary" href="#!">
-                                          choose file
-                                      </a>
-                                  </u>
-                              </p>
+                              <p>Drag file here to upload or, <u><a class="text-primary" href="#!">Choose file</a></u></p>
                               <div *ngIf="isProgressToggle" class="spinner-border text-success" role="status"></div>
                           </div>
                       </div>
