@@ -9737,7 +9737,7 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   background-color: #fff8f2;
   padding: 15px;
   background-repeat: no-repeat;
-  background-position: right 40px;
+  background-position: right bottom;
 }
 .font-19 {
   font-size: 19px !important;

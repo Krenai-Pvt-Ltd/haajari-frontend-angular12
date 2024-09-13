@@ -156,7 +156,7 @@
   </div>
 </div>
 
-<div
+<!-- <div
   class="onboaredinStapBox p-3"
   (click)="showToDoSteps()"
   *ngIf="!isShowToDoSteps"
@@ -175,12 +175,10 @@
       aria-valuemax="100"
     ></div>
   </div>
-</div>
-
+</div> -->
 <div
   class="showOnboardingStep"
-  [ngClass]="{ showOnboardingStepHover: showToDoSteps }"
-  *ngIf="isShowToDoSteps"
+  [ngClass]="{ showOnboardingStepHover: isShowToDoSteps }"
 >
   <div class="onboardingStapsHedding p-3 position-relative">
     <div
