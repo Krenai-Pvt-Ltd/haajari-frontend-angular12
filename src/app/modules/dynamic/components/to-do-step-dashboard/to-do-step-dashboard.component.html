@@ -3,7 +3,12 @@
   <div class="page-content-tab">
     <div class="container-fluid">
       <div class="to-do-step-section row">
-        <div class="col-md-9">
+        <div
+          [ngClass]="{
+            'col-md-9': showToDoStep,
+            'col-col-md-12': !showToDoStep
+          }"
+        >
           <div class="col-md-12">
             <div class="toStepVideoBox">
               <div>
@@ -31,7 +36,13 @@
                 </div>
                 <div class="col-md-5">
                   <div class="videoSection text-end">
-                    <img src="assets/images/videoImg.svg" style="width: 70%" />
+                    <img
+                      src="assets/images/videoImg.svg"
+                      style="width: 70%"
+                      type="button"
+                      data-bs-toggle="modal"
+                      data-bs-target="#video-modal"
+                    />
                   </div>
                 </div>
               </div>
@@ -91,7 +102,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3" *ngIf="showToDoStep">
           <div class="to-step-box">
             <img src="assets/images/toSteaBackImg.svg" class="toDoStap" />
 
@@ -101,36 +112,38 @@
                   class="d-flex align-items-center justify-content-between border-bottom pb-2 pt-2"
                 >
                   <h5 class="mb-0">Onboarding Steps</h5>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="25"
-                    viewBox="0 0 24 25"
-                    fill="none"
-                  >
-                    <mask
-                      id="mask0_2612_4547"
-                      style="mask-type: alpha"
-                      maskUnits="userSpaceOnUse"
-                      x="0"
-                      y="0"
+                  <div (click)="hideToDoStep()">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
                       width="24"
                       height="25"
+                      viewBox="0 0 24 25"
+                      fill="none"
                     >
-                      <rect
-                        y="0.941406"
+                      <mask
+                        id="mask0_2612_4547"
+                        style="mask-type: alpha"
+                        maskUnits="userSpaceOnUse"
+                        x="0"
+                        y="0"
                         width="24"
-                        height="24"
-                        fill="#D9D9D9"
-                      />
-                    </mask>
-                    <g mask="url(#mask0_2612_4547)">
-                      <path
-                        d="M8.4 17.9359L7 16.5359L10.6 12.9359L7 9.36094L8.4 7.96094L12 11.5609L15.575 7.96094L16.975 9.36094L13.375 12.9359L16.975 16.5359L15.575 17.9359L12 14.3359L8.4 17.9359Z"
-                        fill="black"
-                      />
-                    </g>
-                  </svg>
+                        height="25"
+                      >
+                        <rect
+                          y="0.941406"
+                          width="24"
+                          height="24"
+                          fill="#D9D9D9"
+                        />
+                      </mask>
+                      <g mask="url(#mask0_2612_4547)">
+                        <path
+                          d="M8.4 17.9359L7 16.5359L10.6 12.9359L7 9.36094L8.4 7.96094L12 11.5609L15.575 7.96094L16.975 9.36094L13.375 12.9359L16.975 16.5359L15.575 17.9359L12 14.3359L8.4 17.9359Z"
+                          fill="black"
+                        />
+                      </g>
+                    </svg>
+                  </div>
                 </div>
                 <div class="planInfo mt-3">
                   <h5 class="mb-2">Get Ready To start</h5>
@@ -267,3 +280,50 @@
     </div>
   </div>
 </div>
+
+<!--video Modal -->
+<div
+  class="modal fade"
+  id="video-modal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  data-bs-backdrop="static"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-dialog-centered"
+    role="document"
+    style="max-width: 750px"
+  >
+    <div class="modal-content">
+      <div
+        class="modal-body p-0"
+        id="youtube-video"
+        style="height: 480px; background-color: transparent"
+      >
+        <div class="closebtn">
+          <button
+            type="button"
+            id="close_one"
+            onclick="stop()"
+            class="close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+            style="top: -15px; right: -15px"
+          >
+            <i class="bi bi-x"></i>
+          </button>
+        </div>
+        <iframe
+          width="100%"
+          id="videoId"
+          height="500"
+          src="https://www.youtube.com/embed/m1vxzFLCwCI?si=PrImOedKUTzaaTkY"
+          title="YouTube video player"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+<!--video Modal -->
