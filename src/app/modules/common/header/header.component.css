@@ -125,7 +125,7 @@ span.members-namess {
   position: absolute;
   bottom: 0px;
   width: 100%;
-  left: -1px;
+  left: 0px;
   right: 0px;
   z-index: 999;
 }
@@ -181,10 +181,9 @@ span.members-namess {
   align-items: center;
   justify-content: center;
   color: #444;
-  line-height: 21px;
   position: absolute;
   right: 15px;
-  top: 60px;
+  top: 16px;
 }
 .log-btn:hover {
   background-color: #f5f8fa;
@@ -216,8 +215,8 @@ span.members-namess {
   font-size: 16px;
 }
 .plan-box {
-  padding: 10px;
-  background-color: #ffffff;
+  padding: 20px;
+  background-color: #f1f1fc;
   border-top: 1px solid #f2f2f2;
 }
 .plan-box p {
@@ -290,6 +289,67 @@ span.add-project {
 .project-name i {
   line-height: 22px;
 }
+
+.plan-box h3 {
+  color: #000;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 15px; /* 58.077% */
+  letter-spacing: 0.119px;
+  text-transform: capitalize;
+}
+.plan-box p {
+  color: #717171;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 11px; /* 88.478% */
+  letter-spacing: 0.035px;
+}
+
+.upgradeBtn {
+  background-color: #6666f2;
+  color: #fff;
+  font-size: 10px;
+  font-style: normal;
+  padding: 3px 10px;
+  font-weight: 700;
+  line-height: 5.682px; /* 58.077% */
+  letter-spacing: 0.077px;
+  text-transform: capitalize;
+  border-radius: 4px;
+}
+.progress {
+  background-color: #f1f5fa;
+  height: 8px;
+  width: 100%;
+  margin: 0 auto;
+}
+.plan-box h4 {
+  color: #6666f2;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 11px;
+  letter-spacing: 0.035px;
+}
+
+.modifyBtn {
+  color: #000;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 5.682px; /* 58.077% */
+  letter-spacing: 0.077px;
+  text-transform: capitalize;
+}
+.login-user-detail {
+  gap: 20px;
+  padding: 10px;
+  background-color: #fff;
+  border-top: 1px solid #dfdfdf;
+}
+
 @media screen and (max-width: 2600px) {
   .menu-body.navbar-vertical {
     overflow-x: auto;
