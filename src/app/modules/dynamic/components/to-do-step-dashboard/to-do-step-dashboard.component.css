@@ -96,19 +96,29 @@
 
 @media screen and (max-width: 2600px) {
   .to-step-box {
-    width: 400px !important;
+    width: 400px;
+  }
+}
+@media screen and (max-width: 1800px) {
+  .to-step-box {
+    width: 400px;
   }
 }
 
 @media screen and (max-width: 1600px) {
   .to-step-box {
-    width: 330px !important;
+    width: 330px;
+  }
+}
+@media screen and (max-width: 1400px) {
+  .to-step-box {
+    width: 300px;
   }
 }
 
 @media screen and (max-width: 1280px) {
   .to-step-box {
-    width: 250px !important;
+    width: 250px;
   }
 }
 
