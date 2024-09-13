@@ -29,130 +29,182 @@
         <div class="col-md-6">
           <div class="register-form-box bg-white p-4">
             <h4>Provide your company details.</h4>
-            <div class="row mt-4 register-form">
-              <div class="col-md-12">
-                <div class="form-group mb-3">
-                  <label for="exampleInputEmail1" class="mb-2"
-                    >Your organisation’s name
-                    <span class="text-optional">*</span></label
+            <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+              <div class="row mt-4 register-form">
+                <div class="col-md-12">
+                  <div class="form-group mb-3">
+                    <label for="organizationName" class="mb-2">
+                      Your organisation’s name
+                      <span class="text-optional">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="organizationName"
+                      name="organizationName"
+                      [(ngModel)]="formData.organizationName"
+                      #organizationName="ngModel"
+                      required
+                    />
+                    <div *ngIf="organizationName.invalid && (organizationName.dirty || organizationName.touched)" class="text-danger">
+                      Organisation name is required.
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6" style="padding-right: 8px">
+                  <div class="form-group mb-3">
+                    <label for="employeeCount" class="mb-2">
+                      Employee Count
+                      <span class="text-optional">*</span>
+                    </label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="employeeCount"
+                      name="employeeCount"
+                      [(ngModel)]="formData.employeeCount"
+                      #employeeCount="ngModel"
+                      required
+                    />
+                    <div *ngIf="employeeCount.invalid && (employeeCount.dirty || employeeCount.touched)" class="text-danger">
+                      Employee count is required and must be a number.
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6" style="padding-left: 8px">
+                  <div class="form-group mb-3">
+                    <label for="industryType" class="mb-2">
+                      Which industry
+                      <span class="text-optional">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="industryType"
+                      name="industryType"
+                      [(ngModel)]="formData.industryType"
+                      #industryType="ngModel"
+                      required
+                    />
+                    <div *ngIf="industryType.invalid && (industryType.dirty || industryType.touched)" class="text-danger">
+                      Industry type is required.
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group mb-3">
+                    <label for="organizationEmail" class="mb-2">
+                      Business Email Address
+                      <span class="text-optional">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="organizationEmail"
+                      name="organizationEmail"
+                      [(ngModel)]="formData.organizationEmail"
+                      #organizationEmail="ngModel"
+                      required
+                      email
+                    />
+                    <div *ngIf="organizationEmail.invalid && (organizationEmail.dirty || organizationEmail.touched)" class="text-danger">
+                      A valid email is required.
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6" style="padding-right: 8px">
+                  <div class="form-group mb-3">
+                    <label for="firstName" class="mb-2">
+                      First Name
+                      <span class="text-optional">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="firstName"
+                      name="firstName"
+                      [(ngModel)]="formData.firstName"
+                      #firstName="ngModel"
+                      required
+                    />
+                    <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="text-danger">
+                      First name is required.
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6" style="padding-left: 8px">
+                  <div class="form-group mb-3">
+                    <label for="lastName" class="mb-2">
+                      Last Name
+                      <span class="text-optional">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="lastName"
+                      name="lastName"
+                      [(ngModel)]="formData.lastName"
+                      #lastName="ngModel"
+                      required
+                    />
+                    <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" class="text-danger">
+                      Last name is required.
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group mb-3">
+                    <label for="phoneNumber" class="mb-2">
+                      Phone Number
+                      <span class="text-optional">*</span>
+                    </label>
+                    <input
+                      type="tel"
+                      class="form-control"
+                      id="phoneNumber"
+                      name="phoneNumber"
+                      [(ngModel)]="formData.phoneNumber"
+                      #phoneNumber="ngModel"
+                      required
+                    />
+                    <div *ngIf="phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched)" class="text-danger">
+                      Phone number is required.
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="col-md-12 mb-3">
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="termsAndConditions"
+                      required
+                    />
+                    <label class="form-check-label" for="termsAndConditions">
+                      I have read and agree to the
+                      <a href="#" class="login-link">terms and conditions</a> and
+                      <a href="#" class="login-link"> privacy policy.</a>
+                    </label>
+                    <div *ngIf="termsAndConditions.invalid && (termsAndConditions.dirty || termsAndConditions.touched)" class="text-danger">
+                      You must agree to the terms and conditions.
+                    </div>
+                  </div>
+                </div> -->
+                <div class="d-flex align-items-center justify-content-between">
+                  <button
+                    type="submit"
+                    class="btn createAccount"
+                    [disabled]="registerForm.invalid"
                   >
-                  <input
-                    type="email"
-                    class="form-control"
-                    id="exampleInputEmail1"
-                    aria-describedby="emailHelp"
-                    placeholder="Enter organisation’s name"
-                  />
+                    Create Account!
+                  </button>
+                  <span class="alredy-login">
+                    Already have an account?
+                    <a href="#" class="login-link">Log in</a>
+                  </span>
                 </div>
               </div>
-              <div class="col-md-6" style="padding-right: 8px">
-                <div class="form-group mb-3">
-                  <label for="exampleInputEmail1" class="mb-2"
-                    >Employee Count <span class="text-optional">*</span></label
-                  >
-                  <input
-                    type="email"
-                    class="form-control"
-                    id="exampleInputEmail1"
-                    aria-describedby="emailHelp"
-                    placeholder="Enter employee count"
-                  />
-                </div>
-              </div>
-              <div class="col-md-6" style="padding-left: 8px">
-                <div class="form-group mb-3">
-                  <label for="exampleInputEmail1" class="mb-2"
-                    >Which industry <span class="text-optional">*</span></label
-                  >
-                  <input
-                    type="email"
-                    class="form-control"
-                    id="exampleInputEmail1"
-                    aria-describedby="emailHelp"
-                    placeholder="Enter industry"
-                  />
-                </div>
-              </div>
-              <div class="col-md-12">
-                <div class="form-group mb-3">
-                  <label for="exampleInputEmail1" class="mb-2"
-                    >Business Email Address
-                    <span class="text-optional">*</span></label
-                  >
-                  <input
-                    type="email"
-                    class="form-control"
-                    id="exampleInputEmail1"
-                    aria-describedby="emailHelp"
-                    placeholder="Enter email id"
-                  />
-                </div>
-              </div>
-              <div class="col-md-6" style="padding-right: 8px">
-                <div class="form-group mb-3">
-                  <label for="exampleInputEmail1" class="mb-2"
-                    >First Name <span class="text-optional">*</span></label
-                  >
-                  <input
-                    type="email"
-                    class="form-control"
-                    id="exampleInputEmail1"
-                    aria-describedby="emailHelp"
-                    placeholder="Enter first Name"
-                  />
-                </div>
-              </div>
-              <div class="col-md-6" style="padding-left: 8px">
-                <div class="form-group mb-3">
-                  <label for="exampleInputEmail1" class="mb-2"
-                    >Last Name <span class="text-optional">*</span></label
-                  >
-                  <input
-                    type="email"
-                    class="form-control"
-                    id="exampleInputEmail1"
-                    aria-describedby="emailHelp"
-                    placeholder="Enter last name"
-                  />
-                </div>
-              </div>
-              <div class="col-md-12">
-                <div class="form-group mb-3">
-                  <label for="exampleInputEmail1" class="mb-2"
-                    >Phone Number <span class="text-optional">*</span></label
-                  >
-                  <input
-                    type="email"
-                    class="form-control"
-                    id="exampleInputEmail1"
-                    aria-describedby="emailHelp"
-                    placeholder="e.g. +16175555555 (International Format)"
-                  />
-                </div>
-              </div>
-              <div class="col-md-12 mb-3">
-                <div class="form-check">
-                  <input
-                    type="checkbox"
-                    class="form-check-input"
-                    id="exampleCheck1"
-                  />
-                  <label class="form-check-label" for="exampleCheck1"
-                    >I have read and agree to the
-                    <a href="#" class="login-link">terms and conditions </a> and
-                    <a href="#" class="login-link"> privacy policy.</a></label
-                  >
-                </div>
-              </div>
-              <div class="d-flex align-items-center justify-content-between">
-                <button class="btn createAccount">Create Account!</button>
-                <span class="alredy-login"
-                  >Already have an account?<a href="#" class="login-link">
-                    Log in</a
-                  ></span
-                >
-              </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>
