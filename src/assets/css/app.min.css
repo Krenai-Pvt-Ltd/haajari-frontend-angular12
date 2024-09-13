@@ -9843,3 +9843,7 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   position: relative;
   top: -1px;
 }
+
+.ytp-show-cards-title {
+  display: none !important;
+}
