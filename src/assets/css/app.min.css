@@ -13,7 +13,7 @@
   min-height: 60px;
   position: relative;
   /* border-bottom: 1px solid #eceff5; */
-  margin-left: 240px;
+  margin-left: 255px;
   -webkit-box-shadow: none;
   box-shadow: none;
 }
@@ -261,8 +261,8 @@ body.dark-topbar .app-search form .form-control:focus {
 }
 
 .left-sidebar {
-  min-width: 230px;
-  max-width: 230px;
+  min-width: 245px;
+  max-width: 245px;
   background-color: #fff;
   min-height: 100vh;
   -webkit-transition: 0.3s;
@@ -484,7 +484,7 @@ body.dark-topbar .app-search form .form-control:focus {
 }
 
 .page-wrapper .page-content-tab {
-  width: calc(100% - 230px);
+  width: calc(100% - 245px);
   margin-left: auto;
   position: relative;
   min-height: calc(100vh - 60px);
@@ -9313,7 +9313,7 @@ display:block
 }
 
 .table td {
-  font-weight: 300;
+  font-weight: 400;
   vertical-align: middle;
   font-size: 12px !important;
   border-bottom: 1px solid #e6e7e9 !important;
@@ -9842,4 +9842,8 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   height: 20px;
   position: relative;
   top: -1px;
+}
+
+.ytp-show-cards-title {
+  display: none !important;
 }
