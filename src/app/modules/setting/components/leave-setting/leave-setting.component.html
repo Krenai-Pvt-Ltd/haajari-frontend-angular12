@@ -399,16 +399,19 @@
                   </div>
                 </form>
               </div>
-              <div class="tab-pane fade" id="profile" role="tabpanel">
 
+              <div class="tab-pane fade" id="profile" role="tabpanel">
                 <div class="pt-3 pb-3">
                   <form [formGroup]="form">
                     <div formArrayName="categories">
                       <div *ngFor="let category of categories.controls; let i = index" class="form-group row mb-4 pb-2 position-relative" [formGroupName]="i">
                         <div class="col-md-2">
                           <label class="mb-2">Leave Category Name</label>
-                          <input (keydown)="preventLeadingWhitespace($event)" id="leaveCategoryName" formControlName="leaveCategoryName" class="form-control" required [nzAutocomplete]="auto" placeholder="Select Leave Category Name" />
-                          <nz-autocomplete #auto [nzDataSource]="filteredLeaveCategories"></nz-autocomplete>
+                          <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select Leave Category Name" formControlName="leaveCategoryName" required>
+                            <nz-option *ngFor="let leaveCategory of leaveCategoryList" [nzValue]="leaveCategory.name" [nzLabel]="leaveCategory.name"></nz-option>
+                          </nz-select>
+                          <!-- <input (keydown)="preventLeadingWhitespace($event)" id="leaveCategoryName" formControlName="leaveCategoryName" class="form-control" required [nzAutocomplete]="auto" placeholder="Select Leave Category Name" />
+                          <nz-autocomplete #auto [nzDataSource]="filteredLeaveCategories"></nz-autocomplete> -->
                 
                           <p class="errortxt mt-2 mb-0 text-danger" *ngIf="hasError('leaveName', i, 'required')">
                             <span style="white-space: nowrap;"><i class="bi bi-exclamation-circle"></i> Please fill this field.</span>
@@ -426,13 +429,13 @@
                         </div>
                         <div class="col-md-2">
                           <label class="mb-2">Leave Count</label>
-                          <input nz-input type="number" formControlName="leaveCount" class="form-control" [placeholder]="'Day Count'" (ngModelChange)="generateDaysDropdown($event, i)" required />
+                          <nz-input-number formControlName="leaveCount" nzPlaceHolder="Day Count" (ngModelChange)="generateDaysDropdown($event, i)" nzSize="large" [nzMin]="1" [nzMax]="10" [nzStep]="1" required></nz-input-number>
                           <p class="errortxt mt-2 mb-0 text-danger" *ngIf="hasError('leaveCount', i, 'required') || hasError('leaveCount', i, 'min')">
                             <span style="white-space: nowrap;"><i class="bi bi-exclamation-circle"></i> Please enter a valid number.</span>
                           </p>
                         </div>
                         <div class="col-md-2">
-                          <label class="mb-2" for="leaveRules">Unused Leave Action</label>
+                          <label class="mb-2" for="unusedLeaveAction">Unused Leave Action</label>
                           <div class="dropdown" style="width: 100%">
                             <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Unused leave action" formControlName="unusedLeaveAction" required>
                               <nz-option *ngFor="let unusedLeaveAction of unusedLeaveActionList" [nzValue]="unusedLeaveAction.name" [nzLabel]="unusedLeaveAction.name"></nz-option>
@@ -440,24 +443,26 @@
                           </div>
                         </div>
                         <div class="col-md-2">
-                          <label class="mb-2">Carry Forward Limit</label>
-                          <div *ngIf="categories.controls[i]!.get('leaveRules')?.value !== 'Lapse' && categories.controls[i]!.get('leaveRules')?.value !== ''" nz-dropdown [nzDropdownMenu]="menu4" [nzVisible]="dropdownVisible">
-                            <input nz-input type="number" formControlName="carryForwardDays" class="form-control" placeholder="Select Days" (click)="toggleDropdown()" />
-                            <span nz-icon class="ant-dropdown-trigger" (click)="toggleDropdown()"></span>
-                          </div>
-                          <input nz-input *ngIf="categories.controls[i]!.get('leaveRules')?.value === 'Lapse' || categories.controls[i]!.get('leaveRules')?.value === ''" nz-input type="number" formControlName="carryForwardDays" class="form-control" [readOnly]="true" placeholder="Select Days" />
-                          <nz-dropdown-menu #menu4="nzDropdownMenu">
-                            <ul nz-menu class="dropdown-scroll">
-                              <li nz-menu-item *ngFor="let day of daysCountArray[i]" (click)="selectCarryForwardDay(day, i)">
-                                <span *ngIf="day === category.get('leaveCount')?.value">All Unused</span>
-                                <span *ngIf="day !== category.get('leaveCount')?.value">{{ day }}</span>
-                              </li>
-                            </ul>
-                          </nz-dropdown-menu>
+                          <label class="mb-2">Unused Leave Count</label>
+                          <!-- Use nz-select if the value of unusedLeaveAction is not 'Lapse' or empty -->
+                          <nz-select style="width: 100%;" *ngIf="categories.controls[i]!.get('unusedLeaveAction')?.value !== 'Lapse' && categories.controls[i]!.get('unusedLeaveAction')?.value !== ''" formControlName="unusedLeaveActionCount" nzPlaceHolder="Select Days" nzSize="large" required>
+                            <nz-option *ngFor="let day of daysCountArray[i]" [nzValue]="day">
+                              <ng-container *ngIf="day === category.get('leaveCount')?.value">All Unused</ng-container>
+                              <ng-container *ngIf="day !== category.get('leaveCount')?.value">{{ day }}</ng-container>
+                            </nz-option>
+                          </nz-select>
+                        
+                          <!-- Use a readonly input field if unusedLeaveAction is 'Lapse' or empty -->
+                          <input nz-input *ngIf="categories.controls[i]!.get('unusedLeaveAction')?.value === 'Lapse' || categories.controls[i]!.get('unusedLeaveAction')?.value === ''"
+                                 formControlName="unusedLeaveActionCount" 
+                                 class="form-control" 
+                                 [readOnly]="true" 
+                                 placeholder="Select Days" />
                         </div>
+                        
                         <div class="col-md-2">
                           <label class="mb-2">Sandwich Rule</label>
-                          <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select Leave Cycle" formControlName="isSandwitchRuleApplicable" required>
+                          <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select Leave Cycle" formControlName="isSandwichLeave" required>
                             <nz-option [nzValue]="booleanList[0]" [nzLabel]="booleanList[0]"></nz-option>
                             <nz-option [nzValue]="booleanList[1]" [nzLabel]="booleanList[1]"></nz-option>
                           </nz-select>
@@ -475,10 +480,9 @@
                     </div>
                   </form>
                 </div>
-                
-
                 <!-- <div><button type="button" (click)="saveLeaveCategories()">Save</button></div> -->
               </div>
+
               <div class="tab-pane fade" id="staffSelection" role="tabpanel">
                 <!-- <div class="tab-pane fade" id="profile" role="tabpanel"> -->
                 <div class="staf-list-box mt-3">
@@ -534,12 +538,6 @@
                                         "></i>
                                     </div>
                                   </form>
-                                </div>
-                                <div class="col-md-4 d-flex justify-content-end" style="gap: 10px">
-                                  <div class="user-list">
-                                    <!-- <h5><span class="total-user-list"
-                                                                                    style="color: #4761f6; background-color: #d1d6f2; padding: 5px; border-radius: 5px"><b>{{total}}</b></span><b>Users</b></h5> -->
-                                  </div>
                                 </div>
                               </div>
                               <div class="errorboxmain text-center" *ngIf="
@@ -897,9 +895,7 @@
                                         {{ newstaff.email }}
                                       </td>
                                       <td>
-                                        <button class="btn btn-outline-primary btn-sm remove" *ngIf="
-                                            !deleteEmployeeLoader(newstaff)
-                                          " (click)="deleteUser(newstaff.uuid)"> Remove </button>
+                                        <button class="btn btn-outline-primary btn-sm remove" *ngIf="!deleteEmployeeLoader(newstaff)" (click)="deleteUser(newstaff.uuid)"> Remove </button>
                                         <div class="dot-opacity-loader" style="color: #eb5050" *ngIf="deleteEmployeeLoader(newstaff)">
                                           <span></span>
                                           <span></span>
@@ -950,7 +946,7 @@
                       <!-- <button type="button" class="btn btn-outline-primary">Back</button> -->
                     </div>
                     <div class="modal-footer d-flex align-items-center justify-content-end">
-                      <button type="button" class="btn btn-outline-primary btn-round" (click)="saveLeaveSettingRules(true)" *ngIf="!submitLeaveLoader"> Submit </button>
+                      <button type="button" class="btn btn-outline-primary btn-round" (click)="registerLeaveTemplateMethodCall()" *ngIf="!submitLeaveLoader"> Submit </button>
                       <div class="dot-opacity-loader" *ngIf="submitLeaveLoader">
                         <span></span>
                         <span></span>
@@ -961,6 +957,7 @@
                   <!-- </div> -->
                 </div>
               </div>
+
             </div>
           </div>
         </div>

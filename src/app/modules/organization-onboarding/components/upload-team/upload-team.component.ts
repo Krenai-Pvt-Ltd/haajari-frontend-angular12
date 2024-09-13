@@ -327,7 +327,7 @@ export class UploadTeamComponent implements OnInit {
   getUser() {
     this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
     this.loading = true;
-    this._onboardingService.getOnboardUser().subscribe(
+    this._onboardingService.getOnboardUser(0, 0).subscribe(
       (response: any) => {
         if (response.status) {
           this.onboardUserList = response.object;
@@ -349,7 +349,7 @@ export class UploadTeamComponent implements OnInit {
 
   allUserIds: any[] = [];
   getAllUser() {
-    this._onboardingService.getOnboardUser().subscribe(
+    this._onboardingService.getOnboardUser(0, 0).subscribe(
       (response: any) => {
         if (response.status) {
           this.allUserIds = response.object;

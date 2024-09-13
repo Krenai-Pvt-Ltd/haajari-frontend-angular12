@@ -22,9 +22,9 @@ import { Staff } from 'src/app/models/staff';
 import { StaffSelectionUserList } from 'src/app/models/staff-selection-userlist';
 import { UnusedLeaveAction } from 'src/app/models/unused-leave-action';
 import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-reflection';
+import { YearType } from 'src/app/models/year-type';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
-import { YearType } from 'src/app/year-type';
 
 @Component({
   selector: 'app-leave-setting',
@@ -62,6 +62,7 @@ export class LeaveSettingComponent implements OnInit {
     this.getFullLeaveSettingInformation();
     this.getYearTypeListMethodCall();
     this.getLeaveCycleListMethodCall();
+    this.getLeaveCategoryListMethodCall();
     this.getUnusedLeaveActionList();
     // this.findUsersOfLeaveSetting(30);
 
@@ -88,7 +89,6 @@ export class LeaveSettingComponent implements OnInit {
 
   isFormValid: boolean = false;
   checkFormValidity(form: NgForm | null) {
-    debugger;
     this.errorTemplateNameFlag = false;
     this.isFormValid = form?.valid ?? false;
   }
@@ -109,19 +109,19 @@ export class LeaveSettingComponent implements OnInit {
   //     );
   // }
 
-  setAccrualType(accrualType: string) {
-    this.leaveSettingResponse.accrualType = accrualType;
-  }
+  // setAccrualType(accrualType: string) {
+  //   this.leaveSettingResponse.accrualType = accrualType;
+  // }
 
-  enterCountFlag: boolean = false;
-  setSandwichRules(rule: string) {
-    this.leaveSettingResponse.sandwichRules = rule;
-    if (rule === 'Count') {
-      this.enterCountFlag = true;
-    } else {
-      this.enterCountFlag = false;
-    }
-  }
+  // enterCountFlag: boolean = false;
+  // setSandwichRules(rule: string) {
+  //   this.leaveSettingResponse.sandwichRules = rule;
+  //   if (rule === 'Count') {
+  //     this.enterCountFlag = true;
+  //   } else {
+  //     this.enterCountFlag = false;
+  //   }
+  // }
 
   // *********** second
   //   leaveCategories = [{ leaveName: '', leaveCount: 0, leaveRules: 'Lapse', carryForwardDays: 0 , leaveSettingId: 0}];
@@ -158,10 +158,10 @@ export class LeaveSettingComponent implements OnInit {
   addRow() {
     const newRow = this.fb.group({
       leaveCategoryName: ['', Validators.required],
-      leaveRenewalCycle: [''],
+      leaveRenewalCycle: ['', Validators.required],
       leaveCount: ['', [Validators.required, Validators.min(0)]],
       unusedLeaveAction: [''],
-      carryForwardDays: [''],
+      unusedLeaveActionCount: [''],
       isSandwitchRuleApplicable: ['']
     });
 
@@ -174,7 +174,7 @@ export class LeaveSettingComponent implements OnInit {
   deleteRow(index: number) {
     const categoriesArray = this.form.get('categories') as FormArray;
     categoriesArray.removeAt(index);
-    this.helperService.showToast('Row deleted', Key.TOAST_STATUS_SUCCESS);
+    this.helperService.showToast('Category removed successfully.', Key.TOAST_STATUS_SUCCESS);
   }
 
   hasError(controlName: string, index: number, errorName: string) {
@@ -435,7 +435,6 @@ export class LeaveSettingComponent implements OnInit {
 
   // Asynchronous function to get all user UUIDs
   async getAllUsersUuids(): Promise<string[]> {
-    debugger;
     const response = await this.dataService
       .getUsersByFilterForLeaveSetting(
         this.total,
@@ -534,19 +533,20 @@ export class LeaveSettingComponent implements OnInit {
       }
     );
   }
+
   setLeaveRule(index: number, value: string): void {
     const leaveRulesControl = (this.form.get('categories') as FormArray)
       .at(index)
-      ?.get('leaveRules');
+      ?.get('unusedLeaveAction');
     if (leaveRulesControl) {
       leaveRulesControl.setValue(value);
     }
   }
+
   // leaveSettingForm!:NgForm;
   fullLeaveSettingResponse!: FullLeaveSettingResponse;
 
   getLeaveSettingInformationById(leaveSettingId: number, flag: boolean): void {
-    debugger;
 
     this.pageNumber = 1;
     this.pageNumberUser = 1;
@@ -699,18 +699,13 @@ export class LeaveSettingComponent implements OnInit {
 
   // ###################### saveInOne ###################
 
-  fullLeaveSettingRuleRequest: FullLeaveSettingRequest =
-    new FullLeaveSettingRequest();
+  fullLeaveSettingRuleRequest: FullLeaveSettingRequest = new FullLeaveSettingRequest();
   @ViewChild('requestLeaveCloseModel') requestLeaveCloseModel!: ElementRef;
   submitLeaveLoader: boolean = false;
 
   saveLeaveSettingRules(flag: boolean) {
-    debugger;
-    this.fullLeaveSettingRuleRequest.leaveSettingResponse =
-      this.leaveSettingResponse;
-    if (
-      constant.EMPTY_STRINGS.includes(this.leaveSettingResponse.templateName)
-    ) {
+    this.fullLeaveSettingRuleRequest.leaveSettingResponse = this.leaveSettingResponse;
+    if (constant.EMPTY_STRINGS.includes(this.leaveSettingResponse.templateName)) {
       this.errorTemplateNameFlag = true;
       this.templateSettingTab.nativeElement.click();
       return;
@@ -1222,10 +1217,10 @@ export class LeaveSettingComponent implements OnInit {
     });
   }
 
-  onChange(value: string): void {
+  onChange(value: LeaveCategory): void {
     if(value != null){
-      this.filteredLeaveCategories = this.leaveCategories.filter((bank) =>
-        bank.toLowerCase().includes(value.toLowerCase())
+      this.filteredLeaveCategories = this.leaveCategoryList.filter((leaveCategory) =>
+        leaveCategory.name.toLowerCase().includes(value.name.toLowerCase())
       );
     }
   }
@@ -1238,7 +1233,7 @@ export class LeaveSettingComponent implements OnInit {
   //   );
   // }
 
-  filteredLeaveCategories: string[] = [];
+  filteredLeaveCategories: LeaveCategory[] = [];
   leaveCategories: string[] = ['Annual Leave', 'Sick Leave', 'Casual Leave'];
 
   preventLeadingWhitespace(event: KeyboardEvent): void {
@@ -1478,5 +1473,125 @@ export class LeaveSettingComponent implements OnInit {
   leaveTemplateDefinitionForm !: FormGroup;
 
   leaveTemplateRequest : LeaveTemplateRequest = new LeaveTemplateRequest();
+
+  setFieldsToLeaveTemplateRequest(){
+    this.leaveTemplateRequest.leaveTemplateCategoryRequestList = this.form.value.categories.map(
+      (category: any) => ({
+        id: category.id,
+        leaveCategoryName: category.leaveName,
+        leaveRenewalCycle: category.leaveRenewalCycle,
+        leaveCount: category.leaveCount,
+        unusedLeaveAction: category.unusedLeaveAction,
+        unusedLeaveActionCount: category.unusedLeaveActionCount,
+        isSandwitchRuleApplicable: category.isSandwitchRuleApplicable
+      })
+    );
+
+    this.leaveTemplateRequest.userUuidList = [...this.selectedStaffsUuids, ...this.selectedStaffsUuidsUser];
+  }
+  
+  registerLeaveTemplateMethodCall(){
+    this.setFieldsToLeaveTemplateRequest();
+    this.dataService.registerLeaveTemplate(this.leaveTemplateRequest).subscribe((response) => {
+      this.requestLeaveCloseModel.nativeElement.click();
+      this.helperService.showToast('Leave template registered successfully.', Key.TOAST_STATUS_SUCCESS);
+    }, (error) => {
+      this.helperService.showToast('Error while registering the leave template!', Key.TOAST_STATUS_ERROR);
+    })
+  }
+
+
+  // saveLeaveSettingRules(flag: boolean) {
+  //   this.fullLeaveSettingRuleRequest.leaveSettingResponse = this.leaveSettingResponse;
+  //   if (constant.EMPTY_STRINGS.includes(this.leaveSettingResponse.templateName)) {
+  //     this.errorTemplateNameFlag = true;
+  //     this.templateSettingTab.nativeElement.click();
+  //     return;
+  //   } else {
+  //     this.errorTemplateNameFlag = false;
+  //   }
+  //   // const leaveSettingCategories = this.form.value.categories.map(
+  //   //   (category: any) => ({
+  //   //     ...category,
+  //   //   })
+  //   // );
+  //   // this.fullLeaveSettingRuleRequest.leaveSettingCategoryResponse =
+  //   //   leaveSettingCategories;
+
+  //   const leaveSettingCategories = this.form.value.categories.map(
+  //     (category: any) => ({
+  //       id: category.id,
+  //       leaveName: category.leaveName,
+  //       leaveCount: category.leaveCount,
+  //       leaveRules: category.leaveRules,
+  //       carryForwardDays: category.carryForwardDays
+  //     })
+  //   );
+
+  //   this.fullLeaveSettingRuleRequest.leaveSettingCategoryResponse = leaveSettingCategories;
+  //   this.fullLeaveSettingRuleRequest.userUuids = [...this.selectedStaffsUuids, ...this.selectedStaffsUuidsUser];
+  //   // selectedStaffsUuidsUser;
+
+  //   if (flag) {
+  //     this.submitLeaveLoader = true;
+  //     this.dataService
+  //       .registerLeaveSettingRules(this.fullLeaveSettingRuleRequest)
+  //       .subscribe(
+  //         (response) => {
+  //           this.getFullLeaveSettingInformation();
+  //           this.submitLeaveLoader = false;
+  //           this.requestLeaveCloseModel.nativeElement.click();
+  //           this.helperService.showToast(
+  //             'Leave rules registered successfully',
+  //             Key.TOAST_STATUS_SUCCESS
+  //           );
+  //         },
+  //         (error) => {
+  //           this.submitLeaveLoader = false;
+  //           this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+  //         }
+  //       );
+  //   } else if (!flag) {
+  //     for (const userUuid of this.fullLeaveSettingRuleRequest.userUuids) {
+  //       this.loadingStatus[userUuid] = true;
+  //     }
+  //     this.selectedStaffsUuidsUser = [];
+
+  //     this.dataService
+  //       .registerLeaveSettingRules(this.fullLeaveSettingRuleRequest)
+  //       .subscribe(
+  //         (response) => {
+  //           this.idOfLeaveSetting = response.leaveSettingResponse.id;
+  //           this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
+
+  //           for (const userUuid of this.fullLeaveSettingRuleRequest.userUuids) {
+  //             this.loadingStatus[userUuid] = false;
+  //           }
+  //           this.isMappedStaffEmpty = false;
+  //           this.addedUserFlag = true;
+  //           //  this.selectedStaffsUuids = [userUuid];
+  //           //  const staffToUpdate = this.staffs.find(staff => staff.uuid === userUuid);
+  //           //  if (staffToUpdate) {
+  //           //     staffToUpdate.isAdded = true;
+
+  //           //   }
+  //           this.findUsersOfLeaveSetting(this.idOfLeaveSetting);
+  //           // this.getFullLeaveSettingInformation();
+  //           // this.requestLeaveCloseModel.nativeElement.click();
+  //           this.helperService.showToast(
+  //             'Leave rules registered successfully',
+  //             Key.TOAST_STATUS_SUCCESS
+  //           );
+  //         },
+  //         (error) => {
+  //           for (const userUuid of this.fullLeaveSettingRuleRequest.userUuids) {
+  //             this.loadingStatus[userUuid] = false;
+  //           }
+  //           console.error('Error registering leave setting:', error);
+  //           this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+  //         }
+  //       );
+  //   }
+  // }
 
 }

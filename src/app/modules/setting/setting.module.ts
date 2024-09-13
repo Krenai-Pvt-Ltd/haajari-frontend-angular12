@@ -50,7 +50,8 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     AccountSettingsComponent,
     StaffAttendanceLocationComponent,
     UploadPhotoComponent,
-    SalarySettingComponent,
+    SalarySettingComponent
+    
   ],
   imports: [
     CommonModule,

@@ -74,6 +74,7 @@ import { SalaryChangeOvertimeRequest } from '../models/salary-change-overtime-re
 import { AllocateCoinsRoleWiseRequest, AllocateCoinsRoleWiseResponse, AllocateCoinsToBadgeRequest } from '../models/allocate-coins-role-wise-request';
 import { OvertimeSettingRequest } from '../models/overtime-setting-request';
 import { OvertimeRequestDTO } from '../models/overtime-request-dto';
+import { LeaveTemplateRequest } from '../models/leave-template-request';
 
 
 @Injectable({
@@ -3858,5 +3859,10 @@ getHolidayForOrganization(date: string): Observable<any>{
 
   getUnusedLeaveActionList(): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/unused-leave/list`, {});
+  }
+
+  
+  registerLeaveTemplate(leaveTemplateRequest : LeaveTemplateRequest): Observable<any>{
+    return this.httpClient.post<any>(`${this.baseUrl}/leave-template/register`, leaveTemplateRequest);
   }
 }
