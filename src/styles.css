@@ -393,6 +393,16 @@ label {
 .modal-content h4 {
   color: #303030;
 }
+.btn-info {
+  color: #fff;
+  background-color: #6666f3 !important;
+  border-color: #6666f3 !important;
+}
+.btn-warning {
+  color: #6666f3 !important;
+  border: 1px solid #6666f3 !important;
+  background-color: #ecf1ff !important;
+}
 @media (max-width: 1024px) {
   .persnol-details,
   .personal-details {
@@ -453,4 +463,5 @@ label {
     font-size: 20px;
     margin-bottom: 8px;
   }
+  
 }
