@@ -106,6 +106,9 @@ export class UploadTeamComponent implements OnInit {
 
   removeUser(index: number) {
     this.userList.splice(index, 1);
+    if(this.userList.length == 1) {
+      this.showUserList = false;
+    }
   }
 
   fileName: any;
