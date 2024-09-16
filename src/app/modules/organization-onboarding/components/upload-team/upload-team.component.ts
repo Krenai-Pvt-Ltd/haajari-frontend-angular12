@@ -239,6 +239,7 @@ export class UploadTeamComponent implements OnInit {
     if (this.allUsersValid()) {
       this.create();
     } else {
+      this.isManualUploadSubmitLoader = false;
       return;
     }
   }
@@ -254,14 +255,14 @@ export class UploadTeamComponent implements OnInit {
   }
 
   // Use this method to determine if all users are valid
-  allUsersValid(): boolean {
-    debugger;
-    return (
-      !this.isNumberExist &&
-      !this.isEmailExist &&
-      this.userList.slice(0, -1).every((u) => this.isValidUser(u))
-    );
-  }
+  // allUsersValid(): boolean {
+  //   debugger;
+  //   return (
+  //     !this.isNumberExist &&
+  //     !this.isEmailExist &&
+  //     this.userList.slice(0, -1).every((u) => this.isValidUser(u))
+  //   );
+  // }
 
   currentUsersValid(): boolean {
     debugger;
@@ -272,6 +273,11 @@ export class UploadTeamComponent implements OnInit {
 
     return !this.isNumberExist && !this.isEmailExist && lastEntryValid;
   }
+
+  allUsersValid(): boolean {
+    return this.userList.length > 0 && this.userList.every((u) => this.isValidUser(u));
+  }
+  
 
   resetManualUploadModal() {
     debugger;
@@ -296,7 +302,8 @@ export class UploadTeamComponent implements OnInit {
   createLoading: boolean = false;
   create() {
     debugger;
-    this.userListReq.userList = this.userList.slice(0, -1);
+    // this.userListReq.userList = this.userList.slice(0, -1);
+    this.userListReq.userList = this.userList;
     this.createLoading = true;
     this._onboardingService.createOnboardUser(this.userListReq).subscribe(
       (response: any) => {

@@ -1022,160 +1022,6 @@
         role="document"
       >
         <div class="modal-content">
-          <!-- <div class="modal-header">
-            <h5 class="modal-title">Manual Upload</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-              #closeButton
-              (click)="resetManualUploadModal()"
-            ></button>
-          </div>
-          <div class="modal-body munal-deta-upload-modal">
-            <div class="row" *ngFor="let user of userList; let i = index">
-              <div class="col-md-4">
-                <div class="mb-3">
-                  <label class="mb-2">
-                    Name <span class="text-optional">*</span></label
-                  >
-                  <input
-                    type="text"
-                    name="userName{{ i }}"
-                    [(ngModel)]="user.name"
-                    class="form-control profile-input"
-                    placeholder="Enter Employee Name"
-                    #name="ngModel"
-                    minlength="3"
-                    required
-                  />
-                  <div *ngIf="name?.dirty || isFormInvalid">
-                    <p class="errortxt mt-2 mb-2" *ngIf="name.errors?.required">
-                      <i class="bi bi-exclamation-circle"></i> Name is required.
-                    </p>
-                    <p
-                      class="errortxt mt-2 mb-2"
-                      *ngIf="name.errors?.minlength"
-                    >
-                      <i class="bi bi-exclamation-circle"></i> Please enter a
-                      valid name.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="mb-3">
-                  <label class="mb-2"
-                    >Phone Number <span class="text-optional">*</span></label
-                  >
-                  <input
-                    type="tel"
-                    name="userPhone{{ i }}"
-                    [(ngModel)]="user.phone"
-                    placeholder="Enter Whatsapp Number"
-                    minlength="10"
-                    maxlength="10"
-                    class="form-control profile-input"
-                    (keyup)="checkNumberExistance(i, user.phone, user.uuid)"
-                    #phone="ngModel"
-                    required
-                  />
-                  <p *ngIf="userList[i].isPhoneExist" class="error text-muted">
-                    <i class="bi bi-exclamation-circle"></i> Phone number is
-                    already exist.
-                  </p>
-                  <div *ngIf="phone?.dirty || isFormInvalid">
-                    <p
-                      class="errortxt mt-2 mb-2"
-                      *ngIf="phone.errors?.required"
-                    >
-                      <i class="bi bi-exclamation-circle"></i> Phone numer is
-                      required.
-                    </p>
-                    <p
-                      class="errortxt mt-2 mb-2"
-                      *ngIf="phone.errors?.minlength"
-                    >
-                      <i class="bi bi-exclamation-circle"></i> Please enter a
-                      valid phone no.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="mb-3">
-                  <label class="mb-2"
-                    >Email <span class="text-optional">(Optional)</span></label
-                  >
-                  <input
-                    type="email"
-                    name="userEmail{{ i }}"
-                    [(ngModel)]="user.email"
-                    #email="ngModel"
-                    pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}"
-                    placeholder="Enter Email"
-                    class="form-control profile-input"
-                    (keyup)="checkEmailExistance(i, user.email, user.uuid)"
-                  />
-                  <p *ngIf="userList[i].isEmailExist" class="error text-muted">
-                    This email already exist.
-                  </p>
-                  <div *ngIf="email?.dirty || isFormInvalid">
-                    <p
-                      class="errortxt mt-2 mb-2"
-                      *ngIf="email.errors?.required"
-                    >
-                      <i class="bi bi-exclamation-circle"></i> Email Id is
-                      required.
-                    </p>
-                    <p class="errortxt mt-2 mb-2" *ngIf="email.errors?.email">
-                      <i class="bi bi-exclamation-circle"></i> Please enter a
-                      valid email.
-                    </p>
-                    <p class="errortxt mb-2" *ngIf="email.errors?.pattern">
-                      <i class="bi bi-exclamation-circle"></i> Please enter a
-                      valid email.
-                    </p>
-                  </div>
-                  <div
-                    class="leave-delet-btn pointer position-absolute"
-                    (click)="removeUser(i)"
-                    *ngIf="i > 0"
-                  >
-                    <i class="bi bi-trash"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="" style="margin-top: -10px">
-                <a
-                  (click)="addUser()"
-                  class="munal-add-more-btn"
-                  [class.disabled]="!allUsersValid()"
-                  ><i class="bi bi-plus" style="font-size: 20px"></i> Add new
-                  user</a
-                >
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button
-              class="btn btn-primary"
-              type="button"
-              (click)="submit()"
-              [disabled]="!allUsersValid()"
-            >
-              <span *ngIf="!isManualUploadSubmitLoader">Submit</span>
-              <div class="submit-loader" *ngIf="isManualUploadSubmitLoader">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-            </button>
-          </div> -->
-
           <div
             class="modal-body manualUpload p-0"
             style="
@@ -1473,13 +1319,7 @@
                         valid email.
                       </p>
                     </div>
-                    <!-- <div
-                    class="leave-delet-btn pointer position-absolute"
-                    (click)="removeUser(i)"
-                    *ngIf="i > 0"
-                  >
-                    <i class="bi bi-trash"></i>
-                  </div> -->
+                    
                   </div>
                 </div>
               </div>
@@ -1487,51 +1327,34 @@
             <div
               class="modal-footer border-top d-flex align-items-center justify-content-end p-3 bg-white gap-3"
             >
-              <!-- <button (click)="addUser()" class="munal-add-more-btn">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="30"
-                height="31"
-                viewBox="0 0 30 31"
-                fill="none"
-              >
-                <mask
-                  id="mask0_1549_495"
-                  style="mask-type: alpha"
-                  maskUnits="userSpaceOnUse"
-                  x="0"
-                  y="0"
-                  width="30"
-                  height="31"
-                >
-                  <rect
-                    y="0.730469"
-                    width="29.5385"
-                    height="29.5385"
-                    fill="#D9D9D9"
-                  />
-                </mask>
-                <g mask="url(#mask0_1549_495)">
-                  <path
-                    d="M13.5409 16.729H6.15625V14.2674H13.5409V6.88281H16.0024V14.2674H23.387V16.729H16.0024V24.1136H13.5409V16.729Z"
-                    fill="#6666F2"
-                  />
-                </g>
-              </svg>
-              Add new user
-            </button> -->
 
               <button
                 class="btn submit-add-more"
                 (click)="addUser()"
                 [disabled]="!currentUsersValid()"
+                *ngIf="!showUserList"
               >
-                Submit & Add more
+                Save & Add more
               </button>
+              <button
+                class="btn submit-add-more"
+                *ngIf="showUserList"
+                (click)="viewUserList()"
+              >
+                Add more
+              </button>
+              {{this.userList.length}}
+              <!-- <button
+                class="btn mannualSubmit"
+                (click)="submit()"
+                [disabled]="this.userList.length < 1"
+              >
+                Submit
+              </button> -->
               <button
                 class="btn mannualSubmit"
                 (click)="submit()"
-                [disabled]="this.userList.length < 2"
+                [disabled]="!allUsersValid() || this.userList.length < 1"
               >
                 Submit
               </button>
