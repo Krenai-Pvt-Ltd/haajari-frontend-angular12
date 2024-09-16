@@ -60,10 +60,6 @@ export class LeaveSettingComponent implements OnInit {
     this.getTeamNames();
     this.getUserByFiltersMethodCall(0);
     this.getFullLeaveSettingInformation();
-    this.getYearTypeListMethodCall();
-    this.getLeaveCycleListMethodCall();
-    this.getLeaveCategoryListMethodCall();
-    this.getUnusedLeaveActionList();
     // this.findUsersOfLeaveSetting(30);
 
     const leaveId = localStorage.getItem('tempId');
@@ -157,12 +153,12 @@ export class LeaveSettingComponent implements OnInit {
 
   addRow() {
     const newRow = this.fb.group({
-      leaveCategoryName: ['', Validators.required],
-      leaveRenewalCycle: ['', Validators.required],
+      leaveCategoryId: ['', Validators.required],
+      leaveCycleId: ['', Validators.required],
       leaveCount: ['', [Validators.required, Validators.min(0)]],
-      unusedLeaveAction: [''],
-      unusedLeaveActionCount: [''],
-      isSandwitchRuleApplicable: ['']
+      isSandwichLeave: [''],
+      unusedLeaveActionId: [''],
+      unusedLeaveActionCount: ['']
     });
 
     this.categories.push(newRow);
@@ -1473,17 +1469,25 @@ export class LeaveSettingComponent implements OnInit {
   leaveTemplateDefinitionForm !: FormGroup;
 
   leaveTemplateRequest : LeaveTemplateRequest = new LeaveTemplateRequest();
+  readonly LAPSE = Key.LAPSE;
+  readonly CARRY_FORWARD = Key.CARRY_FORWARD;
+  readonly ENCASH = Key.ENCASH;
 
+  preMethodCallToCreateLeaveTemplate(){
+    this.getYearTypeListMethodCall(); 
+    this.getLeaveCycleListMethodCall(); 
+    this.getLeaveCategoryListMethodCall(); 
+    this.getUnusedLeaveActionList();
+  }
   setFieldsToLeaveTemplateRequest(){
     this.leaveTemplateRequest.leaveTemplateCategoryRequestList = this.form.value.categories.map(
       (category: any) => ({
-        id: category.id,
-        leaveCategoryName: category.leaveName,
-        leaveRenewalCycle: category.leaveRenewalCycle,
+        id: category.leaveCategoryId,
+        leaveCycleId: category.leaveCycleId,
         leaveCount: category.leaveCount,
-        unusedLeaveAction: category.unusedLeaveAction,
-        unusedLeaveActionCount: category.unusedLeaveActionCount,
-        isSandwitchRuleApplicable: category.isSandwitchRuleApplicable
+        sandwichLeave: category.isSandwichLeave,
+        unusedLeaveActionId: category.unusedLeaveActionId,
+        unusedLeaveActionCount: category.unusedLeaveActionCount
       })
     );
 

@@ -22,8 +22,8 @@
               <p class="mb-0">Leave Settings Not Found</p>
             </div>
             <div class="add-filtter mt-2 mb-3" style="text-align: center">
-              <a class="add-filtter" data-bs-toggle="modal" data-bs-target="#requestleave" (click)="emptyAddLeaveSettingRule()">
-                <i class="bi bi-plus" style="font-size: 23px"></i> Add Leave Settings </a>
+              <a class="add-filtter" data-bs-toggle="modal" data-bs-target="#requestleave" (click)="emptyAddLeaveSettingRule(); preMethodCallToCreateLeaveTemplate()">
+                <i class="bi bi-plus" style="font-size: 23px"></i> Create another template </a>
             </div>
           </div>
         </div>
@@ -49,7 +49,7 @@
                 border: 1px solid #f5f5f5;
                 padding: 5px;
                 border-radius: 6px;
-              ">
+                ">
               <div class="row" style="
                   border-bottom: 1px solid #f5f5f5;
                   padding-top: 10px;
@@ -212,8 +212,8 @@
                 <h6 class="text-truncate mb-0">Leave</h6>
               </div>
               <div class="" *ngIf="!idFlag">
-                <a class="add-shift-time-btn" data-bs-toggle="modal" data-bs-target="#requestleave" (click)="emptyAddLeaveSettingRule()">
-                  <i class="bi bi-plus"></i> Add Leave setting </a>
+                <a class="add-shift-time-btn" data-bs-toggle="modal" data-bs-target="#requestleave" (click)="emptyAddLeaveSettingRule(); preMethodCallToCreateLeaveTemplate();">
+                  <i class="bi bi-plus"></i> Create another template </a>
               </div>
             </div>
             <div class="shift-time p-3 m-3" *ngFor="
@@ -340,7 +340,7 @@
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="requestLeave" (click)="emptyAddLeaveSettingRule()" *ngIf="leaveSettingResponse.templateName == ''"> Add Leave Settings </h5>
+        <h5 class="modal-title" id="requestLeave" (click)="emptyAddLeaveSettingRule(); preMethodCallToCreateLeaveTemplate();" *ngIf="leaveSettingResponse.templateName == ''"> Create another template </h5>
         <h5 class="modal-title" id="requestLeave" (click)="emptyAddLeaveSettingRule()" *ngIf="leaveSettingResponse.templateName != ''">
           {{ leaveSettingResponse.templateName }}
         </h5>
@@ -407,66 +407,62 @@
                       <div *ngFor="let category of categories.controls; let i = index" class="form-group row mb-4 pb-2 position-relative" [formGroupName]="i">
                         <div class="col-md-2">
                           <label class="mb-2">Leave Category Name</label>
-                          <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select Leave Category Name" formControlName="leaveCategoryName" required>
-                            <nz-option *ngFor="let leaveCategory of leaveCategoryList" [nzValue]="leaveCategory.name" [nzLabel]="leaveCategory.name"></nz-option>
+                          <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select Leave Category Name" formControlName="leaveCategoryId" required>
+                            <nz-option *ngFor="let leaveCategory of leaveCategoryList" [nzValue]="leaveCategory.id" [nzLabel]="leaveCategory.name"></nz-option>
                           </nz-select>
                           <!-- <input (keydown)="preventLeadingWhitespace($event)" id="leaveCategoryName" formControlName="leaveCategoryName" class="form-control" required [nzAutocomplete]="auto" placeholder="Select Leave Category Name" />
                           <nz-autocomplete #auto [nzDataSource]="filteredLeaveCategories"></nz-autocomplete> -->
                 
-                          <p class="errortxt mt-2 mb-0 text-danger" *ngIf="hasError('leaveName', i, 'required')">
+                          <p class="errortxt mt-2 mb-0 text-danger" *ngIf="hasError('leaveCategoryId', i, 'required')">
                             <span style="white-space: nowrap;"><i class="bi bi-exclamation-circle"></i> Please fill this field.</span>
                           </p>
                         </div>
                         <div class="col-md-2">
                           <label class="mb-2">Leave Cycle</label>
-                          <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select Leave Cycle" formControlName="leaveRenewalCycle" required>
-                            <nz-option *ngFor="let leaveCycle of leaveCycleList" [nzValue]="leaveCycle.name" [nzLabel]="leaveCycle.name"></nz-option>
+                          <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select Leave Cycle" formControlName="leaveCycleId" required>
+                            <nz-option *ngFor="let leaveCycle of leaveCycleList" [nzValue]="leaveCycle.id" [nzLabel]="leaveCycle.name"></nz-option>
                           </nz-select>
                 
-                          <p class="errortxt mt-2 mb-0 text-danger" *ngIf="hasError('leaveRenewalCycle', i, 'required')">
+                          <p class="errortxt mt-2 mb-0 text-danger" *ngIf="hasError('leaveCycleId', i, 'required')">
                             <span style="white-space: nowrap;"><i class="bi bi-exclamation-circle"></i> Please fill this field.</span>
                           </p>
                         </div>
                         <div class="col-md-2">
                           <label class="mb-2">Leave Count</label>
-                          <nz-input-number formControlName="leaveCount" nzPlaceHolder="Day Count" (ngModelChange)="generateDaysDropdown($event, i)" nzSize="large" [nzMin]="1" [nzMax]="10" [nzStep]="1" required></nz-input-number>
+                          <nz-input-number style="width: 100%;" formControlName="leaveCount" nzPlaceHolder="Day Count" (ngModelChange)="generateDaysDropdown($event, i)" nzSize="large" [nzMin]="1" [nzMax]="10" [nzStep]="1" required></nz-input-number>
                           <p class="errortxt mt-2 mb-0 text-danger" *ngIf="hasError('leaveCount', i, 'required') || hasError('leaveCount', i, 'min')">
                             <span style="white-space: nowrap;"><i class="bi bi-exclamation-circle"></i> Please enter a valid number.</span>
                           </p>
                         </div>
                         <div class="col-md-2">
-                          <label class="mb-2" for="unusedLeaveAction">Unused Leave Action</label>
+                          <label class="mb-2">Sandwich Rule</label>
+                          <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select Leave Cycle" formControlName="isSandwichLeave" required>
+                            <nz-option [nzValue]="true" [nzLabel]="booleanList[0]"></nz-option>
+                            <nz-option [nzValue]="false" [nzLabel]="booleanList[1]"></nz-option>
+                          </nz-select>
+                        </div>
+                        <div class="col-md-2">
+                          <label class="mb-2" for="unusedLeaveActionId">Unused Leave Action</label>
                           <div class="dropdown" style="width: 100%">
-                            <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Unused leave action" formControlName="unusedLeaveAction" required>
-                              <nz-option *ngFor="let unusedLeaveAction of unusedLeaveActionList" [nzValue]="unusedLeaveAction.name" [nzLabel]="unusedLeaveAction.name"></nz-option>
+                            <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Unused leave action" formControlName="unusedLeaveActionId" required>
+                              <nz-option *ngFor="let unusedLeaveAction of unusedLeaveActionList" [nzValue]="unusedLeaveAction.id" [nzLabel]="unusedLeaveAction.name"></nz-option>
                             </nz-select>
                           </div>
                         </div>
                         <div class="col-md-2">
                           <label class="mb-2">Unused Leave Count</label>
                           <!-- Use nz-select if the value of unusedLeaveAction is not 'Lapse' or empty -->
-                          <nz-select style="width: 100%;" *ngIf="categories.controls[i]!.get('unusedLeaveAction')?.value !== 'Lapse' && categories.controls[i]!.get('unusedLeaveAction')?.value !== ''" formControlName="unusedLeaveActionCount" nzPlaceHolder="Select Days" nzSize="large" required>
-                            <nz-option *ngFor="let day of daysCountArray[i]" [nzValue]="day">
-                              <ng-container *ngIf="day === category.get('leaveCount')?.value">All Unused</ng-container>
-                              <ng-container *ngIf="day !== category.get('leaveCount')?.value">{{ day }}</ng-container>
-                            </nz-option>
+                          <nz-select style="width: 100%;" *ngIf="categories.controls[i]!.get('unusedLeaveActionId')?.value != LAPSE" formControlName="unusedLeaveActionCount" nzPlaceHolder="Select Days" nzSize="large" required>
+                            <ng-container *ngFor="let day of daysCountArray[i]">
+                              <nz-option *ngIf="day > 0" [nzValue]="day" [nzLabel]="day">
+                                {{ day }}
+                              </nz-option>
+                            </ng-container>
                           </nz-select>
                         
-                          <!-- Use a readonly input field if unusedLeaveAction is 'Lapse' or empty -->
-                          <input nz-input *ngIf="categories.controls[i]!.get('unusedLeaveAction')?.value === 'Lapse' || categories.controls[i]!.get('unusedLeaveAction')?.value === ''"
-                                 formControlName="unusedLeaveActionCount" 
-                                 class="form-control" 
-                                 [readOnly]="true" 
-                                 placeholder="Select Days" />
+                          <nz-input-number style="width: 100%;" formControlName="unusedLeaveActionCount" *ngIf="categories.controls[i]!.get('unusedLeaveActionId')?.value == LAPSE" nzPlaceHolder="N/A" (ngModelChange)="generateDaysDropdown($event, i)" nzSize="large" [nzMin]="1" [nzMax]="10" [nzStep]="1" [nzDisabled]="true"></nz-input-number>
                         </div>
-                        
-                        <div class="col-md-2">
-                          <label class="mb-2">Sandwich Rule</label>
-                          <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select Leave Cycle" formControlName="isSandwichLeave" required>
-                            <nz-option [nzValue]="booleanList[0]" [nzLabel]="booleanList[0]"></nz-option>
-                            <nz-option [nzValue]="booleanList[1]" [nzLabel]="booleanList[1]"></nz-option>
-                          </nz-select>
-                        </div>
+                      
                         <div class="leave-delet-btn" (click)="deleteRow(i)" *ngIf="i > 0">
                           <i class="bi bi-trash"></i>
                         </div>
