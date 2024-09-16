@@ -1329,6 +1329,7 @@
                       class="form-control profile-input"
                       (keyup)="checkNumberExistance(i, user.phone, user.uuid)"
                       #phone="ngModel"
+                      (input)="restrictToDigits($event)"
                       required
                     />
                     <p
@@ -1430,7 +1431,12 @@
                 (click)="submit()"
                 [disabled]="!allUsersValid() || this.userList.length < 1"
               >
-                Submit
+              <span *ngIf="!isManualUploadSubmitLoader">Submit</span>
+              <div class="dot-opacity-white-loader" *ngIf="isManualUploadSubmitLoader">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
               </button>
             </div>
           </div>

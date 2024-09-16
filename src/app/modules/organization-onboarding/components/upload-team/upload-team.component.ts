@@ -342,6 +342,7 @@ export class UploadTeamComponent implements OnInit {
   createLoading: boolean = false;
   create() {
     debugger;
+    this.isManualUploadSubmitLoader = true;
     // this.userListReq.userList = this.userList.slice(0, -1);
     this.userListReq.userList = this.userList;
     this.createLoading = true;
@@ -364,6 +365,15 @@ export class UploadTeamComponent implements OnInit {
       }
     );
   }
+
+
+  restrictToDigits(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input) {
+      input.value = input.value.replace(/[^0-9]/g, '');
+    }
+  }
+  
 
   onboardUserList: any[] = new Array();
   loading: boolean = false;
