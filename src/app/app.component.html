@@ -85,7 +85,7 @@
 <router-outlet></router-outlet>
 <app-notifaction-tost *ngIf="isShowToast"></app-notifaction-tost>
 
-<div class="flotingBtn">
+<!-- <div class="flotingBtn">
   <div class="d-flex align-items-center justify-content-center gap-3">
     <span class="allPageNotifaction">
       <svg
@@ -154,7 +154,7 @@
       </svg>
     </span>
   </div>
-</div>
+</div> -->
 
 <!-- <div
   class="onboaredinStapBox p-3"
@@ -176,11 +176,9 @@
     ></div>
   </div>
 </div> -->
-
 <div
   class="showOnboardingStep"
-  [ngClass]="{ showOnboardingStepHover: showToDoSteps }"
-  *ngIf="isShowToDoSteps"
+  [ngClass]="{ showOnboardingStepHover: isShowToDoSteps }"
 >
   <div class="onboardingStapsHedding p-3 position-relative">
     <div
