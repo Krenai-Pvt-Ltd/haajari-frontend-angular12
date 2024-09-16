@@ -389,6 +389,68 @@ label {
 .ant-select-selection-placeholder {
   color: #a2a2a2;
 }
-.modal-content .modal-body p, .modal-content h4 {
+.modal-content .modal-body p,
+.modal-content h4 {
   color: #303030;
+}
+@media (max-width: 1024px) {
+  .persnol-details,
+  .personal-details {
+    margin: 40px 20px !important;
+  }
+}
+@media (max-width: 820px) {
+  .page-wrapper .page-content-tab {
+    width: calc(100% - 0px) !important;
+    margin-top: 0px !important;
+  }
+  .persnol-details,
+  .personal-details {
+    margin: 156px 0px 20px !important;
+    padding: 20px !important;
+  }
+}
+@media (max-width: 600px) {
+  .left-sidebar {
+    min-width: 100% !important;
+    max-width: 100% !important;
+    min-height: fit-content !important;
+    transition: 0.3s;
+    bottom: unset !important;
+    border-bottom: 1px solid #eeeeee;
+    box-shadow: 0px 0px 10px 0px #e8e8e8;
+  }
+  li.tracking-item:last-child {
+    margin-bottom: 0px !important;
+    padding-bottom: 0px !important;
+  }
+  .tracking-body {
+    border-top: 1px solid #eeeeee;
+    padding: 10px 15px !important;
+  }
+  .tracking-item:last-child .new-stap {
+    margin-bottom: 0 !important;
+  }
+  .tracking-data {
+    display: none;
+  }
+  .tracking-steps {
+    padding-left: 0rem !important;
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .add-mere-new {
+    height: 45px !important;
+  }
+  .btn {
+    font-size: 12px;
+    height: fit-content !important;
+    min-height: fit-content !important;
+  }
+  .persnol-details h5 {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
 }

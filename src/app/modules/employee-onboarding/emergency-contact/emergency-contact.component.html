@@ -255,7 +255,7 @@
 
 
  <!-- Confirmation Modal -->
- <button type="button" data-bs-toggle="modal" data-bs-target="#confirmationModal" #confirmationModalButton id="confirmationModalButton"></button>
+ <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#confirmationModal" #confirmationModalButton id="confirmationModalButton"></button>
  <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="false">
   <div class="modal-dialog modal-dialog-centered mx-auto mx-auto" style="max-width: 400px !important;">
       <div class="modal-content p-0" style="border-radius: 15px;">
@@ -295,9 +295,12 @@
 <!-- Preview Modal -->
 
 <!-- Button trigger modal -->
-<button type="button" id="previewModalCallButton" #previewModalCallButton  name="previewModalCallButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#previewModal">
-  Preview Form
-</button>
+<div class="container-fluid">
+  <button type="button" id="previewModalCallButton" #previewModalCallButton  name="previewModalCallButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#previewModal">
+    Preview Form
+  </button>
+</div>
+
 
 <!-- Modal -->
 <div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
