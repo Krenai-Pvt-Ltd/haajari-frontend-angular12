@@ -9,7 +9,8 @@
               <p class="mb-0">
                 To enhance your experience and ensure accurate shift scheduling
                 and communication within our platform, we kindly ask you to
-                review and update your shift information.
+                review and update your shift <br />
+                information.
               </p>
             </div>
 
@@ -129,7 +130,7 @@
               "
             >
               <div
-                class="add-shift-box d-flex align-items-center justify-content-between p-3 border-bottom"
+                class="add-shift-box d-flex align-items-center justify-content-between p-3 border-bottom pt-2 pb-2"
               >
                 <div class="">
                   <h6 class="text-truncate mb-0">Shifts</h6>
@@ -138,18 +139,18 @@
                   <a
                     class="add-shift-time-btn"
                     routerLink="/organization-onboarding/add-shift-time"
-                    ><i class="bi bi-plus"></i>
+                  >
+                    <i class="bi bi-plus-lg"></i>
                     Add Shift Time
                   </a>
                 </div>
               </div>
-
-              <div class="shift-time p-3 m-3">
-                <div
+              <div   *ngFor="
+              let organizationShiftTimingWithShiftTypeResponse of organizationShiftTimingWithShiftTypeResponseList;">
+                <div class="shift-time p-2 m-3" 
                   *ngFor="
-                    let organizationShiftTimingWithShiftTypeResponse of organizationShiftTimingWithShiftTypeResponseList;
-                    let i = index
-                  "
+                          let organizationShiftTimingResponse of organizationShiftTimingWithShiftTypeResponse.organizationShiftTimingResponseList; let i = index
+                        "
                 >
                   <div class="">
                     <div
@@ -177,22 +178,25 @@
                             style="font-weight: 400"
                           >
                             {{
-                              organizationShiftTimingWithShiftTypeResponse
-                                .shiftType.name
+                              organizationShiftTimingResponse.name
                             }}
                           </h5>
                         </div>
                       </div>
                       <div
                         class="employ-list d-flex align-items-center gap-3"
-                        *ngFor="
-                          let organizationShiftTimingResponse of organizationShiftTimingWithShiftTypeResponse.organizationShiftTimingResponseList
-                        "
+                        
                       >
                         <span
                           class="pointer"
                           data-bs-toggle="modal"
                           data-bs-target="#munal-upload"
+                          (click)="
+                              updateOrganizationShiftTiming(
+                                organizationShiftTimingResponse,
+                                'SHIFT_TIME'
+                              )
+                            "
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -225,7 +229,7 @@
                           data-bs-toggle="modal"
                           data-bs-target="#shiftTime"
                           (click)="
-                            updateOrganizationShiftTiming(
+                            updateOrganizationShiftTimingUser(
                               organizationShiftTimingResponse,
                               'SHIFT_TIME'
                             )
@@ -265,7 +269,14 @@
                             )
                           "
                         >
+                        <!-- <div class="dot-opacity-loader" *ngIf="
+                        deleteOrganizationShiftTimingLoaderStatus">
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                        </div> -->
                           <svg
+                           
                             xmlns="http://www.w3.org/2000/svg"
                             width="26"
                             height="27"
@@ -303,82 +314,8 @@
                       class="collapse multi-collapse"
                       [id]="'multiCollapseExample' + i"
                       [class.show]="activeIndex === i"
-                      *ngFor="
-                        let organizationShiftTimingResponse of organizationShiftTimingWithShiftTypeResponse.organizationShiftTimingResponseList
-                      "
                     >
-                      <!-- <div
-                        class="d-flex align-items-center justify-content-between mt-3"
-                      >
-                        <div class="">
-                          <p class="mb-0">
-                            <i
-                              class="bi bi-arrow-right"
-                              style="padding-right: 10px"
-                            ></i>
-                            {{ organizationShiftTimingResponse.name }}
-                          </p>
-                        </div>
-                        <div class="d-flex align-items-center gap-4">
-
-                          <a
-                            style="cursor: pointer"
-                            data-bs-toggle="modal"
-                            data-bs-target="#shiftTime"
-                            (click)="
-                              updateOrganizationShiftTiming(
-                                organizationShiftTimingResponse,
-                                'STAFF_SELECTION'
-                              )
-                            "
-                            ><i class="bi bi-people"></i
-                          ></a>
-
-                          <a
-                            style="cursor: pointer"
-                            data-bs-toggle="modal"
-                            data-bs-target="#shiftTime"
-                            (click)="
-                              updateOrganizationShiftTiming(
-                                organizationShiftTimingResponse,
-                                'SHIFT_TIME'
-                              )
-                            "
-                            ><i class="bi bi-pencil pointer"></i
-                          ></a>
-
-                          <a
-                            style="cursor: pointer"
-                            class="delete-rule"
-                            (click)="
-                              deleteOrganizationShiftTimingMethodCall(
-                                organizationShiftTimingResponse.id
-                              )
-                            "
-                            *ngIf="
-                              !deleteOrganizationShiftTimingTemplateLoader(
-                                organizationShiftTimingResponse.id
-                              )
-                            "
-                          >
-                            <i class="bi bi-trash pointer text-danger"></i>
-                          </a>
-                          <div
-                            class="dot-opacity-loader"
-                            *ngIf="
-                              deleteOrganizationShiftTimingTemplateLoader(
-                                organizationShiftTimingResponse.id
-                              )
-                            "
-                          >
-                            <span style="background-color: #6666f3"></span>
-                            <span style="background-color: #6666f3"></span>
-                            <span style="background-color: #6666f3"></span>
-                          </div>
-                        </div>
-                      </div> -->
-
-                      <div class="shift-in-out-box row mt-3 p-3 m-0">
+                      <div class="shift-in-out-box row mt-2 p-3 m-0">
                         <div class="col-md-4">
                           <div class="shift-in-out-time mb-3">
                             <p class="mb-0">
@@ -450,335 +387,6 @@
               </div>
             </div>
 
-            <div class="mt-3">
-              <div class="row">
-                <div class="col-md-12">
-                  <form
-                    novalidate=""
-                    role="search"
-                    (submit)="searchUsers()"
-                    class="searching"
-                  >
-                    <div class="form-group" style="position: relative">
-                      <input
-                        type="search"
-                        id="searchText"
-                        placeholder="Search by Name or Role "
-                        class="form-control profile-input me-2"
-                        (keyup)="searchUsers()"
-                        [(ngModel)]="searchText"
-                        [ngModelOptions]="{ standalone: true }"
-                        style="padding: 10px 30px"
-                      />
-                      <i
-                        class="bi bi-search search-icon"
-                        style="margin: auto; margin-left: 10px"
-                      ></i>
-                    </div>
-                  </form>
-                </div>
-
-                <div class="mt-3">
-                  <div
-                    class="d-flex align-items-center justify-content-between mb-3"
-                  >
-                    <h5 class="alert-heading font-14 mb-0">Employee List</h5>
-
-                    <div class="d-flex align-items-center gap-3">
-                      <p class="mb-0" style="font-weight: 400">
-                        <span class="text-primary"> 34 </span> selected of
-                        <span class="text-primary"> 34 </span>
-                      </p>
-                      <span class="error-spreter"></span>
-                      <button class="p-0 btn removeBtn pointer">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                        >
-                          <mask
-                            id="mask0_1624_4338"
-                            style="mask-type: alpha"
-                            maskUnits="userSpaceOnUse"
-                            x="0"
-                            y="0"
-                            width="24"
-                            height="24"
-                          >
-                            <rect
-                              y="0.25"
-                              width="23.5"
-                              height="23.5"
-                              fill="#D9D9D9"
-                            />
-                          </mask>
-                          <g mask="url(#mask0_1624_4338)">
-                            <path
-                              d="M6.26146 18.8568L4.89062 17.4859L10.374 12.0026L4.89062 6.51927L6.26146 5.14844L11.7448 10.6318L17.2281 5.14844L18.599 6.51927L13.1156 12.0026L18.599 17.4859L17.2281 18.8568L11.7448 13.3734L6.26146 18.8568Z"
-                              fill="#FD0808"
-                            />
-                          </g>
-                        </svg>
-                        Remove All
-                      </button>
-                    </div>
-                  </div>
-                  <table class="table table-striped">
-                    <thead class="thead-light">
-                      <tr>
-                        <th style="width: 5%" class="text-center">
-                          <input
-                            type="checkbox"
-                            class="form-check-input pointer"
-                          />
-                        </th>
-                        <th style="width: 5%" class="text-center">Count</th>
-                        <th style="width: 25%" class="text-left">Name</th>
-                        <th style="width: 25%" class="text-left">
-                          Email Address
-                        </th>
-                        <th style="width: 20%" class="text-left">
-                          Phone Number
-                        </th>
-
-                        <!-- <th style="width: 20%" class="text-center">Action</th> -->
-                      </tr>
-                    </thead>
-                    <tbody class="">
-                      <tr *ngFor="let item of [].constructor(10)">
-                        <td class="text-center">
-                          <input
-                            type="checkbox"
-                            class="form-check-input pointer"
-                          />
-                        </td>
-                        <td class="text-center">1</td>
-                        <td>Yogesh Kumar</td>
-                        <td>Yogesh@krenai.com</td>
-                        <td>91 9549901868</td>
-
-                        <!-- <td
-                          class="d-flex align-items-center justify-content-center gap-2"
-                        >
-                          <a
-                            ><i class="las la-trash-alt text-danger font-16"></i
-                          ></a>
-                        </td> -->
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-            <!-- <div
-              class=""
-              *ngIf="
-                !allShiftTimingsLoader &&
-                organizationShiftTimingWithShiftTypeResponseList.length > 0
-              "
-            >
-              <div>
-                <div
-                  class="d-flex align-items-center justify-content-end mt-3 p-0"
-                >
-                  <a
-                    type="button"
-                    class="btn add-shift-time"
-                    routerLink="/organization-onboarding/add-shift-time"
-                  >
-                    + Add more shift
-                  </a>
-                </div>
-                <div
-                  class="rule-main-box mt-4"
-                  *ngFor="
-                    let organizationShiftTimingWithShiftTypeResponse of organizationShiftTimingWithShiftTypeResponseList
-                  "
-                >
-                  <div
-                    class="attendance-boxx d-flex align-items-center justify-content-between"
-                  >
-                    <div class="late-rule">
-                      <h5>
-                        {{
-                          organizationShiftTimingWithShiftTypeResponse.shiftType
-                            .name
-                        }}
-                      </h5>
-                    </div>
-                  </div>
-
-                  <div
-                    class="row mt-2 p-2"
-                    *ngFor="
-                      let organizationShiftTimingResponse of organizationShiftTimingWithShiftTypeResponse.organizationShiftTimingResponseList
-                    "
-                  >
-                    <div
-                      class="col-md-12 d-flex justify-content-between align-items-center pb-2"
-                    >
-                      <p
-                        class="mb-0 mb-2"
-                        style="font-size: 12px; font-weight: 500"
-                      >
-                        {{ organizationShiftTimingResponse.name }}
-                      </p>
-                      <div
-                        class="late-btn d-flex align-items-center justify-content-end mb-2"
-                        style="gap: 15px; margin-right: 15px"
-                      >
-                        <a
-                          style="cursor: pointer"
-                          data-bs-toggle="modal"
-                          data-bs-target="#shiftTime"
-                          (click)="
-                            updateOrganizationShiftTiming(
-                              organizationShiftTimingResponse,
-                              'STAFF_SELECTION'
-                            )
-                          "
-                          ><i class="bi bi-person-circle"></i> User</a
-                        >
-                        <p
-                          style="color: #d7d7d7; margin-bottom: 0px"
-                          class="ng-star-inserted"
-                        >
-                          |
-                        </p>
-                        <a
-                          style="cursor: pointer"
-                          data-bs-toggle="modal"
-                          data-bs-target="#shiftTime"
-                          (click)="
-                            updateOrganizationShiftTiming(
-                              organizationShiftTimingResponse,
-                              'SHIFT_TIME'
-                            )
-                          "
-                          ><i class="bi bi-pencil-square"></i> Edit</a
-                        >
-                        <p
-                          style="color: #d7d7d7; margin-bottom: 0px"
-                          class="ng-star-inserted"
-                        >
-                          |
-                        </p>
-
-                        <a
-                          style="cursor: pointer"
-                          class="delete-rule"
-                          (click)="
-                            deleteOrganizationShiftTimingMethodCall(
-                              organizationShiftTimingResponse.id
-                            )
-                          "
-                          *ngIf="
-                            !deleteOrganizationShiftTimingTemplateLoader(
-                              organizationShiftTimingResponse.id
-                            )
-                          "
-                        >
-                          <i class="bi bi-trash"></i> Delete</a
-                        >
-                        <div
-                          class="dot-opacity-loader"
-                          *ngIf="
-                            deleteOrganizationShiftTimingTemplateLoader(
-                              organizationShiftTimingResponse.id
-                            )
-                          "
-                        >
-                          <span style="background-color: #6666f3"></span>
-                          <span style="background-color: #6666f3"></span>
-                          <span style="background-color: #6666f3"></span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-md-4">
-                      <div class="shift-deta">
-                        <p class="mb-0">
-                          In Time |
-                          <span style="color: #009688">{{
-                            organizationShiftTimingResponse.inTime
-                          }}</span>
-                        </p>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="shift-deta">
-                        <p class="mb-0">
-                          Out Time |
-                          <span style="color: #009688">{{
-                            organizationShiftTimingResponse.outTime
-                          }}</span>
-                        </p>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="shift-deta">
-                        <p class="mb-0">
-                          Working Hours |
-                          <span style="color: #009688">{{
-                            organizationShiftTimingResponse.workingHour
-                          }}</span>
-                        </p>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="shift-deta">
-                        <p class="mb-0">
-                          Break Time |
-                          <span style="color: #009688">{{
-                            organizationShiftTimingResponse.startLunch
-                          }}</span>
-                        </p>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="shift-deta">
-                        <p class="mb-0">
-                          Back Time |
-                          <span style="color: #009688">{{
-                            organizationShiftTimingResponse.endLunch
-                          }}</span>
-                        </p>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="shift-deta">
-                        <p class="mb-0">
-                          Total Break Hours |
-                          <span style="color: #009688">
-                            {{
-                              organizationShiftTimingResponse.lunchHour
-                            }}</span
-                          >
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div> -->
-
-            <!-- <div class="mt-5" *ngIf="!allShiftTimingsLoader && organizationShiftTimingWithShiftTypeResponseList.length==0">
-                                                <div class="errorboxmain">
-                                                    <div class="errorboxinner">
-                                                        <div class="">
-                                                            <button type="button"
-                                                                routerLink="/organization-onboarding/add-shift-time"
-                                                                class="btn btn-primary skip-btn" routerLink="/organization-onboarding/add-shift-time"> Add Shift Time
-                                                            </button>
-                                                            <p class="skip-btn-para">You can assign different shift's to your employees </p>
-                                                        </div>
-
-                                                        
-                                                    </div>
-                                                </div>
-                                        </div> -->
           </div>
 
           <div class="row">
@@ -788,12 +396,12 @@
                 class="next-btn-box d-flex align-items-center justify-content-between"
               >
                 <button
-                  class="btn btn-outline-secondary btn-round previous-btn"
+                  class="btn previousBtn previous-btn"
                   type="button"
                   (click)="backPage()"
                 >
-                  <span *ngIf="!isShiftTimeBackLoading"
-                    ><i
+                  <span *ngIf="!isShiftTimeBackLoading">
+                    <!-- <i
                       class="bi bi-arrow-left"
                       style="
                         padding-right: 3px;
@@ -801,7 +409,19 @@
                         position: relative;
                         top: -1px;
                       "
-                    ></i>
+                    ></i> -->
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="22"
+                      height="22"
+                      viewBox="0 0 22 22"
+                      fill="none"
+                    >
+                      <path
+                        d="M19.75 10.6714C19.75 10.8588 19.6914 11.011 19.5743 11.1281C19.4572 11.2452 19.305 11.3038 19.1177 11.3038H3.59011L7.73547 15.4491C7.87599 15.5896 7.94625 15.7536 7.94625 15.9409C7.94625 16.1283 7.87599 16.2805 7.73547 16.3976C7.59495 16.5147 7.43101 16.5733 7.24365 16.5733C7.05628 16.5733 6.89234 16.5264 6.75182 16.4328L1.48229 11.1632C1.38861 11.0227 1.34177 10.8588 1.34177 10.6714C1.34177 10.484 1.38861 10.3201 1.48229 10.1796L6.75182 4.91005C6.89234 4.81637 7.05628 4.76953 7.24365 4.76953C7.43101 4.76953 7.59495 4.82808 7.73547 4.94518C7.87599 5.06228 7.94625 5.21451 7.94625 5.40188C7.94625 5.58924 7.87599 5.75318 7.73547 5.8937L3.59011 10.0391H19.1177C19.305 10.0391 19.4572 10.0976 19.5743 10.2147C19.6914 10.3318 19.75 10.484 19.75 10.6714Z"
+                        fill="black"
+                      />
+                    </svg>
                     Previous</span
                   >
 
@@ -815,15 +435,42 @@
                   </div>
                 </button>
 
-                <button
-                  type="submit"
-                  class="btn btn-outline-primary btn-round"
-                  (click)="nextPage()"
-                >
+                <button type="submit" class="btn nextBtn" (click)="nextPage()">
                   <span *ngIf="!isShiftListNextLoading"
                     >Next
-                    <i class="bi bi-arrow-right" style="padding-left: 8px"></i
-                  ></span>
+                    <!-- <i class="bi bi-arrow-right" style="padding-left: 8px"></i> -->
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="25"
+                      height="25"
+                      viewBox="0 0 25 25"
+                      fill="none"
+                    >
+                      <mask
+                        id="mask0_2043_143"
+                        style="mask-type: alpha"
+                        maskUnits="userSpaceOnUse"
+                        x="0"
+                        y="0"
+                        width="25"
+                        height="25"
+                      >
+                        <rect
+                          x="0.921875"
+                          y="0.671875"
+                          width="24"
+                          height="24"
+                          fill="#D9D9D9"
+                        />
+                      </mask>
+                      <g mask="url(#mask0_2043_143)">
+                        <path
+                          d="M16.9359 13.5625H4V11.4375H16.9359L10.9859 5.4875L12.5 4L21 12.5L12.5 21L10.9859 19.5125L16.9359 13.5625Z"
+                          fill="#6666F2"
+                        />
+                      </g>
+                    </svg>
+                  </span>
 
                   <div
                     class="dot-opacity-loader"
@@ -1444,6 +1091,42 @@
               <div>
                 <div class="row">
                   <div class="">
+                    <div class="userModalCloseBtn">
+                      <button
+                          _ngcontent-vta-c393=""
+                          type="button"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                          class="close-btn employ-list-close-btn"
+                          #closeButtonEditStaffInfo
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                          >
+                            <mask
+                              id="mask0_1633_4750"
+                              style="mask-type: alpha"
+                              maskUnits="userSpaceOnUse"
+                              x="0"
+                              y="0"
+                              width="24"
+                              height="24"
+                            >
+                              <rect width="23.5" height="23.5" fill="#D9D9D9" />
+                            </mask>
+                            <g mask="url(#mask0_1633_4750)">
+                              <path
+                                d="M6.26146 18.6068L4.89062 17.2359L10.374 11.7526L4.89062 6.26927L6.26146 4.89844L11.7448 10.3818L17.2281 4.89844L18.599 6.26927L13.1156 11.7526L18.599 17.2359L17.2281 18.6068L11.7448 13.1234L6.26146 18.6068Z"
+                                fill="#070707"
+                              />
+                            </g>
+                          </svg>
+                        </button>
+                    </div>
                     <div class="col-md-12 mb-3">
                       <form
                         novalidate=""
@@ -1472,6 +1155,7 @@
 
                     <div
                       class="d-flex align-items-center justify-content-between mb-3"
+                      *ngIf="selectedStaffsUuids.length > 0"
                     >
                       <h5 class="alert-heading font-14 mb-0">
                         Selected Employee List
@@ -1482,11 +1166,18 @@
                           class="mb-0"
                           style="font-weight: 400; color: #000; font-size: 12px"
                         >
-                          <span class="text-primary"> 34 </span> selected of
-                          <span class="text-primary"> 34 </span>
+                          <span class="text-primary"> {{ selectedStaffsUuids.length }} </span> selected of
+                          <span class="text-primary"> {{ total }} </span>
                         </p>
+                        <p
+                        class="mb-0 selectAll"
+                        style="font-weight: 400; cursor: pointer;"
+                        (click)="selectAllUsers(true)"
+                      >
+                      Select all {{ total }} users
+                      </p>
                         <span class="error-spreter"></span>
-                        <button class="p-0 btn removeBtn pointer">
+                        <button class="p-0 btn removeBtn pointer" (click)="unselectAllUsers()">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="24"
@@ -1520,39 +1211,7 @@
                           Remove All
                         </button>
 
-                        <button
-                          _ngcontent-vta-c393=""
-                          type="button"
-                          data-bs-dismiss="modal"
-                          aria-label="Close"
-                          class="close-btn employ-list-close-btn"
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                          >
-                            <mask
-                              id="mask0_1633_4750"
-                              style="mask-type: alpha"
-                              maskUnits="userSpaceOnUse"
-                              x="0"
-                              y="0"
-                              width="24"
-                              height="24"
-                            >
-                              <rect width="23.5" height="23.5" fill="#D9D9D9" />
-                            </mask>
-                            <g mask="url(#mask0_1633_4750)">
-                              <path
-                                d="M6.26146 18.6068L4.89062 17.2359L10.374 11.7526L4.89062 6.26927L6.26146 4.89844L11.7448 10.3818L17.2281 4.89844L18.599 6.26927L13.1156 11.7526L18.599 17.2359L17.2281 18.6068L11.7448 13.1234L6.26146 18.6068Z"
-                                fill="#070707"
-                              />
-                            </g>
-                          </svg>
-                        </button>
+                        
                       </div>
                     </div>
                     <div class="employ-list-height">
@@ -1563,6 +1222,8 @@
                               <input
                                 type="checkbox"
                                 class="form-check-input pointer"
+                                [(ngModel)]="isAllSelected"
+                                (change)="selectAll(isAllSelected)"
                               />
                             </th>
                             <th style="width: 2%" class="text-center">Count</th>
@@ -1574,23 +1235,54 @@
                               Phone Number
                             </th>
 
-                            <th style="width: 5%" class="text-center"></th>
+                            <!-- <th style="width: 5%" class="text-center"></th> -->
                           </tr>
                         </thead>
+                        <tbody *ngIf="staffs.length == 0">
+                          <tr>
+                            <td colspan="5">
+                              <div
+                                class="errorboxmain bg-white d-flex align-items-center justify-content-center"
+                              >
+                                <div class="errorboxinner">
+                                  <div class="errorboxplaceholder mb-2">
+                                    <img
+                                      src="assets/images/addnewproduct.svg"
+                                      style="width: 100px"
+                                    />
+                                  </div>
+      
+                                  <h4>No Data Found</h4>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
                         <tbody class="">
-                          <tr *ngFor="let item of [].constructor(8)">
+                          <tr *ngFor="
+                          let staff of staffs
+                            | paginate
+                              : {
+                                  itemsPerPage: itemPerPage,
+                                  currentPage: pageNumber,
+                                  totalItems: total
+                                };
+                                let i = index
+                        ">
                             <td class="text-center">
                               <input
                                 type="checkbox"
                                 class="form-check-input pointer"
+                                [(ngModel)]="staff.selected"
+                                (change)="checkIndividualSelection()"
                               />
                             </td>
-                            <td class="text-center">1</td>
-                            <td>Yogesh Kumar</td>
-                            <td>Yogesh@krenai.com</td>
-                            <td>91 9549901868</td>
+                            <td class="text-center"> {{ getRowNumber(i) }}</td>
+                            <td>{{ staff.name }}</td>
+                            <td> {{ staff.email || 'N/A'}}</td>
+                            <td>{{ staff.phoneNumber ? staff.phoneNumber : "N/A" }}</td>
 
-                            <td
+                            <!-- <td
                               class="d-flex align-items-center justify-content-center gap-2"
                             >
                               <a class="pointer"
@@ -1598,16 +1290,68 @@
                                   class="las la-trash-alt text-danger font-16"
                                 ></i
                               ></a>
-                            </td>
+                            </td> -->
                           </tr>
                         </tbody>
                       </table>
-                    </div>
 
-                    <div
-                      class="employ-lost-footer border-top p-2 d-flex align-items-center justify-content-between"
+                      <div
+                      class="pagination pl-3 align-items-center justify-content-between"
+                      *ngIf="total > 5"
                     >
-                      <button class="btn text-primary add-new p-0">
+                      <p style="padding-left: 15px">
+                        Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
+                        {{ total }} teams
+                      </p>
+                      <div>
+                        <nav aria-label="Page navigation example">
+                          <ul class="pagination justify-content-end">
+                            <li class="page-item" [class.disabled]="pageNumber == 1">
+                              <a
+                                class="page-link"
+                                href="javascript:void(0);"
+                                aria-label="Previous"
+                                (click)="changePage('prev')"
+                              >
+                                <span aria-hidden="true">&laquo;</span>
+                              </a>
+                            </li>
+                            <li
+                              class="page-item"
+                              *ngFor="let page of getPages()"
+                              [class.active]="pageNumber == page"
+                            >
+                              <a
+                                class="page-link"
+                                href="javascript:void(0);"
+                                (click)="changePage(page)"
+                                >{{ page }}</a
+                              >
+                            </li>
+                            <li
+                              class="page-item"
+                              [class.disabled]="pageNumber == totalPages"
+                            >
+                              <a
+                                class="page-link"
+                                href="javascript:void(0);"
+                                aria-label="Next"
+                                (click)="changePage('next')"
+                              >
+                                <span aria-hidden="true">&raquo;</span>
+                              </a>
+                            </li>
+                          </ul>
+                        </nav>
+                      </div>
+                    </div>
+                    </div>
+                  
+                    <div
+                      class="employ-lost-footer border-top p-2 d-flex align-items-center justify-content-end"
+                    >
+                    <!-- {{isEditStaffLoader}} -->
+                      <!-- <button class="btn text-primary add-new p-0">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="30"
@@ -1640,8 +1384,16 @@
                           </g>
                         </svg>
                         Add new user
+                      </button> -->
+                      <button class="btn mannualSubmit" (click)="editShiftStaffInfo()">
+                        <span *ngIf="!isEditStaffLoader">Submit</span>
+                        <div class="dot-opacity-white-loader" *ngIf="isEditStaffLoader">
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                        </div>
+                        <!-- Submit -->
                       </button>
-                      <button class="btn mannualSubmit">Submit</button>
                     </div>
                   </div>
                 </div>
@@ -1731,9 +1483,7 @@
           <div class="col-md-4">
             <div
               class="side-img"
-              style="
-                background-image: url(../assets/images/shift-timing-img.svg);
-              "
+              style="background-image: url(../assets/images/shift-time.svg)"
             ></div>
           </div>
         </div>
@@ -1741,7 +1491,7 @@
           <form
             #shiftForm="ngForm"
             ngNativeValidate
-            (ngSubmit)="submitShiftTimingForm()"
+            
           >
             <div class="row">
               <div class="col-md-12">
@@ -1765,7 +1515,7 @@
                         width: 100%;
                       "
                     >
-                      {{ selectedShiftType?.name || "Select shift type" }}
+                      {{ selectedShiftType?.name || "Day Shift" }}
                       <i class="bi bi-chevron-down"></i>
                     </button>
                     <ul
@@ -1773,14 +1523,22 @@
                       aria-labelledby="dropdownMenuButton1"
                       style="width: 100%"
                     >
-                      <li *ngFor="let shiftType of shiftTypeList">
+                    <li>
+                      <a
+                        class="dropdown-item"
+                       
+                      >
+                        Day Shift
+                      </a>
+                    </li>
+                      <!-- <li *ngFor="let shiftType of shiftTypeList">
                         <a
                           class="dropdown-item"
                           (click)="selectShiftType(shiftType)"
                         >
                           {{ shiftType.name }}
                         </a>
-                      </li>
+                      </li> -->
                     </ul>
                   </div>
                 </div>
@@ -1797,6 +1555,7 @@
                     required
                     [(ngModel)]="organizationShiftTimingRequest.name"
                     name="shiftName"
+                    disabled
                   />
                 </div>
               </div>
@@ -1808,6 +1567,7 @@
                     [(ngModel)]="organizationShiftTimingRequest.inTime"
                     [nzUse12Hours]="true"
                     nzFormat="h:mm a"
+                    [nzDefaultOpenValue]="defaultInOpenTime"
                     (ngModelChange)="onTimeChange('inTime', $event)"
                     [ngModelOptions]="{ standalone: true }"
                   ></nz-time-picker>
@@ -1827,6 +1587,7 @@
                     [(ngModel)]="organizationShiftTimingRequest.outTime"
                     [nzUse12Hours]="true"
                     nzFormat="h:mm a"
+                    [nzDefaultOpenValue]="defaultOutOpenTime"
                     (ngModelChange)="onTimeChange('outTime', $event)"
                     [ngModelOptions]="{ standalone: true }"
                   ></nz-time-picker>
@@ -1856,12 +1617,13 @@
               <div class="col-md-4">
                 <div class="mb-3">
                   <label for="lunchBreakStartTime" class="pb-2"
-                    >Lunch Break Start Time</label
+                    >Lunch Start Time</label
                   >
                   <nz-time-picker
                     [(ngModel)]="organizationShiftTimingRequest.startLunch"
                     [nzUse12Hours]="true"
                     nzFormat="h:mm a"
+                    [nzDefaultOpenValue]="defaultStartLunchOpenTime"
                     (ngModelChange)="onTimeChange('startLunch', $event)"
                     [ngModelOptions]="{ standalone: true }"
                   ></nz-time-picker>
@@ -1879,12 +1641,13 @@
               <div class="col-md-4">
                 <div class="mb-3">
                   <label for="lunchBreakEndTime" class="pb-2"
-                    >Lunch Break End Time</label
+                    >Lunch End Time</label
                   >
                   <nz-time-picker
                     [(ngModel)]="organizationShiftTimingRequest.endLunch"
                     [nzUse12Hours]="true"
                     nzFormat="h:mm a"
+                    [nzDefaultOpenValue]="defaultEndLunchOpenTime"
                     (ngModelChange)="onTimeChange('endLunch', $event)"
                     [ngModelOptions]="{ standalone: true }"
                   ></nz-time-picker>
@@ -1898,8 +1661,8 @@
               </div>
               <div class="col-md-4">
                 <div class="mb-3">
-                  <label for="totalLunchBreakDuration" class="pb-2"
-                    >Total Lunch Break Duration</label
+                  <label for="totalLunchBreakDuration" class="pb-2">
+                    Lunch Total Time</label
                   >
                   <input
                     id="totalLunchBreakDuration"
@@ -1908,7 +1671,7 @@
                     readonly
                     [(ngModel)]="organizationShiftTimingRequest.lunchHour"
                     name="totalLunchBreakDuration"
-                    placeholder="Lunch break hours"
+                    placeholder="Lunch Total Time"
                   />
                 </div>
               </div>
@@ -1917,8 +1680,94 @@
         </div>
       </div>
       <div class="border-top d-flex align-items-center justify-content-end p-3">
-        <button class="btn mannualSubmit">Submit</button>
+        <button class="btn mannualSubmit" 
+        [disabled]="shiftForm.invalid || !organizationShiftTimingRequest.inTimeDate || !organizationShiftTimingRequest.outTimeDate || !organizationShiftTimingRequest.startLunchDate || !organizationShiftTimingRequest.endLunchDate"
+        (click)="submitShiftTimingForm()">Submit</button>
       </div>
     </div>
   </div>
 </div>
+
+<button
+  class="d-none"
+  data-bs-toggle="modal"
+  data-bs-target="#delete-modal"
+></button>
+<div
+  class="modal fade"
+  id="delete-modal"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-dialog-centered"
+    style="max-width: 500px"
+    role="document"
+  >
+    <div class="modal-content">
+      <div class="modal-body p-0 delete-text">
+        <div
+          class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4"
+        >
+          <div class="delete-close-btn">
+            <button
+              type="button"
+              class="close-btn"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+              #closeButtonDeleteUser
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="30"
+                height="30"
+                viewBox="0 0 30 30"
+                fill="none"
+              >
+                <mask
+                  id="mask0_2031_1331"
+                  style="mask-type: alpha"
+                  maskUnits="userSpaceOnUse"
+                  x="0"
+                  y="0"
+                  width="30"
+                  height="30"
+                >
+                  <rect width="30" height="30" fill="#D9D9D9" />
+                </mask>
+                <g mask="url(#mask0_2031_1331)">
+                  <path
+                    d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                    fill="black"
+                  />
+                </g>
+              </svg>
+            </button>
+          </div>
+          <img src="/assets/images/delete-img.svg" style="width: 70px" />
+        </div>
+        <div class="bg-white p-4 text-center">
+          <h5 class="alert-heading font-18 mb-2">
+            Are you sure you want to delete <br />
+            this Employee ?
+          </h5>
+          <p class="font-11">You will not be able to recover this</p>
+
+          <div class="mt-4 d-flex align-items-center flex-column">
+            <button class="btn continue-btn" >Continue</button>
+            <button
+              class="btn cancel-btn pt-2"
+              type="button"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

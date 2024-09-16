@@ -14,6 +14,10 @@ import { NgOtpInputModule } from 'ng-otp-input';
 import { NgxMaskModule } from 'ngx-mask';
 import { SignInWithSlackComponent } from './sign-in-with-slack-auth/sign-in-with-slack.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
+import { OnboardingWhatsAppSlackComponent } from './onboarding-whats-app-slack/onboarding-whats-app-slack.component';
+import { OnboardingWhatappComponent } from './onboarding-whatapp/onboarding-whatapp.component';
+import { OrganizationRegistrationFormComponent } from './organization-registration-form/organization-registration-form.component';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 
 @NgModule({
   declarations: [
@@ -25,6 +29,9 @@ import { SignUpComponent } from './sign-up/sign-up.component';
     OtpVerificationComponent,
     SignInWithSlackComponent,
     SignUpComponent,
+    OnboardingWhatsAppSlackComponent,
+    OnboardingWhatappComponent,
+    OrganizationRegistrationFormComponent,
   ],
   imports: [
     CommonModule,
@@ -33,6 +40,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
     RouterModule,
     ReactiveFormsModule,
     NgOtpInputModule,
+    NzSelectModule,
     NgxMaskModule.forRoot(),
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

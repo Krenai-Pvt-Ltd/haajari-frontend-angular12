@@ -44,9 +44,41 @@ export class AddShiftTimeComponent implements OnInit {
     this.defaultEndLunchOpenTime.setMinutes(0, 0, 0);
   }
 
-  backPage() {
-    this.checkShiftTimingExistsMethodCall();
+  // backPage() {
+  //   // if(this.isNoShiftCreated) {
+  //   //   this.isNoShiftCreated = false
+  //   // }else {
+  //   // this.checkShiftTimingExistsMethodCall();
+  //   // }
+
+  //   this.checkShiftTimingExistsMethodCall();
+  // }
+
+  async backPage() {
+    debugger
+    await this.checkShiftTimingExists();
+    if (this.shiftTimingExists) {
+      this.router.navigate(['/organization-onboarding/shift-time-list']);
+    } else {
+      // this._router.navigate(['/organization-onboarding/add-shift-time']);
+      this.router.navigate(['/organization-onboarding/add-shift-placeholder']);
+      //  routerLink="/organization-onboarding/add-shift-placeholder"
+    }
+
+    // this._onboardingService.refreshOnboarding();
   }
+
+  shiftTimingExists = false;
+  async checkShiftTimingExists(): Promise<void> {
+    debugger;
+    try {
+      const response: any = await this.dataService.shiftTimingExists().toPromise(); // Use toPromise() to convert observable to a promise
+      this.shiftTimingExists = response.object;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
 
   isAddShiftBackLoading: boolean = false;
   checkShiftTimingExistsMethodCall() {
@@ -135,6 +167,7 @@ export class AddShiftTimeComponent implements OnInit {
     debugger;
     this.loading = true;
     this.organizationShiftTimingRequest.userUuids = this.selectedStaffsUuids;
+    this.organizationShiftTimingRequest.shiftTypeId = 1;
     this.dataService
       .registerShiftTiming(this.organizationShiftTimingRequest)
       .subscribe(
@@ -339,6 +372,7 @@ export class AddShiftTimeComponent implements OnInit {
   SHIFT_TIME_STEP_ID = Key.SHIFT_TIME;
   isAddShiftLastLoading: boolean = false;
   staffActiveTabInShiftTimingMethod() {
+    debugger
     this.isAddShiftLastLoading = true;
     if (this.isValidForm()) {
       this.isAddShiftLastLoading = false;
@@ -361,7 +395,7 @@ export class AddShiftTimeComponent implements OnInit {
 
   onTimeChange(field: keyof OrganizationShiftTimingRequest, value: Date): void {
 
-    
+    debugger
     // Set the field value directly
     switch (field) {
         case 'inTime':
@@ -469,6 +503,7 @@ export class AddShiftTimeComponent implements OnInit {
 
 
   calculateTimes(): void {
+    debugger
     const { inTime, outTime, startLunch, endLunch } = this.organizationShiftTimingRequest;
 
     // Reset errors and calculated times
@@ -576,5 +611,10 @@ export class AddShiftTimeComponent implements OnInit {
         console.log('error');
       }
     );
+  }
+
+  isNoShiftCreated: boolean = false;
+  createNewShift() {
+    this.isNoShiftCreated = true;
   }
 }
