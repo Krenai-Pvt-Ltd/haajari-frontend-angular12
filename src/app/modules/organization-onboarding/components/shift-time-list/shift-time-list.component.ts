@@ -204,8 +204,20 @@ export class ShiftTimeListComponent implements OnInit {
     tab: string
   ) {
     // this.shiftTimingActiveTab.nativeElement.click();
-
+    debugger
+    console.log('inTime ' + this.organizationShiftTimingRequest.inTime);
     this.organizationShiftTimingRequest = organizationShiftTimingResponse;
+
+    const inLocalTime = new Date(organizationShiftTimingResponse.inTime.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+    const outLocalTime = new Date(organizationShiftTimingResponse.outTime.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+    const startLunchLocalTime = new Date(organizationShiftTimingResponse.startLunch.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+    const endLunchLocalTime = new Date(organizationShiftTimingResponse.endLunch.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+
+    this.organizationShiftTimingRequest.inTime = inLocalTime;
+    this.organizationShiftTimingRequest.outTime = outLocalTime;
+    this.organizationShiftTimingRequest.startLunch = startLunchLocalTime;
+    this.organizationShiftTimingRequest.endLunch = endLunchLocalTime;
+
     this.organizationShiftTimingRequest.shiftTypeId =
       organizationShiftTimingResponse.shiftType.id;
     this.selectedStaffsUuids = organizationShiftTimingResponse.userUuids;
@@ -251,6 +263,7 @@ export class ShiftTimeListComponent implements OnInit {
   registerOrganizationShiftTimingMethodCall() {
     debugger;
     this.organizationShiftTimingRequest.userUuids = this.selectedStaffsUuids;
+    this.organizationShiftTimingRequest.weekdayInfos = [];
 
     this.dataService
       .registerShiftTiming(this.organizationShiftTimingRequest)
@@ -594,6 +607,7 @@ export class ShiftTimeListComponent implements OnInit {
   }
 
   submitShiftTimingForm(): void {
+    debugger
     this.calculateTimes();
     if (this.isValidForm()) {
       // Proceed with form submission logic
