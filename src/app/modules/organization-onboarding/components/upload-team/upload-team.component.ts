@@ -83,6 +83,7 @@ export class UploadTeamComponent implements OnInit {
   }
   selectedMethod: string = 'mannual';
   selectMethod(method: string) {
+    debugger
     if (method == 'excel') {
       this.selectedMethod = '';
       this.getReport();
@@ -92,6 +93,7 @@ export class UploadTeamComponent implements OnInit {
       this.userList = [];
       this.user = new UserReq();
       this.userList.push(this.user);
+      this.showUserList = false;
     }
   }
 
@@ -106,6 +108,9 @@ export class UploadTeamComponent implements OnInit {
 
   removeUser(index: number) {
     this.userList.splice(index, 1);
+    if(this.userList.length == 1) {
+      this.showUserList = false;
+    }
   }
 
   fileName: any;
@@ -239,8 +244,52 @@ export class UploadTeamComponent implements OnInit {
     if (this.allUsersValid()) {
       this.create();
     } else {
+      this.isManualUploadSubmitLoader = false;
       return;
     }
+  }
+
+
+  // allUsersValid(): boolean {
+  //   if(!this.lastUsersValid()) {
+  //     return false;
+  //   }
+  //   return this.userList.length > 0 && this.userList.every((u) => this.isValidUser(u));
+  // }
+
+  allUsersValid(): boolean {
+    debugger
+
+    const lastUser = this.userList[this.userList.length - 1];
+    if (!lastUser.name && !lastUser.phone && this.userList.length == 1) { 
+      return false; 
+    }
+    if (!this.lastUsersValid()) {
+      return false;
+    }
+    return this.userList.length > 0 && this.userList.every((u, index) => {
+      if (index === this.userList.length - 1) {
+        return true; 
+      }
+      return this.isValidUser(u);
+    });
+  }
+  lastUsersValid(): boolean {
+    debugger
+    const lastUser = this.userList[this.userList.length - 1];
+    if (!lastUser.name && !lastUser.phone) { 
+      return true; 
+    }
+    return this.isValidUser(lastUser);
+  }
+  currentUsersValid(): boolean {
+    debugger;
+    // const previousEntriesValid = this.userList.slice(0, -1).every((u) => this.isValidUser(u));
+    const lastEntryValid = this.isValidUser(
+      this.userList[this.userList.length - 1]
+    );
+
+    return !this.isNumberExist && !this.isEmailExist && lastEntryValid;
   }
 
   isValidUser(u: any): boolean {
@@ -254,24 +303,21 @@ export class UploadTeamComponent implements OnInit {
   }
 
   // Use this method to determine if all users are valid
-  allUsersValid(): boolean {
-    debugger;
-    return (
-      !this.isNumberExist &&
-      !this.isEmailExist &&
-      this.userList.slice(0, -1).every((u) => this.isValidUser(u))
-    );
-  }
+  // allUsersValid(): boolean {
+  //   debugger;
+  //   return (
+  //     !this.isNumberExist &&
+  //     !this.isEmailExist &&
+  //     this.userList.slice(0, -1).every((u) => this.isValidUser(u))
+  //   );
+  // }
 
-  currentUsersValid(): boolean {
-    debugger;
-    // const previousEntriesValid = this.userList.slice(0, -1).every((u) => this.isValidUser(u));
-    const lastEntryValid = this.isValidUser(
-      this.userList[this.userList.length - 1]
-    );
 
-    return !this.isNumberExist && !this.isEmailExist && lastEntryValid;
-  }
+
+  // allUsersValid(): boolean {
+  //   return this.userList.length > 0 && this.userList.every((u) => this.isValidUser(u));
+  // }
+  
 
   resetManualUploadModal() {
     debugger;
@@ -296,7 +342,9 @@ export class UploadTeamComponent implements OnInit {
   createLoading: boolean = false;
   create() {
     debugger;
-    this.userListReq.userList = this.userList.slice(0, -1);
+    this.isManualUploadSubmitLoader = true;
+    // this.userListReq.userList = this.userList.slice(0, -1);
+    this.userListReq.userList = this.userList;
     this.createLoading = true;
     this._onboardingService.createOnboardUser(this.userListReq).subscribe(
       (response: any) => {
@@ -317,6 +365,15 @@ export class UploadTeamComponent implements OnInit {
       }
     );
   }
+
+
+  restrictToDigits(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input) {
+      input.value = input.value.replace(/[^0-9]/g, '');
+    }
+  }
+  
 
   onboardUserList: any[] = new Array();
   loading: boolean = false;
