@@ -83,6 +83,7 @@ export class UploadTeamComponent implements OnInit {
   }
   selectedMethod: string = 'mannual';
   selectMethod(method: string) {
+    debugger
     if (method == 'excel') {
       this.selectedMethod = '';
       this.getReport();
@@ -92,6 +93,7 @@ export class UploadTeamComponent implements OnInit {
       this.userList = [];
       this.user = new UserReq();
       this.userList.push(this.user);
+      this.showUserList = false;
     }
   }
 
@@ -247,6 +249,49 @@ export class UploadTeamComponent implements OnInit {
     }
   }
 
+
+  // allUsersValid(): boolean {
+  //   if(!this.lastUsersValid()) {
+  //     return false;
+  //   }
+  //   return this.userList.length > 0 && this.userList.every((u) => this.isValidUser(u));
+  // }
+
+  allUsersValid(): boolean {
+    debugger
+
+    const lastUser = this.userList[this.userList.length - 1];
+    if (!lastUser.name && !lastUser.phone && this.userList.length == 1) { 
+      return false; 
+    }
+    if (!this.lastUsersValid()) {
+      return false;
+    }
+    return this.userList.length > 0 && this.userList.every((u, index) => {
+      if (index === this.userList.length - 1) {
+        return true; 
+      }
+      return this.isValidUser(u);
+    });
+  }
+  lastUsersValid(): boolean {
+    debugger
+    const lastUser = this.userList[this.userList.length - 1];
+    if (!lastUser.name && !lastUser.phone) { 
+      return true; 
+    }
+    return this.isValidUser(lastUser);
+  }
+  currentUsersValid(): boolean {
+    debugger;
+    // const previousEntriesValid = this.userList.slice(0, -1).every((u) => this.isValidUser(u));
+    const lastEntryValid = this.isValidUser(
+      this.userList[this.userList.length - 1]
+    );
+
+    return !this.isNumberExist && !this.isEmailExist && lastEntryValid;
+  }
+
   isValidUser(u: any): boolean {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     return (
@@ -267,19 +312,11 @@ export class UploadTeamComponent implements OnInit {
   //   );
   // }
 
-  currentUsersValid(): boolean {
-    debugger;
-    // const previousEntriesValid = this.userList.slice(0, -1).every((u) => this.isValidUser(u));
-    const lastEntryValid = this.isValidUser(
-      this.userList[this.userList.length - 1]
-    );
 
-    return !this.isNumberExist && !this.isEmailExist && lastEntryValid;
-  }
 
-  allUsersValid(): boolean {
-    return this.userList.length > 0 && this.userList.every((u) => this.isValidUser(u));
-  }
+  // allUsersValid(): boolean {
+  //   return this.userList.length > 0 && this.userList.every((u) => this.isValidUser(u));
+  // }
   
 
   resetManualUploadModal() {
