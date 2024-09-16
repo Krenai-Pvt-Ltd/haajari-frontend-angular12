@@ -3791,4 +3791,12 @@ getHolidayForOrganization(date: string): Observable<any>{
 
     return this.httpClient.get<any>(`${this.baseUrl}/lop-reversal-application/response/get-by-user-uuid`, {params});
   }
+
+  registerBillingAndSubscriptionTemp(subscriptionPlanId : number): Observable<any>{
+    
+    const params = new HttpParams()
+    .set('subscription_plan_id', subscriptionPlanId);
+
+    return this.httpClient.post<any>(`${this.baseUrl}/organization-subs-plan/register-temp`, {}, {params});
+  }
 }

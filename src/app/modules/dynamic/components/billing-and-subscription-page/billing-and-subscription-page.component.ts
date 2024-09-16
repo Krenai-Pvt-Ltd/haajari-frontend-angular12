@@ -30,7 +30,7 @@ export class BillingAndSubscriptionPageComponent implements OnInit {
     private datePipe: DatePipe,
     private helperService: HelperService,
     private rbacService: RoleBasedAccessControlService,
-    private modalService: NgbModal, 
+    private modalService: NgbModal,
     private _subscriptionPlanService: SubscriptionPlanService,
     private _activeRouter: ActivatedRoute,
     private roleBasedAccessControlService: RoleBasedAccessControlService,
@@ -44,7 +44,6 @@ export class BillingAndSubscriptionPageComponent implements OnInit {
   ngOnInit(): void {
     this.orgUuid = this.roleBasedAccessControlService.getOrgRefUUID();
     this.getPurchasedStatus();
-   
     this.selecrPlanType('annual');
     this.getActiveUserCount();
     this.getAdminPersonalDetailMethodCall();
@@ -85,7 +84,6 @@ export class BillingAndSubscriptionPageComponent implements OnInit {
     debugger;
     this._subscriptionPlanService.getPurchasedStatus().subscribe((response) => {
       this.isPurchased = response;
-console.log(this.isPurchased)
       if (this.isPurchased == true) {
         this.routeToUserDashboard();
       } else {
@@ -178,8 +176,7 @@ this.getSubscriptionPlanDetails(plandId);
       image: this.hajiri_logo,
       handler: this.checkout.bind(this),
       modal: {
-        confirm_close: true,
-        // "ondismiss": this.markPaymentFailed.bind(this)
+        confirm_close: true
       },
       "prefill": {
         "name": this.name,
@@ -193,7 +190,7 @@ this.getSubscriptionPlanDetails(plandId);
         planType: this.sbscriptionPlanReq.planType,
         orderFrom: 'Hajiri',
         subscriptionPlanId: this.subscriptionPlan.id,
-        noOfEmployee: this.sbscriptionPlanReq.noOfEmployee,
+        noOfEmployee: this.sbscriptionPlanReq.noOfEmployee
       },
       "theme": {
         "color": "#6666f3"
@@ -318,6 +315,30 @@ this.getSubscriptionPlanDetails(plandId);
   
   }
 
-    
- 
+  basicPlanLoader : boolean = false;
+  premiumPlanLoader : boolean = false;
+
+  registerBillingAndSubscriptionTempMethodCall(subscriptionPlanId: number) {
+    if(subscriptionPlanId == 1){
+      this.basicPlanLoader = true;
+    } else if(subscriptionPlanId == 2){
+      this.premiumPlanLoader = true;
+    }
+    this.dataService.registerBillingAndSubscriptionTemp(subscriptionPlanId).subscribe(
+      (response) => {
+        this.helperService.showToast("Free trial started successfully.", Key.TOAST_STATUS_SUCCESS);
+        this.basicPlanLoader = false;
+        this.premiumPlanLoader = false;
+        setTimeout(() => {
+          this.routeToUserDashboard();
+        }, 1000);
+      },
+      (error) => {
+        this.basicPlanLoader = false;
+        this.premiumPlanLoader = false;
+        this.helperService.showToast("Error while purchasing the plan!", Key.TOAST_STATUS_ERROR);
+      }
+    );
+  }
+  
 }
