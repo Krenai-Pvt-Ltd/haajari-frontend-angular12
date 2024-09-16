@@ -1,108 +1,195 @@
 <div class="page-wrapper">
-    <div class="page-content-tab-onbording">
-      <div class="container-fluid">
-        <div class="persnol-details mb-5">
-          <div class="row">
-            <div class="">
-              <div clss="col-md-12">
-                <div class="card-header p-0 pb-3 bg-white">
-                  <h4 class="card-title-headding mb-1">
-                    Employee Shift Assignments
-                  </h4>
-                  <p class="mb-0 font-11">
-                    Ensure that every team member is assigned to the correct
-                    shift, optimizing your operational efficiency and maintaining
-                    clear working hours across your organization. Once this is
-                    complete, your employee scheduling will be fully configured.
-                  </p>
-                </div>
+  <div class="page-content-tab-onbording">
+    <div class="container-fluid">
+      <div class="persnol-details mb-5">
+        <div class="row">
+          <div class="">
+            <div clss="col-md-12">
+              <div class="card-header p-0 pb-3 bg-white">
+                <h4 class="card-title-headding mb-1">
+                  Employee Shift Assignments
+                </h4>
+                <p class="mb-0 font-11">
+                  Ensure that every team member is assigned to the correct
+                  shift, optimizing your operational efficiency and maintaining
+                  clear working hours across your organization. Once this is
+                  complete, your employee scheduling will be fully configured.
+                </p>
               </div>
-              <div class="col-md-12 mt-3 mb-3">
-                <div
-                  class="shift-creation-pending d-flex align-items-center justify-content-center"
+            </div>
+            <div class="col-md-12 mt-3 mb-3">
+              <div
+                class="shift-creation-pending d-flex align-items-center justify-content-center"
+              >
+                <img
+                  src="assets/images/shift-creation-img.svg"
+                  style="width: 90px"
+                />
+
+                <h5 class="alert-heading font-18 mb-1 mt-3">
+                  Shift Creation Pending
+                </h5>
+                <p class="mb-0 font-11">No shift has been created yet</p>
+                <button
+                  class="btn createShift mt-3"
+                  routerLink="/organization-onboarding/add-shift-time"
                 >
-                  <img
-                    src="assets/images/shift-creation-img.svg"
-                    style="width: 90px"
-                  />
-  
-                  <h5 class="alert-heading font-18 mb-1 mt-3">
-                    Shift Creation Pending
-                  </h5>
-                  <p class="mb-0 font-11">No shift has been created yet</p>
-                  <button class="btn createShift mt-3" routerLink="/organization-onboarding/add-shift-time">
-                    <i class="bi bi-plus-lg"></i> Create Shift
-                  </button>
-                </div>
+                  <i class="bi bi-plus-lg"></i> Create Shift
+                </button>
               </div>
-  
-              <div class="col-md-12 mb-3">
-                <div class="row">
-                  <div class="col-md-7" style="padding-right: 0px">
-                    <div class="shift-TimingsAssist p-3 pt-4 pb-4">
-                      <div class="d-flex align-items-start gap-2">
-                        <div class="">
+            </div>
+
+            <!-- <div class="col-md-12 mb-3">
+              <div class="row">
+                <div class="col-md-7" style="padding-right: 0px">
+                  <div class="shift-TimingsAssist p-3 pt-4 pb-4">
+                    <div class="d-flex align-items-start gap-2">
+                      <div class="">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="34"
+                          height="34"
+                          viewBox="0 0 34 34"
+                          fill="none"
+                        >
+                          <path
+                            d="M14.1641 4.25C7.12243 4.25 1.41406 9.95837 1.41406 17C1.41406 24.0416 7.12243 29.75 14.1641 29.75C21.2057 29.75 26.9141 24.0416 26.9141 17C26.9141 9.95837 21.2057 4.25 14.1641 4.25Z"
+                            fill="#D4D3FF"
+                          />
+                          <path
+                            d="M17 30.8125C24.616 30.8125 30.8125 24.616 30.8125 17C30.8125 9.384 24.616 3.1875 17 3.1875C9.384 3.1875 3.1875 9.384 3.1875 17C3.1875 24.616 9.384 30.8125 17 30.8125ZM17 5.3125C23.4444 5.3125 28.6875 10.5556 28.6875 17C28.6875 23.4444 23.4444 28.6875 17 28.6875C10.5556 28.6875 5.3125 23.4444 5.3125 17C5.3125 10.5556 10.5556 5.3125 17 5.3125Z"
+                            fill="#112D55"
+                          />
+                          <path
+                            d="M14.8299 23.4192C15.245 23.8342 15.9179 23.8342 16.333 23.4192L21.4982 18.254C22.1881 17.5641 22.1881 16.4407 21.4982 15.7493L16.333 10.5842C16.1262 10.3773 15.8542 10.2725 15.5822 10.2725C15.3102 10.2725 15.0382 10.3759 14.8314 10.5842C14.4163 10.9992 14.4163 11.6722 14.8314 12.0872L19.7472 17.0031L14.8314 21.9189C14.4163 22.334 14.4163 23.0069 14.8314 23.422L14.8299 23.4192Z"
+                            fill="#112D55"
+                          />
+                        </svg>
+                      </div>
+                      <div>
+                        <p class="font-14">Tutorial video</p>
+                        <h5 class="font-18 mb-2">
+                          How We Can Assist with Shift Timings
+                        </h5>
+                        <p class="font-12">
+                          Enhancing shift scheduling for improved efficiency and
+                          smooth operations, with a tutorial to guide you
+                          through the process.
+                        </p>
+                        <button class="p-0 btn learn-more mt-2">
+                          Learn More
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            width="34"
-                            height="34"
-                            viewBox="0 0 34 34"
+                            width="19"
+                            height="20"
+                            viewBox="0 0 19 20"
                             fill="none"
                           >
                             <path
-                              d="M14.1641 4.25C7.12243 4.25 1.41406 9.95837 1.41406 17C1.41406 24.0416 7.12243 29.75 14.1641 29.75C21.2057 29.75 26.9141 24.0416 26.9141 17C26.9141 9.95837 21.2057 4.25 14.1641 4.25Z"
-                              fill="#D4D3FF"
-                            />
-                            <path
-                              d="M17 30.8125C24.616 30.8125 30.8125 24.616 30.8125 17C30.8125 9.384 24.616 3.1875 17 3.1875C9.384 3.1875 3.1875 9.384 3.1875 17C3.1875 24.616 9.384 30.8125 17 30.8125ZM17 5.3125C23.4444 5.3125 28.6875 10.5556 28.6875 17C28.6875 23.4444 23.4444 28.6875 17 28.6875C10.5556 28.6875 5.3125 23.4444 5.3125 17C5.3125 10.5556 10.5556 5.3125 17 5.3125Z"
-                              fill="#112D55"
-                            />
-                            <path
-                              d="M14.8299 23.4192C15.245 23.8342 15.9179 23.8342 16.333 23.4192L21.4982 18.254C22.1881 17.5641 22.1881 16.4407 21.4982 15.7493L16.333 10.5842C16.1262 10.3773 15.8542 10.2725 15.5822 10.2725C15.3102 10.2725 15.0382 10.3759 14.8314 10.5842C14.4163 10.9992 14.4163 11.6722 14.8314 12.0872L19.7472 17.0031L14.8314 21.9189C14.4163 22.334 14.4163 23.0069 14.8314 23.422L14.8299 23.4192Z"
-                              fill="#112D55"
+                              d="M1.19531 9.99969C1.19531 10.1686 1.24809 10.3058 1.35365 10.4114C1.4592 10.5169 1.59642 10.5697 1.76531 10.5697H15.762L12.0253 14.3064C11.8986 14.433 11.8353 14.5808 11.8353 14.7497C11.8353 14.9186 11.8986 15.0558 12.0253 15.1614C12.152 15.2669 12.2998 15.3197 12.4686 15.3197C12.6375 15.3197 12.7853 15.2775 12.912 15.193L17.662 10.443C17.7464 10.3164 17.7886 10.1686 17.7886 9.99969C17.7886 9.8308 17.7464 9.68302 17.662 9.55635L12.912 4.80635C12.7853 4.72191 12.6375 4.67969 12.4686 4.67969C12.2998 4.67969 12.152 4.73247 12.0253 4.83802C11.8986 4.94358 11.8353 5.0808 11.8353 5.24969C11.8353 5.41858 11.8986 5.56635 12.0253 5.69302L15.762 9.42969H1.76531C1.59642 9.42969 1.4592 9.48247 1.35365 9.58802C1.24809 9.69358 1.19531 9.8308 1.19531 9.99969Z"
+                              fill="#6666F2"
                             />
                           </svg>
-                        </div>
-                        <div>
-                          <p class="font-14">Tutorial video</p>
-                          <h5 class="font-18 mb-2">
-                            How We Can Assist with Shift Timings
-                          </h5>
-                          <p class="font-12">
-                            Enhancing shift scheduling for improved efficiency and
-                            smooth operations, with a tutorial to guide you
-                            through the process.
-                          </p>
-                          <button class="p-0 btn learn-more mt-2">
-                            Learn More
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="19"
-                              height="20"
-                              viewBox="0 0 19 20"
-                              fill="none"
-                            >
-                              <path
-                                d="M1.19531 9.99969C1.19531 10.1686 1.24809 10.3058 1.35365 10.4114C1.4592 10.5169 1.59642 10.5697 1.76531 10.5697H15.762L12.0253 14.3064C11.8986 14.433 11.8353 14.5808 11.8353 14.7497C11.8353 14.9186 11.8986 15.0558 12.0253 15.1614C12.152 15.2669 12.2998 15.3197 12.4686 15.3197C12.6375 15.3197 12.7853 15.2775 12.912 15.193L17.662 10.443C17.7464 10.3164 17.7886 10.1686 17.7886 9.99969C17.7886 9.8308 17.7464 9.68302 17.662 9.55635L12.912 4.80635C12.7853 4.72191 12.6375 4.67969 12.4686 4.67969C12.2998 4.67969 12.152 4.73247 12.0253 4.83802C11.8986 4.94358 11.8353 5.0808 11.8353 5.24969C11.8353 5.41858 11.8986 5.56635 12.0253 5.69302L15.762 9.42969H1.76531C1.59642 9.42969 1.4592 9.48247 1.35365 9.58802C1.24809 9.69358 1.19531 9.8308 1.19531 9.99969Z"
-                                fill="#6666F2"
-                              />
-                            </svg>
-                          </button>
-                        </div>
+                        </button>
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-5" style="padding-left: 0px">
-                    <div
-                      class="AssistVideo p-3 pt-4 pb-4"
-                      style="
-                        background-image: url(../assets/images/shift-timing-img-2.svg);
-                      "
-                    >
-                      <div class="text-center position-relative">
+                </div>
+                <div class="col-md-5" style="padding-left: 0px">
+                  <div
+                    class="AssistVideo p-3 pt-4 pb-4"
+                    style="
+                      background-image: url(../assets/images/shift-timing-img-2.svg);
+                    "
+                  >
+                    <div class="text-center position-relative">
+                      <img
+                        src="assets/images/video-img.svg"
+                        style="width: 75%"
+                      />
+                      <span
+                        class="playBtn pointer"
+                        type="button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#video-modal"
+                      >
+                        <img src="assets/images/play-btn.svg" />
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+
+            <div class="row">
+              <div class="col-md-4"></div>
+              <div class="col-md-8">
+                <div
+                  class="shiftManagement"
+                  style="background-image: url(../assets/images/vector-3.svg)"
+                >
+                  <div
+                    class="d-flex align-items-center justify-content-between"
+                  >
+                    <div>
+                      <div class="p-3 previous-btn">
+                        <div class="d-flex align-items-start gap-2">
+                          <div class="tutorialIcon">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="34"
+                              height="34"
+                              viewBox="0 0 34 34"
+                              fill="none"
+                            >
+                              <path
+                                d="M14.1641 4.25C7.12243 4.25 1.41406 9.95837 1.41406 17C1.41406 24.0416 7.12243 29.75 14.1641 29.75C21.2057 29.75 26.9141 24.0416 26.9141 17C26.9141 9.95837 21.2057 4.25 14.1641 4.25Z"
+                                fill="#D4D3FF"
+                              />
+                              <path
+                                d="M17 30.8125C24.616 30.8125 30.8125 24.616 30.8125 17C30.8125 9.384 24.616 3.1875 17 3.1875C9.384 3.1875 3.1875 9.384 3.1875 17C3.1875 24.616 9.384 30.8125 17 30.8125ZM17 5.3125C23.4444 5.3125 28.6875 10.5556 28.6875 17C28.6875 23.4444 23.4444 28.6875 17 28.6875C10.5556 28.6875 5.3125 23.4444 5.3125 17C5.3125 10.5556 10.5556 5.3125 17 5.3125Z"
+                                fill="#112D55"
+                              />
+                              <path
+                                d="M14.8299 23.4192C15.245 23.8342 15.9179 23.8342 16.333 23.4192L21.4982 18.254C22.1881 17.5641 22.1881 16.4407 21.4982 15.7493L16.333 10.5842C16.1262 10.3773 15.8542 10.2725 15.5822 10.2725C15.3102 10.2725 15.0382 10.3759 14.8314 10.5842C14.4163 10.9992 14.4163 11.6722 14.8314 12.0872L19.7472 17.0031L14.8314 21.9189C14.4163 22.334 14.4163 23.0069 14.8314 23.422L14.8299 23.4192Z"
+                                fill="#112D55"
+                              />
+                            </svg>
+                          </div>
+                          <div>
+                            <p class="font-14">Tutorial video</p>
+                            <h5 class="font-18 mb-2">
+                              How We Can Assist with Shift Timings
+                            </h5>
+                            <p class="font-12 mb-0">
+                              Enhancing shift scheduling for improved efficiency
+                              and smooth operations,<br />
+                              with a tutorial to guide you through the process.
+                            </p>
+                            <button class="p-0 btn learn-more mt-2">
+                              Learn More
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="19"
+                                height="20"
+                                viewBox="0 0 19 20"
+                                fill="none"
+                              >
+                                <path
+                                  d="M1.19531 9.99969C1.19531 10.1686 1.24809 10.3058 1.35365 10.4114C1.4592 10.5169 1.59642 10.5697 1.76531 10.5697H15.762L12.0253 14.3064C11.8986 14.433 11.8353 14.5808 11.8353 14.7497C11.8353 14.9186 11.8986 15.0558 12.0253 15.1614C12.152 15.2669 12.2998 15.3197 12.4686 15.3197C12.6375 15.3197 12.7853 15.2775 12.912 15.193L17.662 10.443C17.7464 10.3164 17.7886 10.1686 17.7886 9.99969C17.7886 9.8308 17.7464 9.68302 17.662 9.55635L12.912 4.80635C12.7853 4.72191 12.6375 4.67969 12.4686 4.67969C12.2998 4.67969 12.152 4.73247 12.0253 4.83802C11.8986 4.94358 11.8353 5.0808 11.8353 5.24969C11.8353 5.41858 11.8986 5.56635 12.0253 5.69302L15.762 9.42969H1.76531C1.59642 9.42969 1.4592 9.48247 1.35365 9.58802C1.24809 9.69358 1.19531 9.8308 1.19531 9.99969Z"
+                                  fill="#6666F2"
+                                />
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="text-end" style="padding-right: 15px">
+                      <div class="position-relative">
                         <img
                           src="assets/images/video-img.svg"
-                          style="width: 75%"
+                          style="width: 70%"
                         />
                         <span
                           class="playBtn pointer"
@@ -116,66 +203,68 @@
                     </div>
                   </div>
                 </div>
-              </div>
-  
-              <div class="row">
-                <div class="col-md-4"></div>
-                <div class="col-md-8">
-                  <div
-                    class="next-btn-box d-flex align-items-center justify-content-between"
+                <div
+                  class="next-btn-box d-flex align-items-center justify-content-between"
+                >
+                  <button
+                    class="btn previousBtn previous-btn"
+                    type="button"
+                    (click)="backPage()"
                   >
-                    <button class="btn previousBtn previous-btn" type="button" (click)="backPage()">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="22"
+                      height="22"
+                      viewBox="0 0 22 22"
+                      fill="none"
+                    >
+                      <path
+                        d="M19.75 10.6714C19.75 10.8588 19.6914 11.011 19.5743 11.1281C19.4572 11.2452 19.305 11.3038 19.1177 11.3038H3.59011L7.73547 15.4491C7.87599 15.5896 7.94625 15.7536 7.94625 15.9409C7.94625 16.1283 7.87599 16.2805 7.73547 16.3976C7.59495 16.5147 7.43101 16.5733 7.24365 16.5733C7.05628 16.5733 6.89234 16.5264 6.75182 16.4328L1.48229 11.1632C1.38861 11.0227 1.34177 10.8588 1.34177 10.6714C1.34177 10.484 1.38861 10.3201 1.48229 10.1796L6.75182 4.91005C6.89234 4.81637 7.05628 4.76953 7.24365 4.76953C7.43101 4.76953 7.59495 4.82808 7.73547 4.94518C7.87599 5.06228 7.94625 5.21451 7.94625 5.40188C7.94625 5.58924 7.87599 5.75318 7.73547 5.8937L3.59011 10.0391H19.1177C19.305 10.0391 19.4572 10.0976 19.5743 10.2147C19.6914 10.3318 19.75 10.484 19.75 10.6714Z"
+                        fill="black"
+                      />
+                    </svg>
+                    Previous
+                  </button>
+                  <button
+                    type="submit"
+                    class="btn nextBtn"
+                    routerLink="/organization-onboarding/attendance-mode"
+                  >
+                    <span>
+                      Next
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="22"
-                        height="22"
-                        viewBox="0 0 22 22"
+                        width="25"
+                        height="25"
+                        viewBox="0 0 25 25"
                         fill="none"
                       >
-                        <path
-                          d="M19.75 10.6714C19.75 10.8588 19.6914 11.011 19.5743 11.1281C19.4572 11.2452 19.305 11.3038 19.1177 11.3038H3.59011L7.73547 15.4491C7.87599 15.5896 7.94625 15.7536 7.94625 15.9409C7.94625 16.1283 7.87599 16.2805 7.73547 16.3976C7.59495 16.5147 7.43101 16.5733 7.24365 16.5733C7.05628 16.5733 6.89234 16.5264 6.75182 16.4328L1.48229 11.1632C1.38861 11.0227 1.34177 10.8588 1.34177 10.6714C1.34177 10.484 1.38861 10.3201 1.48229 10.1796L6.75182 4.91005C6.89234 4.81637 7.05628 4.76953 7.24365 4.76953C7.43101 4.76953 7.59495 4.82808 7.73547 4.94518C7.87599 5.06228 7.94625 5.21451 7.94625 5.40188C7.94625 5.58924 7.87599 5.75318 7.73547 5.8937L3.59011 10.0391H19.1177C19.305 10.0391 19.4572 10.0976 19.5743 10.2147C19.6914 10.3318 19.75 10.484 19.75 10.6714Z"
-                          fill="black"
-                        />
-                      </svg>
-                      Previous
-                    </button>
-                    <button type="submit" class="btn nextBtn"  routerLink="/organization-onboarding/attendance-mode">
-                      <span>
-                        Next
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
+                        <mask
+                          id="mask0_2043_143"
+                          style="mask-type: alpha"
+                          maskUnits="userSpaceOnUse"
+                          x="0"
+                          y="0"
                           width="25"
                           height="25"
-                          viewBox="0 0 25 25"
-                          fill="none"
                         >
-                          <mask
-                            id="mask0_2043_143"
-                            style="mask-type: alpha"
-                            maskUnits="userSpaceOnUse"
-                            x="0"
-                            y="0"
-                            width="25"
-                            height="25"
-                          >
-                            <rect
-                              x="0.921875"
-                              y="0.671875"
-                              width="24"
-                              height="24"
-                              fill="#D9D9D9"
-                            />
-                          </mask>
-                          <g mask="url(#mask0_2043_143)">
-                            <path
-                              d="M16.9359 13.5625H4V11.4375H16.9359L10.9859 5.4875L12.5 4L21 12.5L12.5 21L10.9859 19.5125L16.9359 13.5625Z"
-                              fill="#6666F2"
-                            />
-                          </g>
-                        </svg>
-                      </span>
-                    </button>
-                  </div>
+                          <rect
+                            x="0.921875"
+                            y="0.671875"
+                            width="24"
+                            height="24"
+                            fill="#D9D9D9"
+                          />
+                        </mask>
+                        <g mask="url(#mask0_2043_143)">
+                          <path
+                            d="M16.9359 13.5625H4V11.4375H16.9359L10.9859 5.4875L12.5 4L21 12.5L12.5 21L10.9859 19.5125L16.9359 13.5625Z"
+                            fill="#6666F2"
+                          />
+                        </g>
+                      </svg>
+                    </span>
+                  </button>
                 </div>
               </div>
             </div>
@@ -184,51 +273,51 @@
       </div>
     </div>
   </div>
-  
-  <!--video Modal -->
+</div>
+
+<!--video Modal -->
+<div
+  class="modal fade"
+  id="video-modal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  data-bs-backdrop="static"
+  aria-hidden="true"
+>
   <div
-    class="modal fade"
-    id="video-modal"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="exampleModalLabel"
-    data-bs-backdrop="static"
-    aria-hidden="true"
+    class="modal-dialog modal-dialog-centered"
+    role="document"
+    style="max-width: 800px"
   >
-    <div
-      class="modal-dialog modal-dialog-centered"
-      role="document"
-      style="max-width: 800px"
-    >
-      <div class="modal-content">
-        <div
-          class="modal-body p-0"
-          id="youtube-video"
-          style="border: 2px solid #fff; height: 504px"
-        >
-          <div class="closebtn">
-            <button
-              type="button"
-              id="close_one"
-              onclick="stop()"
-              class="close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-              style="top: -15px; right: -15px"
-            >
-              <i class="bi bi-x"></i>
-            </button>
-          </div>
-          <iframe
-            width="100%"
-            id="videoId"
-            height="500"
-            src="https://www.youtube.com/embed/m1vxzFLCwCI?si=PrImOedKUTzaaTkY"
-            title="YouTube video player"
-          ></iframe>
+    <div class="modal-content">
+      <div
+        class="modal-body p-0"
+        id="youtube-video"
+        style="border: 2px solid #fff; height: 504px"
+      >
+        <div class="closebtn">
+          <button
+            type="button"
+            id="close_one"
+            onclick="stop()"
+            class="close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+            style="top: -15px; right: -15px"
+          >
+            <i class="bi bi-x"></i>
+          </button>
         </div>
+        <iframe
+          width="100%"
+          id="videoId"
+          height="500"
+          src="https://www.youtube.com/embed/m1vxzFLCwCI?si=PrImOedKUTzaaTkY"
+          title="YouTube video player"
+        ></iframe>
       </div>
     </div>
   </div>
-  <!--video Modal -->
-  
+</div>
+<!--video Modal -->

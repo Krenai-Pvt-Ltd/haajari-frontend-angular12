@@ -99,20 +99,12 @@
   cursor: pointer;
   height: 83vh;
   z-index: 999;
-  /* transform: translateY(100%); */
+  transition: 0.3s linear;
+  transform: translateY(150%);
 }
 
 .showOnboardingStepHover {
-  animation: slide-down 1s ease-in-out;
-}
-
-@keyframes slide-down {
-  to {
-    transform: translateY(0); /* End at the normal position */
-  }
-  from {
-    transform: translateY(100%); /* Start from above the normal position */
-  }
+  transform: translateY(0%);
 }
 
 .onboardingStapsHedding {

@@ -43,11 +43,17 @@
                       id="organizationName"
                       name="organizationName"
                       [(ngModel)]="formData.organizationName"
-                      [ngModelOptions]="{standalone: true}"
+                      [ngModelOptions]="{ standalone: true }"
                       #organizationName="ngModel"
                       required
                     />
-                    <small *ngIf="organizationName.invalid && (organizationName.dirty || organizationName.touched)" class="text-danger">
+                    <small
+                      *ngIf="
+                        organizationName.invalid &&
+                        (organizationName.dirty || organizationName.touched)
+                      "
+                      class="text-danger"
+                    >
                       Organisation name is required.
                     </small>
                   </div>
@@ -64,11 +70,17 @@
                       id="employeeCount"
                       name="employeeCount"
                       [(ngModel)]="formData.employeeCount"
-                      [ngModelOptions]="{standalone: true}"
+                      [ngModelOptions]="{ standalone: true }"
                       #employeeCount="ngModel"
                       required
                     />
-                    <small *ngIf="employeeCount.invalid && (employeeCount.dirty || employeeCount.touched)" class="text-danger">
+                    <small
+                      *ngIf="
+                        employeeCount.invalid &&
+                        (employeeCount.dirty || employeeCount.touched)
+                      "
+                      class="text-danger"
+                    >
                       Employee count is required.
                     </small>
                   </div>
@@ -90,17 +102,23 @@
                       required
                     /> -->
                     <nz-select
-                    class="form-control"
-                    id="industryType"
-                    name="industryType"
-                    [(ngModel)]="formData.industryType"
-                    [ngModelOptions]="{standalone: true}"
-                    #industryType="ngModel"
-                    required
-                    [nzOptions]="industryOptions"
-                  >
-                  </nz-select>
-                    <small *ngIf="industryType.invalid && (industryType.dirty || industryType.touched)" class="text-danger">
+                      class="form-control"
+                      id="industryType"
+                      name="industryType"
+                      [(ngModel)]="formData.industryType"
+                      [ngModelOptions]="{ standalone: true }"
+                      #industryType="ngModel"
+                      required
+                      [nzOptions]="industryOptions"
+                    >
+                    </nz-select>
+                    <small
+                      *ngIf="
+                        industryType.invalid &&
+                        (industryType.dirty || industryType.touched)
+                      "
+                      class="text-danger"
+                    >
                       Industry type is required.
                     </small>
                   </div>
@@ -117,12 +135,18 @@
                       id="organizationEmail"
                       name="organizationEmail"
                       [(ngModel)]="formData.organizationEmail"
-                      [ngModelOptions]="{standalone: true}"
+                      [ngModelOptions]="{ standalone: true }"
                       #organizationEmail="ngModel"
                       required
                       email
                     />
-                    <small *ngIf="organizationEmail.invalid && (organizationEmail.dirty || organizationEmail.touched)" class="text-danger">
+                    <small
+                      *ngIf="
+                        organizationEmail.invalid &&
+                        (organizationEmail.dirty || organizationEmail.touched)
+                      "
+                      class="text-danger"
+                    >
                       A valid email is required.
                     </small>
                   </div>
@@ -139,11 +163,17 @@
                       id="firstName"
                       name="firstName"
                       [(ngModel)]="formData.firstName"
-                      [ngModelOptions]="{standalone: true}"
+                      [ngModelOptions]="{ standalone: true }"
                       #firstName="ngModel"
                       required
                     />
-                    <small *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="text-danger">
+                    <small
+                      *ngIf="
+                        firstName.invalid &&
+                        (firstName.dirty || firstName.touched)
+                      "
+                      class="text-danger"
+                    >
                       First name is required.
                     </small>
                   </div>
@@ -160,11 +190,16 @@
                       id="lastName"
                       name="lastName"
                       [(ngModel)]="formData.lastName"
-                      [ngModelOptions]="{standalone: true}"
+                      [ngModelOptions]="{ standalone: true }"
                       #lastName="ngModel"
                       required
                     />
-                    <small *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" class="text-danger">
+                    <small
+                      *ngIf="
+                        lastName.invalid && (lastName.dirty || lastName.touched)
+                      "
+                      class="text-danger"
+                    >
                       Last name is required.
                     </small>
                   </div>
@@ -176,49 +211,80 @@
                       <span class="text-optional">*</span>
                     </label>
                     <input
-                    type="text"
-                    class="form-control"
-                    id="phoneNumber"
-                    name="phoneNumber"
-                    [(ngModel)]="formData.phoneNumber"
-                    [ngModelOptions]="{standalone: true}"
-                    #phoneNumber="ngModel"
-                    required
-                    pattern="^[0-9]{10}$"
-                    maxlength="10"
-                    (input)="restrictToDigits($event)"
-                  />
-                  
-                    <div *ngIf="phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched)" class="text-danger">
-                      <small *ngIf="phoneNumber.errors?.['required']">Phone number is required.</small>
-                      <small *ngIf="phoneNumber.errors?.['pattern']">Please enter a 10-digit phone number.</small>
+                      type="text"
+                      class="form-control"
+                      id="phoneNumber"
+                      name="phoneNumber"
+                      [(ngModel)]="formData.phoneNumber"
+                      [ngModelOptions]="{ standalone: true }"
+                      #phoneNumber="ngModel"
+                      required
+                      pattern="^[0-9]{10}$"
+                      maxlength="10"
+                      (input)="restrictToDigits($event)"
+                    />
+
+                    <div
+                      *ngIf="
+                        phoneNumber.invalid &&
+                        (phoneNumber.dirty || phoneNumber.touched)
+                      "
+                      class="text-danger"
+                    >
+                      <small *ngIf="phoneNumber.errors?.['required']"
+                        >Phone number is required.</small
+                      >
+                      <small *ngIf="phoneNumber.errors?.['pattern']"
+                        >Please enter a 10-digit phone number.</small
+                      >
                     </div>
                   </div>
-                </div>                
+                </div>
                 <div class="col-md-12 mb-3">
-                  <div class="form-check">
+                  <div class="form-check" style="padding-left: 0px !important">
                     <input
                       type="checkbox"
                       id="termsAndConditions"
                       [(ngModel)]="formData.termsAndConditions"
-                      [ngModelOptions]="{standalone: true}"
+                      [ngModelOptions]="{ standalone: true }"
                       #termsAndConditions="ngModel"
                       (change)="onCheckboxChange($event)"
                       required
+                      style="
+                        height: auto !important;
+                        position: relative;
+                        top: 2px;
+                      "
                     />
                     <label class="form-check-label" for="termsAndConditions">
                       I have read and agree to the
-                      <a href="https://hajiri.in/terms-condition.html" class="login-link" target="_blank">terms and conditions</a> and
-                      <a href="https://hajiri.in/privacy-policy.html" class="login-link" target="_blank"> privacy policy.</a>
+                      <a
+                        href="https://hajiri.in/terms-condition.html"
+                        class="login-link"
+                        target="_blank"
+                        >terms and conditions</a
+                      >
+                      and
+                      <a
+                        href="https://hajiri.in/privacy-policy.html"
+                        class="login-link"
+                        target="_blank"
+                      >
+                        privacy policy.</a
+                      >
                     </label>
-                   
                   </div>
-                  <small *ngIf="termsAndConditions.invalid && (termsAndConditions.dirty || termsAndConditions.touched)" class="text-danger">
+                  <small
+                    *ngIf="
+                      termsAndConditions.invalid &&
+                      (termsAndConditions.dirty || termsAndConditions.touched)
+                    "
+                    class="text-danger"
+                  >
                     You must agree to the terms and conditions.
                   </small>
                 </div>
-                
-                
+
                 <div class="d-flex align-items-center justify-content-between">
                   <button
                     type="submit"
@@ -229,7 +295,12 @@
                   </button>
                   <span class="alredy-login">
                     Already have an account?
-                    <a href="https://app.hajiri.in/auth/login" class="login-link" target="_blank">Log in</a>
+                    <a
+                      href="https://app.hajiri.in/auth/login"
+                      class="login-link"
+                      target="_blank"
+                      >Log in</a
+                    >
                   </span>
                 </div>
               </div>
