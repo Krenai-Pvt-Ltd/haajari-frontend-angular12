@@ -418,17 +418,27 @@ a.select-file {
 @media (max-width: 600px) {
   .modal-body p {
     margin-top: 0.6rem;
+    font-size: 0.9rem;
   }
   .onboarding-deta table.mb-0 {
     position: sticky;
     left: 0;
     top: 0;
-}
-.onboarding-deta {
+  }
+  .onboarding-deta {
     overflow-x: auto;
     white-space: nowrap;
-}
-.onboarding-deta::-webkit-scrollbar{
+  }
+  .onboarding-deta::-webkit-scrollbar {
     display: none;
-}
+  }
+  /* .maxHeight {
+    max-height: 70vh;
+    padding-bottom: 1rem;
+  } */
+  .modal-dialog-scrollable .modal-body {
+    overflow-y: auto;
+    max-height: 70vh;
+    padding-bottom: 1rem;
+  }
 }
