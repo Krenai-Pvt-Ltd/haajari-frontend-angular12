@@ -3050,7 +3050,8 @@ disabledDate = (current: Date): boolean => {
 attendanceRequestLog: any[] = [];
   getAttendanceRequestLogData(): void {
     this.dataService.getAttendanceRequestLog(this.userId).subscribe(response => {
-      this.attendanceRequestLog = response.listOfObject;
+      debugger
+      this.attendanceRequestLog = response.object;
       console.log('logs retrieved successfully', response.listOfObject);
     }, (error) => {
       console.log(error);
