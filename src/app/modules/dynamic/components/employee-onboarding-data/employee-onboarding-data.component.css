@@ -222,6 +222,7 @@
   padding: 12px 14px !important;
   font-size: 12px;
   white-space: nowrap;
+  border: 1px solid #f1f1f1;
 }
 .weekly-pro-email,
 .weekly-pro-name {
@@ -364,18 +365,19 @@ button.btn.close-btn {
 
 .empFilerDropfilter .new-deopdown {
   display: block;
-  width: 140px;
-  padding: 0.4rem 1rem;
+  width: 120px;
+  padding: 0.4rem 0.5rem;
   font-size: 12px !important;
   text-align: left;
   background-color: #fff;
   border: none;
   border-radius: 10px 0px 0px 10px;
   position: relative;
-  border: 1px solid #f2f2f2;
+  border: 0px solid #f2f2f2 !important;
   color: #1f1f1f !important;
   font-weight: 400;
   letter-spacing: 0.1px;
+  box-shadow: unset;
 }
 
 .empFilerDropfilter .new-deopdown i {
@@ -452,7 +454,7 @@ span.members-name {
 }
 
 .dropdown-item:hover {
-  background-color: #e9ecef;
+  background-color: #f1f1fd;
 }
 
 .material-switch > input[type="checkbox"] {
@@ -747,6 +749,7 @@ Remove
 /* .alert-light:hover .alert-heading {
   color: orange !important;
 } */
+
 .stickyColTh,
 .stickyColTd {
   min-width: 200px;
@@ -767,6 +770,10 @@ Remove
   top: 0;
   z-index: 10;
 }
+.stickyColTdend,
+.stickyColThend {
+  min-width: fit-content !important;
+}
 .table tbody tr {
   transition: 0.2s linear;
 }
@@ -780,10 +787,47 @@ Remove
 .onboarding-date input[type="text"] {
   width: 400px;
   border-radius: 0px 10px 10px 0px;
-  border: 1px solid #f2f2f2;
+  border: 0px solid #f2f2f2;
   height: 42px !important;
   border-left: 0;
   font-weight: 400 !important;
   font-size: 12px !important;
   color: #1f1f1f !important;
+}
+.empID {
+  font-size: 12px;
+  color: #333;
+  width: fit-content;
+  margin: 0 auto;
+  text-align: center;
+  cursor: pointer;
+}
+.empID span {
+  display: inline-block;
+  margin-left: 5px;
+}
+.onboard-add {
+  border: 1px solid #f1f1f1;
+  border-radius: 4px;
+}
+
+.stickyColTdend:has(.btnAction.show) {
+  z-index: 12;
+}
+.actionMenuList {
+  border: 1px solid #f1f1f1;
+  border-radius: 12px;
+  box-shadow: 0px 3px 12px -3px #1111111f;
+  overflow: hidden;
+  min-width: 12rem;
+  padding: 7px !important;
+  background-color: #fff;
+}
+.actionMenuList .dropdown-item {
+  font-size: 15px;
+  color: #333 !important;
+  border-radius: 6px;
+}
+.actionMenuList .dropdown-item i {
+  margin-right: 5px;
 }

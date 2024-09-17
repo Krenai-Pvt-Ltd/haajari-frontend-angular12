@@ -378,11 +378,11 @@ else errorInFetchinglast3PendingUserData"
           <div class="row mt-3">
               <div class="col-md-12">
                   <div class="obboard-employee-list">
-                      <div class="onboard-add row align-items-center">
+                      <div class="onboard-add row align-items-center mx-0">
                           <!-- <div *ngIf="users.length!=0"> -->
                           <!-- || (searchUserPlaceholderFlag) -->
                           <div class="col-md-12" *ngIf="!errorToggleTop">
-                            <div class="row justify-content-between align-items-center">
+                            <div class="row justify-content-between align-items-center mx-0">
                               <div class="col-lg-7 col-md-7 col-sm-12">
                                 <div class="d-flex justify-content-start align-items-center">
                                   <div class="dropdown empFilerDropfilter">
@@ -539,13 +539,14 @@ else errorInFetchinglast3PendingUserData"
                                   <thead class="thead-light">
                                       <tr>
                                           <!-- <th style="width: 10%;">Date</th> -->
-                                          <th style="width: 20%;" class="stickyColTh">Employee Name</th>
-                                          <th style="width: 10%;">Team</th>
+                                          <th style="width: 15%;" class="stickyColTh">Employee Name</th>
+                                          <th style="width: 5%;">Employee ID</th>
+                                          <th style="width: 13%;">Team</th>
                                           <th style="width: 20%;">Email</th>
-                                          <th style="width: 20%;" class="text-center">Phone Number</th>
-                                          <th style="width: 8%;">Accessibility</th>
-                                          <th style="width: 8%;" class="text-center">Status</th>
-                                          <th style="width: 15%;" class="text-center stickyColThend">Action</th>
+                                          <th style="width: 23%;" class="text-center">Phone Number</th>
+                                          <th style="width: 10%;">Accessibility</th>
+                                          <th style="width: 10%;" class="text-center">Status</th>
+                                          <th style="width: 4%;" class="text-center stickyColThend">Action</th>
                                       </tr>
                                   </thead>
                                   <tbody *ngIf="isUserShimer">
@@ -584,6 +585,9 @@ else errorInFetchinglast3PendingUserData"
                                               <a routerLink="/employee-profile" (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-name">{{ user.name }}</a>
                                           </td>
                                           <td>
+                                              <p class="mb-0 empID">#111<span><i class="bi bi-copy"></i></span></p>
+                                          </td>
+                                          <td>
                                               <span class="mb-0 weekly-pro-email" *ngIf="user.teamNames.length == 0"> {{ "N/A" }}</span>
                                               <span class="teme-maneger mb-0" *ngIf="user.teamNames.length > 2">
                                                   {{ user.teamNames[0] }}...<a class="user-avatar" ngbTooltip="{{ user.teamNames }}" placement="top"><i class="bi bi-plus" ></i>{{ user.teamNames.length - 1 }}</a>
@@ -591,12 +595,8 @@ else errorInFetchinglast3PendingUserData"
                                               <span class="teme-maneger mb-0" *ngIf="user.teamNames.length < 3">
                                                   {{ user.teamNames }}
                                               </span>
-                                              <!-- <span class="mb-0 weekly-pro-team">{{
-                        user.teamNames.join(", ") || "N/A"
-                      }}</span> -->
-                                              <!-- <a class="mb-0 btn btn-link weekly-pro-name"
-                            ></a
-                          > -->
+                                              <!-- <span class="mb-0 weekly-pro-team">{{ user.teamNames.join(", ") || "N/A" }}</span> -->
+                                              <!-- <a class="mb-0 btn btn-link weekly-pro-name"></a> -->
                                           </td>
                                           <!-- <td>Meeting</td> -->
                                           <td>
@@ -611,44 +611,37 @@ else errorInFetchinglast3PendingUserData"
                                           </td>
                                           <td class="text-center">
                                               <div class="material-switch">
-                                                  <input
-                                                      type="checkbox"
-                                                      id="switch{{ user.uuid }}"
-                                                      [(ngModel)]="user.presenceStatus"
-                                                      (change)="
-                            changeStatus(user.presenceStatus, user.uuid)
-                          "
-                                                  />
+                                                  <input type="checkbox" id="switch{{ user.uuid }}" [(ngModel)]="user.presenceStatus" (change)="changeStatus(user.presenceStatus, user.uuid)"/>
                                                   <label for="switch{{ user.uuid }}" class="label-success"></label>
                                               </div>
                                           </td>
                                           <!-- <td class="text-center">13</td>  -->
-                                          <td *ngIf="user.onboardingStatus == pendingResponse">
+                                          <td class="text-center" *ngIf="user.onboardingStatus == pendingResponse">
                                               <div class="badge rounded-pill badge-soft-warning">
                                                   <span class="">{{ user.onboardingStatus }}</span>
                                               </div>
                                           </td>
-                                          <td *ngIf="user.onboardingStatus == approvedResponse">
+                                          <td class="text-center" *ngIf="user.onboardingStatus == approvedResponse">
                                               <div class="badge rounded-pill badge-soft-success">
                                                   <span class="">{{ user.onboardingStatus }}</span>
                                               </div>
                                           </td>
-                                          <td *ngIf="user.onboardingStatus == rejectedResponse">
+                                          <td class="text-center" *ngIf="user.onboardingStatus == rejectedResponse">
                                               <div class="badge rounded-pill badge-soft-danger">
                                                   <span class="">{{ user.onboardingStatus }}</span>
                                               </div>
                                           </td>
-                                          <td *ngIf="user.onboardingStatus == requestedResponse">
+                                          <td class="text-center" *ngIf="user.onboardingStatus == requestedResponse">
                                               <div class="badge rounded-pill badge-soft-secondary">
                                                   <span class="">{{ user.onboardingStatus }}</span>
                                               </div>
                                           </td>
-                                          <td *ngIf="user.onboardingStatus == newUserResponse">
+                                          <td class="text-center" *ngIf="user.onboardingStatus == newUserResponse">
                                               <div class="badge rounded-pill badge-soft-info">
                                                   <span class="">NEW!</span>
                                               </div>
                                           </td>
-                                          <td class="stickyColTdend">
+                                          <td class="stickyColTdend text-end">
                                               <!-- <div
                             class="btn-group"
                             role="group"
@@ -701,7 +694,7 @@ else errorInFetchinglast3PendingUserData"
                             </button>
                           </div> -->
 
-                                              <div class="button-items d-flex justify-content-center">
+                                              <!-- <div class="button-items d-flex justify-content-center">
                                                   <button type="button" class="btn btn-soft-secondary btn-icon-square-sm pointer" (click)="sendMailToEmployees(user)" *ngIf="!sendingMailLoaderForUser(user) && user.onboardingStatus != approvedResponse && user.onboardingStatus != pendingResponse " ngbTooltip="Request Again" placement="top" >
                                                       <i class="fas fa-bullhorn"></i>
                                                   </button>
@@ -726,6 +719,16 @@ else errorInFetchinglast3PendingUserData"
                                                   >
                                                       <i class="bi bi-trash"></i>
                                                   </button>
+                                              </div> -->
+                                              <div class="dropdown">
+                                                <button class="btn btnAction dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="bi bi-three-dots-vertical"></i>
+                                                </button>
+                                                <div class="dropdown-menu actionMenuList">
+                                                  <li><a class="dropdown-item" routerLink="/employee-profile" (click)="routeToUserDetails(user.uuid)"><i class="bi bi-eye"></i> View Profile</a></li>
+                                                  <li><a class="dropdown-item" (click)="sendMailToEmployees(user)" *ngIf="!sendingMailLoaderForUser(user) && user.onboardingStatus != approvedResponse && user.onboardingStatus != pendingResponse "><i class="bi bi-file-earmark-text"></i> Request Again</a></li>
+                                                  <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" (click)="openDeleteConfirmationModal(user.id)"><i class="bi bi-trash3"></i> Delete Account</a></li>
+                                                </div>
                                               </div>
                                           </td>
                                       </tr>
