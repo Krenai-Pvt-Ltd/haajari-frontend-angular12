@@ -305,16 +305,16 @@
 <!-- Modal -->
 <div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-scrollable">
-    <div class="modal-content">
+    <div class="modal-content p-0">
       <div class="modal-header">
         <h5 class="modal-title" id="previewModalLabel">Form Preview</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <!-- Form Details Start Here -->
-        <div class="row mb-3">
+        <div class="">
           <div class="col-md-12">
-            <div class="onboarding-deta mb-3">
+            <div class="onboarding-deta mb-lg-3">
                 <table class="table mb-0">
                     <tr style="background-color: #f1f1f1;">
                           <td>
@@ -639,20 +639,21 @@
 
         <!-- Form Details End Here -->
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="dismissPreviewModalButton" #dismissPreviewModalButton>Close</button>
-        <button type="button" (click)="saveUserOnboardingFormStatusMethodCall()" aria-label="Save" class="btn btn-primary save-button">
-          <div *ngIf="toggle" class="dot-opacity-loader">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-          <span *ngIf="!toggle">
-            Confirm Submission <i class="bi bi-arrow-right " style="padding-left: 8px;"></i>
-          </span>
-        </button>
-      </div>
+     
     </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="dismissPreviewModalButton" #dismissPreviewModalButton>Close</button>
+    <button type="button" (click)="saveUserOnboardingFormStatusMethodCall()" aria-label="Save" class="btn btn-primary save-button">
+      <div *ngIf="toggle" class="dot-opacity-loader">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <span *ngIf="!toggle">
+        Confirm Submission <i class="bi bi-arrow-right " style="padding-left: 8px;"></i>
+      </span>
+    </button>
   </div>
 </div>
   </div>

@@ -326,7 +326,23 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 } */
-
+.primaryBtnLink {
+  color: #6666f3 !important;
+  font-size: 12px;
+  font-weight: 400;
+  cursor: pointer;
+  background-color: #fff;
+  border-radius: 0px;
+  letter-spacing: 0.2px;
+  line-height: normal;
+  padding: 8px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: -moz-fit-content;
+  width: fit-content;
+}
 .primaryBtn {
   color: #fff !important;
   font-size: 12px;
@@ -463,5 +479,4 @@ label {
     font-size: 20px;
     margin-bottom: 8px;
   }
-  
 }
