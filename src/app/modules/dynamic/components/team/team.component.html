@@ -6,7 +6,7 @@
       <div class="row"></div>
 
       <div
-        class="row mb-1 mt-3 align-items-center"
+        class="row mb-1 align-items-center"
         style="padding-bottom: 15px"
         *ngIf="
           (teamsNew.length > 0 && !slackDataPlaceholderFlag) ||
@@ -33,7 +33,7 @@
                     (keyup)="searchTeams()"
                     [(ngModel)]="searchText"
                     [ngModelOptions]="{ standalone: true }"
-                    style="padding: 10px 30px; height: 50px !important"
+                    style="padding: 10px 30px;"
                   />
 
                   <button
@@ -57,25 +57,26 @@
               style="gap: 10px; width: 30%; padding-right: 20px"
             >
               <div
-                class="add-filtter d-flex align-items-center justify-content-end"
-                style="gap: 10px"
+                class="add-filtter d-flex align-items-center justify-content-end gap-2"
               >
-                <a
+                <button
                   data-bs-toggle="modal"
                   data-bs-target="#createteam2"
                   type="button"
                   *ngIf="ROLE == 'ADMIN'"
+                  class="btn primaryBtnLink"
                 >
-                  <i class="bi bi-plus" style="font-size: 18px"></i> Create Team
-                </a>
+                  <i class="bi bi-plus-lg" ></i> Create Team
+                </button>
 
-                <p
+                <!-- <p
                   style="color: #a1a0a0; margin-bottom: 0px"
                   *ngIf="ROLE == 'ADMIN' && onboardingVia == 'SLACK'"
                 >
                   |
-                </p>
-                <a
+                </p> -->
+                <span class="btnSeprator" *ngIf="ROLE == 'ADMIN' && onboardingVia == 'SLACK'"></span>
+                <button class="btn primaryBtnLink"
                   (click)="getFlagOfSlackPlaceholder2()"
                   [ngClass]="{ 'disabled-lnk': rotateToggle }"
                   *ngIf="ROLE == 'ADMIN' && onboardingVia == 'SLACK'"
@@ -92,7 +93,7 @@
                     }"
                   ></i>
                   Data Sync
-                </a>
+                </button>
               </div>
             </div>
           </div>

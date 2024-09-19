@@ -328,8 +328,8 @@ body {
 } */
 .primaryBtnLink {
   color: #6666f3 !important;
-  font-size: 12px;
-  font-weight: 400;
+  font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
   background-color: #fff;
   border-radius: 0px;
@@ -480,3 +480,107 @@ label {
     margin-bottom: 8px;
   }
 }
+
+.mnt-4 {
+  margin-top: -4px;
+}
+
+.btnSeprator {
+  display: inline-block;
+  width: 2px;
+  background-color: #6666f3;
+  height: 13px;
+}
+
+.table td,
+.table th {
+  padding: 10px 15px !important;
+}
+.btnAction {
+  padding: 4px 15px;
+}
+.table .table-light th {
+  line-height: 21px !important;
+  background-color: #f5f5f5 !important;
+  color: #383838 !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.1px !important;
+  border: 1px solid #f5f5f5 !important;
+  border-radius: 0 !important;
+}
+.stickyColTh,
+.stickyColTd {
+  min-width: 200px;
+  position: sticky;
+  left: 0;
+  top: 0;
+  z-index: 10;
+}
+.stickyColTd,
+.stickyColTdend {
+  background-color: #fff !important;
+}
+.stickyColThend,
+.stickyColTdend {
+  min-width: 150px;
+  position: sticky;
+  right: 0;
+  top: 0;
+  z-index: 10;
+}
+.stickyColTdend,
+.stickyColThend {
+  min-width: fit-content !important;
+}
+.stickyColTd::after,
+.stickyColTdend::after,
+.stickyColThend::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background-color: #f1f1f1;
+  width: 0px;
+}
+.stickyColTd::after {
+  right: 0;
+  box-shadow: 2px 0px 2px 0px #00000024;
+  border-right: 1px solid #f1f1f1;
+}
+.stickyColTdend::after,
+.stickyColThend::after {
+  left: 0;
+  box-shadow: -2px 0px 2px 0px #00000024;
+  border-left: 1px solid #f1f1f1;
+}
+
+.stickyColThend::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background-color: #f5f5f5;
+  width: 0px;
+  left: 0;
+  box-shadow: -2px 0px 2px 0px #00000024;
+  border-left: 1px solid #f5f5f5;
+}
+.stickyColTh::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background-color: #f5f5f5;
+  width: 0px;
+  right: 0;
+  box-shadow: 2px 0px 2px 0px #00000024;
+  border-right: 1px solid #f5f5f5;
+}
+.primaryBtnLink i::before{
+  font-weight: BOLD !important;
+}
+/* [class^="bi-"]::before,
+[class*=" bi-"]::before {
+  font-weight: BOLD !important;
+} */
