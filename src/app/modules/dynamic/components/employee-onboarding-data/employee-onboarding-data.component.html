@@ -799,146 +799,136 @@ else errorInFetchinglast3PendingUserData"
           </div>
       </div>
   </div>
-  <form #personalInformationForm="ngForm" ngNativeValidate (ngSubmit)="setEmployeePersonalDetailsMethodCall()" (shown.bs.modal)="resetForm()">
-      <div class="form-group">
-          <div #inviteModal class="modal fade" id="add-employee" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-              <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                      <div class="modal-header">
-                          <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
-                              Add Employee
-                          </h6>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <!--end modal-header-->
-                      <div class="modal-body">
-                          <div class="row">
-                              <div class="col-md-12">
-                                  <div class="mb-3">
-                                      <label for="name" class="pb-2">Name <span class="text-optional">*</span> </label>
-                                      <input type="text" class="form-control whatapp-login-input" id="name" name="name" placeholder="Name" [(ngModel)]="userPersonalInformationRequest.name" required #nameField="ngModel" />
-                                      <!-- Error Message for Name -->
-                                      <div
-                                          *ngIf=" userPersonalInformationRequest.name != null && nameField.touched && nameField.errors?.required ">
-                                          <p class="errortxt mt-2 mb-0" style="color: red;"><i class="bi bi-exclamation-circle"></i> Name is required.</p>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="col-md-12">
-                                  <div class="mb-3">
-                                      <label for="phoneNumber" class="pb-2">
-                                          Phone Number
-                                          <span class="text-optional"> (Optional)</span>
-                                      </label>
-                                      <input
-                                          type="text"
-                                          mask="0000000000"
-                                          class="form-control whatapp-login-input"
-                                          id="phoneNumber"
-                                          name="phoneNumber"
-                                          placeholder="Phone number"
-                                          [(ngModel)]="userPersonalInformationRequest.phoneNumber"
-                                          minlength="10"
-                                          maxlength="10"
-                                          pattern="[0-9]*"
-                                          #phoneNumberField="ngModel"
-                                      />
-                                      <!-- Error Message for Phone Number -->
-                                      <div
-                                          *ngIf="
-                      phoneNumberField.touched &&
-                      phoneNumberField.errors?.pattern
-                    "
-                                      >
-                                          <p class="errortxt mt-2 mb-0" style="color: red;"><i class="bi bi-exclamation-circle"></i> Enter a valid 10-digit phone number.</p>
-                                          <p
-                                              class="errortxt mt-2 mb-0"
-                                              style="color: red;"
-                                              *ngIf="
-                        phoneNumberField.errors?.minlength ||
-                        phoneNumberField.errors?.maxlength
-                      "
-                                          >
-                                              <i class="bi bi-exclamation-circle"></i> Phone number should be of 10 digits.
-                                          </p>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="col-md-12">
-                                  <div class="mb-3">
-                                      <label for="email" class="pb-2">Email Id <span class="text-optional">*</span> </label>
-                                      <input type="email" class="form-control whatapp-login-input" id="email" name="email" placeholder="Email id" [(ngModel)]="userPersonalInformationRequest.email" required email #emailField="ngModel" />
-
-                                      <div class="text-danger" *ngIf="emailAlreadyExists" style="color: red;"><i class="bi bi-exclamation-circle"></i> Employee with this email already registered</div>
-                                      <div
-                                          *ngIf="
-                      userPersonalInformationRequest.email != null &&
-                      emailField.touched &&
-                      emailField.errors?.required
-                    "
-                                      >
-                                          <p class="errortxt mt-2 mb-0" style="color: red;"><i class="bi bi-exclamation-circle"></i> Email Id is required.</p>
-
-                                          <p class="errortxt mt-2 mb-0" style="color: red;" *ngIf="emailField.errors?.email"><i class="bi bi-exclamation-circle"></i> Please enter a valid email address.</p>
-                                      </div>
-                                  </div>
-                              </div>
-
-                              <div class="col-md-12">
-                                  <div class="mb-3">
-                                      <label for="teamNames" class="pb-2">Select Team</label>
-                                      <nz-select
-                                          classs="whatapp-login-input "
-                                          nzMode="multiple"
-                                          nzPlaceHolder="Select teams"
-                                          nzAllowClear
-                                          nzShowSearch
-                                          nzServerSearch
-                                          [(ngModel)]="selectedTeams"
-                                          [ngModelOptions]="{ standalone: true }"
-                                          (ngModelChange)="onTeamSelectionChange($event)"
-                                          (nzOnSearch)="onSearch($event)"
-                                      >
-                                          <ng-container *ngFor="let o of teamNameList">
-                                              <nz-option *ngIf="!isLoadingTeams" [nzValue]="o.value" [nzLabel]="o.label"></nz-option>
-                                          </ng-container>
-                                          <nz-option *ngIf="isLoadingTeams" nzDisabled nzCustomContent>
-                                              <span nz-icon nzType="loading" class="loading-icon"></span>
-                                              Loading Data...
-                                          </nz-option>
-                                      </nz-select>
-                                  </div>
-                              </div>
-
-                              <!-- Template -->
-                          </div>
-                      </div>
-                      <!--end modal-body-->
-                      <div class="modal-footer d-flex align-items-center justify-content-end">
-                          <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close" #closeInviteModal>
-                              Cancel
-                          </button>
-                          <button class="btn btn-primary" type="submit" aria-label="Next Step">
-                              <div *ngIf="toggle" class="dot-opacity-loader1">
-                                  <span></span>
-                                  <span></span>
-                                  <span></span>
-                              </div>
-                              <span *ngIf="!toggle">
-                                  Invite
-                                  <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
-                              </span>
-                          </button>
-                      </div>
-                      <!--end modal-footer-->
+  <form #personalInformationForm="ngForm" (ngSubmit)="setEmployeePersonalDetailsMethodCall()" (shown.bs.modal)="resetForm()">
+    <div class="form-group">
+      <div #inviteModal class="modal fade" id="add-employee" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h6 class="modal-title m-0" id="exampleModalDefaultLabel">Add Employee</h6>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="mb-3">
+                    <label for="name" class="pb-2">Name <span class="text-optional">*</span></label>
+                    <input
+                      type="text"
+                      class="form-control whatapp-login-input"
+                      id="name"
+                      name="name"
+                      placeholder="Name"
+                      [(ngModel)]="userPersonalInformationRequest.name"
+                      required
+                      #nameField="ngModel"
+                    />
+                    <!-- Error Message for Name -->
+                    <div *ngIf="nameField.invalid && nameField.touched">
+                      <p class="errortxt mt-2 mb-0" style="color: red;">
+                        <i class="bi bi-exclamation-circle"></i> Name is required.
+                      </p>
+                    </div>
                   </div>
-                  <!--end modal-content-->
+                </div>
+                <div class="col-md-12">
+                  <div class="mb-3">
+                    <label for="phoneNumber" class="pb-2">Phone Number <span class="text-optional">* </span>  <i
+                        class="bi bi-exclamation-circle tolltip-icon"
+                        ngbTooltip="Please provide your personal phone number!"
+                        placement="top"
+                      ></i></label>
+                    <input
+                      type="text"
+                      mask="0000000000"
+                      class="form-control whatapp-login-input"
+                      id="phoneNumber"
+                      name="phoneNumber"
+                      placeholder="Phone number"
+                      [(ngModel)]="userPersonalInformationRequest.phoneNumber"
+                      minlength="10"
+                      maxlength="10"
+                      pattern="[0-9]*"
+                      (input)="restrictToDigits($event)"
+                      #phoneNumberField="ngModel"
+                      required
+                    />
+                    <!-- Error Message for Phone Number -->
+                    <div *ngIf="phoneNumberField.invalid && phoneNumberField.touched">
+                      <p class="errortxt mt-2 mb-0" style="color: red;">
+                        <i class="bi bi-exclamation-circle"></i> Enter a valid 10-digit phone number.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="mb-3">
+                    <label for="email" class="pb-2">Email Id <span class="text-optional">*</span></label>
+                    <input
+                      type="email"
+                      class="form-control whatapp-login-input"
+                      id="email"
+                      name="email"
+                      placeholder="Email id"
+                      [(ngModel)]="userPersonalInformationRequest.email"
+                      required
+                      #emailField="ngModel"
+                    />
+                    <div *ngIf="emailAlreadyExists" style="color: red;">
+                      <i class="bi bi-exclamation-circle"></i> Employee with this email already registered
+                    </div>
+                    <div *ngIf="emailField.invalid && emailField.touched">
+                      <p class="errortxt mt-2 mb-0" style="color: red;">
+                        <i class="bi bi-exclamation-circle"></i> Please enter a valid email address.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="mb-3">
+                    <label for="teamNames" class="pb-2">Select Team<span class="text-optional"> (Optional)</span></label>
+                    <nz-select
+                      class="whatapp-login-input"
+                      nzMode="multiple"
+                      nzPlaceHolder="Select teams"
+                      nzAllowClear
+                      nzShowSearch
+                      nzServerSearch
+                      [(ngModel)]="selectedTeams"
+                      [ngModelOptions]="{ standalone: true }"
+                      (ngModelChange)="onTeamSelectionChange($event)"
+                      (nzOnSearch)="onSearch($event)"
+                    >
+                      <ng-container *ngFor="let o of teamNameList">
+                        <nz-option *ngIf="!isLoadingTeams" [nzValue]="o.value" [nzLabel]="o.label"></nz-option>
+                      </ng-container>
+                      <nz-option *ngIf="isLoadingTeams" nzDisabled nzCustomContent>
+                        <span nz-icon nzType="loading" class="loading-icon"></span> Loading Data...
+                      </nz-option>
+                    </nz-select>
+                  </div>
+                </div>
               </div>
-              <!--end modal-dialog-->
+            </div>
+            <div class="modal-footer d-flex align-items-center justify-content-end">
+              <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close" #closeInviteModal>
+                Cancel
+              </button>
+              <button class="btn btn-primary" type="submit" [disabled]="personalInformationForm.invalid" aria-label="Next Step">
+                <div *ngIf="toggle" class="dot-opacity-loader1">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <span *ngIf="!toggle">Invite <i class="bi bi-arrow-right" style="padding-left: 8px;"></i></span>
+              </button>
+            </div>
           </div>
-          <!--end modal-->
+        </div>
       </div>
+    </div>
   </form>
+  
   <!-- <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#confirmationModal" #confirmationModalButton id="confirmationModalButton"></button> -->
   <div class="modal fade" id="deleteConfirmationModal" #deleteConfirmationModal tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="false">
       <div class="modal-dialog modal-dialog-centered mx-auto mx-auto" style="max-width: 600px !important;">

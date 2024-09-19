@@ -798,5 +798,12 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       );
   }
 
+  restrictToDigits(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input) {
+      input.value = input.value.replace(/[^0-9]/g, '');
+    }
+  }
+
 
 }
