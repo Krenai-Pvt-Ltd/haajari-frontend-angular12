@@ -387,7 +387,8 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       .setEmployeePersonalDetails(
         this.userPersonalInformationRequest,
         userUuid,
-        this.selectedTeamIds
+        this.selectedTeamIds,
+        this.selectedShift
       )
       .subscribe(
         (response: UserPersonalInformationRequest) => {
@@ -403,6 +404,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           }
           this.selectedTeamIds = [];
           this.selectedTeams = [];
+          this.selectedShift = 0;
           this.getUsersByFiltersFunction();
           this.helperService.showToast(
             'Email sent successfully.',
@@ -416,6 +418,32 @@ export class EmployeeOnboardingDataComponent implements OnInit {
         }
       );
   }
+
+  shiftList: { value: number, label: string }[] = [];
+  selectedShift: number = 0;  
+  isLoadingShifts = false;  
+  getShiftData() {
+    this.isLoadingShifts = true;
+    this.dataService.getShifts().subscribe(
+      (response) => {
+        console.log('Shift data response:', response); 
+        if (response && response.listOfObject) {
+          this.shiftList = response.listOfObject.map((shift: OrganizationShift) => ({
+            value: shift.shiftId,
+            label: shift.shiftName
+          }));
+        } else {
+          console.warn('No shift data found in the response.');
+        }
+        this.isLoadingShifts = false;
+      },
+      (error) => {
+        console.error('Error fetching shift data:', error);
+        this.isLoadingShifts = false;
+      }
+    );
+  }
+  
 
   clearForm() {
     this.userPersonalInformationRequest = new UserPersonalInformationRequest();
@@ -815,31 +843,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       
   //   })
   // }
-  shiftList: { value: number, label: string }[] = [];
-  selectedShift: number | null = null;  
-  isLoadingShifts = false;  
-  getShiftData() {
-    this.isLoadingShifts = true;
-    this.dataService.getShifts().subscribe(
-      (response) => {
-        console.log('Shift data response:', response); // Debugging line
-        if (response && response.listOfObject) {
-          this.shiftList = response.listOfObject.map((shift: OrganizationShift) => ({
-            value: shift.shiftId,
-            label: shift.shiftName
-          }));
-        } else {
-          console.warn('No shift data found in the response.');
-        }
-        this.isLoadingShifts = false;
-      },
-      (error) => {
-        console.error('Error fetching shift data:', error);
-        this.isLoadingShifts = false;
-      }
-    );
-  }
-  
+ 
   
 
 
