@@ -3799,4 +3799,8 @@ getHolidayForOrganization(date: string): Observable<any>{
 
     return this.httpClient.post<any>(`${this.baseUrl}/organization-subs-plan/register-temp`, {}, {params});
   }
+
+  getShifts(): Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/organization-shift-timing/organization-shift`);
+  }
 }

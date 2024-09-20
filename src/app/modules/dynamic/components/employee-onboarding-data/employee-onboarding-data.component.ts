@@ -8,6 +8,7 @@ import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { EmployeeOnboardingDataDto } from 'src/app/models/employee-onboarding-data-dto';
+import { OrganizationShift } from 'src/app/models/shift-type';
 import { UserPersonalInformationRequest } from 'src/app/models/user-personal-information-request';
 import { UserReq } from 'src/app/models/userReq';
 import { Users } from 'src/app/models/users';
@@ -91,6 +92,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.getTeamNames();
     this.getUser();
     this.selectMethod('mannual');
+    this.getShiftData();
 
     // const getRandomNameList = (): Observable<string[]> =>
     //   this.http.get<string[]>(`${this.randomUserUrl}`).pipe(
@@ -804,6 +806,41 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       input.value = input.value.replace(/[^0-9]/g, '');
     }
   }
+
+  // shiftList: OrganizationShift[] = [];
+  // getShiftData(){
+  //   this.dataService.getShifts().subscribe((response) => {
+  //     this.organizationShift = response.listOfObject;
+  //   }, (error) => {
+      
+  //   })
+  // }
+  shiftList: { value: number, label: string }[] = [];
+  selectedShift: number | null = null;  
+  isLoadingShifts = false;  
+  getShiftData() {
+    this.isLoadingShifts = true;
+    this.dataService.getShifts().subscribe(
+      (response) => {
+        console.log('Shift data response:', response); // Debugging line
+        if (response && response.listOfObject) {
+          this.shiftList = response.listOfObject.map((shift: OrganizationShift) => ({
+            value: shift.shiftId,
+            label: shift.shiftName
+          }));
+        } else {
+          console.warn('No shift data found in the response.');
+        }
+        this.isLoadingShifts = false;
+      },
+      (error) => {
+        console.error('Error fetching shift data:', error);
+        this.isLoadingShifts = false;
+      }
+    );
+  }
+  
+  
 
 
 }

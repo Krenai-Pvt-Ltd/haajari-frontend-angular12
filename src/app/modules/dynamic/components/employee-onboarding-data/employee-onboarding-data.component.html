@@ -912,6 +912,40 @@ else errorInFetchinglast3PendingUserData"
                     </nz-select>
                   </div>
                 </div>
+                <div class="col-md-12">
+                    <div class="mb-3">
+                      <label for="shiftNames" class="pb-2">Select Shift <span class="text-optional">* </span></label>
+                      <nz-select
+                        class="whatapp-login-input"
+                        nzPlaceHolder="Select a shift"
+                        nzAllowClear
+                        nzShowSearch
+                        nzServerSearch
+                        [(ngModel)]="selectedShift"
+                        [ngModelOptions]="{ standalone: true }"
+                        
+                        required
+                        #shiftField="ngModel"
+                      >
+                        <ng-container *ngFor="let shift of shiftList">
+                          <nz-option *ngIf="!isLoadingShifts" [nzValue]="shift.value" [nzLabel]="shift.label"></nz-option>
+                        </ng-container>
+                        <nz-option *ngIf="isLoadingShifts" nzDisabled nzCustomContent>
+                          <span nz-icon nzType="loading" class="loading-icon"></span> Loading Shifts...
+                        </nz-option>
+                      </nz-select>
+    
+                      <!-- Error if no shift selected -->
+                      <div *ngIf="shiftField.invalid && shiftField.touched" class="errortxt mt-2 mb-0" style="color: red;">
+                        <i class="bi bi-exclamation-circle"></i> Please select a shift.
+                      </div>
+    
+                      <!-- Custom message if no shifts are available -->
+                      <div *ngIf="shiftList.length === 0 && !isLoadingShifts" class="errortxt mt-2 mb-0" style="color: red;">
+                        <i class="bi bi-exclamation-circle"></i> No shifts available. Please add shifts from the <a href="/attendance-setting">Shift Settings</a> section.
+                      </div>
+                    </div>
+                  </div>
               </div>
             </div>
             <div class="modal-footer d-flex align-items-center justify-content-end">
