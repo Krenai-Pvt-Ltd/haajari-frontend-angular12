@@ -1232,13 +1232,15 @@
                                     color: black;
                                     border-color: #ced4da;
                                     width: 100%;">
-                                    {{ selectedUser ? selectedUser.name : "Select a user" }}
+                                   {{ selectedUser ? selectedUser.name + ' (' + selectedUser.email || 'N/A' + ')' : "Select a user" }}
                                     <i class="bi bi-chevron-down"></i>
                                 </button>
                                 <ul class="dropdown-menu user-menu-height nationality-dropdown" aria-labelledby="dropdownMenuButton1" style="width: 100%">
                                     <li *ngFor="let user of users">
-                                        <a class="dropdown-item" (click)="selectUser(user)">{{user.name}}</a>
-                                    </li>
+                                        <a class="dropdown-item" (click)="selectUser(user)">
+                                            {{ user.name }} ({{ user.email || 'N/A' }})
+                                        </a>                                        
+                                    </li>                                    
                                 </ul>
                             </div>
                         </div>
