@@ -2059,6 +2059,7 @@ export class EmployeeProfileComponent implements OnInit {
 
 
   // Finance Section APIs
+  showFinanceData : boolean = false;
   financeSectionMethodCall(){
     this.getEmployeePayslipResponseByUserUuidMethodCall();
     this.getEmployeePayslipBreakupResponseByUserUuidMethodCall();
@@ -3209,6 +3210,7 @@ disabledDate = (current: Date): boolean => {
 //   }
 
 attendanceRequestLog: any[] = [];
+
 pageNumberAttendanceLogs: number = 1;
 itemPerPageAttendanceLogs: number = 5;
 fullAttendanceLogCount: number = 0;

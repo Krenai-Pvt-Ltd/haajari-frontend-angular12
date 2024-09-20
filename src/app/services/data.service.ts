@@ -550,10 +550,7 @@ export class DataService {
 
     const params = new HttpParams().set('refresh_token', refreshToken);
 
-    return this.httpClient.get<any>(
-      `${this.baseUrl}/firebase/refresh-access-token`,
-      { params }
-    );
+    return this.httpClient.get<any>(`${this.baseUrl}/firebase/refresh-access-token`, { params });
   }
 
   registerOnboardingDetails(
@@ -3870,6 +3867,13 @@ getHolidayForOrganization(date: string): Observable<any>{
   registerOrganizationRegistrationFormInfo(request: OrganizationRegistrationFormRequest): Observable<any> {
     const url = `${this.baseUrl}/organization-registration-form/register`;
     return this.httpClient.post(url, request);
+  }  
+  registerBillingAndSubscriptionTemp(subscriptionPlanId : number): Observable<any>{
+    
+    const params = new HttpParams()
+    .set('subscription_plan_id', subscriptionPlanId);
+
+    return this.httpClient.post<any>(`${this.baseUrl}/organization-subs-plan/register-temp`, {}, {params});
   }
 
   getLeaveTemplateResponseListByOrganizationId(): Observable<any>{

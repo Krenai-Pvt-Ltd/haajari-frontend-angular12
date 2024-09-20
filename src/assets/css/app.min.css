@@ -2218,8 +2218,10 @@ mark {
 }
 
 .btn-xs {
-  padding: 2px 10px;
-  font-size: 11px;
+  /* padding: 2px 10px;
+  font-size: 11px; */
+  padding: 2px 10px !important;
+  font-size: 12px !important;
 }
 
 .btn-outline-light {
@@ -2651,11 +2653,14 @@ mark {
 }
 
 .table th {
-  color: #8997bd;
-  font-weight: 400;
-  vertical-align: middle;
-  border-color: #e8ebf3;
-  padding: 15px;
+  line-height: 21px !important;
+  background-color: #f5f5f5 !important;
+  color: #383838 !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.1px !important;
+  border: 1px solid #f5f5f5 !important;
+  border-radius: 0 !important;
 }
 
 /* .table td {
@@ -5477,6 +5482,7 @@ hr.hr-dashed {
   width: 32px !important;
   font-size: 12px;
   font-weight: 700;
+  line-height: 32px;
 }
 
 .thumb-sm {
@@ -6278,18 +6284,18 @@ html[dir="rtl"]
 }
 
 .bg-soft-info {
-  background-color: rgba(65, 203, 216, 0.08) !important;
-  color: #41cbd8 !important;
+  background-color: rgb(233 234 255) !important;
+  color: #6666f3 !important;
 }
 
 .bg-soft-info:hover {
-  background-color: #41cbd8 !important;
-  color: #fff !important;
+  background-color: rgb(233 234 255) !important;
+  color: #6666f3 !important;
 }
 
 .bg-soft-info.not-hover:hover {
-  background-color: rgba(65, 203, 216, 0.08) !important;
-  color: #41cbd8 !important;
+  background-color: rgb(233 234 255) !important;
+  color: #6666f3 !important;
 }
 
 .icon-dual-info {
@@ -9646,11 +9652,11 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
 }
 
 .table .thead-light th {
-  color: #000;
+  color: #8997bd;
   background-color: #f5f5f5;
-  border-bottom: 1px solid #e6e7e9;
-  font-size: 12px;
-  font-weight: 400;
+  border-color: #e8ebf3;
+  border-bottom: none;
+  font-size: 14px;
 }
 
 .table .table-design tr {

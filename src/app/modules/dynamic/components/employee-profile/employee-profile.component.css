@@ -1860,3 +1860,8 @@ hr {
   width: 52px;
   margin-right: 10px;
 }
+
+/* Finance section blur */
+.blurred{
+  filter: blur(5px);
+}
