@@ -3,6 +3,7 @@ export class EmployeeCompanyDocumentsRequest {
     name!: string ;
     url!: string ;
     fileName!: string;
+   
   
   
 }

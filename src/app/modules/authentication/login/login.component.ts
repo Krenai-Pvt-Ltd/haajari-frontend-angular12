@@ -587,6 +587,8 @@ export class LoginComponent implements OnInit {
     this.isEmailLogin = false;
     this.showOtpInput = false;
   }
+
+
   authUrl: string = '';
   workspaceUrl: string = '';
   workspaceName: string = '';

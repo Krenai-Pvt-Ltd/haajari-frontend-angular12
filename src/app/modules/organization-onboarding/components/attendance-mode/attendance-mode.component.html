@@ -451,29 +451,27 @@
                     ></i>
                   </label>
                   <input
-                    type="text"
+                    type="number"
                     id="radius"
-                    placeholder="in meters"
+                    placeholder="Min. 50m"
                     required
                     #radius="ngModel"
                     name="radius"
                     class="form-control ng-untouched ng-pristine ng-invalid profile-input"
                     [(ngModel)]="organizationAddressDetail.radius"
+                    min="50"
                   />
                 </div>
-                <div
-                  *ngIf="(radius.touched && radius.invalid) || isFormInvalid"
-                >
-                  <p
-                    class="errortxt mt-2 mb-0"
-                    style="color: red"
-                    *ngIf="radius.errors?.required"
-                  >
-                    <i class="bi bi-exclamation-circle"></i> Location Radius is
-                    required.
+                <div *ngIf="(radius.touched && radius.invalid) || isFormInvalid">
+                  <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="radius.errors?.required">
+                    <i class="bi bi-exclamation-circle"></i> Location Radius is required.
+                  </p>
+                  <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="radius.errors?.min">
+                    <i class="bi bi-exclamation-circle"></i> Minimum radius is 50 meters.
                   </p>
                 </div>
               </div>
+              
             </div>
           </div>
         </div>

@@ -589,6 +589,15 @@
             (click)="backToLogin()"
             ><i class="bi bi-arrow-left"></i> Back to login</a
           >
+          <a  href="https://app.hajiri.in/auth/signup"  target="_blank"
+          class="back-to-login-btn text-primary position-relative"
+          *ngIf="!enableBack" 
+         
+         
+        >
+          <i class="bi bi-arrow-left"></i> Register
+        </a>
+        
           <p>
             By signing up, you agree to accept the
             <a href="#!" class="text-primary"> terms and conditions</a> outlined
