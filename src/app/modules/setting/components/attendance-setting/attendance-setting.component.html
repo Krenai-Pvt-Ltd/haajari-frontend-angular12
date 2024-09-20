@@ -576,8 +576,7 @@
             </ng-container>
             <ng-template #attendanceRuleWithDefinitionData>
               <ng-container *ngIf="
-                  attendanceRuleWithAttendanceRuleDefinitionResponseList.length !==
-                    0 &&
+                  attendanceRuleWithAttendanceRuleDefinitionResponseList.length !== 0 &&
                     !dataNotFoundPlaceholderForAttendanceRule &&
                     !networkConnectionErrorPlaceHolderForAttendanceRule;
                   else errorInFetchingAttendanceRuleWithAttendanceRuleDefinitionData
@@ -1867,6 +1866,7 @@
       </div>
     </div>
   </div>
+  
   <div class="modal fade" id="automation-rules" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
       <div class="modal-content">
@@ -1950,6 +1950,7 @@
       </div>
     </div>
   </div>
+
   <div class="modal fade" id="rules-value" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
       <div class="modal-content">
@@ -1970,14 +1971,13 @@
                   <li role="presentation" class="nav-item">
                     <button id="profile-tab" data-bs-toggle="tab" [class.disabled]="
                         (!customCheckbox &&
-                          !halfDayCheckbox &&
-                          !fullDayCheckbox) ||
+                        !halfDayCheckbox &&
+                        !fullDayCheckbox) ||
                         selectedCustomDeductionType?.type == '' ||
                         attendanceRuleForm.invalid ||
                         compareTimesValidation()
                       " [attr.aria-selected]="!attendanceRuleForm.invalid" [attr.tabindex]="attendanceRuleForm.invalid ? -1 : null" (click)="
-                        !attendanceRuleForm.invalid &&
-                          staffActiveTabInAutomationRuleMethod()
+                        !attendanceRuleForm.invalid && staffActiveTabInAutomationRuleMethod()
                       " data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" class="nav-link" #staffActiveTabInAutomationRule> Staff selection </button>
                   </li>
                 </ul>
@@ -1987,24 +1987,24 @@
                   </li>
                   <li role="presentation" class="nav-item">
                     <button id="profile-tab" data-bs-toggle="tab" [class.disabled]="
-                        (!customCheckbox &&
-                        !halfDayCheckbox &&
-                        !fullDayCheckbox) ||
-                        selectedCustomOvertimeType?.type == '' ||
-                        selectedHalfDayOvertimeType?.type == '' ||
-                        selectedFullDayOvertimeType?.type == '' ||
-                        attendanceRuleForm.invalid ||
-                        compareTimesValidation()
-                      " [attr.aria-selected]="!attendanceRuleForm.invalid" [attr.tabindex]="attendanceRuleForm.invalid ? -1 : null" (click)="
-                        !attendanceRuleForm.invalid &&
-                          staffActiveTabInAutomationRuleMethod()
-                      " data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" class="nav-link" #staffActiveTabInAutomationRule> Staff selection </button>
-                  </li>
+                        (!customCheckbox && 
+                        !halfDayCheckbox && 
+                        !fullDayCheckbox) || 
+                        selectedCustomOvertimeType?.type == '' || 
+                        selectedHalfDayOvertimeType?.type == '' || 
+                        selectedFullDayOvertimeType?.type == '' || 
+                        attendanceRuleForm.invalid || 
+                        compareTimesValidation() 
+                      " [attr.aria-selected]="!attendanceRuleForm.invalid" [attr.tabindex]="attendanceRuleForm.invalid ? -1 : null" (click)=" 
+                        !attendanceRuleForm.invalid && staffActiveTabInAutomationRuleMethod() 
+                      " data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" class="nav-link" #staffActiveTabInAutomationRule> Staff selection </button> 
+                  </li> 
                 </ul>
                 <div class="tab-content" id="myTabContent">
                   <div class="tab-pane fade show active" id="home" role="tabpanel">
                     <!-- <form #testForm="ngForm"><input type="text" required name="test2" ngModel minlength="2"><input type="text" required name="test21" ngModel minlength="2"><button type="button" class="btn btn-primary" [disabled]="!testForm.valid" (click)="testFormcheck()">submit</button></form> -->
                     <!-- <form #attendanceRuleForm="ngForm" (ngSubmit)="submitAttendanceRuleForm()"> -->
+
                     <form #attendanceRuleForm="ngForm">
                       <div class="rules-main" *ngIf="CURRENT_MODAL == DEDUCTION_RULE_DEFINITION">
                         <div class="form-check pb-3">
@@ -2593,6 +2593,7 @@
                           " (click)="staffActiveTabInAutomationRuleMethod()"> Next </button>
                       </div>
                     </form>
+                    
                   </div>
                   <div class="tab-pane fade" id="profile" role="tabpanel">
                     <div class="staf-list-box mt-3">

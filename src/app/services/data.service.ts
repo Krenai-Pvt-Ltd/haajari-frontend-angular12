@@ -3871,4 +3871,9 @@ getHolidayForOrganization(date: string): Observable<any>{
     const url = `${this.baseUrl}/organization-registration-form/register`;
     return this.httpClient.post(url, request);
   }
+
+  getLeaveTemplateResponseListByOrganizationId(): Observable<any>{
+
+    return this.httpClient.get<any>(`${this.baseUrl}/leave-template/get`, {});
+  }
 }

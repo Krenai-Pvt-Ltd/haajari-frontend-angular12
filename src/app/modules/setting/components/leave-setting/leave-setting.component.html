@@ -204,9 +204,7 @@
               </div>
             </div>
           </div>
-          <div class="add-shift-main-box" *ngIf="
-              !leaveSettingPlaceholder && !isLeaveErrorPlaceholder && !isLoading
-            ">
+          <div class="add-shift-main-box" *ngIf=" !leaveSettingPlaceholder && !isLeaveErrorPlaceholder && !isLoading">
             <div class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2">
               <div class="">
                 <h6 class="text-truncate mb-0">Leave</h6>
@@ -216,10 +214,7 @@
                   <i class="bi bi-plus"></i> Create another template </a>
               </div>
             </div>
-            <div class="shift-time p-3 m-3" *ngFor="
-                let newLeaveSetting of fullLeaveSettingResponseList;
-                let i = index
-              ">
+            <div class="shift-time p-3 m-3" *ngFor="let newLeaveSetting of fullLeaveSettingResponseList; let i = index">
               <div class="">
                 <div class="d-flex align-items-center justify-content-between">
                   <div class="d-flex align-items-center gap-3">

@@ -18,6 +18,7 @@ import { LeaveCategory } from 'src/app/models/leave-category';
 import { LeaveCycle } from 'src/app/models/leave-cycle';
 import { LeaveSettingResponse } from 'src/app/models/leave-setting-response';
 import { LeaveTemplateRequest } from 'src/app/models/leave-template-request';
+import { LeaveTemplateResponse } from 'src/app/models/leave-template-response';
 import { Staff } from 'src/app/models/staff';
 import { StaffSelectionUserList } from 'src/app/models/staff-selection-userlist';
 import { UnusedLeaveAction } from 'src/app/models/unused-leave-action';
@@ -1501,6 +1502,31 @@ export class LeaveSettingComponent implements OnInit {
       this.helperService.showToast('Leave template registered successfully.', Key.TOAST_STATUS_SUCCESS);
     }, (error) => {
       this.helperService.showToast('Error while registering the leave template!', Key.TOAST_STATUS_ERROR);
+    })
+  }
+
+  isShimmerForLeaveTemplateResponse = false;
+  dataNotFoundPlaceholderForLeaveTemplateResponse = false;
+  networkConnectionErrorPlaceHolderForLeaveTemplateResponse = false;
+  preRuleForShimmerAndErrorPlaceholdersForLeaveTemplateResponse() {
+    this.isShimmerForLeaveTemplateResponse = true;
+    this.dataNotFoundPlaceholderForLeaveTemplateResponse = false;
+    this.networkConnectionErrorPlaceHolderForLeaveTemplateResponse = false;
+  }
+
+  leaveTemplateResponseList : LeaveTemplateResponse[] = [];
+  getLeaveTemplateResponseListByOrganizationIdMethodCall(){
+    this.preRuleForShimmerAndErrorPlaceholdersForLeaveTemplateResponse();
+    this.dataService.getLeaveTemplateResponseListByOrganizationId().subscribe((response) => {
+      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+        this.dataNotFoundPlaceholderForLeaveTemplateResponse = true;
+      } else{
+        this.leaveTemplateResponseList = response.listOfObject;
+      }
+      this.isShimmerForLeaveTemplateResponse = false;
+    }, (error) => {
+      this.networkConnectionErrorPlaceHolderForLeaveTemplateResponse = true;
+      this.isShimmerForLeaveTemplateResponse = false;
     })
   }
 
