@@ -33,7 +33,7 @@
                     (keyup)="searchTeams()"
                     [(ngModel)]="searchText"
                     [ngModelOptions]="{ standalone: true }"
-                    style="padding: 10px 30px;"
+                    style="padding: 10px 35px;"
                   />
 
                   <button
@@ -57,7 +57,7 @@
               style="gap: 10px; width: 30%; padding-right: 20px"
             >
               <div
-                class="add-filtter d-flex align-items-center justify-content-end gap-2"
+                class="add-filtter d-flex align-items-center justify-content-end gap-1"
               >
                 <button
                   data-bs-toggle="modal"
@@ -81,12 +81,6 @@
                   [ngClass]="{ 'disabled-lnk': rotateToggle }"
                   *ngIf="ROLE == 'ADMIN' && onboardingVia == 'SLACK'"
                   ><i
-                    style="
-                      font-size: 16px;
-                      color: #6666f3;
-                      height: 1rem;
-                      width: 1rem;
-                    "
                     [ngClass]="{
                       'spinner-border': rotateToggle,
                       'bi bi-arrow-clockwise': !rotateToggle
