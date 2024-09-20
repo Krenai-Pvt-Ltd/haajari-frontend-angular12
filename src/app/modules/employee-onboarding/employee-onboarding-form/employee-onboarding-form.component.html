@@ -37,13 +37,32 @@
                                   <div class="col-md-9">
                                     <div class="mb-3">
                                       <label for="profilePicture" class="pb-2">Profile Picture <span class="text-optional">*</span></label>
-                                  
                                       <div class="importfilebox">
-                                        <input id="profilePicture" [required]="!dbImageUrl" type="file" name="img" accept="image/jpeg, image/jpg, image/png" class="input" (change)="onFileSelected($event)" #image="ngModel" [(ngModel)]="userPersonalInformationRequest.image">
+                                        <input id="profilePicture" 
+                                               [required]="!dbImageUrl" 
+                                               type="file" 
+                                               name="img" 
+                                               accept="image/jpeg, image/jpg, image/png" 
+                                               class="input" 
+                                               (change)="onFileSelected($event)" 
+                                               #image="ngModel" 
+                                               [(ngModel)]="userPersonalInformationRequest.image">
                                         <label for="profilePicture" class="pl-3">
-                                          <span><b>Drop your file here or <a href="#" class="select-file"> Select a file </a></b><br> JPEG, JPG or PNG (max. 100px*100px)</span>
+                                            <span *ngIf="!isUploading">
+                                                <b>Drop your file here or 
+                                                  <a href="#" class="select-file"> Select a file </a>
+                                                </b><br> JPEG, JPG or PNG (max. 100px*100px)
+                                              </span>
+                                              <!-- Loader inside label -->
+                                              <span *ngIf="isUploading" class="d-flex align-items-center justify-content-center w-100">
+                                                <div class="spinner-border text-primary" role="status">
+                                                  <span class="sr-only">Uploading...</span>
+                                                </div>
+                                              </span>                                              
                                         </label>
                                       </div>
+                                      
+                                      
                                       
                                       <div *ngIf="(!dbImageUrl && isFormInvalid) || (!isInvalidFileType && dbImageUrl) || isInvalidFileType">
                                         <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="image.errors?.required && isFormInvalid && !isInvalidFileType"><i class="bi bi-exclamation-circle"></i> Profile Picture is required.</p>
@@ -163,7 +182,7 @@
                                 id="dobField" 
                                 name="dob"
                                 #dob="ngModel"
-                                [(ngModel)]="userPersonalInformationRequest.dob"
+                                [(ngModel)]="userPersonalInformationRequest.dateOfBirth"
                                 required
                                 [nzShowToday] = false
                                 nzPlaceHolder="Select DOB"
@@ -283,10 +302,10 @@
                   
                 <div class="col-md-6">
                   <div class="mb-3">
-                      <label for="currentSalaryField" class="pb-2">Current Salary <span class="text-optional"> (optional)</span></label>
-                      <input type="text" class="form-control" id="currentSalaryField" name="currentSalary" placeholder="Enter current salary" [(ngModel)]="userPersonalInformationRequest.currentSalary"  pattern="^[0-9]*$" #currentSalary="ngModel">
+                      <label for="currentSalaryField" class="pb-2">Current CTC <span class="text-optional"> (optional)</span></label>
+                      <input type="text" class="form-control" id="currentSalaryField" name="currentSalary" placeholder="Enter your current CTC" [(ngModel)]="userPersonalInformationRequest.currentSalary"  pattern="^[0-9]*$" #currentSalary="ngModel">
                       <div *ngIf="currentSalary.touched">
-                          <p class="errortxt mt-2 mb-0" *ngIf="currentSalary.errors?.required" style="color:red"> <i class="bi bi-exclamation-circle"></i> Current salary is required.</p>
+                          <p class="errortxt mt-2 mb-0" *ngIf="currentSalary.errors?.required" style="color:red"> <i class="bi bi-exclamation-circle"></i> Current CTC is required.</p>
                           <p class="errortxt mt-2 mb-0" *ngIf="currentSalary.errors?.pattern" style="color:red"> <i class="bi bi-exclamation-circle"></i> Please enter a valid number.</p>
                       </div>
                   </div>
@@ -430,7 +449,7 @@
         <div class="col-md-12 d-flex justify-content-end mt-3" style="gap:10px;">
             <div class="info-btn d-flex justify-content-end" style="gap:10px;">
               <div class="info-btn" *ngIf="employeeOnboardingFormStatus == 'REJECTED' && !this.userPersonalInformationRequest.updateRequest">
-                <button (click)="selectButtonType('save')" class="btn btn-success save-button" type="button" [disabled]="toggle" aria-label="Save">
+                <button (click)="selectButtonType('save')" class="btn btn-success save-button" type="button" [disabled]="toggle || isUploading" aria-label="Save">
                   <div *ngIf="toggleSave" class="dot-opacity-loader">
                     <span></span>
                     <span></span>
@@ -443,7 +462,7 @@
               </div>
               <!-- Go Back to Profile Button -->
               <div class="info-btn" *ngIf="this.userPersonalInformationRequest.updateRequest">
-                <button (click)="goBackToProfile()" class="btn btn-primary back-btn" type="button" aria-label="Go Back to Profile">
+                <button (click)="goBackToProfile()" class="btn btn-primary back-btn" type="button"  [disabled]="isUploading"  aria-label="Go Back to Profile">
                   Go Back to Profile
                 </button>
               </div>
@@ -460,19 +479,30 @@
                   </span>
               </button>
               <!-- Original Next Button shown only when not update request -->
-              <button *ngIf="!this.userPersonalInformationRequest.updateRequest" (click)="selectButtonType('next')" class="btn btn-primary save-button" type="button" [disabled]="toggle" aria-label="Next Step">
+              <button *ngIf="!this.userPersonalInformationRequest.updateRequest"
+              (click)="selectButtonType('next')"
+              class="btn btn-primary save-button"
+              type="button"
+              [disabled]="toggle || isUploading" 
+              aria-label="Next Step">
+        
+        <!-- Loader animation while saving or uploading -->
                 <div *ngIf="toggle" class="dot-opacity-loader">
-                  <span></span>
-                  <span></span>
-                  <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
                 </div>
-                <span *ngIf="!toggle && isNewUser && !this.userPersonalInformationRequest.updateRequest ">
-                  Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                
+                <!-- Button text changes depending on state -->
+                <span *ngIf="!toggle && isNewUser && !this.userPersonalInformationRequest.updateRequest">
+                Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
                 </span>
+                
                 <span *ngIf="!toggle && !isNewUser && !this.userPersonalInformationRequest.updateRequest">
-                  Save & Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                Save & Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
                 </span>
-              </button>
+            </button>
+      
             </div>
             <button type="submit" style="display: none;" id="formSubmitButton" #formSubmitButton></button>
           </div>
