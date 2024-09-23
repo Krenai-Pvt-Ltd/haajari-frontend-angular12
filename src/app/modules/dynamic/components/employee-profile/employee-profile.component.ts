@@ -60,6 +60,7 @@ import { DonateCoinsUserList, DonateSuperCoinsReasonResponse } from 'src/app/mod
 import { OvertimeRequestDTO } from 'src/app/models/overtime-request-dto';
 import { OvertimeRequestLogResponse } from 'src/app/models/overtime-request-log-response';
 import { LopReversalApplicationResponse } from 'src/app/models/lop-reversal-application-response';
+import { NzCalendarMode } from 'ng-zorro-antd/calendar';
 
 @Component({
   selector: 'app-employee-profile',
@@ -181,7 +182,7 @@ export class EmployeeProfileComponent implements OnInit {
   currentDate: Date = new Date();
   currentNewDate: any;
   async ngOnInit(): Promise<void> {
-    this.activeTabs('home');
+    this.activeTabs('attendance');
     window.scroll(0, 0);
     this.getOrganizationRegistrationDateMethodCall();
     this.getOnboardingFormPreviewMethodCall();
@@ -493,6 +494,20 @@ export class EmployeeProfileComponent implements OnInit {
   mouseLeaveInfo(mouseEnterInfo: any): void {
     
     this.closeAttendanceModal();
+  }
+
+  date = new Date();
+  mode: NzCalendarMode = 'month';
+  getEventForDate(date: Date): any {
+    // Match the event date with the current calendar date
+    return this.events.find(
+      (event) =>
+        moment(event.date).format('YYYY-MM-DD') === moment(date).format('YYYY-MM-DD')
+    );
+  }
+
+  panelChange(change: { date: Date; mode: string }): void {
+    console.log('Panel changed to: ', change.date, change.mode);
   }
 
   // });
