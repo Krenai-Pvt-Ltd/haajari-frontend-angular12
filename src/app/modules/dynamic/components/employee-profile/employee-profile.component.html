@@ -194,9 +194,9 @@
             <div class="card-body p-0">
               <!-- Nav tabs -->
               <ul class="nav nav-tabs bg-light border-top" role="tablist">
-                <li class="nav-item" (click)="activeTabs('home')">
+                <!-- <li class="nav-item" (click)="activeTabs('home')">
                   <a class="nav-link active" data-bs-toggle="tab" href="#home" role="tab" aria-selected="true">Home</a>
-                </li>
+                </li> -->
                 <li class="nav-item" (click)="activeTabs('attendance'); getAttendanceRequestLogData()">
                   <a class="nav-link" data-bs-toggle="tab" href="#attendance" role="tab" aria-selected="true">Attendance</a>
                 </li>
@@ -729,9 +729,45 @@
                         </div>
                         <!--end row-->
                       </div>
-                      <div>
+                      <!-- <div>
                         <full-calendar [options]="calendarOptions" id="calendar" #calendar></full-calendar>
-                      </div>
+                      </div> -->
+                      <nz-calendar [(ngModel)]="date" [(nzMode)]="mode" (nzPanelChange)="panelChange($event)">
+                        <ul *nzDateCell="let date" class="events"  >
+                          <ng-container *ngIf="events[date.getDay()-1] as event" [ngStyle]="{'background-color':'red'}" >
+                            <nz-badge nz-popover
+                            nzPopoverTrigger="hover"
+                            nzType="text"
+                            nzPopoverTitle="Summary"
+                            [nzPopoverContent]="contentTemplate"
+                            nzPopoverPlacement="topLeft" [nzDot]="'false'"
+                            [nzColor]="event.color"	nzStandalone [nzCount]="dataTemplate" ></nz-badge>
+                            <ng-template #dataTemplate>
+                              <span>{{event.title}}</span>
+                            </ng-template>
+                            <!-- <nz-badge nzStandalone [nzCount]="109" ></nz-badge> -->
+
+                            <!-- <div nz-popover
+                            nzPopoverTrigger="hover"
+                            nzType="text"
+                            nzPopoverTitle="Summary"
+                            [nzPopoverContent]="contentTemplate"
+                            nzPopoverPlacement="topLeft"
+                            [ngStyle]="{'background-color': event.color,'width':'100%'
+                        }">
+                         {{event.title}}
+                       </div> -->
+                            <ng-template #contentTemplate>
+                              <div>
+                                <p>CHECK IN: {{event.checkInTime| date:'short' }}</p>
+                                <p>CHECK OUT : {{event.checkOutTime| date:'short' }}</p>
+                                <p>BREAK : {{event.breakDuration}}</p>
+                               
+                              </div>
+                            </ng-template>
+                          </ng-container>
+                        </ul>  
+                      </nz-calendar>
                       <div class="legends-section" style="margin-top: 20px; font-size: 13px">
                         <div class="legend" style="
                             display: inline-flex;
@@ -2636,7 +2672,7 @@
                               </td>
                             </tr>
                             <tr>
-                              <td> DOB : {{ (onboardingPreviewData.user.dob
+                              <td> DOB : {{ (onboardingPreviewData.user.dateOfBirth
                                 | date : "dd/MM/yyyy") || "N/A"
                                 }}
                               </td>
