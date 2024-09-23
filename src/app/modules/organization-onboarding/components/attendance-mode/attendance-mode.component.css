@@ -68,13 +68,13 @@
   margin-top: 60px;
 }
 .active {
-  border: 1px solid #1f1fa5 !important;
+  border: 1px solid #6666f2 !important;
   /* background-color: #0cb56208; */
   border-radius: 2px !important;
 }
 
 .attendance-mode-card {
-  background-color: #f9fafb;
+  background-color: #fff;
   border-radius: 2px;
   border: 1px solid #f9fafb;
 }
@@ -222,4 +222,132 @@ a.fetch-location {
   width: 15px;
   position: relative;
   top: -1px;
+}
+
+.attendanceModeBox {
+  background-color: #f9fafb;
+  border-radius: 2px;
+  border: 1px solid #e6e6e6;
+}
+.attendanceModeBox h5 {
+  color: #000;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 22px;
+}
+.attendanceModeBox p {
+  color: #717171;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 18px;
+}
+.whatAppSlackBox {
+  border-radius: 2px;
+  border: 1px solid #e6e6e6;
+  background: #fff;
+}
+.selectedMethod {
+  color: #6666f2;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21.428px; /* 133.928% */
+  letter-spacing: 0.097px;
+  background-color: transparent;
+  padding: 0px;
+}
+.selectedMethod:hover {
+  text-decoration: underline;
+}
+.selectedMethod svg {
+  width: 15px;
+  height: 15px;
+  position: relative;
+  top: -1px;
+}
+
+.whatAppSlackBox h5 {
+  color: #000;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px;
+}
+.whatAppSlackBox p {
+  color: #717171;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 16px;
+}
+
+.whatAppSlackBox img {
+  width: 100px;
+  border-radius: 5.412px;
+  background: #f9fafb;
+  box-shadow: 0px 5.025px 12.562px 5.025px rgba(245, 245, 245, 0.4);
+  padding: 10px;
+}
+.employeeInformation {
+  border-radius: 2px;
+  background: #f9fafb;
+}
+
+.employeeInformation h4 {
+  color: #000;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.employeeInformation p {
+  color: #717171;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 26px;
+}
+.whatAppSlack {
+  border-radius: 3px;
+  border: 1px solid #e6e6e6;
+  background: #f9fafb;
+}
+.attendance-mode-card p {
+  color: #717171;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 15px;
+}
+.attendance-mode-card h5 {
+  font-size: 13px;
+}
+
+.modeHeading {
+  background-color: #f3f5fa;
+  border-bottom: 1px solid #e6e6e6;
+}
+.modeHeading svg {
+  width: 20px;
+  position: relative;
+  top: -2px;
+}
+.knowMoreBtn {
+  color: #000;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 15px;
+}
+.knowMoreBtn:hover {
+  color: #6666f2;
+  text-decoration: underline;
+}
+.bi::before,
+[class*=" bi-"]::before,
+[class^="bi-"]::before {
+  font-weight: 600 !important;
 }

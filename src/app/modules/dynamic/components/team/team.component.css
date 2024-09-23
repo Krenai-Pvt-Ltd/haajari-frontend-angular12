@@ -304,7 +304,7 @@ span.remove-icon:hover {
   font-weight: 400;
 }
 
-[class^="bi-"]::before,
+/* [class^="bi-"]::before,
 [class*=" bi-"]::before {
   display: inline-block;
   font-family: bootstrap-icons !important;
@@ -317,7 +317,7 @@ span.remove-icon:hover {
   -webkit-font-smoothing: antialiased;
 
   -moz-osx-font-smoothing: grayscale;
-}
+} */
 
 .Members-list-box {
   padding: 5px;
@@ -382,9 +382,10 @@ span.remove-icon:hover {
   padding: 0.4rem 1rem;
   font-size: 0.875rem;
   font-weight: 400;
-  height: 40px !important;
+  height: 45px !important;
   border: none;
   background-color: transparent;
+  color: #1f1f1f !important;
 }
 .cusser {
   cursor: pointer;
@@ -422,14 +423,14 @@ span.remove-icon:hover {
   padding: 2px 15px;
   border-radius: 6px;
 }
-
+/* 
 .add-filtter a {
   margin-bottom: 0px;
   color: #6666f3 !important;
   font-size: 15px;
   font-weight: 500;
   cursor: pointer;
-}
+} */
 
 button.btn.close-btn {
   border-radius: 6px;
