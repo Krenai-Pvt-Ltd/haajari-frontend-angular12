@@ -195,4 +195,109 @@ export class HeaderComponent implements OnInit {
   toggleCollapse(): void {
     this.isCollapsed = !this.isCollapsed;
   }
+
+  //Management navigation
+  activeIndex: number = 0;
+  hoverIndex: number | null = null;
+  sliderStyle: any = {};
+  sliderStyle2: any = {};
+  sliderStyle3: any = {};
+  sliderStyle4: any = {};
+  sliderStyle5: any = {};
+
+  setActive(index: number) {
+    this.activeIndex = index;
+    this.updateSliderStyle(index);
+  }
+  resetHoverIndex() {
+    this.sliderStyle = {
+      opacity: 0,
+      transform: `translateY(0)px`,
+    };
+  }
+
+  updateSliderStyle(index: number) {
+    const itemheight = (100 / 2)-8;
+    this.sliderStyle = {
+      opacity: 1, transform: `translateY(${index * itemheight}px)`,
+    };
+  }
+
+
+  //People navigation
+
+  setActive2(index: number) {
+    this.activeIndex = index;
+    this.updateSliderStyle2(index);
+  }
+  resetHoverIndex2() {
+    this.sliderStyle2 = {
+      opacity: 0,
+      transform: `translateY(0)px`,
+    };
+  }
+
+  updateSliderStyle2(index: number) {
+    const itemheight = (100 / 2)-8;
+    this.sliderStyle2 = {
+      opacity: 1, transform: `translateY(${index * itemheight}px)`,
+    };
+  }
+  //Payroll navigation
+  setActive3(index: number) {
+    this.activeIndex = index;
+    this.updateSliderStyle3(index);
+  }
+  resetHoverIndex3() {
+    this.sliderStyle3 = {
+      opacity: 0,
+      transform: `translateY(0)px`,
+    };
+  }
+
+  updateSliderStyle3(index: number) {
+    const itemheight = (100 / 2)-8;
+    this.sliderStyle3 = {
+      opacity: 1, transform: `translateY(${index * itemheight}px)`,
+    };
+  }
+
+
+  //Company navigation
+  setActive4(index: number) {
+    this.activeIndex = index;
+    this.updateSliderStyle4(index);
+  }
+  resetHoverIndex4() {
+    this.sliderStyle4 = {
+      opacity: 0,
+      transform: `translateY(0)px`,
+    };
+  }
+
+  updateSliderStyle4(index: number) {
+    const itemheight = (100 / 2)-8;
+    this.sliderStyle4 = {
+      opacity: 1, transform: `translateY(${index * itemheight}px)`,
+    };
+  }
+
+   //Dashboard navigation
+  setActive5(index: number) {
+    this.activeIndex = index;
+    this.updateSliderStyle5(index);
+  }
+  resetHoverIndex5() {
+    this.sliderStyle5 = {
+      opacity: 0,
+      transform: `translateY(0)px`,
+    };
+  }
+
+  updateSliderStyle5(index: number) {
+    const itemheight = (100 / 2)-8;
+    this.sliderStyle5 = {
+      opacity: 1, transform: `translateY(${index * itemheight}px)`,
+    };
+  }
 }

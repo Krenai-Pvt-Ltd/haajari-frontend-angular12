@@ -1934,9 +1934,11 @@ formatMinutesToTime(minutes: number): string {
   }
 
   deleteCustomHolidays(id: number) {
+    debugger
     this.dataService.deleteCustomHolidays(id).subscribe(
       (response) => {
         // console.log(response);
+        this.holidays = [];
         this.loadHolidays();
       },
       (error) => {
