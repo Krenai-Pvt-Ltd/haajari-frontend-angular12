@@ -53,6 +53,7 @@ export class AttendanceModeComponent implements OnInit {
       this.updateAttendanceModeMethodCall(attendanceModeId);
     } else {
       this.updateAttendanceModeMethodCall(attendanceModeId);
+      this.updateMasterAttendanceModeMethodCall(1, 3);
       // this.attendanceWithLocationButton.nativeElement.click();
       this.currentAttendanceModeId = attendanceModeId;
       this.currentLocation();
@@ -84,6 +85,7 @@ export class AttendanceModeComponent implements OnInit {
       (response) => {
         // this.getAttendanceModeMethodCall();
         this.getMasterAttendanceModeMethodCall();
+        this.getAttendanceModeStep();
         setTimeout(() => {
           this.helperService.showToast(
             'Attedance Master Mode updated successfully.',
@@ -492,5 +494,15 @@ currentLocation() {
       this.showSelectMasterModeFlag = false;
     }
 
+  }
+
+  finishButtonEnableFlag:boolean = false;
+
+  finishButtonFlag() {
+    if(this.selectedMasterAttendanceModeId ===1 && this.attendanceModeStep!=3 ) {
+      this.finishButtonEnableFlag = false;
+    }else if((this.selectedMasterAttendanceModeId ===1 && this.attendanceModeStep===3) || this.selectedMasterAttendanceModeId ===2 || this.selectedMasterAttendanceModeId ===3){
+      this.finishButtonEnableFlag = true;
+    }
   }
 }
