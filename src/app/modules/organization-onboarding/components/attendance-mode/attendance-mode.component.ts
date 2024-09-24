@@ -35,6 +35,8 @@ export class AttendanceModeComponent implements OnInit {
     this.getAttendanceModeAllMethodCall();
     this.getAttendanceModeMethodCall();
     this.getOrganizationAddressDetailMethodCall();
+    this.getMasterAttendanceModeMethodCall();
+    this.getAttendanceModeStep();
   }
 
   routeToBilling() {
@@ -46,11 +48,14 @@ export class AttendanceModeComponent implements OnInit {
   isAttendanceModeSelected: boolean = false;
 
   updateAttendanceMode(attendanceModeId: number) {
+    debugger
     if (attendanceModeId == Key.MANUAL_ATTENDANCE) {
       this.updateAttendanceModeMethodCall(attendanceModeId);
     } else {
-      this.attendanceWithLocationButton.nativeElement.click();
+      this.updateAttendanceModeMethodCall(attendanceModeId);
+      // this.attendanceWithLocationButton.nativeElement.click();
       this.currentAttendanceModeId = attendanceModeId;
+      this.currentLocation();
     }
   }
 
@@ -73,6 +78,27 @@ export class AttendanceModeComponent implements OnInit {
     );
   }
 
+  // modeStepId: number = 0;
+  updateMasterAttendanceModeMethodCall(attendanceMasterModeId: number, modeStepId:number) {
+    this.dataService.updateMasterAttendanceMode(attendanceMasterModeId, modeStepId).subscribe(
+      (response) => {
+        // this.getAttendanceModeMethodCall();
+        this.getMasterAttendanceModeMethodCall();
+        setTimeout(() => {
+          this.helperService.showToast(
+            'Attedance Master Mode updated successfully.',
+            Key.TOAST_STATUS_SUCCESS
+          );
+        }, 1000);
+      },
+      (error) => {
+        this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+      }
+    );
+  }
+
+  
+
   selectedAttendanceModeId: number = 0;
   getAttendanceModeMethodCall() {
     debugger;
@@ -89,6 +115,44 @@ export class AttendanceModeComponent implements OnInit {
       }
     );
   }
+
+  selectedMasterAttendanceModeId: number = 0;
+  getMasterAttendanceModeMethodCall() {
+    debugger;
+    this.dataService.getMasterAttendanceMode().subscribe(
+      (response: any) => {
+        debugger;
+        if (response.status) {
+          this.selectedMasterAttendanceModeId = response.object;
+        }
+        console.log(this.selectedMasterAttendanceModeId);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+
+  attendanceModeStep: number = 0;
+  getAttendanceModeStep() {
+    debugger;
+    this.dataService.getAttendanceModeStep().subscribe(
+      (response: any) => {
+        debugger;
+        if (response.status) {
+          this.attendanceModeStep = response.object;
+        }
+        console.log(this.attendanceModeStep);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  
+
 
   attendanceModeList: AttendanceMode[] = [];
   getAttendanceModeAllMethodCall() {
@@ -406,5 +470,27 @@ currentLocation() {
         console.error('Error fetching address details:', error);
       }
     );
+  }
+
+  showSelectModeFlag: boolean = false;
+  showSelectMasterModeFlag: boolean = false;
+
+  MODE1 = Key.MODE1;
+  MODE2 = Key.MODE2;
+  MODE3 = Key.MODE3;
+
+  selectMasterAttendanceMode(goToStep: number) {
+
+    if(goToStep === 2) {
+      this.selectedAttendanceModeId = 0;
+      this.showSelectModeFlag = true;
+    }else if(goToStep === 1) {
+      this.selectedMasterAttendanceModeId = 0;
+      this.showSelectMasterModeFlag = true;
+    }else {
+      this.showSelectModeFlag = false;
+      this.showSelectMasterModeFlag = false;
+    }
+
   }
 }

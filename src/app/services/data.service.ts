@@ -75,6 +75,7 @@ import { AllocateCoinsRoleWiseRequest, AllocateCoinsRoleWiseResponse, AllocateCo
 import { OvertimeSettingRequest } from '../models/overtime-setting-request';
 import { OvertimeRequestDTO } from '../models/overtime-request-dto';
 import { OrganizationRegistrationFormRequest } from '../models/organization-registration-form-request';
+import { rootCertificates } from 'tls';
 
 
 @Injectable({
@@ -1599,6 +1600,31 @@ export class DataService {
       { params }
     );
   }
+  updateMasterAttendanceMode(attendanceMasterModeId: number, modeStepId: number): Observable<any> {
+    const params = new HttpParams().set('attendance_master_mode_id', attendanceMasterModeId).set('mode_step', modeStepId);
+
+    return this.httpClient.put<any>(
+      `${this.baseUrl}/organization/update/master/attendance-mode`,
+      {},
+      { params }
+    );
+  }
+
+  getMasterAttendanceMode(): Observable<any> {
+
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/organization/get/master/attendance-mode`,
+    );
+  }
+
+
+  getAttendanceModeStep(): Observable<any> {
+
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/organization/get/attendance-mode-step`,
+    );
+  }
+
 
   getBestPerformerAttendanceDetails(
     startDate: string,
