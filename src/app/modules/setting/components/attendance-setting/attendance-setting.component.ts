@@ -225,6 +225,59 @@ export class AttendanceSettingComponent implements OnInit {
     // }
   }
 
+
+  isNextButtonInAttendanceRuleDefinitionFormDisabled(): boolean {
+    // No checkbox selected
+    if (!this.customCheckbox && !this.halfDayCheckbox && !this.fullDayCheckbox) {
+      return true;
+    }
+  
+    // Custom deduction validation
+    if (this.customCheckbox) {
+      if (!this.customLateDurationValue || this.selectedCustomDeductionType?.type === '') {
+        return true;
+      }
+  
+      if (this.selectedCustomDeductionType?.type === 'FIXED AMOUNT' && 
+          !this.attendanceRuleDefinitionRequest.deductionRuleDefinitionRequest.customSalaryDeduction.amountInRupees) {
+        return true;
+      }
+  
+      if (this.customOccurrenceCheckbox && 
+          !this.attendanceRuleDefinitionRequest.deductionRuleDefinitionRequest.customSalaryDeduction.occurrenceCount) {
+        return true;
+      }
+    }
+  
+    // Half-day deduction validation
+    if (this.halfDayCheckbox) {
+      if (!this.halfDayLateDurationValue) {
+        return true;
+      }
+  
+      if (this.halfDayOccurrenceCheckbox && 
+          !this.attendanceRuleDefinitionRequest.deductionRuleDefinitionRequest.halfDaySalaryDeduction.occurrenceCount) {
+        return true;
+      }
+    }
+  
+    // Full-day deduction validation
+    if (this.fullDayCheckbox) {
+      if (!this.fullDayLateDurationValue) {
+        return true;
+      }
+  
+      if (this.fullDayOccurrenceCheckbox && 
+          !this.attendanceRuleDefinitionRequest.deductionRuleDefinitionRequest.fullDaySalaryDeduction.occurrenceCount) {
+        return true;
+      }
+    }
+  
+    // If no validation fails, return false (button should be enabled)
+    return false;
+  }
+  
+
   attendanceRuleResponseList: AttendanceRuleResponse[] = [];
   getAttendanceRuleByOrganizationMethodCall() {
     this.dataService.getAttendanceRuleByOrganization().subscribe(

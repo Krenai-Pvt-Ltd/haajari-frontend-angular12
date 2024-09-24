@@ -1970,10 +1970,7 @@
                   </li>
                   <li role="presentation" class="nav-item">
                     <button id="profile-tab" data-bs-toggle="tab" [class.disabled]="
-                        (!customCheckbox &&
-                        !halfDayCheckbox &&
-                        !fullDayCheckbox) ||
-                        selectedCustomDeductionType?.type == '' ||
+                        isNextButtonInAttendanceRuleDefinitionFormDisabled() ||
                         attendanceRuleForm.invalid ||
                         compareTimesValidation()
                       " [attr.aria-selected]="!attendanceRuleForm.invalid" [attr.tabindex]="attendanceRuleForm.invalid ? -1 : null" (click)="
@@ -2561,17 +2558,14 @@
                           </div>
                         </div>
                       </div>
+
                       <div class="modal-footer" *ngIf="CURRENT_MODAL == DEDUCTION_RULE_DEFINITION">
-                        <!-- (!customCheckbox && !halfDayCheckbox && !fullDayCheckbox) || (selectedCustomDeductionType?.type == '')  || compareTimesValidation() ||  -->
                         <button type="submit" class="btn btn-primary" [disabled]="
-                            (!customCheckbox &&
-                              !halfDayCheckbox &&
-                              !fullDayCheckbox) ||
-                            selectedCustomDeductionType?.type == '' ||
-                            attendanceRuleForm.invalid ||
-                            compareTimesValidation()
+                            isNextButtonInAttendanceRuleDefinitionFormDisabled() ||
+                            attendanceRuleForm.invalid || compareTimesValidation()
                           " (click)="staffActiveTabInAutomationRuleMethod()"> Next </button>
                       </div>
+
                       <div class="modal-footer" *ngIf="CURRENT_MODAL == OVERTIME_RULE_DEFINITION">
                         <button type="submit" class="btn btn-primary" [disabled]="
                             (!customCheckbox &&
@@ -2583,8 +2577,8 @@
                             attendanceRuleForm.invalid || compareTimesValidation()
                           " (click)="staffActiveTabInAutomationRuleMethod()"> Next </button>
                       </div>
+
                     </form>
-                    
                   </div>
                   <div class="tab-pane fade" id="profile" role="tabpanel">
                     <div class="staf-list-box mt-3">
@@ -2626,7 +2620,7 @@
                         ">
                         <div *ngIf="selectedStaffsUuids.length > 0">
                           <ng-container *ngIf="
-                              selectedStaffsUuids.length === total;
+                              selectedStaffsUuids.length == total;
                               else elseCondition2
                             ">
                             <span (click)="unselectAllUsers()" style="
@@ -2649,10 +2643,7 @@
                           </ng-template>
                         </div>
                         <div *ngIf="selectedStaffsUuids.length !== 0">
-                          <ng-container *ngIf="
-                              selectedStaffsUuids.length === total;
-                              else elseCondition1
-                            ">
+                          <ng-container *ngIf="selectedStaffsUuids.length == total; else elseCondition1">
                             <span>All <b>{{ total }}</b> users selected </span>
                           </ng-container>
                           <ng-template #elseCondition1>
@@ -2681,15 +2672,7 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <tr *ngFor="
-                                let staff of staffs
-                                  | paginate
-                                    : {
-                                        itemsPerPage: itemPerPage,
-                                        currentPage: pageNumber,
-                                        totalItems: total
-                                      }
-                              " style="border-bottom: 1px solid #dddddd">
+                            <tr *ngFor="let staff of staffs | paginate : {itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total}" style="border-bottom: 1px solid #dddddd">
                               <td>
                                 <div class="form-check">
                                   <input type="checkbox" style="cursor: pointer" class="form-check-input" [(ngModel)]="staff.selected" (change)="checkIndividualSelection()" />
