@@ -160,7 +160,7 @@
               </div>
             </div>
 
-            <!-- <div class="mt-3 whatAppSlackBox p-3">
+            <div class="mt-3 whatAppSlackBox p-3">
               <div
                 class="d-flex align-items-center justify-content-between border-bottom pb-3"
               >
@@ -438,7 +438,7 @@
                   </div>
                 </div>
               </div>
-            </div> -->
+            </div>
 
             <!-- <div class="row mt-3">
               <div
@@ -1174,284 +1174,50 @@
                       !organizationAddressDetail.longitude &&
                       !organizationAddressDetail.latitude
                     "
-                  >
+                  ></p>
 
-                    <p
-                      class="errortxt mt-2 mb-0"
-                      style="color: red"
-                      *ngIf="addressLine1.errors?.required"
-                    >
-                      <i class="bi bi-exclamation-circle"></i> Address Line 1 is
-                      required.
-                    </p>
-                    <p
-                      class="errortxt mt-2 mb-0"
-                      style="color: red"
-                      *ngIf="addressLine1.errors?.maxlength"
-                    >
-                      <i class="bi bi-exclamation-circle"></i> Maximum 200
-                      characters allowed.
-                    </p>
-                    <p
-                      class="errortxt mt-2 mb-0"
-                      *ngIf="
-                        !organizationAddressDetail.longitude &&
-                        !organizationAddressDetail.latitude
-                      "
-                    >
-                      <i class="bi bi-exclamation-circle"></i> Please Select
-                      Address from Address Dropdown only. Do not type it
-                      manually Or Fetch Current Location.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="col-md-12"
-                *ngIf="
-                  organizationAddressDetail.longitude &&
-                  organizationAddressDetail.latitude
-                "
-              >
-                <div class="mb-3">
-                  <label for="addressLine2" class="pb-2">Street Address <span class="text-optional">(optional)</span></label>
-                  <input
-                    type="text"
-                    id="addressLine2"
-                    placeholder="Address line 2"
-                    name="addressLine2"
-                    class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                    [(ngModel)]="organizationAddressDetail.addressLine2"
-                  />
-                </div>
-              </div>
-              <div
-                class="col-md-4"
-                *ngIf="
-                  organizationAddressDetail.longitude &&
-                  organizationAddressDetail.latitude
-                "
-              >
-                <div class="mb-3">
-                  <label for="landmark" class="pb-2"
-                    >Landmark
-                    <span class="text-optional">(optional)</span></label
-                  >
-                  <input
-                    type="text"
-                    id="landmark"
-                    placeholder="Landmark"
-                    name="landmark"
-                    class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                    [(ngModel)]="organizationAddressDetail.landmark"
-                  />
-                </div>
-              </div>
-              <div
-                class="col-md-4"
-                *ngIf="
-                  organizationAddressDetail.longitude &&
-                  organizationAddressDetail.latitude
-                "
-              >
-                <div class="mb-3">
-                  <label for="city" class="pb-2"> City </label>
-                  <input
-                    type="text"
-                    id="city"
-                    placeholder="City"
-                    required
-                    #city="ngModel"
-                    name="city"
-                    class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                    [(ngModel)]="organizationAddressDetail.city"
-                  />
-                </div>
-                <div *ngIf="(city.touched && city.invalid) || isFormInvalid">
                   <p
                     class="errortxt mt-2 mb-0"
                     style="color: red"
-                    *ngIf="city.errors?.required"
+                    *ngIf="addressLine1.errors?.required"
                   >
-                    <i class="bi bi-exclamation-circle"></i> City Name is
+                    <i class="bi bi-exclamation-circle"></i> Address Line 1 is
                     required.
                   </p>
-                </div>
-              </div>
-              <div
-                class="col-md-4"
-                *ngIf="
-                  organizationAddressDetail.longitude &&
-                  organizationAddressDetail.latitude
-                "
-              >
-                <div class="mb-3">
-                  <label for="state" class="pb-2"> State </label>
-                  <input
-                    type="text"
-                    id="state"
-                    placeholder="State"
-                    required
-                    #state="ngModel"
-                    name="state"
-                    class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                    [(ngModel)]="organizationAddressDetail.state"
-                  />
-                </div>
-                <div *ngIf="(state.touched && state.invalid) || isFormInvalid">
                   <p
                     class="errortxt mt-2 mb-0"
                     style="color: red"
-                    *ngIf="state.errors?.required"
+                    *ngIf="addressLine1.errors?.maxlength"
                   >
-                    <i class="bi bi-exclamation-circle"></i> State Name is
-                    required.
+                    <i class="bi bi-exclamation-circle"></i> Maximum 200
+                    characters allowed.
                   </p>
-                </div>
-              </div>
-              <div
-                class="col-md-6"
-                *ngIf="
-                  organizationAddressDetail.longitude &&
-                  organizationAddressDetail.latitude
-                "
-              >
-                <div class="mb-3">
-                  <label for="country" class="pb-2">Country</label>
-                  <input
-                    type="text"
-                    id="country"
-                    placeholder="Country"
-                    required
-                    #country="ngModel"
-                    name="country"
-                    class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                    [(ngModel)]="organizationAddressDetail.country"
-                  />
-                </div>
-                <div
-                  *ngIf="(country.touched && country.invalid) || isFormInvalid"
-                >
                   <p
                     class="errortxt mt-2 mb-0"
-                    style="color: red"
-                    *ngIf="country.errors?.required"
+                    *ngIf="
+                      !organizationAddressDetail.longitude &&
+                      !organizationAddressDetail.latitude
+                    "
                   >
-                    <i class="bi bi-exclamation-circle"></i> Country Name is
-                    required.
+                    <i class="bi bi-exclamation-circle"></i> Please Select
+                    Address from Address Dropdown only. Do not type it manually
+                    Or Fetch Current Location.
                   </p>
                 </div>
-              </div>
-              <div
-                class="col-md-6"
-                *ngIf="
-                  organizationAddressDetail.longitude &&
-                  organizationAddressDetail.latitude
-                "
-              >
-                <div class="mb-3">
-                  <label for="pincode" class="pb-2">Pincode</label>
-                  <input
-                    type="text"
-                    id="pincode"
-                    placeholder="Pincode"
-                    #pincode="ngModel"
-                    required
-                    name="pincode"
-                    class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                    [(ngModel)]="organizationAddressDetail.pincode"
-                  />
-                </div>
-                <div
-                  *ngIf="(pincode.touched && pincode.invalid) || isFormInvalid"
-                >
-                  <p
-                    class="errortxt mt-2 mb-0"
-                    style="color: red"
-                    *ngIf="pincode.errors?.required"
-                  >
-                    <i class="bi bi-exclamation-circle"></i> Pincode is
-                    required.
-                  </p>
-                </div>
-              </div>
-
-              <div class="col-md-12">
-                <div class="mb-3">
-                  <label for="radius" class="pb-2">
-                    Employee Location Must be in
-                    <i
-                      class="bi bi-exclamation-circle tolltip-icon"
-                      ngbTooltip="Please enter the location range (in meters) within which your employees are allowed to mark their attendance. This ensures that attendance can only be marked when they are within the specified location range."
-                      placement="top"
-                    ></i>
-                  </label>
-                  <input
-                    type="text"
-                    id="radius"
-                    placeholder="in meters"
-                    required
-                    #radius="ngModel"
-                    name="radius"
-                    class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                    [(ngModel)]="organizationAddressDetail.radius"
-                  />
-                </div>
-                <div
-                  *ngIf="(radius.touched && radius.invalid) || isFormInvalid"
-                >
-                  <p
-                    class="errortxt mt-2 mb-0"
-                    style="color: red"
-                    *ngIf="radius.errors?.required"
-                  >
-                    <i class="bi bi-exclamation-circle"></i> Location Radius is
-                    required.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="mb-3">
-                <label for="radius" class="pb-2">
-                  Employee location Must be in
-                  <i
-                    class="bi bi-exclamation-circle tolltip-icon"
-                    ngbTooltip="Please enter the location range (in meters) within which your employees are allowed to mark their attendance. This ensures that attendance can only be marked when they are within the specified location range."
-                    placement="top"
-                  ></i>
-                </label>
-                <input
-                  type="text"
-                  id="radius"
-                  placeholder="in meters"
-                  required
-                  #radius="ngModel"
-                  name="radius"
-                  class="form-control ng-untouched ng-pristine ng-invalid profile-input"
-                  [(ngModel)]="organizationAddressDetail.radius"
-                />
-              </div>
-              <div *ngIf="(radius.touched && radius.invalid) || isFormInvalid">
-                <p
-                  class="errortxt mt-2 mb-0"
-                  style="color: red"
-                  *ngIf="radius.errors?.required"
-                >
-                  <i class="bi bi-exclamation-circle"></i> Location Radius is
-                  required.
-                </p>
               </div>
             </div>
             <div
-              class="col-md-6"
+              class="col-md-12"
               *ngIf="
                 organizationAddressDetail.longitude &&
                 organizationAddressDetail.latitude
               "
             >
               <div class="mb-3">
-                <label for="addressLine2" class="pb-2">Street Address</label>
+                <label for="addressLine2" class="pb-2"
+                  >Street Address
+                  <span class="text-optional">(optional)</span></label
+                >
                 <input
                   type="text"
                   id="addressLine2"
@@ -1463,7 +1229,7 @@
               </div>
             </div>
             <div
-              class="col-md-6"
+              class="col-md-4"
               *ngIf="
                 organizationAddressDetail.longitude &&
                 organizationAddressDetail.latitude
@@ -1484,7 +1250,7 @@
               </div>
             </div>
             <div
-              class="col-md-6"
+              class="col-md-4"
               *ngIf="
                 organizationAddressDetail.longitude &&
                 organizationAddressDetail.latitude
@@ -1515,7 +1281,7 @@
               </div>
             </div>
             <div
-              class="col-md-6"
+              class="col-md-4"
               *ngIf="
                 organizationAddressDetail.longitude &&
                 organizationAddressDetail.latitude
@@ -1610,14 +1376,241 @@
                 </p>
               </div>
             </div>
+
+            <div class="col-md-12">
+              <div class="mb-3">
+                <label for="radius" class="pb-2">
+                  Employee Location Must be in
+                  <i
+                    class="bi bi-exclamation-circle tolltip-icon"
+                    ngbTooltip="Please enter the location range (in meters) within which your employees are allowed to mark their attendance. This ensures that attendance can only be marked when they are within the specified location range."
+                    placement="top"
+                  ></i>
+                </label>
+                <input
+                  type="text"
+                  id="radius"
+                  placeholder="in meters"
+                  required
+                  #radius="ngModel"
+                  name="radius"
+                  class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                  [(ngModel)]="organizationAddressDetail.radius"
+                />
+              </div>
+              <div *ngIf="(radius.touched && radius.invalid) || isFormInvalid">
+                <p
+                  class="errortxt mt-2 mb-0"
+                  style="color: red"
+                  *ngIf="radius.errors?.required"
+                >
+                  <i class="bi bi-exclamation-circle"></i> Location Radius is
+                  required.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="mb-3">
+              <label for="radius" class="pb-2">
+                Employee location Must be in
+                <i
+                  class="bi bi-exclamation-circle tolltip-icon"
+                  ngbTooltip="Please enter the location range (in meters) within which your employees are allowed to mark their attendance. This ensures that attendance can only be marked when they are within the specified location range."
+                  placement="top"
+                ></i>
+              </label>
+              <input
+                type="text"
+                id="radius"
+                placeholder="in meters"
+                required
+                #radius="ngModel"
+                name="radius"
+                class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                [(ngModel)]="organizationAddressDetail.radius"
+              />
+            </div>
+            <div *ngIf="(radius.touched && radius.invalid) || isFormInvalid">
+              <p
+                class="errortxt mt-2 mb-0"
+                style="color: red"
+                *ngIf="radius.errors?.required"
+              >
+                <i class="bi bi-exclamation-circle"></i> Location Radius is
+                required.
+              </p>
+            </div>
+          </div>
+          <div
+            class="col-md-6"
+            *ngIf="
+              organizationAddressDetail.longitude &&
+              organizationAddressDetail.latitude
+            "
+          >
+            <div class="mb-3">
+              <label for="addressLine2" class="pb-2">Street Address</label>
+              <input
+                type="text"
+                id="addressLine2"
+                placeholder="Address line 2"
+                name="addressLine2"
+                class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                [(ngModel)]="organizationAddressDetail.addressLine2"
+              />
+            </div>
+          </div>
+          <div
+            class="col-md-6"
+            *ngIf="
+              organizationAddressDetail.longitude &&
+              organizationAddressDetail.latitude
+            "
+          >
+            <div class="mb-3">
+              <label for="landmark" class="pb-2"
+                >Landmark <span class="text-optional">(optional)</span></label
+              >
+              <input
+                type="text"
+                id="landmark"
+                placeholder="Landmark"
+                name="landmark"
+                class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                [(ngModel)]="organizationAddressDetail.landmark"
+              />
+            </div>
+          </div>
+          <div
+            class="col-md-6"
+            *ngIf="
+              organizationAddressDetail.longitude &&
+              organizationAddressDetail.latitude
+            "
+          >
+            <div class="mb-3">
+              <label for="city" class="pb-2"> City </label>
+              <input
+                type="text"
+                id="city"
+                placeholder="City"
+                required
+                #city="ngModel"
+                name="city"
+                class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                [(ngModel)]="organizationAddressDetail.city"
+              />
+            </div>
+            <div *ngIf="(city.touched && city.invalid) || isFormInvalid">
+              <p
+                class="errortxt mt-2 mb-0"
+                style="color: red"
+                *ngIf="city.errors?.required"
+              >
+                <i class="bi bi-exclamation-circle"></i> City Name is required.
+              </p>
+            </div>
+          </div>
+          <div
+            class="col-md-6"
+            *ngIf="
+              organizationAddressDetail.longitude &&
+              organizationAddressDetail.latitude
+            "
+          >
+            <div class="mb-3">
+              <label for="state" class="pb-2"> State </label>
+              <input
+                type="text"
+                id="state"
+                placeholder="State"
+                required
+                #state="ngModel"
+                name="state"
+                class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                [(ngModel)]="organizationAddressDetail.state"
+              />
+            </div>
+            <div *ngIf="(state.touched && state.invalid) || isFormInvalid">
+              <p
+                class="errortxt mt-2 mb-0"
+                style="color: red"
+                *ngIf="state.errors?.required"
+              >
+                <i class="bi bi-exclamation-circle"></i> State Name is required.
+              </p>
+            </div>
+          </div>
+          <div
+            class="col-md-6"
+            *ngIf="
+              organizationAddressDetail.longitude &&
+              organizationAddressDetail.latitude
+            "
+          >
+            <div class="mb-3">
+              <label for="country" class="pb-2">Country</label>
+              <input
+                type="text"
+                id="country"
+                placeholder="Country"
+                required
+                #country="ngModel"
+                name="country"
+                class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                [(ngModel)]="organizationAddressDetail.country"
+              />
+            </div>
+            <div *ngIf="(country.touched && country.invalid) || isFormInvalid">
+              <p
+                class="errortxt mt-2 mb-0"
+                style="color: red"
+                *ngIf="country.errors?.required"
+              >
+                <i class="bi bi-exclamation-circle"></i> Country Name is
+                required.
+              </p>
+            </div>
+          </div>
+          <div
+            class="col-md-6"
+            *ngIf="
+              organizationAddressDetail.longitude &&
+              organizationAddressDetail.latitude
+            "
+          >
+            <div class="mb-3">
+              <label for="pincode" class="pb-2">Pincode</label>
+              <input
+                type="text"
+                id="pincode"
+                placeholder="Pincode"
+                #pincode="ngModel"
+                required
+                name="pincode"
+                class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                [(ngModel)]="organizationAddressDetail.pincode"
+              />
+            </div>
+            <div *ngIf="(pincode.touched && pincode.invalid) || isFormInvalid">
+              <p
+                class="errortxt mt-2 mb-0"
+                style="color: red"
+                *ngIf="pincode.errors?.required"
+              >
+                <i class="bi bi-exclamation-circle"></i> Pincode is required.
+              </p>
+            </div>
           </div>
         </div>
       </div>
-      <div
-        class="modal-footer border-top d-flex align-items-center justify-content-end p-3"
-      >
-        <button class="btn mannualSubmit">Submit</button>
-      </div>
-      <!-- </form> -->
     </div>
+    <div
+      class="modal-footer border-top d-flex align-items-center justify-content-end p-3"
+    >
+      <button class="btn mannualSubmit">Submit</button>
+    </div>
+    <!-- </form> -->
   </div>
+</div>
