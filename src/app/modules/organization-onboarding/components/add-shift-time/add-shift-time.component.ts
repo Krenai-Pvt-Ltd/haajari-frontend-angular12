@@ -38,10 +38,10 @@ export class AddShiftTimeComponent implements OnInit {
     this.getShiftTypeMethodCall();
     this.getUserByFiltersMethodCall();
     this.getAllShiftTimingsMethodCall();
-    this.defaultInOpenTime.setMinutes(0, 0, 0);
-    this.defaultOutOpenTime.setMinutes(0, 0, 0);
-    this.defaultStartLunchOpenTime.setMinutes(0, 0, 0);
-    this.defaultEndLunchOpenTime.setMinutes(0, 0, 0);
+    this.defaultInOpenTime.setHours(0, 0, 0, 0); 
+  this.defaultOutOpenTime.setHours(0, 0, 0, 0);  
+  this.defaultStartLunchOpenTime.setHours(0, 0, 0, 0);  
+  this.defaultEndLunchOpenTime.setHours(0, 0, 0, 0);  
   }
 
   // backPage() {
