@@ -292,3 +292,8 @@
   padding: 4px 15px;
   border-radius: 5px;
 }
+
+.memberNotes{
+  position: absolute;
+  bottom: -27px;
+}

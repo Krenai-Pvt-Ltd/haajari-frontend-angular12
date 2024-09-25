@@ -369,3 +369,9 @@ p.tableinfo.mb-0 {
   position: relative;
   top: -2px;
 }
+
+.saperater{
+  border-right: 1px solid #ccc;
+    height: 16px;
+    margin-bottom: 0px;
+}

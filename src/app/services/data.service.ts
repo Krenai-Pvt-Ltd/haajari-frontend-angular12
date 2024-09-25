@@ -1625,6 +1625,43 @@ export class DataService {
     );
   }
 
+  getOnboardingAdminUser(): Observable<any> {
+
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/whatsapp-user-onboarding/onboarding-admin-user`,
+    );
+  }
+
+  checkShiftPresence(shiftName:string): Observable<any> {
+
+    const params = new HttpParams()
+      .set('shiftName', shiftName);
+
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/organization-shift-timing/check-shift-presence`, {params}
+    );
+  }
+
+  // getOrganizationUserNameWithShiftName(selectedStaffsUuids: string[]): Observable<any> {
+
+  //   const params = new HttpParams()
+  //     .set('selectedStaffsUuids', selectedStaffsUuids);
+  //   return this.httpClient.get<any>(
+  //     `${this.baseUrl}/organization-shift-timing/get-organization-user-shift-name`,{params}
+  //   );
+  // }
+
+  getOrganizationUserNameWithShiftName(selectedStaffsUuids: string[], shiftId: number): Observable<any> {
+    let params = new HttpParams().set("shiftId", shiftId);
+    
+
+    return this.httpClient.post<any>(
+      `${this.baseUrl}/organization-shift-timing/get-organization-user-shift-name`,  selectedStaffsUuids, {params}
+    );
+  }
+
+  
+
 
   getBestPerformerAttendanceDetails(
     startDate: string,
