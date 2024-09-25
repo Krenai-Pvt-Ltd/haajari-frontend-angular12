@@ -29,6 +29,21 @@
                 </div>
               </div>
 
+              <div class="card-body mt-3 p-0" *ngIf="adminUser!=null">
+                <div class="alert alert-light mb-0 sampleExcelFileBox">
+                  <h4 class="alert-heading font-14">
+                    Admin Detail
+                  </h4>
+                 <div class="d-flex align-items-center gap-5 mt-3">
+                  <h5 class="alert-heading font-13 mb-0">{{adminUser.name || 'N/A'}}</h5>
+                  <p class="saperater"></p>
+                  <p class="mb-0">{{adminUser.email || 'N/A'}}</p>
+                  <p class="saperater"></p>
+                  <p class="mb-0">{{adminUser.phoneNumber || 'N/A'}}</p>
+                 </div>
+                </div>
+              </div>
+
               <ng-container
                 *ngIf="
                   !isShimmer &&
@@ -58,6 +73,8 @@
                       </p>
                     </div>
                   </div>
+
+                 
                   <div class="card-body mt-3 p-0">
                     <div class="alert alert-light mb-0 excel-uplode-file-box">
                       <!-- <input
@@ -593,7 +610,7 @@
                               [checked]="isSelectAll"
                             />
                           </th>
-                          <th style="width: 5%" class="text-center">Count</th>
+                          <th style="width: 5%" class="text-center">Sr No.</th>
                           <th style="width: 25%" class="text-left">Name</th>
                           <th style="width: 25%" class="text-left">
                             Email Address

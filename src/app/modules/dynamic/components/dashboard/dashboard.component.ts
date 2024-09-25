@@ -1310,20 +1310,27 @@ this.getAdminPersonalDetailMethodCall();
   isPurchased: boolean = false;
   @ViewChild('billingModal') billingModal!: ElementRef;
   getPurchasedStatus() {
+    debugger
     this._subscriptionPlanService.getPurchasedStatus().subscribe((response) => {
       this.isPurchased = response;
 
-      if (this.isPurchased == true) {
-        this.router.navigate(['/dashboard']);
-      } else {
-        // this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = true
-        // this.billingModal.nativeElement.click();
-        if (this.ROLE=="ADMIN") {
-          this.router.navigate(['/billing-and-subscription']);
-        }
+      if(this.isPurchased) {
+      this.router.navigate(['/to-do-step-dashboard']);
+      }else {
+        this.router.navigate(['/to-do-step-dashboard']);
+      }
+      // if (this.isPurchased == true) {
+      //   this.router.navigate(['/to-do-step-dashboard']);
+      //   // this.router.navigate(['/dashboard']);
+      // } else {
+      //   // this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = true
+      //   // this.billingModal.nativeElement.click();
+      //   if (this.ROLE=="ADMIN") {
+      //     this.router.navigate(['/billing-and-subscription']);
+      //   }
         
        
-      }
+      // }
     });
   }
 

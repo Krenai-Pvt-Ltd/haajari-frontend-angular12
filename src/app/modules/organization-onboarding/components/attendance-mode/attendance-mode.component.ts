@@ -185,7 +185,8 @@ export class AttendanceModeComponent implements OnInit {
     this.onboardingService.saveOrgOnboardingStep(5).subscribe((resp) => {
       this.onboardingService.refreshOnboarding();
     });
-    this.router.navigate(['/dashboard']);
+     this.registerBillingAndSubscriptionTempMethodCall(this.basicSubscriptionPlanId);
+
     this.dataService.sendOnboardingNotificationInWhatsapp().subscribe(
       (response) => {
         console.log('Messages Sent Successfully');
@@ -515,4 +516,21 @@ currentLocation() {
       this.finishButtonEnableFlag = true;
     }
   }
+
+  basicSubscriptionPlanId: number = 1;
+  registerBillingAndSubscriptionTempMethodCall(subscriptionPlanId: number) {
+    this.dataService.registerBillingAndSubscriptionTemp(subscriptionPlanId).subscribe(
+      (response) => {
+        this.helperService.showToast("Free trial started successfully.", Key.TOAST_STATUS_SUCCESS);
+        setTimeout(() => {
+          this.router.navigate(['/dashboard']);
+        }, 1000);
+       
+      },
+      (error) => {
+        this.helperService.showToast("Error while purchasing the plan!", Key.TOAST_STATUS_ERROR);
+      }
+    );
+  }
+
 }
