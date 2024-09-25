@@ -52,7 +52,7 @@ export class RoleBasedAccessControlService {
   }
 
   async getRole() {
-    debugger
+
     let role = null;
     // this.userInfo = await this.helperService.getDecodedValueFromToken();
     // this.userInfo= await this.helperService
@@ -65,7 +65,7 @@ export class RoleBasedAccessControlService {
   }
 
   getRoles() {
-    debugger
+
     // console.log("role is ",this.userInfo)
     return this.userInfo!.role;
   }
