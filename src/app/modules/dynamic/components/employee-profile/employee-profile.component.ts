@@ -61,6 +61,7 @@ import { OvertimeRequestDTO } from 'src/app/models/overtime-request-dto';
 import { OvertimeRequestLogResponse } from 'src/app/models/overtime-request-log-response';
 import { LopReversalApplicationResponse } from 'src/app/models/lop-reversal-application-response';
 import { NzCalendarMode } from 'ng-zorro-antd/calendar';
+import { AttendanceDetailDayWise } from 'src/app/models/attendance-detail-day-wise';
 
 @Component({
   selector: 'app-employee-profile',
@@ -498,96 +499,111 @@ export class EmployeeProfileComponent implements OnInit {
 
   date = new Date();
   mode: NzCalendarMode = 'month';
-  getEventForDate(date: Date): any {
-    // Match the event date with the current calendar date
-    return this.events.find(
-      (event) =>
-        moment(event.date).format('YYYY-MM-DD') === moment(date).format('YYYY-MM-DD')
-    );
+  // getEventForDate(date: Date): any {
+  //   return this.events.find(event => moment(event.date).isSame(moment(date), 'day'));
+  // }
+  
+
+  
+
+  panelChange(event: { date: Date; mode: 'month' | 'year' }): void {
+    this.mode = event.mode; // Update mode
+    console.log('Panel change event:', event);
+
+    // Check if the mode is 'month' and the month has changed
+    const selectedDate = event.date;
+    const currentMonth = this.date.getMonth();
+    const currentYear = this.date.getFullYear();
+    const newMonth = selectedDate.getMonth();
+    const newYear = selectedDate.getFullYear();
+
+    // Check if the month or year has changed
+    if (newMonth !== currentMonth || newYear !== currentYear) {
+      // Update the date to the new selected date
+      this.date = selectedDate;
+
+      // Call your method to handle data fetching based on the new month/year
+      this.handleMonthChange(newMonth, newYear);
+    }
+  }
+  
+
+  disableDate = (current: Date): boolean => {
+    // Disable dates before the user's joining date
+    console.log('Current:', current, 'Joining Date:', this.onboardingPreviewData.user.joiningDate);
+    return current < this.joiningDate;
+  };
+
+
+
+  selectChange(selectedDate: Date): void {
+    console.log('Selected date:', selectedDate);
+    
+    // Calculate the start and end dates for the month
+    const startDateStr = moment(selectedDate).startOf('month').format('YYYY-MM-DD');
+    const endDateStr = moment(selectedDate).endOf('month').format('YYYY-MM-DD');
+    
+    // Call the method to fetch user attendance data
+    this.getUserAttendanceDataFromDate(startDateStr, endDateStr);
   }
 
-  panelChange(change: { date: Date; mode: string }): void {
-    console.log('Panel changed to: ', change.date, change.mode);
-  }
+  handleMonthChange(month: number, year: number): void {
+    const startDate = moment().year(year).month(month).startOf('month');
+    const endDate = moment(startDate).endOf('month');
 
+    const startDateStr = startDate.format('YYYY-MM-DD');
+    const endDateStr = endDate.format('YYYY-MM-DD');
+
+    console.log(`Start Date: ${startDateStr}, End Date: ${endDateStr}`);
+
+    // Call your method to get user attendance data
+    this.getUserAttendanceDataFromDate(startDateStr, endDateStr);
+  }
+  
   // });
   getUserAttendanceDataFromDate(sDate: string, eDate: string): void {
-    
+    debugger
     this.dataService
       .getUserAttendanceDetailsByDateDuration(this.userId, 'USER', sDate, eDate)
       .subscribe(
         (response: any) => {
-          response = response.listOfObject;
+          const attendances = response?.listOfObject || [];
           this.events = [];
           this.totalPresent = 0;
           this.totalAbsent = 0;
-
-          if (response == null) {
-            let currentDate = moment(sDate);
-            const endDate = moment(eDate);
-
+  
+          if (!attendances.length) {
+            let currentDate = moment(sDate, 'YYYY-MM-DD');
+            const endDate = moment(eDate, 'YYYY-MM-DD');
+  
             while (currentDate.isSameOrBefore(endDate)) {
-              const title = 'A';
-              const date = currentDate.format('YYYY-MM-DD');
-              var color = '#f8d7d7';
+              this.events.push({ 
+                title: 'A', 
+                date: currentDate.format('YYYY-MM-DD'), 
+                color: '#f8d7d7' 
+              });
               this.totalAbsent++;
-              var tempEvent: { title: string; date: string; color: string } = {
-                title: title,
-                date: date,
-                color: color,
-              };
-              this.events.push(tempEvent);
-
               currentDate.add(1, 'days');
-
-              this.calendarOptions = {
-                plugins: [dayGridPlugin],
-                initialView: 'dayGridMonth',
-                weekends: true,
-                events: this.events,
-                eventClick: this.openModal.bind(this),
-                eventMouseEnter: this.openModal.bind(this),
-                eventMouseLeave: this.mouseLeaveInfo.bind(this),
-                // eventClick: function(mouseEnterInfo) {
-                //   alert('Event: ' + mouseEnterInfo.event.title);
-                //   mouseEnterInfo.el.style.borderColor = 'red';
-                // }
-              };
             }
           } else {
-            // this.attendanceDetails = Object.values(response);
-            // this.attendances = this.attendanceDetails[0];
-            // this.attendanceDetailsResponse = this.attendanceDetails[0];
-
-            this.attendances = response;
-            this.attendanceDetailsResponse = response;
-
-            // console.log('Attendance Details:', this.attendances);
-            // console.log(
-            //   'Attendance Details length:',
-            //   this.attendanceDetails[0].length
-            // );
-            for (let i = 0; i < this.attendances.length; i++) {
-              const attendance = this.attendances[i];
-              let title = this.getStatusTitle(attendance);
-              let color = this.getStatusColor(attendance.status);
-              if (
-                attendance.status == 'Present' ||
-                attendance.status == 'Half Day' ||
-                attendance.status == 'Late'
-              ) {
+            this.attendances = attendances;
+            this.attendanceDetailsResponse = attendances;
+            this.attendanceDetailDayWise = response?.listOfObject || [];
+  
+            for (let attendance of attendances) {
+              const title = this.getStatusTitle(attendance);
+              const color = this.getStatusColor(attendance.status);
+  
+              if (['Present', 'Half Day', 'Late'].includes(attendance.status)) {
                 this.totalPresent++;
-              } else if (attendance.status == 'Absent') {
+              } else if (attendance.status === 'Absent') {
                 this.totalAbsent++;
               }
-              const date = moment(this.attendances[i].createdDate).format(
-                'YYYY-MM-DD'
-              );
-
-              var tempEvent2 = {
-                title: title,
-                date: date,
-                color: color,
+  
+              this.events.push({
+                title,
+                date: moment(attendance.createdDate).format('YYYY-MM-DD'),
+                color,
                 checkInTime: attendance.checkInTime,
                 checkOutTime: attendance.checkOutTime,
                 breakCount: attendance.breakCount,
@@ -595,67 +611,28 @@ export class EmployeeProfileComponent implements OnInit {
                 totalWorkingHours: attendance.totalWorkingHours,
                 createdDate: attendance.createdDate,
                 status: attendance.status,
-              };
-              this.events.push(tempEvent2);
+              });              
             }
           }
-
+  
           this.updateCalendarOptions();
-          //   let title = '';
-
-          //   if((date == moment(new Date()).format('YYYY-MM-DD')) && (this.attendances[i].checkInTime==null)){
-          //     title == '-';
-          //   } else {
-          //   title = this.attendances[i].checkInTime != null ? 'P' : 'A';
-          //   if (title == 'Present') {
-          //     this.totalPresent++;
-          //   } else if (title == 'Absent') {
-          //     this.totalAbsent++;
-          //   }
-          // }
-
-          //   var checkInTime = this.attendances[i].checkInTime;
-          //   var checkOutTime = this.attendances[i].checkOutTime;
-          //   var breakCount = this.attendances[i].breakCount;
-          //   var breakDuration = this.attendances[i].totalBreakHours;
-          //   var totalWorkingHours = this.attendances[i].totalWorkingHours;
-          //   var createdDate = this.attendances[i].createdDate
-          //   var color = title == 'Present' ? '#e0ffe0' : title == 'Absent' ? '#f8d7d7' : '';
-          //   var tempEvent2: { title: string, date: string, color: string, checkInTime:any, checkOutTime:any, breakCount:any, breakDuration:any, totalWorkingHours:any, createdDate:any} = { title: title, date: date, color: color,checkInTime:checkInTime, checkOutTime:checkOutTime, breakCount:breakCount, breakDuration:breakDuration, totalWorkingHours:totalWorkingHours, createdDate:createdDate };
-          //   this.events.push(tempEvent2);
-
-          // if (i == this.attendances.length - 1) {
-          //   this.calendarOptions = {
-          //     plugins: [dayGridPlugin],
-          //     initialView: 'dayGridMonth',
-          //     weekends: true,
-          //     events: this.events,
-          //     eventClick: this.openModal.bind(this),
-          //     eventMouseEnter: this.openModal.bind(this),
-          //     eventMouseLeave:this.mouseLeaveInfo.bind(this)
-
-          //   };
-          // }
-
-          //   }
-          // }
-
-          var flag = false;
-          if (!flag) {
-            var date = new Date(this.prevDate);
+  
+          if (this.prevDate) {
             const calendarApi = this.calendarComponent.getApi();
             this.changeForwardButtonVisibilty(calendarApi);
-            flag = true;
           }
+  
           this.count++;
         },
         (error: any) => {
           this.count++;
-          // console.error('Error fetching data:', error);
+          console.error('Error fetching data:', error);
         }
       );
   }
-
+  
+  
+  // Function to update calendar options
   updateCalendarOptions(): void {
     this.calendarOptions = {
       plugins: [dayGridPlugin],
@@ -715,6 +692,84 @@ export class EmployeeProfileComponent implements OnInit {
         return '#ffffff';
     }
   }
+
+  attendanceDetailDayWise: AttendanceDetailDayWise[] =[];
+  
+
+  // Function to get attendance details for a particular date
+  getAttendance(date: Date): AttendanceDetailDayWise | undefined {
+    const formattedDate = this.formatDate(date);
+    return this.attendanceDetailDayWise.find(attendance => attendance.createdDate === formattedDate);
+  }
+  
+  getEventForDate(date: Date): any {
+    const formattedDate = this.formatDate(date);
+    return this.events.find(event => event.date === formattedDate);
+  }
+  
+  // Helper function to format date to match the event date format
+  // formatDate(date: Date): string {
+  //   const year = date.getFullYear();
+  //   const month = ('0' + (date.getMonth() + 1)).slice(-2);
+  //   const day = ('0' + date.getDate()).slice(-2);
+  //   return `${year}-${month}-${day}`;
+  // }
+  
+  // Function to get details for tooltip
+  getDetails(attendance: AttendanceDetailDayWise): string {
+    const createdDate = new Date(attendance.createdDate).toLocaleDateString();
+
+    // Define details based on the attendance status
+    let details = `Date: ${createdDate || 'N/A'}\n`;
+
+    switch (attendance.status) {
+        case 'Present':
+          case 'Half Day':
+            const checkInTime = new Date(attendance.checkInTime).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true });
+            const checkOutTime = new Date(attendance.checkOutTime).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true });
+            details += `: Check-in: ${checkInTime || 'N/A'}\n`;
+            details += `Check-out: ${checkOutTime || 'N/A'}\n`;
+            details += `Total Hours: ${attendance.totalWorkingHours || 'N/A'}\n`;
+            details += `Break Duration: ${attendance.breakDuration || 'N/A'}\n`;
+            break;
+
+        case 'Absent':
+            details += `: Absent\n`;
+            break;
+
+        case 'Weekly Holiday':
+            details += `: Weekly Holiday\n`;
+            break;
+
+        case 'Universal Holiday':
+        case 'Custom Holiday':
+            details += `: Holiday\n`;
+            break;
+
+        case 'On Leave':
+            details += `: On Leave\n`;
+            break;
+
+        case 'Not Marked':
+            details += `: Not Marked\n`;
+            break;
+
+        default:
+            details += `: Unknown\n`;
+            break;
+    }
+
+    return details;
+}
+
+
+   // Function to handle mode change (month/year change)
+   onModeChange(mode: string) {
+    console.log('Calendar mode changed:', mode);
+    // Handle actions here if necessary, such as re-fetching data based on mode
+  }
+
+  
 
   // getStatusColor(status: any): string {
   //   switch (status) {
@@ -1127,11 +1182,11 @@ export class EmployeeProfileComponent implements OnInit {
     return formattedDate;
   }
 
-  formatTime(date: Date) {
-    const dateObject = new Date(date);
-    const formattedTime = this.datePipe.transform(dateObject, 'hh:mm a');
-    return formattedTime;
-  }
+  // formatTime(date: Date) {
+  //   const dateObject = new Date(date);
+  //   const formattedTime = this.datePipe.transform(dateObject, 'hh:mm a');
+  //   return formattedTime;
+  // }
 
   calculateDateDifference(endDate: string, startDate: string): number {
     const end = new Date(endDate);
@@ -2255,6 +2310,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.router.navigate([routePath], navExtra);
   }
 
+  joiningDate!: Date;
   getOnboardingFormPreviewMethodCall() {
     const userUuid = new URLSearchParams(window.location.search).get('userId') || '';
     if (userUuid) {
@@ -2262,6 +2318,7 @@ export class EmployeeProfileComponent implements OnInit {
         (preview) => {
           console.log(preview);
           this.onboardingPreviewData = preview;
+          this.joiningDate = new Date(this.onboardingPreviewData.user.joiningDate);
           if (preview.companyLogo) {
             this.companyLogoUrl = preview.companyLogo;
           }

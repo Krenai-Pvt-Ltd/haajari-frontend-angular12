@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
-import { CommonModule } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -30,6 +30,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { BillAndSubscriptionComponent } from './modules/sharable/bill-and-subscription/bill-and-subscription.component';
+
 
 
 // import { OnboardingSidebarResponse } from './models/onboarding-sidebar-response';
@@ -68,7 +69,8 @@ import { BillAndSubscriptionComponent } from './modules/sharable/bill-and-subscr
     DragDropModule,
     MatDialogModule,
     MatButtonModule,
-    NzSwitchModule
+    NzSwitchModule,
+
     // OnboardingSidebarResponse
 
     // CalendarModule.forRoot({
