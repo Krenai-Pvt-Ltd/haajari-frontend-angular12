@@ -303,6 +303,7 @@ export class ShiftTimeListComponent implements OnInit {
         (response) => {
           debugger;
           this.isEditStaffLoader = false;
+          this.editShiftTimeLoader = false;
           // console.log(response);
           this.closeShiftTimingModal.nativeElement.click();
           this.getAllShiftTimingsMethodCall();
@@ -316,6 +317,7 @@ export class ShiftTimeListComponent implements OnInit {
         (error) => {
           console.log(error);
           this.isEditStaffLoader = false;
+          this.editShiftTimeLoader = false;
           this.helperService.showToast(
             'Error In Shift Creation',
             Key.TOAST_STATUS_ERROR
@@ -651,10 +653,15 @@ calculateTimes(): void {
       .padStart(2, '0')}`;
   }
 
+  editShiftTimeLoader : boolean = false;
+
+  @ViewChild("closeButton") closeButton!: ElementRef;
   submitShiftTimingForm(): void {
     debugger
+    this.editShiftTimeLoader = true;
     this.calculateTimes();
     this.registerOrganizationShiftTimingMethodCall();
+    this.closeButton.nativeElement.click();
     // if (this.isValidForm()) {
     //   this.registerOrganizationShiftTimingMethodCall();
     // } else {

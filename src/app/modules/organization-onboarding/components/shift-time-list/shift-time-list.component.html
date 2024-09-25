@@ -1682,7 +1682,14 @@
       <div class="border-top d-flex align-items-center justify-content-end p-3">
         <button class="btn mannualSubmit" 
         [disabled]="shiftForm.invalid || !organizationShiftTimingRequest.inTimeDate || !organizationShiftTimingRequest.outTimeDate || !organizationShiftTimingRequest.startLunchDate || !organizationShiftTimingRequest.endLunchDate"
-        (click)="submitShiftTimingForm()">Submit</button>
+        (click)="submitShiftTimingForm()">
+        <span *ngIf="!editShiftTimeLoader">Submit</span>
+        <div class="dot-opacity-white-loader" *ngIf="editShiftTimeLoader">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </button>
       </div>
     </div>
   </div>

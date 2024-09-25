@@ -143,7 +143,14 @@ export class AttendanceModeComponent implements OnInit {
       (response: any) => {
         debugger;
         if (response.status) {
+
+          if(response.object!=null) {
           this.attendanceModeStep = response.object;
+          }else {
+ 
+            this.attendanceModeStep = 0;
+          }
+          
         }
         console.log(this.attendanceModeStep);
       },
@@ -429,6 +436,8 @@ currentLocation() {
 
   submit() {
     debugger;
+
+    if(this.selectedMasterAttendanceModeId === 1 && this.attendanceModeStep ===3) {
     this.checkFormValidation();
 
     if (this.isFormInvalid == true) {
@@ -436,6 +445,7 @@ currentLocation() {
     } else {
       this.setOrganizationAddressDetailMethodCall();
     }
+  }
   }
 
   // public resetAddressDetailsModal() {

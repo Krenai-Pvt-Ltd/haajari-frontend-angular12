@@ -19,10 +19,10 @@
             <!-- {{attendanceModeStep}} -->
             <!-- {{selectedMasterAttendanceModeId}}  -->
             <div class="row mt-3" *ngIf="attendanceModeStep==1 || attendanceModeStep==0">
-              <div class="col-md-4" (click)="updateMasterAttendanceModeMethodCall(1, 2)" [ngClass]="{
-                active:  1 == selectedMasterAttendanceModeId
-              }">
-                <div class="attendanceModeBox pointer" >
+              <div class="col-md-4" (click)="updateMasterAttendanceModeMethodCall(1, 2)" >
+                <div class="attendanceModeBox pointer" [ngClass]="{
+                  active:  1 == selectedMasterAttendanceModeId
+                }">
                   <h5 class="mb-0 p-3 modeHeading">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -70,10 +70,10 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-4" (click)="updateMasterAttendanceModeMethodCall(2, 1)" [ngClass]="{
-                active:  2 == selectedMasterAttendanceModeId
-              }">
-                <div class="attendanceModeBox pointer">
+              <div class="col-md-4" (click)="updateMasterAttendanceModeMethodCall(2, 1)" >
+                <div class="attendanceModeBox pointer" [ngClass]="{
+                  active:  2 == selectedMasterAttendanceModeId
+                }">
                   <h5 class="mb-0 p-3 modeHeading">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -118,10 +118,10 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-4" (click)="updateMasterAttendanceModeMethodCall(3, 1)" [ngClass]="{
-                active:  3 == selectedMasterAttendanceModeId
-              }">
-                <div class="attendanceModeBox pointer">
+              <div class="col-md-4" (click)="updateMasterAttendanceModeMethodCall(3, 1)" >
+                <div class="attendanceModeBox pointer" [ngClass]="{
+                  active:  3 == selectedMasterAttendanceModeId
+                }">
                   <h5 class="mb-0 p-3 modeHeading">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -353,7 +353,7 @@
 
               
               <div>
-                <form #organizationAddressForm="ngForm" (ngSubmit)="submit()">
+                <form #organizationAddressForm="ngForm">
                 <div class="mb-3">
                   <h5 class="alert-heading font-14 mb-0">Office 1</h5>
                   <!-- {{locationLoader}} -->
@@ -391,11 +391,11 @@
                           class="loader-fetching-location"
                           *ngIf="locationLoader"
                         >
-                          <i
-                            class="ti ti-current-location"
-                            style="padding-right: 8px"
-                          ></i>
-                          Fetching
+                        <i
+                        class="ti ti-current-location"
+                        style="padding-right: 8px"
+                      ></i
+                      >Fetching
                           <span></span>
                           <span></span>
                           <span></span>
@@ -803,8 +803,8 @@
                 <button
                   type="submit"
                   class="btn nextBtn"
-                  [disabled]="organizationAddressForm?.invalid && selectedMasterAttendanceModeId ===1 || attendanceModeStep ==2"
-                  (click)="goToDashboardSection()"
+                  [disabled]="organizationAddressForm?.invalid && selectedMasterAttendanceModeId ===1 || (attendanceModeStep ===2 && (selectedAttendanceModeId ===2 || selectedAttendanceModeId===3))"
+                  (click)="goToDashboardSection(); submit()"
                 >
                   <span *ngIf="!isAttendanceModeLoader"
                     >Finish Setup
