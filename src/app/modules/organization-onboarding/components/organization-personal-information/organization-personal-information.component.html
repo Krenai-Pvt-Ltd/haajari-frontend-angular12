@@ -358,7 +358,7 @@
             <div class="col-md-8">
               <div class="next-btn-box">
                 <div class="d-flex align-items-center justify-content-end">
-                  <button type="submit" class="btn nextBtn" (click)="submit()">
+                  <button type="submit" class="btn nextBtn" [disabled]="personalInformationForm.invalid" (click)="submit()">
                     <span *ngIf="!isInfoLoading"
                       >Next
                       <svg
