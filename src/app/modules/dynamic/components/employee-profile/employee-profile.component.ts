@@ -3287,6 +3287,71 @@ attendanceRequestLog: any[] = [];
     })
   }
   
+
+
+
+ 
+  // regDate = new Date('2023-01-01'); // Example registration date
+  selectedYear = this.date.getFullYear();
+  selectedMonth = this.date.getMonth() + 1;
+
+  // Generate a list of years (from registration year to current year)
+  yearList = this.generateYearList();
+
+  // List of months
+  monthList = [
+    { value: 1, label: 'January' },
+    { value: 2, label: 'February' },
+    { value: 3, label: 'March' },
+    { value: 4, label: 'April' },
+    { value: 5, label: 'May' },
+    { value: 6, label: 'June' },
+    { value: 7, label: 'July' },
+    { value: 8, label: 'August' },
+    { value: 9, label: 'September' },
+    { value: 10, label: 'October' },
+    { value: 11, label: 'November' },
+    { value: 12, label: 'December' }
+  ];
+
+
+
+  // Disable months earlier than registration date if the selected year matches the registration year
+  disableMonth = (month: number): boolean => {
+    if (this.selectedYear === this.joiningDate.getFullYear()) {
+      return month < (this.joiningDate.getMonth() + 1); // disable months before regDate in the registration year
+    }
+    return false;
+  };
+
+  // Handle year change
+  onYearChange(year: number) {
+    this.selectedYear = year;
+    this.updateCalendarDate();
+  }
+
+
+
+  // Update the calendar date based on the selected month and year
+  updateCalendarDate() {
+    this.date = new Date(this.selectedYear, this.selectedMonth - 1, 1);
+  }
+
+  // Generate year list from registration year to the current year
+  generateYearList(): number[] {
+    if(!this.joiningDate){
+      this.joiningDate = new Date(this.onboardingPreviewData.user.joiningDate);
+    }
+    const startYear = this.joiningDate.getFullYear();
+    const currentYear = new Date().getFullYear();
+    const years = [];
+    console.log(startYear)
+    for (let year = startYear; year <= currentYear; year++) {
+      years.push(year);
+    }
+    return years;
+  }
+
 }
 
 
