@@ -801,10 +801,11 @@
                     <span></span>
                   </div>
                 </button>
+                <!-- {{selectedMasterAttendanceModeId}} -->
                 <button
                   type="submit"
                   class="btn nextBtn"
-                  [disabled]="organizationAddressForm?.invalid && selectedMasterAttendanceModeId ===1 || (attendanceModeStep ===2 && (selectedAttendanceModeId ===2 || selectedAttendanceModeId===3))"
+                  [disabled]="organizationAddressForm?.invalid && selectedMasterAttendanceModeId ===1 || (attendanceModeStep ===2 && (selectedAttendanceModeId ===2 || selectedAttendanceModeId===3)) || selectedMasterAttendanceModeId == null"
                   (click)="goToDashboardSection(); submit()"
                 >
                   <span *ngIf="!isAttendanceModeLoader"

@@ -1314,11 +1314,12 @@ this.getAdminPersonalDetailMethodCall();
     this._subscriptionPlanService.getPurchasedStatus().subscribe((response) => {
       this.isPurchased = response;
 
-      if(this.isPurchased) {
+      // if(this.isPurchased) {
+      // this.router.navigate(['/to-do-step-dashboard']);
+      // }else {
+      //   this.router.navigate(['/to-do-step-dashboard']);
+      // }
       this.router.navigate(['/to-do-step-dashboard']);
-      }else {
-        this.router.navigate(['/to-do-step-dashboard']);
-      }
       // if (this.isPurchased == true) {
       //   this.router.navigate(['/to-do-step-dashboard']);
       //   // this.router.navigate(['/dashboard']);
