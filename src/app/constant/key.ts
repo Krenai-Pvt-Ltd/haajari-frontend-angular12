@@ -391,4 +391,9 @@ export class Key {
   // Sandwitch rule
   public static YES = 'Yes';
   public static NO = 'No';
+
+  //  Attendance Main Modes
+  public static MODE1 = 'Slack_and_Whatsapp';
+  public static MODE2 = 'Machine';
+  public static MODE3 = 'Lens';
 }

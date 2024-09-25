@@ -41,6 +41,7 @@ export class ShiftTimeListComponent implements OnInit {
     this.defaultOutOpenTime.setMinutes(0, 0, 0);
     this.defaultStartLunchOpenTime.setMinutes(0, 0, 0);
     this.defaultEndLunchOpenTime.setMinutes(0, 0, 0);
+   
   }
 
   selectedStaffsUuids: string[] = [];
@@ -249,6 +250,7 @@ export class ShiftTimeListComponent implements OnInit {
     // }, 0);
   }
 
+  checkForShiftId: number = 0;
   updateOrganizationShiftTimingUser(organizationShiftTimingResponse: OrganizationShiftTimingResponse,
     tab: string
   ) {
@@ -258,10 +260,12 @@ export class ShiftTimeListComponent implements OnInit {
     this.organizationShiftTimingRequest.shiftTypeId =
       organizationShiftTimingResponse.shiftType.id;
     this.selectedStaffsUuids = organizationShiftTimingResponse.userUuids;
+    this.checkForShiftId = organizationShiftTimingResponse.id;
 
     // this.getShiftTypeMethodCall();
     // this.selectedShiftType = organizationShiftTimingResponse.shiftType;
     this.getUserByFiltersMethodCall();
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId);
   }
 
   clearShiftTimingModel() {
@@ -303,6 +307,7 @@ export class ShiftTimeListComponent implements OnInit {
         (response) => {
           debugger;
           this.isEditStaffLoader = false;
+          this.editShiftTimeLoader = false;
           // console.log(response);
           this.closeShiftTimingModal.nativeElement.click();
           this.getAllShiftTimingsMethodCall();
@@ -316,6 +321,7 @@ export class ShiftTimeListComponent implements OnInit {
         (error) => {
           console.log(error);
           this.isEditStaffLoader = false;
+          this.editShiftTimeLoader = false;
           this.helperService.showToast(
             'Error In Shift Creation',
             Key.TOAST_STATUS_ERROR
@@ -370,6 +376,7 @@ export class ShiftTimeListComponent implements OnInit {
     this.isAllUsersSelected = this.staffs.every((staff) => staff.selected);
     this.isAllSelected = this.isAllUsersSelected;
     this.updateSelectedStaffs();
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId);
   }
 
   updateSelectedStaffs() {
@@ -395,6 +402,7 @@ export class ShiftTimeListComponent implements OnInit {
     this.staffs.forEach((staff) => (staff.selected = false));
     this.selectedStaffsUuids = [];
     this.activeModel2 = false;
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId);
   }
 
   selectAll(checked: boolean) {
@@ -418,6 +426,7 @@ export class ShiftTimeListComponent implements OnInit {
         }
       });
     }
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId);
   }
 
   selectAllUsers(isChecked: boolean) {
@@ -432,11 +441,13 @@ export class ShiftTimeListComponent implements OnInit {
       this.activeModel2 = true;
       this.getAllUsersUuids().then((allUuids) => {
         this.selectedStaffsUuids = allUuids;
+        this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId);
       });
     } else {
       this.selectedStaffsUuids = [];
       this.activeModel2 = false;
     }
+   
   }
   async getAllUsersUuids(): Promise<string[]> {
     // Replace with your actual API call to get all users
@@ -651,10 +662,15 @@ calculateTimes(): void {
       .padStart(2, '0')}`;
   }
 
+  editShiftTimeLoader : boolean = false;
+
+  @ViewChild("closeButton") closeButton!: ElementRef;
   submitShiftTimingForm(): void {
     debugger
+    this.editShiftTimeLoader = true;
     this.calculateTimes();
     this.registerOrganizationShiftTimingMethodCall();
+    this.closeButton.nativeElement.click();
     // if (this.isValidForm()) {
     //   this.registerOrganizationShiftTimingMethodCall();
     // } else {
@@ -711,4 +727,23 @@ calculateTimes(): void {
       this.activeIndex = index;
     }
   }
+
+  userNameWithShiftName: any;
+  getOrganizationUserNameWithShiftNameData(shiftId : number) {
+    this.dataService.getOrganizationUserNameWithShiftName(this.selectedStaffsUuids, shiftId).subscribe(
+      (response) => {
+        this.userNameWithShiftName = response.listOfObject;
+        
+      },
+      (error) => {
+        console.log('error');
+      }
+    );
+  }
+
+  isValidated:boolean = false;
+  checkValidation() {
+    this.isValidated ? false : true;
+  }
+
 }

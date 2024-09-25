@@ -29,6 +29,21 @@
                 </div>
               </div>
 
+              <div class="card-body mt-3 p-0" *ngIf="adminUser!=null">
+                <div class="alert alert-light mb-0 sampleExcelFileBox">
+                  <h4 class="alert-heading font-14">
+                    Admin Detail
+                  </h4>
+                 <div class="d-flex align-items-center gap-5 mt-3">
+                  <h5 class="alert-heading font-13 mb-0">{{adminUser.name || 'N/A'}}</h5>
+                  <p class="saperater"></p>
+                  <p class="mb-0">{{adminUser.email || 'N/A'}}</p>
+                  <p class="saperater"></p>
+                  <p class="mb-0">{{adminUser.phoneNumber || 'N/A'}}</p>
+                 </div>
+                </div>
+              </div>
+
               <ng-container
                 *ngIf="
                   !isShimmer &&
@@ -58,6 +73,8 @@
                       </p>
                     </div>
                   </div>
+
+                 
                   <div class="card-body mt-3 p-0">
                     <div class="alert alert-light mb-0 excel-uplode-file-box">
                       <!-- <input
@@ -397,7 +414,7 @@
                     >
                       <div>
                         <h5 class="alert-heading font-14 mb-0">
-                          Employee List
+                          Employee List [{{totalOnboardingUserListCount}}]
                         </h5>
                       </div>
 
@@ -489,13 +506,13 @@
                       </div>
                     </div>
                     <div
-                    class="d-flex align-items-center justify-content-between mb-3"
+                    class="d-flex align-items-center justify-content-start mb-3"
                   >
                     <h5 class="alert-heading font-14 mb-0">
                       <!-- Employee List -->
                     </h5>
 
-                    <div
+                    <!-- <div
                     class="d-flex align-items-center gap-3"
                     *ngIf="listOfIds.length === 0"
                   >
@@ -508,7 +525,7 @@
                       </span>
                        User 
                     </p>
-                    </div>
+                    </div> -->
 
                     <div
                       class="d-flex align-items-center gap-3"
@@ -593,7 +610,7 @@
                               [checked]="isSelectAll"
                             />
                           </th>
-                          <th style="width: 5%" class="text-center">Count</th>
+                          <th style="width: 5%" class="text-center">Sr No.</th>
                           <th style="width: 25%" class="text-left">Name</th>
                           <th style="width: 25%" class="text-left">
                             Email Address
@@ -898,7 +915,8 @@
                       <span></span>
                     </div>
                   </button>
-                  <button type="submit" class="btn nextBtn" (click)="next()">
+                  <!-- {{onboardUserList.length}} -->
+                  <button type="submit" class="btn nextBtn" [disabled]="totalOnboardingUserListCount === 0" (click)="next()">
                     <span *ngIf="!isNextloading"
                       >Next
                       <svg
@@ -1298,17 +1316,17 @@
                     />
                     <div *ngIf="name?.dirty || isFormInvalid">
                       <p
-                        class="errortxt mt-2 mb-2"
+                        class="errortxt mt-2 mb-2 text-danger"
                         *ngIf="name.errors?.required"
                       >
                         <i class="bi bi-exclamation-circle"></i> Name is
                         required.
                       </p>
                       <p
-                        class="errortxt mt-2 mb-2"
+                        class="errortxt mt-2 mb-2 text-danger"
                         *ngIf="name.errors?.minlength"
                       >
-                        <i class="bi bi-exclamation-circle"></i> Please enter a
+                        <i class="bi bi-exclamation-circle "></i> Please enter a
                         valid name.
                       </p>
                     </div>
@@ -1334,21 +1352,21 @@
                     />
                     <p
                       *ngIf="userList[i].isPhoneExist"
-                      class="error text-muted"
+                      class="error text-muted text-danger"
                     >
-                      <i class="bi bi-exclamation-circle"></i> Phone number is
+                      <i class="bi bi-exclamation-circle "></i> Phone number is
                       already exist.
                     </p>
                     <div *ngIf="phone?.dirty || isFormInvalid">
                       <p
-                        class="errortxt mt-2 mb-2"
+                        class="errortxt mt-2 mb-2 text-danger"
                         *ngIf="phone.errors?.required"
                       >
-                        <i class="bi bi-exclamation-circle"></i> Phone number is
+                        <i class="bi bi-exclamation-circle "></i> Phone number is
                         required.
                       </p>
                       <p
-                        class="errortxt mt-2 mb-2"
+                        class="errortxt mt-2 mb-2 text-danger"
                         *ngIf="phone.errors?.minlength"
                       >
                         <i class="bi bi-exclamation-circle"></i> Please enter a
@@ -1372,23 +1390,23 @@
                     />
                     <p
                       *ngIf="userList[i].isEmailExist"
-                      class="error text-muted"
+                      class="error text-muted text-danger"
                     >
                       This email already exist.
                     </p>
                     <div *ngIf="email?.dirty || isFormInvalid">
                       <p
-                        class="errortxt mt-2 mb-2"
+                        class="errortxt mt-2 mb-2 text-danger"
                         *ngIf="email.errors?.required"
                       >
-                        <i class="bi bi-exclamation-circle"></i> Email Id is
+                        <i class="bi bi-exclamation-circle "></i> Email Id is
                         required.
                       </p>
-                      <p class="errortxt mt-2 mb-2" *ngIf="email.errors?.email">
-                        <i class="bi bi-exclamation-circle"></i> Please enter a
+                      <p class="errortxt mt-2 mb-2 text-danger" *ngIf="email.errors?.email">
+                        <i class="bi bi-exclamation-circle "></i> Please enter a
                         valid email.
                       </p>
-                      <p class="errortxt mb-2" *ngIf="email.errors?.pattern">
+                      <p class="errortxt mb-2 text-danger" *ngIf="email.errors?.pattern">
                         <i class="bi bi-exclamation-circle"></i> Please enter a
                         valid email.
                       </p>

@@ -48,6 +48,8 @@ export class UploadTeamComponent implements OnInit {
     this.selectMethod('mannual');
     this.checkShiftTimingExistsMethodCall();
     this.getOnboardingVia();
+    this.getOnboardingAdminUserData();
+   
   }
 
   isShimmer = false;
@@ -684,4 +686,22 @@ export class UploadTeamComponent implements OnInit {
       document.body.removeChild(link);
     }
   }
+
+  adminUser: any;
+  getOnboardingAdminUserData() {
+    this.dataService.getOnboardingAdminUser().subscribe(
+      (response) => {
+        this.adminUser = response.object;
+       
+      },
+      (error) => {
+        console.log('error');
+      }
+    );
+  }
+
+ 
+  
+
+  
 }
