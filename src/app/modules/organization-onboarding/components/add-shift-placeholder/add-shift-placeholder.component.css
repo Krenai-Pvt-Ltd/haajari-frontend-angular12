@@ -193,7 +193,7 @@ button.btn.close-btn {
 .playBtn {
   position: absolute;
   top: 50%;
-  left: 65%;
+  left: 80%;
   transform: translate(-50%, -50%);
   cursor: pointer;
 }

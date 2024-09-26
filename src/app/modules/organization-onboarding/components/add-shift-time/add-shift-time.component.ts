@@ -38,10 +38,10 @@ export class AddShiftTimeComponent implements OnInit {
     this.getShiftTypeMethodCall();
     this.getUserByFiltersMethodCall();
     this.getAllShiftTimingsMethodCall();
-    this.defaultInOpenTime.setMinutes(0, 0, 0);
-    this.defaultOutOpenTime.setMinutes(0, 0, 0);
-    this.defaultStartLunchOpenTime.setMinutes(0, 0, 0);
-    this.defaultEndLunchOpenTime.setMinutes(0, 0, 0);
+    this.defaultInOpenTime.setHours(0, 0, 0, 0); 
+  this.defaultOutOpenTime.setHours(0, 0, 0, 0);  
+  this.defaultStartLunchOpenTime.setHours(0, 0, 0, 0);  
+  this.defaultEndLunchOpenTime.setHours(0, 0, 0, 0);  
   }
 
   // backPage() {
@@ -261,6 +261,7 @@ export class AddShiftTimeComponent implements OnInit {
     this.isAllUsersSelected = this.staffs.every((staff) => staff.selected);
     this.isAllSelected = this.isAllUsersSelected;
     this.updateSelectedStaffs();
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId)
   }
 
   checkAndUpdateAllSelected() {
@@ -295,6 +296,7 @@ export class AddShiftTimeComponent implements OnInit {
   activeModel2: boolean = false;
   isAllUsersSelected: boolean = false;
 
+  checkForShiftId: number = 0;
   selectAll(checked: boolean) {
     this.isAllSelected = checked;
     this.staffs.forEach((staff) => (staff.selected = checked));
@@ -316,6 +318,7 @@ export class AddShiftTimeComponent implements OnInit {
         }
       });
     }
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId);
   }
 
   unselectAllUsers() {
@@ -324,6 +327,7 @@ export class AddShiftTimeComponent implements OnInit {
     this.staffs.forEach((staff) => (staff.selected = false));
     this.selectedStaffsUuids = [];
     this.activeModel2 = false;
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId)
   }
 
   selectAllUsers(isChecked: boolean) {
@@ -383,6 +387,7 @@ export class AddShiftTimeComponent implements OnInit {
     // });
     // this.onboardingService.refreshOnboarding();
     this.selectAll(true);
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId);
   }
 
   organizationShiftTimingValidationErrors: { [key: string]: string } = {};
@@ -617,5 +622,40 @@ export class AddShiftTimeComponent implements OnInit {
   isNoShiftCreated: boolean = false;
   createNewShift() {
     this.isNoShiftCreated = true;
+  }
+
+
+  getRowNumber(index: number): number {
+    return ((this.pageNumber-1) * this.itemPerPage) + index + 1;
+  }
+
+  isShiftNamePresent:boolean = false;
+  checkShiftPresenceData(shiftName:string) {
+    this.dataService.checkShiftPresence(shiftName).subscribe(
+      (response) => {
+        this.isShiftNamePresent = response.object;
+      },
+      (error) => {
+        console.log('error');
+      }
+    );
+  }
+
+  userNameWithShiftName: any;
+  getOrganizationUserNameWithShiftNameData(shiftId: number) {
+    this.dataService.getOrganizationUserNameWithShiftName(this.selectedStaffsUuids, shiftId).subscribe(
+      (response) => {
+        this.userNameWithShiftName = response.listOfObject;
+        
+      },
+      (error) => {
+        console.log('error');
+      }
+    );
+  }
+
+  isValidated:boolean = false;
+  checkValidation() {
+    this.isValidated ? false : true;
   }
 }

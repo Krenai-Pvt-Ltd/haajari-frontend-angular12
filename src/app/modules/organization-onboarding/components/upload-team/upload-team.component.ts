@@ -48,6 +48,8 @@ export class UploadTeamComponent implements OnInit {
     this.selectMethod('mannual');
     this.checkShiftTimingExistsMethodCall();
     this.getOnboardingVia();
+    this.getOnboardingAdminUserData();
+   
   }
 
   isShimmer = false;
@@ -684,4 +686,41 @@ export class UploadTeamComponent implements OnInit {
       document.body.removeChild(link);
     }
   }
+
+  adminUser: any;
+  getOnboardingAdminUserData() {
+    this.dataService.getOnboardingAdminUser().subscribe(
+      (response) => {
+        this.adminUser = response.object;
+       
+      },
+      (error) => {
+        console.log('error');
+      }
+    );
+  }
+
+  isSyncFlag: boolean = false;
+  syncSlackUsersToDatabaseData() {
+    this.isSyncFlag = true;
+    this.page = 0;
+    this.dataService.syncSlackUsersToDatabase().subscribe(
+      (response) => {
+        this.isSyncFlag = false;
+       
+        this.getUser();
+      },
+      (error) => {
+        this.isSyncFlag = false;
+        console.log('error');
+      }
+    );
+  }
+
+  
+
+ 
+  
+
+  
 }
