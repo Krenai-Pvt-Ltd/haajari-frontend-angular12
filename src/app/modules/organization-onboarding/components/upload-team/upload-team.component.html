@@ -47,11 +47,11 @@
               <ng-container
                 *ngIf="
                   !isShimmer &&
-                  onboardUserList.length == 0 &&
+                  
                   !networkConnectionErrorPlaceholder
                 "
               >
-                <div class="col-md-12 mb-100">
+                <div class="col-md-12 mb-100" *ngIf="onboardUserList.length == 0 && onboardingViaString != 'SLACK'">
                   <div class="card-body mt-3 p-0">
                     <div class="alert alert-light mb-0 sampleExcelFileBox">
                       <h4 class="alert-heading font-14">
@@ -268,6 +268,83 @@
                       </div>
                     </div>
                   </div>
+                </div>
+                <div *ngIf="onboardUserList.length == 0 && onboardingViaString ==='SLACK'">
+                  <div class="card-body mt-3 p-0">
+                    <div class="alert alert-light mb-0 excel-uplode-file-box">
+                      
+                      <div
+                        class="d-flex align-items-center justify-content-between gap-3"
+                      >
+                       
+                        <div
+                          class="d-flex align-items-center justify-content-between"
+                          style="width: 85%"
+                        >
+                          <div>
+                            <h5 class="alert-heading font-15 mb-2">
+                              No Data Found
+                            </h5>
+                            <p class="mb-0">
+                              Please Re-sync your data! 
+                            </p>
+                          </div>
+                          <div class="">
+                            <button
+                              class="btn excelUploadBtn"
+                              (click)="syncSlackUsersToDatabaseData()"
+                            >
+                            <div
+                            class="dot-opacity-loader"
+                            *ngIf="isSyncFlag"
+                          >
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                          </div>
+                             <span *ngIf="!isSyncFlag">
+                              Sync Data
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="22"
+                                height="22"
+                                viewBox="0 0 22 22"
+                                fill="none"
+                              >
+                                <mask
+                                  id="mask0_2163_292"
+                                  style="mask-type: alpha"
+                                  maskUnits="userSpaceOnUse"
+                                  x="0"
+                                  y="0"
+                                  width="22"
+                                  height="22"
+                                >
+                                  <rect
+                                    x="0.117188"
+                                    y="0.515625"
+                                    width="20.9709"
+                                    height="20.9709"
+                                    fill="#D9D9D9"
+                                  />
+                                </mask>
+                                <g mask="url(#mask0_2163_292)">
+                                  <path
+                                    d="M14.2477 11.8758H3.60938V10.1282H14.2477L9.35452 5.23502L10.5997 4.01172L17.59 11.002L10.5997 17.9923L9.35452 16.769L14.2477 11.8758Z"
+                                    fill="#6666F2"
+                                  />
+                                </g>
+                              </svg>
+                            </span> 
+                            </button>
+                          </div>
+                          
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+
                 </div>
 
                 <!-- <div class="col-md-4">

@@ -3885,4 +3885,11 @@ getHolidayForOrganization(date: string): Observable<any>{
 
     return this.httpClient.post<any>(`${this.baseUrl}/organization-subs-plan/register-temp`, {}, {params});
   }
+
+  syncSlackUsersToDatabase(): Observable<any> {
+    return this.httpClient.post<any>(
+      `${this.baseUrl}/slack/sync/slack/users`,
+      {}
+    );
+  }
 }
