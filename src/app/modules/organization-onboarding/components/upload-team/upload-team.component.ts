@@ -700,6 +700,25 @@ export class UploadTeamComponent implements OnInit {
     );
   }
 
+  isSyncFlag: boolean = false;
+  syncSlackUsersToDatabaseData() {
+    this.isSyncFlag = true;
+    this.page = 0;
+    this.dataService.syncSlackUsersToDatabase().subscribe(
+      (response) => {
+        this.isSyncFlag = false;
+       
+        this.getUser();
+      },
+      (error) => {
+        this.isSyncFlag = false;
+        console.log('error');
+      }
+    );
+  }
+
+  
+
  
   
 
