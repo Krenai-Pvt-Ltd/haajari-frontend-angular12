@@ -28,7 +28,7 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["src/styles.css"],
             "scripts": [
-              "node_modules/intl-tel-input/build/js/intlTelInput.min.js"
+              "nodgit e_modules/intl-tel-input/build/js/intlTelInput.min.js"
             ]
           },
           "configurations": {
