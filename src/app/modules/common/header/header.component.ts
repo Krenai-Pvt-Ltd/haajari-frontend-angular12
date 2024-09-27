@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { Console } from 'console';
+import { Observable } from 'rxjs/internal/Observable';
+import { map } from 'rxjs/internal/operators/map';
 import { Key } from 'src/app/constant/key';
 import { OrganizationSubscriptionPlanMonthDetail } from 'src/app/models/OrganizationSubscriptionPlanMonthDetail';
 import { LoggedInUser } from 'src/app/models/logged-in-user';
@@ -19,7 +22,10 @@ export class HeaderComponent implements OnInit {
   private _key: Key = new Key();
   private baseUrl = this._key.base_url;
   showSuperCoinFlag:boolean = false;
-
+  people: string[] = ['onboarding', 'team'];
+  management: string[] = ['attendance', 'leave setting', 'report', 'asset', 'coin'];
+  payroll: string[] = ['payroll dashboard', 'bonus or deduction', 'epf esi tds', 'salary slip'];
+  company: string[] = ['company setting', 'attendance setting', 'leave setting','salary setting', 'role & permission'];
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -144,25 +150,47 @@ export class HeaderComponent implements OnInit {
 
   show: boolean = false;
 
-  shouldDisplay(moduleName: string): boolean {
-    const role = this.rbacService.getRoles(); 
-    const modulesToShowForManager = [
-      'dashboard',
-      'team',
-      'project',
-      'reports',
-      'attendance',
-      'leave-management',
-    ];
-    const modulesToShowForUser = ['team', 'project', 'leave-management'];
-    const modulesToShowForHRADMIN = ['onboarding'];
-
-    return (
-      role === Key.ADMIN ||
-      (role === Key.MANAGER && modulesToShowForManager.includes(moduleName)) ||
-      (role === Key.USER && modulesToShowForUser.includes(moduleName)) ||
-      (role === Key.HRADMIN && modulesToShowForHRADMIN.includes(moduleName))
+  shouldDisplay(moduleName: string): Observable<boolean> {
+    const role = this.rbacService.getRoles();
+    if( role === Key.ADMIN ){
+      return true;
+    }
+    // const modulesToShowForManager = [
+    //   'dashboard',
+    //   'team',
+    //   'project',
+    //   'reports',
+    //   'attendance',
+    //   'leave-management',
+    // ];
+    // const modulesToShowForUser = ['team', 'project', 'leave-management'];
+    // const modulesToShowForHRADMIN = ['onboarding'];
+    console.log("my helper service",this.helperService.subModuleResponseList );
+    console.log(this.helperService.subModuleResponseList.some((module:any)=> module.name.toLowerCase()==moduleName));
+    console.log(moduleName);
+    const hasModule = await firstValueFrom(
+      this.dataService.getAccessibleSubModuleResponse().pipe(
+        map((modules: any[]) =>
+          modules.some((module: any) => module.name.toLowerCase() === moduleName.toLowerCase())
+        )
+      )
     );
+    return this.dataService.getAccessibleSubModuleResponse().pipe(
+      map((modules: any[]) =>
+        modules.some((module: any) => module.name.toLowerCase() === moduleName.toLowerCase())
+  }
+
+  checkModule(element: string[]): boolean {
+    const role = this.rbacService.getRoles();
+    if( role === Key.ADMIN ){
+      return true;
+    }
+    for (let i = 0; i < element.length; i++) {
+      if((this.dataService.getAccessibleSubModuleResponse().subscribe((module:any)=> module.name.toLowerCase()==element[i].toLowerCase()))){
+        return true;
+      }
+    }
+    return false;
   }
 
   // shouldDisplay(subModuleName: string){
@@ -301,3 +329,5 @@ export class HeaderComponent implements OnInit {
     };
   }
 }
+
+
