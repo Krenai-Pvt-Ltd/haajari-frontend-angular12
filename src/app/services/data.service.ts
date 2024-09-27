@@ -3892,4 +3892,31 @@ getHolidayForOrganization(date: string): Observable<any>{
       {}
     );
   }
+
+  registerOrganizationRegistratonProcessStep(statusId: number, stepId:number): Observable<any> {
+    debugger
+    const params = new HttpParams().set('statusId', statusId).set('stepId', stepId);
+    return this.httpClient.put<any>(
+      `${this.baseUrl}/organization/register/onboarding/process/step`, {}, {params}
+
+    );
+  }
+
+  getOrganizationRegistratonProcessStepStatus(): Observable<any> {
+    debugger
+    // const params = new HttpParams().set('statusId', statusId).set('stepId', stepId);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/organization/get/onboarding/process/step/status`,
+
+    );
+  }
+
+  hideOrganizationInitialToDoStepBar(): Observable<any> {
+    debugger
+    // const params = new HttpParams().set('statusId', statusId).set('stepId', stepId);
+    return this.httpClient.put<any>(
+      `${this.baseUrl}/organization/hide/org/initial/to/do/step/bar`,{}
+
+    );
+  }
 }
