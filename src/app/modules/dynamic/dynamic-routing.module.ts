@@ -1,7 +1,6 @@
-import { Component, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { LiveManagerComponent } from './components/live-manager/live-manager.component';
 import { OnboardingComponent } from './components/onboarding/onboarding.component';
 import { ProjectComponent } from './components/project/project.component';
 import { TaskManagerComponent } from './components/task-manager/task-manager.component';
@@ -18,12 +17,8 @@ import { RoleComponent } from './components/role/role.component';
 import { ReportsComponent } from './components/reports/reports.component';
 import { EmployeeProfileComponent } from './components/employee-profile/employee-profile.component';
 import { TestingComponent } from './components/testing/testing.component';
-import { SlackDataLoadComponent } from './slack-data-load/slack-data-load.component';
 import { PrivacyComponent } from './components/privacy/privacy.component';
 import { SupportComponent } from './components/support/support.component';
-import { ErrorPageComponent } from '../common/error-page/error-page.component';
-import { SlackDataLoaderComponent } from '../common/slack-data-loader/slack-data-loader.component';
-import { DurationPickerComponent } from '../common/duration-picker/duration-picker.component';
 import { RoleAddComponent } from './components/role-add/role-add.component';
 import { BillingComponent } from './components/billing/billing.component';
 import { EmployeeOnboardingSidebarComponent } from '../employee-onboarding/employee-onboarding-sidebar/employee-onboarding-sidebar.component';
@@ -32,9 +27,6 @@ import { BillingPaymentComponent } from './components/billing-payment/billing-pa
 import { SuccessComponent } from './components/success/success.component';
 import { UnauthorizedComponent } from '../sharable/unauthorized/unauthorized.component';
 import { LeaveManagementComponent } from './components/leave-management/leave-management.component';
-
-
-
 import { AssetsComponent } from './components/assets/assets.component';
 import { BillingAndSubscriptionPageComponent } from './components/billing-and-subscription-page/billing-and-subscription-page.component';
 import { CoinsComponent } from './components/coins/coins.component';
