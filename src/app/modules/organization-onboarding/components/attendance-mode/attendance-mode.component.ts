@@ -519,6 +519,7 @@ currentLocation() {
 
   basicSubscriptionPlanId: number = 1;
   registerBillingAndSubscriptionTempMethodCall(subscriptionPlanId: number) {
+    debugger
     this.dataService.registerBillingAndSubscriptionTemp(subscriptionPlanId).subscribe(
       (response) => {
         this.helperService.showToast("Free trial started successfully.", Key.TOAST_STATUS_SUCCESS);
