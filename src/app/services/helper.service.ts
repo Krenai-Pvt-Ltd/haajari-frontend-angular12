@@ -271,4 +271,17 @@ export class HelperService {
     return null;
   }
 
+  registerOrganizationRegistratonProcessStepData(statusId: number, stepId:number) {
+    debugger
+    this.dataService.registerOrganizationRegistratonProcessStep(statusId, stepId).subscribe(
+      (response) => {
+        console.log("success");
+        
+      },
+      (error) => {
+        console.log('error');
+      }
+    );
+  }
+
 }
