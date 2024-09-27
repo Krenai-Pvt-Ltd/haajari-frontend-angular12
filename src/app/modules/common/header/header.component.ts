@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Key } from 'src/app/constant/key';
 import { OrganizationSubscriptionPlanMonthDetail } from 'src/app/models/OrganizationSubscriptionPlanMonthDetail';
@@ -26,7 +27,8 @@ export class HeaderComponent implements OnInit {
     private helperService: HelperService,
     private dataService: DataService,
     private rbacService: RoleBasedAccessControlService,
-    private _subscriptionPlanService: SubscriptionPlanService
+    private _subscriptionPlanService: SubscriptionPlanService,
+    private db: AngularFireDatabase
   ) {
     // if (this.route.snapshot.queryParamMap.has('userId')) {
     //     this.activeTab = 'dashboard';
@@ -65,6 +67,7 @@ export class HeaderComponent implements OnInit {
 
   setActiveTabEmpty() {
     this.activeTab = '';
+    this.newNotification = false;
   }
 
   ADMIN = Key.ADMIN;
@@ -300,4 +303,37 @@ export class HeaderComponent implements OnInit {
       opacity: 1, transform: `translateY(${index * itemheight}px)`,
     };
   }
+
+  newNotification:boolean = false;
+  getFirebase(orgUuid:any,userUuid:any){
+    this.db.object("user_notification"+"/"+"organization_"+orgUuid+"/"+"user_"+userUuid).valueChanges()
+      .subscribe(async res => {
+
+        //@ts-ignore
+        if(res?.flag != undefined && res?.flag != null){
+          //@ts-ignore
+          this.newNotification = res?.flag==1?true:false; 
+        }
+      });
+  }
+
+  visibleIndex(originalIndex: number): number {
+    let index = 0;
+    const conditions = [
+      this.shouldDisplay('attendance'),
+      this.shouldDisplay('leave-management'),
+      this.shouldDisplay('reports'),
+      this.shouldDisplay('assets'),
+      this.shouldDisplay('coins') && this.ROLE === 'ADMIN' && this.ORGANIZATION_UUID == this.KRENAI_UUID && this.showSuperCoinFlag
+    ];
+  
+    for (let i = 0; i < originalIndex; i++) {
+      if (conditions[i]) {
+        index++;
+      }
+    }
+  
+    return index;
+  }
+  
 }

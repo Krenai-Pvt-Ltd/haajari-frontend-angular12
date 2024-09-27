@@ -2330,9 +2330,9 @@ export class EmployeeProfileComponent implements OnInit {
           if (preview.employeeCompanyDocuments) {
             this.onboardingPreviewData.employeeCompanyDocuments =
               preview.employeeCompanyDocuments;
-            console.log(
-              'testtttt' + this.onboardingPreviewData.employeeCompanyDocuments
-            );
+            // console.log(
+            //   'testtttt' + this.onboardingPreviewData.employeeCompanyDocuments
+            // );
           }
 
           // if (preview.employeeAdditionalDocument && preview.employeeAdditionalDocument.length > 0) {

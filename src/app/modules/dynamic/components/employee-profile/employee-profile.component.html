@@ -82,10 +82,17 @@
                   <div class="col-lg-5 align-self-center mb-3 mb-lg-0">
                     <div class="met-profile-main">
                       <div class="met-profile-main-pic">
-                        <img *ngIf="isImage" src="{{ user?.image }}" alt="" height="110" class="rounded-circle" />
-                        <span *ngIf="!isImage" class="thumb-xl justify-content-center d-flex align-items-center bg-soft-success rounded-circle me-2">
-                          {{ user?.name[0] }}
-                        </span>
+                        <img *ngIf="isImage && !user?.image.includes('fakepath')" 
+       src="{{ user?.image }}" 
+       alt="Profile Picture" 
+       height="110" 
+       class="rounded-circle" />
+  
+  <!-- If no valid image, display the user's initial -->
+  <span *ngIf="!isImage || user?.image.includes('fakepath')" 
+        class="thumb-xl justify-content-center d-flex align-items-center bg-soft-success rounded-circle me-2">
+    {{ user?.name[0] }}
+  </span>
                         <span class="met-profile_main-pic-change">
                           <i class="fas fa-camera"></i>
                         </span>

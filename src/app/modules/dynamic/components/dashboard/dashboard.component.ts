@@ -1574,4 +1574,11 @@ this.getSubscriptionPlanDetails(plandId);
               }
           });
   }
+
+  @ViewChild('presentModal') presentModal!: ElementRef; 
+  routeToAttendanceSetting() {
+   
+    this.presentModal.nativeElement.click();
+    this.router.navigate(['/setting/attendance-setting']);
+  }
 }
