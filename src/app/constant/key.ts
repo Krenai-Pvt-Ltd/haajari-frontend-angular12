@@ -355,4 +355,19 @@ export class Key {
   public static MODE1 = 'Slack_and_Whatsapp';
   public static MODE2 = 'Machine';
   public static MODE3 = 'Lens';
+
+  // OnboardingProcessStep
+  public static HR_POLICY_ID = 1;
+  public static ATTENDANCE_MODE_ID = 2;
+  public static SHIFT_TIME_ID = 3;
+  public static HOLIDAY_ID = 4;
+  public static AUTOMATION_RULE_ID = 5;
+  public static LEAVE_TEMPLATE_ID = 6;
+  public static SALARY_TEMPLATE_ID = 7;
+  public static SALARY_DETAIL_ID = 8;
+
+  public static PROCESS_COMPLETED = 36;
+  public static PROCESS_PENDING = 35;
+
+
 }
