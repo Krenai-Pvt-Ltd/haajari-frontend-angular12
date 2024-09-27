@@ -3,3 +3,11 @@ export class ShiftType {
     name : string = '';
     description : string = '';
 }
+
+export interface OrganizationShift {
+    shiftId : number;
+    shiftName : string;
+
+}
+
+

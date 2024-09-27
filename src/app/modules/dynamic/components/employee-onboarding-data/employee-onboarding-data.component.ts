@@ -8,6 +8,7 @@ import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { EmployeeOnboardingDataDto } from 'src/app/models/employee-onboarding-data-dto';
+import { OrganizationShift } from 'src/app/models/shift-type';
 import { UserPersonalInformationRequest } from 'src/app/models/user-personal-information-request';
 import { UserReq } from 'src/app/models/userReq';
 import { Users } from 'src/app/models/users';
@@ -91,6 +92,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.getTeamNames();
     this.getUser();
     this.selectMethod('mannual');
+    this.getShiftData();
 
     // const getRandomNameList = (): Observable<string[]> =>
     //   this.http.get<string[]>(`${this.randomUserUrl}`).pipe(
@@ -385,7 +387,8 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       .setEmployeePersonalDetails(
         this.userPersonalInformationRequest,
         userUuid,
-        this.selectedTeamIds
+        this.selectedTeamIds,
+        this.selectedShift
       )
       .subscribe(
         (response: UserPersonalInformationRequest) => {
@@ -401,6 +404,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           }
           this.selectedTeamIds = [];
           this.selectedTeams = [];
+          this.selectedShift = 0;
           this.getUsersByFiltersFunction();
           this.helperService.showToast(
             'Email sent successfully.',
@@ -415,9 +419,37 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       );
   }
 
+  shiftList: { value: number, label: string }[] = [];
+  selectedShift: number = 0;  
+  isLoadingShifts = false;  
+  getShiftData() {
+    this.isLoadingShifts = true;
+    this.dataService.getShifts().subscribe(
+      (response) => {
+        console.log('Shift data response:', response); 
+        if (response && response.listOfObject) {
+          this.shiftList = response.listOfObject.map((shift: OrganizationShift) => ({
+            value: shift.shiftId,
+            label: shift.shiftName
+          }));
+        } else {
+          console.warn('No shift data found in the response.');
+        }
+        this.isLoadingShifts = false;
+      },
+      (error) => {
+        console.error('Error fetching shift data:', error);
+        this.isLoadingShifts = false;
+      }
+    );
+  }
+  
+
   clearForm() {
     this.userPersonalInformationRequest = new UserPersonalInformationRequest();
     this.emailAlreadyExists = false;
+    this.isEmailExist = false;
+    this.isNumberExist = false;
     // this.personalInformationForm.reset();
   }
 
@@ -797,6 +829,61 @@ export class EmployeeOnboardingDataComponent implements OnInit {
         }
       );
   }
+
+  restrictToDigits(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input) {
+      input.value = input.value.replace(/[^0-9]/g, '');
+    }
+  }
+
+  // shiftList: OrganizationShift[] = [];
+  // getShiftData(){
+  //   this.dataService.getShifts().subscribe((response) => {
+  //     this.organizationShift = response.listOfObject;
+  //   }, (error) => {
+      
+  //   })
+  // }
+ 
+  checkPhoneExistance(number: string) {
+    if (number != '' && number.length >= 10) {
+      this._onboardingService.checkEmployeeNumberExistBefore(number).subscribe(
+        (response: any) => {
+          this.isNumberExist = response;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
+  }
+
+  checkEmailExistanceBefore(email: string) {
+    // Basic email pattern check to ensure email has '@' and '.'
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  
+    if (email && emailPattern.test(email)) {
+      this._onboardingService.checkEmployeeEmailExistBefore(email).subscribe(
+        (response: any) => {
+          this.isEmailExist = response;
+          if (response == false) {
+            
+          } else {
+            
+          }
+        },
+        (error) => {
+          console.error('Error checking email existence', error);
+        }
+      );
+    } else {
+      // Handle invalid email format case if needed
+      console.warn('Invalid email format');
+    }
+  }
+  
+  
 
 
 }
