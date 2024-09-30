@@ -865,27 +865,16 @@
                         <!--end row-->
                       </div>
                       <!-- <div>
-                        <full-calendar [options]="calendarOptions" id="calendar" #calendar></full-calendar>
+                        <full-calendar 
+                        [options]="calendarOptions" id="calendar" #calendar></full-calendar>
                       </div> -->
-                      <!-- <nz-calendar (nzModeChange)="onModeChange($event)">
-                        <ul *nzDateCell="let date" class="events">
-                     
-                          <ng-container *ngIf="getAttendance(date) as attendance">
-                            <li>
-                        
-                              <nz-badge [nzColor]="attendance.color" [nzText]="attendance.title"></nz-badge>
-                   
-                              <span class="event-details" nz-tooltip [nzTooltipTitle]="getDetails(attendance)">
-                                {{attendance.status}}
-                              </span>
-                            </li>
-                          </ng-container>
-                        </ul>
-                      </nz-calendar> -->
+                      
+                 
+                      <nz-calendar [(ngModel)]="date" [(nzMode)]="mode" (nzPanelChange)="panelChange($event)" 
+                         (nzSelectChange)="selectChange($event)"
+                         [nzDisabledDate]="disablePreviousYears"
 
-                      <nz-calendar [(ngModel)]="date" [(nzMode)]="mode" (nzPanelChange)="panelChange($event)"
-                        (nzSelectChange)="selectChange($event)" [nzDisabledDate]="disableDate"
-                        [nzHeaderTemplate]="customHeaderTemplate">
+                        [nzDisabledDate]="disableDate">
                         <ul *nzDateCell="let date" class="events">
                           <ng-container *ngIf="getEventForDate(date) as event">
                             <li>
@@ -908,35 +897,17 @@
                                   <p>BREAK: {{ event.breakDuration }}</p>
                                 </div>
                               </ng-template>
+
+                              
                             </li>
                           </ng-container>
                         </ul>
 
-                        <!-- Custom Header Template -->
-                        <ng-template #customHeaderTemplate>
-                          <div
-                            style="display: flex; justify-content: center; padding: 10px; background-color: white; border-radius: 4px;">
-                            <nz-select [(ngModel)]="selectedYear" (ngModelChange)="onYearChange($event)">
-                              <nz-option *ngFor="let year of yearList" [nzValue]="year" [nzLabel]="year"></nz-option>
-                            </nz-select>
-                            <nz-select [(ngModel)]="selectedMonth" (ngModelChange)="onMonthChange($event)">
-                              <nz-option *ngFor="let month of monthList" [nzValue]="month.value" [nzLabel]="month.label"
-                                [nzDisabled]="disableMonth(month.value)"></nz-option>
-                            </nz-select>
-                          </div>
-                        </ng-template>
+
 
 
                       </nz-calendar>
-
-
-
-
-
-
-
-
-
+               
                       <div class="legends-section" style="margin-top: 20px; font-size: 13px">
                         <div class="legend" style="
                             display: inline-flex;

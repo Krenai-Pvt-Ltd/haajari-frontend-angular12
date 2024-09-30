@@ -259,12 +259,13 @@ export class EmployeeProfileComponent implements OnInit {
       reason: [''],
       donationReason: ['']
     });
-    debugger
     this.getSuperCoinsResponseForEmployeeData();
     this.getUserListToDonateCoins();
     this.getDonateSuperCoinReasonData();
   }
 
+
+  
   getRoleData() {
     //  const managerDetails =localStorage.getItem('managerFunc');
     // if(managerDetails !== null){
@@ -530,11 +531,14 @@ export class EmployeeProfileComponent implements OnInit {
 
   disableDate = (current: Date): boolean => {
     // Disable dates before the user's joining date
-    console.log('Current:', current, 'Joining Date:', this.onboardingPreviewData.user.joiningDate);
+    // console.log('Current:', current, 'Joining Date:', this.onboardingPreviewData.user.joiningDate);
     return current < this.joiningDate;
   };
 
-
+  disablePreviousYears = (current: Date): boolean => {
+    const currentYear = new Date().getFullYear();
+    return current.getFullYear() < currentYear;
+  };
 
   selectChange(selectedDate: Date): void {
     console.log('Selected date:', selectedDate);
@@ -618,8 +622,9 @@ export class EmployeeProfileComponent implements OnInit {
           this.updateCalendarOptions();
   
           if (this.prevDate) {
-            const calendarApi = this.calendarComponent.getApi();
-            this.changeForwardButtonVisibilty(calendarApi);
+            //TODO : uncomment if required
+            // const calendarApi = this.calendarComponent.getApi();
+            // this.changeForwardButtonVisibilty(calendarApi);
           }
   
           this.count++;
@@ -2025,8 +2030,10 @@ export class EmployeeProfileComponent implements OnInit {
   startDate: string = '';
   endDate: string = '';
 
-  onMonthChange(month: Date): void {
-    this.selectedDate = month;
+  onMonthChange(month: any): void {
+    console.log(month);
+    this.selectedDate =   new Date(this.selectedYear, month, 1),
+    // month;
     this.getFirstAndLastDateOfMonth(this.selectedDate);
 
     this.financeSectionMethodCall();
@@ -2041,6 +2048,8 @@ export class EmployeeProfileComponent implements OnInit {
     this.endDate = this.helperService.formatDateToYYYYMMDD(
       new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0),
     );
+   
+    this.getUserAttendanceDataFromDate(this.startDate, this.endDate);
   }
   disableMonths = (date: Date): boolean => {
     const currentYear = new Date().getFullYear();
@@ -2319,6 +2328,7 @@ export class EmployeeProfileComponent implements OnInit {
           console.log(preview);
           this.onboardingPreviewData = preview;
           this.joiningDate = new Date(this.onboardingPreviewData.user.joiningDate);
+          this.yearList = this.generateYearList();
           if (preview.companyLogo) {
             this.companyLogoUrl = preview.companyLogo;
           }
@@ -2330,9 +2340,9 @@ export class EmployeeProfileComponent implements OnInit {
           if (preview.employeeCompanyDocuments) {
             this.onboardingPreviewData.employeeCompanyDocuments =
               preview.employeeCompanyDocuments;
-            console.log(
-              'testtttt' + this.onboardingPreviewData.employeeCompanyDocuments
-            );
+            // console.log(
+            //   'testtttt' + this.onboardingPreviewData.employeeCompanyDocuments
+            // );
           }
 
           // if (preview.employeeAdditionalDocument && preview.employeeAdditionalDocument.length > 0) {
@@ -3296,7 +3306,7 @@ attendanceRequestLog: any[] = [];
   selectedMonth = this.date.getMonth() + 1;
 
   // Generate a list of years (from registration year to current year)
-  yearList = this.generateYearList();
+  yearList :number[]= [];
 
   // List of months
   monthList = [
@@ -3334,6 +3344,7 @@ attendanceRequestLog: any[] = [];
 
   // Update the calendar date based on the selected month and year
   updateCalendarDate() {
+    console.log("this.selectedYear",this.selectedYear)
     this.date = new Date(this.selectedYear, this.selectedMonth - 1, 1);
   }
 
@@ -3345,10 +3356,11 @@ attendanceRequestLog: any[] = [];
     const startYear = this.joiningDate.getFullYear();
     const currentYear = new Date().getFullYear();
     const years = [];
-    console.log(startYear)
+    // console.log(startYear)
     for (let year = startYear; year <= currentYear; year++) {
       years.push(year);
     }
+    // console.log("years ",years)
     return years;
   }
 
