@@ -40,14 +40,6 @@ export class LeaveSettingComponent implements OnInit {
     this.addRow();
   }
 
-  // createLeaveCategory() {
-  //   return this.fb.group({
-  //     leaveName: ['', Validators.required],
-  //     leaveCount: ['', Validators.required],
-  //     leaveRules: [''],
-  //     carryForwardDays: ['']
-  //   });
-  // }
   readonly constants = constant;
 
   ngOnInit(): void {
@@ -83,21 +75,7 @@ export class LeaveSettingComponent implements OnInit {
     this.isFormValid = form?.valid ?? false;
   }
 
-  // registerLeaveSettingTemplate() {
-  //   this.leaveCategoryTab.nativeElement.click();
-  //   this.dataService
-  //     .registerLeaveSettingTemplate(this.leaveSettingResponse)
-  //     .subscribe(
-  //       (response) => {
-  //         this.leaveSettingResponse.id = response.id;
-  //         localStorage.setItem("tempId", response.id.toString());
-  //         console.log('Leave setting registered successfully:', response);
-  //       },
-  //       (error) => {
-  //         console.error('Error registering leave setting:', error);
-  //       }
-  //     );
-  // }
+
 
   setAccrualType(accrualType: string) {
     this.leaveSettingResponse.accrualType = accrualType;
@@ -112,34 +90,6 @@ export class LeaveSettingComponent implements OnInit {
       this.enterCountFlag = false;
     }
   }
-
-  // *********** second
-  //   leaveCategories = [{ leaveName: '', leaveCount: 0, leaveRules: 'Lapse', carryForwardDays: 0 , leaveSettingId: 0}];
-
-  //   // ...
-
-  // setLeaveRule(index: number, rule: string) {
-  //   this.leaveSettingCategories[index].leaveRules = rule;
-  //   if (rule === 'Lapse') {
-  //     this.leaveSettingCategories[index].carryForwardDays = 0;
-  //   }
-  // }
-
-  // addLeave() {
-  //   this.leaveCategories.push({
-  //     leaveName: '',
-  //     leaveCount: 0,
-  //     leaveRules: 'Lapse',
-  //     carryForwardDays: 0,
-  //     leaveSettingId: 0
-  //   });
-  // }
-
-  // removeLeave(index: number) {
-  //   this.leaveSettingCategories.splice(index, 1);
-  // }
-
-  // // ...
 
   get categories(): FormArray {
     return this.form.get('categories') as FormArray;
@@ -156,9 +106,6 @@ export class LeaveSettingComponent implements OnInit {
     this.categories.push(newRow);
   }
 
-  // leaveSettingCategories: LeaveSettingCategoryResponse[] = [];
-  // templateId!: number;
-
   deleteRow(index: number) {
     const categoriesArray = this.form.get('categories') as FormArray;
     categoriesArray.removeAt(index);
@@ -169,72 +116,6 @@ export class LeaveSettingComponent implements OnInit {
     const control = this.categories.at(index)?.get(controlName);
     return control?.touched && control?.hasError(errorName);
   }
-
-  // saveLeaveCategories() {
-  //   const tempId = localStorage.getItem("tempId");
-  //   let templateId: number | null = null;
-
-  //   if (tempId !== null) {
-  //     templateId = +tempId;
-  //   }
-
-  //   if (templateId === null || isNaN(templateId)) {
-  //     console.error('Invalid templateId:', templateId);
-  //     return;
-  //   }
-
-  //   debugger
-  //   // const leaveSettingCategories: LeaveSettingCategoryResponse[] = this.form.value.categories;
-
-  //   const leaveSettingCategories = this.form.value.categories.map((category: any) => ({
-  //     ...category,
-  //     leaveSettingId: templateId
-  //   }));
-
-  //   this.staffSelectionTab.nativeElement.click();
-
-  //   this.dataService.registerLeaveCategories(leaveSettingCategories, templateId)
-  //     .subscribe(response => {
-  //       console.log('Leave categories saved successfully:', response);
-  //     }, error => {
-  //       console.error('Error saving leave categories:', error);
-  //     });
-  // }
-
-  // *************
-
-  // saveLeaveSetting() {
-  //   debugger
-  //   const tempId = localStorage.getItem("tempId");
-  //   let templateId: number | null = null;
-
-  //   if (tempId !== null) {
-  //     templateId = +tempId;
-  //   }
-
-  //   if (templateId === null || isNaN(templateId)) {
-  //     console.error('Invalid templateId:', templateId);
-  //     return;
-  //   }
-  //   console.log(this.selectedStaffsUuids);
-  //   // if (this.selectedStaffsUuids.length > 0 && templateId) {
-  //     this.dataService.registerUserOfLeaveSetting(templateId, this.selectedStaffsUuids).subscribe(
-  //       response => {
-  //         this.getFullLeaveSettingInformation()
-  //         this.requestLeaveCloseModel.nativeElement.click();
-  //         localStorage.removeItem("tempId")
-  //         this.emptyAddLeaveSettingRule();
-  //         // location.reload();
-  //         console.log('Users saved for leave setting:', response);
-  //       },
-  //       error => {
-  //         console.error('Error saving users for leave setting:', error);
-  //       }
-  //     );
-  //   // } else {
-  //   //   // console.error(error);
-  //   // }
-  // }
 
   itemPerPage: number = 8;
   pageNumber: number = 1;
@@ -368,11 +249,6 @@ export class LeaveSettingComponent implements OnInit {
 
     this.checkAndUpdateAllSelected();
 
-    // this.activeModel2=true;
-
-    // if(this.selectedStaffsUuids.length === 0){
-    //   this.activeModel2 = false;
-    // }
   }
 
   // #####################################################
@@ -436,13 +312,7 @@ export class LeaveSettingComponent implements OnInit {
         this.selectedTeamId
       )
       .toPromise();
-    // const response = await this.dataService.getAllUsers('asc', 'id', this.searchText, '').toPromise();
-    // this.staffs = response.users.map((staff: StaffSelectionUserList) => ({
-    //   ...staff.user,
-    //   selected: this.selectedStaffsUuids.includes(staff.user.uuid),
-    //   // isMapped:
-    //   isAdded: staff.mapped
-    // }));
+ 
     return response.users.map((userDto: any) => userDto.user.uuid);
     // return response.users.map((user: { uuid: any; }) => user.uuid);
   }
@@ -549,41 +419,20 @@ export class LeaveSettingComponent implements OnInit {
         this.fullLeaveSettingResponse = response;
         this.idOfLeaveSetting = leaveSettingId;
         this.leaveSettingResponse = this.fullLeaveSettingResponse.leaveSetting;
-        // this.selectedStaffsUuidsUser =  this.fullLeaveSettingResponse.userUuids;
-        // if(this.fullLeaveSettingResponse.userUuids.length===0){
-        //   this.isMappedStaffEmpty=true;
-        // }else{
-        //   this.isMappedStaffEmpty=false;
-        // }
+    
         if (flag) {
           this.templateSettingTab.nativeElement.click();
         }
         if (this.leaveSettingResponse != null) {
           this.isFormValid = true;
         }
-        // this.checkFormValidity(this.leaveSettingForm);
-        // this.form.reset();
-        // Reset the form without emitting the events
+   
         this.form.reset({ emitEvent: false });
 
         const categoriesArray = this.form.get('categories') as FormArray;
 
         // Clear the existing form controls
         categoriesArray.clear();
-
-        // this.fullLeaveSettingResponse.leaveSettingCategories.forEach(
-        //   (category) => {
-        //     const categoryGroup = this.fb.group({
-        //       id: category.id,
-        //       leaveName: category.leaveName,
-        //       leaveCount: category.leaveCount,
-        //       leaveRules: category.leaveRules,
-        //       carryForwardDays: category.carryForwardDays,
-        //     });
-
-        //     categoriesArray.push(categoryGroup);
-        //   }
-        // );
 
         response.leaveSettingCategories.forEach((category, index) => {
           // console.log(
@@ -610,14 +459,6 @@ export class LeaveSettingComponent implements OnInit {
 
           categoriesArray.push(categoryGroup);
 
-          // if (
-          //   category.leaveRules == 'CarryForward' ||
-          //   category.leaveRules == 'Encash'
-          // ) {
-          //   this.updateDaysDropdown(index, category.leaveCount);
-          // } else {
-          //   this.daysCountArray[index] = [];
-          // }
         });
 
         this.getUserByFiltersMethodCall(leaveSettingId);
@@ -705,13 +546,7 @@ export class LeaveSettingComponent implements OnInit {
     } else {
       this.errorTemplateNameFlag = false;
     }
-    // const leaveSettingCategories = this.form.value.categories.map(
-    //   (category: any) => ({
-    //     ...category,
-    //   })
-    // );
-    // this.fullLeaveSettingRuleRequest.leaveSettingCategoryResponse =
-    //   leaveSettingCategories;
+   
 
     const leaveSettingCategories = this.form.value.categories.map(
       (category: any) => ({
@@ -928,10 +763,6 @@ export class LeaveSettingComponent implements OnInit {
   selectedStaffsUser: Staff[] = [];
   isAllSelectedUser: boolean = false;
 
-  // isUserInLeaveRuleUser(userUuid: string): boolean {
-  //   const userLeaveRule = this.fullLeaveSettingResponse.userLeaveRule;
-  //   return userLeaveRule && userLeaveRule.length > 0 && userLeaveRule.some(rule => rule.userUuids.includes(userUuid));
-  // }
 
   checkIndividualSelectionUser() {
     this.isAllUsersSelectedUser = this.staffsUser.every(
@@ -1216,13 +1047,6 @@ export class LeaveSettingComponent implements OnInit {
     );
   }
 
-  // onChange(value: string): void {
-  // // Check if leaveCategories is null or undefined before filtering
-  // if (this.leaveCategories) {
-  //   this.filteredLeaveCategories = this.leaveCategories.filter((bank) =>
-  //     bank.toLowerCase().includes(value.toLowerCase())
-  //   );
-  // }
 
   filteredLeaveCategories: string[] = [];
   leaveCategories: string[] = ['Annual Leave', 'Sick Leave', 'Casual Leave'];
@@ -1239,21 +1063,6 @@ export class LeaveSettingComponent implements OnInit {
     }
   }
 
-  // onChangeDayCount(value: string): void {
-  //   this.daysCount = this.daysCountCategories;
-  // }
-
-  // daysCountArray: number[] = [];
-  // daysCountCategories: number[] = [0, 1, 2, 3, 4];
-
-  // generateDaysDropdown(value: any): void {
-  //   const count = parseInt(value, 10);
-  //   value.forEach()
-  //   this.daysCountCategories = Array.from(
-  //     { length: count },
-  //     (_, i) => i + 1
-  //   ).reverse();
-  // }
   daysCountArray: number[][] = [];
   dropdownVisible: boolean = false;
 
@@ -1266,19 +1075,6 @@ export class LeaveSettingComponent implements OnInit {
     this.updateDaysDropdown(index, count);
   }
 
-  // updateDaysDropdown(index: number, count: number): void {
-  //   console.log('countarray ..' + count + index);
-  //   // Ensure that daysCountArray has enough elements for the given index
-  //   while (this.daysCountArray.length <= index) {
-  //     this.daysCountArray.push([]);
-  //   }
-
-  //   // Update the daysCountArray for the specific index
-  //   this.daysCountArray[index] = Array.from(
-  //     { length: count + 1 },
-  //     (_, i) => count - i
-  //   );
-  // }
 
   updateDaysDropdown(index: number, count: number): void {
     // console.log('countarray ..' + index + ' ' + count);
@@ -1291,12 +1087,6 @@ export class LeaveSettingComponent implements OnInit {
     );
   }
 
-  // updateDaysDropdown(index: number, count: number): void {
-  //   this.daysCountArray[index] = Array.from(
-  //     { length: count + 1 },
-  //     (_, i) => count - i
-  //   );
-  // }
 
   selectCarryForwardDay(day: number, index: number): void {
     const categories = this.form.get('categories') as FormArray;
@@ -1325,11 +1115,6 @@ export class LeaveSettingComponent implements OnInit {
     return 0;
   }
 
-  // isYearlyAllAtOnce: boolean = false;
-
-  // yearlyAllAtOnce() {
-  //   if()
-  // }
   teamNameList: UserTeamDetailsReflection[] = [];
 
   teamId: number = 0;
