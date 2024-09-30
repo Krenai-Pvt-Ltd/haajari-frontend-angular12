@@ -17,6 +17,7 @@ import { HeaderComponent } from './header/header.component';
     DurationPickerComponent,
     CommonComponent,
     HeaderComponent,
+    
   ],
   imports: [CommonModule, CommonRoutingModule],
   exports: [],

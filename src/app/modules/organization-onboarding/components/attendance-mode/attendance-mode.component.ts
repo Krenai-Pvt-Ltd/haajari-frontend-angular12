@@ -86,6 +86,7 @@ export class AttendanceModeComponent implements OnInit {
         // this.getAttendanceModeMethodCall();
         this.getMasterAttendanceModeMethodCall();
         this.getAttendanceModeStep();
+        this.helperService.registerOrganizationRegistratonProcessStepData(Key.ATTENDANCE_MODE_ID, Key.PROCESS_COMPLETED);
         setTimeout(() => {
           this.helperService.showToast(
             'Attedance Master Mode updated successfully.',

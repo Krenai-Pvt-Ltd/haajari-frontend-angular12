@@ -6,4 +6,5 @@
     </div>
 </div>
 <router-outlet *ngIf="this.roleBasedAccessControlService.isUserInfoInitialized"></router-outlet>
-
+<!-- {{isToDoStepsCompletedFlag}} -->
+<app-common-to-do-steps *ngIf="isToDoStepsCompleted == 0"></app-common-to-do-steps>
