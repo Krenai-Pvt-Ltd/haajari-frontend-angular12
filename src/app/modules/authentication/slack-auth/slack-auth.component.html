@@ -54,12 +54,64 @@
   class="d-flex justify-content-center align-items-center"
   *ngIf="!isSuccessComponent && !isErrorComponent"
 >
-  <div>
+  <!-- <div>
     <img style="max-width: 35vh" src="assets/images/HAjiRi.svg" />
     <div class="d-flex justify-content-center">
       <div class="loader-line"></div>
     </div>
+  </div> -->
+  <div
+  class="detaworkspace"
+  style="height: 80vh; background-color: #fff"
+>
+  <div class="d-flex align-items-center position-relative">
+    <div class="left-folder">
+      <img
+        src="assets/images/slack-img.svg"
+        alt="logo-large"
+        class="logo-lg logo-light"
+        style="height: 110px"
+      />
+    </div>
+
+    <div class="arc">
+      <img class="image-rotate" src="assets/images/google-docs 2.svg" />
+      <img
+        class="image-rotate"
+        src="assets/images/group-team.svg"
+        style="width: 40px"
+      />
+      <img
+        class="image-rotate"
+        src="assets/images/file-deta.svg"
+        style="width: 40px"
+      />
+    </div>
+
+    <div class="right-folder">
+      <img
+        src="assets/images/folder.svg"
+        alt="logo-large"
+        class="logo-lg logo-light"
+        style="height: 110px"
+      />
+    </div>
   </div>
+  <div class="progress-main text-center">
+    <!-- <div class="containerr">
+      <div class="progressBar" [style.width]="percentage + '%'">
+        <div class="progressNumber">{{ percentage }}%</div>
+      </div>
+    </div> -->
+
+    <div class="mt-5">
+      <p class="pb-0 wait-text">
+        Please wait, while processing your request...
+      </p>
+    </div>
+  </div>
+</div>
+
 </div>
 
 <!--  success component -->
@@ -140,14 +192,18 @@
               >Reference Docs</a
             >
             <br />
-            Login to Hajiri web dashboard.
+            <!-- Login to Hajiri web dashboard.
             <a style="color: #6666f3 !important" (click)="redirectNow()"
               >Dashboard</a
+            > -->
+             Fill Onboarding Form Via
+            <a style="color: #6666f3 !important" (click)="redirectNow()"
+              >Onboarding</a
             >
             <br />
-            <span style="color: #6666f3 !important">
+            <!-- <span style="color: #6666f3 !important">
              You will be redirected to the dashboard in {{ countdown }} seconds...
-            </span>
+            </span> -->
           </p>
           <p></p>
 

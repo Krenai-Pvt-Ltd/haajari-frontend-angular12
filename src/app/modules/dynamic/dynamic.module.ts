@@ -171,7 +171,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     NzInputModule,
     NzInputNumberModule,
     NzUploadModule,
-    NzToolTipModule
+    NzToolTipModule,
   ],
   exports: [HeaderComponent],
   providers: [

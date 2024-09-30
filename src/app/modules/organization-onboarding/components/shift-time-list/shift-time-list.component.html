@@ -198,6 +198,7 @@
                               )
                             "
                         >
+                         Edit
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="26"
@@ -235,6 +236,7 @@
                             )
                           "
                         >
+                        Members
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="26"
@@ -275,6 +277,7 @@
                           <span></span>
                           <span></span>
                         </div> -->
+                         Delete
                           <svg
                            
                             xmlns="http://www.w3.org/2000/svg"
@@ -1226,7 +1229,7 @@
                                 (change)="selectAll(isAllSelected)"
                               />
                             </th>
-                            <th style="width: 2%" class="text-center">Count</th>
+                            <th style="width: 2%" class="text-center">Sr No.</th>
                             <th style="width: 25%" class="text-left">Name</th>
                             <th style="width: 25%" class="text-left">
                               Email Address
@@ -1345,47 +1348,52 @@
                         </nav>
                       </div>
                     </div>
+                    <div
+                          class="shiftManagement d-flex gap-3 align-items-center memberNotes"
+                          style="background-image: url(../assets/images/vector-3.svg)"
+                          *ngIf="userNameWithShiftName?.length!=0"
+                        >
+                          <div class="">
+                            <h5 class="alert-heading text-warning font-13 mb-2">
+                              Note:
+                            </h5>
+                            <p class="mb-1 font-12 d-flex align-items-center gap-3" *ngFor="let list of userNameWithShiftName">
+                              <b>Shift Name:</b> {{list.shiftName}}
+                              <b>User Name:</b> {{list.userName}}
+                              
+                            </p>
+                            <!-- <p>
+                              These users are already registered with different shift type!
+                            </p> -->
+                            <div class="form-check">
+                              <input
+                                type="checkbox"
+                                class="form-check-input"
+                                id="validationCheck"
+                                [(ngModel)]="isValidated"
+                                (change)="checkValidation()"
+                              />
+                              <label class="form-check-label" for="validationCheck">
+                                Validate Information
+                              </label>
+                            </div>
+                            <!-- {{isValidated}} -->
+                            <p class="font-12 text-danger">
+                              {{ isValidated ? "You have validated the information and are proceeding to add users to the current shift." : "These users are already registered with a different shift type!" }}
+                            </p>
+                      
+                          </div>
+                          
+                        
+                        </div>
                     </div>
                   
+                      
                     <div
                       class="employ-lost-footer border-top p-2 d-flex align-items-center justify-content-end"
                     >
-                    <!-- {{isEditStaffLoader}} -->
-                      <!-- <button class="btn text-primary add-new p-0">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="30"
-                          height="31"
-                          viewBox="0 0 30 31"
-                          fill="none"
-                        >
-                          <mask
-                            id="mask0_1633_5282"
-                            style="mask-type: alpha"
-                            maskUnits="userSpaceOnUse"
-                            x="0"
-                            y="0"
-                            width="30"
-                            height="31"
-                          >
-                            <rect
-                              x="0.296875"
-                              y="0.730469"
-                              width="29.5385"
-                              height="29.5385"
-                              fill="#D9D9D9"
-                            />
-                          </mask>
-                          <g mask="url(#mask0_1633_5282)">
-                            <path
-                              d="M13.8377 16.729H6.45312V14.2674H13.8377V6.88281H16.2993V14.2674H23.6839V16.729H16.2993V24.1136H13.8377V16.729Z"
-                              fill="#6666F2"
-                            />
-                          </g>
-                        </svg>
-                        Add new user
-                      </button> -->
-                      <button class="btn mannualSubmit" (click)="editShiftStaffInfo()">
+                   
+                      <button class="btn mannualSubmit" (click)="editShiftStaffInfo()" [disabled]="userNameWithShiftName?.length > 0 && !isValidated">
                         <span *ngIf="!isEditStaffLoader">Submit</span>
                         <div class="dot-opacity-white-loader" *ngIf="isEditStaffLoader">
                           <span></span>
@@ -1682,7 +1690,14 @@
       <div class="border-top d-flex align-items-center justify-content-end p-3">
         <button class="btn mannualSubmit" 
         [disabled]="shiftForm.invalid || !organizationShiftTimingRequest.inTimeDate || !organizationShiftTimingRequest.outTimeDate || !organizationShiftTimingRequest.startLunchDate || !organizationShiftTimingRequest.endLunchDate"
-        (click)="submitShiftTimingForm()">Submit</button>
+        (click)="submitShiftTimingForm()">
+        <span *ngIf="!editShiftTimeLoader">Submit</span>
+        <div class="dot-opacity-white-loader" *ngIf="editShiftTimeLoader">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </button>
       </div>
     </div>
   </div>

@@ -35,6 +35,8 @@ export class AttendanceModeComponent implements OnInit {
     this.getAttendanceModeAllMethodCall();
     this.getAttendanceModeMethodCall();
     this.getOrganizationAddressDetailMethodCall();
+    this.getMasterAttendanceModeMethodCall();
+    this.getAttendanceModeStep();
   }
 
   routeToBilling() {
@@ -46,11 +48,15 @@ export class AttendanceModeComponent implements OnInit {
   isAttendanceModeSelected: boolean = false;
 
   updateAttendanceMode(attendanceModeId: number) {
+    debugger
     if (attendanceModeId == Key.MANUAL_ATTENDANCE) {
       this.updateAttendanceModeMethodCall(attendanceModeId);
     } else {
-      this.attendanceWithLocationButton.nativeElement.click();
+      this.updateAttendanceModeMethodCall(attendanceModeId);
+      this.updateMasterAttendanceModeMethodCall(1, 3);
+      // this.attendanceWithLocationButton.nativeElement.click();
       this.currentAttendanceModeId = attendanceModeId;
+      this.currentLocation();
     }
   }
 
@@ -73,6 +79,29 @@ export class AttendanceModeComponent implements OnInit {
     );
   }
 
+  // modeStepId: number = 0;
+  updateMasterAttendanceModeMethodCall(attendanceMasterModeId: number, modeStepId:number) {
+    this.dataService.updateMasterAttendanceMode(attendanceMasterModeId, modeStepId).subscribe(
+      (response) => {
+        // this.getAttendanceModeMethodCall();
+        this.getMasterAttendanceModeMethodCall();
+        this.getAttendanceModeStep();
+        this.helperService.registerOrganizationRegistratonProcessStepData(Key.ATTENDANCE_MODE_ID, Key.PROCESS_COMPLETED);
+        setTimeout(() => {
+          this.helperService.showToast(
+            'Attedance Master Mode updated successfully.',
+            Key.TOAST_STATUS_SUCCESS
+          );
+        }, 1000);
+      },
+      (error) => {
+        this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+      }
+    );
+  }
+
+  
+
   selectedAttendanceModeId: number = 0;
   getAttendanceModeMethodCall() {
     debugger;
@@ -89,6 +118,51 @@ export class AttendanceModeComponent implements OnInit {
       }
     );
   }
+
+  selectedMasterAttendanceModeId: number = 0;
+  getMasterAttendanceModeMethodCall() {
+    debugger;
+    this.dataService.getMasterAttendanceMode().subscribe(
+      (response: any) => {
+        debugger;
+        if (response.status) {
+          this.selectedMasterAttendanceModeId = response.object;
+        }
+        console.log(this.selectedMasterAttendanceModeId);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+
+  attendanceModeStep: number = 0;
+  getAttendanceModeStep() {
+    debugger;
+    this.dataService.getAttendanceModeStep().subscribe(
+      (response: any) => {
+        debugger;
+        if (response.status) {
+
+          if(response.object!=null) {
+          this.attendanceModeStep = response.object;
+          }else {
+ 
+            this.attendanceModeStep = 0;
+          }
+          
+        }
+        console.log(this.attendanceModeStep);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  
+
 
   attendanceModeList: AttendanceMode[] = [];
   getAttendanceModeAllMethodCall() {
@@ -112,7 +186,8 @@ export class AttendanceModeComponent implements OnInit {
     this.onboardingService.saveOrgOnboardingStep(5).subscribe((resp) => {
       this.onboardingService.refreshOnboarding();
     });
-    this.router.navigate(['/dashboard']);
+     this.registerBillingAndSubscriptionTempMethodCall(this.basicSubscriptionPlanId);
+
     this.dataService.sendOnboardingNotificationInWhatsapp().subscribe(
       (response) => {
         console.log('Messages Sent Successfully');
@@ -363,6 +438,8 @@ currentLocation() {
 
   submit() {
     debugger;
+
+    if(this.selectedMasterAttendanceModeId === 1 && this.attendanceModeStep ===3) {
     this.checkFormValidation();
 
     if (this.isFormInvalid == true) {
@@ -370,6 +447,7 @@ currentLocation() {
     } else {
       this.setOrganizationAddressDetailMethodCall();
     }
+  }
   }
 
   // public resetAddressDetailsModal() {
@@ -407,4 +485,54 @@ currentLocation() {
       }
     );
   }
+
+  showSelectModeFlag: boolean = false;
+  showSelectMasterModeFlag: boolean = false;
+
+  MODE1 = Key.MODE1;
+  MODE2 = Key.MODE2;
+  MODE3 = Key.MODE3;
+
+  selectMasterAttendanceMode(goToStep: number) {
+
+    if(goToStep === 2) {
+      this.selectedAttendanceModeId = 0;
+      this.showSelectModeFlag = true;
+    }else if(goToStep === 1) {
+      this.selectedMasterAttendanceModeId = 0;
+      this.showSelectMasterModeFlag = true;
+    }else {
+      this.showSelectModeFlag = false;
+      this.showSelectMasterModeFlag = false;
+    }
+
+  }
+
+  finishButtonEnableFlag:boolean = false;
+
+  finishButtonFlag() {
+    if(this.selectedMasterAttendanceModeId ===1 && this.attendanceModeStep!=3 ) {
+      this.finishButtonEnableFlag = false;
+    }else if((this.selectedMasterAttendanceModeId ===1 && this.attendanceModeStep===3) || this.selectedMasterAttendanceModeId ===2 || this.selectedMasterAttendanceModeId ===3){
+      this.finishButtonEnableFlag = true;
+    }
+  }
+
+  basicSubscriptionPlanId: number = 1;
+  registerBillingAndSubscriptionTempMethodCall(subscriptionPlanId: number) {
+    debugger
+    this.dataService.registerBillingAndSubscriptionTemp(subscriptionPlanId).subscribe(
+      (response) => {
+        this.helperService.showToast("Free trial started successfully.", Key.TOAST_STATUS_SUCCESS);
+        setTimeout(() => {
+          this.router.navigate(['/dashboard']);
+        }, 1000);
+       
+      },
+      (error) => {
+        this.helperService.showToast("Error while purchasing the plan!", Key.TOAST_STATUS_ERROR);
+      }
+    );
+  }
+
 }

@@ -107,7 +107,7 @@ export class OrganizationPersonalInformationComponent implements OnInit {
               .subscribe((resp) => {
                 this._onboardingService.refreshOnboarding();
               });
-
+              this.helperService.registerOrganizationRegistratonProcessStepData(Key.COMPANY_SETTING_ID, Key.PROCESS_COMPLETED);
             resolve(true);
           },
           (error) => {
