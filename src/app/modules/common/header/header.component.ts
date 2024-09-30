@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Console } from 'console';
-import { Observable } from 'rxjs/internal/Observable';
-import { map } from 'rxjs/internal/operators/map';
 import { Key } from 'src/app/constant/key';
 import { OrganizationSubscriptionPlanMonthDetail } from 'src/app/models/OrganizationSubscriptionPlanMonthDetail';
 import { LoggedInUser } from 'src/app/models/logged-in-user';
@@ -150,35 +148,56 @@ export class HeaderComponent implements OnInit {
 
   show: boolean = false;
 
-  shouldDisplay(moduleName: string): Observable<boolean> {
+  // shouldDisplay(moduleName: string): boolean {
+  //   const role = this.rbacService.getRoles();
+  //   if( role === Key.ADMIN ){
+  //     return true;
+  //   }
+  //   console.log("my helper service",this.helperService.subModuleResponseList );
+  //   console.log(this.helperService.subModuleResponseList.some((module:any)=> module.name.toLowerCase()==moduleName));
+  //   console.log(moduleName);
+  //   return (
+
+  //     (this.helperService.subModuleResponseList.some((module:any)=> module.name.toLowerCase()==moduleName))
+  //   );
+  // }
+
+  shouldDisplay(moduleName: string): boolean {
     const role = this.rbacService.getRoles();
-    if( role === Key.ADMIN ){
+
+    // If the role is admin, grant access to all modules
+    if (role === Key.ADMIN) {
       return true;
     }
-    // const modulesToShowForManager = [
-    //   'dashboard',
-    //   'team',
-    //   'project',
-    //   'reports',
-    //   'attendance',
-    //   'leave-management',
-    // ];
-    // const modulesToShowForUser = ['team', 'project', 'leave-management'];
-    // const modulesToShowForHRADMIN = ['onboarding'];
-    console.log("my helper service",this.helperService.subModuleResponseList );
-    console.log(this.helperService.subModuleResponseList.some((module:any)=> module.name.toLowerCase()==moduleName));
-    console.log(moduleName);
-    const hasModule = await firstValueFrom(
-      this.dataService.getAccessibleSubModuleResponse().pipe(
-        map((modules: any[]) =>
-          modules.some((module: any) => module.name.toLowerCase() === moduleName.toLowerCase())
-        )
-      )
+
+    // Check if we already have a cached response list
+    if (this.helperService.subModuleResponseList && this.helperService.subModuleResponseList.length > 0) {
+      // Perform the module name matching
+      return this.helperService.subModuleResponseList.some(
+        (module: any) => module.name.toLowerCase() === moduleName.toLowerCase()
+      );
+    }
+
+    // If there's no cached response, fetch the data and update the helper service
+    this.dataService.getAccessibleSubModuleResponse().subscribe(
+      (response: any[]) => {
+        this.helperService.subModuleResponseList = response;
+
+        // Perform the module name matching after fetching data
+        return response.some(
+          (module: any) => module.name.toLowerCase() === moduleName.toLowerCase()
+        );
+      },
+      (error) => {
+        console.error('Error fetching accessible submodules:', error);
+        return false;
+      }
     );
-    return this.dataService.getAccessibleSubModuleResponse().pipe(
-      map((modules: any[]) =>
-        modules.some((module: any) => module.name.toLowerCase() === moduleName.toLowerCase())
+
+    // Return false by default if data is not yet fetched
+    return false;
   }
+
 
   checkModule(element: string[]): boolean {
     const role = this.rbacService.getRoles();
@@ -186,7 +205,7 @@ export class HeaderComponent implements OnInit {
       return true;
     }
     for (let i = 0; i < element.length; i++) {
-      if((this.dataService.getAccessibleSubModuleResponse().subscribe((module:any)=> module.name.toLowerCase()==element[i].toLowerCase()))){
+      if((this.helperService.subModuleResponseList.some((module:any)=> module.name.toLowerCase()==element[i].toLowerCase()))){
         return true;
       }
     }
@@ -329,5 +348,3 @@ export class HeaderComponent implements OnInit {
     };
   }
 }
-
-
