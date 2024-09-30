@@ -2864,14 +2864,55 @@
                   <div class="mb-3">
                     <label for="addressLine1" class="pb-2">Address </label>
                     <input type="text" id="addressLine1" placeholder="Address line 1" ngx-google-places-autocomplete #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" required="" name="addressLine1" class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="organizationAddressDetail.addressLine1" />
+                    <a class="fetch-location" (click)="currentLocation()">
+                      <span *ngIf="!fetchCurrentLocationLoader"
+                        ><i
+                          class="ti ti-current-location"
+                          style="padding-right: 8px"
+                        ></i
+                        >Fetch Current Location
+                      </span>
+                      <div
+                        class="loader-fetching-location"
+                        *ngIf="fetchCurrentLocationLoader"
+                      >
+                        <i
+                          class="ti ti-current-location"
+                          style="padding-right: 8px"
+                        ></i>
+                        Fetching
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                    </a>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="mb-3">
                     <label for="radius" class="pb-2">Employee Location Must be in</label>
-                    <input type="text" id="radius" placeholder="in meters" required="" name="radius" class="form-control ng-untouched ng-pristine ng-invalid" [(ngModel)]="organizationAddressDetail.radius" />
+                    <input 
+                      type="number" 
+                      id="radius" 
+                      placeholder="Min. 50m" 
+                      required 
+                      name="radius" 
+                      class="form-control ng-untouched ng-pristine ng-invalid" 
+                      [(ngModel)]="organizationAddressDetail.radius" 
+                      #radius="ngModel"
+                      min="50"
+                    />
+                  </div>
+                  <div *ngIf="radius.touched && radius.invalid">
+                    <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="radius.errors?.required">
+                      <i class="bi bi-exclamation-circle"></i> Location Radius is required.
+                    </p>
+                    <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="radius.errors?.min">
+                      <i class="bi bi-exclamation-circle"></i> Minimum radius is 50 meters.
+                    </p>
                   </div>
                 </div>
+                
               </div>
             </div>
             <!-- <div class=""><agm-map 

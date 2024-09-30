@@ -962,10 +962,11 @@ export class DataService {
   setEmployeePersonalDetails(
     userPersonalInformationRequest: UserPersonalInformationRequest,
     userUuid: string,
-    selectedTeamIds: number[]
+    selectedTeamIds: number[],
+    selectedShift: number
   ): Observable<any> {
     debugger;
-    let params = new HttpParams().set('userUuid', userUuid);
+    let params = new HttpParams().set('userUuid', userUuid).set('selectedShiftId', selectedShift);
     const requestBody = {
       userPersonalInformationRequest,
       selectedTeamIds,
@@ -3954,4 +3955,7 @@ getHolidayForOrganization(date: string): Observable<any>{
   }
 
   
+  getShifts(): Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/organization-shift-timing/organization-shift`);
+  }
 }

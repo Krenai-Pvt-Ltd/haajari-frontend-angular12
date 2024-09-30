@@ -377,8 +377,8 @@
                 </div>
                 
                 <div class="col-md-6">
-                    <div class="oonbording-logo text-end text-sm-center">
-                        <img [src]="companyLogoUrl || 'https://www.hajiri.in/assets/images/HAjiRi.svg'" style="width: 150px;">
+                    <div class="oonbording-logo text-end ">
+                        <img [src]="companyLogoUrl || 'assets/images/HAjiRi.svg'" style="width: 150px;" alt="Company Logo">
                     </div>
                 </div>
             </div>
@@ -404,14 +404,14 @@
                                 <td>Phone : {{ onboardingPreviewData.user.phoneNumber }}</td>
                               </tr>
                               <tr>
-                                <td>DOB : {{ onboardingPreviewData.user.dob  | date : 'dd/MM/yyyy'  }}</td>
+                                <td>DOB : {{ onboardingPreviewData.user.dateOfBirth  | date : 'dd/MM/yyyy'  }}</td>
                                 <td>Gender : {{ onboardingPreviewData.user.gender }}</td>
                                 <td>Father's Name :   {{ onboardingPreviewData.user.fatherName }}</td>
                               </tr>
                               <tr>
                                 <td>Marital Status : {{ onboardingPreviewData.user.maritalStatus }}</td>
                                 <td>Joining Date : {{ onboardingPreviewData.user.joiningDate | date : 'dd/MM/yyyy' }}</td>
-                                <td>Current Salary : {{ onboardingPreviewData.user.currentSalary ? (onboardingPreviewData.user.currentSalary | numberToWord) : 'N/A' }}</td>
+                                <td>Current CTC : {{ onboardingPreviewData.user.currentSalary ? (onboardingPreviewData.user.currentSalary | numberToWord) : 'N/A' }}</td>
                               </tr>
                               <tr>
                                 <td>Department : {{ onboardingPreviewData.user.department }}</td>
