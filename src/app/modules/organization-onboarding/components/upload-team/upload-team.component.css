@@ -370,8 +370,16 @@ p.tableinfo.mb-0 {
   top: -2px;
 }
 
-.saperater{
+.saperater {
   border-right: 1px solid #ccc;
-    height: 16px;
-    margin-bottom: 0px;
+  height: 16px;
+  margin-bottom: 0px;
+}
+.uploadEmployee p {
+  color: #121212;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 16px; /* 166.378% */
+  letter-spacing: 0.128px;
 }

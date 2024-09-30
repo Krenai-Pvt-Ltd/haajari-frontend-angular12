@@ -30,18 +30,18 @@
 }
 .onboarding-step h5 {
   color: #000;
-  font-family: "IBM Plex Sans";
-  font-size: 24px;
+  font-size: 30px;
   font-style: normal;
   font-weight: 600;
-  line-height: 20px; /* 112.239% */
+  line-height: 34px; /* 112.239% */
   letter-spacing: 0.096px;
+  margin-bottom: 4px;
 }
 
 .onboarding-step p {
   color: #8b97a6;
   text-align: center;
-  font-size: 14px;
+  font-size: 13px;
   font-style: normal;
   font-weight: 300;
   line-height: 24px; /* 160% */
@@ -142,6 +142,7 @@
 
 .btn-fix-height {
   height: 48px;
+  font-weight: 600;
 }
 .noteText {
   color: #878a9a !important;
@@ -149,7 +150,7 @@
   font-size: 12px !important;
   font-style: normal;
   font-weight: 300 !important;
-  line-height: 21px;
+  line-height: 20px !important;
 }
 .footer-text p {
   color: #8b97a6;
@@ -158,6 +159,8 @@
   font-style: normal;
   font-weight: 300;
   line-height: 10px;
+  position: absolute;
+  bottom: 32px;
 }
 .onboarding-form label {
   color: rgba(0, 0, 0, 0.85);
@@ -225,6 +228,5 @@
 
 .disabled-link {
   pointer-events: none;
-  color: gray; 
+  color: gray;
 }
-

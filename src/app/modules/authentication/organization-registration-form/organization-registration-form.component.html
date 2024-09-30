@@ -13,7 +13,6 @@
               5 minutes
             </h4>
             <ul>
-              <li>Includes a FREE custom floor plan</li>
               <li>30-day free trial with no commitment</li>
               <li>No credit card needed to sign up</li>
             </ul>
@@ -21,7 +20,7 @@
             <div class="mt-3">
               <img
                 src="assets/images/register-side-img.svg"
-                style="width: 400px"
+                style="width: 530px"
               />
             </div>
           </div>
@@ -102,7 +101,7 @@
                       required
                     /> -->
                     <nz-select
-                      class="form-control"
+                      class="form-control witchIndustry"
                       id="industryType"
                       name="industryType"
                       [(ngModel)]="formData.industryType"
@@ -256,7 +255,10 @@
                         top: 2px;
                       "
                     />
-                    <label class="form-check-label" for="termsAndConditions">
+                    <label
+                      class="form-check-label iHaveRead"
+                      for="termsAndConditions"
+                    >
                       I have read and agree to the
                       <a
                         href="https://hajiri.in/terms-condition.html"

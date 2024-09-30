@@ -368,4 +368,9 @@ export class Key {
 
   public static PROCESS_COMPLETED = 36;
   public static PROCESS_PENDING = 35;
+
+  // redirect to slack
+
+  // public static SLACK_WORKSPACE_URL= `https://slack.com/app_redirect?app=A05QD5T9EK1&tab=home`;
+  public static SLACK_WORKSPACE_URL = `https://slack.com/app_redirect?app=A07AT94EHK7&tab=home`;
 }
