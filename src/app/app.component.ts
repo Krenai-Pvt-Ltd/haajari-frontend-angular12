@@ -11,7 +11,6 @@ import { RoleBasedAccessControlService } from './services/role-based-access-cont
 })
 export class AppComponent implements OnInit {
   title = 'hajari';
-  showToDoStep: boolean = true;
 
   //showHeader: boolean = true;
   isShowToast: boolean = false;
@@ -49,12 +48,12 @@ export class AppComponent implements OnInit {
   //   return urlsToHideHeader.includes(url);
   // }
 
-  isShowToDoSteps: boolean = false;
+  // isShowToDoSteps: boolean = false;
 
-  showToDoSteps() {
-    this.isShowToDoSteps = true;
-  }
-  hideToDoSteps() {
-    this.isShowToDoSteps = false;
-  }
+  // showToDoSteps() {
+  //   this.isShowToDoSteps = true;
+  // }
+  // hideToDoSteps() {
+  //   this.isShowToDoSteps = false;
+  // }
 }

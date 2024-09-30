@@ -3919,4 +3919,39 @@ getHolidayForOrganization(date: string): Observable<any>{
 
     );
   }
+
+  getOrganizationInitialToDoStepBar(): Observable<any> {
+    debugger
+    // const params = new HttpParams().set('statusId', statusId).set('stepId', stepId);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/organization/get/org/initial/to/do/step/bar`,
+
+    );
+  }
+
+  getStepsData(): Observable<any> {
+    debugger
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/organization/get/Steps`,
+
+    );
+  }
+
+  isToDoStepsCompleted(): Observable<any> {
+    debugger
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/organization/get/to-do/steps/completed`,
+
+    );
+  }
+
+  isOrgOnboarToday(): Observable<any> {
+    debugger
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/organization/is/organization/onboard/today`,
+
+    );
+  }
+
+  
 }
