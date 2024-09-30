@@ -134,7 +134,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="pb-2 mt-3" *ngIf="onboardingVia === 'WHATSAPP'">
+                        <div class="pb-2 mt-3">
                           <small class="text-muted">Language Preferred</small>
                           <div
                             class="d-flex align-items-center justify-content-between mt-2 gap-2 alert alert-outline-secondary">
@@ -153,7 +153,7 @@
                               id="englishSwitch"
                               [(ngModel)]="languagePreferredEnglish"
                               (change)="onLanguageToggleChange('english')"
-                              [disabled]="isDisabled"
+                          
                             /><label
                                   class="label-success"
                                   for="englishSwitch"
@@ -178,7 +178,7 @@
                               id="hindiSwitch"
                               [(ngModel)]="languagePreferredHindi"
                               (change)="onLanguageToggleChange('hindi')"
-                              [disabled]="isDisabled"
+      
                             /><label
                                   class="label-success"
                                   for="hindiSwitch"
@@ -187,8 +187,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="mt-3" *ngIf="ROLE === 'ADMIN' || ROLE === 'MANAGER' &&
-                        onboardingVia === 'WHATSAPP'">
+                        <div class="mt-3" *ngIf="ROLE === 'ADMIN' || ROLE === 'MANAGER'">
                           <small class="text-muted">
                             Employee's Attendance
                             <i
