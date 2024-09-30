@@ -21,6 +21,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import * as saveAs from 'file-saver';
 import { DatePipe } from '@angular/common';
+import { HeaderComponent } from 'src/app/modules/common/header/header.component';
 
 // import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
 
@@ -40,7 +41,8 @@ export class TimetableComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private firebaseStorage: AngularFireStorage,
     private sanitizer: DomSanitizer,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    // private headerComponent: HeaderComponent
   ) {}
 
   loginDetails = this.helperService.getDecodedValueFromToken();
@@ -157,10 +159,11 @@ export class TimetableComponent implements OnInit {
 
   ngOnInit(): void {
     window.scroll(0, 0);
+    this.getAttendanceRequestsDataCount();
     this.getOrganizationRegistrationDateMethodCall();
     this.inputDate = this.getCurrentDate();
     this.assignRole();
-
+// this.headerComponent.newNotification = false;
     const today = dayjs();
     const oneWeekAgo = today.subtract(1, 'week');
     this.selected = {
@@ -869,6 +872,21 @@ getAttendanceRequestsData(): void {
     console.log(error);
   });
 }
+
+attendanceRequestCount!: number;
+
+getAttendanceRequestsDataCount(): void {
+  this.dataService.getAttendanceRequestCount().subscribe(
+    (response: any) => {
+      this.attendanceRequestCount = response.count; 
+      console.log('requests retrieved successfully', response.listOfObject);
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+}
+
 
 approveOrRequest(id:number, reqString: string) {
   this.dataService.approveOrRejectAttendanceRequest(id, reqString).subscribe(response => {

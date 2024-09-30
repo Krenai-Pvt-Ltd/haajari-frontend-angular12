@@ -63,6 +63,9 @@ import { LopReversalApplicationResponse } from 'src/app/models/lop-reversal-appl
 import { NzCalendarMode } from 'ng-zorro-antd/calendar';
 import { AttendanceDetailDayWise } from 'src/app/models/attendance-detail-day-wise';
 
+import { OrganizationShift } from 'src/app/models/shift-type';
+
+
 @Component({
   selector: 'app-employee-profile',
   templateUrl: './employee-profile.component.html',
@@ -262,6 +265,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.getSuperCoinsResponseForEmployeeData();
     this.getUserListToDonateCoins();
     this.getDonateSuperCoinReasonData();
+   
   }
 
 
@@ -3296,6 +3300,9 @@ attendanceRequestLog: any[] = [];
       this.networkConnectionErrorPlaceHolderForLopReversalApplication = true;
     })
   }
+
+  
+  
   
 
 

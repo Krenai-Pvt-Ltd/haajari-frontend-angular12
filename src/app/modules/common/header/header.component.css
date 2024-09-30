@@ -75,6 +75,7 @@
   z-index: 1;
   transition: padding 350ms ease 0s;
   border-radius: 12px;
+  width: 100%;
 }
 .sidebar-menu-link:hover {
   position: relative;
@@ -304,6 +305,16 @@ span.add-project {
   border-bottom: 1px solid #fff;
   opacity: 0;
 }
+.alert-badge {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background-color: red;
+  border-radius: 50%;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
 @media screen and (max-width: 2600px) {
   .menu-body.navbar-vertical {
     overflow-x: auto;
@@ -315,4 +326,7 @@ span.add-project {
     overflow-x: auto;
     height: 90vh;
   }
+
+
+  
 }

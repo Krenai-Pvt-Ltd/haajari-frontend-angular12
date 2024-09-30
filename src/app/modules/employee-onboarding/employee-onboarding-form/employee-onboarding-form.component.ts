@@ -248,7 +248,8 @@ export class EmployeeOnboardingFormComponent implements OnInit {
             this.dataService.setEmployeePersonalDetails(
               this.userPersonalInformationRequest,
               userUuid,
-              []
+              [],
+              0
             );
             // this.userPersonalDetailsStatus = response.statusResponse;
             // localStorage.setItem('statusResponse', JSON.stringify(this.userPersonalDetailsStatus));
