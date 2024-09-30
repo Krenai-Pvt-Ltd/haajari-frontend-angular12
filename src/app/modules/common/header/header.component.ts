@@ -150,7 +150,6 @@ export class HeaderComponent implements OnInit {
       'dashboard',
       'team',
       'project',
-      'reports',
       'attendance',
       'leave-management',
     ];
