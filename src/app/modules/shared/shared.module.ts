@@ -13,6 +13,7 @@ import { SharedComponent } from './shared.component';
 @NgModule({
   declarations: [
     // ConstantComponent,
+    
     SharedComponent,
     HelperComponent,
     LogoutConfirmationModalComponent,

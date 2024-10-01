@@ -4,6 +4,7 @@ export class EmployeeAdditionalDocument {
     name: string = '';
     url: string = '';
     fileName: string = '';
+    uploading!: boolean;
    
   
     constructor() {
@@ -11,6 +12,7 @@ export class EmployeeAdditionalDocument {
       this.name = '';
       this.url = '';
       this.fileName =  '';
+      this.uploading = false;
     }
   
 }

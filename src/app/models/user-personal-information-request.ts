@@ -7,7 +7,7 @@ export class UserPersonalInformationRequest {
         uuid!: string;
         fatherName!: string;
         phoneNumber!: string;
-        dob!: Date;
+        dateOfBirth!: Date;
         gender!: string;
         joiningDate!: Date;
         currentSalary!: string;

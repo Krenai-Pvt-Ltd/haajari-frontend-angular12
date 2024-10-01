@@ -60,6 +60,7 @@ import { DonateCoinsUserList, DonateSuperCoinsReasonResponse } from 'src/app/mod
 import { OvertimeRequestDTO } from 'src/app/models/overtime-request-dto';
 import { OvertimeRequestLogResponse } from 'src/app/models/overtime-request-log-response';
 import { LopReversalApplicationResponse } from 'src/app/models/lop-reversal-application-response';
+import { OrganizationShift } from 'src/app/models/shift-type';
 
 @Component({
   selector: 'app-employee-profile',
@@ -280,6 +281,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.getSuperCoinsResponseForEmployeeData();
     this.getUserListToDonateCoins();
     this.getDonateSuperCoinReasonData();
+   
   }
 
   getRoleData() {
@@ -3465,6 +3467,7 @@ closeAttendanceFunc() {
   )
   }
 
+  
   
   
 }
