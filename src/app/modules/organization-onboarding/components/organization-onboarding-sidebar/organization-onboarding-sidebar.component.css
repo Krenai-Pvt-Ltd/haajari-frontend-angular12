@@ -39,7 +39,7 @@
 }
 .login-new-text {
   position: absolute;
-  bottom: 20px;
+  bottom: 32px;
   gap: 15px;
 }
 .login-new-text p {
@@ -109,7 +109,7 @@
   padding-top: 50px;
 }
 .pending-step h5 {
-  line-height: 50px;
+  line-height: 40px;
   color: rgba(153, 153, 153, 0.85);
   font-weight: 400;
 }

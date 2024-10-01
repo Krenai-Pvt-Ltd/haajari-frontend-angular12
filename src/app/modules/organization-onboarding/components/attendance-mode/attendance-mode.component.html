@@ -842,7 +842,7 @@
                 class="next-btn-box d-flex align-items-center justify-content-between"
               >
                 <button
-                  class="btn previousBtn previous-btn"
+                  class="btn previousBtn previous-btn p-0"
                   type="button"
                   (click)="backPage()"
                 >
@@ -874,7 +874,7 @@
                 <!-- {{selectedMasterAttendanceModeId}} -->
                 <button
                   type="submit"
-                  class="btn nextBtn"
+                  class="btn nextBtn p-0"
                   [disabled]="
                     (organizationAddressForm?.invalid &&
                       selectedMasterAttendanceModeId === 1) ||

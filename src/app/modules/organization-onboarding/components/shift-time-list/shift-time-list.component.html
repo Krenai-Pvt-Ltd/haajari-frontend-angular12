@@ -190,7 +190,7 @@
                         <span
                           data-bs-toggle="modal"
                           data-bs-target="#usersAlreadyAssigned"
-                          >sdvds</span
+                          >Employee List</span
                         >
                         <span
                           class="pointer"
@@ -1424,21 +1424,20 @@
         </div>
 
         <div class="p-3 employee-list bg-white">
-          <h5>Employee List</h5>
-
+          <h4 class="mb-1">Employee List</h4>
           <div class="manualemployList">
             <div
-              class="d-flex align-items-center justify-content-between persnol-details userList p-0 pt-3 pb-1 ng-star-inserted"
+              class="d-flex align-items-center justify-content-between persnol-details userList p-0 pt-2 pb-2"
+              *ngFor="let item of [].constructor(10)"
             >
               <div class="d-flex align-items-center gap-3">
-                <div>
-                  <span class="userName">D</span>
-                </div>
+                <span class="userName">D</span>
+
                 <div>
                   <h5 class="alert-heading font-13 mb-1">Yogesh Kumar</h5>
                   <div class="d-flex align-items-center gap-2">
                     <p class="mb-0 font-11">yogeh@krenai.com</p>
-                    <span class="error-spreter"></span>
+                    <span class="spreter-line"></span>
                     <span class="shift-tag">Night Shift</span>
                   </div>
                 </div>
@@ -1453,26 +1452,27 @@
                     fill="none"
                   >
                     <mask
-                      id="mask0_2382_269"
+                      id="mask0_3479_11708"
+                      style="mask-type: alpha"
                       maskUnits="userSpaceOnUse"
                       x="0"
                       y="0"
                       width="22"
                       height="23"
-                      style="mask-type: alpha"
                     >
                       <rect
-                        y="0.550781"
+                        x="0.015625"
+                        y="0.57843"
                         width="21.8948"
                         height="21.8948"
                         fill="white"
-                      ></rect>
+                      />
                     </mask>
-                    <g mask="url(#mask0_2382_269)">
+                    <g mask="url(#mask0_3479_11708)">
                       <path
-                        d="M6.38529 19.7102C5.88353 19.7102 5.454 19.5315 5.09669 19.1742C4.73938 18.8169 4.56072 18.3874 4.56072 17.8856V6.02591H3.64844V4.20135H8.20985V3.28906H13.6836V4.20135H18.245V6.02591H17.3327V17.8856C17.3327 18.3874 17.154 18.8169 16.7967 19.1742C16.4394 19.5315 16.0099 19.7102 15.5081 19.7102H6.38529ZM15.5081 6.02591H6.38529V17.8856H15.5081V6.02591ZM8.20985 16.061H10.0344V7.85048H8.20985V16.061ZM11.859 16.061H13.6836V7.85048H11.859V16.061Z"
-                        fill="#2F2E41"
-                      ></path>
+                        d="M6.40482 19.7378C5.90306 19.7378 5.47353 19.5592 5.11622 19.2019C4.75891 18.8446 4.58025 18.415 4.58025 17.9133V6.05359H3.66797V4.22903H8.22939V3.31674H13.7031V4.22903H18.2645V6.05359H17.3522V17.9133C17.3522 18.415 17.1736 18.8446 16.8163 19.2019C16.4589 19.5592 16.0294 19.7378 15.5277 19.7378H6.40482ZM15.5277 6.05359H6.40482V17.9133H15.5277V6.05359ZM8.22939 16.0887H10.054V7.87816H8.22939V16.0887ZM11.8785 16.0887H13.7031V7.87816H11.8785V16.0887Z"
+                        fill="#FF0404"
+                      />
                     </g>
                   </svg>
                   Remove
@@ -1482,25 +1482,31 @@
           </div>
         </div>
       </div>
-      <div class="border-top d-flex align-items-center justify-content-end p-3">
-        <button
-          class="btn mannualSubmit"
-          [disabled]="
-            shiftForm.invalid ||
-            !organizationShiftTimingRequest.inTimeDate ||
-            !organizationShiftTimingRequest.outTimeDate ||
-            !organizationShiftTimingRequest.startLunchDate ||
-            !organizationShiftTimingRequest.endLunchDate
-          "
-          (click)="submitShiftTimingForm()"
-        >
-          <span *ngIf="!editShiftTimeLoader">Add all</span>
-          <div class="dot-opacity-white-loader" *ngIf="editShiftTimeLoader">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </button>
+      <div class="border-top p-3">
+        <div class="form-check" style="padding-left: 0px !important">
+          <input
+            type="checkbox"
+            id="termsAndConditions"
+            required=""
+            style="height: auto !important; position: relative; top: 2px"
+            class="ng-dirty ng-touched"
+          /><label for="termsAndConditions" class="form-check-label iHaveRead">
+            I have validated the information and will proceed to add users to
+            the new shift.
+          </label>
+        </div>
+        <div class="d-flex align-items-center justify-content-end gap-3 mt-3">
+          <button class="btn submit-add-more">Cancel</button>
+
+          <button class="btn mannualSubmit" (click)="submitShiftTimingForm()">
+            <span *ngIf="!editShiftTimeLoader">Add all</span>
+            <div class="dot-opacity-white-loader" *ngIf="editShiftTimeLoader">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </button>
+        </div>
       </div>
     </div>
   </div>

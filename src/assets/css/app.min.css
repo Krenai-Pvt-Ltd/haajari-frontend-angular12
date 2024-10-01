@@ -9717,6 +9717,7 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   font-size: 12px;
   font-weight: 500;
   border-radius: 2px;
+  min-width: 100px;
 }
 
 .mb-100 {
