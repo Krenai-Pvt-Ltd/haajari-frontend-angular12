@@ -162,14 +162,15 @@ export class SignUpComponent implements OnInit {
   }
 
   signInWithWhatsapp() {
-    this.showOtpInput = false;
-    this.enableBack = true;
-    this.isEmailLogin = false;
-    this.isWhatsappLogin = true;
-    this.phoneNumber = '';
-    this.isOtpVerify = false;
-    this.otpErrorMessage = '';
-    this.errorMessage = '';
+    // this.showOtpInput = false;
+    // this.enableBack = true;
+    // this.isEmailLogin = false;
+    // this.isWhatsappLogin = true;
+    // this.phoneNumber = '';
+    // this.isOtpVerify = false;
+    // this.otpErrorMessage = '';
+    // this.errorMessage = '';
+    this.router.navigate(['/auth/onboarding-whatapp']);
   }
 
   redirectToRegister() {
@@ -532,15 +533,16 @@ export class SignUpComponent implements OnInit {
         this.authUrl = response.message;
         console.log('authUrl: ' + this.authUrl);
 
-        // Traverse up the DOM to find the closest anchor element
-        const target = event.target as HTMLElement;
-        const anchor = target.closest('a') as HTMLAnchorElement;
+        // // Traverse up the DOM to find the closest anchor element
+        // const target = event.target as HTMLElement;
+        // const anchor = target.closest('a') as HTMLAnchorElement;
 
-        if (anchor) {
-          anchor.href = this.authUrl;
-          // Redirect in the same tab
-          window.location.href = this.authUrl;
-        }
+        // if (anchor) {
+        //   anchor.href = this.authUrl;
+        //   // Redirect in the same tab
+        //   window.location.href = this.authUrl;
+        // }
+        window.location.href = this.authUrl;
       },
       (error) => {
         console.error('Error fetching Slack auth URL', error);

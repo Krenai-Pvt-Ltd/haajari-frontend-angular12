@@ -35,6 +35,9 @@ import { AgmCoreModule } from '@agm/core';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+
+
 
 
 @NgModule({
@@ -47,7 +50,8 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     AccountSettingsComponent,
     StaffAttendanceLocationComponent,
     UploadPhotoComponent,
-    SalarySettingComponent,
+    SalarySettingComponent
+    
   ],
   imports: [
     CommonModule,
@@ -75,6 +79,8 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     NzInputNumberModule,
     NzButtonModule,
     NzFormModule,
+    NzToolTipModule,
+    
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyB6SQE_TmOLpGLohpMLl-6FzdwJJAU9MnA',
       libraries: ['places'],

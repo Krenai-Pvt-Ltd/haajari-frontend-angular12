@@ -62,6 +62,7 @@ export class Key {
     '/payment/bonus-and-deduction',
     '/payment/payment-history',
     '/payment/payroll-dashboard/leave-summary',
+    '/to-do-step-dashboard',
   ];
 
   public static TOPBAR_ROUTES = [
@@ -102,6 +103,7 @@ export class Key {
     '/payment/bonus-and-deduction',
     '/payment/payment-history',
     '/payment/payroll-dashboard/leave-summary',
+    // '/to-do-step-dashboard',
   ];
 
   public static ORGANIZATION_ONBOARDING_SIDEBAR_ROUTES = [
@@ -117,6 +119,7 @@ export class Key {
     '/organization-onboarding/upload-team',
     '/organization-onboarding/shift-time-list',
     '/organization-onboarding/attendance-mode',
+    '/organization-onboarding/add-shift-placeholder',
   ];
 
   // Deduction Ids
@@ -213,10 +216,10 @@ export class Key {
   public static KRENAI_UUID = '60811bf3-ae1e-11ee-9597-784f4361d885';
   public static DEMO_ORGANIZATION_UUID = '8d3cc5c2-21a7-11ef-98b2-0a3b903b1973';
 
-  // base_url = 'http://localhost:8080/api/v2';
+  base_url = 'http://localhost:8080/api/v2';
 
   /* ------------------  Staging urls ----------------*/
-  base_url = 'https://staging.hajiri.work/api/v2';
+  // base_url = 'https://staging.hajiri.work/api/v2';
 
   /* ------------------  Production urls ----------------*/
   // base_url = 'https://production.hajiri.work/api/v2';
@@ -340,7 +343,7 @@ export class Key {
   // RazorPay Key
 
   // public static razorKey =  'rzp_test_Wd1RYd0fng3673'; // Test
-  public static razorKey = 'rzp_live_twiokSC5krYrnQ'  // Live
+  public static razorKey = 'rzp_live_twiokSC5krYrnQ'; // Live
   //
   public static ENABLE = 1;
   public static DISABLE = 2;
@@ -349,4 +352,48 @@ export class Key {
   public static LEAVE_LOG = 1;
   public static OVERTIME_LOG = 2;
   public static LOP_REVERSAL_LOG = 3;
+
+  // Tabs in Attendance Section
+  public static ATTENDANCE_TAB = 1;
+  public static OVERTIME_TAB = 2;
+  public static UPDATION_REQUEST_TAB = 3;
+
+  // Tabs in Overtime Section
+  public static OVERTIME_PENDING_REQUEST_TAB = 1;
+  public static OVERTIME_HISTORY_TAB = 2;
+
+
+  // Tabs in Updation request section
+  public static UPDATION_REQUEST_PENDING_REQUEST_TAB = 1;
+  public static UPDATION_REQUEST_LOG_TAB = 2;
+
+  // Gender
+  public static ALL = 1;
+  public static MALE = 2;
+  public static FEMALE = 3;
+  public static OTHERS = 4;
+
+  // Unused leave action
+  public static LAPSE = 1;
+  public static CARRY_FORWARD = 2;
+  public static ENCASH = 3;
+
+  // Leave Cycle
+  public static MONTHLY = 1;
+  public static QUARTERLY = 2;
+  public static HALF_YEARLY = 3;
+  public static YEARLY = 4;
+
+  // Leave renewal cycle
+  public static ANNUAL_YEAR = 'Annual Year (Jan - Dec)';
+  public static FINANCIAL_YEAR = 'Financial Year (Apr - Mar)';
+
+  // Sandwitch rule
+  public static YES = 'Yes';
+  public static NO = 'No';
+
+  //  Attendance Main Modes
+  public static MODE1 = 'Slack_and_Whatsapp';
+  public static MODE2 = 'Machine';
+  public static MODE3 = 'Lens';
 }

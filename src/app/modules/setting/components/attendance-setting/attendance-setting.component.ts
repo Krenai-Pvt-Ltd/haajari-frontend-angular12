@@ -216,14 +216,110 @@ export class AttendanceSettingComponent implements OnInit {
     this.fullDayOvertimeDurationValue = null;
 
     this.activeModel2 = false;
-
-    // if (this.lateDurationControl) {
-    //   // Set the control as untouched
-    //   this.lateDurationControl.control.markAsUntouched();
-    //   // Also consider resetting the form control to clear validation errors
-    //   this.lateDurationControl.control.reset();
-    // }
   }
+
+
+  isNextButtonDisabledForDeductionRuleDefinitionForm(): boolean {
+    // No checkbox selected
+    if (!this.customCheckbox && !this.halfDayCheckbox && !this.fullDayCheckbox) {
+      return true;
+    }
+  
+    // Custom deduction validation
+    if (this.customCheckbox) {
+      if (!this.customLateDurationValue || this.selectedCustomDeductionType?.type === '') {
+        return true;
+      }
+  
+      if (this.selectedCustomDeductionType?.type === 'FIXED AMOUNT' && 
+          !this.attendanceRuleDefinitionRequest.deductionRuleDefinitionRequest.customSalaryDeduction.amountInRupees) {
+        return true;
+      }
+  
+      if (this.customOccurrenceCheckbox && 
+          !this.attendanceRuleDefinitionRequest.deductionRuleDefinitionRequest.customSalaryDeduction.occurrenceCount) {
+        return true;
+      }
+    }
+  
+    // Half-day deduction validation
+    if (this.halfDayCheckbox) {
+      if (!this.halfDayLateDurationValue) {
+        return true;
+      }
+  
+      if (this.halfDayOccurrenceCheckbox && 
+          !this.attendanceRuleDefinitionRequest.deductionRuleDefinitionRequest.halfDaySalaryDeduction.occurrenceCount) {
+        return true;
+      }
+    }
+  
+    // Full-day deduction validation
+    if (this.fullDayCheckbox) {
+      if (!this.fullDayLateDurationValue) {
+        return true;
+      }
+  
+      if (this.fullDayOccurrenceCheckbox && 
+          !this.attendanceRuleDefinitionRequest.deductionRuleDefinitionRequest.fullDaySalaryDeduction.occurrenceCount) {
+        return true;
+      }
+    }
+  
+    // If no validation fails, return false (button should be enabled)
+    return false;
+  }
+
+
+  isNextButtonDisabledForOvertimeRuleDefinitionForm(): boolean {
+    // No checkbox selected
+    if (!this.customCheckbox && !this.halfDayCheckbox && !this.fullDayCheckbox) {
+      return true;
+    }
+  
+    // Custom deduction validation
+    if (this.customCheckbox) {
+      if (!this.customOvertimeDurationValue || this.selectedCustomOvertimeType?.type === '') {
+        return true;
+      }
+  
+      if (this.selectedCustomOvertimeType?.type === 'FIXED AMOUNT' && 
+          !this.attendanceRuleDefinitionRequest.overtimeRuleDefinitionRequest.customAmountInRupees) {
+        return true;
+      }
+  
+    }
+  
+    // Half-day deduction validation
+    if (this.halfDayCheckbox) {
+      if (!this.halfDayOvertimeDurationValue || this.selectedHalfDayOvertimeType?.type === '') {
+        return true;
+      }
+
+      if (this.selectedHalfDayOvertimeType?.type === 'FIXED AMOUNT' && 
+          !this.attendanceRuleDefinitionRequest.overtimeRuleDefinitionRequest.halfDayAmountInRupees) {
+        return true;
+      }
+
+    }
+  
+    // Full-day deduction validation
+    if (this.fullDayCheckbox) {
+      if (!this.fullDayOvertimeDurationValue || this.selectedFullDayOvertimeType?.type === '') {
+        return true;
+      }
+
+      if (this.selectedFullDayOvertimeType?.type === 'FIXED AMOUNT' && 
+          !this.attendanceRuleDefinitionRequest.overtimeRuleDefinitionRequest.fullDayAmountInRupees) {
+        return true;
+      }
+  
+    }
+  
+    // If no validation fails, return false (button should be enabled)
+    return false;
+  }
+  
 
   attendanceRuleResponseList: AttendanceRuleResponse[] = [];
   getAttendanceRuleByOrganizationMethodCall() {

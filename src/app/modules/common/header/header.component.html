@@ -1,11 +1,20 @@
-<!-- leftbar-tab-menu -->
 <div class="left-sidebar">
   <!-- LOGO -->
   <div class="brand">
     <a class="logo">
       <span>
-        <img src="assets/images/HAjiRi.svg" alt="logo-large" class="logo-lg logo-light" style="height: 40px" />
-        <img src="assets/images/HAjiRi.svg" alt="logo-large" class="logo-lg logo-dark" style="height: 40px" />
+        <img
+          src="assets/images/HAjiRi.svg"
+          alt="logo-large"
+          class="logo-lg logo-light"
+          style="height: 40px"
+        />
+        <img
+          src="assets/images/HAjiRi.svg"
+          alt="logo-large"
+          class="logo-lg logo-dark"
+          style="height: 40px"
+        />
       </span>
     </a>
   </div>
@@ -38,13 +47,13 @@
                 <a class="sidebar-menu-link sidebar-menu-link">
                   <span class="  ">
                     <i class="bi bi-house-door menu-icon pr-2"></i>
-                    Dashboard</span>
+                    Dashboard</span
+                  >
                 </a>
               </li>
             </ul>
           </div>
         </ng-template>
-
 
         <div class="">
           <div class="sidebar-menu-heding">PEOPLE</div>
@@ -53,12 +62,16 @@
             <li [class.active]="0 === activeIndex" (mouseover)="updateSliderStyle2(0)"  (mouseout)="resetHoverIndex2()" (click)="setActive2(0)" class="pointer"  *ngIf="shouldDisplay('onboarding')" routerLinkActive="sidebar-menu-active"
               routerLink="/employee-onboarding-data">
               <a class="sidebar-menu-link">
-                <span class=" "><i class="bi bi-person-plus menu-icon"></i> Onboarding</span>
+                <span class=" "
+                  ><i class="bi bi-person-plus menu-icon"></i> Onboarding</span
+                >
               </a>
             </li>
             <li  [class.active]="1 === activeIndex" (mouseover)="updateSliderStyle2(1)"  (mouseout)="resetHoverIndex2()" (click)="setActive2(1)" class="pointer" routerLinkActive="sidebar-menu-active" routerLink="/team" (click)="setActiveTabEmpty()" *ngIf="ROLE !== 'HR ADMIN'">
               <a class="sidebar-menu-link">
-                <span class=" "><i class="bi bi-people menu-icon"></i> Team</span>
+                <span class=" "
+                  ><i class="bi bi-people menu-icon"></i> Team</span
+                >
               </a>
             </li>
           </ul>
@@ -74,13 +87,16 @@
               <a class="sidebar-menu-link">
                 <span class=" ">
                   <i class="bi bi-calendar2-check menu-icon"></i>
-                  Attendance</span>
+                  Attendance</span
+                >
               </a>
             </li>
             <li class="pointer" [class.active]="1 === activeIndex" (mouseover)="updateSliderStyle(1)"  (mouseout)="resetHoverIndex()" (click)="setActive(1)" *ngIf="shouldDisplay('leave-management')" routerLinkActive="sidebar-menu-active"
               routerLink="/leave-management">
               <a class="sidebar-menu-link">
-                <span class=" "><i class="bi bi-alarm menu-icon"></i> Leaves</span>
+                <span class=" "
+                  ><i class="bi bi-alarm menu-icon"></i> Leaves</span
+                >
               </a>
             </li>
             <!-- <li class="pointer" *ngIf="ROLE === ADMIN && ORGANIZATION_UUID == KRENAI_UUID">
@@ -125,13 +141,17 @@
             <li class="pointer" [class.active]="2 === activeIndex" (mouseover)="updateSliderStyle(2)"  (mouseout)="resetHoverIndex()" (click)="setActive(2)" *ngIf="shouldDisplay('reports')" routerLinkActive="sidebar-menu-active"
               routerLink="/reports">
               <a class="sidebar-menu-link">
-                <span class=" "><i class="bi bi-bar-chart-line menu-icon"></i> Reports</span>
+                <span class=" "
+                  ><i class="bi bi-box menu-icon"></i> Reports</span
+                >
               </a>
             </li>
             <li class="pointer" [class.active]="3 === activeIndex" (mouseover)="updateSliderStyle(3)"  (mouseout)="resetHoverIndex()" (click)="setActive(3)" *ngIf="shouldDisplay('assets')" routerLinkActive="sidebar-menu-active"
               routerLink="/assets">
               <a class="sidebar-menu-link">
-                <span class=" "><i class="bi bi-box menu-icon"></i> Assets</span>
+                <span class=" "
+                  ><i class="bi bi-coin menu-icon"></i> Assets</span
+                >
               </a>
             </li>
             <li class="pointer" [class.active]="4 === activeIndex" (mouseover)="updateSliderStyle(4)"  (mouseout)="resetHoverIndex()" (click)="setActive(4)" *ngIf="shouldDisplay('coins') && ROLE === ADMIN && ORGANIZATION_UUID == KRENAI_UUID && showSuperCoinFlag" routerLinkActive="sidebar-menu-active"
@@ -215,7 +235,14 @@
           </ul>
         </div>
 
-        <div class="" *ngIf="ROLE == ADMIN && (ORGANIZATION_UUID == KRENAI_UUID || ORGANIZATION_UUID == DEMO_ORGANIZATION_UUID)">
+        <div
+          class=""
+          *ngIf="
+            ROLE == ADMIN &&
+            (ORGANIZATION_UUID == KRENAI_UUID ||
+              ORGANIZATION_UUID == DEMO_ORGANIZATION_UUID)
+          "
+        >
           <div class="sidebar-menu-heding">PAYROLL</div>
           <ul class="sidebar-menu">
             <div class="sliderNav" [ngStyle]="sliderStyle3"></div>
@@ -226,51 +253,71 @@
             </li>
             <li [class.active]="1 === activeIndex" (mouseover)="updateSliderStyle3(1)"  (mouseout)="resetHoverIndex3()" (click)="setActive3(1)" class="pointer" routerLinkActive="sidebar-menu-active" routerLink="/payment/bonus-and-deduction">
               <a class="sidebar-menu-link">
-                <span class=" "><i class="ti ti-gift"></i> Bonus & Deduction</span>
+                <span class=" "
+                  ><i class="ti ti-gift"></i> Bonus & Deduction</span
+                >
               </a>
             </li>
             <li [class.active]="2 === activeIndex" (mouseover)="updateSliderStyle3(2)"  (mouseout)="resetHoverIndex3()" (click)="setActive3(2)" class="pointer" routerLinkActive="sidebar-menu-active" routerLink="/payment/epf-esi-tds">
               <a class="sidebar-menu-link">
-                <span class=" "><i class="ti ti-scissors"></i> EPF, ESI & TDS</span>
+                <span class=" "
+                  ><i class="ti ti-scissors"></i> EPF, ESI & TDS</span
+                >
               </a>
             </li>
             <li [class.active]="3 === activeIndex" (mouseover)="updateSliderStyle3(3)"  (mouseout)="resetHoverIndex3()" (click)="setActive3(3)" class="pointer" routerLinkActive="sidebar-menu-active" routerLink="/payment/payment-history">
               <a class="sidebar-menu-link">
-                <span class=" "><i class="bi bi-receipt-cutoff"></i> Generate Salary Slip</span>
+                <span class=" "
+                  ><i class="bi bi-receipt-cutoff"></i> Generate Salary
+                  Slip</span
+                >
               </a>
             </li>
           </ul>
         </div>
-
 
         <div class="" *ngIf="ROLE == USER" style="margin-bottom: 130px">
           <div class="sidebar-menu-heding">ACCOUNT SETTINGS</div>
           <ul class="sidebar-menu">
-            <li class="pointer" [ngClass]="{
+            <li
+              class="pointer"
+              [ngClass]="{
                 'sidebar-menu-active': activeTab === 'accountDetails'
-              }" routerLinkActive="sidebar-menu-active" routerLink="/setting/account-settings?setting=accountDetails"
-              (click)="routeToSettings('accountDetails')">
+              }"
+              routerLinkActive="sidebar-menu-active"
+              routerLink="/setting/account-settings?setting=accountDetails"
+              (click)="routeToSettings('accountDetails')"
+            >
               <a class="sidebar-menu-link">
-                <span class=" "><i class="bi bi-gear menu-icon"></i> Account Details</span>
+                <span class=" "
+                  ><i class="bi bi-gear menu-icon"></i> Account Details</span
+                >
               </a>
             </li>
           </ul>
         </div>
 
-        <div class="" *ngIf="shouldDisplay('onboarding') && ROLE !== 'HR ADMIN'" style="margin-bottom: 130px">
+        <div
+          class=""
+          *ngIf="shouldDisplay('onboarding') && ROLE !== 'HR ADMIN'"
+          style="margin-bottom: 130px"
+        >
           <div class="sidebar-menu-heding">COMPANY</div>
           <ul class="sidebar-menu">
             <div class="sliderNav" [ngStyle]="sliderStyle4"></div>
             <li [class.active]="0 === activeIndex" (mouseover)="updateSliderStyle4(0)"  (mouseout)="resetHoverIndex4()" (click)="setActive4(0)" class="pointer" routerLinkActive="sidebar-menu-active" routerLink="/setting/company-setting">
               <a class="sidebar-menu-link">
                 <span class=" ">
-                  <i class="bi bi-building menu-icon"></i> Company Setting</span>
+                  <i class="bi bi-building menu-icon"></i> Company Setting</span
+                >
               </a>
             </li>
             <li [class.active]="1 === activeIndex" (mouseover)="updateSliderStyle4(1)"  (mouseout)="resetHoverIndex4()" (click)="setActive4(1)" class="pointer" routerLinkActive="sidebar-menu-active" routerLink="/setting/attendance-setting">
               <a class="sidebar-menu-link">
-                <span class=" "><i class="bi bi-clock-history menu-icon"></i> Attendance
-                  Setting</span>
+                <span class=" "
+                  ><i class="bi bi-clock-history menu-icon"></i> Attendance
+                  Setting</span
+                >
               </a>
             </li>
             <li [class.active]="2 === activeIndex" (mouseover)="updateSliderStyle4(2)"  (mouseout)="resetHoverIndex4()" (click)="setActive4(2)" class="pointer" routerLinkActive="sidebar-menu-active" routerLink="/setting/leave-setting">
@@ -282,92 +329,261 @@
             </li>
             <li [class.active]="3 === activeIndex" (mouseover)="updateSliderStyle4(3)"  (mouseout)="resetHoverIndex4()" (click)="setActive4(3)" class="pointer" routerLinkActive="sidebar-menu-active" routerLink="/setting/salary-setting">
               <a class="sidebar-menu-link">
-                <span class=" "><i class="bi bi-cash-stack menu-icon"></i> Salary
-                  Setting</span>
+                <span class=" "
+                  ><i class="bi bi-cash-stack menu-icon"></i> Salary
+                  Setting</span
+                >
               </a>
             </li>
 
             <li [class.active]="4 === activeIndex" (mouseover)="updateSliderStyle4(4)"  (mouseout)="resetHoverIndex4()" (click)="setActive4(4)" class="pointer" routerLinkActive="sidebar-menu-active" routerLink="/role">
               <a class="sidebar-menu-link">
-                <span class=" "><i class="bi bi-person-check menu-icon"></i> Admin Permission</span>
+                <span class=" "
+                  ><i class="bi bi-person-check menu-icon"></i> Admin
+                  Permission</span
+                >
               </a>
             </li>
           </ul>
         </div>
 
-
         <div class="log-out-btn-box">
-          <div class="plan-box d-flex align-items-center justify-content-between">
-            <div class="">
+          <div class="plan-box">
+            <!-- <div class="">
               <p class="mb-0"></p>
             </div>
             <div class="" style="cursor: pointer">
-              <a class="mb-0" routerLink="/setting/billing"><i class="bi bi-lightning-fill"></i>
+              <a class="mb-0" routerLink="/setting/billing"
+                ><i class="bi bi-lightning-fill"></i>
                 {{
-                orgSubsPlanMonthDetail.planName
-                ? orgSubsPlanMonthDetail.planName
-                : "Upgrade"
+                  orgSubsPlanMonthDetail.planName
+                    ? orgSubsPlanMonthDetail.planName
+                    : "Upgrade"
                 }}
               </a>
+            </div> -->
+
+            <!-- <div class="PremierPlan">
+              <div class="d-flex align-items-center justify-content-between">
+                <div>
+                  <h3 class="mb-2">
+                    Premier
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="19"
+                      height="19"
+                      viewBox="0 0 19 19"
+                      fill="none"
+                    >
+                      <g clip-path="url(#clip0_2612_4018)">
+                        <path
+                          d="M9.53526 18.6447C14.6849 18.6447 18.8596 14.4701 18.8596 9.32042C18.8596 4.17074 14.6849 -0.00390625 9.53526 -0.00390625C4.38558 -0.00390625 0.210938 4.17074 0.210938 9.32042C0.210938 14.4701 4.38558 18.6447 9.53526 18.6447Z"
+                          fill="url(#paint0_linear_2612_4018)"
+                        />
+                        <path
+                          d="M15.4034 7.0214C15.2773 6.93271 15.1106 6.93054 14.9838 7.01596L12.8789 8.41784C12.797 8.47252 12.7401 8.55719 12.7209 8.65386C12.7017 8.75014 12.7216 8.85039 12.776 8.93223C12.8985 9.1154 12.9633 9.32823 12.9633 9.54828C12.9633 10.1615 12.464 10.6603 11.8502 10.6603C11.2364 10.6603 10.7371 10.1615 10.7371 9.54828C10.7371 9.18775 10.915 8.84789 11.2132 8.63865C11.381 8.5214 11.4216 8.29044 11.3042 8.12285L9.55696 5.62925C9.41782 5.43087 9.08807 5.43087 8.94893 5.62925L7.20172 8.12285C7.08434 8.29044 7.1249 8.5214 7.29265 8.63865C7.59087 8.84789 7.76877 9.18775 7.76877 9.54828C7.76877 10.1615 7.26947 10.6603 6.65567 10.6603C6.04187 10.6603 5.54256 10.1615 5.54256 9.54828C5.54256 9.32819 5.60744 9.11536 5.72991 8.93223C5.78426 8.85044 5.80418 8.75014 5.78497 8.65386C5.76575 8.55719 5.70886 8.47252 5.62699 8.41784L3.52212 7.01596C3.39459 6.93054 3.22754 6.93271 3.10252 7.0214C2.97716 7.1097 2.91918 7.26572 2.95648 7.41414L4.44065 13.3446C4.4874 13.5321 4.67257 13.6544 4.86134 13.6204C7.77529 13.1354 10.7306 13.1354 13.6445 13.6204C13.8274 13.653 14.0173 13.5369 14.0652 13.3446L15.5494 7.41414C15.5867 7.26572 15.5287 7.1097 15.4034 7.0214Z"
+                          fill="url(#paint1_linear_2612_4018)"
+                        />
+                      </g>
+                      <defs>
+                        <linearGradient
+                          id="paint0_linear_2612_4018"
+                          x1="9.53526"
+                          y1="18.6447"
+                          x2="9.53526"
+                          y2="-0.00390625"
+                          gradientUnits="userSpaceOnUse"
+                        >
+                          <stop stop-color="#FFE59A" />
+                          <stop offset="1" stop-color="#FFFFD5" />
+                        </linearGradient>
+                        <linearGradient
+                          id="paint1_linear_2612_4018"
+                          x1="9.25294"
+                          y1="13.6261"
+                          x2="9.25294"
+                          y2="5.4805"
+                          gradientUnits="userSpaceOnUse"
+                        >
+                          <stop stop-color="#F3A73D" />
+                          <stop offset="1" stop-color="#EC4B42" />
+                        </linearGradient>
+                        <clipPath id="clip0_2612_4018">
+                          <rect
+                            width="18.6486"
+                            height="18.6486"
+                            fill="white"
+                            transform="translate(0.21875)"
+                          />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  </h3>
+                  <p class="mb-0">Valid up to 3 months</p>
+                </div>
+                <div>
+                  <button class="btn p-0 modifyBtn">Modify</button>
+                </div>
+              </div>
+            </div> -->
+            <div class="basicPlan">
+              <div class="d-flex align-items-center justify-content-between">
+                <div>
+                  <h3 class="mb-2">Trial Plan</h3>
+                  <p class="mb-0">Plan Upgrade Now</p>
+                </div>
+                <div>
+                  <button class="btn upgradeBtn">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="15"
+                      height="14"
+                      viewBox="0 0 15 14"
+                      fill="none"
+                    >
+                      <g clip-path="url(#clip0_2612_3972)">
+                        <path
+                          d="M3.11719 8.25709C7.98331 8.25709 8.06031 3.26172 8.06031 3.26172C8.06031 3.26172 8.13869 8.25709 13.0034 8.25709C8.13731 8.25709 8.06031 13.2525 8.06031 13.2525C8.06031 13.2525 7.98194 8.25709 3.11719 8.25709Z"
+                          fill="white"
+                        />
+                        <path
+                          d="M10.3828 3.36678C12.4549 3.36678 12.4893 1.23828 12.4893 1.23828C12.4893 1.23828 12.5223 3.36678 14.5958 3.36678C12.5237 3.36678 12.4893 5.49528 12.4893 5.49528C12.4893 5.49528 12.4563 3.36678 10.3828 3.36678Z"
+                          fill="white"
+                        />
+                        <path
+                          d="M1.74219 3.99444C3.09931 3.99444 3.12131 2.60156 3.12131 2.60156C3.12131 2.60156 3.14331 3.99444 4.50044 3.99444C3.14331 3.99444 3.12131 5.38731 3.12131 5.38731C3.12131 5.38731 3.09931 3.99444 1.74219 3.99444Z"
+                          fill="white"
+                        />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_2612_3972">
+                          <rect
+                            width="13.75"
+                            height="13.75"
+                            fill="white"
+                            transform="translate(0.507812 0.125)"
+                          />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                    Upgrade
+                  </button>
+                </div>
+              </div>
+              <!-- <div class="mt-3">
+                <div class="progress">
+                  <div
+                    class="progress-bar"
+                    role="progressbar"
+                    style="width: 25%"
+                    aria-valuenow="25"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  ></div>
+                </div>
+
+                <h4 class="mt-3 mb-0">On day 1 of 30</h4>
+              </div> -->
             </div>
           </div>
-          <div class="d-flex align-items-center" style="gap: 20px; padding: 10px; background-color: #f1f1fd">
+          <div
+            class="d-flex align-items-center position-relative login-user-detail"
+          >
             <div class="">
               <span class="members-namess">{{
                 getFirstAndLastLetterFromName(loggedInUser.name)
-                }}</span>
+              }}</span>
             </div>
             <div class="">
               <div class="login-user-name">{{ loggedInUser.name }}</div>
               <div class="login-user-phone-numbar">
                 {{
-                loggedInUser.email
-                ? loggedInUser.email
-                : loggedInUser.phone_number
+                  loggedInUser.email
+                    ? loggedInUser.email
+                    : loggedInUser.phone_number
                 }}
               </div>
             </div>
             <div class="">
               <div class="dropdown d-inline-block log-btn">
-                <a class="dropdown-toggle" id="dLabel1" data-bs-toggle="dropdown" href="#" role="button"
-                  aria-haspopup="false" aria-expanded="false">
+                <a
+                  class="dropdown-toggle"
+                  id="dLabel1"
+                  data-bs-toggle="dropdown"
+                  href="#"
+                  role="button"
+                  aria-haspopup="false"
+                  aria-expanded="false"
+                >
                   <span class=""><i class="bi bi-chevron-right"></i></span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-end list-top" aria-labelledby="dLabel1">
-                  <div class="manager-list pointer" (click)="routeToAccountPage('accountDetails')">
+                <div
+                  class="dropdown-menu dropdown-menu-end list-top"
+                  aria-labelledby="dLabel1"
+                >
+                  <div
+                    class="manager-list pointer"
+                    (click)="routeToAccountPage('accountDetails')"
+                  >
                     <a class="dropdown-item">
                       <i class="bi bi-gear" style="padding-right: 10px"></i>
-                      Account Settings</a>
+                      Account Settings</a
+                    >
                   </div>
                   <div class="manager-list pointer">
                     <a class="dropdown-item">
-                      <svg viewBox="0 0 24 24" style="width: 23px; padding-right: 10px"
-                        xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="currentColor" width="24"
-                        data-testid="menu-item-icon" class="sc-4b4ed23b-0 MusCF">
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                          d="M6.63 15.45A1 1 0 0 1 6 16.7c-1.5.5-2.3 1.75-2.72 3.04-.16.46-.26.9-.32 1.29.38-.06.83-.16 1.29-.32 1.3-.43 2.54-1.23 3.04-2.72a1 1 0 1 1 1.9.63c-.78 2.35-2.73 3.46-4.3 4a10.75 10.75 0 0 1-3.01.52h-.03v-1h-1v-.03a4.38 4.38 0 0 1 0-.24 10.03 10.03 0 0 1 .53-2.76c.53-1.58 1.64-3.53 3.99-4.3a1 1 0 0 1 1.26.63Zm-4.78 6.7h-1a1 1 0 0 0 1 1v-1Zm1 0Z">
-                        </path>
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                          d="M21.45 2.55c-1.06-.14-3.55-.14-6.11 2.42l-6.97 6.96 3.7 3.7 6.96-6.97c2.56-2.56 2.56-5.05 2.42-6.11Zm.37-1.97c-1.46-.22-4.71-.21-7.9 2.97l-7.67 7.67a1 1 0 0 0 0 1.41l5.12 5.12a1 1 0 0 0 1.4 0l7.68-7.67c3.18-3.19 3.19-6.44 2.97-7.9m-1.6-1.6a1.9 1.9 0 0 1 1.6 1.6">
-                        </path>
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                          d="M18.46 9.65a1 1 0 0 1 1 1v7.3a1.9 1.9 0 0 1-.56 1.34l-3.65 3.65a1.9 1.9 0 0 1-3.21-.97l-.95-4.73a1 1 0 0 1 1.96-.4l.91 4.56 3.5-3.5v-7.25a1 1 0 0 1 1-1Zm-4.62 11.88Z">
-                        </path>
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                          d="M5.33 4.68c.23-.1.48-.14.73-.14h7.29a1 1 0 1 1 0 2H6.1l-3.5 3.5 4.56.9a1 1 0 0 1-.4 1.97l-4.73-.95a1.9 1.9 0 0 1-.97-3.21L4.7 5.1l.65.65-.65-.65c.18-.18.39-.32.62-.42ZM2.43 10l-.03.1-.17.84m.2-.94-.03.1">
-                        </path>
+                      <svg
+                        viewBox="0 0 24 24"
+                        style="width: 23px; padding-right: 10px"
+                        xmlns="http://www.w3.org/2000/svg"
+                        aria-hidden="true"
+                        fill="currentColor"
+                        width="24"
+                        data-testid="menu-item-icon"
+                        class="sc-4b4ed23b-0 MusCF"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M6.63 15.45A1 1 0 0 1 6 16.7c-1.5.5-2.3 1.75-2.72 3.04-.16.46-.26.9-.32 1.29.38-.06.83-.16 1.29-.32 1.3-.43 2.54-1.23 3.04-2.72a1 1 0 1 1 1.9.63c-.78 2.35-2.73 3.46-4.3 4a10.75 10.75 0 0 1-3.01.52h-.03v-1h-1v-.03a4.38 4.38 0 0 1 0-.24 10.03 10.03 0 0 1 .53-2.76c.53-1.58 1.64-3.53 3.99-4.3a1 1 0 0 1 1.26.63Zm-4.78 6.7h-1a1 1 0 0 0 1 1v-1Zm1 0Z"
+                        ></path>
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M21.45 2.55c-1.06-.14-3.55-.14-6.11 2.42l-6.97 6.96 3.7 3.7 6.96-6.97c2.56-2.56 2.56-5.05 2.42-6.11Zm.37-1.97c-1.46-.22-4.71-.21-7.9 2.97l-7.67 7.67a1 1 0 0 0 0 1.41l5.12 5.12a1 1 0 0 0 1.4 0l7.68-7.67c3.18-3.19 3.19-6.44 2.97-7.9m-1.6-1.6a1.9 1.9 0 0 1 1.6 1.6"
+                        ></path>
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M18.46 9.65a1 1 0 0 1 1 1v7.3a1.9 1.9 0 0 1-.56 1.34l-3.65 3.65a1.9 1.9 0 0 1-3.21-.97l-.95-4.73a1 1 0 0 1 1.96-.4l.91 4.56 3.5-3.5v-7.25a1 1 0 0 1 1-1Zm-4.62 11.88Z"
+                        ></path>
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M5.33 4.68c.23-.1.48-.14.73-.14h7.29a1 1 0 1 1 0 2H6.1l-3.5 3.5 4.56.9a1 1 0 0 1-.4 1.97l-4.73-.95a1.9 1.9 0 0 1-.97-3.21L4.7 5.1l.65.65-.65-.65c.18-.18.39-.32.62-.42ZM2.43 10l-.03.1-.17.84m.2-.94-.03.1"
+                        ></path>
                       </svg>
                       What's new?
                     </a>
                   </div>
-                  <div class="manager-list pointer" (click)="routeToAccountPage('refer')">
+                  <div
+                    class="manager-list pointer"
+                    (click)="routeToAccountPage('refer')"
+                  >
                     <a class="dropdown-item">
                       <i class="bi bi-gift" style="padding-right: 10px"></i>
-                      Refer a friend</a>
+                      Refer a friend</a
+                    >
                   </div>
-                  <div class="manager-list remove-team pointer" (click)="onLogout()">
+                  <div
+                    class="manager-list remove-team pointer"
+                    (click)="onLogout()"
+                  >
                     <a class="dropdown-item StaticMenuItemBase-button">
-                      <span><i class="bi bi-box-arrow-in-left"></i> Log out</span></a>
+                      <span
+                        ><i class="bi bi-box-arrow-in-left"></i> Log out</span
+                      ></a
+                    >
                   </div>
                 </div>
               </div>

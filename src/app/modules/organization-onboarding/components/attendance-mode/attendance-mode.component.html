@@ -5,98 +5,764 @@
         <div class="col-md-12">
           <div class="persnol-details">
             <div class="card-header p-0 pb-3 bg-white">
-              <h4 class="card-title">Attendance Mode</h4>
-              <p class="text-muted mb-0">
-                To enhance your experience and ensure accurate attendance
-                tracking on our platform, please select your preferred
-                attendance mode. Hajiri offers three types of attendance modes:
-                'Manual Attendance' , 'Staff Attendance With Location' and
-                'Staff Attendance With Selfie & Location '. Kindly review and
-                choose the most suitable option for your organization.
+              <h4 class="card-title-headding mb-1">
+                Configure Attendance Method
+              </h4>
+              <p class="mb-0">
+                Select the attendance tracking method that best fits your
+                organization’s needs. Choose how employees will record their
+                attendance based on your preferences for location and
+                verification.
               </p>
             </div>
 
-            <div class="row mt-60">
+            <!-- {{attendanceModeStep}} -->
+            <!-- {{selectedMasterAttendanceModeId}}  -->
+            <div class="row mt-3" *ngIf="attendanceModeStep==1 || attendanceModeStep==0">
+              <div class="col-md-4" (click)="updateMasterAttendanceModeMethodCall(1, 2)" >
+                <div class="attendanceModeBox pointer" [ngClass]="{
+                  active:  1 == selectedMasterAttendanceModeId
+                }">
+                  <h5 class="mb-0 p-3 modeHeading">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="25"
+                      viewBox="0 0 24 25"
+                      fill="none"
+                    >
+                      <mask
+                        id="mask0_3076_9746"
+                        style="mask-type: alpha"
+                        maskUnits="userSpaceOnUse"
+                        x="0"
+                        y="0"
+                        width="24"
+                        height="25"
+                      >
+                        <rect y="0.5" width="24" height="24" fill="#D9D9D9" />
+                      </mask>
+                      <g mask="url(#mask0_3076_9746)">
+                        <path
+                          d="M2 20.5V17.7C2 17.15 2.14167 16.6333 2.425 16.15C2.70833 15.6667 3.1 15.3 3.6 15.05C4.45 14.6167 5.40833 14.25 6.475 13.95C7.54167 13.65 8.71667 13.5 10 13.5C10.5 13.5 10.9875 13.525 11.4625 13.575C11.9375 13.625 12.4 13.7 12.85 13.8L11.1 15.55C10.9167 15.5167 10.7375 15.5 10.5625 15.5H10C8.81667 15.5 7.75417 15.6417 6.8125 15.925C5.87083 16.2083 5.1 16.5167 4.5 16.85C4.35 16.9333 4.22917 17.05 4.1375 17.2C4.04583 17.35 4 17.5167 4 17.7V18.5H10.25L12.25 20.5H2ZM15.55 20.9L12.1 17.45L13.5 16.05L15.55 18.1L20.6 13.05L22 14.45L15.55 20.9ZM10 12.5C8.9 12.5 7.95833 12.1083 7.175 11.325C6.39167 10.5417 6 9.6 6 8.5C6 7.4 6.39167 6.45833 7.175 5.675C7.95833 4.89167 8.9 4.5 10 4.5C11.1 4.5 12.0417 4.89167 12.825 5.675C13.6083 6.45833 14 7.4 14 8.5C14 9.6 13.6083 10.5417 12.825 11.325C12.0417 12.1083 11.1 12.5 10 12.5ZM10 10.5C10.55 10.5 11.0208 10.3042 11.4125 9.9125C11.8042 9.52083 12 9.05 12 8.5C12 7.95 11.8042 7.47917 11.4125 7.0875C11.0208 6.69583 10.55 6.5 10 6.5C9.45 6.5 8.97917 6.69583 8.5875 7.0875C8.19583 7.47917 8 7.95 8 8.5C8 9.05 8.19583 9.52083 8.5875 9.9125C8.97917 10.3042 9.45 10.5 10 10.5Z"
+                          fill="#1C1B1F"
+                        />
+                      </g>
+                    </svg>
+                    Attendance Via What’sApp & Slack
+                  </h5>
+
+                  <p class="mb-0 p-3">
+                    Manage your own fleet of carriers and delivery boys for
+                    Select the attendance tracking method
+                  </p>
+                  <div class="text-center pt-3 pb-3">
+                    <img
+                      src="assets/images/slack-whatapp.svg"
+                      style="width: 80%"
+                    />
+                  </div>
+                  <div class="p-3">
+                    <button class="btn p-0 add-location knowMoreBtn">
+                      Know More
+                      <i class="bi bi-arrow-right"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4" (click)="updateMasterAttendanceModeMethodCall(2, 1)" >
+                <div class="attendanceModeBox pointer" [ngClass]="{
+                  active:  2 == selectedMasterAttendanceModeId
+                }">
+                  <h5 class="mb-0 p-3 modeHeading">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="25"
+                      viewBox="0 0 24 25"
+                      fill="none"
+                    >
+                      <mask
+                        id="mask0_3076_9798"
+                        style="mask-type: alpha"
+                        maskUnits="userSpaceOnUse"
+                        x="0"
+                        y="0"
+                        width="24"
+                        height="25"
+                      >
+                        <rect y="0.5" width="24" height="24" fill="#D9D9D9" />
+                      </mask>
+                      <g mask="url(#mask0_3076_9798)">
+                        <path
+                          d="M5 21.5C4.16667 21.5 3.45833 21.2083 2.875 20.625C2.29167 20.0417 2 19.3333 2 18.5V11.5C2 10.6667 2.29167 9.95833 2.875 9.375C3.45833 8.79167 4.16667 8.5 5 8.5C5.45 8.5 5.8625 8.59167 6.2375 8.775C6.6125 8.95833 6.94167 9.2 7.225 9.5H8V4.5H18V9.5H19C19.8333 9.5 20.5417 9.79167 21.125 10.375C21.7083 10.9583 22 11.6667 22 12.5V20.5H7.225C6.94167 20.8 6.6125 21.0417 6.2375 21.225C5.8625 21.4083 5.45 21.5 5 21.5ZM5 19.5C5.28333 19.5 5.52083 19.4042 5.7125 19.2125C5.90417 19.0208 6 18.7833 6 18.5V11.5C6 11.2167 5.90417 10.9792 5.7125 10.7875C5.52083 10.5958 5.28333 10.5 5 10.5C4.71667 10.5 4.47917 10.5958 4.2875 10.7875C4.09583 10.9792 4 11.2167 4 11.5V18.5C4 18.7833 4.09583 19.0208 4.2875 19.2125C4.47917 19.4042 4.71667 19.5 5 19.5ZM10 9.5H16V6.5H10V9.5ZM8 18.5H20V12.5C20 12.2167 19.9042 11.9792 19.7125 11.7875C19.5208 11.5958 19.2833 11.5 19 11.5H8V18.5ZM15 14.5C15.2833 14.5 15.5208 14.4042 15.7125 14.2125C15.9042 14.0208 16 13.7833 16 13.5C16 13.2167 15.9042 12.9792 15.7125 12.7875C15.5208 12.5958 15.2833 12.5 15 12.5C14.7167 12.5 14.4792 12.5958 14.2875 12.7875C14.0958 12.9792 14 13.2167 14 13.5C14 13.7833 14.0958 14.0208 14.2875 14.2125C14.4792 14.4042 14.7167 14.5 15 14.5ZM18 14.5C18.2833 14.5 18.5208 14.4042 18.7125 14.2125C18.9042 14.0208 19 13.7833 19 13.5C19 13.2167 18.9042 12.9792 18.7125 12.7875C18.5208 12.5958 18.2833 12.5 18 12.5C17.7167 12.5 17.4792 12.5958 17.2875 12.7875C17.0958 12.9792 17 13.2167 17 13.5C17 13.7833 17.0958 14.0208 17.2875 14.2125C17.4792 14.4042 17.7167 14.5 18 14.5ZM15 17.5C15.2833 17.5 15.5208 17.4042 15.7125 17.2125C15.9042 17.0208 16 16.7833 16 16.5C16 16.2167 15.9042 15.9792 15.7125 15.7875C15.5208 15.5958 15.2833 15.5 15 15.5C14.7167 15.5 14.4792 15.5958 14.2875 15.7875C14.0958 15.9792 14 16.2167 14 16.5C14 16.7833 14.0958 17.0208 14.2875 17.2125C14.4792 17.4042 14.7167 17.5 15 17.5ZM18 17.5C18.2833 17.5 18.5208 17.4042 18.7125 17.2125C18.9042 17.0208 19 16.7833 19 16.5C19 16.2167 18.9042 15.9792 18.7125 15.7875C18.5208 15.5958 18.2833 15.5 18 15.5C17.7167 15.5 17.4792 15.5958 17.2875 15.7875C17.0958 15.9792 17 16.2167 17 16.5C17 16.7833 17.0958 17.0208 17.2875 17.2125C17.4792 17.4042 17.7167 17.5 18 17.5ZM9 17.5H13V12.5H9V17.5Z"
+                          fill="#1C1B1F"
+                        />
+                      </g>
+                    </svg>
+                    Attendance Via Machine
+                  </h5>
+
+                  <p class="mb-0 p-3">
+                    Manage your own fleet of carriers and delivery boys for
+                    Select the attendance tracking method
+                  </p>
+                  <div class="text-center pt-3 pb-3">
+                    <img src="assets/images/machine.svg" style="width: 82%" />
+                  </div>
+                  <div class="p-3">
+                    <button class="btn p-0 add-location knowMoreBtn">
+                      Know More
+                      <i class="bi bi-arrow-right"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4" (click)="updateMasterAttendanceModeMethodCall(3, 1)" >
+                <div class="attendanceModeBox pointer" [ngClass]="{
+                  active:  3 == selectedMasterAttendanceModeId
+                }">
+                  <h5 class="mb-0 p-3 modeHeading">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="25"
+                      viewBox="0 0 24 25"
+                      fill="none"
+                    >
+                      <mask
+                        id="mask0_3076_9810"
+                        style="mask-type: alpha"
+                        maskUnits="userSpaceOnUse"
+                        x="0"
+                        y="0"
+                        width="24"
+                        height="25"
+                      >
+                        <rect y="0.5" width="24" height="24" fill="#D9D9D9" />
+                      </mask>
+                      <g mask="url(#mask0_3076_9810)">
+                        <path
+                          d="M4 23.5V21.5H20V23.5H4ZM4 3.5V1.5H20V3.5H4ZM12 13.5C12.8333 13.5 13.5417 13.2083 14.125 12.625C14.7083 12.0417 15 11.3333 15 10.5C15 9.66667 14.7083 8.95833 14.125 8.375C13.5417 7.79167 12.8333 7.5 12 7.5C11.1667 7.5 10.4583 7.79167 9.875 8.375C9.29167 8.95833 9 9.66667 9 10.5C9 11.3333 9.29167 12.0417 9.875 12.625C10.4583 13.2083 11.1667 13.5 12 13.5ZM4 20.5C3.45 20.5 2.97917 20.3042 2.5875 19.9125C2.19583 19.5208 2 19.05 2 18.5V6.5C2 5.95 2.19583 5.47917 2.5875 5.0875C2.97917 4.69583 3.45 4.5 4 4.5H20C20.55 4.5 21.0208 4.69583 21.4125 5.0875C21.8042 5.47917 22 5.95 22 6.5V18.5C22 19.05 21.8042 19.5208 21.4125 19.9125C21.0208 20.3042 20.55 20.5 20 20.5H4ZM5.75 18.5C6.5 17.5667 7.40833 16.8333 8.475 16.3C9.54167 15.7667 10.7167 15.5 12 15.5C13.2833 15.5 14.4583 15.7667 15.525 16.3C16.5917 16.8333 17.5 17.5667 18.25 18.5H20V6.5H4V18.5H5.75ZM8.7 18.5H15.3C14.8167 18.1667 14.2958 17.9167 13.7375 17.75C13.1792 17.5833 12.6 17.5 12 17.5C11.4 17.5 10.8208 17.5833 10.2625 17.75C9.70417 17.9167 9.18333 18.1667 8.7 18.5ZM12 11.5C11.7167 11.5 11.4792 11.4042 11.2875 11.2125C11.0958 11.0208 11 10.7833 11 10.5C11 10.2167 11.0958 9.97917 11.2875 9.7875C11.4792 9.59583 11.7167 9.5 12 9.5C12.2833 9.5 12.5208 9.59583 12.7125 9.7875C12.9042 9.97917 13 10.2167 13 10.5C13 10.7833 12.9042 11.0208 12.7125 11.2125C12.5208 11.4042 12.2833 11.5 12 11.5Z"
+                          fill="#1C1B1F"
+                        />
+                      </g>
+                    </svg>
+                    Attendance Via Lens
+                  </h5>
+
+                  <p class="mb-0 p-3">
+                    Manage your own fleet of carriers and delivery boys for
+                    Select the attendance tracking method
+                  </p>
+                  <div class="text-center pt-3 pb-3">
+                    <img src="assets/images/lans.svg" style="width: 73%" />
+                  </div>
+                  <div class="p-3">
+                    <button class="btn p-0 add-location knowMoreBtn">
+                      Know More
+                      <i class="bi bi-arrow-right"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-3 whatAppSlackBox p-3" *ngIf="selectedMasterAttendanceModeId === 1 && attendanceModeStep===2">
+              <div
+                class="d-flex align-items-center justify-content-between border-bottom pb-3"
+              >
+                <div class="d-flex align-items-center gap-3">
+                  <img src="assets/images/slack-whatapp.svg" />
+                  <div>
+                    <h5>Attendance Via What’sApp & Slack</h5>
+                    <p class="mb-0">
+                      Manage your own fleet of carriers and delivery boys <br />
+                      for Select the attendance tracking method
+                    </p>
+                  </div>
+                </div>
+                <div class="">
+                  <button class="btn p-0 text-primary add-location" (click)="updateMasterAttendanceModeMethodCall(1, 1)">
+                    Edit the selected method
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                    >
+                      <mask
+                        id="mask0_3031_9580"
+                        style="mask-type: alpha"
+                        maskUnits="userSpaceOnUse"
+                        x="0"
+                        y="0"
+                        width="24"
+                        height="24"
+                      >
+                        <rect width="24" height="24" fill="#D9D9D9" />
+                      </mask>
+                      <g mask="url(#mask0_3031_9580)">
+                        <path
+                          d="M5 19H6.425L16.2 9.225L14.775 7.8L5 17.575V19ZM3 21V16.75L16.2 3.575C16.4 3.39167 16.6208 3.25 16.8625 3.15C17.1042 3.05 17.3583 3 17.625 3C17.8917 3 18.15 3.05 18.4 3.15C18.65 3.25 18.8667 3.4 19.05 3.6L20.425 5C20.625 5.18333 20.7708 5.4 20.8625 5.65C20.9542 5.9 21 6.15 21 6.4C21 6.66667 20.9542 6.92083 20.8625 7.1625C20.7708 7.40417 20.625 7.625 20.425 7.825L7.25 21H3ZM15.475 8.525L14.775 7.8L16.2 9.225L15.475 8.525Z"
+                          fill="#6666F2"
+                        />
+                      </g>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="employeeInformation mt-3 p-3">
+                
+                <h4 class="mb-0"><i class="bi bi-chevron-left" (click)="updateMasterAttendanceModeMethodCall(1, 1)"></i>Provide Your Employee Information</h4>
+                <p class="mb-0">
+                  Please ensure that all fields are completed accurately to
+                  create and maintain precise employee records. This will ensure
+                  sm
+                </p>
+                <div class="row mt-3">
+                  <div
+                    class="col-lg-4"
+                    *ngFor="let attendanceMode of attendanceModeList"
+                  >
+                    <div
+                      class="card attendance-mode-card pt-4 pb-4"
+                      (click)="updateAttendanceMode(attendanceMode.id);"
+                      [ngClass]="{
+                        active: attendanceMode.id == selectedAttendanceModeId
+                      }"
+                    >
+                      <div class="card-body text-center">
+                        <img
+                          src="assets/images/manual-attendance.svg"
+                          style="width: 50%"
+                        />
+                        <h5
+                          class="mb-2 mt-4"
+                          [ngClass]="{
+                            'text-primary':
+                              attendanceMode.id == selectedAttendanceModeId
+                          }"
+                        >
+                          {{ attendanceMode.name }}
+                        </h5>
+                        <p class="mt-1 mb-0">
+                          {{ attendanceMode.description }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- {{selectedAttendanceModeId}} -->
+            <div class="mt-3 whatAppSlackBox" style="border: none" *ngIf="selectedMasterAttendanceModeId === 1 &&  attendanceModeStep===3">
+              <div
+                class="d-flex align-items-center justify-content-between p-3 whatAppSlack"
+              >
+                <div class="d-flex align-items-center gap-3">
+                  <img src="assets/images/slack-whatapp.svg" />
+                  <div>
+                    <h5>Attendance Via What’sApp & Slack</h5>
+                    <p class="mb-0">
+                      Manage your own fleet of carriers and delivery boys <br />
+                      for Select the attendance tracking method
+                    </p>
+                  </div>
+                </div>
+                <div class="">
+                  <button class="btn p-0 text-primary add-location" (click)="updateMasterAttendanceModeMethodCall(1, 2)">
+                    Staff Attendance With Location
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                    >
+                      <mask
+                        id="mask0_3031_9580"
+                        style="mask-type: alpha"
+                        maskUnits="userSpaceOnUse"
+                        x="0"
+                        y="0"
+                        width="24"
+                        height="24"
+                      >
+                        <rect width="24" height="24" fill="#D9D9D9" />
+                      </mask>
+                      <g mask="url(#mask0_3031_9580)">
+                        <path
+                          d="M5 19H6.425L16.2 9.225L14.775 7.8L5 17.575V19ZM3 21V16.75L16.2 3.575C16.4 3.39167 16.6208 3.25 16.8625 3.15C17.1042 3.05 17.3583 3 17.625 3C17.8917 3 18.15 3.05 18.4 3.15C18.65 3.25 18.8667 3.4 19.05 3.6L20.425 5C20.625 5.18333 20.7708 5.4 20.8625 5.65C20.9542 5.9 21 6.15 21 6.4C21 6.66667 20.9542 6.92083 20.8625 7.1625C20.7708 7.40417 20.625 7.625 20.425 7.825L7.25 21H3ZM15.475 8.525L14.775 7.8L16.2 9.225L15.475 8.525Z"
+                          fill="#6666F2"
+                        />
+                      </g>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="col-md-12 mt-4">
+                <div class="card-header p-0 pb-3 bg-white mb-3">
+                  <div
+                    class="d-flex align-items-center justify-content-between"
+                  >
+                    <div class="">
+                      <h4 class="card-title-headding mb-1"><i class="bi bi-chevron-left" (click)="updateMasterAttendanceModeMethodCall(1, 2)"></i> Office Address</h4>
+                      <p class="mb-0">
+                        To ensure seamless delivery and accurate communication,
+                        we kindly request you to review and update your address
+                        information.
+                      </p>
+                    </div>
+                    <!-- <div>
+                      <button class="btn p-0 text-primary add-location">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                        >
+                          <mask
+                            id="mask0_1683_3527"
+                            style="mask-type: alpha"
+                            maskUnits="userSpaceOnUse"
+                            x="0"
+                            y="0"
+                            width="24"
+                            height="24"
+                          >
+                            <rect width="24" height="24" fill="#D9D9D9" />
+                          </mask>
+                          <g mask="url(#mask0_1683_3527)">
+                            <path
+                              d="M11 13H5V11H11V5H13V11H19V13H13V19H11V13Z"
+                              fill="#6666F2"
+                            />
+                          </g>
+                        </svg>
+                        Add New Location
+                      </button>
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+
+              
+              <div>
+                <form #organizationAddressForm="ngForm">
+                <div class="mb-3">
+                  <h5 class="alert-heading font-14 mb-0">Office 1</h5>
+                  <!-- {{locationLoader}} -->
+                </div>
+                <div class="row pb-3">
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label for="radius" class="pb-2">
+                        Address <span class="text-optional">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="addressLine1"
+                        placeholder="Floor No., Building Name, Street or Locality"
+                        name="addressLine1"
+                        maxlength="200"
+                        class="form-control profile-input"
+                        [(ngModel)]="organizationAddressDetail.addressLine1"
+                        ngx-google-places-autocomplete
+                        #placesRef="ngx-places"
+                        (onAddressChange)="handleAddressChange($event)"
+                        required
+                        #addressLine1="ngModel"
+                      />
+                      
+                      <a class="fetch-location" (click)="currentLocation()">
+                        <span *ngIf="!locationLoader"
+                          ><i
+                            class="ti ti-current-location"
+                            style="padding-right: 8px"
+                          ></i
+                          >Fetch Current Location
+                        </span>
+                        <div
+                          class="loader-fetching-location"
+                          *ngIf="locationLoader"
+                        >
+                        <i
+                        class="ti ti-current-location"
+                        style="padding-right: 8px"
+                      ></i
+                      >Fetching
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                        </div>
+                      </a>
+                      <div
+                    *ngIf="
+                      (addressLine1.touched && addressLine1.invalid) ||
+                      isFormInvalid
+                    "
+                  >
+                    <p
+                      class="errortxt mt-2 mb-0"
+                      style="color: red"
+                      *ngIf="addressLine1.errors?.required"
+                    >
+                      <i class="bi bi-exclamation-circle"></i> Address Line 1 is
+                      required.
+                    </p>
+                    <p
+                      class="errortxt mt-2 mb-0"
+                      style="color: red"
+                      *ngIf="addressLine1.errors?.maxlength"
+                    >
+                      <i class="bi bi-exclamation-circle"></i> Maximum 200
+                      characters allowed.
+                    </p>
+                    <p
+                      class="errortxt mt-2 mb-0"
+                      *ngIf="
+                        !organizationAddressDetail.longitude &&
+                        !organizationAddressDetail.latitude
+                      "
+                    >
+                      <i class="bi bi-exclamation-circle"></i> Please Select
+                      Address from Address Dropdown only. Do not type it
+                      manually Or Fetch Current Location.
+                    </p>
+                  </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label for="radius" class="pb-2">
+                        Employee location Must be in
+                        <i
+                          class="bi bi-exclamation-circle tolltip-icon"
+                          ngbTooltip="Please enter the location range (in meters) within which your employees are allowed to mark their attendance. This ensures that attendance can only be marked when they are within the specified location range."
+                          placement="top"
+                        ></i>
+                      </label>
+                      <input
+                      type="number"
+                        id="radius"
+                        placeholder="Min. 50m"
+                        name="radius"
+                        class="form-control profile-input"
+                        [(ngModel)]="organizationAddressDetail.radius"
+                        min="50"
+                        required
+                        #radius="ngModel"
+                      />
+                    
+                    </div>
+                    <div *ngIf="(radius.touched && radius.invalid) || isFormInvalid">
+                      <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="radius.errors?.required">
+                        <i class="bi bi-exclamation-circle"></i> Location Radius is required.
+                      </p>
+                      <p class="errortxt mt-2 mb-0" style="color: red" *ngIf="radius.errors?.min">
+                        <i class="bi bi-exclamation-circle"></i> Minimum radius is 50 meters.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="mb-3">
+                      <label for="radius" class="pb-2">
+                        City <span class="text-optional">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="city"
+                        placeholder="Enter City"
+                        name="city"
+                        class="form-control profile-input"
+                        [(ngModel)]="organizationAddressDetail.city"
+                        required
+                        #city="ngModel"
+                      />
+                    </div>
+                    <div *ngIf="(city.touched && city.invalid) || isFormInvalid">
+                      <p
+                        class="errortxt mt-2 mb-0"
+                        style="color: red"
+                        *ngIf="city.errors?.required"
+                      >
+                        <i class="bi bi-exclamation-circle"></i> City Name is
+                        required.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="mb-3">
+                      <label for="radius" class="pb-2">
+                        State <span class="text-optional">*</span></label
+                      >
+                      <input
+                        type="text"
+                        id="state"
+                        placeholder="Enter State"
+                        required
+                        #state="ngModel"
+                        name="state"
+                        class="form-control profile-input"
+                        [(ngModel)]="organizationAddressDetail.state"
+                      />
+                    </div>
+                    <div *ngIf="(state.touched && state.invalid) || isFormInvalid">
+                      <p
+                        class="errortxt mt-2 mb-0"
+                        style="color: red"
+                        *ngIf="state.errors?.required"
+                      >
+                        <i class="bi bi-exclamation-circle"></i> State Name is
+                        required.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="mb-3">
+                      <label for="radius" class="pb-2">
+                        Country <span class="text-optional">*</span></label
+                      >
+                      <input
+                        type="text"
+                        id="country"
+                        placeholder="Enter Country"
+                        name="country"
+                        required
+                        #country="ngModel"
+                        class="form-control profile-input"
+                        [(ngModel)]="organizationAddressDetail.country"
+                      />
+                    </div>
+                    <div
+                    *ngIf="(country.touched && country.invalid) || isFormInvalid"
+                  >
+                    <p
+                      class="errortxt mt-2 mb-0"
+                      style="color: red"
+                      *ngIf="country.errors?.required"
+                    >
+                      <i class="bi bi-exclamation-circle"></i> Country Name is
+                      required.
+                    </p>
+                  </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="mb-3">
+                      <label for="radius" class="pb-2">
+                        Pincode <span class="text-optional">*</span></label
+                      >
+                      <input
+                        type="text"
+                        id="pincode"
+                        placeholder="Enter Pincode"
+                        name="pincode"
+                        class="form-control profile-input"
+                        #pincode="ngModel"
+                        required
+                        [(ngModel)]="organizationAddressDetail.pincode"
+                      />
+                    </div>
+                    <div
+                    *ngIf="(pincode.touched && pincode.invalid) || isFormInvalid"
+                  >
+                    <p
+                      class="errortxt mt-2 mb-0"
+                      style="color: red"
+                      *ngIf="pincode.errors?.required"
+                    >
+                      <i class="bi bi-exclamation-circle"></i> Pincode is
+                      required.
+                    </p>
+                  </div>
+                  </div>
+                 
+                </div>
+              </form>
+              </div>
+            </div>
+
+            <!-- <div class="row mt-3">
               <div
                 class="col-lg-4"
                 *ngFor="let attendanceMode of attendanceModeList"
               >
                 <div
-                  class="card attendance-mode-card"
+                  class="card attendance-mode-card pt-3 pb-3"
                   (click)="updateAttendanceMode(attendanceMode.id)"
+                  [ngClass]="{
+                    active: attendanceMode.id == selectedAttendanceModeId
+                  }"
                 >
-                  <div
-                    class="card-body text-center"
-                    [ngClass]="{
-                      active: attendanceMode.id == selectedAttendanceModeId
-                    }"
-                  >
+                  <div class="card-body text-center pt-4 pb-4">
                     <img
-                      src="assets/images/check-mark.svg"
-                      class="rounded-circle thumb-xl"
+                      src="assets/images/manual-attendance.svg"
+                      style="width: 50%"
                     />
-                    <h5 class="font-16 fw-bold mt-4">
+                    <h5
+                      class="alert-heading font-14 mb-2 mt-4"
+                      [ngClass]="{
+                        'text-primary':
+                          attendanceMode.id == selectedAttendanceModeId
+                      }"
+                    >
                       {{ attendanceMode.name }}
                     </h5>
-                    <p class="text-muted mt-1">
+                    <p class="mt-1 mb-0 font-11" style="color: #121212">
                       {{ attendanceMode.description }}
                     </p>
                   </div>
-                  <!--end card-body-->
                 </div>
-                <!--end card-->
               </div>
-              <!--end col-->
-              <!-- <div class="col-lg-4">
-                         <div class="card"> 
-                             <div class="card-body text-center active">                                    
-                                 <img src="assets/images/map-pin.svg" class="rounded-circle thumb-xl">
-                                 <h5 class="font-16 fw-bold mt-5">Staff Attendance With Location</h5> 
-                                 <p class="text-muted mt-1">Staff can mark their own attendance. Location will be captured automatically</p>
-                             </div>                                                              
-                         </div>
-                     </div>
-                     <div class="col-lg-4">
-                         <div class="card">                                
-                             <div class="card-body text-center">                                    
-                                 <img src="assets/images/camera.svg" class="rounded-circle thumb-xl">
-                                 <h5 class="font-16 fw-bold mt-5">Staff Attendance With Selfie & Location</h5> 
-                                 <p class="text-muted mt-1">Staff can mark their own attendance with Selfie. Location will be captured automatically</p>
-                             </div>                                    
-                         </div>
-                     </div>  -->
             </div>
 
-            <div class="card-body mt-1 p-0">
-              <div class="alert alert-light mb-0" role="alert">
-                <h4 class="alert-heading font-18">
-                  Attendance Modes in Hajiri!
-                </h4>
-                <p>
-                  <b>Manual Attendance : </b>
-                  This mode allows users to mark their attendance manually
-                  without any restrictions. This method provides flexibility for
-                  organizations that do not require location-based tracking.
-                </p>
-                <p>
-                  <b>Staff Attendance With Location : </b>
-                  In this mode, staff can mark their attendance only within
-                  specified location ranges set by the organization. The
-                  location is captured automatically, ensuring that attendance
-                  is recorded accurately based on the geographical boundaries
-                  defined. This method is ideal for organizations that need to
-                  ensure presence at specific locations.
-                </p>
-                <p>
-                  <b>Staff Attendance With Selfie & Location : </b>
-                  This advanced mode requires staff to mark their attendance
-                  with a selfie at the specified location. The selfie and
-                  location data are captured, providing an additional layer of
-                  verification. This method is suited for organizations that
-                  need both location and visual confirmation of attendance.
-                </p>
+            <div class="col-md-12 mt-4">
+              <div class="card-header p-0 pb-3 bg-white mb-3">
+                <div class="d-flex align-items-center justify-content-between">
+                  <div class="">
+                    <h4 class="card-title-headding mb-1">Office Address</h4>
+                    <p class="mb-0">
+                      To ensure seamless delivery and accurate communication, we
+                      kindly request you to review and update your address
+                      information.
+                    </p>
+                  </div>
+                  <div>
+                    <button class="btn p-0 text-primary add-location">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <mask
+                          id="mask0_1683_3527"
+                          style="mask-type: alpha"
+                          maskUnits="userSpaceOnUse"
+                          x="0"
+                          y="0"
+                          width="24"
+                          height="24"
+                        >
+                          <rect width="24" height="24" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_1683_3527)">
+                          <path
+                            d="M11 13H5V11H11V5H13V11H19V13H13V19H11V13Z"
+                            fill="#6666F2"
+                          />
+                        </g>
+                      </svg>
+                      Add New Location
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
+
+            <div>
+              <div class="mb-3">
+                <h5 class="alert-heading font-14 mb-0">Office 1</h5>
+              </div>
+              <div class="row pb-3" style="border-bottom: 1px dashed #e8ebf3">
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="radius" class="pb-2">
+                      Address <span class="text-optional">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="radius"
+                      placeholder="Floor No., Building Name, Street or Locality"
+                      name="radius"
+                      class="form-control profile-input"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="radius" class="pb-2">
+                      Employee location Must be in
+                      <i
+                        class="bi bi-exclamation-circle tolltip-icon"
+                        ngbTooltip="Please enter the location range (in meters) within which your employees are allowed to mark their attendance. This ensures that attendance can only be marked when they are within the specified location range."
+                        placement="top"
+                      ></i>
+                    </label>
+                    <input
+                      type="text"
+                      id="radius"
+                      placeholder="Enter In meters"
+                      name="radius"
+                      class="form-control profile-input"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="mb-3">
+                    <label for="radius" class="pb-2">
+                      City <span class="text-optional">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="radius"
+                      placeholder="Enter City"
+                      name="radius"
+                      class="form-control profile-input"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="mb-3">
+                    <label for="radius" class="pb-2">
+                      State <span class="text-optional">*</span></label
+                    >
+                    <input
+                      type="text"
+                      id="radius"
+                      placeholder="Enter State"
+                      name="radius"
+                      class="form-control profile-input"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="mb-3">
+                    <label for="radius" class="pb-2">
+                      Country <span class="text-optional">*</span></label
+                    >
+                    <input
+                      type="text"
+                      id="radius"
+                      placeholder="Enter Country"
+                      name="radius"
+                      class="form-control profile-input"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="mb-3">
+                    <label for="radius" class="pb-2">
+                      Pincode <span class="text-optional">*</span></label
+                    >
+                    <input
+                      type="text"
+                      id="radius"
+                      placeholder="Enter Pincode"
+                      name="radius"
+                      class="form-control profile-input"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div> -->
           </div>
 
           <div class="row">
@@ -106,20 +772,23 @@
                 class="next-btn-box d-flex align-items-center justify-content-between"
               >
                 <button
-                  class="btn btn-outline-secondary btn-round previous-btn"
+                  class="btn previousBtn previous-btn"
                   type="button"
                   (click)="backPage()"
                 >
                   <span *ngIf="!isAttendanceModeBackLoading">
-                    <i
-                      class="bi bi-arrow-left"
-                      style="
-                        padding-right: 3px;
-                        padding-right: 1px;
-                        position: relative;
-                        top: -1px;
-                      "
-                    ></i>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="22"
+                      height="22"
+                      viewBox="0 0 22 22"
+                      fill="none"
+                    >
+                      <path
+                        d="M19.75 10.6714C19.75 10.8588 19.6914 11.011 19.5743 11.1281C19.4572 11.2452 19.305 11.3038 19.1177 11.3038H3.59011L7.73547 15.4491C7.87599 15.5896 7.94625 15.7536 7.94625 15.9409C7.94625 16.1283 7.87599 16.2805 7.73547 16.3976C7.59495 16.5147 7.43101 16.5733 7.24365 16.5733C7.05628 16.5733 6.89234 16.5264 6.75182 16.4328L1.48229 11.1632C1.38861 11.0227 1.34177 10.8588 1.34177 10.6714C1.34177 10.484 1.38861 10.3201 1.48229 10.1796L6.75182 4.91005C6.89234 4.81637 7.05628 4.76953 7.24365 4.76953C7.43101 4.76953 7.59495 4.82808 7.73547 4.94518C7.87599 5.06228 7.94625 5.21451 7.94625 5.40188C7.94625 5.58924 7.87599 5.75318 7.73547 5.8937L3.59011 10.0391H19.1177C19.305 10.0391 19.4572 10.0976 19.5743 10.2147C19.6914 10.3318 19.75 10.484 19.75 10.6714Z"
+                        fill="black"
+                      />
+                    </svg>
                     Previous</span
                   >
 
@@ -134,13 +803,44 @@
                 </button>
                 <button
                   type="submit"
-                  class="btn btn-outline-primary btn-round"
-                  (click)="goToDashboardSection()"
+                  class="btn nextBtn"
+                  [disabled]="organizationAddressForm?.invalid && selectedMasterAttendanceModeId ===1 || (attendanceModeStep ===2 && (selectedAttendanceModeId ===2 || selectedAttendanceModeId===3))"
+                  (click)="goToDashboardSection(); submit()"
                 >
                   <span *ngIf="!isAttendanceModeLoader"
                     >Finish Setup
-                    <i class="bi bi-arrow-right" style="padding-left: 8px"></i
-                  ></span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="25"
+                      height="25"
+                      viewBox="0 0 25 25"
+                      fill="none"
+                    >
+                      <mask
+                        id="mask0_2043_143"
+                        style="mask-type: alpha"
+                        maskUnits="userSpaceOnUse"
+                        x="0"
+                        y="0"
+                        width="25"
+                        height="25"
+                      >
+                        <rect
+                          x="0.921875"
+                          y="0.671875"
+                          width="24"
+                          height="24"
+                          fill="#D9D9D9"
+                        />
+                      </mask>
+                      <g mask="url(#mask0_2043_143)">
+                        <path
+                          d="M16.9359 13.5625H4V11.4375H16.9359L10.9859 5.4875L12.5 4L21 12.5L12.5 21L10.9859 19.5125L16.9359 13.5625Z"
+                          fill="#6666F2"
+                        />
+                      </g>
+                    </svg>
+                  </span>
 
                   <div
                     class="dot-opacity-loader"
@@ -159,7 +859,7 @@
     </div>
   </div>
 </div>
-<button
+<!-- <button
   type="button"
   style="display: none"
   data-bs-toggle="modal"
@@ -176,28 +876,81 @@
   aria-labelledby="attendanceWithLocation"
   aria-hidden="true"
 >
-  <div class="modal-dialog modal-lg" role="document">
-    <form #organizationAddressForm="ngForm" (ngSubmit)="submit()">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
-            Staff Attendance With Location
-          </h6>
+  <div
+    class="modal-dialog modal-dialog-centered"
+    style="max-width: 500px"
+    role="document"
+  >
+    <div class="modal-content">
+      <div
+        class="modal-body manualUpload p-0"
+        style="
+          background-image: url(../assets/images/manual-upload-back-img.svg);
+        "
+      >
+        <div
+          class="d-flex align-items-center justify-content-end pt-2"
+          style="padding-right: 10px"
+        >
           <button
             type="button"
-            class="btn-close"
+            class="close-btn"
             data-bs-dismiss="modal"
-            #closeAddressModal
             aria-label="Close"
-          ></button>
+            #closeButton
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="30"
+              height="30"
+              viewBox="0 0 30 30"
+              fill="none"
+            >
+              <mask
+                id="mask0_1531_457"
+                style="mask-type: alpha"
+                maskUnits="userSpaceOnUse"
+                x="0"
+                y="0"
+                width="30"
+                height="30"
+              >
+                <rect width="30" height="30" fill="#D9D9D9" />
+              </mask>
+              <g mask="url(#mask0_1531_457)">
+                <path
+                  d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                  fill="white"
+                />
+              </g>
+            </svg>
+          </button>
         </div>
-        <!--end modal-header-->
-        <div class="modal-body">
-          <div class="form-group">
-            <div class="row">
-              <div class="col-md-12">
-                <div class="mb-3" style="position: relative">
-                  <label for="addressLine1" class="pb-2">Address </label>
+        <div class="row p-3 pb-4 pt-0 align-items-center">
+          <div class="col-md-8">
+            <div class="manualUploadDetail persnol-details p-0">
+              <h5 class="alert-heading text-white font-18 mb-2">
+                Staff Attendance with location
+              </h5>
+              <p class="mb-0 text-white">
+                Enter the location of your workplace from where
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div
+              class="side-img"
+              style="
+                background-image: url(../assets/images/staff-attendance-img.svg);
+              "
+            ></div>
+          </div>
+        </div>
+        <div class="manualUploadForm p-3" style="padding-top: 35px !important">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="featch-location">
+                <div class="position-relative">
                   <input
                     type="text"
                     id="addressLine1"
@@ -209,7 +962,7 @@
                     #addressLine1="ngModel"
                     name="addressLine1"
                     maxlength="200"
-                    class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                    class="form-control ng-untouched ng-pristine ng-invalid profile-input bg-white"
                     [(ngModel)]="organizationAddressDetail.addressLine1"
                   />
                   <a class="fetch-location" (click)="currentLocation()">
@@ -234,12 +987,37 @@
                       <span></span>
                     </div>
                   </a>
-                  <div
+                </div>
+                <div
+                  *ngIf="
+                    (addressLine1.touched && addressLine1.invalid) ||
+                    isFormInvalid
+                  "
+                >
+                  <p
+                    class="errortxt mt-2 mb-0"
+                    style="color: red"
+                    *ngIf="addressLine1.errors?.required"
+                  >
+                    <i class="bi bi-exclamation-circle"></i> Address Line 1 is
+                    required.
+                  </p>
+                  <p
+                    class="errortxt mt-2 mb-0"
+                    style="color: red"
+                    *ngIf="addressLine1.errors?.maxlength"
+                  >
+                    <i class="bi bi-exclamation-circle"></i> Maximum 200
+                    characters allowed.
+                  </p>
+                  <p
+                    class="errortxt mt-2 mb-0"
                     *ngIf="
-                      (addressLine1.touched && addressLine1.invalid) ||
-                      isFormInvalid
+                      !organizationAddressDetail.longitude &&
+                      !organizationAddressDetail.latitude
                     "
                   >
+
                     <p
                       class="errortxt mt-2 mb-0"
                       style="color: red"
@@ -473,21 +1251,212 @@
               </div>
               
             </div>
+            <div class="col-md-12">
+              <div class="mb-3">
+                <label for="radius" class="pb-2">
+                  Employee location Must be in
+                  <i
+                    class="bi bi-exclamation-circle tolltip-icon"
+                    ngbTooltip="Please enter the location range (in meters) within which your employees are allowed to mark their attendance. This ensures that attendance can only be marked when they are within the specified location range."
+                    placement="top"
+                  ></i>
+                </label>
+                <input
+                  type="text"
+                  id="radius"
+                  placeholder="in meters"
+                  required
+                  #radius="ngModel"
+                  name="radius"
+                  class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                  [(ngModel)]="organizationAddressDetail.radius"
+                />
+              </div>
+              <div *ngIf="(radius.touched && radius.invalid) || isFormInvalid">
+                <p
+                  class="errortxt mt-2 mb-0"
+                  style="color: red"
+                  *ngIf="radius.errors?.required"
+                >
+                  <i class="bi bi-exclamation-circle"></i> Location Radius is
+                  required.
+                </p>
+              </div>
+            </div>
+            <div
+              class="col-md-6"
+              *ngIf="
+                organizationAddressDetail.longitude &&
+                organizationAddressDetail.latitude
+              "
+            >
+              <div class="mb-3">
+                <label for="addressLine2" class="pb-2">Street Address</label>
+                <input
+                  type="text"
+                  id="addressLine2"
+                  placeholder="Address line 2"
+                  name="addressLine2"
+                  class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                  [(ngModel)]="organizationAddressDetail.addressLine2"
+                />
+              </div>
+            </div>
+            <div
+              class="col-md-6"
+              *ngIf="
+                organizationAddressDetail.longitude &&
+                organizationAddressDetail.latitude
+              "
+            >
+              <div class="mb-3">
+                <label for="landmark" class="pb-2"
+                  >Landmark <span class="text-optional">(optional)</span></label
+                >
+                <input
+                  type="text"
+                  id="landmark"
+                  placeholder="Landmark"
+                  name="landmark"
+                  class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                  [(ngModel)]="organizationAddressDetail.landmark"
+                />
+              </div>
+            </div>
+            <div
+              class="col-md-6"
+              *ngIf="
+                organizationAddressDetail.longitude &&
+                organizationAddressDetail.latitude
+              "
+            >
+              <div class="mb-3">
+                <label for="city" class="pb-2"> City </label>
+                <input
+                  type="text"
+                  id="city"
+                  placeholder="City"
+                  required
+                  #city="ngModel"
+                  name="city"
+                  class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                  [(ngModel)]="organizationAddressDetail.city"
+                />
+              </div>
+              <div *ngIf="(city.touched && city.invalid) || isFormInvalid">
+                <p
+                  class="errortxt mt-2 mb-0"
+                  style="color: red"
+                  *ngIf="city.errors?.required"
+                >
+                  <i class="bi bi-exclamation-circle"></i> City Name is
+                  required.
+                </p>
+              </div>
+            </div>
+            <div
+              class="col-md-6"
+              *ngIf="
+                organizationAddressDetail.longitude &&
+                organizationAddressDetail.latitude
+              "
+            >
+              <div class="mb-3">
+                <label for="state" class="pb-2"> State </label>
+                <input
+                  type="text"
+                  id="state"
+                  placeholder="State"
+                  required
+                  #state="ngModel"
+                  name="state"
+                  class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                  [(ngModel)]="organizationAddressDetail.state"
+                />
+              </div>
+              <div *ngIf="(state.touched && state.invalid) || isFormInvalid">
+                <p
+                  class="errortxt mt-2 mb-0"
+                  style="color: red"
+                  *ngIf="state.errors?.required"
+                >
+                  <i class="bi bi-exclamation-circle"></i> State Name is
+                  required.
+                </p>
+              </div>
+            </div>
+            <div
+              class="col-md-6"
+              *ngIf="
+                organizationAddressDetail.longitude &&
+                organizationAddressDetail.latitude
+              "
+            >
+              <div class="mb-3">
+                <label for="country" class="pb-2">Country</label>
+                <input
+                  type="text"
+                  id="country"
+                  placeholder="Country"
+                  required
+                  #country="ngModel"
+                  name="country"
+                  class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                  [(ngModel)]="organizationAddressDetail.country"
+                />
+              </div>
+              <div
+                *ngIf="(country.touched && country.invalid) || isFormInvalid"
+              >
+                <p
+                  class="errortxt mt-2 mb-0"
+                  style="color: red"
+                  *ngIf="country.errors?.required"
+                >
+                  <i class="bi bi-exclamation-circle"></i> Country Name is
+                  required.
+                </p>
+              </div>
+            </div>
+            <div
+              class="col-md-6"
+              *ngIf="
+                organizationAddressDetail.longitude &&
+                organizationAddressDetail.latitude
+              "
+            >
+              <div class="mb-3">
+                <label for="pincode" class="pb-2">Pincode</label>
+                <input
+                  type="text"
+                  id="pincode"
+                  placeholder="Pincode"
+                  #pincode="ngModel"
+                  required
+                  name="pincode"
+                  class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                  [(ngModel)]="organizationAddressDetail.pincode"
+                />
+              </div>
+              <div
+                *ngIf="(pincode.touched && pincode.invalid) || isFormInvalid"
+              >
+                <p
+                  class="errortxt mt-2 mb-0"
+                  style="color: red"
+                  *ngIf="pincode.errors?.required"
+                >
+                  <i class="bi bi-exclamation-circle"></i> Pincode is required.
+                </p>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="modal-footer d-flex align-items-center justify-content-end">
-          <button class="btn btn-primary" type="submit" aria-label="Next Step">
-            <span *ngIf="toggle" class="address-modal-loader">
-              <span></span>
-              <span></span>
-              <span></span>
-            </span>
-            <span *ngIf="!toggle">
-              Save <i class="bi bi-arrow-right" style="padding-left: 8px"></i>
-            </span>
-          </button>
-        </div>
       </div>
-    </form>
-  </div>
-</div>
+      </div>
+      <div
+        class="modal-footer border-top d-flex align-items-center justify-content-end p-3"
+      >
+        <button class="btn mannualSubmit">Submit</button>
+      </div>
+    </div>
+  </div> -->

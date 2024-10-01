@@ -12,25 +12,33 @@ import { UploadTeamComponent } from './components/upload-team/upload-team.compon
 import { OrganizationOnboardingComponent } from './organization-onboarding.component';
 import { AttendanceModeComponent } from './components/attendance-mode/attendance-mode.component';
 import { ShiftTimeListComponent } from './components/shift-time-list/shift-time-list.component';
+import { AddShiftPlaceholderComponent } from './components/add-shift-placeholder/add-shift-placeholder.component';
 
-const routes: Routes = [{ path: '', component: OrganizationOnboardingComponent,
-children:[
-  {path: 'personal-information', component: OrganizationPersonalInformationComponent},
-  {path: 'leave-rule-setup', component: LeaveRuleSetupComponent},
-  {path: 'holiday-rule-setup', component: HolidayRuleSetupComponent},
-  {path: 'automation-rules', component: AutomationRulesComponent},
-  {path: 'leave-setting-create', component: LeaveSettingCreateComponent},
-  {path: 'add-shift-time', component: AddShiftTimeComponent},
-  {path: 'holiday-setting', component: HolidaySettingComponent},
-  {path: 'upload-team', component: UploadTeamComponent},
-  {path: 'attendance-mode', component: AttendanceModeComponent},
-  {path: 'shift-time-list', component: ShiftTimeListComponent}
-  ]
-
-}];
+const routes: Routes = [
+  {
+    path: '',
+    component: OrganizationOnboardingComponent,
+    children: [
+      {
+        path: 'personal-information',
+        component: OrganizationPersonalInformationComponent,
+      },
+      { path: 'leave-rule-setup', component: LeaveRuleSetupComponent },
+      { path: 'holiday-rule-setup', component: HolidayRuleSetupComponent },
+      { path: 'automation-rules', component: AutomationRulesComponent },
+      { path: 'leave-setting-create', component: LeaveSettingCreateComponent },
+      { path: 'add-shift-time', component: AddShiftTimeComponent },
+      { path: 'holiday-setting', component: HolidaySettingComponent },
+      { path: 'upload-team', component: UploadTeamComponent },
+      { path: 'attendance-mode', component: AttendanceModeComponent },
+      { path: 'shift-time-list', component: ShiftTimeListComponent },
+      { path: 'add-shift-placeholder', component: AddShiftPlaceholderComponent },
+    ],
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class OrganizationOnboardingRoutingModule { }
+export class OrganizationOnboardingRoutingModule {}
