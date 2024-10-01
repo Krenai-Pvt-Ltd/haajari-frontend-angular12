@@ -1,3 +1,4 @@
+import { HelperService } from './../../../services/helper.service';
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
@@ -16,6 +17,7 @@ export class AuthGuard implements CanActivate {
   constructor(
     private router: Router,
     private rbacService: RoleBasedAccessControlService,
+    private helperService: HelperService,
     private _subscriptionPlanService: SubscriptionPlanService
   ) {
     this.PLAN_PURCHASED = _subscriptionPlanService
@@ -49,12 +51,14 @@ export class AuthGuard implements CanActivate {
     //   console.log(this.ONBOARDING_STEP);
     //   this.router.navigate(['/organization-onboarding/personal-information']);
     // }
+    debugger
 
     await this.rbacService.isUserInfoInitializedMethod();
-
     if (route !== null && route.routeConfig !== null) {
+      console.log(!this.rbacService.shouldDisplay('dashboard') ,
+    route.routeConfig.path == 'dashboard');
       if (
-        (await this.rbacService.getRole()) != Key.ADMIN && (await this.rbacService.getRole())!=Key.HRADMIN &&
+          !this.rbacService.shouldDisplay('dashboard') &&
         route.routeConfig.path == 'dashboard'
       ) {
         this.router.navigate(['/employee-profile'], {

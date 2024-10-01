@@ -29,7 +29,7 @@ export class HeaderComponent implements OnInit {
     private route: ActivatedRoute,
     private helperService: HelperService,
     private dataService: DataService,
-    private rbacService: RoleBasedAccessControlService,
+    public rbacService: RoleBasedAccessControlService,
     private _subscriptionPlanService: SubscriptionPlanService
   ) {
     // if (this.route.snapshot.queryParamMap.has('userId')) {
@@ -162,34 +162,34 @@ export class HeaderComponent implements OnInit {
   //   );
   // }
 
-  shouldDisplay(moduleName: string): boolean {
-    const role = this.rbacService.getRoles();
+  // shouldDisplay(moduleName: string): boolean {
+  //   const role = this.rbacService.getRoles();
 
 
-    if (role === Key.ADMIN) {
-      return true;
-    }
+  //   if (role === Key.ADMIN) {
+  //     return true;
+  //   }
 
-    if (this.helperService.subModuleResponseList && this.helperService.subModuleResponseList.length > 0) {
-      return this.helperService.subModuleResponseList.some(
-        (module: any) => module.name.toLowerCase() === moduleName.toLowerCase()
-      );
-    }
+  //   if (this.helperService.subModuleResponseList && this.helperService.subModuleResponseList.length > 0) {
+  //     return this.helperService.subModuleResponseList.some(
+  //       (module: any) => module.name.toLowerCase() === moduleName.toLowerCase()
+  //     );
+  //   }
 
-    this.dataService.getAccessibleSubModuleResponse().subscribe(
-      (response: any[]) => {
-        this.helperService.subModuleResponseList = response;
-        return response.some(
-          (module: any) => module.name.toLowerCase() === moduleName.toLowerCase()
-        );
-      },
-      (error) => {
-        console.error('Error fetching accessible submodules:', error);
-        return false;
-      }
-    );
-    return false;
-  }
+  //   this.dataService.getAccessibleSubModuleResponse().subscribe(
+  //     (response: any[]) => {
+  //       this.helperService.subModuleResponseList = response;
+  //       return response.some(
+  //         (module: any) => module.name.toLowerCase() === moduleName.toLowerCase()
+  //       );
+  //     },
+  //     (error) => {
+  //       console.error('Error fetching accessible submodules:', error);
+  //       return false;
+  //     }
+  //   );
+  //   return false;
+  // }
 
 
   checkModule(element: string[]): boolean {

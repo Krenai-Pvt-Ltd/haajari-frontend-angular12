@@ -93,7 +93,7 @@ export class LoginComponent implements OnInit {
           const token = localStorage.getItem('token');
           if (token != null) {
             const onboardingStep = helper.decodeToken(token).statusResponse;
-              if(this.ROLE=== 'ADMIN'){
+              if(this.rbacService.shouldDisplay('dashboard')){
                 this.router.navigate(['/dashboard']);
             } else {
               this.router.navigate(['/employee-profile'], {

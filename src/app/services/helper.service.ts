@@ -3,9 +3,6 @@ import { Injectable } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { DataService } from './data.service';
-import { ModulesWithSubmodules } from '../models/modules-with-submodules';
-import { ModuleResponse } from '../models/module-response';
-import { RoleBasedAccessControlService } from './role-based-access-control.service';
 import { formatDate } from '@angular/common';
 import { NavigationExtras, Router } from '@angular/router';
 import * as saveAs from 'file-saver';
@@ -15,7 +12,9 @@ import * as saveAs from 'file-saver';
 })
 export class HelperService {
 
-  constructor( private httpClient : HttpClient, private dataService: DataService, private router: Router) {
+  constructor( private httpClient : HttpClient,
+     private dataService: DataService
+    , private router: Router) {
 
    }
 
@@ -45,7 +44,6 @@ export class HelperService {
       }
     });
   }
-
 
 
   async getAccessibleSubModuleResponseMethodCall(): Promise<any> {
