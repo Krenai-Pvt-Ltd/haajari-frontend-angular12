@@ -158,7 +158,7 @@ export class SlackAuthComponent implements OnInit {
   slackWorkspaceUrl: string = '';
   continueInSlack() {
     // this.workspaceName = localStorage.getItem('WORKSPACENAME');
-    this.slackWorkspaceUrl = `https://slack.com/app_redirect?app=A05QD5T9EK1&tab=home`;
+    this.slackWorkspaceUrl = Key.SLACK_WORKSPACE_URL;
     // window.location.href = slackWorkspaceUrl;
   }
 

@@ -357,17 +357,20 @@ export class Key {
   public static MODE3 = 'Lens';
 
   // OnboardingProcessStep
-  public static HR_POLICY_ID = 1;
+  public static COMPANY_SETTING_ID = 1;
   public static ATTENDANCE_MODE_ID = 2;
   public static SHIFT_TIME_ID = 3;
-  public static HOLIDAY_ID = 4;
-  public static AUTOMATION_RULE_ID = 5;
-  public static LEAVE_TEMPLATE_ID = 6;
-  public static SALARY_TEMPLATE_ID = 7;
-  public static SALARY_DETAIL_ID = 8;
+  public static AUTOMATION_RULE_ID = 4;
+  public static LEAVE_TEMPLATE_ID = 5;
+  public static SALARY_TEMPLATE_ID = 6;
 
   public static PROCESS_COMPLETED = 36;
   public static PROCESS_PENDING = 35;
+
+  // redirect to slack
+
+  // public static SLACK_WORKSPACE_URL= `https://slack.com/app_redirect?app=A05QD5T9EK1&tab=home`;
+  public static SLACK_WORKSPACE_URL= `https://slack.com/app_redirect?app=A07AT94EHK7&tab=home`;
 
 
 }

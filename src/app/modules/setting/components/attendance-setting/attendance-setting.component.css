@@ -1329,3 +1329,15 @@ nz-time-picker {
   padding: 3px 7px;
   border-radius: 15px;
 }
+a.fetch-location {
+  position: absolute;
+  right: 0px;
+  top: 30px;
+  border-radius: 0 2px 2px 0;
+  opacity: 0.8;
+  background: #e9e9ff;
+  padding: 11px 20px;
+  font-size: 14px;
+  text-decoration: none;
+  cursor: pointer;
+}

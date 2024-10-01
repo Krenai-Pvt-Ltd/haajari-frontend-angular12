@@ -155,6 +155,7 @@
               </div>
             </a>
           </div>
+         
         </div>
         <!-- enterphone-number box -->
         <div class="whatapp-login-form mt-5">
@@ -576,12 +577,24 @@
         <!-- gmail login box -->
 
         <div class="sidebar-footer-text position-absolute">
+          <div class="sidebar-footer-text position-absolute">
+
+          <!-- </div> -->
           <a
             class="back-to-login-btn text-primary position-relative"
             *ngIf="enableBack"
             (click)="backToLogin()"
             ><i class="bi bi-arrow-left"></i> Back to login</a
           >
+          <a  href="https://app.hajiri.in/auth/signup"  target="_blank"
+          class="back-to-login-btn text-primary position-relative"
+          *ngIf="!enableBack" 
+         
+         
+        >
+          <i class="bi bi-arrow-left"></i> Register
+        </a>
+        
           <p>
             By signing up, you agree to accept the
             <a href="#!" class="text-primary"> terms and conditions</a> outlined
@@ -591,44 +604,45 @@
         </div>
       </div>
     </div>
-    <div class="col-md-8" style="margin-left: 0px; padding-left: 0px">
-      <div class="login-video position-relitive">
-        <video
-          width="100%"
-          height="100%"
-          autoplay
-          onloadedmetadata="this.muted=true"
-          muted
-          loop
-          id="videoId"
-        >
-          <source
-            src="assets/images/hajiri-login-video-2.mp4"
-            type="video/mp4"
-          />
-        </video>
-        <div
-          class="video-footer-link position-absolute d-flex justify-content-end align-items-end flex-row flex-nowrap w-100"
-        >
-          <ul class="mb-1">
-            <li>
-              <a href="https://www.hajiri.in/about.html">About </a>
-            </li>
-            <li>
-              <a href="https://www.hajiri.in/terms-condition.html"
-                >Terms Of Service
-              </a>
-            </li>
-            <li>
-              <a href="https://www.hajiri.in/privacy-policy.html"
-                >Privacy Policy
-              </a>
-            </li>
-            <li>
-              <a href="#!">Settings </a>
-            </li>
-          </ul>
-        </div>
+    
+  </div>
+  <div class="col-md-8" style="margin-left: 0px; padding-left: 0px">
+    <div class="login-video position-relitive">
+      <video
+        width="100%"
+        height="100%"
+        autoplay
+        onloadedmetadata="this.muted=true"
+        muted
+        loop
+        id="videoId"
+      >
+        <source
+          src="assets/images/hajiri-login-video-2.mp4"
+          type="video/mp4"
+        />
+      </video>
+      <div
+        class="video-footer-link position-absolute d-flex justify-content-end align-items-end flex-row flex-nowrap w-100"
+      >
+        <ul class="mb-1">
+          <li>
+            <a href="https://www.hajiri.in/about.html">About </a>
+          </li>
+          <li>
+            <a href="https://www.hajiri.in/terms-condition.html"
+              >Terms Of Service
+            </a>
+          </li>
+          <li>
+            <a href="https://www.hajiri.in/privacy-policy.html"
+              >Privacy Policy
+            </a>
+          </li>
+          <li>
+            <a href="#!">Settings </a>
+          </li>
+        </ul>
       </div>
     </div>
   </div>

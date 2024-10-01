@@ -587,6 +587,8 @@ export class LoginComponent implements OnInit {
     this.isEmailLogin = false;
     this.showOtpInput = false;
   }
+
+
   authUrl: string = '';
   workspaceUrl: string = '';
   workspaceName: string = '';
@@ -649,4 +651,6 @@ export class LoginComponent implements OnInit {
     console.log('Matches:', matches);
     return matches ? matches[1] : '';
   }
+
+  
 }
