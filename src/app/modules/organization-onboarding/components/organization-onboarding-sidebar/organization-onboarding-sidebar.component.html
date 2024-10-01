@@ -1,24 +1,6 @@
 <div class="employee-onboarding-section">
   <div class="container-scroller">
-    <div
-      class="left-sidebar-onbording p-3"
-      style="padding-left: 35px !important; padding-right: 35px !important"
-    >
-      <!-- <div class="stap-progres-bar">
-        <div class="progress">
-          <div
-            class="progress-bar"
-            role="progressbar"
-            [style]="{ width: (STEP_ID * 100) / 4 + '%' }"
-            aria-valuenow="100"
-            aria-valuemin="0"
-            aria-valuemax="100"
-          ></div>
-        </div>
-      </div> -->
-
-      <!-- sideBarStep-one sideBarStep-three sideBarStep-fore -->
-
+    <div class="left-sidebar-onbording">
       <div [ngClass]="getStepClass()">
         <img src="assets/images/polygon-2.svg" />
       </div>
@@ -31,21 +13,9 @@
         <i class="bi bi-x"></i>
       </div>
 
-      <!-- <div class="logout-btn">
-        <i class="bi bi-x" data-toggle="modal" data-target="#logoutModal"></i>
-      </div> -->
-      <!-- <div class="onbording-stap-one-text">
-        <div class="">
-          <h4>{{ STEP_CONTENT }}</h4>
-        </div>
-        <div class=""></div>
-      </div> -->
       <div class="">
-        <div class="complete-step pt-3 border-bottom">
-          <h5
-            class="font-13 d-flex align-items-center gap-2"
-            *ngIf="STEP_ID > 1"
-          >
+        <div class="complete-step pt-3 border-bottom" *ngIf="STEP_ID > 1">
+          <h5 class="font-13 d-flex align-items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="29"

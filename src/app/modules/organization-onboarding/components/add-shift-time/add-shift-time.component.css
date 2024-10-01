@@ -34,7 +34,7 @@ button.btn.close-btn {
   box-shadow: unset !important;
   position: absolute;
   right: 0px;
-  top: 0px;
+  top: 5px;
   color: #6666f3;
   cursor: pointer;
 }
@@ -211,7 +211,46 @@ button.btn.close-btn {
   box-shadow: rgb(99 99 99 / 0.2) 0 2px 8px 0;
 }
 
-.memberNotes{
+.memberNotes {
   position: absolute;
   bottom: -27px;
+}
+
+.quickGuide {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 13px;
+}
+.quickGuideHeading h5 {
+  color: #e27a17;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px;
+}
+.quickGuideHeading p {
+  color: #2f2e41;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0.123px;
+}
+.quickGuideHeading p span {
+  font-weight: 500;
+}
+.searchIcon svg {
+  width: 15px;
+  position: relative;
+  top: -1px;
+}
+.spreter {
+  height: 15px;
+  border-right: 1px solid #262626;
 }

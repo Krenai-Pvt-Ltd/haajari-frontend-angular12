@@ -147,6 +147,7 @@ p.tableinfo.mb-0 {
 .sampleExcelFileBox {
   border: 1px dashed rgba(102, 102, 242, 0.4);
   background-color: rgba(244, 247, 255, 0.5) !important;
+  padding: 20px 15px;
 }
 .excelUploadBtn {
   /* background-color: #6666f2;
@@ -252,7 +253,7 @@ p.tableinfo.mb-0 {
 }
 
 .download-eroor {
-  background-color: #ffdcd7;
+  background-color: #fff;
   color: #ff2f2f;
 }
 
@@ -340,7 +341,8 @@ p.tableinfo.mb-0 {
   background-color: #f4f8ff;
   border: 1px solid #e4e7ff;
   padding: 4px 15px;
-  border-radius: 5px;
+  border-radius: 2px;
+  font-weight: 400;
 }
 
 .dot-opacity-white-loader {
@@ -382,4 +384,45 @@ p.tableinfo.mb-0 {
   font-weight: 300;
   line-height: 16px; /* 166.378% */
   letter-spacing: 0.128px;
+}
+
+.alreadyMemberBox {
+  background-color: #fff8f2;
+  border-radius: 2px;
+}
+
+.alreadyUser {
+  background-color: #e27a17;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.alreadyUser svg {
+  width: 18px;
+}
+.alreadyMemberBox h5 {
+  color: #e27a17;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0.501px;
+  text-transform: lowercase;
+}
+.alreadyMemberBox p {
+  color: #2f2e41;
+  font-weight: 400;
+  line-height: 115%; /* 18.4px */
+  letter-spacing: 0.16px;
+}
+.alreadyMemberBox p span {
+  color: #6666f2;
+}
+.deleteSelecetdUser {
+  background-color: rgb(255 252 252);
+  color: #fd0808;
+  border-color: #fd0808;
 }

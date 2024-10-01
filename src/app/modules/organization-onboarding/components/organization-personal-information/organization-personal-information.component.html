@@ -2,7 +2,7 @@
   <div class="page-content-tab-onbording">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12" style="padding: 0px">
           <div class="persnol-details mb-3">
             <form #personalInformationForm="ngForm" autocomplete="off">
               <div class="form-group">
@@ -13,7 +13,7 @@
                         <h4 class="card-title-headding mb-1">
                           Personal Information
                         </h4>
-                        <p class="mb-0 font-11">
+                        <p class="mb-0">
                           Provide your company name and contact information to
                           establish your account and maintain smooth
                           communication.
@@ -24,25 +24,27 @@
                       <div class="profile-photo-box">
                         <div class="row">
                           <div class="col-md-7 pr-0">
-                            <div class="attention-box attentionList p-3">
+                            <div class="attention-box attentionList p-4">
                               <h4 class="alert-heading font-16">Attention!</h4>
-                              <p class="font-11">
+                              <p class="font-12" style="margin-bottom: 16px">
                                 We’re excited to help you showcase your brand on
-                                our platform by uploading your company <br />
-                                logo.
+                                our platform by uploading your company logo.
                               </p>
 
-                              <h5 class="alert-heading subHeading font-11 mb-2">
+                              <h5
+                                class="alert-heading subHeading font-12"
+                                style="margin-bottom: 12px"
+                              >
                                 Please note the following guidelines for your
                                 company logo:
                               </h5>
-                              <p class="mb-1 font-11">
+                              <p class="mb-1 font-12">
                                 <i
                                   class="la la-arrow-right text-secondary me-1"
                                 ></i>
                                 Size: 400x400 pixels
                               </p>
-                              <p class="mb-1 font-11">
+                              <p class="mb-1 font-12">
                                 <i
                                   class="la la-arrow-right text-secondary me-1"
                                 ></i>
@@ -99,24 +101,14 @@
                                 data-bs-toggle="modal"
                                 data-bs-target="#image-picker"
                                 class="upload-image mt-2 font-14"
-                                >Upload Image</a
+                                >Upload Logo</a
                               >
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-12 mt-3">
-                      <!-- <div class="card-header p-0 pb-3 bg-white">
-                        <h4 class="card-title-headding mb-1">
-                          Personal Information
-                        </h4>
-                        <p class="mb-0">
-                          Provide your company name and contact information to
-                          establish your account and maintain smooth
-                          communication.
-                        </p>
-                      </div> -->
+                    <div class="col-md-12 mt-3 personalInformationForm">
                       <div class="row mt-3">
                         <div class="col-md-6">
                           <div class="mb-3">
@@ -362,7 +354,7 @@
                 <div class="d-flex align-items-center justify-content-end">
                   <button
                     type="submit"
-                    class="btn nextBtn"
+                    class="btn nextBtn p-0"
                     [disabled]="personalInformationForm.invalid"
                     (click)="submit()"
                   >

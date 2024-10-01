@@ -2252,6 +2252,9 @@ mark {
   background-color: #e9e9ff !important;
   color: #6666f3 !important;
 }
+.btn {
+  border-radius: 2px;
+}
 
 .btn-soft-primary:hover {
   background-color: #6666f3 !important;
@@ -2658,10 +2661,11 @@ mark {
   background-color: #f5f5f5 !important;
   color: #252525 !important;
   font-size: 14px !important;
-  font-weight: 500 !important;
+  font-weight: 400 !important;
   letter-spacing: 0.1px !important;
   border: 1px solid #f5f5f5 !important;
   border-radius: 0 !important;
+  text-wrap: nowrap;
 }
 
 /* .table td {
@@ -2681,13 +2685,6 @@ mark {
 
 .table.border-dashed thead th {
   border-bottom: 1px dashed #e8ebf3;
-}
-
-.table .thead-light th {
-  color: #8997bd;
-  background-color: #f9fafb;
-  border-color: #e8ebf3;
-  border-bottom: none;
 }
 
 .table.table-dark {
@@ -9320,12 +9317,13 @@ display:block
 }
 
 .table td {
-  font-weight: 400;
+  font-weight: 300;
   vertical-align: middle;
   font-size: 12px !important;
   border-bottom: 1px solid #e6e7e9 !important;
   color: #000 !important;
   padding: 15px;
+  text-wrap: nowrap;
 }
 .error-spreter {
   height: 15px;
@@ -9401,6 +9399,9 @@ ul.pagination.justify-content-end {
 input[type="time"]::-webkit-datetime-edit-ampm-field {
   display: none;
 }
+.alert {
+  border-radius: 2px;
+}
 
 .modal {
   position: fixed;
@@ -9414,10 +9415,10 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
 }
 
 .profile-input {
-  background-color: rgba(236, 236, 236, 0.21);
-  border: 1px solid #cacaca !important;
+  border: 1.021px solid #e9e9e9;
+  background: rgba(236, 236, 236, 0.21);
   border-radius: 2.462px;
-  height: 42px !important;
+  height: 45px !important;
   font-weight: 400 !important;
   font-size: 13px !important;
   line-height: 16px !important;
@@ -9459,32 +9460,8 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   padding-right: 30px;
 }
 .previous-btn {
-  margin-left: 285px;
+  margin-left: 300px;
 }
-
-/* @media screen and (max-width: 2600px) {
-    .next-btn-box {
-        width: 84%;
-    }
-} */
-
-/* @media screen and (max-width: 2400px) {
-    .next-btn-box {
-        width: 81%;
-    }
-} */
-
-/* @media screen and (max-width: 2200px) {
-    .next-btn-box {
-        width: 81%;
-    }
-}
-@media screen and (max-width: 2000px) {
-    .next-btn-box {
-        width: 82%;
-    }
-} */
-
 .new-submit {
   background-color: #6666f3;
   border-color: #6666f3;
@@ -9594,7 +9571,7 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   margin-left: auto;
   position: relative;
   min-height: calc(100vh - 60px);
-  padding: 0 8px 52px 8px;
+  padding: 0px;
   margin-top: 0px;
 }
 
@@ -9605,7 +9582,7 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
 }
 
 .persnol-details {
-  padding: 15px;
+  padding: 32px 25px;
   border-radius: 10px;
   z-index: 999;
   position: relative;
@@ -9641,23 +9618,6 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   margin-top: 0;
   font-family: Roboto, sans-serif;
   font-size: 16px;
-}
-
-/* .table th {
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 15px;
-  color: #333;
-  background-color: #f5f5f5;
-  text-align: left;
-} */
-
-.table .thead-light th {
-  color: #8997bd;
-  background-color: #f5f5f5;
-  border-color: #e8ebf3;
-  border-bottom: none;
-  font-size: 14px;
 }
 
 .table .table-design tr {
@@ -9724,11 +9684,11 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
 }
 .excel-file-error {
   position: fixed;
-  bottom: 68px;
+  bottom: 55px;
   left: 0px;
   width: 100%;
   z-index: 999;
-  background-color: #fbf1f1;
+  background-color: #ffdcdc;
   padding: 15px;
   background-repeat: no-repeat;
   background-position: right center;
@@ -9737,12 +9697,13 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
 
 .shiftManagement {
   position: fixed;
-  bottom: 68px;
+  bottom: 53px;
   left: 0px;
   width: 100%;
   z-index: 999;
+  background-size: contain;
   background-color: #fff8f2;
-  padding: 15px;
+  padding: 20px 15px;
   background-repeat: no-repeat;
   background-position: right bottom;
 }
@@ -9868,4 +9829,32 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   padding: 0;
   line-height: 41px !important;
   transition: all 0.3s;
+}
+
+.personalInformationForm label {
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 12px !important;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20.854px;
+  letter-spacing: 0.102px;
+}
+
+.searchSelect {
+  text-align: left;
+  color: black;
+  border: none;
+  width: 100%;
+  background-color: #f5f5f5;
+  border-radius: 0px !important;
+}
+.searchSelectList {
+  border-radius: 2px 0px 0px 2px !important;
+  border-right: 0.5px solid #cacaca !important;
+  background: #fff !important;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) !important;
+  min-width: 9rem !important;
+}
+.searchSelectList li {
+  padding: 5px 5px !important;
 }

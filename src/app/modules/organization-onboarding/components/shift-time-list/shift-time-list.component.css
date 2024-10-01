@@ -165,8 +165,13 @@
 .automation-rules-toogel-btn {
   background-color: #f6f6f6;
   border-radius: 4px;
-  padding: 5px 5px;
+  padding: 2px 10px;
   color: #444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
 }
 
 .shift-in-out-time p {
@@ -178,7 +183,9 @@
 }
 
 .employ-list svg {
-  width: 16px;
+  width: 15px;
+  position: relative;
+  top: -1px;
 }
 
 .search-icon {
@@ -250,11 +257,11 @@
   font-weight: 600 !important;
 }
 
-.userModalCloseBtn{
+.userModalCloseBtn {
   position: absolute;
   right: -20px;
   top: -30px;
-  background-color: #FFF;
+  background-color: #fff;
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -263,7 +270,6 @@
   justify-content: center;
   line-height: 20px;
 }
-
 
 .dot-opacity-white-loader {
   display: flex;
@@ -290,10 +296,81 @@
   background-color: #f4f8ff;
   border: 1px solid #e4e7ff;
   padding: 4px 15px;
-  border-radius: 5px;
+  border-radius: 2px;
+  font-size: 13px;
+  font-weight: 400;
+  cursor: pointer;
+}
+.selected-text {
+  font-weight: 400;
+  color: #000;
+  font-size: 13px;
 }
 
-.memberNotes{
+.memberNotes {
   position: absolute;
   bottom: -27px;
+}
+.spreter {
+  height: 15px;
+  border-right: 1px solid #868686;
+}
+.members-count {
+  color: #6666f2 !important;
+  background-color: #f6f8ff !important;
+  font-size: 12px;
+  padding: 6px 9px;
+  font-weight: 500;
+  border-radius: 2px;
+}
+.employ-list span {
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+.delete-icon svg {
+  width: 16px;
+}
+.quickGuideHeading h5 {
+  color: #e27a17;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 20px;
+}
+
+.quickGuideHeading p {
+  color: #2f2e41;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0.15px;
+}
+.close-btn svg {
+  width: 20px;
+}
+.close-icon-btn {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+}
+.userName {
+  background-color: #f2f2f2;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 15px;
+  color: #e27a17;
+  line-height: 22px;
+}
+.addUserRemvo {
+  color: #2f2e41;
+  font-size: 14px;
+  font-weight: 500px;
 }
