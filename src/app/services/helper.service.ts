@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { DataService } from './data.service';
 import { ModulesWithSubmodules } from '../models/modules-with-submodules';
 import { ModuleResponse } from '../models/module-response';
@@ -25,6 +25,7 @@ export class HelperService {
 
   subModuleResponseList: any[] = [];
 
+  todoStepsSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   async getDecodedValueFromToken(): Promise<any> {
 
@@ -270,5 +271,21 @@ export class HelperService {
 
     return null;
   }
+
+  registerOrganizationRegistratonProcessStepData(statusId: number, stepId:number) {
+    debugger
+    this.dataService.registerOrganizationRegistratonProcessStep(statusId, stepId).subscribe(
+      (response) => {
+        console.log("success");
+        this.todoStepsSubject.next(true);
+      },
+      (error) => {
+        console.log('error');
+      }
+    );
+  }
+
+
+
 
 }

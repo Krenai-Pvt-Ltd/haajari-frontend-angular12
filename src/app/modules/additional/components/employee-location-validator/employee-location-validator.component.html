@@ -1,5 +1,6 @@
 <div class="staff-location-section">
     <div class="containernn">
+      {{isInvalid}}
       <app-link-expired-page *ngIf="isInvalid"></app-link-expired-page>
       <div class="row" *ngIf="!isInvalid">
         <div class="col-md-3 border-right">
