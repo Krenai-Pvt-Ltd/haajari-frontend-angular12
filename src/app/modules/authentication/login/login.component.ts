@@ -93,19 +93,19 @@ export class LoginComponent implements OnInit {
           const token = localStorage.getItem('token');
           if (token != null) {
             const onboardingStep = helper.decodeToken(token).statusResponse;
-            if (onboardingStep == '5') {
-              this.router.navigate(['/dashboard']);
+              if(this.rbacService.shouldDisplay('dashboard')){
+                this.router.navigate(['/dashboard']);
             } else {
-              this.router.navigate([
-                '/organization-onboarding/personal-information',
-              ]);
+              this.router.navigate(['/employee-profile'], {
+                queryParams: { userId: this.UUID, dashboardActive: 'true' },
+              });
             }
           }
         }
         }),
-        
+
         switchMap(() => this.rbacService!.userInfo!.uuid),
-       
+
         catchError((error) => {
           console.log(error);
           // this.errorMessage = error.error.message;
@@ -177,7 +177,7 @@ export class LoginComponent implements OnInit {
   //   this.dataService
   //     .loginUser(this.email, this.password)
   //     .pipe(
-  //       tap(async (response) => { 
+  //       tap(async (response) => {
   //         console.log(response);
   //         this.helperService.subModuleResponseList =
   //           response.subModuleResponseList;
@@ -188,7 +188,7 @@ export class LoginComponent implements OnInit {
   //           response.tokenResponse.refresh_token
   //         );
   //         await this.rbacService.initializeUserInfo();
-         
+
   //       }),
   //       switchMap(() => this.rbacService.getRole()),
   //       tap((ROLE) => {
@@ -630,7 +630,7 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  //  previous 
+  //  previous
   // getSlackAuthUrlForSignInWithSlack(): void {
   //   debugger;
   //   this.dataService.getSlackAuthUrlForSignInWithSlack().subscribe(
@@ -652,5 +652,5 @@ export class LoginComponent implements OnInit {
     return matches ? matches[1] : '';
   }
 
-  
+
 }
