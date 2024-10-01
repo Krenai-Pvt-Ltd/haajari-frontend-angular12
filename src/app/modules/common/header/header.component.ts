@@ -165,25 +165,20 @@ export class HeaderComponent implements OnInit {
   shouldDisplay(moduleName: string): boolean {
     const role = this.rbacService.getRoles();
 
-    // If the role is admin, grant access to all modules
+
     if (role === Key.ADMIN) {
       return true;
     }
 
-    // Check if we already have a cached response list
     if (this.helperService.subModuleResponseList && this.helperService.subModuleResponseList.length > 0) {
-      // Perform the module name matching
       return this.helperService.subModuleResponseList.some(
         (module: any) => module.name.toLowerCase() === moduleName.toLowerCase()
       );
     }
 
-    // If there's no cached response, fetch the data and update the helper service
     this.dataService.getAccessibleSubModuleResponse().subscribe(
       (response: any[]) => {
         this.helperService.subModuleResponseList = response;
-
-        // Perform the module name matching after fetching data
         return response.some(
           (module: any) => module.name.toLowerCase() === moduleName.toLowerCase()
         );
@@ -193,8 +188,6 @@ export class HeaderComponent implements OnInit {
         return false;
       }
     );
-
-    // Return false by default if data is not yet fetched
     return false;
   }
 
