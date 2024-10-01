@@ -44,6 +44,7 @@
                       [(ngModel)]="formData.organizationName"
                       [ngModelOptions]="{ standalone: true }"
                       #organizationName="ngModel"
+                      placeholder="Enter your company name"
                       required
                     />
                     <small
@@ -71,6 +72,7 @@
                       [(ngModel)]="formData.employeeCount"
                       [ngModelOptions]="{ standalone: true }"
                       #employeeCount="ngModel"
+                      placeholder="Enter your Employee Count"
                       required
                     />
                     <small
@@ -107,6 +109,7 @@
                       [(ngModel)]="formData.industryType"
                       [ngModelOptions]="{ standalone: true }"
                       #industryType="ngModel"
+                      placeholder="Select your industry type"
                       required
                       [nzOptions]="industryOptions"
                     >
@@ -136,6 +139,7 @@
                       [(ngModel)]="formData.organizationEmail"
                       [ngModelOptions]="{ standalone: true }"
                       #organizationEmail="ngModel"
+                      placeholder="Enter your email address"
                       required
                       email
                     />
@@ -164,6 +168,7 @@
                       [(ngModel)]="formData.firstName"
                       [ngModelOptions]="{ standalone: true }"
                       #firstName="ngModel"
+                      placeholder="Enter your first name"
                       required
                     />
                     <small
@@ -191,6 +196,7 @@
                       [(ngModel)]="formData.lastName"
                       [ngModelOptions]="{ standalone: true }"
                       #lastName="ngModel"
+                      placeholder="Enter your last name"
                       required
                     />
                     <small
@@ -217,6 +223,7 @@
                       [(ngModel)]="formData.phoneNumber"
                       [ngModelOptions]="{ standalone: true }"
                       #phoneNumber="ngModel"
+                      placeholder="Enter your mobile number"
                       required
                       pattern="^[0-9]{10}$"
                       maxlength="10"
