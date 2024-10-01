@@ -14,12 +14,12 @@ import { UserNotificationService } from 'src/app/services/user-notification.serv
 })
 export class TopbarComponent implements OnInit {
 
-  
+
   databaseHelper: DatabaseHelper = new DatabaseHelper();
 
-  constructor(public dataService: DataService, 
+  constructor(public dataService: DataService,
     private router: Router,
-    private rbacService: RoleBasedAccessControlService,
+    public rbacService: RoleBasedAccessControlService,
     private _notificationService: UserNotificationService,
     private _router: Router,
     private db: AngularFireDatabase) { }
@@ -194,7 +194,7 @@ export class TopbarComponent implements OnInit {
     debugger
     this.mailList = [];
     this.notificationList = [];
-    this.databaseHelper.currentPage = 1; 
+    this.databaseHelper.currentPage = 1;
     if(notificationType == 'mail'){
       this.getMailNotification(this.UUID,notificationType)
     }
@@ -210,7 +210,7 @@ export class TopbarComponent implements OnInit {
     this._notificationService.readAllNotification(this.UUID,notificationType).subscribe(response=>{
       if(response.status){
         this.getNotification(this.orgUuid,this.UUID,notificationType);
-        
+
       }
     })
   }
@@ -220,7 +220,7 @@ export class TopbarComponent implements OnInit {
     this._notificationService.readAllNotification(this.UUID, notificationType).subscribe(response=>{
       if(response.status){
         this.getMailNotification(this.UUID,notificationType);
-        
+
       }
     })
   }
@@ -273,7 +273,7 @@ export class TopbarComponent implements OnInit {
       }
     }
   }
-  
+
   @HostListener('window:scroll', ['$event'])
   onNotificationScroll(event:any) {
     if (event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight-3) {
@@ -293,10 +293,10 @@ export class TopbarComponent implements OnInit {
         //@ts-ignore
         if(res?.flag != undefined && res?.flag != null){
           //@ts-ignore
-          this.newNotiication = res?.flag==1?true:false; 
+          this.newNotiication = res?.flag==1?true:false;
         }
       });
   }
-  
+
 
 }

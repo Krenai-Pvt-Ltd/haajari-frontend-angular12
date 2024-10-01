@@ -3,9 +3,6 @@ import { Injectable } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { DataService } from './data.service';
-import { ModulesWithSubmodules } from '../models/modules-with-submodules';
-import { ModuleResponse } from '../models/module-response';
-import { RoleBasedAccessControlService } from './role-based-access-control.service';
 import { formatDate } from '@angular/common';
 import { NavigationExtras, Router } from '@angular/router';
 import * as saveAs from 'file-saver';
@@ -15,8 +12,10 @@ import * as saveAs from 'file-saver';
 })
 export class HelperService {
 
-  constructor( private httpClient : HttpClient, private dataService: DataService, private router: Router) {
-    
+  constructor( private httpClient : HttpClient,
+     private dataService: DataService
+    , private router: Router) {
+
    }
 
   clearHelperService(){
@@ -24,10 +23,11 @@ export class HelperService {
   }
 
   subModuleResponseList: any[] = [];
+
   todoStepsSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   async getDecodedValueFromToken(): Promise<any> {
-    
+
     return new Promise<any>(async (resolve, reject) => {
       try {
         const token = localStorage.getItem('token');
@@ -40,15 +40,14 @@ export class HelperService {
         }
       } catch (error) {
         reject(error);
-        
+
       }
     });
   }
-  
 
 
   async getAccessibleSubModuleResponseMethodCall(): Promise<any> {
-    
+
     return new Promise((resolve, reject) => {
       this.dataService.getAccessibleSubModuleResponse().subscribe({
         next: (data: any) => {
@@ -81,7 +80,7 @@ export class HelperService {
     const seconds = String(date.getSeconds()).padStart(2, '0');
 
     const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-    
+
     return formattedDate;
   }
 
@@ -89,10 +88,10 @@ export class HelperService {
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');
-  
+
     return `${year}-${month}-${day}`;
   }
-  
+
 //   formatDateToYYYYMMDDHHmmss(date: Date): string {
 //     const year = date.getFullYear();
 //     const month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -100,7 +99,7 @@ export class HelperService {
 //     const hours = date.getHours().toString().padStart(2, '0');
 //     const minutes = date.getMinutes().toString().padStart(2, '0');
 //     const seconds = date.getSeconds().toString().padStart(2, '0');
-  
+
 //     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 // }
 
@@ -110,18 +109,18 @@ export class HelperService {
       let hours = date.getHours();
       let minutes = date.getMinutes();
       let seconds = date.getSeconds();
-    
+
       // Pad with leading zeros if necessary
       let strhours = hours < 10 ? '0' + hours : hours;
       let strminutes = minutes < 10 ? '0' + minutes : minutes;
       // let strseconds = seconds < 10 ? '0' + seconds : seconds;
       let strseconds = '00';
-    
+
       // Construct formatted time string
       return `${strhours}:${strminutes}:${strseconds}`;
     }
     return '';
-    
+
   }
 
   formatDateToHHmm(date : Date){
@@ -130,7 +129,7 @@ export class HelperService {
 
 
 
-  
+
 
   toastSubscription:Subject<boolean> = new Subject<boolean>();
 
@@ -164,7 +163,7 @@ export class HelperService {
 
   getData() {
     return this.data;
-  }  
+  }
 
 
   private roleSectionTab : boolean = false;
@@ -246,10 +245,10 @@ export class HelperService {
 
   formatHHmmssToHHmm(time: string): string {
     const timeParts = time.split(':');
-  
+
     const hours = timeParts[0];
     const minutes = timeParts[1];
-  
+
     return `${hours}:${minutes}`;
   }
 
@@ -261,10 +260,10 @@ export class HelperService {
       const totalSeconds = Math.floor(diffInMillis / 1000);
       const totalMinutes = Math.floor(totalSeconds / 60);
       const totalHours = Math.floor(totalMinutes / 60);
-  
+
       const remSeconds = totalSeconds % 60;
       const remMinutes = totalMinutes % 60;
-  
+
       return `${totalHours.toString().padStart(2, '0')}:${remMinutes.toString().padStart(2, '0')}:${remSeconds.toString().padStart(2, '0')}`;
     }
 
