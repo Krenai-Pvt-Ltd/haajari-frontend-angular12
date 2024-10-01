@@ -36,8 +36,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-
-
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({
@@ -87,6 +86,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     }),
     DragDropModule,
     NgbTooltipModule,
+    SharedModule,
   ],
 })
 export class SettingModule {}

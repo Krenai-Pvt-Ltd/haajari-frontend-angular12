@@ -99,6 +99,7 @@ isValidFileType(file: File): boolean {
   selectedTestimonialReccomendationFileName: string = '';
   selectedAadhaarCardFileName: string = '';
   selectedpancardFileName: string = '';
+  isUploading: boolean = false;
 
   onFileSelected(event: Event, documentType: string): void {
     const element = event.currentTarget as HTMLInputElement;
@@ -135,6 +136,7 @@ isValidFileType(file: File): boolean {
         };
     
         reader.readAsDataURL(file);
+
         // Now upload the file since it's a valid type
         this.uploadFile(file, documentType);
       } else {
@@ -145,8 +147,31 @@ isValidFileType(file: File): boolean {
     }
   }
   
-  
+  isUploadingAadhaarCard: boolean = false;
+  isUploadingPancard: boolean = false;
+  isUploadingHighestQualificationDegree: boolean = false;
+  isUploadingSecondarySchoolCertificate: boolean = false;
+  isUploadingHighSchoolCertificate: boolean = false;
+
   uploadFile(file: File, documentType: string): void {
+
+    switch (documentType) {
+      case 'aadhaarCard':
+        this.isUploadingAadhaarCard = true;
+        break;
+      case 'pancard':
+        this.isUploadingPancard = true;
+        break;
+      case 'highestQualificationDegree':
+        this.isUploadingHighestQualificationDegree = true;
+        break;
+        case 'secondarySchoolCertificate':
+          this.isUploadingSecondarySchoolCertificate = true;
+          break;
+        case 'highSchoolCertificate':
+          this.isUploadingHighSchoolCertificate = true;
+          break;
+    }
     const filePath = `documents/${new Date().getTime()}_${file.name}`;
     const fileRef = this.afStorage.ref(filePath);
     const task = this.afStorage.upload(filePath, file);
@@ -154,7 +179,23 @@ isValidFileType(file: File): boolean {
     task.snapshotChanges().pipe(
       finalize(() => {
         fileRef.getDownloadURL().subscribe(url => {
-        
+          switch (documentType) {
+            case 'aadhaarCard':
+              this.isUploadingAadhaarCard = false;
+              break;
+            case 'pancard':
+              this.isUploadingPancard = false;
+              break;
+            case 'highestQualificationDegree':
+              this.isUploadingHighestQualificationDegree = false;
+              break;
+              case 'secondarySchoolCertificate':
+              this.isUploadingSecondarySchoolCertificate = false;
+              break;
+            case 'highSchoolCertificate':
+              this.isUploadingHighSchoolCertificate = false;
+              break;
+          }
           this.assignDocumentUrl(documentType, url);
           
           // this.setEmployeeDocumentsDetailsMethodCall();
@@ -463,7 +504,8 @@ routeToFormPreview() {
         id: maxId + 1, // Increment the maximum ID by 1
         name: this.documentName,
         url: '',
-        fileName: ''
+        fileName: '',
+        uploading: false
         // Include other required properties of EmployeeAdditionalDocument, if any
     };
 
@@ -484,14 +526,15 @@ onAdditionalFileSelected(event: Event, index: number): void {
   const fileInput = event.target as HTMLInputElement;
   const file = fileInput.files ? fileInput.files[0] : null;
 
-  if (file && this.isValidFileType(file)) { // Check if the file is valid before proceeding
-    // If the file type is valid, proceed with the upload
-    this.uploadAdditionalFile(file, index);
-  } else {
-    fileInput.value = '';
-    // Optionally handle the case when the file is invalid
-    // For example, you could alert the user or log an error
-    console.error("Invalid file type. Please select a JPG, JPEG, or PNG file.");
+  if (file) {
+    if (this.isValidFileType(file)) {
+      this.userDocumentsDetailsRequest.employeeAdditionalDocument[index].uploading = true;
+      this.uploadAdditionalFile(file, index);
+    } else {
+      fileInput.value = '';
+      this.isInvalidFileType = true; // Set flag for invalid file type
+      console.error("Invalid file type. Please select a PDF, JPG, JPEG, or PNG file.");
+    }
   }
 }
 
@@ -500,16 +543,18 @@ uploadAdditionalFile(file: File, index: number): void {
   const fileRef = this.afStorage.ref(filePath);
   const task = this.afStorage.upload(filePath, file);
 
-  // Handle the file upload task
   task.snapshotChanges().pipe(
-      finalize(() => {
-          fileRef.getDownloadURL().subscribe(url => {
-              // Update the URL in the corresponding document
-              this.userDocumentsDetailsRequest.employeeAdditionalDocument[index].url = url;
-              this.assignAdditionalDocumentUrl(index, url);
-              // If you have additional steps to perform after setting the URL, do them here
-          });
-      })
+    finalize(() => {
+      fileRef.getDownloadURL().subscribe(url => {
+        this.userDocumentsDetailsRequest.employeeAdditionalDocument[index].uploading = false;
+        this.userDocumentsDetailsRequest.employeeAdditionalDocument[index].fileName = file.name;
+        this.userDocumentsDetailsRequest.employeeAdditionalDocument[index].url = url;
+        this.assignAdditionalDocumentUrl(index, url);
+      }, error => {
+        this.userDocumentsDetailsRequest.employeeAdditionalDocument[index].uploading = false;
+        console.error("Error retrieving download URL:", error);
+      });
+    })
   ).subscribe();
 }
 
@@ -545,18 +590,35 @@ preventLeadingWhitespace(event: KeyboardEvent): void {
 
 clearFile(event: MouseEvent, documentType: string): void {
   event.preventDefault();
-  if (documentType == 'secondarySchoolCertificate') {
+  
+  if (documentType === 'secondarySchoolCertificate') {
     this.userDocumentsDetailsRequest.userDocuments.secondarySchoolCertificate = "";
     this.selectedSecondarySchoolFileName = "";
     this.secondarySchoolCertificateFileName = "";
     
-  } else if (documentType == 'highSchoolCertificate'){
+  } else if (documentType === 'highSchoolCertificate') {
     this.userDocumentsDetailsRequest.userDocuments.highSchoolCertificate = "";
     this.selectedHighSchoolCertificateFileName = "";
     this.highSchoolCertificateFileName1 = "";
     this.selectedHighSchoolFileName = "";
+
+  } else if (documentType === 'aadhaarCard') {
+    this.userDocumentsDetailsRequest.userDocuments.aadhaarCard = "";
+    this.selectedAadhaarCardFileName = "";
+    this.aadhaarCardFileName = "";
+
+  } else if (documentType === 'pancard') {
+    this.userDocumentsDetailsRequest.userDocuments.pancard = "";
+    this.selectedpancardFileName = "";
+    this.pancardFileName = "";
+
+  } else if (documentType === 'highestQualificationDegree') {
+    this.userDocumentsDetailsRequest.userDocuments.highestQualificationDegree = "";
+    this.selectedHighestQualificationDegreeFileName = "";
+    this.highestQualificationDegreeFileName1 = "";
   }
 }
+
 
 getAdminVerifiedForOnboardingUpdateMethodCall(): Promise<boolean> {
   debugger;

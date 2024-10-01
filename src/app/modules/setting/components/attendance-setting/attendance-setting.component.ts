@@ -15,9 +15,10 @@ import {
   NgModel,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { findLastKey } from 'lodash';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
+import { filter } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
 import { Holiday } from 'src/app/models/Holiday';
 import { ShiftCounts } from 'src/app/models/ShiftCounts';
@@ -68,7 +69,8 @@ export class AttendanceSettingComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private el: ElementRef,
-    private placesService: PlacesService
+    private placesService: PlacesService,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -93,6 +95,32 @@ export class AttendanceSettingComponent implements OnInit {
     this.getWeekDays();
     this.getPreHourOvertimeSettingResponseMethodCall();
     this.getPostHourOvertimeSettingResponseMethodCall();
+
+    this.activatedRoute.queryParams.subscribe(params => {
+      const name = params['name'];
+      if (name === 'Automation Rules') {
+        this.shouldScrollToAutomationRules = true; 
+      }
+    });
+  }
+
+  @ViewChild('automationRules') automationRules!: ElementRef;
+  private shouldScrollToAutomationRules: boolean = false;
+  ngAfterViewInit() {
+   
+    if (this.shouldScrollToAutomationRules) {
+      this.scrollToAutomationRules(); 
+    }
+  }
+
+  private scrollToAutomationRules() {
+    
+    setTimeout(() => {
+      if (this.automationRules) {
+        this.automationRules.nativeElement.scrollIntoView({ behavior: 'smooth' });
+        this.shouldScrollToAutomationRules = false; 
+      }
+    }, 100);
   }
 
   isShimmer = false;
@@ -442,6 +470,7 @@ export class AttendanceSettingComponent implements OnInit {
             'Attendance rule registered successfully',
             Key.TOAST_STATUS_SUCCESS
           );
+          this.helperService.registerOrganizationRegistratonProcessStepData(Key.AUTOMATION_RULE_ID, Key.PROCESS_COMPLETED);
           this.getAttendanceRuleWithAttendanceRuleDefinitionMethodCall();
         },
         (error) => {
@@ -1051,6 +1080,7 @@ export class AttendanceSettingComponent implements OnInit {
           response.listOfObject.length == 0
         ) {
           this.dataNotFoundPlaceholderForAttendanceRule = true;
+          this.helperService.registerOrganizationRegistratonProcessStepData(Key.AUTOMATION_RULE_ID, Key.PROCESS_PENDING);
         } else {
           this.attendanceRuleWithAttendanceRuleDefinitionResponseList =
             response.listOfObject;
@@ -1444,6 +1474,7 @@ export class AttendanceSettingComponent implements OnInit {
             'Shift Timing registered successfully',
             Key.TOAST_STATUS_SUCCESS
           );
+          this.helperService.registerOrganizationRegistratonProcessStepData(Key.SHIFT_TIME_ID, Key.PROCESS_COMPLETED);
         },
         (error) => {
           console.log(error);
@@ -1625,6 +1656,7 @@ formatMinutesToTime(minutes: number): string {
         ) {
           this.isShimmer = false;
           this.dataNotFoundPlaceholder = true;
+          this.helperService.registerOrganizationRegistratonProcessStepData(Key.SHIFT_TIME_ID, Key.PROCESS_PENDING);
         }
         if (this.organizationShiftTimingWithShiftTypeResponseList.length == 1) {
           this.activeIndex = 0;
@@ -2350,9 +2382,11 @@ formatMinutesToTime(minutes: number): string {
   address: string = ''; // Add this property to hold the fetched address
   city: string = '';
   /************ GET CURRENT LOCATION ***********/
+  fetchCurrentLocationLoader: boolean = false;
   locationLoader: boolean = false;
   currentLocation() {
     debugger;
+    this.fetchCurrentLocationLoader = true;
     // this.locationLoader = true;
     this.getCurrentLocation()
       .then((coords) => {
@@ -2360,6 +2394,7 @@ formatMinutesToTime(minutes: number): string {
           .getLocationDetails(coords.latitude, coords.longitude)
           .then((details) => {
             this.locationLoader = false;
+            this.fetchCurrentLocationLoader = false;
             console.log('formatted_address:', details);
             this.organizationAddressDetail.addressLine1 =
               details.formatted_address;
@@ -2385,8 +2420,10 @@ formatMinutesToTime(minutes: number): string {
             }
           })
           .catch((error) => console.error(error));
+          this.fetchCurrentLocationLoader = false;
       })
       .catch((error) => console.error(error));
+      this.fetchCurrentLocationLoader = false;
   }
 
   getCurrentLocation(): Promise<{ latitude: number; longitude: number }> {

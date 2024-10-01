@@ -69,7 +69,7 @@ export class EmployeeOnboardingFormComponent implements OnInit {
   @ViewChild('imageGallerButton') imageGallerButton!: ElementRef;
   @ViewChildren('checkboxes') checkboxes!: QueryList<ElementRef>;
   ngOnInit(): void {
-    this.userPersonalInformationRequest.dob = this.getInitialDate();
+    this.userPersonalInformationRequest.dateOfBirth = this.getInitialDate();
     console.log();
     this.getNewUserPersonalInformationMethodCall();
   }
@@ -131,6 +131,7 @@ export class EmployeeOnboardingFormComponent implements OnInit {
       // Check if the file type is valid
       if (this.isValidFileType(file)) {
         this.selectedFile = file;
+        this.isUploading = true;
 
         const reader = new FileReader();
         reader.onload = (e: any) => {
@@ -190,6 +191,7 @@ export class EmployeeOnboardingFormComponent implements OnInit {
           .toPromise()
           .then((url) => {
             console.log('File URL:', url);
+            this.isUploading = false;
             this.userPersonalInformationRequest.image = url;
           })
           .catch((error) => {
@@ -205,6 +207,7 @@ export class EmployeeOnboardingFormComponent implements OnInit {
   selectedFile: File | null = null;
   toggle = false;
   toggleSave = false;
+  isUploading: boolean = false;
   setEmployeePersonalDetailsMethodCall() {
     debugger;
 
@@ -245,7 +248,8 @@ export class EmployeeOnboardingFormComponent implements OnInit {
             this.dataService.setEmployeePersonalDetails(
               this.userPersonalInformationRequest,
               userUuid,
-              []
+              [],
+              0
             );
             // this.userPersonalDetailsStatus = response.statusResponse;
             // localStorage.setItem('statusResponse', JSON.stringify(this.userPersonalDetailsStatus));
@@ -334,7 +338,7 @@ export class EmployeeOnboardingFormComponent implements OnInit {
               response.employeeOnboardingStatus.response
             );
             console.log(response);
-            if (response.dob) {
+            if (response.dateOfBirth) {
               this.dataService.markStepAsCompleted(response.statusId);
             }
 

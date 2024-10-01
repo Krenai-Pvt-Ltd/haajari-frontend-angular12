@@ -83,6 +83,13 @@
   line-height: 16px; /* 190.616% */
   letter-spacing: 0.119px;
 }
+.playBtn {
+  position: absolute;
+  top: 50%;
+  left: 56%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
 
 .to-step-box {
   height: 100vh;

@@ -173,6 +173,7 @@ export class AddShiftTimeComponent implements OnInit {
       .subscribe(
         (response) => {
           this.getAllShiftTimingsMethodCall();
+          this.helperService.registerOrganizationRegistratonProcessStepData(Key.SHIFT_TIME_ID, Key.PROCESS_COMPLETED);
           this.loading = false;
           this.helperService.showToast(
             'Shift Timing registered successfully',
@@ -658,4 +659,9 @@ export class AddShiftTimeComponent implements OnInit {
   checkValidation() {
     this.isValidated ? false : true;
   }
+
+  
+
+
+  
 }

@@ -511,12 +511,14 @@ export class LeaveSettingComponent implements OnInit {
     this.dataService.getFullLeaveSettingInformation().subscribe(
       (response) => {
         this.fullLeaveSettingResponseList = response;
+        // this.helperService.registerOrganizationRegistratonProcessStepData(Key.LEAVE_TEMPLATE_ID, Key.PROCESS_COMPLETED);
         if (this.fullLeaveSettingResponseList.length == 1) {
           this.activeIndex = 0;
         }
         this.isLoading = false;
         if (response == null || response.length == 0) {
           this.leaveSettingPlaceholder = true;
+          this.helperService.registerOrganizationRegistratonProcessStepData(Key.LEAVE_TEMPLATE_ID, Key.PROCESS_PENDING);
         } else {
           this.leaveSettingPlaceholder = false;
         }
@@ -748,6 +750,7 @@ export class LeaveSettingComponent implements OnInit {
               'Leave rules registered successfully',
               Key.TOAST_STATUS_SUCCESS
             );
+            this.helperService.registerOrganizationRegistratonProcessStepData(Key.LEAVE_TEMPLATE_ID, Key.PROCESS_COMPLETED);
           },
           (error) => {
             this.submitLeaveLoader = false;
@@ -785,6 +788,7 @@ export class LeaveSettingComponent implements OnInit {
               'Leave rules registered successfully',
               Key.TOAST_STATUS_SUCCESS
             );
+            this.helperService.registerOrganizationRegistratonProcessStepData(Key.LEAVE_TEMPLATE_ID, Key.PROCESS_COMPLETED);
           },
           (error) => {
             for (const userUuid of this.fullLeaveSettingRuleRequest.userUuids) {
