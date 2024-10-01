@@ -80,8 +80,8 @@ export class TimetableComponent implements OnInit {
 
   disableDates = (current: Date): boolean => {
     const today = new Date();
-    console.log(today);
-    console.log(current);
+    // console.log(today);
+    // console.log(current);
     today.setHours(0, 0, 0, 0);
 
     const registrationDate = new Date(this.organizationRegistrationDate);
@@ -357,7 +357,7 @@ export class TimetableComponent implements OnInit {
           (response) => {
             debugger;
             this.attendanceDetailsResponseList = response.listOfObject;
-            console.log(this.attendanceDetailsResponseList);
+            // console.log(this.attendanceDetailsResponseList);
             this.total = response.totalItems;
             this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
             this.isShimmerForAttendanceDetailsResponse = false;
@@ -837,8 +837,8 @@ export class TimetableComponent implements OnInit {
     .subscribe(
       (response) => {
         this.checkHoliday = response.object;
-        console.log(response);
-        console.error("Response", response.object);
+        // console.log(response);
+        // console.error("Response", response.object);
 
         if (this.checkHoliday == true) {
           this.showPlaceholder = true; 
@@ -856,7 +856,7 @@ attendanceFullRequestLog: any[] = [];
 getFullAttendanceRequestLogData(): void {
   this.dataService.getFullAttendanceRequestLog().subscribe(response => {
     this.attendanceFullRequestLog = response.listOfObject;
-    console.log('logs retrieved successfully', response.listOfObject);
+    // console.log('logs retrieved successfully', response.listOfObject);
   }, (error) => {
     console.log(error);
   });
@@ -867,7 +867,7 @@ attendanceRequests: any[] = [];
 getAttendanceRequestsData(): void {
   this.dataService.getAttendanceRequests().subscribe(response => {
     this.attendanceRequests = response.listOfObject;
-    console.log('requests retrieved successfully', response.listOfObject);
+    // console.log('requests retrieved successfully', response.listOfObject);
   }, (error) => {
     console.log(error);
   });
@@ -879,7 +879,7 @@ getAttendanceRequestsDataCount(): void {
   this.dataService.getAttendanceRequestCount().subscribe(
     (response: any) => {
       this.attendanceRequestCount = response.count; 
-      console.log('requests retrieved successfully', response.listOfObject);
+      // console.log('requests retrieved successfully', response.listOfObject);
     },
     (error) => {
       console.log(error);
@@ -890,7 +890,7 @@ getAttendanceRequestsDataCount(): void {
 
 approveOrRequest(id:number, reqString: string) {
   this.dataService.approveOrRejectAttendanceRequest(id, reqString).subscribe(response => {
-    console.log('requests retrieved successfully', response.listOfObject);
+    // console.log('requests retrieved successfully', response.listOfObject);
     if(response.message == 'APPROVE') {
     this.helperService.showToast(
       'Request Approved Successfully',

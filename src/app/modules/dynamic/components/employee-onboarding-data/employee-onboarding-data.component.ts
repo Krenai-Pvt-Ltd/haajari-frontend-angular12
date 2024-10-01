@@ -426,7 +426,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.isLoadingShifts = true;
     this.dataService.getShifts().subscribe(
       (response) => {
-        console.log('Shift data response:', response); 
+        // console.log('Shift data response:', response); 
         if (response && response.listOfObject) {
           this.shiftList = response.listOfObject.map((shift: OrganizationShift) => ({
             value: shift.shiftId,
@@ -642,7 +642,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           this.isProgressToggle = false;
           this.getReport();
           this.getUser();
-          console.log(this.onboardUserList.length);
+          // console.log(this.onboardUserList.length);
           this.alreadyUsedPhoneNumberArray = response.arrayOfString;
           this.alreadyUsedEmailArray = response.arrayOfString2;
         } else {
@@ -774,7 +774,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
             this.userList[index].isPhoneExist = response;
           }
           this.isNumberExist = response;
-          console.log(response);
+          // console.log(response);
         });
     }
   }
@@ -809,7 +809,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   sendEmailToUsers() {
     this.sendMailExcelUserFlag = true;
     this.emails = this.onboardUserList.map(user => user.email).filter(email => email);
-    console.log(this.emails);
+    // console.log(this.emails);
 
     this.dataService
         .sendEmails(this.emails)
@@ -868,7 +868,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
         (response: any) => {
           this.isEmailExist = response;
           if (response == false) {
-            
+
           } else {
             
           }

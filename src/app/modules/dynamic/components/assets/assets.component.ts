@@ -221,7 +221,7 @@ updateCategory(): void {
   this.dataService.updateAssetCategory(this.categoryId, this.newCategory)
     .subscribe(
       response => {
-        console.log('Asset category updated successfully:', response);
+        // console.log('Asset category updated successfully:', response);
         this.getAssetCategoryData();
         document.getElementById('createCategoryModal')?.click();
         this.newCategory = { categoryName: '', categoryImage: '' };
@@ -242,7 +242,7 @@ saveCategory(): void {
   this.dataService.createAssetCategory(this.newCategory)
     .subscribe(
       response => {
-        console.log('Asset category created successfully:', response);
+        // console.log('Asset category created successfully:', response);
         this.getAssetCategoryData();
         document.getElementById('createCategoryModal')?.click();
         this.newCategory = { categoryName: '', categoryImage: '' };
@@ -290,12 +290,12 @@ uploadFile(file: File): void {
     .snapshotChanges()
     .toPromise()
     .then(() => {
-      console.log('Upload completed');
+      // console.log('Upload completed');
       fileRef
         .getDownloadURL()
         .toPromise()
         .then((url) => {
-          console.log('File URL:', url);
+          // console.log('File URL:', url);
           this.fileToUpload = url;
           this.isFileUploaded = false;
         })

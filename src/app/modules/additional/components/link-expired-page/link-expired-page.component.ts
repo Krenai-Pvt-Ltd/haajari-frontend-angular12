@@ -31,7 +31,7 @@ export class LinkExpiredPageComponent implements OnInit {
       this.dataservice.generateNewAttendanceLinkGupShup(userUuid).subscribe(
         (response) => {
           // Handle the response here
-          console.log('Attendance link generated:', response);
+          // console.log('Attendance link generated:', response);
           this.helper.showToast(
             'New Link Sent Successfully',
             Key.TOAST_STATUS_SUCCESS

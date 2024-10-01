@@ -562,7 +562,7 @@ export class LeaveManagementComponent implements OnInit {
       // } else {
       //   this.monthlyPlaceholderFlag = false;
       // }
-      console.log('length' + data.length);
+      // console.log('length' + data.length);
       this.monthlyChartData = data.map((item) => ({
         name: this.sliceWord(item.monthName),
         series: [
@@ -612,7 +612,7 @@ export class LeaveManagementComponent implements OnInit {
         ],
       }));
       this.dataReady = true;
-      console.log(this.consumedLeaveData);
+      // console.log(this.consumedLeaveData);
     });
   }
 
@@ -823,12 +823,12 @@ export class LeaveManagementComponent implements OnInit {
       .snapshotChanges()
       .toPromise()
       .then(() => {
-        console.log('Upload completed');
+        // console.log('Upload completed');
         fileRef
           .getDownloadURL()
           .toPromise()
           .then((url) => {
-            console.log('File URL:', url);
+            // console.log('File URL:', url);
             this.fileToUpload = url;
             // console.log('file url : ' + this.fileToUpload);
             this.isFileUploaded = false;

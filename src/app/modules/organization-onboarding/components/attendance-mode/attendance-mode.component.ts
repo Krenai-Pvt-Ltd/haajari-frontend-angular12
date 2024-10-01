@@ -82,7 +82,7 @@ export class AttendanceModeComponent implements OnInit {
         if (response.status) {
           this.selectedAttendanceModeId = response.object.id;
         }
-        console.log(this.selectedAttendanceModeId);
+        // console.log(this.selectedAttendanceModeId);
       },
       (error) => {
         console.log(error);
@@ -187,8 +187,8 @@ export class AttendanceModeComponent implements OnInit {
     this.organizationAddressDetail.longitude = e.geometry.location.lng();
     this.organizationAddressDetail.latitude = e.geometry.location.lat();
 
-    console.log(e.geometry.location.lat());
-    console.log(e.geometry.location.lng());
+    // console.log(e.geometry.location.lat());
+    // console.log(e.geometry.location.lng());
     this.organizationAddressDetail.addressLine1 = e.name + ', ' + e.vicinity;
 
     e?.address_components?.forEach((entry: any) => {
@@ -386,7 +386,7 @@ currentLocation() {
         if (response) {
           // console.log(response);
           this.organizationAddressDetail = response;
-          console.log(this.organizationAddressDetail.latitude);
+          // console.log(this.organizationAddressDetail.latitude);
           if (this.organizationAddressDetail.latitude == null) {
             this.currentLocation();
           } else {

@@ -831,11 +831,11 @@ export class AttendanceSettingComponent implements OnInit {
     // const time3 = this.convertStringToDate(this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.lateDuration);
 
     if (time1 < time2) {
-      console.log('Time 1 is earlier than Time 2');
+      // console.log('Time 1 is earlier than Time 2');
     } else if (time2 < time1) {
-      console.log('Time 1 is later than Time 2');
+      // console.log('Time 1 is later than Time 2');
     } else {
-      console.log('Time 1 is equal to Time 2');
+      // console.log('Time 1 is equal to Time 2');
     }
   }
 
@@ -851,11 +851,11 @@ export class AttendanceSettingComponent implements OnInit {
     // const time3 = this.convertStringToDate(this.attendanceRuleDefinitionRequest.fullDaySalaryDeduction.lateDuration);
 
     if (time1 < time2) {
-      console.log('Time 1 is earlier than Time 2');
+      // console.log('Time 1 is earlier than Time 2');
     } else if (time2 < time1) {
-      console.log('Time 1 is later than Time 2');
+      // console.log('Time 1 is later than Time 2');
     } else {
-      console.log('Time 1 is equal to Time 2');
+      // console.log('Time 1 is equal to Time 2');
     }
   }
 
@@ -1066,7 +1066,7 @@ export class AttendanceSettingComponent implements OnInit {
           this.pageNumber = Math.min(this.pageNumber, this.lastPageNumber);
           this.isAllSelected = this.staffs.every((staff) => staff.selected);
 
-          console.log(this.staffs);
+          // console.log(this.staffs);
         },
         (error) => {
           console.error(error);
@@ -1286,7 +1286,7 @@ export class AttendanceSettingComponent implements OnInit {
         weekOffType: day.weekOffType,
         userUuids: this.selectedStaffsUuids,
       }));
-      console.log("InTime: " + this.organizationShiftTimingRequest.inTime);
+      // console.log("InTime: " + this.organizationShiftTimingRequest.inTime);
     this.dataService
       .registerShiftTiming(this.organizationShiftTimingRequest)
       .subscribe(
@@ -1474,7 +1474,7 @@ formatMinutesToTime(minutes: number): string {
 
     this.dataService.getAllShiftTimings().subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         this.organizationShiftTimingWithShiftTypeResponseList = response;
         if (
           this.organizationShiftTimingWithShiftTypeResponseList.length === 0
@@ -1485,7 +1485,7 @@ formatMinutesToTime(minutes: number): string {
         if (this.organizationShiftTimingWithShiftTypeResponseList.length == 1) {
           this.activeIndex = 0;
         }
-        console.log(response[0].organizationShiftTimingResponseList);
+        // console.log(response[0].organizationShiftTimingResponseList);
         // Iterate through each item in the response array
         this.organizationShiftTimingWithShiftTypeResponseList.forEach(
           (item) => {
@@ -1500,7 +1500,7 @@ formatMinutesToTime(minutes: number): string {
                 shift.outTimeDate = shift.outTime;
                 shift.startLunchDate = shift.startLunch;
                 shift.endLunchDate = shift.endLunch;
-                console.log(shift.inTime, shift.outTime);
+                // console.log(shift.inTime, shift.outTime);
               });
             }
           }
@@ -1727,7 +1727,7 @@ formatMinutesToTime(minutes: number): string {
         if (response) {
           // console.log(response);
           this.organizationAddressDetail = response;
-          console.log(this.organizationAddressDetail.latitude);
+          // console.log(this.organizationAddressDetail.latitude);
           if (this.organizationAddressDetail.latitude == null) {
             this.currentLocation();
           } else {
@@ -1823,7 +1823,7 @@ formatMinutesToTime(minutes: number): string {
         isAlternate: false, // Ensure isAlternate is also set to false by default
         weekOffType: 0, // Set weekOffType to default value, if needed
       }));
-      console.log(this.weekDay);
+      // console.log(this.weekDay);
     });
   }
 
@@ -2219,7 +2219,7 @@ formatMinutesToTime(minutes: number): string {
           .then((details) => {
             this.locationLoader = false;
             this.fetchCurrentLocationLoader = false;
-            console.log('formatted_address:', details);
+            // console.log('formatted_address:', details);
             this.organizationAddressDetail.addressLine1 =
               details.formatted_address;
             this.organizationAddressDetail.addressLine2 = '';

@@ -33,10 +33,10 @@ export class RoleBasedAccessControlService {
     debugger
     try {
      await this.helperService.getDecodedValueFromToken().then((res:any)=>{
-        console.log(res)
+        // console.log(res)
         this.userInfo=res;
         this.userInfo!.uuid=res.uuid;
-        console.log("updated uuid",  this.userInfo!.uuid)
+        // console.log("updated uuid",  this.userInfo!.uuid)
         this.isUserInfoInitialized = true;
       });
      

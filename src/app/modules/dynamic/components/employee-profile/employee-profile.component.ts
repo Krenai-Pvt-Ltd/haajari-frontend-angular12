@@ -224,6 +224,8 @@ export class EmployeeProfileComponent implements OnInit {
 
     let firstDayOfMonth = moment().startOf('month');
     this.startDateStr = firstDayOfMonth.format('YYYY-MM-DD');
+this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
+
     // this.startDateStr = firstDayString;
     // console.log("startDateStr :" + this.startDateStr);
     this.endDateStr = moment(new Date()).format('YYYY-MM-DD');
@@ -513,7 +515,7 @@ export class EmployeeProfileComponent implements OnInit {
 
   panelChange(event: { date: Date; mode: 'month' | 'year' }): void {
     this.mode = event.mode; // Update mode
-    console.log('Panel change event:', event);
+    // console.log('Panel change event:', event);
 
     // Check if the mode is 'month' and the month has changed
     const selectedDate = event.date;
@@ -544,8 +546,12 @@ export class EmployeeProfileComponent implements OnInit {
     return current.getFullYear() < currentYear;
   };
 
+  disablePreviousMonths = (current: Date): boolean => {
+    return current && current < this.joiningDate;
+  };
+
   selectChange(selectedDate: Date): void {
-    console.log('Selected date:', selectedDate);
+    // console.log('Selected date:', selectedDate);
     
     // Calculate the start and end dates for the month
     const startDateStr = moment(selectedDate).startOf('month').format('YYYY-MM-DD');
@@ -562,7 +568,7 @@ export class EmployeeProfileComponent implements OnInit {
     const startDateStr = startDate.format('YYYY-MM-DD');
     const endDateStr = endDate.format('YYYY-MM-DD');
 
-    console.log(`Start Date: ${startDateStr}, End Date: ${endDateStr}`);
+    // console.log(`Start Date: ${startDateStr}, End Date: ${endDateStr}`);
 
     // Call your method to get user attendance data
     this.getUserAttendanceDataFromDate(startDateStr, endDateStr);
@@ -774,7 +780,7 @@ export class EmployeeProfileComponent implements OnInit {
 
    // Function to handle mode change (month/year change)
    onModeChange(mode: string) {
-    console.log('Calendar mode changed:', mode);
+    // console.log('Calendar mode changed:', mode);
     // Handle actions here if necessary, such as re-fetching data based on mode
   }
 
@@ -1109,7 +1115,7 @@ export class EmployeeProfileComponent implements OnInit {
     // this.selectStatusFlag=true;
 
     if (this.selectedStatus && this.selectedStatus != 'ALL') {
-      console.log('selectedStatus :' + this.selectedStatus);
+      // console.log('selectedStatus :' + this.selectedStatus);
       this.dataService
         .getUserLeaveLogByStatus(this.userId, this.selectedStatus)
         .subscribe(
@@ -1125,7 +1131,7 @@ export class EmployeeProfileComponent implements OnInit {
           }
         );
     } else {
-      console.log('selectedStatus :' + this.selectedStatus);
+      // console.log('selectedStatus :' + this.selectedStatus);
       this.dataService.getUserLeaveLog(this.userId).subscribe(
         (data) => {
           this.userLeaveLog = data;
@@ -1244,7 +1250,7 @@ export class EmployeeProfileComponent implements OnInit {
         if (this.experienceEmployee[0].fresher == true) {
           this.isFresher = this.experienceEmployee[0].fresher;
         }
-        console.log('experience length' + this.experienceEmployee.length);
+        // console.log('experience length' + this.experienceEmployee.length);
         if (data == undefined || data == null || data.experiences.length == 0) {
           this.isCompanyPlaceholder = true;
         }
@@ -1854,7 +1860,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.dataService.getPFContributionRate().subscribe(
       (response) => {
         this.pFContributionRateList = response.listOfObject;
-        console.log(response.listOfObject);
+        // console.log(response.listOfObject);
       },
       (error) => {}
     );
@@ -1905,7 +1911,7 @@ export class EmployeeProfileComponent implements OnInit {
       (response) => {
         this.statutoryResponseList = response.listOfObject;
         this.setStatutoryVariablesToFalse();
-        console.log(this.statutoryResponseList);
+        // console.log(this.statutoryResponseList);
         this.clearInputValues();
       },
       (error) => {}
@@ -1921,7 +1927,7 @@ export class EmployeeProfileComponent implements OnInit {
         .subscribe(
           (response) => {
             this.statutoryAttributeResponseList = response.listOfObject;
-            console.log(response);
+            // console.log(response);
             resolve(response);
           },
           (error) => {
@@ -1946,7 +1952,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.statutoryRequest.statutoryAttributeRequestList =
       this.statutoryAttributeResponseList;
 
-    console.log(this.statutoryAttributeResponseList);
+    // console.log(this.statutoryAttributeResponseList);
 
     if (statutoryResponse.switchValue === false) {
       if (statutoryResponse.id == this.EPF_ID) {
@@ -2035,7 +2041,7 @@ export class EmployeeProfileComponent implements OnInit {
   endDate: string = '';
 
   onMonthChange(month: any): void {
-    console.log(month);
+    // console.log(month);
     this.selectedDate =   new Date(this.selectedYear, month, 1),
     // month;
     this.getFirstAndLastDateOfMonth(this.selectedDate);
@@ -2195,6 +2201,8 @@ export class EmployeeProfileComponent implements OnInit {
         this.dataNotFoundPlaceholderForEmployeePayslipLogResponse = true;
       } else{
         this.employeePayslipLogResponseList = response.listOfObject;
+        console.log( this.employeePayslipLogResponseList);
+      
       }
       this.isShimmerForEmployeePayslipLogResponse = false;
     }, (error) => {
@@ -2329,7 +2337,7 @@ export class EmployeeProfileComponent implements OnInit {
     if (userUuid) {
       this.dataService.getOnboardingFormPreview(userUuid).subscribe(
         (preview) => {
-          console.log(preview);
+          // console.log(preview);
           this.onboardingPreviewData = preview;
           this.joiningDate = new Date(this.onboardingPreviewData.user.joiningDate);
           this.yearList = this.generateYearList();
@@ -2351,7 +2359,7 @@ export class EmployeeProfileComponent implements OnInit {
 
           // if (preview.employeeAdditionalDocument && preview.employeeAdditionalDocument.length > 0) {
           this.employeeAdditionalDocument = preview.employeeAdditionalDocuments;
-          console.log(this.employeeAdditionalDocument);
+          // console.log(this.employeeAdditionalDocument);
           // } else {
           //   console.log("eroor ")
           //     // Handle the case where employeeAdditionalDocument is undefined, null, or empty
@@ -2537,7 +2545,7 @@ export class EmployeeProfileComponent implements OnInit {
 
   getFileTypeIcon(fileUrl: string): string {
     // Log the file URL to inspect its format
-    console.log('File URL:', fileUrl);
+    // console.log('File URL:', fileUrl);
 
     // Extract the file extension, ensuring you consider URLs with parameters or fragments
     const url = new URL(fileUrl, window.location.origin); // This normalizes the URL
@@ -2545,7 +2553,7 @@ export class EmployeeProfileComponent implements OnInit {
     const extension = `.${fileName?.split('.').pop()?.toLowerCase()}`;
 
     // Log the detected extension
-    console.log('Detected extension:', extension);
+    // console.log('Detected extension:', extension);
 
     // Return the corresponding icon class or a default value
     return this.fileTypeToIcon[extension] || 'lar la-file text-secondary';
@@ -2604,7 +2612,7 @@ export class EmployeeProfileComponent implements OnInit {
       this.isInvalidFileType = true;
       return true;
     }
-    console.log(this.isInvalidFileType);
+    // console.log(this.isInvalidFileType);
     this.isInvalidFileType = false;
     return false;
   }
@@ -2833,7 +2841,7 @@ export class EmployeeProfileComponent implements OnInit {
           .getDownloadURL()
           .toPromise()
           .then((url) => {
-            console.log('File URL:', url);
+            // console.log('File URL:', url);
             this.fileToUpload = url;
             // console.log('file url : ' + this.fileToUpload);
             this.isFileUploaded = false;
@@ -3037,7 +3045,7 @@ return
     this.dataService.getOrganizationHrPolicies().subscribe(response => {
       this.fileUrl = response.object.hrPolicyDoc;
       this.docsUploadedDate = response.object.docsUploadedDate;
-      console.log('policy retrieved successfully', response.object);
+      // console.log('policy retrieved successfully', response.object);
     }, (error) => {
       console.log(error);
     });
@@ -3087,7 +3095,7 @@ return
     const formattedDate = this.datePipe.transform(this.requestedDate, 'yyyy-MM-dd');
     this.dataService.getAttendanceChecktimeList(this.userId, formattedDate, this.statusString).subscribe(response => {
       this.attendanceCheckTimeResponse = response.listOfObject;
-      console.log('checktime retrieved successfully', response.listOfObject);
+      // console.log('checktime retrieved successfully', response.listOfObject);
     }, (error) => {
       console.log(error);
     });
@@ -3103,7 +3111,7 @@ return
       const attendanceTimeUpdateRequest: AttendanceTimeUpdateRequestDto = this.attendanceTimeUpdateForm.value;
       this.dataService.sendAttendanceTimeUpdateRequest(this.userId, this.attendanceTimeUpdateForm.value).subscribe(
         (response) => {
-          console.log('Request sent successfully', response);
+          // console.log('Request sent successfully', response);
           this.resetForm();
           document.getElementById('attendanceUpdateModal')?.click();
           this.getAttendanceRequestLogData();
@@ -3138,7 +3146,7 @@ attendanceRequestLog: any[] = [];
     this.dataService.getAttendanceRequestLog(this.userId).subscribe(response => {
       debugger
       this.attendanceRequestLog = response.object;
-      console.log('logs retrieved successfully', response.listOfObject);
+      // console.log('logs retrieved successfully', response.listOfObject);
     }, (error) => {
       console.log(error);
     });
@@ -3153,9 +3161,9 @@ attendanceRequestLog: any[] = [];
     currentMonthTotalCoins: 0
   };
   getSuperCoinsResponseForEmployeeData() {
-    console.log('this.userId' + this.userId);
+    // console.log('this.userId' + this.userId);
     this.dataService.getSuperCoinsResponseForEmployee(this.userId).subscribe(response => {
-        console.log("success");
+        // console.log("success");
         this.employeeSuperCoinsResponse = response.object;
     }, (error) => {
       console.log(error);
@@ -3216,14 +3224,14 @@ attendanceRequestLog: any[] = [];
         this.overtimeRequestDTO.startTime = dates[0] ? new Date(dates[0]) : null;
         this.overtimeRequestDTO.endTime = dates[1] ? new Date(dates[1]) : null;
         this.overtimeRequestDTO.workingHour = this.helperService.durationBetweenTwoDatesInHHmmssFormat(this.overtimeRequestDTO.endTime, this.overtimeRequestDTO.startTime);
-        console.log("Working Hour: "+this.overtimeRequestDTO.workingHour);
+        // console.log("Working Hour: "+this.overtimeRequestDTO.workingHour);
       } else {
         // Handle case where array length is not 2 if necessary
         console.warn('Expected array with 2 dates, but got:', dates);
       }
     } else if (dates instanceof Date) {
       // Handle single date case if needed
-      console.log('Single Date Selected:', dates);
+      // console.log('Single Date Selected:', dates);
     } else if (dates === null) {
       // Handle null case
       this.overtimeRequestDTO.endTime = null;
@@ -3351,7 +3359,7 @@ attendanceRequestLog: any[] = [];
 
   // Update the calendar date based on the selected month and year
   updateCalendarDate() {
-    console.log("this.selectedYear",this.selectedYear)
+    // console.log("this.selectedYear",this.selectedYear)
     this.date = new Date(this.selectedYear, this.selectedMonth - 1, 1);
   }
 

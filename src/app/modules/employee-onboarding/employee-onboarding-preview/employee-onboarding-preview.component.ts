@@ -50,7 +50,7 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
     if (userUuid) {
       this.dataService.getOnboardingFormPreview(userUuid).subscribe(
         (preview) => {
-          console.log(preview);
+          // console.log(preview);
           this.onboardingPreviewData = preview;
           if(preview.companyLogo){
             this.companyLogoUrl = preview.companyLogo;
@@ -60,7 +60,7 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
           
           // if (preview.employeeAdditionalDocument && preview.employeeAdditionalDocument.length > 0) {
             this.employeeAdditionalDocument = preview.employeeAdditionalDocuments;
-            console.log(this.employeeAdditionalDocument);
+            // console.log(this.employeeAdditionalDocument);
         // } else {
         //   console.log("eroor ")
         //     // Handle the case where employeeAdditionalDocument is undefined, null, or empty

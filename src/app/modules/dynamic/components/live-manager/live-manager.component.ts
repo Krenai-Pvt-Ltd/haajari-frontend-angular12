@@ -76,8 +76,8 @@ export class LiveManagerComponent implements OnInit {
       .subscribe(
         (data) => {
           debugger;
-          console.log(data);
-          console.log(data.body);
+          // console.log(data);
+          // console.log(data.body);
           this.resetUserLeave();
           this.requestLeaveCloseModel.nativeElement.click();
         },
@@ -108,7 +108,7 @@ export class LiveManagerComponent implements OnInit {
         (data) => {
           this.userLeave = data.body;
           debugger;
-          console.log(this.userLeave);
+          // console.log(this.userLeave);
         },
         (error) => {
           debugger;

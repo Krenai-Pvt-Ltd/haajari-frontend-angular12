@@ -60,7 +60,7 @@ export class DashboardComponent implements OnInit {
     private roleBasedAccessControlService: RoleBasedAccessControlService
   ) {
     
-    console.log(this.roleBasedAccessControlService.isUserInfoInitialized,"--9999-----");
+    // console.log(this.roleBasedAccessControlService.isUserInfoInitialized,"--9999-----");
     
     const currentDate = moment();
     this.startDateStr = currentDate.startOf('month').format('YYYY-MM-DD');
@@ -128,11 +128,11 @@ export class DashboardComponent implements OnInit {
   startDateAndEndDate : StartDateAndEndDate = new StartDateAndEndDate();
 
   onMonthChange(month: Date): void {
-    console.log('Month is getting selected');
+    // console.log('Month is getting selected');
     this.selectedDate = month;
     this.getFirstAndLastDateOfMonth(this.selectedDate);
     this.isAllCollapsed = true;
-    console.log(this.startDate, this.endDate);
+    // console.log(this.startDate, this.endDate);
     this.getAttendanceReportByDateDurationMethodCall();
   }
 
@@ -344,7 +344,7 @@ this.getAdminPersonalDetailMethodCall();
               this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
 
               debugger;
-              console.log(this.myAttendanceData);
+              // console.log(this.myAttendanceData);
               this.isAttendanceShimer = false;
 
               // Additional processing if needed
@@ -542,13 +542,13 @@ this.getAdminPersonalDetailMethodCall();
     this.dataService.checkingUserRole().subscribe(
       (data) => {
         this.flag = data;
-        console.log(data);
+        // console.log(data);
       },
       (error) => {
         console.log(error);
       }
     );
-    console.log(this.flag);
+    // console.log(this.flag);
 
     return this.flag;
   }
@@ -605,7 +605,7 @@ this.getAdminPersonalDetailMethodCall();
           // if(data.attendanceLatePerformers){
           //   this.isLateShimmer=false;
           // }
-          console.log(this.responseDto);
+          // console.log(this.responseDto);
         },
         (error) => {
           // console.error(error);
@@ -622,13 +622,13 @@ this.getAdminPersonalDetailMethodCall();
       .getAttendanceLatePerformers('2023-12-04', '2023-12-04')
       .subscribe(
         (data) => {
-          console.log(data);
+          // console.log(data);
           this.responseData = data;
 
           if (data.attendanceLatePerformers) {
             this.isLateShimmer = false;
           }
-          console.log(this.responseDto);
+          // console.log(this.responseDto);
         },
         (error) => {
           this.isLateShimmer = false;
@@ -780,7 +780,7 @@ this.getAdminPersonalDetailMethodCall();
       .downloadAttendanceDataInExcelFormat(this.startDate, this.endDate)
       .subscribe(
         (response) => {
-          console.log(response);
+          // console.log(response);
 
           const downloadLink = document.createElement('a');
           downloadLink.href = response.message;
@@ -861,7 +861,7 @@ this.getAdminPersonalDetailMethodCall();
       // } else {
       //   this.monthlyPlaceholderFlag = false;
       // }
-      console.log('length' + data.length);
+      // console.log('length' + data.length);
       this.monthlyChartData = data.map((item) => ({
         name: this.sliceWord(item.monthName),
         series: [
@@ -941,7 +941,7 @@ this.getAdminPersonalDetailMethodCall();
         (response) => {
           debugger;
           this.attendanceDetailsResponseList = response.listOfObject;
-          console.log(this.attendanceDetailsResponseList);
+          // console.log(this.attendanceDetailsResponseList);
           this.totalItems = response.totalItems;
           this.lastPageNumberNew = Math.ceil(this.totalItems / this.itemPerPage);
           // console.log("lastPageNumberNew" + this.lastPageNumberNew );
@@ -1260,7 +1260,7 @@ this.getAdminPersonalDetailMethodCall();
       .subscribe(
         (response) => {
           this.userAttendanceDetailDateWise = response.object;
-          console.log('Attendance Details:', response.object);
+          // console.log('Attendance Details:', response.object);
           // this.openEventsModal.nativeElement.click();
           this.loadingFlag = false;
          
@@ -1436,7 +1436,7 @@ this.getSubscriptionPlanDetails(plandId);
 
   isPaymentDone: boolean = false;
   checkout(value: any) {
-    console.log('transaction id', value);
+    // console.log('transaction id', value);
     // this.isPaymentDone = true;
     window.location.reload();
   }
@@ -1477,8 +1477,8 @@ this.getSubscriptionPlanDetails(plandId);
     .subscribe(
       (response) => {
         this.checkHoliday = response.object;
-        console.log(response);
-        console.error("Response", response.object);
+        // console.log(response);
+        // console.error("Response", response.object);
 
         if (this.checkHoliday == true) {
           this.showPlaceholder = true; 

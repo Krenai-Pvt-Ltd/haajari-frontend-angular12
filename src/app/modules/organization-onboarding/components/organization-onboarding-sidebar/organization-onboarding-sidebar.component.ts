@@ -69,7 +69,7 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
           this.dataService.markStepAsCompleted(response.object.step);
           this.onboardingViaString = response.object.onboardingString;
           this.STEP_ID = response.object.step;
-          console.log(response.object.step);
+          // console.log(response.object.step);
           this.goToStep(response.object.step);
         }
       });

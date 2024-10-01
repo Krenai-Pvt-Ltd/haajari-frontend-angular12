@@ -70,7 +70,7 @@ export class LoginComponent implements OnInit {
       .loginUser(this.email, this.password)
       .pipe(
         tap(async (response) => {
-          console.log(response);
+          // console.log(response);
           this.helperService.subModuleResponseList =
             response.subModuleResponseList;
           localStorage.setItem('token', response.tokenResponse.access_token);
@@ -273,13 +273,13 @@ export class LoginComponent implements OnInit {
   }
 
   onOtpInputChange(index: number) {
-    console.log(`Input ${index} changed`);
+    // console.log(`Input ${index} changed`);
   }
 
   private debounceTimer: any;
   onOtpChange(event: any) {
     this.otp = event;
-    console.log(this.otp);
+    // console.log(this.otp);
 
     if (this.debounceTimer) {
       clearTimeout(this.debounceTimer);
@@ -331,7 +331,7 @@ export class LoginComponent implements OnInit {
       (response) => {
         this.registerPassLoader = false;
         this.showOtpInput = false;
-        console.log('Password Created successfully:', response);
+        // console.log('Password Created successfully:', response);
         this.password = '';
         this.confirmPassword = '';
         this.createPasswordFlag = false;
@@ -372,7 +372,7 @@ export class LoginComponent implements OnInit {
             this.verifyOtpButtonFlag = true;
             this.errorMessage = '';
           }
-          console.log('response :', response);
+          // console.log('response :', response);
         },
         (error) => {
           this.loginButtonLoader = false;
@@ -408,7 +408,7 @@ export class LoginComponent implements OnInit {
       (response) => {
         this.registerPassLoader = false;
         this.showOtpInput = false;
-        console.log('Password Created successfully:', response);
+        // console.log('Password Created successfully:', response);
         this.password = '';
         this.confirmPassword = '';
         this.createPasswordFlag = false;
@@ -612,7 +612,7 @@ export class LoginComponent implements OnInit {
     this.dataService.getSlackAuthUrlForSignInWithSlack().subscribe(
       (response: any) => {
         this.authUrl = response.message;
-        console.log('authUrl: ' + this.authUrl);
+        // console.log('authUrl: ' + this.authUrl);
 
         // Traverse up the DOM to find the closest anchor element
         const target = event.target as HTMLElement;
@@ -647,8 +647,8 @@ export class LoginComponent implements OnInit {
   extractWorkspaceName(url: string): string {
     const regex = /https:\/\/([^.]+)\.slack\.com/;
     const matches = url.match(regex);
-    console.log('URL:', url);
-    console.log('Matches:', matches);
+    // console.log('URL:', url);
+    // console.log('Matches:', matches);
     return matches ? matches[1] : '';
   }
 

@@ -55,7 +55,7 @@ export class CreatRuleComponent implements OnInit {
 
   onTimeChange(salaryDeduction: any) {
     salaryDeduction.updateDuration();
-    console.log("time : ",salaryDeduction);
+    // console.log("time : ",salaryDeduction);
     
   }
 
