@@ -2238,9 +2238,11 @@ formatMinutesToTime(minutes: number): string {
   address: string = ''; // Add this property to hold the fetched address
   city: string = '';
   /************ GET CURRENT LOCATION ***********/
+  fetchCurrentLocationLoader: boolean = false;
   locationLoader: boolean = false;
   currentLocation() {
     debugger;
+    this.fetchCurrentLocationLoader = true;
     // this.locationLoader = true;
     this.getCurrentLocation()
       .then((coords) => {
@@ -2248,6 +2250,7 @@ formatMinutesToTime(minutes: number): string {
           .getLocationDetails(coords.latitude, coords.longitude)
           .then((details) => {
             this.locationLoader = false;
+            this.fetchCurrentLocationLoader = false;
             console.log('formatted_address:', details);
             this.organizationAddressDetail.addressLine1 =
               details.formatted_address;
@@ -2273,8 +2276,10 @@ formatMinutesToTime(minutes: number): string {
             }
           })
           .catch((error) => console.error(error));
+          this.fetchCurrentLocationLoader = false;
       })
       .catch((error) => console.error(error));
+      this.fetchCurrentLocationLoader = false;
   }
 
   getCurrentLocation(): Promise<{ latitude: number; longitude: number }> {

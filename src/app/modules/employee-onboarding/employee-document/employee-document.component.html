@@ -14,180 +14,223 @@
                             <!-- Form content goes here -->
                             <div class="persnol-info mt-4">
                                 <div class="row">
+                          <!-- Aadhaar Card -->
+                          <div class="col-md-6">
+                            <div class="mb-3">
+                              <label for="aadhaarCardFile" class="pb-2">Aadhaar Card <span class="text-optional">*</span></label>
+                              <div class="importfilebox">
+                                <input id="aadhaarCardFile" name="aadhaarCardFile" type="file" accept=".pdf, image/jpeg, image/jpg, image/png" class="input" (change)="onFileSelected($event, 'aadhaarCard')" #aadhaar="ngModel" [required]="isaadhaarCardRequired" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.aadhaarCard">
+                                <label for="aadhaarCardFile">
+                                  <!-- Loader for Aadhaar Card -->
+                                  <div *ngIf="isUploadingAadhaarCard" class="loader d-flex align-items-center justify-content-center w-100" >
+                                    <div class="spinner-border text-primary" role="status">
+                                      <span class="sr-only">Uploading...</span>
+                                    </div>
+                                  </div>
+                                  <!-- File Name Display -->
+                                  <span *ngIf="!selectedAadhaarCardFileName && !aadhaarCardFileName && !isUploadingAadhaarCard">
+                                    <b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF, JPEG, JPG or PNG
+                                  </span>
+                                  <span *ngIf="aadhaarCardFileName && !selectedAadhaarCardFileName && !isUploadingAadhaarCard">
+                                    {{ aadhaarCardFileName }}
+                                    <i class="bi bi-x-circle-fill text-danger" style="cursor: pointer;" (click)="clearFile($event, 'aadhaarCard')"></i>
+                                  </span>
+                                  <span *ngIf="selectedAadhaarCardFileName && !aadhaarCardFileName && !isUploadingAadhaarCard">
+                                    {{ selectedAadhaarCardFileName }}
+                                    <i class="bi bi-x-circle-fill text-danger" style="cursor: pointer;" (click)="clearFile($event, 'aadhaarCard')"></i>
+                                  </span>
+                                  <span *ngIf="selectedAadhaarCardFileName && aadhaarCardFileName && !isUploadingAadhaarCard">
+                                    {{ selectedAadhaarCardFileName }}
+                                    <i class="bi bi-x-circle-fill text-danger" style="cursor: pointer;" (click)="clearFile($event, 'aadhaarCard')"></i>
+                                  </span>
+                                </label>
+                              </div>
+                              <!-- Error Messages -->
+                              <div *ngIf="aadhaar.dirty || isFormInvalid">
+                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="isaadhaarCardRequired && aadhaar.errors?.required">
+                                  <i class="bi bi-exclamation-circle"></i> Uploading the Aadhaar Card is required.
+                                </p>
+                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="!isInvalidFileType && !isFormInvalid">
+                                  <i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a PDF, JPG, JPEG, or PNG file.
+                                </p>
+                              </div>
+                            </div>
+                          </div>
 
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                          <label for="aadhaarCardFile" class="pb-2">Aadhaar Card <span class="text-optional">*</span></label>
-                                          <div class="importfilebox">
-                                            <input id="aadhaarCardFile" name="aadhaarCardFile" type="file" accept=".pdf, image/jpeg, image/jpg, image/png" class="input" (change)="onFileSelected($event, 'aadhaarCard')" #aadhaar="ngModel" [required]="isaadhaarCardRequired" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.aadhaarCard">
-                                            <label for="aadhaarCardFile">
-                                              <span *ngIf="!selectedAadhaarCardFileName && !aadhaarCardFileName">
-                                                <b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF, JPEG, JPG or PNG
-                                              </span>
-                                              <span *ngIf="aadhaarCardFileName && !selectedAadhaarCardFileName">
-                                                {{ aadhaarCardFileName }}
-                                              </span>
-                                              <span *ngIf="selectedAadhaarCardFileName && !aadhaarCardFileName">
-                                                {{ selectedAadhaarCardFileName }}
-                                              </span>
-                                              <span *ngIf="selectedAadhaarCardFileName && aadhaarCardFileName">
-                                                {{ selectedAadhaarCardFileName }}
-                                              </span>
-                                              
-                                            </label>
-                                          </div>
-                                          <div *ngIf=" aadhaar.dirty || isFormInvalid">
-                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="isaadhaarCardRequired && aadhaar.errors?.required">
-                                              <i class="bi bi-exclamation-circle"></i>
-                                              Uploading the Aadhaar Card is required.
-                                            </p>
-                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="!isInvalidFileType && !isFormInvalid"><i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a PDF, JPG, JPEG, or PNG file.</p>
-                                          </div>
-                                        </div>
-                                      </div>
+                          <!-- Pancard -->
+                          <div class="col-md-6">
+                            <div class="mb-3">
+                              <label for="pancardFile" class="pb-2">Pancard <span class="text-optional">*</span></label>
+                              <div class="importfilebox">
+                                <input id="pancardFile" name="pancardFile" type="file" accept=".pdf, image/jpeg, image/jpg, image/png" class="input" (change)="onFileSelected($event, 'pancard')" #pancard="ngModel" [required]="ispancardRequired" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.pancard">
+                                <label for="pancardFile">
+                                  <!-- Loader for Pancard -->
+                                  <div *ngIf="isUploadingPancard" class="loader d-flex align-items-center justify-content-center w-100">
+                                    <div class="spinner-border text-primary" role="status">
+                                      <span class="sr-only">Uploading...</span>
+                                    </div>
+                                  </div>
+                                  <!-- File Name Display -->
+                                  <span *ngIf="!selectedpancardFileName && !pancardFileName && !isUploadingPancard">
+                                    <b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF, JPEG, JPG or PNG
+                                  </span>
+                                  <span *ngIf="pancardFileName && !selectedpancardFileName && !isUploadingPancard">
+                                    {{ pancardFileName }}
+                                    <i class="bi bi-x-circle-fill text-danger" style="cursor: pointer;" (click)="clearFile($event, 'pancard')"></i>
+                                  </span>
+                                  <span *ngIf="selectedpancardFileName && !pancardFileName && !isUploadingPancard">
+                                    {{ selectedpancardFileName }}
+                                    <i class="bi bi-x-circle-fill text-danger" style="cursor: pointer;" (click)="clearFile($event, 'pancard')"></i>
+                                  </span>
+                                  <span *ngIf="selectedpancardFileName && pancardFileName && !isUploadingPancard">
+                                    {{ selectedpancardFileName }}
+                                    <i class="bi bi-x-circle-fill text-danger" style="cursor: pointer;" (click)="clearFile($event, 'pancard')"></i>
+                                  </span>
+                                </label>
+                              </div>
+                              <!-- Error Messages -->
+                              <div *ngIf="pancard.dirty || isFormInvalid">
+                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="ispancardRequired && pancard.errors?.required">
+                                  <i class="bi bi-exclamation-circle"></i> Uploading the PAN Card is required.
+                                </p>
+                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="!isInvalidFileType && !isFormInvalid">
+                                  <i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a PDF, JPG, JPEG, or PNG file.
+                                </p>
+                              </div>
+                            </div>
+                          </div>
 
-                                      <div class="col-md-6">
-                                        <div class="mb-3">
-                                          <label for="pancardFile" class="pb-2">Pancard <span class="text-optional">*</span></label>
-                                          <div class="importfilebox">
-                                            <input id="pancardFile" name="pancardFile" type="file" accept=".pdf, image/jpeg, image/jpg, image/png" class="input" (change)="onFileSelected($event, 'pancard')" #pancard="ngModel" [required]="ispancardRequired" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.pancard">
-                                            <label for="pancardFile">
-                                              <span *ngIf="(!selectedpancardFileName && !pancardFileName)">
-                                                <b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF, JPEG, JPG or PNG
-                                              </span>
-                                              <span *ngIf="pancardFileName && !selectedpancardFileName">
-                                                {{ pancardFileName }}
-                                              </span>
-                                              <span *ngIf="selectedpancardFileName && !pancardFileName">
-                                                {{ selectedpancardFileName }}
-                                              </span>
-                                              <span *ngIf="selectedpancardFileName && pancardFileName">
-                                                {{ selectedpancardFileName }}
-                                              </span>
-                                            </label>
-                                          </div>
-                                          <div *ngIf=" pancard.dirty || isFormInvalid">
-                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="ispancardRequired && pancard.errors?.required">
-                                              <i class="bi bi-exclamation-circle"></i>
-                                              Uploading the PAN Card is required.
-                                            </p>
-                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="!isInvalidFileType && !isFormInvalid"><i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a PDF, JPG, JPEG, or PNG file.</p>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      
-                                    
-                                      <div class="col-md-6">
-                                        <div class="mb-3">
-                                          <label for="highestQualificationDegreeFile" class="pb-2">Highest Qualification Degree <span class="text-optional">*</span></label>
-                                          <div class="importfilebox">
-                                            <input id="highestQualificationDegreeFile" name="highestQualificationDegreeFile" type="file" accept=".pdf, image/jpeg, image/jpg, image/png" class="input" (change)="onFileSelected($event, 'highestQualificationDegree')" #highestQualificationDegree="ngModel" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.highestQualificationDegree">
-                                            <label for="highestQualificationDegreeFile">
-                                                <!-- No file is selected or uploaded -->
-                                                <span *ngIf="!selectedHighestQualificationDegreeFileName && !highestQualificationDegreeFileName1">
-                                                  <b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF, JPEG, JPG or PNG
-                                                </span>
-                                                <!-- File has been previously uploaded and no new file selected -->
-                                                <span *ngIf="highestQualificationDegreeFileName1 && !selectedHighestQualificationDegreeFileName">
-                                                  {{ highestQualificationDegreeFileName1 }}
-                                                </span>
-                                                <!-- New file is selected and no previous file is uploaded -->
-                                                <span *ngIf="selectedHighestQualificationDegreeFileName && !highestQualificationDegreeFileName1">
-                                                  {{ selectedHighestQualificationDegreeFileName }}
-                                                </span>
-                                                <!-- New file is selected and there is also a previously uploaded file -->
-                                                <span *ngIf="selectedHighestQualificationDegreeFileName && highestQualificationDegreeFileName1">
-                                                  {{ selectedHighestQualificationDegreeFileName }}
-                                                </span>
-                                              </label>
-                                              
-                                          </div>
-                                          <!-- Error Message for File Upload -->
-                                          <div *ngIf="(!isInvalidFileType && highestQualificationDegree.dirty) || isFormInvalid">
-                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="highestQualificationDegree.errors?.required">
-                                              <i class="bi bi-exclamation-circle"></i>
-                                              Uploading the Highest Qualification Degree is required.
-                                            </p>
-                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="!isInvalidFileType && !isFormInvalid"><i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a PDF, JPG, JPEG, or PNG file.</p>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      
-                                      <div class="col-md-6">
-                                        <div class="mb-3">
-                                          <label for="secondarySchoolCertificateFile" class="pb-2">10th Marksheet <span class="text-optional">(Optional)</span></label>
-                                          <div class="importfilebox">
-                                            <input id="secondarySchoolCertificateFile" name="secondarySchoolCertificateFile" type="file" accept=".pdf, image/jpeg, image/jpg, image/png" class="input" (change)="onFileSelected($event, 'secondarySchoolCertificate')"  #secondary="ngModel" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.secondarySchoolCertificate">
-                                            <label for="secondarySchoolCertificateFile">
-                                              <span *ngIf="!selectedSecondarySchoolFileName && !secondarySchoolCertificateFileName">
-                                                <b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF, JPEG, JPG or PNG
-                                              </span>
-                                              <span *ngIf="secondarySchoolCertificateFileName && !selectedSecondarySchoolFileName">
-                                                {{ secondarySchoolCertificateFileName }}
-                                                <i class="bi bi-x-circle-fill text-danger" style="cursor: pointer;" (click)="clearFile($event, 'secondarySchoolCertificate')"></i>
-                                              </span>
-                                              <span *ngIf="selectedSecondarySchoolFileName && !secondarySchoolCertificateFileName">
-                                                {{ selectedSecondarySchoolFileName }}
-                                                <i class="bi bi-x-circle-fill text-danger" style="cursor: pointer;" (click)="clearFile($event, 'secondarySchoolCertificate')"></i>
-                                              </span>
-                                              <span *ngIf="selectedSecondarySchoolFileName && secondarySchoolCertificateFileName">
-                                                {{ selectedSecondarySchoolFileName }}
-                                                <i class="bi bi-x-circle-fill text-danger" style="cursor: pointer;" (click)="clearFile($event, 'secondarySchoolCertificate')"></i>
-                                              </span>
-                                            </label>
-                                            
-                                              
-                                          </div>
-                                          <!-- Error Message for File Upload -->
-                                          <div *ngIf="isFormInvalid || secondary.dirty">
-                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="secondary.errors?.required">
-                                              <i class="bi bi-exclamation-circle"></i>
-                                              Uploading the 10th Marksheet is required.
-                                            </p>
-                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="!isInvalidFileType && !isFormInvalid"><i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a PDF, JPG, JPEG, or PNG file.</p>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      
+                          <!-- Highest Qualification Degree -->
+                          <div class="col-md-6">
+                            <div class="mb-3">
+                              <label for="highestQualificationDegreeFile" class="pb-2">Highest Qualification Degree <span class="text-optional">*</span></label>
+                              <div class="importfilebox">
+                                <input id="highestQualificationDegreeFile" name="highestQualificationDegreeFile" type="file" accept=".pdf, image/jpeg, image/jpg, image/png" class="input" (change)="onFileSelected($event, 'highestQualificationDegree')" #highestQualificationDegree="ngModel" [required]="isHighestQualificationDegreeRequired" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.highestQualificationDegree">
+                                <label for="highestQualificationDegreeFile">
+                                  <!-- Loader for Highest Qualification Degree -->
+                                  <div *ngIf="isUploadingHighestQualificationDegree" class="loader d-flex align-items-center justify-content-center w-100">
+                                    <div class="spinner-border text-primary" role="status">
+                                      <span class="sr-only">Uploading...</span>
+                                    </div>
+                                  </div>
+                                  <!-- File Name Display -->
+                                  <span *ngIf="!selectedHighestQualificationDegreeFileName && !highestQualificationDegreeFileName1 && !isUploadingHighestQualificationDegree">
+                                    <b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF, JPEG, JPG or PNG
+                                  </span>
+                                  <span *ngIf="highestQualificationDegreeFileName1 && !selectedHighestQualificationDegreeFileName && !isUploadingHighestQualificationDegree">
+                                    {{ highestQualificationDegreeFileName1 }}
+                                    <i class="bi bi-x-circle-fill text-danger" style="cursor: pointer;" (click)="clearFile($event, 'highestQualificationDegree')"></i>
+                                  </span>
+                                  <span *ngIf="selectedHighestQualificationDegreeFileName && !highestQualificationDegreeFileName1 && !isUploadingHighestQualificationDegree">
+                                    {{ selectedHighestQualificationDegreeFileName }}
+                                    <i class="bi bi-x-circle-fill text-danger" style="cursor: pointer;" (click)="clearFile($event, 'highestQualificationDegree')"></i>
+                                  </span>
+                                  <span *ngIf="selectedHighestQualificationDegreeFileName && highestQualificationDegreeFileName1 && !isUploadingHighestQualificationDegree">
+                                    {{ selectedHighestQualificationDegreeFileName }}
+                                    <i class="bi bi-x-circle-fill text-danger" style="cursor: pointer;" (click)="clearFile($event, 'highestQualificationDegree')"></i>
+                                  </span>
+                                </label>
+                              </div>
+                              <!-- Error Messages -->
+                              <div *ngIf="highestQualificationDegree.dirty || isFormInvalid">
+                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="isHighestQualificationDegreeRequired && highestQualificationDegree.errors?.required">
+                                  <i class="bi bi-exclamation-circle"></i> Uploading the Highest Qualification Degree is required.
+                                </p>
+                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="!isInvalidFileType && !isFormInvalid">
+                                  <i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a PDF, JPG, JPEG, or PNG file.
+                                </p>
+                              </div>
+                            </div>
+                          </div>
 
-                                      <div class="col-md-6">
-                                        <div class="mb-3">
-                                          <label for="highSchoolCertificateFile" class="pb-2">12th Marksheet <span class="text-optional">(Optional)</span> </label>
-                                          <div class="importfilebox">
-                                            <input id="highSchoolCertificateFile" name="highSchoolCertificateFile" type="file" accept=".pdf, image/jpeg, image/jpg, image/png" class="input" (change)="onFileSelected($event, 'highSchoolCertificate')"  #highSchool="ngModel" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.highSchoolCertificate">
-                                            <label for="highSchoolCertificateFile">
-                                                <!-- No file is selected or uploaded -->
-                                                <span *ngIf="!selectedHighSchoolFileName && !highSchoolCertificateFileName1">
-                                                  <b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF, JPEG, JPG or PNG
-                                                </span>
-                                                <!-- File has been previously uploaded and no new file selected -->
-                                                <span *ngIf="highSchoolCertificateFileName1 && !selectedHighSchoolFileName">
-                                                  {{ highSchoolCertificateFileName1 }}
-                                                  <i class="bi bi-x-circle-fill text-danger" style="cursor: pointer;" (click)="clearFile($event, 'highSchoolCertificate')"></i>
-                                                </span>
-                                                <!-- New file is selected and no previous file is uploaded -->
-                                                <span *ngIf="selectedHighSchoolFileName && !highSchoolCertificateFileName1">
-                                                  {{ selectedHighSchoolFileName }}
-                                                  <i class="bi bi-x-circle-fill text-danger" style="cursor: pointer;" (click)="clearFile($event, 'highSchoolCertificate')"></i>
-                                                </span>
-                                                <!-- New file is selected and there is also a previously uploaded file -->
-                                                <span *ngIf="selectedHighSchoolFileName && highSchoolCertificateFileName1">
-                                                  {{ selectedHighSchoolFileName }}
-                                                  <i class="bi bi-x-circle-fill text-danger" style="cursor: pointer;" (click)="clearFile($event, 'highSchoolCertificate')"></i>
-                                                </span>
-                                              </label>
-                                              
-                                          </div>
-                                          <!-- Error Message for File Upload -->
-                                          <div *ngIf="isFormInvalid || highSchool.dirty">
-                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="highSchool.errors?.required">
-                                              <i class="bi bi-exclamation-circle"></i>
-                                              Uploading the 12th Marksheet is required.
-                                            </p>
-                                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="!isInvalidFileType && !isFormInvalid"><i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a PDF, JPG, JPEG, or PNG file.</p>
+                                      
+                                      
+                                                                    <!-- 10th Marksheet -->
+                                <div class="col-md-6">
+                                  <div class="mb-3">
+                                    <label for="secondarySchoolCertificateFile" class="pb-2">10th Marksheet <span class="text-optional">(Optional)</span></label>
+                                    <div class="importfilebox">
+                                      <input id="secondarySchoolCertificateFile" name="secondarySchoolCertificateFile" type="file" accept=".pdf, image/jpeg, image/jpg, image/png" class="input" (change)="onFileSelected($event, 'secondarySchoolCertificate')" #secondary="ngModel" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.secondarySchoolCertificate">
+                                      <label for="secondarySchoolCertificateFile">
+                                        <!-- Loader for 10th Marksheet -->
+                                        <div *ngIf="isUploadingSecondarySchoolCertificate" class="loader d-flex align-items-center justify-content-center w-100">
+                                          <div class="spinner-border text-primary" role="status">
+                                            <span class="sr-only">Uploading...</span>
                                           </div>
                                         </div>
-                                      </div>
+                                        <!-- File Name Display -->
+                                        <span *ngIf="!selectedSecondarySchoolFileName && !secondarySchoolCertificateFileName">
+                                          <b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF, JPEG, JPG or PNG
+                                        </span>
+                                        <span *ngIf="secondarySchoolCertificateFileName && !selectedSecondarySchoolFileName">
+                                          {{ secondarySchoolCertificateFileName }}
+                                          <i class="bi bi-x-circle-fill text-danger" style="cursor: pointer;" (click)="clearFile($event, 'secondarySchoolCertificate')"></i>
+                                        </span>
+                                        <span *ngIf="selectedSecondarySchoolFileName && !secondarySchoolCertificateFileName">
+                                          {{ selectedSecondarySchoolFileName }}
+                                          <i class="bi bi-x-circle-fill text-danger" style="cursor: pointer;" (click)="clearFile($event, 'secondarySchoolCertificate')"></i>
+                                        </span>
+                                        <span *ngIf="selectedSecondarySchoolFileName && secondarySchoolCertificateFileName">
+                                          {{ selectedSecondarySchoolFileName }}
+                                          <i class="bi bi-x-circle-fill text-danger" style="cursor: pointer;" (click)="clearFile($event, 'secondarySchoolCertificate')"></i>
+                                        </span>
+                                      </label>
+                                    </div>
+                                    <!-- Error Messages -->
+                                    <div *ngIf="secondary.dirty || isFormInvalid">
+                                      <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="secondary.errors?.required">
+                                        <i class="bi bi-exclamation-circle"></i> Uploading the 10th Marksheet is required.
+                                      </p>
+                                      <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="!isInvalidFileType && !isFormInvalid">
+                                        <i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a PDF, JPG, JPEG, or PNG file.
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <!-- 12th Marksheet -->
+                                <div class="col-md-6">
+                                  <div class="mb-3">
+                                    <label for="highSchoolCertificateFile" class="pb-2">12th Marksheet <span class="text-optional">(Optional)</span></label>
+                                    <div class="importfilebox">
+                                      <input id="highSchoolCertificateFile" name="highSchoolCertificateFile" type="file" accept=".pdf, image/jpeg, image/jpg, image/png" class="input" (change)="onFileSelected($event, 'highSchoolCertificate')" #highSchool="ngModel" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.highSchoolCertificate">
+                                      <label for="highSchoolCertificateFile">
+                                        <!-- Loader for 12th Marksheet -->
+                                        <div *ngIf="isUploadingHighSchoolCertificate" class="loader d-flex align-items-center justify-content-center w-100">
+                                          <div class="spinner-border text-primary" role="status">
+                                            <span class="sr-only">Uploading...</span>
+                                          </div>
+                                        </div>
+                                        <!-- File Name Display -->
+                                        <span *ngIf="!selectedHighSchoolFileName && !highSchoolCertificateFileName1">
+                                          <b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF, JPEG, JPG or PNG
+                                        </span>
+                                        <span *ngIf="highSchoolCertificateFileName1 && !selectedHighSchoolFileName">
+                                          {{ highSchoolCertificateFileName1 }}
+                                          <i class="bi bi-x-circle-fill text-danger" style="cursor: pointer;" (click)="clearFile($event, 'highSchoolCertificate')"></i>
+                                        </span>
+                                        <span *ngIf="selectedHighSchoolFileName && !highSchoolCertificateFileName1">
+                                          {{ selectedHighSchoolFileName }}
+                                          <i class="bi bi-x-circle-fill text-danger" style="cursor: pointer;" (click)="clearFile($event, 'highSchoolCertificate')"></i>
+                                        </span>
+                                        <span *ngIf="selectedHighSchoolFileName && highSchoolCertificateFileName1">
+                                          {{ selectedHighSchoolFileName }}
+                                          <i class="bi bi-x-circle-fill text-danger" style="cursor: pointer;" (click)="clearFile($event, 'highSchoolCertificate')"></i>
+                                        </span>
+                                      </label>
+                                    </div>
+                                    <!-- Error Messages -->
+                                    <div *ngIf="highSchool.dirty || isFormInvalid">
+                                      <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="highSchool.errors?.required">
+                                        <i class="bi bi-exclamation-circle"></i> Uploading the 12th Marksheet is required.
+                                      </p>
+                                      <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="!isInvalidFileType && !isFormInvalid">
+                                        <i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a PDF, JPG, JPEG, or PNG file.
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+
                                       
 
 
@@ -212,46 +255,56 @@
                                       <div class="mb-3">
                                         <!-- Delete Button -->
                                         <button type="button" class="close new-cloes" aria-label="Close" (click)="deleteDocument(i)">
-                                            <span aria-hidden="true">&times;</span>
+                                          <span aria-hidden="true">&times;</span>
                                         </button>
-                                        <label for="additionalDocumentFile{{i}}" class="pb-2">{{document.name}}</label>
-                                        <input type="text" 
-                                               name="additionalDocumentFile{{i}}" 
+                                        <label for="additionalDocumentFile{{i}}" class="pb-2">{{ document.name }}</label>
+                                        <input type="text"
+                                               name="additionalDocumentFile{{i}}"
                                                id="additionalDocumentFile{{i}}"
-                                               [(ngModel)]="document.name" 
+                                               [(ngModel)]="document.name"
                                                placeholder="Enter document name"
-                                               readonly 
+                                               readonly
                                                hidden>
                                         <div class="importfilebox">
-                                          <input id="additionalDocumentFile{{i}}" 
-                                                 type="file" 
-                                                 class="input" 
+                                          <input id="additionalDocumentFile{{i}}"
+                                                 type="file"
+                                                 class="input"
                                                  accept=".pdf, image/jpeg, image/jpg, image/png"
-                                                 (change)="onAdditionalFileSelected($event, i)" 
-                                                 [required]="!document.url"
-                                                 [(ngModel)]="document.fileName" 
-                                                 #fileInput="ngModel" 
-                                                 name="fileInput{{i}}"> <!-- Ensure the input has a name attribute -->
+                                                 (change)="onAdditionalFileSelected($event, i)"
+                                                 [required]="!document.url && !document.uploading"
+                                                 [(ngModel)]="document.fileName"
+                                                 #fileInput="ngModel"
+                                                 name="fileInput{{i}}">
                                           <label for="additionalDocumentFile{{i}}">
-                                              <span *ngIf="!document.url || !document.fileName"><b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF, JPEG, JPG, or PNG</span>
-                                              <span *ngIf="document.url && document.fileName">{{ document.fileName }}</span>
+                                            <div *ngIf="document.uploading" class="loader d-flex align-items-center justify-content-center w-100">
+                                              <div class="spinner-border text-primary" role="status">
+                                                <span class="sr-only">Uploading...</span>
+                                              </div>
+                                            </div>
+                                            <span *ngIf="!document.uploading && (!document.url || !document.fileName)">
+                                              <b>Drop your file here or <a href="#" class="select-file">Select a file</a></b> PDF, JPEG, JPG, or PNG
+                                            </span>
+                                            <span *ngIf="!document.uploading && document.fileName">
+                                              {{ document.fileName }}
+                                            </span>
+                                            <span *ngIf="document.url && !document.fileName">
+                                              {{ document.url | slice: -30 }} <!-- Display part of the URL if needed -->
+                                            </span>
                                           </label>
                                           <!-- Display validation message -->
-                                          <div *ngIf=" fileInput.dirty || isFormInvalid" >
-                                            <!-- Checking for 'required' error -->
+                                          <div *ngIf="fileInput.dirty || isFormInvalid">
                                             <p *ngIf="fileInput.errors?.required" class="errortxt mt-2 mb-0" style="color:red">
                                               <i class="bi bi-exclamation-circle"></i> File is required.
                                             </p>
-                                            <!-- Adding condition for invalid file type, assuming you have a variable to track this -->
                                             <p *ngIf="!isInvalidFileType && !isFormInvalid" class="errortxt mt-2 mb-0" style="color:red">
                                               <i class="bi bi-exclamation-circle"></i> Invalid file type. Please select a PDF, JPG, JPEG, or PNG file.
                                             </p>
                                           </div>
-                                          
                                         </div>
                                       </div>
                                     </div>
-                                  
+                                    
+                                    
 
                                   <div class="col-md-6 mb-3 ">
                                     <label for="highSchoolCertificateFile" class="pb-2">Add Additional Documents </label> 
@@ -450,7 +503,7 @@
                                 </div>
                                 <div class="info-btn d-flex justify-content-end" style="gap:10px;">
                                   <div class="info-btn" *ngIf="employeeOnboardingFormStatus == 'REJECTED' && !this.userDocumentsDetailsRequest.updateRequest">
-                                      <button (click)="selectButtonType('save')" class="btn btn-success save-button" type="button" [disabled]="toggle" aria-label="Save">
+                                      <button (click)="selectButtonType('save')" class="btn btn-success save-button" type="button" [disabled]="toggle || isUploading"  aria-label="Save">
                                           <div *ngIf="toggleSave" class="dot-opacity-loader">
                                               <span></span>
                                               <span></span>
@@ -463,12 +516,12 @@
                                   </div>
                                   <!-- Go Back to Profile Button, shown only if updateRequest is true -->
                                   <div class="info-btn" *ngIf="this.userDocumentsDetailsRequest.updateRequest">
-                                      <button (click)="goBackToProfile()" class="btn btn-warning" type="button" aria-label="Go Back to Profile">
+                                      <button (click)="goBackToProfile()" class="btn btn-warning" type="button" [disabled]="isUploading"  aria-label="Go Back to Profile">
                                           Go Back to Profile
                                       </button>
                                   </div>
                                   <!-- Conditional Update Button, replaces Next button if updateRequest is true -->
-                                  <button *ngIf="this.userDocumentsDetailsRequest.updateRequest" (click)="selectButtonType('update')" class="btn btn-info save-button" type="button" aria-label="Update">
+                                  <button *ngIf="this.userDocumentsDetailsRequest.updateRequest" (click)="selectButtonType('update')" [disabled]="isUploading"  class="btn btn-info save-button" type="button" aria-label="Update">
                                     <div *ngIf="toggle" class="dot-opacity-loader">
                                       <span></span>
                                       <span></span>
@@ -479,7 +532,7 @@
                                     </span>
                                   </button>
                                   <!-- Original Next Button, shown only when updateRequest is not true -->
-                                  <button *ngIf="!this.userDocumentsDetailsRequest.updateRequest" (click)="selectButtonType('next')" class="btn btn-primary save-button" type="button" [disabled]="toggle" aria-label="Next Step">
+                                  <button *ngIf="!this.userDocumentsDetailsRequest.updateRequest" (click)="selectButtonType('next')" [disabled]="isUploading"  class="btn btn-primary save-button" type="button" [disabled]="toggle" aria-label="Next Step">
                                       <div *ngIf="toggle" class="dot-opacity-loader">
                                           <span></span>
                                           <span></span>

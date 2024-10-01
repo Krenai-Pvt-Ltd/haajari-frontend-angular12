@@ -333,7 +333,7 @@
               <td>Phone : {{ onboardingPreviewData.user.phoneNumber }}</td>
             </tr>
             <tr>
-              <td>DOB : {{ onboardingPreviewData.user.dob  | date : 'dd/MM/yyyy'  }}</td>
+              <td>DOB : {{ onboardingPreviewData.user.dateOfBirth  | date : 'dd/MM/yyyy'  }}</td>
               <td>Gender : {{ onboardingPreviewData.user.gender }}</td>
               <td>Father's Name :   {{ onboardingPreviewData.user.fatherName }}</td>
             </tr>
@@ -371,17 +371,17 @@
        
           <tbody class="table-design" *ngIf="onboardingPreviewData.userAddress!=undefined">
             <tr>
-              <td colspan="12"> Address Line 1 : {{ onboardingPreviewData.userAddress[0].addressLine1 }}</td>
+              <td colspan="12"> Address Line 1 : {{ onboardingPreviewData.userAddress[0]?.addressLine1 }}</td>
             </tr>
             <tr>
-              <td colspan="12"> Address Line 2 : {{ onboardingPreviewData.userAddress[0].addressLine2 }}</td>
+              <td colspan="12"> Address Line 2 : {{ onboardingPreviewData.userAddress[0]?.addressLine2 }}</td>
             </tr>
           
             <tr>
-              <td colspan="3">Pincode : {{ onboardingPreviewData.userAddress[0].pincode }}</td>
-              <td colspan="3">City : {{ onboardingPreviewData.userAddress[0].city }}</td>
-              <td colspan="3">State : {{ onboardingPreviewData.userAddress[0].state }}</td>
-              <td colspan="3">Country : {{ onboardingPreviewData.userAddress[0].country }}</td>
+              <td colspan="3">Pincode : {{ onboardingPreviewData.userAddress[0]?.pincode }}</td>
+              <td colspan="3">City : {{ onboardingPreviewData.userAddress[0]?.city }}</td>
+              <td colspan="3">State : {{ onboardingPreviewData.userAddress[0]?.state }}</td>
+              <td colspan="3">Country : {{ onboardingPreviewData.userAddress[0]?.country }}</td>
             </tr>
             
           </tbody>
@@ -513,14 +513,14 @@
           
           
             <tr>
-              <td>Highest Qualification : {{ onboardingPreviewData.userAcademics.highestEducationalLevel }}</td>
-              <td>Degree/Diploma : {{ onboardingPreviewData.userAcademics.degreeObtained }}</td>
-              <td>Field of Study : {{ onboardingPreviewData.userAcademics.fieldOfStudy }}</td>
+              <td>Highest Qualification : {{ onboardingPreviewData.userAcademics?.highestEducationalLevel }}</td>
+              <td>Degree/Diploma : {{ onboardingPreviewData.userAcademics?.degreeObtained }}</td>
+              <td>Field of Study : {{ onboardingPreviewData.userAcademics?.fieldOfStudy }}</td>
             </tr>
             <tr>
-            <td>Institution Name : {{ onboardingPreviewData.userAcademics.institutionName }}</td>
-            <td>{{ onboardingPreviewData.userAcademics.gradeType }} : {{ onboardingPreviewData.userAcademics.grade }}</td>
-            <td>Graduating Year :  {{ onboardingPreviewData.userAcademics.graduationYear }}</td>
+            <td>Institution Name : {{ onboardingPreviewData.userAcademics?.institutionName }}</td>
+            <td>{{ onboardingPreviewData.userAcademics?.gradeType }} : {{ onboardingPreviewData.userAcademics?.grade }}</td>
+            <td>Graduating Year :  {{ onboardingPreviewData.userAcademics?.graduationYear }}</td>
           </tr>
             
           </tbody>
@@ -539,7 +539,7 @@
         <div  *ngFor="let userExperience of userExperienceArray; let i = index">
         <table class="table table-bordered">
        
-          <tbody class="table-design" *ngIf="onboardingPreviewData.userExperience!=undefined && onboardingPreviewData.userExperience.length>0">
+          <tbody class="table-design" *ngIf="onboardingPreviewData?.userExperience!=undefined && onboardingPreviewData.userExperience.length>0">
             <tr>
               <td colspan="3"> 
                   Company Name :  {{userExperience.companyName}}</td>
@@ -594,10 +594,10 @@
           
           
             <tr>
-              <td> Account Holder Name : {{ onboardingPreviewData.userBankDetails.accountHolderName }}</td>
-              <td>Bank Name : {{ onboardingPreviewData.userBankDetails.bankName }}</td>
-              <td> Account Number : {{ onboardingPreviewData.userBankDetails.accountNumber }}</td>
-              <td> IFSC Number :  {{ onboardingPreviewData.userBankDetails.ifsc }}</td>
+              <td> Account Holder Name : {{ onboardingPreviewData.userBankDetails?.accountHolderName }}</td>
+              <td>Bank Name : {{ onboardingPreviewData.userBankDetails?.bankName }}</td>
+              <td> Account Number : {{ onboardingPreviewData.userBankDetails?.accountNumber }}</td>
+              <td> IFSC Number :  {{ onboardingPreviewData.userBankDetails?.ifsc }}</td>
             </tr>
            
             
@@ -616,7 +616,7 @@
         <div  *ngFor="let userEmergencyContact of userEmergencyContactArray; let i = index">
         <table class="table table-bordered">
        
-          <tbody class="table-design" *ngIf="onboardingPreviewData.userEmergencyContacts!=undefined && onboardingPreviewData.userEmergencyContacts.length>0">
+          <tbody class="table-design" *ngIf="onboardingPreviewData?.userEmergencyContacts!=undefined && onboardingPreviewData.userEmergencyContacts.length>0">
           
           
             <tr>
