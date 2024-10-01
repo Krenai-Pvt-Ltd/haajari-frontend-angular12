@@ -28,7 +28,7 @@ export class AuthGuard implements CanActivate {
   async ngOnInit(): Promise<void> {
     this.UUID = await this.rbacService.getUUID();
     this.ROLE = await this.rbacService.getRole();
-    this.PLAN_PURCHASED = 
+    this.PLAN_PURCHASED =
     this.ONBOARDING_STEP = await this.rbacService.getOnboardingStep();
   }
 
@@ -54,7 +54,7 @@ export class AuthGuard implements CanActivate {
 
     if (route !== null && route.routeConfig !== null) {
       if (
-        (await this.rbacService.getRole()) == Key.USER &&
+        (await this.rbacService.getRole()) != Key.ADMIN && (await this.rbacService.getRole())!=Key.HRADMIN &&
         route.routeConfig.path == 'dashboard'
       ) {
         this.router.navigate(['/employee-profile'], {
@@ -88,12 +88,12 @@ export class AuthGuard implements CanActivate {
   //     this.router.navigate(['/auth/login']);
   //     return false;
   //   }
-  
+
   //   await this.rbacService.isUserInfoInitializedMethod();
-  
+
   //   if (route !== null && route.routeConfig !== null) {
   //     const role = await this.rbacService.getRole();
-  
+
   //     if (role === Key.ADMIN) {
   //       // Check if the admin has purchased a plan
   //       const planPurchased = await this.isPlanPurchased();
@@ -105,7 +105,7 @@ export class AuthGuard implements CanActivate {
   //         return false;
   //       }
   //     }
-  
+
   //     if (role === Key.USER && route.routeConfig.path === 'dashboard') {
   //       this.router.navigate(['/employee-profile'], {
   //         queryParams: {
@@ -115,7 +115,7 @@ export class AuthGuard implements CanActivate {
   //       });
   //       return false;
   //     }
-  
+
   //     const requiredSubmodule = '/' + route.routeConfig.path;
   //     if (
   //       requiredSubmodule &&
@@ -125,10 +125,10 @@ export class AuthGuard implements CanActivate {
   //       return false;
   //     }
   //   }
-  
+
   //   return true;
   // }
-  
+
 
   async isValidTokenFormat(token: string | null): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
@@ -155,7 +155,7 @@ export class AuthGuard implements CanActivate {
   }
 
 
-  
+
   // private async isPlanPurchased(): Promise<boolean> {
   //   return new Promise((resolve) => {
   //     this._subscriptionPlanService.getPurchasedStatus().subscribe((response) => {
@@ -164,6 +164,6 @@ export class AuthGuard implements CanActivate {
   //     });
   //   });
   // }
-  
+
 
 }
