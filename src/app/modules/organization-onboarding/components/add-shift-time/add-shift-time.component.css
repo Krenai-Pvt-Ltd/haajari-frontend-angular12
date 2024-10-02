@@ -254,3 +254,76 @@ button.btn.close-btn {
   height: 15px;
   border-right: 1px solid #262626;
 }
+.close-icon-btn {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+}
+.userName {
+  background-color: #f2f2f2;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 15px;
+  color: #e27a17;
+  line-height: 22px;
+}
+.addUserRemvo {
+  color: #ff0404;
+  font-size: 14px;
+  font-weight: 500px;
+}
+.addUserRemvo svg {
+  width: 18px;
+  position: relative;
+  top: -2px;
+}
+.shift-tag {
+  background-color: #f0f0f0;
+  padding: 3px 14px;
+  color: #2f2e41;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 15px;
+  letter-spacing: 0.141px;
+  border-radius: 2px;
+}
+
+.manualemployList {
+  max-height: 275px;
+  overflow: scroll;
+}
+.manualemployList::-webkit-scrollbar {
+  display: none;
+}
+.employee-list h4 {
+  color: #2f2e41;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 28.906px; /* 144.532% */
+  letter-spacing: 0.141px;
+}
+.submit-add-more {
+  background-color: #fbfbfb;
+  border: 1px solid #e6e7e9;
+  border-radius: 2px;
+  color: #4a4a4a;
+  font-size: 12px;
+  font-weight: 500;
+  min-width: 100px;
+}
+.iHaveRead {
+  color: #71737b;
+  font-size: 12px !important;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 15px; /* 193.484% */
+  letter-spacing: 0.152px;
+  padding-left: 10px;
+}
