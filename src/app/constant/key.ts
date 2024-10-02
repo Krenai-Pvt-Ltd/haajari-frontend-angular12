@@ -62,6 +62,7 @@ export class Key {
     '/payment/bonus-and-deduction',
     '/payment/payment-history',
     '/payment/payroll-dashboard/leave-summary',
+    '/to-do-step-dashboard',
   ];
 
   public static TOPBAR_ROUTES = [
@@ -102,6 +103,7 @@ export class Key {
     '/payment/bonus-and-deduction',
     '/payment/payment-history',
     '/payment/payroll-dashboard/leave-summary',
+    // '/to-do-step-dashboard',
   ];
 
   public static ORGANIZATION_ONBOARDING_SIDEBAR_ROUTES = [
@@ -117,6 +119,7 @@ export class Key {
     '/organization-onboarding/upload-team',
     '/organization-onboarding/shift-time-list',
     '/organization-onboarding/attendance-mode',
+    '/organization-onboarding/add-shift-placeholder',
   ];
 
   // Deduction Ids
@@ -206,8 +209,6 @@ export class Key {
 
   // Attendance mode id
   public static MANUAL_ATTENDANCE = 1;
-
-  
 
   // Krenai UUID
   public static KRENAI_UUID = '60811bf3-ae1e-11ee-9597-784f4361d885';
@@ -340,7 +341,7 @@ export class Key {
   // RazorPay Key
 
   // public static razorKey =  'rzp_test_Wd1RYd0fng3673'; // Test
-  public static razorKey = 'rzp_live_twiokSC5krYrnQ'  // Live
+  public static razorKey = 'rzp_live_twiokSC5krYrnQ'; // Live
   //
   public static ENABLE = 1;
   public static DISABLE = 2;
@@ -349,4 +350,27 @@ export class Key {
   public static LEAVE_LOG = 1;
   public static OVERTIME_LOG = 2;
   public static LOP_REVERSAL_LOG = 3;
+
+  //  Attendance Main Modes
+  public static MODE1 = 'Slack_and_Whatsapp';
+  public static MODE2 = 'Machine';
+  public static MODE3 = 'Lens';
+
+  // OnboardingProcessStep
+  public static COMPANY_SETTING_ID = 1;
+  public static ATTENDANCE_MODE_ID = 2;
+  public static SHIFT_TIME_ID = 3;
+  public static AUTOMATION_RULE_ID = 4;
+  public static LEAVE_TEMPLATE_ID = 5;
+  public static SALARY_TEMPLATE_ID = 6;
+
+  public static PROCESS_COMPLETED = 36;
+  public static PROCESS_PENDING = 35;
+
+  // redirect to slack
+
+  // public static SLACK_WORKSPACE_URL= `https://slack.com/app_redirect?app=A05QD5T9EK1&tab=home`;
+  public static SLACK_WORKSPACE_URL= `https://slack.com/app_redirect?app=A07AT94EHK7&tab=home`;
+
+
 }

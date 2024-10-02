@@ -1,820 +1,1067 @@
 <div class="page-wrapper">
   <div class="page-content-tab-onbording">
     <div class="container-fluid">
-      <div class="persnol-details">
+      <div class="persnol-details mb-5">
         <div class="row">
-          <div clss="col-md-12">
-            <div class="card-header p-0 pb-3 bg-white">
-              <h4 class="card-title">Shift Management</h4>
-              <p class="text-muted mb-0">
-                To enhance your experience and ensure accurate shift scheduling
-                and communication within our platform, we kindly ask you to
-                review and update your shift information.
-              </p>
+          <div>
+            <div clss="col-md-12">
+              <div class="card-header p-0 pb-3 bg-white">
+                <h4 class="card-title-headding mb-1">Create New Shift</h4>
+                <p class="mb-0 font-11">
+                  Establish the working hours and break times for your
+                  organization. These shifts will be assigned to employees in
+                  the next step, ensuring that your company's operational needs
+                  <br />are met efficiently.
+                </p>
+              </div>
             </div>
-          </div>
-          <div class="col-md-9">
-            <div class="form-group">
-              <div class="persnol-info mt-2">
-                <div class="row mb-2">
-                  <div class="tab-content" id="myTabContent">
-                    <div
-                      class="tab-pane fade show active"
-                      id="shiftime"
-                      role="tabpanel"
-                    >
-                      <form
-                        #shiftForm="ngForm"
-                        ngNativeValidate
-                        (ngSubmit)="submitShiftTimingForm()"
+            <div class="col-md-12 mb-100">
+              <div class="form-group">
+                <div class="persnol-info">
+                  <div class="row mb-2">
+                    <div class="tab-content" id="myTabContent">
+                      <div
+                        class="tab-pane fade show active"
+                        id="shiftime"
+                        role="tabpanel"
                       >
-                        <div
-                          class="row mt-3"
-                          *ngIf="SHIFT_TIME_STEP_ID == SHIFT_TIME_ID"
+                        <form
+                          #shiftForm="ngForm"
+                          ngNativeValidate
+                          (ngSubmit)="submitShiftTimingForm()"
                         >
-                          <!-- Dropdown for Shift Type -->
-                          <div class="col-md-6">
-                            <div class="form-fild">
-                              <label for="exampleInputEmail1" class="pb-2"
-                                >Shift Type 
-                                <!-- <i
-                                  class="bi bi-exclamation-circle tolltip-icon"
-                                  ngbTooltip="Please select the shift type for this shift template of your organization: day, night, or rotational shift."
-                                  placement="top"
-                                ></i>  -->
-                              <span class="text-danger">*</span></label>
-                              <div class="dropdown">
-                                <button
-                                  class="btn btn-secondary dropdown-toggle new-dropdown profile-input"
-                                  type="button"
-                                  id="dropdownMenuButton1"
-                                  data-bs-toggle="dropdown"
-                                  aria-expanded="false"
-                                  [ngClass]="{'is-invalid': !selectedShiftType?.name && shiftForm.submitted}"
-                                  style="
-                                    text-align: left;
-                                    background-color: white;
-                                    color: black;
-                                    border-color: #ced4da;
-                                    width: 100%;
-                                  "
-                                >
-                                  {{
-                                    selectedShiftType?.name ||
-                                      "Select shift type"
-                                  }}
-                                  <i class="bi bi-chevron-down"></i>
-                                </button>
-                                <ul
-                                  class="dropdown-menu"
-                                  aria-labelledby="dropdownMenuButton1"
-                                  style="width: 100%"
-                                >
-                                  <li *ngFor="let shiftType of shiftTypeList">
-                                    <a
-                                      class="dropdown-item"
-                                      (click)="selectShiftType(shiftType)"
-                                    >
-                                      {{ shiftType.name }}
-                                    </a>
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-                          <!-- Shift Name Input -->
-                          <div class="col-md-6">
-                            <div class="mb-3">
-                              <label for="shiftName" class="pb-2"
-                                >Shift Name
-                                <!-- <i
-                                  class="bi bi-exclamation-circle tolltip-icon"
-                                  ngbTooltip="Please write a unique name for this shift of your organization to assign users."
-                                  placement="top"
-                                ></i>  -->
-                                <span class="text-danger">*</span></label>
-                              <input
-                                type="text"
-                                class="form-control profile-input"
-                                id="shiftName"
-                                placeholder="Shift name"
-                                required
-                                [(ngModel)]="
-                                  organizationShiftTimingRequest.name
-                                "
-                                name="shiftName"
-                                #shiftName="ngModel"
-                                minlength="3"
-                                required
-                              />
-                            </div>
-                            <div  *ngIf="shiftName?.dirty">
-                              <p
-                                class="errortxt mb-2 text-danger"
-                                *ngIf="shiftName.errors?.required"
-                              >
-                                <i class="bi bi-exclamation-circle"></i>
-                                Shift Name is required.
-                              </p>
-                              <p
-                                class="errortxt mb-2 text-danger"
-                                *ngIf="shiftName.errors?.minlength"
-                              >
-                                <i class="bi bi-exclamation-circle"></i>
-                                Please enter minimum three characters.
-                              </p>
-                            </div>
-                          </div>
-                          <!-- In Time Input -->
-                          <div class="row">
-                            <div class="col-md-12 mt-5 mb-3">
-                              <div class="card-header p-0 pb-3 bg-white">
-                                <h4 class="card-title">Shift Timing</h4>
-                                <p class="text-muted mb-0">
-                                  To enhance your experience and ensure accurate
-                                  shift management, please review and update the
-                                  following shift details for your organization.
-                                  Fill in the check-in time, check-out time,
-                                  lunch break start time, and lunch break end
-                                  time in the fields below.
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                          <!-- In Time  -->
-                          <!-- <div class="col-md-4">
-                            <div class="mb-3">
-                              <label for="inTime" class="pb-2">In Time</label>
-                              <input
-                                id="inTime"
-                                type="time"
-                                class="form-control profile-input"
-                                required
-                                [(ngModel)]="
-                                  organizationShiftTimingRequest.inTime
-                                "
-                                name="inTime"
-                                (change)="calculateTimes()"
-                              />
-                              <div
-                                *ngIf="
-                                  organizationShiftTimingValidationErrors[
-                                    'inTime'
-                                  ]
-                                "
-                                class="text-danger"
-                              >
-                                {{
-                                  organizationShiftTimingValidationErrors[
-                                    "inTime"
-                                  ]
-                                }}
-                              </div>
-                            </div>
-                          </div> -->
-
-                          <div class="col-md-4">
-                            <div class="mb-3">
-                              <label for="inTime" class="pb-2">In Time <span class="text-danger">*</span></label>
-                              <nz-time-picker
-                                [(ngModel)]="organizationShiftTimingRequest.inTimeDate"
-                                [nzUse12Hours]="true"
-                                nzFormat="h:mm a"
-                                [nzDefaultOpenValue]="defaultInOpenTime"
-                                (ngModelChange)="onTimeChange('inTime', $event)"
-                                [ngModelOptions]="{ standalone: true }"
-                              ></nz-time-picker>
-                              <div *ngIf="organizationShiftTimingValidationErrors['inTime']" class="text-danger">
-                                {{ organizationShiftTimingValidationErrors['inTime']  }}
-                              </div>
-                            </div>
-                          </div>
-                          <!-- Out Time -->
-                          <!-- <div class="col-md-4">
-                            <div class="mb-3">
-                              <label for="outTime" class="pb-2">Out Time</label>
-                              <input
-                                id="outTime"
-                                type="time"
-                                [class.is-invalid]="
-                                  organizationShiftTimingValidationErrors[
-                                    'outTime'
-                                  ]
-                                "
-                                class="form-control profile-input"
-                                required
-                                [(ngModel)]="
-                                  organizationShiftTimingRequest.outTime
-                                "
-                                name="outTime"
-                                (change)="calculateTimes()"
-                              />
-                            
-                              <div
-                                *ngIf="
-                                  organizationShiftTimingValidationErrors[
-                                    'outTime'
-                                  ]
-                                "
-                                class="text-danger"
-                              >
-                                {{
-                                  organizationShiftTimingValidationErrors[
-                                    "outTime"
-                                  ]
-                                }}
-                              </div>
-                            </div>
-                          </div> -->
-
-                          <div class="col-md-4">
-                            <div class="mb-3">
-                              <label for="outTime" class="pb-2">Out Time <span class="text-danger">*</span></label>
-                              <nz-time-picker
-                                [(ngModel)]="organizationShiftTimingRequest.outTimeDate"
-                                [nzUse12Hours]="true"
-                                nzFormat="h:mm a"
-                                [nzDefaultOpenValue]="defaultOutOpenTime"
-                                (ngModelChange)="onTimeChange('outTime', $event)"
-                                [ngModelOptions]="{ standalone: true }"
-                              ></nz-time-picker>
-                              <div *ngIf="organizationShiftTimingValidationErrors['outTime']" class="text-danger">
-                                {{ organizationShiftTimingValidationErrors['outTime'] }}
-                              </div>
-                            </div>
-                          </div>
-                          <!-- Working Hours Display -->
-                          <div class="col-md-4">
-                            <div class="mb-3">
-                              <label for="workingHours" class="pb-2"
-                                >Working Hours</label
-                              >
-                              <input
-                                id="workingHours"
-                                type="text"
-                                class="form-control profile-input"
-                                readonly
-                                [(ngModel)]="
-                                  organizationShiftTimingRequest.workingHour
-                                "
-                                name="workingHours"
-                                placeholder="Working hours"
-                              />
-                            </div>
-                          </div>
-                          <!-- Lunch Break Start Time Input -->
-                          <!-- <div class="col-md-4">
-                            <div class="mb-3">
-                              <label for="lunchBreakStartTime" class="pb-2"
-                                >Lunch Break Start Time</label
-                              >
-                              <input
-                                id="lunchBreakStartTime"
-                                type="time"
-                                [class.is-invalid]="
-                                  organizationShiftTimingValidationErrors[
-                                    'startLunch'
-                                  ]
-                                "
-                                class="form-control profile-input"
-                                required
-                                [(ngModel)]="
-                                  organizationShiftTimingRequest.startLunch
-                                "
-                                name="lunchBreakStartTime"
-                                (change)="calculateTimes()"
-                              />
-                              <div
-                                *ngIf="
-                                  organizationShiftTimingValidationErrors[
-                                    'startLunch'
-                                  ]
-                                "
-                                class="text-danger"
-                              >
-                                {{
-                                  organizationShiftTimingValidationErrors[
-                                    "startLunch"
-                                  ]
-                                }}
-                              </div>
-                            </div>
-                          </div> -->
-
-                          <div class="col-md-4">
-                            <div class="mb-3">
-                              <label for="lunchBreakStartTime" class="pb-2">Lunch Break Start Time <span class="text-danger">*</span></label>
-                              <nz-time-picker
-                                [(ngModel)]="organizationShiftTimingRequest.startLunchDate"
-                                [nzUse12Hours]="true"
-                                nzFormat="h:mm a"
-                                [nzDefaultOpenValue]="defaultStartLunchOpenTime"
-                                (ngModelChange)="onTimeChange('startLunch', $event)"
-                                [ngModelOptions]="{ standalone: true }"
-                              ></nz-time-picker>
-                              <div *ngIf="organizationShiftTimingValidationErrors['startLunch']" class="text-danger">
-                                {{ organizationShiftTimingValidationErrors['startLunch'] }}
-                              </div>
-                            </div>
-                          </div>
-                          <!-- Lunch Break End Time Input -->
-                          <!-- <div class="col-md-4">
-                            <div class="mb-3">
-                              <label for="lunchBreakEndTime" class="pb-2"
-                                >Lunch Break End Time</label
-                              >
-                              <input
-                                id="lunchBreakEndTime"
-                                type="time"
-                                [class.is-invalid]="
-                                  organizationShiftTimingValidationErrors[
-                                    'endLunch'
-                                  ]
-                                "
-                                class="form-control profile-input"
-                                required
-                                [(ngModel)]="
-                                  organizationShiftTimingRequest.endLunch
-                                "
-                                name="lunchBreakEndTime"
-                                (change)="calculateTimes()"
-                              />
-                              <div
-                                *ngIf="
-                                  organizationShiftTimingValidationErrors[
-                                    'endLunch'
-                                  ]
-                                "
-                                class="text-danger"
-                              >
-                                {{
-                                  organizationShiftTimingValidationErrors[
-                                    "endLunch"
-                                  ]
-                                }}
-                              </div>
-                            </div>
-                          </div> -->
-
-                          <div class="col-md-4">
-                            <div class="mb-3">
-                              <label for="lunchBreakEndTime" class="pb-2">Lunch Break End Time <span class="text-danger">*</span></label>
-                              <nz-time-picker
-                                [(ngModel)]="organizationShiftTimingRequest.endLunchDate"
-                                [nzUse12Hours]="true"
-                                nzFormat="h:mm a"
-                                [nzDefaultOpenValue]="defaultEndLunchOpenTime"
-                                (ngModelChange)="onTimeChange('endLunch', $event)"
-                                [ngModelOptions]="{ standalone: true }"
-                              ></nz-time-picker>
-                              <div *ngIf="organizationShiftTimingValidationErrors['endLunch']" class="text-danger">
-                                {{ organizationShiftTimingValidationErrors['endLunch']  }}
-                              </div>
-                            </div>
-                          </div>
-                          <!-- Lunch Break Duration Display -->
-                          <div class="col-md-4">
-                            <div class="mb-3">
-                              <label for="totalLunchBreakDuration" class="pb-2"
-                                >Total Lunch Break Duration</label
-                              >
-                              <input
-                                id="totalLunchBreakDuration"
-                                type="text"
-                                class="form-control profile-input"
-                                readonly
-                                [(ngModel)]="
-                                  organizationShiftTimingRequest.lunchHour
-                                "
-                                name="totalLunchBreakDuration"
-                                placeholder="Lunch break hours"
-                              />
-                            </div>
-                          </div>
-                          <!-- <div
-                            class="mt-3"
-                            style="display: flex; justify-content: flex-end"
+                          <div
+                            class="row mt-3"
+                            *ngIf="SHIFT_TIME_STEP_ID == SHIFT_TIME_ID"
                           >
-                            <button
-                              type="submit"
-                              class="btn btn-outline-primary btn-round"
-                              [disabled]="shiftForm.invalid || !selectedShiftType?.name || !organizationShiftTimingRequest.inTimeDate || !organizationShiftTimingRequest.outTimeDate || !organizationShiftTimingRequest.startLunchDate || !organizationShiftTimingRequest.endLunchDate"
-                              (click)="staffActiveTabInShiftTimingMethod()"
-                            >
-                              <span>
-                                Staff Selection
-                                <i
-                                  class="bi bi-arrow-right"
-                                  style="padding-left: 8px"
-                                ></i
-                              ></span>
-                            </button>
-                          </div> -->
-                        </div>
-                        <div
-                          class="row mt-3 mb-3 align-items-center"
-                          *ngIf="SHIFT_TIME_STEP_ID == STAFF_SELECTION_ID"
-                        >
-                          <!-- <table><tbody><tr><td></td><td><input type="search"></td></tr></tbody></table> -->
-                          <div class="col-md-6">
-                            <form
-                              novalidate=""
-                              role="search"
-                              (submit)="searchUsers()"
-                              class="searching ng-untouched ng-pristine ng-valid"
-                            >
-                              <div
-                                class="form-group"
-                                style="position: relative"
-                              >
-                                <input
-                                  type="search"
-                                  id="searchText"
-                                  placeholder="Search by name and role"
-                                  class="form-control profile-input ng-untouched ng-pristine ng-valid searchform-padding"
-                                  style="padding: 10px 50px 10px 40px"
-                                  (keyup)="searchUsers()"
-                                  [(ngModel)]="searchText"
-                                  [ngModelOptions]="{ standalone: true }"
-                                />
-                                <button
-                                  type="button"
-                                  (click)="clearSearch()"
-                                  class="btn close-btn"
+                            <!-- Dropdown for Shift Type -->
+                            <div class="col-md-6">
+                              <div class="form-fild">
+                                <label for="exampleInputEmail1" class="pb-2"
+                                  >Shift Type
+                                  <span class="text-optional">*</span></label
                                 >
-                                  <i
-                                    *ngIf="searchText != ''"
-                                    class="bi bi-x"
-                                  ></i>
-                                </button>
-                                <i
-                                  class="bi bi-search search-icon"
-                                  style="
-                                    position: absolute;
-                                    top: 50%;
-                                    transform: translateY(-50%);
-                                    left: 10px;
-                                  "
-                                ></i>
-                              </div>
-                            </form>
-                          </div>
-                          <div class="col-md-6">
-                            <div
-                              *ngIf="selectedStaffsUuids.length !== 0"
-                              class="d-flex align-items-center justify-content-end gap-3"
-                            >
-                              <span class="select-user-count">
-                                <b>{{ selectedStaffsUuids.length }}</b>
-                                selected of <b>{{ total }}</b></span
-                              >
-                              <div *ngIf="selectedStaffsUuids.length != total">
-                                <span
-                                  (click)="selectAllUsers(true)"
-                                  class="all-select-user"
-                                  >Select all {{ total }} users</span
-                                >
-                              </div>
-                              <div *ngIf="selectedStaffsUuids.length == total">
-                                <span
-                                  (click)="unselectAllUsers()"
-                                  class="clear-all-user"
-                                  >Clear all users <i class="bi bi-x"></i
-                                ></span>
-                              </div>
-                              <div *ngIf="selectedStaffsUuids.length != total">
-                                <span
-                                  class="pointer user-close-btn"
-                                  (click)="unselectAllUsers()"
-                                  ><i class="bi bi-x"></i
-                                ></span>
-                              </div>
-                            </div>
-                          </div>
-                          <ng-container
-                            *ngIf="
-                              staffs.length != 0;
-                              else noDataFoundCondition
-                            "
-                          >
-                            <div class="col-md-12 mt-3">
-                              <table class="table">
-                                <thead class="thead-light table-design">
-                                  <tr>
-                                    <th style="width: 0%">
-                                      <input
-                                        type="checkbox"
-                                        style="cursor: pointer"
-                                        class="form-check-input"
-                                        [(ngModel)]="isAllSelected"
-                                        (change)="selectAll(isAllSelected)"
-                                        [ngModelOptions]="{
-                                          standalone: true
-                                        }"
-                                      />
-                                    </th>
-                                    <th style="width: 25%; padding: 12px 15px">
-                                      Name
-                                    </th>
-                                    <th style="width: 25%; padding: 12px 15px">
-                                      Email
-                                    </th>
-                                    <th style="width: 25%; padding: 12px 15px">
-                                      Phone Number
-                                    </th>
-                                  </tr>
-                                </thead>
-                                <tbody
-                                  *ngIf="staffs.length > 0"
-                                  class="table-design"
-                                >
-                                  <tr
-                                    *ngFor="
-                                      let staff of staffs
-                                        | paginate
-                                          : {
-                                              itemsPerPage: itemPerPage,
-                                              currentPage: pageNumber,
-                                              totalItems: total
-                                            }
+                                <div class="dropdown">
+                                  <button
+                                    class="btn dropdown-toggle profile-input"
+                                    type="button"
+                                    id="dropdownMenuButton1"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                    [ngClass]="{
+                                      'is-invalid':
+                                        !selectedShiftType?.name &&
+                                        shiftForm.submitted
+                                    }"
+                                    style="
+                                      text-align: left;
+                                      color: black;
+                                      border-color: #ced4da;
+                                      width: 100%;
                                     "
-                                    style="border-bottom: 1px solid #dddddd"
                                   >
-                                    <td style="width: 0%">
-                                      <div
-                                        class="d-flex form-check justify-content-around"
-                                      >
-                                        <input
-                                          type="checkbox"
-                                          style="cursor: pointer"
-                                          class="form-check-input"
-                                          [(ngModel)]="staff.selected"
-                                          (change)="checkIndividualSelection()"
-                                          [ngModelOptions]="{
-                                            standalone: true
-                                          }"
-                                        />
-                                      </div>
-                                    </td>
-                                    <td style="padding: 12px 15px">
-                                      {{ staff.name }}
-                                    </td>
-                                    <td style="padding: 12px 15px">
-                                      {{ staff.email ? staff.email : "N/A" }}
-                                    </td>
-                                    <td style="padding: 12px 15px">
-                                      {{
-                                        staff.phoneNumber
-                                          ? staff.phoneNumber
-                                          : "N/A"
-                                      }}
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                            <div
-                              class="pagination pl-3 align-items-center justify-content-between"
-                              *ngIf="itemPerPage > 8"
-                            >
-                              <p style="padding-left: 15px">
-                                Showing {{ getStartIndex() }} -
-                                {{ getEndIndex() }} of {{ total }} teams
-                              </p>
-                              <div>
-                                <nav aria-label="Page navigation example">
-                                  <ul class="pagination justify-content-end">
-                                    <li
-                                      class="page-item"
-                                      [class.disabled]="pageNumber == 1"
-                                    >
-                                      <a
-                                        class="page-link"
-                                        href="javascript:void(0);"
-                                        aria-label="Previous"
-                                        (click)="changePage('prev')"
-                                      >
-                                        <span aria-hidden="true">&laquo;</span>
-                                      </a>
-                                    </li>
-                                    <li
-                                      class="page-item"
-                                      *ngFor="let page of getPages()"
-                                      [class.active]="pageNumber == page"
-                                    >
-                                      <a
-                                        class="page-link"
-                                        href="javascript:void(0);"
-                                        (click)="changePage(page)"
-                                        >{{ page }}</a
-                                      >
-                                    </li>
-                                    <li
-                                      class="page-item"
-                                      [class.disabled]="
-                                        pageNumber == totalPages
-                                      "
-                                    >
-                                      <a
-                                        class="page-link"
-                                        href="javascript:void(0);"
-                                        aria-label="Next"
-                                        (click)="changePage('next')"
-                                      >
-                                        <span aria-hidden="true">&raquo;</span>
-                                      </a>
+                                    Day
+                                    <!-- {{
+                                      selectedShiftType?.name ||
+                                        "Select shift type"
+                                    }} -->
+                                    <i class="bi bi-chevron-down"></i>
+                                  </button>
+                                  <ul
+                                    class="dropdown-menu"
+                                    aria-labelledby="dropdownMenuButton1"
+                                    style="width: 100%"
+                                  >
+                                    <li>
+                                      <a class="dropdown-item"> Day </a>
                                     </li>
                                   </ul>
-                                </nav>
+                                  <!-- <ul
+                                    class="dropdown-menu"
+                                    aria-labelledby="dropdownMenuButton1"
+                                    style="width: 100%"
+                                  >
+                                    <li *ngFor="let shiftType of shiftTypeList">
+                                      <a
+                                        class="dropdown-item"
+                                        (click)="selectShiftType(shiftType)"
+                                      >
+                                        {{ shiftType.name }}
+                                      </a>
+                                    </li>
+                                  </ul> -->
+                                </div>
                               </div>
                             </div>
-                          </ng-container>
-                          <ng-template #noDataFoundCondition>
-                            <div class="errorboxmain">
-                              <div class="errorboxinner text-center">
-                                <div class="errorboxplaceholder mb-2">
-                                  <img
-                                    src="assets/images/addnewproduct.svg"
-                                    style="width: 80px"
-                                  />
-                                </div>
-                                <h4>No Data Found</h4>
-                                <p>
-                                  We're unable to locate a record associated
-                                  with the information you entered.
+                            <!-- Shift Name Input -->
+                            <div class="col-md-6">
+                              <div class="mb-3">
+                                <label for="shiftName" class="pb-2"
+                                  >Shift Name
+                                  <!-- <i
+                                      class="bi bi-exclamation-circle tolltip-icon"
+                                      ngbTooltip="Please write a unique name for this shift of your organization to assign users."
+                                      placement="top"
+                                    ></i>  -->
+                                  <span class="text-optional">*</span></label
+                                >
+                                <input
+                                  type="text"
+                                  class="form-control profile-input"
+                                  id="shiftName"
+                                  placeholder="Shift name"
+                                  required
+                                  [(ngModel)]="
+                                    organizationShiftTimingRequest.name
+                                  "
+                                  name="shiftName"
+                                  #shiftName="ngModel"
+                                  minlength="3"
+                                  required
+                                  (input)="checkShiftPresenceData(organizationShiftTimingRequest.name)"
+                                />
+                              </div>
+                              <div *ngIf="isShiftNamePresent">
+                                <p
+                                  class="errortxt mb-2 text-danger"
+                                >
+                                  <i class="bi bi-exclamation-circle"></i>
+                                  Shift Name already existed.
+                                </p>
+                              </div>
+                              <div *ngIf="shiftName?.dirty">
+                                <p
+                                  class="errortxt mb-2 text-danger"
+                                  *ngIf="shiftName.errors?.required"
+                                >
+                                  <i class="bi bi-exclamation-circle"></i>
+                                  Shift Name is required.
+                                </p>
+                                <p
+                                  class="errortxt mb-2 text-danger"
+                                  *ngIf="shiftName.errors?.minlength"
+                                >
+                                  <i class="bi bi-exclamation-circle"></i>
+                                  Please enter minimum three characters.
                                 </p>
                               </div>
                             </div>
-                          </ng-template>
-                          <!-- <div
-                            class="mt-3"
-                            style="
-                              display: flex;
-                              justify-content: space-between;
-                            "
+                            <!-- In Time Input -->
+                            <div class="row">
+                              <div class="col-md-12 mt-4 mb-3">
+                                <div class="card-header p-0 pb-3 bg-white">
+                                  <h4 class="card-title-headding mb-1">
+                                    Shift Timing
+                                  </h4>
+                                  <p class="mb-0 font-11">
+                                    To enhance your experience and ensure
+                                    accurate shift management, please review and
+                                    update the following shift details for your
+                                    organization. Fill in the check-in time,
+                                    check-out time, lunch break start time, and
+                                    lunch break end time in the fields below.
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="col-md-4">
+                              <div class="mb-3">
+                                <label for="inTime" class="pb-2"
+                                  >In Time
+                                  <span class="text-optional">*</span></label
+                                >
+                                <nz-time-picker
+                                  [(ngModel)]="
+                                    organizationShiftTimingRequest.inTimeDate
+                                  "
+                                  [nzUse12Hours]="true"
+                                  nzFormat="h:mm a"
+                                  [nzDefaultOpenValue]="defaultInOpenTime"
+                                  (ngModelChange)="
+                                    onTimeChange('inTime', $event)
+                                  "
+                                  [ngModelOptions]="{ standalone: true }"
+                                ></nz-time-picker>
+                                <div
+                                  *ngIf="
+                                    organizationShiftTimingValidationErrors[
+                                      'inTime'
+                                    ]
+                                  "
+                                  class="text-danger"
+                                >
+                                  {{
+                                    organizationShiftTimingValidationErrors[
+                                      "inTime"
+                                    ]
+                                  }}
+                                </div>
+                              </div>
+                            </div>
+                            <!-- Out Time -->
+                            <!-- <div class="col-md-4">
+                                <div class="mb-3">
+                                  <label for="outTime" class="pb-2">Out Time</label>
+                                  <input
+                                    id="outTime"
+                                    type="time"
+                                    [class.is-invalid]="
+                                      organizationShiftTimingValidationErrors[
+                                        'outTime'
+                                      ]
+                                    "
+                                    class="form-control profile-input"
+                                    required
+                                    [(ngModel)]="
+                                      organizationShiftTimingRequest.outTime
+                                    "
+                                    name="outTime"
+                                    (change)="calculateTimes()"
+                                  />
+                                
+                                  <div
+                                    *ngIf="
+                                      organizationShiftTimingValidationErrors[
+                                        'outTime'
+                                      ]
+                                    "
+                                    class="text-danger"
+                                  >
+                                    {{
+                                      organizationShiftTimingValidationErrors[
+                                        "outTime"
+                                      ]
+                                    }}
+                                  </div>
+                                </div>
+                              </div> -->
+
+                            <div class="col-md-4">
+                              <div class="mb-3">
+                                <label for="outTime" class="pb-2"
+                                  >Out Time
+                                  <span class="text-optional">*</span></label
+                                >
+                                <nz-time-picker
+                                  [(ngModel)]="
+                                    organizationShiftTimingRequest.outTimeDate
+                                  "
+                                  [nzUse12Hours]="true"
+                                  nzFormat="h:mm a"
+                                  [nzDefaultOpenValue]="defaultOutOpenTime"
+                                  (ngModelChange)="
+                                    onTimeChange('outTime', $event)
+                                  "
+                                  [ngModelOptions]="{ standalone: true }"
+                                ></nz-time-picker>
+                                <div
+                                  *ngIf="
+                                    organizationShiftTimingValidationErrors[
+                                      'outTime'
+                                    ]
+                                  "
+                                  class="text-danger"
+                                >
+                                  {{
+                                    organizationShiftTimingValidationErrors[
+                                      "outTime"
+                                    ]
+                                  }}
+                                </div>
+                              </div>
+                            </div>
+                            <!-- Working Hours Display -->
+                            <div class="col-md-4">
+                              <div class="mb-3">
+                                <label for="workingHours" class="pb-2"
+                                  >Working Hours</label
+                                >
+                                <input
+                                  id="workingHours"
+                                  type="text"
+                                  class="form-control profile-input"
+                                  readonly
+                                  [(ngModel)]="
+                                    organizationShiftTimingRequest.workingHour
+                                  "
+                                  name="workingHours"
+                                  placeholder="Working hours"
+                                />
+                              </div>
+                            </div>
+                            <!-- Lunch Break Start Time Input -->
+                            <!-- <div class="col-md-4">
+                                <div class="mb-3">
+                                  <label for="lunchBreakStartTime" class="pb-2"
+                                    >Lunch Break Start Time</label
+                                  >
+                                  <input
+                                    id="lunchBreakStartTime"
+                                    type="time"
+                                    [class.is-invalid]="
+                                      organizationShiftTimingValidationErrors[
+                                        'startLunch'
+                                      ]
+                                    "
+                                    class="form-control profile-input"
+                                    required
+                                    [(ngModel)]="
+                                      organizationShiftTimingRequest.startLunch
+                                    "
+                                    name="lunchBreakStartTime"
+                                    (change)="calculateTimes()"
+                                  />
+                                  <div
+                                    *ngIf="
+                                      organizationShiftTimingValidationErrors[
+                                        'startLunch'
+                                      ]
+                                    "
+                                    class="text-danger"
+                                  >
+                                    {{
+                                      organizationShiftTimingValidationErrors[
+                                        "startLunch"
+                                      ]
+                                    }}
+                                  </div>
+                                </div>
+                              </div> -->
+
+                            <div class="col-md-4">
+                              <div class="mb-3">
+                                <label for="lunchBreakStartTime" class="pb-2"
+                                  >Lunch Break Start Time
+                                  <span class="text-optional">*</span></label
+                                >
+                                <nz-time-picker
+                                  [(ngModel)]="
+                                    organizationShiftTimingRequest.startLunchDate
+                                  "
+                                  [nzUse12Hours]="true"
+                                  nzFormat="h:mm a"
+                                  [nzDefaultOpenValue]="
+                                    defaultStartLunchOpenTime
+                                  "
+                                  (ngModelChange)="
+                                    onTimeChange('startLunch', $event)
+                                  "
+                                  [ngModelOptions]="{ standalone: true }"
+                                ></nz-time-picker>
+                                <div
+                                  *ngIf="
+                                    organizationShiftTimingValidationErrors[
+                                      'startLunch'
+                                    ]
+                                  "
+                                  class="text-danger"
+                                >
+                                  {{
+                                    organizationShiftTimingValidationErrors[
+                                      "startLunch"
+                                    ]
+                                  }}
+                                </div>
+                              </div>
+                            </div>
+                            <!-- Lunch Break End Time Input -->
+                            <!-- <div class="col-md-4">
+                                <div class="mb-3">
+                                  <label for="lunchBreakEndTime" class="pb-2"
+                                    >Lunch Break End Time</label
+                                  >
+                                  <input
+                                    id="lunchBreakEndTime"
+                                    type="time"
+                                    [class.is-invalid]="
+                                      organizationShiftTimingValidationErrors[
+                                        'endLunch'
+                                      ]
+                                    "
+                                    class="form-control profile-input"
+                                    required
+                                    [(ngModel)]="
+                                      organizationShiftTimingRequest.endLunch
+                                    "
+                                    name="lunchBreakEndTime"
+                                    (change)="calculateTimes()"
+                                  />
+                                  <div
+                                    *ngIf="
+                                      organizationShiftTimingValidationErrors[
+                                        'endLunch'
+                                      ]
+                                    "
+                                    class="text-danger"
+                                  >
+                                    {{
+                                      organizationShiftTimingValidationErrors[
+                                        "endLunch"
+                                      ]
+                                    }}
+                                  </div>
+                                </div>
+                              </div> -->
+
+                            <div class="col-md-4">
+                              <div class="mb-3">
+                                <label for="lunchBreakEndTime" class="pb-2"
+                                  >Lunch Break End Time
+                                  <span class="text-optional">*</span></label
+                                >
+                                <nz-time-picker
+                                  [(ngModel)]="
+                                    organizationShiftTimingRequest.endLunchDate
+                                  "
+                                  [nzUse12Hours]="true"
+                                  nzFormat="h:mm a"
+                                  [nzDefaultOpenValue]="defaultEndLunchOpenTime"
+                                  (ngModelChange)="
+                                    onTimeChange('endLunch', $event)
+                                  "
+                                  [ngModelOptions]="{ standalone: true }"
+                                ></nz-time-picker>
+                                <div
+                                  *ngIf="
+                                    organizationShiftTimingValidationErrors[
+                                      'endLunch'
+                                    ]
+                                  "
+                                  class="text-danger"
+                                >
+                                  {{
+                                    organizationShiftTimingValidationErrors[
+                                      "endLunch"
+                                    ]
+                                  }}
+                                </div>
+                              </div>
+                            </div>
+                            <!-- Lunch Break Duration Display -->
+                            <div class="col-md-4">
+                              <div class="mb-3">
+                                <label
+                                  for="totalLunchBreakDuration"
+                                  class="pb-2"
+                                  >Total Lunch Break Duration</label
+                                >
+                                <input
+                                  id="totalLunchBreakDuration"
+                                  type="text"
+                                  class="form-control profile-input"
+                                  readonly
+                                  [(ngModel)]="
+                                    organizationShiftTimingRequest.lunchHour
+                                  "
+                                  name="totalLunchBreakDuration"
+                                  placeholder="Lunch break hours"
+                                />
+                              </div>
+                            </div>
+                            <!-- <div
+                                class="mt-3"
+                                style="display: flex; justify-content: flex-end"
+                              >
+                                <button
+                                  type="submit"
+                                  class="btn btn-outline-primary btn-round"
+                                  [disabled]="shiftForm.invalid || !selectedShiftType?.name || !organizationShiftTimingRequest.inTimeDate || !organizationShiftTimingRequest.outTimeDate || !organizationShiftTimingRequest.startLunchDate || !organizationShiftTimingRequest.endLunchDate"
+                                  (click)="staffActiveTabInShiftTimingMethod()"
+                                >
+                                  <span>
+                                    Staff Selection
+                                    <i
+                                      class="bi bi-arrow-right"
+                                      style="padding-left: 8px"
+                                    ></i
+                                  ></span>
+                                </button>
+                              </div> -->
+                          </div>
+                          <div
+                            class="row mt-3 mb-3 align-items-center"
+                            *ngIf="SHIFT_TIME_STEP_ID == STAFF_SELECTION_ID"
                           >
-                            <button
-                              type="submit"
-                              class="btn btn-outline-secondary btn-round"
-                              (click)="backToShiftTime()"
-                            >
-                              <span
-                                ><i
-                                  class="bi bi-arrow-left"
-                                  style="padding-left: 8px"
-                                ></i>
-                                Back
-                              </span>
-                            </button>
-                            <button
-                              type="submit"
-                              class="btn btn-outline-primary btn-round"
-                              [disabled]="
-                                shiftForm.invalid ||
-                                this.selectedStaffsUuids.length < 1
+                            <!-- *ngIf="SHIFT_TIME_STEP_ID == STAFF_SELECTION_ID" -->
+                            <!-- <table><tbody><tr><td></td><td><input type="search"></td></tr></tbody></table> -->
+                            <div class="col-md-12">
+                              <form
+                                novalidate=""
+                                role="search"
+                                (submit)="searchUsers()"
+                                class="searching ng-untouched ng-pristine ng-valid"
+                              >
+                                <div
+                                  class="form-group"
+                                  style="position: relative"
+                                >
+                                  <input
+                                    type="search"
+                                    id="searchText"
+                                    placeholder="Search by name and role"
+                                    class="form-control profile-input ng-untouched ng-pristine ng-valid searchform-padding"
+                                    style="padding: 10px 50px 10px 40px"
+                                    (keyup)="searchUsers()"
+                                    [(ngModel)]="searchText"
+                                    [ngModelOptions]="{
+                                      standalone: true
+                                    }"
+                                  />
+                                  <button
+                                    type="button"
+                                    (click)="clearSearch()"
+                                    class="btn close-btn"
+                                  >
+                                    <i
+                                      *ngIf="searchText != ''"
+                                      class="bi bi-x"
+                                    ></i>
+                                  </button>
+                                  <i
+                                    class="bi bi-search search-icon"
+                                    style="
+                                      position: absolute;
+                                      top: 50%;
+                                      transform: translateY(-50%);
+                                      left: 10px;
+                                    "
+                                  ></i>
+                                </div>
+                              </form>
+                            </div>
+                            <ng-container
+                              *ngIf="
+                                staffs.length != 0;
+                                else noDataFoundCondition
                               "
-                              (click)="
-                                registerOrganizationShiftTimingMethodCall()
-                              "
                             >
-                              <span>
-                                Create Shift Time
-                                <i
-                                  class="bi bi-arrow-right"
-                                  style="padding-left: 8px"
-                                ></i
-                              ></span>
-                            </button>
-                          </div> -->
-                        </div>
-                      </form>
+                              <div class="mt-3">
+                                <div class="row">
+                                  <div class="mt-3">
+                                    <div
+                                      class="d-flex align-items-center justify-content-between mb-3"
+                                    >
+                                      <h5 class="alert-heading font-14 mb-0">
+                                        Employee List
+                                      </h5>
+
+                                      <div
+                                        class="d-flex align-items-center gap-3"
+                                        *ngIf="selectedStaffsUuids.length == 0"
+                                      >
+                                        <p
+                                          class="mb-0"
+                                          style="font-weight: 400"
+                                        >
+                                          <span class="text-primary">
+                                            {{ total }}
+                                          </span>
+                                          Employees Add
+                                        </p>
+                                      </div>
+
+                                      <div
+                                        class="d-flex align-items-center gap-3"
+                                        *ngIf="selectedStaffsUuids.length !== 0"
+                                      >
+                                        <!-- <p
+                                          class="mb-0"
+                                          style="font-weight: 400"
+                                        >
+                                          <span class="text-primary">
+                                            {{total}}
+                                          </span>
+                                          Employees Add
+                                        </p> -->
+                                        <p
+                                          class="mb-0"
+                                          style="font-weight: 400"
+                                        >
+                                          All
+                                          <span class="text-primary">
+                                            {{ selectedStaffsUuids.length }}
+                                          </span>
+                                          Employees on this page are selected
+                                        </p>
+                                        <p
+                                          class="mb-0 selectAll"
+                                          style="
+                                            font-weight: 400;
+                                            cursor: pointer;
+                                          "
+                                          (click)="selectAll(true)"
+                                        >
+                                          Select all
+                                          <span class="text-primary">
+                                            {{ total }}
+                                          </span>
+                                          Employees
+                                        </p>
+                                        <span class="error-spreter"></span>
+                                        <button
+                                          class="p-0 btn removeBtn pointer"
+                                          (click)="unselectAllUsers()"
+                                        >
+                                          <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="24"
+                                            height="24"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                          >
+                                            <mask
+                                              id="mask0_1624_4338"
+                                              style="mask-type: alpha"
+                                              maskUnits="userSpaceOnUse"
+                                              x="0"
+                                              y="0"
+                                              width="24"
+                                              height="24"
+                                            >
+                                              <rect
+                                                y="0.25"
+                                                width="23.5"
+                                                height="23.5"
+                                                fill="#D9D9D9"
+                                              />
+                                            </mask>
+                                            <g mask="url(#mask0_1624_4338)">
+                                              <path
+                                                d="M6.26146 18.8568L4.89062 17.4859L10.374 12.0026L4.89062 6.51927L6.26146 5.14844L11.7448 10.6318L17.2281 5.14844L18.599 6.51927L13.1156 12.0026L18.599 17.4859L17.2281 18.8568L11.7448 13.3734L6.26146 18.8568Z"
+                                                fill="#FD0808"
+                                              />
+                                            </g>
+                                          </svg>
+                                          Clear Selection
+                                        </button>
+                                      </div>
+                                    </div>
+                                    <table class="table table-striped">
+                                      <thead class="thead-light">
+                                        <tr>
+                                          <th
+                                            style="width: 5%"
+                                            class="text-center"
+                                          >
+                                            <input
+                                              type="checkbox"
+                                              style="cursor: pointer"
+                                              class="form-check-input"
+                                              [(ngModel)]="isAllSelected"
+                                              (change)="
+                                                selectAll(isAllSelected)
+                                              "
+                                              [ngModelOptions]="{
+                                                standalone: true
+                                              }"
+                                            />
+                                          </th>
+                                          <th
+                                            style="width: 5%"
+                                            class="text-center"
+                                          >
+                                          Sr No.
+                                          </th>
+                                          <th
+                                            style="width: 25%"
+                                            class="text-left"
+                                          >
+                                            Name
+                                          </th>
+                                          <th
+                                            style="width: 25%"
+                                            class="text-left"
+                                          >
+                                            Email Address
+                                          </th>
+                                          <th
+                                            style="width: 20%"
+                                            class="text-left"
+                                          >
+                                            Phone Number
+                                          </th>
+
+                                          <!-- <th style="width: 20%" class="text-center">Action</th> -->
+                                        </tr>
+                                      </thead>
+                                      <tbody class="">
+                                        <tr
+                                          *ngFor="
+                                            let staff of staffs
+                                              | paginate
+                                                : {
+                                                    itemsPerPage: itemPerPage,
+                                                    currentPage: pageNumber,
+                                                    totalItems: total
+                                                  };
+                                                  let i = index
+                                          "
+                                        >
+                                          <td class="text-center">
+                                            <input
+                                              type="checkbox"
+                                              style="cursor: pointer"
+                                              class="form-check-input"
+                                              [(ngModel)]="staff.selected"
+                                              (change)="
+                                                checkIndividualSelection()
+                                              "
+                                              [ngModelOptions]="{
+                                                standalone: true
+                                              }"
+                                            />
+                                          </td>
+                                          <td class="text-center">{{ getRowNumber(i) }}</td>
+                                          <td>{{ staff.name }}</td>
+                                          <td>
+                                            {{
+                                              staff.email ? staff.email : "N/A"
+                                            }}
+                                          </td>
+                                          <td>
+                                            {{
+                                              staff.phoneNumber
+                                                ? staff.phoneNumber
+                                                : "N/A"
+                                            }}
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div
+                                class="pagination pl-3 align-items-center justify-content-between"
+                                *ngIf="itemPerPage > 8"
+                              >
+                                <p style="padding-left: 15px">
+                                  Showing {{ getStartIndex() }} -
+                                  {{ getEndIndex() }} of {{ total }} teams
+                                </p>
+                                <div>
+                                  <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-end">
+                                      <li
+                                        class="page-item"
+                                        [class.disabled]="pageNumber == 1"
+                                      >
+                                        <a
+                                          class="page-link"
+                                          href="javascript:void(0);"
+                                          aria-label="Previous"
+                                          (click)="changePage('prev')"
+                                        >
+                                          <span aria-hidden="true"
+                                            >&laquo;</span
+                                          >
+                                        </a>
+                                      </li>
+                                      <li
+                                        class="page-item"
+                                        *ngFor="let page of getPages()"
+                                        [class.active]="pageNumber == page"
+                                      >
+                                        <a
+                                          class="page-link"
+                                          href="javascript:void(0);"
+                                          (click)="changePage(page)"
+                                          >{{ page }}</a
+                                        >
+                                      </li>
+                                      <li
+                                        class="page-item"
+                                        [class.disabled]="
+                                          pageNumber == totalPages
+                                        "
+                                      >
+                                        <a
+                                          class="page-link"
+                                          href="javascript:void(0);"
+                                          aria-label="Next"
+                                          (click)="changePage('next')"
+                                        >
+                                          <span aria-hidden="true"
+                                            >&raquo;</span
+                                          >
+                                        </a>
+                                      </li>
+                                    </ul>
+                                  </nav>
+                                </div>
+                              </div>
+                            
+                            </ng-container>
+                            <ng-template #noDataFoundCondition>
+                              <div class="errorboxmain">
+                                <div class="errorboxinner text-center">
+                                  <div class="errorboxplaceholder mb-2">
+                                    <img
+                                      src="assets/images/addnewproduct.svg"
+                                      style="width: 80px"
+                                    />
+                                  </div>
+                                  <h4>No Data Found</h4>
+                                  <p>
+                                    We're unable to locate a record associated
+                                    with the information you entered.
+                                  </p>
+                                </div>
+                              </div>
+                            </ng-template>
+                          </div>
+                        </form>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="col-md-3 mb-3">
-            <div
-              class="alert alert-light mb-0 mt-4 bg-soft-warning"
-              role="alert"
-            >
-              <h4 class="alert-heading font-18">Attention!</h4>
-              <div>
-                <!-- <p>
-                  We're dedicated to optimizing your organizational management
-                  experience by enabling you to configure shift settings
-                  effectively. Please be informed about the importance of
-                  setting up shifts for your organization:
-                </p> -->
-
-                <small>
-                  <b>Assign Users:</b>
-                  Assign your organization's users to specific shift template to
-                  facilitate check-in, check-out, break, and return from break
-                  procedures.
-                </small>
-                <small>
-                  <b>Notification Management:</b>
-                  These notifications are automatically generated by the system
-                  once you've set up shifts in your organization and assigned
-                  users to the corresponding templates. They are designed to
-                  inform users about their check-in, check-out procedure times
-                  as per the specified template. </small
-                ><br />
-                <p>
-                  You can create multiple shifts and assign users accordingly
-                  using shift template.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-4"></div>
-            <div class="col-md-8">
-              <div
-                class="next-btn-box d-flex align-items-center justify-content-between"
-                *ngIf="SHIFT_TIME_STEP_ID == SHIFT_TIME_ID"
+            <div class="row">
+              <div class="col-md-4"></div>
+              <div class="col-md-8">
+                <div
+                class="shiftManagement d-flex gap-3 align-items-center"
+                  style="background-image: url(../assets/images/vector-3.svg)"
+                *ngIf="userNameWithShiftName?.length>0"
               >
-                <button
-                  class="btn btn-outline-secondary btn-round previous-btn"
-                  type="button"
-                 
-                  (click)="backPage()"
-                >
-                  <i
-                    class="bi bi-arrow-left"
-                    style="
-                      padding-right: 3px;
-                      padding-right: 1px;
-                      position: relative;
-                      top: -1px;
-                    "
-                  ></i>
-                  Previous
-                </button>
-                
-                <button
-                  type="submit"
-                  class="btn btn-outline-primary btn-round"
-                  [disabled]="shiftForm.invalid || !selectedShiftType?.name || !organizationShiftTimingRequest.inTimeDate || !organizationShiftTimingRequest.outTimeDate || !organizationShiftTimingRequest.startLunchDate || !organizationShiftTimingRequest.endLunchDate"
-                  (click)="staffActiveTabInShiftTimingMethod()"
-                 
-                >
-                  <span>
-                    Staff Selection
-                    <i
-                      class="bi bi-arrow-right"
-                      style="padding-left: 8px"
-                    ></i
-                  ></span>
-                </button>
-                <!-- <button
-                  type="submit"
-                  class="btn btn-outline-primary btn-round"
-                  [disabled]="shiftForm.invalid"
-                  (click)="staffActiveTabInShiftTimingMethod()"
-                >
-                  <span>
-                    Next
-                    <i class="bi bi-arrow-right" style="padding-left: 8px"></i>
-                  </span>
-                </button> -->
+                <div class="previous-btn">
+                  <h5 class="alert-heading text-warning font-13 mb-2">
+                    Note:
+                  </h5>
+                  <p class="mb-1 font-11" *ngFor="let list of userNameWithShiftName">
+                    <b>Shift Name:</b> {{list.shiftName}}
+                    <b>User Name:</b> {{list.userName}}
+                    
+                  </p>
+                  <!-- <p>
+                    These users are already registered with different shift type!
+                  </p> -->
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="validationCheck"
+                      [(ngModel)]="isValidated"
+                      (change)="checkValidation()"
+                    />
+                    <label class="form-check-label" for="validationCheck">
+                      Validate Information
+                    </label>
+                  </div>
+                  <!-- {{isValidated}} -->
+                  <p class="mt-3 font-11 text-danger">
+                    {{ isValidated ? "You have validated the information and are proceeding to add users to the current shift." : "These users are already registered with a different shift type!" }}
+                  </p>
+            
+                </div>
+               
               </div>
-              <div class="next-btn-box d-flex align-items-center justify-content-between"
-              *ngIf="SHIFT_TIME_STEP_ID == STAFF_SELECTION_ID">
-                <button
-                  type="submit"
-                  class="btn btn-outline-secondary btn-round previous-btn"
-                  (click)="backToShiftTime()"
+                <div
+                  class="shiftManagement d-flex gap-3 align-items-center"
+                  style="background-image: url(../assets/images/vector-3.svg)"
+                  *ngIf="userNameWithShiftName== null"
                 >
-                  <span
-                    ><i
-                      class="bi bi-arrow-left"
-                      style="padding-left: 8px"
-                    ></i>
-                    Back
-                  </span>
-                </button>
-                <button
-                  type="submit"
-                  class="btn btn-outline-primary btn-round"
-                  [disabled]="
-                    shiftForm.invalid ||
-                    this.selectedStaffsUuids.length < 1
-                  "
-                  (click)="
-                    registerOrganizationShiftTimingMethodCall()
-                  "
+                  <div class="previous-btn">
+                    <h5 class="alert-heading text-warning font-13 mb-2">
+                      Note:
+                    </h5>
+                    <p class="mb-1 font-11">
+                      <b>Assign Users:</b> Assign your organization’s users to
+                      specific shift templates to streamline check-in,
+                      check-out, break, and return-from-break processes.
+                    </p>
+                    <p class="mb-0 font-11">
+                      <b>Notification Management: </b> Once shifts are set and
+                      users are assigned to their respective templates, the
+                      system automatically generates notifications. These alerts
+                      keep users informed <br />
+                      about their scheduled check-in, check-out, and break times
+                      according to the assigned shift template.
+                    </p>
+                  </div>
+                </div>
+                
+                <div
+                  class="next-btn-box d-flex align-items-center justify-content-between"
+                  *ngIf="SHIFT_TIME_STEP_ID == SHIFT_TIME_ID"
                 >
-                  <span>
-                    Create Shift Time
-                    <i
-                      class="bi bi-arrow-right"
-                      style="padding-left: 8px"
-                    ></i
-                  ></span>
-                </button>
+                  <button
+                    class="btn previousBtn previous-btn"
+                    type="button"
+                    (click)="backPage()"
+                  >
+                    <!-- routerLink="/organization-onboarding/add-shift-placeholder" -->
+                    <!-- <i
+                        class="bi bi-arrow-left"
+                        style="
+                          padding-right: 3px;
+                          padding-right: 1px;
+                          position: relative;
+                          top: -1px;
+                        "
+                      ></i> -->
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="22"
+                      height="22"
+                      viewBox="0 0 22 22"
+                      fill="none"
+                    >
+                      <path
+                        d="M19.75 10.6714C19.75 10.8588 19.6914 11.011 19.5743 11.1281C19.4572 11.2452 19.305 11.3038 19.1177 11.3038H3.59011L7.73547 15.4491C7.87599 15.5896 7.94625 15.7536 7.94625 15.9409C7.94625 16.1283 7.87599 16.2805 7.73547 16.3976C7.59495 16.5147 7.43101 16.5733 7.24365 16.5733C7.05628 16.5733 6.89234 16.5264 6.75182 16.4328L1.48229 11.1632C1.38861 11.0227 1.34177 10.8588 1.34177 10.6714C1.34177 10.484 1.38861 10.3201 1.48229 10.1796L6.75182 4.91005C6.89234 4.81637 7.05628 4.76953 7.24365 4.76953C7.43101 4.76953 7.59495 4.82808 7.73547 4.94518C7.87599 5.06228 7.94625 5.21451 7.94625 5.40188C7.94625 5.58924 7.87599 5.75318 7.73547 5.8937L3.59011 10.0391H19.1177C19.305 10.0391 19.4572 10.0976 19.5743 10.2147C19.6914 10.3318 19.75 10.484 19.75 10.6714Z"
+                        fill="black"
+                      />
+                    </svg>
+                    Previous
+                  </button>
+                  <!-- [disabled]="
+                        shiftForm.invalid ||
+                        !selectedShiftType?.name ||
+                        !organizationShiftTimingRequest.inTimeDate ||
+                        !organizationShiftTimingRequest.outTimeDate ||
+                        !organizationShiftTimingRequest.startLunchDate ||
+                        !organizationShiftTimingRequest.endLunchDate
+                      " -->
+
+                  <button
+                    type="submit"
+                    class="btn nextBtn"
+                    [disabled]="
+                      shiftForm.invalid ||
+                      !organizationShiftTimingRequest.inTimeDate ||
+                      !organizationShiftTimingRequest.outTimeDate ||
+                      !organizationShiftTimingRequest.startLunchDate ||
+                      !organizationShiftTimingRequest.endLunchDate
+                    "
+                    (click)="staffActiveTabInShiftTimingMethod()"
+                  >
+                    <span>
+                      Next
+                      <!-- <i class="bi bi-arrow-right" style="padding-left: 8px"></i> -->
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="25"
+                        height="25"
+                        viewBox="0 0 25 25"
+                        fill="none"
+                      >
+                        <mask
+                          id="mask0_2043_143"
+                          style="mask-type: alpha"
+                          maskUnits="userSpaceOnUse"
+                          x="0"
+                          y="0"
+                          width="25"
+                          height="25"
+                        >
+                          <rect
+                            x="0.921875"
+                            y="0.671875"
+                            width="24"
+                            height="24"
+                            fill="#D9D9D9"
+                          />
+                        </mask>
+                        <g mask="url(#mask0_2043_143)">
+                          <path
+                            d="M16.9359 13.5625H4V11.4375H16.9359L10.9859 5.4875L12.5 4L21 12.5L12.5 21L10.9859 19.5125L16.9359 13.5625Z"
+                            fill="#6666F2"
+                          />
+                        </g>
+                      </svg>
+                    </span>
+                  </button>
+                  <!-- <button
+                      type="submit"
+                      class="btn btn-outline-primary btn-round"
+                      [disabled]="shiftForm.invalid"
+                      (click)="staffActiveTabInShiftTimingMethod()"
+                    >
+                      <span>
+                        Next
+                        <i class="bi bi-arrow-right" style="padding-left: 8px"></i>
+                      </span>
+                    </button> -->
+                </div>
+                <div
+                  class="next-btn-box d-flex align-items-center justify-content-between"
+                  *ngIf="SHIFT_TIME_STEP_ID == STAFF_SELECTION_ID"
+                >
+                  <button
+                    type="submit"
+                    class="btn previousBtn previous-btn"
+                    (click)="backToShiftTime()"
+                  >
+                    <span>
+                      <!-- <i class="bi bi-arrow-left" style="padding-left: 8px"></i> -->
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="22"
+                        height="22"
+                        viewBox="0 0 22 22"
+                        fill="none"
+                      >
+                        <path
+                          d="M19.75 10.6714C19.75 10.8588 19.6914 11.011 19.5743 11.1281C19.4572 11.2452 19.305 11.3038 19.1177 11.3038H3.59011L7.73547 15.4491C7.87599 15.5896 7.94625 15.7536 7.94625 15.9409C7.94625 16.1283 7.87599 16.2805 7.73547 16.3976C7.59495 16.5147 7.43101 16.5733 7.24365 16.5733C7.05628 16.5733 6.89234 16.5264 6.75182 16.4328L1.48229 11.1632C1.38861 11.0227 1.34177 10.8588 1.34177 10.6714C1.34177 10.484 1.38861 10.3201 1.48229 10.1796L6.75182 4.91005C6.89234 4.81637 7.05628 4.76953 7.24365 4.76953C7.43101 4.76953 7.59495 4.82808 7.73547 4.94518C7.87599 5.06228 7.94625 5.21451 7.94625 5.40188C7.94625 5.58924 7.87599 5.75318 7.73547 5.8937L3.59011 10.0391H19.1177C19.305 10.0391 19.4572 10.0976 19.5743 10.2147C19.6914 10.3318 19.75 10.484 19.75 10.6714Z"
+                          fill="black"
+                        />
+                      </svg>
+                      Back
+                    </span>
+                  </button>
+                  <button
+                    type="submit"
+                    class="btn nextBtn"
+                    [disabled]="
+                      shiftForm.invalid || this.selectedStaffsUuids.length < 1 || userNameWithShiftName?.length > 0 && !isValidated 
+                    "
+                    (click)="registerOrganizationShiftTimingMethodCall()"
+                  >
+                    <span *ngIf="!loading">
+                      Create Shift Time
+                      <!-- <i class="bi bi-arrow-right" style="padding-left: 8px"></i> -->
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="25"
+                        height="25"
+                        viewBox="0 0 25 25"
+                        fill="none"
+                      >
+                        <mask
+                          id="mask0_2043_143"
+                          style="mask-type: alpha"
+                          maskUnits="userSpaceOnUse"
+                          x="0"
+                          y="0"
+                          width="25"
+                          height="25"
+                        >
+                          <rect
+                            x="0.921875"
+                            y="0.671875"
+                            width="24"
+                            height="24"
+                            fill="#D9D9D9"
+                          />
+                        </mask>
+                        <g mask="url(#mask0_2043_143)">
+                          <path
+                            d="M16.9359 13.5625H4V11.4375H16.9359L10.9859 5.4875L12.5 4L21 12.5L12.5 21L10.9859 19.5125L16.9359 13.5625Z"
+                            fill="#6666F2"
+                          />
+                        </g>
+                      </svg>
+                    </span>
+                    <div class="dot-opacity-loader" *ngIf="loading">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -823,3 +1070,50 @@
     </div>
   </div>
 </div>
+
+<!--video Modal -->
+<div
+  class="modal fade"
+  id="video-modal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  data-bs-backdrop="static"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-dialog-centered"
+    role="document"
+    style="max-width: 800px"
+  >
+    <div class="modal-content">
+      <div
+        class="modal-body p-0"
+        id="youtube-video"
+        style="border: 2px solid #fff; height: 504px"
+      >
+        <div class="closebtn">
+          <button
+            type="button"
+            id="close_one"
+            onclick="stop()"
+            class="close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+            style="top: -15px; right: -15px"
+          >
+            <i class="bi bi-x"></i>
+          </button>
+        </div>
+        <iframe
+          width="100%"
+          id="videoId"
+          height="500"
+          src="https://www.youtube.com/embed/m1vxzFLCwCI?si=PrImOedKUTzaaTkY"
+          title="YouTube video player"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+<!--video Modal -->

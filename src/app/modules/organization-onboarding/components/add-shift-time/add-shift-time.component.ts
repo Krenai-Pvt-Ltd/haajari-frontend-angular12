@@ -38,15 +38,47 @@ export class AddShiftTimeComponent implements OnInit {
     this.getShiftTypeMethodCall();
     this.getUserByFiltersMethodCall();
     this.getAllShiftTimingsMethodCall();
-    this.defaultInOpenTime.setMinutes(0, 0, 0);
-    this.defaultOutOpenTime.setMinutes(0, 0, 0);
-    this.defaultStartLunchOpenTime.setMinutes(0, 0, 0);
-    this.defaultEndLunchOpenTime.setMinutes(0, 0, 0);
+    this.defaultInOpenTime.setHours(0, 0, 0, 0); 
+  this.defaultOutOpenTime.setHours(0, 0, 0, 0);  
+  this.defaultStartLunchOpenTime.setHours(0, 0, 0, 0);  
+  this.defaultEndLunchOpenTime.setHours(0, 0, 0, 0);  
   }
 
-  backPage() {
-    this.checkShiftTimingExistsMethodCall();
+  // backPage() {
+  //   // if(this.isNoShiftCreated) {
+  //   //   this.isNoShiftCreated = false
+  //   // }else {
+  //   // this.checkShiftTimingExistsMethodCall();
+  //   // }
+
+  //   this.checkShiftTimingExistsMethodCall();
+  // }
+
+  async backPage() {
+    debugger
+    await this.checkShiftTimingExists();
+    if (this.shiftTimingExists) {
+      this.router.navigate(['/organization-onboarding/shift-time-list']);
+    } else {
+      // this._router.navigate(['/organization-onboarding/add-shift-time']);
+      this.router.navigate(['/organization-onboarding/add-shift-placeholder']);
+      //  routerLink="/organization-onboarding/add-shift-placeholder"
+    }
+
+    // this._onboardingService.refreshOnboarding();
   }
+
+  shiftTimingExists = false;
+  async checkShiftTimingExists(): Promise<void> {
+    debugger;
+    try {
+      const response: any = await this.dataService.shiftTimingExists().toPromise(); // Use toPromise() to convert observable to a promise
+      this.shiftTimingExists = response.object;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
 
   isAddShiftBackLoading: boolean = false;
   checkShiftTimingExistsMethodCall() {
@@ -135,11 +167,13 @@ export class AddShiftTimeComponent implements OnInit {
     debugger;
     this.loading = true;
     this.organizationShiftTimingRequest.userUuids = this.selectedStaffsUuids;
+    this.organizationShiftTimingRequest.shiftTypeId = 1;
     this.dataService
       .registerShiftTiming(this.organizationShiftTimingRequest)
       .subscribe(
         (response) => {
           this.getAllShiftTimingsMethodCall();
+          this.helperService.registerOrganizationRegistratonProcessStepData(Key.SHIFT_TIME_ID, Key.PROCESS_COMPLETED);
           this.loading = false;
           this.helperService.showToast(
             'Shift Timing registered successfully',
@@ -228,6 +262,7 @@ export class AddShiftTimeComponent implements OnInit {
     this.isAllUsersSelected = this.staffs.every((staff) => staff.selected);
     this.isAllSelected = this.isAllUsersSelected;
     this.updateSelectedStaffs();
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId)
   }
 
   checkAndUpdateAllSelected() {
@@ -262,6 +297,7 @@ export class AddShiftTimeComponent implements OnInit {
   activeModel2: boolean = false;
   isAllUsersSelected: boolean = false;
 
+  checkForShiftId: number = 0;
   selectAll(checked: boolean) {
     this.isAllSelected = checked;
     this.staffs.forEach((staff) => (staff.selected = checked));
@@ -283,6 +319,7 @@ export class AddShiftTimeComponent implements OnInit {
         }
       });
     }
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId);
   }
 
   unselectAllUsers() {
@@ -291,6 +328,7 @@ export class AddShiftTimeComponent implements OnInit {
     this.staffs.forEach((staff) => (staff.selected = false));
     this.selectedStaffsUuids = [];
     this.activeModel2 = false;
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId)
   }
 
   selectAllUsers(isChecked: boolean) {
@@ -339,6 +377,7 @@ export class AddShiftTimeComponent implements OnInit {
   SHIFT_TIME_STEP_ID = Key.SHIFT_TIME;
   isAddShiftLastLoading: boolean = false;
   staffActiveTabInShiftTimingMethod() {
+    debugger
     this.isAddShiftLastLoading = true;
     if (this.isValidForm()) {
       this.isAddShiftLastLoading = false;
@@ -349,6 +388,7 @@ export class AddShiftTimeComponent implements OnInit {
     // });
     // this.onboardingService.refreshOnboarding();
     this.selectAll(true);
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId);
   }
 
   organizationShiftTimingValidationErrors: { [key: string]: string } = {};
@@ -361,7 +401,7 @@ export class AddShiftTimeComponent implements OnInit {
 
   onTimeChange(field: keyof OrganizationShiftTimingRequest, value: Date): void {
 
-    
+    debugger
     // Set the field value directly
     switch (field) {
         case 'inTime':
@@ -470,6 +510,7 @@ export class AddShiftTimeComponent implements OnInit {
 
 
   calculateTimes(): void {
+    debugger
     const { inTime, outTime, startLunch, endLunch } = this.organizationShiftTimingRequest;
 
     // Reset errors and calculated times
@@ -578,4 +619,49 @@ export class AddShiftTimeComponent implements OnInit {
       }
     );
   }
+
+  isNoShiftCreated: boolean = false;
+  createNewShift() {
+    this.isNoShiftCreated = true;
+  }
+
+
+  getRowNumber(index: number): number {
+    return ((this.pageNumber-1) * this.itemPerPage) + index + 1;
+  }
+
+  isShiftNamePresent:boolean = false;
+  checkShiftPresenceData(shiftName:string) {
+    this.dataService.checkShiftPresence(shiftName).subscribe(
+      (response) => {
+        this.isShiftNamePresent = response.object;
+      },
+      (error) => {
+        console.log('error');
+      }
+    );
+  }
+
+  userNameWithShiftName: any;
+  getOrganizationUserNameWithShiftNameData(shiftId: number) {
+    this.dataService.getOrganizationUserNameWithShiftName(this.selectedStaffsUuids, shiftId).subscribe(
+      (response) => {
+        this.userNameWithShiftName = response.listOfObject;
+        
+      },
+      (error) => {
+        console.log('error');
+      }
+    );
+  }
+
+  isValidated:boolean = false;
+  checkValidation() {
+    this.isValidated ? false : true;
+  }
+
+  
+
+
+  
 }

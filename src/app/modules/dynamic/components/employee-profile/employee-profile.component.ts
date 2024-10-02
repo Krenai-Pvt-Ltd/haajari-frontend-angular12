@@ -250,14 +250,33 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
       userUuid: ['']
     });
     this.getHrPolicy();
+
+    
+    // this.attendanceTimeUpdateForm = this.fb.group({
+    //   requestType: [null, [Validators.required]],
+    //   requestedDate: [null, [Validators.required]],
+    //   attendanceId: [null, [Validators.required]],
+    //   updatedTime: [null, [Validators.required]],
+    //   managerId: [null, [Validators.required]],
+    //   requestReason: [null, [Validators.required, Validators.maxLength(200)]]
+    // });
+
     this.attendanceTimeUpdateForm = this.fb.group({
-      requestType: [null, [Validators.required]],
-      requestedDate: [null, [Validators.required]],
-      attendanceId: [null, [Validators.required]],
-      updatedTime: [null, [Validators.required]],
-      managerId: [null, [Validators.required]],
-      requestReason: [null, [Validators.required, Validators.maxLength(200)]]
+      updateGroup: this.fb.group({
+        requestType: [null, Validators.required],
+        requestedDate: [null, Validators.required],
+        attendanceId: [null, Validators.required],
+        updatedTime: [null, Validators.required]
+      }),
+      createGroup: this.fb.group({
+        selectedDateAttendance: [null, Validators.required],
+        inRequestTime: [null, Validators.required],
+        outRequestTime: [null, Validators.required]
+      }),
+      managerId: [null, Validators.required],
+      requestReason: [null, Validators.required]
     });
+    
     this.donateCoinsForm = this.fb.group({
       userId: ['', Validators.required],
       coins: ['', [Validators.required, Validators.min(1)]],
@@ -3104,32 +3123,162 @@ return
   attendanceTimeUpdateForm!: FormGroup;
   requestedDate!: Date;
   statusString!: string;
-
+  attendanceRequestType: string= 'UPDATE';
+  selectedDateAttendance!: Date;
+  choosenDateString!: string;
 
   submitForm(): void {
-    if (this.attendanceTimeUpdateForm.valid) {
-      const attendanceTimeUpdateRequest: AttendanceTimeUpdateRequestDto = this.attendanceTimeUpdateForm.value;
-      this.dataService.sendAttendanceTimeUpdateRequest(this.userId, this.attendanceTimeUpdateForm.value).subscribe(
+    debugger
+    if (this.checkHoliday || this.checkAttendance) {
+      return;
+     }
+      const formValue = this.attendanceTimeUpdateForm.value;
+      let attendanceTimeUpdateRequest: AttendanceTimeUpdateRequestDto = {
+        managerId: formValue.managerId,
+        requestReason: formValue.requestReason
+      };
+  
+      if (this.attendanceRequestType === 'UPDATE') {
+        attendanceTimeUpdateRequest = {
+          ...attendanceTimeUpdateRequest,
+          attendanceId: formValue.updateGroup.attendanceId,
+          updatedTime: formValue.updateGroup.updatedTime,
+        };
+      } else if (this.attendanceRequestType === 'CREATE') {
+        attendanceTimeUpdateRequest = {
+          ...attendanceTimeUpdateRequest,
+          selectedDateAttendance: formValue.createGroup.selectedDateAttendance,
+          inRequestTime: formValue.createGroup.inRequestTime,
+          outRequestTime: formValue.createGroup.outRequestTime
+        };
+      }
+  
+      this.dataService.sendAttendanceTimeUpdateRequest(this.userId, attendanceTimeUpdateRequest, this.attendanceRequestType, this.choosenDateString).subscribe(
         (response) => {
           // console.log('Request sent successfully', response);
+
+          console.log("retrive", response, response.status);
+          if(response.status === true) {
+          console.log('Request sent successfully', response);
           this.resetForm();
           document.getElementById('attendanceUpdateModal')?.click();
-          this.getAttendanceRequestLogData();
+          // this.getAttendanceRequestLogData();
+          this.helperService.showToast('Request Sent Successfully!', Key.TOAST_STATUS_SUCCESS);
+          } else if(response.status === false) {
+            console.log('Request Already present', response);
+            // this.resetForm();
+            // document.getElementById('attendanceUpdateModal')?.click();
+            // this.getAttendanceRequestLogData();
+            this.helperService.showToast('Request Already Registered!', Key.TOAST_STATUS_ERROR);
+            }
         },
         (error) => {
           console.error('Error sending request:', error);
         }
       );
-    }
+    // }
   }
+  
+
+  // submitForm(): void {
+  //   debugger
+  //   if (this.attendanceTimeUpdateForm.valid) {
+  //     const attendanceTimeUpdateRequest: AttendanceTimeUpdateRequestDto = this.attendanceTimeUpdateForm.value;
+  //     this.dataService.sendAttendanceTimeUpdateRequest(this.userId, this.attendanceTimeUpdateForm.value, this.attendanceRequestType).subscribe(
+  //       (response) => {
+  //         console.log('Request sent successfully', response);
+  //         this.resetForm();
+  //         document.getElementById('attendanceUpdateModal')?.click();
+  //         this.getAttendanceRequestLogData();
+  //       },
+  //       (error) => {
+  //         console.error('Error sending request:', error);
+  //       }
+  //     );
+  //   }
+  // }
+
+  // onDateChange(date: Date | null): void {
+  //   if (date) {
+  //     this.requestedDate = date; 
+  //     this.statusString = this.attendanceTimeUpdateForm.get('requestType')?.value || '';
+  //     this.getAttendanceChecktimeListDate();
+  //   }
+  // }
 
   onDateChange(date: Date | null): void {
-    if (date) {
-      this.requestedDate = date; 
-      this.statusString = this.attendanceTimeUpdateForm.get('requestType')?.value || '';
+    if (date && this.attendanceRequestType === 'UPDATE') {
+      this.requestedDate = date;
+      this.choosenDateString = this.helperService.formatDateToYYYYMMDD(date);
+      this.statusString = this.attendanceTimeUpdateForm.get('updateGroup.requestType')?.value || '';
       this.getAttendanceChecktimeListDate();
     }
   }
+
+  onDateChangeForCreateAttendance(date: Date | null): void {
+    if (date && this.attendanceRequestType === 'CREATE') {
+      this.selectedDateAttendance = date;
+      this.choosenDateString = this.helperService.formatDateToYYYYMMDD(date);
+      console.log(" this.choosenDateString",  this.choosenDateString);
+      this.statusString = this.attendanceTimeUpdateForm.get('createGroup.requestType')?.value || '';
+      this.getHolidayForOrganization(this.selectedDateAttendance);
+      this.getAttendanceExistanceStatus(this.selectedDateAttendance);
+    }
+  }
+
+  // isAttendanceFormValid(): boolean {
+  //   if (this.attendanceRequestType === 'UPDATE') {
+  //     return this.attendanceTimeUpdateForm.get('updateGroup')?.valid && this.attendanceTimeUpdateForm.get('managerId')?.valid && this.attendanceTimeUpdateForm.get('requestReason')?.valid;
+  //   } else if (this.attendanceRequestType === 'CREATE') {
+  //     return this.attendanceTimeUpdateForm.get('createGroup')?.valid && this.attendanceTimeUpdateForm.get('managerId')?.valid && this.attendanceTimeUpdateForm.get('requestReason')?.valid;
+  //   }
+  //   return false;
+  // }
+
+  isAttendanceFormValid(): boolean {
+
+    if(this.checkHoliday === true || this.checkAttendance === true) {
+      return false;
+    }
+    if (this.attendanceRequestType === 'UPDATE') {
+      const updateGroup = this.attendanceTimeUpdateForm.get('updateGroup');
+      const managerId = this.attendanceTimeUpdateForm.get('managerId');
+      const requestReason = this.attendanceTimeUpdateForm.get('requestReason');
+  
+      return (updateGroup ? updateGroup.valid : false) &&
+             (managerId ? managerId.valid : false) &&
+             (requestReason ? requestReason.valid : false);
+    } else if (this.attendanceRequestType === 'CREATE') {
+      const createGroup = this.attendanceTimeUpdateForm.get('createGroup');
+      const managerId = this.attendanceTimeUpdateForm.get('managerId');
+      const requestReason = this.attendanceTimeUpdateForm.get('requestReason');
+  
+      return (createGroup ? createGroup.valid : false) &&
+             (managerId ? managerId.valid : false) &&
+             (requestReason ? requestReason.valid : false);
+    }
+    return false;
+  }
+  
+
+  onAttendanceRequestTypeChange(): void {
+    this.resetFormFields();
+    this.checkHoliday = false;
+    this.checkAttendance = false;
+  }
+
+  private resetFormFields(): void {
+    if (this.attendanceRequestType === 'UPDATE') {
+      this.attendanceTimeUpdateForm.get('updateGroup')?.reset();
+    } else if (this.attendanceRequestType === 'CREATE') {
+      this.attendanceTimeUpdateForm.get('createGroup')?.reset();
+    }
+    // Optionally reset common fields if needed
+    this.attendanceTimeUpdateForm.get('managerId')?.reset();
+    this.attendanceTimeUpdateForm.get('requestReason')?.reset();
+  }
+  
+  
 
 
   resetForm(): void {
@@ -3141,16 +3290,83 @@ disabledDate = (current: Date): boolean => {
   return moment(current).isAfter(moment(), 'day');
 }
 
+// attendanceRequestLog: any[] = [];
+// pageNumberAttendanceLogs: number = 1;
+// itemPerPageAttendanceLogs: number = 5;
+// fullAttendanceLogCount:number = 0;
+//   getAttendanceRequestLogData(): void {
+//     debugger
+//     this.dataService.getAttendanceRequestLog(this.userId, this.pageNumberAttendanceLogs, this.itemPerPageAttendanceLogs).subscribe(response => {
+//       this.attendanceRequestLog = response.object;
+//       this.fullAttendanceLogCount = response.totalItems;
+//       console.log('logs retrieved successfully', response.listOfObject);
+//     }, (error) => {
+//       console.log(error);
+//     });
+//   }
+
 attendanceRequestLog: any[] = [];
-  getAttendanceRequestLogData(): void {
-    this.dataService.getAttendanceRequestLog(this.userId).subscribe(response => {
-      debugger
-      this.attendanceRequestLog = response.object;
-      // console.log('logs retrieved successfully', response.listOfObject);
-    }, (error) => {
-      console.log(error);
-    });
+
+pageNumberAttendanceLogs: number = 1;
+itemPerPageAttendanceLogs: number = 5;
+fullAttendanceLogCount: number = 0;
+isFullLogLoader: boolean = false;
+debounceTimer: any;
+getAttendanceRequestLogData(debounceTime: number = 300) {
+  return new Promise((resolve, reject) => {
+    this.isFullLogLoader = true;
+    if (this.debounceTimer) {
+      clearTimeout(this.debounceTimer);
+    }
+    this.debounceTimer = setTimeout(() => {
+  
+  // this.attendanceRequestLog = [];
+  this.dataService.getAttendanceRequestLog(this.userId, this.pageNumberAttendanceLogs, this.itemPerPageAttendanceLogs).subscribe(response => {
+    this.attendanceRequestLog = [...this.attendanceRequestLog, ...response.object];
+    this.fullAttendanceLogCount = response.totalItems;
+    this.isFullLogLoader = false;
+    console.log('logs retrieved successfully', response.listOfObject);
+  }, (error) => {
+    console.log(error);
+    this.isFullLogLoader = false;
+  });
+}, debounceTime);
+});
+}
+initialLoadDone: boolean = false;
+@ViewChild('logContainer') logContainer!: ElementRef<HTMLDivElement>;
+scrollDownRecentActivity(event: any) {
+  debugger
+  if (!this.initialLoadDone) return;
+
+  if(this.fullAttendanceLogCount < ((this.pageNumberAttendanceLogs - 1) * this.itemPerPageAttendanceLogs)) {
+    return;
   }
+  const target = event.target as HTMLElement;
+  const atBottom =
+    target.scrollHeight - (target.scrollTop + target.clientHeight) < 10;
+
+  if (atBottom) {
+    this.pageNumberAttendanceLogs++;
+    this.getAttendanceRequestLogData();
+  }
+}
+
+loadMoreLogs(): void {
+  this.initialLoadDone = true;
+  this.pageNumberAttendanceLogs++;
+  // this.attendanceRequestLog = [];
+  this.getAttendanceRequestLogData();
+  // setTimeout(() => {
+  //   this.scrollToBottom();
+  // }, 500);
+}
+
+closeAttendanceFunc() {
+  this.attendanceRequestLog = [];
+  this.pageNumberAttendanceLogs = 1;
+}
+
 
   //  super coins func 
 
@@ -3307,6 +3523,41 @@ attendanceRequestLog: any[] = [];
       this.isShimmerForLopReversalApplication = false;
       this.networkConnectionErrorPlaceHolderForLopReversalApplication = true;
     })
+  }
+
+  checkHoliday:boolean = false;
+
+ getHolidayForOrganization(selectedDate:any){
+    debugger
+    this.checkHoliday = false;
+    this.dataService.getHolidayForOrganization(this.helperService.formatDateToYYYYMMDD(selectedDate))
+    .subscribe(
+      (response) => {
+        this.checkHoliday = response.object;
+        console.log(response);
+        console.error("Response", response.object);
+      },
+      (error) =>{
+        console.error('Error details:', error);
+      }
+  )
+  }
+
+  checkAttendance:boolean = false;
+  getAttendanceExistanceStatus(selectedDate:any){
+    debugger
+    this.checkAttendance = false;
+    this.dataService.getAttendanceExistanceStatus(this.userId, this.helperService.formatDateToYYYYMMDD(selectedDate))
+    .subscribe(
+      (response) => {
+        this.checkAttendance = response.object;
+        console.log(response);
+        console.error("Response", response.object);
+      },
+      (error) =>{
+        console.error('Error details:', error);
+      }
+  )
   }
 
   

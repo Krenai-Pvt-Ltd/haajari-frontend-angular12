@@ -22,7 +22,7 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
     private router: Router,
     private helperService: HelperService,
     private rbacService: RoleBasedAccessControlService,
-    private modalService: NgbModal,
+    private modalService: NgbModal
   ) {}
 
   onboardingViaString: string = '';
@@ -76,6 +76,7 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
   }
 
   goToStep(index: string) {
+    debugger
     // console.log("Index to Go :", index);
     switch (index) {
       case '1': {
@@ -171,7 +172,7 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-      },
+      }
     );
   }
 
@@ -216,5 +217,20 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
         this.logoutFunction();
       }
     });
+  }
+
+  getStepClass(): string {
+    switch (this.STEP_ID) {
+      case 1:
+        return 'sideBarStep-one';
+      case 2:
+        return 'sideBarStep-one sideBarStep-two';
+      case 3:
+        return 'sideBarStep-one sideBarStep-three';
+      case 4:
+        return 'sideBarStep-one sideBarStep-four';
+      default:
+        return '';
+    }
   }
 }

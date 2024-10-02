@@ -228,8 +228,8 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   max-width: 220px;
-  font-size: 12px;
-  color: #1f1f1f !important;
+  font-size: 14px;
+  color: #434343 !important;
   font-weight: 400;
   letter-spacing: 0.1px;
 }
@@ -305,14 +305,14 @@ tbody tr {
 
 button.btn.close-btn {
   border-radius: 6px;
-  padding: 7px 12px;
+  padding: 0px 0px;
   font-weight: 500;
   font-size: 20px;
   line-height: 21px;
   box-shadow: unset !important;
   position: absolute;
   right: 0px;
-  top: 0px;
+  top: 13px;
   color: #6666f3;
   cursor: pointer;
 }
@@ -365,7 +365,7 @@ button.btn.close-btn {
   display: block;
   width: 120px;
   padding: 0.4rem 0.5rem;
-  font-size: 12px !important;
+  font-size: 14px !important;
   text-align: left;
   background-color: #fff;
   border: none;
@@ -381,7 +381,7 @@ button.btn.close-btn {
 .empFilerDropfilter .new-deopdown i {
   position: absolute;
   right: 15px;
-  top: 13px;
+  top: 12px;
 }
 .joining-email {
   overflow: hidden;
@@ -677,7 +677,7 @@ textarea {
 
 .teme-maneger {
   color: #1f1f1f;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 400;
   letter-spacing: 0.1px;
   text-transform: capitalize;
@@ -763,15 +763,15 @@ Remove
   width: 400px;
   border-radius: 0px 10px 10px 0px;
   border: 0px solid #f2f2f2;
-  height: 42px !important;
+  height: 45px !important;
   border-left: 0;
   font-weight: 400 !important;
   font-size: 14px !important;
   color: #1f1f1f !important;
 }
 .empID {
-  font-size: 12px;
-  color: #333;
+  font-size: 14px;
+  color: #434343;
   width: fit-content;
   margin: 0 auto;
   text-align: center;

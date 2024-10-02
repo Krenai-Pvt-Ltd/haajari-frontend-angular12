@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Key } from './constant/key';
@@ -8,30 +7,31 @@ import { RoleBasedAccessControlService } from './services/role-based-access-cont
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   title = 'hajari';
 
   //showHeader: boolean = true;
-  isShowToast:boolean=false;
+  isShowToast: boolean = false;
   readonly key = Key;
-  _router : any;
-  constructor(private router: Router,
+  _router: any;
+  constructor(
+    private router: Router,
     public rbacService: RoleBasedAccessControlService,
-    private _helperService : HelperService){
-      this._helperService.toastSubscription.subscribe(value=>{
-        this.isShowToast=value;
-      })
+    private _helperService: HelperService
+  ) {
+    this._helperService.toastSubscription.subscribe((value) => {
+      this.isShowToast = value;
+    });
     this._router = router;
   }
   ngOnInit(): void {
     // this._helperService.showToast("Successfully generated.", "Success");
   }
 
-
   moduleResponseList: any[] = [];
-  setModules(moduleResponseList : any){
+  setModules(moduleResponseList: any) {
     this.moduleResponseList = this.moduleResponseList;
   }
 
@@ -47,6 +47,13 @@ export class AppComponent implements OnInit{
 
   //   return urlsToHideHeader.includes(url);
   // }
+
+  // isShowToDoSteps: boolean = false;
+
+  // showToDoSteps() {
+  //   this.isShowToDoSteps = true;
+  // }
+  // hideToDoSteps() {
+  //   this.isShowToDoSteps = false;
+  // }
 }
-
-

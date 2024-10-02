@@ -33,6 +33,8 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { AttendanceModeComponent } from './components/attendance-mode/attendance-mode.component';
 import { ShiftTimeListComponent } from './components/shift-time-list/shift-time-list.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { AddShiftPlaceholderComponent } from './components/add-shift-placeholder/add-shift-placeholder.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     UploadTeamComponent,
     AttendanceModeComponent,
     ShiftTimeListComponent,
+    AddShiftPlaceholderComponent,
   ],
   imports: [
     CommonModule,
@@ -70,6 +73,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     NzTimePickerModule,
     NzDatePickerModule,
     ImageCropperModule,
+    NzEmptyModule,
   ],
 })
 export class OrganizationOnboardingModule {}

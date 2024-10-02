@@ -775,6 +775,7 @@ this.getAdminPersonalDetailMethodCall();
 
   downloadingFlag: boolean = false;
   downloadAttendanceDataInExcelFormatMethodCall() {
+    debugger
     this.downloadingFlag = true;
     this.dataService
       .downloadAttendanceDataInExcelFormat(this.startDate, this.endDate)
@@ -1309,22 +1310,75 @@ this.getAdminPersonalDetailMethodCall();
   isPurchased: boolean = false;
   @ViewChild('billingModal') billingModal!: ElementRef;
   getPurchasedStatus() {
+    debugger
     this._subscriptionPlanService.getPurchasedStatus().subscribe((response) => {
       this.isPurchased = response;
 
-      if (this.isPurchased == true) {
-        this.router.navigate(['/dashboard']);
-      } else {
-        // this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = true
-        // this.billingModal.nativeElement.click();
-        if (this.ROLE=="ADMIN") {
-          this.router.navigate(['/billing-and-subscription']);
-        }
+      // if(this.isPurchased) {
+      // this.router.navigate(['/to-do-step-dashboard']);
+      // }else {
+      //   this.router.navigate(['/to-do-step-dashboard']);
+      // }
+      this.isOrgOnboarTodayData();
+      // if (this.isPurchased == true) {
+      //   this.router.navigate(['/to-do-step-dashboard']);
+      //   // this.router.navigate(['/dashboard']);
+      // } else {
+      //   // this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = true
+      //   // this.billingModal.nativeElement.click();
+      //   if (this.ROLE=="ADMIN") {
+      //     this.router.navigate(['/billing-and-subscription']);
+      //   }
         
        
-      }
+      // }
     });
   }
+
+  isToDoStepsCompleted: number = 0;
+  isToDoStepsCompletedData(isOrgOnboardToday : number) {
+    debugger
+    this.dataService.isToDoStepsCompleted().subscribe(
+      (response) => {
+        this.isToDoStepsCompleted = response.object;
+
+        if(this.isToDoStepsCompleted == 0 && isOrgOnboardToday == 1) {
+          this.router.navigate(['/to-do-step-dashboard']);
+        }else {
+          this.router.navigate(['/dashboard']);
+        }
+        console.log("isToDoStepsCompletedFlag :", this.isToDoStepsCompleted);
+        
+      },
+      (error) => {
+        console.log('error');
+      }
+    );
+  }
+
+  isOrgOnboardToday: number = 0;
+  isOrgOnboarTodayData() {
+    debugger
+    this.dataService.isOrgOnboarToday().subscribe(
+      (response) => {
+        this.isOrgOnboardToday = response.object;
+
+        // if(this.isOrgOnboardToday == 0) {
+        //   this.router.navigate(['/to-do-step-dashboard']);
+        // }else {
+        //   this.router.navigate(['/dashboard']);
+        // }
+        this.isToDoStepsCompletedData(this.isOrgOnboardToday);
+        console.log("isToDoStepsCompletedFlag :", this.isToDoStepsCompleted);
+        
+      },
+      (error) => {
+        console.log('error');
+      }
+    );
+  }
+
+  
 
   routeToBillingPaymentPage(plandId : any) {
 this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = false

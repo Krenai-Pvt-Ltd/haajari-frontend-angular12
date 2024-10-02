@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { DataService } from './data.service';
 import { ModulesWithSubmodules } from '../models/modules-with-submodules';
 import { ModuleResponse } from '../models/module-response';
@@ -24,7 +24,7 @@ export class HelperService {
   }
 
   subModuleResponseList: any[] = [];
-  
+  todoStepsSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   async getDecodedValueFromToken(): Promise<any> {
     
@@ -92,6 +92,18 @@ export class HelperService {
   
     return `${year}-${month}-${day}`;
   }
+  
+//   formatDateToYYYYMMDDHHmmss(date: Date): string {
+//     const year = date.getFullYear();
+//     const month = (date.getMonth() + 1).toString().padStart(2, '0');
+//     const day = date.getDate().toString().padStart(2, '0');
+//     const hours = date.getHours().toString().padStart(2, '0');
+//     const minutes = date.getMinutes().toString().padStart(2, '0');
+//     const seconds = date.getSeconds().toString().padStart(2, '0');
+  
+//     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+// }
+
 
   formatDateToHHmmss(date: Date): string {
     if(date != null){
@@ -258,5 +270,21 @@ export class HelperService {
 
     return null;
   }
+
+  registerOrganizationRegistratonProcessStepData(statusId: number, stepId:number) {
+    debugger
+    this.dataService.registerOrganizationRegistratonProcessStep(statusId, stepId).subscribe(
+      (response) => {
+        console.log("success");
+        this.todoStepsSubject.next(true);
+      },
+      (error) => {
+        console.log('error');
+      }
+    );
+  }
+
+
+
 
 }

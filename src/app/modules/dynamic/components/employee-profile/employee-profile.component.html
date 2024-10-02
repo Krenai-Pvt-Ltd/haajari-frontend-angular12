@@ -212,6 +212,9 @@
                   <a class="nav-link" data-bs-toggle="tab" href="#attendance" role="tab"
                     aria-selected="true">Attendance</a>
                 </li>
+                <!-- <li class="nav-item" (click)="activeTabs('attendance')">
+                  <a class="nav-link" data-bs-toggle="tab" href="#attendance" role="tab" aria-selected="true">Attendance</a>
+                </li> -->
                 <li class="nav-item" (click)="activeTabs('finances'); financeSectionMethodCall()"
                   *ngIf="(ROLE == ADMIN) || (UUID == userId)">
                   <a class="nav-link" data-bs-toggle="tab" href="#payslip" role="tab" aria-selected="false">Finances</a>
@@ -862,8 +865,7 @@
                                 <i class="bi bi-megaphone-fill"></i> Request </label>
                               <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off" />
                               <label class="btn btn-outline-light text-primary" for="btncheck3" data-bs-toggle="modal"
-                                data-bs-target="#attendanceLogsModal">
-                                <i class="bi bi-substack"></i> Logs </label>
+                                data-bs-target="#attendanceLogsModal" (click)="getAttendanceRequestLogData()"> <i class="bi bi-substack"></i> Logs</label>
                             </div>
                           </div>
                           <!--end col-->
@@ -4201,8 +4203,9 @@
 <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#attendanceUpdateModal">
   Request Attendance Time Update
 </button> -->
-<!-- Modal -->
-<div class="modal fade" id="attendanceUpdateModal" tabindex="-1" aria-labelledby="attendanceUpdateModalLabel"
+
+<!-- old Modal code -->
+<!-- <div class="modal fade" id="attendanceUpdateModal" tabindex="-1" aria-labelledby="attendanceUpdateModalLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -4212,7 +4215,7 @@
       </div>
       <div class="modal-body">
         <form [formGroup]="attendanceTimeUpdateForm" (ngSubmit)="submitForm()">
-          <!-- Request Type Dropdown -->
+          
           <div class="mb-3 row">
             <label for="requestType" class="col-sm-4 col-form-label">Request Type <span class="text-danger">*</span>
             </label>
@@ -4226,7 +4229,7 @@
               </nz-select>
             </div>
           </div>
-          <!-- Date Picker -->
+         
           <div class="mb-3 row">
             <label for="requestedDate" class="col-sm-4 col-form-label">Date <span class="text-danger">*</span>
             </label>
@@ -4235,7 +4238,7 @@
                 (ngModelChange)="onDateChange($event)" class="w-100" [nzDisabledDate]="disabledDate"></nz-date-picker>
             </div>
           </div>
-          <!-- Select Check Time -->
+          
           <div class="mb-3 row">
             <label for="attendanceId" class="col-sm-4 col-form-label">Select Time <span class="text-danger">*</span>
             </label>
@@ -4249,7 +4252,7 @@
                 Please select the Request Type and Date above before choosing a time! </small>
             </div>
           </div>
-          <!-- Update Time Picker -->
+          
           <div class="mb-3 row">
             <label for="updatedTime" class="col-sm-4 col-form-label">Update Time <span class="text-danger">*</span>
             </label>
@@ -4258,7 +4261,7 @@
               </nz-time-picker>
             </div>
           </div>
-          <!-- Select Manager -->
+         
           <div class="mb-3 row">
             <label for="managerId" class="col-sm-4 col-form-label">Manager <span class="text-danger">*</span>
             </label>
@@ -4268,7 +4271,7 @@
               </nz-select>
             </div>
           </div>
-          <!-- Request Reason -->
+         
           <div class="mb-3 row">
             <label for="requestReason" class="col-sm-4 col-form-label">Reason <span class="text-danger">*</span>
             </label>
@@ -4285,10 +4288,244 @@
       </div>
     </div>
   </div>
+</div> -->
+
+<!-- new modal code  -->
+
+<div class="modal fade" id="attendanceUpdateModal" tabindex="-1" aria-labelledby="attendanceUpdateModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="attendanceUpdateModalLabel">Attendance Request</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Toggle Buttons for Request Type -->
+        <div class="mb-3 text-center">
+          <div class="form-check form-check-inline me-2">
+            <input class="form-check-input" type="radio" name="attendanceRequestType" id="updateRequestType"
+                   [value]="'UPDATE'" [(ngModel)]="attendanceRequestType" (change)="onAttendanceRequestTypeChange()">
+            <label class="form-check-label" for="updateRequestType">Attendance Update</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="attendanceRequestType" id="createRequestType"
+                   [value]="'CREATE'" [(ngModel)]="attendanceRequestType" (change)="onAttendanceRequestTypeChange()">
+            <label class="form-check-label" for="createRequestType">Mark Present</label>
+          </div>
+        </div>
+        
+
+        <form [formGroup]="attendanceTimeUpdateForm">
+          <!-- Fields for UPDATE request -->
+          <div *ngIf="attendanceRequestType === 'UPDATE'" formGroupName="updateGroup">
+            <div class="mb-3 row">
+              <label for="requestType" class="col-sm-4 col-form-label">Request Type<span class="text-danger">*</span></label>
+              <div class="col-sm-8">
+                <nz-select formControlName="requestType" id="requestType" nzPlaceHolder="Select request type" class="w-100">
+                  <nz-option nzValue="in" nzLabel="IN"></nz-option>
+                  <nz-option nzValue="out" nzLabel="OUT"></nz-option>
+                  <nz-option nzValue="break" nzLabel="BREAK"></nz-option>
+                  <nz-option nzValue="back" nzLabel="BACK"></nz-option>
+                </nz-select>
+              </div>
+            </div>
+            <!-- Additional fields for UPDATE -->
+            <div class="mb-3 row">
+              <label for="requestedDate" class="col-sm-4 col-form-label">Date<span class="text-danger">*</span></label>
+              <div class="col-sm-8">
+                <nz-date-picker formControlName="requestedDate" id="requestedDate" nzFormat="yyyy-MM-dd"
+                  (ngModelChange)="onDateChange($event); getHolidayForOrganization(requestedDate)" class="w-100" [nzDisabledDate]="disabledDate"></nz-date-picker>
+
+                  <small class="text-danger d-block mt-2"
+                *ngIf="checkHoliday">
+                 Seleted date is registered as holiday for your organization!
+                </small>
+              </div>
+            </div>
+            
+            <div class="mb-3 row">
+              <label for="attendanceId" class="col-sm-4 col-form-label">Select Time<span class="text-danger">*</span></label>
+              <div class="col-sm-8">
+                <nz-select formControlName="attendanceId" id="attendanceId" nzPlaceHolder="Select time" class="w-100">
+                  <nz-option *ngFor="let time of attendanceCheckTimeResponse" [nzValue]="time.attendanceId"
+                    [nzLabel]="time.checkTime | date: 'shortTime'"></nz-option>
+                </nz-select>
+                <small class="text-muted d-block mt-2"
+                *ngIf="!attendanceTimeUpdateForm.get('updateGroup.requestType')?.value || !attendanceTimeUpdateForm.get('updateGroup.requestedDate')?.value">
+                Please select the Request Type and Date above before choosing a time!
+              </small>
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <label for="updatedTime" class="col-sm-4 col-form-label">Update Time<span class="text-danger">*</span></label>
+              <div class="col-sm-8">
+                <nz-time-picker formControlName="updatedTime" id="updatedTime" nzFormat="HH:mm"
+                  class="w-100"></nz-time-picker>
+              </div>
+            </div>
+          </div>
+        
+          <!-- Fields for CREATE request -->
+           <!-- {{selectedDateAttendance}} -->
+          <div *ngIf="attendanceRequestType === 'CREATE'" formGroupName="createGroup">
+            <div class="mb-3 row">
+              <label for="selectedDate" class="col-sm-4 col-form-label">Select Date<span class="text-danger">*</span></label>
+              <div class="col-sm-8">
+                <nz-date-picker formControlName="selectedDateAttendance" id="selectedDateAttendance" (ngModelChange)="onDateChangeForCreateAttendance($event);" nzFormat="yyyy-MM-dd" class="w-100" [nzDisabledDate]="disabledDate"></nz-date-picker>
+                <small class="text-danger d-block mt-2"
+                *ngIf="checkHoliday">
+                 Seleted date is registered as holiday for your organization!
+                </small>
+                <small class="text-danger d-block mt-2"
+                *ngIf="checkAttendance">
+                 Your attendance is already registered with us for selected date, you can opt for attendance update option inspite of to request new attendance!
+                </small>
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <label for="inRequestTime" class="col-sm-4 col-form-label">In Time<span class="text-danger">*</span></label>
+              <div class="col-sm-8">
+                <nz-time-picker formControlName="inRequestTime" id="inRequestTime" nzFormat="HH:mm" class="w-100"></nz-time-picker>
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <label for="outRequestTime" class="col-sm-4 col-form-label">Out Time<span class="text-danger">*</span></label>
+              <div class="col-sm-8">
+                <nz-time-picker formControlName="outRequestTime" id="outRequestTime" nzFormat="HH:mm" class="w-100"></nz-time-picker>
+              </div>
+            </div>
+          </div>
+        
+          <!-- Common Fields for Both -->
+          <div class="mb-3 row">
+            <label for="managerId" class="col-sm-4 col-form-label">Manager<span class="text-danger">*</span></label>
+            <div class="col-sm-8">
+              <nz-select formControlName="managerId" id="managerId" nzPlaceHolder="Select manager" class="w-100">
+                <nz-option *ngFor="let manager of managers" [nzValue]="manager.id" [nzLabel]="manager.name"></nz-option>
+              </nz-select>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="requestReason" class="col-sm-4 col-form-label">Reason<span class="text-danger">*</span></label>
+            <div class="col-sm-8">
+              <textarea formControlName="requestReason" id="requestReason" class="form-control" rows="3" [maxLength]="255" #maxWords></textarea>
+              <small *ngIf="maxWords.value.length > 254" style="color: red">The maximum number of characters
+                allowed in above field is 255!</small>
+            </div>
+          </div>
+        </form>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <!-- Submit Button -->
+        <button type="button" class="btn btn-primary"
+        [disabled]="!isAttendanceFormValid()"
+        (click)="submitForm()">Submit</button>
+
+      </div>
+      
+    </div>
+  </div>
 </div>
+
+
+
+
 <!-- attendance request log modal -->
 <!-- Modal -->
-<div id="attendanceLogsModal" class="modal fade" tabindex="-1" aria-labelledby="attendanceLogsModalLabel"
+<div id="attendanceLogsModal" class="modal fade" tabindex="-1" aria-labelledby="attendanceLogsModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="attendanceLogsModalLabel">Attendance Request Logs</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeAttendanceFunc()"></button>
+      </div>
+      <div class="modal-body" >
+      <!-- <div #logContainer
+      (scroll)="scrollDownRecentActivity($event)"> -->
+        <!-- Show No Data Found -->
+        <div class="errorboxmain text-center" *ngIf="fullAttendanceLogCount == 0">
+          <div class="errorboxinner">
+            <div class="errorboxplaceholder mb-2">
+              <img src="assets/images/empty-box.svg" style="width: 80px" />
+            </div>
+            <div>
+              <h4>No Data Found</h4>
+              <p class="mb-0">
+                We're unable to locate a record associated with the information you entered.
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- Show Logs -->
+        <div class="logs-container" *ngIf="fullAttendanceLogCount > 0" #logContainer
+          (scroll)="scrollDownRecentActivity($event)">
+          <div class="activity" *ngFor="let log of attendanceRequestLog">
+            <div class="activity-info">
+              <div class="icon-info-activity">
+                <i class="ti ti-clock bg-soft-warning" *ngIf="log.status == 'PENDING'"></i>
+                <i class="ti ti-checks bg-soft-success" *ngIf="log.status == 'APPROVED'"></i>
+                <i class="ti ti-x bg-soft-danger" *ngIf="log.status == 'REJECTED'"></i>
+              </div>
+              <div class="activity-info-text">
+                <div>
+                  <div class="float-end">
+                    <div class="btn btn-xs btn-light btn-round">
+                      {{ log.createdDate | date: 'medium' || "N/A" }}
+                    </div>
+                  </div>
+                  <div class="media align-items-center">
+                    <div class="media-body ms-2 align-self-center">
+                      <h5 class="m-0 Regular-data">
+                        {{ log.userName }}
+                      </h5>
+                      <p class="text-muted font-12 mb-0">
+                        <span style="color: orange" *ngIf="log.status == 'PENDING'">Requested To</span>
+                        <span style="color: green" *ngIf="log.status == 'APPROVED'">Approved By</span>
+                        <span style="color: rgb(255, 55, 0)" *ngIf="log.status == 'REJECTED'">Rejected By</span>
+                        {{ log.managerName }}
+                      </p>
+                    </div>
+                  </div>
+                  <hr class="hr-dashed" />
+                  <div class="d-flex justify-content-between flex-column"  *ngIf="log.requestType == 'UPDATE'">
+                    <h6>Request Type: <span class="badge bg-soft-primary">{{log.attendanceStatus}}</span></h6>
+                    <p>Original Date: <u>{{ log.oldDate | date:"MMM dd, yyyy 'at' hh:mm a" }}</u></p>
+                    <p>Updated Date: <u>{{ log.updatedDate | date:"MMM dd, yyyy 'at' hh:mm a" }}</u></p>
+                  </div>
+                  <div class="d-flex justify-content-between flex-column" *ngIf="log.requestType == 'CREATE'">
+                    <p>In Time Date: <u>{{ log.inRequestTime | date:"MMM dd, yyyy 'at' hh:mm a" }}</u></p>
+                    <p>Out Time Date: <u>{{ log.outRequestTime | date:"MMM dd, yyyy 'at' hh:mm a" }}</u></p>
+                  </div>
+                  <h6>Reason: </h6> 
+                  <p class="text-muted mb-0">
+                   {{ log.requestReason }}</p>
+                </div>
+                <hr class="hr-dashed" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Load More Button -->
+          <div class="align-self-center text-center mt-2" *ngIf="fullAttendanceLogCount > itemPerPageAttendanceLogs && !isFullLogLoader && !initialLoadDone">
+            <button type="button" class="btn btn-xs btn-light btn-round" (click)="loadMoreLogs()">
+              Load More <i class="bi bi-chevron-down"></i>
+            </button>
+          </div>
+          <div class="text-center load-more-btn" *ngIf="isFullLogLoader && !initialLoadDone">
+            <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+            <div><small>Loading...</small></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+ 
+<!-- <div id="attendanceLogsModal" class="modal fade" tabindex="-1" aria-labelledby="attendanceLogsModalLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -4297,7 +4534,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <div class="errorboxmain text-center" *ngIf="attendanceRequestLog.length==0">
+        <div class="errorboxmain text-center" *ngIf="fullAttendanceLogCount==0">
           <div class="errorboxinner">
             <div class="errorboxplaceholder mb-2">
               <img src="assets/images/empty-box.svg" style="width: 80px" />
@@ -4308,7 +4545,7 @@
             </div>
           </div>
         </div>
-        <div class="logs-container" *ngIf="attendanceRequestLog.length > 0">
+        <div class="logs-container" *ngIf="fullAttendanceLogCount > 0">
           <div class="log-entry" *ngFor="let log of attendanceRequestLog">
             <div class="log-header">
               <h6>Request Type: <span class="badge bg-soft-primary">{{log.attendanceStatus}}</span>
@@ -4335,10 +4572,10 @@
           </div>
         </div>
       </div>
-      <!-- <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button></div> -->
     </div>
   </div>
-</div>
+</div> -->
+
 <!-- donate coins modal -->
 <div class="modal fade" id="donateCoinsModal" tabindex="-1" aria-labelledby="donateCoinsModalLabel" aria-hidden="true"
   data-bs-backdrop="static" data-bs-keyboard="false">

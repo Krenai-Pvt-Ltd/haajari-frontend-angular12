@@ -19,6 +19,12 @@
   position: absolute;
   right: 15px;
 }
+
+.profile-input i {
+  position: absolute;
+  right: 15px;
+}
+
 button.btn.close-btn {
   border-radius: 6px;
   padding: 7px 12px;
@@ -123,8 +129,89 @@ button.btn.close-btn {
   }
 }
 
-
 .text-danger {
   font-size: 0.875rem;
   margin-top: 0.25rem;
+}
+
+.shift-creation-pending {
+  background-color: #f6f6f6;
+  padding: 20px;
+  border: 1px solid #e6e7e9;
+  border-radius: 2px;
+  flex-direction: column;
+}
+
+.createShift {
+  border: 1px solid #6666f3;
+  color: #6666f3;
+  border-radius: 2px;
+}
+
+.selectAll {
+  background-color: #f4f8ff;
+  border: 1px solid #e4e7ff;
+  padding: 4px 15px;
+  border-radius: 5px;
+}
+
+.shift-TimingsAssist {
+  background-color: #f6f6f6;
+  border-radius: 2px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bi::before,
+[class*=" bi-"]::before,
+[class^="bi-"]::before {
+  font-weight: 600 !important;
+}
+
+.shift-TimingsAssist svg {
+  width: 25px;
+  height: 25px;
+}
+
+.learn-more {
+  color: #6666f3;
+  font-size: 14px;
+  font-weight: 500;
+}
+.learn-more svg {
+  width: 15px;
+  height: 15px;
+}
+.AssistVideo {
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  border-radius: 0px 3px 3px 0px;
+}
+.playBtn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+.closebtn .close {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  border: none;
+  background-color: #fff;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  justify-content: center;
+  box-shadow: rgb(99 99 99 / 0.2) 0 2px 8px 0;
+}
+
+.memberNotes{
+  position: absolute;
+  bottom: -27px;
 }

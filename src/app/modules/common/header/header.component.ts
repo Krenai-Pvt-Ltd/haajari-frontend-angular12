@@ -91,6 +91,7 @@ export class HeaderComponent implements OnInit {
     this.UUID = await this.rbacService.getUUID();
     this.ROLE = await this.rbacService.getRole();
     this.ORGANIZATION_UUID = await this.rbacService.getOrgRefUUID();
+    this.getFirebase(this.ORGANIZATION_UUID,this.UUID);
   }
 
   async getLoggedInUserDetails() {
@@ -153,7 +154,6 @@ export class HeaderComponent implements OnInit {
       'dashboard',
       'team',
       'project',
-      'reports',
       'attendance',
       'leave-management',
     ];

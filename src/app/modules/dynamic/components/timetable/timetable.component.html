@@ -736,7 +736,7 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="unprocessedLogsModal" tabindex="-1" aria-labelledby="unprocessedLogsModalLabel" aria-hidden="true">
+<div class="modal fade" id="unprocessedLogsModal" tabindex="-1" aria-labelledby="unprocessedLogsModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -756,14 +756,36 @@
             <button class="nav-link active" id="requests-tab" data-bs-toggle="tab" data-bs-target="#requests" type="button" role="tab" aria-controls="requests" aria-selected="true" >Requests</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="logs-tab" data-bs-toggle="tab" data-bs-target="#logs" type="button" role="tab" aria-controls="logs" aria-selected="false" (click)="getFullAttendanceRequestLogData()">Logs</button>
+            <button class="nav-link" id="logs-tab" data-bs-toggle="tab" data-bs-target="#logs" type="button" role="tab" aria-controls="logs" aria-selected="false" (click)="openLogs()">Logs</button>
           </li>
         </ul>
         <!-- Tab Content -->
         <div class="tab-content" id="unprocessedLogsTabsContent">
           <div class="tab-pane fade show active" id="requests" role="tabpanel" aria-labelledby="requests-tab">
+            <!-- <div #logContainer
+            (scroll)="scrollDownRecentActivity($event)"> -->
             <!-- Requests Content -->
-            <div class="errorboxmain text-center" *ngIf="attendanceRequests.length==0">
+            <div class="search-bar mb-1 mt-2 form-group position-relative">
+              
+              <input 
+                type="text" 
+                class="form-control" 
+                placeholder="Search by user name..." 
+                [(ngModel)]="attendanceRequestSearchString" 
+                (ngModelChange)="onSearchChange($event)" style="padding: 10px 40px;">
+                <i
+                class="bi bi-search search-icon"
+                style="margin: auto; margin-left: 10px"
+                *ngIf="attendanceRequestSearchString == ''"
+              ></i>
+              <i
+                class="bi bi-x search-icon"
+                style="margin: auto; margin-left: 10px"
+                *ngIf="attendanceRequestSearchString != ''"
+                (click)="clearSearchUsersOfRequestLogs()"
+              ></i>
+            </div>
+            <div class="errorboxmain text-center" *ngIf="fullAttendanceRequestCount==0">
               <div class="errorboxinner">
                 <div class="errorboxplaceholder mb-2">
                   <img src="assets/images/empty-box.svg" style="width: 80px" />
@@ -776,31 +798,81 @@
                 </div>
               </div>
             </div>
-            <div class="logs-container" *ngIf="attendanceRequests.length > 0">
+            <div class="logs-container" *ngIf="fullAttendanceRequestCount > 0" #logContainer
+              (scroll)="scrollDownRecentActivity($event)">
               <div class="log-entry" *ngFor="let log of attendanceRequests">
-                <div class="log-header">
-                  <h6>Request Type: <span class="badge bg-soft-primary">{{log.attendanceStatus}}</span></h6>
+                <!-- <h6>Attendance Update Request</h6> -->
+                <div class="log-header" *ngIf="log.requestType === 'UPDATE'">
+                  <h6>Request Type: <span class="badge bg-soft-primary">Update ({{log.attendanceStatus}})</span></h6>
                   <span class="badge bg-soft-warning" *ngIf="log.status == 'PENDING'">Pending</span>
                   <span class="badge bg-soft-success" *ngIf="log.status == 'APPROVED'">Approved</span>
                   <span class="badge bg-soft-danger" *ngIf="log.status == 'REJECTED'">Rejected</span>
                 </div>
+                <div class="log-header" *ngIf="log.requestType === 'CREATE'">
+                  <h6>Request Type: <span class="badge bg-soft-primary">Create</span></h6>
+                  <span class="badge bg-soft-warning" *ngIf="log.status == 'PENDING'">Pending</span>
+                  <span class="badge bg-soft-success" *ngIf="log.status == 'APPROVED'">Approved</span>
+                  <span class="badge bg-soft-danger" *ngIf="log.status == 'REJECTED'">Rejected</span>
+                </div>
+                <span *ngIf="log.requestType == 'UPDATE'">
                 <p><strong>Date:</strong> {{log.createdDate | date:"MMM dd, yyyy 'at' hh:mm a"}}</p>
                 <p><strong>Original Date:</strong> {{log.oldDate | date:"MMM dd, yyyy 'at' hh:mm a"}}</p>
                 <p><strong>Updated Date:</strong> {{log.updatedDate | date:"MMM dd, yyyy 'at' hh:mm a"}}</p>
+                </span>
+                <span *ngIf="log.requestType == 'CREATE'">
+                  <p><strong>In Request Date:</strong> {{log.inRequestTime | date:"MMM dd, yyyy 'at' hh:mm a"}}</p>
+                  <p><strong>Out Request Date:</strong> {{log.outRequestTime | date:"MMM dd, yyyy 'at' hh:mm a"}}</p>
+                  </span>
                 <p><strong>User:</strong> {{log.userName}}</p>
                 <p><strong>Manager:</strong> {{log.managerName}}</p>
                 <p><strong>Reason:</strong> {{log.requestReason}}</p>
-                <div class="action-buttons" style="justify-content: flex-end;">
-                  <button class="btn btn-soft-success" (click)="approveOrRequest(log.id, 'APPROVE')">Approve</button>
-                  <button class="btn btn-soft-danger" (click)="approveOrRequest(log.id, 'REJECT')">Reject</button>
+                <div class="action-buttons" style="justify-content: flex-end;" *ngIf="
+                log.managerUuid === logInUserUuid ||
+                role == 'ADMIN'
+              ">
+                  <button class="btn btn-soft-success" (click)="approveOrReject(log.id, 'APPROVE')">Approve</button>
+                  <button class="btn btn-soft-danger" (click)="approveOrReject(log.id, 'REJECT')">Reject</button>
                 </div>
               </div>
+              <!-- Load More Button -->
+                <div class="align-self-center text-center mt-2" *ngIf="fullAttendanceRequestCount > itemPerPageAttendanceRequest && !isFullRequestLoader && !initialLoadDone">
+                  <button type="button" class="btn btn-xs btn-light btn-round" (click)="loadMoreAttendanceRequestLogs()">
+                    Load More <i class="bi bi-chevron-down"></i>
+                  </button>
+                </div>
+                <div class="text-center load-more-btn" *ngIf="isFullRequestLoader && !initialLoadDone">
+                  <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+                  <div><small>Loading...</small></div>
+                </div>
             </div>
+            
           </div>
           <div class="tab-pane fade" id="logs" role="tabpanel" aria-labelledby="logs-tab">
             <!-- Logs Content -->
             <div class="modal-body">
-              <div class="errorboxmain text-center" *ngIf="attendanceFullRequestLog.length==0">
+               <!-- <div #logContainerforFullLogs
+               (scroll)="scrollDownRecentActivityforFullLogs($event)" > -->
+              <div class="search-bar mb-1 mt-2 form-group position-relative">
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  placeholder="Search by user name..." 
+                  [(ngModel)]="fullAttendanceRequestSearchString" 
+                  (input)="onSearchChangeOfFullAttendanceLogs(fullAttendanceRequestSearchString)" style="padding: 10px 40px;">
+                  <i
+                  class="bi bi-search search-icon"
+                  style="margin: auto; margin-left: 10px"
+                  *ngIf="fullAttendanceRequestSearchString == ''"
+                ></i>
+                <i
+                  class="bi bi-x search-icon"
+                  style="margin: auto; margin-left: 10px"
+                  *ngIf="fullAttendanceRequestSearchString != ''"
+                  (click)="clearSearchUsersOfFullLogs()"
+                ></i>
+              </div>
+
+              <div class="errorboxmain text-center" *ngIf="totalAttendanceRequestCount==0">
                 <div class="errorboxinner">
                   <div class="errorboxplaceholder mb-2">
                     <img src="assets/images/empty-box.svg" style="width: 80px" />
@@ -813,22 +885,68 @@
                   </div>
                 </div>
               </div>
-              <div class="logs-container" *ngIf="attendanceFullRequestLog.length > 0">
-                <div class="log-entry" *ngFor="let log of attendanceFullRequestLog">
-                  <div class="log-header">
-                    <h6>Request Type: <span class="badge bg-soft-primary">{{log.attendanceStatus}}</span></h6>
-                    <span class="badge bg-soft-warning" *ngIf="log.status == 'PENDING'">Pending</span>
-                    <span class="badge bg-soft-success" *ngIf="log.status == 'APPROVED'">Approved</span>
-                    <span class="badge bg-soft-danger" *ngIf="log.status == 'REJECTED'">Rejected</span>
+              <div class="logs-container" *ngIf="totalAttendanceRequestCount > 0" #logContainerforFullLogs
+                (scroll)="scrollDownRecentActivityforFullLogs($event)">
+                <div class="activity" *ngFor="let log of attendanceFullRequestLog">
+                  <div class="activity-info">
+                    <div class="icon-info-activity">
+                      <i class="ti ti-clock bg-soft-warning" *ngIf="log.status == 'PENDING'"></i>
+                      <i class="ti ti-checks bg-soft-success" *ngIf="log.status == 'APPROVED'"></i>
+                      <i class="ti ti-x bg-soft-danger" *ngIf="log.status == 'REJECTED'"></i>
+                    </div>
+                    <div class="activity-info-text">
+                      <div>
+                        <div class="float-end">
+                          <div class="btn btn-xs btn-light btn-round">
+                            {{ log.createdDate | date: 'medium' || "N/A" }}
+                          </div>
+                        </div>
+                        <div class="media align-items-center">
+                          <div class="media-body ms-2 align-self-center">
+                            <h5 class="m-0 Regular-data">
+                              {{ log.userName }}
+                            </h5>
+                            <p class="text-muted font-12 mb-0">
+                              <span style="color: orange" *ngIf="log.status == 'PENDING'">Requested To</span>
+                              <span style="color: green" *ngIf="log.status == 'APPROVED'">Approved By</span>
+                              <span style="color: rgb(255, 55, 0)" *ngIf="log.status == 'REJECTED'">Rejected By</span>
+                              {{ log.managerName }}
+                            </p>
+                          </div>
+                        </div>
+                        <hr class="hr-dashed" />
+                        <div class="d-flex justify-content-between flex-column"  *ngIf="log.requestType == 'UPDATE'">
+                          <h6>Request Type: <span class="badge bg-soft-primary">{{log.attendanceStatus}}</span></h6>
+                          <p>Original Date: <u>{{ log.oldDate | date:"MMM dd, yyyy 'at' hh:mm a" }}</u></p>
+                          <p>Updated Date: <u>{{ log.updatedDate | date:"MMM dd, yyyy 'at' hh:mm a" }}</u></p>
+                        </div>
+                        <div class="d-flex justify-content-between flex-column" *ngIf="log.requestType == 'CREATE'">
+                          <p>In Time Date: <u>{{ log.inRequestTime | date:"MMM dd, yyyy 'at' hh:mm a" }}</u></p>
+                          <p>Out Time Date: <u>{{ log.outRequestTime | date:"MMM dd, yyyy 'at' hh:mm a" }}</u></p>
+                        </div>
+                        <h6>Reason: </h6> 
+                        <p class="text-muted mb-0">
+                         {{ log.requestReason }}</p>
+                      </div>
+                      <hr class="hr-dashed" />
+                    </div>
                   </div>
-                  <p><strong>Date:</strong> {{log.createdDate | date:"MMM dd, yyyy 'at' hh:mm a"}}</p>
-                  <p><strong>Original Date:</strong> {{log.oldDate | date:"MMM dd, yyyy 'at' hh:mm a"}}</p>
-                  <p><strong>Updated Date:</strong> {{log.updatedDate | date:"MMM dd, yyyy 'at' hh:mm a"}}</p>
-                  <p><strong>User:</strong> {{log.userName}}</p>
-                  <p><strong>Manager:</strong> {{log.managerName}}</p>
-                  <p><strong>Reason:</strong> {{log.requestReason}}</p>
+                </div>
+      
+                <!-- Load More Button -->
+                 <!-- {{initialLoadDoneforFullLogs}} -->
+                <div class="align-self-center text-center mt-2" *ngIf="totalAttendanceRequestCount > itemPerPageFullAttendanceRequest && !isRequestLoader && !initialLoadDoneforFullLogs">
+                  <button type="button" class="btn btn-xs btn-light btn-round" (click)="loadMoreLogs()">
+                    Load More <i class="bi bi-chevron-down"></i>
+                  </button>
+                </div>
+                <div class="text-center load-more-btn" *ngIf="isRequestLoader && !initialLoadDoneforFullLogs">
+                  <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+                  <div><small>Loading...</small></div>
                 </div>
               </div>
+            
+
             </div>
           </div>
         </div>

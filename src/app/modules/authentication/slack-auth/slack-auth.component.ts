@@ -55,9 +55,9 @@ export class SlackAuthComponent implements OnInit {
         async (response: any) => {
           // console.log(response.object);
           this.isSuccessComponent = true;
-          if(this.isSuccessComponent) {
-            this.startCountdown();
-          }
+          // if(this.isSuccessComponent) {
+          //   this.startCountdown();
+          // }
           this.isErrorComponent = false;
 
           localStorage.setItem('token', response.object.access_token);
@@ -104,43 +104,44 @@ export class SlackAuthComponent implements OnInit {
               'If you encounter any issues, we encourage you to utilize our contact form to reach out for assistance Or Login Again';
           }
           this.isSuccessComponent = false;
-          clearInterval(this.intervalId);
+          // clearInterval(this.intervalId);
           this.isErrorComponent = true;
         }
       );
   }
 
-  countdown: number = 20;
-  intervalId: any;
+  // countdown: number = 20;
+  // intervalId: any;
 
-  startCountdown(): void {
-    this.intervalId = setInterval(() => {
-      this.countdown--;
-      if (this.countdown === 0) {
-        this.redirectNow();
-      }
-    }, 1000);
-  }
+  // startCountdown(): void {
+  //   this.intervalId = setInterval(() => {
+  //     this.countdown--;
+  //     if (this.countdown === 0) {
+  //       this.redirectNow();
+  //     }
+  //   }, 1000);
+  // }
 
   redirectNow(): void {
-    clearInterval(this.intervalId); // Clear the interval to stop the countdown
+    // clearInterval(this.intervalId); // Clear the interval to stop the countdown
     this.navigateToRoute();
   }
 
   navigateToRoute(): void {
     debugger;
-    this.router.navigate(['/dashboard']);
+    // this.router.navigate(['/dashboard']);
+    this.router.navigate(['/organization-onboarding/personal-information']);
     // this.helperService.showToast(
     //   'Please add shift settings in the Attendance Settings section and leave settings in the Leave Settings section to establish shift rules for your organization’s users and assign their leave quotas, if not already configured.',
     //   Key.TOAST_STATUS_SUCCESS
     // );
   }
 
-  ngOnDestroy(): void {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-    }
-  }
+  // ngOnDestroy(): void {
+  //   if (this.intervalId) {
+  //     clearInterval(this.intervalId);
+  //   }
+  // }
 
   redirectToLogin() {
     this.router.navigate(['/auth/login']);
@@ -157,7 +158,7 @@ export class SlackAuthComponent implements OnInit {
   slackWorkspaceUrl: string = '';
   continueInSlack() {
     // this.workspaceName = localStorage.getItem('WORKSPACENAME');
-    this.slackWorkspaceUrl = `https://slack.com/app_redirect?app=A05QD5T9EK1&tab=home`;
+    this.slackWorkspaceUrl = Key.SLACK_WORKSPACE_URL;
     // window.location.href = slackWorkspaceUrl;
   }
 

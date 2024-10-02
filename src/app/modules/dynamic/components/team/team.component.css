@@ -382,9 +382,10 @@ span.remove-icon:hover {
   padding: 0.4rem 1rem;
   font-size: 0.875rem;
   font-weight: 400;
-  height: 40px !important;
+  height: 45px !important;
   border: none;
   background-color: transparent;
+  color: #1f1f1f !important;
 }
 .cusser {
   cursor: pointer;

@@ -81,8 +81,12 @@ export class EmployeeAttendancePhotoComponent implements OnInit {
               Key.TOAST_STATUS_SUCCESS
             );
             this.toggle = true;
-            window.location.href =
-              'https://api.whatsapp.com/send/?phone=918700822872&type=phone_number&app_absent=0';
+            if(response.onboardingVia == 'WHATSAPP') {
+              window.location.href =
+                'https://api.whatsapp.com/send/?phone=918700822872&type=phone_number&app_absent=0';
+              } else if(response.onboardingVia == 'SLACK'){
+                window.location.href = Key.SLACK_WORKSPACE_URL;
+              }
           }
           this.toggle = false;
         },
