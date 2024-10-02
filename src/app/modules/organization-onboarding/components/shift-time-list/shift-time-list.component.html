@@ -161,6 +161,8 @@
                       class="d-flex align-items-center justify-content-between"
                     >
                       <div class="d-flex align-items-center gap-3">
+                        <!-- [attr.aria-expanded]="
+                              activeIndex == i ? 'true' : 'false' -->
                         <div class="">
                           <span
                             data-bs-toggle="collapse"
@@ -168,12 +170,10 @@
                             class="automation-rules-toogel-btn pointer"
                             [attr.data-bs-target]="'#multiCollapseExample' + i"
                             [attr.aria-controls]="'multiCollapseExample' + i"
-                            [attr.aria-expanded]="
-                              activeIndex == i ? 'true' : 'false'
-                            "
+                            [attr.aria-expanded]="true"
                             (click)="toggleCollapse(i)"
                           >
-                            1
+                            {{i + 1}}
                           </span>
                         </div>
                         <div class="">
@@ -311,9 +311,9 @@
                     </div>
 
                     <div
-                      class="collapse multi-collapse"
+                      class="collapse multi-collapse show"
                       [id]="'multiCollapseExample' + i"
-                      [class.show]="activeIndex === i"
+                     
                     >
                       <div class="shift-in-out-box row mt-3 p-3 m-0">
                         <div class="col-md-4">
