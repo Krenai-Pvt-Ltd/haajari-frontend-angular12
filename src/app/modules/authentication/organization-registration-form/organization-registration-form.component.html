@@ -64,17 +64,18 @@
                       Employee Count
                       <span class="text-optional">*</span>
                     </label>
-                    <input
-                      type="text"
-                      class="form-control"
+                    <nz-select
+                      class="form-control witchIndustry"
                       id="employeeCount"
                       name="employeeCount"
                       [(ngModel)]="formData.employeeCount"
                       [ngModelOptions]="{ standalone: true }"
                       #employeeCount="ngModel"
-                      placeholder="Enter your Employee Count"
+                      placeholder="Select Employee Count"
                       required
-                    />
+                    >
+                      <nz-option *ngFor="let option of employeeCountOptions" [nzValue]="option.value" [nzLabel]="option.label"></nz-option>
+                    </nz-select>
                     <small
                       *ngIf="
                         employeeCount.invalid &&
@@ -86,6 +87,7 @@
                     </small>
                   </div>
                 </div>
+                
                 <div class="col-md-6" style="padding-left: 8px">
                   <div class="form-group mb-3">
                     <label for="industryType" class="mb-2">
@@ -140,9 +142,17 @@
                       [ngModelOptions]="{ standalone: true }"
                       #organizationEmail="ngModel"
                       placeholder="Enter your email address"
+                      (keyup)="
+                                checkEmailExistance(
+                                  formData.organizationEmail
+                                )"
                       required
                       email
                     />
+                    <!-- {{isEmailExist}} -->
+                    <small *ngIf="isEmailExist" class="error text-danger">
+                      This email is already exist.
+                    </small>
                     <small
                       *ngIf="
                         organizationEmail.invalid &&
@@ -228,15 +238,23 @@
                       pattern="^[0-9]{10}$"
                       maxlength="10"
                       (input)="restrictToDigits($event)"
+                      (keyup)="
+                                checkExistance(
+                                  formData.phoneNumber
+                                )
+                              "
                     />
-
+                    
                     <div
                       *ngIf="
                         phoneNumber.invalid &&
-                        (phoneNumber.dirty || phoneNumber.touched)
+                        (phoneNumber.dirty || phoneNumber.touched) || isNumberExist
                       "
                       class="text-danger"
                     >
+                    <small *ngIf="isNumberExist" class="error text-danger">
+                      This number already exist.
+                    </small>
                       <small *ngIf="phoneNumber.errors?.['required']"
                         >Phone number is required.</small
                       >
@@ -295,12 +313,19 @@
                 </div>
 
                 <div class="d-flex align-items-center justify-content-between">
+                  <!-- {{isFormInvalid()}} -->
                   <button
                     type="submit"
                     class="btn createAccount"
-                    [disabled]="registerForm.invalid"
+                    [disabled]="isFormInvalid()"
                   >
-                    Create Account!
+                  <span *ngIf="!isLoading"> Create Account!</span>
+                  <div class="dot-opacity-loader" *ngIf="isLoading">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                   
                   </button>
                   <span class="alredy-login">
                     Already have an account?
