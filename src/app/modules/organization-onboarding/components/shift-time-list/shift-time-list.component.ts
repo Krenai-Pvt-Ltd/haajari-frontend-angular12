@@ -747,4 +747,12 @@ calculateTimes(): void {
     this.isValidated ? false : true;
   }
 
+  removeUser(uuid: string) {
+   
+    this.selectedStaffsUuids = this.selectedStaffsUuids.filter(id => id !== uuid);
+    // this.updateSelectedStaffs();
+    this.userNameWithShiftName = [];
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId);
+  }
+
 }
