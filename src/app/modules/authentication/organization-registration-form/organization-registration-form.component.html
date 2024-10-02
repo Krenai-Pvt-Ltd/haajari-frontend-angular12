@@ -71,7 +71,7 @@
                       [(ngModel)]="formData.employeeCount"
                       [ngModelOptions]="{ standalone: true }"
                       #employeeCount="ngModel"
-                      placeholder="Select Employee Count"
+                      nzPlaceHolder="Select Employee Count"
                       required
                     >
                       <nz-option *ngFor="let option of employeeCountOptions" [nzValue]="option.value" [nzLabel]="option.label"></nz-option>
@@ -111,7 +111,8 @@
                       [(ngModel)]="formData.industryType"
                       [ngModelOptions]="{ standalone: true }"
                       #industryType="ngModel"
-                      placeholder="Select your industry type"
+                      
+                      nzPlaceHolder="Select your industry type"
                       required
                       [nzOptions]="industryOptions"
                     >
