@@ -3,15 +3,15 @@
     class="onboardingRightImg"
     style="background-image: url(assets/images/onbording-right-img.svg)"
   >
-    <div class="container p-4">
-      <div class="">
+    <div class="container">
+      <div style="padding-top: 32px">
         <img src="assets/images/HAjiRi.svg" style="width: 120px" />
       </div>
       <div
         class="onboarding-step d-flex align-items-center justify-content-center flex-column"
       >
         <div
-          class="d-flex align-items-center justify-content-center gap-3 pb-4"
+          class="d-flex align-items-center justify-content-center gap-2 pb-4"
         >
           <img src="assets/images/whatsapp-logo-1.svg" style="width: 35px" />
           <svg
@@ -30,19 +30,31 @@
           </svg>
           <img src="assets/images/hajiri-white-logo.png" style="width: 30px" />
         </div>
-        <div class="text-center whatsApp-number-box" *ngIf="isWhatsappLogin && !showOtpInput">
-          <h5>Enter Your WhatsApp Number</h5>
+        <div
+          class="text-center whatsApp-number-box"
+          *ngIf="isWhatsappLogin && !showOtpInput"
+        >
+          <h5>
+            Enter Your <br />
+            WhatsApp Number
+          </h5>
           <p>Please provide a registered WhatsApp number.</p>
         </div>
 
-        <div class="text-center enter-otp" *ngIf="showOtpInput && verifyOtpButtonFlag">
-          <h5>Check your WhatsApp for OTP</h5>
+        <div
+          class="text-center enter-otp"
+          *ngIf="showOtpInput && verifyOtpButtonFlag"
+        >
+          <h5>
+            Check your <br />
+            WhatsApp for OTP
+          </h5>
           <p>
             We’ve sent a 6-digit OTP on
-            <span class="text-primary">{{
-              whatsappOtp ? phoneNumber : email
-              }}</span> This
-            code expires <br />
+            <span class="text-primary"
+              ><b>{{ whatsappOtp ? phoneNumber : email }}</b></span
+            >
+            This code expires <br />
             shortly, so please enter it soon.
           </p>
         </div>
@@ -61,20 +73,34 @@
                 placeholder="Enter Number"
                 class="form-control whatapp-login-input"
               /> -->
-              <input type="text" required mask="0000000000" class="form-control whatapp-login-input"
-              id="examplePhoneNumber1" name="examplePhoneNumber1" aria-describedby="phoneHelp"
-              placeholder="Phone Number" #phoneNumberOtp="ngModel" [(ngModel)]="phoneNumber"
-              (ngModelChange)="onPhoneNumberChange()" />
+              <input
+                type="text"
+                required
+                mask="0000000000"
+                class="form-control whatapp-login-input"
+                id="examplePhoneNumber1"
+                name="examplePhoneNumber1"
+                aria-describedby="phoneHelp"
+                placeholder="Phone Number"
+                #phoneNumberOtp="ngModel"
+                [(ngModel)]="phoneNumber"
+                (ngModelChange)="onPhoneNumberChange()"
+              />
 
-              <div *ngIf="
-                (phoneNumberOtp.touched && phoneNumberOtp.invalid) ||
-                isFormInvalid
-              ">
-              <p class="errortxt mt-3 mb-0 text-danger text-start" *ngIf="phoneNumberOtp.errors?.required">
-                <i class="bi bi-exclamation-circle"></i>
-                Phone Number is required.
-              </p>
-            </div>
+              <div
+                *ngIf="
+                  (phoneNumberOtp.touched && phoneNumberOtp.invalid) ||
+                  isFormInvalid
+                "
+              >
+                <p
+                  class="errortxt mt-3 mb-0 text-danger text-start"
+                  *ngIf="phoneNumberOtp.errors?.required"
+                >
+                  <i class="bi bi-exclamation-circle"></i>
+                  Phone Number is required.
+                </p>
+              </div>
 
               <!-- <button
                 type="submit"
@@ -82,18 +108,24 @@
               >
                 <span>Send OTP</span>
               </button> -->
-              <button class="btn btn-soft-primary w-100 mt-4 btn-fix-height" type="submit" [disabled]="
-                phoneNumber == null ||
-                phoneNumber == '' ||
-                phoneNumber.length != 10
-              " *ngIf="isWhatsappLogin && !showOtpInput" (click)="signInByWhatsapp()">
-              <span *ngIf="!sendOtpLoader">Send OTP</span>
-              <div class="dot-opacity-loader" *ngIf="sendOtpLoader">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-            </button>
+              <button
+                class="btn btn-soft-primary w-100 mt-4 btn-fix-height"
+                type="submit"
+                [disabled]="
+                  phoneNumber == null ||
+                  phoneNumber == '' ||
+                  phoneNumber.length != 10
+                "
+                *ngIf="isWhatsappLogin && !showOtpInput"
+                (click)="signInByWhatsapp()"
+              >
+                <span *ngIf="!sendOtpLoader">Send OTP</span>
+                <div class="dot-opacity-loader" *ngIf="sendOtpLoader">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </button>
 
               <p class="mb-0 mt-4 noteText">
                 <span class="text-primary">Note:</span> Please ensure that the
@@ -104,66 +136,15 @@
           </div>
         </div>
 
-        <div class="whatapp-otp-verification row mt-4" *ngIf="showOtpInput && verifyOtpButtonFlag">
+        <div
+          class="whatapp-otp-verification row mt-4"
+          *ngIf="showOtpInput && verifyOtpButtonFlag"
+        >
           <div class="col-md-12">
             <div class="onboarding-form">
               <div
                 class="d-flex align-items-center justify-content-center gap-3 otpInput"
               >
-                <!-- <div class="d-flex align-items-center otpInputBox">
-                  <input
-                    type="text"
-                    required=""
-                    mask="0"
-                    id="examplePhoneNumber1"
-                    name="examplePhoneNumber1"
-                    class="form-control whatapp-login-input active-input"
-                  />
-                  <input
-                    type="text"
-                    required=""
-                    mask="0"
-                    id="examplePhoneNumber2"
-                    name="examplePhoneNumber2"
-                    class="form-control whatapp-login-input"
-                  />
-                  <input
-                    type="text"
-                    required=""
-                    mask="0"
-                    id="examplePhoneNumber3"
-                    name="examplePhoneNumber3"
-                    class="form-control whatapp-login-input"
-                  />
-                </div>
-
-                <i class="bi bi-dash-lg otpSection"></i>
-                <div class="d-flex align-items-center">
-                  <input
-                    type="text"
-                    required=""
-                    mask="0"
-                    id="examplePhoneNumber4"
-                    name="examplePhoneNumber4"
-                    class="form-control whatapp-login-input"
-                  />
-                  <input
-                    type="text"
-                    required=""
-                    mask="0"
-                    id="examplePhoneNumber5"
-                    name="examplePhoneNumber5"
-                    class="form-control whatapp-login-input"
-                  />
-                  <input
-                    type="text"
-                    required=""
-                    mask="0"
-                    id="examplePhoneNumber6"
-                    name="examplePhoneNumber6"
-                    class="form-control whatapp-login-input"
-                  />
-                </div> -->
                 <!-- {{activeInputIndex}} -->
                 <div class="d-flex align-items-center otpInputBox">
                   <input
@@ -174,7 +155,7 @@
                     (keydown)="moveToPrevious($event, otp1Input, 1)"
                     (paste)="handleOtpPaste($event)"
                     class="form-control whatapp-login-input"
-                    [ngClass]="{'active-input': activeInputIndex === 1}"
+                    [ngClass]="{ 'active-input': activeInputIndex === 1 }"
                     #otp1Input
                     autofocus
                   />
@@ -185,7 +166,7 @@
                     (input)="moveToNext($event, otp3Input, 3)"
                     (keydown)="moveToPrevious($event, otp1Input, 1)"
                     class="form-control whatapp-login-input"
-                    [ngClass]="{'active-input': activeInputIndex === 2}"
+                    [ngClass]="{ 'active-input': activeInputIndex === 2 }"
                     #otp2Input
                   />
                   <input
@@ -195,13 +176,13 @@
                     (input)="moveToNext($event, otp4Input, 4)"
                     (keydown)="moveToPrevious($event, otp2Input, 2)"
                     class="form-control whatapp-login-input"
-                    [ngClass]="{'active-input': activeInputIndex === 3}"
+                    [ngClass]="{ 'active-input': activeInputIndex === 3 }"
                     #otp3Input
                   />
                 </div>
-                
+
                 <i class="bi bi-dash-lg otpSection"></i>
-                
+
                 <div class="d-flex align-items-center otpInputBox">
                   <input
                     type="text"
@@ -210,7 +191,7 @@
                     (input)="moveToNext($event, otp5Input, 5)"
                     (keydown)="moveToPrevious($event, otp3Input, 3)"
                     class="form-control whatapp-login-input"
-                    [ngClass]="{'active-input': activeInputIndex === 4}"
+                    [ngClass]="{ 'active-input': activeInputIndex === 4 }"
                     #otp4Input
                   />
                   <input
@@ -220,28 +201,26 @@
                     (input)="moveToNext($event, otp6Input, 6)"
                     (keydown)="moveToPrevious($event, otp4Input, 4)"
                     class="form-control whatapp-login-input"
-                    [ngClass]="{'active-input': activeInputIndex === 5}"
+                    [ngClass]="{ 'active-input': activeInputIndex === 5 }"
                     #otp5Input
                   />
                   <input
                     type="text"
                     maxlength="1"
                     [(ngModel)]="otp6"
-                    (input)="onOtpChange(otp1 + otp2 + otp3 + otp4 + otp5 + otp6)"
+                    (input)="
+                      onOtpChange(otp1 + otp2 + otp3 + otp4 + otp5 + otp6)
+                    "
                     (keydown)="moveToPrevious($event, otp5Input, 5)"
                     class="form-control whatapp-login-input"
-                    [ngClass]="{'active-input': activeInputIndex === 6}"
+                    [ngClass]="{ 'active-input': activeInputIndex === 6 }"
                     #otp6Input
                   />
                 </div>
-                
-                
-                
+
                 <!-- <div class="otp-input-container">
                   <ng-otp-input (onInputChange)="onOtpChange($event)" [config]="{ length: 6 }"></ng-otp-input>
                 </div> -->
-               
-      
               </div>
               <div *ngIf="otpErrorMessage">
                 <p class="errortxt mt-3 mb-0 text-danger text-start">
@@ -254,21 +233,30 @@
               >
                 <span>Verify</span>
               </button> -->
-              <button class="btn btn-soft-primary w-100 mt-4 btn-fix-height" type="submit"
-            [disabled]="otp == null || otp == '' || otp.length != 6" *ngIf="showOtpInput && verifyOtpButtonFlag"
-            (click)="verifyOtp()">
-            <span *ngIf="!loading">Verify</span>
-            <div class="dot-opacity-loader" *ngIf="loading">
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-          </button>
+              <button
+                class="btn btn-soft-primary w-100 mt-4 btn-fix-height"
+                type="submit"
+                [disabled]="otp == null || otp == '' || otp.length != 6"
+                *ngIf="showOtpInput && verifyOtpButtonFlag"
+                (click)="verifyOtp()"
+              >
+                <span *ngIf="!loading">Verify</span>
+                <div class="dot-opacity-loader" *ngIf="loading">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </button>
 
               <div
                 class="mt-3 d-flex align-items-center justify-content-between verificationActionBtn"
               >
-                <button href="" class="editNumber p-0 btn" type="button" (click)="changeNumber()">
+                <button
+                  href=""
+                  class="editNumber p-0 btn"
+                  type="button"
+                  (click)="changeNumber()"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="15"
@@ -294,12 +282,18 @@
                       />
                     </g>
                   </svg>
-                  {{ whatsappOtp ? "Edit Number" : "Change Email Id"
-                }}
+                  {{ whatsappOtp ? "Edit Number" : "Change Email Id" }}
                 </button>
                 <p class="mb-0">
                   Can’t find your code?
-                  <a href="" class="text-primary" (click)="resendOtp()" [ngClass]="{ 'disabled-link': time > 0 }"> Resend code <span *ngIf="time > 0">({{ time }})</span></a>
+                  <a
+                    href=""
+                    class="text-primary"
+                    (click)="resendOtp()"
+                    [ngClass]="{ 'disabled-link': time > 0 }"
+                  >
+                    Resend code <span *ngIf="time > 0">({{ time }})</span></a
+                  >
                 </p>
               </div>
             </div>
