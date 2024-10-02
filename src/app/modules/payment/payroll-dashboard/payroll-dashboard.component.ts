@@ -79,6 +79,8 @@ export class PayrollDashboardComponent implements OnInit {
   readonly EPF = Key.EPF;
   readonly ESI = Key.ESI;
   readonly TDS = Key.TDS;
+
+  readonly PAYROLL_STEP_COMPLETED = Key.PAYROLL_STEP_COMPLETED;
   readonly PAYROLL_HISTORY = Key.PAYROLL_HISTORY;
 
   isTaskSuccess : boolean = true;
@@ -246,6 +248,7 @@ export class PayrollDashboardComponent implements OnInit {
     this.CURRENT_TAB = this.OVERTIME;
     this.CURRENT_TAB_IN_SALARY_CHANGE = this.OVERTIME;
     this.resetCriteriaFilter();
+    this.getSalaryChangeOvertimeResponseListByOrganizationIdMethodCall();
   }
 
 
@@ -1824,7 +1827,7 @@ extractPreviousMonthNameFromDate(dateString : string){
     this.salaryChangeOvertimeRequestList = [];
     
     this.salaryChangeOvertimeResponseList.forEach((item) => {
-      let salaryChangeOvertimeRequest = new SalaryChangeOvertimeRequest(item.uuid,item.payActionType.id, item.comment);
+      let salaryChangeOvertimeRequest = new SalaryChangeOvertimeRequest(item.uuid,item.payActionType.id);
 
       this.salaryChangeOvertimeRequestList.push(salaryChangeOvertimeRequest);
     })

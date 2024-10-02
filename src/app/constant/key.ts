@@ -354,6 +354,45 @@ export class Key {
   public static OVERTIME_LOG = 2;
   public static LOP_REVERSAL_LOG = 3;
 
+  // Tabs in Attendance Section
+  public static ATTENDANCE_TAB = 1;
+  public static OVERTIME_TAB = 2;
+  public static UPDATION_REQUEST_TAB = 3;
+
+  // Tabs in Overtime Section
+  public static OVERTIME_PENDING_REQUEST_TAB = 1;
+  public static OVERTIME_HISTORY_TAB = 2;
+
+
+  // Tabs in Updation request section
+  public static UPDATION_REQUEST_PENDING_REQUEST_TAB = 1;
+  public static UPDATION_REQUEST_LOG_TAB = 2;
+
+  // Gender
+  public static ALL = 1;
+  public static MALE = 2;
+  public static FEMALE = 3;
+  public static OTHERS = 4;
+
+  // Unused leave action
+  public static LAPSE = 1;
+  public static CARRY_FORWARD = 2;
+  public static ENCASH = 3;
+
+  // Leave Cycle
+  public static MONTHLY = 1;
+  public static QUARTERLY = 2;
+  public static HALF_YEARLY = 3;
+  public static YEARLY = 4;
+
+  // Leave renewal cycle
+  public static ANNUAL_YEAR = 'Annual Year (Jan - Dec)';
+  public static FINANCIAL_YEAR = 'Financial Year (Apr - Mar)';
+
+  // Sandwitch rule
+  public static YES = 'Yes';
+  public static NO = 'No';
+
   //  Attendance Main Modes
   public static MODE1 = 'Slack_and_Whatsapp';
   public static MODE2 = 'Machine';

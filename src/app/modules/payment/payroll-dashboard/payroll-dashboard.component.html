@@ -73,10 +73,7 @@
                       <h4 class="mt-3 fw-bold">
                         {{ payrollDashboardEmployeeCountResponse.totalUser }}
                         <span class="text-muted font-12 fw-normal">
-                          <span class="text-success">+{{ payrollDashboardEmployeeCountResponse.newJoinee
-                            }}</span> &nbsp; <span class="text-danger">-{{
-                            payrollDashboardEmployeeCountResponse.userExit
-                            }}</span>
+                          <span class="text-success">+{{ payrollDashboardEmployeeCountResponse.newJoinee }}</span> &nbsp; <span class="text-danger">-{{ payrollDashboardEmployeeCountResponse.userExit }}</span>
                         </span>
                       </h4>
                     </div>
@@ -106,8 +103,7 @@
                       <p class="text-muted font-12 mb-0">TOTAL PAYROLL COST</p>
                       <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData?.totalAmount || 0 }}
                       </h5>
-                      <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{
-                        organizationPreviousMonthSalaryData?.totalAmount || 0 }}</small>
+                      <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{ organizationPreviousMonthSalaryData?.totalAmount || 0 }}</small>
                     </div>
                   </li>
                   <li class="list-inline-item">
@@ -115,8 +111,7 @@
                       <p class="text-muted font-12 mb-0">TDS</p>
                       <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData?.tdsAmount || 0 }}
                       </h5>
-                      <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{
-                        organizationPreviousMonthSalaryData?.tdsAmount || 0 }}</small>
+                      <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{ organizationPreviousMonthSalaryData?.tdsAmount || 0 }}</small>
                     </div>
                   </li>
                   <li class="list-inline-item">
@@ -124,8 +119,7 @@
                       <p class="text-muted font-12 mb-0">EPF</p>
                       <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData?.epfAmount || 0 }}
                       </h5>
-                      <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{
-                        organizationPreviousMonthSalaryData?.epfAmount || 0 }}</small>
+                      <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{ organizationPreviousMonthSalaryData?.epfAmount || 0 }}</small>
                     </div>
                   </li>
                   <li class="list-inline-item">
@@ -133,8 +127,7 @@
                       <p class="text-muted font-12 mb-0">ESI</p>
                       <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData?.esiAmount || 0 }}
                       </h5>
-                      <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{
-                        organizationPreviousMonthSalaryData?.esiAmount || 0 }}</small>
+                      <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{ organizationPreviousMonthSalaryData?.esiAmount || 0 }}</small>
                     </div>
                   </li>
                   <li class="list-inline-item">
@@ -142,8 +135,7 @@
                       <p class="text-muted font-12 mb-0">NET PAY</p>
                       <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData?.netPay || 0 }}
                       </h5>
-                      <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{
-                        organizationPreviousMonthSalaryData?.netPay || 0 }}</small>
+                      <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{ organizationPreviousMonthSalaryData?.netPay || 0 }}</small>
                     </div>
                   </li>
                 </ul>
@@ -194,7 +186,7 @@
                                     </i>
                                   </span>
                                 </p>
-                                <small class="text-muted">Nov 19.2023, 05:39 PM -Pushpendra</small>
+                                <small class="text-muted">Nov 19.2023, 05:39 PM - Pushpendra</small>
                               </div>
                               <!--end row-->
                             </div>
@@ -219,7 +211,7 @@
                                     </i>
                                   </span>
                                 </p>
-                                <small class="text-muted">Nov 19.2023, 05:39 PM -Pushpendra</small>
+                                <small class="text-muted">Nov 19.2023, 05:39 PM - Pushpendra</small>
                               </div>
                               <!--end col-->
                             </div>
@@ -242,11 +234,11 @@
                                 <p class="font-14 mb-2"> Salary Revision, Overtime & Deduction <span
                                     class="task-priority-icon float-end">
                                     <i class="ti"
-                                      [ngClass]="{'ti-checkbox': PAYROLL_PROCESS_STEP > 9,'ti-circle-3': PAYROLL_PROCESS_STEP <= 9}">
+                                      [ngClass]="{'ti-checkbox': PAYROLL_PROCESS_STEP > OVERTIME,'ti-circle-3': PAYROLL_PROCESS_STEP <= OVERTIME}">
                                     </i>
                                   </span>
                                 </p>
-                                <small class="text-muted">Nov 19.2023, 05:39 PM -Pushpendra</small>
+                                <small class="text-muted">Nov 19.2023, 05:39 PM - Pushpendra</small>
                               </div>
                               <!--end col-->
                             </div>
@@ -268,11 +260,11 @@
                                 <p class="font-14 mb-2"> EPF, ESI & TDS (OVERRIDE) <span
                                     class="task-priority-icon float-end">
                                     <i class="ti"
-                                      [ngClass]="{'ti-checkbox text-success': PAYROLL_PROCESS_STEP > 12,'ti-circle-4': PAYROLL_PROCESS_STEP <= 12}">
+                                      [ngClass]="{'ti-checkbox text-success': PAYROLL_PROCESS_STEP > TDS,'ti-circle-4': PAYROLL_PROCESS_STEP <= TDS}">
                                     </i>
                                   </span>
                                 </p>
-                                <small class="text-muted">Nov 19.2023, 05:39 PM -Pushpendra </small>
+                                <small class="text-muted">Nov 19.2023, 05:39 PM - Pushpendra </small>
                               </div>
                               <!--end col-->
                             </div>
@@ -297,7 +289,7 @@
                         <div class="col-auto align-self-center">
                           <div class="button-items">
                             <button type="button" class="btn btn-outline-primary btn-round"
-                              [disabled]="PAYROLL_PROCESS_STEP < 13" (click)="generateSalaryReportMethodCall()">
+                              [disabled]="PAYROLL_PROCESS_STEP < PAYROLL_STEP_COMPLETED" (click)="generateSalaryReportMethodCall()">
                               <ng-container *ngIf="RUN_PAYROLL_LOADER; else runPayrollLoaderFalseCondition">
                                 <div class="dot-opacity-loader">
                                   <span></span>
@@ -319,10 +311,7 @@
                     <!-- </div> -->
                     <!--end tab-pane-->
                     <div class="tab-pane fade" id="payrollHistory" role="tabpanel">
-                      
-                   
                       <div class="content">
-
                         <ul class="list-group" *ngIf="!isPayrollHistoryPlaceholder; else errorConditionWhileFetchingReport">
                           <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let payroll of payrollLogs">
                               <div>
@@ -1866,15 +1855,13 @@
                             <tr>
                               <th>EMPLOYEE</th>
                               <th>EMAIL</th>
-                              <th>DAYS COUNT</th>
+                              <th>OVERTIME COUNT</th>
                               <th>OVERTIME HRS.</th>
                               <th>PAY ACTION</th>
-                              <th>COMMENT(Optional)</th>
-                              <th>ACTION</th>
                             </tr>
                           </thead>
                           <ng-container
-                            *ngIf="isShimmerForSalaryChangeOvertimeResponse && lopReversalResponseList.length == 0; else lopReversalResponseListData">
+                            *ngIf="isShimmerForSalaryChangeOvertimeResponse && salaryChangeOvertimeResponseList.length == 0; else salaryChangeOvertimeResponseListCondition">
                             <tbody>
                               <tr *ngFor="let item of [].constructor(10)">
                                 <td class="text-center">
@@ -1907,13 +1894,13 @@
                               </tr>
                             </tbody>
                           </ng-container>
-                          <ng-template #lopReversalResponseListData>
+                          <ng-template #salaryChangeOvertimeResponseListCondition>
                             <ng-container *ngIf="
-                              !isShimmerForLopReversal &&
-                                lopReversalResponseList.length != 0;
-                              else errorInFetchingLopReversalResponseListData
+                              !isShimmerForSalaryChangeOvertimeResponse &&
+                              salaryChangeOvertimeResponseList.length != 0;
+                              else errorWhileFetchingSalaryChangeOvertimeResponseListCondition
                             ">
-                              <tbody *ngFor="let lopReversalResponse of lopReversalResponseList
+                              <tbody *ngFor="let salaryChangeOvertimeResponse of salaryChangeOvertimeResponseList
                                   | paginate
                                     : {
                                         itemsPerPage: itemPerPage,
@@ -1922,38 +1909,50 @@
                                       }
                               ">
                                 <tr>
-                                  <td>{{ lopReversalResponse.name }}</td>
-                                  <td>{{ lopReversalResponse.email }}</td>
-                                  <td>
-                                    {{ extractPreviousMonthNameFromDate(
-                                    startDate
-                                    )
-                                    }}
-                                  </td>
-                                  <td>{{ lopReversalResponse.lopDays }}</td>
-                                  <td>
-                                    <input class="comment-input p-2" type="number" placeholder="Days count"
-                                      [(ngModel)]="lopReversalResponse.reversedLopDays"
-                                      [ngModelOptions]="{ standalone: true }" />
-                                  </td>
-                                  <td>
-                                    <input class="comment-input p-2" type="text" placeholder="Write the comment here" />
-                                  </td>
-                                  <td class="text-start">
-                                    <a>
-                                      <i class="bi bi-pencil-square"></i>
-                                    </a>
+                                  <td>{{ salaryChangeOvertimeResponse.name }}</td>
+                                  <td>{{ salaryChangeOvertimeResponse.email }}</td>
+                                  <td>{{ salaryChangeOvertimeResponse.overtimeCount }}</td>
+                                  <td>{{ salaryChangeOvertimeResponse.overtimeHour }}</td>
+                                  <td class="text-">
+                                    <div class="dudct-type">
+                                        <div class="dropdown pay-action-type">
+                                          <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button"
+                                              id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
+                                              style="
+                                              text-align: left;
+                                              background-color: white;
+                                              color: black;
+                                              border-color: #ced4da;
+                                              width: 100%;">{{ getSelectedPayActionTypeName(salaryChangeOvertimeResponse) || "Select pay action" }} <i class="bi bi-chevron-down"></i>
+                                          </button>
+                                          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"
+                                              style="width: 100%">
+                                              <li *ngFor="
+                                                let payActionType of payActionTypeList
+                                                ">
+                                                <a class="dropdown-item" (click)="
+                                                    selectPayActionType(
+                                                    payActionType,
+                                                    salaryChangeOvertimeResponse
+                                                    )
+                                                    ">
+                                                {{ payActionType.name }}
+                                                </a>
+                                              </li>
+                                          </ul>
+                                        </div>
+                                    </div>
                                   </td>
                                 </tr>
                               </tbody>
                             </ng-container>
                           </ng-template>
-                          <ng-template #errorInFetchingLopReversalResponseListData>
+                          <ng-template #errorWhileFetchingSalaryChangeOvertimeResponseListCondition>
                             <tbody>
                               <tr>
                                 <td colspan="8">
                                   <div class="errorboxmain" *ngIf="
-                                    networkConnectionErrorPlaceHolderForLopReversal
+                                    networkConnectionErrorPlaceHolderForSalaryChangeOvertimeResponse
                                   ">
                                     <div class="errorboxinner text-center">
                                       <div class="errorboxplaceholder mb-2">
@@ -1973,8 +1972,8 @@
                               <tr>
                                 <td colspan="8">
                                   <div class="errorboxmain" *ngIf="
-                                    dataNotFoundPlaceholderForLopReversal &&
-                                    !networkConnectionErrorPlaceHolderForLopReversal
+                                    dataNotFoundPlaceholderForSalaryChangeOvertimeResponse &&
+                                    !networkConnectionErrorPlaceHolderForSalaryChangeOvertimeResponse
                                   ">
                                     <div class="errorboxinner text-center">
                                       <div class="errorboxplaceholder mb-2">
