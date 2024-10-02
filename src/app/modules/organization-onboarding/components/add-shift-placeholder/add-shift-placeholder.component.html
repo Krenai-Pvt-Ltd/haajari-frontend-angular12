@@ -9,7 +9,7 @@
                 <h4 class="card-title-headding mb-1">
                   Employee Shift Assignments
                 </h4>
-                <p class="mb-0 font-11">
+                <p class="mb-0 font-14">
                   Ensure that every team member is assigned to the correct
                   shift, optimizing your operational efficiency and maintaining
                   clear working hours across your organization. Once this is
@@ -29,7 +29,7 @@
                 <h5 class="alert-heading font-18 mb-1 mt-3">
                   Shift Creation Pending
                 </h5>
-                <p class="mb-0 font-11">No shift has been created yet</p>
+                <p class="mb-0 font-14">No shift has been created yet</p>
                 <button
                   class="btn createShift mt-3"
                   routerLink="/organization-onboarding/add-shift-time"
@@ -126,7 +126,10 @@
               <div class="col-md-8">
                 <div
                   class="shiftManagement"
-                  style="background-image: url(../assets/images/vector-3.svg)"
+                  style="
+                    background-image: url(../assets/images/vector-3.svg);
+                    background-size: auto;
+                  "
                 >
                   <div
                     class="d-flex align-items-center justify-content-between"
@@ -157,11 +160,11 @@
                             </svg>
                           </div>
                           <div>
-                            <p class="font-14">Tutorial video</p>
+                            <p class="font-14 mb-2">Tutorial video</p>
                             <h5 class="font-18 mb-2">
                               How We Can Assist with Shift Timings
                             </h5>
-                            <p class="font-12 mb-0">
+                            <p class="font-14 mb-0">
                               Enhancing shift scheduling for improved efficiency
                               and smooth operations,<br />
                               with a tutorial to guide you through the process.
@@ -191,7 +194,7 @@
                     >
                       <div class="position-relative">
                         <img
-                          src="assets/images/video-img.svg"
+                          src="assets/images/shift-timing-stap-img.svg"
                           style="width: 70%"
                         />
                         <span
@@ -200,7 +203,10 @@
                           data-bs-toggle="modal"
                           data-bs-target="#video-modal"
                         >
-                          <img src="assets/images/play-btn.svg" />
+                          <img
+                            src="assets/images/play-btn.svg"
+                            style="width: 40px"
+                          />
                         </span>
                       </div>
                     </div>
@@ -210,7 +216,7 @@
                   class="next-btn-box d-flex align-items-center justify-content-between"
                 >
                   <button
-                    class="btn previousBtn previous-btn"
+                    class="btn previousBtn previous-btn p-0"
                     type="button"
                     (click)="backPage()"
                   >
@@ -230,7 +236,7 @@
                   </button>
                   <button
                     type="submit"
-                    class="btn nextBtn"
+                    class="btn nextBtn p-0"
                     disabled
                     routerLink="/organization-onboarding/attendance-mode"
                   >

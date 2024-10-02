@@ -9,8 +9,7 @@
               <p class="mb-0">
                 To enhance your experience and ensure accurate shift scheduling
                 and communication within our platform, we kindly ask you to
-                review and update your shift <br />
-                information.
+                review and update your shift information.
               </p>
             </div>
 
@@ -1496,7 +1495,13 @@
           </label>
         </div>
         <div class="d-flex align-items-center justify-content-end gap-3 mt-3">
-          <button class="btn submit-add-more">Cancel</button>
+          <button
+            class="btn submit-add-more"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            Cancel
+          </button>
 
           <button class="btn mannualSubmit" (click)="submitShiftTimingForm()">
             <span *ngIf="!editShiftTimeLoader">Add all</span>
