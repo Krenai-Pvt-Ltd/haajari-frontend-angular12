@@ -161,6 +161,8 @@
                       class="d-flex align-items-center justify-content-between"
                     >
                       <div class="d-flex align-items-center gap-3">
+                        <!-- [attr.aria-expanded]="
+                              activeIndex == i ? 'true' : 'false' -->
                         <div class="">
                           <span
                             data-bs-toggle="collapse"
@@ -168,12 +170,10 @@
                             class="automation-rules-toogel-btn pointer"
                             [attr.data-bs-target]="'#multiCollapseExample' + i"
                             [attr.aria-controls]="'multiCollapseExample' + i"
-                            [attr.aria-expanded]="
-                              activeIndex == i ? 'true' : 'false'
-                            "
+                            [attr.aria-expanded]="true"
                             (click)="toggleCollapse(i)"
                           >
-                            1
+                            {{i + 1}}
                           </span>
                         </div>
                         <div class="">
@@ -186,11 +186,11 @@
                         </div>
                       </div>
                       <div class="employ-list d-flex align-items-center gap-3">
-                        <span
+                        <!-- <span
                           data-bs-toggle="modal"
                           data-bs-target="#usersAlreadyAssigned"
-                          >Employee List</span
-                        >
+                          >Employee List</span -->
+                        <!-- > -->
                         <span
                           class="pointer"
                           data-bs-toggle="modal"
@@ -229,7 +229,9 @@
                           </svg>
                           Members
 
-                          <span class="members-count">{{organizationShiftTimingResponse.userUuids.length}}</span>
+                          <span class="members-count">{{
+                            organizationShiftTimingResponse.userUuids.length
+                          }}</span>
                         </span>
                         <div class="spreter"></div>
                         <span
@@ -311,9 +313,9 @@
                     </div>
 
                     <div
-                      class="collapse multi-collapse"
+                      class="collapse multi-collapse show"
                       [id]="'multiCollapseExample' + i"
-                      [class.show]="activeIndex === i"
+                     
                     >
                       <div class="shift-in-out-box row mt-3 p-3 m-0">
                         <div class="col-md-4">
@@ -691,8 +693,8 @@
                             <th style="width: 20%" class="text-left">
                               Phone Number
                             </th>
-                            <th style="width: 20%" class="text-left">Sift</th>
-                            <th style="width: 5%"></th>
+                            <!-- <th style="width: 20%" class="text-left">Shift</th>
+                            <th style="width: 5%"></th> -->
 
                             <!-- <th style="width: 5%" class="text-center"></th> -->
                           </tr>
@@ -746,7 +748,7 @@
                                 staff.phoneNumber ? staff.phoneNumber : "N/A"
                               }}
                             </td>
-                            <td>
+                            <!-- <td>
                               <div class="dropdown">
                                 <button
                                   class="btn dropdown-toggle profile-input searchSelect"
@@ -785,9 +787,9 @@
                                   </li>
                                 </ul>
                               </div>
-                            </td>
+                            </td> -->
 
-                            <td>
+                            <!-- <td>
                               <a
                                 class="pointer d-flex align-items-center justify-content-center gap-2 delete-icon"
                               >
@@ -823,7 +825,7 @@
                                   </g>
                                 </svg>
                               </a>
-                            </td>
+                            </td> -->
                           </tr>
                         </tbody>
                       </table>
@@ -881,7 +883,7 @@
                           </nav>
                         </div>
                       </div>
-                      <div
+                      <!-- <div
                         class="shiftManagement d-flex gap-3 align-items-center memberNotes"
                         style="
                           background-image: url(../assets/images/vector-3.svg);
@@ -899,9 +901,7 @@
                             <b>Shift Name:</b> {{ list.shiftName }}
                             <b>User Name:</b> {{ list.userName }}
                           </p>
-                          <!-- <p>
-                              These users are already registered with different shift type!
-                            </p> -->
+                         
                           <div class="form-check">
                             <input
                               type="checkbox"
@@ -917,7 +917,7 @@
                               Validate Information
                             </label>
                           </div>
-                          <!-- {{isValidated}} -->
+                         
                           <p class="font-12 text-danger">
                             {{
                               isValidated
@@ -926,18 +926,19 @@
                             }}
                           </p>
                         </div>
-                      </div>
+                      </div> -->
                     </div>
 
                     <div
                       class="employ-lost-footer border-top p-2 d-flex align-items-center justify-content-end"
                     >
+                    <!-- [disabled]="
+                          userNameWithShiftName?.length > 0 && !isValidated
+                        " -->
                       <button
                         class="btn mannualSubmit"
                         (click)="editShiftStaffInfo()"
-                        [disabled]="
-                          userNameWithShiftName?.length > 0 && !isValidated
-                        "
+                        
                       >
                         <span *ngIf="!isEditStaffLoader">Submit</span>
                         <div
