@@ -152,3 +152,6 @@
     opacity: 1;
   }
 }
+.form-check input[type="checkbox"] {
+  accent-color: #6666f2;
+}
