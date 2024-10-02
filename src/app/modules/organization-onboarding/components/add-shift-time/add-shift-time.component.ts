@@ -661,7 +661,9 @@ export class AddShiftTimeComponent implements OnInit {
     this.dataService.getOrganizationUserNameWithShiftName(this.selectedStaffsUuids, shiftId).subscribe(
       (response) => {
         this.userNameWithShiftName = response.listOfObject;
-        
+         if(this.userNameWithShiftName.length < 1) {
+
+         }
       },
       (error) => {
         console.log('error');
