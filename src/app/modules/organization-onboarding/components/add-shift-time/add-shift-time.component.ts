@@ -162,6 +162,11 @@ export class AddShiftTimeComponent implements OnInit {
       );
   }
 
+  closeModal() {
+    this.isValidated = false;
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId);
+  }
+
   @ViewChild("closeButton") closeButton!:ElementRef;
   isRegisterLoad : boolean = false;
   registerShift() {
