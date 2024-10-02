@@ -28,7 +28,7 @@
   line-height: 22px;
   letter-spacing: 0.096px;
   text-transform: uppercase;
-  text-align: center;
+  text-align: left;
 }
 
 .register-form-box label {
@@ -66,7 +66,7 @@
 }
 
 .btn.createAccount:disabled {
-  background-color: #cccccc;
+  background-color: #6666f3;
   cursor: not-allowed;
 }
 
@@ -103,7 +103,7 @@
 .alredy-login,
 .iHaveRead {
   color: rgba(0, 0, 0, 0.85) !important;
-  font-size: 12px !important;
+  font-size: 14px !important;
   font-style: normal !important;
   font-weight: 400 !important;
   line-height: 20.854px !important;
