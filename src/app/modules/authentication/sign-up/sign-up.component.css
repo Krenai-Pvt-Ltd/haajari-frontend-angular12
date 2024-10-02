@@ -47,7 +47,7 @@
   line-height: 24px; /* 160% */
 }
 .onboarding-step-box {
-  border-radius: 10px;
+  border-radius: 2px;
   background: #fff;
   box-shadow: 0px 13.348px 33.37px 13.348px rgba(238, 243, 255, 0.45);
   width: 350px;
@@ -55,24 +55,7 @@
   padding-top: 30px !important;
   padding-bottom: 30px !important;
 }
-.onboarding-step-box:hover {
-  border: 1px solid #cecdff;
-}
-.onboarding-step-img {
-  border-radius: 15.188px;
-  border: 0.306px solid #a1a1ff;
-  background: #fff;
-  width: 55px;
-  height: 55px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.onboarding-step-img svg {
-  width: 40px;
-  position: relative;
-  top: -1px;
-}
+
 .onboarding-step-box h5 {
   color: #000;
   font-family: "IBM Plex Sans";
@@ -80,25 +63,23 @@
   font-style: normal;
   font-weight: 600;
   line-height: 15px;
-  margin-top: 20px;
+  margin-top: 30px;
 }
 .onboarding-step-box p {
   color: #121212;
   text-align: center;
-  font-family: Roboto;
   font-size: 12px;
   font-style: normal;
   font-weight: 300;
-  line-height: 22px; /* 160% */
+  line-height: 19px; /* 160% */
   letter-spacing: 0.106px;
 }
 .continueBtn {
   color: #6666f2;
-  font-family: Roboto;
   font-size: 13px;
   font-style: normal;
   font-weight: 500;
-  line-height: 23.667px; /* 131.485% */
+  line-height: 23.667px;
   letter-spacing: 0.108px;
 }
 .continueBtn svg {
@@ -107,22 +88,17 @@
   top: -1px;
 }
 .knowMoreBtn {
-  border-radius: 80.08px;
-  border: 0.801px solid #6666f2;
-  background: #6666f2;
-  box-shadow: 3.365px 5.888px 7.402px 0px #dcdbff;
   text-align: center;
-  font-family: "IBM Plex Sans";
   font-size: 13px;
   font-style: normal;
-  font-weight: 500;
-  line-height: 12.813px; /* 84.622% */
+  font-weight: 400;
+  padding: 0px;
+  line-height: 12.813px;
   letter-spacing: 0.303px;
-  color: #fff;
-}
-.knowMoreBtn svg {
-  position: relative;
-  top: -1px;
+  color: #6666f2;
+  text-decoration: underline;
+  bottom: 32px;
+  position: absolute;
 }
 
 .closebtn .close {
@@ -139,28 +115,24 @@
 }
 
 .signWhatsApp {
-  border-radius: 4px;
-  background: #51cd5e;
+  border-radius: 2px;
+  background: #fff;
   height: 43px;
-  color: #fff;
+  color: #000;
+  min-width: 230px;
   font-size: 14px !important;
   font-weight: 500;
-  line-height: 15px; /* 134.729% */
+  line-height: 20px !important;
   letter-spacing: 0.086px;
+  border: 1px solid #ddd;
 }
-
-.signSlack {
-  border-radius: 4px;
-  background: #441a49;
-  height: 43px;
+.signWhatsApp:hover {
+  background-color: #22b85e;
   color: #fff;
-  font-size: 14px !important;
-  font-weight: 500;
-  line-height: 15px; /* 134.729% */
-  letter-spacing: 0.086px;
+  border-color: #22b85e;
 }
-
-.signWhatsApp i {
-  font-size: 19px;
-  padding-right: 5px;
+.signSlack:hover {
+  background-color: #441a49 !important;
+  color: #fff;
+  border-color: #441a49;
 }

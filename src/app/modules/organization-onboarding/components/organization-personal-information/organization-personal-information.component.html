@@ -2,7 +2,7 @@
   <div class="page-content-tab-onbording">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12" style="padding: 0px">
           <div class="persnol-details mb-3">
             <form #personalInformationForm="ngForm" autocomplete="off">
               <div class="form-group">
@@ -13,7 +13,7 @@
                         <h4 class="card-title-headding mb-1">
                           Personal Information
                         </h4>
-                        <p class="mb-0 font-11">
+                        <p class="mb-0">
                           Provide your company name and contact information to
                           establish your account and maintain smooth
                           communication.
@@ -24,25 +24,27 @@
                       <div class="profile-photo-box">
                         <div class="row">
                           <div class="col-md-7 pr-0">
-                            <div class="attention-box attentionList p-3">
+                            <div class="attention-box attentionList p-4">
                               <h4 class="alert-heading font-16">Attention!</h4>
-                              <p class="font-11">
+                              <p class="font-12" style="margin-bottom: 16px">
                                 We’re excited to help you showcase your brand on
-                                our platform by uploading your company <br />
-                                logo.
+                                our platform by uploading your company logo.
                               </p>
 
-                              <h5 class="alert-heading subHeading font-11 mb-2">
+                              <h5
+                                class="alert-heading subHeading font-12"
+                                style="margin-bottom: 12px"
+                              >
                                 Please note the following guidelines for your
                                 company logo:
                               </h5>
-                              <p class="mb-1 font-11">
+                              <p class="mb-1 font-12">
                                 <i
                                   class="la la-arrow-right text-secondary me-1"
                                 ></i>
                                 Size: 400x400 pixels
                               </p>
-                              <p class="mb-1 font-11">
+                              <p class="mb-1 font-12">
                                 <i
                                   class="la la-arrow-right text-secondary me-1"
                                 ></i>
@@ -99,24 +101,14 @@
                                 data-bs-toggle="modal"
                                 data-bs-target="#image-picker"
                                 class="upload-image mt-2 font-14"
-                                >Upload Image</a
+                                >Upload Logo</a
                               >
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-12 mt-3">
-                      <!-- <div class="card-header p-0 pb-3 bg-white">
-                        <h4 class="card-title-headding mb-1">
-                          Personal Information
-                        </h4>
-                        <p class="mb-0">
-                          Provide your company name and contact information to
-                          establish your account and maintain smooth
-                          communication.
-                        </p>
-                      </div> -->
+                    <div class="col-md-12 mt-3 personalInformationForm">
                       <div class="row mt-3">
                         <div class="col-md-6">
                           <div class="mb-3">
@@ -360,39 +352,25 @@
             <div class="col-md-8">
               <div class="next-btn-box">
                 <div class="d-flex align-items-center justify-content-end">
-                  <button type="submit" class="btn nextBtn" [disabled]="personalInformationForm.invalid" (click)="submit()">
+                  <button
+                    type="submit"
+                    class="btn nextBtn p-0"
+                    [disabled]="personalInformationForm.invalid"
+                    (click)="submit()"
+                  >
                     <span *ngIf="!isInfoLoading"
                       >Next
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="25"
-                        height="25"
-                        viewBox="0 0 25 25"
+                        width="22"
+                        height="22"
+                        viewBox="0 0 22 22"
                         fill="none"
                       >
-                        <mask
-                          id="mask0_2043_143"
-                          style="mask-type: alpha"
-                          maskUnits="userSpaceOnUse"
-                          x="0"
-                          y="0"
-                          width="25"
-                          height="25"
-                        >
-                          <rect
-                            x="0.921875"
-                            y="0.671875"
-                            width="24"
-                            height="24"
-                            fill="#D9D9D9"
-                          />
-                        </mask>
-                        <g mask="url(#mask0_2043_143)">
-                          <path
-                            d="M16.9359 13.5625H4V11.4375H16.9359L10.9859 5.4875L12.5 4L21 12.5L12.5 21L10.9859 19.5125L16.9359 13.5625Z"
-                            fill="#6666F2"
-                          />
-                        </g>
+                        <path
+                          d="M2.25293 11.0001C2.25293 11.1875 2.31148 11.3397 2.42858 11.4568C2.54568 11.5739 2.69791 11.6325 2.88527 11.6325H18.4128L14.2675 15.7779C14.1269 15.9184 14.0567 16.0823 14.0567 16.2697C14.0567 16.457 14.1269 16.6093 14.2675 16.7264C14.408 16.8435 14.5719 16.902 14.7593 16.902C14.9466 16.902 15.1106 16.8552 15.2511 16.7615L20.5206 11.492C20.6143 11.3514 20.6612 11.1875 20.6612 11.0001C20.6612 10.8128 20.6143 10.6488 20.5206 10.5083L15.2511 5.23879C15.1106 5.14511 14.9466 5.09827 14.7593 5.09827C14.5719 5.09827 14.408 5.15682 14.2675 5.27392C14.1269 5.39102 14.0567 5.54325 14.0567 5.73061C14.0567 5.91797 14.1269 6.08191 14.2675 6.22243L18.4128 10.3678H2.88527C2.69791 10.3678 2.54568 10.4263 2.42858 10.5434C2.31148 10.6606 2.25293 10.8128 2.25293 11.0001Z"
+                          fill="#6666F2"
+                        />
                       </svg>
                     </span>
                     <div class="dot-opacity-loader" *ngIf="isInfoLoading">

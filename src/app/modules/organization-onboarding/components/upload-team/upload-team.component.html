@@ -29,82 +29,54 @@
                 </div>
               </div>
 
-              <div class="card-body mt-3 p-0" *ngIf="adminUser!=null">
+              <!-- <div class="card-body mt-3 p-0" *ngIf="adminUser != null">
                 <div class="alert alert-light mb-0 sampleExcelFileBox">
-                  <h4 class="alert-heading font-14">
-                    Admin Detail
-                  </h4>
-                 <div class="d-flex align-items-center gap-5 mt-3">
-                  <h5 class="alert-heading font-13 mb-0">{{adminUser.name || 'N/A'}}</h5>
-                  <p class="saperater"></p>
-                  <p class="mb-0">{{adminUser.email || 'N/A'}}</p>
-                  <p class="saperater"></p>
-                  <p class="mb-0">{{adminUser.phoneNumber || 'N/A'}}</p>
-                 </div>
+                  <h4 class="alert-heading font-14">Admin Detail</h4>
+                  <div class="d-flex align-items-center gap-5 mt-3">
+                    <h5 class="alert-heading font-13 mb-0">
+                      {{ adminUser.name || "N/A" }}
+                    </h5>
+                    <p class="saperater"></p>
+                    <p class="mb-0">{{ adminUser.email || "N/A" }}</p>
+                    <p class="saperater"></p>
+                    <p class="mb-0">{{ adminUser.phoneNumber || "N/A" }}</p>
+                  </div>
                 </div>
-              </div>
+              </div> -->
 
               <ng-container
-                *ngIf="
-                  !isShimmer &&
-                  
-                  !networkConnectionErrorPlaceholder
-                "
+                *ngIf="!isShimmer && !networkConnectionErrorPlaceholder"
               >
-                <div class="col-md-12 mb-100" *ngIf="onboardUserList.length == 0 && onboardingViaString != 'SLACK'">
+                <div
+                  class="col-md-12 mb-100"
+                  *ngIf="
+                    onboardUserList.length == 0 &&
+                    onboardingViaString != 'SLACK'
+                  "
+                >
                   <div class="card-body mt-3 p-0">
                     <div class="alert alert-light mb-0 sampleExcelFileBox">
                       <h4 class="alert-heading font-14">
                         Download the Sample Excel File!
                       </h4>
                       <p class="mb-0">
-                        Use this Excel template to organize and input your
+                        Use this Excel template to organise and input your
                         employee data correctly. Review the sample structure to
                         avoid errors.
-                        <br />
                         <a
                           class="text-primary textDecrotion"
                           href="{{ sampleFileUrl }}"
                           >Download a sample Excel file.</a
                         >
 
-                        nce you've updated the file, upload it back to the
-                        platform for enrol all employees
+                        Once you've updated the file, upload it back to the
+                        platform for enrol all employees.
                       </p>
                     </div>
                   </div>
 
-                 
                   <div class="card-body mt-3 p-0">
                     <div class="alert alert-light mb-0 excel-uplode-file-box">
-                      <!-- <input
-                        id="fileSelect"
-                        type="file"
-                        name="img[]"
-                        accept=".xlsx"
-                        class="input"
-                        (change)="selectFile($event)"
-                      />
-                      <img
-                        src="assets/images/excel.svg"
-                        style="width: 50px"
-                        class="pb-3"
-                      />
-                      <p class="">
-                        Drag file here to upload<br />
-                        or,
-                        <u
-                          ><a class="text-primary" href="#!">
-                            choose file
-                          </a></u
-                        >
-                      </p>
-                      <div
-                        *ngIf="isProgressToggle"
-                        class="spinner-border text-success"
-                        role="status"
-                      ></div> -->
-
                       <div
                         class="d-flex align-items-center justify-content-between gap-3"
                       >
@@ -118,8 +90,8 @@
                           class="d-flex align-items-center justify-content-between"
                           style="width: 85%"
                         >
-                          <div>
-                            <h5 class="alert-heading font-15 mb-2">
+                          <div class="uploadEmployee">
+                            <h5 class="alert-heading font-14 mb-2">
                               Upload Employee Data via Excel
                             </h5>
                             <p class="mb-0">
@@ -214,7 +186,7 @@
                           style="width: 85%"
                         >
                           <div>
-                            <h5 class="alert-heading font-15 mb-2">
+                            <h5 class="alert-heading font-14 mb-2">
                               Manually Enter Employee Details
                             </h5>
                             <p class="mb-0">
@@ -269,14 +241,17 @@
                     </div>
                   </div>
                 </div>
-                <div *ngIf="onboardUserList.length == 0 && onboardingViaString ==='SLACK'">
+                <div
+                  *ngIf="
+                    onboardUserList.length == 0 &&
+                    onboardingViaString === 'SLACK'
+                  "
+                >
                   <div class="card-body mt-3 p-0">
                     <div class="alert alert-light mb-0 excel-uplode-file-box">
-                      
                       <div
                         class="d-flex align-items-center justify-content-between gap-3"
                       >
-                       
                         <div
                           class="d-flex align-items-center justify-content-between"
                           style="width: 85%"
@@ -285,118 +260,62 @@
                             <h5 class="alert-heading font-15 mb-2">
                               No Data Found
                             </h5>
-                            <p class="mb-0">
-                              Please Re-sync your data! 
-                            </p>
+                            <p class="mb-0">Please Re-sync your data!</p>
                           </div>
                           <div class="">
                             <button
                               class="btn excelUploadBtn"
                               (click)="syncSlackUsersToDatabaseData()"
                             >
-                            <div
-                            class="dot-opacity-loader"
-                            *ngIf="isSyncFlag"
-                          >
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                          </div>
-                             <span *ngIf="!isSyncFlag">
-                              Sync Data
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="22"
-                                height="22"
-                                viewBox="0 0 22 22"
-                                fill="none"
+                              <div
+                                class="dot-opacity-loader"
+                                *ngIf="isSyncFlag"
                               >
-                                <mask
-                                  id="mask0_2163_292"
-                                  style="mask-type: alpha"
-                                  maskUnits="userSpaceOnUse"
-                                  x="0"
-                                  y="0"
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                              </div>
+                              <span *ngIf="!isSyncFlag">
+                                Sync Data
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
                                   width="22"
                                   height="22"
+                                  viewBox="0 0 22 22"
+                                  fill="none"
                                 >
-                                  <rect
-                                    x="0.117188"
-                                    y="0.515625"
-                                    width="20.9709"
-                                    height="20.9709"
-                                    fill="#D9D9D9"
-                                  />
-                                </mask>
-                                <g mask="url(#mask0_2163_292)">
-                                  <path
-                                    d="M14.2477 11.8758H3.60938V10.1282H14.2477L9.35452 5.23502L10.5997 4.01172L17.59 11.002L10.5997 17.9923L9.35452 16.769L14.2477 11.8758Z"
-                                    fill="#6666F2"
-                                  />
-                                </g>
-                              </svg>
-                            </span> 
+                                  <mask
+                                    id="mask0_2163_292"
+                                    style="mask-type: alpha"
+                                    maskUnits="userSpaceOnUse"
+                                    x="0"
+                                    y="0"
+                                    width="22"
+                                    height="22"
+                                  >
+                                    <rect
+                                      x="0.117188"
+                                      y="0.515625"
+                                      width="20.9709"
+                                      height="20.9709"
+                                      fill="#D9D9D9"
+                                    />
+                                  </mask>
+                                  <g mask="url(#mask0_2163_292)">
+                                    <path
+                                      d="M14.2477 11.8758H3.60938V10.1282H14.2477L9.35452 5.23502L10.5997 4.01172L17.59 11.002L10.5997 17.9923L9.35452 16.769L14.2477 11.8758Z"
+                                      fill="#6666F2"
+                                    />
+                                  </g>
+                                </svg>
+                              </span>
                             </button>
                           </div>
-                          
                         </div>
                       </div>
                     </div>
                   </div>
-                  
-
                 </div>
-
-                <!-- <div class="col-md-4">
-                  <div class="card-body mt-0 bg-soft-warning">
-                    <div class="pt-3">
-                      <img
-                        src="assets/images/small/business.png"
-                        alt=""
-                        class="img-fluid px-3 mb-2"
-                      />
-                      <footer class="blockquote-footer font-14">
-                        Efficiency Redefined:
-                        <cite title="Source Title"
-                          >Seamlessly Create Employees in Your Hajiri System
-                        </cite>
-                      </footer>
-                      <div class="py-2">
-                        <button
-                          class="btn btn-outline-primary btn-square"
-                          data-bs-toggle="modal"
-                          data-bs-target="#munal-upload"
-                          type="button"
-                        >
-                          Click Here To Create
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div> -->
-                <!-- <div
-                  class="alert alert-light mb-0 mt-4 bg-soft-warning create-password-warning text-start"
-                  role="alert"
-                  *ngIf="
-                    alreadyUsedPhoneNumberArray.length > 0 ||
-                    alreadyUsedEmailArray.length > 0 ||
-                    isErrorToggle
-                  "
-                >
-                  <h4 class="alert-heading font-18">Attention!</h4>
-                  <p *ngIf="alreadyUsedPhoneNumberArray.length > 0">
-                    Phone Numbers:
-                    {{ formatAsCommaSeparated(alreadyUsedPhoneNumberArray) }}
-                  </p>
-                  <p *ngIf="alreadyUsedEmailArray.length > 0">
-                    Emails: {{ formatAsCommaSeparated(alreadyUsedEmailArray) }}
-                  </p>
-                  <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p>
-                 
-                  <p *ngIf="!isErrorToggle">
-                    These credentials are already registered with us!
-                  </p>
-                </div> -->
               </ng-container>
 
               <ng-container
@@ -484,14 +403,72 @@
                     else errorInOnboardUserListCondition
                   "
                 >
+                  <div class="col-md-12 mt-3" *ngIf="adminUser != null">
+                    <div
+                      class="alreadyMemberBox p-3 d-flex align-items-center justify-content-between"
+                    >
+                      <div class="d-flex align-items-center gap-2">
+                        <span class="alreadyUser">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="23"
+                            viewBox="0 0 24 23"
+                            fill="none"
+                          >
+                            <mask
+                              id="mask0_3510_3972"
+                              style="mask-type: alpha"
+                              maskUnits="userSpaceOnUse"
+                              x="0"
+                              y="0"
+                              width="24"
+                              height="23"
+                            >
+                              <rect
+                                x="0.675781"
+                                y="0.148651"
+                                width="22.7027"
+                                height="22.7027"
+                                fill="white"
+                              />
+                            </mask>
+                            <g mask="url(#mask0_3510_3972)">
+                              <path
+                                d="M9.92378 11.5C9.35621 11.5 8.88324 11.2871 8.50486 10.8615C8.12648 10.4358 7.9767 9.93916 8.05553 9.37159L8.36297 7.05403C8.48909 6.15538 8.899 5.41044 9.5927 4.81923C10.2864 4.22801 11.0983 3.9324 12.0285 3.9324C12.9587 3.9324 13.7706 4.22801 14.4643 4.81923C15.158 5.41044 15.5679 6.15538 15.694 7.05403L16.0015 9.37159C16.0803 9.93916 15.9305 10.4358 15.5522 10.8615C15.1738 11.2871 14.7008 11.5 14.1332 11.5H9.92378ZM9.92378 9.60808H14.1332L13.8258 7.33781C13.7627 6.89637 13.5617 6.53376 13.2228 6.24997C12.8838 5.96619 12.4857 5.8243 12.0285 5.8243C11.5713 5.8243 11.1732 5.96619 10.8342 6.24997C10.4953 6.53376 10.2943 6.89637 10.2312 7.33781L9.92378 9.60808ZM4.46094 19.0675V16.4189C4.46094 15.8829 4.59889 15.3902 4.87479 14.9409C5.15069 14.4915 5.51724 14.1486 5.97445 13.9121C6.95193 13.4234 7.94517 13.0568 8.95418 12.8125C9.96319 12.5681 10.988 12.4459 12.0285 12.4459C13.069 12.4459 14.0938 12.5681 15.1028 12.8125C16.1118 13.0568 17.1051 13.4234 18.0826 13.9121C18.5398 14.1486 18.9063 14.4915 19.1822 14.9409C19.4581 15.3902 19.5961 15.8829 19.5961 16.4189V19.0675H4.46094ZM6.35283 17.1756H17.7042V16.4189C17.7042 16.2455 17.6608 16.0878 17.5741 15.9459C17.4874 15.804 17.3731 15.6937 17.2312 15.6148C16.3799 15.1892 15.5206 14.8699 14.6535 14.6571C13.7864 14.4442 12.9114 14.3378 12.0285 14.3378C11.1456 14.3378 10.2706 14.4442 9.40351 14.6571C8.53639 14.8699 7.67715 15.1892 6.8258 15.6148C6.68391 15.6937 6.56961 15.804 6.4829 15.9459C6.39619 16.0878 6.35283 16.2455 6.35283 16.4189V17.1756Z"
+                                fill="white"
+                              />
+                            </g>
+                          </svg>
+                        </span>
+                        <h5 class="mb-0">
+                          You’re already a member of this team.
+                        </h5>
+                      </div>
+                      <div class="d-flex align-items-center gap-2">
+                        <p class="mb-0 font-12">
+                          Your Name: <span> {{ adminUser.name || "N/A" }}</span>
+                        </p>
+                        <span class="spreter" style="height: 15px"></span>
+                        <p class="mb-0 font-12">
+                          Email: <span>{{ adminUser.email || "N/A" }}</span>
+                        </p>
+                        <span class="spreter" style="height: 15px"></span>
+                        <p class="mb-0 font-12">
+                          Mobile Number:
+                          <span>{{ adminUser.phoneNumber || "N/A" }}</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                   <div class="col-md-12 mt-3">
                     <div
-                      class="d-flex align-items-center justify-content-between mb-3 p-0"
+                      class="d-flex align-items-center justify-content-between p-0"
                       *ngIf="onboardingViaString != 'SLACK'"
                     >
                       <div>
                         <h5 class="alert-heading font-14 mb-0">
-                          Employee List [{{totalOnboardingUserListCount}}]
+                          Employee List [{{ totalOnboardingUserListCount }}]
                         </h5>
                       </div>
 
@@ -582,100 +559,78 @@
                         </button>
                       </div>
                     </div>
-                    <div
-                    class="d-flex align-items-center justify-content-start mb-3"
-                  >
-                    <h5 class="alert-heading font-14 mb-0">
-                      <!-- Employee List -->
-                    </h5>
-
-                    <!-- <div
-                    class="d-flex align-items-center gap-3"
-                    *ngIf="listOfIds.length === 0"
-                  >
-                    <p
-                      class="mb-0"
-                      style="font-weight: 400"
-                    >
-                      <span class="text-primary">
-                        {{totalOnboardingUserListCount}}
-                      </span>
-                       User 
-                    </p>
-                    </div> -->
 
                     <div
-                      class="d-flex align-items-center gap-3"
+                      class="d-flex align-items-center justify-content-between mb-3 mt-2"
                       *ngIf="listOfIds.length > 0"
                     >
-                      <p
-                        class="mb-0"
-                        style="font-weight: 400"
-                      >
-                        All
-                        <span class="text-primary">
-                          {{ listOfIds?.length }}
-                        </span>
-                        Employees on this page are selected
-                      </p>
-                      <p
-                        class="mb-0 selectAll"
-                        style="font-weight: 400; cursor: pointer;"
-                        (click)="selectAllPageUsers()"
-                      >
-                        Select all
-                        <span class="text-primary">
-                          {{ totalOnboardingUserListCount }}
-                        </span>
-                        Users
-                      </p>
-                      <p
-                        class="mb-0 selectAll"
-                        style="font-weight: 400; cursor: pointer;"
-                        (click)="deleteUsers()"
-                      >
-                        Delete Selected Users
-                      </p>
-                      <span class="error-spreter"></span>
-                      <button
-                        class="p-0 btn removeBtn pointer"
-                        (click)="unselectAllUsers()"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
+                      <div class="d-flex align-items-center gap-3">
+                        <p class="mb-0" style="font-weight: 400">
+                          All
+                          <span class="text-primary">
+                            {{ listOfIds?.length }}
+                          </span>
+                          Employees on this page are selected
+                        </p>
+                      </div>
+                      <div class="d-flex align-items-center gap-3">
+                        <p
+                          class="mb-0 selectAll"
+                          style="font-weight: 400; cursor: pointer"
+                          (click)="selectAllPageUsers()"
                         >
-                          <mask
-                            id="mask0_1624_4338"
-                            style="mask-type: alpha"
-                            maskUnits="userSpaceOnUse"
-                            x="0"
-                            y="0"
+                          Select all
+                          <span class="text-primary">
+                            {{ totalOnboardingUserListCount }}
+                          </span>
+                          Users
+                        </p>
+                        <p
+                          class="mb-0 selectAll deleteSelecetdUser"
+                          (click)="deleteUsers()"
+                        >
+                          Delete Selected Users
+                        </p>
+                        <!-- <span class="error-spreter"></span> -->
+                        <button
+                          class="p-0 btn removeBtn pointer"
+                          (click)="unselectAllUsers()"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
                             width="24"
                             height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
                           >
-                            <rect
-                              y="0.25"
-                              width="23.5"
-                              height="23.5"
-                              fill="#D9D9D9"
-                            />
-                          </mask>
-                          <g mask="url(#mask0_1624_4338)">
-                            <path
-                              d="M6.26146 18.8568L4.89062 17.4859L10.374 12.0026L4.89062 6.51927L6.26146 5.14844L11.7448 10.6318L17.2281 5.14844L18.599 6.51927L13.1156 12.0026L18.599 17.4859L17.2281 18.8568L11.7448 13.3734L6.26146 18.8568Z"
-                              fill="#FD0808"
-                            />
-                          </g>
-                        </svg>
-                        Clear Selection
-                      </button>
+                            <mask
+                              id="mask0_1624_4338"
+                              style="mask-type: alpha"
+                              maskUnits="userSpaceOnUse"
+                              x="0"
+                              y="0"
+                              width="24"
+                              height="24"
+                            >
+                              <rect
+                                y="0.25"
+                                width="23.5"
+                                height="23.5"
+                                fill="#D9D9D9"
+                              />
+                            </mask>
+                            <g mask="url(#mask0_1624_4338)">
+                              <path
+                                d="M6.26146 18.8568L4.89062 17.4859L10.374 12.0026L4.89062 6.51927L6.26146 5.14844L11.7448 10.6318L17.2281 5.14844L18.599 6.51927L13.1156 12.0026L18.599 17.4859L17.2281 18.8568L11.7448 13.3734L6.26146 18.8568Z"
+                                fill="#FD0808"
+                              />
+                            </g>
+                          </svg>
+                          Clear Selection
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                    <table class="table table-striped">
+                    <table class="table table-striped mt-3">
                       <thead class="thead-light">
                         <tr>
                           <th style="width: 5%" class="text-center">
@@ -687,7 +642,7 @@
                               [checked]="isSelectAll"
                             />
                           </th>
-                          <th style="width: 5%" class="text-center">Sr No.</th>
+                          <th style="width: 10%" class="text-center">Sr No.</th>
                           <th style="width: 25%" class="text-left">Name</th>
                           <th style="width: 25%" class="text-left">
                             Email Address
@@ -715,7 +670,9 @@
                               type="checkbox"
                               style="cursor: pointer"
                               class="form-check-input"
-                              (change)="toggleUserSelection(onboardUser.id, $event)"
+                              (change)="
+                                toggleUserSelection(onboardUser.id, $event)
+                              "
                               [checked]="listOfIds?.includes(onboardUser.id)"
                             />
                           </td>
@@ -825,12 +782,23 @@
                       class="d-flex align-items-center justify-content-end"
                       style="gap: 15px"
                     >
-                      <p class="mb-0"><span>{{currentDisplayedCount}}</span> of <span>{{totalOnboardingUserListCount}}</span></p>
+                      <p class="mb-0">
+                        <span>{{ currentDisplayedCount }}</span> of
+                        <span>{{ totalOnboardingUserListCount }}</span>
+                      </p>
                       <div>
-                        <button class="pagnition-left" (click)="previousPage()" [disabled]="page === 0">
+                        <button
+                          class="pagnition-left"
+                          (click)="previousPage()"
+                          [disabled]="page === 0"
+                        >
                           <i class="bi bi-caret-left-fill"></i>
                         </button>
-                        <button class="pagnition-right" (click)="nextPage()" [disabled]="onboardUserList.length < size">
+                        <button
+                          class="pagnition-right"
+                          (click)="nextPage()"
+                          [disabled]="onboardUserList.length < size"
+                        >
                           <i class="bi bi-caret-right-fill"></i>
                         </button>
                       </div>
@@ -855,15 +823,6 @@
                       <p>An error occurred while processing your request!</p>
                     </ng-template>
                   </nz-empty>
-                  <!-- <div class="errorboxinner text-center">
-                    <div class="errorboxplaceholder mb-2">
-                      <img src="assets/images/signal.svg" style="width: 80px" />
-                    </div>
-
-                    <h4>Something went wrong!</h4>
-
-                    <p>An error occurred while processing your request!</p>
-                  </div> -->
                 </div>
               </ng-template>
             </div>
@@ -895,7 +854,7 @@
                       </svg>
                     </div>
                     <div class="">
-                      <h5 class="alert-heading text-danger font-12 mb-2">
+                      <h5 class="alert-heading text-danger font-12 mb-1">
                         Attention! It seems like some of the list are not
                         matching with the requirements. These list you can see
                         here.
@@ -927,38 +886,7 @@
                       style="margin-right: 15px"
                       (click)="downloadExcelLog()"
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="27"
-                        height="28"
-                        viewBox="0 0 27 28"
-                        fill="none"
-                      >
-                        <mask
-                          id="mask0_2035_1932"
-                          style="mask-type: alpha"
-                          maskUnits="userSpaceOnUse"
-                          x="0"
-                          y="0"
-                          width="27"
-                          height="28"
-                        >
-                          <rect
-                            x="0.335938"
-                            y="0.761719"
-                            width="26.521"
-                            height="26.521"
-                            fill="#D9D9D9"
-                          />
-                        </mask>
-                        <g mask="url(#mask0_2035_1932)">
-                          <path
-                            d="M13.5981 18.4441L8.07294 12.9189L9.62 11.3166L12.4931 14.1897V5.18359H14.7032V14.1897L17.5763 11.3166L19.1234 12.9189L13.5981 18.4441ZM6.9679 22.8643C6.36012 22.8643 5.83983 22.6479 5.40702 22.2151C4.97422 21.7822 4.75781 21.262 4.75781 20.6542V17.3391H6.9679V20.6542H20.2284V17.3391H22.4385V20.6542C22.4385 21.262 22.2221 21.7822 21.7893 22.2151C21.3565 22.6479 20.8362 22.8643 20.2284 22.8643H6.9679Z"
-                            fill="#FF2F2F"
-                          />
-                        </g>
-                      </svg>
-                      Download error log
+                      Preview Error log
                     </button>
                   </div>
                 </div>
@@ -966,7 +894,7 @@
                   class="next-btn-box d-flex align-items-center justify-content-between"
                 >
                   <button
-                    class="btn previousBtn previous-btn"
+                    class="btn previousBtn previous-btn p-0"
                     type="button"
                     (click)="backPage()"
                   >
@@ -993,39 +921,25 @@
                     </div>
                   </button>
                   <!-- {{onboardUserList.length}} -->
-                  <button type="submit" class="btn nextBtn" [disabled]="totalOnboardingUserListCount === 0" (click)="next()">
+                  <button
+                    type="submit"
+                    class="btn nextBtn p-0"
+                    [disabled]="totalOnboardingUserListCount === 0"
+                    (click)="next()"
+                  >
                     <span *ngIf="!isNextloading"
                       >Next
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="25"
-                        height="25"
-                        viewBox="0 0 25 25"
+                        width="22"
+                        height="22"
+                        viewBox="0 0 22 22"
                         fill="none"
                       >
-                        <mask
-                          id="mask0_2043_143"
-                          style="mask-type: alpha"
-                          maskUnits="userSpaceOnUse"
-                          x="0"
-                          y="0"
-                          width="25"
-                          height="25"
-                        >
-                          <rect
-                            x="0.921875"
-                            y="0.671875"
-                            width="24"
-                            height="24"
-                            fill="#D9D9D9"
-                          />
-                        </mask>
-                        <g mask="url(#mask0_2043_143)">
-                          <path
-                            d="M16.9359 13.5625H4V11.4375H16.9359L10.9859 5.4875L12.5 4L21 12.5L12.5 21L10.9859 19.5125L16.9359 13.5625Z"
-                            fill="#6666F2"
-                          />
-                        </g>
+                        <path
+                          d="M2.25293 11.0001C2.25293 11.1875 2.31148 11.3397 2.42858 11.4568C2.54568 11.5739 2.69791 11.6325 2.88527 11.6325H18.4128L14.2675 15.7779C14.1269 15.9184 14.0567 16.0823 14.0567 16.2697C14.0567 16.457 14.1269 16.6093 14.2675 16.7264C14.408 16.8435 14.5719 16.902 14.7593 16.902C14.9466 16.902 15.1106 16.8552 15.2511 16.7615L20.5206 11.492C20.6143 11.3514 20.6612 11.1875 20.6612 11.0001C20.6612 10.8128 20.6143 10.6488 20.5206 10.5083L15.2511 5.23879C15.1106 5.14511 14.9466 5.09827 14.7593 5.09827C14.5719 5.09827 14.408 5.15682 14.2675 5.27392C14.1269 5.39102 14.0567 5.54325 14.0567 5.73061C14.0567 5.91797 14.1269 6.08191 14.2675 6.22243L18.4128 10.3678H2.88527C2.69791 10.3678 2.54568 10.4263 2.42858 10.5434C2.31148 10.6606 2.25293 10.8128 2.25293 11.0001Z"
+                          fill="#6666F2"
+                        />
                       </svg>
                     </span>
                     <div class="dot-opacity-loader" *ngIf="isNextloading">
@@ -1035,40 +949,6 @@
                     </div>
                   </button>
                 </div>
-                <!-- <div
-                  class="next-btn-box d-flex align-items-center justify-content-between"
-                >
-                  <button
-                    class="btn btn-outline-secondary btn-round previous-btn"
-                    type="button"
-                    (click)="backPage()"
-                  >
-                    <span *ngIf="!isPreviousLoading"
-                      ><i class="bi bi-arrow-left"></i> Previous</span
-                    >
-
-                    <div class="dot-opacity-loader" *ngIf="isPreviousLoading">
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                    </div>
-                  </button>
-                  <button
-                    type="submit"
-                    class="btn btn-outline-primary btn-round"
-                    (click)="next()"
-                  >
-                    <span *ngIf="!isNextloading"
-                      >Next
-                      <i class="bi bi-arrow-right" style="padding-left: 8px"></i
-                    ></span>
-                    <div class="dot-opacity-loader" *ngIf="isNextloading">
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                    </div>
-                  </button>
-                </div> -->
               </div>
             </div>
           </div>
@@ -1403,7 +1283,7 @@
                         class="errortxt mt-2 mb-2 text-danger"
                         *ngIf="name.errors?.minlength"
                       >
-                        <i class="bi bi-exclamation-circle "></i> Please enter a
+                        <i class="bi bi-exclamation-circle"></i> Please enter a
                         valid name.
                       </p>
                     </div>
@@ -1431,7 +1311,7 @@
                       *ngIf="userList[i].isPhoneExist"
                       class="error text-muted text-danger"
                     >
-                      <i class="bi bi-exclamation-circle "></i> Phone number is
+                      <i class="bi bi-exclamation-circle"></i> Phone number is
                       already exist.
                     </p>
                     <div *ngIf="phone?.dirty || isFormInvalid">
@@ -1439,7 +1319,7 @@
                         class="errortxt mt-2 mb-2 text-danger"
                         *ngIf="phone.errors?.required"
                       >
-                        <i class="bi bi-exclamation-circle "></i> Phone number is
+                        <i class="bi bi-exclamation-circle"></i> Phone number is
                         required.
                       </p>
                       <p
@@ -1476,19 +1356,24 @@
                         class="errortxt mt-2 mb-2 text-danger"
                         *ngIf="email.errors?.required"
                       >
-                        <i class="bi bi-exclamation-circle "></i> Email Id is
+                        <i class="bi bi-exclamation-circle"></i> Email Id is
                         required.
                       </p>
-                      <p class="errortxt mt-2 mb-2 text-danger" *ngIf="email.errors?.email">
-                        <i class="bi bi-exclamation-circle "></i> Please enter a
+                      <p
+                        class="errortxt mt-2 mb-2 text-danger"
+                        *ngIf="email.errors?.email"
+                      >
+                        <i class="bi bi-exclamation-circle"></i> Please enter a
                         valid email.
                       </p>
-                      <p class="errortxt mb-2 text-danger" *ngIf="email.errors?.pattern">
+                      <p
+                        class="errortxt mb-2 text-danger"
+                        *ngIf="email.errors?.pattern"
+                      >
                         <i class="bi bi-exclamation-circle"></i> Please enter a
                         valid email.
                       </p>
                     </div>
-                    
                   </div>
                 </div>
               </div>
@@ -1496,7 +1381,6 @@
             <div
               class="modal-footer border-top d-flex align-items-center justify-content-end p-3 bg-white gap-3"
             >
-
               <button
                 class="btn submit-add-more"
                 (click)="addUser()"
@@ -1520,18 +1404,21 @@
               >
                 Submit
               </button> -->
-              
+
               <button
                 class="btn mannualSubmit"
                 (click)="submit()"
                 [disabled]="!allUsersValid() || this.userList.length < 1"
               >
-              <span *ngIf="!isManualUploadSubmitLoader">Submit</span>
-              <div class="dot-opacity-white-loader" *ngIf="isManualUploadSubmitLoader">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
+                <span *ngIf="!isManualUploadSubmitLoader">Submit</span>
+                <div
+                  class="dot-opacity-white-loader"
+                  *ngIf="isManualUploadSubmitLoader"
+                >
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
               </button>
             </div>
           </div>
@@ -1608,7 +1495,9 @@
           <p class="font-11">You will not be able to recover this</p>
 
           <div class="mt-4 d-flex align-items-center flex-column">
-            <button class="btn continue-btn" (click)="deleteUser()">Continue</button>
+            <button class="btn continue-btn" (click)="deleteUser()">
+              Continue
+            </button>
             <button
               class="btn cancel-btn pt-2"
               type="button"

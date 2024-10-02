@@ -1,7 +1,4 @@
 .left-sidebar-onbording {
-  border-right: 1px solid #eceff5;
-}
-.left-sidebar-onbording {
   min-width: 285px;
   max-width: 285px;
   background: linear-gradient(180deg, #f4f4f4 0%, #f8f8f8 56.31%, #e4ebff 100%);
@@ -12,6 +9,8 @@
   bottom: 0;
   top: 0;
   z-index: 1001;
+  padding: 32px;
+  border-right: 1px solid #eceff5;
 }
 .step-personal-information p {
   font-size: 12px;
@@ -40,7 +39,7 @@
 }
 .login-new-text {
   position: absolute;
-  bottom: 20px;
+  bottom: 32px;
   gap: 15px;
 }
 .login-new-text p {
@@ -59,14 +58,15 @@
   cursor: pointer;
 }
 .step-count {
-  font-size: 12px !important;
+  font-size: 13px !important;
   color: #000 !important;
-  font-weight: 400 !important;
+  font-weight: 500 !important;
 }
 
 .step-count span {
   padding-left: 5px;
   font-weight: 500;
+  font-size: 15px;
 }
 
 .sideBarStep {
@@ -109,7 +109,7 @@
   padding-top: 50px;
 }
 .pending-step h5 {
-  line-height: 50px;
+  line-height: 40px;
   color: rgba(153, 153, 153, 0.85);
   font-weight: 400;
 }
