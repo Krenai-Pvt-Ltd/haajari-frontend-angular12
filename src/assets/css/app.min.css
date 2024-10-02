@@ -9319,7 +9319,7 @@ display:block
 .table td {
   font-weight: 300;
   vertical-align: middle;
-  font-size: 12px !important;
+  font-size: 14px !important;
   border-bottom: 1px solid #e6e7e9 !important;
   color: #000 !important;
   padding: 15px;
@@ -9604,7 +9604,7 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
 }
 
 .persnol-details p {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 300;
   color: #000;
   word-spacing: 1px;
@@ -9675,7 +9675,7 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
 
 .card-title-headding {
   color: #6666f2;
-  font-size: 16px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 500;
   line-height: 27.086px; /* 146.667% */
@@ -9834,7 +9834,7 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
 
 .personalInformationForm label {
   color: rgba(0, 0, 0, 0.85);
-  font-size: 12px !important;
+  font-size: 14px !important;
   font-style: normal;
   font-weight: 500;
   line-height: 20.854px;

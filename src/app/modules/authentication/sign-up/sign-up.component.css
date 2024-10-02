@@ -58,8 +58,7 @@
 
 .onboarding-step-box h5 {
   color: #000;
-  font-family: "IBM Plex Sans";
-  font-size: 14px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 600;
   line-height: 15px;
@@ -68,10 +67,10 @@
 .onboarding-step-box p {
   color: #121212;
   text-align: center;
-  font-size: 12px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 300;
-  line-height: 19px; /* 160% */
+  line-height: 22px;
   letter-spacing: 0.106px;
 }
 .continueBtn {

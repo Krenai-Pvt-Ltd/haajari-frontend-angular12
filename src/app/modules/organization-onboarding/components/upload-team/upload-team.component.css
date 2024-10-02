@@ -379,10 +379,10 @@ p.tableinfo.mb-0 {
 }
 .uploadEmployee p {
   color: #121212;
-  font-size: 12px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 300;
-  line-height: 16px; /* 166.378% */
+  line-height: 20px; /* 166.378% */
   letter-spacing: 0.128px;
 }
 
@@ -405,7 +405,7 @@ p.tableinfo.mb-0 {
 }
 .alreadyMemberBox h5 {
   color: #e27a17;
-  font-size: 13px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 600;
   line-height: 20px;
