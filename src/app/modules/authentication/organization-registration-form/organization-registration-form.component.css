@@ -66,8 +66,8 @@
 }
 
 .btn.createAccount:disabled {
-  background-color: #cccccc; 
-  cursor: not-allowed; 
+  background-color: #cccccc;
+  cursor: not-allowed;
 }
 
 .form-check-label {
@@ -111,7 +111,10 @@
 }
 
 .login-link {
-  color: #ededf3 !important;
+  color: #6666f2 !important;
+}
+.login-link:hover {
+  color: #6666f2 !important;
 }
 
 .dot-opacity-loader {
