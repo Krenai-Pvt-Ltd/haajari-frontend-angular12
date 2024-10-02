@@ -74,6 +74,8 @@
   background-color: #fff;
   border-radius: 2px;
   border: 1px solid #f9fafb;
+  margin: 0 auto;
+  min-height: 280px;
 }
 
 .dot-opacity-loader {
@@ -221,7 +223,7 @@
 }
 .attendanceModeBox p {
   color: #717171;
-  font-size: 11px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 300;
   line-height: 18px;
@@ -253,17 +255,17 @@
 
 .whatAppSlackBox h5 {
   color: #000;
-  font-size: 14px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 500;
-  line-height: 16px;
+  line-height: 18px;
 }
 .whatAppSlackBox p {
   color: #717171;
-  font-size: 11px;
+  font-size: 13px;
   font-style: normal;
   font-weight: 300;
-  line-height: 16px;
+  line-height: 18px;
 }
 
 .whatAppSlackBox img {
@@ -283,12 +285,12 @@
   font-size: 15px;
   font-style: normal;
   font-weight: 500;
-  line-height: 24px;
+  line-height: 18px;
 }
 
 .employeeInformation p {
   color: #717171;
-  font-size: 11px;
+  font-size: 13px;
   font-style: normal;
   font-weight: 300;
   line-height: 26px;
@@ -300,13 +302,13 @@
 }
 .attendance-mode-card p {
   color: #717171;
-  font-size: 11px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 300;
-  line-height: 15px;
+  line-height: 20px;
 }
 .attendance-mode-card h5 {
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .modeHeading {
@@ -342,7 +344,7 @@ a.fetch-location {
   border-radius: 0 2px 2px 0;
   opacity: 0.8;
   background: #e9e9ff;
-  padding: 10px;
+  padding: 11px;
   font-size: 14px;
   text-decoration: none;
   cursor: pointer;
@@ -385,4 +387,15 @@ a.fetch-location {
   40% {
     opacity: 1;
   }
+}
+
+.stap-back-btn {
+  background-color: #6666f2;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
 }

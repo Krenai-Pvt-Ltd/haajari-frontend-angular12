@@ -327,3 +327,10 @@ button.btn.close-btn {
   letter-spacing: 0.152px;
   padding-left: 10px;
 }
+.spreter-line {
+  height: 15px;
+  border-right: 1px solid #2f2e41;
+}
+.form-check input[type="checkbox"] {
+  accent-color: #6666f2;
+}
