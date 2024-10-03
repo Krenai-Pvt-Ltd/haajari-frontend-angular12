@@ -45,12 +45,9 @@ export class SlackAuthComponent implements OnInit {
     const codeParam = new URLSearchParams(window.location.search).get('code');
     const stateParam = new URLSearchParams(window.location.search).get('state');
 
-    //TODO: remove this
-    this.isSuccessComponent = true;
     console.log('codeParam' + codeParam + 'stateParam' + stateParam);
     if (!codeParam || !stateParam) {
-      //TODO: uncomment
-      // this.router.navigate(['/auth/login']);
+      this.router.navigate(['/auth/login']);
       // alert('Invalid URL: Missing code parameter');
       return;
     }
