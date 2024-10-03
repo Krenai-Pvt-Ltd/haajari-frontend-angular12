@@ -6,99 +6,6 @@
   height: 100vh;
 }
 
-/* .loader {
-    width: 300px;
-    height: 33px;
-    margin: 0 15px;
-    border-radius: 100px;
-    position: relative;
-    top: -2px;
-    left: -5px;
-    overflow-x: hidden;
-    display: flex;
-    align-items: center;
-    grid-column-gap: 15px;
-    column-gap: 15px;
-  } */
-
-/* .loader{
-    width: 300px;
-    height: 23px;
-    margin: 0 15px;
-    border-radius: 100px;
-    position: relative;
-    top: 0px;
-    left: -5px;
-    overflow-x: hidden;
-    display: flex;
-    align-items: center;
-    grid-column-gap: 15px;
-    grid-column-gap: 15px;
-    column-gap: 15px;
-    color: #353535;
-  }
-   */
-
-/* .loaderIcon{
-    font-size: 24px;
-    animation: iconMove 4s linear infinite;
-    position: absolute;
-    left: -20%;
-    top: -8px;
-    bottom: 0;
-  } */
-
-/* .loaderIcon {
-    font-size: 17px;
-    animation: iconMove 4s cubic-bezier(0, 1.11, 0.29, 1.12) infinite;
-    position: absolute;
-    left: -20%;
-    top: -2px;
-    bottom: 0;
-} */
-/* .loaderIcon:nth-child(1){
-    animation-delay: 1s;
-  }
-  .loaderIcon:nth-child(2){
-    animation-delay: 2s;
-  }
-  .loaderIcon:nth-child(3){
-    animation-delay: 3s;
-  }
-  .loaderIcon:nth-child(4){
-    animation-delay: 4s;
-  }
-  @keyframes iconMove{
-    0%{
-      transform: rotate(0deg);
-    }
-    15%{
-      transform: rotate(25deg);
-    }
-    50%{
-      transform: rotate(50deg);
-    }
-    75%{
-      transform: rotate(75deg);
-    }
-    100%{
-      transform: rotate(180deg);
-    }
-  } */
-/* .loader::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 16px;
-    right: 0;
-    border-bottom: 1px dashed #dddddd;
-    z-index: 0;
-} */
-/* @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  } */
-
 .detaworkspace {
   display: flex;
   align-items: center;
@@ -119,16 +26,6 @@
   right: -63px;
   z-index: 9;
 }
-
-/* .circle-box {
-  width: 400px;
-  height: 400px;
-  border-radius: 50%;
-  border: 2px dashed #ccc;
-  border-bottom-color: #fff;
-  border-right-color: #fff;
-  rotate: 45deg;
-} */
 
 .arc {
   width: 415px;
@@ -403,4 +300,117 @@
 
 .slack-addes-para a {
   color: #6666f3 !important;
+}
+
+.onboarding-box {
+  background: linear-gradient(
+    182deg,
+    #e4e7ff -9.67%,
+    #f2f4ff 8.88%,
+    #fff 68.76%
+  );
+  height: 100vh;
+}
+
+.onboardingRightImg {
+  background-size: contain;
+  background-position: right top;
+  height: 50%;
+  background-repeat: no-repeat;
+}
+
+.onboardingLeftImg {
+  background-size: contain;
+  background-position: left bottom;
+  height: 50%;
+  background-repeat: no-repeat;
+}
+
+.container {
+  max-width: 1200px;
+}
+.onboarding-step {
+  height: 85vh;
+}
+
+nz-progress {
+  margin-right: 8px;
+  margin-bottom: 8px;
+  display: inline-block;
+}
+.onboarding-step p {
+  color: #8b97a6;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 24px;
+}
+
+.onboarding-step h5 {
+  color: #000;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 38px;
+  letter-spacing: 0.096px;
+  margin-bottom: 4px;
+}
+
+.sign-slack {
+  border-radius: 2px;
+  background: #fff;
+  height: 43px;
+  color: #000;
+  min-width: 230px;
+  font-size: 14px !important;
+  font-weight: 500;
+  line-height: 26px !important;
+  letter-spacing: 0.086px;
+  border: 1px solid #ddd;
+}
+.sign-slack:hover {
+  background-color: #441a49 !important;
+  color: #fff !important;
+  border-color: #441a49;
+}
+.begin-onboarding {
+  border-radius: 2px;
+  background: #6666f2;
+  height: 43px;
+  color: #fff;
+  min-width: 230px;
+  font-size: 14px !important;
+  font-weight: 500;
+  letter-spacing: 0.086px;
+  line-height: 28px !important;
+  border: 1px solid #6666f2;
+}
+.begin-onboarding:hover {
+  color: #fff !important;
+}
+
+.successfull-icon svg {
+  width: 60px;
+  height: 60px;
+}
+.footer-text p {
+  color: #0b0b0b;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 10px;
+}
+::ng-deep .ant-progress-inner {
+  width: 30px !important;
+  height: 30px !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+}
+.footer-text {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translate(-50%, 0);
 }
