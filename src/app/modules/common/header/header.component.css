@@ -193,7 +193,8 @@ span.members-namess {
   font-size: 16px;
 }
 .manager-list a {
-  font-size: 12px !important;
+  font-size: 14px !important;
+  padding: 10px 15px;
 }
 .StaticMenuItemBase-button {
   color: #c92f54 !important;
@@ -350,7 +351,6 @@ span.add-project {
   border-top: 1px solid #dfdfdf;
 }
 
-
 .sliderNav {
   position: absolute;
   top: 0;
@@ -360,7 +360,7 @@ span.add-project {
   transition: all 0.3s ease;
   width: 100%;
   right: 0;
-  border-radius:8px;
+  border-radius: 8px;
   border-top: 1px solid #fff;
   border-bottom: 1px solid #fff;
   opacity: 0;
@@ -377,4 +377,52 @@ span.add-project {
     overflow-x: auto;
     height: 90vh;
   }
+}
+
+.manager-list svg {
+  width: 18px;
+  position: relative;
+  top: -1px;
+}
+
+.list-top {
+  background-color: rgb(255, 255, 255) !important;
+  position: absolute !important;
+  inset: auto 0px 0px auto !important;
+  margin: 0px !important;
+  transform: translate(175px, -55px) !important;
+  padding: 0px !important;
+  border: none !important;
+  min-width: 14rem;
+  filter: drop-shadow(0px 11.4px 13.7px rgba(71, 71, 71, 0.33));
+  border-radius: 2px !important;
+  z-index: 999 !important;
+}
+.dropdown-item:focus,
+.dropdown-item:hover {
+  background-color: #f5f5ff;
+  color: #6666f2 !important;
+}
+
+.btn-logout {
+  color: #ff3737;
+}
+
+.list-top::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  bottom: -18px;
+  width: 42px;
+  height: 30px;
+  border-top: solid 40px #fff;
+  border-left: solid 24px transparent;
+  border-right: solid 24px transparent;
+  border-radius: 10px;
+  z-index: -1;
+}
+
+.btn-logout:hover {
+  color: #ff3737 !important;
+  background-color: #fff4f4;
 }

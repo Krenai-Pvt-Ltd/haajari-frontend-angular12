@@ -24,6 +24,10 @@ constructor(
 ) {}
 
 ngOnInit(): void {
+  const token = localStorage.getItem('token');
+    if (token==null) {
+      this.router.navigate(['/auth/signup']);
+    }
 }
 
 backPage() {

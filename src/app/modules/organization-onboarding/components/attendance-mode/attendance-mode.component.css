@@ -75,7 +75,7 @@
   border-radius: 2px;
   border: 1px solid #f9fafb;
   margin: 0 auto;
-  min-height: 280px;
+  min-height: 330px;
 }
 
 .dot-opacity-loader {
@@ -226,7 +226,7 @@
   font-size: 14px;
   font-style: normal;
   font-weight: 300;
-  line-height: 18px;
+  line-height: 20px;
 }
 .whatAppSlackBox {
   border-radius: 2px;
