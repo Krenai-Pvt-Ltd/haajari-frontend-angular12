@@ -54,7 +54,7 @@
 .btn.add-excel {
   font-size: 14px !important;
   font-weight: 500;
-  color: #6666f4 !important;
+  color: var(--primary-color) !important;
 }
 
 /* Pushpendra's Code  */
@@ -65,7 +65,7 @@
   margin-top: 60px;
 }
 .active {
-  border: 1px solid #6666f2 !important;
+  border: 1px solid var(--primary-color) !important;
   /* background-color: #0cb56208; */
   border-radius: 2px !important;
 }
@@ -90,7 +90,9 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: #6666f3 !important; /* Change to your preferred color */
+  background-color: var(
+    --primary-background-color
+  ) !important; /* Change to your preferred color */
   margin: 0 4px;
   animation: dotOpacity 1.4s infinite ease-in-out both;
 }
@@ -328,7 +330,7 @@
   line-height: 15px;
 }
 .knowMoreBtn:hover {
-  color: #6666f2;
+  color: var(--primary-color);
   text-decoration: underline;
 }
 .bi::before,
@@ -348,7 +350,7 @@ a.fetch-location {
   font-size: 14px;
   text-decoration: none;
   cursor: pointer;
-  color: #6666f4 !important;
+  color: var(--primary-color) !important;
 }
 
 /*  fetch loc */
@@ -390,7 +392,7 @@ a.fetch-location {
 }
 
 .stap-back-btn {
-  background-color: #6666f2;
+  background-color: var(--primary-background-color);
   width: 22px;
   height: 22px;
   border-radius: 50%;
