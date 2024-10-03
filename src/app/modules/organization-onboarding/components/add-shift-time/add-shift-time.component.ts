@@ -162,6 +162,23 @@ export class AddShiftTimeComponent implements OnInit {
       );
   }
 
+  closeModal() {
+    this.isValidated = false;
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId);
+  }
+
+  @ViewChild("closeButton") closeButton!:ElementRef;
+  isRegisterLoad : boolean = false;
+  registerShift() {
+    debugger 
+      this.isRegisterLoad = true;
+      this.registerOrganizationShiftTimingMethodCall();
+
+      setTimeout(() => {
+        this.closeButton.nativeElement.click();
+      }, 300)
+      
+  }
   loading: boolean = false;
   registerOrganizationShiftTimingMethodCall() {
     debugger;
@@ -175,6 +192,7 @@ export class AddShiftTimeComponent implements OnInit {
           this.getAllShiftTimingsMethodCall();
           this.helperService.registerOrganizationRegistratonProcessStepData(Key.SHIFT_TIME_ID, Key.PROCESS_COMPLETED);
           this.loading = false;
+          this.isRegisterLoad = false;
           this.helperService.showToast(
             'Shift Timing registered successfully',
             Key.TOAST_STATUS_SUCCESS
@@ -182,6 +200,7 @@ export class AddShiftTimeComponent implements OnInit {
           this.router.navigate(['/organization-onboarding/shift-time-list']);
         },
         (error) => {
+          this.isRegisterLoad = false;
           this.helperService.showToast(
             'Shift creation failed!',
             Key.TOAST_STATUS_ERROR
@@ -647,7 +666,9 @@ export class AddShiftTimeComponent implements OnInit {
     this.dataService.getOrganizationUserNameWithShiftName(this.selectedStaffsUuids, shiftId).subscribe(
       (response) => {
         this.userNameWithShiftName = response.listOfObject;
-        
+         if(this.userNameWithShiftName.length < 1) {
+
+         }
       },
       (error) => {
         console.log('error');
@@ -660,6 +681,13 @@ export class AddShiftTimeComponent implements OnInit {
     this.isValidated ? false : true;
   }
 
+  removeUser(uuid: string) {
+   
+    this.selectedStaffsUuids = this.selectedStaffsUuids.filter(id => id !== uuid);
+    // this.updateSelectedStaffs();
+    this.userNameWithShiftName = [];
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId);
+  }
   
 
 
