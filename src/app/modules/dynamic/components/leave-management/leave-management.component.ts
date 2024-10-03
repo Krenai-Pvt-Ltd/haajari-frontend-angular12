@@ -191,8 +191,7 @@ export class LeaveManagementComponent implements OnInit {
 
   scrollToBottom() {
     if (this.logContainer) {
-      this.logContainer.nativeElement.scrollTop =
-        this.logContainer.nativeElement.scrollHeight;
+      this.logContainer.nativeElement.scrollTop = this.logContainer.nativeElement.scrollHeight;
     }
   }
 

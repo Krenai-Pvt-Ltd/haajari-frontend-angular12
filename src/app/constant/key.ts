@@ -214,10 +214,10 @@ export class Key {
   public static KRENAI_UUID = '60811bf3-ae1e-11ee-9597-784f4361d885';
   public static DEMO_ORGANIZATION_UUID = '8d3cc5c2-21a7-11ef-98b2-0a3b903b1973';
 
-  base_url = 'http://localhost:8080/api/v2';
+  // base_url = 'http://localhost:8082/api/v2';
 
   /* ------------------  Staging urls ----------------*/
-  // base_url = 'https://staging.hajiri.work/api/v2';
+  base_url = 'https://staging.hajiri.work/api/v2';
 
   /* ------------------  Production urls ----------------*/
   // base_url = 'https://production.hajiri.work/api/v2';
@@ -271,6 +271,9 @@ export class Key {
 
   check_number_existence = '/whatsapp-user-onboarding/check-number-existence';
   check_email_existence = '/whatsapp-user-onboarding/check-email-existence';
+
+  check_number_existence_without_token = '/users/check-number-existence';
+  check_email_existence_without_token = '/users/check-email-existence';
 
   save_organization_onboarding_step = '/organization/save-onboarding-step';
   get_organization_onboarding_step = '/organization/onboarding-step';
@@ -351,6 +354,45 @@ export class Key {
   public static OVERTIME_LOG = 2;
   public static LOP_REVERSAL_LOG = 3;
 
+  // Tabs in Attendance Section
+  public static ATTENDANCE_TAB = 1;
+  public static OVERTIME_TAB = 2;
+  public static UPDATION_REQUEST_TAB = 3;
+
+  // Tabs in Overtime Section
+  public static OVERTIME_PENDING_REQUEST_TAB = 1;
+  public static OVERTIME_HISTORY_TAB = 2;
+
+
+  // Tabs in Updation request section
+  public static UPDATION_REQUEST_PENDING_REQUEST_TAB = 1;
+  public static UPDATION_REQUEST_LOG_TAB = 2;
+
+  // Gender
+  public static ALL = 1;
+  public static MALE = 2;
+  public static FEMALE = 3;
+  public static OTHERS = 4;
+
+  // Unused leave action
+  public static LAPSE = 1;
+  public static CARRY_FORWARD = 2;
+  public static ENCASH = 3;
+
+  // Leave Cycle
+  public static MONTHLY = 1;
+  public static QUARTERLY = 2;
+  public static HALF_YEARLY = 3;
+  public static YEARLY = 4;
+
+  // Leave renewal cycle
+  public static ANNUAL_YEAR = 'Annual Year (Jan - Dec)';
+  public static FINANCIAL_YEAR = 'Financial Year (Apr - Mar)';
+
+  // Sandwitch rule
+  public static YES = 'Yes';
+  public static NO = 'No';
+
   //  Attendance Main Modes
   public static MODE1 = 'Slack_and_Whatsapp';
   public static MODE2 = 'Machine';
@@ -370,7 +412,5 @@ export class Key {
   // redirect to slack
 
   // public static SLACK_WORKSPACE_URL= `https://slack.com/app_redirect?app=A05QD5T9EK1&tab=home`;
-  public static SLACK_WORKSPACE_URL= `https://slack.com/app_redirect?app=A07AT94EHK7&tab=home`;
-
-
+  public static SLACK_WORKSPACE_URL = `https://slack.com/app_redirect?app=A07AT94EHK7&tab=home`;
 }
