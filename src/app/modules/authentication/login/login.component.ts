@@ -43,6 +43,10 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     // this.getSlackAuthUrlForSignInWithSlack();
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.router.navigate(['/dashboard']);
+    }
   }
 
   otp: string = '';
