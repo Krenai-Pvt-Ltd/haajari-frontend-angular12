@@ -57,7 +57,7 @@ export class LeaveSettingComponent implements OnInit {
 
     this.getTeamNames();
     this.getUserByFiltersMethodCall(0);
-    this.getFullLeaveSettingInformation();
+    // this.getFullLeaveSettingInformation(); amit
     // this.findUsersOfLeaveSetting(30);
 
     const leaveId = localStorage.getItem('tempId');
@@ -69,6 +69,13 @@ export class LeaveSettingComponent implements OnInit {
       this.idFlag = false;
       this.localStorageLeaveRuleId = 0;
     }
+
+    this.leaveTemplateDefinitionForm = this.fb.group({
+      employeeTypeId: [null, Validators.required], // The form control for employee type
+      // Other form controls...
+    });
+
+
   }
 
   
@@ -1346,6 +1353,9 @@ export class LeaveSettingComponent implements OnInit {
     this.dataService.getYearTypeList().subscribe((response) => {
       if(!this.helperService.isListOfObjectNullOrUndefined(response)){
         this.yearTypeList = response.listOfObject;
+
+        console.log('yearTypeList: ',this.employeeTypeId)
+
       } 
     })
   }
@@ -1355,7 +1365,9 @@ export class LeaveSettingComponent implements OnInit {
 
   dateRange: Date[] = [];
   size: 'large' | 'small' | 'default' = 'small';  
-  selectDateForLeaveTemplateRequest(yearTypeName: string) {
+  selectDateForLeaveTemplateRequest1(yearTypeName: string) {
+
+    debugger
 
     if (yearTypeName == this.ANNUAL_YEAR) {
       this.dateRange[0] = new Date(new Date().getFullYear(), 0, 1);
@@ -1369,6 +1381,57 @@ export class LeaveSettingComponent implements OnInit {
     this.leaveTemplateRequest.startDate = this.helperService.formatDateToYYYYMMDD(this.dateRange[0]);
     this.leaveTemplateRequest.endDate = this.helperService.formatDateToYYYYMMDD(this.dateRange[1]);
   }
+
+  //amit code
+isCustomDateRange: boolean = false;
+selectDateForLeaveTemplateRequest(yearTypeName: string) {
+  this.isCustomDateRange = (yearTypeName === 'Custom Date Range');
+
+  if (yearTypeName === this.ANNUAL_YEAR) {
+    this.dateRange[0] = new Date(new Date().getFullYear(), 0, 1);
+    this.dateRange[1] = new Date(new Date().getFullYear(), 11, 31);
+  } else if (yearTypeName === this.FINANCIAL_YEAR) {
+    this.dateRange[0] = new Date(new Date().getFullYear(), 3, 1);
+    this.dateRange[1] = new Date(new Date().getFullYear() + 1, 2, 31);
+  }
+
+  if (!this.isCustomDateRange) {
+    this.leaveTemplateRequest.yearTypeName = yearTypeName;
+    this.leaveTemplateRequest.startDate = this.helperService.formatDateToYYYYMMDD(this.dateRange[0]);
+    this.leaveTemplateRequest.endDate = this.helperService.formatDateToYYYYMMDD(this.dateRange[1]);
+  } else {
+    // Leave it blank for custom date selection
+    this.leaveTemplateRequest.startDate = '';
+    this.leaveTemplateRequest.endDate = '';
+  }
+
+  // this.leaveTemplateRequest.yearTypeName = yearTypeName;
+}
+
+// Watch for changes in the start date for the custom date range
+onStartDateChange(startDate: Date) {
+  if (this.isCustomDateRange && startDate) {
+    this.dateRange[0] = startDate;
+    
+    // Set the end date to the same day next year
+    const endDate = new Date(startDate);
+    endDate.setFullYear(startDate.getFullYear() + 1);
+
+    // Go one month back and get the last day of that month
+    endDate.setMonth(startDate.getMonth() - 1);
+    const lastDayOfPreviousMonth = new Date(endDate.getFullYear(), endDate.getMonth() + 1, 0).getDate();
+    endDate.setDate(lastDayOfPreviousMonth); // Set to last day of previous month
+
+    this.dateRange[1] = endDate;
+
+    this.leaveTemplateRequest.startDate = this.helperService.formatDateToYYYYMMDD(this.dateRange[0]);
+    this.leaveTemplateRequest.endDate = this.helperService.formatDateToYYYYMMDD(this.dateRange[1]);
+  }
+}
+
+
+// custom date select end
+
   
   leaveTemplateDefinitionForm !: FormGroup;
 
@@ -1385,6 +1448,9 @@ export class LeaveSettingComponent implements OnInit {
     this.getAllEmployeeType();
     this.loadGenders();
     this.loadAccrualType();
+
+ 
+
   }
   setFieldsToLeaveTemplateRequest(){
     debugger

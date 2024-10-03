@@ -339,7 +339,7 @@
         </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="requestLeaveCloseModel" #requestLeaveCloseModel></button>
       </div>
-      <form #leaveSetForm="ngForm">
+      <form #leaveSetForm="ngForm" >
         <div class="modal-body">
           <div class="">
             <ul id="myTab" role="tablist" class="nav nav-tabs">
@@ -354,16 +354,19 @@
               </li>
             </ul>
             <div class="tab-content" id="myTabContent">
-              <div class="tab-pane fade show active" id="home" role="tabpanel">
+              
+              <!-- <div class="tab-pane fade show active" id="home" role="tabpanel">
                 <form nz-form #leaveTemplateDefinitionForm="ngForm">
 
                   <div class="row">
                     <div class="col-md-6">
-                      <!-- Employee Type Selection -->
                       <label for="empTypeId">Select Employee Type</label>
                       <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select Employee type" [(ngModel)]="employeeTypeId" (ngModelChange)="onEmployeeTypeChange($event)" name="empTypeId" #empTypeId="ngModel" required>
                         <nz-option *ngFor="let employeeType of employeeTypeList" [nzValue]="employeeType.id" [nzLabel]="employeeType.name"></nz-option>
                       </nz-select>
+                      <div *ngIf="empTypeId.invalid && empTypeId.touched" class="invalid-feedback">
+                        Employee Type is required.
+                      </div>
                     </div>
                   
                     <div class="col-md-6">
@@ -373,11 +376,14 @@
                         <nz-option *ngFor="let gender of genders" [nzValue]="gender.id" [nzLabel]="gender.name"></nz-option>
                       </nz-select>
 
+                      <div *ngIf="genderId.invalid && genderId.touched" class="invalid-feedback">
+                        Gender is required.
+                      </div>
+
                     </div>
                   </div>
                   
 
-                  <!-- Template Name -->
                   <div class="col-md-6 mt-3 mb-2" nz-form-item>
                     <label for="templateName" class="pb-2"> Template Name <i class="bi bi-exclamation-circle tolltip-icon" ngbTooltip="Provide a unique name for your organization's leave template. This name will be used to assign leave quotas to users who belong to this leave template." placement="right"></i>
                     </label>
@@ -385,34 +391,153 @@
                       <input nz-input [(ngModel)]="leaveTemplateRequest.name" placeholder="Enter the template name here" nzSize="large" minlength="3" maxlength="50" name="templateName" #templateName="ngModel" required />
                     </nz-form-control>
                   </div>
-                  <!-- Leave Quota Renewal Cycle -->
                   <div class="col-md-6 mt-2 mb-2" nz-form-item>
                     <label for="leaveRenewalCycle" class="pb-2"> Leave Quota Renew Cycle <i class="bi bi-exclamation-circle tolltip-icon" ngbTooltip="There are two main types: Monthly and Yearly. Monthly credits leave on a monthly basis. Yearly has two subtypes: 'All at Once', where leave is credited once at the start of the year, and 'Monthly Start', where the yearly leave quota is credited at the start of each month (you can choose a cycle from Jan to Dec or Apr to Mar of the next financial year)." placement="right"></i>
                     </label>
+
                     <nz-form-control nzErrorTip="Please select a valid renewal cycle.">
-                      <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select leave quota renew cycle type" [(ngModel)]="leaveTemplateRequest.yearTypeName" (ngModelChange)="selectDateForLeaveTemplateRequest($event)" name="leaveRenewalCycle" #leaveRenewalCycle="ngModel" required>
+                      <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select leave quota renew cycle type" 
+                        [(ngModel)]="leaveTemplateRequest.yearTypeName" (ngModelChange)="selectDateForLeaveTemplateRequest($event)" 
+                        name="leaveRenewalCycle" #leaveRenewalCycle="ngModel" required>
                         <nz-option *ngFor="let yearType of yearTypeList" [nzValue]="yearType.name" [nzLabel]="yearType.name"></nz-option>
                       </nz-select>
                     </nz-form-control>
+                    
                   </div>
-                  <!-- Leave Period -->
+
                   <div class="col-md-6 mt-3 mb-2" nz-form-item>
                     <label for="leavePeriod" class="pb-2">Leave Period <i class="bi bi-exclamation-circle tolltip-icon" ngbTooltip="There are two main types: Monthly and Yearly. Monthly credits leave on a monthly basis. Yearly has two subtypes: 'All at Once', where leave is credited once at the start of the year, and 'Monthly Start', where the yearly leave quota is credited at the start of each month (you can choose a cycle from Jan to Dec or Apr to Mar of the next financial year)." placement="right"></i>
                     </label>
                     <nz-form-control nzErrorTip="Please select a valid date time.">
                       <div class="d-flex justify-content-between align-items-center">
-                        <nz-date-picker [(ngModel)]="dateRange[0]" nzPlaceHolder="Start Date" [ngModelOptions]="{standalone : true}" name="startDate" disabled></nz-date-picker>
+                        <nz-date-picker [(ngModel)]="dateRange[0]" nzPlaceHolder="Start Date" [ngModelOptions]="{standalone : true}" 
+                         [disabled]="!isCustomDateRange" (ngModelChange)="onStartDateChange($event)"  name="startDate" disabled></nz-date-picker>
                         <span class="text-muted p-3"> to </span>
-                        <nz-date-picker [(ngModel)]="dateRange[1]" nzPlaceHolder="End Date" [ngModelOptions]="{standalone : true}" name="endDate" disabled></nz-date-picker>
+                        <nz-date-picker [(ngModel)]="dateRange[1]" nzPlaceHolder="End Date" [ngModelOptions]="{standalone : true}" 
+                        [disabled]="!isCustomDateRange" name="endDate" disabled></nz-date-picker>
                       </div>
                     </nz-form-control>
                   </div>
-                  <!-- Submit Button -->
+
                   <div id="back-and-submit" class="d-flex justify-content-end align-items-end">
                     <button type="submit" [disabled]="!leaveTemplateDefinitionForm.form.valid" (click)="goToLeaveCategoryTab()" class="btn btn-outline-primary btn-round"> Next </button>
                   </div>
                 </form>
+              </div> -->
+
+              <div class="tab-pane fade show active" id="home" role="tabpanel">
+                <form nz-form #leaveTemplateDefinitionForm="ngForm">
+              
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label for="genderId">Select Employee Type</label>
+                    <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select Employee type" 
+                    formControlName="employeeTypeId" (ngModelChange)="onEmployeeTypeChange($event)">
+                    <nz-option *ngFor="let employeeType of employeeTypeList" 
+                      [nzValue]="employeeType.id" [nzLabel]="employeeType.name">
+                    </nz-option>
+                  </nz-select>
+
+                  </div>
+                 
+
+              
+                    <div class="col-md-6">
+                      <!-- Gender Selection -->
+                      <label for="genderId">Select Gender</label>
+                      <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select gender" 
+                        [(ngModel)]="selectedGenderId" (ngModelChange)="onGenderChange($event)" 
+                        name="genderId" #genderId="ngModel" required>
+                        <nz-option *ngFor="let gender of genders" [nzValue]="gender.id" [nzLabel]="gender.name">
+                        </nz-option>
+                      </nz-select>
+                      <div *ngIf="genderId.invalid && genderId.touched" class="invalid-feedback">
+                        Gender is required.
+                      </div>
+                    </div>
+                  </div>
+              
+                  <!-- Template Name -->
+                  <div class="col-md-6 mt-3 mb-2" nz-form-item>
+                    <label for="templateName" class="pb-2"> Template Name 
+                      <i class="bi bi-exclamation-circle tolltip-icon" 
+                        ngbTooltip="Provide a unique name for your organization's leave template."
+                        placement="right">
+                      </i>
+                    </label>
+                    <nz-form-control nzErrorTip="Please enter a valid name.">
+                      <input nz-input [(ngModel)]="leaveTemplateRequest.name" placeholder="Enter the template name here" 
+                        nzSize="large" minlength="3" maxlength="50" name="templateName" #templateName="ngModel" required />
+                    </nz-form-control>
+                    <div *ngIf="templateName.invalid && templateName.touched" class="invalid-feedback">
+                      Template name is required.
+                    </div>
+                  </div>
+              
+                  <!-- Leave Quota Renewal Cycle -->
+                  <div class="col-md-6 mt-2 mb-2" nz-form-item>
+                    <label for="leaveRenewalCycle" class="pb-2"> Leave Quota Renew Cycle 
+                      <i class="bi bi-exclamation-circle tolltip-icon" 
+                        ngbTooltip="Monthly or Yearly renewal cycle" placement="right">
+                      </i>
+                    </label>
+                    <nz-form-control nzErrorTip="Please select a valid renewal cycle.">
+                      <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select leave quota renew cycle type" 
+                        [(ngModel)]="leaveTemplateRequest.yearTypeName" 
+                        (ngModelChange)="selectDateForLeaveTemplateRequest($event)" 
+                        name="leaveRenewalCycle" #leaveRenewalCycle="ngModel" required>
+                        <nz-option *ngFor="let yearType of yearTypeList" [nzValue]="yearType.name" [nzLabel]="yearType.name">
+                        </nz-option>
+                      </nz-select>
+                    </nz-form-control>
+                    <div *ngIf="leaveRenewalCycle.invalid && leaveRenewalCycle.touched" class="invalid-feedback">
+                      Renewal cycle is required.
+                    </div>
+                  </div>
+              
+                  <!-- Leave Period with Date Range -->
+                  <div class="col-md-6 mt-3 mb-2" nz-form-item>
+                    <label for="leavePeriod" class="pb-2">Leave Period 
+                      <i class="bi bi-exclamation-circle tolltip-icon" 
+                        ngbTooltip="Specify the start and end dates for leave periods" placement="right">
+                      </i>
+                    </label>
+                    <nz-form-control nzErrorTip="Please select a valid date.">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <nz-date-picker [(ngModel)]="dateRange[0]" nzPlaceHolder="Start Date" 
+                          [disabled]="!isCustomDateRange" (ngModelChange)="onStartDateChange($event)" 
+                          name="startDate" #startDate="ngModel" required>
+                        </nz-date-picker>
+                        <span class="text-muted p-3"> to </span>
+                        <nz-date-picker [(ngModel)]="dateRange[1]" nzPlaceHolder="End Date" 
+                          [disabled]="!isCustomDateRange" name="endDate" #endDate="ngModel" required>
+                        </nz-date-picker>
+                      </div>
+                    </nz-form-control>
+                    <div *ngIf="startDate.invalid && startDate.touched" class="invalid-feedback">
+                      Start date is required.
+                    </div>
+                    <div *ngIf="endDate.invalid && endDate.touched" class="invalid-feedback">
+                      End date is required.
+                    </div>
+                  </div>
+              
+                  <!-- Submit Button -->
+                  <div id="back-and-submit" class="d-flex justify-content-end align-items-end">
+                    <!-- <button type="submit" [disabled]="!leaveTemplateDefinitionForm.form.valid" 
+                      (click)="goToLeaveCategoryTab()" class="btn btn-outline-primary btn-round">
+                      Next
+                    </button> -->
+
+                    <button type="submit" [disabled]="!leaveTemplateDefinitionForm.form.valid" 
+                    (click)="goToLeaveCategoryTab()" class="btn btn-outline-primary btn-round">
+                    Next
+                  </button>
+                  </div>
+              
+                </form>
               </div>
+              
 
               <div class="tab-pane fade" id="profile" role="tabpanel">
                 <div class="pt-3 pb-3">
