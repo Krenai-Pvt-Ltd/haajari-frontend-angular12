@@ -21,7 +21,7 @@ body {
   width: auto;
 }
 .text-primary {
-  color: #6060f6 !important;
+  color: var(--primary-color) !important;
 }
 
 .disabled-div {
@@ -108,8 +108,8 @@ body {
 
 .btn-primary:hover {
   color: #fff;
-  background-color: #6060f6;
-  border-color: #6060f6;
+  background-color: var(--primary-background-color);
+  border-color: var(--primary-color);
 }
 
 /* ######### delete modal csss */

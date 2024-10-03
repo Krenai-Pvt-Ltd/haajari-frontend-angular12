@@ -31,7 +31,7 @@
   /* transition: padding 350ms ease 0s; */
   background: rgb(233 233 255);
   border-radius: 8px;
-  color: rgb(102 102 243) !important;
+  color: var(--primary-color) !important;
   font-size: 14px !important;
   font-weight: 400 !important;
 }
@@ -93,7 +93,7 @@
   transition: padding 350ms ease 0s;
   border-radius: 8px;
   /* background: rgb(233 233 255); */
-  color: rgb(102 102 243) !important;
+  color: var(--primary-color) !important;
 }
 .sidebar-menu-heding {
   font-size: 0.625rem;
@@ -236,7 +236,7 @@ span.add-project {
   font-weight: 400;
   position: absolute;
   right: 10px;
-  color: rgb(102 102 243) !important;
+  color: var(--primary-color) !important;
 }
 .project-name ul {
   list-style: none;
@@ -264,7 +264,7 @@ span.add-project {
 }
 .project-name ul li a:hover,
 .project-name ul li:hover a {
-  color: rgb(102 102 243) !important;
+  color: var(--primary-color) !important;
 }
 .project-name {
   padding-top: 5px;
@@ -310,7 +310,7 @@ span.add-project {
 }
 
 .upgradeBtn {
-  background-color: #6666f2;
+  background-color: var(--primary-background-color);
   color: #fff;
   font-size: 10px;
   font-style: normal;
@@ -328,7 +328,7 @@ span.add-project {
   margin: 0 auto;
 }
 .plan-box h4 {
-  color: #6666f2;
+  color: var(--primary-color);
   font-size: 12px;
   font-weight: 600;
   line-height: 11px;
@@ -401,7 +401,7 @@ span.add-project {
 .dropdown-item:focus,
 .dropdown-item:hover {
   background-color: #f5f5ff;
-  color: #6666f2 !important;
+  color: var(--primary-color) !important;
 }
 
 .btn-logout {

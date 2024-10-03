@@ -150,14 +150,8 @@ p.tableinfo.mb-0 {
   padding: 20px 15px;
 }
 .excelUploadBtn {
-  /* background-color: #6666f2;
-  color: #fff;
-  font-size: 12px;
-  font-weight: 500;
-  border-radius: 2px; */
-  /* min-width: 150px; */
   background-color: transparent;
-  color: #6666f2;
+  color: var(--primary-color);
   font-size: 14px;
   font-weight: 500;
   border-radius: 2px;
@@ -204,7 +198,7 @@ p.tableinfo.mb-0 {
 }
 
 .mannualSubmit {
-  background-color: #6666f2;
+  background-color: var(--primary-backgroung-color);
   color: #fff;
   font-size: 12px;
   font-weight: 500;
@@ -220,7 +214,7 @@ p.tableinfo.mb-0 {
   justify-content: center;
   font-weight: 600;
   font-size: 15px;
-  color: #6666f2;
+  color: var(--primary-color);
   line-height: 22px;
 }
 .userList:first-child {
@@ -419,7 +413,7 @@ p.tableinfo.mb-0 {
   letter-spacing: 0.16px;
 }
 .alreadyMemberBox p span {
-  color: #6666f2;
+  color: var(--primary-color);
 }
 .deleteSelecetdUser {
   background-color: rgb(255 252 252);
