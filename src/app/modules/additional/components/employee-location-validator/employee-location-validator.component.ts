@@ -61,10 +61,19 @@ export class EmployeeLocationValidatorComponent implements OnInit {
       if (PermissionStatus.state == 'granted') {
         if (Key.GEOLOCATION in navigator) {
           navigator.geolocation.getCurrentPosition((position) => {
+            
             this.lat = position.coords.latitude;
             this.lng = position.coords.longitude;
             this.getCurrentLocation();
-          });
+          },
+          (error) => {
+            
+          },
+          {
+            enableHighAccuracy: true,  // Precise location
+          maximumAge: 0              // Prevent cached locations
+          }
+          );
         }
       } else {
         this.requestPermission();
@@ -78,6 +87,9 @@ export class EmployeeLocationValidatorComponent implements OnInit {
     if (Key.GEOLOCATION in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
+          this.lat = position.coords.latitude;
+          this.lng = position.coords.longitude;
+          this.getCurrentLocation();
           // console.log('Geolocation obtained after prompting:', position);
         },
         (error) => {
@@ -92,8 +104,14 @@ export class EmployeeLocationValidatorComponent implements OnInit {
           } else {
             console.error('An unknown error occurred.');
           }
+        },
+        {
+          enableHighAccuracy: true,  // Precise location
+          maximumAge: 0              // Prevent cached locations
         }
       );
+    }else{
+     window.alert("Geolocation is not supported by this browser.");
     }
   }
 
@@ -413,4 +431,12 @@ export class EmployeeLocationValidatorComponent implements OnInit {
       console.error('No uniqueId found in the URL');
     }
   }
+
+
+
+
+
+
+
+
 }

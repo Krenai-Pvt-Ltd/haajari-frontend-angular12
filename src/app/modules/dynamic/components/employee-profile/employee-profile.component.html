@@ -4,7 +4,7 @@
     </app-hajiri-page-loader>
     <div class="container-fluid" *ngIf="count >= 6">
       <!-- Navigation Header with Check-In/ Check-Out Configuration   -->
-      <div class="pb-3 d-flex align-items-center justify-content-between" style="gap: 20px">
+      <div class="mt-3 pb-3 d-flex align-items-center justify-content-between" style="gap: 20px">
         <div class="d-flex align-items-center justify-content-between" style="gap: 20px">
           <!-- routerLink="/employee-onboarding" -->
           <!-- {{tokenUserRoleFlag}} -->
@@ -16,7 +16,7 @@
             <div class="back-btns-box" (click)="location.back()" *ngIf="ROLE == 'USER' && userId !== UUID">
               <i class="bi bi-chevron-left"></i>
             </div>
-            <h6 class="mt-2">Go Back</h6>
+            <!-- <h6 class="mt-2">Go Back</h6> -->
           </div>
         </div>
         <div [ngClass]="{
@@ -271,7 +271,7 @@
                     <div class="row dasMainCardrow">
                       <div class="col-lg-12">
                         <div class="dashSectitle">
-                          <h3>Working Days</h3>
+                          <h3>Current Month</h3>
                           <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nesciunt, sed.</p>
                         </div>
                       </div>
