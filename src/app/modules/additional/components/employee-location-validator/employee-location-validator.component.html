@@ -1,8 +1,8 @@
 <div class="staff-location-section">
     <div class="containernn">
-      {{isInvalid}}
-      <app-link-expired-page *ngIf="isInvalid"></app-link-expired-page>
-      <div class="row" *ngIf="!isInvalid">
+      <!-- <app-link-expired-page *ngIf="isInvalid"></app-link-expired-page> -->
+      <!--  *ngIf="!isInvalid" -->
+      <div class="row">
         <div class="col-md-3 border-right">
            <div class="location-sidebar">
              <div class="d-flex align-items-center justify-content-between loaction-side-div" >
@@ -67,7 +67,7 @@
                     <div class="position-relative location-searchbar">
                         <div class="form-group set-location-form">
                           <input type="text" class="form-control" id="exampleInputText" aria-describedby="emailHelp" [value]="address" disabled placeholder="Fetch your location">
-                          <span class="crosshairs" (click)="getCurrentLocation()"><i class="fa fa-crosshairs" style="color: #6666f3"></i></span>
+                          <span class="crosshairs" (click)="locateUser()"><i class="fa fa-crosshairs" style="color: #6666f3"></i></span>
                         </div>
                       </div>
                       
