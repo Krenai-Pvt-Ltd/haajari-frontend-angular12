@@ -7,7 +7,10 @@
     top: 0;
     z-index: 999
 } */
-
+:root{
+  --borderColor:#eceff5;
+  --seprator:#f9f9f9;
+}
 .navbar-custom {
   /* background: #fff; */
   min-height: 60px;
@@ -9858,4 +9861,10 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
 }
 .searchSelectList li {
   padding: 5px 5px !important;
+}
+
+
+button:disabled {
+  filter: grayscale(1) contrast(0.7);
+  cursor: not-allowed;
 }
