@@ -216,7 +216,57 @@
               <!-- Tab panes -->
               <div class="tab-content">
                 <div class="p-3" id="home" role="" *ngIf="activeHomeTabFlag">
-                  <div class="row">
+
+                  <!-- New Card -->
+                  <div class="dashCardsWrapper">
+                    <div class="row">
+                      <div class="col-lg-3">
+                        <div class="dashCardMain">
+                          <div class="dashCardInner">
+                            <h3>Check In</h3>
+                            <p class="checkInTime">10:00 AM</p>
+                            <span class="checkInLate">Late By : 01 Min</span>
+                            <button class="btn w-100 chckINBtn">Check In</button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3">
+                        <div class="dashCardMain">
+                          <div class="dashCardInner">
+                            <h3>Check Out</h3>
+                            <p class="checkInTime">10:00 AM</p>
+                            <span class="tttlWrkHrs">Total Work Hour : 08:00 Hrs </span>
+                            <button class="btn w-100 chckOutBtn">Check Out</button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3">
+                        <div class="dashCardMain">
+                          <div class="dashCardInner">
+                            <h3>Break Time</h3>
+                            <p class="checkInTime">00:20 Min</p>
+                            <!-- <span class="checkInLate">Late By : 01 Min</span> -->
+                            <button class="btn w-100 chckINBtn">Break</button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3">
+                        <div class="dashCardMain">
+                          <div class="dashCardInner">
+                            <h3>Break Count</h3>
+                            <p class="checkInTime">2</p>
+                            <!-- <span class="checkInLate">Late By : 01 Min</span>
+                            <button class="btn w-100 chckINBtn">Check In</button> -->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <!-- New Card -->
+
+                  <div class="row d-none">
                     <!-- <div class="align-items-center d-flex justify-content-end add-filtter mb-2"
                     ><a class="btn" data-bs-toggle="modal" data-bs-target="#donateCoinsModal"><i class="bi bi-plus" style="font-size: 20px"></i>Donate Coins </a></div> -->
                     <div class="col-md-3">
@@ -1844,8 +1894,7 @@
                           </div>
                           <div class="col-md-6 mt-3">
                             <h4>Payroll Summary</h4>
-                            <p class="text-muted">From {{this.startDate | date: 'dd'}} - {{this.endDate | date: 'dd
-                              MMMM, yyyy'}}</p>
+                            <p class="text-muted">From {{this.startDate | date: 'dd'}} - {{this.endDate | date: 'dd MMMM, yyyy'}}</p>
                             <div class="d-flex amounts">
                               <div class="grosspay-border"></div>
                               <div class="amount">
