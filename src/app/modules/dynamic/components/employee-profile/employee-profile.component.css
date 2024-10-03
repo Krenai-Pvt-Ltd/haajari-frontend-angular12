@@ -135,9 +135,9 @@
   font-style: normal;
   border-radius: 0px 0 0 0;
   border: none;
-  padding: 7px 10px;
+  padding: 10px 18px;
   font-weight: 500;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 21px;
   color: #404040;
 }
@@ -1429,9 +1429,12 @@ tbody tr {
 }
 
 .met-profile-main-pic img {
-  width: 128px;
+  /* width: 128px;
   height: 128px;
   margin-right: 24px;
+  object-fit: cover; */
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 }
 
