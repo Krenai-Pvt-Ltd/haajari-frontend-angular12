@@ -7,8 +7,8 @@
 
 .LeftBoxImage {
   position: absolute;
-  left: 0px;
-  width: 100px;
+  left: -45px;
+  width: 160px;
   top: 0px;
 }
 
@@ -44,17 +44,17 @@
 
 .assisHeding h5 {
   color: #000;
-  font-size: 16px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 600;
-  line-height: 20px; /* 155.792% */
+  line-height: 24px; /* 155.792% */
   letter-spacing: 0.357px;
   text-transform: capitalize;
 }
 
 .assisHeding p {
   color: #717171;
-  font-size: 12px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 300;
   line-height: 24.778px; /* 190.616% */
@@ -68,19 +68,19 @@
 
 .assisHeddingBox h5 {
   color: #000;
-  font-size: 15px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 600;
-  line-height: 20px; /* 155.792% */
+  line-height: 24px; /* 155.792% */
   letter-spacing: 0.357px;
   text-transform: capitalize;
 }
 .assisHeddingBox p {
   color: #717171;
-  font-size: 11px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 400;
-  line-height: 16px; /* 190.616% */
+  line-height: 22px; /* 190.616% */
   letter-spacing: 0.119px;
 }
 .playBtn {

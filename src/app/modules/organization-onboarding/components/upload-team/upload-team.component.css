@@ -426,3 +426,6 @@ p.tableinfo.mb-0 {
   color: #fd0808;
   border-color: #fd0808;
 }
+.employee-list {
+  border-bottom: 1px dashed #e8ebf3;
+}
