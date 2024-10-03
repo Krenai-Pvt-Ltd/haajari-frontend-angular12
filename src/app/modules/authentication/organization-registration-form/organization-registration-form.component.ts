@@ -4,6 +4,7 @@ import { Key } from 'src/app/constant/key';
 import { OrganizationRegistrationFormRequest } from 'src/app/models/organization-registration-form-request';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 
 @Component({
   selector: 'app-organization-registration-form',
@@ -12,7 +13,15 @@ import { HelperService } from 'src/app/services/helper.service';
 })
 export class OrganizationRegistrationFormComponent implements OnInit {
 
-  constructor(private dataService : DataService,  private router: Router, private helperService : HelperService) { }
+  constructor(private dataService : DataService,  private router: Router, private helperService : HelperService, private _onboardingService : OrganizationOnboardingService) { }
+
+  employeeCountOptions = [
+    { value: '0-10', label: '0 - 10' },
+    { value: '11-50', label: '11 - 50' },
+    { value: '51-100', label: '51 - 100' },
+    { value: '101-500', label: '101 - 500' },
+    { value: '500+', label: '500+' },
+  ];
 
   ngOnInit(): void {
   }
@@ -31,25 +40,80 @@ export class OrganizationRegistrationFormComponent implements OnInit {
   orgName: string = '';
   errorMessage: string = '';
 
+  isLoading:boolean=false;
   onSubmit(): void {
+
     if (this.formData) {
+      this.isLoading = true;
       this.dataService.registerOrganizationRegistrationFormInfo(this.formData).subscribe(
         response => {
           if(response.status === false) {
             this.orgName = response.object;
             this.errorMessage = 'This Info is Already Registered with us!'
             this.helperService.showToast(this.errorMessage, Key.TOAST_STATUS_ERROR);
+            this.isLoading = false;
           }else if(response.status === true){
           console.log('Registration successful', response);
           this.router.navigate(['/auth/signup']);
+          this.isLoading = false;
           this.helperService.showToast("Info Registered Successfully", Key.TOAST_STATUS_SUCCESS);
           }
         },
         error => {
+          this.isLoading = false;
           console.error('Registration failed', error);
         }
       );
     }
+  }
+
+  isEmailExist: boolean = false;
+  checkEmailExistance(email: string) {
+    debugger;
+    if (email != null && email.length > 5) {
+      this._onboardingService
+        .checkEmployeeEmailExistWithoutToken(email)
+        .subscribe((response: any) => {
+          this.isEmailExist = response;
+        });
+    }
+  }
+
+  isNumberExist: boolean = false;
+  checkExistance(number: string) {
+    if (number != '' && number.length >= 10) {
+      this._onboardingService.checkAdminNumberExistWithoutToken(number).subscribe(
+        (response: any) => {
+          this.isNumberExist = response;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
+  }
+
+  isFormInvalid(): boolean {
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; 
+    const phonePattern = /^[0-9]{10}$/; 
+
+    const isEmailInvalid = !emailPattern.test(this.formData.organizationEmail);
+    const isPhoneInvalid = !phonePattern.test(this.formData.phoneNumber);
+
+    return !(
+      this.formData.organizationName &&
+      this.formData.employeeCount &&
+      this.formData.industryType &&
+      this.formData.organizationEmail &&
+      this.formData.firstName &&
+      this.formData.lastName &&
+      this.formData.phoneNumber &&
+      this.formData.termsAndConditions &&
+      !this.isEmailExist &&  
+      !this.isNumberExist &&  
+      !isEmailInvalid &&      
+      !isPhoneInvalid         
+    );
   }
 
   // resetForm(form: NgForm) {
