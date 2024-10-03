@@ -1,174 +1,53 @@
-<!-- <div class="d-flex " style="height: 100vh; background-color: #fff;">
-    <div class="" style="flex-basis: 100%; display: flex; align-items: center; justify-content: center;;">
-        <div class="login-detail">
-         
-            <div class="waiting-page">
-                <div class="loader"></div>
-                <img src="assets/images/hajiri-black.png" style="width:115px; margin-bottom: 10px;"> 
-                <p>Please wait, while processing your request...</p>
-              </div>
-        
-        </div>
-    </div>
-</div> -->
-
-<!-- <div class="detaworkspace" style="height: 100vh; background-color: #fff;">
-
-  
-
-    <div class="d-flex align-items-center position-relative">
-        <div class="left-folder">
-            <img src="assets/images/slack-img.svg" alt="logo-large" class="logo-lg logo-light" style="height: 110px;">
-        </div>
-
-        <div class="arc">
-            <img class="image-rotate" src="assets/images/google-docs 2.svg"  />
-            <img class="image-rotate" src="assets/images/group-team.svg" style="width:40px" />
-            <img class="image-rotate" src="assets/images/file-deta.svg" style="width:40px"/>
-          </div>
-
-     
-
-
-
-        <div class="right-folder">
-            <img src="assets/images/folder.svg" alt="logo-large" class="logo-lg logo-light" style="height: 110px;">
-        </div>
-    </div>
-    <div class="progress-main text-center">
-        <div class="containerr">
-            <div class="progressBar" style="width: 25%;">
-                <div class="progressNumber">25%</div>
-            </div>
-        </div>
-          
-        <div class="mt-5">
-            <p class="pb-0 wait-text"> Please wait, while processing your request...</p>
-        </div>
-    </div>
-
-</div> -->
-
 <div
   style="height: 100vh"
   class="d-flex justify-content-center align-items-center"
   *ngIf="!isSuccessComponent && !isErrorComponent"
 >
-  <!-- <div>
-    <img style="max-width: 35vh" src="assets/images/HAjiRi.svg" />
-    <div class="d-flex justify-content-center">
-      <div class="loader-line"></div>
-    </div>
-  </div> -->
-  <div
-  class="detaworkspace"
-  style="height: 80vh; background-color: #fff"
->
-  <div class="d-flex align-items-center position-relative">
-    <div class="left-folder">
-      <img
-        src="assets/images/slack-img.svg"
-        alt="logo-large"
-        class="logo-lg logo-light"
-        style="height: 110px"
-      />
-    </div>
-
-    <div class="arc">
-      <img class="image-rotate" src="assets/images/google-docs 2.svg" />
-      <img
-        class="image-rotate"
-        src="assets/images/group-team.svg"
-        style="width: 40px"
-      />
-      <img
-        class="image-rotate"
-        src="assets/images/file-deta.svg"
-        style="width: 40px"
-      />
-    </div>
-
-    <div class="right-folder">
-      <img
-        src="assets/images/folder.svg"
-        alt="logo-large"
-        class="logo-lg logo-light"
-        style="height: 110px"
-      />
-    </div>
-  </div>
-  <div class="progress-main text-center">
-    <!-- <div class="containerr">
-      <div class="progressBar" [style.width]="percentage + '%'">
-        <div class="progressNumber">{{ percentage }}%</div>
-      </div>
-    </div> -->
-
-    <div class="mt-5">
-      <p class="pb-0 wait-text">
-        Please wait, while processing your request...
-      </p>
-    </div>
-  </div>
-</div>
-
-</div>
-
-<!--  success component -->
-<!-- 
-<div class="" *ngIf="isSuccessComponent">
-  <div class="container">
-    <div
-      class="slack-addes-successfully-main d-flex align-items-center justify-content-center"
-      style="flex-direction: column"
-    >
-      <div class="mb-4">
-        <img src="assets/images/completed-task.svg" style="width: 100px" />
-      </div>
-      <h4>Hajiri Added to Slack Successfully!</h4>
-      <p class="">
-        To Get started, take a look at our User Guide.
-        <a
-          target="_blank"
-          href="https://www.hajiri.in/reference-docs.html"
-          style="color: blue"
-          >Reference Docs</a
-        >
-      </p>
-
-      <p *ngIf="isRouteOnboarding">
-        You have't completed your onboarding yet, As you are the admin of the
-        organization so you have to complete onboarding process first to open
-        your Hajiri web dashboard.
-        <a style="color: blue" (click)="navigateToRoute()">Onboarding</a>
-      </p>
-      <p *ngIf="isRouteDashboard">
-        Login to Hajiri web dashboard.
-        <a style="color: blue" (click)="navigateToRoute()">Dashboard</a>
-      </p>
-
-      <div class="mt-4">
-        <button
-          class="btn btn-successfull"
-          type="button"
-          (click)="continueInSlack()"
-        >
-          Continue in Slack
-          <i class="bi bi-arrow-right" style="padding-left: 10px"></i>
-        </button>
-      </div>
-
-      <div class="mt-4">
+  <div class="detaworkspace" style="height: 80vh; background-color: #fff">
+    <div class="d-flex align-items-center position-relative">
+      <div class="left-folder">
         <img
-          src="https://app.hajiri.in/assets/images/HAjiRi.svg"
-          style="width: 130px"
+          src="assets/images/slack-img.svg"
+          alt="logo-large"
+          class="logo-lg logo-light"
+          style="height: 110px"
+        />
+      </div>
+
+      <div class="arc">
+        <img class="image-rotate" src="assets/images/google-docs 2.svg" />
+        <img
+          class="image-rotate"
+          src="assets/images/group-team.svg"
+          style="width: 40px"
+        />
+        <img
+          class="image-rotate"
+          src="assets/images/file-deta.svg"
+          style="width: 40px"
+        />
+      </div>
+
+      <div class="right-folder">
+        <img
+          src="assets/images/folder.svg"
+          alt="logo-large"
+          class="logo-lg logo-light"
+          style="height: 110px"
         />
       </div>
     </div>
+    <div class="progress-main text-center">
+      <div class="mt-5">
+        <p class="pb-0 wait-text">
+          Please wait, while processing your request...
+        </p>
+      </div>
+    </div>
   </div>
-</div> -->
+</div>
 
-<div class="is-dark" *ngIf="isSuccessComponent">
+<!-- <div class="is-dark" *ngIf="isSuccessComponent">
   <div class="nk-mask bg-pattern-dot-white-sm">
     <div class="">
       <div class="container">
@@ -192,23 +71,16 @@
               >Reference Docs</a
             >
             <br />
-            <!-- Login to Hajiri web dashboard.
-            <a style="color: #6666f3 !important" (click)="redirectNow()"
-              >Dashboard</a
-            > -->
-             Fill Onboarding Form Via
+
+            Fill Onboarding Form Via
             <a style="color: #6666f3 !important" (click)="redirectNow()"
               >Onboarding</a
             >
             <br />
-            <!-- <span style="color: #6666f3 !important">
-             You will be redirected to the dashboard in {{ countdown }} seconds...
-            </span> -->
           </p>
           <p></p>
 
           <div class="mt-5">
-            <!-- {{ slackWorkspaceUrl }} -->
             <a
               [href]="slackWorkspaceUrl"
               class="btn add-to-slack-btn"
@@ -222,7 +94,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <!--  error component -->
 
@@ -247,4 +119,90 @@
     Login Again
     <i class="bi bi-arrow-right" style="padding-left: 10px"></i>
   </button>
+</div>
+
+<div class="onboarding-box" *ngIf="isSuccessComponent">
+  <div
+    class="onboardingRightImg"
+    style="background-image: url(assets/images/onbording-right-img.svg)"
+  >
+    <div class="container">
+      <div style="padding-top: 32px">
+        <img src="assets/images/HAjiRi.svg" style="width: 120px" />
+      </div>
+      <div
+        class="onboarding-step d-flex align-items-center justify-content-center flex-column"
+      >
+        <div
+          class="d-flex align-items-center justify-content-center gap-2 pb-4 successfull-icon"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="110"
+            height="110"
+            viewBox="0 0 110 110"
+            fill="none"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M54.9681 110.001C24.6809 110.001 0 85.3198 0 54.9681C0 24.6809 24.6809 0 54.9681 0C85.3198 0 110.001 24.6809 110.001 54.9681C110.001 85.3198 85.3198 110.001 54.9681 110.001Z"
+              fill="#22D26B"
+            />
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M54.9684 103.492C28.2254 103.492 6.44434 81.7753 6.44434 54.9679C6.44434 28.2249 28.2254 6.44385 54.9684 6.44385C81.7758 6.44385 103.492 28.2249 103.492 54.9679C103.492 81.7753 81.7758 103.492 54.9684 103.492Z"
+              fill="#22D26B"
+            />
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M47.2356 76.363C46.849 76.363 46.4623 76.2341 46.2045 75.9764L28.3544 58.1262C28.0966 57.804 27.9033 57.4818 27.9033 57.0952C27.9033 56.7085 28.0966 56.3219 28.3544 56.0641L34.8629 49.5556C35.4429 48.9756 36.3451 48.9756 36.9251 49.5556L47.2356 59.8017L73.012 34.0253C73.592 33.5098 74.5586 33.5098 75.0741 34.0253L81.6471 40.5339C82.1626 41.1138 82.1626 42.016 81.6471 42.596L48.2667 75.9764C48.0089 76.2341 47.6223 76.363 47.2356 76.363Z"
+              fill="white"
+            />
+          </svg>
+        </div>
+
+        <div class="text-center enter-otp">
+          <h5 class="mb-2">Slack Integration Successful!</h5>
+          <p>
+            Your data has been synced with Slack, and
+            <span class="text-black"><b>156</b></span> new team <br />members
+            have been successfully added to Hajiri
+          </p>
+
+          <div
+            class="d-flex align-items-center justify-content-center gap-3 mt-5"
+          >
+            <a class="btn sign-slack" [href]="slackWorkspaceUrl">
+              <img
+                src="assets/images/slack-1.svg"
+                style="width: 24px; padding-right: 5px; margin-top: -2px"
+              />
+              Continue with slack
+            </a>
+            <a class="btn begin-onboarding" (click)="redirectNow()">
+              Begin Onboarding with Hajiri
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-text">
+        <p class="mb-0">
+          <nz-progress
+            [nzPercent]="100"
+            nzType="circle"
+            [nzFormat]="formatOne"
+          ></nz-progress>
+          We will automatically redirect you to the onboarding flow.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="onboardingLeftImg"
+    style="background-image: url(assets/images/onbording-left-img.svg)"
+  ></div>
 </div>

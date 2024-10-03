@@ -30,6 +30,9 @@ export class SlackAuthComponent implements OnInit {
     this.continueInSlack();
   }
 
+  formatOne = (percent: number): string => `${percent}`;
+  formatTwo = (): string => `Done`;
+
   isSuccessComponent: boolean = false;
   isErrorComponent: boolean = false;
 
@@ -42,15 +45,22 @@ export class SlackAuthComponent implements OnInit {
     const codeParam = new URLSearchParams(window.location.search).get('code');
     const stateParam = new URLSearchParams(window.location.search).get('state');
 
+    //TODO: remove this
+    this.isSuccessComponent = true;
     console.log('codeParam' + codeParam + 'stateParam' + stateParam);
     if (!codeParam || !stateParam) {
-      this.router.navigate(['/auth/login']);
+      //TODO: uncomment
+      // this.router.navigate(['/auth/login']);
       // alert('Invalid URL: Missing code parameter');
       return;
     }
     this.errorFlag = false;
     this.dataService
-      .registerOrganizationUsingCodeParam(codeParam, stateParam, this.helperService.getTimeZone())
+      .registerOrganizationUsingCodeParam(
+        codeParam,
+        stateParam,
+        this.helperService.getTimeZone()
+      )
       .subscribe(
         async (response: any) => {
           console.log(response.object);
@@ -76,12 +86,12 @@ export class SlackAuthComponent implements OnInit {
           console.log(decodedValue);
 
           this.isRouteDashboard = true;
-            this.isRouteOnboarding = false;
+          this.isRouteOnboarding = false;
           // if (
           //   decodedValue.httpCustomStatus === 'UPDATED' &&
           //   decodedValue.statusResponse === 'Attendance Rule Setting'
           // ) {
-            
+
           //   this.router.navigate(['/dashboard']);
           // }
           // } else {
