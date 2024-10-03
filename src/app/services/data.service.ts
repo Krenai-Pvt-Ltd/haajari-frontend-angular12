@@ -1814,9 +1814,14 @@ export class DataService {
     );
   }
 
-  deleteAllUsersByLeaveSettingId(userUuids: string[]): Observable<void> {
+  // deleteAllUsersByLeaveSettingId(userUuids: string[]): Observable<void> { amit
+  //   const url = `${this.baseUrl}/user-leave-rule/delete-all-users-leave-setting-rule`;
+  //   return this.httpClient.delete<void>(url, { body: userUuids });
+  // }
+
+  deleteAllUsersByLeaveSettingId(userIds: number[]): Observable<void> {
     const url = `${this.baseUrl}/user-leave-rule/delete-all-users-leave-setting-rule`;
-    return this.httpClient.delete<void>(url, { body: userUuids });
+    return this.httpClient.delete<void>(url, { body: userIds });
   }
 
   deleteUserFromUserLeaveRule(userUuid: string): Observable<void> {
@@ -1824,11 +1829,19 @@ export class DataService {
     return this.httpClient.delete<void>(url);
   }
 
+  // addUserToLeaveRule( amit
+  //   userUuid: string,
+  //   leaveSettingId: number
+  // ): Observable<any> {
+  //   const url = `${this.baseUrl}/user-leave-rule/add-users-in-leave-setting?userUuid=${userUuid}&leaveSettingId=${leaveSettingId}`;
+  //   return this.httpClient.post<any>(url, {});
+  // }
+
   addUserToLeaveRule(
-    userUuid: string,
+    userId: number,
     leaveSettingId: number
   ): Observable<any> {
-    const url = `${this.baseUrl}/user-leave-rule/add-users-in-leave-setting?userUuid=${userUuid}&leaveSettingId=${leaveSettingId}`;
+    const url = `${this.baseUrl}/user-leave-rule/add-users-in-leave-setting?userUuid=${userId}&leaveSettingId=${leaveSettingId}`;
     return this.httpClient.post<any>(url, {});
   }
 
@@ -2949,6 +2962,18 @@ export class DataService {
     );
   }
 
+  deleteLeaveTemplateCategory(id: number){
+    const params = new HttpParams()
+    .set('leaveCategoryId', id)
+    return this.httpClient.delete<void>(`${this.baseUrl}/leave-template-category`, {params});
+  }
+
+  deleteLeaveTemplate(id: number){
+    const params = new HttpParams()
+    .set('leaveTemplateId', id)
+    return this.httpClient.delete<void>(`${this.baseUrl}/leave-template`, {params});
+  }
+
   getTeamListUserForEmpOnboarding(): Observable<any> {
     const url = `${this.baseUrl}/users/fetch-team-list-user`;
     return this.httpClient.get(url, {});
@@ -3923,9 +3948,15 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/unused-leave/list`, {});
   }
 
+
+  /** Get all employee type */
+  getAllEmployeeType(): Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/emplyee-type/list`, {});
+  }
+
   
   registerLeaveTemplate(leaveTemplateRequest : LeaveTemplateRequest): Observable<any>{
-    return this.httpClient.post<any>(`${this.baseUrl}/leave-template/register`, leaveTemplateRequest);
+    return this.httpClient.post<any>(`${this.baseUrl}/leave-template/register-new`, leaveTemplateRequest);
   }
   
   registerOrganizationRegistrationFormInfo(request: OrganizationRegistrationFormRequest): Observable<any> {
@@ -3940,10 +3971,6 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.post<any>(`${this.baseUrl}/organization-subs-plan/register-temp`, {}, {params});
   }
 
-  getLeaveTemplateResponseListByOrganizationId(): Observable<any>{
-
-    return this.httpClient.get<any>(`${this.baseUrl}/leave-template/get`, {});
-  }
   syncSlackUsersToDatabase(): Observable<any> {
     return this.httpClient.post<any>(
       `${this.baseUrl}/slack/sync/slack/users`,
@@ -4014,5 +4041,19 @@ getHolidayForOrganization(date: string): Observable<any>{
   
   getShifts(): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/organization-shift-timing/organization-shift`);
+
+  }
+
+  getLeaveTemplateResponseListByOrganizationId(): Observable<any>{
+
+    return this.httpClient.get<any>(`${this.baseUrl}/leave-template/get`, {});
+  }
+
+  getAllLeaveTemplate(pageNumber: number, itemPerPage: number){
+    const params = new HttpParams()
+    .set('item_per_page', itemPerPage)
+    .set('page_number', pageNumber)
+
+    return this.httpClient.get<any>(`${this.baseUrl}/leave-template`, {params});
   }
 }

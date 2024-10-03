@@ -5,4 +5,6 @@ export class LeaveTemplateCategoryRequest {
     unusedLeaveActionId : number = 0;
     unusedLeaveActionCount : number = 0;
     sandwichLeave : boolean = false;
+
+    accrualTypeId: number =0;
 }

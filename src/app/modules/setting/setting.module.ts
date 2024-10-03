@@ -35,8 +35,10 @@ import { AgmCoreModule } from '@agm/core';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+
+
 
 
 @NgModule({

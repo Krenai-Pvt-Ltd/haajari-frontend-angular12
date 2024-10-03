@@ -77,9 +77,125 @@
       <div class="row p-2 mt-3">
         <div class="col-md-6">
           <div class="my-leave-log">
-            <div
-              class="my-leave-log-hedding d-flex align-items-center justify-content-between leave-request-padding mb-1"
-            >
+            <div class="my-leave-log-hedding">
+              <h4>My Leaves</h4>
+              <!-- <a href="" class="view-loges-btn">Apply for leaves <i class="bi bi-chevron-right"></i></a> -->
+              <!-- <div class="dropdown" style="width: 30%;" *ngIf="(ROLE!='USER')"><button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> Select Team <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i></button><ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;"><li class="ng-star-inserted" *ngFor="let tn of teamNameList"><a class="dropdown-item"> {{tn}} </a></li></ul></div> -->
+            </div>
+            <hr style="margin-bottom: 10px" />
+            <!-- <div class="mb-3"><div class="form-group pb-1" style="width: 100%; position: relative; border-bottom: 1px solid #e8ebf3"><input  type="text" id="searchText" placeholder="Search" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px; border: none !important;"><i  class="bi bi-search search-icon" style="margin: auto; margin-left: 10px;"></i></div></div> -->
+            <div class="mb-3 d-flex align-items-center" style="border: 1px solid #f1f1f1; border-radius: 2px" *ngIf="ROLE != 'USER'">
+              <div class="dropdown" style="width: 35%" *ngIf="ROLE != 'USER' || fullLeaveLogs.length > 0">
+                <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
+                  {{ selectedTeamName ? selectedTeamName : "All" }}
+                  <i class="bi bi-chevron-down" style="color: #444; font-size: 15px"></i>
+                </button>
+                <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu team-dropdown" style="width: 100%">
+                  <li class="ng-star-inserted" *ngIf="selectedTeamName" (click)="selectTeam('')">
+                    <a class="dropdown-item">All</a>
+                  </li>
+                  <li class="ng-star-inserted" *ngFor="let tn of teamNameList" (click)="selectTeam(tn.teamName)">
+                    <a class="dropdown-item"> {{ tn.teamName }} </a>
+                  </li>
+                </ul>
+              </div>
+              <div class="form-group pb-1" style="width: 65%; position: relative">
+                <input type="text" id="searchText" placeholder="Search" [(ngModel)]="searchString" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px; border: none !important" (keyup)="searchLeaves()" />
+                <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px" *ngIf="searchString == ''"></i>
+                <i class="bi bi-x search-icon" style="margin: auto; margin-left: 10px" *ngIf="searchString != ''" (click)="clearSearchUsers()"></i>
+              </div>
+            </div>
+            <div class="leave-logs" #logContainer (scroll)="scrollDownRecentActivity($event)">
+              <div class="errorboxmain text-center" *ngIf="fullLeaveLogs.length == 0">
+                <div class="errorboxinner">
+                  <div class="errorboxplaceholder mb-2">
+                    <img src="assets/images/empty-box.svg" style="width: 80px" />
+                  </div>
+                  <div class="">
+                    <h4>No Data Found</h4>
+                    <p class="mb-0"> We're unable to locate a record associated with the information you entered. </p>
+                  </div>
+                </div>
+              </div>
+              <div class="activity" *ngFor="let fullLogList of fullLeaveLogs">
+                <div class="activity-info">
+                  <div class="icon-info-activity">
+                    <i class="ti ti-clock bg-soft-warning" *ngIf="fullLogList.status == 'pending'"></i>
+                    <i class="ti ti-clock bg-soft-warning" *ngIf="fullLogList.status == 'requested'"></i>
+                    <i class="ti ti-checks bg-soft-success" *ngIf="fullLogList.status == 'approved'"></i>
+                    <i class="ti ti-x bg-soft-danger" *ngIf="fullLogList.status == 'rejected'"></i>
+                  </div>
+                  <div class="activity-info-text">
+                    <div>
+                      <div class="float-end">
+                        <div class="dropdown d-inline-block">
+                          <div class="align-self-center">
+                            <div class="btn btn-xs btn-light btn-round">
+                              {{ fullLogList.leaveDate | date:'medium' || "N/A"
+                              }}
+                              <!-- &nbsp; -->
+                              <!-- <span>{{
+                                fullLogList.leaveDate | date:'medium' || "N/A"
+                              }}</span> -->
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="media align-items-center">
+                        <div class="media-body ms-2 align-self-center">
+                          <h5 class="m-0 Regular-data" (click)="routeToUserProfile(fullLogList.uuid)">
+                            {{ fullLogList.username }}
+                          </h5>
+                          <p class="text-muted font-12 mb-0">
+                            <span style="color: orange" class="ng-star-inserted" *ngIf="fullLogList.status == 'pending'">Applied <span> To </span>
+                            </span>
+                            <span style="color: green" class="ng-star-inserted" *ngIf="fullLogList.status == 'approved'">Approved <span> By </span>
+                            </span>
+                            <span style="color: rgb(255, 55, 0)" class="ng-star-inserted" *ngIf="fullLogList.status == 'rejected'">Rejected <span> By </span>
+                            </span>
+                            <span style="color: rgb(155, 235, 234)" class="ng-star-inserted" *ngIf="fullLogList.status == 'requested'">Requested <span> To </span>
+                            </span>
+                            {{ fullLogList.managerName }}
+                          </p>
+                        </div>
+                      </div>
+                      <hr class="hr-dashed" />
+                      <div class="d-flex justify-content-between">
+                        <p> Duration: <u>{{ formatDateIn(formatDate(fullLogList.startDate))
+                            }} - {{ formatDateIn(formatDate(fullLogList.endDate))
+                            }}</u>
+                        </p>
+                        <h6 class="fw-semibold">
+                          <span class="badge badge-outline-primary">{{ fullLogList.totalDays }} Days | {{ fullLogList.leaveType }}</span>
+                        </h6>
+                      </div>
+                      <p class="text-muted mb-0">{{ fullLogList.notes }}</p>
+                    </div>
+                    <a class="text-primary" *ngIf="fullLogList.docFileLink != null" (click)="downloadSingleImage(fullLogList.docFileLink)"> Declaration <i class="bi bi-arrow-down"></i>
+                    </a>
+                    <hr class="hr-dashed" />
+                  </div>
+                </div>
+              </div>
+              <!--end activity-->
+            </div>
+            <!-- [ngStyle]="{'background-color': initialLoadDone ? '#9999f7' : ''}" -->
+            <div class="align-self-center text-center mt-2" *ngIf="!isFullLeaveLoader && !initialLoadDone">
+              <button type="button" class="btn btn-xs btn-light btn-round" *ngIf="fullLeaveLogSize > 9" (click)="loadMoreLogs()"> Load More <i class="bi bi-chevron-down"></i>
+              </button>
+            </div>
+            <div class="text-center load-more-btn" *ngIf="isFullLeaveLoader && fullLeaveLogSize > 9">
+              <div class="spinner-border spinner-border-custom-1 text-primary" role="status"></div>
+              <div>
+                <small>Loading...</small>
+              </div>
+            </div>
+            <!-- <div class="text-center load-more-btn"><p *ngIf='fullLeaveLogSize>9' (click)="loadMoreLogs()"> Load more <i class="bi bi-chevron-down"></i></p></div> -->
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="my-leave-log">
+            <div class="my-leave-log-hedding d-flex align-items-center justify-content-between leave-request-padding mb-1">
               <h4>Leave Requests</h4>
               <!-- <a href="" class="view-loges-btn">View All <i class="bi bi-chevron-right"></i></a> -->
               <a href="" class="view-loges-btn" *ngIf="ROLE != 'ADMIN'" data-bs-toggle="modal" data-bs-target=".apply-leave">Apply for leaves <i class="bi bi-chevron-right"></i>
@@ -124,8 +240,9 @@
                                   <span class="badge badge-outline-primary">
                                     {{ pl.totalDays }} Days | {{ pl.leaveType }}</span>
                                 </h6>
-                                <small
-                                  >{{ pl.leaveDate | date : "medium" || "N/A" }}
+                                <small>{{ pl.leaveDate | date:'medium' ||
+                                      "N/A"
+                                  }}
                                   <!-- &nbsp;
                                   <span>{{
                                     pl.leaveDate | date:'medium' || "N/A"
@@ -167,21 +284,9 @@
                     'leave-history-box-if-pending-null': pendingLeavesSize == 0,
                     'leave-history-box-if-pending-one': pendingLeavesSize == 1
                   }" -->
-              <div
-                class="pt-3 pb-3"
-                id="attendance"
-                role=""
-                *ngIf="activeAttendanceTabFlag"
-              >
-                <div
-                  class="leave-history-box-if-pending-null"
-                  #logContainerOfApprovedRejected
-                  (scroll)="scrollDownRecentActivityOfApprovedRejected($event)"
-                >
-                  <div
-                    class="errorboxmain text-center"
-                    *ngIf="approvedRejectedLeaves.length == 0"
-                  >
+              <div class="pt-3 pb-3" id="attendance" role="" *ngIf="activeAttendanceTabFlag">
+                <div class="leave-history-box-if-pending-null" #logContainerOfApprovedRejected (scroll)="scrollDownRecentActivityOfApprovedRejected($event)">
+                  <div class="errorboxmain text-center" *ngIf="approvedRejectedLeaves.length == 0">
                     <div class="errorboxinner">
                       <div class="errorboxplaceholder mb-2">
                         <img src="assets/images/empty-box.svg" style="width: 80px" />
@@ -211,9 +316,8 @@
                                   <span class="badge badge-outline-primary">
                                     {{ arl.totalDays }} Days | {{ arl.leaveType }}</span>
                                 </h6>
-                                <small
-                                  >{{
-                                    arl.leaveDate | date : "medium" || "N/A"
+                                <small>{{ arl.leaveDate | date:'medium' ||
+                                      "N/A"
                                   }}
                                   <!-- &nbsp;
                                   <span>{{

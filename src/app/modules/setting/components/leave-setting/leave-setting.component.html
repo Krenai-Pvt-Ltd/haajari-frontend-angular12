@@ -214,7 +214,7 @@
                   <i class="bi bi-plus"></i> Create another template </a>
               </div>
             </div>
-            <div class="shift-time p-3 m-3" *ngFor="let newLeaveSetting of fullLeaveSettingResponseList; let i = index">
+            <div class="shift-time p-3 m-3" *ngFor="let newLeaveSetting of leaveTemplates; let i = index">
               <div class="">
                 <div class="d-flex align-items-center justify-content-between">
                   <div class="d-flex align-items-center gap-3">
@@ -225,7 +225,7 @@
                     </div>
                     <div class="">
                       <h6 class="text-truncate mb-0">
-                        {{ newLeaveSetting!.leaveSetting.templateName }}
+                        {{ newLeaveSetting?.templateName }}
                       </h6>
                       <small class="text-muted">Define the leave rules for the employees</small>
                     </div>
@@ -236,25 +236,25 @@
                       <a href="" data-bs-toggle="modal" data-bs-target="#requestleave">
                         <i class="bi bi-pencil pointer" style="color: #6666f3" (click)="
                             getLeaveSettingInformationById(
-                              newLeaveSetting.leaveSetting.id,
+                              newLeaveSetting.id,
                               true
                             )
                           "></i>
                       </a>
                       <a class="delete-rule" (click)="
-                          deleteLeaveSettingRule(
-                            newLeaveSetting.leaveSetting.id
+                      deleteLeaveTemplate(
+                            newLeaveSetting.id
                           )
                         " *ngIf="
                           !deleteLeaveTemplateLoader(
-                            newLeaveSetting.leaveSetting.id
+                            newLeaveSetting.id
                           )
                         ">
                         <i class="bi bi-trash pointer text-danger"></i>
                       </a>
                       <div class="dot-opacity-loader" *ngIf="
                           deleteLeaveTemplateLoader(
-                            newLeaveSetting.leaveSetting.id
+                            newLeaveSetting.id
                           )
                         ">
                         <span></span>
@@ -262,8 +262,8 @@
                         <span></span>
                       </div>
                     </div>
-                    <span class="staff-leave-setting bg-white">Staff - ({{ newLeaveSetting!.userLeaveRule.length || 0
-                      }})</span>
+                    <!-- <span class="staff-leave-setting bg-white">Staff - ({{ newLeaveSetting!.userLeaveRule.length || 0}})</span> -->
+                    <span class="staff-leave-setting bg-white">Staff - 200</span>
                     <span class="automation-rules-toogel-btn pointer" data-bs-toggle="collapse" [attr.data-bs-target]="'#multiCollapseExample' + i" role="button" [attr.aria-controls]="'multiCollapseExample' + i" [attr.aria-expanded]="i == activeIndex ? 'true' : 'false'" (click)="toggleCollapse(i)">
                       <i class="bi bi-chevron-down"></i>
                     </span>
@@ -274,14 +274,13 @@
                   <div class="row mt-3">
                     <div [ngClass]="{
                         'col-md-4':
-                          newLeaveSetting.leaveSettingCategories.length > 2,
+                          newLeaveSetting.leaveTemplateCategoryRes.length > 2,
                         'col-md-6':
-                          newLeaveSetting.leaveSettingCategories.length == 2,
+                          newLeaveSetting.leaveTemplateCategoryRes.length == 2,
                         'col-md-12':
-                          newLeaveSetting.leaveSettingCategories.length == 1
+                          newLeaveSetting.leaveTemplateCategoryRes.length == 1
                       }" *ngFor="
-                        let category of newLeaveSetting.leaveSettingCategories
-                      ">
+                        let category of newLeaveSetting.leaveTemplateCategoryRes">
                       <div class="custom-salary">
                         <div class="custom-salary-hedding p-3 d-flex align-items-center justify-content-between">
                           <h4 class="mb-0">
@@ -290,15 +289,14 @@
                           <div class="d-flex align-items-center gap-3">
                             <i class="bi bi-pencil pointer" data-bs-toggle="modal" data-bs-target="#requestleave" (click)="
                                 editLeaveCategories(
-                                  newLeaveSetting.leaveSetting.id
+                                  newLeaveSetting.id
                                 )
                               "></i>
                             <i *ngIf="
-                                newLeaveSetting.leaveSettingCategories.length >
+                                newLeaveSetting.leaveTemplateCategoryRes.length >
                                 1
-                              " class="bi bi-trash pointer text-danger" (click)="
-                                deleteLeaveSettingCategoryById(category.id)
-                              "></i>
+                              " class="bi bi-trash pointer text-danger" (click)="deleteLeaveTemplateCategory(category.id)"></i>
+                              <!-- " class="bi bi-trash pointer text-danger" (click)="deleteLeaveSettingCategoryById(category.id)"></i> -->
                           </div>
                         </div>
                         <div class="custom-salary-para p-3">
@@ -309,12 +307,12 @@
                           </div>
                           <div class="d-flex align-items-center justify-content-between mb-3">
                             <p class="mb-0">Leave Rule</p>
-                            <span style="color: #3f988f">{{ category?.leaveRules || "N/A"
+                            <span style="color: #3f988f">{{ category?.unusedLeaveActionName || "N/A"
                             }}</span>
                           </div>
                           <div class="d-flex align-items-center justify-content-between">
                             <p class="mb-0">Carry Forward Limit</p>
-                            <span style="color: #3f988f">{{ category?.carryForwardDays || "N/A"
+                            <span style="color: #3f988f">{{ category?.unusedLeaveActionCount || "N/A"
                             }}</span>
                           </div>
                         </div>
@@ -358,6 +356,27 @@
             <div class="tab-content" id="myTabContent">
               <div class="tab-pane fade show active" id="home" role="tabpanel">
                 <form nz-form #leaveTemplateDefinitionForm="ngForm">
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <!-- Employee Type Selection -->
+                      <label for="empTypeId">Select Employee Type</label>
+                      <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select Employee type" [(ngModel)]="employeeTypeId" (ngModelChange)="onEmployeeTypeChange($event)" name="empTypeId" #empTypeId="ngModel" required>
+                        <nz-option *ngFor="let employeeType of employeeTypeList" [nzValue]="employeeType.id" [nzLabel]="employeeType.name"></nz-option>
+                      </nz-select>
+                    </div>
+                  
+                    <div class="col-md-6">
+
+                      <label for="genderId">Select Gender</label>
+                      <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select gender" [(ngModel)]="selectedGenderId" (ngModelChange)="onGenderChange($event)" name="genderId" #genderId="ngModel" required>
+                        <nz-option *ngFor="let gender of genders" [nzValue]="gender.id" [nzLabel]="gender.name"></nz-option>
+                      </nz-select>
+
+                    </div>
+                  </div>
+                  
+
                   <!-- Template Name -->
                   <div class="col-md-6 mt-3 mb-2" nz-form-item>
                     <label for="templateName" class="pb-2"> Template Name <i class="bi bi-exclamation-circle tolltip-icon" ngbTooltip="Provide a unique name for your organization's leave template. This name will be used to assign leave quotas to users who belong to this leave template." placement="right"></i>
@@ -403,7 +422,8 @@
                         <div class="col-md-2">
                           <label class="mb-2">Leave Category Name</label>
                           <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select Leave Category Name" formControlName="leaveCategoryId" required>
-                            <nz-option *ngFor="let leaveCategory of leaveCategoryList" [nzValue]="leaveCategory.id" [nzLabel]="leaveCategory.name"></nz-option>
+                            <!-- <nz-option *ngFor="let leaveCategory of leaveCategoryList" [nzValue]="leaveCategory.id" [nzLabel]="leaveCategory.name"></nz-option> -->
+                            <nz-option *ngFor="let leaveCategory of filteredLeaveCategories" [nzValue]="leaveCategory.id" [nzLabel]="leaveCategory.name"></nz-option>
                           </nz-select>
                           <!-- <input (keydown)="preventLeadingWhitespace($event)" id="leaveCategoryName" formControlName="leaveCategoryName" class="form-control" required [nzAutocomplete]="auto" placeholder="Select Leave Category Name" />
                           <nz-autocomplete #auto [nzDataSource]="filteredLeaveCategories"></nz-autocomplete> -->
@@ -422,6 +442,18 @@
                             <span style="white-space: nowrap;"><i class="bi bi-exclamation-circle"></i> Please fill this field.</span>
                           </p>
                         </div>
+
+                        <div class="col-md-2">
+
+                          <label class="mb-2">Select Accrual Type</label>
+                          <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select Accrual Type" formControlName="accrualTypeId" 
+                              (ngModelChange)="onAccrualChange($event)" required>
+                              <!-- Loop through accrualTypes and display options -->
+                              <nz-option *ngFor="let accrualType of accrualTypes" [nzValue]="accrualType.id" [nzLabel]="accrualType.name"></nz-option>
+                            </nz-select>
+                        </div>
+                      
+
                         <div class="col-md-2">
                           <label class="mb-2">Leave Count</label>
                           <nz-input-number style="width: 100%;" formControlName="leaveCount" nzPlaceHolder="Day Count" (ngModelChange)="generateDaysDropdown($event, i)" nzSize="large" [nzMin]="1" [nzMax]="10" [nzStep]="1" required></nz-input-number>
@@ -429,13 +461,13 @@
                             <span style="white-space: nowrap;"><i class="bi bi-exclamation-circle"></i> Please enter a valid number.</span>
                           </p>
                         </div>
-                        <div class="col-md-2">
+                        <!-- <div class="col-md-2">
                           <label class="mb-2">Sandwich Rule</label>
                           <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select Leave Cycle" formControlName="isSandwichLeave" required>
                             <nz-option [nzValue]="true" [nzLabel]="booleanList[0]"></nz-option>
                             <nz-option [nzValue]="false" [nzLabel]="booleanList[1]"></nz-option>
                           </nz-select>
-                        </div>
+                        </div> -->
                         <div class="col-md-2">
                           <label class="mb-2" for="unusedLeaveActionId">Unused Leave Action</label>
                           <div class="dropdown" style="width: 100%">
@@ -457,7 +489,7 @@
                         
                           <nz-input-number style="width: 100%;" formControlName="unusedLeaveActionCount" *ngIf="categories.controls[i]!.get('unusedLeaveActionId')?.value == LAPSE" nzPlaceHolder="N/A" (ngModelChange)="generateDaysDropdown($event, i)" nzSize="large" [nzMin]="1" [nzMax]="10" [nzStep]="1" [nzDisabled]="true"></nz-input-number>
                         </div>
-                      
+
                         <div class="leave-delet-btn" (click)="deleteRow(i)" *ngIf="i > 0">
                           <i class="bi bi-trash"></i>
                         </div>
@@ -552,9 +584,9 @@
                                     justify-content: space-between;
                                     align-items: center;
                                   ">
-                                  <div class="mt-3 d-flex" style="gap: 10px" *ngIf="selectedStaffsUuids!.length > 0">
+                                  <div class="mt-3 d-flex" style="gap: 10px" *ngIf="selectedStaffIds!.length > 0">
                                     <ng-container *ngIf="
-                                        selectedStaffsUuids!.length === total;
+                                    selectedStaffIds!.length === total;
                                         else elseCondition2
                                       ">
                                       <span (click)="unselectAllUsers()" style="
@@ -590,16 +622,16 @@
                                         ">Add To Rule</span>
                                     </ng-template>
                                   </div>
-                                  <div class="pt-2" *ngIf="selectedStaffsUuids!.length !== 0">
+                                  <div class="pt-2" *ngIf="selectedStaffIds!.length !== 0">
                                     <ng-container *ngIf="
-                                        selectedStaffsUuids!.length === total;
+                                    selectedStaffIds!.length === total;
                                         else elseCondition1
                                       ">
                                       <span>All <b>{{ total }}</b> users selected </span>
                                     </ng-container>
                                     <ng-template #elseCondition1>
                                       <span>
-                                        <b>{{ selectedStaffsUuids!.length
+                                        <b>{{ selectedStaffIds!.length
                                         }}</b> selected of <b>{{ total }}</b>
                                       </span>
                                       <span style="cursor: pointer" (click)="unselectAllUsers()">
@@ -657,7 +689,7 @@
                                             <span></span>
                                             <span></span>
                                           </div>
-                                          <button class="btn btn-outline-primary btn-sm editdata-edit" name="addButton" *ngIf="!addEmployeeLoader(staff)" (click)="addUser(staff.uuid, idOfLeaveSetting)"> Add </button>
+                                          <button class="btn btn-outline-primary btn-sm editdata-edit" name="addButton" *ngIf="!addEmployeeLoader(staff)" (click)="addUser(staff.id, idOfLeaveSetting)"> Add </button>
                                         </span>
                                         <!-- && !addedUserFlag -->
                                         <span *ngIf="staff.isAdded">
@@ -778,9 +810,9 @@
                                   <!-- <th style="width:0%; "><input type="checkbox" style="cursor: pointer;" class="form-check-input"
                                                                                        [(ngModel)]="isAllUsersSelected"
                                                                                        (change)="selectAllUsers($event)"></th> -->
-                                  <div class="mt-3 d-flex" style="gap: 10px" *ngIf="selectedStaffsUuidsUser!.length > 0">
+                                  <div class="mt-3 d-flex" style="gap: 10px" *ngIf="selectedStaffIds!.length > 0">
                                     <ng-container *ngIf="
-                                        selectedStaffsUuidsUser!.length ===
+                                        selectedStaffIds!.length ===
                                           totalUser;
                                         else elseCondition2
                                       ">
@@ -820,10 +852,10 @@
                                     </ng-template>
                                   </div>
                                   <div class="pt-2" *ngIf="
-                                      selectedStaffsUuidsUser!.length !== 0
+                                      selectedStaffIds!.length !== 0
                                     ">
                                     <ng-container *ngIf="
-                                        selectedStaffsUuidsUser!.length ===
+                                        selectedStaffIds!.length ===
                                           totalUser;
                                         else elseCondition1
                                       ">
@@ -834,7 +866,7 @@
                                     </ng-container>
                                     <ng-template #elseCondition1>
                                       <span>
-                                        <b>{{ selectedStaffsUuidsUser!.length
+                                        <b>{{ selectedStaffIds!.length
                                         }}</b> selected of <b>{{ totalUser }}</b>
                                       </span>
                                       <span style="cursor: pointer" (click)="unselectAllUsersUser()">

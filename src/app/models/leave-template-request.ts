@@ -8,5 +8,10 @@ export class LeaveTemplateRequest {
     startDate : string = '';
     endDate : string = '';
     leaveTemplateCategoryRequestList : LeaveTemplateCategoryRequest[] = [];
-    userUuidList : String[] = [];
+    // userUuidList : String[] = [];
+    userIds : number[] = [];
+
+    gender: string = 'All';
+    employeeTypeId: number = 1;
+
 }
