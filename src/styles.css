@@ -603,3 +603,18 @@ actionMenuList .dropdown-item i {
 [class*=" bi-"]::before {
   font-weight: BOLD !important;
 } */
+.navbar-custom.employeeLoginHead {
+  margin-left: 0px;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page-content-tab.employeeLoginCard {
+  width: calc(100% - 0px);
+}
+
+.navbar-custom.employeeLoginHead > ul:not(class) {
+  padding-left: 15px;
+}
