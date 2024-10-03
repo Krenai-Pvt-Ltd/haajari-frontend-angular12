@@ -135,9 +135,9 @@
   font-style: normal;
   border-radius: 0px 0 0 0;
   border: none;
-  padding: 7px 10px;
+  padding: 10px 18px;
   font-weight: 500;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 21px;
   color: #404040;
 }
@@ -499,7 +499,8 @@ span.optional {
   font-size: 12px;
 }
 
-.apply-leave-main-box, .overtime-request-main-box {
+.apply-leave-main-box,
+.overtime-request-main-box {
   max-height: 400px;
   overflow: auto;
 }
@@ -1428,9 +1429,12 @@ tbody tr {
 }
 
 .met-profile-main-pic img {
-  width: 128px;
+  /* width: 128px;
   height: 128px;
   margin-right: 24px;
+  object-fit: cover; */
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 }
 
@@ -1455,11 +1459,6 @@ tbody tr {
   cursor: pointer; /* Changes the cursor to a pointer (hand icon) */
 }
 
-
-
-
-
-
 /* CSS copied from salary setting section for the salary template */
 .add-shift-main-box {
   border: 1px solid #f1f1f1;
@@ -1474,7 +1473,8 @@ tbody tr {
   font-size: 14px;
 }
 
-.add-shift-time-btn, .bonus-appraisal-configuration {
+.add-shift-time-btn,
+.bonus-appraisal-configuration {
   font-size: 14px;
   color: #6666f3 !important;
   font-weight: 500;
@@ -1576,8 +1576,6 @@ tbody tr {
   opacity: 0.7; /* Optional: to visually indicate that the div is disabled */
 }
 
-
-
 /*####################### -- CSS for finance tab -- ################### */
 
 /* CSS for payslip section */
@@ -1650,7 +1648,7 @@ tbody tr {
 .document-item i {
   font-size: 1rem;
 }
-.document-actions i{
+.document-actions i {
   cursor: pointer;
   color: #6666f3;
 }
@@ -1670,21 +1668,22 @@ tbody tr {
   height: 16px;
 }
 
-
 /* CSS for chart and the data at the side of chart */
-.grosspay-border{
-  border: 3px solid #02E59C;
+.grosspay-border {
+  border: 3px solid #02e59c;
 }
 
-.deduction-border{
-  border: 3px solid #FE3636;
+.deduction-border {
+  border: 3px solid #fe3636;
 }
 
-.netpay-border{
+.netpay-border {
   border: 3px solid #6666f3;
 }
 
-.grosspay-border, .deduction-border, .netpay-border{
+.grosspay-border,
+.deduction-border,
+.netpay-border {
   border-radius: 3px;
 }
 .amounts {
@@ -1707,31 +1706,30 @@ tbody tr {
   font-weight: bold;
 }
 
-
 /* CSS for the salary breakups */
-.pay-slip-breakup .card{
+.pay-slip-breakup .card {
   border-radius: 5px;
-  border-color: #C6C6FF;
+  border-color: #c6c6ff;
 }
 
-.card-body-header{
+.card-body-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.card-body-header-icon{
+.card-body-header-icon {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 50px;
   height: 50px;
   color: #6666f3;
-  background-color: #E9E9FF;
+  background-color: #e9e9ff;
   border-radius: 50%;
 }
 
-.card-body-header-icon>i{
+.card-body-header-icon > i {
   font-size: 22px;
 }
 
@@ -1749,7 +1747,7 @@ tbody tr {
   background-color: #f5f5f5;
   text-align: left;
 }
-.table td{
+.table td {
   font-size: 12px;
   line-height: 21px;
   font-weight: 200 !important;
@@ -1780,7 +1778,7 @@ tbody tr {
   align-items: center;
   text-align: center;
 }
-tbody tr:last-child{
+tbody tr:last-child {
   border-bottom: none;
 }
 
@@ -1840,11 +1838,11 @@ hr {
   margin: 10px 0;
 }
 .text-muted {
-  color: #6c757d; 
+  color: #6c757d;
 }
 
 .mt-2 {
-  margin-top: 0.5rem; 
+  margin-top: 0.5rem;
 }
 
 .d-block {
@@ -1855,13 +1853,169 @@ hr {
   width: 24px;
   height: 24px;
 }
-.thumb-xl{
+.thumb-xl {
   height: 52px;
   width: 52px;
   margin-right: 10px;
 }
 
 /* Finance section blur */
-.blurred{
+.blurred {
   filter: blur(5px);
 }
+
+/* New Dashoard Css */
+
+.dashCardInner h3 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+  font-weight: 500;
+  color: #6666f4;
+  margin-bottom: 10px;
+  line-height: normal;
+}
+.checkInTime {
+  font-size: 24px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.85);
+  line-height: normal;
+  margin-bottom: 20px;
+}
+.checkInLate {
+  display: inline-block;
+  font-size: 12px;
+  color: #ff0000;
+  /* background-color: #fff6f6; */
+  padding: 1px 7px;
+  border-radius: 4px;
+  font-weight: 400;
+  letter-spacing: 0.3px;
+  position: absolute;
+  right: 15px;
+  top: 10px;
+}
+.dashCardMain {
+  border: 1px solid var(--borderColor);
+  padding: 12px 12px;
+  position: relative;
+  height: 100%;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.tttlWrkHrs {
+  display: inline-block;
+  font-size: 12px;
+  color: #038e61;
+  /* background-color: #ebfff9; */
+  padding: 1px 7px;
+  border-radius: 4px;
+  font-weight: 400;
+  letter-spacing: 0.3px;
+  position: absolute;
+  right: 15px;
+  top: 10px;
+}
+.chckINBtn {
+  background-color: #f3f3ff;
+  font-size: 14px;
+  color: #6666f3 !important;
+  border-radius: 4px;
+}
+.chckOutBtn {
+  background-color: #fff6f6;
+  font-size: 14px;
+  color: #ff0000 !important;
+  border-radius: 4px;
+}
+.dashSectitle h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 0;
+  color: #6666f2;
+}
+.dashSectitle p {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+  color: #707070;
+}
+.dashSectitle {
+  margin-bottom: 1.2rem;
+}
+.dasMainCardrow:not(:last-child) {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--seprator);
+}
+.dashCardIcon {
+  position: absolute;
+  max-width: 50px;
+  z-index: 0;
+  right: 15px;
+  filter: contrast(0) brightness(1.9);
+  opacity: 0.9;
+  transform: translateY(1px);
+}
+.upHolidyDate {
+  min-width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  font-size: 22px;
+  /* background-color: #f3f3ff;
+    color: #6666f3; */
+  background-color: rgba(34, 183, 131, 0.08) !important;
+  color: #22b783 !important;
+  font-weight: 600;
+  border-radius: 3px;
+}
+.upHolidyDateInfo span {
+  font-size: 12px;
+  font-weight: 500;
+  /* color: #6666f3; */
+  color: #22b783;
+  line-height: 20px;
+  display: block;
+  letter-spacing: 0.2px;
+}
+
+.leaveMsg {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 12px;
+}
+.leeavReqfromDate {
+  font-size: 18px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.85);
+  position: relative;
+  z-index: 1;
+  line-height: 32px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.chkInTime > span {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  color: #1c1c1c;
+}
+.chkInTime > p {
+  font-weight: 700;
+}
+.chkInTime {
+  position: relative;
+  z-index: 1;
+}
+@media (max-width: 1280px) {
+  .checkInLate,
+  .tttlWrkHrs {
+    font-size: 10px;
+    font-weight: 500;
+  }
+}
+/* New Dashoard Css */
