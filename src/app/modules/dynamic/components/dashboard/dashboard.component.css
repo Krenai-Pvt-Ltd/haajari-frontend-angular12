@@ -6,6 +6,10 @@
   width: 80%;
 }
 
+a {
+  color: #6666f2 !important;
+}
+
 span.complete {
   background-color: #10c215;
   width: 20px;
