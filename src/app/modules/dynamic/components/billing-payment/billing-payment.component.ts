@@ -50,6 +50,7 @@ export class BillingPaymentComponent implements OnInit {
     this.getActiveUserCount();
     this.selecrPlanType('annual');
     this.getAdminPersonalDetailMethodCall();
+    
   }
   getAdminPersonalDetailMethodCall() {
     this.dataService.getAdminPersonalDetail().subscribe((response: AdminPersonalDetailResponse) => {

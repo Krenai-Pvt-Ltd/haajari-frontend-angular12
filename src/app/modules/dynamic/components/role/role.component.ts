@@ -40,7 +40,7 @@ export class RoleComponent implements OnInit {
     this.getUserAndControlRolesByFilterMethodCall();
     this.getUsersByFilterMethodCall();
     this.getAllRolesMethodCall();
-
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
     debugger;
     // if(!this.helperService.getRoleSectionTab()){
 

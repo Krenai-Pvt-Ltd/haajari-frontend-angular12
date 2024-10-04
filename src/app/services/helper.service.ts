@@ -282,8 +282,27 @@ export class HelperService {
       }
     );
   }
+  
+
+  saveOrgSecondaryToDoStepBarData(value : number) {
+    debugger
+    this.dataService.saveOrgSecondaryToDoStepBar(value).subscribe(
+      (response) => {
+        console.log("success");  
+        // this.getOrgSecondaryToDoStepBarData();
+      },
+      (error) => {
+        console.log('error');
+      }
+    );
+  }
 
 
+  detectOpenModalOnBack(){
+    if(document?.body?.classList?.contains('modal-open')){
+      document?.body?.classList?.remove('modal-open');
+    }
 
+  }
 
 }

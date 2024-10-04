@@ -74,6 +74,7 @@ export class OnboardingComponent implements OnInit {
     this.getLeaves();
     this.getResponseStatusFromLocalStorage();
     this.getLoggedInUserDetails();
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
     console.log(this.loginDetails);
 
     //   window.addEventListener("beforeunload", function (e) {

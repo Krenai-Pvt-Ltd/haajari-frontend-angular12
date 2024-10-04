@@ -18,9 +18,16 @@ export class CommonToDoStepsComponent implements OnInit {
   getToDoStepViaSubject() {
     this.helperService.todoStepsSubject.subscribe(
       (res)=>{
+        console.log(res)
         if(res ){
+          // this.saveOrgSecondaryToDoStepBarData(0);
+          // this.getOrgSecondaryToDoStepBarData();
+          if(res=='close'){
+          this.isShowSecondaryToDoSteps = false;
+          }else{
           this.getStepsData();
           this.getOrganizationRegistratonProcessStepData();
+          }
           // this.getOrganizationInitialToDoStepBar();
         }
       }
@@ -143,6 +150,35 @@ export class CommonToDoStepsComponent implements OnInit {
   }
   hideToDoSteps() {
     this.isShowToDoSteps = false;
+  }
+
+
+
+  saveOrgSecondaryToDoStepBarData(value : number) {
+    debugger
+    this.dataService.saveOrgSecondaryToDoStepBar(value).subscribe(
+      (response) => {
+        console.log("success");  
+        this.getOrgSecondaryToDoStepBarData();
+      },
+      (error) => {
+        console.log('error');
+      }
+    );
+  }
+
+  isShowSecondaryToDoSteps: boolean = false;
+  getOrgSecondaryToDoStepBarData() {
+    debugger
+    this.dataService.getOrgSecondaryToDoStepBar().subscribe(
+      (response) => {
+        this.isShowSecondaryToDoSteps = response.object;
+        console.log("success");  
+      },
+      (error) => {
+        console.log('error');
+      }
+    );
   }
 
   

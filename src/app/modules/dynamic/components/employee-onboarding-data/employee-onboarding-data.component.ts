@@ -87,12 +87,14 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       'https://firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/Hajiri%2FSample%2FEmployee_Details_Sample%2Femployee_details_sample.xlsx?alt=media';
     // this.isUserShimer=true;
     this.getEmployeesOnboardingStatus();
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
     // this.getEmpLastApprovedAndLastRejecetdStatus();
     this.getUsersByFiltersFunction();
     this.getTeamNames();
     this.getUser();
     this.selectMethod('mannual');
     this.getShiftData();
+    this.getOnboardingVia();
 
     // const getRandomNameList = (): Observable<string[]> =>
     //   this.http.get<string[]>(`${this.randomUserUrl}`).pipe(
@@ -844,6 +846,32 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   //   })
   // }
  
+  
+  saveSlackUserIdViaEmailData(email : string) {
+    this.dataService
+        .saveSlackUserIdViaEmail(email)
+        .subscribe((response: any) => {
+          console.log("success");
+          this.reloadPage();
+        },
+        (error) => {
+          console.log("error");
+        }
+      );
+  }
+
+  onboardingVia : string = '';
+  getOnboardingVia() {
+    debugger;
+    this.dataService.getOrganizationDetails().subscribe(
+      (data) => {
+        this.onboardingVia = data.organization.onboardingVia;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
   
 
 

@@ -48,7 +48,7 @@ export class BillingAndSubscriptionPageComponent implements OnInit {
     this.getActiveUserCount();
     this.getAdminPersonalDetailMethodCall();
     this.getAllSubscription();
-
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
   }
 
   routeToUserDashboard() {
