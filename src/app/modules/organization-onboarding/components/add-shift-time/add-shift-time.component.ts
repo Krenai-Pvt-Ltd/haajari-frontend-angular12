@@ -34,14 +34,18 @@ export class AddShiftTimeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    const token = localStorage.getItem('token');
+    if (token==null) {
+      this.router.navigate(['/auth/signup']);
+    }
     this.getOnboardingVia();
     this.getShiftTypeMethodCall();
     this.getUserByFiltersMethodCall();
     this.getAllShiftTimingsMethodCall();
-    this.defaultInOpenTime.setHours(0, 0, 0, 0); 
-  this.defaultOutOpenTime.setHours(0, 0, 0, 0);  
-  this.defaultStartLunchOpenTime.setHours(0, 0, 0, 0);  
-  this.defaultEndLunchOpenTime.setHours(0, 0, 0, 0);  
+    this.defaultInOpenTime.setHours(0, 0, 0, 0);
+  this.defaultOutOpenTime.setHours(0, 0, 0, 0);
+  this.defaultStartLunchOpenTime.setHours(0, 0, 0, 0);
+  this.defaultEndLunchOpenTime.setHours(0, 0, 0, 0);
   }
 
   // backPage() {
@@ -170,14 +174,14 @@ export class AddShiftTimeComponent implements OnInit {
   @ViewChild("closeButton") closeButton!:ElementRef;
   isRegisterLoad : boolean = false;
   registerShift() {
-    debugger 
+    debugger
       this.isRegisterLoad = true;
       this.registerOrganizationShiftTimingMethodCall();
 
       setTimeout(() => {
         this.closeButton.nativeElement.click();
       }, 300)
-      
+
   }
   loading: boolean = false;
   registerOrganizationShiftTimingMethodCall() {
@@ -415,7 +419,7 @@ export class AddShiftTimeComponent implements OnInit {
     return (
       Object.keys(this.organizationShiftTimingValidationErrors).length === 0
     );
-    
+
   }
 
   onTimeChange(field: keyof OrganizationShiftTimingRequest, value: Date): void {
@@ -444,7 +448,7 @@ export class AddShiftTimeComponent implements OnInit {
     this.calculateTimes();
 
 }
-  
+
 
   // calculateTimes(): void {
   //   const { inTime, outTime, startLunch, endLunch } =
@@ -682,14 +686,14 @@ export class AddShiftTimeComponent implements OnInit {
   }
 
   removeUser(uuid: string) {
-   
+
     this.selectedStaffsUuids = this.selectedStaffsUuids.filter(id => id !== uuid);
     // this.updateSelectedStaffs();
     this.userNameWithShiftName = [];
     this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId);
   }
-  
 
 
-  
+
+
 }
