@@ -49,7 +49,7 @@ export class UploadTeamComponent implements OnInit {
     this.checkShiftTimingExistsMethodCall();
     this.getOnboardingVia();
     this.getOnboardingAdminUserData();
-   
+
   }
 
   isShimmer = false;
@@ -263,15 +263,15 @@ export class UploadTeamComponent implements OnInit {
     debugger
 
     const lastUser = this.userList[this.userList.length - 1];
-    if (!lastUser.name && !lastUser.phone && this.userList.length == 1) { 
-      return false; 
+    if (!lastUser.name && !lastUser.phone && this.userList.length == 1) {
+      return false;
     }
     if (!this.lastUsersValid()) {
       return false;
     }
     return this.userList.length > 0 && this.userList.every((u, index) => {
       if (index === this.userList.length - 1) {
-        return true; 
+        return true;
       }
       return this.isValidUser(u);
     });
@@ -279,8 +279,8 @@ export class UploadTeamComponent implements OnInit {
   lastUsersValid(): boolean {
     debugger
     const lastUser = this.userList[this.userList.length - 1];
-    if (!lastUser.name && !lastUser.phone) { 
-      return true; 
+    if (!lastUser.name && !lastUser.phone) {
+      return true;
     }
     return this.isValidUser(lastUser);
   }
@@ -319,7 +319,7 @@ export class UploadTeamComponent implements OnInit {
   // allUsersValid(): boolean {
   //   return this.userList.length > 0 && this.userList.every((u) => this.isValidUser(u));
   // }
-  
+
 
   resetManualUploadModal() {
     debugger;
@@ -375,7 +375,7 @@ export class UploadTeamComponent implements OnInit {
       input.value = input.value.replace(/[^0-9]/g, '');
     }
   }
-  
+
 
   onboardUserList: any[] = new Array();
   loading: boolean = false;
@@ -386,7 +386,7 @@ export class UploadTeamComponent implements OnInit {
   getUser() {
     this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
     this.loading = true;
-    this._onboardingService.getOnboardUser(0, 0).subscribe(
+    this._onboardingService.getOnboardUser(0, 5).subscribe(
       (response: any) => {
         if (response.status) {
           this.onboardUserList = response.object;
@@ -408,7 +408,7 @@ export class UploadTeamComponent implements OnInit {
 
   allUserIds: any[] = [];
   getAllUser() {
-    this._onboardingService.getOnboardUser(0, 0).subscribe(
+    this._onboardingService.getOnboardUser(0, 5).subscribe(
       (response: any) => {
         if (response.status) {
           this.allUserIds = response.object;
@@ -692,7 +692,7 @@ export class UploadTeamComponent implements OnInit {
     this.dataService.getOnboardingAdminUser().subscribe(
       (response) => {
         this.adminUser = response.object;
-       
+
       },
       (error) => {
         console.log('error');
@@ -707,7 +707,7 @@ export class UploadTeamComponent implements OnInit {
     this.dataService.syncSlackUsersToDatabase().subscribe(
       (response) => {
         this.isSyncFlag = false;
-       
+
         this.getUser();
       },
       (error) => {
@@ -717,10 +717,10 @@ export class UploadTeamComponent implements OnInit {
     );
   }
 
-  
 
- 
-  
 
-  
+
+
+
+
 }

@@ -150,7 +150,7 @@
                             </div>
                             <!-- In Time Input -->
                             <div class="row">
-                              <div class="col-md-12 mt-4 mb-3">
+                              <div class="col-md-12 mt-2 mb-3">
                                 <div class="card-header p-0 pb-3 bg-white">
                                   <h4 class="card-title-headding mb-1">
                                     Shift Timing
@@ -357,7 +357,6 @@
                             class="row mt-3 mb-3 align-items-center"
                             *ngIf="SHIFT_TIME_STEP_ID == STAFF_SELECTION_ID"
                           >
-                          
                             <!-- *ngIf="SHIFT_TIME_STEP_ID == STAFF_SELECTION_ID" -->
                             <!-- <table><tbody><tr><td></td><td><input type="search"></td></tr></tbody></table> -->
                             <!-- <div class="col-md-2" style="padding-right: 0px">
@@ -818,7 +817,6 @@
                   style="
                     background-image: url(../assets/images/group-img-2.svg);
                   "
-                  
                 >
                   <div class="previous-btn quickGuideHeading">
                     <h5
@@ -950,16 +948,19 @@
                     </span>
                   </button>
                   <!-- usersAlreadyAssigned -->
-                  
+
                   <button
                     type="submit"
                     class="btn nextBtn"
-                    *ngIf="(this.userNameWithShiftName?.length > 0 && !this.isValidated)"
+                    *ngIf="
+                      this.userNameWithShiftName?.length > 0 &&
+                      !this.isValidated
+                    "
                     data-bs-target="#usersAlreadyAssigned"
                     data-bs-toggle="modal"
                     [disabled]="
-                      shiftForm.invalid ||
-                      this.selectedStaffsUuids.length < 1"
+                      shiftForm.invalid || this.selectedStaffsUuids.length < 1
+                    "
                   >
                     <span *ngIf="!loading">
                       Create Shift Time
@@ -1005,10 +1006,9 @@
                   <button
                     type="submit"
                     class="btn nextBtn"
-                    *ngIf="(this.userNameWithShiftName?.length < 1)"
+                    *ngIf="this.userNameWithShiftName?.length < 1"
                     [disabled]="
-                      shiftForm.invalid ||
-                      this.selectedStaffsUuids.length < 1                   
+                      shiftForm.invalid || this.selectedStaffsUuids.length < 1
                     "
                     (click)="registerOrganizationShiftTimingMethodCall()"
                   >
@@ -1206,25 +1206,35 @@
 
         <div class="p-3 employee-list bg-white">
           <h4 class="mb-1">Employee List</h4>
-          <div class="manualemployList" *ngIf="userNameWithShiftName?.length > 0">
+          <div
+            class="manualemployList"
+            *ngIf="userNameWithShiftName?.length > 0"
+          >
             <div
               class="d-flex align-items-center justify-content-between persnol-details userList p-0 pt-2 pb-2"
               *ngFor="let list of userNameWithShiftName"
             >
               <div class="d-flex align-items-center gap-3">
-                <span class="userName">{{ list.userName.charAt(0).toUpperCase() }}</span>
+                <span class="userName">{{
+                  list.userName.charAt(0).toUpperCase()
+                }}</span>
 
                 <div>
-                  <h5 class="alert-heading font-13 mb-1">{{ list.userName }}</h5>
+                  <h5 class="alert-heading font-13 mb-1">
+                    {{ list.userName }}
+                  </h5>
                   <div class="d-flex align-items-center gap-2">
-                    <p class="mb-0 font-11">{{ list.userEmail || 'N/A' }}</p>
+                    <p class="mb-0 font-11">{{ list.userEmail || "N/A" }}</p>
                     <span class="spreter-line"></span>
                     <span class="shift-tag">{{ list.shiftName }}</span>
                   </div>
                 </div>
               </div>
               <div>
-                <button class="btn p-0 addUserRemvo" (click)="removeUser(list.userUuid)">
+                <button
+                  class="btn p-0 addUserRemvo"
+                  (click)="removeUser(list.userUuid)"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="22"
@@ -1261,7 +1271,6 @@
               </div>
             </div>
           </div>
-          
         </div>
       </div>
 
@@ -1274,7 +1283,6 @@
             class="ng-dirty ng-touched"
             [(ngModel)]="isValidated"
             (change)="checkValidation()"
-            
           /><label for="termsAndConditions" class="form-check-label iHaveRead">
             I have validated the information and will proceed to add users to
             the new shift.
@@ -1283,7 +1291,11 @@
         <div class="d-flex align-items-center justify-content-end gap-3 mt-3">
           <!-- <button class="btn submit-add-more">Cancel</button> -->
 
-          <button class="btn mannualSubmit" [disabled]="!isValidated" (click)="registerShift()">
+          <button
+            class="btn mannualSubmit"
+            [disabled]="!isValidated"
+            (click)="registerShift()"
+          >
             <span *ngIf="!isRegisterLoad">Add all</span>
             <div class="dot-opacity-loader" *ngIf="isRegisterLoad">
               <span></span>
