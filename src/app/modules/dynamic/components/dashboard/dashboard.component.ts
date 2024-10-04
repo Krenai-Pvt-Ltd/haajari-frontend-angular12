@@ -196,11 +196,11 @@ export class DashboardComponent implements OnInit {
     this.orgUuid = this.roleBasedAccessControlService.getOrgRefUUID();
     this.getActiveUserCount();
     this.selecrPlanType('annual');
-this.getAdminPersonalDetailMethodCall();
+    this.getAdminPersonalDetailMethodCall();
     this.getTeamNames();
     window.scroll(0, 0);
     this.getOrganizationRegistrationDateMethodCall();
-    
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
     // this.checkAccessToken();
 
     // const today = dayjs();
@@ -1369,8 +1369,25 @@ this.getAdminPersonalDetailMethodCall();
         //   this.router.navigate(['/dashboard']);
         // }
         this.isToDoStepsCompletedData(this.isOrgOnboardToday);
+        if(this.isOrgOnboardToday == 0) {
+            this.hideOrganizationInitialToDoStepBar();
+        }
         console.log("isToDoStepsCompletedFlag :", this.isToDoStepsCompleted);
         
+      },
+      (error) => {
+        console.log('error');
+      }
+    );
+  }
+
+  hideOrganizationInitialToDoStepBar() {
+    debugger
+    this.dataService.hideOrganizationInitialToDoStepBar().subscribe(
+      (response) => {
+        console.log("hide");  
+        // this.getOrganizationInitialToDoStepBar();
+        // location.reload();
       },
       (error) => {
         console.log('error');

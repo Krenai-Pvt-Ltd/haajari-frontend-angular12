@@ -68,6 +68,7 @@ export class TeamComponent implements OnInit {
     this.logInUserUuid = await this.rbacService.getUUID();
     this.getTeamsByFiltersFunction();
     this.getUsersRoleFromLocalStorage();
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
     // const localStorageFlag = localStorage.getItem(this.localStorageKey);
     const localStorageUniqueUuid = localStorage.getItem('uniqueId');
     if (localStorageUniqueUuid) {

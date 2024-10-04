@@ -50,6 +50,7 @@ export class TeamDetailComponent implements OnInit {
     this.getLoginDetailsId();
     this.getTeamMemberById();
     this.getUsersRoleFromLocalStorage();
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
   }
 
   // ngAfterViewInit() {

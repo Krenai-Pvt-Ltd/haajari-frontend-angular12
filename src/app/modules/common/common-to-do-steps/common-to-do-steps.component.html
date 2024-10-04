@@ -1,6 +1,6 @@
 <div
   class="onboaredinStapBox p-3"
-  (click)="showToDoSteps()"
+  (click)="saveOrgSecondaryToDoStepBarData(1)"
   *ngIf="!isToDoStep"
 >
 <!-- {{isToDoStep}} -->
@@ -22,14 +22,14 @@
 
 <div
   class="showOnboardingStep"
-  [ngClass]="{ 'showOnboardingStepHover': isShowToDoSteps }"
+  [ngClass]="{ 'showOnboardingStepHover': isShowSecondaryToDoSteps }"
 >
   <div class="onboardingStapsHedding p-3 position-relative">
     <div
       class="d-flex align-items-center justify-content-between border-bottom pb-2"
     >
       <h5 class="mb-0">Onboarding Steps</h5>
-      <div (click)="hideToDoSteps()">
+      <div (click)="saveOrgSecondaryToDoStepBarData(0)">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"

@@ -190,7 +190,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.getSalaryConfigurationStepMethodCall();
     this.getSalaryTemplateComponentByUserUuidMethodCall();
     // this.getEmployeeCompanyDocumentsMethodCall();
-
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
     this.ROLE = await this.roleService.getRole();
     this.UUID = await this.roleService.getUuid();
 

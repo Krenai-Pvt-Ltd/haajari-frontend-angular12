@@ -50,6 +50,7 @@ export class BillingComponent implements OnInit {
     this.getInvoices();
     this.getOrgSubsPlanMonthDetail();
     this.getDuePendingStatus();
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
   }
 
   getAllSubscription() {

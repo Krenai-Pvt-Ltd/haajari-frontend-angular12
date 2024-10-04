@@ -95,7 +95,7 @@ export class LeaveManagementComponent implements OnInit {
     window.scroll(0, 0);
     this.logInUserUuid = await this.rbacService.getUUID();
     this.ROLE = await this.rbacService.getRole();
-
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
     this.getFullLeaveLogs();
     this.getPendingLeaves();
     this.getApprovedRejectedLeaveLogs();
