@@ -131,8 +131,8 @@
 }
 
 .add-shift-main-box {
-  background-color: #f6f6f6;
   border-radius: 2px;
+  border: 1px solid #e8ebf3;
 }
 
 /* .add-shift-box {
