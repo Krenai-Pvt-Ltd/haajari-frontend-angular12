@@ -81,6 +81,7 @@ import { BillingAndSubscriptionPageComponent } from './components/billing-and-su
 import { CoinsComponent } from './components/coins/coins.component';
 import { ToDoStepDashboardComponent } from './components/to-do-step-dashboard/to-do-step-dashboard.component';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { SubscriptionComponent } from './components/subscription/subscription.component';
 
 
 
@@ -130,6 +131,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     BillingAndSubscriptionPageComponent,
     CoinsComponent,
     ToDoStepDashboardComponent,
+    SubscriptionComponent,
   ],
   imports: [
     CommonModule,

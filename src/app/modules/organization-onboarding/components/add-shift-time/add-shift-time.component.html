@@ -354,48 +354,9 @@
                             </div>
                           </div>
                           <div
-                            class="row mt-3 mb-3 align-items-center"
+                            class="mt-3 mb-3 align-items-center"
                             *ngIf="SHIFT_TIME_STEP_ID == STAFF_SELECTION_ID"
                           >
-                            <!-- *ngIf="SHIFT_TIME_STEP_ID == STAFF_SELECTION_ID" -->
-                            <!-- <table><tbody><tr><td></td><td><input type="search"></td></tr></tbody></table> -->
-                            <!-- <div class="col-md-2" style="padding-right: 0px">
-                              <div class="dropdown">
-                                <button
-                                  class="btn dropdown-toggle profile-input searchSelect"
-                                  type="button"
-                                  id="dropdownMenuButton1"
-                                  data-bs-toggle="dropdown"
-                                  aria-expanded="false"
-                                  [ngClass]="{
-                                    'is-invalid':
-                                      !selectedShiftType?.name &&
-                                      shiftForm.submitted
-                                  }"
-                                >
-                                  Name
-                                  <i class="bi bi-chevron-down"></i>
-                                </button>
-                                <ul
-                                  class="dropdown-menu searchSelectList"
-                                  aria-labelledby="dropdownMenuButton1"
-                                  style="width: 100%"
-                                >
-                                  <li>
-                                    <a class="dropdown-item"> Name </a>
-                                  </li>
-                                  <li>
-                                    <a class="dropdown-item"> Address </a>
-                                  </li>
-                                  <li>
-                                    <a class="dropdown-item"> Number </a>
-                                  </li>
-                                  <li>
-                                    <a class="dropdown-item"> Role </a>
-                                  </li>
-                                </ul>
-                              </div>
-                            </div> -->
                             <div class="col-md-12" style="padding-left: 0px">
                               <form
                                 novalidate=""
@@ -413,9 +374,8 @@
                                     placeholder="Search by name"
                                     class="form-control profile-input ng-untouched ng-pristine ng-valid searchform-padding"
                                     style="
-                                      padding: 10px 20px 10px 20px;
+                                      padding: 10px 30px 10px 40px;
                                       background-color: #f9fafc;
-                                      border: none;
                                       border-radius: none;
                                     "
                                     (keyup)="searchUsers()"
@@ -434,6 +394,15 @@
                                       class="bi bi-x"
                                     ></i>
                                   </button>
+                                  <i
+                                    class="bi bi-search search-icon"
+                                    style="
+                                      position: absolute;
+                                      top: 50%;
+                                      transform: translateY(-50%);
+                                      left: 10px;
+                                    "
+                                  ></i>
                                 </div>
                               </form>
                             </div>
