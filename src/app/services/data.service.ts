@@ -4014,6 +4014,24 @@ getHolidayForOrganization(date: string): Observable<any>{
     );
   }
 
+  saveOrgSecondaryToDoStepBar(hideOrUnhide : number): Observable<any> {
+    debugger
+    const params = new HttpParams().set('hideOrUnhide', hideOrUnhide);
+    return this.httpClient.put<any>(
+      `${this.baseUrl}/organization/save/secondary/to/do/step/bar`,{},{params}
+
+    );
+  }
+
+  getOrgSecondaryToDoStepBar(): Observable<any> {
+    debugger
+    // const params = new HttpParams().set('statusId', statusId).set('stepId', stepId);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/organization/get/secondary/to/do/step/bar`,
+
+    );
+  }
+
   getStepsData(): Observable<any> {
     debugger
     return this.httpClient.get<any>(
@@ -4055,5 +4073,12 @@ getHolidayForOrganization(date: string): Observable<any>{
     .set('page_number', pageNumber)
 
     return this.httpClient.get<any>(`${this.baseUrl}/leave-template`, {params});
+  }
+
+  saveSlackUserIdViaEmail(email : string){
+    const params = new HttpParams()
+    .set('emailId', email)
+
+    return this.httpClient.get<any>(`${this.baseUrl}/users/save-slack-user-id`, {params});
   }
 }

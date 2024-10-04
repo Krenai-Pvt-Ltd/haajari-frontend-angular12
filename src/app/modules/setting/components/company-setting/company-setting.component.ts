@@ -39,7 +39,7 @@ export class CompanySettingComponent implements OnInit {
     this.getTeamNames();
     this.getUserByFiltersMethodCall();
     this.getAllAddressDetails();
-
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
   }
 
   isFileSelected = false;

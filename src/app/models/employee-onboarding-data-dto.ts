@@ -9,4 +9,5 @@ export class EmployeeOnboardingDataDto {
   isEnable!: boolean;
   onboardingStatus!: string;
   teamNames!: string[];
+  slackUserId!: string;
 }

@@ -59,7 +59,7 @@ export class LeaveSettingComponent implements OnInit {
     this.getUserByFiltersMethodCall(0);
     this.getFullLeaveSettingInformation();
     // this.findUsersOfLeaveSetting(30);
-
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
     const leaveId = localStorage.getItem('tempId');
 
     if (leaveId != null) {

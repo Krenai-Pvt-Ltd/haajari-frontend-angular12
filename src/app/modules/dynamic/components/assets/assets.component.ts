@@ -46,6 +46,7 @@ export class AssetsComponent implements OnInit {
     this.getAssetUserListData();
     this.getCategoryCounts();
     this.getAssetDataById();
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
   }
 
   assetCategoryData: AssetCategoryResponse[] = [];

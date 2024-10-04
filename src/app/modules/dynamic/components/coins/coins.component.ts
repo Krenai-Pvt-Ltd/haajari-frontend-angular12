@@ -38,6 +38,7 @@ export class CoinsComponent implements OnInit {
     this.loadRoleWiseAllocatedCoins();
     // this.getBadgesData();
     this.getBadgeCoinsInfoData();
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
   }
 
   roles: RolesForSuperCoinsResponse[] = [];

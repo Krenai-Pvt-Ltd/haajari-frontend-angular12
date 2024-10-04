@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-to-do-step-dashboard',
@@ -10,13 +11,14 @@ import { DataService } from 'src/app/services/data.service';
 export class ToDoStepDashboardComponent implements OnInit {
 
 
-  constructor(private dataService: DataService, private router: Router) {}
+  constructor(private dataService: DataService, private router: Router, private helperService : HelperService) {}
 
   ngOnInit(): void {
     this.isOrgOnboarTodayData();
     this.getOrganizationRegistratonProcessStepData();
     this.getStepsData();
     this.getOrganizationInitialToDoStepBar();
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
   }
 
   showToDoStep: boolean = true;

@@ -339,8 +339,6 @@
               </div>
             </ng-template>
           </div>
-
-
           <div class="col-md-12">
             <div class="border-box"></div>
           </div>
@@ -364,16 +362,10 @@
                     <p class="mb-0">{{this.helperService.formatHHmmssToHHmm(preHourOvertimeSettingResponse.hour)}} hrs.</p>
                   </div>
                   <div class="active-check">
-                    <nz-switch
-                      [ngModel]="preHourOvertimeSettingResponse.accessibility"
-                      [ngModelOptions]="{standalone: true}"
-                      [nzControl]="true"
-                      [nzLoading]="preHourOvertimeSettingResponse.loading" (click)="preHourModal(preHourOvertimeSettingResponse.accessibility)">
-                    </nz-switch>
+                    <nz-switch [ngModel]="preHourOvertimeSettingResponse.accessibility" [ngModelOptions]="{standalone: true}" [nzControl]="true" [nzLoading]="preHourOvertimeSettingResponse.loading" (click)="preHourModal(preHourOvertimeSettingResponse.accessibility)"></nz-switch>
                   </div>
                 </div>
               </div>
-
               <div class="attendance-settin-list">
                 <div class="categryCustomizecard d-flex pointer">
                   <div class="categryCustomizeinfo">
@@ -386,18 +378,12 @@
                     <p class="mb-0">{{this.helperService.formatHHmmssToHHmm(postHourOvertimeSettingResponse.hour)}} hrs.</p>
                   </div>
                   <div class="active-check">
-                    <nz-switch
-                      [ngModel]="postHourOvertimeSettingResponse.accessibility"
-                      [ngModelOptions]="{standalone: true}"
-                      [nzControl]="true"
-                      [nzLoading]="postHourOvertimeSettingResponse.loading" (click)="postHourModal(postHourOvertimeSettingResponse.accessibility)">
-                    </nz-switch>
+                    <nz-switch [ngModel]="postHourOvertimeSettingResponse.accessibility" [ngModelOptions]="{standalone: true}" [nzControl]="true" [nzLoading]="postHourOvertimeSettingResponse.loading" (click)="postHourModal(postHourOvertimeSettingResponse.accessibility)"></nz-switch>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-
           <div class="col-md-12">
             <div class="border-box"></div>
           </div>
@@ -1863,7 +1849,6 @@
       </div>
     </div>
   </div>
-  
   <div class="modal fade" id="automation-rules" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
       <div class="modal-content">
@@ -1986,20 +1971,18 @@
                         compareTimesValidation() 
                       " [attr.aria-selected]="!attendanceRuleForm.invalid" [attr.tabindex]="attendanceRuleForm.invalid ? -1 : null" (click)=" 
                         !attendanceRuleForm.invalid && staffActiveTabInAutomationRuleMethod() 
-                      " data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" class="nav-link" #staffActiveTabInAutomationRule> Staff selection </button> 
-                  </li> 
+                      " data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" class="nav-link" #staffActiveTabInAutomationRule> Staff selection </button>
+                  </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
                   <div class="tab-pane fade show active" id="home" role="tabpanel">
                     <!-- <form #testForm="ngForm"><input type="text" required name="test2" ngModel minlength="2"><input type="text" required name="test21" ngModel minlength="2"><button type="button" class="btn btn-primary" [disabled]="!testForm.valid" (click)="testFormcheck()">submit</button></form> -->
                     <!-- <form #attendanceRuleForm="ngForm" (ngSubmit)="submitAttendanceRuleForm()"> -->
-
                     <form #attendanceRuleForm="ngForm">
-
                       <ng-container *ngIf="CURRENT_MODAL == DEDUCTION_RULE_DEFINITION">
                         <div class="rules-main">
                           <div class="form-check pb-3">
-                            <input class="form-check-input" style="cursor: pointer" type="checkbox" value="" id="flexCheckChecked" [checked]="customCheckbox" (click)="tickCustomCheckbox()" />
+                            <input class="form-check-input" style="cursor: pointer" type="checkbox" value="" id="flexCheckChecked" [checked]="customCheckbox" (click)="tickCustomCheckbox(DEDUCTION_RULE_DEFINITION)" />
                             <label class="form-check-label" for="flexCheckChecked">
                               {{ attendanceRuleResponse.customRuleHeader }}
                             </label>
@@ -2075,6 +2058,7 @@
                                 </div>
                               </div>
                             </div>
+                            
                             <div class="mt-3">
                               <div class="form-check">
                                 <input class="form-check-input" style="cursor: pointer" type="checkbox" value="" id="Occurrences" [checked]="customOccurrenceCheckbox" (click)="tickCustomOccurrenceCheckbox()" />
@@ -2090,7 +2074,7 @@
                                               .deductionRuleDefinitionRequest!
                                               .customSalaryDeduction!
                                               .occurrenceCount
-                                          " [ngModelOptions]="{ standalone: true }" name="lateOccurrenceCount" #lateOccurrenceCount="ngModel" required/>
+                                          " [ngModelOptions]="{ standalone: true }" name="lateOccurrenceCount" #lateOccurrenceCount="ngModel" required />
                                         <span>
                                           <b>times</b>
                                         </span>
@@ -2107,7 +2091,7 @@
                           </div>
                           <div class="mt-2">
                             <div class="form-check pb-3">
-                              <input class="form-check-input" style="cursor: pointer" type="checkbox" value="" id="staff" [checked]="halfDayCheckbox" (click)="tickHalfDayCheckbox()" />
+                              <input class="form-check-input" style="cursor: pointer" type="checkbox" value="" id="staff" [checked]="halfDayCheckbox" (click)="tickHalfDayCheckbox(DEDUCTION_RULE_DEFINITION)" />
                               <label class="form-check-label" for="staff">
                                 {{ attendanceRuleResponse.halfDayRuleHeader }}
                               </label>
@@ -2177,7 +2161,7 @@
                             </div>
                             <!-- full day salary deduction -->
                             <div class="form-check pb-3">
-                              <input class="form-check-input" style="cursor: pointer" type="checkbox" value="" id="selery" [checked]="fullDayCheckbox" (click)="tickFullDayCheckbox()" />
+                              <input class="form-check-input" style="cursor: pointer" type="checkbox" value="" id="selery" [checked]="fullDayCheckbox" (click)="tickFullDayCheckbox(DEDUCTION_RULE_DEFINITION)" />
                               <label class="form-check-label" for="selery">
                                 {{ attendanceRuleResponse.fullDayRuleHeader }}
                               </label>
@@ -2253,11 +2237,10 @@
                             " (click)="staffActiveTabInAutomationRuleMethod()"> Next </button>
                         </div>
                       </ng-container>
-
                       <ng-container *ngIf="CURRENT_MODAL == OVERTIME_RULE_DEFINITION">
                         <div class="rules-main">
                           <div class="form-check pb-3">
-                            <input class="form-check-input" style="cursor: pointer" type="checkbox" value="" id="flexCheckChecked" [checked]="customCheckbox" (click)="tickCustomCheckbox()" />
+                            <input class="form-check-input" style="cursor: pointer" type="checkbox" value="" id="flexCheckChecked" [checked]="customCheckbox" (click)="tickCustomCheckbox(OVERTIME_RULE_DEFINITION)" />
                             <label class="form-check-label" for="flexCheckChecked">
                               {{ attendanceRuleResponse.customRuleHeader }}
                             </label>
@@ -2330,9 +2313,7 @@
                                             .overtimeRuleDefinitionRequest!
                                             .customAmountInRupees
                                         " (change)="
-                                          checkOvertimeFixAmountValidation(
-                                            CUSTOM_OVERTIME_FIX_AMOUNT_STEP
-                                          )
+                                          checkOvertimeFixAmountValidation(CUSTOM_OVERTIME_FIX_AMOUNT_STEP)
                                         " [ngModelOptions]="{ standalone: true }" name="customFixAmount" #customFixAmount="ngModel" required />
                                       <div *ngIf="
                                           customFixAmount?.touched &&
@@ -2356,7 +2337,7 @@
                           </div>
                           <div class="mt-2">
                             <div class="form-check pb-3">
-                              <input class="form-check-input" style="cursor: pointer" type="checkbox" value="" id="staff" [checked]="halfDayCheckbox" (click)="tickHalfDayCheckbox()" />
+                              <input class="form-check-input" style="cursor: pointer" type="checkbox" value="" id="staff" [checked]="halfDayCheckbox" (click)="tickHalfDayCheckbox(OVERTIME_RULE_DEFINITION)" />
                               <label class="form-check-label" for="staff">
                                 {{ attendanceRuleResponse.halfDayRuleHeader }}
                               </label>
@@ -2459,7 +2440,7 @@
                             </div>
                             <!-- full day salary deduction -->
                             <div class="form-check pb-3">
-                              <input class="form-check-input" style="cursor: pointer" type="checkbox" value="" id="selery" [checked]="fullDayCheckbox" (click)="tickFullDayCheckbox()" />
+                              <input class="form-check-input" style="cursor: pointer" type="checkbox" value="" id="selery" [checked]="fullDayCheckbox" (click)="tickFullDayCheckbox(OVERTIME_RULE_DEFINITION)" />
                               <label class="form-check-label" for="selery">
                                 {{ attendanceRuleResponse.fullDayRuleHeader }}
                               </label>
@@ -2561,13 +2542,12 @@
                             </div>
                           </div>
                         </div>
-
-                      <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" [disabled]="
+                        <div class="modal-footer">
+                          <button type="submit" class="btn btn-primary" [disabled]="
                             isNextButtonDisabledForOvertimeRuleDefinitionForm() ||
                             attendanceRuleForm.invalid || compareTimesValidation()
                           " (click)="staffActiveTabInAutomationRuleMethod()"> Next </button>
-                      </div>
+                        </div>
                       </ng-container>
                     </form>
                   </div>
@@ -2929,8 +2909,6 @@
     </div>
   </div>
 </div>
-
-
 <div *ngIf="PRE_HOUR_TOGGLE" class="modal show d-block" id="pre-hour" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -2943,35 +2921,17 @@
           <nz-form-item>
             <nz-form-label [nzFor]="'preHour'">Enter the number of hours before shift start to be counted as overtime</nz-form-label>
             <nz-form-control nzErrorTip="Please enter a valid hour.">
-              <nz-time-picker 
-                id="preHour" 
-                nzFormat="HH:mm" 
-                [(ngModel)]="overtimeSettingRequest.hour" 
-                (ngModelChange)="updatePreHourOvertimeSetting($event)" 
-                nzPlaceHolder="Enter duration here" 
-                [nzDisabledHours]="disabledHours" 
-                required 
-                name="preHour" 
-                #preHour="ngModel">
-              </nz-time-picker>
+              <nz-time-picker id="preHour" nzFormat="HH:mm" [(ngModel)]="overtimeSettingRequest.hour" (ngModelChange)="updatePreHourOvertimeSetting($event)" nzPlaceHolder="Enter duration here" [nzDisabledHours]="disabledHours" required name="preHour" #preHour="ngModel"></nz-time-picker>
             </nz-form-control>
           </nz-form-item>
           <div class="d-flex justify-content-end modal-footer">
-            <button 
-              type="submit" 
-              class="btn btn-outline-primary btn-round" 
-              [disabled]="preHourOvertimeSettingForm.invalid" 
-              (click)="enableOrDisablePreHourOvertimeSettingMethodCall()"> 
-              Submit 
-            </button>
+            <button type="submit" class="btn btn-outline-primary btn-round" [disabled]="preHourOvertimeSettingForm.invalid" (click)="enableOrDisablePreHourOvertimeSettingMethodCall()"> Submit </button>
           </div>
         </form>
       </div>
     </div>
   </div>
 </div>
-
-
 <div *ngIf="POST_HOUR_TOGGLE" class="modal show d-block" id="post-hour" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -2984,27 +2944,11 @@
           <nz-form-item>
             <nz-form-label [nzFor]="'postHour'">Enter the number of hours before shift start to be counted as overtime</nz-form-label>
             <nz-form-control nzErrorTip="Please enter a valid hour.">
-              <nz-time-picker 
-                id="postHour" 
-                nzFormat="HH:mm" 
-                [(ngModel)]="overtimeSettingRequest.hour" 
-                (ngModelChange)="updatePostHourOvertimeSetting($event)" 
-                nzPlaceHolder="Enter duration here" 
-                [nzDisabledHours]="disabledHours" 
-                required 
-                name="postHour" 
-                #postHour="ngModel">
-              </nz-time-picker>
+              <nz-time-picker id="postHour" nzFormat="HH:mm" [(ngModel)]="overtimeSettingRequest.hour" (ngModelChange)="updatePostHourOvertimeSetting($event)" nzPlaceHolder="Enter duration here" [nzDisabledHours]="disabledHours" required name="postHour" #postHour="ngModel"></nz-time-picker>
             </nz-form-control>
           </nz-form-item>
           <div class="d-flex justify-content-end modal-footer">
-            <button 
-              type="submit" 
-              class="btn btn-outline-primary btn-round" 
-              [disabled]="postHourOvertimeSettingForm.invalid" 
-              (click)="enableOrDisablePostHourOvertimeSettingMethodCall()"> 
-              Submit 
-            </button>
+            <button type="submit" class="btn btn-outline-primary btn-round" [disabled]="postHourOvertimeSettingForm.invalid" (click)="enableOrDisablePostHourOvertimeSettingMethodCall()"> Submit </button>
           </div>
         </form>
       </div>
