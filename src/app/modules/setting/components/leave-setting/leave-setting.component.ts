@@ -61,6 +61,7 @@ export class LeaveSettingComponent implements OnInit {
     // this.findUsersOfLeaveSetting(30);
 
     const leaveId = localStorage.getItem('tempId');
+    this.filteredLeaveCategories = []
 
     if (leaveId != null) {
       this.idFlag = true;
@@ -74,6 +75,8 @@ export class LeaveSettingComponent implements OnInit {
       employeeTypeId: [null, Validators.required], // The form control for employee type
       // Other form controls...
     });
+
+
 
 
   }
@@ -114,8 +117,12 @@ export class LeaveSettingComponent implements OnInit {
     return this.form.get('categories') as FormArray;
   }
 
+  rowIndex: number = 1;
   addRow() {
     debugger
+
+    // this.filteredLeaveCategories = [];
+
     const newRow = this.fb.group({
       leaveCategoryId: ['', Validators.required],
       leaveCycleId: ['', Validators.required],
@@ -123,7 +130,8 @@ export class LeaveSettingComponent implements OnInit {
       isSandwichLeave: [''],
       unusedLeaveActionId: [''],
       unusedLeaveActionCount: [''],
-      accrualTypeId: ['']
+      accrualTypeId: [''],
+      gender: ['All']
       // accrualTypeId: ['', Validators.required]
     });
 
@@ -481,7 +489,9 @@ export class LeaveSettingComponent implements OnInit {
             ],
             leaveRules: [category.leaveRules],
             carryForwardDays: [category.carryForwardDays],
-            accrualTypeId:[category.accrualTypeId]
+            accrualTypeId:[category.accrualTypeId],
+            gender: [category.gender]
+
           });
 
           categoriesArray.push(categoryGroup);
@@ -578,7 +588,8 @@ export class LeaveSettingComponent implements OnInit {
         leaveCount: category.leaveCount,
         leaveRules: category.leaveRules,
         carryForwardDays: category.carryForwardDays,
-        accrualTypeId: category.accrualTypeId
+        accrualTypeId: category.accrualTypeId,
+        gender: category.gender
       })
     );
 
@@ -1111,7 +1122,8 @@ export class LeaveSettingComponent implements OnInit {
   }
 
 
-  filteredLeaveCategories: LeaveCategory[] = [];
+  // filteredLeaveCategories: LeaveCategory[] = [];
+  
   leaveCategories: string[] = ['Annual Leave', 'Sick Leave', 'Casual Leave'];
 
   preventLeadingWhitespace(event: KeyboardEvent): void {
@@ -1288,7 +1300,7 @@ export class LeaveSettingComponent implements OnInit {
     })
   }
 
-  employeeTypeId: number = 0;
+  employeeTypeId: number = 1;
   onEmployeeTypeChange(id: number){
     this.employeeTypeId = id;
 
@@ -1304,20 +1316,77 @@ export class LeaveSettingComponent implements OnInit {
     ];
   }
 
-  selectedGenderId: number = 0;
-  onGenderChange(id: number) {
-   
+  
+  selectedGenderId: number = 1;
+  gender: string = 'All';
+  onGenderChange1(id: number) {
+  // onGenderChange(event: any) {
+   debugger
+   this.leaveTemplateRequest.gender = 'All';
+    // this.selectedGenderId = event.target.value;  // Store the selected gender ID
     this.selectedGenderId = id;  // Store the selected gender ID
 
     this.filteredLeaveCategories = [...this.leaveCategoryList];
     if(this.selectedGenderId == 2){
-      this.filteredLeaveCategories = this.filteredLeaveCategories.filter(leaveCategory => leaveCategory.id !== 3);
-      this.leaveTemplateRequest.gender = this.genders[2].name;
+      // this.filteredLeaveCategories = this.filteredLeaveCategories.filter(leaveCategory => leaveCategory.id !== 3);
+      this.filteredLeaveCategories = this.filteredLeaveCategories.filter((leaveCategory: any) => leaveCategory.id !== 3);
+      this.leaveTemplateRequest.gender = 'Male';
+      // this.leaveTemplateRequest.gender = this.genders[2].name;
     }else if(this.selectedGenderId == 3){
       this.filteredLeaveCategories = this.leaveCategoryList.filter(leaveCategory => leaveCategory.id !== 4);
-      this.leaveTemplateRequest.gender = this.genders[3].name;
+      // this.filteredLeaveCategories = this.leaveCategoryList.filter((leaveCategory: any) => leaveCategory.id !== 4);
+      this.leaveTemplateRequest.gender = 'Female';
+      // this.leaveTemplateRequest.gender = this.genders[3].name;
+    }else if(this.selectedGenderId == 1){
+      this.leaveTemplateRequest.gender = 'All';
+      this.filteredLeaveCategories = [...this.leaveCategoryList];
     }
+
+    this.gender = this.leaveTemplateRequest.gender;
+    console.log('selectedGenderName: ',this.gender)
+    console.log('form: ',this.leaveTemplateRequest)
+
   }
+
+  filteredLeaveCategories: any;
+  onGenderChange(id: number, i: number) {
+     debugger
+     this.leaveTemplateRequest.gender = 'All';
+    this.selectedGenderId = id;  // Store the selected gender ID
+
+    // Initialize filteredLeaveCategories if it doesn't exist
+    if (!this.filteredLeaveCategories) {
+      this.filteredLeaveCategories = [];
+  }
+
+  // Ensure the index exists in filteredLeaveCategories
+  if (!this.filteredLeaveCategories[i]) {
+      this.filteredLeaveCategories[i] = [...this.leaveCategoryList]; // Initialize with original list
+  }
+
+  // Filter based on the selected gender and index
+  if (this.selectedGenderId === 2) {
+      // Example: Exclude leave category with id 3 for males
+      this.filteredLeaveCategories[i] = this.filteredLeaveCategories[i].filter((leaveCategory: any) => leaveCategory.id !== 3);
+      this.leaveTemplateRequest.gender = 'Male';
+  } else if (this.selectedGenderId === 3) {
+      // Example: Exclude leave category with id 4 for females
+      this.filteredLeaveCategories[i] = this.filteredLeaveCategories[i].filter((leaveCategory: any) => leaveCategory.id !== 4);
+      this.leaveTemplateRequest.gender = 'Female';
+  } else if (this.selectedGenderId === 1) {
+      // Reset to original list if 'All' is selected
+      this.filteredLeaveCategories[i] = [...this.leaveCategoryList];
+      this.leaveTemplateRequest.gender = 'All';
+  }
+  
+      this.gender = this.leaveTemplateRequest.gender;
+      console.log('selectedGenderName: ',this.gender)
+      console.log('form: ',this.leaveTemplateRequest)
+  
+      // console.log('leaveCategoryList: ',this.leaveCategoryList)
+      // console.log('filteredLeaveCategories: ',this.filteredLeaveCategories)
+  
+    }
 
     //Accrual Type start
     accrualTypes: Array<{id: number, name: string, value: string }> = []; // Gender options
@@ -1337,8 +1406,36 @@ export class LeaveSettingComponent implements OnInit {
       // this.newRow.patchValue({
       //   accrualTypeId: 'yourValue'  // Replace 'yourValue' with the actual data you want to set
       // });
+  }
 
-      
+  leaveCycleStartDate: any;
+  leaveCycleEndDate: any;
+  onLeaveCycleChange(id: number) {
+    const currentDate = new Date(); // Get the current date
+
+    if (id === 1) {
+      // Monthly
+      this.leaveCycleStartDate = this.helperService.formatDateToYYYYMMDD(new Date(currentDate.getFullYear(), currentDate.getMonth(), 1));
+      this.leaveCycleEndDate = this.helperService.formatDateToYYYYMMDD(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0));
+  
+    } else if (id === 2) {
+      // Quarterly
+      this.leaveCycleStartDate = this.helperService.formatDateToYYYYMMDD(new Date(currentDate.getFullYear(), Math.floor(currentDate.getMonth() / 3) * 3, 1)); // Start of the current quarter
+      this.leaveCycleEndDate = this.helperService.formatDateToYYYYMMDD(new Date(currentDate.getFullYear(), Math.floor(currentDate.getMonth() / 3) * 3 + 3, 0)); // End of the current quarter
+  
+    } else if (id === 3) {
+      // Half Yearly
+      this.leaveCycleStartDate = this.helperService.formatDateToYYYYMMDD(new Date(currentDate.getFullYear(), currentDate.getMonth() < 6 ? 0 : 6, 1)); // Start of the current half-year
+      this.leaveCycleEndDate = this.helperService.formatDateToYYYYMMDD(new Date(currentDate.getFullYear(), currentDate.getMonth() < 6 ? 6 : 12, 0)); // End of the current half-year
+  
+    } else if (id === 4) {
+      // Yearly
+      this.leaveCycleStartDate = this.helperService.formatDateToYYYYMMDD(new Date(currentDate.getFullYear(), 0, 1)); // Start of the current year
+      this.leaveCycleEndDate = this.helperService.formatDateToYYYYMMDD(new Date(currentDate.getFullYear(), 12, 0)); // End of the current year
+    }
+    
+    // console.log('sDate: ',this.leaveCycleStartDate)
+    // console.log('eDate: ',this.leaveCycleEndDate)
 
   }
 
@@ -1441,6 +1538,7 @@ onStartDateChange(startDate: Date) {
   readonly ENCASH = Key.ENCASH;
 
   preMethodCallToCreateLeaveTemplate(){
+    debugger
     this.getYearTypeListMethodCall(); 
     this.getLeaveCycleListMethodCall(); 
     this.getLeaveCategoryListMethodCall(); 
@@ -1449,8 +1547,12 @@ onStartDateChange(startDate: Date) {
     this.loadGenders();
     this.loadAccrualType();
 
- 
-
+    this.filteredLeaveCategories = []
+    // setTimeout(() =>{
+    //   this.onEmployeeTypeChange(1);
+    //   this.onGenderChange(1);
+    // }, 500);
+   
   }
   setFieldsToLeaveTemplateRequest(){
     debugger
@@ -1462,7 +1564,9 @@ onStartDateChange(startDate: Date) {
         sandwichLeave: category.isSandwichLeave,
         unusedLeaveActionId: category.unusedLeaveActionId,
         unusedLeaveActionCount: category.unusedLeaveActionCount,
-        accrualTypeId: category.accrualTypeId
+        accrualTypeId: category.accrualTypeId,
+        gender: category.gender
+
       })
     );
 
@@ -1470,6 +1574,7 @@ onStartDateChange(startDate: Date) {
   }
   
 
+  // leaveTemplateDefinitionForm = this.fb.group({});
   registerLeaveTemplateMethodCall(){
     this.setFieldsToLeaveTemplateRequest();
     this.dataService.registerLeaveTemplate(this.leaveTemplateRequest).subscribe((response) => {
@@ -1480,6 +1585,11 @@ onStartDateChange(startDate: Date) {
     }, (error) => {
       this.helperService.showToast('Error while registering the leave template!', Key.TOAST_STATUS_ERROR);
     })
+
+    console.log('clear field')
+    this.leaveTemplateRequest.name = ''; // Reset the template name
+    this.leaveTemplateDefinitionForm.reset(); // Reset the form state
+
   }
 
   isShimmerForLeaveTemplateResponse = false;
@@ -1518,5 +1628,16 @@ onStartDateChange(startDate: Date) {
     });
   }
 
+
+  onTemplateSubmit(){
+    if (this.leaveTemplateDefinitionForm.valid) {
+      // Proceed with submission logic
+      this.goToLeaveCategoryTab();
+    } else {
+      // Mark all controls as touched to show validation messages
+      this.leaveTemplateDefinitionForm.controls['empTypeId'].markAsTouched();
+      this.leaveTemplateDefinitionForm.controls['genderId'].markAsTouched();
+    }
+  }
 
 }

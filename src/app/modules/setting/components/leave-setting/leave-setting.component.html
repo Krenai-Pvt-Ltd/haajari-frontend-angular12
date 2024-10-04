@@ -263,7 +263,7 @@
                       </div>
                     </div>
                     <!-- <span class="staff-leave-setting bg-white">Staff - ({{ newLeaveSetting!.userLeaveRule.length || 0}})</span> -->
-                    <span class="staff-leave-setting bg-white">Staff - 200</span>
+                    <span class="staff-leave-setting bg-white">Staff - {{newLeaveSetting.totalEmployees}}</span>
                     <span class="automation-rules-toogel-btn pointer" data-bs-toggle="collapse" [attr.data-bs-target]="'#multiCollapseExample' + i" role="button" [attr.aria-controls]="'multiCollapseExample' + i" [attr.aria-expanded]="i == activeIndex ? 'true' : 'false'" (click)="toggleCollapse(i)">
                       <i class="bi bi-chevron-down"></i>
                     </span>
@@ -426,65 +426,68 @@
               </div> -->
 
               <div class="tab-pane fade show active" id="home" role="tabpanel">
-                <form nz-form #leaveTemplateDefinitionForm="ngForm">
-              
+               
+
+                <!-- <form nz-form #leaveTemplateDefinitionForm="ngForm" (ngSubmit)="onTemplateSubmit()"> -->
+                <form nz-form #leaveTemplateDefinitionForm="ngForm" >
+
                   <div class="row">
                     <div class="col-md-6">
-                      <label for="genderId">Select Employee Type</label>
-                    <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select Employee type" 
-                    formControlName="employeeTypeId" (ngModelChange)="onEmployeeTypeChange($event)">
-                    <nz-option *ngFor="let employeeType of employeeTypeList" 
-                      [nzValue]="employeeType.id" [nzLabel]="employeeType.name">
-                    </nz-option>
-                  </nz-select>
-
-                  </div>
-                 
-
-              
-                    <div class="col-md-6">
-                      <!-- Gender Selection -->
+                      <div class="form-group" [class.has-error]="empTypeId.invalid && empTypeId.touched">
+                        <label for="employeeTypeId">Employee Type</label>
+                        <nz-form-control nzErrorTip="Please select an employee type.">
+                          <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select Employee type"
+                            [(ngModel)]="employeeTypeId" name="empTypeId" #empTypeId="ngModel" required>
+                            <nz-option *ngFor="let employeeType of employeeTypeList" [nzValue]="employeeType.id"
+                              [nzLabel]="employeeType.name">
+                            </nz-option>
+                          </nz-select>
+                        </nz-form-control>
+                        <div *ngIf="empTypeId.invalid && empTypeId.touched" class="invalid-feedback">
+                          Employee Type is required.
+                        </div>
+                      </div>
+                    </div>
+                
+                    <!-- <div class="col-md-6">
                       <label for="genderId">Select Gender</label>
-                      <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select gender" 
-                        [(ngModel)]="selectedGenderId" (ngModelChange)="onGenderChange($event)" 
-                        name="genderId" #genderId="ngModel" required>
+                      <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select gender" [(ngModel)]="selectedGenderId"
+                        (ngModelChange)="onGenderChange($event)" name="genderId" #genderId="ngModel" required>
                         <nz-option *ngFor="let gender of genders" [nzValue]="gender.id" [nzLabel]="gender.name">
                         </nz-option>
                       </nz-select>
                       <div *ngIf="genderId.invalid && genderId.touched" class="invalid-feedback">
                         Gender is required.
                       </div>
-                    </div>
+                    </div> -->
+
                   </div>
-              
+                
                   <!-- Template Name -->
                   <div class="col-md-6 mt-3 mb-2" nz-form-item>
-                    <label for="templateName" class="pb-2"> Template Name 
-                      <i class="bi bi-exclamation-circle tolltip-icon" 
-                        ngbTooltip="Provide a unique name for your organization's leave template."
-                        placement="right">
+                    <label for="templateName" class="pb-2"> Template Name
+                      <i class="bi bi-exclamation-circle tolltip-icon"
+                        ngbTooltip="Provide a unique name for your organization's leave template." placement="right">
                       </i>
                     </label>
                     <nz-form-control nzErrorTip="Please enter a valid name.">
-                      <input nz-input [(ngModel)]="leaveTemplateRequest.name" placeholder="Enter the template name here" 
-                        nzSize="large" minlength="3" maxlength="50" name="templateName" #templateName="ngModel" required />
+                      <input nz-input [(ngModel)]="leaveTemplateRequest.name" placeholder="Enter the template name here" nzSize="large"
+                        minlength="3" maxlength="50" name="templateName" #templateName="ngModel" required />
                     </nz-form-control>
                     <div *ngIf="templateName.invalid && templateName.touched" class="invalid-feedback">
-                      Template name is required.
+                      Template name is required and must be between 3 and 50 characters.
                     </div>
                   </div>
-              
+                
                   <!-- Leave Quota Renewal Cycle -->
                   <div class="col-md-6 mt-2 mb-2" nz-form-item>
-                    <label for="leaveRenewalCycle" class="pb-2"> Leave Quota Renew Cycle 
-                      <i class="bi bi-exclamation-circle tolltip-icon" 
-                        ngbTooltip="Monthly or Yearly renewal cycle" placement="right">
+                    <label for="leaveRenewalCycle" class="pb-2"> Leave Quota Renew Cycle
+                      <i class="bi bi-exclamation-circle tolltip-icon" ngbTooltip="Monthly or Yearly renewal cycle" placement="right">
                       </i>
                     </label>
                     <nz-form-control nzErrorTip="Please select a valid renewal cycle.">
-                      <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select leave quota renew cycle type" 
-                        [(ngModel)]="leaveTemplateRequest.yearTypeName" 
-                        (ngModelChange)="selectDateForLeaveTemplateRequest($event)" 
+                      <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select leave quota renew cycle type"
+                        [(ngModel)]="leaveTemplateRequest.yearTypeName" (ngModelChange)="selectDateForLeaveTemplateRequest($event)"
                         name="leaveRenewalCycle" #leaveRenewalCycle="ngModel" required>
                         <nz-option *ngFor="let yearType of yearTypeList" [nzValue]="yearType.name" [nzLabel]="yearType.name">
                         </nz-option>
@@ -494,23 +497,22 @@
                       Renewal cycle is required.
                     </div>
                   </div>
-              
+                
                   <!-- Leave Period with Date Range -->
                   <div class="col-md-6 mt-3 mb-2" nz-form-item>
-                    <label for="leavePeriod" class="pb-2">Leave Period 
-                      <i class="bi bi-exclamation-circle tolltip-icon" 
-                        ngbTooltip="Specify the start and end dates for leave periods" placement="right">
+                    <label for="leavePeriod" class="pb-2">Leave Period
+                      <i class="bi bi-exclamation-circle tolltip-icon" ngbTooltip="Specify the start and end dates for leave periods"
+                        placement="right">
                       </i>
                     </label>
-                    <nz-form-control nzErrorTip="Please select a valid date.">
+                    <nz-form-control nzErrorTip="Please select valid dates.">
                       <div class="d-flex justify-content-between align-items-center">
-                        <nz-date-picker [(ngModel)]="dateRange[0]" nzPlaceHolder="Start Date" 
-                          [disabled]="!isCustomDateRange" (ngModelChange)="onStartDateChange($event)" 
-                          name="startDate" #startDate="ngModel" required>
+                        <nz-date-picker [(ngModel)]="dateRange[0]" nzPlaceHolder="Start Date" [disabled]="!isCustomDateRange"
+                          (ngModelChange)="onStartDateChange($event)" name="startDate" #startDate="ngModel" required>
                         </nz-date-picker>
                         <span class="text-muted p-3"> to </span>
-                        <nz-date-picker [(ngModel)]="dateRange[1]" nzPlaceHolder="End Date" 
-                          [disabled]="!isCustomDateRange" name="endDate" #endDate="ngModel" required>
+                        <nz-date-picker [(ngModel)]="dateRange[1]" nzPlaceHolder="End Date" [disabled]="!isCustomDateRange"
+                          name="endDate" #endDate="ngModel" required>
                         </nz-date-picker>
                       </div>
                     </nz-form-control>
@@ -521,21 +523,22 @@
                       End date is required.
                     </div>
                   </div>
-              
+                
                   <!-- Submit Button -->
                   <div id="back-and-submit" class="d-flex justify-content-end align-items-end">
-                    <!-- <button type="submit" [disabled]="!leaveTemplateDefinitionForm.form.valid" 
-                      (click)="goToLeaveCategoryTab()" class="btn btn-outline-primary btn-round">
-                      Next
-                    </button> -->
-
-                    <button type="submit" [disabled]="!leaveTemplateDefinitionForm.form.valid" 
-                    (click)="goToLeaveCategoryTab()" class="btn btn-outline-primary btn-round">
-                    Next
-                  </button>
+                    <button type="submit" [disabled]="!leaveTemplateDefinitionForm.valid" (click)="goToLeaveCategoryTab()"
+                      class="btn btn-outline-primary btn-round"> Next
+                    </button>
                   </div>
-              
+                  <!-- <div id="back-and-submit" class="d-flex justify-content-end align-items-end">
+                    <button type="submit" (click)="goToLeaveCategoryTab()"
+                      class="btn btn-outline-primary btn-round"> Next </button>
+                  </div> -->
+                  
                 </form>
+                
+
+                
               </div>
               
 
@@ -544,12 +547,38 @@
                   <form [formGroup]="form">
                     <div formArrayName="categories">
                       <div *ngFor="let category of categories.controls; let i = index" class="form-group row mb-4 pb-2 position-relative" [formGroupName]="i">
+                        
+                        <div class="col-md-2">
+                          <!-- Gender Selection -->
+                          <label for="genderId">Select Gender</label>
+                          <!-- <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select gender" [(ngModel)]="selectedGenderId"
+                            (ngModelChange)="onGenderChange($event)" name="genderId" #genderId="ngModel" required>
+                            <nz-option *ngFor="let gender of genders" [nzValue]="gender.id" [nzLabel]="gender.name">
+                            </nz-option>
+                          </nz-select> -->
+                          
+                        <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select gender" formControlName="gender" 
+                        (ngModelChange)="onGenderChange($event, i)" required>
+                        <!-- Loop through accrualTypes and display options -->
+                        <nz-option *ngFor="let gender of genders" [nzValue]="gender.id" [nzLabel]="gender.name"></nz-option>
+                      </nz-select>
+                          
+                          <!-- <div *ngIf="genderId.invalid && genderId.touched" class="invalid-feedback">
+                            Gender is required.
+                          </div> -->
+                        </div>
+                        
                         <div class="col-md-2">
                           <label class="mb-2">Leave Category Name</label>
-                          <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select Leave Category Name" formControlName="leaveCategoryId" required>
-                            <!-- <nz-option *ngFor="let leaveCategory of leaveCategoryList" [nzValue]="leaveCategory.id" [nzLabel]="leaveCategory.name"></nz-option> -->
+                          <!-- <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select Leave Category Name" formControlName="leaveCategoryId" required>
                             <nz-option *ngFor="let leaveCategory of filteredLeaveCategories" [nzValue]="leaveCategory.id" [nzLabel]="leaveCategory.name"></nz-option>
+                          </nz-select> -->
+
+                          <nz-select *ngIf="filteredLeaveCategories.length > 0" style="width: 100%;" nzSize="large" nzPlaceHolder="Select Leave Category Name" formControlName="leaveCategoryId" required>
+                            <!-- <nz-option *ngFor="let leaveCategory of leaveCategoryList" [nzValue]="leaveCategory.id" [nzLabel]="leaveCategory.name"></nz-option> -->
+                            <nz-option *ngFor="let leaveCategory of filteredLeaveCategories[i]" [nzValue]="leaveCategory.id" [nzLabel]="leaveCategory.name"></nz-option>
                           </nz-select>
+                          
                           <!-- <input (keydown)="preventLeadingWhitespace($event)" id="leaveCategoryName" formControlName="leaveCategoryName" class="form-control" required [nzAutocomplete]="auto" placeholder="Select Leave Category Name" />
                           <nz-autocomplete #auto [nzDataSource]="filteredLeaveCategories"></nz-autocomplete> -->
                 
@@ -559,7 +588,7 @@
                         </div>
                         <div class="col-md-2">
                           <label class="mb-2">Leave Cycle</label>
-                          <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select Leave Cycle" formControlName="leaveCycleId" required>
+                          <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select Leave Cycle"  formControlName="leaveCycleId" required>
                             <nz-option *ngFor="let leaveCycle of leaveCycleList" [nzValue]="leaveCycle.id" [nzLabel]="leaveCycle.name"></nz-option>
                           </nz-select>
                 
