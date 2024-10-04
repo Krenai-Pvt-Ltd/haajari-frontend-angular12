@@ -35,7 +35,7 @@ button.btn.close-btn {
   position: absolute;
   right: 0px;
   top: 5px;
-  color: #6666f3;
+  color: var(--primary-color);
   cursor: pointer;
 }
 .errorboxmain {
@@ -70,12 +70,12 @@ button.btn.close-btn {
   background-color: rgba(255, 159, 67, 0.08) !important;
 }
 .select-user-count b {
-  color: #6666f3;
+  color: var(--primary-color);
   font-size: 13px;
 }
 .all-select-user {
   background-color: #f0f0ff;
-  color: #6666f3;
+  color: var(--primary-color);
   padding: 4px 10px;
   border-radius: 2px;
   font-size: 13px;
@@ -105,7 +105,9 @@ button.btn.close-btn {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: #6666f3 !important; /* Change to your preferred color */
+  background-color: var(
+    --primary-background-color
+  ) !important; /* Change to your preferred color */
   margin: 0 4px;
   animation: dotOpacity 1.4s infinite ease-in-out both;
 }
@@ -143,8 +145,8 @@ button.btn.close-btn {
 }
 
 .createShift {
-  border: 1px solid #6666f3;
-  color: #6666f3;
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
   border-radius: 2px;
 }
 
@@ -176,7 +178,7 @@ button.btn.close-btn {
 }
 
 .learn-more {
-  color: #6666f3;
+  color: var(--primary-color);
   font-size: 14px;
   font-weight: 500;
 }
@@ -332,5 +334,5 @@ button.btn.close-btn {
   border-right: 1px solid #2f2e41;
 }
 .form-check input[type="checkbox"] {
-  accent-color: #6666f2;
+  accent-color: var(--primary-color);
 }

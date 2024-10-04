@@ -7,6 +7,7 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { Key } from 'src/app/constant/key';
+import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
 
@@ -18,7 +19,8 @@ export class AuthGuard implements CanActivate {
     private router: Router,
     private rbacService: RoleBasedAccessControlService,
     private helperService: HelperService,
-    private _subscriptionPlanService: SubscriptionPlanService
+    private _subscriptionPlanService: SubscriptionPlanService,
+    private _onboardingService: OrganizationOnboardingService,
   ) {
     this.PLAN_PURCHASED = _subscriptionPlanService
   }
@@ -43,6 +45,14 @@ export class AuthGuard implements CanActivate {
       this.router.navigate(['/auth/login']);
       return false;
     }
+    this._onboardingService.getOrgOnboardingStep().subscribe((response: any) => {
+      const step = parseInt(response?.object?.step);
+
+      if (step < 5) {
+        this.router.navigate(['organization-onboarding/personal-information']);
+      }
+    });
+
 
     // if (this.isOrganizationOnboarded(this.ONBOARDING_STEP)) {
     //   console.log(this.ONBOARDING_STEP);

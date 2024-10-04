@@ -129,7 +129,7 @@
               "
             >
               <div
-                class="add-shift-box d-flex align-items-center justify-content-between p-3 border-bottom pt-2 pb-2"
+                class="add-shift-box d-flex align-items-center justify-content-between p-3 border-bottom"
               >
                 <div class="">
                   <h6 class="text-truncate mb-0">Shifts</h6>
@@ -150,7 +150,7 @@
                 "
               >
                 <div
-                  class="shift-time p-3 m-3"
+                  class="shift-time m-3"
                   *ngFor="
                     let organizationShiftTimingResponse of organizationShiftTimingWithShiftTypeResponse.organizationShiftTimingResponseList;
                     let i = index
@@ -173,7 +173,7 @@
                             [attr.aria-expanded]="true"
                             (click)="toggleCollapse(i)"
                           >
-                            {{i + 1}}
+                            {{ i + 1 }}
                           </span>
                         </div>
                         <div class="">
@@ -315,7 +315,6 @@
                     <div
                       class="collapse multi-collapse show"
                       [id]="'multiCollapseExample' + i"
-                     
                     >
                       <div class="shift-in-out-box row mt-3 p-3 m-0">
                         <div class="col-md-4">
@@ -932,13 +931,12 @@
                     <div
                       class="employ-lost-footer border-top p-2 d-flex align-items-center justify-content-end"
                     >
-                    <!-- [disabled]="
+                      <!-- [disabled]="
                           userNameWithShiftName?.length > 0 && !isValidated
                         " -->
                       <button
                         class="btn mannualSubmit"
                         (click)="editShiftStaffInfo()"
-                        
                       >
                         <span *ngIf="!isEditStaffLoader">Submit</span>
                         <div

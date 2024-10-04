@@ -1,5 +1,5 @@
 <div class="page-wrapper">
-  <div class="page-content-tab">
+  <div [ngClass]="ROLE == 'USER' ? 'page-content-tab employeeLoginCard' : 'page-content-tab'">
     <app-hajiri-page-loader *ngIf="count < 6">
     </app-hajiri-page-loader>
     <div class="container-fluid" *ngIf="count >= 6">
@@ -16,7 +16,7 @@
             <div class="back-btns-box" (click)="location.back()" *ngIf="ROLE == 'USER' && userId !== UUID">
               <i class="bi bi-chevron-left"></i>
             </div>
-            <h6 class="mt-2">Go Back</h6>
+            <!-- <h6 class="mt-2">Go Back</h6> -->
           </div>
         </div>
         <div [ngClass]="{
@@ -90,8 +90,8 @@
                           <i class="fas fa-camera"></i>
                         </span>
                       </div>
-                      <div class="met-profile_user-detail">
-                        <h5 class="met-user-name">
+                      <div class="met-profile_user-detail ">
+                        <h5 class="met-user-name d-flex justify-content-start align-items-center gap-2">
                           {{ user?.name || "N/A" }}
                           <button type="button" *ngIf="
                               user!.employeeOnboardingStatus?.response ==
@@ -114,12 +114,7 @@
                             class="btn btn-soft-success btn-round"
                           >
                             Approve
-                          </button><button
-                            type="button"
-                            class="btn btn-soft-danger btn-round"
-                          >
-                            Reject
-                          </button></div> -->
+                          </button><button type="button" class="btn btn-soft-danger btn-round" > Reject </button></div> -->
                       </div>
                     </div>
                   </div>
@@ -128,7 +123,7 @@
                     <ul class="list-unstyled personal-detail mb-0">
                       <li class="font-13">
                         <i class="las la-phone mr-2 text-secondary font-18 align-middle"></i>
-                        <b> phone </b> : {{ user?.phoneNumber || "N/A" }}
+                        <b> Phone </b> : {{ user?.phoneNumber || "N/A" }}
                       </li>
                       <li class="mt-2 font-13">
                         <i class="las la-envelope text-secondary font-18 align-middle mr-2"></i>
@@ -216,7 +211,246 @@
               <!-- Tab panes -->
               <div class="tab-content">
                 <div class="p-3" id="home" role="" *ngIf="activeHomeTabFlag">
-                  <div class="row">
+
+                  <!-- New Card -->
+                  <div class="dashCardsWrapper">
+                    <div class="row dasMainCardrow">
+                      <div class="col-lg-12">
+                        <div class="dashSectitle">
+                          <h3>Attendence</h3>
+                          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nesciunt, sed.</p>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-md-4 col-sm-12 mb-lg-0 mb-sm-3">
+                        <div class="dashCardMain">
+                          <img src="assets/images/dashboardIcon/log-in.svg" alt="" class="dashCardIcon">
+                          <div class="dashCardInner">
+                            <h3>Check In</h3>
+                            <p class="checkInTime">10:00 AM</p>
+                            <span class="checkInLate">Late By : 01 Min</span>
+                            <button class="btn w-100 chckINBtn">Check In</button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-md-4 col-sm-12 mb-lg-0 mb-sm-3">
+                        <div class="dashCardMain">
+                          <img src="assets/images/dashboardIcon/logout.svg" alt="" class="dashCardIcon">
+                          <div class="dashCardInner">
+                            <h3>Check Out</h3>
+                            <p class="checkInTime">10:00 AM</p>
+                            <span class="tttlWrkHrs">Total Hours : 08:00 Hrs </span>
+                            <button class="btn w-100 chckOutBtn">Check Out</button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-md-4 col-sm-12 mb-lg-0 mb-sm-3">
+                        <div class="dashCardMain">
+                          <img src="assets/images/dashboardIcon/coffee-break.svg" alt="" class="dashCardIcon">
+                          <div class="dashCardInner">
+                            <h3>Break Time</h3>
+                            <p class="checkInTime">00:20 Min</p>
+                            <!-- <span class="checkInLate">Late By : 01 Min</span> -->
+                            <button class="btn w-100 chckINBtn">Break</button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-md-4 col-sm-12 mb-lg-0 mb-sm-3">
+                        <div class="dashCardMain">
+                          <img src="assets/images/dashboardIcon/timer.svg" alt="" class="dashCardIcon">
+                          <div class="dashCardInner">
+                            <h3>Break Count</h3>
+                            <p class="checkInTime">02</p>
+                            <button class="btn w-100 chckOutBtn" disabled>Back</button>
+                            <!-- <span class="checkInLate">Late By : 01 Min</span>
+                            <button class="btn w-100 chckINBtn">Check In</button> -->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row dasMainCardrow">
+                      <div class="col-lg-12">
+                        <div class="dashSectitle">
+                          <h3>Current Month</h3>
+                          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nesciunt, sed.</p>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-md-4 col-sm-12 mb-lg-0 mb-sm-3">
+                        <div class="dashCardMain">
+                          <img src="assets/images/dashboardIcon/workingdays.svg" alt="" class="dashCardIcon">
+                          <div class="dashCardInner">
+                            <h3>Total Working Days</h3>
+                            <p class="checkInTime mb-0">22</p>
+                            <!-- <span class="checkInLate">Late By : 01 Min</span> -->
+                            <!-- <button class="btn w-100 chckINBtn">Check In</button> -->
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-md-4 col-sm-12 mb-lg-0 mb-sm-3">
+                        <div class="dashCardMain">
+                          <img src="assets/images/dashboardIcon/present.svg" alt="" class="dashCardIcon">
+                          <div class="dashCardInner">
+                            <h3>Present</h3>
+                            <p class="checkInTime mb-0">15</p>
+                            <!-- <span class="tttlWrkHrs">Total Hours : 08:00 Hrs </span> -->
+                            <!-- <button class="btn w-100 chckOutBtn">Check Out</button> -->
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-md-4 col-sm-12 mb-lg-0 mb-sm-3">
+                        <div class="dashCardMain">
+                          <img src="assets/images/dashboardIcon/absence.svg" alt="" class="dashCardIcon">
+                          <div class="dashCardInner">
+                            <h3>Absent</h3>
+                            <p class="checkInTime mb-0">05</p>
+                            <!-- <span class="checkInLate">Late By : 01 Min</span> -->
+                            <!-- <button class="btn w-100 chckINBtn">Break</button> -->
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-md-4 col-sm-12 mb-lg-0 mb-sm-3">
+                        <div class="dashCardMain">
+                          <img src="assets/images/dashboardIcon/leaves.svg" alt="" class="dashCardIcon">
+                          <div class="dashCardInner">
+                            <h3>Leaves</h3>
+                            <p class="checkInTime mb-0">02</p>
+                            <!-- <button class="btn w-100 chckOutBtn">Back</button> -->
+                            <!-- <span class="checkInLate">Late By : 01 Min</span>
+                            <button class="btn w-100 chckINBtn">Check In</button> -->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row dasMainCardrow">
+                      <div class="col-lg-12">
+                        <div class="dashSectitle">
+                          <h3>Upcoming Holidays</h3>
+                          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nesciunt, sed.</p>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-md-4 col-sm-12 mb-lg-0 mb-sm-3">
+                        <div class="dashCardMain">
+                          <div class="dashCardInner">
+                            <div class="upHolidy d-flex justify-content-start align-items-start gap-3">
+                              <div class="upHolidyDate">
+                                12
+                              </div>
+                              <div class="upHolidyDateInfo">
+                                <span>Saturday, Oct 2024</span>
+                                <p class="mb-0">Dussehra</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-md-4 col-sm-12 mb-lg-0 mb-sm-3">
+                        <div class="dashCardMain">
+                          <div class="dashCardInner">
+                            <div class="upHolidy d-flex justify-content-start align-items-start gap-3">
+                              <div class="upHolidyDate">
+                                12
+                              </div>
+                              <div class="upHolidyDateInfo">
+                                <span>Saturday, Oct 2024</span>
+                                <p class="mb-0">Dussehra</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-md-4 col-sm-12 mb-lg-0 mb-sm-3">
+                        <div class="dashCardMain">
+                          <div class="dashCardInner">
+                            <div class="upHolidy d-flex justify-content-start align-items-start gap-3">
+                              <div class="upHolidyDate">
+                                12
+                              </div>
+                              <div class="upHolidyDateInfo">
+                                <span>Saturday, Oct 2024</span>
+                                <p class="mb-0">Dussehra</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-md-4 col-sm-12 mb-lg-0 mb-sm-3">
+                        <div class="dashCardMain">
+                          <div class="dashCardInner">
+                            <div class="upHolidy d-flex justify-content-start align-items-start gap-3">
+                              <div class="upHolidyDate">
+                                12
+                              </div>
+                              <div class="upHolidyDateInfo">
+                                <span>Saturday, Oct 2024</span>
+                                <p class="mb-0">Dussehra</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row dasMainCardrow">
+                      <div class="col-lg-12">
+                        <div class="dashSectitle">
+                          <h3>Request (Leaves & Time Update)</h3>
+                          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nesciunt, sed.</p>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-md-4 col-sm-12 mb-lg-0 mb-sm-3">
+                        <div class="dashCardMain">
+                          <img src="assets/images/dashboardIcon/workingdays.svg" alt="" class="dashCardIcon">
+                          <div class="dashCardInner">
+                            <h3>Leave Request</h3>
+                            <p class="checkInTime mb-3">22 Oct, 2024</p>
+                            <span class="checkInLate">Pending</span>
+                            <p class="mb-0 leaveMsg">Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat, corporis.</p>
+                            <!-- <button class="btn w-100 chckINBtn">Check In</button> -->
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-md-4 col-sm-12 mb-lg-0 mb-sm-3">
+                        <div class="dashCardMain">
+                          <img src="assets/images/dashboardIcon/workingdays.svg" alt="" class="dashCardIcon">
+                          <div class="dashCardInner">
+                            <h3>Leave Request</h3>
+                            <p class="leeavReqfromDate">22 Oct, 2024 - 26 Oct, 2024</p>
+                            <span class="checkInLate">Pending</span>
+                            <p class="mb-0 leaveMsg">Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat, corporis.</p>
+                            <!-- <button class="btn w-100 chckINBtn">Check In</button> -->
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-md-4 col-sm-12 mb-lg-0 mb-sm-3">
+                        <div class="dashCardMain">
+                          <img src="assets/images/dashboardIcon/workingdays.svg" alt="" class="dashCardIcon">
+                          <div class="dashCardInner">
+                            <span class="checkInLate">Pending</span>
+                            <h3>Time Updation Request</h3>
+                            <div class="d-flex justify-content-start align-items-start gap-4 mb-1">
+                              <div class="chkInTime">
+                                <span>Checked In</span>
+                                <p class="mb-0">10:30 AM</p>
+                              </div>
+                              <div class="border-start chkInTime ps-3 reqTime">
+                                <span>Requested</span>
+                                <p class="mb-0">10:05 AM</p>
+                              </div>
+                            </div>
+                            
+                            <p class="mb-0 leaveMsg">Today | Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                            <!-- <button class="btn w-100 chckINBtn">Check In</button> -->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <!-- New Card -->
+
+                  <div class="row d-none">
                     <!-- <div class="align-items-center d-flex justify-content-end add-filtter mb-2"
                     ><a class="btn" data-bs-toggle="modal" data-bs-target="#donateCoinsModal"><i class="bi bi-plus" style="font-size: 20px"></i>Donate Coins </a></div> -->
                     <div class="col-md-3">
@@ -1844,8 +2078,7 @@
                           </div>
                           <div class="col-md-6 mt-3">
                             <h4>Payroll Summary</h4>
-                            <p class="text-muted">From {{this.startDate | date: 'dd'}} - {{this.endDate | date: 'dd
-                              MMMM, yyyy'}}</p>
+                            <p class="text-muted">From {{this.startDate | date: 'dd'}} - {{this.endDate | date: 'dd MMMM, yyyy'}}</p>
                             <div class="d-flex amounts">
                               <div class="grosspay-border"></div>
                               <div class="amount">

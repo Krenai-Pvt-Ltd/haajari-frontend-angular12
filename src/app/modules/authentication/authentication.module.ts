@@ -18,7 +18,7 @@ import { OnboardingWhatsAppSlackComponent } from './onboarding-whats-app-slack/o
 import { OnboardingWhatappComponent } from './onboarding-whatapp/onboarding-whatapp.component';
 import { OrganizationRegistrationFormComponent } from './organization-registration-form/organization-registration-form.component';
 import { NzSelectModule } from 'ng-zorro-antd/select';
-
+import { NzProgressModule } from 'ng-zorro-antd/progress';
 @NgModule({
   declarations: [
     AuthenticationComponent,
@@ -41,6 +41,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
     ReactiveFormsModule,
     NgOtpInputModule,
     NzSelectModule,
+    NzProgressModule,
     NgxMaskModule.forRoot(),
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
