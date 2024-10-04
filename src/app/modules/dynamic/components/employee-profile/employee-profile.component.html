@@ -438,7 +438,7 @@
                                 <p class="mb-0">10:05 AM</p>
                               </div>
                             </div>
-                            
+
                             <p class="mb-0 leaveMsg">Today | Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
                             <!-- <button class="btn w-100 chckINBtn">Check In</button> -->
                           </div>
@@ -1106,7 +1106,7 @@
                           </div>
                         </div>
                       </ng-container>
-                      <!-- 
+                      <!--
                       <div class="row"><ul class="nav nav-tabs bg-light border-top" role="tablist"><li class="nav-item" (click)="changeLogTabInAttendanceTab(LEAVE_LOG)"><a class="nav-link active" data-bs-toggle="tab" href="#leave-log" role="tab" aria-selected="true">Leave</a></li><li class="nav-item" (click)="changeLogTabInAttendanceTab(OVERTIME_LOG); financeSectionMethodCall()"><a class="nav-link" data-bs-toggle="tab" href="#overtime-log" role="tab" aria-selected="false">Overtime</a></li><li class="nav-item" (click)="changeLogTabInAttendanceTab(LOP_REVERSAL_LOG); getAttendanceRequestLogData()"><a class="nav-link" data-bs-toggle="tab" href="#lop-reversal-log" role="tab" aria-selected="true">Lop Reversal</a></li></ul></div> -->
                       <div class="row">
                         <ul class="nav nav-tabs bg-light border-top" role="tablist">
@@ -2211,7 +2211,7 @@
                               <small style="margin-left: 24px;" class="text-muted">{{employeePayslipLogResponse.paySlipGeneratedDate | date:"dd MMM yy, hh:mm a"}}</small>
                             </div>
                             <span class="badge badge-outline-success badge-pill" (click)="downloadPaySlip(employeePayslipLogResponse.paySlipUrl, '')">
-                              <i class="ti ti-arrow-bar-to-down"></i>Download 
+                              <i class="ti ti-arrow-bar-to-down"></i>Download
                             </span>
                           </li>
                         </ul>
@@ -2854,6 +2854,9 @@
                                 ></i> -->
                               </p>
                             </td>
+                            <td class="nav-item" *ngIf="allowEdit" (click)="routeToUserDetails('/employee-onboarding/employee-onboarding-form')">
+                              <a class="nav-link" data-bs-toggle="tab" href="/employee-onboarding/employee-onboarding-form" role="tab" aria-selected="false">Complete your profile</a>
+                            </td>
                           </tr>
                         </table>
                         <table class="table table-bordered">
@@ -3158,7 +3161,7 @@
                             <p>No data available :)</p>
                           </div>
                         </ng-template>
-                        <!-- 
+                        <!--
                           <table class="table table-bordered"><tbody class="table-design" *ngIf="onboardingPreviewData.userGuarantorInformation!=undefined && onboardingPreviewData.userGuarantorInformation.length>0"><tr><td>Relation : {{ onboardingPreviewData.userGuarantorInformation[1].relation }}</td><td>Name : {{ onboardingPreviewData.userGuarantorInformation[1].name }}</td><td>Phone Number : {{ onboardingPreviewData.userGuarantorInformation[1].phoneNumber }}</td><td>Email : {{ onboardingPreviewData.userGuarantorInformation[1].emailId ? onboardingPreviewData.userGuarantorInformation[1].emailId : 'N/A' }}</td></tr></tbody></table> -->
                       </div>
                       <div class="onboarding-deta">
@@ -3693,21 +3696,21 @@
       </div>
       <!-- <div *ngIf="POST_HOUR_TOGGLE" class="modal show d-block" id="post-hour" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog modal-dialog-centered" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Define Post Hrs.</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="postHourModalClose()"></button></div><div class="modal-body"><form nz-form #postHourOvertimeSettingForm="ngForm">
               forr
-              <nz-form-item><nz-form-label [nzFor]="'postHour'">Enter the number of hours before shift start to be counted as overtime</nz-form-label><nz-form-control nzErrorTip="Please enter a valid hour."><nz-time-picker 
-                    id="postHour" 
-                    nzFormat="HH:mm" 
-                    [(ngModel)]="overtimeSettingRequest.hour" 
-                    (ngModelChange)="updatePostHourOvertimeSetting($event)" 
-                    nzPlaceHolder="Enter duration here" 
-                    [nzDisabledHours]="disabledHours" 
-                    required 
-                    name="postHour" 
-                    #postHour="ngModel"></nz-time-picker></nz-form-control></nz-form-item><div class="d-flex justify-content-end modal-footer"><button 
-                  type="submit" 
-                  class="btn btn-outline-primary btn-round" 
-                  [disabled]="postHourOvertimeSettingForm.invalid" 
-                  (click)="enableOrDisablePostHourOvertimeSettingMethodCall()"> 
-                  Submit 
+              <nz-form-item><nz-form-label [nzFor]="'postHour'">Enter the number of hours before shift start to be counted as overtime</nz-form-label><nz-form-control nzErrorTip="Please enter a valid hour."><nz-time-picker
+                    id="postHour"
+                    nzFormat="HH:mm"
+                    [(ngModel)]="overtimeSettingRequest.hour"
+                    (ngModelChange)="updatePostHourOvertimeSetting($event)"
+                    nzPlaceHolder="Enter duration here"
+                    [nzDisabledHours]="disabledHours"
+                    required
+                    name="postHour"
+                    #postHour="ngModel"></nz-time-picker></nz-form-control></nz-form-item><div class="d-flex justify-content-end modal-footer"><button
+                  type="submit"
+                  class="btn btn-outline-primary btn-round"
+                  [disabled]="postHourOvertimeSettingForm.invalid"
+                  (click)="enableOrDisablePostHourOvertimeSettingMethodCall()">
+                  Submit
                 </button></div></form></div></div></div></div> -->
       <!-- show image modal -->
       <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#showImageModal" #openViewModal id="openViewModal"></button>
@@ -4043,7 +4046,7 @@
       </div>
       <div class="modal-body">
         <form [formGroup]="attendanceTimeUpdateForm" (ngSubmit)="submitForm()">
-          
+
           <div class="mb-3 row">
             <label for="requestType" class="col-sm-4 col-form-label">Request Type <span class="text-danger">*</span>
             </label>
@@ -4056,7 +4059,7 @@
               </nz-select>
             </div>
           </div>
-         
+
           <div class="mb-3 row">
             <label for="requestedDate" class="col-sm-4 col-form-label">Date <span class="text-danger">*</span>
             </label>
@@ -4064,7 +4067,7 @@
               <nz-date-picker formControlName="requestedDate" id="requestedDate" nzFormat="yyyy-MM-dd" (ngModelChange)="onDateChange($event)" class="w-100" [nzDisabledDate]="disabledDate"></nz-date-picker>
             </div>
           </div>
-          
+
           <div class="mb-3 row">
             <label for="attendanceId" class="col-sm-4 col-form-label">Select Time <span class="text-danger">*</span>
             </label>
@@ -4075,7 +4078,7 @@
               <small class="text-muted d-block mt-2" *ngIf="!attendanceTimeUpdateForm.get('requestType')?.value || !attendanceTimeUpdateForm.get('requestedDate')?.value"> Please select the Request Type and Date above before choosing a time! </small>
             </div>
           </div>
-          
+
           <div class="mb-3 row">
             <label for="updatedTime" class="col-sm-4 col-form-label">Update Time <span class="text-danger">*</span>
             </label>
@@ -4083,7 +4086,7 @@
               <nz-time-picker formControlName="updatedTime" id="updatedTime" nzFormat="HH:mm" class="w-100"></nz-time-picker>
             </div>
           </div>
-         
+
           <div class="mb-3 row">
             <label for="managerId" class="col-sm-4 col-form-label">Manager <span class="text-danger">*</span>
             </label>
@@ -4093,7 +4096,7 @@
               </nz-select>
             </div>
           </div>
-         
+
           <div class="mb-3 row">
             <label for="requestReason" class="col-sm-4 col-form-label">Reason <span class="text-danger">*</span>
             </label>
@@ -4135,7 +4138,7 @@
             <label class="form-check-label" for="createRequestType">Mark Present</label>
           </div>
         </div>
-        
+
 
         <form [formGroup]="attendanceTimeUpdateForm">
           <!-- Fields for UPDATE request -->
@@ -4164,7 +4167,7 @@
                 </small>
               </div>
             </div>
-            
+
             <div class="mb-3 row">
               <label for="attendanceId" class="col-sm-4 col-form-label">Select Time<span class="text-danger">*</span></label>
               <div class="col-sm-8">
@@ -4186,7 +4189,7 @@
               </div>
             </div>
           </div>
-        
+
           <!-- Fields for CREATE request -->
            <!-- {{selectedDateAttendance}} -->
           <div *ngIf="attendanceRequestType === 'CREATE'" formGroupName="createGroup">
@@ -4217,7 +4220,7 @@
               </div>
             </div>
           </div>
-        
+
           <!-- Common Fields for Both -->
           <div class="mb-3 row">
             <label for="managerId" class="col-sm-4 col-form-label">Manager<span class="text-danger">*</span></label>
@@ -4236,7 +4239,7 @@
             </div>
           </div>
         </form>
-        
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -4246,7 +4249,7 @@
         (click)="submitForm()">Submit</button>
 
       </div>
-      
+
     </div>
   </div>
 </div>
@@ -4320,7 +4323,7 @@
                     <p>In Time Date: <u>{{ log.inRequestTime | date:"MMM dd, yyyy 'at' hh:mm a" }}</u></p>
                     <p>Out Time Date: <u>{{ log.outRequestTime | date:"MMM dd, yyyy 'at' hh:mm a" }}</u></p>
                   </div>
-                  <h6>Reason: </h6> 
+                  <h6>Reason: </h6>
                   <p class="text-muted mb-0">
                    {{ log.requestReason }}</p>
                 </div>
@@ -4345,7 +4348,7 @@
   </div>
 </div>
 
- 
+
 <!-- <div id="attendanceLogsModal" class="modal fade" tabindex="-1" aria-labelledby="attendanceLogsModalLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-lg">

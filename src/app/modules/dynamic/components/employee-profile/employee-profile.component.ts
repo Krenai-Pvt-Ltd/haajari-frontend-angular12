@@ -171,7 +171,7 @@ export class EmployeeProfileComponent implements OnInit {
   MANAGER = Key.MANAGER;
   USER = Key.USER;
 
-  @ViewChild("paySlipTab") paySlipTab !: ElementRef; 
+  @ViewChild("paySlipTab") paySlipTab !: ElementRef;
   goToPaySlipTab(){
     this.paySlipTab.nativeElement.click();
   }
@@ -244,7 +244,7 @@ export class EmployeeProfileComponent implements OnInit {
     });
     this.getHrPolicy();
 
-    
+
     // this.attendanceTimeUpdateForm = this.fb.group({
     //   requestType: [null, [Validators.required]],
     //   requestedDate: [null, [Validators.required]],
@@ -269,7 +269,7 @@ export class EmployeeProfileComponent implements OnInit {
       managerId: [null, Validators.required],
       requestReason: [null, Validators.required]
     });
-    
+
     this.donateCoinsForm = this.fb.group({
       userId: ['', Validators.required],
       coins: ['', [Validators.required, Validators.min(1)]],
@@ -280,7 +280,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.getSuperCoinsResponseForEmployeeData();
     this.getUserListToDonateCoins();
     this.getDonateSuperCoinReasonData();
-   
+
   }
 
   getRoleData() {
@@ -350,7 +350,7 @@ export class EmployeeProfileComponent implements OnInit {
   approvedToggle = false;
   @ViewChild('closeRejectModalButton') closeRejectModalButton!: ElementRef;
   updateStatusUserByUuid(type: string) {
-    
+
     if (type == 'REJECTED') {
       this.toggle = true;
       this.setReasonOfRejectionMethodCall();
@@ -406,7 +406,7 @@ export class EmployeeProfileComponent implements OnInit {
   // }
 
   // getTotalPresentAbsentMonthwise(): void {
-  //   
+  //
   //   this.dataService
   //     .getUserAttendanceDetailsByDateDuration(
   //       this.userId,
@@ -461,7 +461,7 @@ export class EmployeeProfileComponent implements OnInit {
   clientX: string = '0px';
   clientY: string = '0px';
   openModal(mouseEnterInfo: any): void {
-    
+
     if (!this.attendanceDetailModalToggle) {
       // console.log("events : ", mouseEnterInfo.event);
       this.userAttendanceDetailDateWise.checkInTime = '';
@@ -511,13 +511,13 @@ export class EmployeeProfileComponent implements OnInit {
   @ViewChild('closeAttendanceDetailModalButton')
   closeAttendanceDetailModalButton!: ElementRef;
   mouseLeaveInfo(mouseEnterInfo: any): void {
-    
+
     this.closeAttendanceModal();
   }
 
   // });
   getUserAttendanceDataFromDate(sDate: string, eDate: string): void {
-    
+
     this.dataService
       .getUserAttendanceDetailsByDateDuration(this.userId, 'USER', sDate, eDate)
       .subscribe(
@@ -757,7 +757,7 @@ export class EmployeeProfileComponent implements OnInit {
   forwordFlag: boolean = false;
 
   goforward() {
-    
+
     const calendarApi = this.calendarComponent.getApi();
 
     calendarApi.next();
@@ -780,7 +780,7 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
   changeForwardButtonVisibilty(calendarApi: any) {
-    
+
     var enrolmentDate = new Date(this.prevDate);
     if (calendarApi?.getDate().getFullYear() != new Date().getFullYear()) {
       this.forwordFlag = true;
@@ -807,7 +807,7 @@ export class EmployeeProfileComponent implements OnInit {
 
   backwardFlag: boolean = true;
   goBackward() {
-    
+
     const calendarApi = this.calendarComponent.getApi();
     var date = new Date(this.prevDate);
     var month = date.getMonth();
@@ -902,7 +902,7 @@ export class EmployeeProfileComponent implements OnInit {
   submitLeaveLoader: boolean = false;
   @ViewChild('fileInput') fileInput!: ElementRef;
   saveLeaveRequestUser() {
-    
+
 
     if (this.userLeaveForm.invalid || this.isFileUploaded) {
       return;
@@ -949,7 +949,7 @@ export class EmployeeProfileComponent implements OnInit {
       request.daysCount = +this.lopReversalApplicationRequestForm.get('daysCount')?.value; // Cast the value to a number
       request.notes = this.lopReversalApplicationRequestForm.get('notes')?.value;
       request.userUuid = this.userId;
-      
+
       this.dataService.registerLopReversalApplication(request).subscribe((response) => {
         if(response.message != null){
           this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
@@ -1045,7 +1045,7 @@ export class EmployeeProfileComponent implements OnInit {
   selectStatusFlag: boolean = false;
   isLeaveErrorPlaceholder: boolean = false;
   getUserLeaveLogByUuid() {
-    
+
     this.isLeaveShimmer = true;
     // this.selectStatusFlag=true;
 
@@ -1265,7 +1265,7 @@ export class EmployeeProfileComponent implements OnInit {
   pancardString: string = '';
   // isDocumentsShimmer:boolean=false;
   getEmployeeDocumentsDetailsByUuid() {
-    
+
     // this.isDocumentsShimmer=true;
     this.dataService.getEmployeeDocumentAsList(this.userId).subscribe(
       (data) => {
@@ -1350,7 +1350,7 @@ export class EmployeeProfileComponent implements OnInit {
   hideNextButton: boolean = false;
   @ViewChild('openViewModal') openViewModal!: ElementRef;
   openPdfModel(viewString: string, docsName: string) {
-    
+
     this.nextOpenDocName = docsName;
     this.downloadString = viewString;
     this.previewString =
@@ -1573,7 +1573,7 @@ export class EmployeeProfileComponent implements OnInit {
 
   @ViewChild('openRejectModal') openRejectModal!: ElementRef;
   setReasonOfRejectionMethodCall() {
-    
+
     this.dataService
       .setReasonOfRejection(this.userId, this.reasonOfRejectionProfile)
       .subscribe(
@@ -1762,7 +1762,7 @@ export class EmployeeProfileComponent implements OnInit {
 
   salaryTemplateComponentResponse: SalaryTemplateComponentResponse = new SalaryTemplateComponentResponse();
   getSalaryTemplateComponentByUserUuidMethodCall() {
-    
+
     this.preRuleForShimmersAndErrorPlaceholdersForSalaryTemplateMethodCall();
     this.dataService.getSalaryTemplateComponentByUserUuid().subscribe((response) => {
 
@@ -1841,7 +1841,7 @@ export class EmployeeProfileComponent implements OnInit {
 
   statutoryResponseList: StatutoryResponse[] = [];
   getStatutoryByOrganizationIdMethodCall() {
-    
+
     this.dataService.getStatutoryByOrganizationId().subscribe(
       (response) => {
         this.statutoryResponseList = response.listOfObject;
@@ -2046,7 +2046,7 @@ export class EmployeeProfileComponent implements OnInit {
 
   organizationRegistrationDate: string = '';
   getOrganizationRegistrationDateMethodCall() {
-    
+
     this.dataService.getOrganizationRegistrationDate().subscribe(
       (response) => {
         this.organizationRegistrationDate = response;
@@ -2057,7 +2057,7 @@ export class EmployeeProfileComponent implements OnInit {
     );
   }
 
-  
+
 
 
   // Finance Section APIs
@@ -2145,7 +2145,7 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
   // #################-- Payroll chart code --###########################
-  
+
   view: [number, number] = [375, 375]; // explicitly define as tuple
   // options
   showLegend: boolean = false;
@@ -2363,6 +2363,7 @@ export class EmployeeProfileComponent implements OnInit {
     // this.displaySuccessModal = true;
     switch (response) {
       case 'REJECTED':
+      case 'REQUESTED':
         this.allowEdit = true;
         break;
       case 'APPROVED':
@@ -2488,7 +2489,7 @@ export class EmployeeProfileComponent implements OnInit {
   documentName: string = '';
 
   addNewDocument() {
-    
+
     this.addMoreDocModalButton.nativeElement.click();
     if (!this.onboardingPreviewData.employeeCompanyDocuments) {
       this.onboardingPreviewData.employeeCompanyDocuments = [];
@@ -2585,7 +2586,7 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
   assignAdditionalDocumentUrl(index: number, url: string): void {
-    
+
     if (!this.employeeCompanyDocuments) {
       this.onboardingPreviewData.employeeCompanyDocuments = [];
     }
@@ -2611,7 +2612,7 @@ export class EmployeeProfileComponent implements OnInit {
   // }
 
   setEmployeeCompanyDocumentsMethodCall(): void {
-    
+
     if (this.onboardingPreviewData.employeeCompanyDocuments == null) {
       this.onboardingPreviewData.employeeCompanyDocuments = [];
     }
@@ -2732,7 +2733,7 @@ export class EmployeeProfileComponent implements OnInit {
   }
 
   onFileSelected(event: Event): void {
-    
+
     const element = event.currentTarget as HTMLInputElement;
     const fileList: FileList | null = element.files;
 
@@ -2801,12 +2802,12 @@ export class EmployeeProfileComponent implements OnInit {
     this.dataService.getEmployeeSalary(this.userId).subscribe(
       (data: AppraisalRequest) => {
         this.appraisalRequest = data;
-    
+
         this.appraisalRequestModalButton.nativeElement.click();
       },
       (error) => {
         console.error('Error fetching employee CTC:', error);
-      
+
       }
     );
   }
@@ -2820,7 +2821,7 @@ export class EmployeeProfileComponent implements OnInit {
       (error) => {
         console.error('Error submitting appraisal request:', error);
         this.helperService.showToast("Error submitting appraisal request!", Key.TOAST_STATUS_ERROR);
-       
+
       }
     );
   }
@@ -2864,12 +2865,12 @@ return
       (error) => {
         console.error('Error submitting bonus request:', error);
         this.helperService.showToast("Error submitting bonus request", Key.TOAST_STATUS_ERROR);
-       
+
       }
     );
   }}
 
-  //  new 
+  //  new
 
   search: string = '';
   pageNumber: number = 1;
@@ -2933,7 +2934,7 @@ return
     return Array.from({ length: totalPages }, (_, index) => index + 1);
   }
 
-  //  asset logs 
+  //  asset logs
 
   isAssetErrorPlaceholder: boolean = false;
   userAssetLog: any;
@@ -2951,7 +2952,7 @@ return
           this.userAssetLog = response.listOfObject;
           this.isAssetShimmer = false;
           if(response.listOfObject==null || this.userAssetLog.length == 0) {
-          this.isAssetPlaceholder = true; 
+          this.isAssetPlaceholder = true;
           }
         },
         (error) => {
@@ -2960,9 +2961,9 @@ return
         }
       );
   }
-  
 
-  // hr policy 
+
+  // hr policy
 
 
   fileUrl!: string;
@@ -3015,7 +3016,7 @@ return
 
 
 
-  //  attendance update fucnionality 
+  //  attendance update fucnionality
   attendanceCheckTimeResponse : AttendanceCheckTimeResponse[] = [];
   getAttendanceChecktimeListDate(): void {
     const formattedDate = this.datePipe.transform(this.requestedDate, 'yyyy-MM-dd');
@@ -3044,7 +3045,7 @@ return
         managerId: formValue.managerId,
         requestReason: formValue.requestReason
       };
-  
+
       if (this.attendanceRequestType === 'UPDATE') {
         attendanceTimeUpdateRequest = {
           ...attendanceTimeUpdateRequest,
@@ -3059,7 +3060,7 @@ return
           outRequestTime: formValue.createGroup.outRequestTime
         };
       }
-  
+
       this.dataService.sendAttendanceTimeUpdateRequest(this.userId, attendanceTimeUpdateRequest, this.attendanceRequestType, this.choosenDateString).subscribe(
         (response) => {
 
@@ -3084,7 +3085,7 @@ return
       );
     // }
   }
-  
+
 
   // submitForm(): void {
   //   debugger
@@ -3106,7 +3107,7 @@ return
 
   // onDateChange(date: Date | null): void {
   //   if (date) {
-  //     this.requestedDate = date; 
+  //     this.requestedDate = date;
   //     this.statusString = this.attendanceTimeUpdateForm.get('requestType')?.value || '';
   //     this.getAttendanceChecktimeListDate();
   //   }
@@ -3150,7 +3151,7 @@ return
       const updateGroup = this.attendanceTimeUpdateForm.get('updateGroup');
       const managerId = this.attendanceTimeUpdateForm.get('managerId');
       const requestReason = this.attendanceTimeUpdateForm.get('requestReason');
-  
+
       return (updateGroup ? updateGroup.valid : false) &&
              (managerId ? managerId.valid : false) &&
              (requestReason ? requestReason.valid : false);
@@ -3158,14 +3159,14 @@ return
       const createGroup = this.attendanceTimeUpdateForm.get('createGroup');
       const managerId = this.attendanceTimeUpdateForm.get('managerId');
       const requestReason = this.attendanceTimeUpdateForm.get('requestReason');
-  
+
       return (createGroup ? createGroup.valid : false) &&
              (managerId ? managerId.valid : false) &&
              (requestReason ? requestReason.valid : false);
     }
     return false;
   }
-  
+
 
   onAttendanceRequestTypeChange(): void {
     this.resetFormFields();
@@ -3183,8 +3184,8 @@ return
     this.attendanceTimeUpdateForm.get('managerId')?.reset();
     this.attendanceTimeUpdateForm.get('requestReason')?.reset();
   }
-  
-  
+
+
 
 
   resetForm(): void {
@@ -3225,7 +3226,7 @@ getAttendanceRequestLogData(debounceTime: number = 300) {
       clearTimeout(this.debounceTimer);
     }
     this.debounceTimer = setTimeout(() => {
-  
+
   // this.attendanceRequestLog = [];
   this.dataService.getAttendanceRequestLog(this.userId, this.pageNumberAttendanceLogs, this.itemPerPageAttendanceLogs).subscribe(response => {
     this.attendanceRequestLog = [...this.attendanceRequestLog, ...response.object];
@@ -3274,7 +3275,7 @@ closeAttendanceFunc() {
 }
 
 
-  //  super coins func 
+  //  super coins func
 
   employeeSuperCoinsResponse: EmployeeSuperCoinsResponse = {
     totalSuperCoins: 0,
@@ -3317,7 +3318,7 @@ closeAttendanceFunc() {
 
   donateCoinsForm!: FormGroup;
   isReasonTyped: boolean = false;
-  isReason: number = 0; 
+  isReason: number = 0;
   toggleReason(isTyped: boolean): void {
     this.isReasonTyped = isTyped;
     if (this.donateCoinsForm) {
@@ -3332,13 +3333,13 @@ closeAttendanceFunc() {
   }
 
 
-  
-  
 
-  
+
+
+
   // Requesting for overtime
   dateRange : Date[] = [];
-  
+
   selectTimeForOvertimeRequest(dates: Array<Date | null> | Date | Date[] | null): void {
     // Handle array of dates
     if (Array.isArray(dates)) {
@@ -3359,7 +3360,7 @@ closeAttendanceFunc() {
       this.overtimeRequestDTO.endTime = null;
     }
   }
-  
+
 
   overtimeRequestDTO : OvertimeRequestDTO = new OvertimeRequestDTO();
   registerOvertimeRequestMethodCall(){
@@ -3381,7 +3382,7 @@ closeAttendanceFunc() {
     this.overtimeRequestDTO.startTime = null;
     this.overtimeRequestDTO.endTime = null;
   }
-  
+
 
   LEAVE_LOG_TOGGLE : boolean = false;
   OVERTIME_LOG_TOGGLE : boolean = false;
@@ -3466,8 +3467,8 @@ closeAttendanceFunc() {
   )
   }
 
-  
-  
+
+
 }
 
 
