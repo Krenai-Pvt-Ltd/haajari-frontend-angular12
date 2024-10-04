@@ -9713,7 +9713,7 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
   z-index: 999;
   background-size: contain;
   background-color: #fff8f2;
-  padding: 20px 15px;
+  padding: 10px 15px;
   background-repeat: no-repeat;
   background-position: right bottom;
 }
