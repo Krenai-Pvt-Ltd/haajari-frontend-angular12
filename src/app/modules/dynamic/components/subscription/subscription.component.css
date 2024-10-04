@@ -70,7 +70,7 @@
 .plan-detail-box {
   background-color: #fff;
   border: 1px solid #f1f1f1;
-  height: 685px;
+  height: 750px;
 }
 .plan-detail-box h3 {
   color: #000;
@@ -136,7 +136,7 @@
 }
 
 .plan-pints li {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 400;
   line-height: 38px;
 }
@@ -150,4 +150,58 @@
 [class*=" bi-"]::before,
 [class^="bi-"]::before {
   font-weight: 600 !important;
+}
+.current-plan-box h4 {
+  color: #000;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  padding-top: 5px;
+}
+.current-plan-box h5 {
+  color: #000;
+  font-size: 26px;
+  font-style: normal;
+  font-weight: 600;
+}
+
+.plan-tag {
+  border-radius: 18.656px;
+  background: #f0f0ff;
+  padding: 3px 15px;
+  line-height: 22px;
+  color: var(--primary-color);
+  font-family: Roboto;
+  font-size: 14px;
+}
+.current-plan-box p {
+  color: #878a9a;
+  font-size: 16.692px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+}
+.active-plan-velue h4 {
+  color: #000;
+  font-size: 40.538px;
+  font-style: normal;
+  font-weight: 600;
+}
+
+.current-plan-box h3 {
+  color: #202020;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+}
+.progress {
+  background-color: #efefff;
+  height: 10px;
+  border-radius: 10px;
+}
+.start-end-date span {
+  color: #000;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
 }
