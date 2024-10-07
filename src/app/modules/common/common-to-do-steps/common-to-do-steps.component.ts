@@ -28,6 +28,7 @@ export class CommonToDoStepsComponent implements OnInit {
           }else{
           this.getStepsData();
           this.getOrganizationRegistratonProcessStepData();
+          this.isToDoStepsCompletedData();
           }
           // this.getOrganizationInitialToDoStepBar();
         }
