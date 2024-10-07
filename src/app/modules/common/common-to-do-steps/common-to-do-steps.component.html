@@ -1,12 +1,12 @@
 <div
   class="onboaredinStapBox p-3"
   (click)="saveOrgSecondaryToDoStepBarData(1)"
-  *ngIf="!isToDoStep"
+  *ngIf="!isToDoStep && ROLE == 'ADMIN'"
 >
 <!-- {{isToDoStep}} -->
   <div class="d-flex align-items-center justify-content-between">
     <h5 class="mb-0">Onboarding Steps</h5>
-    <h4 class="mb-0">{{stepsData.totalCompletedSteps}}/{{stepsData.totalSteps}}</h4>
+    <h4 class="mb-0">{{stepsData?.totalCompletedSteps}}/{{stepsData?.totalSteps}}</h4>
   </div>
   <div class="progress mt-3">
     <div
@@ -77,7 +77,7 @@
         <p class="mb-0 onboardCount">{{ getProgressPercentage() | number: '1.0-0' }}%</p>
       </div>
 
-      <h6>{{stepsData.totalCompletedSteps}}/{{stepsData.totalSteps}} Steps Completed</h6>
+      <h6>{{stepsData?.totalCompletedSteps}}/{{stepsData?.totalSteps}} Steps Completed</h6>
     </div>
   </div>
 
@@ -88,21 +88,21 @@
     >
       <div class="d-flex align-items-start gap-2" style="width: 90%">
         <div>
-          <span class="checdBox" *ngIf="step.statusId == 36">
+          <span class="checdBox" *ngIf="step?.statusId == 36">
             <i class="bi bi-check-lg"></i
           ></span>
-          <span class="pendingBox" *ngIf="step.statusId == 35"> </span>
+          <span class="pendingBox" *ngIf="step?.statusId == 35"> </span>
         </div>
 
         <div>
-          <h4>{{step.name}}</h4>
+          <h4>{{step?.name}}</h4>
           <p class="mb-0">
-            {{step.description}}
+            {{step?.description}}
           </p>
         </div>
       </div>
       <div>
-        <div (click)="routeToStep(step.route, step.name)">
+        <div (click)="routeToStep(step?.route, step?.name)">
           <span class="toStepArrow">
             <i class="bi bi-chevron-right"></i>
           </span>

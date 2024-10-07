@@ -28,10 +28,12 @@ export class SlackAuthComponent implements OnInit {
     //this.convertAccessTokenFromCode();
     this.registerOrganizationByCodeParam();
     this.continueInSlack();
+    this.getSlackUserCountData();
+    
   }
 
-  formatOne = (percent: number): string => `${percent}`;
-  formatTwo = (): string => `Done`;
+  // formatOne = (percent: number): string => `${percent}`;
+  // formatTwo = (): string => `Done`;
 
   isSuccessComponent: boolean = false;
   isErrorComponent: boolean = false;
@@ -62,9 +64,9 @@ export class SlackAuthComponent implements OnInit {
         async (response: any) => {
           // console.log(response.object);
           this.isSuccessComponent = true;
-          // if(this.isSuccessComponent) {
-          //   this.startCountdown();
-          // }
+          if(this.isSuccessComponent) {
+            this.startCountdown();
+          }
           this.isErrorComponent = false;
 
           localStorage.setItem('token', response.object.access_token);
@@ -111,14 +113,17 @@ export class SlackAuthComponent implements OnInit {
               'If you encounter any issues, we encourage you to utilize our contact form to reach out for assistance Or Login Again';
           }
           this.isSuccessComponent = false;
-          // clearInterval(this.intervalId);
+          clearInterval(this.intervalId);
           this.isErrorComponent = true;
         }
       );
   }
 
-  // countdown: number = 20;
-  // intervalId: any;
+  countdown: number = 20; // Countdown duration in seconds
+  countdownPercent: number = 100; // Starts at 100%
+  intervalId: any;
+  formatOne = (percent: number): string => `${percent}%`;
+  formatTwo = (): string => `Done`;
 
   // startCountdown(): void {
   //   this.intervalId = setInterval(() => {
@@ -128,9 +133,27 @@ export class SlackAuthComponent implements OnInit {
   //     }
   //   }, 1000);
   // }
+  startCountdown(): void {
+    const totalSeconds = this.countdown; 
+
+    this.intervalId = setInterval(() => {
+      this.countdown--;
+
+      if (this.countdown > 1) {
+       
+        this.countdownPercent = (this.countdown / totalSeconds) * 100;
+      } else if (this.countdown === 1) {
+        
+        this.countdownPercent = 0; 
+      } else if (this.countdown === 0) {
+       
+        this.redirectNow();
+      }
+    }, 1000); 
+  }
 
   redirectNow(): void {
-    // clearInterval(this.intervalId); // Clear the interval to stop the countdown
+    clearInterval(this.intervalId); 
     this.navigateToRoute();
   }
 
@@ -144,11 +167,11 @@ export class SlackAuthComponent implements OnInit {
     // );
   }
 
-  // ngOnDestroy(): void {
-  //   if (this.intervalId) {
-  //     clearInterval(this.intervalId);
-  //   }
-  // }
+  ngOnDestroy(): void {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+  }
 
   redirectToLogin() {
     this.router.navigate(['/auth/login']);
@@ -223,4 +246,15 @@ export class SlackAuthComponent implements OnInit {
   //     }
   //   );
   // }
+  
+  slackUserCount: number = 0;
+  getSlackUserCountData() {
+    this.dataService.getSlackUserCount().subscribe((response: any)=>{
+      this.slackUserCount = response.object
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+  }
 }

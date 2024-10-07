@@ -53,7 +53,7 @@
             We’ve sent a 6-digit OTP on
             <span class="text-primary"
               ><b>{{ whatsappOtp ? phoneNumber : email }}</b></span
-            >
+            >.
             This code expires <br />
             shortly, so please enter it soon.
           </p>
@@ -81,7 +81,7 @@
                 id="examplePhoneNumber1"
                 name="examplePhoneNumber1"
                 aria-describedby="phoneHelp"
-                placeholder="Enter Number"
+                placeholder="7678******"
                 #phoneNumberOtp="ngModel"
                 [(ngModel)]="phoneNumber"
                 (ngModelChange)="onPhoneNumberChange()"

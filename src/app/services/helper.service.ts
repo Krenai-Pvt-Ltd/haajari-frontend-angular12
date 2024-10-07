@@ -274,11 +274,11 @@ export class HelperService {
     debugger
     this.dataService.registerOrganizationRegistratonProcessStep(statusId, stepId).subscribe(
       (response) => {
-        console.log("success");
+        // console.log("success");
         this.todoStepsSubject.next(true);
       },
       (error) => {
-        console.log('error');
+        // console.log('error');
       }
     );
   }
@@ -288,11 +288,11 @@ export class HelperService {
     debugger
     this.dataService.saveOrgSecondaryToDoStepBar(value).subscribe(
       (response) => {
-        console.log("success");  
+        // console.log("success");  
         // this.getOrgSecondaryToDoStepBarData();
       },
       (error) => {
-        console.log('error');
+        // console.log('error');
       }
     );
   }

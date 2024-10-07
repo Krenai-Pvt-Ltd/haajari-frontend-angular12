@@ -975,7 +975,7 @@ getAttendanceRequestsData(debounceTime: number = 300) {
     clearTimeout(this.debounceTimer);
   }
   this.debounceTimer = setTimeout(() => {
-  this.dataService.getAttendanceRequests(this.pageNumberAttendanceRequest, this.itemPerPageAttendanceRequest, this.attendanceRequestSearchString).subscribe(response => {
+  this.dataService.getAttendanceRequests(this.pageNumberAttendanceRequest, this.itemPerPageAttendanceRequest, this.attendanceRequestSearchString, this.startDate, this.endDate).subscribe(response => {
     // this.attendanceRequests = response.listOfObject;
     this.attendanceRequests = [...this.attendanceRequests, ...response.object];
     this.fullAttendanceRequestCount = response.totalItems;
@@ -1098,27 +1098,16 @@ approveOrReject(id:number, reqString: string) {
   // Tab in Attedance section
   ATTENDANCE_TAB = Key.ATTENDANCE_TAB;
   OVERTIME_TAB = Key.OVERTIME_TAB;
-  UPDATION_REQUEST_TAB = Key.UPDATION_REQUEST_TAB;
+  ATTENDANCE_UPDATE_REQUEST_TAB = Key.ATTENDANCE_UPDATE_REQUEST_TAB;
 
   ACTIVE_TAB = Key.ATTENDANCE_TAB;
   changeTab(tabId : number){
     this.ACTIVE_TAB = tabId;
 
-    if(tabId == this.OVERTIME_TAB || tabId == this.UPDATION_REQUEST_TAB){
+    if(tabId == this.OVERTIME_TAB || tabId == this.ATTENDANCE_UPDATE_REQUEST_TAB){
       this.onMonthChange(new Date());
     }
   }
-
-
-  // Tab in Updation request tab section
-  UPDATION_REQUEST_PENDING_REQUEST_TAB = Key.UPDATION_REQUEST_PENDING_REQUEST_TAB;
-  UPDATION_REQUEST_LOG_TAB = Key.UPDATION_REQUEST_LOG_TAB;
-
-  ACTIVE_TAB_IN_UPDATION_REQUEST_TAB = Key.UPDATION_REQUEST_PENDING_REQUEST_TAB;
-  changeLogTabInUpdationRequestTab(tabId : number){
-    this.ACTIVE_TAB_IN_UPDATION_REQUEST_TAB = tabId;
-  }
-
 
   startDate: string = '';
   endDate: string = '';
@@ -1134,7 +1123,7 @@ approveOrReject(id:number, reqString: string) {
       // this.getTeamNames();
     }
 
-    if(this.ACTIVE_TAB == this.UPDATION_REQUEST_TAB){
+    if(this.ACTIVE_TAB == this.ATTENDANCE_UPDATE_REQUEST_TAB){
       
     }
   }
@@ -1356,6 +1345,44 @@ approveOrReject(id:number, reqString: string) {
 
 
   // ####################--Updation Request Tab code--######################
+  // Tab in Updation request tab section
+  ATTENDANCE_UPDATE_PENDING_REQUEST_TAB = Key.ATTENDANCE_UPDATE_PENDING_REQUEST_TAB;
+  ATTENDANCE_UPDATE_REQUEST_HISTORY_TAB = Key.ATTENDANCE_UPDATE_REQUEST_HISTORY_TAB;
+
+  ACTIVE_TAB_IN_ATTENDANCE_UPDATE_REQUEST_TAB = Key.ATTENDANCE_UPDATE_PENDING_REQUEST_TAB;
+  changeLogTabInAttendanceUpdateRequestTab(tabId : number){
+    this.ACTIVE_TAB_IN_ATTENDANCE_UPDATE_REQUEST_TAB = tabId;
+  }
+
+  isShimmerForAttendanceUpdateRequestLogResponse: boolean = false;
+  dataNotFoundForAttendanceUpdateRequestLogResponse: boolean = false;
+  networkConnectionErrorForAttendanceUpdateRequestLogResponse: boolean = false;
+
+  preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdateRequestLogResponseMethodCall() {
+    this.isShimmerForAttendanceUpdateRequestLogResponse = true;
+    this.dataNotFoundForAttendanceUpdateRequestLogResponse = false;
+    this.networkConnectionErrorForAttendanceUpdateRequestLogResponse = false;
+  }
+
+  isShimmerForAttendanceUpdateRequestResponse: boolean = false;
+  dataNotFoundForAttendanceUpdateRequestResponse: boolean = false;
+  networkConnectionErrorForAttendanceUpdateRequestResponse: boolean = false;
+
+  preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdateRequestResponseMethodCall() {
+    this.isShimmerForAttendanceUpdateRequestResponse = true;
+    this.dataNotFoundForAttendanceUpdateRequestResponse = false;
+    this.networkConnectionErrorForAttendanceUpdateRequestResponse = false;
+  }
+
+  isShimmerForAttendanceUpdatePendingRequestResponse: boolean = false;
+  dataNotFoundForAttendanceUpdatePendingRequestResponse: boolean = false;
+  networkConnectionErrorForAttendanceUpdatePendingRequestResponse: boolean = false;
+
+  preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdatePendingRequestResponseMethodCall() {
+    this.isShimmerForAttendanceUpdatePendingRequestResponse = true;
+    this.dataNotFoundForAttendanceUpdatePendingRequestResponse = false;
+    this.networkConnectionErrorForAttendanceUpdatePendingRequestResponse = false;
+  }
   
 
 

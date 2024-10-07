@@ -216,14 +216,14 @@ export class Key {
   public static KRENAI_UUID = '60811bf3-ae1e-11ee-9597-784f4361d885';
   public static DEMO_ORGANIZATION_UUID = '8d3cc5c2-21a7-11ef-98b2-0a3b903b1973';
 
-  base_url = 'http://localhost:8082/api/v2';
+  // base_url = 'http://localhost:8082/api/v2';
 
   /* ------------------  Staging urls ----------------*/
-  // base_url = 'https://staging.hajiri.work/api/v2';
+  base_url = 'https://staging.hajiri.work/api/v2';
 
   /* ------------------  Production urls ----------------*/
   // base_url = 'https://production.hajiri.work/api/v2';
-
+ 
   //subscription plan
   get_subscription = '/subcription-plan';
   get_active_user_count = '/users/active-user-count';
@@ -359,15 +359,15 @@ export class Key {
   // Tabs in Attendance Section
   public static ATTENDANCE_TAB = 1;
   public static OVERTIME_TAB = 2;
-  public static UPDATION_REQUEST_TAB = 3;
+  public static ATTENDANCE_UPDATE_REQUEST_TAB = 3;
 
   // Tabs in Overtime Section
   public static OVERTIME_PENDING_REQUEST_TAB = 1;
   public static OVERTIME_HISTORY_TAB = 2;
 
   // Tabs in Updation request section
-  public static UPDATION_REQUEST_PENDING_REQUEST_TAB = 1;
-  public static UPDATION_REQUEST_LOG_TAB = 2;
+  public static ATTENDANCE_UPDATE_PENDING_REQUEST_TAB = 1;
+  public static ATTENDANCE_UPDATE_REQUEST_HISTORY_TAB = 2;
 
   // Gender
   public static ALL = 1;
@@ -416,4 +416,12 @@ export class Key {
   public static SLACK_WORKSPACE_URL = `https://slack.com/app_redirect?app=A07AT94EHK7&tab=home`;
 
   static GEOLOCATION = 'geolocation';
+
+
+
+  // Automation rule definition component count to apply CSS dynamically
+  public static COL_MD_4 = 3;
+  public static COL_MD_6 = 2;
+  public static COL_MD_12 = 1;
+
 }
