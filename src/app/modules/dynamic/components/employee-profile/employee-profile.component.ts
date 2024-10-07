@@ -52,9 +52,7 @@ import { OvertimeRequestDTO } from 'src/app/models/overtime-request-dto';
 import { OvertimeRequestLogResponse } from 'src/app/models/overtime-request-log-response';
 import { LopReversalApplicationResponse } from 'src/app/models/lop-reversal-application-response';
 import { NzCalendarMode } from 'ng-zorro-antd/calendar';
-import { AttendanceDetailDayWise } from 'src/app/models/attendance-detail-day-wise';
-
-
+import { AttendanceDetailDayWise } from 'src/app/models/attendance-detail-day-wise'
 
 @Component({
   selector: 'app-employee-profile',
