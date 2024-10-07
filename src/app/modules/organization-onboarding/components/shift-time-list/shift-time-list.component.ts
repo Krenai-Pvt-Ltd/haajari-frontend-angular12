@@ -251,6 +251,7 @@ export class ShiftTimeListComponent implements OnInit {
   }
 
   checkForShiftId: number = 0;
+  totalUsersOnSelectedShift: number = 0;
   updateOrganizationShiftTimingUser(organizationShiftTimingResponse: OrganizationShiftTimingResponse,
     tab: string
   ) {
@@ -261,7 +262,7 @@ export class ShiftTimeListComponent implements OnInit {
       organizationShiftTimingResponse.shiftType.id;
     this.selectedStaffsUuids = organizationShiftTimingResponse.userUuids;
     this.checkForShiftId = organizationShiftTimingResponse.id;
-
+    // this.totalUsersOnSelectedShift = organizationShiftTimingResponse.userUuids.length;
     // this.getShiftTypeMethodCall();
     // this.selectedShiftType = organizationShiftTimingResponse.shiftType;
     this.getUserByFiltersMethodCall();
@@ -744,6 +745,14 @@ calculateTimes(): void {
   isValidated:boolean = false;
   checkValidation() {
     this.isValidated ? false : true;
+  }
+
+  removeUser(uuid: string) {
+   
+    this.selectedStaffsUuids = this.selectedStaffsUuids.filter(id => id !== uuid);
+    // this.updateSelectedStaffs();
+    this.userNameWithShiftName = [];
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId);
   }
 
 }

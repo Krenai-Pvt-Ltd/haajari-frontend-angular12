@@ -36,7 +36,10 @@
                 </div>
                 <div class="col-md-5">
                   <div class="videoSection text-end position-relative">
-                    <img src="assets/images/video-img.svg" style="width: 90%" />
+                    <img
+                      src="assets/images/to-stap-video-img.svg"
+                      style="width: 90%"
+                    />
 
                     <span
                       class="playBtn pointer"
@@ -155,20 +158,27 @@
                   <div
                     class="d-flex align-items-center justify-content-between gap-3 mt-3 mb-2"
                   >
-                  <div class="progress">
-                    <div
-                      class="progress-bar"
-                      role="progressbar"
-                      [style.width.%]="getProgressPercentage()" 
-                      [attr.aria-valuenow]="getProgressPercentage()"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
-                  </div>
-                  <p class="mb-0 onboardCount">{{ getProgressPercentage() | number: '1.0-0' }}%</p>
+                    <div class="progress">
+                      <div
+                        class="progress-bar"
+                        role="progressbar"
+                        [style.width.%]="getProgressPercentage()"
+                        [attr.aria-valuenow]="getProgressPercentage()"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                      ></div>
+                    </div>
+                    <p class="mb-0 onboardCount">
+                      {{ getProgressPercentage() | number : "1.0-0" }}%
+                    </p>
                   </div>
 
-                  <h6>{{stepsData.totalCompletedSteps}}/{{stepsData.totalSteps}} Steps Completed</h6>
+                  <h6>
+                    {{ stepsData.totalCompletedSteps }}/{{
+                      stepsData.totalSteps
+                    }}
+                    Steps Completed
+                  </h6>
                 </div>
               </div>
 
@@ -185,13 +195,14 @@
                       <span class="checdBox" *ngIf="step.statusId == 36">
                         <i class="bi bi-check-lg"></i
                       ></span>
-                      <span class="pendingBox" *ngIf="step.statusId == 35"> </span>
+                      <span class="pendingBox" *ngIf="step.statusId == 35">
+                      </span>
                     </div>
 
                     <div>
-                      <h4>{{step.name}}</h4>
+                      <h4>{{ step.name }}</h4>
                       <p class="mb-0">
-                        {{step.description}}
+                        {{ step.description }}
                       </p>
                     </div>
                   </div>

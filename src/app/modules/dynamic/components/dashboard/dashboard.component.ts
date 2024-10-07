@@ -1313,9 +1313,9 @@ this.getAdminPersonalDetailMethodCall();
     debugger
     this._subscriptionPlanService.getPurchasedStatus().subscribe((response) => {
       this.isPurchased = response;
-
-      // if(this.isPurchased) {
       // this.router.navigate(['/to-do-step-dashboard']);
+      // if(this.isPurchased) {
+      //   this.router.navigate(['/to-do-step-dashboard']);
       // }else {
       //   this.router.navigate(['/to-do-step-dashboard']);
       // }
@@ -1341,7 +1341,7 @@ this.getAdminPersonalDetailMethodCall();
     this.dataService.isToDoStepsCompleted().subscribe(
       (response) => {
         this.isToDoStepsCompleted = response.object;
-
+        
         if(this.isToDoStepsCompleted == 0 && isOrgOnboardToday == 1) {
           this.router.navigate(['/to-do-step-dashboard']);
         }else {

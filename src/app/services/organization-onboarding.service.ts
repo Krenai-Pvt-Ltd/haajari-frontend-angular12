@@ -195,6 +195,26 @@ export class OrganizationOnboardingService {
     );
   }
 
+
+  checkAdminNumberExistWithoutToken(number: string) {
+    debugger;
+    const params = new HttpParams().set('phone', number);
+    return this._httpClient.get(
+      this._key.base_url +this._key.check_number_existence_without_token,
+      { params },
+    );
+  }
+
+  checkEmployeeEmailExistWithoutToken(email: string) {
+    debugger;
+    const params = new HttpParams().set('email', email);
+    return this._httpClient.get(
+      this._key.base_url + this._key.check_email_existence_without_token,
+      { params },
+    );
+  }
+
+
   checkAdminEmailExist(email: string) {
     debugger;
     const params = new HttpParams().set('email', email);

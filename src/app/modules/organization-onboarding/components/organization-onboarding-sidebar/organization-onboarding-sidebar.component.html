@@ -1,24 +1,6 @@
 <div class="employee-onboarding-section">
   <div class="container-scroller">
-    <div
-      class="left-sidebar-onbording p-3"
-      style="padding-left: 35px !important; padding-right: 35px !important"
-    >
-      <!-- <div class="stap-progres-bar">
-        <div class="progress">
-          <div
-            class="progress-bar"
-            role="progressbar"
-            [style]="{ width: (STEP_ID * 100) / 4 + '%' }"
-            aria-valuenow="100"
-            aria-valuemin="0"
-            aria-valuemax="100"
-          ></div>
-        </div>
-      </div> -->
-
-      <!-- sideBarStep-one sideBarStep-three sideBarStep-fore -->
-
+    <div class="left-sidebar-onbording">
       <div [ngClass]="getStepClass()">
         <img src="assets/images/polygon-2.svg" />
       </div>
@@ -31,21 +13,9 @@
         <i class="bi bi-x"></i>
       </div>
 
-      <!-- <div class="logout-btn">
-        <i class="bi bi-x" data-toggle="modal" data-target="#logoutModal"></i>
-      </div> -->
-      <!-- <div class="onbording-stap-one-text">
-        <div class="">
-          <h4>{{ STEP_CONTENT }}</h4>
-        </div>
-        <div class=""></div>
-      </div> -->
       <div class="">
-        <div class="complete-step pt-3 border-bottom">
-          <h5
-            class="font-13 d-flex align-items-center gap-2"
-            *ngIf="STEP_ID > 1"
-          >
+        <div class="complete-step pt-3 border-bottom" *ngIf="STEP_ID > 1">
+          <h5 class="font-14 d-flex align-items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="29"
@@ -79,7 +49,7 @@
             Personal Information
           </h5>
           <h5
-            class="font-13 d-flex align-items-center gap-2"
+            class="font-14 d-flex align-items-center gap-2"
             *ngIf="STEP_ID > 2"
           >
             <svg
@@ -115,7 +85,7 @@
             Employee Creation
           </h5>
           <h5
-            class="font-13 d-flex align-items-center gap-2"
+            class="font-14 d-flex align-items-center gap-2"
             *ngIf="STEP_ID > 3"
           >
             <svg
@@ -159,10 +129,10 @@
                 style="width: 70%"
               />
             </div>
-            <h5 class="font-19 mt-3">
+            <h5 class="font-16 mt-3">
               Enter Your Company and Contact Information
             </h5>
-            <p class="font-12">
+            <p class="font-14">
               Please provide your company and contact details to set up your
               Hajiri account and ensure accurate communication.
             </p>
@@ -199,8 +169,8 @@
                 style="width: 70%"
               />
             </div>
-            <h5 class="font-16 mt-3">Complete Employee Information</h5>
-            <p class="font-11">
+            <h5 class="font-18 mt-3">Complete Employee Information</h5>
+            <p class="font-14">
               Ensure all required fields are accurately filled out when creating
               employee profiles in Hajiri system. This will help us maintain
               up-to-date records and provide better support to our employees
@@ -238,11 +208,11 @@
                 style="width: 70%"
               />
             </div>
-            <h5 class="font-16 mt-3">
+            <h5 class="font-18 mt-3">
               Define Your<br />
               Organization's Shifts
             </h5>
-            <p class="font-11">
+            <p class="font-14">
               Establish your organization's working hours by creating shifts
               with specific check-in, check-out, and lunch break times.
             </p>
@@ -279,8 +249,8 @@
                 style="width: 70%"
               />
             </div>
-            <h5 class="font-16 mt-3">Configure Attendance Method</h5>
-            <p class="font-11">
+            <h5 class="font-18 mt-3">Configure Attendance Method</h5>
+            <p class="font-14">
               Choose the attendance tracking method that aligns with your
               company’s policy and security requirements.
             </p>
@@ -314,7 +284,7 @@
 
         <div class="pending-step pt-3 border-top">
           <h5
-            class="font-11 d-flex align-items-center gap-2"
+            class="font-14 d-flex align-items-center gap-2"
             *ngIf="STEP_ID < 2"
           >
             <svg
@@ -336,7 +306,7 @@
             Employee Creation
           </h5>
           <h5
-            class="font-11 d-flex align-items-center gap-2"
+            class="font-14 d-flex align-items-center gap-2"
             *ngIf="STEP_ID < 3"
           >
             <svg
@@ -358,7 +328,7 @@
             Shift Management
           </h5>
           <h5
-            class="font-11 d-flex align-items-center gap-2"
+            class="font-14 d-flex align-items-center gap-2"
             *ngIf="STEP_ID < 4"
           >
             <svg

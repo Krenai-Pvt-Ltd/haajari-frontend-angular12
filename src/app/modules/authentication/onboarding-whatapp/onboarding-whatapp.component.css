@@ -30,12 +30,12 @@
 }
 .onboarding-step h5 {
   color: #000;
-  font-family: "IBM Plex Sans";
-  font-size: 24px;
+  font-size: 30px;
   font-style: normal;
   font-weight: 600;
-  line-height: 20px; /* 112.239% */
+  line-height: 34px; /* 112.239% */
   letter-spacing: 0.096px;
+  margin-bottom: 4px;
 }
 
 .onboarding-step p {
@@ -46,50 +46,7 @@
   font-weight: 300;
   line-height: 24px; /* 160% */
 }
-.onboarding-step-box {
-  border-radius: 10px;
-  background: #fff;
-  box-shadow: 0px 13.348px 33.37px 13.348px rgba(238, 243, 255, 0.45);
-  width: 350px;
-  border: 1px solid #fff;
-}
-.onboarding-step-box:hover {
-  border: 1px solid #cecdff;
-}
-.onboarding-step-img {
-  border-radius: 15.188px;
-  border: 0.306px solid #a1a1ff;
-  background: #fff;
-  width: 55px;
-  height: 55px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.onboarding-step-img svg {
-  width: 40px;
-  position: relative;
-  top: -1px;
-}
-.onboarding-step-box h5 {
-  color: #000;
-  font-family: "IBM Plex Sans";
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 15px;
-  margin-top: 20px;
-}
-.onboarding-step-box p {
-  color: #121212;
-  text-align: center;
-  font-family: Roboto;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 300;
-  line-height: 22px; /* 160% */
-  letter-spacing: 0.106px;
-}
+
 .continueBtn {
   color: #6666f2;
   font-family: Roboto;
@@ -142,6 +99,7 @@
 
 .btn-fix-height {
   height: 48px;
+  font-weight: 600;
 }
 .noteText {
   color: #878a9a !important;
@@ -149,15 +107,17 @@
   font-size: 12px !important;
   font-style: normal;
   font-weight: 300 !important;
-  line-height: 21px;
+  line-height: 20px !important;
 }
 .footer-text p {
   color: #8b97a6;
   text-align: center;
-  font-size: 11px;
+  font-size: 12px;
   font-style: normal;
   font-weight: 300;
   line-height: 10px;
+  position: absolute;
+  bottom: 32px;
 }
 .onboarding-form label {
   color: rgba(0, 0, 0, 0.85);
@@ -169,7 +129,7 @@
 }
 
 .onboarding-form input {
-  border-radius: 2.358px !important;
+  border-radius: 2px !important;
   border: 1.179px solid #cacaca;
   background: rgba(255, 255, 255, 0.75);
   height: 48px !important;
@@ -225,6 +185,5 @@
 
 .disabled-link {
   pointer-events: none;
-  color: gray; 
+  color: gray;
 }
-
