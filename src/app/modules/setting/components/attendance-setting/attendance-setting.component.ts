@@ -565,19 +565,12 @@ export class AttendanceSettingComponent implements OnInit {
     );
     this.selectedStaffsUuids = attendanceRuleDefinitionResponse.userUuids;
 
-    if (
-      attendanceRuleDefinitionResponse.attendanceRuleTypeId ==
-      this.DEDUCTION_RULE_DEFINITION
-    ) {
-      if (
-        attendanceRuleDefinitionResponse.deductionRuleDefinitionResponse
-          .customSalaryDeduction.lateDuration
-      ) {
-        this.customLateDurationValue = this.convertTimeStringToDate(
-          attendanceRuleDefinitionResponse.deductionRuleDefinitionResponse
-            .customSalaryDeduction.lateDuration
-        );
+    if (attendanceRuleDefinitionResponse.attendanceRuleTypeId == this.DEDUCTION_RULE_DEFINITION) {
+      if (attendanceRuleDefinitionResponse.deductionRuleDefinitionResponse.customSalaryDeduction.lateDuration) {
+        this.customLateDurationValue = this.convertTimeStringToDate(attendanceRuleDefinitionResponse.deductionRuleDefinitionResponse.customSalaryDeduction.lateDuration);
         this.customCheckbox = true;
+      } else{
+        this.customCheckbox = false;
       }
 
       if (
@@ -701,14 +694,11 @@ export class AttendanceSettingComponent implements OnInit {
       attendanceRuleDefinitionRequest.attendanceRuleTypeId ==
       this.DEDUCTION_RULE_DEFINITION
     ) {
-      attendanceRuleDefinitionRequest.deductionRuleDefinitionRequest.customSalaryDeduction =
-        attendanceRuleDefinitionResponse.deductionRuleDefinitionResponse.customSalaryDeduction;
-      attendanceRuleDefinitionRequest.deductionRuleDefinitionRequest.halfDaySalaryDeduction =
-        attendanceRuleDefinitionResponse.deductionRuleDefinitionResponse.halfDaySalaryDeduction;
-      attendanceRuleDefinitionRequest.deductionRuleDefinitionRequest.fullDaySalaryDeduction =
-        attendanceRuleDefinitionResponse.deductionRuleDefinitionResponse.fullDaySalaryDeduction;
-      attendanceRuleDefinitionRequest.deductionRuleDefinitionRequest.deductionTypeId =
-        attendanceRuleDefinitionResponse.deductionRuleDefinitionResponse.deductionType.id;
+      attendanceRuleDefinitionRequest.deductionRuleDefinitionRequest.customSalaryDeduction = attendanceRuleDefinitionResponse.deductionRuleDefinitionResponse.customSalaryDeduction;
+      attendanceRuleDefinitionRequest.deductionRuleDefinitionRequest.halfDaySalaryDeduction = attendanceRuleDefinitionResponse.deductionRuleDefinitionResponse.halfDaySalaryDeduction;
+      attendanceRuleDefinitionRequest.deductionRuleDefinitionRequest.fullDaySalaryDeduction = attendanceRuleDefinitionResponse.deductionRuleDefinitionResponse.fullDaySalaryDeduction;
+      attendanceRuleDefinitionRequest.deductionRuleDefinitionRequest.deductionTypeId = attendanceRuleDefinitionResponse.deductionRuleDefinitionResponse.deductionType?.id ?? 0;
+
     }
 
     if (
@@ -1159,7 +1149,7 @@ export class AttendanceSettingComponent implements OnInit {
   selectCustomDeductionType(deductionType: DeductionType) {
     this.selectedCustomDeductionType = deductionType;
     this.attendanceRuleDefinitionRequest.deductionRuleDefinitionRequest.deductionTypeId =
-      deductionType.id;
+      deductionType?.id ?? 0;
 
     // const res = document.getElementById('amount-in-rupees') as HTMLElement;
     // res.style.display = this.selectedDeductionType?.type === "FIXED AMOUNT" ? 'block' : 'none';
