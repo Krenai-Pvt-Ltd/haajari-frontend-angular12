@@ -2167,13 +2167,8 @@
           </li>
         </ul>
 
-<<<<<<< HEAD
         <!-- Pagination -->
         <div class="pagination pl-3" *ngIf="this.totalItems > 10"> 
-=======
-        <!-- Pagination --> 
-        <!-- <div class="pagination pl-3" *ngIf="this.totalItems > 10">
->>>>>>> 43162ae1835eb0269b3642617e2c251589096662
           <p class="mb-0" style="padding-left: 15px">
             Showing {{ getStartIndexNew() }} - {{ getEndIndexNew() }} of
             {{ totalItems }} items
@@ -2192,8 +2187,7 @@
                       <span aria-hidden="true">&laquo;</span>
                     </a>
                   </li>
-              {{getPagesNew() | json}}
-                  <li
+                <li
                     class="page-item"
                     *ngFor="let page of getPagesNew()"
                     [class.active]="pageNumberNew == page"
@@ -2224,11 +2218,7 @@
           </div>
         </div>
 
-<<<<<<< HEAD
         <!-- </div> -->
-=======
-</div> -->
->>>>>>> 43162ae1835eb0269b3642617e2c251589096662
       </div>
       <!-- <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
