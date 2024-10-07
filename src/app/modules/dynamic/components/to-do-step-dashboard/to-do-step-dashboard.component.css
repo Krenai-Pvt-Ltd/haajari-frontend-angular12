@@ -241,12 +241,7 @@
   line-height: 16.209px; /* 115.781% */
   letter-spacing: 0.093px;
 }
-.onboardingStapsPoint {
-  z-index: 999;
-  position: relative;
-  overflow: scroll;
-  max-height: 450px;
-}
+
 .onboardingStapsPoint::-webkit-scrollbar {
   display: none;
 }
@@ -256,6 +251,14 @@
     position: relative;
     overflow: scroll;
     max-height: 600px !important;
+  }
+}
+@media screen and (max-width: 1280px) {
+  .onboardingStapsPoint {
+    z-index: 999;
+    position: relative;
+    overflow: scroll;
+    max-height: 460px !important;
   }
 }
 
