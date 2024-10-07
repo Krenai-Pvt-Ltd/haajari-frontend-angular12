@@ -527,7 +527,7 @@ currentLocation() {
     debugger
     this.dataService.registerBillingAndSubscriptionTemp(subscriptionPlanId).subscribe(
       (response) => {
-        this.helperService.showToast("Free trial started successfully.", Key.TOAST_STATUS_SUCCESS);
+        // this.helperService.showToast("Free trial started successfully.", Key.TOAST_STATUS_SUCCESS);
         setTimeout(() => {
           // this.router.navigate(['/dashboard']);
           this.router.navigate(['/to-do-step-dashboard']);
