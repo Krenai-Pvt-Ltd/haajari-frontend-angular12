@@ -47,10 +47,10 @@ export class ReportsComponent implements OnInit {
     this.dataService.getOrganizationOnboardingDate(this.userUuid).subscribe(
       (data) => {
         this.organizationOnboardingDate = new Date(data);
-        console.log(
-          'getOrganizationOnboardingDateByUuid',
-          this.getOrganizationOnboardingDateByUuid
-        );
+        // console.log(
+        //   'getOrganizationOnboardingDateByUuid',
+        //   this.getOrganizationOnboardingDateByUuid
+        // );
       },
       (error) => {}
     );
@@ -114,8 +114,8 @@ export class ReportsComponent implements OnInit {
       this.startDate = startOfMonth;
       this.endDate = endOfMonth;
 
-      console.log('Start Date:', this.startDate);
-      console.log('End Date:', this.endDate);
+      // console.log('Start Date:', this.startDate);
+      // console.log('End Date:', this.endDate);
 
       this.isModalVisible = false;
       if (this.startDate && this.endDate) {
@@ -153,7 +153,7 @@ export class ReportsComponent implements OnInit {
   generateAttendanceSummary(startDate: string, endDate: string): void {
     this.dataService.generateAttendanceSummary(startDate, endDate).subscribe({
       next: (response) => {
-        console.log('Report Generation Successful', response);
+        // console.log('Report Generation Successful', response);
         this.isLoading = false;
         this.getFullReportLogs();
         this.helperService.showToast(
@@ -287,8 +287,8 @@ export class ReportsComponent implements OnInit {
       this.startDate = startOfMonth;
       this.endDate = endOfMonth;
 
-      console.log('Start Date:', this.startDate);
-      console.log('End Date:', this.endDate);
+      // console.log('Start Date:', this.startDate);
+      // console.log('End Date:', this.endDate);
 
       // this.isModalVisible = false;
       if (this.startDate && this.endDate) {
@@ -310,7 +310,7 @@ export class ReportsComponent implements OnInit {
   generateAttendanceReport(startDate: string, endDate: string): void {
     this.dataService.generateAttendanceReport(startDate, endDate).subscribe({
       next: (response) => {
-        console.log('Report Generation Successful', response);
+        // console.log('Report Generation Successful', response);
         this.isLoading2 = false;
         this.getFullReportLogs();
         this.helperService.showToast(
@@ -349,8 +349,8 @@ export class ReportsComponent implements OnInit {
       this.startDate = startOfMonth;
       this.endDate = endOfMonth;
 
-      console.log('Start Date:', this.startDate);
-      console.log('End Date:', this.endDate);
+      // console.log('Start Date:', this.startDate);
+      // console.log('End Date:', this.endDate);
 
       // this.isModalVisible = false;
       if (this.startDate && this.endDate) {

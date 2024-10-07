@@ -25,14 +25,14 @@ export class SignInWithSlackComponent implements OnInit {
     const codeParam = new URLSearchParams(window.location.search).get('code');
     const stateParam = new URLSearchParams(window.location.search).get('state');
     this.isError = false;
-    console.log('codeParam' + codeParam + 'stateParam' + stateParam);
+    // console.log('codeParam' + codeParam + 'stateParam' + stateParam);
     if (!codeParam || !stateParam) {
       this.router.navigate(['/auth/login']);
       return;
     }
     this.dataService.userSignInWithSlack(codeParam, stateParam).subscribe(
       async (response: any) => {
-        console.log(response.object);
+        // console.log(response.object);
         this.isLoadingCompleted = true;
         this.isError = false;
         localStorage.setItem('token', response.object.access_token);
@@ -45,7 +45,7 @@ export class SignInWithSlackComponent implements OnInit {
         Key.LOGGED_IN_USER = decodedValue;
 
         debugger;
-        console.log(decodedValue);
+        // console.log(decodedValue);
         this.router.navigate(['/dashboard']);
         // if (
         //   decodedValue.httpCustomStatus === 'UPDATED' &&
@@ -71,7 +71,7 @@ export class SignInWithSlackComponent implements OnInit {
     const decodedToken: any = jwtDecode(access_token);
 
     debugger;
-    console.log(decodedToken);
+    // console.log(decodedToken);
     return decodedToken;
   }
 

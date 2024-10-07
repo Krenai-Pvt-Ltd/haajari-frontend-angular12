@@ -67,7 +67,7 @@ export class RoleBasedAccessControlService {
     debugger
     try {
      await this.helperService.getDecodedValueFromToken().then((res:any)=>{
-        console.log(res)
+        // console.log(res)
         this.userInfo=res;
         this.userInfo!.uuid=res.uuid;
         this.ROLE = res.role;
@@ -87,7 +87,7 @@ export class RoleBasedAccessControlService {
   }
 
   async getRole() {
-    debugger
+
     let role = null;
     // this.userInfo = await this.helperService.getDecodedValueFromToken();
     // this.userInfo= await this.helperService

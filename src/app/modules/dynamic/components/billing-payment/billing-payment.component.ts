@@ -141,7 +141,7 @@ export class BillingPaymentComponent implements OnInit {
 
   isPaymentDone: boolean = false;
   checkout(value: any) {
-    console.log('transaction id', value);
+    // console.log('transaction id', value);
     // this.isPaymentDone = true;
     window.location.reload();
   }

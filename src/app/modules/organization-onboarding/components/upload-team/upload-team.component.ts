@@ -170,7 +170,7 @@ export class UploadTeamComponent implements OnInit {
           this.isProgressToggle = false;
           this.getReport();
           this.getUser();
-          console.log(this.onboardUserList.length);
+          // console.log(this.onboardUserList.length);
           this.alreadyUsedPhoneNumberArray = response.arrayOfString;
           this.alreadyUsedEmailArray = response.arrayOfString2;
         } else {
@@ -558,7 +558,7 @@ export class UploadTeamComponent implements OnInit {
         this.userList[index].isPhoneExist = false;
       }
       this.isNumberExist = false;
-      console.log('Phone number is empty, skipping API call.');
+      // console.log('Phone number is empty, skipping API call.');
     } else {
       this._onboardingService
         .checkEmployeeNumberExist(number, uuid)
@@ -567,7 +567,7 @@ export class UploadTeamComponent implements OnInit {
             this.userList[index].isPhoneExist = response;
           }
           this.isNumberExist = response;
-          console.log(response);
+          // console.log(response);
         });
     }
   }
@@ -640,7 +640,7 @@ export class UploadTeamComponent implements OnInit {
     this.dataService.getOnboardingVia().subscribe(
       (response) => {
         this.onboardingViaString = response.message;
-        console.log('this.onboardingViaString ' + this.onboardingViaString);
+        // console.log('this.onboardingViaString ' + this.onboardingViaString);
       },
       (error) => {
         console.log('error');

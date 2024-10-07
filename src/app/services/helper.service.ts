@@ -33,7 +33,7 @@ export class HelperService {
         const token = localStorage.getItem('token');
         if (token != null) {
           const decodedValue: any = await jwtDecode(token);
-          console.log("decodedValue",decodedValue)
+          // console.log("decodedValue",decodedValue)
           resolve(decodedValue);
         } else {
           reject('Token is null!');

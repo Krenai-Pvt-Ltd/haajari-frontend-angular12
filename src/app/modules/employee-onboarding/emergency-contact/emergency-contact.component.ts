@@ -154,7 +154,7 @@ delete(index:number){
       this.dataService.getEmployeeContactsDetails(userUuid).subscribe(
        async (contacts) => {
        
-          console.log(contacts);
+          // console.log(contacts);
           this.dataService.markStepAsCompleted(contacts[0].statusId);
           this.isLoading = false;
           if (contacts[0].contactName && contacts.length > 0) {
@@ -286,7 +286,7 @@ getOnboardingFormPreviewMethodCall() {
   if (userUuid) {
     this.dataService.getOnboardingFormPreview(userUuid).subscribe(
       (preview) => {
-        console.log(preview);
+        // console.log(preview);
         this.toggle = false;
         this.onboardingPreviewData = preview;
        
@@ -295,7 +295,7 @@ getOnboardingFormPreviewMethodCall() {
         
         // if (preview.employeeAdditionalDocument && preview.employeeAdditionalDocument.length > 0) {
           this.employeeAdditionalDocument = preview.employeeAdditionalDocuments;
-          console.log(this.employeeAdditionalDocument);
+          // console.log(this.employeeAdditionalDocument);
       // } else {
       //   console.log("eroor ")
       //     // Handle the case where employeeAdditionalDocument is undefined, null, or empty
@@ -319,7 +319,7 @@ getOnboardingFormPreviewMethodCall() {
           this.userEmergencyContactArray = preview.userEmergencyContacts;
         } else {
           
-          console.log('No guarantor information available.');
+          // console.log('No guarantor information available.');
           this.userEmergencyContactArray = [];
         }
         if(preview.userDocuments!=null){
@@ -378,7 +378,7 @@ saveUserOnboardingFormStatusMethodCall(){
   this.dataService.saveUserOnboardingFormStatus(userUuid)
   .subscribe(
     (response: UserEmergencyContactDetailsRequest) => { 
-      console.log('Response:', response);
+      // console.log('Response:', response);
     this.toggle= false;
         if(response.employeeOnboardingFormStatus == 'USER_REGISTRATION_SUCCESSFUL' && response.employeeOnboardingStatus == 'PENDING' ){
           this.handleOnboardingStatus(response.employeeOnboardingStatus);

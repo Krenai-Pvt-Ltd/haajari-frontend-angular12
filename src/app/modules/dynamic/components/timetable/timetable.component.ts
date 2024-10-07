@@ -43,7 +43,8 @@ export class TimetableComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private firebaseStorage: AngularFireStorage,
     private sanitizer: DomSanitizer,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    // private headerComponent: HeaderComponent
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -107,8 +108,8 @@ export class TimetableComponent implements OnInit {
 
   disableDates = (current: Date): boolean => {
     const today = new Date();
-    console.log(today);
-    console.log(current);
+    // console.log(today);
+    // console.log(current);
     today.setHours(0, 0, 0, 0);
 
     const registrationDate = new Date(this.organizationRegistrationDate);
@@ -389,7 +390,7 @@ export class TimetableComponent implements OnInit {
           (response) => {
             debugger;
             this.attendanceDetailsResponseList = response.listOfObject;
-            console.log(this.attendanceDetailsResponseList);
+            // console.log(this.attendanceDetailsResponseList);
             this.total = response.totalItems;
             this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
             this.isShimmerForAttendanceDetailsResponse = false;
@@ -869,8 +870,8 @@ export class TimetableComponent implements OnInit {
     .subscribe(
       (response) => {
         this.checkHoliday = response.object;
-        console.log(response);
-        console.error("Response", response.object);
+        // console.log(response);
+        // console.error("Response", response.object);
 
         if (this.checkHoliday == true) {
           this.showPlaceholder = true; 
@@ -988,6 +989,23 @@ getAttendanceRequestsData(debounceTime: number = 300) {
 });
 }
 
+attendanceRequestCount!: number;
+
+getAttendanceRequestsDataCount(): void {
+  debugger
+  this.dataService.getAttendanceRequestCount().subscribe(
+    (response: any) => {
+      this.attendanceRequestCount = response.object; 
+      // console.log('requests retrieved successfully', this.attendanceRequestCount);
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+}
+
+
+// approveOrRequest(id:number, reqString: string) {
 initialLoadDone: boolean = false;
 @ViewChild('logContainer') logContainer!: ElementRef<HTMLDivElement>;
 scrollDownRecentActivity(event: any) {
@@ -1044,7 +1062,7 @@ clearAttendanceRequestLogs() {
 
 approveOrReject(id:number, reqString: string) {
   this.dataService.approveOrRejectAttendanceRequest(id, reqString).subscribe(response => {
-    console.log('requests retrieved successfully', response.listOfObject);
+    // console.log('requests retrieved successfully', response.listOfObject);
     if(response.message == 'APPROVE') {
     this.helperService.showToast(
       'Request Approved Successfully',
