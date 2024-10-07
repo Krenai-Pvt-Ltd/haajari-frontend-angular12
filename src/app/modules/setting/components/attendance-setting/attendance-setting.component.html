@@ -601,15 +601,6 @@
                           </div>
                         </div>
                         <div class="">
-                          <!-- <span
-                          class="automation-rules-toogel-btn pointer"
-                          data-bs-toggle="collapse"
-                          href="#multiCollapseExample5"
-                          role="button"
-                          aria-expanded="false"
-                          aria-controls="multiCollapseExample5"
-                          ><i class="bi bi-chevron-down"></i
-                        ></span> -->
                           <span class="automation-rules-toogel-btn pointer" data-bs-toggle="collapse" [attr.data-bs-target]="
                               '#multiCollapseExample5' + automationIndex
                             " role="button" [attr.aria-controls]="
@@ -667,11 +658,12 @@
                             <!-- <i class="bi bi-pencil pointer"></i><i class="bi bi-trash pointer text-danger"></i> -->
                           </div>
                         </div>
-                        <div class="row mt-3" *ngIf="
-                            attendanceRuleDefinitionResponse.attendanceRuleTypeId ==
-                            DEDUCTION_RULE_DEFINITION
-                          ">
-                          <div class="col-md-4">
+                        <div class="row mt-3" *ngIf="attendanceRuleDefinitionResponse.attendanceRuleTypeId == DEDUCTION_RULE_DEFINITION">
+                          <div [ngClass]="{
+                            'col-md-4': getDeductionRuleDefinitionComponentCount(attendanceRuleDefinitionResponse.deductionRuleDefinitionResponse) == COL_MD_4,
+                            'col-md-6': getDeductionRuleDefinitionComponentCount(attendanceRuleDefinitionResponse.deductionRuleDefinitionResponse) == COL_MD_6,
+                            'col-md-12': getDeductionRuleDefinitionComponentCount(attendanceRuleDefinitionResponse.deductionRuleDefinitionResponse) == COL_MD_12
+                          }" *ngIf="attendanceRuleDefinitionResponse.deductionRuleDefinitionResponse.customSalaryDeduction.lateDuration != null && attendanceRuleDefinitionResponse.deductionRuleDefinitionResponse.customSalaryDeduction.lateDuration != undefined">
                             <div class="custom-salary">
                               <div class="custom-salary-hedding p-3">
                                 <h4 class="mb-0">Custom Salary Deduction</h4>
@@ -704,7 +696,6 @@
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between mb-3">
                                   <p class="mb-0">Deduction</p>
-                                  <!-- <span> | </span> -->
                                   <span style="color: #009688">
                                     <ng-container *ngIf="
                                         attendanceRuleDefinitionResponse
@@ -764,18 +755,19 @@
                               </div>
                             </div>
                           </div>
-                          <div class="col-md-4">
+
+                          <div [ngClass]="{
+                            'col-md-4': getDeductionRuleDefinitionComponentCount(attendanceRuleDefinitionResponse.deductionRuleDefinitionResponse) == COL_MD_4,
+                            'col-md-6': getDeductionRuleDefinitionComponentCount(attendanceRuleDefinitionResponse.deductionRuleDefinitionResponse) == COL_MD_6,
+                            'col-md-12': getDeductionRuleDefinitionComponentCount(attendanceRuleDefinitionResponse.deductionRuleDefinitionResponse) == COL_MD_12
+                          }" *ngIf="attendanceRuleDefinitionResponse.deductionRuleDefinitionResponse.halfDaySalaryDeduction.lateDuration != null && attendanceRuleDefinitionResponse.deductionRuleDefinitionResponse.halfDaySalaryDeduction.lateDuration != undefined">
                             <div class="custom-salary">
                               <div class="custom-salary-hedding p-3">
                                 <h4 class="mb-0">Half Day Salary Deduction</h4>
-                                <!-- <h4 class="mb-0">
-                                Half Day Salary Deduction Rules
-                              </h4> -->
                               </div>
                               <div class="custom-salary-para p-3">
                                 <div class="d-flex align-items-center justify-content-between mb-3">
                                   <p class="mb-0">Duration</p>
-                                  <!-- <span> | </span> -->
                                   <span style="color: #009688">
                                     <ng-container *ngIf="
                                         attendanceRuleDefinitionResponse
@@ -800,9 +792,7 @@
                                   </span>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between">
-                                  <!-- <p class="mb-0">Occasion</p><span style="color: #3f988f">5 Times</span> -->
                                   <p class="mb-0">Occurrences</p>
-                                  <!-- <span> | </span> -->
                                   <span style="color: #009688">
                                     <ng-container *ngIf="
                                         attendanceRuleDefinitionResponse
@@ -824,7 +814,12 @@
                               </div>
                             </div>
                           </div>
-                          <div class="col-md-4">
+                          
+                          <div [ngClass]="{
+                            'col-md-4': getDeductionRuleDefinitionComponentCount(attendanceRuleDefinitionResponse.deductionRuleDefinitionResponse) == COL_MD_4,
+                            'col-md-6': getDeductionRuleDefinitionComponentCount(attendanceRuleDefinitionResponse.deductionRuleDefinitionResponse) == COL_MD_6,
+                            'col-md-12': getDeductionRuleDefinitionComponentCount(attendanceRuleDefinitionResponse.deductionRuleDefinitionResponse) == COL_MD_12
+                          }" *ngIf="attendanceRuleDefinitionResponse.deductionRuleDefinitionResponse.fullDaySalaryDeduction.lateDuration != null && attendanceRuleDefinitionResponse.deductionRuleDefinitionResponse.fullDaySalaryDeduction.lateDuration != undefined">
                             <div class="custom-salary">
                               <div class="custom-salary-hedding p-3">
                                 <h4 class="mb-0">Full Day Salary Deduction</h4>
@@ -832,7 +827,6 @@
                               <div class="custom-salary-para p-3">
                                 <div class="d-flex align-items-center justify-content-between mb-3">
                                   <p class="mb-0">Duration</p>
-                                  <!-- <span> | </span> -->
                                   <span style="color: #009688">
                                     <ng-container *ngIf="
                                         attendanceRuleDefinitionResponse
@@ -857,9 +851,7 @@
                                   </span>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between">
-                                  <!-- <p class="mb-0">Occasion</p><span style="color: #3f988f">5 Times</span> -->
                                   <p class="mb-0">Occurrences</p>
-                                  <!-- <span> | </span> -->
                                   <span style="color: #009688">
                                     <ng-container *ngIf="
                                         attendanceRuleDefinitionResponse
@@ -882,8 +874,13 @@
                             </div>
                           </div>
                         </div>
+
                         <div class="row mt-3" *ngIf="attendanceRuleDefinitionResponse.attendanceRuleTypeId == OVERTIME_RULE_DEFINITION">
-                          <div class="col-md-4">
+                          <div [ngClass]="{
+                            'col-md-4': getOvertimeRuleDefinitionComponentCount(attendanceRuleDefinitionResponse.overtimeRuleDefinitionResponse) == COL_MD_4,
+                            'col-md-6': getOvertimeRuleDefinitionComponentCount(attendanceRuleDefinitionResponse.overtimeRuleDefinitionResponse) == COL_MD_6,
+                            'col-md-12': getOvertimeRuleDefinitionComponentCount(attendanceRuleDefinitionResponse.overtimeRuleDefinitionResponse) == COL_MD_12
+                          }" *ngIf="attendanceRuleDefinitionResponse.overtimeRuleDefinitionResponse.customDuration != null && attendanceRuleDefinitionResponse.overtimeRuleDefinitionResponse.customDuration != undefined">
                             <div class="custom-salary">
                               <div class="custom-salary-hedding p-3">
                                 <h4 class="mb-0">Custom Payout</h4>
@@ -914,7 +911,6 @@
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between mb-3">
                                   <p class="mb-0">Pay Type</p>
-                                  <!-- <span> | </span> -->
                                   <span style="color: #009688">
                                     <ng-container *ngIf="
                                         attendanceRuleDefinitionResponse
@@ -953,18 +949,18 @@
                               </div>
                             </div>
                           </div>
-                          <div class="col-md-4">
+                          <div [ngClass]="{
+                            'col-md-4': getOvertimeRuleDefinitionComponentCount(attendanceRuleDefinitionResponse.overtimeRuleDefinitionResponse) == COL_MD_4,
+                            'col-md-6': getOvertimeRuleDefinitionComponentCount(attendanceRuleDefinitionResponse.overtimeRuleDefinitionResponse) == COL_MD_6,
+                            'col-md-12': getOvertimeRuleDefinitionComponentCount(attendanceRuleDefinitionResponse.overtimeRuleDefinitionResponse) == COL_MD_12
+                          }" *ngIf="attendanceRuleDefinitionResponse.overtimeRuleDefinitionResponse.halfDayDuration != null && attendanceRuleDefinitionResponse.overtimeRuleDefinitionResponse.halfDayDuration != undefined">
                             <div class="custom-salary">
                               <div class="custom-salary-hedding p-3">
                                 <h4 class="mb-0">Half Day Payout</h4>
-                                <!-- <h4 class="mb-0">
-                                Half Day Salary Deduction Rules
-                              </h4> -->
                               </div>
                               <div class="custom-salary-para p-3">
                                 <div class="d-flex align-items-center justify-content-between mb-3">
                                   <p class="mb-0">Duration</p>
-                                  <!-- <span> | </span> -->
                                   <span style="color: #009688">
                                     <ng-container *ngIf="
                                         attendanceRuleDefinitionResponse
@@ -988,7 +984,6 @@
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between mb-3">
                                   <p class="mb-0">Pay Type</p>
-                                  <!-- <span> | </span> -->
                                   <span style="color: #009688">
                                     <ng-container *ngIf="
                                         attendanceRuleDefinitionResponse
@@ -1027,7 +1022,12 @@
                               </div>
                             </div>
                           </div>
-                          <div class="col-md-4">
+
+                          <div [ngClass]="{
+                            'col-md-4': getOvertimeRuleDefinitionComponentCount(attendanceRuleDefinitionResponse.overtimeRuleDefinitionResponse) == COL_MD_4,
+                            'col-md-6': getOvertimeRuleDefinitionComponentCount(attendanceRuleDefinitionResponse.overtimeRuleDefinitionResponse) == COL_MD_6,
+                            'col-md-12': getOvertimeRuleDefinitionComponentCount(attendanceRuleDefinitionResponse.overtimeRuleDefinitionResponse) == COL_MD_12
+                          }" *ngIf="attendanceRuleDefinitionResponse.overtimeRuleDefinitionResponse.fullDayDuration != null && attendanceRuleDefinitionResponse.overtimeRuleDefinitionResponse.fullDayDuration != undefined">
                             <div class="custom-salary">
                               <div class="custom-salary-hedding p-3">
                                 <h4 class="mb-0">Full Day Payout</h4>
@@ -2116,7 +2116,7 @@
                                           <b>hrs.</b>
                                         </span>
                                       </div>
-                                      <div *ngIf="invalidHalfDaylateDuration1" class="text-danger" style="font-size: 13px"> Half Day Duration should be greater than Custom Day Duration. </div>
+                                      <div *ngIf="invalidHalfDaylateDuration1" class="text-danger" style="font-size: 13px"> Half Day Duration should be longer than Custom Day Duration. </div>
                                       <div *ngIf="invalidHalfDaylateDuration2" class="text-danger" style="font-size: 13px"> Half Day Duration should be less than full Day Duration. </div>
                                       <div *ngIf="
                                           halfDayLateDuration?.touched &&
@@ -2185,8 +2185,8 @@
                                           <b>hrs.</b>
                                         </span>
                                       </div>
-                                      <div *ngIf="invalidFullDaylateDuration1" class="text-danger" style="font-size: 13px"> Full Day Duration should be greater than Custom Day Duration. </div>
-                                      <div *ngIf="invalidFullDaylateDuration2" class="text-danger" style="font-size: 13px"> Full Day Duration should be greater than Half Day Duration. </div>
+                                      <div *ngIf="invalidFullDaylateDuration1" class="text-danger" style="font-size: 13px"> Full Day Duration should be longer than Custom Day Duration. </div>
+                                      <div *ngIf="invalidFullDaylateDuration2" class="text-danger" style="font-size: 13px"> Full Day Duration should be longer than Half Day Duration. </div>
                                       <div *ngIf="
                                           fullDayLateDuration?.touched &&
                                           fullDayLateDuration.errors?.required
@@ -2364,7 +2364,7 @@
                                           <b>hrs.</b>
                                         </span>
                                       </div>
-                                      <div *ngIf="invalidHalfDaylateDuration1" class="text-danger" style="font-size: 13px"> Half Day Duration should be greater than Custom Day Duration. </div>
+                                      <div *ngIf="invalidHalfDaylateDuration1" class="text-danger" style="font-size: 13px"> Half Day Duration should be longer than Custom Day Duration. </div>
                                       <div *ngIf="invalidHalfDaylateDuration2" class="text-danger" style="font-size: 13px"> Half Day Duration should be less than full Day Duration. </div>
                                       <div *ngIf="
                                           halfDayLateDuration?.touched &&
@@ -2466,8 +2466,8 @@
                                           <b>hrs.</b>
                                         </span>
                                       </div>
-                                      <div *ngIf="invalidFullDaylateDuration1" class="text-danger" style="font-size: 13px"> Full Day Duration should be greater than Custom Day Duration. </div>
-                                      <div *ngIf="invalidFullDaylateDuration2" class="text-danger" style="font-size: 13px"> Full Day Duration should be greater than Half Day Duration. </div>
+                                      <div *ngIf="invalidFullDaylateDuration1" class="text-danger" style="font-size: 13px"> Full Day Duration should be longer than Custom Day Duration. </div>
+                                      <div *ngIf="invalidFullDaylateDuration2" class="text-danger" style="font-size: 13px"> Full Day Duration should be longer than Half Day Duration. </div>
                                       <div *ngIf="
                                           fullDayLateDuration?.touched &&
                                           fullDayLateDuration.errors?.required
