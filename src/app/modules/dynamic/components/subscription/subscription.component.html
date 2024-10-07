@@ -1,7 +1,7 @@
 <div class="page-wrapper">
   <div class="page-content-tab">
     <div class="container-fluid pr-0">
-      <div class="mt-2">
+      <div class="mt-2" *ngIf="!planSwitch">
         <ul id="pills-tab" role="tablist" class="nav nav-pills">
           <li class="nav-item">
             <a
@@ -37,8 +37,8 @@
           >
             <div class="row">
               <div class="col-md-3">
-                <div class="current-plan-box pt-4">
-                  <h4>Current</h4>
+                <div class="current-plan-box pt-4" *ngIf="!RulesRegulation">
+                  <h2 class="font-18">Current</h2>
 
                   <div
                     class="d-flex align-items-start justify-content-between mt-5"
@@ -166,6 +166,7 @@
                       </p>
                       <button
                         class="btn p-0 font-18 text-primary subscription-rule mt-2"
+                        (click)="switchRulesRegulation()"
                       >
                         Know More
                         <svg
@@ -194,6 +195,206 @@
                           </g>
                         </svg>
                       </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="rules-regulation-box pt-4" *ngIf="RulesRegulation">
+                  <div class="d-flex align-items-center gap-2">
+                    <span
+                      class="rules-regulatio-back d-flex align-items-center justify-content-center pointer"
+                      (click)="switchRulesRegulation()"
+                    >
+                      <i class="bi bi-chevron-left"></i>
+                    </span>
+                    <div>
+                      <h5 class="font-18 mb-1">Rules & Regulation</h5>
+                      <p class="mb-0 font-14">
+                        Guidelines and Policies to Follow
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="mt-3">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 19 19"
+                        fill="none"
+                        style="width: 25px"
+                      >
+                        <g clip-path="url(#clip0_3746_4210)">
+                          <path
+                            d="M18.4574 2.59314C18.1779 2.31314 17.7244 2.31266 17.4448 2.59195L8.85429 11.1598L5.75484 7.79353C5.48702 7.50282 5.03421 7.48396 4.74301 7.75175C4.45204 8.01956 4.43341 8.4726 4.70123 8.76357L8.30552 12.6779C8.43751 12.8214 8.62224 12.9047 8.81703 12.9087C8.82226 12.9089 8.82731 12.9089 8.83232 12.9089C9.02161 12.9089 9.20371 12.8338 9.33786 12.7001L18.456 3.60589C18.7362 3.32664 18.7367 2.87313 18.4574 2.59314Z"
+                            fill="#6666F2"
+                          />
+                          <path
+                            d="M18.2839 8.78781C17.8884 8.78781 17.5678 9.10836 17.5678 9.50391C17.5678 13.9527 13.9488 17.5717 9.5 17.5717C5.05148 17.5717 1.43216 13.9527 1.43216 9.50391C1.43216 5.05538 5.05148 1.43607 9.5 1.43607C9.89551 1.43607 10.2161 1.11552 10.2161 0.720006C10.2161 0.324457 9.89551 0.00390625 9.5 0.00390625C4.26164 0.00390625 0 4.26555 0 9.50391C0 14.742 4.26164 19.0039 9.5 19.0039C14.7381 19.0039 19 14.742 19 9.50391C19 9.10839 18.6794 8.78781 18.2839 8.78781Z"
+                            fill="#6666F2"
+                          />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_3746_4210">
+                            <rect width="19" height="19" fill="white" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                      <p class="mb-0 font-16">
+                        <b>Refer a friend</b> Invite your friends to join Remote
+                        using your referral link
+                      </p>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 19 19"
+                        fill="none"
+                        style="width: 32px"
+                      >
+                        <g clip-path="url(#clip0_3746_4210)">
+                          <path
+                            d="M18.4574 2.59314C18.1779 2.31314 17.7244 2.31266 17.4448 2.59195L8.85429 11.1598L5.75484 7.79353C5.48702 7.50282 5.03421 7.48396 4.74301 7.75175C4.45204 8.01956 4.43341 8.4726 4.70123 8.76357L8.30552 12.6779C8.43751 12.8214 8.62224 12.9047 8.81703 12.9087C8.82226 12.9089 8.82731 12.9089 8.83232 12.9089C9.02161 12.9089 9.20371 12.8338 9.33786 12.7001L18.456 3.60589C18.7362 3.32664 18.7367 2.87313 18.4574 2.59314Z"
+                            fill="#6666F2"
+                          />
+                          <path
+                            d="M18.2839 8.78781C17.8884 8.78781 17.5678 9.10836 17.5678 9.50391C17.5678 13.9527 13.9488 17.5717 9.5 17.5717C5.05148 17.5717 1.43216 13.9527 1.43216 9.50391C1.43216 5.05538 5.05148 1.43607 9.5 1.43607C9.89551 1.43607 10.2161 1.11552 10.2161 0.720006C10.2161 0.324457 9.89551 0.00390625 9.5 0.00390625C4.26164 0.00390625 0 4.26555 0 9.50391C0 14.742 4.26164 19.0039 9.5 19.0039C14.7381 19.0039 19 14.742 19 9.50391C19 9.10839 18.6794 8.78781 18.2839 8.78781Z"
+                            fill="#6666F2"
+                          />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_3746_4210">
+                            <rect width="19" height="19" fill="white" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                      <p class="mb-0 font-16">
+                        <b>Earn your reward</b> Earn up to $300 after your
+                        friend signs up and runs two successful payrolls
+                      </p>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="22"
+                        height="22"
+                        viewBox="0 0 19 19"
+                        fill="none"
+                      >
+                        <g clip-path="url(#clip0_3746_4210)">
+                          <path
+                            d="M18.4574 2.59314C18.1779 2.31314 17.7244 2.31266 17.4448 2.59195L8.85429 11.1598L5.75484 7.79353C5.48702 7.50282 5.03421 7.48396 4.74301 7.75175C4.45204 8.01956 4.43341 8.4726 4.70123 8.76357L8.30552 12.6779C8.43751 12.8214 8.62224 12.9047 8.81703 12.9087C8.82226 12.9089 8.82731 12.9089 8.83232 12.9089C9.02161 12.9089 9.20371 12.8338 9.33786 12.7001L18.456 3.60589C18.7362 3.32664 18.7367 2.87313 18.4574 2.59314Z"
+                            fill="#6666F2"
+                          />
+                          <path
+                            d="M18.2839 8.78781C17.8884 8.78781 17.5678 9.10836 17.5678 9.50391C17.5678 13.9527 13.9488 17.5717 9.5 17.5717C5.05148 17.5717 1.43216 13.9527 1.43216 9.50391C1.43216 5.05538 5.05148 1.43607 9.5 1.43607C9.89551 1.43607 10.2161 1.11552 10.2161 0.720006C10.2161 0.324457 9.89551 0.00390625 9.5 0.00390625C4.26164 0.00390625 0 4.26555 0 9.50391C0 14.742 4.26164 19.0039 9.5 19.0039C14.7381 19.0039 19 14.742 19 9.50391C19 9.10839 18.6794 8.78781 18.2839 8.78781Z"
+                            fill="#6666F2"
+                          />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_3746_4210">
+                            <rect width="19" height="19" fill="white" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                      <p class="mb-0 font-16">
+                        <b>Claim your reward</b> We will let you know once your
+                        reward is ready. To claim your reward sign into your
+                        referral account
+                      </p>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 19 19"
+                        fill="none"
+                      >
+                        <g clip-path="url(#clip0_3746_4210)">
+                          <path
+                            d="M18.4574 2.59314C18.1779 2.31314 17.7244 2.31266 17.4448 2.59195L8.85429 11.1598L5.75484 7.79353C5.48702 7.50282 5.03421 7.48396 4.74301 7.75175C4.45204 8.01956 4.43341 8.4726 4.70123 8.76357L8.30552 12.6779C8.43751 12.8214 8.62224 12.9047 8.81703 12.9087C8.82226 12.9089 8.82731 12.9089 8.83232 12.9089C9.02161 12.9089 9.20371 12.8338 9.33786 12.7001L18.456 3.60589C18.7362 3.32664 18.7367 2.87313 18.4574 2.59314Z"
+                            fill="#6666F2"
+                          />
+                          <path
+                            d="M18.2839 8.78781C17.8884 8.78781 17.5678 9.10836 17.5678 9.50391C17.5678 13.9527 13.9488 17.5717 9.5 17.5717C5.05148 17.5717 1.43216 13.9527 1.43216 9.50391C1.43216 5.05538 5.05148 1.43607 9.5 1.43607C9.89551 1.43607 10.2161 1.11552 10.2161 0.720006C10.2161 0.324457 9.89551 0.00390625 9.5 0.00390625C4.26164 0.00390625 0 4.26555 0 9.50391C0 14.742 4.26164 19.0039 9.5 19.0039C14.7381 19.0039 19 14.742 19 9.50391C19 9.10839 18.6794 8.78781 18.2839 8.78781Z"
+                            fill="#6666F2"
+                          />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_3746_4210">
+                            <rect width="19" height="19" fill="white" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                      <p class="mb-0 font-16">
+                        <b>Claim your reward</b> We will let you know once your
+                        reward is ready. To claim your reward sign into your
+                        referral account
+                      </p>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 19 19"
+                        fill="none"
+                      >
+                        <g clip-path="url(#clip0_3746_4210)">
+                          <path
+                            d="M18.4574 2.59314C18.1779 2.31314 17.7244 2.31266 17.4448 2.59195L8.85429 11.1598L5.75484 7.79353C5.48702 7.50282 5.03421 7.48396 4.74301 7.75175C4.45204 8.01956 4.43341 8.4726 4.70123 8.76357L8.30552 12.6779C8.43751 12.8214 8.62224 12.9047 8.81703 12.9087C8.82226 12.9089 8.82731 12.9089 8.83232 12.9089C9.02161 12.9089 9.20371 12.8338 9.33786 12.7001L18.456 3.60589C18.7362 3.32664 18.7367 2.87313 18.4574 2.59314Z"
+                            fill="#6666F2"
+                          />
+                          <path
+                            d="M18.2839 8.78781C17.8884 8.78781 17.5678 9.10836 17.5678 9.50391C17.5678 13.9527 13.9488 17.5717 9.5 17.5717C5.05148 17.5717 1.43216 13.9527 1.43216 9.50391C1.43216 5.05538 5.05148 1.43607 9.5 1.43607C9.89551 1.43607 10.2161 1.11552 10.2161 0.720006C10.2161 0.324457 9.89551 0.00390625 9.5 0.00390625C4.26164 0.00390625 0 4.26555 0 9.50391C0 14.742 4.26164 19.0039 9.5 19.0039C14.7381 19.0039 19 14.742 19 9.50391C19 9.10839 18.6794 8.78781 18.2839 8.78781Z"
+                            fill="#6666F2"
+                          />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_3746_4210">
+                            <rect width="19" height="19" fill="white" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                      <p class="mb-0 font-16">
+                        <b>Claim your reward</b> We will let you know once your
+                        reward is ready. To claim your reward sign into your
+                        referral account
+                      </p>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 19 19"
+                        fill="none"
+                      >
+                        <g clip-path="url(#clip0_3746_4210)">
+                          <path
+                            d="M18.4574 2.59314C18.1779 2.31314 17.7244 2.31266 17.4448 2.59195L8.85429 11.1598L5.75484 7.79353C5.48702 7.50282 5.03421 7.48396 4.74301 7.75175C4.45204 8.01956 4.43341 8.4726 4.70123 8.76357L8.30552 12.6779C8.43751 12.8214 8.62224 12.9047 8.81703 12.9087C8.82226 12.9089 8.82731 12.9089 8.83232 12.9089C9.02161 12.9089 9.20371 12.8338 9.33786 12.7001L18.456 3.60589C18.7362 3.32664 18.7367 2.87313 18.4574 2.59314Z"
+                            fill="#6666F2"
+                          />
+                          <path
+                            d="M18.2839 8.78781C17.8884 8.78781 17.5678 9.10836 17.5678 9.50391C17.5678 13.9527 13.9488 17.5717 9.5 17.5717C5.05148 17.5717 1.43216 13.9527 1.43216 9.50391C1.43216 5.05538 5.05148 1.43607 9.5 1.43607C9.89551 1.43607 10.2161 1.11552 10.2161 0.720006C10.2161 0.324457 9.89551 0.00390625 9.5 0.00390625C4.26164 0.00390625 0 4.26555 0 9.50391C0 14.742 4.26164 19.0039 9.5 19.0039C14.7381 19.0039 19 14.742 19 9.50391C19 9.10839 18.6794 8.78781 18.2839 8.78781Z"
+                            fill="#6666F2"
+                          />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_3746_4210">
+                            <rect width="19" height="19" fill="white" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                      <p class="mb-0 font-16">
+                        <b>Claim your reward</b> We will let you know once your
+                        reward is ready. To claim your reward sign into your
+                        referral account
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -307,7 +508,7 @@
                               </p>
 
                               <div
-                                class="d-flex align-items-center gap-3 mt-4 mb-3"
+                                class="d-flex align-items-center gap-2 mt-4 mb-3"
                               >
                                 <h3 class="mb-0">₹49</h3>
 
@@ -325,7 +526,11 @@
                               </p>
                               <span class="saperater-border mt-4 mb-4"></span>
 
-                              <button class="btn current-plan w-100 mb-4">
+                              <button
+                                class="btn current-plan w-100 mb-4"
+                                data-bs-toggle="modal"
+                                data-bs-target="#downgrade-plan"
+                              >
                                 Current plan
                               </button>
 
@@ -394,11 +599,14 @@
                               </p>
                               <span class="saperater-border mt-4 mb-4"></span>
 
-                              <button class="btn change-plan w-100 mb-4">
+                              <button
+                                class="btn change-plan w-100 mb-4"
+                                (click)="switchSubscriptionPlan()"
+                              >
                                 Change Plan
                               </button>
 
-                              <div class="mt-2" style="color: #01be4f">
+                              <div class="mt-2 font-14" style="color: #01be4f">
                                 All Basic Features +
                               </div>
 
@@ -488,7 +696,7 @@
                               </p>
 
                               <div
-                                class="d-flex align-items-center gap-3 mt-4 mb-3"
+                                class="d-flex align-items-center gap-2 mt-4 mb-4"
                               >
                                 <h3 class="mb-0">₹69</h3>
 
@@ -505,7 +713,11 @@
                               </p>
                               <span class="saperater-border mt-4 mb-4"></span>
 
-                              <button class="btn current-plan w-100 mb-4">
+                              <button
+                                class="btn current-plan w-100 mb-4"
+                                data-bs-toggle="modal"
+                                data-bs-target="#downgrade-plan"
+                              >
                                 Current plan
                               </button>
 
@@ -556,7 +768,7 @@
                               </p>
 
                               <div
-                                class="d-flex align-items-center gap-2 mt-4 mb-3"
+                                class="d-flex align-items-center gap-2 mt-4 mb-4"
                               >
                                 <h3 class="mb-0">₹125</h3>
 
@@ -573,11 +785,14 @@
                               </p>
                               <span class="saperater-border mt-4 mb-4"></span>
 
-                              <button class="btn change-plan w-100 mb-4">
+                              <button
+                                class="btn change-plan w-100 mb-4"
+                                (click)="switchSubscriptionPlan()"
+                              >
                                 Change Plan
                               </button>
 
-                              <div class="mt-2" style="color: #01be4f">
+                              <div class="mt-2 font-14" style="color: #01be4f">
                                 All Basic Features +
                               </div>
 
@@ -620,7 +835,9 @@
                                 digital attendance management.
                               </p>
 
-                              <h1 class="requestQuote mb-0 mt-2">
+                              <h1
+                                class="requestQuote requestQuote-without-discount mb-0 mt-2"
+                              >
                                 Request a quote
                               </h1>
 
@@ -693,6 +910,19 @@
                     tabindex="-1"
                   >
                     Due payment
+
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 43 40"
+                      fill="none"
+                    >
+                      <path
+                        d="M41.1459 30.7012L26.3026 3.41549C23.9178 -0.599372 18.1043 -0.604706 15.7163 3.41549L0.873772 30.7012C-1.56415 34.8037 1.38744 39.9988 6.1657 39.9988H35.8528C40.627 39.9988 43.5839 34.8079 41.1459 30.7012ZM21.0095 35.0747C19.6522 35.0747 18.5474 33.9699 18.5474 32.6127C18.5474 31.2554 19.6522 30.1506 21.0095 30.1506C22.3667 30.1506 23.4715 31.2554 23.4715 32.6127C23.4715 33.9699 22.3667 35.0747 21.0095 35.0747ZM23.4715 25.2265C23.4715 26.5838 22.3667 27.6886 21.0095 27.6886C19.6522 27.6886 18.5474 26.5838 18.5474 25.2265V12.9163C18.5474 11.559 19.6522 10.4542 21.0095 10.4542C22.3667 10.4542 23.4715 11.559 23.4715 12.9163V25.2265Z"
+                        fill="#FF2F2F"
+                      />
+                    </svg>
                   </button>
                 </li>
               </ul>
@@ -1020,7 +1250,7 @@
                   <div
                     class="mt-3 payment-summary p-3 d-flex align-items-center justify-content-between"
                   >
-                    <h5 class="mb-0">Payments due summary</h5>
+                    <h5 class="mb-0 font-18">Payments due summary</h5>
                     <button class="btn contactActionBtn bg-white">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -1172,8 +1402,15 @@
         </div>
       </div>
 
-      <div class="mt-4" style="padding-right: 15px">
-        <h5 class="font-22 mb-0">Lorem ipsum dolor sit amet consectetur.</h5>
+      <div class="mt-4" style="padding-right: 15px" *ngIf="planSwitch">
+        <h5 class="font-22 mb-0 d-flex align-items-center gap-3">
+          <span
+            class="back-subscription-page d-flex align-items-center justify-content-center pointer"
+            (click)="switchSubscriptionPlan()"
+            ><i class="bi bi-chevron-left"></i
+          ></span>
+          Lorem ipsum dolor sit amet consectetur.
+        </h5>
 
         <div class="mt-4 row">
           <div class="col-md-7">
@@ -1207,7 +1444,7 @@
                   </p>
                 </div>
                 <div class="mt-3">
-                  <h5 class="mb-0 plan-selected p-3 pl-4">
+                  <h5 class="mb-0 plan-selected p-3 pl-4 font-18">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="18"
@@ -1243,7 +1480,7 @@
                   >
                     <div>
                       <h1 class="mb-3">Premium Plan</h1>
-                      <p class="mb-0 text-black font-15">
+                      <p class="mb-0 text-black font-16">
                         Perfect for growing businesses that need <br />
                         advanced workforce management
                       </p>
@@ -1253,7 +1490,7 @@
                       <h2>₹49</h2>
                       <div>
                         <h3 class="mb-0">₹69</h3>
-                        <h5>month/per employee</h5>
+                        <h5 class="font-18">month/per employee</h5>
 
                         <p>
                           <span><b>15% off</b></span> with annual contract
@@ -1262,7 +1499,7 @@
                     </div>
                   </div>
 
-                  <div
+                  <label
                     class="mt-3 d-flex align-items-center justify-content-between p-3 annual-plan"
                   >
                     <div class="d-flex align-items-center gap-3">
@@ -1277,7 +1514,7 @@
                         />
                       </div>
                       <div>
-                        <h5 class="mb-1">Annual Plan</h5>
+                        <h5 class="mb-1 font-18">Annual Plan</h5>
                         <p class="mb-0">
                           <span class="text-primary"><b>20% off</b> </span> On
                           Yearly Plan
@@ -1318,18 +1555,15 @@
                       </div>
                     </div>
 
-                    <div class="d-flex align-items-center gap-3">
-                      <h4 class="mb-0">
+                    <div class="d-flex align-items-center gap-2">
+                      <h4 class="mb-0 font-22">
                         <span class="text-primary">₹99</span>
                         <span class="actual-price">125 </span>
                       </h4>
-                      <p class="text-black mb-0">
-                        month <br />
-                        per employee
-                      </p>
+                      <p class="text-black mb-0">Month / Employee</p>
                     </div>
-                  </div>
-                  <div
+                  </label>
+                  <label
                     class="mt-3 d-flex align-items-center justify-content-between p-3 annual-plan"
                   >
                     <div class="d-flex align-items-center gap-3">
@@ -1340,25 +1574,21 @@
                           name="exampleRadios"
                           id="exampleRadios1"
                           value="option1"
-                          checked
                         />
                       </div>
                       <div>
-                        <h5 class="mb-1">MonthlyPlan</h5>
+                        <h5 class="mb-1 font-18">MonthlyPlan</h5>
                         <p class="mb-0">lorem ipsum dolo sit</p>
                       </div>
                     </div>
 
-                    <div class="d-flex align-items-center gap-3">
-                      <h4 class="mb-0">
+                    <div class="d-flex align-items-center gap-2">
+                      <h4 class="mb-0 font-22">
                         <span class="text-primary"> ₹125</span>
                       </h4>
-                      <p class="text-black mb-0">
-                        month <br />
-                        per employee
-                      </p>
+                      <p class="text-black mb-0">Month / Employee</p>
                     </div>
-                  </div>
+                  </label>
                 </div>
               </div>
             </div>
@@ -1372,8 +1602,8 @@
                 <button class="btn contactActionBtn bg-white">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width="18"
-                    height="18"
+                    width="16"
+                    height="16"
                     viewBox="0 0 21 21"
                     fill="none"
                   >
@@ -1481,7 +1711,7 @@
 >
   <div
     class="modal-dialog modal-dialog-centered"
-    style="max-width: 600px"
+    style="max-width: 550px"
     role="document"
   >
     <div class="modal-content">
@@ -1562,7 +1792,7 @@
           </svg>
 
           <h5 class="mb-0 mt-4">Payment Confirmed</h5>
-          <p class="mb-0">Your payment has been processed successfully.</p>
+          <p class="mb-0 mt-2">Your payment has been processed successfully.</p>
         </div>
 
         <div class="p-4">
@@ -1642,3 +1872,145 @@
     </div>
   </div>
 </div>
+
+<!-- downgrade modal -->
+
+<button
+  class="d-none"
+  data-bs-toggle="modal"
+  data-bs-target="#downgrade-plan"
+></button>
+<div
+  class="modal fade"
+  id="downgrade-plan"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-dialog-centered"
+    style="max-width: 550px"
+    role="document"
+  >
+    <div class="modal-content">
+      <div class="modal-body p-0">
+        <div
+          class="downgrade-plan-detail bg-white d-flex align-items-center justify-content-center flex-column"
+        >
+          <button
+            type="button"
+            class="close-btn"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+            #closeButton
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="30"
+              height="30"
+              viewBox="0 0 30 30"
+              fill="none"
+            >
+              <mask
+                id="mask0_3881_6289"
+                style="mask-type: alpha"
+                maskUnits="userSpaceOnUse"
+                x="0"
+                y="0"
+                width="30"
+                height="30"
+              >
+                <rect width="30" height="30" fill="#D9D9D9" />
+              </mask>
+              <g mask="url(#mask0_3881_6289)">
+                <path
+                  d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                  fill="black"
+                />
+              </g>
+            </svg>
+          </button>
+
+          <img src="assets/images/downgrade-plan-img.svg" />
+
+          <h5 class="mb-4 mt-4 font-22 text-center">
+            Are you sure you want to downgrade<br />
+            your plan?
+          </h5>
+
+          <div
+            class="action-pointer p-3 w-100 d-flex align-items-start gap-2 mt-3"
+          >
+            <div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <mask
+                  id="mask0_3851_4151"
+                  style="mask-type: alpha"
+                  maskUnits="userSpaceOnUse"
+                  x="0"
+                  y="0"
+                  width="24"
+                  height="24"
+                >
+                  <rect width="24" height="24" fill="#D9D9D9" />
+                </mask>
+                <g mask="url(#mask0_3851_4151)">
+                  <path
+                    d="M11 17H13V11H11V17ZM12 9C12.2833 9 12.5208 8.90417 12.7125 8.7125C12.9042 8.52083 13 8.28333 13 8C13 7.71667 12.9042 7.47917 12.7125 7.2875C12.5208 7.09583 12.2833 7 12 7C11.7167 7 11.4792 7.09583 11.2875 7.2875C11.0958 7.47917 11 7.71667 11 8C11 8.28333 11.0958 8.52083 11.2875 8.7125C11.4792 8.90417 11.7167 9 12 9ZM12 22C10.6167 22 9.31667 21.7375 8.1 21.2125C6.88333 20.6875 5.825 19.975 4.925 19.075C4.025 18.175 3.3125 17.1167 2.7875 15.9C2.2625 14.6833 2 13.3833 2 12C2 10.6167 2.2625 9.31667 2.7875 8.1C3.3125 6.88333 4.025 5.825 4.925 4.925C5.825 4.025 6.88333 3.3125 8.1 2.7875C9.31667 2.2625 10.6167 2 12 2C13.3833 2 14.6833 2.2625 15.9 2.7875C17.1167 3.3125 18.175 4.025 19.075 4.925C19.975 5.825 20.6875 6.88333 21.2125 8.1C21.7375 9.31667 22 10.6167 22 12C22 13.3833 21.7375 14.6833 21.2125 15.9C20.6875 17.1167 19.975 18.175 19.075 19.075C18.175 19.975 17.1167 20.6875 15.9 21.2125C14.6833 21.7375 13.3833 22 12 22ZM12 20C14.2333 20 16.125 19.225 17.675 17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4 7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20 12 20Z"
+                    fill="#E27A17"
+                  />
+                </g>
+              </svg>
+            </div>
+            <div>
+              <p class="mb-0 font-16 text-black">
+                This action may affect the following
+              </p>
+
+              <ul class="mt-2">
+                <li>Access to premium features will be removed.</li>
+                <li>Reduced user limit.</li>
+                <li>Limited support options.</li>
+                <li>Current discounts and benefits will no longer apply.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-3 border-top">
+        <div class="form-check pl-0">
+          <input
+            type="checkbox"
+            id="termsAndConditions"
+            required
+            class="position-relative check-box"
+          />
+          <label class="form-check-label iHaveRead" for="termsAndConditions">
+            I have validated the information and will proceed with it .
+          </label>
+        </div>
+
+        <div class="d-flex align-items-center justify-content-end gap-3 mt-3">
+          <button
+            class="btn submit-add-more"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+            #closeButton
+          >
+            Cancel
+          </button>
+
+          <button class="btn mannualSubmit">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- downgrade modal end -->

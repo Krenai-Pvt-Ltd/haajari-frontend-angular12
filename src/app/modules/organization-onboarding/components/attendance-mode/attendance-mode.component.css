@@ -187,17 +187,6 @@
   animation-delay: -0.16s;
 }
 
-@keyframes dotOpacity {
-  0%,
-  80%,
-  100% {
-    opacity: 0;
-  }
-  40% {
-    opacity: 1;
-  }
-}
-
 .side-img {
   height: 100px;
   background-position: center center;
@@ -378,17 +367,6 @@ a.fetch-location {
 
 .loader-fetching-location span:nth-child(2) {
   animation-delay: -0.16s;
-}
-
-@keyframes dotOpacity {
-  0%,
-  80%,
-  100% {
-    opacity: 0;
-  }
-  40% {
-    opacity: 1;
-  }
 }
 
 .stap-back-btn {
