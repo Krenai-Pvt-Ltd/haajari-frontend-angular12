@@ -585,7 +585,7 @@
                                           <td class="stickyColTd">
                                               
                                               <a routerLink="/employee-profile" (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-name">{{ user.name }}</a>
-                                              <button nz-button nzType="text"  nz-popover [nzPopoverContent]="contentTemplate" >
+                                              <button class ="text-danger" nz-button nzType="text"  nz-popover [nzPopoverContent]="contentTemplate" *ngIf="onboardingVia === 'SLACK' && user.slackUserId === null ">
                                                 <i class="bi bi-exclamation-triangle"></i>
                                               </button>     
 
@@ -593,7 +593,14 @@
                                               <ng-template #contentTemplate>
                                                <p> Slack ID isn't synced with Hajiri for this user. Click 'Sync' <br>to enable Slack integration with Hajiri.</p>
                                                <div class="d-flex justify-content-end">
-                                                    <button type="button" class="btn btn-primary" >Sync</button>
+                                                    <button type="button" class="btn btn-primary" (click)="saveSlackUserIdViaEmailData(user.email)">
+                                                        <span *ngIf="!isSlackUserFlag">Sync</span>
+                                                        <div class="dot-opacity-loader" *ngIf="isSlackUserFlag">
+                                                            <span></span>
+                                                            <span></span>
+                                                            <span></span>
+                                                          </div>
+                                                    </button>
                                             </div>
 
                                               </ng-template>
@@ -742,7 +749,7 @@
                                                   <li><a class="dropdown-item" routerLink="/employee-profile" (click)="routeToUserDetails(user.uuid)"><i class="bi bi-eye"></i> View Profile</a></li>
                                                   <li><a class="dropdown-item" (click)="sendMailToEmployees(user)" *ngIf="!sendingMailLoaderForUser(user) && user.onboardingStatus != approvedResponse && user.onboardingStatus != pendingResponse "><i class="bi bi-file-earmark-text"></i> Request Again</a></li>
                                                   <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" (click)="openDeleteConfirmationModal(user.id)"><i class="bi bi-trash3"></i> Delete Account</a></li>
-                                                  <li><a class="dropdown-item" *ngIf="onboardingVia === 'SLACK' && user.slackUserId === null " (click)="saveSlackUserIdViaEmailData(user.email)"><i class="bi bi-arrow-repeat"></i> Fetch Slack UserId</a></li>
+                                                  <!-- <li><a class="dropdown-item" *ngIf="onboardingVia === 'SLACK' && user.slackUserId === null " (click)="saveSlackUserIdViaEmailData(user.email)"><i class="bi bi-arrow-repeat"></i> Fetch Slack UserId</a></li> -->
                                                 </div>
                                               </div>
                                           </td>
@@ -916,30 +923,7 @@
                     </div>
                   </div>
                   
-                <div class="col-md-12">
-                  <div class="mb-3">
-                    <label for="teamNames" class="pb-2">Select Team<span class="text-optional"> (Optional)</span></label>
-                    <nz-select
-                      class="whatapp-login-input"
-                      nzMode="multiple"
-                      nzPlaceHolder="Select teams"
-                      nzAllowClear
-                      nzShowSearch
-                      nzServerSearch
-                      [(ngModel)]="selectedTeams"
-                      [ngModelOptions]="{ standalone: true }"
-                      (ngModelChange)="onTeamSelectionChange($event)"
-                      (nzOnSearch)="onSearch($event)"
-                    >
-                      <ng-container *ngFor="let o of teamNameList">
-                        <nz-option *ngIf="!isLoadingTeams" [nzValue]="o.value" [nzLabel]="o.label"></nz-option>
-                      </ng-container>
-                      <nz-option *ngIf="isLoadingTeams" nzDisabled nzCustomContent>
-                        <span nz-icon nzType="loading" class="loading-icon"></span> Loading Data...
-                      </nz-option>
-                    </nz-select>
-                  </div>
-                </div>
+               
                 <div class="col-md-12">
                     <div class="mb-3">
                       <label for="shiftNames" class="pb-2">Select Shift <span class="text-optional">* </span></label>
@@ -972,6 +956,30 @@
                       <div *ngIf="shiftList.length === 0 && !isLoadingShifts" class="errortxt mt-2 mb-0" style="color: red;">
                         <i class="bi bi-exclamation-circle"></i> No shifts available. Please add shifts from the Attendance Setting section.
                       </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="mb-3">
+                      <label for="teamNames" class="pb-2">Select Team<span class="text-optional"> (Optional)</span></label>
+                      <nz-select
+                        class="whatapp-login-input"
+                        nzMode="multiple"
+                        nzPlaceHolder="Select teams"
+                        nzAllowClear
+                        nzShowSearch
+                        nzServerSearch
+                        [(ngModel)]="selectedTeams"
+                        [ngModelOptions]="{ standalone: true }"
+                        (ngModelChange)="onTeamSelectionChange($event)"
+                        (nzOnSearch)="onSearch($event)"
+                      >
+                        <ng-container *ngFor="let o of teamNameList">
+                          <nz-option *ngIf="!isLoadingTeams" [nzValue]="o.value" [nzLabel]="o.label"></nz-option>
+                        </ng-container>
+                        <nz-option *ngIf="isLoadingTeams" nzDisabled nzCustomContent>
+                          <span nz-icon nzType="loading" class="loading-icon"></span> Loading Data...
+                        </nz-option>
+                      </nz-select>
                     </div>
                   </div>
               </div>

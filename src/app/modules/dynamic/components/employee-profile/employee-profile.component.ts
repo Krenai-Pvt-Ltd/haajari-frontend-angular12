@@ -1260,7 +1260,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
           this.isFresher = this.experienceEmployee[0].fresher;
         }
         // console.log('experience length' + this.experienceEmployee.length);
-        if (data == undefined || data == null || data.experiences.length == 0) {
+        if (data == undefined || data == null || data.experiences?.length == 0) {
           this.isCompanyPlaceholder = true;
         }
         this.count++;
@@ -2375,42 +2375,42 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
           //     this.employeeAdditionalDocument = [];
           // }
 
-          if (preview.userDocuments.secondarySchoolCertificate) {
+          if (preview?.userDocuments.secondarySchoolCertificate) {
             this.isSchoolDocument = false;
           }
-          if (preview.userDocuments.highSchoolCertificate) {
+          if (preview?.userDocuments.highSchoolCertificate) {
             this.isHighSchoolDocument = false;
           }
-          if (preview.userExperience) {
+          if (preview?.userExperience) {
             this.userExperienceArray = preview.userExperience;
           }
-          if (preview.fresher == true) {
+          if (preview?.fresher == true) {
             this.isFresher = true;
           }
-          if (preview.userEmergencyContacts) {
+          if (preview?.userEmergencyContacts) {
             this.userEmergencyContactArray = preview.userEmergencyContacts;
           } else {
             console.log('No guarantor information available.');
             this.userEmergencyContactArray = [];
           }
-          if (preview.userDocuments != null) {
+          if (preview?.userDocuments != null) {
             this.secondarySchoolCertificateFileName = this.getFilenameFromUrl(
               preview.userDocuments.secondarySchoolCertificate
             );
             this.highSchoolCertificateFileName1 = this.getFilenameFromUrl(
-              preview.userDocuments.highSchoolCertificate
+              preview?.userDocuments.highSchoolCertificate
             );
             this.highestQualificationDegreeFileName1 = this.getFilenameFromUrl(
-              preview.userDocuments.highestQualificationDegree
+              preview?.userDocuments.highestQualificationDegree
             );
             this.testimonialReccomendationFileName1 = this.getFilenameFromUrl(
-              preview.userDocuments.testimonialReccomendation
+              preview?.userDocuments.testimonialReccomendation
             );
             this.aadhaarCardFileName = this.getFilenameFromUrl(
-              preview.userDocuments.aadhaarCard
+              preview?.userDocuments.aadhaarCard
             );
             this.pancardFileName = this.getFilenameFromUrl(
-              preview.userDocuments.pancard
+              preview?.userDocuments.pancard
             );
           }
           this.isLoading = false;
