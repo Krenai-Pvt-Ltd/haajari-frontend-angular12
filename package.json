@@ -15,6 +15,7 @@
     "@angular-devkit/schematics": "^12.2.18",
     "@angular/animations": "^12.2.17",
     "@angular/cdk": "^12.2.13",
+    "@angular/cli": "^12.2.18",
     "@angular/common": "~12.2.0",
     "@angular/compiler": "~12.2.0",
     "@angular/core": "~12.2.0",
@@ -78,7 +79,7 @@
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^12.2.17",
+    "@angular-devkit/build-angular": "^12.2.18",
     "@angular/compiler-cli": "~12.2.0",
     "@angular/localize": "^12.2.17",
     "@types/d3-scale": "^4.0.8",
