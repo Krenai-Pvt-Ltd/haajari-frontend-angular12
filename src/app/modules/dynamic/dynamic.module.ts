@@ -82,6 +82,9 @@ import { CoinsComponent } from './components/coins/coins.component';
 import { ToDoStepDashboardComponent } from './components/to-do-step-dashboard/to-do-step-dashboard.component';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { SubscriptionComponent } from './components/subscription/subscription.component';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
 
 
 
@@ -174,6 +177,9 @@ import { SubscriptionComponent } from './components/subscription/subscription.co
     NzInputNumberModule,
     NzUploadModule,
     NzToolTipModule,
+    NzIconModule,
+    NzButtonModule,
+    NzPopoverModule
   ],
   exports: [HeaderComponent],
   providers: [

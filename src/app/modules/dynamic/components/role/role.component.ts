@@ -163,7 +163,7 @@ export class RoleComponent implements OnInit {
           this.roles = data.object;
           for (let i = 0; i < this.roles.length; i++) {
             await this.getTotalCountOfUsers(this.roles[i].id).then((data) => {
-              console.log(data);
+              // console.log(data);
             });
             this.roles[i].count = this.num;
           }
@@ -227,7 +227,7 @@ export class RoleComponent implements OnInit {
   }
 
   getSubModuleByRoleMethodCall() {
-    console.log(this.roleRequest.id);
+    // console.log(this.roleRequest.id);
     this.dataService.getSubModuleByRole(this.roleRequest.id).subscribe(
       (data) => {
         this.moduleResponse = data;
@@ -385,7 +385,7 @@ export class RoleComponent implements OnInit {
         this.users = data.users;
         // this.total = data.count;
 
-        console.log(this.users, this.total);
+        // console.log(this.users, this.total);
       });
   }
 

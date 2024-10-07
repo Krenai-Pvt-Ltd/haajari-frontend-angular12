@@ -69,7 +69,7 @@ export class BankDetailsComponent implements OnInit {
     this.dataService.setEmployeeBankDetails(this.userBankDetailRequest, userUuid)
       .subscribe(
         (response: UserBankDetailRequest) => {
-          console.log(response);  
+          // console.log(response);  
           this.dataService.markStepAsCompleted(response.statusId);
           this.employeeOnboardingFormStatus = response.employeeOnboardingStatus;
        
@@ -317,7 +317,7 @@ displayModal = false;
           this.dataService.getAdminVerifiedForOnboardingUpdate(userUuid, adminUuid).subscribe(
             (isAdminPresent: boolean) => {
               this.userBankDetailRequest.updateRequest = isAdminPresent;
-              console.log('Admin verification successful.');
+              // console.log('Admin verification successful.');
               resolve(isAdminPresent); // Resolve the promise with the result
             },
             (error: any) => {

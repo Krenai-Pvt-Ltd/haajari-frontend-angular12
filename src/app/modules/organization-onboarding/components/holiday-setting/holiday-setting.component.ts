@@ -55,7 +55,7 @@ export class HolidaySettingComponent implements OnInit {
      this.submitWeeklyHolidaysLoader=true;
     this.dataService.registerWeeklyHolidays(selectedWeekDays).subscribe({
       next: (response) => {
-        console.log('Weekly holidays registered successfully', response);
+        // console.log('Weekly holidays registered successfully', response);
         this.getWeeklyHolidays(); 
         this.submitWeeklyHolidaysLoader=false;
         this.closeWeeklyHolidayModal.nativeElement.click();
@@ -70,7 +70,7 @@ export class HolidaySettingComponent implements OnInit {
   deleteWeeklyHolidays(id: number) {
       this.dataService.deleteWeeklyHolidays(id).subscribe(
         response => {
-          console.log(response);
+          // console.log(response);
           // alert('Weekly holiday deleted successfully');
           this.getWeeklyHolidays(); 
         },
@@ -83,7 +83,7 @@ export class HolidaySettingComponent implements OnInit {
   deleteCustomHolidays(id:number){
     this.dataService.deleteCustomHolidays(id).subscribe(
       response => {
-        console.log(response);
+        // console.log(response);
         this.getCustomHolidays(); 
       },
       error => {
@@ -111,7 +111,7 @@ export class HolidaySettingComponent implements OnInit {
   isCustomHolidayLoader:boolean=false;
   @ViewChild("customHolidayModal") customHolidayModal!:ElementRef;
   registerCustomHolidays() {
-    console.log(this.holidayList);
+    // console.log(this.holidayList);
     this.isCustomHolidayLoader=true;
     this.dataService.registerCustomHolidays(this.holidayList).subscribe({
       next: (response) => {
@@ -195,7 +195,7 @@ export class HolidaySettingComponent implements OnInit {
         ...day,
         selected: day.selected === 1
       }));
-      console.log(this.weekDay); 
+      // console.log(this.weekDay); 
     });
   }
 

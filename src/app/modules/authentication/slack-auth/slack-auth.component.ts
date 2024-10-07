@@ -47,7 +47,7 @@ export class SlackAuthComponent implements OnInit {
     const codeParam = new URLSearchParams(window.location.search).get('code');
     const stateParam = new URLSearchParams(window.location.search).get('state');
 
-    console.log('codeParam' + codeParam + 'stateParam' + stateParam);
+    // console.log('codeParam' + codeParam + 'stateParam' + stateParam);
     if (!codeParam || !stateParam) {
       this.router.navigate(['/auth/login']);
       // alert('Invalid URL: Missing code parameter');
@@ -62,7 +62,7 @@ export class SlackAuthComponent implements OnInit {
       )
       .subscribe(
         async (response: any) => {
-          console.log(response.object);
+          // console.log(response.object);
           this.isSuccessComponent = true;
           if(this.isSuccessComponent) {
             this.startCountdown();
@@ -82,7 +82,7 @@ export class SlackAuthComponent implements OnInit {
           Key.LOGGED_IN_USER = decodedValue;
 
           debugger;
-          console.log(decodedValue);
+          // console.log(decodedValue);
 
           this.isRouteDashboard = true;
           this.isRouteOnboarding = false;
@@ -181,7 +181,7 @@ export class SlackAuthComponent implements OnInit {
     const decodedToken: any = jwtDecode(access_token);
 
     debugger;
-    console.log(decodedToken);
+    // console.log(decodedToken);
     return decodedToken;
   }
   workspaceName: any;

@@ -160,7 +160,23 @@ export class OrganizationOnboardingService {
       { params },
     );
   }
+  checkEmployeeNumberExistBefore(number: string) {
+    debugger;
+    const params = new HttpParams().set('phone', number);
+    return this._httpClient.get(
+      this._key.base_url + '/whatsapp-user-onboarding/check-existence/number',
+      { params },
+    );
+  }
 
+  checkEmployeeEmailExistBefore(email: string) {
+    debugger;
+    const params = new HttpParams().set('email', email);
+    return this._httpClient.get(
+      this._key.base_url + '/whatsapp-user-onboarding/check-existence/email',
+      { params },
+    );
+  }
   checkAdminNumberExist(number: string) {
     debugger;
     const params = new HttpParams().set('phone', number);

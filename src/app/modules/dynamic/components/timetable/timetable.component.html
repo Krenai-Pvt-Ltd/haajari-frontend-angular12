@@ -33,7 +33,11 @@
             </div>
           </div>
           <!-- <div class="add-filtter d-flex align-items-center justify-content-end" style="gap: 10px">
-            <a data-bs-toggle="modal" data-bs-target="#unprocessedLogsModal" *ngIf="((ROLE | async) === ADMIN) || (ROLE | async) === MANAGER" (click)="getAttendanceRequestsData()">Unprocessed Logs <i class="bi bi-list-ol"></i></a>
+            <a data-bs-toggle="modal" data-bs-target="#unprocessedLogsModal" class="d-flex align-items-center justify-content-start gap-2" *ngIf="((ROLE | async) === ADMIN) || (ROLE | async) === MANAGER" (click)="getAttendanceRequestsData()">Unprocessed Logs <i class="bi bi-list-ol"></i>    
+              <span *ngIf="attendanceRequestCount > 0" class="badge bg-danger rounded-circle">
+              {{ attendanceRequestCount }}
+            </span>
+          </a>
             <p style="color: #a1a0a0; margin-bottom: 0px" *ngIf="(ROLE | async) === ADMIN">|</p>
             <a (click)="downloadAttedanceReport(selectedDate)" *ngIf="(ROLE | async) === ADMIN">Daily Report <i
               style="
@@ -1401,9 +1405,15 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="unprocessedLogsModalLabel">Unprocessed Logs</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="clearAttendanceRequestLogs()"></button>
+        <h5 class="modal-title" id="unprocessedLogsModalLabel">
+          Unprocessed Logs 
+          <span *ngIf="attendanceRequestCount > 0" class="badge bg-danger rounded-circle">
+            {{ attendanceRequestCount }}
+          </span>
+        </h5>        
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+      
       <div class="modal-body">
         <!-- Nav Tabs -->
         <ul class="nav nav-tabs" id="unprocessedLogsTabs" role="tablist">

@@ -428,7 +428,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.isLoadingShifts = true;
     this.dataService.getShifts().subscribe(
       (response) => {
-        console.log('Shift data response:', response); 
+        // console.log('Shift data response:', response); 
         if (response && response.listOfObject) {
           this.shiftList = response.listOfObject.map((shift: OrganizationShift) => ({
             value: shift.shiftId,
@@ -450,6 +450,8 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   clearForm() {
     this.userPersonalInformationRequest = new UserPersonalInformationRequest();
     this.emailAlreadyExists = false;
+    this.isEmailExist = false;
+    this.isNumberExist = false;
     // this.personalInformationForm.reset();
   }
 
@@ -642,7 +644,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           this.isProgressToggle = false;
           this.getReport();
           this.getUser();
-          console.log(this.onboardUserList.length);
+          // console.log(this.onboardUserList.length);
           this.alreadyUsedPhoneNumberArray = response.arrayOfString;
           this.alreadyUsedEmailArray = response.arrayOfString2;
         } else {
@@ -774,7 +776,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
             this.userList[index].isPhoneExist = response;
           }
           this.isNumberExist = response;
-          console.log(response);
+          // console.log(response);
         });
     }
   }
@@ -809,7 +811,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   sendEmailToUsers() {
     this.sendMailExcelUserFlag = true;
     this.emails = this.onboardUserList.map(user => user.email).filter(email => email);
-    console.log(this.emails);
+    // console.log(this.emails);
 
     this.dataService
         .sendEmails(this.emails)
@@ -846,6 +848,43 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   //   })
   // }
  
+  checkPhoneExistance(number: string) {
+    if (number != '' && number.length >= 10) {
+      this._onboardingService.checkEmployeeNumberExistBefore(number).subscribe(
+        (response: any) => {
+          this.isNumberExist = response;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
+  }
+
+  checkEmailExistanceBefore(email: string) {
+    // Basic email pattern check to ensure email has '@' and '.'
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  
+    if (email && emailPattern.test(email)) {
+      this._onboardingService.checkEmployeeEmailExistBefore(email).subscribe(
+        (response: any) => {
+          this.isEmailExist = response;
+          if (response == false) {
+
+          } else {
+            
+          }
+        },
+        (error) => {
+          console.error('Error checking email existence', error);
+        }
+      );
+    } else {
+      // Handle invalid email format case if needed
+      console.warn('Invalid email format');
+    }
+  }
+  
   
   saveSlackUserIdViaEmailData(email : string) {
     this.dataService

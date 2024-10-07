@@ -118,7 +118,7 @@
                 employeeStatus!.last3PendingUsers !== null &&
                   !networkConnectionErrorPlaceHolder &&
                   !dataNotFoundPlaceHolderForLast3PendingUsers;
-else errorInFetchinglast3PendingUserData"
+                    else errorInFetchinglast3PendingUserData"
                           >
                               <div class="d-flex align-items-center mt-4" style="gap: 10px;">
                                   <div class="on-leave" *ngFor="let statusUsers of employeeStatus.last3PendingUsers">
@@ -583,7 +583,20 @@ else errorInFetchinglast3PendingUserData"
                                               </p>
                                           </td> -->
                                           <td class="stickyColTd">
+                                              
                                               <a routerLink="/employee-profile" (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-name">{{ user.name }}</a>
+                                              <button nz-button nzType="text"  nz-popover [nzPopoverContent]="contentTemplate" >
+                                                <i class="bi bi-exclamation-triangle"></i>
+                                              </button>     
+
+                                              
+                                              <ng-template #contentTemplate>
+                                               <p> Slack ID isn't synced with Hajiri for this user. Click 'Sync' <br>to enable Slack integration with Hajiri.</p>
+                                               <div class="d-flex justify-content-end">
+                                                    <button type="button" class="btn btn-primary" >Sync</button>
+                                            </div>
+
+                                              </ng-template>
                                           </td>
                                           <td>
                                               <p class="mb-0 empID">#111<span><i class="bi bi-copy"></i></span></p>
@@ -837,58 +850,72 @@ else errorInFetchinglast3PendingUserData"
                   </div>
                 </div>
                 <div class="col-md-12">
-                  <div class="mb-3">
-                    <label for="phoneNumber" class="pb-2">Phone Number <span class="text-optional">* </span>  <i
-                        class="bi bi-exclamation-circle tolltip-icon"
-                        ngbTooltip="Please provide your personal phone number!"
-                        placement="top"
-                      ></i></label>
-                    <input
-                      type="text"
-                      mask="0000000000"
-                      class="form-control whatapp-login-input"
-                      id="phoneNumber"
-                      name="phoneNumber"
-                      placeholder="Phone number"
-                      [(ngModel)]="userPersonalInformationRequest.phoneNumber"
-                      minlength="10"
-                      maxlength="10"
-                      pattern="[0-9]*"
-                      (input)="restrictToDigits($event)"
-                      #phoneNumberField="ngModel"
-                      required
-                    />
-                    <!-- Error Message for Phone Number -->
-                    <div *ngIf="phoneNumberField.invalid && phoneNumberField.touched">
-                      <p class="errortxt mt-2 mb-0" style="color: red;">
-                        <i class="bi bi-exclamation-circle"></i> Enter a valid 10-digit phone number.
-                      </p>
+                    <div class="mb-3">
+                      <label for="phoneNumber" class="pb-2">
+                        Phone Number <span class="text-optional">*</span> 
+                        <i class="bi bi-exclamation-circle tolltip-icon" 
+                           ngbTooltip="Please provide your personal phone number!" 
+                           placement="top"></i>
+                      </label>
+                      <input
+                        type="text"
+                        mask="0000000000"
+                        class="form-control whatapp-login-input"
+                        id="phoneNumber"
+                        name="phoneNumber"
+                        placeholder="Phone number"
+                        [(ngModel)]="userPersonalInformationRequest.phoneNumber"
+                        minlength="10"
+                        maxlength="10"
+                        pattern="[0-9]*"
+                        (input)="restrictToDigits($event)"
+                        (keyup)="checkPhoneExistance(userPersonalInformationRequest.phoneNumber)"
+                        #phoneNumberField="ngModel"
+                        required
+                      />
+                      <!-- Error Message for Phone Number -->
+                      <div *ngIf="phoneNumberField.invalid && phoneNumberField.touched">
+                        <p class="errortxt mt-2 mb-0" class="errortxt mt-2 mb-0" style="color: red;">
+                          <i class="bi bi-exclamation-circle"></i> Enter a valid 10-digit phone number.
+                        </p>
+                      </div>
+                  
+                      <!-- Error message for phone number existence -->
+                      <div *ngIf="isNumberExist" class="errortxt mt-2 mb-0" style="color: red;">
+                        <i class="bi bi-exclamation-circle"></i> Phone number already registered with us.
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="col-md-12">
-                  <div class="mb-3">
-                    <label for="email" class="pb-2">Email Id <span class="text-optional">*</span></label>
-                    <input
-                      type="email"
-                      class="form-control whatapp-login-input"
-                      id="email"
-                      name="email"
-                      placeholder="Email id"
-                      [(ngModel)]="userPersonalInformationRequest.email"
-                      required
-                      #emailField="ngModel"
-                    />
-                    <div *ngIf="emailAlreadyExists" style="color: red;">
-                      <i class="bi bi-exclamation-circle"></i> Employee with this email already registered
-                    </div>
-                    <div *ngIf="emailField.invalid && emailField.touched">
-                      <p class="errortxt mt-2 mb-0" style="color: red;">
-                        <i class="bi bi-exclamation-circle"></i> Please enter a valid email address.
-                      </p>
+                  
+                  
+                  <div class="col-md-12">
+                    <div class="mb-3">
+                      <label for="email" class="pb-2">Email Id <span class="text-optional">*</span></label>
+                      <input
+                        type="email"
+                        class="form-control whatapp-login-input"
+                        id="email"
+                        name="email"
+                        placeholder="Email id"
+                        [(ngModel)]="userPersonalInformationRequest.email"
+                        (keyup)="checkEmailExistanceBefore(userPersonalInformationRequest.email)"
+                        required
+                        #emailField="ngModel"
+                      />
+                      <!-- Error Message for Email Already Exists -->
+                      <div *ngIf="isEmailExist" class="errortxt mt-2 mb-0" style="color: red;">
+                        <i class="bi bi-exclamation-circle"></i> Employee with this email already registered
+                      </div>
+                  
+                      <!-- Error Message for Invalid Email -->
+                      <div *ngIf="emailField.invalid && emailField.touched">
+                        <p class="errortxt mt-2 mb-0" class="errortxt mt-2 mb-0" style="color: red;">
+                          <i class="bi bi-exclamation-circle"></i> Please enter a valid email address.
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
+                  
                 <div class="col-md-12">
                   <div class="mb-3">
                     <label for="teamNames" class="pb-2">Select Team<span class="text-optional"> (Optional)</span></label>
@@ -953,7 +980,7 @@ else errorInFetchinglast3PendingUserData"
               <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close" #closeInviteModal>
                 Cancel
               </button>
-              <button class="btn btn-primary" type="submit" [disabled]="personalInformationForm.invalid" aria-label="Next Step">
+              <button class="btn btn-primary" type="submit" [disabled]="personalInformationForm.invalid || isNumberExist || isEmailExist" aria-label="Next Step">
                 <div *ngIf="toggle" class="dot-opacity-loader1">
                   <span></span>
                   <span></span>

@@ -257,13 +257,13 @@ isValidFileType(file: File): boolean {
      
       this.uploadFile(this.selectedFile, 'string');
   }
-  console.log(this.userDocumentsDetailsRequest);
+  // console.log(this.userDocumentsDetailsRequest);
   this.dataService.setEmployeeDocumentsDetails(this.userDocumentsDetailsRequest, userUuid)
     
   .subscribe(
     (response: UserDocumentsDetailsRequest) => {
-      console.log('Response:', response);
-      console.log(this.userDocumentsDetailsRequest);
+      // console.log('Response:', response);
+      // console.log(this.userDocumentsDetailsRequest);
       this.toggle = false
       this.employeeOnboardingFormStatus = response.employeeOnboardingStatus; 
       this.handleOnboardingStatus(response.employeeOnboardingStatus);
@@ -629,7 +629,7 @@ getAdminVerifiedForOnboardingUpdateMethodCall(): Promise<boolean> {
       this.dataService.getAdminVerifiedForOnboardingUpdate(userUuid, adminUuid).subscribe(
         (isAdminPresent: boolean) => {
           this.userDocumentsDetailsRequest.updateRequest = isAdminPresent;
-          console.log('Admin verification successful.');
+          // console.log('Admin verification successful.');
           resolve(isAdminPresent); // Resolve the promise with the result
         },
         (error: any) => {

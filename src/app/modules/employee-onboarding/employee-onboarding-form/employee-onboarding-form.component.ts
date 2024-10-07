@@ -70,7 +70,7 @@ export class EmployeeOnboardingFormComponent implements OnInit {
   @ViewChildren('checkboxes') checkboxes!: QueryList<ElementRef>;
   ngOnInit(): void {
     this.userPersonalInformationRequest.dateOfBirth = this.getInitialDate();
-    console.log();
+    // console.log();
     this.getNewUserPersonalInformationMethodCall();
   }
 
@@ -164,13 +164,13 @@ export class EmployeeOnboardingFormComponent implements OnInit {
       this.isInvalidFileType = false;
       return true;
     }
-    console.log(this.isInvalidFileType);
+    // console.log(this.isInvalidFileType);
     this.isInvalidFileType = true;
     return false;
   }
 
   getImageUrl(e: any) {
-    console.log(e);
+    // console.log(e);
     if (e != null && e.length > 0) {
     }
   }
@@ -185,12 +185,12 @@ export class EmployeeOnboardingFormComponent implements OnInit {
       .snapshotChanges()
       .toPromise()
       .then(() => {
-        console.log('Upload completed');
+        // console.log('Upload completed');
         fileRef
           .getDownloadURL()
           .toPromise()
           .then((url) => {
-            console.log('File URL:', url);
+            // console.log('File URL:', url);
             this.isUploading = false;
             this.userPersonalInformationRequest.image = url;
           })
@@ -238,7 +238,7 @@ export class EmployeeOnboardingFormComponent implements OnInit {
       )
       .subscribe(
         (response: UserPersonalInformationRequest) => {
-          console.log(response);
+          // console.log(response);
           this.employeeOnboardingFormStatus =
             response.employeeOnboardingFormStatus.toString();
           this.handleOnboardingStatus(this.employeeOnboardingFormStatus);
@@ -337,7 +337,7 @@ export class EmployeeOnboardingFormComponent implements OnInit {
             this.handleOnboardingStatus(
               response.employeeOnboardingStatus.response
             );
-            console.log(response);
+            // console.log(response);
             if (response.dateOfBirth) {
               this.dataService.markStepAsCompleted(response.statusId);
             }
@@ -995,7 +995,7 @@ export class EmployeeOnboardingFormComponent implements OnInit {
             (isAdminPresent: boolean) => {
               this.userPersonalInformationRequest.updateRequest =
                 isAdminPresent;
-              console.log('Admin verification successful.');
+              // console.log('Admin verification successful.');
               resolve(isAdminPresent); // Resolve the promise with the result
             },
             (error: any) => {
