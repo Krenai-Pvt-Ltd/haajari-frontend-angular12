@@ -757,6 +757,13 @@ body.dark-topbar .app-search form .form-control:focus {
   }
 }
 
+.page-item.active .page-link {
+  z-index: 3;
+  color: #fff !important;
+  background-color: #6666f3;
+  border-color: #6666f3;
+}
+
 body.dark-sidebar .left-sidebar {
   background-color: #fff;
 }

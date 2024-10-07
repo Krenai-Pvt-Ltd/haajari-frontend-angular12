@@ -240,9 +240,18 @@
   color: #fff;
 }
 
-.onboardingStapsPoint {
-  height: 352px;
-  overflow: scroll;
+@media screen and (max-width: 2600px) {
+  .onboardingStapsPoint {
+    height: 550px;
+    overflow: scroll;
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .onboardingStapsPoint {
+    height: 350px;
+    overflow: scroll;
+  }
 }
 .onboardingStapsPoint::-webkit-scrollbar {
   display: none;
