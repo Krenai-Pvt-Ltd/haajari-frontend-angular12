@@ -137,10 +137,10 @@ export class ShiftTimeListComponent implements OnInit {
               location.reload();
             }
 
-            this.helperService.showToast(
-              'Shift timing deleted successfully.',
-              Key.TOAST_STATUS_SUCCESS
-            );
+            // this.helperService.showToast(
+            //   'Shift timing deleted successfully.',
+            //   Key.TOAST_STATUS_SUCCESS
+            // );
             resolve(true);
           },
           (error) => {
@@ -312,10 +312,10 @@ export class ShiftTimeListComponent implements OnInit {
           // console.log(response);
           this.closeShiftTimingModal.nativeElement.click();
           this.getAllShiftTimingsMethodCall();
-          this.helperService.showToast(
-            'Shift Timing registered successfully',
-            Key.TOAST_STATUS_SUCCESS
-          );
+          // this.helperService.showToast(
+          //   'Shift Timing registered successfully',
+          //   Key.TOAST_STATUS_SUCCESS
+          // );
          
           this.dataService.markStepAsCompleted(5);
         },

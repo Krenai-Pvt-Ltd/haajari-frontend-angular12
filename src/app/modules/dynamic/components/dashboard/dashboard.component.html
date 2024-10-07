@@ -1690,7 +1690,7 @@
                 </div>
 
                 <div
-                  class="pagination pl-3"
+                  class="pagination pl-3" 
                   *ngIf="
                     (total > 11 &&
                       attendanceReportResponseList.length > 11 &&
@@ -2167,8 +2167,8 @@
           </li>
         </ul>
 
-        <!-- Pagination --> 
-        <!-- <div class="pagination pl-3" *ngIf="this.totalItems > 10">
+        <!-- Pagination -->
+        <div class="pagination pl-3" *ngIf="this.totalItems > 10"> 
           <p class="mb-0" style="padding-left: 15px">
             Showing {{ getStartIndexNew() }} - {{ getEndIndexNew() }} of
             {{ totalItems }} items
@@ -2187,7 +2187,6 @@
                       <span aria-hidden="true">&laquo;</span>
                     </a>
                   </li>
-              {{getPagesNew() | json}}
                   <li
                     class="page-item"
                     *ngFor="let page of getPagesNew()"
@@ -2219,7 +2218,7 @@
           </div>
         </div>
 
-</div> -->
+        <!-- </div> -->
       </div>
       <!-- <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
@@ -2373,7 +2372,7 @@
 
         <!-- Pagination -->
         <div class="pagination pl-3" *ngIf="totalCountBreak > 10">
-          <p class="mb-0">
+          <p class="mb-0"> 
             Showing {{ startIndexBreak }} - {{ endIndexBreak }} of
             {{ totalCountBreak }} items
           </p>
@@ -2549,7 +2548,7 @@
 
         <!-- Pagination -->
         <div class="pagination pl-3" *ngIf="totalCountLate > itemsPerPageLate">
-          <p class="mb-0">
+          <p class="mb-0"> 
             Showing {{ startIndexLate }} - {{ endIndexLate }} of
             {{ totalCountLate }} items
           </p>
@@ -2737,7 +2736,7 @@
 
         <!-- Pagination -->
         <div class="pagination pl-3" *ngIf="totalCountLeave > 8">
-          <p class="mb-0">
+          <p class="mb-0"> 
             Showing {{ startIndexLeave }} - {{ endIndexLeave }} of
             {{ totalCountLeave }} items
           </p>
