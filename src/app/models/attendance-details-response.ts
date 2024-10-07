@@ -8,7 +8,8 @@ export class AttendanceDetailsResponse {
     name : string = '';
     email : string = '';
     image : string = '';
-
+    isShiftMapped !: number;
+    isAutomationRuleMapped !: number;
     createdDate : string = '';
     createdDay : string = '';
     checkInTime : string = '';

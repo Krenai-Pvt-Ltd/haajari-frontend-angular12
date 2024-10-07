@@ -103,7 +103,7 @@ export class OrganizationPersonalInformationComponent implements OnInit {
           async (response) => {
             this.loading = false;
             this.isInfoLoading = false;
-            console.log('Organization personal info registered successfully.');
+            // console.log('Organization personal info registered successfully.');
             // this.router.navigate(['/organization-onboarding/upload-team']);
             await this.dataService.markStepAsCompleted(2);
             this._onboardingService
@@ -130,7 +130,7 @@ export class OrganizationPersonalInformationComponent implements OnInit {
       (data) => {
         this.organizationPersonalInformation = data;
         this.imageUrl = this.organizationPersonalInformation.logo;
-        console.log('imageUrl' + this.imageUrl);
+        // console.log('imageUrl' + this.imageUrl);
         // console.log(this.organizationPersonalInformation);
         //   if (data.logo) {
         //     this.setImageUrlFromDatabase(data.logo);
@@ -250,13 +250,13 @@ export class OrganizationPersonalInformationComponent implements OnInit {
       this.isInvalidFileType = false;
       return true;
     }
-    console.log(this.isInvalidFileType);
+    // console.log(this.isInvalidFileType);
     this.isInvalidFileType = true;
     return false;
   }
 
   getImageUrl(e: any) {
-    console.log(e);
+    // console.log(e);
     if (e != null && e.length > 0) {
     }
   }
@@ -273,12 +273,12 @@ export class OrganizationPersonalInformationComponent implements OnInit {
       .snapshotChanges()
       .toPromise()
       .then(() => {
-        console.log('Upload completed');
+        // console.log('Upload completed');
         fileRef
           .getDownloadURL()
           .toPromise()
           .then((url) => {
-            console.log('File URL:', url);
+            // console.log('File URL:', url);
             this.organizationPersonalInformation.logo = url;
             this.imageUrl = url;
 
@@ -1006,7 +1006,7 @@ locationLoader: boolean = false;
         .pipe(
           finalize(async () => {
             fileRef.getDownloadURL().subscribe((url) => {
-              console.log(url);
+              // console.log(url);
               this.organizationPersonalInformation.logo = url;
               this.imageUrl = url;
               this.imagePreviewUrl = url;
@@ -1045,10 +1045,10 @@ locationLoader: boolean = false;
 
   calculateRatio(num_1: any, num_2: any) {
     this.aspectRatio = num_1 / num_2;
-    console.log(
-      '🚀 ~ file: media-manager-crop.component.ts:548 ~ MediaManagerCropComponent ~ calculateRatio ~  this.aspectRatio:',
-      this.aspectRatio
-    );
+    // console.log(
+    //   '🚀 ~ file: media-manager-crop.component.ts:548 ~ MediaManagerCropComponent ~ calculateRatio ~  this.aspectRatio:',
+    //   this.aspectRatio
+    // );
     return this.aspectRatio;
   }
 
@@ -1101,17 +1101,17 @@ locationLoader: boolean = false;
     this.croppedImage = this.sanitizer.bypassSecurityTrustUrl(
       event.objectUrl || event.base64 || ''
     );
-    console.log(event);
+    // console.log(event);
   }
 
   imageLoaded() {
     this.showCropper = true;
     this.isLoading = false;
-    console.log('Image loaded');
+    // console.log('Image loaded');
   }
 
   cropperReady(sourceImageDimensions: Dimensions) {
-    console.log('imageLoadedCropper ready', sourceImageDimensions);
+    // console.log('imageLoadedCropper ready', sourceImageDimensions);
     this.loading = false;
   }
 

@@ -402,7 +402,7 @@ export class MediaManagerCropComponent implements OnInit {
       return;
     }
     this.cropedFiles = this.file;
-    console.log(this.cropedFiles);
+    // console.log(this.cropedFiles);
     // console.log(this.cropedFiles[0].);
     var mediaUploaded = await this.uploadSingleMediaToFireBaseAndGetUrl(
       this.cropedFiles,

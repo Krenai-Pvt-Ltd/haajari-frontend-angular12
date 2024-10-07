@@ -59,7 +59,11 @@ import { DonateCoinsUserList, DonateSuperCoinsReasonResponse } from 'src/app/mod
 import { OvertimeRequestDTO } from 'src/app/models/overtime-request-dto';
 import { OvertimeRequestLogResponse } from 'src/app/models/overtime-request-log-response';
 import { LopReversalApplicationResponse } from 'src/app/models/lop-reversal-application-response';
+import { NzCalendarMode } from 'ng-zorro-antd/calendar';
+import { AttendanceDetailDayWise } from 'src/app/models/attendance-detail-day-wise';
+
 import { OrganizationShift } from 'src/app/models/shift-type';
+
 
 @Component({
   selector: 'app-employee-profile',
@@ -181,7 +185,7 @@ export class EmployeeProfileComponent implements OnInit {
   currentDate: Date = new Date();
   currentNewDate: any;
   async ngOnInit(): Promise<void> {
-    this.activeTabs('home');
+    this.activeTabs('attendance');
     window.scroll(0, 0);
     this.getOrganizationRegistrationDateMethodCall();
     this.getOnboardingFormPreviewMethodCall();
@@ -190,7 +194,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.getSalaryConfigurationStepMethodCall();
     this.getSalaryTemplateComponentByUserUuidMethodCall();
     // this.getEmployeeCompanyDocumentsMethodCall();
-
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
     this.ROLE = await this.roleService.getRole();
     this.UUID = await this.roleService.getUuid();
 
@@ -219,6 +223,8 @@ export class EmployeeProfileComponent implements OnInit {
 
     let firstDayOfMonth = moment().startOf('month');
     this.startDateStr = firstDayOfMonth.format('YYYY-MM-DD');
+this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
+
     // this.startDateStr = firstDayString;
     // console.log("startDateStr :" + this.startDateStr);
     this.endDateStr = moment(new Date()).format('YYYY-MM-DD');
@@ -276,13 +282,14 @@ export class EmployeeProfileComponent implements OnInit {
       reason: [''],
       donationReason: ['']
     });
-    debugger
     this.getSuperCoinsResponseForEmployeeData();
     this.getUserListToDonateCoins();
     this.getDonateSuperCoinReasonData();
    
   }
 
+
+  
   getRoleData() {
     //  const managerDetails =localStorage.getItem('managerFunc');
     // if(managerDetails !== null){
@@ -515,84 +522,120 @@ export class EmployeeProfileComponent implements OnInit {
     this.closeAttendanceModal();
   }
 
+  date = new Date();
+  mode: NzCalendarMode = 'month';
+  // getEventForDate(date: Date): any {
+  //   return this.events.find(event => moment(event.date).isSame(moment(date), 'day'));
+  // }
+  
+
+  
+
+  panelChange(event: { date: Date; mode: 'month' | 'year' }): void {
+    this.mode = event.mode; // Update mode
+    // console.log('Panel change event:', event);
+
+    // Check if the mode is 'month' and the month has changed
+    const selectedDate = event.date;
+    const currentMonth = this.date.getMonth();
+    const currentYear = this.date.getFullYear();
+    const newMonth = selectedDate.getMonth();
+    const newYear = selectedDate.getFullYear();
+
+    // Check if the month or year has changed
+    if (newMonth !== currentMonth || newYear !== currentYear) {
+      // Update the date to the new selected date
+      this.date = selectedDate;
+
+      // Call your method to handle data fetching based on the new month/year
+      this.handleMonthChange(newMonth, newYear);
+    }
+  }
+  
+
+  disableDate = (current: Date): boolean => {
+    // Disable dates before the user's joining date
+    // console.log('Current:', current, 'Joining Date:', this.onboardingPreviewData.user.joiningDate);
+    return current < this.joiningDate;
+  };
+
+  disablePreviousYears = (current: Date): boolean => {
+    const currentYear = new Date().getFullYear();
+    return current.getFullYear() < currentYear;
+  };
+
+  disablePreviousMonths = (current: Date): boolean => {
+    return current && current < this.joiningDate;
+  };
+
+  selectChange(selectedDate: Date): void {
+    // console.log('Selected date:', selectedDate);
+    
+    // Calculate the start and end dates for the month
+    const startDateStr = moment(selectedDate).startOf('month').format('YYYY-MM-DD');
+    const endDateStr = moment(selectedDate).endOf('month').format('YYYY-MM-DD');
+    
+    // Call the method to fetch user attendance data
+    this.getUserAttendanceDataFromDate(startDateStr, endDateStr);
+  }
+
+  handleMonthChange(month: number, year: number): void {
+    const startDate = moment().year(year).month(month).startOf('month');
+    const endDate = moment(startDate).endOf('month');
+
+    const startDateStr = startDate.format('YYYY-MM-DD');
+    const endDateStr = endDate.format('YYYY-MM-DD');
+
+    // console.log(`Start Date: ${startDateStr}, End Date: ${endDateStr}`);
+
+    // Call your method to get user attendance data
+    this.getUserAttendanceDataFromDate(startDateStr, endDateStr);
+  }
+  
   // });
   getUserAttendanceDataFromDate(sDate: string, eDate: string): void {
-    
+    debugger
     this.dataService
       .getUserAttendanceDetailsByDateDuration(this.userId, 'USER', sDate, eDate)
       .subscribe(
         (response: any) => {
-          response = response.listOfObject;
+          const attendances = response?.listOfObject || [];
           this.events = [];
           this.totalPresent = 0;
           this.totalAbsent = 0;
-
-          if (response == null) {
-            let currentDate = moment(sDate);
-            const endDate = moment(eDate);
-
+  
+          if (!attendances.length) {
+            let currentDate = moment(sDate, 'YYYY-MM-DD');
+            const endDate = moment(eDate, 'YYYY-MM-DD');
+  
             while (currentDate.isSameOrBefore(endDate)) {
-              const title = 'A';
-              const date = currentDate.format('YYYY-MM-DD');
-              var color = '#f8d7d7';
+              this.events.push({ 
+                title: 'A', 
+                date: currentDate.format('YYYY-MM-DD'), 
+                color: '#f8d7d7' 
+              });
               this.totalAbsent++;
-              var tempEvent: { title: string; date: string; color: string } = {
-                title: title,
-                date: date,
-                color: color,
-              };
-              this.events.push(tempEvent);
-
               currentDate.add(1, 'days');
-
-              this.calendarOptions = {
-                plugins: [dayGridPlugin],
-                initialView: 'dayGridMonth',
-                weekends: true,
-                events: this.events,
-                eventClick: this.openModal.bind(this),
-                eventMouseEnter: this.openModal.bind(this),
-                eventMouseLeave: this.mouseLeaveInfo.bind(this),
-                // eventClick: function(mouseEnterInfo) {
-                //   alert('Event: ' + mouseEnterInfo.event.title);
-                //   mouseEnterInfo.el.style.borderColor = 'red';
-                // }
-              };
             }
           } else {
-            // this.attendanceDetails = Object.values(response);
-            // this.attendances = this.attendanceDetails[0];
-            // this.attendanceDetailsResponse = this.attendanceDetails[0];
-
-            this.attendances = response;
-            this.attendanceDetailsResponse = response;
-
-            // console.log('Attendance Details:', this.attendances);
-            // console.log(
-            //   'Attendance Details length:',
-            //   this.attendanceDetails[0].length
-            // );
-            for (let i = 0; i < this.attendances.length; i++) {
-              const attendance = this.attendances[i];
-              let title = this.getStatusTitle(attendance);
-              let color = this.getStatusColor(attendance.status);
-              if (
-                attendance.status == 'Present' ||
-                attendance.status == 'Half Day' ||
-                attendance.status == 'Late'
-              ) {
+            this.attendances = attendances;
+            this.attendanceDetailsResponse = attendances;
+            this.attendanceDetailDayWise = response?.listOfObject || [];
+  
+            for (let attendance of attendances) {
+              const title = this.getStatusTitle(attendance);
+              const color = this.getStatusColor(attendance.status);
+  
+              if (['Present', 'Half Day', 'Late'].includes(attendance.status)) {
                 this.totalPresent++;
-              } else if (attendance.status == 'Absent') {
+              } else if (attendance.status === 'Absent') {
                 this.totalAbsent++;
               }
-              const date = moment(this.attendances[i].createdDate).format(
-                'YYYY-MM-DD'
-              );
-
-              var tempEvent2 = {
-                title: title,
-                date: date,
-                color: color,
+  
+              this.events.push({
+                title,
+                date: moment(attendance.createdDate).format('YYYY-MM-DD'),
+                color,
                 checkInTime: attendance.checkInTime,
                 checkOutTime: attendance.checkOutTime,
                 breakCount: attendance.breakCount,
@@ -600,67 +643,29 @@ export class EmployeeProfileComponent implements OnInit {
                 totalWorkingHours: attendance.totalWorkingHours,
                 createdDate: attendance.createdDate,
                 status: attendance.status,
-              };
-              this.events.push(tempEvent2);
+              });              
             }
           }
-
+  
           this.updateCalendarOptions();
-          //   let title = '';
-
-          //   if((date == moment(new Date()).format('YYYY-MM-DD')) && (this.attendances[i].checkInTime==null)){
-          //     title == '-';
-          //   } else {
-          //   title = this.attendances[i].checkInTime != null ? 'P' : 'A';
-          //   if (title == 'Present') {
-          //     this.totalPresent++;
-          //   } else if (title == 'Absent') {
-          //     this.totalAbsent++;
-          //   }
-          // }
-
-          //   var checkInTime = this.attendances[i].checkInTime;
-          //   var checkOutTime = this.attendances[i].checkOutTime;
-          //   var breakCount = this.attendances[i].breakCount;
-          //   var breakDuration = this.attendances[i].totalBreakHours;
-          //   var totalWorkingHours = this.attendances[i].totalWorkingHours;
-          //   var createdDate = this.attendances[i].createdDate
-          //   var color = title == 'Present' ? '#e0ffe0' : title == 'Absent' ? '#f8d7d7' : '';
-          //   var tempEvent2: { title: string, date: string, color: string, checkInTime:any, checkOutTime:any, breakCount:any, breakDuration:any, totalWorkingHours:any, createdDate:any} = { title: title, date: date, color: color,checkInTime:checkInTime, checkOutTime:checkOutTime, breakCount:breakCount, breakDuration:breakDuration, totalWorkingHours:totalWorkingHours, createdDate:createdDate };
-          //   this.events.push(tempEvent2);
-
-          // if (i == this.attendances.length - 1) {
-          //   this.calendarOptions = {
-          //     plugins: [dayGridPlugin],
-          //     initialView: 'dayGridMonth',
-          //     weekends: true,
-          //     events: this.events,
-          //     eventClick: this.openModal.bind(this),
-          //     eventMouseEnter: this.openModal.bind(this),
-          //     eventMouseLeave:this.mouseLeaveInfo.bind(this)
-
-          //   };
-          // }
-
-          //   }
-          // }
-
-          var flag = false;
-          if (!flag) {
-            var date = new Date(this.prevDate);
-            const calendarApi = this.calendarComponent.getApi();
-            this.changeForwardButtonVisibilty(calendarApi);
-            flag = true;
+  
+          if (this.prevDate) {
+            //TODO : uncomment if required
+            // const calendarApi = this.calendarComponent.getApi();
+            // this.changeForwardButtonVisibilty(calendarApi);
           }
+  
           this.count++;
         },
         (error: any) => {
           this.count++;
-          // console.error('Error fetching data:', error);
+          console.error('Error fetching data:', error);
         }
       );
   }
-
+  
+  
+  // Function to update calendar options
   updateCalendarOptions(): void {
     this.calendarOptions = {
       plugins: [dayGridPlugin],
@@ -720,6 +725,84 @@ export class EmployeeProfileComponent implements OnInit {
         return '#ffffff';
     }
   }
+
+  attendanceDetailDayWise: AttendanceDetailDayWise[] =[];
+  
+
+  // Function to get attendance details for a particular date
+  getAttendance(date: Date): AttendanceDetailDayWise | undefined {
+    const formattedDate = this.formatDate(date);
+    return this.attendanceDetailDayWise.find(attendance => attendance.createdDate === formattedDate);
+  }
+  
+  getEventForDate(date: Date): any {
+    const formattedDate = this.formatDate(date);
+    return this.events.find(event => event.date === formattedDate);
+  }
+  
+  // Helper function to format date to match the event date format
+  // formatDate(date: Date): string {
+  //   const year = date.getFullYear();
+  //   const month = ('0' + (date.getMonth() + 1)).slice(-2);
+  //   const day = ('0' + date.getDate()).slice(-2);
+  //   return `${year}-${month}-${day}`;
+  // }
+  
+  // Function to get details for tooltip
+  getDetails(attendance: AttendanceDetailDayWise): string {
+    const createdDate = new Date(attendance.createdDate).toLocaleDateString();
+
+    // Define details based on the attendance status
+    let details = `Date: ${createdDate || 'N/A'}\n`;
+
+    switch (attendance.status) {
+        case 'Present':
+          case 'Half Day':
+            const checkInTime = new Date(attendance.checkInTime).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true });
+            const checkOutTime = new Date(attendance.checkOutTime).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true });
+            details += `: Check-in: ${checkInTime || 'N/A'}\n`;
+            details += `Check-out: ${checkOutTime || 'N/A'}\n`;
+            details += `Total Hours: ${attendance.totalWorkingHours || 'N/A'}\n`;
+            details += `Break Duration: ${attendance.breakDuration || 'N/A'}\n`;
+            break;
+
+        case 'Absent':
+            details += `: Absent\n`;
+            break;
+
+        case 'Weekly Holiday':
+            details += `: Weekly Holiday\n`;
+            break;
+
+        case 'Universal Holiday':
+        case 'Custom Holiday':
+            details += `: Holiday\n`;
+            break;
+
+        case 'On Leave':
+            details += `: On Leave\n`;
+            break;
+
+        case 'Not Marked':
+            details += `: Not Marked\n`;
+            break;
+
+        default:
+            details += `: Unknown\n`;
+            break;
+    }
+
+    return details;
+}
+
+
+   // Function to handle mode change (month/year change)
+   onModeChange(mode: string) {
+    // console.log('Calendar mode changed:', mode);
+    // Handle actions here if necessary, such as re-fetching data based on mode
+  }
+
+  
 
   // getStatusColor(status: any): string {
   //   switch (status) {
@@ -1050,7 +1133,7 @@ export class EmployeeProfileComponent implements OnInit {
     // this.selectStatusFlag=true;
 
     if (this.selectedStatus && this.selectedStatus != 'ALL') {
-      console.log('selectedStatus :' + this.selectedStatus);
+      // console.log('selectedStatus :' + this.selectedStatus);
       this.dataService
         .getUserLeaveLogByStatus(this.userId, this.selectedStatus)
         .subscribe(
@@ -1066,7 +1149,7 @@ export class EmployeeProfileComponent implements OnInit {
           }
         );
     } else {
-      console.log('selectedStatus :' + this.selectedStatus);
+      // console.log('selectedStatus :' + this.selectedStatus);
       this.dataService.getUserLeaveLog(this.userId).subscribe(
         (data) => {
           this.userLeaveLog = data;
@@ -1132,11 +1215,11 @@ export class EmployeeProfileComponent implements OnInit {
     return formattedDate;
   }
 
-  formatTime(date: Date) {
-    const dateObject = new Date(date);
-    const formattedTime = this.datePipe.transform(dateObject, 'hh:mm a');
-    return formattedTime;
-  }
+  // formatTime(date: Date) {
+  //   const dateObject = new Date(date);
+  //   const formattedTime = this.datePipe.transform(dateObject, 'hh:mm a');
+  //   return formattedTime;
+  // }
 
   calculateDateDifference(endDate: string, startDate: string): number {
     const end = new Date(endDate);
@@ -1185,7 +1268,7 @@ export class EmployeeProfileComponent implements OnInit {
         if (this.experienceEmployee[0].fresher == true) {
           this.isFresher = this.experienceEmployee[0].fresher;
         }
-        console.log('experience length' + this.experienceEmployee.length);
+        // console.log('experience length' + this.experienceEmployee.length);
         if (data == undefined || data == null || data.experiences.length == 0) {
           this.isCompanyPlaceholder = true;
         }
@@ -1795,7 +1878,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.dataService.getPFContributionRate().subscribe(
       (response) => {
         this.pFContributionRateList = response.listOfObject;
-        console.log(response.listOfObject);
+        // console.log(response.listOfObject);
       },
       (error) => {}
     );
@@ -1846,7 +1929,7 @@ export class EmployeeProfileComponent implements OnInit {
       (response) => {
         this.statutoryResponseList = response.listOfObject;
         this.setStatutoryVariablesToFalse();
-        console.log(this.statutoryResponseList);
+        // console.log(this.statutoryResponseList);
         this.clearInputValues();
       },
       (error) => {}
@@ -1862,7 +1945,7 @@ export class EmployeeProfileComponent implements OnInit {
         .subscribe(
           (response) => {
             this.statutoryAttributeResponseList = response.listOfObject;
-            console.log(response);
+            // console.log(response);
             resolve(response);
           },
           (error) => {
@@ -1887,7 +1970,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.statutoryRequest.statutoryAttributeRequestList =
       this.statutoryAttributeResponseList;
 
-    console.log(this.statutoryAttributeResponseList);
+    // console.log(this.statutoryAttributeResponseList);
 
     if (statutoryResponse.switchValue === false) {
       if (statutoryResponse.id == this.EPF_ID) {
@@ -1975,8 +2058,10 @@ export class EmployeeProfileComponent implements OnInit {
   startDate: string = '';
   endDate: string = '';
 
-  onMonthChange(month: Date): void {
-    this.selectedDate = month;
+  onMonthChange(month: any): void {
+    // console.log(month);
+    this.selectedDate =   new Date(this.selectedYear, month, 1),
+    // month;
     this.getFirstAndLastDateOfMonth(this.selectedDate);
 
     this.financeSectionMethodCall();
@@ -1991,6 +2076,8 @@ export class EmployeeProfileComponent implements OnInit {
     this.endDate = this.helperService.formatDateToYYYYMMDD(
       new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0),
     );
+   
+    this.getUserAttendanceDataFromDate(this.startDate, this.endDate);
   }
   disableMonths = (date: Date): boolean => {
     const currentYear = new Date().getFullYear();
@@ -2132,6 +2219,8 @@ export class EmployeeProfileComponent implements OnInit {
         this.dataNotFoundPlaceholderForEmployeePayslipLogResponse = true;
       } else{
         this.employeePayslipLogResponseList = response.listOfObject;
+        console.log( this.employeePayslipLogResponseList);
+      
       }
       this.isShimmerForEmployeePayslipLogResponse = false;
     }, (error) => {
@@ -2260,13 +2349,16 @@ export class EmployeeProfileComponent implements OnInit {
     this.router.navigate([routePath], navExtra);
   }
 
+  joiningDate!: Date;
   getOnboardingFormPreviewMethodCall() {
     const userUuid = new URLSearchParams(window.location.search).get('userId') || '';
     if (userUuid) {
       this.dataService.getOnboardingFormPreview(userUuid).subscribe(
         (preview) => {
-          console.log(preview);
+          // console.log(preview);
           this.onboardingPreviewData = preview;
+          this.joiningDate = new Date(this.onboardingPreviewData.user.joiningDate);
+          this.yearList = this.generateYearList();
           if (preview.companyLogo) {
             this.companyLogoUrl = preview.companyLogo;
           }
@@ -2278,14 +2370,14 @@ export class EmployeeProfileComponent implements OnInit {
           if (preview.employeeCompanyDocuments) {
             this.onboardingPreviewData.employeeCompanyDocuments =
               preview.employeeCompanyDocuments;
-            console.log(
-              'testtttt' + this.onboardingPreviewData.employeeCompanyDocuments
-            );
+            // console.log(
+            //   'testtttt' + this.onboardingPreviewData.employeeCompanyDocuments
+            // );
           }
 
           // if (preview.employeeAdditionalDocument && preview.employeeAdditionalDocument.length > 0) {
           this.employeeAdditionalDocument = preview.employeeAdditionalDocuments;
-          console.log(this.employeeAdditionalDocument);
+          // console.log(this.employeeAdditionalDocument);
           // } else {
           //   console.log("eroor ")
           //     // Handle the case where employeeAdditionalDocument is undefined, null, or empty
@@ -2471,7 +2563,7 @@ export class EmployeeProfileComponent implements OnInit {
 
   getFileTypeIcon(fileUrl: string): string {
     // Log the file URL to inspect its format
-    console.log('File URL:', fileUrl);
+    // console.log('File URL:', fileUrl);
 
     // Extract the file extension, ensuring you consider URLs with parameters or fragments
     const url = new URL(fileUrl, window.location.origin); // This normalizes the URL
@@ -2479,7 +2571,7 @@ export class EmployeeProfileComponent implements OnInit {
     const extension = `.${fileName?.split('.').pop()?.toLowerCase()}`;
 
     // Log the detected extension
-    console.log('Detected extension:', extension);
+    // console.log('Detected extension:', extension);
 
     // Return the corresponding icon class or a default value
     return this.fileTypeToIcon[extension] || 'lar la-file text-secondary';
@@ -2538,7 +2630,7 @@ export class EmployeeProfileComponent implements OnInit {
       this.isInvalidFileType = true;
       return true;
     }
-    console.log(this.isInvalidFileType);
+    // console.log(this.isInvalidFileType);
     this.isInvalidFileType = false;
     return false;
   }
@@ -2767,7 +2859,7 @@ export class EmployeeProfileComponent implements OnInit {
           .getDownloadURL()
           .toPromise()
           .then((url) => {
-            console.log('File URL:', url);
+            // console.log('File URL:', url);
             this.fileToUpload = url;
             // console.log('file url : ' + this.fileToUpload);
             this.isFileUploaded = false;
@@ -2971,7 +3063,7 @@ return
     this.dataService.getOrganizationHrPolicies().subscribe(response => {
       this.fileUrl = response.object.hrPolicyDoc;
       this.docsUploadedDate = response.object.docsUploadedDate;
-      console.log('policy retrieved successfully', response.object);
+      // console.log('policy retrieved successfully', response.object);
     }, (error) => {
       console.log(error);
     });
@@ -3021,7 +3113,7 @@ return
     const formattedDate = this.datePipe.transform(this.requestedDate, 'yyyy-MM-dd');
     this.dataService.getAttendanceChecktimeList(this.userId, formattedDate, this.statusString).subscribe(response => {
       this.attendanceCheckTimeResponse = response.listOfObject;
-      console.log('checktime retrieved successfully', response.listOfObject);
+      // console.log('checktime retrieved successfully', response.listOfObject);
     }, (error) => {
       console.log(error);
     });
@@ -3062,6 +3154,7 @@ return
   
       this.dataService.sendAttendanceTimeUpdateRequest(this.userId, attendanceTimeUpdateRequest, this.attendanceRequestType, this.choosenDateString).subscribe(
         (response) => {
+          // console.log('Request sent successfully', response);
 
           console.log("retrive", response, response.status);
           if(response.status === true) {
@@ -3283,9 +3376,9 @@ closeAttendanceFunc() {
     currentMonthTotalCoins: 0
   };
   getSuperCoinsResponseForEmployeeData() {
-    console.log('this.userId' + this.userId);
+    // console.log('this.userId' + this.userId);
     this.dataService.getSuperCoinsResponseForEmployee(this.userId).subscribe(response => {
-        console.log("success");
+        // console.log("success");
         this.employeeSuperCoinsResponse = response.object;
     }, (error) => {
       console.log(error);
@@ -3346,14 +3439,14 @@ closeAttendanceFunc() {
         this.overtimeRequestDTO.startTime = dates[0] ? new Date(dates[0]) : null;
         this.overtimeRequestDTO.endTime = dates[1] ? new Date(dates[1]) : null;
         this.overtimeRequestDTO.workingHour = this.helperService.durationBetweenTwoDatesInHHmmssFormat(this.overtimeRequestDTO.endTime, this.overtimeRequestDTO.startTime);
-        console.log("Working Hour: "+this.overtimeRequestDTO.workingHour);
+        // console.log("Working Hour: "+this.overtimeRequestDTO.workingHour);
       } else {
         // Handle case where array length is not 2 if necessary
         console.warn('Expected array with 2 dates, but got:', dates);
       }
     } else if (dates instanceof Date) {
       // Handle single date case if needed
-      console.log('Single Date Selected:', dates);
+      // console.log('Single Date Selected:', dates);
     } else if (dates === null) {
       // Handle null case
       this.overtimeRequestDTO.endTime = null;
@@ -3468,6 +3561,74 @@ closeAttendanceFunc() {
 
   
   
+  
+
+
+
+ 
+  // regDate = new Date('2023-01-01'); // Example registration date
+  selectedYear = this.date.getFullYear();
+  selectedMonth = this.date.getMonth() + 1;
+
+  // Generate a list of years (from registration year to current year)
+  yearList :number[]= [];
+
+  // List of months
+  monthList = [
+    { value: 1, label: 'January' },
+    { value: 2, label: 'February' },
+    { value: 3, label: 'March' },
+    { value: 4, label: 'April' },
+    { value: 5, label: 'May' },
+    { value: 6, label: 'June' },
+    { value: 7, label: 'July' },
+    { value: 8, label: 'August' },
+    { value: 9, label: 'September' },
+    { value: 10, label: 'October' },
+    { value: 11, label: 'November' },
+    { value: 12, label: 'December' }
+  ];
+
+
+
+  // Disable months earlier than registration date if the selected year matches the registration year
+  disableMonth = (month: number): boolean => {
+    if (this.selectedYear === this.joiningDate.getFullYear()) {
+      return month < (this.joiningDate.getMonth() + 1); // disable months before regDate in the registration year
+    }
+    return false;
+  };
+
+  // Handle year change
+  onYearChange(year: number) {
+    this.selectedYear = year;
+    this.updateCalendarDate();
+  }
+
+
+
+  // Update the calendar date based on the selected month and year
+  updateCalendarDate() {
+    // console.log("this.selectedYear",this.selectedYear)
+    this.date = new Date(this.selectedYear, this.selectedMonth - 1, 1);
+  }
+
+  // Generate year list from registration year to the current year
+  generateYearList(): number[] {
+    if(!this.joiningDate){
+      this.joiningDate = new Date(this.onboardingPreviewData.user.joiningDate);
+    }
+    const startYear = this.joiningDate.getFullYear();
+    const currentYear = new Date().getFullYear();
+    const years = [];
+    // console.log(startYear)
+    for (let year = startYear; year <= currentYear; year++) {
+      years.push(year);
+    }
+    // console.log("years ",years)
+    return years;
+  }
+
 }
 
 

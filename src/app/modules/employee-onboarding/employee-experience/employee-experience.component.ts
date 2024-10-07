@@ -129,7 +129,7 @@ export class EmployeeExperienceComponent implements OnInit {
     this.dataService.setEmployeeExperienceDetails(this.userExperiences, userUuid)
       .subscribe(
         response => { 
-          console.log('Response:', response);
+          // console.log('Response:', response);
           if(response!= null){
             this.employeeOnboardingFormStatus = response.employeeOnboardingStatus;
             this.handleOnboardingStatus(response.employeeOnboardingStatus);
@@ -468,11 +468,11 @@ isFormInvalid: boolean = false;
 // @ViewChild ('experienceInformationForm') experienceInformationForm !: NgForm
 checkFormValidation() {
   if (this.experienceInformationForm.invalid) {
-    console.log('Invalid controls:', this.experienceInformationForm.controls);
+    // console.log('Invalid controls:', this.experienceInformationForm.controls);
     Object.keys(this.experienceInformationForm.controls).forEach(key => {
       const control = this.experienceInformationForm.controls[key];
       if (control.invalid) {
-        console.log(key, 'is invalid', control.errors);
+        // console.log(key, 'is invalid', control.errors);
       }
     });
     this.isFormInvalid = true;
@@ -603,7 +603,7 @@ getAdminVerifiedForOnboardingUpdateMethodCall(): Promise<boolean> {
       this.dataService.getAdminVerifiedForOnboardingUpdate(userUuid, adminUuid).subscribe(
         (isAdminPresent: boolean) => {
           this.isAdminPresent = isAdminPresent;
-          console.log('Admin verification successful.');
+          // console.log('Admin verification successful.');
           resolve(isAdminPresent); // Resolve the promise with the result
         },
         (error: any) => {

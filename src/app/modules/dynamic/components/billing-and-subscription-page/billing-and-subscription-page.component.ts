@@ -48,7 +48,7 @@ export class BillingAndSubscriptionPageComponent implements OnInit {
     this.getActiveUserCount();
     this.getAdminPersonalDetailMethodCall();
     this.getAllSubscription();
-
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
   }
 
   routeToUserDashboard() {
@@ -204,7 +204,7 @@ this.getSubscriptionPlanDetails(plandId);
   checkout(value: any) {
     debugger
     this.ngZone.run(() => {
-    console.log('new transaction id', value);
+    // console.log('new transaction id', value);
     // this.isPaymentDone = true;
     this.router.navigate(['/dashboard']);
     // window.location.reload();
@@ -264,7 +264,7 @@ this.getSubscriptionPlanDetails(plandId);
                  this.message = '';
                   this.coupon = response.object;
                   this.verifiedCoupon = response.object.couponCode;
-                  console.log(this.verifiedCoupon);
+                  // console.log(this.verifiedCoupon);
                   this.tempTotalAmount = this.originalAmount;
                   this.couponDiscount = this.originalAmount - response.totalItems;
                   this.sbscriptionPlanReq.amount = response.totalItems;

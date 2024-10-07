@@ -95,7 +95,7 @@ export class LeaveManagementComponent implements OnInit {
     window.scroll(0, 0);
     this.logInUserUuid = await this.rbacService.getUUID();
     this.ROLE = await this.rbacService.getRole();
-
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
     this.getFullLeaveLogs();
     this.getPendingLeaves();
     this.getApprovedRejectedLeaveLogs();
@@ -561,7 +561,7 @@ export class LeaveManagementComponent implements OnInit {
       // } else {
       //   this.monthlyPlaceholderFlag = false;
       // }
-      console.log('length' + data.length);
+      // console.log('length' + data.length);
       this.monthlyChartData = data.map((item) => ({
         name: this.sliceWord(item.monthName),
         series: [
@@ -611,7 +611,7 @@ export class LeaveManagementComponent implements OnInit {
         ],
       }));
       this.dataReady = true;
-      console.log(this.consumedLeaveData);
+      // console.log(this.consumedLeaveData);
     });
   }
 
@@ -822,12 +822,12 @@ export class LeaveManagementComponent implements OnInit {
       .snapshotChanges()
       .toPromise()
       .then(() => {
-        console.log('Upload completed');
+        // console.log('Upload completed');
         fileRef
           .getDownloadURL()
           .toPromise()
           .then((url) => {
-            console.log('File URL:', url);
+            // console.log('File URL:', url);
             this.fileToUpload = url;
             // console.log('file url : ' + this.fileToUpload);
             this.isFileUploaded = false;
