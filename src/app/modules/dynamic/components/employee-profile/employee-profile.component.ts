@@ -1019,7 +1019,7 @@ export class EmployeeProfileComponent implements OnInit {
   userLeave: any = [];
   leaveCountPlaceholderFlag: boolean = false;
 
-  getUserLeaveReq() {
+  getUserLeaveReq1() {
     this.leaveCountPlaceholderFlag = false;
     this.dataService.getUserLeaveRequests(this.userId).subscribe(
       (data) => {
@@ -1039,6 +1039,14 @@ export class EmployeeProfileComponent implements OnInit {
         this.count++;
       }
     );
+  }
+
+  getUserLeaveReq(){
+    this.leaveCountPlaceholderFlag = false;
+    this.dataService.getUserLeaveRequests(this.userId).subscribe(
+      (res: any) => {
+          this.userLeave = res.object;
+      });
   }
 
   selectedStatus!: string;
