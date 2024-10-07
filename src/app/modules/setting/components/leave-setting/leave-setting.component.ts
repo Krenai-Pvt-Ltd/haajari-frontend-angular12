@@ -1574,6 +1574,7 @@ onStartDateChange(startDate: Date) {
   registerLeaveTemplateMethodCall(){
     this.setFieldsToLeaveTemplateRequest();
     this.dataService.registerLeaveTemplate(this.leaveTemplateRequest).subscribe((response) => {
+      this.helperService.registerOrganizationRegistratonProcessStepData(Key.LEAVE_TEMPLATE_ID, Key.PROCESS_COMPLETED);
       this.leaveTemplateRequest = new LeaveTemplateRequest();
       this.getAllLeaveTemplate();
       this.requestLeaveCloseModel.nativeElement.click();
