@@ -551,17 +551,17 @@
                         <div class="col-md-2">
                           <!-- Gender Selection -->
                           <label for="genderId">Select Gender</label>
-                          <!-- <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select gender" [(ngModel)]="selectedGenderId"
-                            (ngModelChange)="onGenderChange($event)" name="genderId" #genderId="ngModel" required>
-                            <nz-option *ngFor="let gender of genders" [nzValue]="gender.id" [nzLabel]="gender.name">
-                            </nz-option>
-                          </nz-select> -->
-                          
-                        <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select gender" formControlName="gender" 
+
+                        <!-- <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select gender" formControlName="gender" 
                         (ngModelChange)="onGenderChange($event, i)" required>
-                        <!-- Loop through accrualTypes and display options -->
                         <nz-option *ngFor="let gender of genders" [nzValue]="gender.id" [nzLabel]="gender.name"></nz-option>
-                      </nz-select>
+                      </nz-select> -->
+
+                      <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select gender" formControlName="gender" 
+                      (ngModelChange)="onGenderChange($event, i)" required>
+                      <!-- Loop through accrualTypes and display options -->
+                      <nz-option *ngFor="let gender of genders" [nzValue]="gender.name" [nzLabel]="gender.name"></nz-option>
+                    </nz-select>
                           
                           <!-- <div *ngIf="genderId.invalid && genderId.touched" class="invalid-feedback">
                             Gender is required.
@@ -574,7 +574,8 @@
                             <nz-option *ngFor="let leaveCategory of filteredLeaveCategories" [nzValue]="leaveCategory.id" [nzLabel]="leaveCategory.name"></nz-option>
                           </nz-select> -->
 
-                          <nz-select *ngIf="filteredLeaveCategories.length > 0" style="width: 100%;" nzSize="large" nzPlaceHolder="Select Leave Category Name" formControlName="leaveCategoryId" required>
+                          <!-- *ngIf="filteredLeaveCategories.length > 0" -->
+                          <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select Leave Category Name" formControlName="leaveCategoryId" required>
                             <!-- <nz-option *ngFor="let leaveCategory of leaveCategoryList" [nzValue]="leaveCategory.id" [nzLabel]="leaveCategory.name"></nz-option> -->
                             <nz-option *ngFor="let leaveCategory of filteredLeaveCategories[i]" [nzValue]="leaveCategory.id" [nzLabel]="leaveCategory.name"></nz-option>
                           </nz-select>

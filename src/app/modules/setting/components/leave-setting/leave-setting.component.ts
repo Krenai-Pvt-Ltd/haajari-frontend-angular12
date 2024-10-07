@@ -1317,8 +1317,10 @@ export class LeaveSettingComponent implements OnInit {
   }
 
   
-  selectedGenderId: number = 1;
-  gender: string = 'All';
+  // selectedGenderId: number = 1;
+  selectedGenderId: number = 0;
+  // gender: string = 'All';
+  gender: string = '';
   onGenderChange1(id: number) {
   // onGenderChange(event: any) {
    debugger
@@ -1349,7 +1351,7 @@ export class LeaveSettingComponent implements OnInit {
   }
 
   filteredLeaveCategories: any;
-  onGenderChange(id: number, i: number) {
+  /*onGenderChange(id: number, i: number) {
      debugger
      this.leaveTemplateRequest.gender = 'All';
     this.selectedGenderId = id;  // Store the selected gender ID
@@ -1386,7 +1388,54 @@ export class LeaveSettingComponent implements OnInit {
       // console.log('leaveCategoryList: ',this.leaveCategoryList)
       // console.log('filteredLeaveCategories: ',this.filteredLeaveCategories)
   
-    }
+    }*/
+      onGenderChange(value: any, i: number) {
+        debugger
+
+        if(value == 'Male'){
+          this.selectedGenderId = 2;
+        }else if(value == 'Female'){
+          this.selectedGenderId = 3
+        }else{
+          this.selectedGenderId = 1;
+        }
+
+        this.leaveTemplateRequest.gender = 'All';
+      //  this.selectedGenderId = id;  // Store the selected gender ID
+   
+       // Initialize filteredLeaveCategories if it doesn't exist
+       if (!this.filteredLeaveCategories) {
+         this.filteredLeaveCategories = [];
+     }
+   
+     // Ensure the index exists in filteredLeaveCategories
+     if (!this.filteredLeaveCategories[i]) {
+         this.filteredLeaveCategories[i] = [...this.leaveCategoryList]; // Initialize with original list
+     }
+   
+     // Filter based on the selected gender and index
+     if (this.selectedGenderId == 2) {
+         // Example: Exclude leave category with id 3 for males
+         this.filteredLeaveCategories[i] = this.filteredLeaveCategories[i].filter((leaveCategory: any) => leaveCategory.id !== 3);
+         this.leaveTemplateRequest.gender = 'Male';
+     } else if (this.selectedGenderId == 3) {
+         // Example: Exclude leave category with id 4 for females
+         this.filteredLeaveCategories[i] = this.filteredLeaveCategories[i].filter((leaveCategory: any) => leaveCategory.id !== 4);
+         this.leaveTemplateRequest.gender = 'Female';
+     } else if (this.selectedGenderId == 1) {
+         // Reset to original list if 'All' is selected
+         this.filteredLeaveCategories[i] = [...this.leaveCategoryList];
+         this.leaveTemplateRequest.gender = 'All';
+     }
+     
+         this.gender = this.leaveTemplateRequest.gender;
+         console.log('selectedGenderName: ',this.gender)
+         console.log('form: ',this.leaveTemplateRequest)
+     
+         // console.log('leaveCategoryList: ',this.leaveCategoryList)
+         // console.log('filteredLeaveCategories: ',this.filteredLeaveCategories)
+     
+       }
 
     //Accrual Type start
     accrualTypes: Array<{id: number, name: string, value: string }> = []; // Gender options
