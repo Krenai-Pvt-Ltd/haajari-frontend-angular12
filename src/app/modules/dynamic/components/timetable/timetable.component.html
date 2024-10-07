@@ -32,7 +32,7 @@
 
             </div>
           </div>
-          <div class="add-filtter d-flex align-items-center justify-content-end" style="gap: 10px">
+          <!-- <div class="add-filtter d-flex align-items-center justify-content-end" style="gap: 10px">
             <a data-bs-toggle="modal" data-bs-target="#unprocessedLogsModal" class="d-flex align-items-center justify-content-start gap-2" *ngIf="((ROLE | async) === ADMIN) || (ROLE | async) === MANAGER" (click)="getAttendanceRequestsData()">Unprocessed Logs <i class="bi bi-list-ol"></i>    
               <span *ngIf="attendanceRequestCount > 0" class="badge bg-danger rounded-circle">
               {{ attendanceRequestCount }}
