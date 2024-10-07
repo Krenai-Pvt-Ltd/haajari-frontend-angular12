@@ -143,7 +143,7 @@
           <h5 class="mb-2">Slack Integration Successful!</h5>
           <p>
             Your data has been synced with Slack, and
-            <span class="text-black"><b>156</b></span> new team <br />members
+            <span class="text-black"><b>{{slackUserCount || 0}}</b></span> new team <br />members
             have been successfully added to Hajiri
           </p>
 
@@ -166,9 +166,10 @@
       <div class="footer-text">
         <p class="mb-0">
           <nz-progress
-            [nzPercent]="100"
+            [nzPercent]="countdownPercent"
+            [nzValue]="countdown"
             nzType="circle"
-            [nzFormat]="formatOne"
+            [nzFormat]="countdown === 0 ? formatTwo : formatOne"
           ></nz-progress>
           We will automatically redirect you to the onboarding flow.
         </p>
