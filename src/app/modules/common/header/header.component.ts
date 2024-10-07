@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Console } from 'console';
 import { Key } from 'src/app/constant/key';
@@ -30,7 +31,8 @@ export class HeaderComponent implements OnInit {
     private helperService: HelperService,
     private dataService: DataService,
     public rbacService: RoleBasedAccessControlService,
-    private _subscriptionPlanService: SubscriptionPlanService
+    private _subscriptionPlanService: SubscriptionPlanService,
+    private db: AngularFireDatabase
   ) {
     // if (this.route.snapshot.queryParamMap.has('userId')) {
     //     this.activeTab = 'dashboard';
@@ -69,6 +71,7 @@ export class HeaderComponent implements OnInit {
 
   setActiveTabEmpty() {
     this.activeTab = '';
+    this.newNotification = false;
   }
 
   ADMIN = Key.ADMIN;
@@ -92,6 +95,7 @@ export class HeaderComponent implements OnInit {
     this.UUID = await this.rbacService.getUUID();
     this.ROLE = await this.rbacService.getRole();
     this.ORGANIZATION_UUID = await this.rbacService.getOrgRefUUID();
+    this.getFirebase(this.ORGANIZATION_UUID,this.UUID);
   }
 
   async getLoggedInUserDetails() {
@@ -340,4 +344,38 @@ export class HeaderComponent implements OnInit {
       opacity: 1, transform: `translateY(${index * itemheight}px)`,
     };
   }
+
+  newNotification:boolean = false;
+  getFirebase(orgUuid:any,userUuid:any){
+    this.db.object("user_notification"+"/"+"organization_"+orgUuid+"/"+"user_"+userUuid).valueChanges()
+      .subscribe(async res => {
+
+        //@ts-ignore
+        if(res?.flag != undefined && res?.flag != null){
+          //@ts-ignore
+          this.newNotification = res?.flag==1?true:false; 
+        }
+      });
+  }
+
+  visibleIndex(originalIndex: number): number {
+    let index = 0;
+    const conditions = [
+      this.rbacService.shouldDisplay('attendance'),
+      this.rbacService.shouldDisplay('leave-management'),
+      this.rbacService.shouldDisplay('reports'),
+      this.rbacService.shouldDisplay('assets'),
+      this.rbacService.shouldDisplay('coins') && this.ROLE === 'ADMIN' && this.ORGANIZATION_UUID == this.KRENAI_UUID && this.showSuperCoinFlag
+    ];
+  
+    for (let i = 0; i < originalIndex; i++) {
+      if (conditions[i]) {
+        index++;
+      }
+    }
+  
+    return index;
+  }
+  
+  
 }

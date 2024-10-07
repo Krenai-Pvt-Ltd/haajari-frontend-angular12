@@ -411,34 +411,23 @@
                     align-items: center;
                     padding: 0px !important;
                     padding-bottom: 10px !important;
-                  "
-                >
-                  <ng-container
-                    *ngIf="
-                      lateEmployeeAttendanceDetailsResponse.image !== null;
-                      else imageNull
-                    "
-                  >
-                    <div>
-                      <img
-                        src="{{ lateEmployeeAttendanceDetailsResponse.image }}"
-                        alt="image"
-                        style="
-                          width: 60px;
-                          height: 60px;
-                          border-radius: 50%;
-                          object-fit: cover;
-                        "
-                      />
-                    </div>
-                  </ng-container>
-                  <ng-template #imageNull>
-                    <div>
-                      <span class="members-name">{{
-                        lateEmployeeAttendanceDetailsResponse.name[0]
-                      }}</span>
-                    </div>
-                  </ng-template>
+                  ">
+                 <ng-container *ngIf="lateEmployeeAttendanceDetailsResponse.image && !lateEmployeeAttendanceDetailsResponse.image.includes('fakepath'); else imageNull">
+                  <div>
+                    <img src="{{ lateEmployeeAttendanceDetailsResponse.image }}" alt="image" style="
+                        width: 60px;
+                        height: 60px;
+                        border-radius: 50%;
+                        object-fit: cover;
+                      " />
+                  </div>
+                </ng-container>
+                <ng-template #imageNull>
+                  <div>
+                    <span class="members-name">{{ lateEmployeeAttendanceDetailsResponse.name[0] }}</span>
+                  </div>
+                </ng-template>
+                
 
                   <div>
                     <!-- <span class="in-time-box">
@@ -641,24 +630,19 @@
                       <div class="card-body p-0">
                         <div class="media p-3 align-items-center">
                           <!-- <img src="" alt="user" class="rounded-circle thumb-xl"> -->
-                          <span *ngIf="performer.image != null">
-                            <img
-                              src="{{ performer.image }}"
-                              alt="user"
-                              class="rounded-circle"
-                              style="
-                                width: 60px;
-                                border-radius: 50%;
-                                height: 60px;
-                                object-fit: cover;
-                              "
-                            />
-                          </span>
-                          <span
-                            class="members-name"
-                            *ngIf="performer.image == null"
-                            >{{ performer.name[0] }}</span
-                          >
+                      
+                        <span *ngIf="performer.image && !performer.image.includes('fakepath'); else noImage">
+                          <img src="{{ performer.image }}" alt="user" class="rounded-circle" style="
+                              width: 60px;
+                              border-radius: 50%;
+                              height: 60px;
+                              object-fit: cover;
+                            " />
+                        </span>
+                        <ng-template #noImage>
+                          <span class="members-name">{{ performer.name[0] }}</span>
+                        </ng-template>
+
                           <div class="media-body ms-3 align-self-center">
                             <h5
                               class="pro-title m-0 Regular-data"
@@ -2017,14 +2001,8 @@
 </div> -->
 
 <!-- Modal Structure -->
-<div
-  class="modal fade"
-  id="presentModal"
-  tabindex="-1"
-  aria-labelledby="transactionModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-md">
+<div class="modal fade" #presentModal id="presentModal" tabindex="-1" aria-labelledby="transactionModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5
@@ -2117,58 +2095,46 @@
         </div>
       </div>
 
-      <div
-        class="modal-body mt-0 pt-0"
-        *ngIf="attendanceDetailsResponseList.length > 0"
-      >
-        <!-- <div class="card-body"> -->
+      <!-- <div class="modal-body mt-0 pt-0" *ngIf="attendanceDetailsResponseList.length > 0">
+    
 
-        <ul
-          class="list-unstyled m-0 ps-0 transaction-history"
-          *ngFor="let attendList of attendanceDetailsResponseList"
-        >
-          <li class="align-items-center d-flex justify-content-between">
-            <div class="media">
-              <div
-                class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center"
-              >
-                <img
-                  src="{{ attendList.image }}"
-                  alt=""
-                  class="rounded-circle thumb-sm me-1"
-                  *ngIf="attendList.image"
-                />
-                <span
-                  class="members-name-new"
-                  id="user-first-name-logo"
-                  *ngIf="!attendList.image"
-                  >{{ attendList.name[0] }}</span
-                >
-                <!-- <span class="thumb-xl justify-content-center d-flex align-items-center bg-soft-success rounded-circle me-2" *ngIf="!attendList.image">{{ attendList.name[0] }}</span> -->
-              </div>
-              <div class="media-body align-self-center ms-3">
-                <div class="transaction-data">
-                  <h5 class="m-0 font-14">{{ attendList.name }}</h5>
-                  <p class="text-muted mb-0">{{ attendList.email }}</p>
+          <ul class="list-unstyled m-0 ps-0 transaction-history" *ngFor="let attendList of attendanceDetailsResponseList">
+            <li class="align-items-center d-flex justify-content-between gap-3">
+              <div class="media">
+                <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center">
+                  <img src="{{ attendList.image }}" alt="" class="rounded-circle thumb-sm me-1" *ngIf="attendList.image" />
+                  <span class="members-name-new" id="user-first-name-logo" *ngIf="!attendList.image">{{ attendList.name[0] }}</span>
+                </div>
+                <div class="media-body align-self-center ms-3">
+                  <div class="transaction-data">
+                    <div class="d-flex align-items-center">
+                      <h5 class="m-0 font-14">{{ attendList.name }}</h5>
+                      <span class="ms-2" [ngClass]="{'text-success': attendList.currentStatus !== 'Late', 'text-danger': attendList.currentStatus === 'Late'}">
+                        {{ attendList.checkInTime | date: 'shortTime' }}
+                      </span>
+                    </div>
+          
+                    <p class="text-muted mb-0 d-flex align-items-center justify-content-between">
+                      {{ attendList.email }}
+                      <span class="ms-3">
+                        <button *ngIf="attendList.isShiftMapped == 1 && attendList.isAutomationRuleMapped == 0" class="btn btn-link p-0" (click)="addToShift(attendList.uuid)">Add to Shift</button>
+                        <button *ngIf="attendList.isAutomationRuleMapped == 1 && attendList.isShiftMapped == 0" class="btn btn-link p-0" (click)="addToAutomationRule(attendList.uuid)">Add to Automation</button>
+                        <button *ngIf="attendList.isAutomationRuleMapped == 0 && attendList.isShiftMapped == 0" class="btn btn-link p-0" (click)="addToShift(attendList.uuid)">Add to Shift & Automation</button>
+                      </span>
+                    </p>
+                  </div>
+
+                  
                 </div>
               </div>
-              <!--end media body-->
-            </div>
-            <span
-              class="text-success"
-              *ngIf="attendList.currentStatus !== 'Late'"
-              >{{ attendList.checkInTime | date : "shortTime" }}</span
-            >
-            <span
-              class="text-danger"
-              *ngIf="attendList.currentStatus == 'Late'"
-              >{{ attendList.checkInTime | date : "shortTime" }}</span
-            >
-          </li>
-        </ul>
+            </li>
+          </ul>
+          
+          
+          
 
-        <!-- Pagination -->
-        <div class="pagination pl-3" *ngIf="this.totalItems > 10">
+        Pagination -->
+        <!-- <div class="pagination pl-3" *ngIf="this.totalItems > 10">
           <p class="mb-0" style="padding-left: 15px">
             Showing {{ getStartIndexNew() }} - {{ getEndIndexNew() }} of
             {{ totalItems }} items
@@ -2187,6 +2153,7 @@
                       <span aria-hidden="true">&laquo;</span>
                     </a>
                   </li>
+              {{getPagesNew() | json}}
                   <li
                     class="page-item"
                     *ngFor="let page of getPagesNew()"
@@ -2216,27 +2183,49 @@
               </nav>
             </div>
           </div>
-        </div>
 
-        <!-- </div> -->
+        </div> -->
+
+        <div class="pagination pl-3" *ngIf="
+        (this.totalItems > 10) 
+      ">
+    <p class="mb-0" style="padding-left: 15px">
+      Showing {{ getStartIndexNew() }} - {{ getEndIndexNew() }} of
+      {{ totalItems }} items
+    </p>
+    <div class="row">
+      <div class="col-md-12">
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-end">
+            <li class="page-item" [class.disabled]="pageNumberNew == 1">
+              <a class="page-link" href="javascript:void(0);" aria-label="Previous"
+                (click)="changePageNew('prev')">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item" *ngFor="let page of getPagesNew()" [class.active]="pageNumberNew == page">
+              <a class="page-link" href="javascript:void(0);" (click)="changePageNew(page)">{{ page }}</a>
+            </li>
+            <li class="page-item" [class.disabled]="pageNumberNew == lastPageNumberNew">
+              <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changePageNew('next')">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
       </div>
-      <!-- <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Close
-        </button>
-      </div> -->
     </div>
   </div>
-</div>
+
+      </div>
+    </div>
+  </div>
+<!-- </div> -->
 <!--  break modal  -->
 
-<div
-  class="modal fade"
-  id="breakUsersModal"
-  tabindex="-1"
-  aria-labelledby="breakUsersModalLabel"
-  aria-hidden="true"
->
+
+
+<div class="modal fade" id="breakUsersModal" tabindex="-1" aria-labelledby="breakUsersModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-md">
     <div class="modal-content">
       <div class="modal-header">

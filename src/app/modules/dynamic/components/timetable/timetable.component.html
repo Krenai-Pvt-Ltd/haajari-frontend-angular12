@@ -33,7 +33,11 @@
             </div>
           </div>
           <!-- <div class="add-filtter d-flex align-items-center justify-content-end" style="gap: 10px">
-            <a data-bs-toggle="modal" data-bs-target="#unprocessedLogsModal" *ngIf="((ROLE | async) === ADMIN) || (ROLE | async) === MANAGER" (click)="getAttendanceRequestsData()">Unprocessed Logs <i class="bi bi-list-ol"></i></a>
+            <a data-bs-toggle="modal" data-bs-target="#unprocessedLogsModal" class="d-flex align-items-center justify-content-start gap-2" *ngIf="((ROLE | async) === ADMIN) || (ROLE | async) === MANAGER" (click)="getAttendanceRequestsData()">Unprocessed Logs <i class="bi bi-list-ol"></i>    
+              <span *ngIf="attendanceRequestCount > 0" class="badge bg-danger rounded-circle">
+              {{ attendanceRequestCount }}
+            </span>
+          </a>
             <p style="color: #a1a0a0; margin-bottom: 0px" *ngIf="(ROLE | async) === ADMIN">|</p>
             <a (click)="downloadAttedanceReport(selectedDate)" *ngIf="(ROLE | async) === ADMIN">Daily Report <i
               style="
@@ -53,7 +57,7 @@
           <div class="d-flex align-items-center justify-content-center attendance-section-tab">
             <a (click)="changeTab(ATTENDANCE_TAB)" [ngClass]="{'active-tab': ACTIVE_TAB == ATTENDANCE_TAB}">Attendance</a>
             <a (click)="changeTab(OVERTIME_TAB);" [ngClass]="{'active-tab': ACTIVE_TAB == OVERTIME_TAB}">Overtime</a>
-            <a (click)="changeTab(UPDATION_REQUEST_TAB)" [ngClass]="{'active-tab': ACTIVE_TAB == UPDATION_REQUEST_TAB}">Updation request</a>
+            <a (click)="changeTab(ATTENDANCE_UPDATE_REQUEST_TAB)" [ngClass]="{'active-tab': ACTIVE_TAB == ATTENDANCE_UPDATE_REQUEST_TAB}">Updation request</a>
           </div>
         </div>
       </div>
@@ -1006,7 +1010,7 @@
 
         </div>
 
-        <div class="row" *ngIf="ACTIVE_TAB == UPDATION_REQUEST_TAB">
+        <div class="row" *ngIf="ACTIVE_TAB == ATTENDANCE_UPDATE_REQUEST_TAB">
           <div class="row p-2 mt-3">
             <div class="col-md-6">
               <div class="my-leave-log">
@@ -1015,21 +1019,20 @@
                 </div>
                 <hr style="margin-bottom: 10px" />
                 <ul class="nav nav-tabs bg-white" role="tablist">
-                  <li class="nav-item" (click)="changeLogTabInOvertimeTab(OVERTIME_PENDING_REQUEST_TAB); getOvertimePendingRequestResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();">
-                    <a class="nav-link" [ngClass]="{'active': ACTIVE_TAB_IN_OVERTIME_TAB == OVERTIME_PENDING_REQUEST_TAB}" data-bs-toggle="tab" href="#overtime-pending-request" role="tab" aria-selected="true">Pending requests <span class="badge rounded-pill badge-outline-warning" style="margin-left: 10px" *ngIf="pendingRequestCount > 0">{{ pendingRequestCount }}</span></a>
+                  <li class="nav-item" (click)="changeLogTabInAttendanceUpdateRequestTab(ATTENDANCE_UPDATE_PENDING_REQUEST_TAB); getOvertimePendingRequestResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();">
+                    <a class="nav-link" [ngClass]="{'active': ACTIVE_TAB_IN_ATTENDANCE_UPDATE_REQUEST_TAB == ATTENDANCE_UPDATE_PENDING_REQUEST_TAB}" data-bs-toggle="tab" href="#attendance-update-pending-request" role="tab" aria-selected="true">Pending requests <span class="badge rounded-pill badge-outline-warning" style="margin-left: 10px" *ngIf="pendingRequestCount > 0">{{ pendingRequestCount }}</span></a>
                   </li>
-                  <li class="nav-item" (click)="changeLogTabInOvertimeTab(OVERTIME_HISTORY_TAB); getOvertimeRequestResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();">
-                    <a class="nav-link" [ngClass]="{'active': ACTIVE_TAB_IN_OVERTIME_TAB == OVERTIME_HISTORY_TAB}" data-bs-toggle="tab" href="#overtime-history" role="tab" aria-selected="false">Update History</a>
+                  <li class="nav-item" (click)="changeLogTabInAttendanceUpdateRequestTab(ATTENDANCE_UPDATE_REQUEST_HISTORY_TAB); getOvertimeRequestResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();">
+                    <a class="nav-link" [ngClass]="{'active': ACTIVE_TAB_IN_ATTENDANCE_UPDATE_REQUEST_TAB == ATTENDANCE_UPDATE_REQUEST_HISTORY_TAB}" data-bs-toggle="tab" href="#overtime-history" role="tab" aria-selected="false">Update History</a>
                   </li>
                 </ul>
                 <div class="tab-content">
-                  <div class="pt-3 pb-3" id="overtime-pending-request" role="" *ngIf="ACTIVE_TAB_IN_OVERTIME_TAB == OVERTIME_PENDING_REQUEST_TAB">
-                    
-                    <ng-container *ngIf="isShimmerForOvertimePendingRequestResponse && overtimePendingRequestResponseList.length == 0 && !dataNotFoundForOvertimePendingRequestResponse && !networkConnectionErrorForOvertimePendingRequestResponse; else overtimePendingRequestResponseListCondition">
+                  <div class="pt-3 pb-3" id="attendance-update-pending-request" role="" *ngIf="ACTIVE_TAB_IN_ATTENDANCE_UPDATE_REQUEST_TAB == ATTENDANCE_UPDATE_PENDING_REQUEST_TAB">
+                    <ng-container *ngIf="isShimmerForAttendanceUpdatePendingRequestResponse && overtimePendingRequestResponseList.length == 0 && !dataNotFoundForAttendanceUpdatePendingRequestResponse && !networkConnectionErrorForAttendanceUpdatePendingRequestResponse; else attendanceUpdatePendingRequestListCondition">
                     </ng-container>
 
-                    <ng-template #overtimePendingRequestResponseListCondition>
-                      <ng-container *ngIf="!isShimmerForOvertimePendingRequestResponse && overtimePendingRequestResponseList.length != 0 && !dataNotFoundForOvertimePendingRequestResponse && !networkConnectionErrorForOvertimePendingRequestResponse; else errorWhileFetchingOvertimePendingRequestResponseListCondition">
+                    <ng-template #attendanceUpdatePendingRequestListCondition>
+                      <ng-container *ngIf="!isShimmerForAttendanceUpdatePendingRequestResponse && overtimePendingRequestResponseList.length != 0 && !dataNotFoundForAttendanceUpdatePendingRequestResponse && !networkConnectionErrorForAttendanceUpdatePendingRequestResponse; else errorWhileFetchingAttendanceUpdatePendingRequestResponseListCondition">
                         <div class="leave-history-box">
                           <div class="row mt-2" *ngFor="let overtimePendingRequestResponse of overtimePendingRequestResponseList">
                             <div class="col-auto">
@@ -1081,7 +1084,7 @@
                       </ng-container>
                     </ng-template>
 
-                    <ng-template #errorWhileFetchingOvertimePendingRequestResponseListCondition>
+                    <ng-template #errorWhileFetchingAttendanceUpdatePendingRequestResponseListCondition>
                       <div class="errorboxmain text-center" *ngIf="dataNotFoundForOvertimePendingRequestResponse && !networkConnectionErrorForOvertimePendingRequestResponse">
                         <div class="errorboxinner">
                           <div class="errorboxplaceholder mb-2">
@@ -1401,9 +1404,15 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="unprocessedLogsModalLabel">Unprocessed Logs</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="clearAttendanceRequestLogs()"></button>
+        <h5 class="modal-title" id="unprocessedLogsModalLabel">
+          Unprocessed Logs 
+          <span *ngIf="attendanceRequestCount > 0" class="badge bg-danger rounded-circle">
+            {{ attendanceRequestCount }}
+          </span>
+        </h5>        
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+      
       <div class="modal-body">
         <!-- Nav Tabs -->
         <ul class="nav nav-tabs" id="unprocessedLogsTabs" role="tablist">

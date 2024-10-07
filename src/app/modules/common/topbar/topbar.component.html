@@ -4,6 +4,9 @@
     <!-- Navbar -->
     <nav [ngClass]="ROLE == 'USER' ? 'navbar-custom employeeLoginHead' : 'navbar-custom'" id="navbar-custom">
       <ul class="list-unstyled topbar-nav float-end mb-0">
+        <li>
+          <button class="btn btn-outline-danger btn-round" (click)="logout()"> Logout </button>
+        </li>
         <li class="dropdown notification-list">
           <a class="nav-link dropdown-toggle arrow-none nav-icon" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false" (click)="fetchNotification('mail')">
             <i class="ti ti-mail"></i>

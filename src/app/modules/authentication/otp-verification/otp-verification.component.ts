@@ -15,12 +15,12 @@ export class OtpVerificationComponent implements OnInit {
   otp: string = '';
 
   onOtpInputChange(index: number) {
-    console.log(`Input ${index} changed`);
+    // console.log(`Input ${index} changed`);
   }
 
   verifyOtp() {
     // Implement your OTP verification logic here
-    console.log('Verifying OTP:', this.otp);
+    // console.log('Verifying OTP:', this.otp);
   }
 }
 
