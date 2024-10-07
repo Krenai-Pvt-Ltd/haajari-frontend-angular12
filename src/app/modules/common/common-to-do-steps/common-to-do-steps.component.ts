@@ -62,6 +62,7 @@ export class CommonToDoStepsComponent implements OnInit {
     this.getStepsData();
     this.getOrganizationInitialToDoStepBar();
     this.getOrganizationRegistratonProcessStepData();
+    this.getRoleDetails();
   }
 
   async getRoleDetails() {

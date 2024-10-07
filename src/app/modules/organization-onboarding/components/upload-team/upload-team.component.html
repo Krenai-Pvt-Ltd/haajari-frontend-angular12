@@ -578,6 +578,7 @@
                           class="mb-0 selectAll"
                           style="font-weight: 400; cursor: pointer"
                           (click)="selectAllPageUsers()"
+                          *ngIf="totalOnboardingUserListCount > size"
                         >
                           Select all
                           <span class="text-primary">
