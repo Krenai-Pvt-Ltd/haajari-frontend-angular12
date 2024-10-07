@@ -73,9 +73,9 @@
 .attendance-mode-card {
   background-color: #fff;
   border-radius: 2px;
-  border: 1px solid #f9fafb;
+  border: 1px solid #e6e6e6;
   margin: 0 auto;
-  min-height: 330px;
+  min-height: 150px;
 }
 
 .dot-opacity-loader {
@@ -276,7 +276,7 @@
   font-size: 15px;
   font-style: normal;
   font-weight: 500;
-  line-height: 18px;
+  line-height: 26px;
 }
 
 .employeeInformation p {
@@ -284,7 +284,7 @@
   font-size: 13px;
   font-style: normal;
   font-weight: 300;
-  line-height: 26px;
+  line-height: 18px;
 }
 .whatAppSlack {
   border-radius: 3px;
@@ -370,12 +370,37 @@ a.fetch-location {
 }
 
 .stap-back-btn {
-  background-color: var(--primary-background-color);
-  width: 22px;
-  height: 22px;
+  background-color: #fff;
+  border: 1px solid var(--primary-color);
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
+}
+.mode-icon {
+  background-color: #f3f5fa;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+}
+.mode-icon img {
+  width: auto !important;
+  border-radius: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+@media screen and (max-width: 2600px) {
+  .attendance-mode-card {
+    min-height: 130px;
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .attendance-mode-card {
+    min-height: 220px;
+  }
 }
