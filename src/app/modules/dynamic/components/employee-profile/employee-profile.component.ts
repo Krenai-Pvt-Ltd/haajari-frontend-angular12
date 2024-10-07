@@ -1093,7 +1093,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   userLeave: any = [];
   leaveCountPlaceholderFlag: boolean = false;
 
-  getUserLeaveReq() {
+  getUserLeaveReq1() {
     this.leaveCountPlaceholderFlag = false;
     this.dataService.getUserLeaveRequests(this.userId).subscribe(
       (data) => {
@@ -1113,6 +1113,14 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
         this.count++;
       }
     );
+  }
+
+  getUserLeaveReq(){
+    this.leaveCountPlaceholderFlag = false;
+    this.dataService.getUserLeaveRequests(this.userId).subscribe(
+      (res: any) => {
+          this.userLeave = res.object;
+      });
   }
 
   selectedStatus!: string;
