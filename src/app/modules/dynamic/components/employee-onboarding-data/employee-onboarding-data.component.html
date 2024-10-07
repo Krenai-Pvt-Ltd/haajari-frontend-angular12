@@ -583,7 +583,20 @@
                                               </p>
                                           </td> -->
                                           <td class="stickyColTd">
+                                              
                                               <a routerLink="/employee-profile" (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-name">{{ user.name }}</a>
+                                              <button nz-button nzType="text"  nz-popover [nzPopoverContent]="contentTemplate" >
+                                                <i class="bi bi-exclamation-triangle"></i>
+                                              </button>     
+
+                                              
+                                              <ng-template #contentTemplate>
+                                               <p> Slack ID isn't synced with Hajiri for this user. Click 'Sync' <br>to enable Slack integration with Hajiri.</p>
+                                               <div class="d-flex justify-content-end">
+                                                    <button type="button" class="btn btn-primary" >Sync</button>
+                                            </div>
+
+                                              </ng-template>
                                           </td>
                                           <td>
                                               <p class="mb-0 empID">#111<span><i class="bi bi-copy"></i></span></p>
