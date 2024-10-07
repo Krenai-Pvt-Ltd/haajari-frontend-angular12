@@ -51,6 +51,7 @@ export class LiveManagerComponent implements OnInit {
   ngOnInit(): void {
     window.scroll(0, 0);
     this.getUserLeaveReq();
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
   }
 
   userLeaveRequest: UserLeaveRequest = new UserLeaveRequest();

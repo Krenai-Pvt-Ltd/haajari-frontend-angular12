@@ -409,6 +409,7 @@ export class LeaveRuleSetupComponent implements OnInit {
               leaveCount: category.leaveCount,
               leaveRules: category.leaveRules,
               carryForwardDays: category.carryForwardDays,
+              accrualTypeId: category.accrualTypeId
             });
 
             categoriesArray.push(categoryGroup);
@@ -778,12 +779,13 @@ export class LeaveRuleSetupComponent implements OnInit {
     this.selectedStaffsUuidsUser = [];
   }
 
+  ids: any;
   deleteAllUsers(): void {
     for (const userUuid of this.selectedStaffsUuidsUser) {
       this.loadingDeleteStatus[userUuid] = true;
     }
     this.dataService
-      .deleteAllUsersByLeaveSettingId(this.selectedStaffsUuidsUser)
+      .deleteAllUsersByLeaveSettingId(this.ids)
       .subscribe(
         () => {
           for (const userUuid of this.selectedStaffsUuidsUser) {
@@ -883,7 +885,7 @@ export class LeaveRuleSetupComponent implements OnInit {
           }
         );
     } else {
-      this.dataService.addUserToLeaveRule(userUuid, leaveSettingId).subscribe(
+      this.dataService.addUserToLeaveRule(101, leaveSettingId).subscribe(
         (response) => {
           this.isMappedStaffEmpty = false;
           this.addedUserFlag = true;

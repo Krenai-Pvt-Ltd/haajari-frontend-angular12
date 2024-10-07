@@ -24,7 +24,7 @@ export class RoleAddComponent implements OnInit {
   ngOnInit(): void {
     window.scroll(0, 0);
     const roleIdParam = this.activateRoute.snapshot.queryParamMap.get('roleId');
-
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
     if (roleIdParam !== null) {
       debugger;
       this.roleRequest.id = +roleIdParam;

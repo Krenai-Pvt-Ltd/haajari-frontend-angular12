@@ -25,6 +25,7 @@ export class LeaveSettingCategoryResponse {
   leaveRules!: string;
   carryForwardDays!: number;
   leaveSettingId!: number;
+  accrualTypeId!: number;
 }
 
 export class UserLeaveSettingRule {

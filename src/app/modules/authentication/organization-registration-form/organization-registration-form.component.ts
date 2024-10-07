@@ -16,11 +16,11 @@ export class OrganizationRegistrationFormComponent implements OnInit {
   constructor(private dataService : DataService,  private router: Router, private helperService : HelperService, private _onboardingService : OrganizationOnboardingService) { }
 
   employeeCountOptions = [
-    { value: '0-2', label: '0 - 2' },
-    { value: '2-15', label: '2 - 15' },
-    { value: '15-30', label: '15 - 30' },
-    { value: '50-100', label: '50 - 100' },
-    { value: '100-5000', label: '100 - 5000' },
+    { value: '0-10', label: '0 - 10' },
+    { value: '11-50', label: '11 - 50' },
+    { value: '51-100', label: '51 - 100' },
+    { value: '101-500', label: '101 - 500' },
+    { value: '500+', label: '500+' },
   ];
 
   ngOnInit(): void {

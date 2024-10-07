@@ -47,7 +47,6 @@ import { SalaryTemplateComponentResponse } from 'src/app/models/salary-template-
 import { AppraisalRequest } from 'src/app/models/appraisal-request';
 import { BonusRequest } from 'src/app/models/bonus-request';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
-
 import { EmployeePayslipResponse } from 'src/app/models/employee-payslip-response';
 import { EmployeePayslipBreakupResponse } from 'src/app/models/employee-payslip-breakup-response';
 import { EmployeePayslipDeductionResponse } from 'src/app/models/employee-payslip-deduction-response';
@@ -195,7 +194,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.getSalaryConfigurationStepMethodCall();
     this.getSalaryTemplateComponentByUserUuidMethodCall();
     // this.getEmployeeCompanyDocumentsMethodCall();
-
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
     this.ROLE = await this.roleService.getRole();
     this.UUID = await this.roleService.getUuid();
 

@@ -32,6 +32,7 @@ import { AssetsComponent } from './components/assets/assets.component';
 import { BillingAndSubscriptionPageComponent } from './components/billing-and-subscription-page/billing-and-subscription-page.component';
 import { CoinsComponent } from './components/coins/coins.component';
 import { ToDoStepDashboardComponent } from './components/to-do-step-dashboard/to-do-step-dashboard.component';
+import { SubscriptionComponent } from './components/subscription/subscription.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -174,6 +175,10 @@ const routes: Routes = [
       {
         path: 'to-do-step-dashboard',
         component: ToDoStepDashboardComponent,
+      },
+      {
+        path: 'subscription',
+        component: SubscriptionComponent,
       },
     ],
   },

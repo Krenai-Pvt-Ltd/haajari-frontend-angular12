@@ -1,9 +1,3 @@
-.register-back-image {
-  background-repeat: no-repeat;
-  background-position: right center;
-  background-size: contain;
-  height: 100%;
-}
 .registration-main-box {
   background: linear-gradient(
     180deg,
@@ -13,6 +7,17 @@
   );
   height: 100vh;
 }
+.register-back-image {
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: contain;
+  height: 100%;
+}
+
+.check-box {
+  height: auto !important;
+  top: 2px;
+}
 
 .register-form-box {
   border-radius: 2px;
@@ -20,6 +25,12 @@
   /* box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; */
 }
 
+.register-side-box img {
+  width: 100px;
+}
+.register-detail-img img {
+  width: 530px;
+}
 .register-form-box h4 {
   color: #1c1b1f;
   font-size: 16px;
@@ -28,7 +39,7 @@
   line-height: 22px;
   letter-spacing: 0.096px;
   text-transform: uppercase;
-  text-align: center;
+  text-align: left;
 }
 
 .register-form-box label {
@@ -60,14 +71,9 @@
   font-weight: 500;
   line-height: 21.582px;
   letter-spacing: 0.098px;
-  background-color: #2e2ef6;
+  background-color: var(--primary-background-color);
   border-radius: 2px;
   opacity: 0.8;
-}
-
-.btn.createAccount:disabled {
-  background-color: #cccccc;
-  cursor: not-allowed;
 }
 
 .form-check-label {
@@ -103,7 +109,7 @@
 .alredy-login,
 .iHaveRead {
   color: rgba(0, 0, 0, 0.85) !important;
-  font-size: 12px !important;
+  font-size: 14px !important;
   font-style: normal !important;
   font-weight: 400 !important;
   line-height: 20.854px !important;
@@ -111,10 +117,10 @@
 }
 
 .login-link {
-  color: #6666f2 !important;
+  color: var(--primary-color);
 }
 .login-link:hover {
-  color: #6666f2 !important;
+  color: var(--primary-color);
 }
 
 .dot-opacity-loader {
@@ -129,7 +135,7 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: #6666f3 !important; /* Change to your preferred color */
+  background-color: #fff; /* Change to your preferred color */
   margin: 0 4px;
   animation: dotOpacity 1.4s infinite ease-in-out both;
 }
@@ -153,5 +159,5 @@
   }
 }
 .form-check input[type="checkbox"] {
-  accent-color: #6666f2;
+  accent-color: var(--primary-color);
 }

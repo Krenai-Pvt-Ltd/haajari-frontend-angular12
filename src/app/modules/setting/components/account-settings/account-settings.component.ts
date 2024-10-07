@@ -63,6 +63,7 @@ export class AccountSettingsComponent implements OnInit, AfterViewInit {
     this.getOnboardingVia();
     this.getOrganizationIsInstalledFlag();
     this.getSlackAuthUrl();
+    this.helper.saveOrgSecondaryToDoStepBarData(0);
   }
 
   @ViewChild('account') account!: ElementRef;

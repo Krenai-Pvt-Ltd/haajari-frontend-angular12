@@ -882,7 +882,7 @@
         <div class="col-md-12" id="attendance-master-roll-reports">
           <div class="col">
             <h4 class="card-title" style="font-size: 18px; margin: 0px 0px 15px 0px">
-              Attendance Master Roll Report
+              Attendance Muster Roll Report
             </h4>
           </div>
 
@@ -1229,7 +1229,7 @@
                       "
                     >
                       <tbody>
-                        <tr *ngFor="let item of [].constructor(6)">
+                        <tr *ngFor="let item of [].constructor(12)">
                           <td class="text-center">
                             <ngx-shimmer-loading
                               [width]="'100%'"
@@ -1237,10 +1237,7 @@
                             ></ngx-shimmer-loading>
                           </td>
                           <td class="text-center">
-                            <ngx-shimmer-loading
-                              [width]="'%'"
-                              [height]="'10px'"
-                            ></ngx-shimmer-loading>
+                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
                           </td>
                           <td class="text-center">
                             <ngx-shimmer-loading
@@ -2136,32 +2133,53 @@
           
           
 
-       
-
-      </div> -->
-
-      <div class="modal-body" *ngIf="attendanceDetailsResponseList.length > 0">
-        <div class="align-items-center d-flex justify-content-between gap-3 border-bottom pb-2 mb-2" *ngFor="let attendList of attendanceDetailsResponseList">
-          <div class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center">
-            <img src="{{ attendList.image }}" alt="" class="rounded-circle thumb-sm me-1" *ngIf="attendList.image" />
-            <span class="members-name-new" id="user-first-name-logo" *ngIf="!attendList.image">{{ attendList.name[0] }}</span>
-          </div>
-          <div class="transaction-data w-100">
-
-            <div class="d-flex align-items-center justify-content-between">
-              <h5 class="m-0 font-14">{{ attendList.name }}</h5>
-              <span class="ms-2" [ngClass]="{'text-success': attendList.currentStatus !== 'Late', 'text-danger': attendList.currentStatus === 'Late'}">
-                {{ attendList.checkInTime | date: 'shortTime' }}
-              </span>
-            </div>
-            <div class="d-flex align-items-center justify-content-between">
-              <p class="text-muted mb-0 ">
-                {{ attendList.email }}</p>
-                <span class="ms-3">
-                  <button *ngIf="attendList.isShiftMapped == 1 && attendList.isAutomationRuleMapped == 0" class="btn btn-link p-0" (click)="routeToAttendanceSetting()">Add to Automation</button>
-                  <button *ngIf="attendList.isAutomationRuleMapped == 1 && attendList.isShiftMapped == 0" class="btn btn-link p-0" (click)="routeToAttendanceSetting()">Add to Shift</button>
-                  <button *ngIf="attendList.isAutomationRuleMapped == 0 && attendList.isShiftMapped == 0" class="btn btn-link p-0" (click)="routeToAttendanceSetting()">Add to Shift & Automation</button>
-                </span>
+        <!-- Pagination -->
+        <div class="pagination pl-3" *ngIf="this.totalItems > 10">
+          <p class="mb-0" style="padding-left: 15px">
+            Showing {{ getStartIndexNew() }} - {{ getEndIndexNew() }} of
+            {{ totalItems }} items
+          </p>
+          <div class="row">
+            <div class="col-md-12">
+              <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-end">
+                  <li class="page-item" [class.disabled]="pageNumberNew == 1">
+                    <a
+                      class="page-link"
+                      href="javascript:void(0);"
+                      aria-label="Previous"
+                      (click)="changePageNew('prev')"
+                    >
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                  <li
+                    class="page-item"
+                    *ngFor="let page of getPagesNew()"
+                    [class.active]="pageNumberNew == page"
+                  >
+                 <a
+                      class="page-link"
+                      href="javascript:void(0);"
+                      (click)="changePageNew(page)"
+                      >{{ page }}</a
+                    >
+                  </li>
+                  <li
+                    class="page-item"
+                    [class.disabled]="pageNumberNew == lastPageNumberNew"
+                  >
+                    <a
+                      class="page-link"
+                      href="javascript:void(0);"
+                      aria-label="Next"
+                      (click)="changePageNew('next')"
+                    >
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
             </div>
           </div>
 
@@ -2201,7 +2219,7 @@
       </div>
     </div>
   </div>
-</div>
+<!-- </div> -->
 <!--  break modal  -->
 
 

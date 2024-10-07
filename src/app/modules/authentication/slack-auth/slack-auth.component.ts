@@ -30,6 +30,9 @@ export class SlackAuthComponent implements OnInit {
     this.continueInSlack();
   }
 
+  formatOne = (percent: number): string => `${percent}`;
+  formatTwo = (): string => `Done`;
+
   isSuccessComponent: boolean = false;
   isErrorComponent: boolean = false;
 
@@ -50,7 +53,11 @@ export class SlackAuthComponent implements OnInit {
     }
     this.errorFlag = false;
     this.dataService
-      .registerOrganizationUsingCodeParam(codeParam, stateParam, this.helperService.getTimeZone())
+      .registerOrganizationUsingCodeParam(
+        codeParam,
+        stateParam,
+        this.helperService.getTimeZone()
+      )
       .subscribe(
         async (response: any) => {
           // console.log(response.object);
@@ -76,12 +83,12 @@ export class SlackAuthComponent implements OnInit {
           // console.log(decodedValue);
 
           this.isRouteDashboard = true;
-            this.isRouteOnboarding = false;
+          this.isRouteOnboarding = false;
           // if (
           //   decodedValue.httpCustomStatus === 'UPDATED' &&
           //   decodedValue.statusResponse === 'Attendance Rule Setting'
           // ) {
-            
+
           //   this.router.navigate(['/dashboard']);
           // }
           // } else {

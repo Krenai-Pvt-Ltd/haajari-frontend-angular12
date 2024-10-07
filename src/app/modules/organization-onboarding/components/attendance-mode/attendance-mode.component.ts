@@ -32,6 +32,10 @@ export class AttendanceModeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    const token = localStorage.getItem('token');
+    if (token==null) {
+      this.router.navigate(['/auth/signup']);
+    }
     this.getAttendanceModeAllMethodCall();
     this.getAttendanceModeMethodCall();
     this.getOrganizationAddressDetailMethodCall();
@@ -100,7 +104,7 @@ export class AttendanceModeComponent implements OnInit {
     );
   }
 
-  
+
 
   selectedAttendanceModeId: number = 0;
   getAttendanceModeMethodCall() {
@@ -148,10 +152,10 @@ export class AttendanceModeComponent implements OnInit {
           if(response.object!=null) {
           this.attendanceModeStep = response.object;
           }else {
- 
+
             this.attendanceModeStep = 0;
           }
-          
+
         }
         console.log(this.attendanceModeStep);
       },
@@ -161,7 +165,7 @@ export class AttendanceModeComponent implements OnInit {
     );
   }
 
-  
+
 
 
   attendanceModeList: AttendanceMode[] = [];
@@ -298,7 +302,7 @@ currentLocation() {
   debugger
   this.locationLoader = true;
   this.fetchCurrentLocationLoader = true;
-  
+
   this.getCurrentLocation()
     .then((coords) => {
       this.placesService
@@ -306,7 +310,7 @@ currentLocation() {
         .then((details) => {
           this.locationLoader = false;
           this.fetchCurrentLocationLoader = false;
-          
+
           this.organizationAddressDetail = new OrganizationAddressDetail();
           this.organizationAddressDetail.longitude = coords.longitude;
           this.organizationAddressDetail.latitude = coords.latitude;
@@ -527,7 +531,7 @@ currentLocation() {
         setTimeout(() => {
           this.router.navigate(['/dashboard']);
         }, 1000);
-       
+
       },
       (error) => {
         this.helperService.showToast("Error while purchasing the plan!", Key.TOAST_STATUS_ERROR);

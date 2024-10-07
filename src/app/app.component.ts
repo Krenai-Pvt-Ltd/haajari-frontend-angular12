@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, RouteConfigLoadStart, Router } from '@angular/router';
 import { Key } from './constant/key';
 import { HelperService } from './services/helper.service';
 import { RoleBasedAccessControlService } from './services/role-based-access-control.service';
@@ -21,6 +21,16 @@ export class AppComponent implements OnInit {
     public rbacService: RoleBasedAccessControlService,
     private _helperService: HelperService
   ) {
+
+    this.router.events.subscribe((event:any) => {
+      if (event instanceof RouteConfigLoadStart) {
+        this._helperService.detectOpenModalOnBack();
+      } 
+      if(event instanceof NavigationEnd &&  document.body?.classList){
+        document.body?.classList?.remove("modal-open")
+        document.body.style.overflow = 'scroll';
+      }
+    })
     this._helperService.toastSubscription.subscribe((value) => {
       this.isShowToast = value;
     });

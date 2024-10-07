@@ -16,3 +16,9 @@ export class AttendanceReportResponse {
 	totalPayOutDaysUpToToday : number = 0;
 	dayWiseStatusList : DayWiseStatus[] = [];
 }
+
+
+
+
+
+

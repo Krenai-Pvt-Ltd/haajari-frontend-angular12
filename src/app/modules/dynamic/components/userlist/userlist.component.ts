@@ -40,6 +40,7 @@ export class UserlistComponent implements OnInit {
     window.scroll(0, 0);
     this.getUsersByFiltersFunction();
     this.assignRole();
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
   }
 
   getUsersByFiltersFunction() {

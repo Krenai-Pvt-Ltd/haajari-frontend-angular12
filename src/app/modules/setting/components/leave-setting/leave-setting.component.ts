@@ -11,13 +11,21 @@ import { template } from 'lodash';
 import * as moment from 'moment';
 import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
+import { Employeetype } from 'src/app/models/EmployeeType';
 import { FullLeaveSettingRequest } from 'src/app/models/Full-Leave-Setting-Request';
 import { FullLeaveSettingResponse } from 'src/app/models/full-leave-setting-response';
 import { LeaveSettingCategoryResponse } from 'src/app/models/leave-categories-response';
+import { LeaveCategory } from 'src/app/models/leave-category';
+import { LeaveCycle } from 'src/app/models/leave-cycle';
 import { LeaveSettingResponse } from 'src/app/models/leave-setting-response';
+import { LeaveTemplateRequest } from 'src/app/models/leave-template-request';
+import { LeaveTemplateResponse } from 'src/app/models/leave-template-response';
+import { LeaveTemplateRes } from 'src/app/models/LeaveTemplateRes';
 import { Staff } from 'src/app/models/staff';
 import { StaffSelectionUserList } from 'src/app/models/staff-selection-userlist';
+import { UnusedLeaveAction } from 'src/app/models/unused-leave-action';
 import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-reflection';
+import { YearType } from 'src/app/models/year-type';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 
@@ -40,23 +48,18 @@ export class LeaveSettingComponent implements OnInit {
     this.addRow();
   }
 
-  // createLeaveCategory() {
-  //   return this.fb.group({
-  //     leaveName: ['', Validators.required],
-  //     leaveCount: ['', Validators.required],
-  //     leaveRules: [''],
-  //     carryForwardDays: ['']
-  //   });
-  // }
   readonly constants = constant;
 
   ngOnInit(): void {
     window.scroll(0, 0);
+
+    this.getAllLeaveTemplate();
+
     this.getTeamNames();
     this.getUserByFiltersMethodCall(0);
     this.getFullLeaveSettingInformation();
     // this.findUsersOfLeaveSetting(30);
-
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
     const leaveId = localStorage.getItem('tempId');
 
     if (leaveId != null) {
@@ -68,6 +71,8 @@ export class LeaveSettingComponent implements OnInit {
     }
   }
 
+  
+
   localStorageLeaveRuleId!: number;
 
   idFlag: boolean = false;
@@ -78,163 +83,56 @@ export class LeaveSettingComponent implements OnInit {
 
   isFormValid: boolean = false;
   checkFormValidity(form: NgForm | null) {
-    debugger;
     this.errorTemplateNameFlag = false;
     this.isFormValid = form?.valid ?? false;
   }
 
-  // registerLeaveSettingTemplate() {
-  //   this.leaveCategoryTab.nativeElement.click();
-  //   this.dataService
-  //     .registerLeaveSettingTemplate(this.leaveSettingResponse)
-  //     .subscribe(
-  //       (response) => {
-  //         this.leaveSettingResponse.id = response.id;
-  //         localStorage.setItem("tempId", response.id.toString());
-  //         console.log('Leave setting registered successfully:', response);
-  //       },
-  //       (error) => {
-  //         console.error('Error registering leave setting:', error);
-  //       }
-  //     );
+
+
+  // setAccrualType(accrualType: string) {
+  //   this.leaveSettingResponse.accrualType = accrualType;
   // }
 
-  setAccrualType(accrualType: string) {
-    this.leaveSettingResponse.accrualType = accrualType;
-  }
-
-  enterCountFlag: boolean = false;
-  setSandwichRules(rule: string) {
-    this.leaveSettingResponse.sandwichRules = rule;
-    if (rule === 'Count') {
-      this.enterCountFlag = true;
-    } else {
-      this.enterCountFlag = false;
-    }
-  }
-
-  // *********** second
-  //   leaveCategories = [{ leaveName: '', leaveCount: 0, leaveRules: 'Lapse', carryForwardDays: 0 , leaveSettingId: 0}];
-
-  //   // ...
-
-  // setLeaveRule(index: number, rule: string) {
-  //   this.leaveSettingCategories[index].leaveRules = rule;
-  //   if (rule === 'Lapse') {
-  //     this.leaveSettingCategories[index].carryForwardDays = 0;
+  // enterCountFlag: boolean = false;
+  // setSandwichRules(rule: string) {
+  //   this.leaveSettingResponse.sandwichRules = rule;
+  //   if (rule === 'Count') {
+  //     this.enterCountFlag = true;
+  //   } else {
+  //     this.enterCountFlag = false;
   //   }
   // }
-
-  // addLeave() {
-  //   this.leaveCategories.push({
-  //     leaveName: '',
-  //     leaveCount: 0,
-  //     leaveRules: 'Lapse',
-  //     carryForwardDays: 0,
-  //     leaveSettingId: 0
-  //   });
-  // }
-
-  // removeLeave(index: number) {
-  //   this.leaveSettingCategories.splice(index, 1);
-  // }
-
-  // // ...
 
   get categories(): FormArray {
     return this.form.get('categories') as FormArray;
   }
 
   addRow() {
+    debugger
     const newRow = this.fb.group({
-      leaveName: ['', Validators.required],
+      leaveCategoryId: ['', Validators.required],
+      leaveCycleId: ['', Validators.required],
       leaveCount: ['', [Validators.required, Validators.min(0)]],
-      leaveRules: [''],
-      carryForwardDays: [''],
+      isSandwichLeave: [''],
+      unusedLeaveActionId: [''],
+      unusedLeaveActionCount: [''],
+      accrualTypeId: ['']
+      // accrualTypeId: ['', Validators.required]
     });
 
     this.categories.push(newRow);
   }
 
-  // leaveSettingCategories: LeaveSettingCategoryResponse[] = [];
-  // templateId!: number;
-
   deleteRow(index: number) {
     const categoriesArray = this.form.get('categories') as FormArray;
     categoriesArray.removeAt(index);
-    this.helperService.showToast('Row deleted', Key.TOAST_STATUS_SUCCESS);
+    this.helperService.showToast('Category removed successfully.', Key.TOAST_STATUS_SUCCESS);
   }
 
   hasError(controlName: string, index: number, errorName: string) {
     const control = this.categories.at(index)?.get(controlName);
     return control?.touched && control?.hasError(errorName);
   }
-
-  // saveLeaveCategories() {
-  //   const tempId = localStorage.getItem("tempId");
-  //   let templateId: number | null = null;
-
-  //   if (tempId !== null) {
-  //     templateId = +tempId;
-  //   }
-
-  //   if (templateId === null || isNaN(templateId)) {
-  //     console.error('Invalid templateId:', templateId);
-  //     return;
-  //   }
-
-  //   debugger
-  //   // const leaveSettingCategories: LeaveSettingCategoryResponse[] = this.form.value.categories;
-
-  //   const leaveSettingCategories = this.form.value.categories.map((category: any) => ({
-  //     ...category,
-  //     leaveSettingId: templateId
-  //   }));
-
-  //   this.staffSelectionTab.nativeElement.click();
-
-  //   this.dataService.registerLeaveCategories(leaveSettingCategories, templateId)
-  //     .subscribe(response => {
-  //       console.log('Leave categories saved successfully:', response);
-  //     }, error => {
-  //       console.error('Error saving leave categories:', error);
-  //     });
-  // }
-
-  // *************
-
-  // saveLeaveSetting() {
-  //   debugger
-  //   const tempId = localStorage.getItem("tempId");
-  //   let templateId: number | null = null;
-
-  //   if (tempId !== null) {
-  //     templateId = +tempId;
-  //   }
-
-  //   if (templateId === null || isNaN(templateId)) {
-  //     console.error('Invalid templateId:', templateId);
-  //     return;
-  //   }
-  //   console.log(this.selectedStaffsUuids);
-  //   // if (this.selectedStaffsUuids.length > 0 && templateId) {
-  //     this.dataService.registerUserOfLeaveSetting(templateId, this.selectedStaffsUuids).subscribe(
-  //       response => {
-  //         this.getFullLeaveSettingInformation()
-  //         this.requestLeaveCloseModel.nativeElement.click();
-  //         localStorage.removeItem("tempId")
-  //         this.emptyAddLeaveSettingRule();
-  //         // location.reload();
-  //         console.log('Users saved for leave setting:', response);
-  //       },
-  //       error => {
-  //         console.error('Error saving users for leave setting:', error);
-  //       }
-  //     );
-  //   // } else {
-  //   //   // console.error(error);
-  //   // }
-  // }
 
   itemPerPage: number = 8;
   pageNumber: number = 1;
@@ -269,7 +167,8 @@ export class LeaveSettingComponent implements OnInit {
     this.crossFlag = false;
   }
 
-  selectedStaffsUuids: string[] = [];
+  // selectedStaffIds: string[] = [];
+  selectedStaffIds: number[] = [];
   selectedStaffs: Staff[] = [];
   isAllSelected: boolean = false;
 
@@ -286,7 +185,7 @@ export class LeaveSettingComponent implements OnInit {
     }
 
     this.debounceTimer = setTimeout(() => {
-      this.selectedStaffsUuids = [];
+      this.selectedStaffIds = [];
 
       this.dataService
         .getUsersByFilterForLeaveSetting(
@@ -305,7 +204,8 @@ export class LeaveSettingComponent implements OnInit {
             this.staffs = response.users.map(
               (staff: StaffSelectionUserList) => ({
                 ...staff.user,
-                selected: this.selectedStaffsUuids.includes(staff.user.uuid),
+                selected: this.selectedStaffIds.includes(staff.user.id),
+                // selected: this.selectedStaffIds.includes(staff.user.uuid),
                 // isMapped:
                 isAdded: staff.mapped,
               })
@@ -331,14 +231,14 @@ export class LeaveSettingComponent implements OnInit {
     }, debounceTime);
   }
 
-  isUserInLeaveRule(userUuid: string): boolean {
-    const userLeaveRule = this.fullLeaveSettingResponse.userLeaveRule;
-    return (
-      userLeaveRule &&
-      userLeaveRule.length > 0 &&
-      userLeaveRule.some((rule) => rule.userUuids.includes(userUuid))
-    );
-  }
+  // isUserInLeaveRule(userId: string): boolean { amit
+  //   const userLeaveRule = this.fullLeaveSettingResponse.userLeaveRule;
+  //   return (
+  //     userLeaveRule &&
+  //     userLeaveRule.length > 0 &&
+  //     userLeaveRule.some((rule) => rule.userIds.includes(userId))
+  //   );
+  // }
 
   checkIndividualSelection() {
     this.isAllUsersSelected = this.staffs.every((staff) => staff.selected);
@@ -349,30 +249,25 @@ export class LeaveSettingComponent implements OnInit {
   checkAndUpdateAllSelected() {
     this.isAllSelected =
       this.staffs.length > 0 && this.staffs.every((staff) => staff.selected);
-    this.isAllUsersSelected = this.selectedStaffsUuids.length === this.total;
+    this.isAllUsersSelected = this.selectedStaffIds.length === this.total;
   }
 
   updateSelectedStaffs() {
     this.staffs.forEach((staff) => {
-      if (staff.selected && !this.selectedStaffsUuids.includes(staff.uuid)) {
-        this.selectedStaffsUuids.push(staff.uuid);
+      if (staff.selected && !this.selectedStaffIds.includes(staff.id)) {
+        this.selectedStaffIds.push(staff.id);
       } else if (
         !staff.selected &&
-        this.selectedStaffsUuids.includes(staff.uuid)
+        this.selectedStaffIds.includes(staff.id)
       ) {
-        this.selectedStaffsUuids = this.selectedStaffsUuids.filter(
-          (uuid) => uuid !== staff.uuid
+        this.selectedStaffIds = this.selectedStaffIds.filter(
+          (uuid) => uuid !== staff.id
         );
       }
     });
 
     this.checkAndUpdateAllSelected();
 
-    // this.activeModel2=true;
-
-    // if(this.selectedStaffsUuids.length === 0){
-    //   this.activeModel2 = false;
-    // }
   }
 
   // #####################################################
@@ -387,13 +282,13 @@ export class LeaveSettingComponent implements OnInit {
     this.staffs.forEach((staff) => (staff.selected = isChecked)); // Update each staff's selected property
 
     if (isChecked) {
-      // If selecting all, add all user UUIDs to the selectedStaffsUuids list
+      // If selecting all, add all user UUIDs to the selectedStaffIds list
       // this.activeModel2 = true;
       this.getAllUsersUuids().then((allUuids) => {
-        this.selectedStaffsUuids = allUuids;
+        this.selectedStaffIds = allUuids;
       });
     } else {
-      this.selectedStaffsUuids = [];
+      this.selectedStaffIds = [];
       // this.activeModel2 = false;
     }
   }
@@ -402,19 +297,19 @@ export class LeaveSettingComponent implements OnInit {
     this.isAllSelected = checked;
     this.staffs.forEach((staff) => (staff.selected = checked));
 
-    // Update the selectedStaffsUuids based on the current page selection
+    // Update the selectedStaffIds based on the current page selection
     if (checked) {
       // this.activeModel2 = true;
       this.staffs.forEach((staff) => {
-        if (!this.selectedStaffsUuids.includes(staff.uuid)) {
-          this.selectedStaffsUuids.push(staff.uuid);
+        if (!this.selectedStaffIds.includes(staff.id)) {
+          this.selectedStaffIds.push(staff.id);
         }
       });
     } else {
       this.staffs.forEach((staff) => {
-        if (this.selectedStaffsUuids.includes(staff.uuid)) {
-          this.selectedStaffsUuids = this.selectedStaffsUuids.filter(
-            (uuid) => uuid !== staff.uuid
+        if (this.selectedStaffIds.includes(staff.id)) {
+          this.selectedStaffIds = this.selectedStaffIds.filter(
+            (uuid) => uuid !== staff.id
           );
         }
       });
@@ -422,8 +317,7 @@ export class LeaveSettingComponent implements OnInit {
   }
 
   // Asynchronous function to get all user UUIDs
-  async getAllUsersUuids(): Promise<string[]> {
-    debugger;
+  async getAllUsersUuids(): Promise<number[]> {
     const response = await this.dataService
       .getUsersByFilterForLeaveSetting(
         this.total,
@@ -436,14 +330,8 @@ export class LeaveSettingComponent implements OnInit {
         this.selectedTeamId
       )
       .toPromise();
-    // const response = await this.dataService.getAllUsers('asc', 'id', this.searchText, '').toPromise();
-    // this.staffs = response.users.map((staff: StaffSelectionUserList) => ({
-    //   ...staff.user,
-    //   selected: this.selectedStaffsUuids.includes(staff.user.uuid),
-    //   // isMapped:
-    //   isAdded: staff.mapped
-    // }));
-    return response.users.map((userDto: any) => userDto.user.uuid);
+ 
+    return response.users.map((userDto: any) => userDto.user.id);
     // return response.users.map((user: { uuid: any; }) => user.uuid);
   }
 
@@ -456,7 +344,7 @@ export class LeaveSettingComponent implements OnInit {
     this.isAllUsersSelected = false;
     this.isAllSelected = false;
     this.staffs.forEach((staff) => (staff.selected = false));
-    this.selectedStaffsUuids = [];
+    this.selectedStaffIds = [];
     // this.activeModel2 = false;
   }
 
@@ -524,19 +412,20 @@ export class LeaveSettingComponent implements OnInit {
       }
     );
   }
+
   setLeaveRule(index: number, value: string): void {
     const leaveRulesControl = (this.form.get('categories') as FormArray)
       .at(index)
-      ?.get('leaveRules');
+      ?.get('unusedLeaveAction');
     if (leaveRulesControl) {
       leaveRulesControl.setValue(value);
     }
   }
+
   // leaveSettingForm!:NgForm;
   fullLeaveSettingResponse!: FullLeaveSettingResponse;
 
   getLeaveSettingInformationById(leaveSettingId: number, flag: boolean): void {
-    debugger;
 
     this.pageNumber = 1;
     this.pageNumberUser = 1;
@@ -544,48 +433,27 @@ export class LeaveSettingComponent implements OnInit {
       (response) => {
         this.searchTextUser = '';
         this.searchText = '';
-        this.selectedStaffsUuids = [];
-        this.selectedStaffsUuidsUser = [];
+        this.selectedStaffIds = [];
+        this.selectedStaffIdsUser = [];
         this.daysCountArray = [];
         this.errorTemplateNameFlag = false;
         this.fullLeaveSettingResponse = response;
         this.idOfLeaveSetting = leaveSettingId;
         this.leaveSettingResponse = this.fullLeaveSettingResponse.leaveSetting;
-        // this.selectedStaffsUuidsUser =  this.fullLeaveSettingResponse.userUuids;
-        // if(this.fullLeaveSettingResponse.userUuids.length===0){
-        //   this.isMappedStaffEmpty=true;
-        // }else{
-        //   this.isMappedStaffEmpty=false;
-        // }
+    
         if (flag) {
           this.templateSettingTab.nativeElement.click();
         }
         if (this.leaveSettingResponse != null) {
           this.isFormValid = true;
         }
-        // this.checkFormValidity(this.leaveSettingForm);
-        // this.form.reset();
-        // Reset the form without emitting the events
+   
         this.form.reset({ emitEvent: false });
 
         const categoriesArray = this.form.get('categories') as FormArray;
 
         // Clear the existing form controls
         categoriesArray.clear();
-
-        // this.fullLeaveSettingResponse.leaveSettingCategories.forEach(
-        //   (category) => {
-        //     const categoryGroup = this.fb.group({
-        //       id: category.id,
-        //       leaveName: category.leaveName,
-        //       leaveCount: category.leaveCount,
-        //       leaveRules: category.leaveRules,
-        //       carryForwardDays: category.carryForwardDays,
-        //     });
-
-        //     categoriesArray.push(categoryGroup);
-        //   }
-        // );
 
         response.leaveSettingCategories.forEach((category, index) => {
           // console.log(
@@ -608,18 +476,11 @@ export class LeaveSettingComponent implements OnInit {
             ],
             leaveRules: [category.leaveRules],
             carryForwardDays: [category.carryForwardDays],
+            accrualTypeId:[category.accrualTypeId]
           });
 
           categoriesArray.push(categoryGroup);
 
-          // if (
-          //   category.leaveRules == 'CarryForward' ||
-          //   category.leaveRules == 'Encash'
-          // ) {
-          //   this.updateDaysDropdown(index, category.leaveCount);
-          // } else {
-          //   this.daysCountArray[index] = [];
-          // }
         });
 
         this.getUserByFiltersMethodCall(leaveSettingId);
@@ -648,11 +509,11 @@ export class LeaveSettingComponent implements OnInit {
     // this.getUserByFiltersMethodCall();
     this.templateSettingTab.nativeElement.click();
     this.unselectAllUsers();
-    this.selectedStaffsUuids = [];
-    this.selectedStaffsUuidsUser = [];
-    // this.selectedStaffsUuids.length = 0;
+    this.selectedStaffIds = [];
+    this.selectedStaffIdsUser = [];
+    // this.selectedStaffIds.length = 0;
 
-    this.leaveSettingForm.form.reset();
+    // this.leaveSettingForm.form.reset();
     this.leaveSettingResponse = new LeaveSettingResponse();
     this.leaveSettingResponse.templateName = '';
     this.form.reset();
@@ -689,31 +550,21 @@ export class LeaveSettingComponent implements OnInit {
 
   // ###################### saveInOne ###################
 
-  fullLeaveSettingRuleRequest: FullLeaveSettingRequest =
-    new FullLeaveSettingRequest();
+  fullLeaveSettingRuleRequest: FullLeaveSettingRequest = new FullLeaveSettingRequest();
   @ViewChild('requestLeaveCloseModel') requestLeaveCloseModel!: ElementRef;
   submitLeaveLoader: boolean = false;
 
   saveLeaveSettingRules(flag: boolean) {
-    debugger;
-    this.fullLeaveSettingRuleRequest.leaveSettingResponse =
-      this.leaveSettingResponse;
-    if (
-      constant.EMPTY_STRINGS.includes(this.leaveSettingResponse.templateName)
-    ) {
+    debugger
+    this.fullLeaveSettingRuleRequest.leaveSettingResponse = this.leaveSettingResponse;
+    if (constant.EMPTY_STRINGS.includes(this.leaveSettingResponse.templateName)) {
       this.errorTemplateNameFlag = true;
       this.templateSettingTab.nativeElement.click();
       return;
     } else {
       this.errorTemplateNameFlag = false;
     }
-    // const leaveSettingCategories = this.form.value.categories.map(
-    //   (category: any) => ({
-    //     ...category,
-    //   })
-    // );
-    // this.fullLeaveSettingRuleRequest.leaveSettingCategoryResponse =
-    //   leaveSettingCategories;
+   
 
     const leaveSettingCategories = this.form.value.categories.map(
       (category: any) => ({
@@ -722,16 +573,17 @@ export class LeaveSettingComponent implements OnInit {
         leaveCount: category.leaveCount,
         leaveRules: category.leaveRules,
         carryForwardDays: category.carryForwardDays,
+        accrualTypeId: category.accrualTypeId
       })
     );
 
     this.fullLeaveSettingRuleRequest.leaveSettingCategoryResponse =
       leaveSettingCategories;
-    this.fullLeaveSettingRuleRequest.userUuids = [
-      ...this.selectedStaffsUuids,
-      ...this.selectedStaffsUuidsUser,
+    this.fullLeaveSettingRuleRequest.userIds = [
+      ...this.selectedStaffIds,
+      ...this.selectedStaffIdsUser,
     ];
-    // selectedStaffsUuidsUser;
+    // selectedStaffIdsUser;
 
     if (flag) {
       this.submitLeaveLoader = true;
@@ -754,10 +606,10 @@ export class LeaveSettingComponent implements OnInit {
           }
         );
     } else if (!flag) {
-      for (const userUuid of this.fullLeaveSettingRuleRequest.userUuids) {
-        this.loadingStatus[userUuid] = true;
+      for (const userId of this.fullLeaveSettingRuleRequest.userIds) {
+        this.loadingStatus[userId] = true;
       }
-      this.selectedStaffsUuidsUser = [];
+      this.selectedStaffIdsUser = [];
 
       this.dataService
         .registerLeaveSettingRules(this.fullLeaveSettingRuleRequest)
@@ -766,13 +618,13 @@ export class LeaveSettingComponent implements OnInit {
             this.idOfLeaveSetting = response.leaveSettingResponse.id;
             this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
 
-            for (const userUuid of this.fullLeaveSettingRuleRequest.userUuids) {
-              this.loadingStatus[userUuid] = false;
+            for (const userId of this.fullLeaveSettingRuleRequest.userIds) {
+              this.loadingStatus[userId] = false;
             }
             this.isMappedStaffEmpty = false;
             this.addedUserFlag = true;
-            //  this.selectedStaffsUuids = [userUuid];
-            //  const staffToUpdate = this.staffs.find(staff => staff.uuid === userUuid);
+            //  this.selectedStaffIds = [userId];
+            //  const staffToUpdate = this.staffs.find(staff => staff.id === userId);
             //  if (staffToUpdate) {
             //     staffToUpdate.isAdded = true;
 
@@ -787,8 +639,8 @@ export class LeaveSettingComponent implements OnInit {
             this.helperService.registerOrganizationRegistratonProcessStepData(Key.LEAVE_TEMPLATE_ID, Key.PROCESS_COMPLETED);
           },
           (error) => {
-            for (const userUuid of this.fullLeaveSettingRuleRequest.userUuids) {
-              this.loadingStatus[userUuid] = false;
+            for (const userId of this.fullLeaveSettingRuleRequest.userIds) {
+              this.loadingStatus[userId] = false;
             }
             console.error('Error registering leave setting:', error);
             this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
@@ -859,7 +711,7 @@ export class LeaveSettingComponent implements OnInit {
     }
 
     this.debounceTimer = setTimeout(() => {
-      this.selectedStaffsUuidsUser = [];
+      this.selectedStaffIdsUser = [];
       this.dataService
         .findUsersOfLeaveSetting(
           leaveSettingId,
@@ -873,7 +725,7 @@ export class LeaveSettingComponent implements OnInit {
 
           this.staffsUser = response.users.map((staff: Staff) => ({
             ...staff,
-            selected: this.selectedStaffsUuidsUser.includes(staff.uuid),
+            selected: this.selectedStaffIdsUser.includes(staff.id),
           }));
           this.totalUser = response.count;
 
@@ -928,14 +780,10 @@ export class LeaveSettingComponent implements OnInit {
 
   // ########### Selection func....
 
-  selectedStaffsUuidsUser: string[] = [];
+  selectedStaffIdsUser: number[] = [];
   selectedStaffsUser: Staff[] = [];
   isAllSelectedUser: boolean = false;
 
-  // isUserInLeaveRuleUser(userUuid: string): boolean {
-  //   const userLeaveRule = this.fullLeaveSettingResponse.userLeaveRule;
-  //   return userLeaveRule && userLeaveRule.length > 0 && userLeaveRule.some(rule => rule.userUuids.includes(userUuid));
-  // }
 
   checkIndividualSelectionUser() {
     this.isAllUsersSelectedUser = this.staffsUser.every(
@@ -950,22 +798,22 @@ export class LeaveSettingComponent implements OnInit {
       this.staffsUser.length > 0 &&
       this.staffsUser.every((staff) => staff.selected);
     this.isAllUsersSelectedUser =
-      this.selectedStaffsUuidsUser.length === this.totalUser;
+      this.selectedStaffIdsUser.length === this.totalUser;
   }
 
   updateSelectedStaffsUser() {
     this.staffsUser.forEach((staff) => {
       if (
         staff.selected &&
-        !this.selectedStaffsUuidsUser.includes(staff.uuid)
+        !this.selectedStaffIdsUser.includes(staff.id)
       ) {
-        this.selectedStaffsUuidsUser.push(staff.uuid);
+        this.selectedStaffIdsUser.push(staff.id);
       } else if (
         !staff.selected &&
-        this.selectedStaffsUuidsUser.includes(staff.uuid)
+        this.selectedStaffIdsUser.includes(staff.id)
       ) {
-        this.selectedStaffsUuidsUser = this.selectedStaffsUuidsUser.filter(
-          (uuid) => uuid !== staff.uuid
+        this.selectedStaffIdsUser = this.selectedStaffIdsUser.filter(
+          (uuid) => uuid !== staff.id
         );
       }
     });
@@ -984,10 +832,10 @@ export class LeaveSettingComponent implements OnInit {
 
     if (isChecked) {
       this.getAllUsersUuidsUser().then((allUuids) => {
-        this.selectedStaffsUuidsUser = allUuids;
+        this.selectedStaffIdsUser = allUuids;
       });
     } else {
-      this.selectedStaffsUuidsUser = [];
+      this.selectedStaffIdsUser = [];
     }
   }
 
@@ -995,26 +843,26 @@ export class LeaveSettingComponent implements OnInit {
     this.isAllSelectedUser = checked;
     this.staffsUser.forEach((staff) => (staff.selected = checked));
 
-    // Update the selectedStaffsUuids based on the current page selection
+    // Update the selectedStaffIds based on the current page selection
     if (checked) {
       // this.activeModel2 = true;
       this.staffsUser.forEach((staff) => {
-        if (!this.selectedStaffsUuidsUser.includes(staff.uuid)) {
-          this.selectedStaffsUuidsUser.push(staff.uuid);
+        if (!this.selectedStaffIdsUser.includes(staff.id)) {
+          this.selectedStaffIdsUser.push(staff.id);
         }
       });
     } else {
       this.staffsUser.forEach((staff) => {
-        if (this.selectedStaffsUuidsUser.includes(staff.uuid)) {
-          this.selectedStaffsUuidsUser = this.selectedStaffsUuidsUser.filter(
-            (uuid) => uuid !== staff.uuid
+        if (this.selectedStaffIdsUser.includes(staff.id)) {
+          this.selectedStaffIdsUser = this.selectedStaffIdsUser.filter(
+            (uuid) => uuid !== staff.id
           );
         }
       });
     }
   }
 
-  async getAllUsersUuidsUser(): Promise<string[]> {
+  async getAllUsersUuidsUser(): Promise<number[]> {
     const response = await this.dataService
       .findUsersOfLeaveSetting(
         this.idOfLeaveSetting,
@@ -1025,7 +873,7 @@ export class LeaveSettingComponent implements OnInit {
       )
       .toPromise();
     return response.users.map((user: { uuid: any }) => user.uuid);
-    // return this.selectedStaffsUuidsUser;
+    // return this.selectedStaffIdsUser;
   }
 
   onSelectAllUsersChangeUser(event: any) {
@@ -1036,7 +884,7 @@ export class LeaveSettingComponent implements OnInit {
     this.isAllUsersSelectedUser = false;
     this.isAllSelectedUser = false;
     this.staffsUser.forEach((staff) => (staff.selected = false));
-    this.selectedStaffsUuidsUser = [];
+    this.selectedStaffIdsUser = [];
     // this.activeModel2 = false;
   }
 
@@ -1045,56 +893,56 @@ export class LeaveSettingComponent implements OnInit {
   //
 
   deleteAllUsers(): void {
-    for (const userUuid of this.selectedStaffsUuidsUser) {
-      this.loadingDeleteStatus[userUuid] = true;
+    for (const userId of this.selectedStaffIdsUser) {
+      this.loadingDeleteStatus[userId] = true;
     }
     this.dataService
-      .deleteAllUsersByLeaveSettingId(this.selectedStaffsUuidsUser)
+      .deleteAllUsersByLeaveSettingId(this.selectedStaffIdsUser)
       .subscribe(
         () => {
-          for (const userUuid of this.selectedStaffsUuidsUser) {
-            this.loadingDeleteStatus[userUuid] = false;
+          for (const userId of this.selectedStaffIdsUser) {
+            this.loadingDeleteStatus[userId] = false;
           }
-          this.selectedStaffsUuids = [];
-          this.selectedStaffsUuidsUser = [];
+          this.selectedStaffIds = [];
+          this.selectedStaffIdsUser = [];
           this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
           this.findUsersOfLeaveSetting(this.idOfLeaveSetting);
           // this.getLeaveSettingInformationById(this.idOfLeaveSetting);
           // this.findUsersOfLeaveSetting(this.idOfLeaveSetting);
         },
         (error) => {
-          for (const userUuid of this.selectedStaffsUuidsUser) {
-            this.loadingDeleteStatus[userUuid] = true;
+          for (const userId of this.selectedStaffIdsUser) {
+            this.loadingDeleteStatus[userId] = true;
           }
         }
       );
   }
 
   deleteEmployeeLoader(staff: any): boolean {
-    return this.loadingDeleteStatus[staff.uuid] || false;
+    return this.loadingDeleteStatus[staff.id] || false;
   }
 
   loadingDeleteStatus: { [key: string]: boolean } = {};
 
-  deleteUser(userUuid: string): void {
-    this.loadingDeleteStatus[userUuid] = true;
-    this.dataService.deleteUserFromUserLeaveRule(userUuid).subscribe(
+  deleteUser(userId: string): void {
+    this.loadingDeleteStatus[userId] = true;
+    this.dataService.deleteUserFromUserLeaveRule(userId).subscribe(
       () => {
-        this.selectedStaffsUuids = [];
-        this.selectedStaffsUuidsUser = [];
-        this.loadingDeleteStatus[userUuid] = false;
+        this.selectedStaffIds = [];
+        this.selectedStaffIdsUser = [];
+        this.loadingDeleteStatus[userId] = false;
         this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
         this.findUsersOfLeaveSetting(this.idOfLeaveSetting);
       },
       (error) => {
         // console.error('Error deleting user:', error);
-        this.loadingDeleteStatus[userUuid] = false;
+        this.loadingDeleteStatus[userId] = false;
       }
     );
   }
 
   addEmployeeLoader(staff: any): boolean {
-    return this.loadingStatus[staff.uuid] || false;
+    return this.loadingStatus[staff.id] || false;
   }
 
   loadingStatus: { [key: string]: boolean } = {};
@@ -1102,9 +950,10 @@ export class LeaveSettingComponent implements OnInit {
   addedUserFlag: boolean = false;
   errorTemplateNameFlag: boolean = false;
 
-  addUser(userUuid: string, leaveSettingId: number): void {
-    this.loadingStatus[userUuid] = true;
-    this.selectedStaffsUuidsUser = [];
+  // addUser(userId: string, leaveSettingId: number): void { amit
+  addUser(userId: number, leaveSettingId: number): void {
+    this.loadingStatus[userId] = true;
+    this.selectedStaffIdsUser = [];
 
     if (leaveSettingId == 0) {
       this.fullLeaveSettingRuleRequest.leaveSettingResponse =
@@ -1125,8 +974,8 @@ export class LeaveSettingComponent implements OnInit {
       );
       this.fullLeaveSettingRuleRequest.leaveSettingCategoryResponse =
         leaveSettingCategories;
-      this.fullLeaveSettingRuleRequest.userUuids = [userUuid];
-      // selectedStaffsUuidsUser;
+      this.fullLeaveSettingRuleRequest.userIds = [userId];
+      // selectedStaffIdsUser;
 
       this.dataService
         .registerLeaveSettingRules(this.fullLeaveSettingRuleRequest)
@@ -1135,12 +984,12 @@ export class LeaveSettingComponent implements OnInit {
             this.idOfLeaveSetting = response.leaveSettingResponse.id;
             // this.getFullLeaveSettingInformation();
             // this.requestLeaveCloseModel.nativeElement.click();
-            this.loadingStatus[userUuid] = false;
+            this.loadingStatus[userId] = false;
             this.isMappedStaffEmpty = false;
             this.addedUserFlag = true;
-            this.selectedStaffsUuids = [userUuid];
+            this.selectedStaffIds = [userId];
             const staffToUpdate = this.staffs.find(
-              (staff) => staff.uuid === userUuid
+              (staff) => staff.id === userId
             );
             if (staffToUpdate) {
               staffToUpdate.isAdded = true;
@@ -1148,32 +997,32 @@ export class LeaveSettingComponent implements OnInit {
             }
             this.findUsersOfLeaveSetting(this.idOfLeaveSetting);
             // this.getLeaveSettingInformationById(this.idOfLeaveSetting);
-            // this.selectedStaffsUuidsUser = [...this.selectedStaffsUuidsUser, userUuid];
+            // this.selectedStaffIdsUser = [...this.selectedStaffIdsUser, userId];
           },
           (error) => {
             // console.error('Error registering leave setting:', error);
-            this.loadingStatus[userUuid] = false;
+            this.loadingStatus[userId] = false;
           }
         );
     } else {
-      this.dataService.addUserToLeaveRule(userUuid, leaveSettingId).subscribe(
+      this.dataService.addUserToLeaveRule(userId, leaveSettingId).subscribe(
         (response) => {
           this.isMappedStaffEmpty = false;
           this.addedUserFlag = true;
-          this.loadingStatus[userUuid] = false;
-          // this.selectedStaffsUuids = [userUuid];
+          this.loadingStatus[userId] = false;
+          // this.selectedStaffIds = [userId];
           const staffToUpdate = this.staffs.find(
-            (staff) => staff.uuid === userUuid
+            (staff) => staff.id === userId
           );
           if (staffToUpdate) {
             staffToUpdate.isAdded = true;
             // this.staffAddedFlag=true;
           }
           this.findUsersOfLeaveSetting(this.idOfLeaveSetting);
-          // this.selectedStaffsUuidsUser = [...this.selectedStaffsUuidsUser, userUuid];
+          // this.selectedStaffIdsUser = [...this.selectedStaffIdsUser, userId];
         },
         (error) => {
-          this.loadingStatus[userUuid] = false;
+          this.loadingStatus[userId] = false;
         }
       );
     }
@@ -1199,6 +1048,7 @@ export class LeaveSettingComponent implements OnInit {
   }
 
   deleteLeaveSettingCategoryById(id: number): void {
+    debugger
     this.dataService.deleteLeaveSettingCategoryById(id).subscribe({
       next: () => {
         console.log('Delete successful');
@@ -1214,21 +1064,51 @@ export class LeaveSettingComponent implements OnInit {
     });
   }
 
-  onChange(value: string): void {
-    this.filteredLeaveCategories = this.leaveCategories.filter((bank) =>
-      bank.toLowerCase().includes(value.toLowerCase())
-    );
+
+  deleteLeaveTemplateCategory(id: number){
+    this.dataService.deleteLeaveTemplateCategory(id).subscribe((response: any) => {
+      if(response.status){
+        this.getAllLeaveTemplate();
+        this.helperService.showToast(
+          'Leave Category Deleted',
+          Key.TOAST_STATUS_SUCCESS
+        );
+      }else{
+        this.helperService.showToast(
+          'Something went wrong!',
+          Key.TOAST_STATUS_ERROR
+        );
+      }
+    })
   }
 
-  // onChange(value: string): void {
-  // // Check if leaveCategories is null or undefined before filtering
-  // if (this.leaveCategories) {
-  //   this.filteredLeaveCategories = this.leaveCategories.filter((bank) =>
-  //     bank.toLowerCase().includes(value.toLowerCase())
-  //   );
-  // }
+  deleteLeaveTemplate(id: number){
+    this.dataService.deleteLeaveTemplate(id).subscribe((response: any) => {
+      if(response.status){
+        this.getAllLeaveTemplate();
+        this.helperService.showToast(
+          'Leave Template Deleted',
+          Key.TOAST_STATUS_SUCCESS
+        );
+      }else{
+        this.helperService.showToast(
+          'Something went wrong!',
+          Key.TOAST_STATUS_ERROR
+        );
+      }
+    })
+  }
 
-  filteredLeaveCategories: string[] = [];
+  onChange(value: LeaveCategory): void {
+    if(value != null){
+      this.filteredLeaveCategories = this.leaveCategoryList.filter((leaveCategory) =>
+        leaveCategory.name.toLowerCase().includes(value.name.toLowerCase())
+      );
+    }
+  }
+
+
+  filteredLeaveCategories: LeaveCategory[] = [];
   leaveCategories: string[] = ['Annual Leave', 'Sick Leave', 'Casual Leave'];
 
   preventLeadingWhitespace(event: KeyboardEvent): void {
@@ -1243,21 +1123,6 @@ export class LeaveSettingComponent implements OnInit {
     }
   }
 
-  // onChangeDayCount(value: string): void {
-  //   this.daysCount = this.daysCountCategories;
-  // }
-
-  // daysCountArray: number[] = [];
-  // daysCountCategories: number[] = [0, 1, 2, 3, 4];
-
-  // generateDaysDropdown(value: any): void {
-  //   const count = parseInt(value, 10);
-  //   value.forEach()
-  //   this.daysCountCategories = Array.from(
-  //     { length: count },
-  //     (_, i) => i + 1
-  //   ).reverse();
-  // }
   daysCountArray: number[][] = [];
   dropdownVisible: boolean = false;
 
@@ -1270,19 +1135,6 @@ export class LeaveSettingComponent implements OnInit {
     this.updateDaysDropdown(index, count);
   }
 
-  // updateDaysDropdown(index: number, count: number): void {
-  //   console.log('countarray ..' + count + index);
-  //   // Ensure that daysCountArray has enough elements for the given index
-  //   while (this.daysCountArray.length <= index) {
-  //     this.daysCountArray.push([]);
-  //   }
-
-  //   // Update the daysCountArray for the specific index
-  //   this.daysCountArray[index] = Array.from(
-  //     { length: count + 1 },
-  //     (_, i) => count - i
-  //   );
-  // }
 
   updateDaysDropdown(index: number, count: number): void {
     // console.log('countarray ..' + index + ' ' + count);
@@ -1295,12 +1147,6 @@ export class LeaveSettingComponent implements OnInit {
     );
   }
 
-  // updateDaysDropdown(index: number, count: number): void {
-  //   this.daysCountArray[index] = Array.from(
-  //     { length: count + 1 },
-  //     (_, i) => count - i
-  //   );
-  // }
 
   selectCarryForwardDay(day: number, index: number): void {
     const categories = this.form.get('categories') as FormArray;
@@ -1329,11 +1175,6 @@ export class LeaveSettingComponent implements OnInit {
     return 0;
   }
 
-  // isYearlyAllAtOnce: boolean = false;
-
-  // yearlyAllAtOnce() {
-  //   if()
-  // }
   teamNameList: UserTeamDetailsReflection[] = [];
 
   teamId: number = 0;
@@ -1394,4 +1235,226 @@ export class LeaveSettingComponent implements OnInit {
     // this.getUserByFiltersMethodCall();
     this.findUsersOfLeaveSetting(this.idOfLeaveSetting);
   }
+
+  // Code written by Shivendra
+  booleanList : string[] = ['Yes', 'No'];
+
+  leaveCategoryList : LeaveCategory[] = [];
+  getLeaveCategoryListMethodCall(){
+    this.dataService.getLeaveCategoryList().subscribe((response) => {
+      if(!this.helperService.isListOfObjectNullOrUndefined(response)){
+        this.leaveCategoryList = response.listOfObject;
+      }
+    }, (error) => {
+
+    })
+  }
+
+  leaveCycleList : LeaveCycle[] = [];
+  getLeaveCycleListMethodCall(){
+    this.dataService.getLeaveCycleList().subscribe((response) => {
+      if(!this.helperService.isListOfObjectNullOrUndefined(response)){
+        this.leaveCycleList = response.listOfObject;
+      }
+    }, (error) => {
+
+    })
+  }
+
+  unusedLeaveActionList : UnusedLeaveAction[] = [];
+  getUnusedLeaveActionList(){
+    this.dataService.getUnusedLeaveActionList().subscribe((response) => {
+      if(!this.helperService.isListOfObjectNullOrUndefined(response)){
+        this.unusedLeaveActionList = response.listOfObject;
+      } 
+    }, (error) => {
+
+    })
+  }
+
+
+  /** Find all employeeType method and Gender and AccrualType  */
+  employeeTypeList: Employeetype[] = [];
+  getAllEmployeeType(){
+    this.dataService.getAllEmployeeType().subscribe((response: any) => {
+      if(response.status){
+        this.employeeTypeList = response.object;
+      }else{
+        this.employeeTypeList = [];
+      }
+    })
+  }
+
+  employeeTypeId: number = 0;
+  onEmployeeTypeChange(id: number){
+    this.employeeTypeId = id;
+
+    this.leaveTemplateRequest.employeeTypeId = id;
+  }
+
+  genders: Array<{id: number, name: string, value: string }> = []; // Gender options
+  loadGenders() {
+    this.genders = [
+      {id: 1, name: 'All', value: 'all' },
+      {id: 2, name: 'Male', value: 'male' },
+      {id: 3, name: 'Female', value: 'female' }
+    ];
+  }
+
+  selectedGenderId: number = 0;
+  onGenderChange(id: number) {
+   
+    this.selectedGenderId = id;  // Store the selected gender ID
+
+    this.filteredLeaveCategories = [...this.leaveCategoryList];
+    if(this.selectedGenderId == 2){
+      this.filteredLeaveCategories = this.filteredLeaveCategories.filter(leaveCategory => leaveCategory.id !== 3);
+      this.leaveTemplateRequest.gender = this.genders[2].name;
+    }else if(this.selectedGenderId == 3){
+      this.filteredLeaveCategories = this.leaveCategoryList.filter(leaveCategory => leaveCategory.id !== 4);
+      this.leaveTemplateRequest.gender = this.genders[3].name;
+    }
+  }
+
+    //Accrual Type start
+    accrualTypes: Array<{id: number, name: string, value: string }> = []; // Gender options
+    loadAccrualType() {
+      this.accrualTypes = [
+        {id: 1, name: 'All At Once', value: 'all' },
+        {id: 2, name: 'Start', value: 'start' },
+        {id: 3, name: 'End', value: 'end' }
+      ];
+    }
+  
+    selectedAccrualTypeId: number = 0;
+    onAccrualChange(id: number) {
+      this.selectedAccrualTypeId = id;  // Store the selected gender ID
+      // this.leaveTemplateRequest.leaveTemplateCategoryRequestList
+      
+      // this.newRow.patchValue({
+      //   accrualTypeId: 'yourValue'  // Replace 'yourValue' with the actual data you want to set
+      // });
+
+      
+
+  }
+
+  //end
+
+
+
+  readonly ANNUAL_YEAR = Key.ANNUAL_YEAR;
+  readonly FINANCIAL_YEAR = Key.FINANCIAL_YEAR;
+  yearTypeList : YearType[] = [];
+  getYearTypeListMethodCall(){
+    this.dataService.getYearTypeList().subscribe((response) => {
+      if(!this.helperService.isListOfObjectNullOrUndefined(response)){
+        this.yearTypeList = response.listOfObject;
+      } 
+    })
+  }
+
+
+
+
+  dateRange: Date[] = [];
+  size: 'large' | 'small' | 'default' = 'small';  
+  selectDateForLeaveTemplateRequest(yearTypeName: string) {
+
+    if (yearTypeName == this.ANNUAL_YEAR) {
+      this.dateRange[0] = new Date(new Date().getFullYear(), 0, 1);
+      this.dateRange[1] = new Date(new Date().getFullYear(), 11, 31);
+    } else if (yearTypeName == this.FINANCIAL_YEAR) {
+      this.dateRange[0] = new Date(new Date().getFullYear(), 3, 1);
+      this.dateRange[1] = new Date(new Date().getFullYear() + 1, 2, 31);
+    }
+  
+    this.leaveTemplateRequest.yearTypeName = yearTypeName; 
+    this.leaveTemplateRequest.startDate = this.helperService.formatDateToYYYYMMDD(this.dateRange[0]);
+    this.leaveTemplateRequest.endDate = this.helperService.formatDateToYYYYMMDD(this.dateRange[1]);
+  }
+  
+  leaveTemplateDefinitionForm !: FormGroup;
+
+  leaveTemplateRequest : LeaveTemplateRequest = new LeaveTemplateRequest();
+  readonly LAPSE = Key.LAPSE;
+  readonly CARRY_FORWARD = Key.CARRY_FORWARD;
+  readonly ENCASH = Key.ENCASH;
+
+  preMethodCallToCreateLeaveTemplate(){
+    this.getYearTypeListMethodCall(); 
+    this.getLeaveCycleListMethodCall(); 
+    this.getLeaveCategoryListMethodCall(); 
+    this.getUnusedLeaveActionList();
+    this.getAllEmployeeType();
+    this.loadGenders();
+    this.loadAccrualType();
+  }
+  setFieldsToLeaveTemplateRequest(){
+    debugger
+    this.leaveTemplateRequest.leaveTemplateCategoryRequestList = this.form.value.categories.map(
+      (category: any) => ({
+        id: category.leaveCategoryId,
+        leaveCycleId: category.leaveCycleId,
+        leaveCount: category.leaveCount,
+        sandwichLeave: category.isSandwichLeave,
+        unusedLeaveActionId: category.unusedLeaveActionId,
+        unusedLeaveActionCount: category.unusedLeaveActionCount,
+        accrualTypeId: category.accrualTypeId
+      })
+    );
+
+    this.leaveTemplateRequest.userIds = [...this.selectedStaffIds, ...this.selectedStaffIdsUser];
+  }
+  
+
+  registerLeaveTemplateMethodCall(){
+    this.setFieldsToLeaveTemplateRequest();
+    this.dataService.registerLeaveTemplate(this.leaveTemplateRequest).subscribe((response) => {
+      this.leaveTemplateRequest = new LeaveTemplateRequest();
+      this.getAllLeaveTemplate();
+      this.requestLeaveCloseModel.nativeElement.click();
+      this.helperService.showToast('Leave template registered successfully.', Key.TOAST_STATUS_SUCCESS);
+    }, (error) => {
+      this.helperService.showToast('Error while registering the leave template!', Key.TOAST_STATUS_ERROR);
+    })
+  }
+
+  isShimmerForLeaveTemplateResponse = false;
+  dataNotFoundPlaceholderForLeaveTemplateResponse = false;
+  networkConnectionErrorPlaceHolderForLeaveTemplateResponse = false;
+  preRuleForShimmerAndErrorPlaceholdersForLeaveTemplateResponse() {
+    this.isShimmerForLeaveTemplateResponse = true;
+    this.dataNotFoundPlaceholderForLeaveTemplateResponse = false;
+    this.networkConnectionErrorPlaceHolderForLeaveTemplateResponse = false;
+  }
+
+  leaveTemplateResponseList : LeaveTemplateResponse[] = [];
+  getLeaveTemplateResponseListByOrganizationIdMethodCall(){
+    this.preRuleForShimmerAndErrorPlaceholdersForLeaveTemplateResponse();
+    this.dataService.getLeaveTemplateResponseListByOrganizationId().subscribe((response) => {
+      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+        this.dataNotFoundPlaceholderForLeaveTemplateResponse = true;
+      } else{
+        this.leaveTemplateResponseList = response.listOfObject;
+      }
+      this.isShimmerForLeaveTemplateResponse = false;
+    }, (error) => {
+      this.networkConnectionErrorPlaceHolderForLeaveTemplateResponse = true;
+      this.isShimmerForLeaveTemplateResponse = false;
+    })
+  }
+
+  // find all leave template
+ leaveTemplates: LeaveTemplateRes[] = []
+
+  getAllLeaveTemplate(){
+    this.dataService.getAllLeaveTemplate(1, 10).subscribe((response: any) => {
+
+      this.leaveTemplates = response.object;
+      console.log('leaveTemplates: ',this.leaveTemplates)
+    });
+  }
+
+
 }

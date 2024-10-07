@@ -16,6 +16,7 @@ export class RoleBasedAccessControlService {
   }
 
   userInfo: any;
+  ROLE !: string;
   isUserInfoInitialized: boolean = false;
   private userInfoInitialized: Promise<void>|any;
 
@@ -69,6 +70,7 @@ export class RoleBasedAccessControlService {
         // console.log(res)
         this.userInfo=res;
         this.userInfo!.uuid=res.uuid;
+        this.ROLE = res.role;
         // console.log("updated uuid",  this.userInfo!.uuid)
         this.isUserInfoInitialized = true;
       });
@@ -98,8 +100,6 @@ export class RoleBasedAccessControlService {
   }
 
   getRoles() {
-
-    // debugger
     // console.log("role is ",this.userInfo)
     return this.userInfo!.role;
   }

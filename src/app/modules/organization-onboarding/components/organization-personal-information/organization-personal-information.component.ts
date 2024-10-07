@@ -60,6 +60,10 @@ export class OrganizationPersonalInformationComponent implements OnInit {
   ngOnInit(): void {
     // this._onboardingService.refreshSidebar();
     this.getOrganizationDetails();
+    const token = localStorage.getItem('token');
+    if (token==null) {
+      this.router.navigate(['/auth/signup']);
+    }
   }
 
   organizationPersonalInformation: OrganizationPersonalInformationMain = {
@@ -335,7 +339,7 @@ locationLoader: boolean = false;
 
 //           // Dynamically retrieve address components
 //           const addressComponents: AddressComponent[] = details.address_components || [];
-          
+
 //           addressComponents.forEach((component: AddressComponent) => {
 //             const types = component.types || [];
 //             if (types.includes('locality')) {

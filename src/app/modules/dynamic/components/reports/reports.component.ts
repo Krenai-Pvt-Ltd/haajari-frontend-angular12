@@ -32,6 +32,7 @@ export class ReportsComponent implements OnInit {
     this.getFullReportLogs();
     this.userUuid = await this.rbacService.getUUID();
     this.getOrganizationOnboardingDateByUuid();
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
   }
 
   @ViewChild('dateRangeModalClose') dateRangeModalClose!: ElementRef;

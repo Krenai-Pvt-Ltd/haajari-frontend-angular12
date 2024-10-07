@@ -30,7 +30,7 @@ export class HeaderComponent implements OnInit {
     private route: ActivatedRoute,
     private helperService: HelperService,
     private dataService: DataService,
-    private rbacService: RoleBasedAccessControlService,
+    public rbacService: RoleBasedAccessControlService,
     private _subscriptionPlanService: SubscriptionPlanService,
     private db: AngularFireDatabase
   ) {
@@ -361,11 +361,11 @@ export class HeaderComponent implements OnInit {
   visibleIndex(originalIndex: number): number {
     let index = 0;
     const conditions = [
-      this.shouldDisplay('attendance'),
-      this.shouldDisplay('leave-management'),
-      this.shouldDisplay('reports'),
-      this.shouldDisplay('assets'),
-      this.shouldDisplay('coins') && this.ROLE === 'ADMIN' && this.ORGANIZATION_UUID == this.KRENAI_UUID && this.showSuperCoinFlag
+      this.rbacService.shouldDisplay('attendance'),
+      this.rbacService.shouldDisplay('leave-management'),
+      this.rbacService.shouldDisplay('reports'),
+      this.rbacService.shouldDisplay('assets'),
+      this.rbacService.shouldDisplay('coins') && this.ROLE === 'ADMIN' && this.ORGANIZATION_UUID == this.KRENAI_UUID && this.showSuperCoinFlag
     ];
   
     for (let i = 0; i < originalIndex; i++) {
