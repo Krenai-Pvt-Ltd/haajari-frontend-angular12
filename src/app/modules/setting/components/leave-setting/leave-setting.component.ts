@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { error } from 'console';
+import * as _ from 'lodash';
 import { template } from 'lodash';
 import * as moment from 'moment';
 import { constant } from 'src/app/constant/constant';
@@ -131,7 +132,7 @@ export class LeaveSettingComponent implements OnInit {
       unusedLeaveActionId: [''],
       unusedLeaveActionCount: [''],
       accrualTypeId: [''],
-      gender: ['All']
+      gender: ['']
       // accrualTypeId: ['', Validators.required]
     });
 
@@ -1320,78 +1321,14 @@ export class LeaveSettingComponent implements OnInit {
   // selectedGenderId: number = 1;
   selectedGenderId: number = 0;
   // gender: string = 'All';
-  gender: string = '';
-  onGenderChange1(id: number) {
-  // onGenderChange(event: any) {
-   debugger
-   this.leaveTemplateRequest.gender = 'All';
-    // this.selectedGenderId = event.target.value;  // Store the selected gender ID
-    this.selectedGenderId = id;  // Store the selected gender ID
-
-    this.filteredLeaveCategories = [...this.leaveCategoryList];
-    if(this.selectedGenderId == 2){
-      // this.filteredLeaveCategories = this.filteredLeaveCategories.filter(leaveCategory => leaveCategory.id !== 3);
-      this.filteredLeaveCategories = this.filteredLeaveCategories.filter((leaveCategory: any) => leaveCategory.id !== 3);
-      this.leaveTemplateRequest.gender = 'Male';
-      // this.leaveTemplateRequest.gender = this.genders[2].name;
-    }else if(this.selectedGenderId == 3){
-      this.filteredLeaveCategories = this.leaveCategoryList.filter(leaveCategory => leaveCategory.id !== 4);
-      // this.filteredLeaveCategories = this.leaveCategoryList.filter((leaveCategory: any) => leaveCategory.id !== 4);
-      this.leaveTemplateRequest.gender = 'Female';
-      // this.leaveTemplateRequest.gender = this.genders[3].name;
-    }else if(this.selectedGenderId == 1){
-      this.leaveTemplateRequest.gender = 'All';
-      this.filteredLeaveCategories = [...this.leaveCategoryList];
-    }
-
-    this.gender = this.leaveTemplateRequest.gender;
-    console.log('selectedGenderName: ',this.gender)
-    console.log('form: ',this.leaveTemplateRequest)
-
-  }
+  gender: any = null;
 
   filteredLeaveCategories: any;
-  /*onGenderChange(id: number, i: number) {
-     debugger
-     this.leaveTemplateRequest.gender = 'All';
-    this.selectedGenderId = id;  // Store the selected gender ID
-
-    // Initialize filteredLeaveCategories if it doesn't exist
-    if (!this.filteredLeaveCategories) {
-      this.filteredLeaveCategories = [];
-  }
-
-  // Ensure the index exists in filteredLeaveCategories
-  if (!this.filteredLeaveCategories[i]) {
-      this.filteredLeaveCategories[i] = [...this.leaveCategoryList]; // Initialize with original list
-  }
-
-  // Filter based on the selected gender and index
-  if (this.selectedGenderId === 2) {
-      // Example: Exclude leave category with id 3 for males
-      this.filteredLeaveCategories[i] = this.filteredLeaveCategories[i].filter((leaveCategory: any) => leaveCategory.id !== 3);
-      this.leaveTemplateRequest.gender = 'Male';
-  } else if (this.selectedGenderId === 3) {
-      // Example: Exclude leave category with id 4 for females
-      this.filteredLeaveCategories[i] = this.filteredLeaveCategories[i].filter((leaveCategory: any) => leaveCategory.id !== 4);
-      this.leaveTemplateRequest.gender = 'Female';
-  } else if (this.selectedGenderId === 1) {
-      // Reset to original list if 'All' is selected
-      this.filteredLeaveCategories[i] = [...this.leaveCategoryList];
-      this.leaveTemplateRequest.gender = 'All';
-  }
-  
-      this.gender = this.leaveTemplateRequest.gender;
-      console.log('selectedGenderName: ',this.gender)
-      console.log('form: ',this.leaveTemplateRequest)
-  
-      // console.log('leaveCategoryList: ',this.leaveCategoryList)
-      // console.log('filteredLeaveCategories: ',this.filteredLeaveCategories)
-  
-    }*/
       onGenderChange(value: any, i: number) {
         debugger
 
+        if(value != null){
+          
         if(value == 'Male'){
           this.selectedGenderId = 2;
         }else if(value == 'Female'){
@@ -1431,6 +1368,12 @@ export class LeaveSettingComponent implements OnInit {
          this.gender = this.leaveTemplateRequest.gender;
          console.log('selectedGenderName: ',this.gender)
          console.log('form: ',this.leaveTemplateRequest)
+    }else{
+
+      this.gender = null;
+      this.selectedGenderId = 0
+
+    }
      
          // console.log('leaveCategoryList: ',this.leaveCategoryList)
          // console.log('filteredLeaveCategories: ',this.filteredLeaveCategories)
