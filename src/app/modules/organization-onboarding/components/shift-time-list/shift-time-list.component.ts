@@ -200,7 +200,7 @@ export class ShiftTimeListComponent implements OnInit {
                   shift.outTimeDate = shift.outTime;
                   shift.startLunchDate = shift.startLunch;
                   shift.endLunchDate = shift.endLunch;
-                  console.log(shift.inTime, shift.outTime);
+                  // console.log(shift.inTime, shift.outTime);
                 });
               }
             }
@@ -222,7 +222,7 @@ export class ShiftTimeListComponent implements OnInit {
   ) {
     // this.shiftTimingActiveTab.nativeElement.click();
     debugger
-    console.log('inTime ' + this.organizationShiftTimingRequest.inTime);
+    // console.log('inTime ' + this.organizationShiftTimingRequest.inTime);
     this.organizationShiftTimingRequest = organizationShiftTimingResponse;
 
     const inLocalTime = new Date(organizationShiftTimingResponse.inTime.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));

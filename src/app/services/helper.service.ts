@@ -33,7 +33,7 @@ export class HelperService {
         const token = localStorage.getItem('token');
         if (token != null) {
           const decodedValue: any = await jwtDecode(token);
-          console.log("decodedValue",decodedValue)
+          // console.log("decodedValue",decodedValue)
           resolve(decodedValue);
         } else {
           reject('Token is null!');
@@ -274,16 +274,35 @@ export class HelperService {
     debugger
     this.dataService.registerOrganizationRegistratonProcessStep(statusId, stepId).subscribe(
       (response) => {
-        console.log("success");
+        // console.log("success");
         this.todoStepsSubject.next(true);
       },
       (error) => {
-        console.log('error');
+        // console.log('error');
+      }
+    );
+  }
+  
+
+  saveOrgSecondaryToDoStepBarData(value : number) {
+    debugger
+    this.dataService.saveOrgSecondaryToDoStepBar(value).subscribe(
+      (response) => {
+        // console.log("success");  
+        // this.getOrgSecondaryToDoStepBarData();
+      },
+      (error) => {
+        // console.log('error');
       }
     );
   }
 
 
+  detectOpenModalOnBack(){
+    if(document?.body?.classList?.contains('modal-open')){
+      document?.body?.classList?.remove('modal-open');
+    }
 
+  }
 
 }

@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { error } from 'console';
+import * as _ from 'lodash';
 import { template } from 'lodash';
 import * as moment from 'moment';
 import { constant } from 'src/app/constant/constant';
@@ -57,10 +58,11 @@ export class LeaveSettingComponent implements OnInit {
 
     this.getTeamNames();
     this.getUserByFiltersMethodCall(0);
-    this.getFullLeaveSettingInformation();
+    // this.getFullLeaveSettingInformation(); amit
     // this.findUsersOfLeaveSetting(30);
-
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
     const leaveId = localStorage.getItem('tempId');
+    this.filteredLeaveCategories = []
 
     if (leaveId != null) {
       this.idFlag = true;
@@ -69,6 +71,15 @@ export class LeaveSettingComponent implements OnInit {
       this.idFlag = false;
       this.localStorageLeaveRuleId = 0;
     }
+
+    this.leaveTemplateDefinitionForm = this.fb.group({
+      employeeTypeId: [null, Validators.required], // The form control for employee type
+      // Other form controls...
+    });
+
+
+
+
   }
 
   
@@ -107,8 +118,12 @@ export class LeaveSettingComponent implements OnInit {
     return this.form.get('categories') as FormArray;
   }
 
+  rowIndex: number = 1;
   addRow() {
     debugger
+
+    // this.filteredLeaveCategories = [];
+
     const newRow = this.fb.group({
       leaveCategoryId: ['', Validators.required],
       leaveCycleId: ['', Validators.required],
@@ -116,7 +131,8 @@ export class LeaveSettingComponent implements OnInit {
       isSandwichLeave: [''],
       unusedLeaveActionId: [''],
       unusedLeaveActionCount: [''],
-      accrualTypeId: ['']
+      accrualTypeId: [''],
+      gender: ['']
       // accrualTypeId: ['', Validators.required]
     });
 
@@ -476,7 +492,9 @@ export class LeaveSettingComponent implements OnInit {
             ],
             leaveRules: [category.leaveRules],
             carryForwardDays: [category.carryForwardDays],
-            accrualTypeId:[category.accrualTypeId]
+            accrualTypeId:[category.accrualTypeId],
+            gender: [category.gender]
+
           });
 
           categoriesArray.push(categoryGroup);
@@ -573,7 +591,8 @@ export class LeaveSettingComponent implements OnInit {
         leaveCount: category.leaveCount,
         leaveRules: category.leaveRules,
         carryForwardDays: category.carryForwardDays,
-        accrualTypeId: category.accrualTypeId
+        accrualTypeId: category.accrualTypeId,
+        gender: category.gender
       })
     );
 
@@ -1108,7 +1127,8 @@ export class LeaveSettingComponent implements OnInit {
   }
 
 
-  filteredLeaveCategories: LeaveCategory[] = [];
+  // filteredLeaveCategories: LeaveCategory[] = [];
+  
   leaveCategories: string[] = ['Annual Leave', 'Sick Leave', 'Casual Leave'];
 
   preventLeadingWhitespace(event: KeyboardEvent): void {
@@ -1285,7 +1305,7 @@ export class LeaveSettingComponent implements OnInit {
     })
   }
 
-  employeeTypeId: number = 0;
+  employeeTypeId: number = 1;
   onEmployeeTypeChange(id: number){
     this.employeeTypeId = id;
 
@@ -1301,20 +1321,68 @@ export class LeaveSettingComponent implements OnInit {
     ];
   }
 
+  
+  // selectedGenderId: number = 1;
   selectedGenderId: number = 0;
-  onGenderChange(id: number) {
-   
-    this.selectedGenderId = id;  // Store the selected gender ID
+  // gender: string = 'All';
+  gender: any = null;
 
-    this.filteredLeaveCategories = [...this.leaveCategoryList];
-    if(this.selectedGenderId == 2){
-      this.filteredLeaveCategories = this.filteredLeaveCategories.filter(leaveCategory => leaveCategory.id !== 3);
-      this.leaveTemplateRequest.gender = this.genders[2].name;
-    }else if(this.selectedGenderId == 3){
-      this.filteredLeaveCategories = this.leaveCategoryList.filter(leaveCategory => leaveCategory.id !== 4);
-      this.leaveTemplateRequest.gender = this.genders[3].name;
+  filteredLeaveCategories: any;
+      onGenderChange(value: any, i: number) {
+        debugger
+
+        if(value != null){
+          
+        if(value == 'Male'){
+          this.selectedGenderId = 2;
+        }else if(value == 'Female'){
+          this.selectedGenderId = 3
+        }else{
+          this.selectedGenderId = 1;
+        }
+
+        this.leaveTemplateRequest.gender = 'All';
+      //  this.selectedGenderId = id;  // Store the selected gender ID
+   
+       // Initialize filteredLeaveCategories if it doesn't exist
+       if (!this.filteredLeaveCategories) {
+         this.filteredLeaveCategories = [];
+     }
+   
+     // Ensure the index exists in filteredLeaveCategories
+     if (!this.filteredLeaveCategories[i]) {
+         this.filteredLeaveCategories[i] = [...this.leaveCategoryList]; // Initialize with original list
+     }
+   
+     // Filter based on the selected gender and index
+     if (this.selectedGenderId == 2) {
+         // Example: Exclude leave category with id 3 for males
+         this.filteredLeaveCategories[i] = this.filteredLeaveCategories[i].filter((leaveCategory: any) => leaveCategory.id !== 3);
+         this.leaveTemplateRequest.gender = 'Male';
+     } else if (this.selectedGenderId == 3) {
+         // Example: Exclude leave category with id 4 for females
+         this.filteredLeaveCategories[i] = this.filteredLeaveCategories[i].filter((leaveCategory: any) => leaveCategory.id !== 4);
+         this.leaveTemplateRequest.gender = 'Female';
+     } else if (this.selectedGenderId == 1) {
+         // Reset to original list if 'All' is selected
+         this.filteredLeaveCategories[i] = [...this.leaveCategoryList];
+         this.leaveTemplateRequest.gender = 'All';
+     }
+     
+         this.gender = this.leaveTemplateRequest.gender;
+         console.log('selectedGenderName: ',this.gender)
+         console.log('form: ',this.leaveTemplateRequest)
+    }else{
+
+      this.gender = null;
+      this.selectedGenderId = 0
+
     }
-  }
+     
+         // console.log('leaveCategoryList: ',this.leaveCategoryList)
+         // console.log('filteredLeaveCategories: ',this.filteredLeaveCategories)
+     
+       }
 
     //Accrual Type start
     accrualTypes: Array<{id: number, name: string, value: string }> = []; // Gender options
@@ -1334,8 +1402,36 @@ export class LeaveSettingComponent implements OnInit {
       // this.newRow.patchValue({
       //   accrualTypeId: 'yourValue'  // Replace 'yourValue' with the actual data you want to set
       // });
+  }
 
-      
+  leaveCycleStartDate: any;
+  leaveCycleEndDate: any;
+  onLeaveCycleChange(id: number) {
+    const currentDate = new Date(); // Get the current date
+
+    if (id === 1) {
+      // Monthly
+      this.leaveCycleStartDate = this.helperService.formatDateToYYYYMMDD(new Date(currentDate.getFullYear(), currentDate.getMonth(), 1));
+      this.leaveCycleEndDate = this.helperService.formatDateToYYYYMMDD(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0));
+  
+    } else if (id === 2) {
+      // Quarterly
+      this.leaveCycleStartDate = this.helperService.formatDateToYYYYMMDD(new Date(currentDate.getFullYear(), Math.floor(currentDate.getMonth() / 3) * 3, 1)); // Start of the current quarter
+      this.leaveCycleEndDate = this.helperService.formatDateToYYYYMMDD(new Date(currentDate.getFullYear(), Math.floor(currentDate.getMonth() / 3) * 3 + 3, 0)); // End of the current quarter
+  
+    } else if (id === 3) {
+      // Half Yearly
+      this.leaveCycleStartDate = this.helperService.formatDateToYYYYMMDD(new Date(currentDate.getFullYear(), currentDate.getMonth() < 6 ? 0 : 6, 1)); // Start of the current half-year
+      this.leaveCycleEndDate = this.helperService.formatDateToYYYYMMDD(new Date(currentDate.getFullYear(), currentDate.getMonth() < 6 ? 6 : 12, 0)); // End of the current half-year
+  
+    } else if (id === 4) {
+      // Yearly
+      this.leaveCycleStartDate = this.helperService.formatDateToYYYYMMDD(new Date(currentDate.getFullYear(), 0, 1)); // Start of the current year
+      this.leaveCycleEndDate = this.helperService.formatDateToYYYYMMDD(new Date(currentDate.getFullYear(), 12, 0)); // End of the current year
+    }
+    
+    // console.log('sDate: ',this.leaveCycleStartDate)
+    // console.log('eDate: ',this.leaveCycleEndDate)
 
   }
 
@@ -1350,6 +1446,9 @@ export class LeaveSettingComponent implements OnInit {
     this.dataService.getYearTypeList().subscribe((response) => {
       if(!this.helperService.isListOfObjectNullOrUndefined(response)){
         this.yearTypeList = response.listOfObject;
+
+        console.log('yearTypeList: ',this.employeeTypeId)
+
       } 
     })
   }
@@ -1359,7 +1458,9 @@ export class LeaveSettingComponent implements OnInit {
 
   dateRange: Date[] = [];
   size: 'large' | 'small' | 'default' = 'small';  
-  selectDateForLeaveTemplateRequest(yearTypeName: string) {
+  selectDateForLeaveTemplateRequest1(yearTypeName: string) {
+
+    debugger
 
     if (yearTypeName == this.ANNUAL_YEAR) {
       this.dateRange[0] = new Date(new Date().getFullYear(), 0, 1);
@@ -1373,6 +1474,57 @@ export class LeaveSettingComponent implements OnInit {
     this.leaveTemplateRequest.startDate = this.helperService.formatDateToYYYYMMDD(this.dateRange[0]);
     this.leaveTemplateRequest.endDate = this.helperService.formatDateToYYYYMMDD(this.dateRange[1]);
   }
+
+  //amit code
+isCustomDateRange: boolean = false;
+selectDateForLeaveTemplateRequest(yearTypeName: string) {
+  this.isCustomDateRange = (yearTypeName === 'Custom Date Range');
+
+  if (yearTypeName === this.ANNUAL_YEAR) {
+    this.dateRange[0] = new Date(new Date().getFullYear(), 0, 1);
+    this.dateRange[1] = new Date(new Date().getFullYear(), 11, 31);
+  } else if (yearTypeName === this.FINANCIAL_YEAR) {
+    this.dateRange[0] = new Date(new Date().getFullYear(), 3, 1);
+    this.dateRange[1] = new Date(new Date().getFullYear() + 1, 2, 31);
+  }
+
+  if (!this.isCustomDateRange) {
+    this.leaveTemplateRequest.yearTypeName = yearTypeName;
+    this.leaveTemplateRequest.startDate = this.helperService.formatDateToYYYYMMDD(this.dateRange[0]);
+    this.leaveTemplateRequest.endDate = this.helperService.formatDateToYYYYMMDD(this.dateRange[1]);
+  } else {
+    // Leave it blank for custom date selection
+    this.leaveTemplateRequest.startDate = '';
+    this.leaveTemplateRequest.endDate = '';
+  }
+
+  // this.leaveTemplateRequest.yearTypeName = yearTypeName;
+}
+
+// Watch for changes in the start date for the custom date range
+onStartDateChange(startDate: Date) {
+  if (this.isCustomDateRange && startDate) {
+    this.dateRange[0] = startDate;
+    
+    // Set the end date to the same day next year
+    const endDate = new Date(startDate);
+    endDate.setFullYear(startDate.getFullYear() + 1);
+
+    // Go one month back and get the last day of that month
+    endDate.setMonth(startDate.getMonth() - 1);
+    const lastDayOfPreviousMonth = new Date(endDate.getFullYear(), endDate.getMonth() + 1, 0).getDate();
+    endDate.setDate(lastDayOfPreviousMonth); // Set to last day of previous month
+
+    this.dateRange[1] = endDate;
+
+    this.leaveTemplateRequest.startDate = this.helperService.formatDateToYYYYMMDD(this.dateRange[0]);
+    this.leaveTemplateRequest.endDate = this.helperService.formatDateToYYYYMMDD(this.dateRange[1]);
+  }
+}
+
+
+// custom date select end
+
   
   leaveTemplateDefinitionForm !: FormGroup;
 
@@ -1382,6 +1534,7 @@ export class LeaveSettingComponent implements OnInit {
   readonly ENCASH = Key.ENCASH;
 
   preMethodCallToCreateLeaveTemplate(){
+    debugger
     this.getYearTypeListMethodCall(); 
     this.getLeaveCycleListMethodCall(); 
     this.getLeaveCategoryListMethodCall(); 
@@ -1389,6 +1542,13 @@ export class LeaveSettingComponent implements OnInit {
     this.getAllEmployeeType();
     this.loadGenders();
     this.loadAccrualType();
+
+    this.filteredLeaveCategories = []
+    // setTimeout(() =>{
+    //   this.onEmployeeTypeChange(1);
+    //   this.onGenderChange(1);
+    // }, 500);
+   
   }
   setFieldsToLeaveTemplateRequest(){
     debugger
@@ -1400,7 +1560,9 @@ export class LeaveSettingComponent implements OnInit {
         sandwichLeave: category.isSandwichLeave,
         unusedLeaveActionId: category.unusedLeaveActionId,
         unusedLeaveActionCount: category.unusedLeaveActionCount,
-        accrualTypeId: category.accrualTypeId
+        accrualTypeId: category.accrualTypeId,
+        gender: category.gender
+
       })
     );
 
@@ -1408,6 +1570,7 @@ export class LeaveSettingComponent implements OnInit {
   }
   
 
+  // leaveTemplateDefinitionForm = this.fb.group({});
   registerLeaveTemplateMethodCall(){
     this.setFieldsToLeaveTemplateRequest();
     this.dataService.registerLeaveTemplate(this.leaveTemplateRequest).subscribe((response) => {
@@ -1418,6 +1581,11 @@ export class LeaveSettingComponent implements OnInit {
     }, (error) => {
       this.helperService.showToast('Error while registering the leave template!', Key.TOAST_STATUS_ERROR);
     })
+
+    console.log('clear field')
+    this.leaveTemplateRequest.name = ''; // Reset the template name
+    this.leaveTemplateDefinitionForm.reset(); // Reset the form state
+
   }
 
   isShimmerForLeaveTemplateResponse = false;
@@ -1456,5 +1624,16 @@ export class LeaveSettingComponent implements OnInit {
     });
   }
 
+
+  onTemplateSubmit(){
+    if (this.leaveTemplateDefinitionForm.valid) {
+      // Proceed with submission logic
+      this.goToLeaveCategoryTab();
+    } else {
+      // Mark all controls as touched to show validation messages
+      this.leaveTemplateDefinitionForm.controls['empTypeId'].markAsTouched();
+      this.leaveTemplateDefinitionForm.controls['genderId'].markAsTouched();
+    }
+  }
 
 }

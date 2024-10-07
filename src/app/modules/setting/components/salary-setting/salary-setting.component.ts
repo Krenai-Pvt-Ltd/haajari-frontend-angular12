@@ -43,6 +43,7 @@ export class SalarySettingComponent implements OnInit {
     this.getAllStatutoriesMethodCall();
     this.getAllSalaryTemplateComponentByOrganizationIdMethodCall();
     this.getAllSalaryComponentsMethodCall();
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
   }
 
   //Variable for pagination

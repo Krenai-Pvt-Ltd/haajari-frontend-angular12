@@ -1,5 +1,5 @@
 export class CustomSalaryDeduction {
     lateDuration : string = '';
-    occurrenceCount! : number;
+    occurrenceCount! : any;
     amountInRupees! : number;
 }

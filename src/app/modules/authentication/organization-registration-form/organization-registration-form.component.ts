@@ -56,7 +56,7 @@ export class OrganizationRegistrationFormComponent implements OnInit {
           console.log('Registration successful', response);
           this.router.navigate(['/auth/signup']);
           this.isLoading = false;
-          this.helperService.showToast("Info Registered Successfully", Key.TOAST_STATUS_SUCCESS);
+          // this.helperService.showToast("Info Registered Successfully", Key.TOAST_STATUS_SUCCESS);
           }
         },
         error => {

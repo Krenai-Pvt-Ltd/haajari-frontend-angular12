@@ -179,8 +179,8 @@
                   </div>
 
                   <h6>
-                    {{ stepsData.totalCompletedSteps }}/{{
-                      stepsData.totalSteps
+                    {{ stepsData?.totalCompletedSteps }}/{{
+                      stepsData?.totalSteps
                     }}
                     Steps Completed
                   </h6>
@@ -197,21 +197,21 @@
                     style="width: 90%"
                   >
                     <div>
-                      <span class="checdBox" *ngIf="step.statusId == 36">
+                      <span class="checdBox" *ngIf="step?.statusId == 36">
                         <i class="bi bi-check-lg"></i
                       ></span>
-                      <span class="pendingBox" *ngIf="step.statusId == 35">
+                      <span class="pendingBox" *ngIf="step?.statusId == 35">
                       </span>
                     </div>
 
                     <div>
-                      <h4>{{ step.name }}</h4>
+                      <h4>{{ step?.name }}</h4>
                       <p class="mb-0">
-                        {{ step.description }}
+                        {{ step?.description }}
                       </p>
                     </div>
                   </div>
-                  <div (click)="routeToStep(step.route, step.name)">
+                  <div (click)="routeToStep(step?.route, step?.name)">
                     <span class="toStepArrow">
                       <i class="bi bi-chevron-right"></i>
                     </span>

@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-to-do-step-dashboard',
@@ -10,13 +11,14 @@ import { DataService } from 'src/app/services/data.service';
 export class ToDoStepDashboardComponent implements OnInit {
 
 
-  constructor(private dataService: DataService, private router: Router) {}
+  constructor(private dataService: DataService, private router: Router, private helperService : HelperService) {}
 
   ngOnInit(): void {
     this.isOrgOnboarTodayData();
     this.getOrganizationRegistratonProcessStepData();
     this.getStepsData();
     this.getOrganizationInitialToDoStepBar();
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
   }
 
   showToDoStep: boolean = true;
@@ -35,11 +37,11 @@ export class ToDoStepDashboardComponent implements OnInit {
     this.dataService.getOrganizationRegistratonProcessStepStatus().subscribe(
       (response) => {
         this.organizationRegistrationProcessResponse = response.listOfObject;
-        console.log("success");
+        // console.log("success");
         
       },
       (error) => {
-        console.log('error');
+        // console.log('error');
       }
     );
   }
@@ -58,32 +60,32 @@ export class ToDoStepDashboardComponent implements OnInit {
     this.dataService.getStepsData().subscribe(
       (response) => {
         this.stepsData = response.listOfObject[0];
-        console.log("success");
+        // console.log("success");
         
       },
       (error) => {
-        console.log('error');
+        // console.log('error');
       }
     );
   }
 
   getProgressPercentage(): number {
-    if (this.stepsData.totalSteps === 0) {
+    if (this.stepsData?.totalSteps === 0) {
       return 0; 
     }
-    return (this.stepsData.totalCompletedSteps / this.stepsData.totalSteps) * 100;
+    return (this.stepsData?.totalCompletedSteps / this.stepsData?.totalSteps) * 100;
   }
 
   hideOrganizationInitialToDoStepBar() {
     debugger
     this.dataService.hideOrganizationInitialToDoStepBar().subscribe(
       (response) => {
-        console.log("success");  
+        // console.log("success");  
         this.getOrganizationInitialToDoStepBar();
         location.reload();
       },
       (error) => {
-        console.log('error');
+        // console.log('error');
       }
     );
   }
@@ -94,10 +96,10 @@ export class ToDoStepDashboardComponent implements OnInit {
     this.dataService.getOrganizationInitialToDoStepBar().subscribe(
       (response) => {
         this.isToDoStep = response.object;
-        console.log("success");  
+        // console.log("success");  
       },
       (error) => {
-        console.log('error');
+        // console.log('error');
       }
     );
   }

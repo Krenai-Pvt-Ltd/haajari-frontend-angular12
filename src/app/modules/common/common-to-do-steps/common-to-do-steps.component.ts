@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
   selector: 'app-common-to-do-steps',
@@ -10,7 +11,7 @@ import { HelperService } from 'src/app/services/helper.service';
 })
 export class CommonToDoStepsComponent implements OnInit {
 
-  constructor(private dataService :DataService, private router : Router, private helperService:HelperService) { 
+  constructor(private dataService :DataService, private router : Router, private helperService:HelperService, private rbacService: RoleBasedAccessControlService) { 
 
     this.isToDoStepsCompletedData();
   }
@@ -18,9 +19,16 @@ export class CommonToDoStepsComponent implements OnInit {
   getToDoStepViaSubject() {
     this.helperService.todoStepsSubject.subscribe(
       (res)=>{
+        console.log(res)
         if(res ){
+          // this.saveOrgSecondaryToDoStepBarData(0);
+          // this.getOrgSecondaryToDoStepBarData();
+          if(res=='close'){
+          this.isShowSecondaryToDoSteps = false;
+          }else{
           this.getStepsData();
           this.getOrganizationRegistratonProcessStepData();
+          }
           // this.getOrganizationInitialToDoStepBar();
         }
       }
@@ -40,7 +48,7 @@ export class CommonToDoStepsComponent implements OnInit {
           this.getOrganizationInitialToDoStepBar();
           // this.router.navigate(['/dashboard']);
         }
-        console.log("success");
+        // console.log("success");
         
       },
       (error) => {
@@ -49,24 +57,30 @@ export class CommonToDoStepsComponent implements OnInit {
     );
   }
   
-
+  ROLE: any;
   ngOnInit(): void {
     this.getStepsData();
     this.getOrganizationInitialToDoStepBar();
     this.getOrganizationRegistratonProcessStepData();
+    this.getRoleDetails();
   }
 
+  async getRoleDetails() {
+    this.ROLE = await this.rbacService.getRole();
+  }
+
+  
 
 
   hideOrganizationInitialToDoStepBar() {
     debugger
     this.dataService.hideOrganizationInitialToDoStepBar().subscribe(
       (response) => {
-        console.log("success");  
+        // console.log("success");  
         this.getOrganizationInitialToDoStepBar();
       },
       (error) => {
-        console.log('error');
+        // console.log('error');
       }
     );
   }
@@ -77,10 +91,10 @@ export class CommonToDoStepsComponent implements OnInit {
     this.dataService.getOrganizationInitialToDoStepBar().subscribe(
       (response) => {
         this.isToDoStep = response.object;
-        console.log("success");  
+        // console.log("success");  
       },
       (error) => {
-        console.log('error');
+        // console.log('error');
       }
     );
   }
@@ -91,20 +105,20 @@ export class CommonToDoStepsComponent implements OnInit {
     this.dataService.getStepsData().subscribe(
       (response) => {
         this.stepsData = response.listOfObject[0];
-        console.log("success");
+        // console.log("success");
         
       },
       (error) => {
-        console.log('error');
+        // console.log('error');
       }
     );
   }
 
   getProgressPercentage(): number {
-    if (this.stepsData.totalSteps === 0) {
+    if (this.stepsData?.totalSteps === 0) {
       return 0; 
     }
-    return (this.stepsData.totalCompletedSteps / this.stepsData.totalSteps) * 100;
+    return (this.stepsData?.totalCompletedSteps / this.stepsData?.totalSteps) * 100;
   }
 
   organizationRegistrationProcessResponse: any;
@@ -113,11 +127,11 @@ export class CommonToDoStepsComponent implements OnInit {
     this.dataService.getOrganizationRegistratonProcessStepStatus().subscribe(
       (response) => {
         this.organizationRegistrationProcessResponse = response.listOfObject;
-        console.log("success");
+        // console.log("success");
         
       },
       (error) => {
-        console.log('error');
+        // console.log('error');
       }
     );
   }
@@ -143,6 +157,35 @@ export class CommonToDoStepsComponent implements OnInit {
   }
   hideToDoSteps() {
     this.isShowToDoSteps = false;
+  }
+
+
+
+  saveOrgSecondaryToDoStepBarData(value : number) {
+    debugger
+    this.dataService.saveOrgSecondaryToDoStepBar(value).subscribe(
+      (response) => {
+        // console.log("success");  
+        this.getOrgSecondaryToDoStepBarData();
+      },
+      (error) => {
+        // console.log('error');
+      }
+    );
+  }
+
+  isShowSecondaryToDoSteps: boolean = false;
+  getOrgSecondaryToDoStepBarData() {
+    debugger
+    this.dataService.getOrgSecondaryToDoStepBar().subscribe(
+      (response) => {
+        this.isShowSecondaryToDoSteps = response.object;
+        // console.log("success");  
+      },
+      (error) => {
+        // console.log('error');
+      }
+    );
   }
 
   

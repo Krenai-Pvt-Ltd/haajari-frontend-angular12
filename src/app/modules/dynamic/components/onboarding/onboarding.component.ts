@@ -74,6 +74,7 @@ export class OnboardingComponent implements OnInit {
     this.getLeaves();
     this.getResponseStatusFromLocalStorage();
     this.getLoggedInUserDetails();
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
     console.log(this.loginDetails);
 
     //   window.addEventListener("beforeunload", function (e) {
@@ -324,7 +325,7 @@ export class OnboardingComponent implements OnInit {
       .pipe(
         finalize(() => {
           fileRef.getDownloadURL().subscribe((url) => {
-            console.log('File URL:', url);
+            // console.log('File URL:', url);
             this.organizationPersonalInformation.logo = url;
           });
         })
@@ -382,9 +383,9 @@ export class OnboardingComponent implements OnInit {
       )
       .subscribe(
         (response) => {
-          console.log('org registered successfully:', response);
+          // console.log('org registered successfully:', response);
           this.organizationStatusResponse = response.statusResponse;
-          console.log(this.organizationStatusResponse);
+          // console.log(this.organizationStatusResponse);
           this.setAct1();
           localStorage.setItem(
             'statusResponse',
@@ -419,7 +420,7 @@ export class OnboardingComponent implements OnInit {
         this.organizationPersonalInformation = data;
         this.updateStates();
 
-        console.log(this.organizationPersonalInformation);
+        // console.log(this.organizationPersonalInformation);
         if (data.country !== null) {
           debugger;
           // this.setActive(1);
@@ -669,11 +670,11 @@ export class OnboardingComponent implements OnInit {
 
     const workingHours = Math.floor(workingMinutes / 60);
     const workingMinutesRemainder = workingMinutes % 60;
-    console.log(workingMinutesRemainder);
+    // console.log(workingMinutesRemainder);
 
     const totalHours = Math.floor(totalMinutes / 60);
     const totalMinutesRemainder = totalMinutes % 60;
-    console.log(totalMinutesRemainder);
+    // console.log(totalMinutesRemainder);
 
     this.loginArray.workingHour = `${workingHours}:${workingMinutesRemainder}`;
     this.loginArray.totalHour = `${totalHours}:${totalMinutesRemainder}`;
@@ -696,7 +697,7 @@ export class OnboardingComponent implements OnInit {
       return;
     }
     this.calculateHours();
-    console.log(this.loginArray);
+    // console.log(this.loginArray);
     this.onSaveShiftTimings();
     this.requestShiftCloseModel.nativeElement.click();
   }
@@ -752,9 +753,9 @@ export class OnboardingComponent implements OnInit {
     }
     this.dataService.registerLeave(this.leaveData).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         this.organizationLeaveStatusResponse = response.statusResponse;
-        console.log(this.organizationLeaveStatusResponse);
+        // console.log(this.organizationLeaveStatusResponse);
 
         localStorage.setItem(
           'statusResponse',
@@ -799,7 +800,7 @@ export class OnboardingComponent implements OnInit {
         //   this.count=4;
         // }
 
-        console.log(this.savel);
+        // console.log(this.savel);
         // this.a = 4;
       },
       (error) => {
@@ -825,7 +826,7 @@ export class OnboardingComponent implements OnInit {
   updateLeaveStatus(sav: Savel) {
     this.dataService.updateLeaveStatus(sav).subscribe(
       () => {
-        console.log(`Leave status updated for ${sav.leaveType}`);
+        // console.log(`Leave status updated for ${sav.leaveType}`);
         // alert("Leave status updated");
       },
       (error) => {
@@ -842,7 +843,7 @@ export class OnboardingComponent implements OnInit {
   setActive(activeNumber: number) {
     // this.count=this.count+1;
     this.activeModel = activeNumber;
-    console.log(this.activeModel, this.count);
+    // console.log(this.activeModel, this.count);
   }
 
   // resetForm3() {
@@ -873,9 +874,9 @@ export class OnboardingComponent implements OnInit {
     this.dataService.registerShiftTimings(this.loginArray).subscribe(
       (response) => {
         this.dailyQuesValid = true;
-        console.log(response);
+        // console.log(response);
         this.shiftTimingsStatusResponse = response.statusResponse;
-        console.log(this.shiftTimingsStatusResponse);
+        // console.log(this.shiftTimingsStatusResponse);
         localStorage.setItem(
           'statusResponse',
           JSON.stringify(this.shiftTimingsStatusResponse)
@@ -959,7 +960,7 @@ export class OnboardingComponent implements OnInit {
     }
     this.dataService.saveDailyQuestions(this.dailyQuestionsData).subscribe(
       (response) => {
-        console.log(response);
+        // console.log(response);
         this.dailyQuestionn.push(response);
         this.dailyQuesId = response.id;
         // this.saveLValid=true;
@@ -979,7 +980,7 @@ export class OnboardingComponent implements OnInit {
       .subscribe(
         (data) => {
           this.dailyQuestionn = data;
-          console.log(this.dailyQuestionn);
+          // console.log(this.dailyQuestionn);
           this.requestDailyQuestionsCloseModel.nativeElement.click();
         },
         (error) => {
@@ -1033,7 +1034,7 @@ export class OnboardingComponent implements OnInit {
       .saveDailyQuestionsCheckIn(this.dailyQuestionsCheckInData)
       .subscribe(
         (response) => {
-          console.log(response);
+          // console.log(response);
           this.dailyQuestionnCheckIn.push(response);
           this.dailyQuesCheckInId = response.id;
           // this.saveLValid=true;
@@ -1053,7 +1054,7 @@ export class OnboardingComponent implements OnInit {
       .subscribe(
         (data) => {
           this.dailyQuestionnCheckIn = data;
-          console.log(this.dailyQuestionnCheckIn);
+          // console.log(this.dailyQuestionnCheckIn);
           this.requestDailyQuestionsCheckInCloseModel.nativeElement.click();
         },
         (error) => {
@@ -1098,7 +1099,7 @@ export class OnboardingComponent implements OnInit {
       (response) => {
         console.log(response);
         this.dailyQuestionsStatusResponse = response.statusResponse;
-        console.log(this.dailyQuestionsStatusResponse);
+        // console.log(this.dailyQuestionsStatusResponse);
         localStorage.setItem(
           'statusResponse',
           JSON.stringify(this.dailyQuestionsStatusResponse)
@@ -1172,7 +1173,7 @@ export class OnboardingComponent implements OnInit {
         //     this.requestDailyQuesCloseModel.nativeElement.click();
         // }
 
-        console.log(this.dailyNotes);
+        // console.log(this.dailyNotes);
         // if (this.a == 4) {
         //   this.a = 4;
         // } else {

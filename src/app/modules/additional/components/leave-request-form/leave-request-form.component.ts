@@ -186,12 +186,12 @@ export class LeaveRequestFormComponent implements OnInit {
       .snapshotChanges()
       .toPromise()
       .then(() => {
-        console.log('Upload completed');
+        // console.log('Upload completed');
         fileRef
           .getDownloadURL()
           .toPromise()
           .then((url) => {
-            console.log('File URL:', url);
+            // console.log('File URL:', url);
             this.fileToUpload = url;
             // console.log('file url : ' + this.fileToUpload);
           })
