@@ -885,16 +885,29 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     }
   }
   
-  
+  isSlackUserFlag:boolean=false;
   saveSlackUserIdViaEmailData(email : string) {
+    this.isSlackUserFlag = true;
     this.dataService
         .saveSlackUserIdViaEmail(email)
         .subscribe((response: any) => {
-          console.log("success");
-          this.reloadPage();
+
+          if(response.status === true) {
+            this.isSlackUserFlag = false;
+            // console.log("success");
+            this.reloadPage();
+            this.helperService.showToast("Slack User Id Fetched Successfully!", Key.TOAST_STATUS_SUCCESS);
+          }else{
+            this.isSlackUserFlag = false;
+            // console.log("success");
+            this.reloadPage();
+            this.helperService.showToast("There is some error to fetch slack user id for this email!", Key.TOAST_STATUS_ERROR);
+          }
         },
         (error) => {
-          console.log("error");
+          this.helperService.showToast("There is some error to fetch slack user id for this email!", Key.TOAST_STATUS_ERROR);
+          this.isSlackUserFlag = false;
+          // console.log("error");
         }
       );
   }
