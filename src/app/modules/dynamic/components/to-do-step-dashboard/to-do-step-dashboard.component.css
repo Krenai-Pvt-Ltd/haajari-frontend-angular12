@@ -244,6 +244,19 @@
 .onboardingStapsPoint {
   z-index: 999;
   position: relative;
+  overflow: scroll;
+  max-height: 450px;
+}
+.onboardingStapsPoint::-webkit-scrollbar {
+  display: none;
+}
+@media screen and (max-width: 2600px) {
+  .onboardingStapsPoint {
+    z-index: 999;
+    position: relative;
+    overflow: scroll;
+    max-height: 600px !important;
+  }
 }
 
 .pendingStepPoint {
