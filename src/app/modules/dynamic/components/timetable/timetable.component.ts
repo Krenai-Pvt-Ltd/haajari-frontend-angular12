@@ -969,6 +969,7 @@ fullAttendanceRequestCount: number = 0;
 isFullRequestLoader: boolean = false;
 attendanceRequestSearchString: string = '';
 getAttendanceRequestsData(debounceTime: number = 300) {
+  this.attendanceRequests = [];
   return new Promise((resolve, reject) => {
   this.isFullRequestLoader = true;
   if (this.debounceTimer) {
@@ -1124,7 +1125,7 @@ approveOrReject(id:number, reqString: string) {
     }
 
     if(this.ACTIVE_TAB == this.ATTENDANCE_UPDATE_REQUEST_TAB){
-      
+      this.getAttendanceRequestsData();
     }
   }
 

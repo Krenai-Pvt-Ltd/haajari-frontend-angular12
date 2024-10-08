@@ -1047,7 +1047,7 @@
                                     <div class="dropdown d-inline-block">
                                       <div class="align-self-center">
                                         <h6 class="fw-semibold">
-                                          <span class="badge badge-outline-primary"> Duration | {{ this.helperService.formatHHmmssToHHmm(attendanceRequest.workingHour) }} hrs.</span>
+                                          <span class="badge badge-outline-primary"> Request Type | {{attendanceRequest.attendanceStatus}}</span>
                                         </h6>
                                         <small>{{ attendanceRequest.createdDate | date:'medium' || "N/A" }}</small>
                                       </div>
@@ -1058,7 +1058,7 @@
                                       <h5 class="m-0 Regular-data" (click)="routeToUserProfile(attendanceRequest.userUuid)">
                                         {{ attendanceRequest.userName }}
                                       </h5>
-                                      <p> Time: <u>{{ attendanceRequest.startTime | date : 'd MMM, h:mm a'}} - {{ attendanceRequest.endTime | date : 'd MMM, h:mm a' }}</u>
+                                      <p> Time: <u> - </u>
                                       </p>
                                     </div>
                                   </div>
