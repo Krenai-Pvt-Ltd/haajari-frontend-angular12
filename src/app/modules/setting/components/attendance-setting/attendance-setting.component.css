@@ -1347,5 +1347,5 @@ a.fetch-location {
 }
 
 ::ng-deep .ant-picker-now-btn {
-  display: none; /* Hides the 'Now' button */
+  display: none !important; /* Hides the 'Now' button */
 }
