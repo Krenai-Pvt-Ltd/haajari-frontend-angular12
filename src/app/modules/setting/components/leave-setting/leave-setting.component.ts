@@ -427,7 +427,7 @@ export class LeaveSettingComponent implements OnInit {
         this.isLoading = false;
         if (response == null || response.length == 0) {
           this.leaveSettingPlaceholder = true;
-          this.helperService.registerOrganizationRegistratonProcessStepData(Key.LEAVE_TEMPLATE_ID, Key.PROCESS_PENDING);
+          // this.helperService.registerOrganizationRegistratonProcessStepData(Key.LEAVE_TEMPLATE_ID, Key.PROCESS_PENDING);
         } else {
           this.leaveSettingPlaceholder = false;
         }
@@ -454,7 +454,7 @@ export class LeaveSettingComponent implements OnInit {
   // leaveSettingForm!:NgForm;
   fullLeaveSettingResponse!: FullLeaveSettingResponse;
 
-  getLeaveSettingInformationById(leaveSettingId: number, flag: boolean): void {
+  getLeaveSettingInformationById1(leaveSettingId: number, flag: boolean): void {
 
     this.pageNumber = 1;
     this.pageNumberUser = 1;
@@ -522,6 +522,76 @@ export class LeaveSettingComponent implements OnInit {
       }
     );
   }
+
+  //Update Leave Template
+  getLeaveSettingInformationById(leaveSettingId: number, flag: boolean): void {
+
+    this.pageNumber = 1;
+    this.pageNumberUser = 1;
+    this.dataService.getLeaveSettingInformationById(leaveSettingId).subscribe(
+      (response) => {
+        this.searchTextUser = '';
+        this.searchText = '';
+        this.selectedStaffIds = [];
+        this.selectedStaffIdsUser = [];
+        this.daysCountArray = [];
+        this.errorTemplateNameFlag = false;
+        this.fullLeaveSettingResponse = response;
+        this.idOfLeaveSetting = leaveSettingId;
+        this.leaveSettingResponse = this.fullLeaveSettingResponse.leaveSetting;
+    
+        if (flag) {
+          this.templateSettingTab.nativeElement.click();
+        }
+        if (this.leaveSettingResponse != null) {
+          this.isFormValid = true;
+        }
+   
+        this.form.reset({ emitEvent: false });
+
+        const categoriesArray = this.form.get('categories') as FormArray;
+
+        // Clear the existing form controls
+        categoriesArray.clear();
+
+        // response.leaveSettingCategories.forEach((category, index) => {
+        response.leaveSettingCategories.forEach((category, index) => {
+
+          if (
+            category.leaveRules == 'Carry Forward' ||
+            category.leaveRules == 'Encash'
+          ) {
+            this.updateDaysDropdown(index, category.leaveCount);
+          }
+
+          const categoryGroup = this.fb.group({
+            id: [category.id],
+            leaveName: [category.leaveName, Validators.required],
+            leaveCount: [
+              category.leaveCount,
+              [Validators.required, Validators.min(0)],
+            ],
+            leaveRules: [category.leaveRules],
+            carryForwardDays: [category.carryForwardDays],
+            accrualTypeId:[category.accrualTypeId],
+            gender: [category.gender]
+
+          });
+
+          categoriesArray.push(categoryGroup);
+
+        });
+
+        this.getUserByFiltersMethodCall(leaveSettingId);
+        this.findUsersOfLeaveSetting(leaveSettingId);
+      },
+      (error) => {
+        console.error('Error fetching leave setting information by ID:', error);
+      }
+    );
+  }
+
+
   @ViewChild('templateSettingTab') templateSettingTab!: ElementRef;
   @ViewChild('newStaffSelectionTab') newStaffSelectionTab!: ElementRef;
   openStaffSelection() {
