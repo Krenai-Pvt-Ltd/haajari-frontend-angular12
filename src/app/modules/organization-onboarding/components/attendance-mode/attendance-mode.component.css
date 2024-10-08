@@ -205,6 +205,10 @@
   border-radius: 2px;
   border: 1px solid #e6e6e6;
 }
+
+.attendanceModeBox:hover {
+  border: 1px solid var(--primary-color) !important;
+}
 .attendanceModeBox h5 {
   color: #000;
   font-size: 14px;
@@ -214,10 +218,10 @@
 }
 .attendanceModeBox p {
   color: #717171;
-  font-size: 14px;
+  font-size: 12px;
   font-style: normal;
   font-weight: 300;
-  line-height: 20px;
+  line-height: 18px;
 }
 .whatAppSlackBox {
   border-radius: 2px;
@@ -293,7 +297,7 @@
 }
 .attendance-mode-card p {
   color: #717171;
-  font-size: 14px;
+  font-size: 12px;
   font-style: normal;
   font-weight: 300;
   line-height: 20px;
@@ -372,8 +376,8 @@ a.fetch-location {
 .stap-back-btn {
   background-color: #fff;
   border: 1px solid var(--primary-color);
-  width: 32px;
-  height: 32px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   display: flex;
   align-items: center;

@@ -68,19 +68,14 @@
 
 .assisHeddingBox h5 {
   color: #000;
-  font-size: 18px;
-  font-style: normal;
   font-weight: 600;
   line-height: 24px; /* 155.792% */
   letter-spacing: 0.357px;
-  text-transform: capitalize;
 }
 .assisHeddingBox p {
   color: #717171;
-  font-size: 14px;
-  font-style: normal;
   font-weight: 400;
-  line-height: 22px; /* 190.616% */
+  line-height: 20px; /* 190.616% */
   letter-spacing: 0.119px;
 }
 .playBtn {
@@ -250,7 +245,7 @@
     z-index: 999;
     position: relative;
     overflow: scroll;
-    max-height: 600px !important;
+    max-height: 545px !important;
   }
 }
 @media screen and (max-width: 1280px) {
