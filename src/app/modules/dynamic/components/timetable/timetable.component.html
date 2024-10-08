@@ -1028,16 +1028,16 @@
                 </ul>
                 <div class="tab-content">
                   <div class="pt-3 pb-3" id="attendance-update-pending-request" role="" *ngIf="ACTIVE_TAB_IN_ATTENDANCE_UPDATE_REQUEST_TAB == ATTENDANCE_UPDATE_PENDING_REQUEST_TAB">
-                    <ng-container *ngIf="isShimmerForAttendanceUpdatePendingRequestResponse && overtimePendingRequestResponseList.length == 0 && !dataNotFoundForAttendanceUpdatePendingRequestResponse && !networkConnectionErrorForAttendanceUpdatePendingRequestResponse; else attendanceUpdatePendingRequestListCondition">
+                    <ng-container *ngIf="isShimmerForAttendanceUpdatePendingRequestResponse && attendanceRequests.length == 0 && !dataNotFoundForAttendanceUpdatePendingRequestResponse && !networkConnectionErrorForAttendanceUpdatePendingRequestResponse; else attendanceUpdatePendingRequestListCondition">
                     </ng-container>
 
                     <ng-template #attendanceUpdatePendingRequestListCondition>
-                      <ng-container *ngIf="!isShimmerForAttendanceUpdatePendingRequestResponse && overtimePendingRequestResponseList.length != 0 && !dataNotFoundForAttendanceUpdatePendingRequestResponse && !networkConnectionErrorForAttendanceUpdatePendingRequestResponse; else errorWhileFetchingAttendanceUpdatePendingRequestResponseListCondition">
+                      <ng-container *ngIf="!isShimmerForAttendanceUpdatePendingRequestResponse && attendanceRequests.length != 0 && !dataNotFoundForAttendanceUpdatePendingRequestResponse && !networkConnectionErrorForAttendanceUpdatePendingRequestResponse; else errorWhileFetchingAttendanceUpdatePendingRequestResponseListCondition">
                         <div class="leave-history-box">
-                          <div class="row mt-2" *ngFor="let overtimePendingRequestResponse of overtimePendingRequestResponseList">
+                          <div class="row mt-2" *ngFor="let attendanceRequest of attendanceRequests">
                             <div class="col-auto">
-                              <img *ngIf="overtimePendingRequestResponse.userImage" src="{{ overtimePendingRequestResponse.userImage }}" alt="" class="thumb-md rounded-circle" style="width: 32px; height: 32px" />
-                              <img *ngIf="!overtimePendingRequestResponse.userImage" src="assets/images/user.png" alt="" class="thumb-md rounded-circle" style="width: 32px; height: 32px" />
+                              <img *ngIf="attendanceRequest.userImage" src="{{ attendanceRequest.userImage }}" alt="" class="thumb-md rounded-circle" style="width: 32px; height: 32px" />
+                              <img *ngIf="!attendanceRequest.userImage" src="assets/images/user.png" alt="" class="thumb-md rounded-circle" style="width: 32px; height: 32px" />
                             </div>
                             <!--end col-->
                             <div class="col">
@@ -1047,23 +1047,23 @@
                                     <div class="dropdown d-inline-block">
                                       <div class="align-self-center">
                                         <h6 class="fw-semibold">
-                                          <span class="badge badge-outline-primary"> Duration | {{ this.helperService.formatHHmmssToHHmm(overtimePendingRequestResponse.workingHour) }} hrs.</span>
+                                          <span class="badge badge-outline-primary"> Duration | {{ this.helperService.formatHHmmssToHHmm(attendanceRequest.workingHour) }} hrs.</span>
                                         </h6>
-                                        <small>{{ overtimePendingRequestResponse.createdDate | date:'medium' || "N/A" }}</small>
+                                        <small>{{ attendanceRequest.createdDate | date:'medium' || "N/A" }}</small>
                                       </div>
                                     </div>
                                   </div>
                                   <div class="media align-items-center">
                                     <div class="media-body ms-2 align-self-center">
-                                      <h5 class="m-0 Regular-data" (click)="routeToUserProfile(overtimePendingRequestResponse.userUuid)">
-                                        {{ overtimePendingRequestResponse.userName }}
+                                      <h5 class="m-0 Regular-data" (click)="routeToUserProfile(attendanceRequest.userUuid)">
+                                        {{ attendanceRequest.userName }}
                                       </h5>
-                                      <p> Time: <u>{{ overtimePendingRequestResponse.startTime | date : 'd MMM, h:mm a'}} - {{ overtimePendingRequestResponse.endTime | date : 'd MMM, h:mm a' }}</u>
+                                      <p> Time: <u>{{ attendanceRequest.startTime | date : 'd MMM, h:mm a'}} - {{ attendanceRequest.endTime | date : 'd MMM, h:mm a' }}</u>
                                       </p>
                                     </div>
                                   </div>
                                 </div>
-                                <a href="#" class="text-primary" (click)="getOvertimeRequestActionResponseMethodCall(overtimePendingRequestResponse)" data-bs-toggle="modal" data-bs-target="#overtime-request-action">
+                                <a href="#" class="text-primary" (click)="getOvertimeRequestActionResponseMethodCall(attendanceRequest)" data-bs-toggle="modal" data-bs-target="#overtime-request-action">
                                   <i class="fas fa-external-link-square-alt me-1"></i>View </a>
                               </div>
                             </div>
@@ -1085,7 +1085,7 @@
                     </ng-template>
 
                     <ng-template #errorWhileFetchingAttendanceUpdatePendingRequestResponseListCondition>
-                      <div class="errorboxmain text-center" *ngIf="dataNotFoundForOvertimePendingRequestResponse && !networkConnectionErrorForOvertimePendingRequestResponse">
+                      <div class="errorboxmain text-center" *ngIf="dataNotFoundForAttendanceUpdatePendingRequestResponse && !networkConnectionErrorForAttendanceUpdatePendingRequestResponse">
                         <div class="errorboxinner">
                           <div class="errorboxplaceholder mb-2">
                             <img src="assets/images/empty-box.svg" style="width: 80px" />
@@ -1101,14 +1101,14 @@
 
 
 
-                  <div class="pt-3 pb-3" id="overtime-history" role="" *ngIf="ACTIVE_TAB_IN_OVERTIME_TAB == OVERTIME_HISTORY_TAB">
+                  <div class="pt-3 pb-3" id="overtime-history" role="" *ngIf="ACTIVE_TAB_IN_ATTENDANCE_UPDATE_REQUEST_TAB == ATTENDANCE_UPDATE_REQUEST_HISTORY_TAB">
 
 
-                    <ng-container *ngIf="isShimmerForOvertimeRequestResponse && overtimeRequestResponseList.length == 0 && !dataNotFoundForOvertimeRequestResponse && !networkConnectionErrorForOvertimeRequestResponse; else overtimeRequestResponseListCondition">
+                    <ng-container *ngIf="isShimmerForAttendanceUpdateRequestResponse && overtimeRequestResponseList.length == 0 && !dataNotFoundForAttendanceUpdateRequestResponse && !networkConnectionErrorForAttendanceUpdateRequestResponse; else attendanceUpdateRequestResponseListCondition">
 
                     </ng-container>
-                    <ng-template #overtimeRequestResponseListCondition>
-                      <ng-container *ngIf="!isShimmerForOvertimeRequestResponse && overtimeRequestResponseList.length != 0 && !dataNotFoundForOvertimeRequestResponse && !networkConnectionErrorForOvertimeRequestResponse; else errorWhileFetchingOvertimeRequestResponseListCondition">
+                    <ng-template #attendanceUpdateRequestResponseListCondition>
+                      <ng-container *ngIf="!isShimmerForAttendanceUpdateRequestResponse && overtimeRequestResponseList.length != 0 && !dataNotFoundForAttendanceUpdateRequestResponse && !networkConnectionErrorForAttendanceUpdateRequestResponse; else errorWhileFetchingAttendanceUpdateRequestResponseListCondition">
                         <!-- #logContainerOfApprovedRejected (scroll)="scrollDownRecentActivityOfApprovedRejected($event)" -->
                         <div class="leave-history-box-if-pending-null">
                           <div class="row mt-2" *ngFor="let overtimeRequestResponse of overtimeRequestResponseList">
@@ -1172,7 +1172,7 @@
                         
                       </ng-container>
                     </ng-template>
-                    <ng-template #errorWhileFetchingOvertimeRequestResponseListCondition>
+                    <ng-template #errorWhileFetchingAttendanceUpdateRequestResponseListCondition>
                       <div class="errorboxmain text-center" *ngIf="dataNotFoundForOvertimeRequestResponse && !networkConnectionErrorForOvertimeRequestResponse">
                         <div class="errorboxinner">
                           <div class="errorboxplaceholder mb-2">
@@ -1241,21 +1241,21 @@
 
 
 
-                <ng-container *ngIf="isShimmerForOvertimeRequestLogResponse && overtimeRequestLogResponseList.length == 0 && !dataNotFoundForOvertimeRequestLogResponse && !networkConnectionErrorForOvertimeRequestLogResponse; else overtimeRequestLogResponseListCondition">
+                <ng-container *ngIf="isShimmerForAttendanceUpdateRequestLogResponse && attendanceFullRequestLog.length == 0 && !dataNotFoundForAttendanceUpdateRequestLogResponse && !networkConnectionErrorForAttendanceUpdateRequestLogResponse; else attendanceUpdateRequestLogResponseListCondition">
 
                 </ng-container>
 
-                <ng-template #overtimeRequestLogResponseListCondition>
-                  <ng-container *ngIf="!isShimmerForOvertimeRequestLogResponse && overtimeRequestLogResponseList.length != 0 && !dataNotFoundForOvertimeRequestLogResponse && !networkConnectionErrorForOvertimeRequestLogResponse; else errorWhileFetchingOvertimeRequestLogResponseListCondition">
+                <ng-template #attendanceUpdateRequestLogResponseListCondition>
+                  <ng-container *ngIf="!isShimmerForAttendanceUpdateRequestLogResponse && attendanceFullRequestLog.length != 0 && !dataNotFoundForAttendanceUpdateRequestLogResponse && !networkConnectionErrorForAttendanceUpdateRequestLogResponse; else errorWhileFetchingAttendanceUpdateRequestLogResponseListCondition">
                     <!-- #logContainer (scroll)="scrollDownRecentActivity($event)" -->
                     <div class="leave-logs">
-                      <div class="activity" *ngFor="let overtimeRequestLogResponse of overtimeRequestLogResponseList">
+                      <div class="activity" *ngFor="let attenFullRequestLog of attendanceFullRequestLog">
                         <div class="activity-info">
                           <div class="icon-info-activity">
-                            <i class="ti ti-clock bg-soft-warning" *ngIf="overtimeRequestLogResponse.requestStatusId == key.PENDING"></i>
+                            <i class="ti ti-clock bg-soft-warning" *ngIf="attenFullRequestLog.requestStatusId == key.PENDING"></i>
                             <!-- <i class="ti ti-clock bg-soft-warning" *ngIf="fullLogList.status == 'requested'"></i> -->
-                            <i class="ti ti-checks bg-soft-success" *ngIf="overtimeRequestLogResponse.requestStatusId == key.APPROVED"></i>
-                            <i class="ti ti-x bg-soft-danger" *ngIf="overtimeRequestLogResponse.requestStatusId == key.REJECTED"></i>
+                            <i class="ti ti-checks bg-soft-success" *ngIf="attenFullRequestLog.requestStatusId == key.APPROVED"></i>
+                            <i class="ti ti-x bg-soft-danger" *ngIf="attenFullRequestLog.requestStatusId == key.REJECTED"></i>
                           </div>
                           <div class="activity-info-text">
                             <div>
@@ -1263,37 +1263,37 @@
                                 <div class="dropdown d-inline-block">
                                   <div class="align-self-center">
                                     <div class="btn btn-xs btn-light btn-round">
-                                      {{ overtimeRequestLogResponse.createdDate | date:'medium' || "N/A" }}
+                                      {{ attenFullRequestLog.createdDate | date:'medium' || "N/A" }}
                                     </div>
                                   </div>
                                 </div>
                               </div>
                               <div class="media align-items-center">
                                 <div class="media-body ms-2 align-self-center">
-                                  <h5 class="m-0 Regular-data" (click)="routeToUserProfile(overtimeRequestLogResponse.userUuid)">
-                                    {{ overtimeRequestLogResponse.userName }}
+                                  <h5 class="m-0 Regular-data" (click)="routeToUserProfile(attenFullRequestLog.userUuid)">
+                                    {{ attenFullRequestLog.userName }}
                                   </h5>
                                   <p class="text-muted font-12 mb-0">
-                                    <span style="color: orange" class="ng-star-inserted" *ngIf="overtimeRequestLogResponse.requestStatusId == key.PENDING">Applied <span> To </span>
+                                    <span style="color: orange" class="ng-star-inserted" *ngIf="attenFullRequestLog.requestStatusId == key.PENDING">Applied <span> To </span>
                                     </span>
-                                    <span style="color: green" class="ng-star-inserted" *ngIf="overtimeRequestLogResponse.requestStatusId == key.APPROVED">Approved <span> By </span>
+                                    <span style="color: green" class="ng-star-inserted" *ngIf="attenFullRequestLog.requestStatusId == key.APPROVED">Approved <span> By </span>
                                     </span>
-                                    <span style="color: rgb(255, 55, 0)" class="ng-star-inserted" *ngIf="overtimeRequestLogResponse.requestStatusId == key.REJECTED">Rejected <span> By </span>
+                                    <span style="color: rgb(255, 55, 0)" class="ng-star-inserted" *ngIf="attenFullRequestLog.requestStatusId == key.REJECTED">Rejected <span> By </span>
                                     </span>
                                     <!-- <span style="color: rgb(155, 235, 234)" class="ng-star-inserted" *ngIf="fullLogList.status == 'requested'">Requested <span> To </span>
                                     </span> -->
-                                    {{ overtimeRequestLogResponse.managerName }}
+                                    {{ attenFullRequestLog.managerName }}
                                   </p>
                                 </div>
                               </div>
                               <hr class="hr-dashed" />
                               <div class="d-flex justify-content-between">
-                                <p> Time: <u>{{ overtimeRequestLogResponse.startTime | date : 'd MMM, h:mm a'}} - {{ overtimeRequestLogResponse.endTime | date : 'd MMM, h:mm a' }}</u></p>
+                                <p> Time: <u>{{ attenFullRequestLog.startTime | date : 'd MMM, h:mm a'}} - {{ attenFullRequestLog.endTime | date : 'd MMM, h:mm a' }}</u></p>
                                 <h6 class="fw-semibold">
-                                  <span class="badge badge-outline-primary">Duration | {{ this.helperService.formatHHmmssToHHmm(overtimeRequestLogResponse.workingHour) }} hrs.</span>
+                                  <span class="badge badge-outline-primary">Duration | {{ this.helperService.formatHHmmssToHHmm(attenFullRequestLog.workingHour) }} hrs.</span>
                                 </h6>
                               </div>
-                              <p class="text-muted mb-0">{{ overtimeRequestLogResponse.note }}</p>
+                              <p class="text-muted mb-0">{{ attenFullRequestLog.note }}</p>
                             </div>
                             <hr class="hr-dashed" />
                           </div>
@@ -1314,8 +1314,8 @@
                     </div> -->
                   </ng-container>
                 </ng-template>
-                <ng-template #errorWhileFetchingOvertimeRequestLogResponseListCondition>
-                  <div class="errorboxmain text-center" *ngIf="dataNotFoundForOvertimeRequestLogResponse && !networkConnectionErrorForOvertimeRequestLogResponse">
+                <ng-template #errorWhileFetchingAttendanceUpdateRequestLogResponseListCondition>
+                  <div class="errorboxmain text-center" *ngIf="dataNotFoundForAttendanceUpdateRequestLogResponse && !networkConnectionErrorForAttendanceUpdateRequestLogResponse">
                     <div class="errorboxinner">
                       <div class="errorboxplaceholder mb-2">
                         <img src="assets/images/empty-box.svg" style="width: 80px" />
