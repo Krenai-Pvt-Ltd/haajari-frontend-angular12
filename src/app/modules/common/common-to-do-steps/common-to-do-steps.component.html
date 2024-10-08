@@ -26,7 +26,7 @@
 
 <div
   class="showOnboardingStep"
-  [ngClass]="{ 'showOnboardingStepHover': isShowSecondaryToDoSteps }"
+  [ngClass]="{ 'showOnboardingStepHover': isShowSecondaryToDoSteps,'d-none': (ROLE == 'ADMIN' && isToDoStepsCompletedFlag == 1)}"
 >
   <div class="onboardingStapsHedding p-3 position-relative">
     <div

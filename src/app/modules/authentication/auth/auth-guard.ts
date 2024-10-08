@@ -51,7 +51,7 @@ export class AuthGuard implements CanActivate {
     this.ROLE = await this.rbacService.getRole();
     this.PLAN_PURCHASED =
     this.ONBOARDING_STEP = await this.rbacService.getOnboardingStep();
-    this.isToDoStepsCompletedData();
+    await this.isToDoStepsCompletedData();
 
     this._onboardingService.getOrgOnboardingStep().subscribe((response: any) => {
       const step = parseInt(response?.object?.step);
@@ -76,6 +76,7 @@ export class AuthGuard implements CanActivate {
 debugger
 console.log("this.ROLE",this.ROLE,"----",this.isToDoStepsCompleted )
    if(this.ROLE == 'ADMIN' && this.isToDoStepsCompleted == 0 && route!.routeConfig!.path == 'dashboard') {
+    console.log("redirecting from guaRD")
     this.router.navigate(['/to-do-step-dashboard']);
     return false;
    }
@@ -197,18 +198,18 @@ console.log("this.ROLE",this.ROLE,"----",this.isToDoStepsCompleted )
 
 
   isToDoStepsCompleted : number = 0;
-  isToDoStepsCompletedData() {
-    debugger
-    this.dataService.isToDoStepsCompleted().subscribe(
-      (response) => {
-        this.isToDoStepsCompleted = response.object;
-        console.log("success");
-        
-      },
-      (error) => {
-        console.log('error');
-      }
-    );
+ isToDoStepsCompletedData(): Promise<any>  {
+    return new Promise((resolve, reject) => {
+      this.dataService.isToDoStepsCompleted().subscribe(
+        (response) => {
+          this.isToDoStepsCompleted = response.object;
+          resolve(response);
+        },
+          (error: any) => {
+            resolve(true);
+          }
+        );
+    });
   }
 
 }
