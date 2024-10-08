@@ -10,7 +10,7 @@
           }"
         >
           <div class="col-md-12">
-            <div class="toStepVideoBox">
+            <div class="toStepVideoBox mt-3">
               <div>
                 <img
                   src="assets/images/videoBackImg.svg"
@@ -76,8 +76,8 @@
                     <img src="assets/images/report.svg" style="width: 100%" />
                   </div>
 
-                  <h5 class="m-0">Reports</h5>
-                  <p class="m-0">
+                  <h5 class="m-0 font-15">Reports</h5>
+                  <p class="m-0 font-12">
                     Manage your own fleet of carriers and delivery boys for
                   </p>
                 </div>
@@ -90,8 +90,8 @@
                       style="width: 100%"
                     />
                   </div>
-                  <h5 class="m-0">Attendance Management</h5>
-                  <p class="m-0">
+                  <h5 class="m-0 font-15">Attendance Management</h5>
+                  <p class="m-0 font-12">
                     Manage your own fleet of carriers and delivery boys for
                   </p>
                 </div>
@@ -104,8 +104,8 @@
                       style="width: 100%"
                     />
                   </div>
-                  <h5 class="m-0">Team Dashboard</h5>
-                  <p class="m-0">
+                  <h5 class="m-0 font-15">Team Dashboard</h5>
+                  <p class="m-0 font-12">
                     Manage your own fleet of carriers and delivery boys for
                   </p>
                 </div>
@@ -179,8 +179,8 @@
                   </div>
 
                   <h6>
-                    {{ stepsData.totalCompletedSteps }}/{{
-                      stepsData.totalSteps
+                    {{ stepsData?.totalCompletedSteps }}/{{
+                      stepsData?.totalSteps
                     }}
                     Steps Completed
                   </h6>
@@ -197,21 +197,21 @@
                     style="width: 90%"
                   >
                     <div>
-                      <span class="checdBox" *ngIf="step.statusId == 36">
+                      <span class="checdBox" *ngIf="step?.statusId == 36">
                         <i class="bi bi-check-lg"></i
                       ></span>
-                      <span class="pendingBox" *ngIf="step.statusId == 35">
+                      <span class="pendingBox" *ngIf="step?.statusId == 35">
                       </span>
                     </div>
 
                     <div>
-                      <h4>{{ step.name }}</h4>
+                      <h4>{{ step?.name }}</h4>
                       <p class="mb-0">
-                        {{ step.description }}
+                        {{ step?.description }}
                       </p>
                     </div>
                   </div>
-                  <div (click)="routeToStep(step.route, step.name)">
+                  <div (click)="routeToStep(step?.route, step?.name)">
                     <span class="toStepArrow">
                       <i class="bi bi-chevron-right"></i>
                     </span>
@@ -320,27 +320,39 @@
       <div
         class="modal-body p-0"
         id="youtube-video"
-        style="height: 480px; background-color: transparent"
+        style="height: 460px; background-color: transparent"
       >
         <div class="closebtn">
           <button
             type="button"
-            id="close_one"
-            onclick="stop()"
+            id="close_button"
+            #close_button
             class="close"
             data-bs-dismiss="modal"
             aria-label="Close"
+            style="top: -15px; right: -15px; display: none"
+          ></button>
+          <button
+            type="button"
+            id="close_one"
+            (click)="stopVideo()"
+            class="close"
             style="top: -15px; right: -15px"
           >
             <i class="bi bi-x"></i>
           </button>
         </div>
         <iframe
+          id="videoIframe"
+          #videoIframe
           width="100%"
-          id="videoId"
-          height="500"
-          src="https://www.youtube.com/embed/m1vxzFLCwCI?si=PrImOedKUTzaaTkY"
+          height="100%"
+          src="https://www.youtube.com/embed/jh7-qF48ANk?si=WJvojNbQucaWaknY"
           title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen
         ></iframe>
       </div>
     </div>

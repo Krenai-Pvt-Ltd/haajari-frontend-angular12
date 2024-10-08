@@ -6,7 +6,6 @@ import { AttendenceDto } from 'src/app/models/attendence-dto';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { DataService } from 'src/app/services/data.service';
-import { Subject } from 'rxjs';
 import { UserLeaveRequest } from 'src/app/models/user-leave-request';
 import { FormBuilder, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import { FullCalendarComponent } from '@fullcalendar/angular';
@@ -14,7 +13,6 @@ import { AttendanceCheckTimeResponse, AttendanceTimeUpdateRequestDto, UserDto } 
 import { saveAs } from 'file-saver';
 import { HttpClient } from '@angular/common/http';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import * as dayjs from 'dayjs';
 import { AttendanceDetailsResponse } from 'src/app/models/attendance-detail-response';
 import { UserAddressDetailsRequest } from 'src/app/models/user-address-details-request';
 import { HelperService } from 'src/app/services/helper.service';
@@ -25,14 +23,11 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 import { UserDocumentsAsList } from 'src/app/models/UserDocumentsMain';
 import { TaxRegime } from 'src/app/models/tax-regime';
 import { StatutoryResponse } from 'src/app/models/statutory-response';
-import { Statutory } from 'src/app/models/statutory';
 import { StatutoryRequest } from 'src/app/models/statutory-request';
-import { StatutoryAttribute } from 'src/app/models/statutory-attribute';
 import { ESIContributionRate } from 'src/app/models/e-si-contribution-rate';
 import { PFContributionRate } from 'src/app/models/p-f-contribution-rate';
 import { StatutoryAttributeResponse } from 'src/app/models/statutory-attribute-response';
 import { UserExperienceDetailRequest } from 'src/app/models/user-experience-detail-request';
-import { EmployeeExperienceComponent } from 'src/app/modules/employee-onboarding/employee-experience/employee-experience.component';
 import { EmployeeAdditionalDocument } from 'src/app/models/employee-additional-document';
 import { OnboardingFormPreviewResponse } from 'src/app/models/onboarding-form-preview-response';
 import { UserEmergencyContactDetailsRequest } from 'src/app/models/user-emergency-contact-details-request';
@@ -41,8 +36,6 @@ import { TotalExperiences } from 'src/app/models/total-experiences';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { finalize } from 'rxjs/operators';
 import { EmployeeCompanyDocumentsRequest } from 'src/app/models/employee-company-documents-request';
-import { keys } from 'lodash';
-import { UserDocumentsDetailsRequest } from 'src/app/models/user-documents-details-request';
 import { SalaryTemplateComponentResponse } from 'src/app/models/salary-template-component-response';
 import { AppraisalRequest } from 'src/app/models/appraisal-request';
 import { BonusRequest } from 'src/app/models/bonus-request';
@@ -51,7 +44,6 @@ import { EmployeePayslipResponse } from 'src/app/models/employee-payslip-respons
 import { EmployeePayslipBreakupResponse } from 'src/app/models/employee-payslip-breakup-response';
 import { EmployeePayslipDeductionResponse } from 'src/app/models/employee-payslip-deduction-response';
 import { EmployeePayslipLogResponse } from 'src/app/employee-payslip-log-response';
-import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 import { LopReversalApplicationRequest } from 'src/app/models/lop-reversal-application-request';
 import { OrganizationAssetResponse } from 'src/app/models/asset-category-respose';
 import { EmployeeSuperCoinsResponse } from 'src/app/models/employee-super-coins-response';
@@ -60,10 +52,7 @@ import { OvertimeRequestDTO } from 'src/app/models/overtime-request-dto';
 import { OvertimeRequestLogResponse } from 'src/app/models/overtime-request-log-response';
 import { LopReversalApplicationResponse } from 'src/app/models/lop-reversal-application-response';
 import { NzCalendarMode } from 'ng-zorro-antd/calendar';
-import { AttendanceDetailDayWise } from 'src/app/models/attendance-detail-day-wise';
-
-import { OrganizationShift } from 'src/app/models/shift-type';
-
+import { AttendanceDetailDayWise } from 'src/app/models/attendance-detail-day-wise'
 
 @Component({
   selector: 'app-employee-profile',
@@ -242,6 +231,8 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
     this.getUserLeaveLogByUuid();
     this.getTotalExperiences();
 
+
+
     this.lopReversalApplicationRequestForm = this.fb.group({
       selectedDate: [null, Validators.required],
       daysCount: [null, [Validators.required, Validators.pattern("^[0-9]*$")]],
@@ -288,7 +279,10 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
    
   }
 
-
+  onError(event: Event) {
+    const target = event.target as HTMLImageElement;
+    target.src = './assets/images/broken-image-icon.jpg';
+  }
   
   getRoleData() {
     //  const managerDetails =localStorage.getItem('managerFunc');
@@ -467,43 +461,35 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   attendanceDetailModalToggle: boolean = false;
   clientX: string = '0px';
   clientY: string = '0px';
+  
   openModal(mouseEnterInfo: any): void {
-    
     if (!this.attendanceDetailModalToggle) {
-      // console.log("events : ", mouseEnterInfo.event);
-      this.userAttendanceDetailDateWise.checkInTime = '';
-      this.userAttendanceDetailDateWise.checkOutTime = '';
-      this.userAttendanceDetailDateWise.breakCount = '';
-      this.userAttendanceDetailDateWise.breakDuration = '';
-      this.userAttendanceDetailDateWise.totalWorkingHours = '';
-      this.userAttendanceDetailDateWise.createdDate = '';
-      this.userAttendanceDetailDateWise.status = '';
-      this.userAttendanceDetailDateWise.checkInTime =
-        mouseEnterInfo.event._def.extendedProps.checkInTime;
-      this.userAttendanceDetailDateWise.checkOutTime =
-        mouseEnterInfo.event._def.extendedProps.checkOutTime;
-      this.userAttendanceDetailDateWise.breakCount =
-        mouseEnterInfo.event._def.extendedProps.breakCount;
-      this.userAttendanceDetailDateWise.breakDuration =
-        mouseEnterInfo.event._def.extendedProps.breakDuration;
-      this.userAttendanceDetailDateWise.totalWorkingHours =
-        mouseEnterInfo.event._def.extendedProps.totalWorkingHours;
-      this.userAttendanceDetailDateWise.createdDate =
-        mouseEnterInfo.event._def.extendedProps.createdDate;
-      this.userAttendanceDetailDateWise.status =
-        mouseEnterInfo.event._def.extendedProps.status;
-      // console.log("totalworkinghour :" + this.userAttendanceDetailDateWise.totalWorkingHours);
-      var rect = mouseEnterInfo.el.getBoundingClientRect();
-      this.clientX = rect.left - 210 + 'px';
-      this.clientY = rect.top - 70 + 'px';
-      console.log(
-        'mouse location:',
-        mouseEnterInfo.jsEvent.clientX,
-        mouseEnterInfo.jsEvent.clientY
-      );
+      // Reset modal data
+      const extendedProps = mouseEnterInfo.event._def.extendedProps;
+  
+      this.userAttendanceDetailDateWise = {
+        checkInTime: extendedProps.checkInTime || '',
+        checkOutTime: extendedProps.checkOutTime || '',
+        breakCount: extendedProps.breakCount || '',
+        breakDuration: extendedProps.breakDuration || '',
+        totalWorkingHours: extendedProps.totalWorkingHours || '',
+        createdDate: extendedProps.createdDate || '',
+        status: extendedProps.status || '',
+      };
+  
+      // Get the event element's position on the screen
+      const rect = mouseEnterInfo.el.getBoundingClientRect();
+  
+      // Dynamically calculate tooltip position
+      this.clientX = `${rect.left - 210}px`; // Adjust the value as necessary
+      this.clientY = `${rect.top - 70}px`;   // Adjust the value as necessary
+  
+      // Open modal
+      this.attendanceDetailModalToggle = true;
       this.openEventsModal.nativeElement.click();
     }
   }
+  
 
   closeAttendanceModal() {
     this.attendanceDetailModalToggle = false;
@@ -517,9 +503,17 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   // }
   @ViewChild('closeAttendanceDetailModalButton')
   closeAttendanceDetailModalButton!: ElementRef;
+  
   mouseLeaveInfo(mouseEnterInfo: any): void {
-    
-    this.closeAttendanceModal();
+    // Add a delay before closing the modal
+    setTimeout(() => {
+      const modalElement = this.closeAttendanceDetailModalButton.nativeElement;
+  
+      // Ensure the mouse is not hovering over the modal before closing it
+      if (!modalElement.matches(':hover')) {
+        this.closeAttendanceModal();
+      }
+    }, 0); // Delay of 300ms to reduce flickering
   }
 
   date = new Date();
@@ -1102,7 +1096,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   userLeave: any = [];
   leaveCountPlaceholderFlag: boolean = false;
 
-  getUserLeaveReq() {
+  getUserLeaveReq1() {
     this.leaveCountPlaceholderFlag = false;
     this.dataService.getUserLeaveRequests(this.userId).subscribe(
       (data) => {
@@ -1122,6 +1116,14 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
         this.count++;
       }
     );
+  }
+
+  getUserLeaveReq(){
+    this.leaveCountPlaceholderFlag = false;
+    this.dataService.getUserLeaveRequests(this.userId).subscribe(
+      (res: any) => {
+          this.userLeave = res.object;
+      });
   }
 
   selectedStatus!: string;
@@ -1269,7 +1271,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
           this.isFresher = this.experienceEmployee[0].fresher;
         }
         // console.log('experience length' + this.experienceEmployee.length);
-        if (data == undefined || data == null || data.experiences.length == 0) {
+        if (data == undefined || data == null || data.experiences?.length == 0) {
           this.isCompanyPlaceholder = true;
         }
         this.count++;
@@ -2384,42 +2386,42 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
           //     this.employeeAdditionalDocument = [];
           // }
 
-          if (preview.userDocuments.secondarySchoolCertificate) {
+          if (preview?.userDocuments.secondarySchoolCertificate) {
             this.isSchoolDocument = false;
           }
-          if (preview.userDocuments.highSchoolCertificate) {
+          if (preview?.userDocuments.highSchoolCertificate) {
             this.isHighSchoolDocument = false;
           }
-          if (preview.userExperience) {
+          if (preview?.userExperience) {
             this.userExperienceArray = preview.userExperience;
           }
-          if (preview.fresher == true) {
+          if (preview?.fresher == true) {
             this.isFresher = true;
           }
-          if (preview.userEmergencyContacts) {
+          if (preview?.userEmergencyContacts) {
             this.userEmergencyContactArray = preview.userEmergencyContacts;
           } else {
             console.log('No guarantor information available.');
             this.userEmergencyContactArray = [];
           }
-          if (preview.userDocuments != null) {
+          if (preview?.userDocuments != null) {
             this.secondarySchoolCertificateFileName = this.getFilenameFromUrl(
               preview.userDocuments.secondarySchoolCertificate
             );
             this.highSchoolCertificateFileName1 = this.getFilenameFromUrl(
-              preview.userDocuments.highSchoolCertificate
+              preview?.userDocuments.highSchoolCertificate
             );
             this.highestQualificationDegreeFileName1 = this.getFilenameFromUrl(
-              preview.userDocuments.highestQualificationDegree
+              preview?.userDocuments.highestQualificationDegree
             );
             this.testimonialReccomendationFileName1 = this.getFilenameFromUrl(
-              preview.userDocuments.testimonialReccomendation
+              preview?.userDocuments.testimonialReccomendation
             );
             this.aadhaarCardFileName = this.getFilenameFromUrl(
-              preview.userDocuments.aadhaarCard
+              preview?.userDocuments.aadhaarCard
             );
             this.pancardFileName = this.getFilenameFromUrl(
-              preview.userDocuments.pancard
+              preview?.userDocuments.pancard
             );
           }
           this.isLoading = false;
