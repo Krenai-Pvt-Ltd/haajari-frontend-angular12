@@ -480,9 +480,9 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
       // Get the event element's position on the screen
       const rect = mouseEnterInfo.el.getBoundingClientRect();
   
-      // Dynamically calculate tooltip position
-      this.clientX = `${rect.left - 210}px`; // Adjust the value as necessary
-      this.clientY = `${rect.top - 70}px`;   // Adjust the value as necessary
+      
+      this.clientX = `${rect.left - 210}px`; 
+      this.clientY = `${rect.top - 70}px`;   
   
       // Open modal
       this.attendanceDetailModalToggle = true;
