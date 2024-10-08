@@ -99,7 +99,7 @@ export class CommonToDoStepsComponent implements OnInit {
       this.showToDo = false;
     }
   }
-  getOrganizationInitialToDoStepBar() {
+   getOrganizationInitialToDoStepBar() {
     debugger
     this.dataService.getOrganizationInitialToDoStepBar().subscribe(
       (response) => {
