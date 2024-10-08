@@ -226,7 +226,7 @@
                   </div>
                   <div class="row mt-2" *ngFor="let pl of pendingLeaves">
                     <div class="col-auto">
-                      <img *ngIf="pl.image" src="{{ pl.image }}" alt="" class="thumb-md rounded-circle" style="width: 32px; height: 32px" />
+                      <img *ngIf="pl.image" src="{{ pl.image }}" alt="" class="thumb-md rounded-circle" style="width: 32px; height: 32px"  (error)="onError($event)" />
                       <img *ngIf="!pl.image" src="assets/images/user.png" alt="" class="thumb-md rounded-circle" style="width: 32px; height: 32px" />
                     </div>
                     <!--end col-->
@@ -299,7 +299,7 @@
                   </div>
                   <div class="row mt-2" *ngFor="let arl of approvedRejectedLeaves">
                     <div class="col-auto">
-                      <img *ngIf="arl.image" src="{{ arl.image }}" alt="" class="thumb-md rounded-circle" style="width: 32px; height: 32px" />
+                      <img *ngIf="arl.image" src="{{ arl.image }}" alt="" class="thumb-md rounded-circle" style="width: 32px; height: 32px"  (error)="onError($event)"/>
                       <img *ngIf="!arl.image" src="assets/images/user.png" alt="" class="thumb-md rounded-circle" style="width: 32px; height: 32px" />
                     </div>
                     <!--end col-->

@@ -127,6 +127,14 @@ export class DashboardComponent implements OnInit {
   endDate: string = '';
   startDateAndEndDate : StartDateAndEndDate = new StartDateAndEndDate();
 
+
+  
+  onError(event: Event) {
+    const target = event.target as HTMLImageElement;
+    target.src = './assets/images/broken-image-icon.jpg';
+  }
+  
+
   onMonthChange(month: Date): void {
     // console.log('Month is getting selected');
     this.selectedDate = month;
