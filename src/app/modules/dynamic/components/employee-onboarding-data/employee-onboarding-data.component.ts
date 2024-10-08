@@ -900,11 +900,11 @@ export class EmployeeOnboardingDataComponent implements OnInit {
             this.isSlackUserFlag = false;
             // console.log("success");
             this.reloadPage();
-            this.helperService.showToast("There is some error to fetch slack user id for this email!", Key.TOAST_STATUS_ERROR);
+            this.helperService.showToast("Sync failed: Please ensure the user exists in your Slack workspace!", Key.TOAST_STATUS_ERROR);
           }
         },
         (error) => {
-          this.helperService.showToast("There is some error to fetch slack user id for this email!", Key.TOAST_STATUS_ERROR);
+          this.helperService.showToast("Sync failed: Please ensure the user exists in your Slack workspace!", Key.TOAST_STATUS_ERROR);
           this.isSlackUserFlag = false;
           // console.log("error");
         }

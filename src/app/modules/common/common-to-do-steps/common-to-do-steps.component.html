@@ -1,8 +1,11 @@
 <div
   class="onboaredinStapBox p-3"
   (click)="saveOrgSecondaryToDoStepBarData(1)"
-  *ngIf="!isToDoStep && ROLE == 'ADMIN'"
+  *ngIf="ROLE == 'ADMIN' && isToDoStepsCompletedFlag == 0 && (showToDo || !isToDoStep)"
+  
 >
+<!-- *ngIf="((showToDo && isToDoStepsCompletedFlag == 0) || !isToDoStep ) && ROLE == 'ADMIN'" -->
+<!-- {{isToDoStepsCompletedFlag}}----{{showToDo}}----{{isToDoStep}}----{{ ROLE == 'ADMIN'}}---{{ ROLE}} -->
 <!-- {{isToDoStep}} -->
   <div class="d-flex align-items-center justify-content-between">
     <h5 class="mb-0">Onboarding Steps</h5>

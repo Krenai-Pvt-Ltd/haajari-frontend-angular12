@@ -7,6 +7,7 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { Key } from 'src/app/constant/key';
+import { DataService } from 'src/app/services/data.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
@@ -21,6 +22,7 @@ export class AuthGuard implements CanActivate {
     private helperService: HelperService,
     private _subscriptionPlanService: SubscriptionPlanService,
     private _onboardingService: OrganizationOnboardingService,
+    private dataService: DataService
   ) {
     this.PLAN_PURCHASED = _subscriptionPlanService
   }
@@ -30,10 +32,7 @@ export class AuthGuard implements CanActivate {
   ONBOARDING_STEP: any;
   PLAN_PURCHASED: any;
   async ngOnInit(): Promise<void> {
-    this.UUID = await this.rbacService.getUUID();
-    this.ROLE = await this.rbacService.getRole();
-    this.PLAN_PURCHASED =
-    this.ONBOARDING_STEP = await this.rbacService.getOnboardingStep();
+    
   }
 
   async canActivate(
@@ -45,6 +44,15 @@ export class AuthGuard implements CanActivate {
       this.router.navigate(['/auth/login']);
       return false;
     }
+
+
+
+    this.UUID = await this.rbacService.getUUID();
+    this.ROLE = await this.rbacService.getRole();
+    this.PLAN_PURCHASED =
+    this.ONBOARDING_STEP = await this.rbacService.getOnboardingStep();
+    this.isToDoStepsCompletedData();
+
     this._onboardingService.getOrgOnboardingStep().subscribe((response: any) => {
       const step = parseInt(response?.object?.step);
 
@@ -61,8 +69,16 @@ export class AuthGuard implements CanActivate {
     //   console.log(this.ONBOARDING_STEP);
     //   this.router.navigate(['/organization-onboarding/personal-information']);
     // }
-    debugger
-
+// if(role+todo incopplete(){
+//   this.router.navigate(['/roo']);
+//   return false;
+// }
+debugger
+console.log("this.ROLE",this.ROLE,"----",this.isToDoStepsCompleted )
+   if(this.ROLE == 'ADMIN' && this.isToDoStepsCompleted == 0 && route!.routeConfig!.path == 'dashboard') {
+    this.router.navigate(['/to-do-step-dashboard']);
+    return false;
+   }
     await this.rbacService.isUserInfoInitializedMethod();
     if (route !== null && route.routeConfig !== null) {
       console.log(!this.rbacService.shouldDisplay('dashboard') ,
@@ -179,5 +195,20 @@ export class AuthGuard implements CanActivate {
   //   });
   // }
 
+
+  isToDoStepsCompleted : number = 0;
+  isToDoStepsCompletedData() {
+    debugger
+    this.dataService.isToDoStepsCompleted().subscribe(
+      (response) => {
+        this.isToDoStepsCompleted = response.object;
+        console.log("success");
+        
+      },
+      (error) => {
+        console.log('error');
+      }
+    );
+  }
 
 }
