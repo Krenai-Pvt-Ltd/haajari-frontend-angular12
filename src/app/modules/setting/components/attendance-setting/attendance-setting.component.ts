@@ -125,9 +125,9 @@ export class AttendanceSettingComponent implements OnInit {
       if (this.automationRules) {
         this.automationRules.nativeElement.scrollIntoView({ behavior: 'smooth' });
         // this.automationRuless.nativeElement.click();
-        this.attendanceRuleWithAttendanceRuleDefinitionResponseList.push(new AttendanceRuleWithAttendanceRuleDefinitionResponse());
-        this.dataNotFoundPlaceholderForAttendanceRule=false;
-        this.networkConnectionErrorPlaceHolderForAttendanceRule=false;
+        // this.attendanceRuleWithAttendanceRuleDefinitionResponseList.push(new AttendanceRuleWithAttendanceRuleDefinitionResponse());
+        // this.dataNotFoundPlaceholderForAttendanceRule=false;
+        // this.networkConnectionErrorPlaceHolderForAttendanceRule=false;
         this.shouldScrollToAutomationRules = false; 
       }
     }, 100);
