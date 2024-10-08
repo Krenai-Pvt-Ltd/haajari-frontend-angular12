@@ -6,7 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
-import { NavigationEnd, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { Notification } from 'src/app/models/Notification';
 import { DataService } from 'src/app/services/data.service';
