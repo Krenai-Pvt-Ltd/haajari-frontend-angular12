@@ -190,14 +190,7 @@ export class ToDoStepDashboardComponent implements OnInit {
     // let video = document.getElementById('videoIframe');
     // console.log(video);
     // console.log('jdjshfkjsdfhek');
-    // var temp =
-    //   this.youtubeIframe.nativeElement.contentDocument ||
-    //   this.youtubeIframe.nativeElement.contentWindow;
-    // // if (video) {
-    // temp.postMessage(
-    //   '{"event":"command", "func":"pauseVideo", "args":""}',
-    //   '*'
-    // );
+    // var
     // }
   }
 

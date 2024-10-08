@@ -240,7 +240,7 @@
   color: #fff;
 }
 
-@media screen and (max-width: 2600px) {
+/* @media screen and (max-width: 2600px) {
   .onboardingStapsPoint {
     height: 530px;
     overflow: scroll;
@@ -259,7 +259,7 @@
     height: 400px;
     overflow: scroll;
   }
-}
+} */
 
 @media screen and (max-width: 1280px) {
   .onboardingStapsPoint {
