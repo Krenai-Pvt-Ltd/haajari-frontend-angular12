@@ -233,14 +233,20 @@
                   <div class="d-flex align-items-center gap-3">
                     <div class="d-flex align-items-center gap-3">
                       <!-- <i class="bi bi-pencil pointer"></i><i class="bi bi-trash pointer text-danger"></i> -->
-                      <a href="" data-bs-toggle="modal" data-bs-target="#requestleave">
+                      
+                      <!-- <a href="" data-bs-toggle="modal" data-bs-target="#requestleave">
                         <i class="bi bi-pencil pointer" style="color: #6666f3" (click)="
                             getLeaveSettingInformationById(
                               newLeaveSetting.id,
                               true
                             )
                           "></i>
+                      </a> -->
+
+                      <a href="" data-bs-toggle="modal" data-bs-target="#requestleave">
+                        <i class="bi bi-pencil pointer" style="color: #6666f3" (click)="getLeaveSettingInformationById(newLeaveSetting.id, true)">a</i>
                       </a>
+
                       <!-- <a class="delete-rule" (click)="
                       deleteLeaveTemplate(
                             newLeaveSetting.id

@@ -997,10 +997,16 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
           this.fileToUpload = '';
           // this.selectedFile = null;
           this.fileInput.nativeElement.value = '';
-          this.getUserLeaveReq();
+          // this.getUserLeaveReq();
+
+          setTimeout(() => {
+            this.getUserLeaveReq();
+          },100);
+
           this.resetUserLeave();
           this.formGroupDirective.resetForm();
           this.getUserLeaveLogByUuid();
+          
           this.requestLeaveCloseModel.nativeElement.click();
           // location.reload();
         },
