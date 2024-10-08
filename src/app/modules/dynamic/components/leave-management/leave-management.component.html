@@ -262,7 +262,7 @@
                           </div>
                         </div>
                         <a href="#" class="text-primary" (click)="getPendingLeave(pl.id, pl.leaveType)" data-bs-toggle="modal" data-bs-target="#leave-appervo">
-                          <i class="fas fa-external-link-square-alt me-1"></i>View </a>
+                          <i class="fas fa-external-link-square-alt me-1"></i>View\ </a>
                       </div>
                     </div>
                     <!--end col-->
@@ -516,7 +516,7 @@
                       specificLeaveRequest.image || 'assets/images/user.png'
                     " style="width: 50px; height: 50px; object-fit: cover" />
                 </div>
-                <div>
+                <!-- <div>
                   <h4 style="cursor: pointer" (click)="routeToUserProfileAfterClosePending(specificLeaveRequest.uuid)">
                     {{ specificLeaveRequest.name }}
                   </h4>
@@ -530,7 +530,6 @@
                   }} - {{ specificLeaveRequest.endDate | date : "dd MMM yyyy" || "N/A"
                   }}
                 </h5>
-                <!-- <h5>{{ formatDateIn(formatDate(specificLeaveRequest.startDate)) }} - {{ formatDateIn(formatDate(specificLeaveRequest.endDate)) }}</h5> -->
                 <p>
                   {{ specificLeaveRequest.leaveType }} ( {{ specificLeaveRequest.totalDays }} Days )
                 </p>
@@ -538,15 +537,6 @@
                   {{ specificLeaveRequest.leaveDate
                       | date : "dd MMM yyyy hh:mm:ss a"
                   }}
-                  <!-- <span
-                    style="cursor: pointer"
-                    *ngIf="specificLeaveRequest.docFileLink != null"
-                    (click)="
-                      downloadSingleImage(specificLeaveRequest.docFileLink)
-                    "
-                  >
-                    Doc<i class="bi bi-file-arrow-down"></i
-                  ></span> -->
                 </p>
                 <p>Applied To : {{ specificLeaveRequest.managerName }}</p>
               </div>
@@ -574,7 +564,58 @@
                   <p class="mb-0">{{ specificLeaveRequest.remainingLeaves }}</p>
                   <span class="total-holiday">Remaining</span>
                 </div>
+              </div> -->
+
+              <div>
+                <h4 style="cursor: pointer" (click)="routeToUserProfileAfterClosePending(specificLeaveRequest.uuid)">
+                  {{ specificLeaveRequest.name }}
+                </h4>
+                <p>{{ specificLeaveRequest.email }}</p>
               </div>
+            </div>
+            <div class="total-holidey-live">
+              <h5>
+                {{ specificLeaveRequest.startDate
+                    | date : "dd MMM yyyy" || "N/A"
+                }} - {{ specificLeaveRequest.endDate | date : "dd MMM yyyy" || "N/A"
+                }}
+              </h5>
+              <p>
+                {{ specificLeaveRequest.leaveType }} ( {{ specificLeaveRequest.totalDays }} Days )
+              </p>
+              <p>
+                {{ specificLeaveRequest.leaveDate
+                    | date : "dd MMM yyyy hh:mm:ss a"
+                }}
+              </p>
+              <p>Applied To : {{ specificLeaveRequest.managerName }}</p>
+            </div>
+          </div>
+          <div class="mt-4">
+            <div class="d-flex align-items-center">
+              <div class="Approved rejected-css">
+                <p class="mb-0" style="color: black"></p>
+                <span style="
+                    color: #9196a4 !important;
+                    text-align: left;
+                    font-size: 14px;
+                    font-weight: 400;
+                  " class="total-holiday">{{ specificLeaveRequest.leaveType }}</span>
+              </div>
+              <div class="Approved">
+                <p class="mb-0">{{ specificLeaveRequest.approved }}</p>
+                <span class="total-holiday">Approved</span> 
+              </div>
+              <div class="Approved pending-css">
+                <p class="mb-0">{{ specificLeaveRequest.applied }}</p>
+                <span class="total-holiday">Pending</span>
+              </div>
+              <div class="Approved remaining-css">
+                <p class="mb-0">{{ specificLeaveRequest.remainingQuota }}</p>
+                <span class="total-holiday">Remaining</span>
+              </div>
+            </div>
+
               <p class="mt-4 mb-4">{{ specificLeaveRequest.notes }}</p>
               <!-- <div class="d-flex align-items-center justify-content-end" style="gap:10px"><button class="btn approve-btn" type="button">Approve</button><button class="btn reject-btn" type="button">Reject</button></div> -->
               <div class="mb-3" style="text-align: left">

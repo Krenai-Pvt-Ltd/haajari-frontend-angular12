@@ -241,7 +241,7 @@
                             )
                           "></i>
                       </a>
-                      <a class="delete-rule" (click)="
+                      <!-- <a class="delete-rule" (click)="
                       deleteLeaveTemplate(
                             newLeaveSetting.id
                           )
@@ -250,8 +250,20 @@
                             newLeaveSetting.id
                           )
                         ">
+                        <i class="bi bi-trash pointer text-danger"></i>Bot
+                      </a> -->
+                      <a class="delete-rule" data-bs-toggle="modal" data-bs-target="#delete-leave" (click)="
+                      getLeaveTemplateOrCategoryId(
+                            newLeaveSetting.id, true
+                          )
+                        " *ngIf="
+                          !deleteLeaveTemplateLoader(
+                            newLeaveSetting.id
+                          )
+                        ">
                         <i class="bi bi-trash pointer text-danger"></i>
                       </a>
+
                       <div class="dot-opacity-loader" *ngIf="
                           deleteLeaveTemplateLoader(
                             newLeaveSetting.id
@@ -292,11 +304,9 @@
                                   newLeaveSetting.id
                                 )
                               "></i>
-                            <i *ngIf="
-                                newLeaveSetting.leaveTemplateCategoryRes.length >
-                                1
-                              " class="bi bi-trash pointer text-danger" (click)="deleteLeaveTemplateCategory(category.id)"></i>
-                              <!-- " class="bi bi-trash pointer text-danger" (click)="deleteLeaveSettingCategoryById(category.id)"></i> -->
+                            <!-- <i *ngIf="newLeaveSetting.leaveTemplateCategoryRes.length > 1" class="bi bi-trash pointer text-danger" (click)="deleteLeaveTemplateCategory(category.id)"></i> amit-->
+                            <i *ngIf="newLeaveSetting.leaveTemplateCategoryRes.length > 1" data-bs-toggle="modal" data-bs-target="#delete-leave" (click)="getLeaveTemplateOrCategoryId(category.id, false)" class="bi bi-trash pointer text-danger" ></i>
+                          
                           </div>
                         </div>
                         <div class="custom-salary-para p-3">
@@ -470,13 +480,24 @@
                         ngbTooltip="Provide a unique name for your organization's leave template." placement="right">
                       </i>
                     </label>
-                    <nz-form-control nzErrorTip="Please enter a valid name.">
+                    <!-- <nz-form-control nzErrorTip="Please enter a valid name.">
                       <input nz-input [(ngModel)]="leaveTemplateRequest.name" placeholder="Enter the template name here" nzSize="large"
                         minlength="3" maxlength="50" name="templateName" #templateName="ngModel" required />
                     </nz-form-control>
                     <div *ngIf="templateName.invalid && templateName.touched" class="invalid-feedback">
                       Template name is required and must be between 3 and 50 characters.
-                    </div>
+                    </div> -->
+
+                    <input nz-input [(ngModel)]="leaveTemplateRequest.name" placeholder="Enter the template name here" nzSize="large"
+                    minlength="3" maxlength="50" name="templateName" #tempName="ngModel" required />
+                    <div *ngIf="tempName?.touched">
+                      <!-- <label *ngIf="tempName.errors?.required" id="cname-error" class="error mt-2 text-danger" for="cname"><sup>*</sup>Name is required.</label> -->
+                      <label *ngIf="tempName.errors?.required" id="cname-error" class="error mt-2 text-danger" for="cname">
+                        Name is required
+                      </label>
+                  </div>
+             
+
                   </div>
                 
                   <!-- Leave Quota Renewal Cycle -->
@@ -833,7 +854,7 @@
                                         {{ staff.name }}
                                       </td>
                                       <td style="padding: 12px 15px">
-                                        {{ staff.email }}
+                                        {{ staff.email != null ? staff.email : '- - -' }}
                                       </td>
                                       <td>
                                         <!-- && !addedUserFlag -->
@@ -1124,7 +1145,8 @@
                       <!-- <button type="button" class="btn btn-outline-primary">Back</button> -->
                     </div>
                     <div class="modal-footer d-flex align-items-center justify-content-end">
-                      <button type="button" class="btn btn-outline-primary btn-round" (click)="registerLeaveTemplateMethodCall()" *ngIf="!submitLeaveLoader"> Submit </button>
+                      <button type="button" [disabled]="registerToggle" class="btn btn-outline-primary btn-round" (click)="registerLeaveTemplateMethodCall()"
+                       *ngIf="!submitLeaveLoader"> Submit <i class="fa fa-spinner fa-spin" *ngIf="registerToggle"></i></button>
                       <div class="dot-opacity-loader" *ngIf="submitLeaveLoader">
                         <span></span>
                         <span></span>
@@ -1145,6 +1167,97 @@
                         Submit
                     </button></div> -->
       </form>
+    </div>
+  </div>
+</div>
+
+
+<button
+  class="d-none"
+  data-bs-toggle="modal"
+  data-bs-target="#delete-leave"
+></button>
+<div
+  class="modal fade"
+  id="delete-leave"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-dialog-centered"
+    style="max-width: 500px"
+    role="document"
+  >
+    <div class="modal-content">
+      <div class="modal-body p-0 delete-text">
+        <div
+          class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4"
+        >
+          <div class="delete-close-btn">
+            <button
+              type="button"
+              class="close-btn"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+              #closeButtonDeleteLeave
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="30"
+                height="30"
+                viewBox="0 0 30 30"
+                fill="none"
+              >
+                <mask
+                  id="mask0_2031_1331"
+                  style="mask-type: alpha"
+                  maskUnits="userSpaceOnUse"
+                  x="0"
+                  y="0"
+                  width="30"
+                  height="30"
+                >
+                  <rect width="30" height="30" fill="#D9D9D9" />
+                </mask>
+                <g mask="url(#mask0_2031_1331)">
+                  <path
+                    d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                    fill="black"
+                  />
+                </g>
+              </svg>
+            </button>
+          </div>
+          <img src="/assets/images/delete-img.svg" style="width: 70px" />
+        </div>
+        <div class="bg-white p-4 text-center">
+          <h5 class="alert-heading font-18 mb-2">
+            Are you sure you want to delete <br />
+            {{leaveTemplateId > 0 ? 'Leave Template ?' : 'Leave Category ?'}}
+          </h5>
+          <p class="font-11">You will not be able to recover this</p>
+
+          <div class="mt-4 d-flex align-items-center flex-column">
+
+            <button [disabled]="deleteToggle" class="btn continue-btn" *ngIf="leaveTemplateId > 0" (click)="deleteLeaveTemplate()">
+              Continue <i class="fa fa-spinner fa-spin" *ngIf="deleteToggle"></i>
+            </button>
+            <!-- <button class="btn continue-btn" *ngIf="leaveTemplateId > 0" (click)="deleteLeaveTemplate()">Continue</button> -->
+            <button [disabled]="deleteToggle" class="btn continue-btn" *ngIf="leaveTemplateId == 0" (click)="deleteLeaveTemplateCategory()">
+              Continue <i class="fa fa-spinner fa-spin" *ngIf="deleteToggle"></i>
+            </button>
+            <button
+              class="btn cancel-btn pt-2"
+              type="button"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
