@@ -1995,7 +1995,7 @@
                                     <label for="hoursInput" class="pb-2">{{ attendanceRuleResponse.ruleSubHeader }}
                                     </label>
                                     <div class="d-flex justify-content-center align-items-center" style="gap: 5px">
-                                      <nz-time-picker [(ngModel)]="customLateDurationValue" [ngModelOptions]="{ standalone: true }" nzFormat="HH:mm" nzPlaceHolder="Select Duration" [nzDisabledHours]="disabledHours" (ngModelChange)="
+                                      <nz-time-picker class="automation-rule-duration-picker" [(ngModel)]="customLateDurationValue" [ngModelOptions]="{ standalone: true }" nzFormat="HH:mm" nzPlaceHolder="Select Duration" [nzDisabledHours]="disabledHours" (nzOpenChange)="onCustomDurationOpen($event, attendanceRuleResponse.attendanceRuleTypeId)" (ngModelChange)="
                                           getlateDuration(
                                             $event,
                                             attendanceRuleResponse.attendanceRuleTypeId
@@ -2106,7 +2106,7 @@
                                         }}
                                       </label>
                                       <div class="d-flex justify-content-center align-items-center" style="gap: 5px">
-                                        <nz-time-picker [(ngModel)]="halfDayLateDurationValue" [ngModelOptions]="{ standalone: true }" nzFormat="HH:mm" nzPlaceHolder="Select Duration" (ngModelChange)="
+                                        <nz-time-picker class="automation-rule-duration-picker" [(ngModel)]="halfDayLateDurationValue" [ngModelOptions]="{ standalone: true }" nzFormat="HH:mm" nzPlaceHolder="Select Duration" (nzOpenChange)="onHalfDayDurationOpen($event, attendanceRuleResponse.attendanceRuleTypeId)" (ngModelChange)="
                                             getHalfDaylateDuration(
                                               $event,
                                               attendanceRuleResponse.attendanceRuleTypeId
@@ -2175,7 +2175,7 @@
                                         }}
                                       </label>
                                       <div class="d-flex justify-content-center align-items-center" style="gap: 5px">
-                                        <nz-time-picker [(ngModel)]="fullDayLateDurationValue" [ngModelOptions]="{ standalone: true }" nzFormat="HH:mm" nzPlaceHolder="Select Duration" (ngModelChange)="
+                                        <nz-time-picker class="automation-rule-duration-picker" [(ngModel)]="fullDayLateDurationValue" [ngModelOptions]="{ standalone: true }" nzFormat="HH:mm" nzPlaceHolder="Select Duration" nzShowNow="false" (nzOpenChange)="onFullDayDurationOpen($event, attendanceRuleResponse.attendanceRuleTypeId)" (ngModelChange)="
                                             getFullDaylateDuration(
                                               $event,
                                               attendanceRuleResponse.attendanceRuleTypeId
@@ -2253,7 +2253,7 @@
                                     <label for="hoursInput" class="pb-2">{{ attendanceRuleResponse.ruleSubHeader }}
                                     </label>
                                     <div class="d-flex justify-content-center align-items-center" style="gap: 5px">
-                                      <nz-time-picker [(ngModel)]="customOvertimeDurationValue" [ngModelOptions]="{ standalone: true }" nzFormat="HH:mm" nzPlaceHolder="Select Duration" [nzDisabledHours]="disabledHours" (ngModelChange)="
+                                      <nz-time-picker class="automation-rule-duration-picker" [(ngModel)]="customOvertimeDurationValue" [ngModelOptions]="{ standalone: true }" nzFormat="HH:mm" nzPlaceHolder="Select Duration" [nzDisabledHours]="disabledHours" (nzOpenChange)="onCustomDurationOpen($event, attendanceRuleResponse.attendanceRuleTypeId)" (ngModelChange)="
                                           getlateDuration(
                                             $event,
                                             attendanceRuleResponse.attendanceRuleTypeId
@@ -2352,9 +2352,9 @@
                                         }}
                                       </label>
                                       <div class="d-flex justify-content-center align-items-center" style="gap: 5px">
-                                        <nz-time-picker [(ngModel)]="
+                                        <nz-time-picker class="automation-rule-duration-picker" [(ngModel)]="
                                             halfDayOvertimeDurationValue
-                                          " [ngModelOptions]="{ standalone: true }" nzFormat="HH:mm" nzPlaceHolder="Select Duration" (ngModelChange)="
+                                          " [ngModelOptions]="{ standalone: true }" nzFormat="HH:mm" nzPlaceHolder="Select Duration" (nzOpenChange)="onHalfDayDurationOpen($event, attendanceRuleResponse.attendanceRuleTypeId)" (ngModelChange)="
                                             getHalfDaylateDuration(
                                               $event,
                                               attendanceRuleResponse.attendanceRuleTypeId
@@ -2454,9 +2454,9 @@
                                         }}
                                       </label>
                                       <div class="d-flex justify-content-center align-items-center" style="gap: 5px">
-                                        <nz-time-picker [(ngModel)]="
+                                        <nz-time-picker class="automation-rule-duration-picker" [(ngModel)]="
                                             fullDayOvertimeDurationValue
-                                          " [ngModelOptions]="{ standalone: true }" nzFormat="HH:mm" nzPlaceHolder="Select Duration" (ngModelChange)="
+                                          " [ngModelOptions]="{ standalone: true }" nzFormat="HH:mm" nzPlaceHolder="Select Duration" (nzOpenChange)="onFullDayDurationOpen($event, attendanceRuleResponse.attendanceRuleTypeId)" (ngModelChange)="
                                             getFullDaylateDuration(
                                               $event,
                                               attendanceRuleResponse.attendanceRuleTypeId

@@ -1341,3 +1341,11 @@ a.fetch-location {
   text-decoration: none;
   cursor: pointer;
 }
+
+.automation-rule-duration-picker{
+  background-color: white;
+}
+
+::ng-deep .ant-picker-now-btn {
+  display: none; /* Hides the 'Now' button */
+}
