@@ -231,6 +231,8 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
     this.getUserLeaveLogByUuid();
     this.getTotalExperiences();
 
+
+
     this.lopReversalApplicationRequestForm = this.fb.group({
       selectedDate: [null, Validators.required],
       daysCount: [null, [Validators.required, Validators.pattern("^[0-9]*$")]],
@@ -277,7 +279,10 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
    
   }
 
-
+  onError(event: Event) {
+    const target = event.target as HTMLImageElement;
+    target.src = './assets/images/broken-image-icon.jpg';
+  }
   
   getRoleData() {
     //  const managerDetails =localStorage.getItem('managerFunc');
@@ -456,43 +461,35 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   attendanceDetailModalToggle: boolean = false;
   clientX: string = '0px';
   clientY: string = '0px';
+  
   openModal(mouseEnterInfo: any): void {
-    
     if (!this.attendanceDetailModalToggle) {
-      // console.log("events : ", mouseEnterInfo.event);
-      this.userAttendanceDetailDateWise.checkInTime = '';
-      this.userAttendanceDetailDateWise.checkOutTime = '';
-      this.userAttendanceDetailDateWise.breakCount = '';
-      this.userAttendanceDetailDateWise.breakDuration = '';
-      this.userAttendanceDetailDateWise.totalWorkingHours = '';
-      this.userAttendanceDetailDateWise.createdDate = '';
-      this.userAttendanceDetailDateWise.status = '';
-      this.userAttendanceDetailDateWise.checkInTime =
-        mouseEnterInfo.event._def.extendedProps.checkInTime;
-      this.userAttendanceDetailDateWise.checkOutTime =
-        mouseEnterInfo.event._def.extendedProps.checkOutTime;
-      this.userAttendanceDetailDateWise.breakCount =
-        mouseEnterInfo.event._def.extendedProps.breakCount;
-      this.userAttendanceDetailDateWise.breakDuration =
-        mouseEnterInfo.event._def.extendedProps.breakDuration;
-      this.userAttendanceDetailDateWise.totalWorkingHours =
-        mouseEnterInfo.event._def.extendedProps.totalWorkingHours;
-      this.userAttendanceDetailDateWise.createdDate =
-        mouseEnterInfo.event._def.extendedProps.createdDate;
-      this.userAttendanceDetailDateWise.status =
-        mouseEnterInfo.event._def.extendedProps.status;
-      // console.log("totalworkinghour :" + this.userAttendanceDetailDateWise.totalWorkingHours);
-      var rect = mouseEnterInfo.el.getBoundingClientRect();
-      this.clientX = rect.left - 210 + 'px';
-      this.clientY = rect.top - 70 + 'px';
-      console.log(
-        'mouse location:',
-        mouseEnterInfo.jsEvent.clientX,
-        mouseEnterInfo.jsEvent.clientY
-      );
+      // Reset modal data
+      const extendedProps = mouseEnterInfo.event._def.extendedProps;
+  
+      this.userAttendanceDetailDateWise = {
+        checkInTime: extendedProps.checkInTime || '',
+        checkOutTime: extendedProps.checkOutTime || '',
+        breakCount: extendedProps.breakCount || '',
+        breakDuration: extendedProps.breakDuration || '',
+        totalWorkingHours: extendedProps.totalWorkingHours || '',
+        createdDate: extendedProps.createdDate || '',
+        status: extendedProps.status || '',
+      };
+  
+      // Get the event element's position on the screen
+      const rect = mouseEnterInfo.el.getBoundingClientRect();
+  
+      // Dynamically calculate tooltip position
+      this.clientX = `${rect.left - 210}px`; // Adjust the value as necessary
+      this.clientY = `${rect.top - 70}px`;   // Adjust the value as necessary
+  
+      // Open modal
+      this.attendanceDetailModalToggle = true;
       this.openEventsModal.nativeElement.click();
     }
   }
+  
 
   closeAttendanceModal() {
     this.attendanceDetailModalToggle = false;
@@ -506,9 +503,17 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   // }
   @ViewChild('closeAttendanceDetailModalButton')
   closeAttendanceDetailModalButton!: ElementRef;
+  
   mouseLeaveInfo(mouseEnterInfo: any): void {
-    
-    this.closeAttendanceModal();
+    // Add a delay before closing the modal
+    setTimeout(() => {
+      const modalElement = this.closeAttendanceDetailModalButton.nativeElement;
+  
+      // Ensure the mouse is not hovering over the modal before closing it
+      if (!modalElement.matches(':hover')) {
+        this.closeAttendanceModal();
+      }
+    }, 0); // Delay of 300ms to reduce flickering
   }
 
   date = new Date();

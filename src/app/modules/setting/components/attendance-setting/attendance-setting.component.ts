@@ -106,6 +106,7 @@ export class AttendanceSettingComponent implements OnInit {
         this.shouldScrollToAutomationRules = true; 
       }
     });
+
   }
 
   @ViewChild('automationRules') automationRules!: ElementRef;
@@ -804,6 +805,22 @@ export class AttendanceSettingComponent implements OnInit {
   time1!: Date;
   invalidCustomlateDuration1: boolean = false;
   invalidCustomlateDuration2: boolean = false;
+  onCustomDurationOpen(isOpen : boolean, attendanceRuleTypeId: number){
+
+    if(attendanceRuleTypeId == this.DEDUCTION_RULE_DEFINITION) {
+      if (isOpen && !this.customLateDurationValue) {
+        // If the time picker is opened and no time has been set, default to 00:00
+        this.customLateDurationValue = new Date();
+        this.customLateDurationValue.setHours(0, 0, 0, 0);
+      }
+    } else{
+      if (isOpen && !this.customOvertimeDurationValue) {
+        // If the time picker is opened and no time has been set, default to 00:00
+        this.customOvertimeDurationValue = new Date();
+        this.customOvertimeDurationValue.setHours(0, 0, 0, 0);
+      }
+    }
+  }
   getlateDuration(event: Date, attendanceRuleTypeId: number) {
     let duration = this.helperService.formatDateToHHmmss(event);
 
@@ -843,7 +860,23 @@ export class AttendanceSettingComponent implements OnInit {
   invalidHalfDaylateDuration1: boolean = false;
   invalidHalfDaylateDuration2: boolean = false;
   time2!: Date;
+  onHalfDayDurationOpen(isOpen : boolean, attendanceRuleTypeId: number){
+    if(attendanceRuleTypeId == this.DEDUCTION_RULE_DEFINITION) {
+      if (isOpen && !this.halfDayLateDurationValue) {
+        // If the time picker is opened and no time has been set, default to 00:00
+        this.halfDayLateDurationValue = new Date();
+        this.halfDayLateDurationValue.setHours(0, 0, 0, 0);
+      }
+    } else{
+      if (isOpen && !this.halfDayOvertimeDurationValue) {
+        // If the time picker is opened and no time has been set, default to 00:00
+        this.halfDayOvertimeDurationValue = new Date();
+        this.halfDayOvertimeDurationValue.setHours(0, 0, 0, 0);
+      }
+    }
+  }
   getHalfDaylateDuration(event: Date, attendanceRuleTypeId: number) {
+
     let duration = this.helperService.formatDateToHHmmss(event);
 
     if (attendanceRuleTypeId == this.DEDUCTION_RULE_DEFINITION) {
@@ -861,7 +894,6 @@ export class AttendanceSettingComponent implements OnInit {
     }
     this.halfDayDurationValidation();
   }
-
   halfDayDurationValidation(){
     this.invalidCustomlateDuration1 = false;
     this.invalidCustomlateDuration2 = false;
@@ -887,6 +919,21 @@ export class AttendanceSettingComponent implements OnInit {
   invalidFullDaylateDuration1: boolean = false;
   invalidFullDaylateDuration2: boolean = false;
   time3!: Date;
+  onFullDayDurationOpen(isOpen : boolean, attendanceRuleTypeId: number) {
+    if(attendanceRuleTypeId == this.DEDUCTION_RULE_DEFINITION) {
+      if (isOpen && !this.fullDayLateDurationValue) {
+        // If the time picker is opened and no time has been set, default to 00:00
+        this.fullDayLateDurationValue = new Date();
+        this.fullDayLateDurationValue.setHours(0, 0, 0, 0);
+      }
+    } else{
+      if (isOpen && !this.fullDayOvertimeDurationValue) {
+        // If the time picker is opened and no time has been set, default to 00:00
+        this.fullDayOvertimeDurationValue = new Date();
+        this.fullDayOvertimeDurationValue.setHours(0, 0, 0, 0);
+      }
+    }
+  }
   getFullDaylateDuration(event: Date, attendanceRuleTypeId: number) {
     let duration = this.helperService.formatDateToHHmmss(event);
 
