@@ -8,6 +8,7 @@ import { jwtDecode } from 'jwt-decode';
 import { Key } from 'src/app/constant/key';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import { constant } from 'src/app/constant/constant';
 
 @Component({
   selector: 'app-slack-auth',
@@ -42,6 +43,7 @@ export class SlackAuthComponent implements OnInit {
   isRouteDashboard: boolean = false;
   errorMessage: string = '';
   errorFlag: boolean = false;
+  promotionCode:string='';
   registerOrganizationByCodeParam() {
     debugger;
     const codeParam = new URLSearchParams(window.location.search).get('code');
@@ -53,16 +55,22 @@ export class SlackAuthComponent implements OnInit {
       // alert('Invalid URL: Missing code parameter');
       return;
     }
+    this.promotionCode = this.getCookie('promotionalOffer');
     this.errorFlag = false;
     this.dataService
       .registerOrganizationUsingCodeParam(
         codeParam,
         stateParam,
-        this.helperService.getTimeZone()
+        this.helperService.getTimeZone(),
+        this.promotionCode
       )
       .subscribe(
         async (response: any) => {
           // console.log(response.object);
+          if(!constant.EMPTY_STRINGS.includes(this.promotionCode) ){
+            this.promotionCode ='';
+            this.deleteAllCookies();
+          }
           this.isSuccessComponent = true;
           if(this.isSuccessComponent) {
             this.startCountdown();
@@ -257,4 +265,29 @@ export class SlackAuthComponent implements OnInit {
     }
   );
   }
+
+
+    // Get a cookie for promotionalOffer
+    getCookie(name:string) {
+      const nameEQ = name + "=";
+      const ca = document.cookie.split(';');
+      for (let i = 0; i < ca.length; i++) {
+          let c = ca[i];
+          while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+          if (c.indexOf(nameEQ) == 0) 
+          return c.substring(nameEQ.length, c.length);
+      }
+      return '';
+    }
+
+
+    deleteAllCookies() {
+      var cookies = document.cookie.split(";");
+      for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i];
+        var eqPos = cookie.indexOf("=");
+        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      }
+    }
 }

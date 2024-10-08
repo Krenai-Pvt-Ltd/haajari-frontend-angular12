@@ -5,6 +5,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { truncate } from 'fs';
 import { Subscription, of, timer } from 'rxjs';
 import { catchError, switchMap, take, tap } from 'rxjs/operators';
+import { constant } from 'src/app/constant/constant';
 import { UserReq } from 'src/app/models/userReq';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -235,6 +236,10 @@ export class OnboardingWhatappComponent implements OnInit {
             this.createPasswordFlag = true;
             this.showMessageFlag = false;
             this.isOtpVerify = false;
+            if(!constant.EMPTY_STRINGS.includes(this.promotionCode) ){
+              this.promotionCode ='';
+              this.deleteAllCookies();
+            }
           } else {
             this.isOtpVerify = true;
             this.loading = false;
@@ -659,6 +664,16 @@ export class OnboardingWhatappComponent implements OnInit {
         return c.substring(nameEQ.length, c.length);
     }
     return '';
+  }
+
+  deleteAllCookies() {
+    var cookies = document.cookie.split(";");
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = cookies[i];
+      var eqPos = cookie.indexOf("=");
+      var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    }
   }
 
 }
