@@ -97,10 +97,11 @@
   right: 25px;
   width: 300px;
   cursor: pointer;
-  height: 83vh;
+  /* height: 83vh; */
   z-index: 999;
   transition: 0.3s linear;
   transform: translateY(150%);
+  padding-bottom: 20px;
 }
 
 .showOnboardingStepHover {
@@ -255,14 +256,15 @@
     overflow: scroll;
   }
 } */
-.onboardingStapsPoint {
-  height: 350px;
-  overflow: scroll;
-}
-
 @media screen and (max-width: 1920px) {
   .onboardingStapsPoint {
-    height: 440px;
+    max-height: 50vh;
+    overflow: scroll;
+  }
+}
+@media screen and (max-width: 1280px) {
+  .onboardingStapsPoint {
+    max-height: 50vh;
     overflow: scroll;
   }
 }
