@@ -223,7 +223,7 @@ export class Key {
 
   /* ------------------  Production urls ----------------*/
   // base_url = 'https://production.hajiri.work/api/v2';
- 
+
   //subscription plan
   get_subscription = '/subcription-plan';
   get_active_user_count = '/users/active-user-count';
@@ -417,11 +417,8 @@ export class Key {
 
   static GEOLOCATION = 'geolocation';
 
-
-
   // Automation rule definition component count to apply CSS dynamically
   public static COL_MD_4 = 3;
   public static COL_MD_6 = 2;
   public static COL_MD_12 = 1;
-
 }

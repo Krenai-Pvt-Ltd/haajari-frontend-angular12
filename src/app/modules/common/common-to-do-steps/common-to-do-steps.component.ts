@@ -28,6 +28,7 @@ export class CommonToDoStepsComponent implements OnInit {
           }else{
           this.getStepsData();
           this.getOrganizationRegistratonProcessStepData();
+          this.isToDoStepsCompletedData();
           }
           // this.getOrganizationInitialToDoStepBar();
         }
@@ -62,6 +63,7 @@ export class CommonToDoStepsComponent implements OnInit {
     this.getStepsData();
     this.getOrganizationInitialToDoStepBar();
     this.getOrganizationRegistratonProcessStepData();
+    this.getRoleDetails();
   }
 
   async getRoleDetails() {
