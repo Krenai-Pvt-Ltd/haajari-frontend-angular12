@@ -169,7 +169,7 @@ export class AddShiftTimeComponent implements OnInit {
 
   closeModal() {
     this.isValidated = false;
-    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId);
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "");
   }
 
   @ViewChild('closeButton') closeButton!: ElementRef;
@@ -288,7 +288,7 @@ export class AddShiftTimeComponent implements OnInit {
     this.isAllUsersSelected = this.staffs.every((staff) => staff.selected);
     this.isAllSelected = this.isAllUsersSelected;
     this.updateSelectedStaffs();
-    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId);
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "");
   }
 
   checkAndUpdateAllSelected() {
@@ -345,7 +345,7 @@ export class AddShiftTimeComponent implements OnInit {
         }
       });
     }
-    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId);
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "");
   }
 
   unselectAllUsers() {
@@ -354,7 +354,7 @@ export class AddShiftTimeComponent implements OnInit {
     this.staffs.forEach((staff) => (staff.selected = false));
     this.selectedStaffsUuids = [];
     this.activeModel2 = false;
-    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId);
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "");
   }
 
   selectAllUsers(isChecked: boolean) {
@@ -414,7 +414,7 @@ export class AddShiftTimeComponent implements OnInit {
     // });
     // this.onboardingService.refreshOnboarding();
     this.selectAll(true);
-    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId);
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "");
   }
 
   organizationShiftTimingValidationErrors: { [key: string]: string } = {};
@@ -683,13 +683,14 @@ export class AddShiftTimeComponent implements OnInit {
   }
 
   userNameWithShiftName: any;
-  getOrganizationUserNameWithShiftNameData(shiftId: number) {
+  getOrganizationUserNameWithShiftNameData(shiftId: number, type:string) {
     this.dataService
       .getOrganizationUserNameWithShiftName(this.selectedStaffsUuids, shiftId)
       .subscribe(
         (response) => {
           this.userNameWithShiftName = response.listOfObject;
-          if (this.userNameWithShiftName.length < 1) {
+          if( this.userNameWithShiftName.length <1 && type == "SHIFT_USER_EDIT") {
+            this.closeButton.nativeElement.click();
           }
         },
         (error) => {
@@ -709,7 +710,8 @@ export class AddShiftTimeComponent implements OnInit {
     );
     // this.updateSelectedStaffs();
     this.userNameWithShiftName = [];
-    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId);
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "SHIFT_USER_EDIT");
+    // this.getUserByFiltersMethodCall();
   }
 
   hideShiftNoteFlag: boolean = true;
