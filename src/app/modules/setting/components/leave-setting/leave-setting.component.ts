@@ -199,6 +199,7 @@ export class LeaveSettingComponent implements OnInit {
     if (this.debounceTimer) {
       clearTimeout(this.debounceTimer);
     }
+    debugger
 
     this.debounceTimer = setTimeout(() => {
       this.selectedStaffIds = [];
@@ -216,16 +217,26 @@ export class LeaveSettingComponent implements OnInit {
         )
         .subscribe(
           (response) => {
-            // this.staffSelectionUserList.user = response.users;
-            this.staffs = response.users.map(
-              (staff: StaffSelectionUserList) => ({
-                ...staff.user,
-                selected: this.selectedStaffIds.includes(staff.user.id),
-                // selected: this.selectedStaffIds.includes(staff.user.uuid),
-                // isMapped:
-                isAdded: staff.mapped,
-              })
-            );
+            
+            // this.staffs = response.users.map(
+            //   (staff: StaffSelectionUserList) => ({
+            //     ...staff.user,
+            //     selected: this.selectedStaffIds.includes(staff.user.id),
+            //     isAdded: staff.mapped,
+            //   })
+            // );
+
+            this.staffs = response.users;
+            // .map(
+            //   (staff: StaffSelectionUserList) => ({
+            //     ...staff,
+            //     selected: this.selectedStaffIds.includes(staff.id),
+            //     // selected: this.selectedStaffIds.includes(staff.user.uuid),
+            //     // isMapped:
+            //     isAdded: staff.mapped,
+            //   })
+            // );
+
             this.total = response.count;
 
             if (this.total == 0) {
@@ -239,6 +250,8 @@ export class LeaveSettingComponent implements OnInit {
             // }
 
             this.isAllSelected = this.staffs.every((staff) => staff.selected);
+
+            console.log('staffs: ',this.staffs)
           },
           (error) => {
             console.error(error);
@@ -1083,16 +1096,39 @@ export class LeaveSettingComponent implements OnInit {
     });
   }
 
+  leaveTemplateCategoryId: number = 0;
+  leaveTemplateId: number = 0;
+  isLeaveTemplate: boolean = false;
+  @ViewChild('closeButtonDeleteLeave') closeButtonDeleteLeave!: ElementRef
+  getLeaveTemplateOrCategoryId(id: number, isLeaveTemplate: boolean){
+    // this.leaveTemplateCategoryId = id;
+    if(isLeaveTemplate){
+      this.leaveTemplateCategoryId = 0;
+      this.leaveTemplateId = id;
+    }else{
+      this.leaveTemplateId = 0;
+      this.leaveTemplateCategoryId = id;
+    }
 
-  deleteLeaveTemplateCategory(id: number){
-    this.dataService.deleteLeaveTemplateCategory(id).subscribe((response: any) => {
+  }
+
+  // deleteLeaveTemplateCategory(id: number){ amit
+  deleteToggle: boolean = false;
+  deleteLeaveTemplateCategory(){
+    this.deleteToggle = true;
+    this.dataService.deleteLeaveTemplateCategory(this.leaveTemplateCategoryId).subscribe((response: any) => {
       if(response.status){
+        this.leaveTemplateCategoryId = 0;
+        this.closeButtonDeleteLeave.nativeElement.click()
+        this.deleteToggle = false;
         this.getAllLeaveTemplate();
         this.helperService.showToast(
           'Leave Category Deleted',
           Key.TOAST_STATUS_SUCCESS
         );
       }else{
+        this.leaveTemplateCategoryId = 0;
+        this.deleteToggle = false;
         this.helperService.showToast(
           'Something went wrong!',
           Key.TOAST_STATUS_ERROR
@@ -1101,15 +1137,22 @@ export class LeaveSettingComponent implements OnInit {
     })
   }
 
-  deleteLeaveTemplate(id: number){
-    this.dataService.deleteLeaveTemplate(id).subscribe((response: any) => {
+  // deleteLeaveTemplate(id: number){ amit
+  deleteLeaveTemplate(){
+    this.deleteToggle = true;
+    this.dataService.deleteLeaveTemplate(this.leaveTemplateId).subscribe((response: any) => {
       if(response.status){
         this.getAllLeaveTemplate();
+        this.leaveTemplateId = 0;
+        this.closeButtonDeleteLeave.nativeElement.click()
+        this.deleteToggle = false;
         this.helperService.showToast(
           'Leave Template Deleted',
           Key.TOAST_STATUS_SUCCESS
         );
       }else{
+        this.leaveTemplateId = 0;
+        this.deleteToggle = false;
         this.helperService.showToast(
           'Something went wrong!',
           Key.TOAST_STATUS_ERROR
@@ -1332,7 +1375,7 @@ export class LeaveSettingComponent implements OnInit {
         debugger
 
         if(value != null){
-          
+
         if(value == 'Male'){
           this.selectedGenderId = 2;
         }else if(value == 'Female'){
@@ -1388,10 +1431,15 @@ export class LeaveSettingComponent implements OnInit {
     accrualTypes: Array<{id: number, name: string, value: string }> = []; // Gender options
     loadAccrualType() {
       this.accrualTypes = [
-        {id: 1, name: 'All At Once', value: 'all' },
-        {id: 2, name: 'Start', value: 'start' },
-        {id: 3, name: 'End', value: 'end' }
+        {id: 1, name: 'Start', value: 'start' },
+        {id: 2, name: 'End', value: 'end' }
       ];
+
+      // this.accrualTypes = [
+      //   {id: 1, name: 'All At Once', value: 'all' },
+      //   {id: 2, name: 'Start', value: 'start' },
+      //   {id: 3, name: 'End', value: 'end' }
+      // ];
     }
   
     selectedAccrualTypeId: number = 0;
@@ -1571,19 +1619,23 @@ onStartDateChange(startDate: Date) {
   
 
   // leaveTemplateDefinitionForm = this.fb.group({});
+  registerToggle: boolean = false;
   registerLeaveTemplateMethodCall(){
+    this.registerToggle = true;
     this.setFieldsToLeaveTemplateRequest();
     this.dataService.registerLeaveTemplate(this.leaveTemplateRequest).subscribe((response) => {
       this.helperService.registerOrganizationRegistratonProcessStepData(Key.LEAVE_TEMPLATE_ID, Key.PROCESS_COMPLETED);
       this.leaveTemplateRequest = new LeaveTemplateRequest();
       this.getAllLeaveTemplate();
+      this.registerToggle = false;
       this.requestLeaveCloseModel.nativeElement.click();
       this.helperService.showToast('Leave template registered successfully.', Key.TOAST_STATUS_SUCCESS);
     }, (error) => {
+      this.registerToggle = false;
       this.helperService.showToast('Error while registering the leave template!', Key.TOAST_STATUS_ERROR);
     })
 
-    console.log('clear field')
+    // console.log('clear field')
     this.leaveTemplateRequest.name = ''; // Reset the template name
     this.leaveTemplateDefinitionForm.reset(); // Reset the form state
 
@@ -1618,10 +1670,12 @@ onStartDateChange(startDate: Date) {
  leaveTemplates: LeaveTemplateRes[] = []
 
   getAllLeaveTemplate(){
+    this.isLoading = true;
     this.dataService.getAllLeaveTemplate(1, 10).subscribe((response: any) => {
 
+      this.isLoading = false;
       this.leaveTemplates = response.object;
-      console.log('leaveTemplates: ',this.leaveTemplates)
+      // console.log('leaveTemplates: ',this.leaveTemplates)
     });
   }
 

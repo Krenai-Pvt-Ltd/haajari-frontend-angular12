@@ -9,9 +9,11 @@ import { HelperService } from 'src/app/services/helper.service';
   styleUrls: ['./to-do-step-dashboard.component.css'],
 })
 export class ToDoStepDashboardComponent implements OnInit {
-
-
-  constructor(private dataService: DataService, private router: Router, private helperService : HelperService) {}
+  constructor(
+    private dataService: DataService,
+    private router: Router,
+    private helperService: HelperService
+  ) {}
 
   ngOnInit(): void {
     this.isOrgOnboarTodayData();
@@ -28,17 +30,15 @@ export class ToDoStepDashboardComponent implements OnInit {
   hideToDoStep() {
     this.showToDoStep = false;
     this.showToDoStepTab = true;
-   
   }
 
   organizationRegistrationProcessResponse: any;
   getOrganizationRegistratonProcessStepData() {
-    debugger
+    debugger;
     this.dataService.getOrganizationRegistratonProcessStepStatus().subscribe(
       (response) => {
         this.organizationRegistrationProcessResponse = response.listOfObject;
         // console.log("success");
-        
       },
       (error) => {
         // console.log('error');
@@ -49,19 +49,18 @@ export class ToDoStepDashboardComponent implements OnInit {
   // routeToStep(route : string) {
   //   this.router.navigate([route]);
   // }
- 
+
   routeToStep(route: string, name: string) {
     this.router.navigate([route], { queryParams: { name } });
   }
 
   stepsData: any;
   getStepsData() {
-    debugger
+    debugger;
     this.dataService.getStepsData().subscribe(
       (response) => {
         this.stepsData = response.listOfObject[0];
         // console.log("success");
-        
       },
       (error) => {
         // console.log('error');
@@ -71,16 +70,18 @@ export class ToDoStepDashboardComponent implements OnInit {
 
   getProgressPercentage(): number {
     if (this.stepsData?.totalSteps === 0) {
-      return 0; 
+      return 0;
     }
-    return (this.stepsData?.totalCompletedSteps / this.stepsData?.totalSteps) * 100;
+    return (
+      (this.stepsData?.totalCompletedSteps / this.stepsData?.totalSteps) * 100
+    );
   }
 
   hideOrganizationInitialToDoStepBar() {
-    debugger
+    debugger;
     this.dataService.hideOrganizationInitialToDoStepBar().subscribe(
       (response) => {
-        // console.log("success");  
+        // console.log("success");
         this.getOrganizationInitialToDoStepBar();
         location.reload();
       },
@@ -92,11 +93,11 @@ export class ToDoStepDashboardComponent implements OnInit {
 
   isToDoStep: boolean = false;
   getOrganizationInitialToDoStepBar() {
-    debugger
+    debugger;
     this.dataService.getOrganizationInitialToDoStepBar().subscribe(
       (response) => {
         this.isToDoStep = response.object;
-        // console.log("success");  
+        // console.log("success");
       },
       (error) => {
         // console.log('error');
@@ -105,19 +106,18 @@ export class ToDoStepDashboardComponent implements OnInit {
   }
 
   isToDoStepsCompleted: number = 0;
-  isToDoStepsCompletedData(isOrgOnboardToday:number) {
-    debugger
+  isToDoStepsCompletedData(isOrgOnboardToday: number) {
+    debugger;
     this.dataService.isToDoStepsCompleted().subscribe(
       (response) => {
         this.isToDoStepsCompleted = response.object;
 
-        if(this.isToDoStepsCompleted == 0 && isOrgOnboardToday == 1) {
+        if (this.isToDoStepsCompleted == 0 && isOrgOnboardToday == 1) {
           this.router.navigate(['/to-do-step-dashboard']);
-        }else {
+        } else {
           this.router.navigate(['/dashboard']);
         }
-        console.log("isToDoStepsCompletedFlag :", this.isToDoStepsCompleted);
-        
+        console.log('isToDoStepsCompletedFlag :', this.isToDoStepsCompleted);
       },
       (error) => {
         console.log('error');
@@ -125,17 +125,15 @@ export class ToDoStepDashboardComponent implements OnInit {
     );
   }
 
-
   isOrgOnboardToday: number = 0;
   isOrgOnboarTodayData() {
-    debugger
+    debugger;
     this.dataService.isOrgOnboarToday().subscribe(
       (response) => {
         this.isOrgOnboardToday = response.object;
 
         this.isToDoStepsCompletedData(this.isOrgOnboardToday);
-        console.log("isToDoStepsCompletedFlag :", this.isToDoStepsCompleted);
-        
+        console.log('isToDoStepsCompletedFlag :', this.isToDoStepsCompleted);
       },
       (error) => {
         console.log('error');
@@ -143,7 +141,69 @@ export class ToDoStepDashboardComponent implements OnInit {
     );
   }
 
-  
-  
-  
+  // Reference to the iframe video element
+  // @ViewChild('videoIframe') videoIframe!: ElementRef;
+  @ViewChild('close_button') close_button!: ElementRef;
+  @ViewChild('videoIframe', { static: false }) youtubeIframe:
+    | ElementRef<HTMLIFrameElement>
+    | undefined;
+
+  // Stops or pauses the video when modal closes
+  stopVideo(): void {
+    this.close_button.nativeElement.click();
+
+    if (this.youtubeIframe) {
+      // Ensure that contentWindow is correctly typed
+      const iframeWindow = (
+        this.youtubeIframe.nativeElement as HTMLIFrameElement
+      ).contentWindow;
+
+      if (iframeWindow) {
+        // Send the 'pauseVideo' command to the YouTube iframe
+        iframeWindow.postMessage(
+          '{"event":"command","func":"pauseVideo","args":""}',
+          '*'
+        );
+      }
+    }
+    // this.pauseYouTubeVideo();
+    // if (this.videoIframe) {
+    //   const iframeElement = this.videoIframe.nativeElement;
+    //   const iframeSrc = iframeElement.src;
+
+    //   // Reload the iframe (if it's a YouTube iframe or similar)
+    //   iframeElement.src = iframeSrc;
+
+    //   // Handle YouTube API or HTML5 Video pause
+    //   const videoTag = iframeElement.contentDocument?.querySelector(
+    //     'video'
+    //   ) as HTMLVideoElement | null;
+
+    //   if (videoTag) {
+    //     videoTag.pause(); // Pauses HTML5 video inside iframe
+    //   }
+    // }
+  }
+
+  // Pauses the YouTube video
+  pauseYouTubeVideo(): void {
+    // let video = document.getElementById('videoIframe');
+    // console.log(video);
+    // console.log('jdjshfkjsdfhek');
+    // var temp =
+    //   this.youtubeIframe.nativeElement.contentDocument ||
+    //   this.youtubeIframe.nativeElement.contentWindow;
+    // // if (video) {
+    // temp.postMessage(
+    //   '{"event":"command", "func":"pauseVideo", "args":""}',
+    //   '*'
+    // );
+    // }
+  }
+
+  // Call this method when modal closes to stop the video
+  onModalClose(): void {
+    this.stopVideo();
+    this.pauseYouTubeVideo();
+  }
 }
