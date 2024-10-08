@@ -580,6 +580,10 @@
   border-left: 1px solid #6b7280;
   height: 20px;
 }
+
+.actual-price {
+  font-size: 12px;
+}
 /* @media screen and (max-width: 2600px) {
   .plan-box {
     height: 85vh !important;
