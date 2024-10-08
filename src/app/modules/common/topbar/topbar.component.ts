@@ -110,6 +110,9 @@ export class TopbarComponent implements OnInit {
     if (routeValue.includes('setting/subscription')) {
       routeValue = 'Billing & Subscription';
     }
+    if (routeValue.includes('setting/onboarding-setting')) {
+      routeValue = 'Onboarding Setting';
+    }
 
     if (routeValue.includes('payroll-dashboard/leave-summary')) {
       routeValue = 'Attendance, Leave & Present Days';

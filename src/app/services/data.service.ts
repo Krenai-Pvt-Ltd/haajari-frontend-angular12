@@ -77,6 +77,7 @@ import { OvertimeRequestDTO } from '../models/overtime-request-dto';
 import { LeaveTemplateRequest } from '../models/leave-template-request';
 import { OrganizationRegistrationFormRequest } from '../models/organization-registration-form-request';
 import { rootCertificates } from 'tls';
+import { OnboardingModule } from '../models/OnboardingModule';
 
 
 @Injectable({
@@ -285,7 +286,7 @@ export class DataService {
   //Organization leave module
   registerLeave(leaveData: any): Observable<any> {
     return this.httpClient.post(
-      `${this.baseUrl}/organization-leave/register`, 
+      `${this.baseUrl}/organization-leave/register`,
       leaveData
     );
   }
@@ -296,16 +297,16 @@ export class DataService {
   }
   //Organization personal information module
   registerOrganizationPersonalInformation(
-    personalInformation: any, 
+    personalInformation: any,
     timeZone: string
   ): Observable<any> {
     return this.httpClient.put<any>(
       `${this.baseUrl}/organization-personal-information/register`,
-      personalInformation, 
-      { params: { timeZone: timeZone } } 
+      personalInformation,
+      { params: { timeZone: timeZone } }
     );
   }
-  
+
   getOrganizationDetails(): Observable<any> {
     return this.httpClient.get<any>(
       `${this.baseUrl}/organization-personal-information/get`
@@ -876,6 +877,27 @@ export class DataService {
       .set('search_by', searchBy)
       .set('owner_role_id', ownerRoleId);
     return this.httpClient.get<any>(`${this.baseUrl}/role/get/all`, { params });
+  }
+  getAllOnboardingModules(){
+    return this.httpClient.get<OnboardingModule[]>(`${this.baseUrl}/onboarding-setting/onboarding-module/get-all`);
+  }
+  saveSelectedModuleIds(moduleIds: number[]): Observable<any> {
+    return this.httpClient.post<any>(`${this.baseUrl}/onboarding-setting/update-permissions`, { moduleIds });
+  }
+  getEnabledModuleIds(): Observable<number[]> {
+    return this.httpClient.get<number[]>(`${this.baseUrl}/onboarding-setting/getEnabledModules`);
+  }
+  getRoutesByOrganization(userUuid: any): Observable<string[]> {
+    console.log("APPPPPPPPPPPPIIIIIIIIIIIIIIIII");
+    const params = new HttpParams()
+      .set('userUuid', userUuid.join(','));
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded',
+      }),
+      params: params,
+    };
+    return this.httpClient.get<string[]>(`${this.baseUrl}/onboarding-setting/routes`,httpOptions);
   }
   getAttendanceLatePerformers(
     startDate: string,
@@ -1655,14 +1677,14 @@ export class DataService {
 
   getOrganizationUserNameWithShiftName(selectedStaffsUuids: string[], shiftId: number): Observable<any> {
     let params = new HttpParams().set("shiftId", shiftId);
-    
+
 
     return this.httpClient.post<any>(
       `${this.baseUrl}/organization-shift-timing/get-organization-user-shift-name`,  selectedStaffsUuids, {params}
     );
   }
 
-  
+
 
 
   getBestPerformerAttendanceDetails(
@@ -3045,7 +3067,7 @@ export class DataService {
     return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/register-lop-adjustment-request`, lopAdjustmentRequest, {params});
   }
 
- 
+
 
   getPayrollLeaveLogResponse(userUuid : string): Observable<any> {
     const params = new HttpParams()
@@ -3073,7 +3095,7 @@ export class DataService {
   saveOrganizationHrPolicies(policyDocString: string): Observable<any> {
      const params = new HttpParams()
        .set('policyDocString', policyDocString)
-    
+
     const url = `${this.baseUrl}/organization-personal-information/save/policy/doc`;
     return this.httpClient.put<any>(url, {}, {params});
   }
@@ -3090,7 +3112,7 @@ export class DataService {
   }
 
   getAllAddressDetailsWithStaff(): Observable<any> {
-    
+
     return this.httpClient.get(`${this.baseUrl}/user-verification/get/organization/all/multi/locations`,);
   }
 
@@ -3155,7 +3177,7 @@ export class DataService {
   }
 
   saveAppraisalRequest(appraisalRequest : AppraisalRequest){
-    
+
     return this.httpClient.post<any>(`${this.baseUrl}/salary/appraisal-request`, appraisalRequest);
   }
 
@@ -3416,10 +3438,10 @@ export class DataService {
     return this.httpClient.get<any>(url,{ params });
   }
 
-  
+
   updatePayActionTypeFoUsers(
     payActionType: string,
-    userUuids: any 
+    userUuids: any
   ): Observable<any>{
     const params = new HttpParams()
     .set('pay_action_type', payActionType)
@@ -3431,7 +3453,7 @@ export class DataService {
   generateSalarySlip(
     startDate: string,
     endDate: string,
-    userUuids: any 
+    userUuids: any
   ): Observable<any>{
     const params = new HttpParams()
     .set('start_date', startDate)
@@ -3441,7 +3463,7 @@ export class DataService {
   }
 
   sendPayslipViaWhatsapp(
-    salaryResponse: any, payslipMonth: string 
+    salaryResponse: any, payslipMonth: string
   ): Observable<any>{
     const params = new HttpParams()
     .set('payslip_month', payslipMonth)
@@ -3449,7 +3471,7 @@ export class DataService {
   }
 
   sendPayslipViaEmail(
-    salaryResponse: any, payslipMonth: string 
+    salaryResponse: any, payslipMonth: string
   ): Observable<any>{
     const params = new HttpParams()
     .set('payslip_month', payslipMonth)
@@ -3457,7 +3479,7 @@ export class DataService {
   }
 
   sendPayslipViaSlack(
-    salaryResponse: any, payslipMonth: string 
+    salaryResponse: any, payslipMonth: string
   ): Observable<any>{
     const params = new HttpParams()
     .set('payslip_month', payslipMonth)
@@ -3475,9 +3497,9 @@ export class DataService {
       .set('item_per_page', itemsPerPage);
 
     return this.httpClient.get<any>(url,{ params });
-  //  asset 
+  //  asset
   }
-  
+
   getAssetCategory(): Observable<any> {
     const url = `${this.baseUrl}/asset/allocation/get/asset/category`;
     return this.httpClient.get<any>(url, {}).pipe(
@@ -3563,7 +3585,7 @@ export class DataService {
     );
   }
 
-  
+
 
   createAssetCategory(assetCategoryRequest: AssetCategoryRequest): Observable<any> {
     return this.httpClient.post<any>(`${this.baseUrl}/asset/allocation/create/asset/category`, assetCategoryRequest);
@@ -3647,13 +3669,13 @@ getHolidayForOrganization(date: string): Observable<any>{
   .set('date', date)
   return this.httpClient.get<any>(`${this.baseUrl}/holiday/check-holiday`,{params});
 }
-  
+
 
   registerLopReversalApplication(lopReversalApplicationRequest : LopReversalApplicationRequest): Observable<any>{
 
     return this.httpClient.post<any>(`${this.baseUrl}/lop-reversal-application/register`, lopReversalApplicationRequest, {});
   }
-  
+
   importSalaryExcel(file: File, fileName: string): Observable<any> {
     const formData: FormData = new FormData();
     formData.append('file', file);
@@ -3793,14 +3815,14 @@ getHolidayForOrganization(date: string): Observable<any>{
   }
 
   getPreHourOvertimeSettingResponse(): Observable<any>{
-    
+
     return this.httpClient.get<any>(`${this.baseUrl}/overtime/setting/pre-hour`, {});
   }
 
   getPostHourOvertimeSettingResponse(): Observable<any>{
-    
+
     return this.httpClient.get<any>(`${this.baseUrl}/overtime/setting/post-hour`, {});
-  }  
+  }
   getRoles(): Observable<any> {
     return this.httpClient.get(`${this.baseUrl}/super-coin-allocation/get/roles`);
   }
@@ -3866,8 +3888,8 @@ getHolidayForOrganization(date: string): Observable<any>{
   }
 
 
-  
-  
+
+
   // shivendra overtime code
   registerOvertimeRequest(overtimeRequestDTO : OvertimeRequestDTO): Observable<any>{
 
@@ -3954,17 +3976,17 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/emplyee-type/list`, {});
   }
 
-  
+
   registerLeaveTemplate(leaveTemplateRequest : LeaveTemplateRequest): Observable<any>{
     return this.httpClient.post<any>(`${this.baseUrl}/leave-template/register-new`, leaveTemplateRequest);
   }
-  
+
   registerOrganizationRegistrationFormInfo(request: OrganizationRegistrationFormRequest): Observable<any> {
     const url = `${this.baseUrl}/organization-registration-form/register`;
     return this.httpClient.post(url, request);
-  }  
+  }
   registerBillingAndSubscriptionTemp(subscriptionPlanId : number): Observable<any>{
-    
+
     const params = new HttpParams()
     .set('subscription_plan_id', subscriptionPlanId);
 
@@ -4038,7 +4060,7 @@ getHolidayForOrganization(date: string): Observable<any>{
     );
   }
 
-  
+
   getShifts(): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/organization-shift-timing/organization-shift`);
 

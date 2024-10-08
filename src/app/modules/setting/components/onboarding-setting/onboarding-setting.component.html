@@ -1,0 +1,76 @@
+<div class="page-wrapper">
+  <div class="page-content-tab">
+      <div class="container-fluid">
+          <div class="add-role-main">
+              <div class="row">
+                 <div class="col-md-3"></div>
+                      <div class="col-md-6">
+
+                          <form>
+
+                              <!-- Name and Description Section -->
+                              <div class="name-description">
+
+
+                                  <!-- Permissions Section -->
+                                  <div class="mt-4">
+                                      <h3 class="description-main-box">
+                                          <span class="eTjDuD">1</span>
+                                          <div class="description">
+                                              <span class="epkbnY">Permissions</span>
+                                              <span class="fAtrDv">Select the areas of the platform this module can view on Onboarding.</span>
+                                          </div>
+                                      </h3>
+
+                                      <div class="mt-3">
+                                        <div class="accordion accordion-flush" id="accordionFlushExample">
+                                          <div *ngFor="let module of onboardingModules; let i = index" class="accordion-item">
+                                            <div class="accordion-body">
+                                              <div class="d-flex align-items-center justify-content-between">
+                                                <div class="iyxoZR">
+                                                  <span class="epkbnY" style="font-size: 12px;">{{ module.name }}</span>
+                                                </div>
+                                                <div class="form-check">
+                                                  <input
+                                                    type="checkbox"
+                                                    class="form-check-input"
+                                                    id="enableModule{{ module.id }}"
+                                                    [checked]="module.isFlag"
+                                                    (change)="onModuleSelect(i, $event)"
+                                                  />
+                                                  <label class="form-check-label d-flex align-items-center gap-2" for="enableModule{{ module.id }}">
+                                                    Enable
+                                                  </label>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                      </div>
+                                  </div>
+
+                              </div>
+
+                              <!-- Cancel and Save Buttons -->
+                              <div id="cancel-and-save">
+                                  <div class="modal-footer d-flex align-items-center justify-content-end">
+                                      <button id="cancel" type="button" class="btn btn-outline-primary">Cancel</button>
+                                  </div>
+                                  <div class="modal-footer d-flex align-items-center justify-content-end">
+                                    <button id="save" type="submit" class="btn btn-primary" (click)="onSave()">
+                                      <span style="padding: 15px">Save</span>
+                                    </button>
+
+                                  </div>
+                              </div>
+
+                          </form>
+
+                      </div>
+                 <div class="col-md-3"></div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

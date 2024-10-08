@@ -37,6 +37,7 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { OnboardingSettingComponent } from './components/onboarding-setting/onboarding-setting.component';
 
 
 
@@ -51,7 +52,8 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     AccountSettingsComponent,
     StaffAttendanceLocationComponent,
     UploadPhotoComponent,
-    SalarySettingComponent
+    SalarySettingComponent,
+    OnboardingSettingComponent
     
   ],
   imports: [

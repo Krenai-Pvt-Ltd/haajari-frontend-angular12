@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
+import { Console } from 'console';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { OnboardingSidebarResponse } from 'src/app/models/onboarding-sidebar-response';
 import { DataService } from 'src/app/services/data.service';
 
@@ -11,13 +14,17 @@ import { DataService } from 'src/app/services/data.service';
 export class EmployeeOnboardingSidebarComponent implements OnInit {
 
   stepsCompletionStatus: boolean[] = [];
-
+  routes: string[] =[];
+  private userUuid: string | null = null;
   constructor(private router: Router, private stepService: DataService) { }
 
   ngOnInit(): void {
     this.getAdminVerifiedForOnboardingUpdateMethodCall();
- this.getEmployeeStatusMethodCall(); 
- 
+ this.getEmployeeStatusMethodCall();
+ this.userUuid = new URLSearchParams(window.location.search).get('userUuid') || null;
+    this.loadRoutes();
+
+
   }
   // getEmployeeStatusMethodCall() {
   //   throw new Error('Method not implemented.');
@@ -31,16 +38,16 @@ export class EmployeeOnboardingSidebarComponent implements OnInit {
     if(new URLSearchParams(window.location.search).get('adminUuid')){
      adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
     }
-  
+
     if (this.stepService.stepIndex < (stepIndex - 1) && this.onboardingStatus !== "REJECTED" ) {
       // Logic for other conditions if necessary
     } else {
-  
+
       let queryParams: any = {};
     if (userUuid) {
       queryParams['userUuid'] = userUuid;
     }
-    
+
     // Conditionally add adminUuid to queryParams if isAdminPresent is true
     if (this.isAdminPresent && adminUuid) {
       queryParams['adminUuid'] = adminUuid;
@@ -51,12 +58,12 @@ export class EmployeeOnboardingSidebarComponent implements OnInit {
       this.router.navigate([route], navExtra);
     }
   }
-  
-  
+
+
 
   ind:number=-1;
   isStepCompleted(stepIndex: number): boolean {
-    
+
     // for(var i=0;i<=6;i++){
     //   if(this.stepsCompletionStatus[i]==true){
     //     this.ind=i;
@@ -78,7 +85,7 @@ export class EmployeeOnboardingSidebarComponent implements OnInit {
     }
 
   }
-  
+
 onboardingStatus: string = ""
 getEmployeeStatusMethodCall() {
   debugger
@@ -90,15 +97,15 @@ getEmployeeStatusMethodCall() {
       },
       (error: any) => {
         console.error('Error fetching user details:', error);
-        
+
       }
     );
   }else {
     console.error('uuidNewUser not found in localStorage');
-    
+
   }
 }
-  
+
   isAdminPresent : Boolean = false;
   getAdminVerifiedForOnboardingUpdateMethodCall() {
     debugger;
@@ -124,7 +131,24 @@ getEmployeeStatusMethodCall() {
       console.error('User UUID or Admin UUID not found in the URL.');
     }
   }
-  
+
+  private loadRoutes(): void {
+    this.stepService.getRoutesByOrganization(this.userUuid).subscribe(
+      (routes: string[]) => {
+        this.routes = routes;
+        console.log('Loaded routes:', this.routes);
+      },
+      error => {
+        console.error('Error fetching routes', error);
+      }
+    );
+  }
+
+  isRoutePresent(routeToCheck: string): boolean {
+    const isPresent = this.routes.includes(routeToCheck);
+    console.log(`Is route present: ${isPresent}`);
+    return isPresent;
+  }
 
 
 }
