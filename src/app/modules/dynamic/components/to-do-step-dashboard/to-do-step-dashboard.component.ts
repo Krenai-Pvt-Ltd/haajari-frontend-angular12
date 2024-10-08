@@ -140,9 +140,6 @@ export class ToDoStepDashboardComponent implements OnInit {
       }
     );
   }
-
-  // Reference to the iframe video element
-  // @ViewChild('videoIframe') videoIframe!: ElementRef;
   @ViewChild('close_button') close_button!: ElementRef;
   @ViewChild('videoIframe', { static: false }) youtubeIframe:
     | ElementRef<HTMLIFrameElement>
@@ -160,23 +157,11 @@ export class ToDoStepDashboardComponent implements OnInit {
 
       const iframeElement = this.youtubeIframe.nativeElement as HTMLIFrameElement;
       iframeElement.src = '';
-
-
-      // if (iframeWindow) {
-      //   // Send the 'pauseVideo' command to the YouTube iframe
-      //   iframeWindow.postMessage(
-      //     '{"event":"command","func":"pauseVideo","args":""}',
-      //     '*'
-      //   );
-      // }
     }
     
   }
 
-  // Pauses the YouTube video
-  pauseYouTubeVideo(): void {
-   
-  }
+
 
   setSrc(){
     if (this.youtubeIframe) {
@@ -188,6 +173,6 @@ export class ToDoStepDashboardComponent implements OnInit {
   // Call this method when modal closes to stop the video
   onModalClose(): void {
     this.stopVideo();
-    this.pauseYouTubeVideo();
+    // this.pauseYouTubeVideo();
   }
 }

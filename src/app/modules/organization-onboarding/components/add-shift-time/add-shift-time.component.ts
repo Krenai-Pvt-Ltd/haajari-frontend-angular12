@@ -717,5 +717,13 @@ export class AddShiftTimeComponent implements OnInit {
     this.hideShiftNoteFlag = false;
   }
 
-
+  @ViewChild('videoIframe', { static: false }) youtubeIframe:
+  | ElementRef<HTMLIFrameElement>
+  | undefined;
+  setSrc(){
+    if (this.youtubeIframe) {
+    const iframeElement = this.youtubeIframe.nativeElement as HTMLIFrameElement;
+      iframeElement.src = 'https://www.youtube.com/embed/jh7-qF48ANk?si=WJvojNbQucaWaknY';
+    }
+  }
 }
