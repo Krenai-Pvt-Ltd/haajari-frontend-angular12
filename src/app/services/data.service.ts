@@ -3732,10 +3732,14 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/full/attendance/request/logs`, {params});
   }
 
-  getAttendanceRequests(pageNumber: number, itemPerPage: number,searchString:string ): Observable<any>{
+  getAttendanceRequests(pageNumber: number, itemPerPage: number, searchString:string, startDate: string, endDate: string): Observable<any>{
     const params = new HttpParams()
     .set('pageNumber', pageNumber)
-    .set('itemPerPage', itemPerPage).set('searchString', searchString);
+    .set('itemPerPage', itemPerPage)
+    .set('searchString', searchString)
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+    
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/attendance/requests`, {params});
   }
 
@@ -3743,6 +3747,11 @@ getHolidayForOrganization(date: string): Observable<any>{
     const params = new HttpParams()
     .set('userUuid', userUuid).set('selectedDate', selectedDate);
      return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/attendance/existance/status`, {params});
+  }
+
+  getAttendanceRequestCount(): Observable<any>{
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/attendance/request/count`);
   }
 
   approveOrRejectAttendanceRequest(attendanceReqId: number, requestString: string): Observable<any> {
@@ -4080,5 +4089,9 @@ getHolidayForOrganization(date: string): Observable<any>{
     .set('emailId', email)
 
     return this.httpClient.get<any>(`${this.baseUrl}/users/save-slack-user-id`, {params});
+  }
+
+  getSlackUserCount(){
+    return this.httpClient.get<any>(`${this.baseUrl}/users/get-slack-user-count`, {});
   }
 }

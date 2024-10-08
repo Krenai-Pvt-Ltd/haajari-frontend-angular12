@@ -65,7 +65,7 @@ export class ProjectComponent implements OnInit {
   todo = ['18', '19'];
 
   drop(event: CdkDragDrop<string[]>) {
-    console.log('event=-======', event);
+    // console.log('event=-======', event);
     if (event.previousContainer == event.container) {
       moveItemInArray(
         event.container.data,

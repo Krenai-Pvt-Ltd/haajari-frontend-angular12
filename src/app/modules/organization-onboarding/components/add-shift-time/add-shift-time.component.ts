@@ -429,7 +429,7 @@ export class AddShiftTimeComponent implements OnInit {
     switch (field) {
         case 'inTime':
             this.organizationShiftTimingRequest.inTime = value;
-            console.log('inTimeadd shift ' + this.organizationShiftTimingRequest.inTime);
+            // console.log('inTimeadd shift ' + this.organizationShiftTimingRequest.inTime);
             break;
         case 'outTime':
             this.organizationShiftTimingRequest.outTime = value;

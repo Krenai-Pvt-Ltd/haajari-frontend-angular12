@@ -77,7 +77,7 @@ export class CompanySettingComponent implements OnInit {
       .pipe(
         finalize(() => {
           fileRef.getDownloadURL().subscribe((url) => {
-            console.log('File URL:', url);
+            // console.log('File URL:', url);
             this.organizationPersonalInformationRequest.logo = url;
           });
         })
@@ -104,7 +104,7 @@ export class CompanySettingComponent implements OnInit {
       )
       .subscribe(
         (response: OrganizationPersonalInformationRequest) => {
-          console.log(response);
+          // console.log(response);
           this.isUpdating = false;
           this.isEditMode = false;
           this.helperService.showToast(
@@ -129,7 +129,7 @@ export class CompanySettingComponent implements OnInit {
         this.isLoading = false;
         this.setImageUrlFromDatabase(response.logo);
         this.companyLogoFileName = this.getFilenameFromUrl(response.logo);
-        console.log(this.organizationPersonalInformationRequest);
+        // console.log(this.organizationPersonalInformationRequest);
       },
       (error) => {
         console.log(error);
@@ -202,7 +202,7 @@ export class CompanySettingComponent implements OnInit {
     task.snapshotChanges().pipe(
       finalize(() => {
         fileRef.getDownloadURL().subscribe(url => {
-          console.log('File URL:', url);
+          // console.log('File URL:', url);
           this.savePolicyDocToDatabase(url);
           this.isUpdatingHrPolicies = false;
         });
@@ -213,7 +213,7 @@ export class CompanySettingComponent implements OnInit {
   savePolicyDocToDatabase(fileUrl: string): void {
     debugger
     this.dataService.saveOrganizationHrPolicies(fileUrl).subscribe(response => {
-      console.log('File URL saved to database:', response.message);
+      // console.log('File URL saved to database:', response.message);
       this.helperService.showToast(
         'Doc Uploaded Successfully',
         Key.TOAST_STATUS_SUCCESS
@@ -230,7 +230,7 @@ export class CompanySettingComponent implements OnInit {
     this.dataService.getOrganizationHrPolicies().subscribe(response => {
       this.fileUrl = response.object.hrPolicyDoc;
       this.docsUploadedDate = response.object.docsUploadedDate;
-      console.log('policy retrieved successfully', response.object);
+      // console.log('policy retrieved successfully', response.object);
     }, (error) => {
       console.log(error);
     });
@@ -313,7 +313,7 @@ export class CompanySettingComponent implements OnInit {
           this.pageNumber = Math.min(this.pageNumber, this.lastPageNumber);
           this.isAllSelected = this.staffs.every((staff) => staff.selected);
 
-          console.log(this.staffs);
+          // console.log(this.staffs);
         },
         (error) => {
           console.error(error);
@@ -510,8 +510,8 @@ export class CompanySettingComponent implements OnInit {
     this.organizationAddressDetail.longitude = e.geometry.location.lng();
     this.organizationAddressDetail.latitude = e.geometry.location.lat();
 
-    console.log(e.geometry.location.lat());
-    console.log(e.geometry.location.lng());
+    // console.log(e.geometry.location.lat());
+    // console.log(e.geometry.location.lng());
     this.organizationAddressDetail.addressLine1 = e.name + ', ' + e.vicinity;
 
     e?.address_components?.forEach((entry: any) => {
@@ -555,7 +555,7 @@ export class CompanySettingComponent implements OnInit {
             this.organizationAddressDetail.longitude = coords.longitude;
             this.organizationAddressDetail.latitude = coords.latitude;
 
-            console.log('formatted_address:', details);
+            // console.log('formatted_address:', details);
             this.organizationAddressDetail.addressLine1 =
               details.formatted_address;
             this.organizationAddressDetail.addressLine2 = '';
@@ -683,7 +683,7 @@ export class CompanySettingComponent implements OnInit {
 
     this.dataService.saveStaffAddressDetails(this.staffAddressDetails, this.addressId)
       .subscribe(response => {
-        console.log('Save Response:', response);
+        // console.log('Save Response:', response);
         setTimeout(() => {
             this.helperService.showToast(
               'Location saved successfully',
@@ -710,7 +710,7 @@ export class CompanySettingComponent implements OnInit {
         } else {
           this.dataNotFoundPlaceholder = false;
         }
-        console.log('All Addresses:', this.allAddresses);
+        // console.log('All Addresses:', this.allAddresses);
         this.isShimmer = false;
       }, (error) => {
         this.networkConnectionErrorPlaceHolder = true;
@@ -730,7 +730,7 @@ export class CompanySettingComponent implements OnInit {
          if (this.specificAddress.staffListResponse.length == 1) {
           this.activeIndex = 0;
         }
-        console.log('Specific Address:', this.specificAddress);
+        // console.log('Specific Address:', this.specificAddress);
       });
   }
 
