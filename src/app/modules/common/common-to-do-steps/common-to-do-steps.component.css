@@ -255,10 +255,14 @@
     overflow: scroll;
   }
 } */
+.onboardingStapsPoint {
+  height: 350px;
+  overflow: scroll;
+}
 
-@media screen and (max-width: 1280px) {
+@media screen and (max-width: 1920px) {
   .onboardingStapsPoint {
-    height: 350px;
+    height: 440px;
     overflow: scroll;
   }
 }
