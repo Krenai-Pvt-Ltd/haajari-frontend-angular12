@@ -269,6 +269,12 @@ export class LeaveSettingComponent implements OnInit {
   //   );
   // }
 
+  checkIndividualSelection1() {
+    this.isAllUsersSelected = this.staffs.every((staff) => staff.selected);
+    this.isAllSelected = this.isAllUsersSelected;
+    this.updateSelectedStaffs();
+  }
+
   checkIndividualSelection() {
     this.isAllUsersSelected = this.staffs.every((staff) => staff.selected);
     this.isAllSelected = this.isAllUsersSelected;
@@ -523,67 +529,57 @@ export class LeaveSettingComponent implements OnInit {
     );
   }
 
-  //Update Leave Template
+  //Update Leave Template (working)
+  updateToggle: boolean = false;
   getLeaveSettingInformationById(leaveSettingId: number, flag: boolean): void {
-
-    this.pageNumber = 1;
-    this.pageNumberUser = 1;
+    debugger
+    this.updateToggle = true;
     this.dataService.getLeaveSettingInformationById(leaveSettingId).subscribe(
       (response) => {
-        this.searchTextUser = '';
-        this.searchText = '';
-        this.selectedStaffIds = [];
-        this.selectedStaffIdsUser = [];
-        this.daysCountArray = [];
-        this.errorTemplateNameFlag = false;
-        this.fullLeaveSettingResponse = response;
-        this.idOfLeaveSetting = leaveSettingId;
-        this.leaveSettingResponse = this.fullLeaveSettingResponse.leaveSetting;
-    
-        if (flag) {
-          this.templateSettingTab.nativeElement.click();
-        }
-        if (this.leaveSettingResponse != null) {
-          this.isFormValid = true;
-        }
-   
-        this.form.reset({ emitEvent: false });
 
-        const categoriesArray = this.form.get('categories') as FormArray;
+        this.employeeTypeId = response.leaveTemplate.employeeType.id;
+        this.leaveTemplateRequest.name = response.leaveTemplate.name;
+        // this.leaveTemplateRequest.yearTypeName = response.s
+        this.dateRange[0] = response.leaveTemplate.startDate
+        this.dateRange[1] = response.leaveTemplate.endDate
 
-        // Clear the existing form controls
-        categoriesArray.clear();
+        this.employeeTypeList.push(response.leaveTemplate.employeeType)
 
-        // response.leaveSettingCategories.forEach((category, index) => {
-        response.leaveSettingCategories.forEach((category, index) => {
+        const categoriesControl = this.form.get('categories') as FormArray;
 
-          if (
-            category.leaveRules == 'Carry Forward' ||
-            category.leaveRules == 'Encash'
-          ) {
-            this.updateDaysDropdown(index, category.leaveCount);
-          }
+        // Clear existing form controls to avoid duplicates
+        categoriesControl.clear();
 
-          const categoryGroup = this.fb.group({
-            id: [category.id],
-            leaveName: [category.leaveName, Validators.required],
-            leaveCount: [
-              category.leaveCount,
-              [Validators.required, Validators.min(0)],
-            ],
-            leaveRules: [category.leaveRules],
-            carryForwardDays: [category.carryForwardDays],
-            accrualTypeId:[category.accrualTypeId],
-            gender: [category.gender]
+        this.filteredLeaveCategories = []
 
-          });
+        response.leaveTemplateCategories.forEach((category: any) => {
+          
+          this.unusedLeaveActionList.push(category.unusedLeaveAction)
+          this.accrualTypes.push(category.accrualType)
+          this.leaveCycleList.push(category.leaveCycle)
+          this.filteredLeaveCategories.push(category.leaveCategory)
 
-          categoriesArray.push(categoryGroup);
+          this.loadGenders();
 
+          categoriesControl.push(
+            this.fb.group({
+              id: [category.id], // Ensure the ID is being mapped
+              leaveCategoryId: [category.leaveCategory.id],
+              leaveCount: [category.leaveCount],
+              leaveCycleId: [category.leaveCycle.id],
+              carryForwardDays: category.unusedLeaveActionCount,
+              accrualTypeId: [category.accrualType.id],
+              gender: [category.gender],
+              unusedLeaveActionId: [category.unusedLeaveAction.id],
+              unusedLeaveActionCount: category.unusedLeaveActionCount
+
+            })
+          );
         });
 
-        this.getUserByFiltersMethodCall(leaveSettingId);
-        this.findUsersOfLeaveSetting(leaveSettingId);
+
+        // this.getUserByFiltersMethodCall(leaveSettingId);
+        // this.findUsersOfLeaveSetting(leaveSettingId);
       },
       (error) => {
         console.error('Error fetching leave setting information by ID:', error);

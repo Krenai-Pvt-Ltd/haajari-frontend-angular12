@@ -241,7 +241,7 @@
                               true
                             )
                           "></i>
-                      </a> -->
+                      </a> working -->
 
                       <a href="" data-bs-toggle="modal" data-bs-target="#requestleave">
                         <i class="bi bi-pencil pointer" style="color: #6666f3" (click)="getLeaveSettingInformationById(newLeaveSetting.id, true)">a</i>
@@ -348,7 +348,8 @@
 <div class="modal fade" id="requestleave" #requestleave tabindex="-1" role="dialog" aria-labelledby="requestLeave" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
-      <div class="modal-header">
+      <!-- <div class="modal-header">  amit update -->
+      <div class="modal-header" *ngIf="!updateToggle">
         <h5 class="modal-title" id="requestLeave" (click)="emptyAddLeaveSettingRule(); preMethodCallToCreateLeaveTemplate();" *ngIf="leaveSettingResponse.templateName == ''"> Create another template </h5>
         <h5 class="modal-title" id="requestLeave" (click)="emptyAddLeaveSettingRule()" *ngIf="leaveSettingResponse.templateName != ''">
           {{ leaveSettingResponse.templateName }}
@@ -358,7 +359,7 @@
       <form #leaveSetForm="ngForm" >
         <div class="modal-body">
           <div class="">
-            <ul id="myTab" role="tablist" class="nav nav-tabs">
+            <ul id="myTab" role="tablist" *ngIf="!updateToggle" class="nav nav-tabs">
               <li role="presentation" class="nav-item">
                 <button id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true" class="nav-link active" #templateSettingTab> Template Setting </button>
               </li>
@@ -369,6 +370,19 @@
                 <button id="staffSelection-tab" data-bs-toggle="tab" data-bs-target="#staffSelection" type="button" role="tab" aria-controls="staffSelection" aria-selected="false" class="nav-link" [disabled]="!form.valid" (click)="openStaffSelection()" #staffSelectionTab> Staff selection </button>
               </li>
             </ul>
+
+            <ul id="myTab" role="tablist" *ngIf="updateToggle" class="nav nav-tabs">
+              <li role="presentation" class="nav-item">
+                <button id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true" class="nav-link active" #templateSettingTab> Template Setting </button>
+              </li>
+              <li role="presentation" class="nav-item">
+                <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" class="nav-link"  #leaveCategoryTab> Leave Categories </button>
+              </li>
+              <li role="presentation" class="nav-item">
+                <button id="staffSelection-tab" data-bs-toggle="tab" data-bs-target="#staffSelection" type="button" role="tab" aria-controls="staffSelection" aria-selected="false" class="nav-link"  (click)="openStaffSelection()" #staffSelectionTab> Staff selection </button>
+              </li>
+            </ul>
+
             <div class="tab-content" id="myTabContent">
               
               <!-- <div class="tab-pane fade show active" id="home" role="tabpanel">
@@ -452,7 +466,7 @@
                       <div class="form-group" [class.has-error]="empTypeId.invalid && empTypeId.touched">
                         <label for="employeeTypeId">Employee Type</label>
                         <nz-form-control nzErrorTip="Please select an employee type.">
-                          <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select Employee type"
+                          <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select Employee type abc"
                             [(ngModel)]="employeeTypeId" name="empTypeId" #empTypeId="ngModel" required>
                             <nz-option *ngFor="let employeeType of employeeTypeList" [nzValue]="employeeType.id"
                               [nzLabel]="employeeType.name">
@@ -605,9 +619,13 @@
                           </nz-select> -->
 
                           <!-- *ngIf="filteredLeaveCategories.length > 0" -->
-                          <nz-select style="width: 100%;" nzSize="large" nzPlaceHolder="Select Leave Category Name" formControlName="leaveCategoryId" required>
+                          <nz-select *ngIf="!updateToggle" style="width: 100%;" nzSize="large" nzPlaceHolder="Select Leave Category Name" formControlName="leaveCategoryId" required>
                             <!-- <nz-option *ngFor="let leaveCategory of leaveCategoryList" [nzValue]="leaveCategory.id" [nzLabel]="leaveCategory.name"></nz-option> -->
                             <nz-option *ngFor="let leaveCategory of filteredLeaveCategories[i]" [nzValue]="leaveCategory.id" [nzLabel]="leaveCategory.name"></nz-option>
+                          </nz-select>
+
+                          <nz-select *ngIf="updateToggle" style="width: 100%;" nzSize="large" nzPlaceHolder="Select Leave Category Name" formControlName="leaveCategoryId" required>
+                            <nz-option *ngFor="let leaveCategory of filteredLeaveCategories" [nzValue]="leaveCategory.id" [nzLabel]="leaveCategory.name"></nz-option>
                           </nz-select>
                           
                           <!-- <input (keydown)="preventLeadingWhitespace($event)" id="leaveCategoryName" formControlName="leaveCategoryName" class="form-control" required [nzAutocomplete]="auto" placeholder="Select Leave Category Name" />
