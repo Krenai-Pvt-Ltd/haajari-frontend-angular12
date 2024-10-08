@@ -60,6 +60,7 @@
   right: 25px;
   width: 300px;
   cursor: pointer;
+  z-index: 999;
 }
 .progress {
   background-color: #f4f3fe;

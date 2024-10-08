@@ -66,8 +66,6 @@
 }
 .active {
   border: 1px solid var(--primary-color) !important;
-  /* background-color: #0cb56208; */
-  border-radius: 2px !important;
 }
 
 .attendance-mode-card {
@@ -76,6 +74,9 @@
   border: 1px solid #e6e6e6;
   margin: 0 auto;
   min-height: 150px;
+}
+.attendance-mode-card:hover {
+  border: 1px solid var(--primary-color) !important;
 }
 
 .dot-opacity-loader {
@@ -376,8 +377,8 @@ a.fetch-location {
 .stap-back-btn {
   background-color: #fff;
   border: 1px solid var(--primary-color);
-  width: 38px;
-  height: 38px;
+  width: 33px;
+  height: 33px;
   border-radius: 50%;
   display: flex;
   align-items: center;
