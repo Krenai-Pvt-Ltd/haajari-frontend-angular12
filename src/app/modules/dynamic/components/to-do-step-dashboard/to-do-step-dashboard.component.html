@@ -76,8 +76,8 @@
                     <img src="assets/images/report.svg" style="width: 100%" />
                   </div>
 
-                  <h5 class="m-0 font-16">Reports</h5>
-                  <p class="m-0 font-13">
+                  <h5 class="m-0 font-15">Reports</h5>
+                  <p class="m-0 font-12">
                     Manage your own fleet of carriers and delivery boys for
                   </p>
                 </div>
@@ -90,8 +90,8 @@
                       style="width: 100%"
                     />
                   </div>
-                  <h5 class="m-0 font-16">Attendance Management</h5>
-                  <p class="m-0 font-13">
+                  <h5 class="m-0 font-15">Attendance Management</h5>
+                  <p class="m-0 font-12">
                     Manage your own fleet of carriers and delivery boys for
                   </p>
                 </div>
@@ -104,8 +104,8 @@
                       style="width: 100%"
                     />
                   </div>
-                  <h5 class="m-0 font-16">Team Dashboard</h5>
-                  <p class="m-0 font-13">
+                  <h5 class="m-0 font-15">Team Dashboard</h5>
+                  <p class="m-0 font-12">
                     Manage your own fleet of carriers and delivery boys for
                   </p>
                 </div>
@@ -325,17 +325,26 @@
         <div class="closebtn">
           <button
             type="button"
-            id="close_one"
-            onclick="stop()"
+            id="close_button"
+            #close_button
             class="close"
             data-bs-dismiss="modal"
             aria-label="Close"
+            style="top: -15px; right: -15px; display: none"
+          ></button>
+          <button
+            type="button"
+            id="close_one"
+            (click)="stopVideo()"
+            class="close"
             style="top: -15px; right: -15px"
           >
             <i class="bi bi-x"></i>
           </button>
         </div>
         <iframe
+          id="videoIframe"
+          #videoIframe
           width="100%"
           height="100%"
           src="https://www.youtube.com/embed/jh7-qF48ANk?si=WJvojNbQucaWaknY"

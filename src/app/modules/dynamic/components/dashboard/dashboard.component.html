@@ -3,7 +3,7 @@
   <div class="page-content-tab">
     <div class="container-fluid">
       <!-- end page title end breadcrumb -->
-      <div class="row mb-1"> 
+      <div class="row mb-1 mt-4">
         <div class="col-md-6 col-lg-4 order-lg-1 order-md-1">
           <ng-container *ngIf="!showPlaceholder; else notShowPlaceholder">
             <div class="card report-card">
@@ -704,10 +704,16 @@
                   </div>
                 </div>
               </div>
-              <div class="errorboxmain" *ngIf="dataNotFoundPlaceholderForBestPerfomer">
+              <div
+                class="errorboxmain"
+                *ngIf="dataNotFoundPlaceholderForBestPerfomer"
+              >
                 <div class="errorboxinner">
                   <div class="errorboxplaceholder mb-2">
-                    <img src="assets/images/empty-box.svg" style="width: 65px" />
+                    <img
+                      src="assets/images/empty-box.svg"
+                      style="width: 65px"
+                    />
                   </div>
                   <div class="">
                     <h4 class="fs-5 mb-1">No Data Found</h4>
@@ -897,7 +903,10 @@
       <div class="row mb-3" #attendanceMasterRollReport>
         <div class="col-md-12" id="attendance-master-roll-reports">
           <div class="col">
-            <h4 class="card-title" style="font-size: 18px; margin: 0px 0px 15px 0px">
+            <h4
+              class="card-title"
+              style="font-size: 18px; margin: 0px 0px 15px 0px"
+            >
               Attendance Muster Roll Report
             </h4>
           </div>
@@ -1253,7 +1262,10 @@
                             ></ngx-shimmer-loading>
                           </td>
                           <td class="text-center">
-                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                            <ngx-shimmer-loading
+                              [width]="'70%'"
+                              [height]="'10px'"
+                            ></ngx-shimmer-loading>
                           </td>
                           <td class="text-center">
                             <ngx-shimmer-loading
@@ -1670,7 +1682,9 @@
                       *ngIf="dataNotFoundPlaceholderForAttendanceData"
                     >
                       <!-- style="display: flex; flex-direction: column; align-items: center; text-align: center;" -->
-                      <div class="errorboxinner flex-column justify-content-center mx-auto py-2 text-center w-50">
+                      <div
+                        class="errorboxinner flex-column justify-content-center mx-auto py-2 text-center w-50"
+                      >
                         <div class="errorboxplaceholder mb-2">
                           <img
                             src="assets/images/empty-box.svg"
