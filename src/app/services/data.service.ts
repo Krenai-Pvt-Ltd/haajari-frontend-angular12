@@ -2044,8 +2044,8 @@ export class DataService {
     return this.httpClient.post<any>(url, {});
   }
 
-  verifyOtpByWhatsappNew(phoneNumber: string, otp: String): Observable<any> {
-    const url = `${this.baseUrl}/user/auth/verify/otp-whatsapp-new?phoneNumber=${phoneNumber}&otp=${otp}`;
+  verifyOtpByWhatsappNew(phoneNumber: string, otp: String, promotionCode:string): Observable<any> {
+    const url = `${this.baseUrl}/user/auth/verify/otp-whatsapp-new?phoneNumber=${phoneNumber}&otp=${otp}&promotionCode=${promotionCode}`;
     return this.httpClient.post<any>(url, {});
   }
 

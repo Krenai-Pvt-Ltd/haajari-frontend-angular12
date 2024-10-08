@@ -219,8 +219,10 @@ export class OnboardingWhatappComponent implements OnInit {
 
   createPasswordFlag: boolean = false;
   otpErrorMessage: string = '';
+  promotionCode:string='';
   verifyOtp() {
     if (this.isWhatsappLogin) {
+      this.promotionCode = this.getCookie('promotionalOffer');
       this.verifyOtpByWhatsappMethodCall();
     } else {
       this.loading = true;
@@ -406,7 +408,7 @@ export class OnboardingWhatappComponent implements OnInit {
   verifyOtpByWhatsappMethodCall() {
     this.loading = true;
     this.dataService
-      .verifyOtpByWhatsappNew(this.phoneNumber, this.otp)
+      .verifyOtpByWhatsappNew(this.phoneNumber, this.otp, this.promotionCode)
       .subscribe(
         async (response: any) => {
           if (response.status) {
@@ -645,5 +647,18 @@ export class OnboardingWhatappComponent implements OnInit {
     }, 500);
   }
   
+
+  // Get a cookie for promotionalOffer
+  getCookie(name:string) {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) 
+        return c.substring(nameEQ.length, c.length);
+    }
+    return '';
+  }
 
 }

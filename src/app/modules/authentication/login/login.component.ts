@@ -487,7 +487,7 @@ export class LoginComponent implements OnInit {
   verifyOtpByWhatsappMethodCall() {
     this.loading = true;
     this.dataService
-      .verifyOtpByWhatsappNew(this.phoneNumber, this.otp)
+      .verifyOtpByWhatsappNew(this.phoneNumber, this.otp,"")
       .subscribe(
         async (response: any) => {
           if (response.status) {
