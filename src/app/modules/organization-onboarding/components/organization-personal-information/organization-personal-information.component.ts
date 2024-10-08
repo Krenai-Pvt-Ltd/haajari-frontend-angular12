@@ -11,7 +11,7 @@ import {
 } from 'ngx-image-cropper';
 import { Key } from 'src/app/constant/key';
 
-import { OrganizationPersonalInformation } from 'src/app/models/organization-personal-information';
+import { OrganizationPersonalInformation, OrganizationPersonalInformationMain } from 'src/app/models/organization-personal-information';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
@@ -60,22 +60,20 @@ export class OrganizationPersonalInformationComponent implements OnInit {
   ngOnInit(): void {
     // this._onboardingService.refreshSidebar();
     this.getOrganizationDetails();
+    const token = localStorage.getItem('token');
+    if (token==null) {
+      this.router.navigate(['/auth/signup']);
+    }
   }
 
-  organizationPersonalInformation: OrganizationPersonalInformation = {
+  organizationPersonalInformation: OrganizationPersonalInformationMain = {
     id: 0,
     adminName: '',
     name: '',
     email: '',
     password: '',
-    state: '',
-    country: '',
     logo: '',
-    city: '',
     phoneNumber: '',
-    addressLine1: '',
-    addressLine2: '',
-    pincode: '',
     organization: {
       id: 0,
       name: '',
@@ -105,7 +103,7 @@ export class OrganizationPersonalInformationComponent implements OnInit {
           async (response) => {
             this.loading = false;
             this.isInfoLoading = false;
-            console.log('Organization personal info registered successfully.');
+            // console.log('Organization personal info registered successfully.');
             // this.router.navigate(['/organization-onboarding/upload-team']);
             await this.dataService.markStepAsCompleted(2);
             this._onboardingService
@@ -113,7 +111,7 @@ export class OrganizationPersonalInformationComponent implements OnInit {
               .subscribe((resp) => {
                 this._onboardingService.refreshOnboarding();
               });
-
+              this.helperService.registerOrganizationRegistratonProcessStepData(Key.COMPANY_SETTING_ID, Key.PROCESS_COMPLETED);
             resolve(true);
           },
           (error) => {
@@ -132,7 +130,7 @@ export class OrganizationPersonalInformationComponent implements OnInit {
       (data) => {
         this.organizationPersonalInformation = data;
         this.imageUrl = this.organizationPersonalInformation.logo;
-        console.log('imageUrl' + this.imageUrl);
+        // console.log('imageUrl' + this.imageUrl);
         // console.log(this.organizationPersonalInformation);
         //   if (data.logo) {
         //     this.setImageUrlFromDatabase(data.logo);
@@ -252,13 +250,13 @@ export class OrganizationPersonalInformationComponent implements OnInit {
       this.isInvalidFileType = false;
       return true;
     }
-    console.log(this.isInvalidFileType);
+    // console.log(this.isInvalidFileType);
     this.isInvalidFileType = true;
     return false;
   }
 
   getImageUrl(e: any) {
-    console.log(e);
+    // console.log(e);
     if (e != null && e.length > 0) {
     }
   }
@@ -275,12 +273,12 @@ export class OrganizationPersonalInformationComponent implements OnInit {
       .snapshotChanges()
       .toPromise()
       .then(() => {
-        console.log('Upload completed');
+        // console.log('Upload completed');
         fileRef
           .getDownloadURL()
           .toPromise()
           .then((url) => {
-            console.log('File URL:', url);
+            // console.log('File URL:', url);
             this.organizationPersonalInformation.logo = url;
             this.imageUrl = url;
 
@@ -297,76 +295,76 @@ export class OrganizationPersonalInformationComponent implements OnInit {
 
   @ViewChild('placesRef') placesRef!: GooglePlaceDirective;
 
-  public handleAddressChange(e: any) {
-    this.organizationPersonalInformation.addressLine1 =
-      e.formatted_address.toString();
-    e?.address_components?.forEach((entry: any) => {
-      console.log(entry);
-      if (entry.types?.[0] === 'locality') {
-        this.organizationPersonalInformation.city = entry.long_name;
-      }
-      if (entry.types?.[0] === 'administrative_area_level_1') {
-        this.organizationPersonalInformation.state = entry.long_name;
-      }
-      if (entry.types?.[0] === 'country') {
-        this.organizationPersonalInformation.country = entry.long_name;
-      }
-      if (entry.types?.[0] === 'postal_code') {
-        this.organizationPersonalInformation.pincode = entry.long_name;
-      }
-    });
-  }
+  // public handleAddressChange(e: any) {
+  //   this.organizationPersonalInformation.addressLine1 =
+  //     e.formatted_address.toString();
+  //   e?.address_components?.forEach((entry: any) => {
+  //     console.log(entry);
+  //     if (entry.types?.[0] === 'locality') {
+  //       this.organizationPersonalInformation.city = entry.long_name;
+  //     }
+  //     if (entry.types?.[0] === 'administrative_area_level_1') {
+  //       this.organizationPersonalInformation.state = entry.long_name;
+  //     }
+  //     if (entry.types?.[0] === 'country') {
+  //       this.organizationPersonalInformation.country = entry.long_name;
+  //     }
+  //     if (entry.types?.[0] === 'postal_code') {
+  //       this.organizationPersonalInformation.pincode = entry.long_name;
+  //     }
+  //   });
+  // }
 
   /************ GET CURRENT LOCATION ***********/
 
 fetchCurrentLocationLoader: boolean = false;
 locationLoader: boolean = false;
 
-currentLocation() {
-  debugger;
-  this.locationLoader = true;
-  this.fetchCurrentLocationLoader = true;
+// currentLocation() {
+//   debugger;
+//   this.locationLoader = true;
+//   this.fetchCurrentLocationLoader = true;
 
-  this.getCurrentLocation()
-    .then((coords) => {
-      this.placesService
-        .getLocationDetails(coords.latitude, coords.longitude)
-        .then((details) => {
-          this.locationLoader = false;
-          this.fetchCurrentLocationLoader = false;
+//   this.getCurrentLocation()
+//     .then((coords) => {
+//       this.placesService
+//         .getLocationDetails(coords.latitude, coords.longitude)
+//         .then((details) => {
+//           this.locationLoader = false;
+//           this.fetchCurrentLocationLoader = false;
 
-          // Update only the relevant properties
-          this.organizationPersonalInformation.addressLine1 = details.formatted_address;
-          this.organizationPersonalInformation.addressLine2 = '';
+//           // Update only the relevant properties
+//           this.organizationPersonalInformation.addressLine1 = details.formatted_address;
+//           this.organizationPersonalInformation.addressLine2 = '';
 
-          // Dynamically retrieve address components
-          const addressComponents: AddressComponent[] = details.address_components || [];
-          
-          addressComponents.forEach((component: AddressComponent) => {
-            const types = component.types || [];
-            if (types.includes('locality')) {
-              this.organizationPersonalInformation.city = component.long_name;
-            } else if (types.includes('administrative_area_level_1')) {
-              this.organizationPersonalInformation.state = component.long_name;
-            } else if (types.includes('country')) {
-              this.organizationPersonalInformation.country = component.long_name;
-            } else if (types.includes('postal_code')) {
-              this.organizationPersonalInformation.pincode = component.long_name;
-            }
-          });
-        })
-        .catch((error) => {
-          console.error('Error fetching location details:', error);
-          this.locationLoader = false;
-          this.fetchCurrentLocationLoader = false;
-        });
-    })
-    .catch((error) => {
-      console.error('Error fetching current location:', error);
-      this.locationLoader = false;
-      this.fetchCurrentLocationLoader = false;
-    });
-}
+//           // Dynamically retrieve address components
+//           const addressComponents: AddressComponent[] = details.address_components || [];
+
+//           addressComponents.forEach((component: AddressComponent) => {
+//             const types = component.types || [];
+//             if (types.includes('locality')) {
+//               this.organizationPersonalInformation.city = component.long_name;
+//             } else if (types.includes('administrative_area_level_1')) {
+//               this.organizationPersonalInformation.state = component.long_name;
+//             } else if (types.includes('country')) {
+//               this.organizationPersonalInformation.country = component.long_name;
+//             } else if (types.includes('postal_code')) {
+//               this.organizationPersonalInformation.pincode = component.long_name;
+//             }
+//           });
+//         })
+//         .catch((error) => {
+//           console.error('Error fetching location details:', error);
+//           this.locationLoader = false;
+//           this.fetchCurrentLocationLoader = false;
+//         });
+//     })
+//     .catch((error) => {
+//       console.error('Error fetching current location:', error);
+//       this.locationLoader = false;
+//       this.fetchCurrentLocationLoader = false;
+//     });
+// }
 
   // fetchCurrentLocationLoader: boolean = false;
   // locationLoader: boolean = false;
@@ -1008,7 +1006,7 @@ currentLocation() {
         .pipe(
           finalize(async () => {
             fileRef.getDownloadURL().subscribe((url) => {
-              console.log(url);
+              // console.log(url);
               this.organizationPersonalInformation.logo = url;
               this.imageUrl = url;
               this.imagePreviewUrl = url;
@@ -1047,10 +1045,10 @@ currentLocation() {
 
   calculateRatio(num_1: any, num_2: any) {
     this.aspectRatio = num_1 / num_2;
-    console.log(
-      '🚀 ~ file: media-manager-crop.component.ts:548 ~ MediaManagerCropComponent ~ calculateRatio ~  this.aspectRatio:',
-      this.aspectRatio
-    );
+    // console.log(
+    //   '🚀 ~ file: media-manager-crop.component.ts:548 ~ MediaManagerCropComponent ~ calculateRatio ~  this.aspectRatio:',
+    //   this.aspectRatio
+    // );
     return this.aspectRatio;
   }
 
@@ -1103,17 +1101,17 @@ currentLocation() {
     this.croppedImage = this.sanitizer.bypassSecurityTrustUrl(
       event.objectUrl || event.base64 || ''
     );
-    console.log(event);
+    // console.log(event);
   }
 
   imageLoaded() {
     this.showCropper = true;
     this.isLoading = false;
-    console.log('Image loaded');
+    // console.log('Image loaded');
   }
 
   cropperReady(sourceImageDimensions: Dimensions) {
-    console.log('imageLoadedCropper ready', sourceImageDimensions);
+    // console.log('imageLoadedCropper ready', sourceImageDimensions);
     this.loading = false;
   }
 

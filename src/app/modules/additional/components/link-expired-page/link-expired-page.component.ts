@@ -31,13 +31,19 @@ export class LinkExpiredPageComponent implements OnInit {
       this.dataservice.generateNewAttendanceLinkGupShup(userUuid).subscribe(
         (response) => {
           // Handle the response here
-          console.log('Attendance link generated:', response);
+          // console.log('Attendance link generated:', response);
           this.helper.showToast(
             'New Link Sent Successfully',
             Key.TOAST_STATUS_SUCCESS
           );
-          window.location.href =
-            'https://api.whatsapp.com/send/?phone=918700822872&type=phone_number&app_absent=0';
+          // window.location.href =
+          //   'https://api.whatsapp.com/send/?phone=918700822872&type=phone_number&app_absent=0';
+          if(response.message === 'WHATSAPP') {
+            window.location.href =
+              'https://api.whatsapp.com/send/?phone=918700822872&type=phone_number&app_absent=0';
+            } else if(response.message === 'SLACK'){
+              window.location.href = Key.SLACK_WORKSPACE_URL;
+            }
           // You might want to do something with the response, like displaying a message or redirecting the user
         },
         (error) => {

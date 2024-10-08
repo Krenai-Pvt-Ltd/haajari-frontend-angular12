@@ -79,6 +79,8 @@ export class PayrollDashboardComponent implements OnInit {
   readonly EPF = Key.EPF;
   readonly ESI = Key.ESI;
   readonly TDS = Key.TDS;
+
+  readonly PAYROLL_STEP_COMPLETED = Key.PAYROLL_STEP_COMPLETED;
   readonly PAYROLL_HISTORY = Key.PAYROLL_HISTORY;
 
   isTaskSuccess : boolean = true;
@@ -246,6 +248,7 @@ export class PayrollDashboardComponent implements OnInit {
     this.CURRENT_TAB = this.OVERTIME;
     this.CURRENT_TAB_IN_SALARY_CHANGE = this.OVERTIME;
     this.resetCriteriaFilter();
+    this.getSalaryChangeOvertimeResponseListByOrganizationIdMethodCall();
   }
 
 
@@ -838,12 +841,12 @@ export class PayrollDashboardComponent implements OnInit {
   getPayActionTypeListMethodCall(){
     debugger
     this.dataService.getPayActionTypeList().subscribe((response) => {
-      console.log(response);
+      // console.log(response);
       if(this.helperService.isListOfObjectNullOrUndefined(response)){
 
       } else{
         this.payActionTypeList = response.listOfObject;
-        console.log(this.payActionTypeList);
+        // console.log(this.payActionTypeList);
       }
     }, (error) => {
 
@@ -1161,7 +1164,7 @@ export class PayrollDashboardComponent implements OnInit {
                 if (this.selectedPayActionCache[exit.uuid]) {
                   exit.payActionType = this.selectedPayActionCache[exit.uuid];
                   exit.payActionTypeId = this.selectedPayActionCache[exit.uuid].id;
-                  console.log(exit.name, exit.payActionType)
+                  // console.log(exit.name, exit.payActionType)
                 } else {
                   // Set initial selection based on payActionTypeId
                   const selectedPayActionType = this.payActionTypeList.find(
@@ -1550,7 +1553,7 @@ extractPreviousMonthNameFromDate(dateString : string){
         this.lopAdjustmentRequest.leaveType = response.listOfObject[0].name;
         this.leaveTypeResponseList = response.listOfObject;
       }
-      console.log(this.leaveTypeResponseList);
+      // console.log(this.leaveTypeResponseList);
     }, (error) => {
       console.log(error);
     })
@@ -1598,7 +1601,7 @@ extractPreviousMonthNameFromDate(dateString : string){
   @ViewChild("closeLopAdjustmentRequestModal") closeLopAdjustmentRequestModal !: ElementRef;
 
   selectLopAdjustmentCount(count : number){
-    console.log(count);
+    // console.log(count);
     this.lopAdjustmentRequest.lopDaysToBeAdjusted = count;
   }
 
@@ -1643,7 +1646,7 @@ extractPreviousMonthNameFromDate(dateString : string){
       this.endDate
     ).subscribe((response) => {
       this.userLeaveLogs = response.listOfObject;
-      console.log(response.listOfObject);
+      // console.log(response.listOfObject);
       
     }, (error) => {
       
@@ -1824,7 +1827,7 @@ extractPreviousMonthNameFromDate(dateString : string){
     this.salaryChangeOvertimeRequestList = [];
     
     this.salaryChangeOvertimeResponseList.forEach((item) => {
-      let salaryChangeOvertimeRequest = new SalaryChangeOvertimeRequest(item.uuid,item.payActionType.id, item.comment);
+      let salaryChangeOvertimeRequest = new SalaryChangeOvertimeRequest(item.uuid,item.payActionType.id);
 
       this.salaryChangeOvertimeRequestList.push(salaryChangeOvertimeRequest);
     })
@@ -2044,17 +2047,17 @@ extractPreviousMonthNameFromDate(dateString : string){
   registerEpfEsiTdsMethodCall(CURRENT_TAB_IN_EPF_ESI_TDS : number){
 
     if(CURRENT_TAB_IN_EPF_ESI_TDS == this.EPF){
-      console.log("EPF_REGISTRATION_STARTED...");
+      // console.log("EPF_REGISTRATION_STARTED...");
       this.registerEpfDetailsListByOrganizationIdMethodCall();
     }
 
     if(CURRENT_TAB_IN_EPF_ESI_TDS == this.ESI){
-      console.log("ESI_REGISTRATION_STARTED...");
+      // console.log("ESI_REGISTRATION_STARTED...");
       this.registerEsiDetailsListByOrganizationIdMethodCall();
     }
 
     if(CURRENT_TAB_IN_EPF_ESI_TDS == this.TDS){
-      console.log("TDS_REGISTRATION_STARTED...");
+      // console.log("TDS_REGISTRATION_STARTED...");
       this.registerTdsDetailsListByOrganizationIdMethodCall();
     }
   }
@@ -2173,7 +2176,7 @@ extractPreviousMonthNameFromDate(dateString : string){
         downloadLink.href = response.object.reportExcelLink;
         downloadLink.download = 'Report_JULY_1720181370937.xlsx';
         downloadLink.click();
-        console.log(response);
+        // console.log(response);
         this.RUN_PAYROLL_LOADER = false;
         this.helperService.showToast('Payroll generated successfully.', Key.TOAST_STATUS_SUCCESS);
         this.dataService.registerPayrollProcessStepByOrganizationIdAndStartDateAndEndDate(this.startDate, this.endDate, Key.PAYROLL_PORCESSED).subscribe((response)=>{
@@ -2286,7 +2289,7 @@ extractPreviousMonthNameFromDate(dateString : string){
   ];
 
   onSelect(event: any) {
-    console.log(event);
+    // console.log(event);
   }
 
   payrollChartMehthodCall(){

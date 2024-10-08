@@ -219,7 +219,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
         const organizationLatLng = new google.maps.LatLng(Number(addressDetail.latitude), Number(addressDetail.longitude));
         const distance = google.maps.geometry.spherical.computeDistanceBetween(userLatLng, organizationLatLng);
 
-        console.log(distance + '---' + addressDetail.radius);
+        // console.log(distance + '---' + addressDetail.radius);
         if (distance <= addressDetail.radius) {
             isWithinAnyLocation = true;
             this.attendanceMode = addressDetail.attendanceMode;
@@ -232,7 +232,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
             "Oops! Looks like you're not close enough to the company to mark your attendance. Please try again when you're nearby!",
             Key.TOAST_STATUS_ERROR
         );
-        console.log('Cannot mark attendance');
+        // console.log('Cannot mark attendance');
     } else {
         if (this.attendanceMode == 3) {
             this.dataService.saveEmployeeCurrentLocationLatLng(this.lat, this.lng, this.radius, this.attendanceMode, this.address);
@@ -256,7 +256,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
             (response: OrganizationAddressDetail[]) => {
                 if (response && response.length > 0) {
                     this.organizationAddressDetails = response;
-                    console.log(response);
+                    // console.log(response);
                 } else {
                     console.log('No address details found');
                 }
@@ -287,7 +287,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
       .markAttendaceWithLocation(this.employeeAttendanceLocation, userUuid)
       .subscribe(
         (response: EmployeeAttendanceLocation) => {
-          console.log(response);
+          // console.log(response);
           this.enableSubmitToggle = true;
           if (response.status == 'Already Checked In') {
             this.helper.showToast(
@@ -371,7 +371,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
     this.imageFile = new File([imageBlob], 'captured_image.png', {
       type: 'image/png',
     });
-    console.log(this.imageFile);
+    // console.log(this.imageFile);
     // Upload file to Firebase
     this.uploadFile(this.imageFile, 'webcamImage');
   }
@@ -388,7 +388,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
         finalize(() => {
           fileRef.getDownloadURL().subscribe(
             (url) => {
-              console.log(url);
+              // console.log(url);
               this.employeeAttendanceLocation.imageUrl = url;
             },
             (error) => {
@@ -399,7 +399,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
       )
       .subscribe(
         () => {
-          console.log('Upload snapshotChanges observable received an event');
+          // console.log('Upload snapshotChanges observable received an event');
         },
         (error) => {
           console.error('Error during file upload:', error);
@@ -431,4 +431,12 @@ export class EmployeeLocationValidatorComponent implements OnInit {
       console.error('No uniqueId found in the URL');
     }
   }
+
+
+
+
+
+
+
+
 }

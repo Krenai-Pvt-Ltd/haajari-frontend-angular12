@@ -7,7 +7,7 @@ export class EmployeeAttendanceLocation {
     status: string = '';
     imageUrl: string = '';
     currentLocation !: string;
-    onboardingVia !:any;
+    onboardingVia !: string;
 }
 
 

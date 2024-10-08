@@ -102,7 +102,7 @@ export class SignUpComponent implements OnInit {
       .loginUser(this.email, this.password)
       .pipe(
         tap((response) => {
-          console.log(response);
+          // console.log(response);
           this.helperService.subModuleResponseList =
             response.subModuleResponseList;
           localStorage.setItem('token', response.tokenResponse.access_token);
@@ -162,14 +162,15 @@ export class SignUpComponent implements OnInit {
   }
 
   signInWithWhatsapp() {
-    this.showOtpInput = false;
-    this.enableBack = true;
-    this.isEmailLogin = false;
-    this.isWhatsappLogin = true;
-    this.phoneNumber = '';
-    this.isOtpVerify = false;
-    this.otpErrorMessage = '';
-    this.errorMessage = '';
+    // this.showOtpInput = false;
+    // this.enableBack = true;
+    // this.isEmailLogin = false;
+    // this.isWhatsappLogin = true;
+    // this.phoneNumber = '';
+    // this.isOtpVerify = false;
+    // this.otpErrorMessage = '';
+    // this.errorMessage = '';
+    this.router.navigate(['/auth/onboarding-whatapp']);
   }
 
   redirectToRegister() {
@@ -193,13 +194,13 @@ export class SignUpComponent implements OnInit {
   }
 
   onOtpInputChange(index: number) {
-    console.log(`Input ${index} changed`);
+    // console.log(`Input ${index} changed`);
   }
 
   private debounceTimer: any;
   onOtpChange(event: any) {
     this.otp = event;
-    console.log(this.otp);
+    // console.log(this.otp);
 
     if (this.debounceTimer) {
       clearTimeout(this.debounceTimer);
@@ -251,7 +252,7 @@ export class SignUpComponent implements OnInit {
       (response) => {
         this.registerPassLoader = false;
         this.showOtpInput = false;
-        console.log('Password Created successfully:', response);
+        // console.log('Password Created successfully:', response);
         this.password = '';
         this.confirmPassword = '';
         this.createPasswordFlag = false;
@@ -292,7 +293,7 @@ export class SignUpComponent implements OnInit {
             this.verifyOtpButtonFlag = true;
             this.errorMessage = '';
           }
-          console.log('response :', response);
+          // console.log('response :', response);
         },
         (error) => {
           this.loginButtonLoader = false;
@@ -328,7 +329,7 @@ export class SignUpComponent implements OnInit {
       (response) => {
         this.registerPassLoader = false;
         this.showOtpInput = false;
-        console.log('Password Created successfully:', response);
+        // console.log('Password Created successfully:', response);
         this.password = '';
         this.confirmPassword = '';
         this.createPasswordFlag = false;
@@ -530,17 +531,18 @@ export class SignUpComponent implements OnInit {
     this.dataService.getSlackAuthUrl().subscribe(
       (response: any) => {
         this.authUrl = response.message;
-        console.log('authUrl: ' + this.authUrl);
+        // console.log('authUrl: ' + this.authUrl);
 
-        // Traverse up the DOM to find the closest anchor element
-        const target = event.target as HTMLElement;
-        const anchor = target.closest('a') as HTMLAnchorElement;
+        // // Traverse up the DOM to find the closest anchor element
+        // const target = event.target as HTMLElement;
+        // const anchor = target.closest('a') as HTMLAnchorElement;
 
-        if (anchor) {
-          anchor.href = this.authUrl;
-          // Redirect in the same tab
-          window.location.href = this.authUrl;
-        }
+        // if (anchor) {
+        //   anchor.href = this.authUrl;
+        //   // Redirect in the same tab
+        //   window.location.href = this.authUrl;
+        // }
+        window.location.href = this.authUrl;
       },
       (error) => {
         console.error('Error fetching Slack auth URL', error);
@@ -564,8 +566,8 @@ export class SignUpComponent implements OnInit {
   extractWorkspaceName(url: string): string {
     const regex = /https:\/\/([^.]+)\.slack\.com/;
     const matches = url.match(regex);
-    console.log('URL:', url);
-    console.log('Matches:', matches);
+    // console.log('URL:', url);
+    // console.log('Matches:', matches);
     return matches ? matches[1] : '';
   }
 }

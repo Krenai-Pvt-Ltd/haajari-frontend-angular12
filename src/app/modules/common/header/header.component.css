@@ -31,7 +31,7 @@
   /* transition: padding 350ms ease 0s; */
   background: rgb(233 233 255);
   border-radius: 8px;
-  color: rgb(102 102 243) !important;
+  color: var(--primary-color) !important;
   font-size: 14px !important;
   font-weight: 400 !important;
 }
@@ -75,6 +75,7 @@
   z-index: 1;
   transition: padding 350ms ease 0s;
   border-radius: 12px;
+  width: 100%;
 }
 .sidebar-menu-link:hover {
   position: relative;
@@ -93,7 +94,7 @@
   transition: padding 350ms ease 0s;
   border-radius: 8px;
   /* background: rgb(233 233 255); */
-  color: rgb(102 102 243) !important;
+  color: var(--primary-color) !important;
 }
 .sidebar-menu-heding {
   font-size: 0.625rem;
@@ -125,7 +126,7 @@ span.members-namess {
   position: absolute;
   bottom: 0px;
   width: 100%;
-  left: -1px;
+  left: 0px;
   right: 0px;
   z-index: 999;
 }
@@ -181,10 +182,9 @@ span.members-namess {
   align-items: center;
   justify-content: center;
   color: #444;
-  line-height: 21px;
   position: absolute;
   right: 15px;
-  top: 60px;
+  top: 16px;
 }
 .log-btn:hover {
   background-color: #f5f8fa;
@@ -194,7 +194,8 @@ span.members-namess {
   font-size: 16px;
 }
 .manager-list a {
-  font-size: 12px !important;
+  font-size: 14px !important;
+  padding: 10px 15px;
 }
 .StaticMenuItemBase-button {
   color: #c92f54 !important;
@@ -216,8 +217,8 @@ span.members-namess {
   font-size: 16px;
 }
 .plan-box {
-  padding: 10px;
-  background-color: #ffffff;
+  padding: 10px 20px;
+  background-color: #f1f1fc;
   border-top: 1px solid #f2f2f2;
 }
 .plan-box p {
@@ -236,7 +237,7 @@ span.add-project {
   font-weight: 400;
   position: absolute;
   right: 10px;
-  color: rgb(102 102 243) !important;
+  color: var(--primary-color) !important;
 }
 .project-name ul {
   list-style: none;
@@ -264,7 +265,7 @@ span.add-project {
 }
 .project-name ul li a:hover,
 .project-name ul li:hover a {
-  color: rgb(102 102 243) !important;
+  color: var(--primary-color) !important;
 }
 .project-name {
   padding-top: 5px;
@@ -290,6 +291,67 @@ span.add-project {
 .project-name i {
   line-height: 22px;
 }
+
+.plan-box h3 {
+  color: #000;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 15px; /* 58.077% */
+  letter-spacing: 0.119px;
+  text-transform: capitalize;
+}
+.plan-box p {
+  color: #717171;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 11px; /* 88.478% */
+  letter-spacing: 0.035px;
+}
+
+.upgradeBtn {
+  background-color: var(--primary-background-color);
+  color: #fff;
+  font-size: 10px;
+  font-style: normal;
+  padding: 3px 10px;
+  font-weight: 700;
+  line-height: 5.682px; /* 58.077% */
+  letter-spacing: 0.077px;
+  text-transform: capitalize;
+  border-radius: 4px;
+}
+.progress {
+  background-color: #f1f5fa;
+  height: 8px;
+  width: 100%;
+  margin: 0 auto;
+}
+.plan-box h4 {
+  color: var(--primary-color);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 11px;
+  letter-spacing: 0.035px;
+}
+
+.modifyBtn {
+  color: #000;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 5.682px; /* 58.077% */
+  letter-spacing: 0.077px;
+  text-transform: capitalize;
+}
+.login-user-detail {
+  gap: 20px;
+  padding: 10px;
+  background-color: #fff;
+  border-top: 1px solid #dfdfdf;
+}
+
 .sliderNav {
   position: absolute;
   top: 0;
@@ -299,10 +361,20 @@ span.add-project {
   transition: all 0.3s ease;
   width: 100%;
   right: 0;
-  border-radius:8px;
+  border-radius: 8px;
   border-top: 1px solid #fff;
   border-bottom: 1px solid #fff;
   opacity: 0;
+}
+.alert-badge {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background-color: red;
+  border-radius: 50%;
+  position: absolute;
+  right: 10px;
+  top: 10px;
 }
 @media screen and (max-width: 2600px) {
   .menu-body.navbar-vertical {
@@ -315,4 +387,55 @@ span.add-project {
     overflow-x: auto;
     height: 90vh;
   }
+
+
+  
+}
+
+.manager-list svg {
+  width: 18px;
+  position: relative;
+  top: -1px;
+}
+
+.list-top {
+  background-color: rgb(255, 255, 255) !important;
+  position: absolute !important;
+  inset: auto 0px 0px auto !important;
+  margin: 0px !important;
+  transform: translate(175px, -55px) !important;
+  padding: 0px !important;
+  border: none !important;
+  min-width: 14rem;
+  filter: drop-shadow(0px 11.4px 13.7px rgba(71, 71, 71, 0.33));
+  border-radius: 2px !important;
+  z-index: 999 !important;
+}
+.dropdown-item:focus,
+.dropdown-item:hover {
+  background-color: #f5f5ff;
+  color: var(--primary-color) !important;
+}
+
+.btn-logout {
+  color: #ff3737;
+}
+
+.list-top::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  bottom: -18px;
+  width: 42px;
+  height: 30px;
+  border-top: solid 40px #fff;
+  border-left: solid 24px transparent;
+  border-right: solid 24px transparent;
+  border-radius: 10px;
+  z-index: -1;
+}
+
+.btn-logout:hover {
+  color: #ff3737 !important;
+  background-color: #fff4f4;
 }

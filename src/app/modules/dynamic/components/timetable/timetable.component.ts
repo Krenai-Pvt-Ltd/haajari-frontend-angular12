@@ -21,6 +21,9 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import * as saveAs from 'file-saver';
 import { DatePipe } from '@angular/common';
+import { OvertimeRequestLogResponse } from 'src/app/models/overtime-request-log-response';
+import { OvertimeResponseDTO } from 'src/app/models/overtime-response-dto';
+import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-reflection';
 
 // import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
 
@@ -34,18 +37,44 @@ export class TimetableComponent implements OnInit {
   model: any;
   constructor(
     private dataService: DataService,
-    private helperService: HelperService,
+    public helperService: HelperService,
     private router: Router,
     private rbacService: RoleBasedAccessControlService,
     private cdr: ChangeDetectorRef,
     private firebaseStorage: AngularFireStorage,
     private sanitizer: DomSanitizer,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    // private headerComponent: HeaderComponent
   ) {}
+
+  async ngOnInit(): Promise<void> {
+    window.scroll(0, 0);
+    this.getOrganizationRegistrationDateMethodCall();
+    this.inputDate = this.getCurrentDate();
+    this.assignRole();
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
+    const today = dayjs();
+    const oneWeekAgo = today.subtract(1, 'week');
+    this.selected = {
+      startDate: oneWeekAgo,
+      endDate: today,
+    };
+
+    this.updateDateRangeInputValue();
+    this.getFirstAndLastDateOfMonth(this.selectedDate);
+    // this.getDataFromDate();
+    this.getAttendanceDetailsCountMethodCall();
+    this.getAttendanceDetailsReportByDateMethodCall();
+    this.getActiveUsersCountMethodCall();
+    this.getHolidayForOrganization();
+
+
+    this.logInUserUuid = await this.rbacService.getUUID();
+  }
 
   loginDetails = this.helperService.getDecodedValueFromToken();
   assignRole() {
-    this.role = this.rbacService.getRole();
+    this.role =   this.rbacService.getRole();
     this.userUuid = this.rbacService.getUUID();
     this.orgRefId = this.rbacService.getOrgRefUUID();
   }
@@ -59,6 +88,7 @@ export class TimetableComponent implements OnInit {
   WEEKEND = Key.WEEKEND;
   HOLIDAY = Key.HOLIDAY;
 
+  readonly key = Key;
   ROLE = this.rbacService.getRole();
 
   ADMIN = Key.ADMIN;
@@ -78,8 +108,8 @@ export class TimetableComponent implements OnInit {
 
   disableDates = (current: Date): boolean => {
     const today = new Date();
-    console.log(today);
-    console.log(current);
+    // console.log(today);
+    // console.log(current);
     today.setHours(0, 0, 0, 0);
 
     const registrationDate = new Date(this.organizationRegistrationDate);
@@ -145,6 +175,31 @@ export class TimetableComponent implements OnInit {
     this.getAttendanceDetailsCountMethodCall();
   }
 
+  selectPreviousMonth() {
+    const currentDate = new Date(this.selectedDate);
+    currentDate.setMonth(currentDate.getMonth() - 1);
+  
+    if (currentDate < new Date(this.organizationRegistrationDate)) {
+      return;
+    }
+  
+    this.selectedDate = currentDate;
+    this.onMonthChange(currentDate);
+  }
+  
+  selectNextMonth() {
+    const currentDate = new Date(this.selectedDate);
+    currentDate.setMonth(currentDate.getMonth() + 1);
+  
+    if (currentDate >= new Date()) {
+      return;
+    }
+  
+    this.selectedDate = currentDate;
+    this.onMonthChange(currentDate);
+  }
+  
+
   private formatDate(date: Date): string {
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -154,27 +209,7 @@ export class TimetableComponent implements OnInit {
 
   selected: { startDate: dayjs.Dayjs; endDate: dayjs.Dayjs } | null = null;
   myAttendanceData: Record<string, AttendenceDto[]> = {};
-
-  ngOnInit(): void {
-    window.scroll(0, 0);
-    this.getOrganizationRegistrationDateMethodCall();
-    this.inputDate = this.getCurrentDate();
-    this.assignRole();
-
-    const today = dayjs();
-    const oneWeekAgo = today.subtract(1, 'week');
-    this.selected = {
-      startDate: oneWeekAgo,
-      endDate: today,
-    };
-
-    this.updateDateRangeInputValue();
-    // this.getDataFromDate();
-    this.getAttendanceDetailsCountMethodCall();
-    this.getAttendanceDetailsReportByDateMethodCall();
-    this.getActiveUsersCountMethodCall();
-    this.getHolidayForOrganization();
-  }
+  logInUserUuid: string = '';
 
   dateRangeInputValue: string = '';
 
@@ -313,6 +348,7 @@ export class TimetableComponent implements OnInit {
   itemPerPage: number = 8;
   pageNumber: number = 1;
   searchText: string = '';
+  searchBy: string = '';
   total: number = 0;
 
   lastPageNumber = 0;
@@ -323,12 +359,12 @@ export class TimetableComponent implements OnInit {
 
   isShimmerForAttendanceDetailsResponse: boolean = false;
   dataNotFoundForAttendanceDetailsResponse: boolean = false;
-  networkConnectionErrorForAttendanceDetailsResposne: boolean = false;
+  networkConnectionErrorForAttendanceDetailsResponse: boolean = false;
 
   preRuleForShimmersAndOtherConditionsMethodCall() {
     this.isShimmerForAttendanceDetailsResponse = true;
     this.dataNotFoundForAttendanceDetailsResponse = false;
-    this.networkConnectionErrorForAttendanceDetailsResposne = false;
+    this.networkConnectionErrorForAttendanceDetailsResponse = false;
   }
 
   attendanceDetailsResponseList: AttendanceDetailsResponse[] = [];
@@ -354,7 +390,7 @@ export class TimetableComponent implements OnInit {
           (response) => {
             debugger;
             this.attendanceDetailsResponseList = response.listOfObject;
-            console.log(this.attendanceDetailsResponseList);
+            // console.log(this.attendanceDetailsResponseList);
             this.total = response.totalItems;
             this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
             this.isShimmerForAttendanceDetailsResponse = false;
@@ -369,7 +405,7 @@ export class TimetableComponent implements OnInit {
           },
           (error) => {
             console.log(error);
-            this.networkConnectionErrorForAttendanceDetailsResposne = true;
+            this.networkConnectionErrorForAttendanceDetailsResponse = true;
           }
         );
     }, debounceTime);
@@ -834,8 +870,8 @@ export class TimetableComponent implements OnInit {
     .subscribe(
       (response) => {
         this.checkHoliday = response.object;
-        console.log(response);
-        console.error("Response", response.object);
+        // console.log(response);
+        // console.error("Response", response.object);
 
         if (this.checkHoliday == true) {
           this.showPlaceholder = true; 
@@ -850,29 +886,183 @@ export class TimetableComponent implements OnInit {
   )
   }
 attendanceFullRequestLog: any[] = [];
-getFullAttendanceRequestLogData(): void {
-  this.dataService.getFullAttendanceRequestLog().subscribe(response => {
-    this.attendanceFullRequestLog = response.listOfObject;
+pageNumberFullAttendanceRequest: number = 1;
+itemPerPageFullAttendanceRequest: number = 5;
+totalAttendanceRequestCount: number = 0;
+isRequestLoader: boolean = false;
+fullAttendanceRequestSearchString: string = '';
+getFullAttendanceRequestLogData(debounceTime: number = 300) {
+
+  return new Promise((resolve, reject) => {
+  this.isRequestLoader = true;
+  if (this.debounceTimer) {
+    clearTimeout(this.debounceTimer);
+  } 
+  this.debounceTimer = setTimeout(() => {
+  this.dataService.getFullAttendanceRequestLog(this.pageNumberFullAttendanceRequest, this.itemPerPageFullAttendanceRequest, this.fullAttendanceRequestSearchString).subscribe(response => {
+    // this.attendanceFullRequestLog = response.listOfObject;
+    this.attendanceFullRequestLog = [...this.attendanceFullRequestLog, ...response.object];
+    this.totalAttendanceRequestCount = response.totalItems;
+    this.isRequestLoader = false;
     console.log('logs retrieved successfully', response.listOfObject);
   }, (error) => {
     console.log(error);
+    this.isRequestLoader = false;
+  });
+   }, debounceTime);
   });
 }
 
+initialLoadDoneforFullLogs: boolean = false;
+@ViewChild('logContainerforFullLogs') logContainerforFullLogs!: ElementRef<HTMLDivElement>;
+scrollDownRecentActivityforFullLogs(event: any) {
+  debugger
+  if (!this.initialLoadDoneforFullLogs) return;
+
+  if(this.totalAttendanceRequestCount < ((this.pageNumberFullAttendanceRequest - 1) * this.itemPerPageFullAttendanceRequest)) {
+    return;
+  }
+  const target = event.target as HTMLElement;
+  const atBottom =
+    target.scrollHeight - (target.scrollTop + target.clientHeight) < 10;
+
+  if (atBottom) {
+    this.pageNumberFullAttendanceRequest++;
+    this.getFullAttendanceRequestLogData();
+  }
+}
+
+loadMoreLogs(): void {
+  this.initialLoadDoneforFullLogs = true;
+  this.pageNumberFullAttendanceRequest++;
+  // this.attendanceRequestLog = [];
+  this.getFullAttendanceRequestLogData();
+}
+
+onSearchChangeOfFullAttendanceLogs(searchValue: string): void {
+  this.fullAttendanceRequestSearchString = searchValue;
+  this.pageNumberFullAttendanceRequest = 1; 
+  this.attendanceFullRequestLog = []; 
+  this.getFullAttendanceRequestLogData();
+}
+
+openLogs() {
+  this.pageNumberFullAttendanceRequest = 1;
+  this.totalAttendanceRequestCount = 0;
+  this.attendanceFullRequestLog = [];
+  this.fullAttendanceRequestSearchString = '';
+  this.getFullAttendanceRequestLogData();
+}
+
+clearSearchUsersOfFullLogs() {
+  this.pageNumberFullAttendanceRequest = 1;
+  this.totalAttendanceRequestCount = 0;
+  this.attendanceFullRequestLog = [];
+  this.fullAttendanceRequestSearchString = '';
+  this.getFullAttendanceRequestLogData();
+}
 
 attendanceRequests: any[] = [];
-getAttendanceRequestsData(): void {
-  this.dataService.getAttendanceRequests().subscribe(response => {
-    this.attendanceRequests = response.listOfObject;
+pageNumberAttendanceRequest: number = 1;
+itemPerPageAttendanceRequest: number = 5;
+fullAttendanceRequestCount: number = 0;
+isFullRequestLoader: boolean = false;
+attendanceRequestSearchString: string = '';
+getAttendanceRequestsData(debounceTime: number = 300) {
+  return new Promise((resolve, reject) => {
+  this.isFullRequestLoader = true;
+  if (this.debounceTimer) {
+    clearTimeout(this.debounceTimer);
+  }
+  this.debounceTimer = setTimeout(() => {
+  this.dataService.getAttendanceRequests(this.pageNumberAttendanceRequest, this.itemPerPageAttendanceRequest, this.attendanceRequestSearchString, this.startDate, this.endDate).subscribe(response => {
+    // this.attendanceRequests = response.listOfObject;
+    this.attendanceRequests = [...this.attendanceRequests, ...response.object];
+    this.fullAttendanceRequestCount = response.totalItems;
+    this.isFullRequestLoader = false;
     console.log('requests retrieved successfully', response.listOfObject);
   }, (error) => {
+    this.isFullRequestLoader = false;
     console.log(error);
   });
+}, debounceTime);
+});
 }
 
-approveOrRequest(id:number, reqString: string) {
+attendanceRequestCount!: number;
+
+getAttendanceRequestsDataCount(): void {
+  debugger
+  this.dataService.getAttendanceRequestCount().subscribe(
+    (response: any) => {
+      this.attendanceRequestCount = response.object; 
+      // console.log('requests retrieved successfully', this.attendanceRequestCount);
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+}
+
+
+// approveOrRequest(id:number, reqString: string) {
+initialLoadDone: boolean = false;
+@ViewChild('logContainer') logContainer!: ElementRef<HTMLDivElement>;
+scrollDownRecentActivity(event: any) {
+  debugger
+  if (!this.initialLoadDone) return;
+
+  if(this.fullAttendanceRequestCount < ((this.pageNumberAttendanceRequest - 1) * this.itemPerPageAttendanceRequest)) {
+    return;
+  }
+  const target = event.target as HTMLElement;
+  const atBottom =
+    target.scrollHeight - (target.scrollTop + target.clientHeight) < 10;
+
+  if (atBottom) {
+    this.pageNumberAttendanceRequest++;
+    this.getAttendanceRequestsData();
+  }
+}
+
+
+loadMoreAttendanceRequestLogs(): void {
+  this.initialLoadDone = true;
+  this.pageNumberAttendanceRequest++;
+  // this.attendanceRequestLog = [];
+  this.getAttendanceRequestsData();
+}
+
+onSearchChange(searchValue: string): void {
+  this.attendanceRequestSearchString = searchValue;
+  this.pageNumberAttendanceRequest = 1; 
+  this.attendanceRequests = []; 
+  this.getAttendanceRequestsData();
+}
+
+clearSearchUsersOfRequestLogs() {
+  debugger
+  this.pageNumberAttendanceRequest = 1;
+  this.fullAttendanceRequestCount = 0;
+  this.attendanceRequests = [];
+  this.attendanceRequestSearchString = '';
+  this.getAttendanceRequestsData();
+}
+
+clearAttendanceRequestLogs() {
+  this.attendanceRequests = [];
+  this.pageNumberAttendanceRequest = 1; 
+  this.attendanceRequestSearchString =  '';
+  this.attendanceFullRequestLog = [];
+  this.pageNumberFullAttendanceRequest = 1;
+  this.fullAttendanceRequestSearchString = '';
+  this.fullAttendanceRequestCount = 0;
+  this.totalAttendanceRequestCount = 0;
+}
+
+approveOrReject(id:number, reqString: string) {
   this.dataService.approveOrRejectAttendanceRequest(id, reqString).subscribe(response => {
-    console.log('requests retrieved successfully', response.listOfObject);
+    // console.log('requests retrieved successfully', response.listOfObject);
     if(response.message == 'APPROVE') {
     this.helperService.showToast(
       'Request Approved Successfully',
@@ -884,7 +1074,16 @@ approveOrRequest(id:number, reqString: string) {
       Key.TOAST_STATUS_SUCCESS
     );
   }
+
+  this.totalAttendanceRequestCount = 0;
+  this.attendanceRequestSearchString = '';
+  this.pageNumberAttendanceRequest = 1; 
+  this.attendanceRequests = []; 
   this.getAttendanceRequestsData();
+  this.pageNumberFullAttendanceRequest = 1;
+  this.fullAttendanceRequestCount = 0;
+  this.attendanceFullRequestLog = [];
+  this.fullAttendanceRequestSearchString = '';
   this.getFullAttendanceRequestLogData();
 
   }, (error) => {
@@ -894,13 +1093,297 @@ approveOrRequest(id:number, reqString: string) {
       Key.TOAST_STATUS_ERROR
     );
   });
-
-  
-
 }
 
+  // Tab in Attedance section
+  ATTENDANCE_TAB = Key.ATTENDANCE_TAB;
+  OVERTIME_TAB = Key.OVERTIME_TAB;
+  ATTENDANCE_UPDATE_REQUEST_TAB = Key.ATTENDANCE_UPDATE_REQUEST_TAB;
+
+  ACTIVE_TAB = Key.ATTENDANCE_TAB;
+  changeTab(tabId : number){
+    this.ACTIVE_TAB = tabId;
+
+    if(tabId == this.OVERTIME_TAB || tabId == this.ATTENDANCE_UPDATE_REQUEST_TAB){
+      this.onMonthChange(new Date());
+    }
+  }
+
+  startDate: string = '';
+  endDate: string = '';
+  onMonthChange(month: Date): void {
+    console.log('Month is getting selected');
+    this.selectedDate = month;
+    this.getFirstAndLastDateOfMonth(this.selectedDate);
+
+    if(this.ACTIVE_TAB == this.OVERTIME_TAB){
+      this.getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();
+      this.getOvertimeRequestResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();
+      this.getOvertimePendingRequestResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();
+      // this.getTeamNames();
+    }
+
+    if(this.ACTIVE_TAB == this.ATTENDANCE_UPDATE_REQUEST_TAB){
+      
+    }
+  }
+
+  getFirstAndLastDateOfMonth(selectedDate: Date) {
+
+    this.startDate = this.helperService.formatDateToYYYYMMDD(
+      new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1),
+    );
+    this.endDate = this.helperService.formatDateToYYYYMMDD(
+      new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0),
+    );
+  }
+
+  disableMonths = (date: Date): boolean => {
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
+    const dateYear = date.getFullYear();
+    const dateMonth = date.getMonth();
+    const organizationRegistrationYear = new Date(
+      this.organizationRegistrationDate
+    ).getFullYear();
+    const organizationRegistrationMonth = new Date(
+      this.organizationRegistrationDate
+    ).getMonth();
+
+    // Disable if the month is before the organization registration month
+    if (
+      dateYear < organizationRegistrationYear ||
+      (dateYear === organizationRegistrationYear &&
+        dateMonth < organizationRegistrationMonth)
+    ) {
+      return true;
+    }
+
+    // Disable if the month is after the current month
+    if (
+      dateYear > currentYear ||
+      (dateYear === currentYear && dateMonth > currentMonth)
+    ) {
+      return true;
+    }
+
+    // Enable the month if it's from January 2023 to the current month
+    return false;
+  };
 
 
 
+  // ####################--Overtime tab response list--######################
+
+  // Tab in Overtime tab section
+  OVERTIME_PENDING_REQUEST_TAB = Key.OVERTIME_PENDING_REQUEST_TAB;
+  OVERTIME_HISTORY_TAB = Key.OVERTIME_HISTORY_TAB;
+
+  ACTIVE_TAB_IN_OVERTIME_TAB = Key.OVERTIME_PENDING_REQUEST_TAB;
+  changeLogTabInOvertimeTab(tabId : number){
+    this.ACTIVE_TAB_IN_OVERTIME_TAB = tabId;
+  }
+
+  isShimmerForOvertimeRequestLogResponse: boolean = false;
+  dataNotFoundForOvertimeRequestLogResponse: boolean = false;
+  networkConnectionErrorForOvertimeRequestLogResponse: boolean = false;
+
+  preRuleForShimmersAndErrorPlaceholdersForOvertimeRequestLogResponseMethodCall() {
+    this.isShimmerForOvertimeRequestLogResponse = true;
+    this.dataNotFoundForOvertimeRequestLogResponse = false;
+    this.networkConnectionErrorForOvertimeRequestLogResponse = false;
+  }
+
+  isShimmerForOvertimeRequestResponse: boolean = false;
+  dataNotFoundForOvertimeRequestResponse: boolean = false;
+  networkConnectionErrorForOvertimeRequestResponse: boolean = false;
+
+  preRuleForShimmersAndErrorPlaceholdersForOvertimeRequestResponseMethodCall() {
+    this.isShimmerForOvertimeRequestResponse = true;
+    this.dataNotFoundForOvertimeRequestResponse = false;
+    this.networkConnectionErrorForOvertimeRequestResponse = false;
+  }
+
+  isShimmerForOvertimePendingRequestResponse: boolean = false;
+  dataNotFoundForOvertimePendingRequestResponse: boolean = false;
+  networkConnectionErrorForOvertimePendingRequestResponse: boolean = false;
+
+  preRuleForShimmersAndErrorPlaceholdersForOvertimePendingRequestResponseMethodCall() {
+    this.isShimmerForOvertimePendingRequestResponse = true;
+    this.dataNotFoundForOvertimePendingRequestResponse = false;
+    this.networkConnectionErrorForOvertimePendingRequestResponse = false;
+  }
+
+
+  overtimeRequestLogResponseList : OvertimeRequestLogResponse[] = [];
+  getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDateMethodCall(){
+    this.preRuleForShimmersAndErrorPlaceholdersForOvertimeRequestLogResponseMethodCall();
+    this.dataService.getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDate(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.searchText, this.searchBy).subscribe((response) => {
+      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+        this.dataNotFoundForOvertimeRequestLogResponse = true;
+      } else{
+        this.overtimeRequestLogResponseList = response.listOfObject;
+      }
+
+      this.isShimmerForOvertimeRequestLogResponse = false;
+    }, (error) => {
+      this.isShimmerForOvertimeRequestLogResponse = false;
+      this.networkConnectionErrorForOvertimeRequestLogResponse = true;
+    })
+  }
+
+  overtimeRequestResponseList : OvertimeResponseDTO[] = [];
+  getOvertimeRequestResponseByOrganizationUuidAndStartDateAndEndDateMethodCall(){
+    this.preRuleForShimmersAndErrorPlaceholdersForOvertimeRequestResponseMethodCall();
+    this.dataService.getOvertimeRequestResponseByOrganizationUuidAndStartDateAndEndDate(this.startDate, this.endDate).subscribe((response) => {
+      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+        this.dataNotFoundForOvertimeRequestResponse = true;
+      } else{
+        this.overtimeRequestResponseList = response.listOfObject;
+      }
+
+      this.isShimmerForOvertimeRequestResponse = false;
+    }, (error) => {
+      this.isShimmerForOvertimeRequestResponse = false;
+      this.networkConnectionErrorForOvertimeRequestResponse = true;
+    })
+  }
+
+  pendingRequestCount : number = 0;
+  overtimePendingRequestResponseList : OvertimeResponseDTO[] = [];
+  getOvertimePendingRequestResponseByOrganizationUuidAndStartDateAndEndDateMethodCall(){
+    this.preRuleForShimmersAndErrorPlaceholdersForOvertimePendingRequestResponseMethodCall();
+    this.dataService.getOvertimePendingRequestResponseByOrganizationUuidAndStartDateAndEndDate(this.startDate, this.endDate).subscribe((response) => {
+      if(this.helperService.isListOfObjectNullOrUndefined(response)){
+        this.dataNotFoundForOvertimePendingRequestResponse = true;
+      } else{
+        this.overtimePendingRequestResponseList = response.listOfObject;
+        this.pendingRequestCount = this.overtimePendingRequestResponseList.length;
+      }
+
+      this.isShimmerForOvertimePendingRequestResponse = false;
+    }, (error) => {
+      this.isShimmerForOvertimePendingRequestResponse = false;
+      this.networkConnectionErrorForOvertimePendingRequestResponse = true;
+    })
+  }
+
+
+  overtimeRequestActionResponse : OvertimeResponseDTO = new OvertimeResponseDTO();
+  getOvertimeRequestActionResponseMethodCall(overtimeResponseDTO : OvertimeResponseDTO){
+    this.overtimeRequestActionResponse = overtimeResponseDTO;
+    console.log(this.overtimeRequestActionResponse);
+  }
+
+
+  @ViewChild("closeOvertimeRequestActionModal") closeOvertimeRequestActionModal !: ElementRef;
+  approveLoader : boolean = false;
+  rejectLoader : boolean = false;
+  approveOrRejectOvertimeRequestMethodCall(overtimeRequestId : number, requestTypeId : number){
+    if(requestTypeId == this.key.APPROVED){
+      this.approveLoader = true;
+    } else if(requestTypeId == this.key.REJECTED){
+      this.rejectLoader = true;
+    }
+
+    this.dataService.approveOrRejectOvertimeRequest(overtimeRequestId, requestTypeId).subscribe((response) => {
+      this.approveLoader = false;
+      this.rejectLoader = false;
+      this.closeOvertimeRequestActionModal.nativeElement.click();
+      this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
+      this.getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();
+      this.getOvertimePendingRequestResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();
+    }, (error) => {
+      this.approveLoader = false;
+      this.rejectLoader = false;
+      this.helperService.showToast("Error while approving the request!", Key.TOAST_STATUS_ERROR);
+    })
+  }
+
+
+  //Search in overtime logs
+  // teamNameList: UserTeamDetailsReflection[] = [];
+
+  // teamId: number = 0;
+  // getTeamNames() {
+  //   debugger;
+  //   this.dataService.getAllTeamNames().subscribe({
+  //     next: (response: any) => {
+  //       this.teamNameList = response.object;
+  //     },
+  //     error: (error) => {
+  //       console.error('Failed to fetch team names:', error);
+  //     },
+  //   });
+  // }
   
+  // selectedTeamName : string = '';
+  // selectTeam(teamName: string) {
+  //   this.pageNumber = 1;
+  //   this.itemPerPage = 8;
+  //   this.overtimePendingRequestResponseList = [];
+  //   this.selectedTeamName = teamName;
+  //   this.getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();
+  // }
+
+  // searchOvertimeRequestLogResponse() {
+  //   this.pageNumber = 1;
+  //   this.itemPerPage = 8;
+  //   this.overtimePendingRequestResponseList = [];
+  //   this.getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();
+  // }
+
+  // clearSearchUsers() {
+  //   this.pageNumber = 0;
+  //   this.itemPerPage = 8;
+  //   this.overtimePendingRequestResponseList = [];
+  //   this.searchText = '';
+  //   this.searchBy = '';
+  //   this.getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();
+  // }
+  
+
+
+  // ####################--Updation Request Tab code--######################
+  // Tab in Updation request tab section
+  ATTENDANCE_UPDATE_PENDING_REQUEST_TAB = Key.ATTENDANCE_UPDATE_PENDING_REQUEST_TAB;
+  ATTENDANCE_UPDATE_REQUEST_HISTORY_TAB = Key.ATTENDANCE_UPDATE_REQUEST_HISTORY_TAB;
+
+  ACTIVE_TAB_IN_ATTENDANCE_UPDATE_REQUEST_TAB = Key.ATTENDANCE_UPDATE_PENDING_REQUEST_TAB;
+  changeLogTabInAttendanceUpdateRequestTab(tabId : number){
+    this.ACTIVE_TAB_IN_ATTENDANCE_UPDATE_REQUEST_TAB = tabId;
+  }
+
+  isShimmerForAttendanceUpdateRequestLogResponse: boolean = false;
+  dataNotFoundForAttendanceUpdateRequestLogResponse: boolean = false;
+  networkConnectionErrorForAttendanceUpdateRequestLogResponse: boolean = false;
+
+  preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdateRequestLogResponseMethodCall() {
+    this.isShimmerForAttendanceUpdateRequestLogResponse = true;
+    this.dataNotFoundForAttendanceUpdateRequestLogResponse = false;
+    this.networkConnectionErrorForAttendanceUpdateRequestLogResponse = false;
+  }
+
+  isShimmerForAttendanceUpdateRequestResponse: boolean = false;
+  dataNotFoundForAttendanceUpdateRequestResponse: boolean = false;
+  networkConnectionErrorForAttendanceUpdateRequestResponse: boolean = false;
+
+  preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdateRequestResponseMethodCall() {
+    this.isShimmerForAttendanceUpdateRequestResponse = true;
+    this.dataNotFoundForAttendanceUpdateRequestResponse = false;
+    this.networkConnectionErrorForAttendanceUpdateRequestResponse = false;
+  }
+
+  isShimmerForAttendanceUpdatePendingRequestResponse: boolean = false;
+  dataNotFoundForAttendanceUpdatePendingRequestResponse: boolean = false;
+  networkConnectionErrorForAttendanceUpdatePendingRequestResponse: boolean = false;
+
+  preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdatePendingRequestResponseMethodCall() {
+    this.isShimmerForAttendanceUpdatePendingRequestResponse = true;
+    this.dataNotFoundForAttendanceUpdatePendingRequestResponse = false;
+    this.networkConnectionErrorForAttendanceUpdatePendingRequestResponse = false;
+  }
+  
+
+
 }

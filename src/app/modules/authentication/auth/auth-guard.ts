@@ -1,3 +1,4 @@
+import { HelperService } from './../../../services/helper.service';
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
@@ -6,6 +7,8 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { Key } from 'src/app/constant/key';
+import { DataService } from 'src/app/services/data.service';
+import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
 
@@ -16,7 +19,10 @@ export class AuthGuard implements CanActivate {
   constructor(
     private router: Router,
     private rbacService: RoleBasedAccessControlService,
-    private _subscriptionPlanService: SubscriptionPlanService
+    private helperService: HelperService,
+    private _subscriptionPlanService: SubscriptionPlanService,
+    private _onboardingService: OrganizationOnboardingService,
+    private dataService: DataService
   ) {
     this.PLAN_PURCHASED = _subscriptionPlanService
   }
@@ -26,10 +32,7 @@ export class AuthGuard implements CanActivate {
   ONBOARDING_STEP: any;
   PLAN_PURCHASED: any;
   async ngOnInit(): Promise<void> {
-    this.UUID = await this.rbacService.getUUID();
-    this.ROLE = await this.rbacService.getRole();
-    this.PLAN_PURCHASED = 
-    this.ONBOARDING_STEP = await this.rbacService.getOnboardingStep();
+    
   }
 
   async canActivate(
@@ -42,6 +45,23 @@ export class AuthGuard implements CanActivate {
       return false;
     }
 
+
+
+    this.UUID = await this.rbacService.getUUID();
+    this.ROLE = await this.rbacService.getRole();
+    this.PLAN_PURCHASED =
+    this.ONBOARDING_STEP = await this.rbacService.getOnboardingStep();
+    await this.isToDoStepsCompletedData();
+
+    this._onboardingService.getOrgOnboardingStep().subscribe((response: any) => {
+      const step = parseInt(response?.object?.step);
+
+      if (step < 5) {
+        this.router.navigate(['organization-onboarding/personal-information']);
+      }
+    });
+
+
     // if (this.isOrganizationOnboarded(this.ONBOARDING_STEP)) {
     //   console.log(this.ONBOARDING_STEP);
     //   this.router.navigate(['/dashboard']);
@@ -49,12 +69,23 @@ export class AuthGuard implements CanActivate {
     //   console.log(this.ONBOARDING_STEP);
     //   this.router.navigate(['/organization-onboarding/personal-information']);
     // }
-
+// if(role+todo incopplete(){
+//   this.router.navigate(['/roo']);
+//   return false;
+// }
+debugger
+console.log("this.ROLE",this.ROLE,"----",this.isToDoStepsCompleted )
+   if(this.ROLE == 'ADMIN' && this.isToDoStepsCompleted == 0 && route!.routeConfig!.path == 'dashboard') {
+    console.log("redirecting from guaRD")
+    this.router.navigate(['/to-do-step-dashboard']);
+    return false;
+   }
     await this.rbacService.isUserInfoInitializedMethod();
-
     if (route !== null && route.routeConfig !== null) {
+      console.log(!this.rbacService.shouldDisplay('dashboard') ,
+    route.routeConfig.path == 'dashboard');
       if (
-        (await this.rbacService.getRole()) == Key.USER &&
+          !this.rbacService.shouldDisplay('dashboard') &&
         route.routeConfig.path == 'dashboard'
       ) {
         this.router.navigate(['/employee-profile'], {
@@ -88,12 +119,12 @@ export class AuthGuard implements CanActivate {
   //     this.router.navigate(['/auth/login']);
   //     return false;
   //   }
-  
+
   //   await this.rbacService.isUserInfoInitializedMethod();
-  
+
   //   if (route !== null && route.routeConfig !== null) {
   //     const role = await this.rbacService.getRole();
-  
+
   //     if (role === Key.ADMIN) {
   //       // Check if the admin has purchased a plan
   //       const planPurchased = await this.isPlanPurchased();
@@ -105,7 +136,7 @@ export class AuthGuard implements CanActivate {
   //         return false;
   //       }
   //     }
-  
+
   //     if (role === Key.USER && route.routeConfig.path === 'dashboard') {
   //       this.router.navigate(['/employee-profile'], {
   //         queryParams: {
@@ -115,7 +146,7 @@ export class AuthGuard implements CanActivate {
   //       });
   //       return false;
   //     }
-  
+
   //     const requiredSubmodule = '/' + route.routeConfig.path;
   //     if (
   //       requiredSubmodule &&
@@ -125,10 +156,10 @@ export class AuthGuard implements CanActivate {
   //       return false;
   //     }
   //   }
-  
+
   //   return true;
   // }
-  
+
 
   async isValidTokenFormat(token: string | null): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
@@ -155,7 +186,7 @@ export class AuthGuard implements CanActivate {
   }
 
 
-  
+
   // private async isPlanPurchased(): Promise<boolean> {
   //   return new Promise((resolve) => {
   //     this._subscriptionPlanService.getPurchasedStatus().subscribe((response) => {
@@ -164,6 +195,21 @@ export class AuthGuard implements CanActivate {
   //     });
   //   });
   // }
-  
+
+
+  isToDoStepsCompleted : number = 0;
+ isToDoStepsCompletedData(): Promise<any>  {
+    return new Promise((resolve, reject) => {
+      this.dataService.isToDoStepsCompleted().subscribe(
+        (response) => {
+          this.isToDoStepsCompleted = response.object;
+          resolve(response);
+        },
+          (error: any) => {
+            resolve(true);
+          }
+        );
+    });
+  }
 
 }

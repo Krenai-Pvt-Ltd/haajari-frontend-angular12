@@ -1,0 +1,117 @@
+<div
+  class="onboaredinStapBox p-3"
+  (click)="saveOrgSecondaryToDoStepBarData(1)"
+  *ngIf="ROLE == 'ADMIN' && isToDoStepsCompletedFlag == 0 && (showToDo || !isToDoStep)"
+  
+>
+<!-- *ngIf="((showToDo && isToDoStepsCompletedFlag == 0) || !isToDoStep ) && ROLE == 'ADMIN'" -->
+<!-- {{isToDoStepsCompletedFlag}}----{{showToDo}}----{{isToDoStep}}----{{ ROLE == 'ADMIN'}}---{{ ROLE}} -->
+<!-- {{isToDoStep}} -->
+  <div class="d-flex align-items-center justify-content-between">
+    <h5 class="mb-0">Onboarding Steps</h5>
+    <h4 class="mb-0">{{stepsData?.totalCompletedSteps}}/{{stepsData?.totalSteps}}</h4>
+  </div>
+  <div class="progress mt-3">
+    <!-- {{ROLE}} -->
+    <div
+    class="progress-bar"
+    role="progressbar"
+    [style.width.%]="getProgressPercentage()" 
+    [attr.aria-valuenow]="getProgressPercentage()"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    ></div>
+  </div>
+</div>
+
+<div
+  class="showOnboardingStep"
+  [ngClass]="{ 'showOnboardingStepHover': isShowSecondaryToDoSteps,'d-none': (ROLE == 'ADMIN' && isToDoStepsCompletedFlag == 1)}"
+>
+  <div class="onboardingStapsHedding p-3 position-relative">
+    <div
+      class="d-flex align-items-center justify-content-between border-bottom pb-2"
+    >
+      <h5 class="mb-0">Onboarding Steps</h5>
+      <div (click)="saveOrgSecondaryToDoStepBarData(0)">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="25"
+          viewBox="0 0 24 25"
+          fill="none"
+        >
+          <mask
+            id="mask0_2612_4547"
+            style="mask-type: alpha"
+            maskUnits="userSpaceOnUse"
+            x="0"
+            y="0"
+            width="24"
+            height="25"
+          >
+            <rect y="0.941406" width="24" height="24" fill="#D9D9D9" />
+          </mask>
+          <g mask="url(#mask0_2612_4547)">
+            <path
+              d="M8.4 17.9359L7 16.5359L10.6 12.9359L7 9.36094L8.4 7.96094L12 11.5609L15.575 7.96094L16.975 9.36094L13.375 12.9359L16.975 16.5359L15.575 17.9359L12 14.3359L8.4 17.9359Z"
+              fill="black"
+            />
+          </g>
+        </svg>
+      </div>
+    </div>
+    <div class="planInfo mt-3">
+      <h5 class="mb-2">Get Ready To start</h5>
+      <p class="mb-0">Let’s get you all set up</p>
+
+      <div
+        class="d-flex align-items-center justify-content-between gap-3 mt-3 mb-2"
+      >
+        <div class="progress">
+          <div
+          class="progress-bar"
+          role="progressbar"
+          [style.width.%]="getProgressPercentage()" 
+          [attr.aria-valuenow]="getProgressPercentage()"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          ></div>
+        </div>
+        <p class="mb-0 onboardCount">{{ getProgressPercentage() | number: '1.0-0' }}%</p>
+      </div>
+
+      <h6>{{stepsData?.totalCompletedSteps}}/{{stepsData?.totalSteps}} Steps Completed</h6>
+    </div>
+  </div>
+
+  <div class="onboardingStapsPoint mt-3 p-2">
+    <div
+      class="d-flex align-items-center justify-content-between pendingStepPoint pb-3"
+      *ngFor="let step of organizationRegistrationProcessResponse"
+    >
+      <div class="d-flex align-items-start gap-2" style="width: 90%">
+        <div>
+          <span class="checdBox" *ngIf="step?.statusId == 36">
+            <i class="bi bi-check-lg"></i
+          ></span>
+          <span class="pendingBox" *ngIf="step?.statusId == 35"> </span>
+        </div>
+
+        <div>
+          <h4>{{step?.name}}</h4>
+          <p class="mb-0">
+            {{step?.description}}
+          </p>
+        </div>
+      </div>
+      <div>
+        <div (click)="routeToStep(step?.route, step?.name)">
+          <span class="toStepArrow">
+            <i class="bi bi-chevron-right"></i>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

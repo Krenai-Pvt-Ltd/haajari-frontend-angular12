@@ -10,7 +10,7 @@ body {
 }
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif;
 }
 
 .md-drppicker.double {
@@ -21,7 +21,7 @@ body {
   width: auto;
 }
 .text-primary {
-  color: #6060f6 !important;
+  color: var(--primary-color) !important;
 }
 
 .disabled-div {
@@ -108,8 +108,8 @@ body {
 
 .btn-primary:hover {
   color: #fff;
-  background-color: #6060f6;
-  border-color: #6060f6;
+  background-color: var(--primary-background-color);
+  border-color: var(--primary-color);
 }
 
 /* ######### delete modal csss */
@@ -173,10 +173,11 @@ nz-date-picker {
 }
 
 .ant-picker {
-  border: 1px solid #f1f1f1 !important;
+  border: 1px solid #e9e9e9 !important;
   width: 100% !important ;
-  height: 40px !important;
-  border-radius: 0.25rem;
+  height: 45px !important;
+  border-radius: 2px !important;
+  background-color: rgba(236, 236, 236, 0.21);
 }
 
 .seach-dropdown {
@@ -371,10 +372,10 @@ label {
 .ant-select:not(.ant-select-customize-input) .ant-select-selector {
   position: relative;
   transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-  background-color: #fff !important;
-  border: 1px solid #ebebeb !important;
-  border-radius: 10px !important;
-  min-height: 45px !important;
+  background-color: rgba(236, 236, 236, 0.21) !important;
+  border: none !important;
+  border-radius: 0px !important;
+  min-height: 44px !important;
   font-weight: 400 !important;
   font-size: 12px !important;
   line-height: 18px !important;
@@ -384,7 +385,7 @@ label {
 }
 .ant-select-multiple .ant-select-selection-item {
   background: #f1f1fd;
-  border: 1px solid #f1f1fd;
+  border: 1px solid #e9e9e9;
   color: #6666f4;
 }
 .ant-select-multiple .ant-select-selection-item-remove {
@@ -488,16 +489,34 @@ label {
 .btnSeprator {
   display: inline-block;
   width: 2px;
-  background-color: #6666f3;
+  background-color: #cbcbcb;
   height: 13px;
 }
-
-.table td,
 .table th {
-  padding: 10px 15px !important;
+  padding: 14px 15px !important;
+}
+.table td {
+  padding: 15px 15px !important;
 }
 .btnAction {
   padding: 4px 15px;
+}
+.actionMenuList {
+  border: 1px solid #f1f1f1 !important;
+  border-radius: 12px !important;
+  box-shadow: 0px 3px 12px -3px #1111111f;
+  overflow: hidden;
+  min-width: 12rem !important;
+  padding: 7px !important;
+  background-color: #fff !important;
+}
+.actionMenuList .dropdown-item {
+  font-size: 15px !important;
+  color: #333 !important;
+  border-radius: 6px !important;
+}
+actionMenuList .dropdown-item i {
+  margin-right: 5px !important;
 }
 .table .table-light th {
   line-height: 21px !important;
@@ -562,7 +581,7 @@ label {
   bottom: 0;
   background-color: #f5f5f5;
   width: 0px;
-  left: 0;
+  left: 1px;
   box-shadow: -2px 0px 2px 0px #00000024;
   border-left: 1px solid #f5f5f5;
 }
@@ -573,14 +592,29 @@ label {
   bottom: 0;
   background-color: #f5f5f5;
   width: 0px;
-  right: 0;
+  right: 1px;
   box-shadow: 2px 0px 2px 0px #00000024;
   border-right: 1px solid #f5f5f5;
 }
-.primaryBtnLink i::before{
+.primaryBtnLink i::before {
   font-weight: BOLD !important;
 }
 /* [class^="bi-"]::before,
 [class*=" bi-"]::before {
   font-weight: BOLD !important;
 } */
+.navbar-custom.employeeLoginHead {
+  margin-left: 0px;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page-content-tab.employeeLoginCard {
+  width: calc(100% - 0px);
+}
+
+.navbar-custom.employeeLoginHead > ul:not(class) {
+  padding-left: 15px;
+}

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { Console } from 'console';
 import { Key } from 'src/app/constant/key';
 import { OrganizationSubscriptionPlanMonthDetail } from 'src/app/models/OrganizationSubscriptionPlanMonthDetail';
 import { LoggedInUser } from 'src/app/models/logged-in-user';
@@ -19,14 +21,18 @@ export class HeaderComponent implements OnInit {
   private _key: Key = new Key();
   private baseUrl = this._key.base_url;
   showSuperCoinFlag:boolean = false;
-
+  people: string[] = ['onboarding', 'team'];
+  management: string[] = ['attendance', 'leave setting', 'report', 'asset', 'coin'];
+  payroll: string[] = ['payroll dashboard', 'bonus or deduction', 'epf esi tds', 'salary slip'];
+  company: string[] = ['company setting', 'attendance setting', 'leave setting','salary setting', 'role & permission'];
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private helperService: HelperService,
     private dataService: DataService,
-    private rbacService: RoleBasedAccessControlService,
-    private _subscriptionPlanService: SubscriptionPlanService
+    public rbacService: RoleBasedAccessControlService,
+    private _subscriptionPlanService: SubscriptionPlanService,
+    private db: AngularFireDatabase
   ) {
     // if (this.route.snapshot.queryParamMap.has('userId')) {
     //     this.activeTab = 'dashboard';
@@ -65,6 +71,7 @@ export class HeaderComponent implements OnInit {
 
   setActiveTabEmpty() {
     this.activeTab = '';
+    this.newNotification = false;
   }
 
   ADMIN = Key.ADMIN;
@@ -88,6 +95,7 @@ export class HeaderComponent implements OnInit {
     this.UUID = await this.rbacService.getUUID();
     this.ROLE = await this.rbacService.getRole();
     this.ORGANIZATION_UUID = await this.rbacService.getOrgRefUUID();
+    this.getFirebase(this.ORGANIZATION_UUID,this.UUID);
   }
 
   async getLoggedInUserDetails() {
@@ -144,24 +152,61 @@ export class HeaderComponent implements OnInit {
 
   show: boolean = false;
 
-  shouldDisplay(moduleName: string): boolean {
-    const role = this.rbacService.getRoles(); 
-    const modulesToShowForManager = [
-      'dashboard',
-      'team',
-      'project',
-      'attendance',
-      'leave-management',
-    ];
-    const modulesToShowForUser = ['team', 'project', 'leave-management'];
-    const modulesToShowForHRADMIN = ['onboarding'];
+  // shouldDisplay(moduleName: string): boolean {
+  //   const role = this.rbacService.getRoles();
+  //   if( role === Key.ADMIN ){
+  //     return true;
+  //   }
+  //   console.log("my helper service",this.helperService.subModuleResponseList );
+  //   console.log(this.helperService.subModuleResponseList.some((module:any)=> module.name.toLowerCase()==moduleName));
+  //   console.log(moduleName);
+  //   return (
 
-    return (
-      role === Key.ADMIN ||
-      (role === Key.MANAGER && modulesToShowForManager.includes(moduleName)) ||
-      (role === Key.USER && modulesToShowForUser.includes(moduleName)) ||
-      (role === Key.HRADMIN && modulesToShowForHRADMIN.includes(moduleName))
-    );
+  //     (this.helperService.subModuleResponseList.some((module:any)=> module.name.toLowerCase()==moduleName))
+  //   );
+  // }
+
+  // shouldDisplay(moduleName: string): boolean {
+  //   const role = this.rbacService.getRoles();
+
+
+  //   if (role === Key.ADMIN) {
+  //     return true;
+  //   }
+
+  //   if (this.helperService.subModuleResponseList && this.helperService.subModuleResponseList.length > 0) {
+  //     return this.helperService.subModuleResponseList.some(
+  //       (module: any) => module.name.toLowerCase() === moduleName.toLowerCase()
+  //     );
+  //   }
+
+  //   this.dataService.getAccessibleSubModuleResponse().subscribe(
+  //     (response: any[]) => {
+  //       this.helperService.subModuleResponseList = response;
+  //       return response.some(
+  //         (module: any) => module.name.toLowerCase() === moduleName.toLowerCase()
+  //       );
+  //     },
+  //     (error) => {
+  //       console.error('Error fetching accessible submodules:', error);
+  //       return false;
+  //     }
+  //   );
+  //   return false;
+  // }
+
+
+  checkModule(element: string[]): boolean {
+    const role = this.rbacService.getRoles();
+    if( role === Key.ADMIN ){
+      return true;
+    }
+    for (let i = 0; i < element.length; i++) {
+      if((this.helperService.subModuleResponseList.some((module:any)=> module.name.toLowerCase()==element[i].toLowerCase()))){
+        return true;
+      }
+    }
+    return false;
   }
 
   // shouldDisplay(subModuleName: string){
@@ -299,4 +344,38 @@ export class HeaderComponent implements OnInit {
       opacity: 1, transform: `translateY(${index * itemheight}px)`,
     };
   }
+
+  newNotification:boolean = false;
+  getFirebase(orgUuid:any,userUuid:any){
+    this.db.object("user_notification"+"/"+"organization_"+orgUuid+"/"+"user_"+userUuid).valueChanges()
+      .subscribe(async res => {
+
+        //@ts-ignore
+        if(res?.flag != undefined && res?.flag != null){
+          //@ts-ignore
+          this.newNotification = res?.flag==1?true:false; 
+        }
+      });
+  }
+
+  visibleIndex(originalIndex: number): number {
+    let index = 0;
+    const conditions = [
+      this.rbacService.shouldDisplay('attendance'),
+      this.rbacService.shouldDisplay('leave-management'),
+      this.rbacService.shouldDisplay('reports'),
+      this.rbacService.shouldDisplay('assets'),
+      this.rbacService.shouldDisplay('coins') && this.ROLE === 'ADMIN' && this.ORGANIZATION_UUID == this.KRENAI_UUID && this.showSuperCoinFlag
+    ];
+  
+    for (let i = 0; i < originalIndex; i++) {
+      if (conditions[i]) {
+        index++;
+      }
+    }
+  
+    return index;
+  }
+  
+  
 }

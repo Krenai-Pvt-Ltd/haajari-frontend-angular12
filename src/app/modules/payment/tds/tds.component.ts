@@ -96,7 +96,7 @@ export class TdsComponent implements OnInit {
 
   onYearChange(date: Date): void {
     this.selectedDate = date;
-    console.log('Selected year:', date.getFullYear());
+    // console.log('Selected year:', date.getFullYear());
   }
 
   size: 'large' | 'small' | 'default' = 'small';
@@ -106,11 +106,11 @@ export class TdsComponent implements OnInit {
   startDateAndEndDate : StartDateAndEndDate = new StartDateAndEndDate();
 
   onMonthChange(month: Date): void {
-    console.log('Month is getting selected');
+    // console.log('Month is getting selected');
     this.selectedDate = month;
     this.getFirstAndLastDateOfMonth(this.selectedDate);
 
-    console.log(this.startDate, this.endDate);
+    // console.log(this.startDate, this.endDate);
     // this.getEmployeeMonthWiseSalaryDataMethodCall();
   }
 

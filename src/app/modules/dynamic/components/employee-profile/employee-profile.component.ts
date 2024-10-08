@@ -6,7 +6,6 @@ import { AttendenceDto } from 'src/app/models/attendence-dto';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { DataService } from 'src/app/services/data.service';
-import { Subject } from 'rxjs';
 import { UserLeaveRequest } from 'src/app/models/user-leave-request';
 import { FormBuilder, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import { FullCalendarComponent } from '@fullcalendar/angular';
@@ -14,7 +13,6 @@ import { AttendanceCheckTimeResponse, AttendanceTimeUpdateRequestDto, UserDto } 
 import { saveAs } from 'file-saver';
 import { HttpClient } from '@angular/common/http';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import * as dayjs from 'dayjs';
 import { AttendanceDetailsResponse } from 'src/app/models/attendance-detail-response';
 import { UserAddressDetailsRequest } from 'src/app/models/user-address-details-request';
 import { HelperService } from 'src/app/services/helper.service';
@@ -25,14 +23,11 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 import { UserDocumentsAsList } from 'src/app/models/UserDocumentsMain';
 import { TaxRegime } from 'src/app/models/tax-regime';
 import { StatutoryResponse } from 'src/app/models/statutory-response';
-import { Statutory } from 'src/app/models/statutory';
 import { StatutoryRequest } from 'src/app/models/statutory-request';
-import { StatutoryAttribute } from 'src/app/models/statutory-attribute';
 import { ESIContributionRate } from 'src/app/models/e-si-contribution-rate';
 import { PFContributionRate } from 'src/app/models/p-f-contribution-rate';
 import { StatutoryAttributeResponse } from 'src/app/models/statutory-attribute-response';
 import { UserExperienceDetailRequest } from 'src/app/models/user-experience-detail-request';
-import { EmployeeExperienceComponent } from 'src/app/modules/employee-onboarding/employee-experience/employee-experience.component';
 import { EmployeeAdditionalDocument } from 'src/app/models/employee-additional-document';
 import { OnboardingFormPreviewResponse } from 'src/app/models/onboarding-form-preview-response';
 import { UserEmergencyContactDetailsRequest } from 'src/app/models/user-emergency-contact-details-request';
@@ -41,18 +36,14 @@ import { TotalExperiences } from 'src/app/models/total-experiences';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { finalize } from 'rxjs/operators';
 import { EmployeeCompanyDocumentsRequest } from 'src/app/models/employee-company-documents-request';
-import { keys } from 'lodash';
-import { UserDocumentsDetailsRequest } from 'src/app/models/user-documents-details-request';
 import { SalaryTemplateComponentResponse } from 'src/app/models/salary-template-component-response';
 import { AppraisalRequest } from 'src/app/models/appraisal-request';
 import { BonusRequest } from 'src/app/models/bonus-request';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
-
 import { EmployeePayslipResponse } from 'src/app/models/employee-payslip-response';
 import { EmployeePayslipBreakupResponse } from 'src/app/models/employee-payslip-breakup-response';
 import { EmployeePayslipDeductionResponse } from 'src/app/models/employee-payslip-deduction-response';
 import { EmployeePayslipLogResponse } from 'src/app/employee-payslip-log-response';
-import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 import { LopReversalApplicationRequest } from 'src/app/models/lop-reversal-application-request';
 import { OrganizationAssetResponse } from 'src/app/models/asset-category-respose';
 import { EmployeeSuperCoinsResponse } from 'src/app/models/employee-super-coins-response';
@@ -60,7 +51,8 @@ import { DonateCoinsUserList, DonateSuperCoinsReasonResponse } from 'src/app/mod
 import { OvertimeRequestDTO } from 'src/app/models/overtime-request-dto';
 import { OvertimeRequestLogResponse } from 'src/app/models/overtime-request-log-response';
 import { LopReversalApplicationResponse } from 'src/app/models/lop-reversal-application-response';
-import { OrganizationShift } from 'src/app/models/shift-type';
+import { NzCalendarMode } from 'ng-zorro-antd/calendar';
+import { AttendanceDetailDayWise } from 'src/app/models/attendance-detail-day-wise'
 
 @Component({
   selector: 'app-employee-profile',
@@ -182,7 +174,7 @@ export class EmployeeProfileComponent implements OnInit {
   currentDate: Date = new Date();
   currentNewDate: any;
   async ngOnInit(): Promise<void> {
-    this.activeTabs('home');
+    this.activeTabs('attendance');
     window.scroll(0, 0);
     this.getOrganizationRegistrationDateMethodCall();
     this.getOnboardingFormPreviewMethodCall();
@@ -191,7 +183,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.getSalaryConfigurationStepMethodCall();
     this.getSalaryTemplateComponentByUserUuidMethodCall();
     // this.getEmployeeCompanyDocumentsMethodCall();
-
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
     this.ROLE = await this.roleService.getRole();
     this.UUID = await this.roleService.getUuid();
 
@@ -220,6 +212,8 @@ export class EmployeeProfileComponent implements OnInit {
 
     let firstDayOfMonth = moment().startOf('month');
     this.startDateStr = firstDayOfMonth.format('YYYY-MM-DD');
+this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
+
     // this.startDateStr = firstDayString;
     // console.log("startDateStr :" + this.startDateStr);
     this.endDateStr = moment(new Date()).format('YYYY-MM-DD');
@@ -237,6 +231,8 @@ export class EmployeeProfileComponent implements OnInit {
     this.getUserLeaveLogByUuid();
     this.getTotalExperiences();
 
+
+
     this.lopReversalApplicationRequestForm = this.fb.group({
       selectedDate: [null, Validators.required],
       daysCount: [null, [Validators.required, Validators.pattern("^[0-9]*$")]],
@@ -244,27 +240,50 @@ export class EmployeeProfileComponent implements OnInit {
       userUuid: ['']
     });
     this.getHrPolicy();
+
+    
+    // this.attendanceTimeUpdateForm = this.fb.group({
+    //   requestType: [null, [Validators.required]],
+    //   requestedDate: [null, [Validators.required]],
+    //   attendanceId: [null, [Validators.required]],
+    //   updatedTime: [null, [Validators.required]],
+    //   managerId: [null, [Validators.required]],
+    //   requestReason: [null, [Validators.required, Validators.maxLength(200)]]
+    // });
+
     this.attendanceTimeUpdateForm = this.fb.group({
-      requestType: [null, [Validators.required]],
-      requestedDate: [null, [Validators.required]],
-      attendanceId: [null, [Validators.required]],
-      updatedTime: [null, [Validators.required]],
-      managerId: [null, [Validators.required]],
-      requestReason: [null, [Validators.required, Validators.maxLength(200)]]
+      updateGroup: this.fb.group({
+        requestType: [null, Validators.required],
+        requestedDate: [null, Validators.required],
+        attendanceId: [null, Validators.required],
+        updatedTime: [null, Validators.required]
+      }),
+      createGroup: this.fb.group({
+        selectedDateAttendance: [null, Validators.required],
+        inRequestTime: [null, Validators.required],
+        outRequestTime: [null, Validators.required]
+      }),
+      managerId: [null, Validators.required],
+      requestReason: [null, Validators.required]
     });
+    
     this.donateCoinsForm = this.fb.group({
       userId: ['', Validators.required],
       coins: ['', [Validators.required, Validators.min(1)]],
       reason: [''],
       donationReason: ['']
     });
-    debugger
     this.getSuperCoinsResponseForEmployeeData();
     this.getUserListToDonateCoins();
     this.getDonateSuperCoinReasonData();
    
   }
 
+  onError(event: Event) {
+    const target = event.target as HTMLImageElement;
+    target.src = './assets/images/broken-image-icon.jpg';
+  }
+  
   getRoleData() {
     //  const managerDetails =localStorage.getItem('managerFunc');
     // if(managerDetails !== null){
@@ -442,43 +461,35 @@ export class EmployeeProfileComponent implements OnInit {
   attendanceDetailModalToggle: boolean = false;
   clientX: string = '0px';
   clientY: string = '0px';
+  
   openModal(mouseEnterInfo: any): void {
-    
     if (!this.attendanceDetailModalToggle) {
-      // console.log("events : ", mouseEnterInfo.event);
-      this.userAttendanceDetailDateWise.checkInTime = '';
-      this.userAttendanceDetailDateWise.checkOutTime = '';
-      this.userAttendanceDetailDateWise.breakCount = '';
-      this.userAttendanceDetailDateWise.breakDuration = '';
-      this.userAttendanceDetailDateWise.totalWorkingHours = '';
-      this.userAttendanceDetailDateWise.createdDate = '';
-      this.userAttendanceDetailDateWise.status = '';
-      this.userAttendanceDetailDateWise.checkInTime =
-        mouseEnterInfo.event._def.extendedProps.checkInTime;
-      this.userAttendanceDetailDateWise.checkOutTime =
-        mouseEnterInfo.event._def.extendedProps.checkOutTime;
-      this.userAttendanceDetailDateWise.breakCount =
-        mouseEnterInfo.event._def.extendedProps.breakCount;
-      this.userAttendanceDetailDateWise.breakDuration =
-        mouseEnterInfo.event._def.extendedProps.breakDuration;
-      this.userAttendanceDetailDateWise.totalWorkingHours =
-        mouseEnterInfo.event._def.extendedProps.totalWorkingHours;
-      this.userAttendanceDetailDateWise.createdDate =
-        mouseEnterInfo.event._def.extendedProps.createdDate;
-      this.userAttendanceDetailDateWise.status =
-        mouseEnterInfo.event._def.extendedProps.status;
-      // console.log("totalworkinghour :" + this.userAttendanceDetailDateWise.totalWorkingHours);
-      var rect = mouseEnterInfo.el.getBoundingClientRect();
-      this.clientX = rect.left - 210 + 'px';
-      this.clientY = rect.top - 70 + 'px';
-      console.log(
-        'mouse location:',
-        mouseEnterInfo.jsEvent.clientX,
-        mouseEnterInfo.jsEvent.clientY
-      );
+      // Reset modal data
+      const extendedProps = mouseEnterInfo.event._def.extendedProps;
+  
+      this.userAttendanceDetailDateWise = {
+        checkInTime: extendedProps.checkInTime || '',
+        checkOutTime: extendedProps.checkOutTime || '',
+        breakCount: extendedProps.breakCount || '',
+        breakDuration: extendedProps.breakDuration || '',
+        totalWorkingHours: extendedProps.totalWorkingHours || '',
+        createdDate: extendedProps.createdDate || '',
+        status: extendedProps.status || '',
+      };
+  
+      // Get the event element's position on the screen
+      const rect = mouseEnterInfo.el.getBoundingClientRect();
+  
+      
+      this.clientX = `${rect.left - 210}px`; 
+      this.clientY = `${rect.top - 70}px`;   
+  
+      // Open modal
+      this.attendanceDetailModalToggle = true;
       this.openEventsModal.nativeElement.click();
     }
   }
+  
 
   closeAttendanceModal() {
     this.attendanceDetailModalToggle = false;
@@ -492,89 +503,133 @@ export class EmployeeProfileComponent implements OnInit {
   // }
   @ViewChild('closeAttendanceDetailModalButton')
   closeAttendanceDetailModalButton!: ElementRef;
+  
   mouseLeaveInfo(mouseEnterInfo: any): void {
-    
-    this.closeAttendanceModal();
+    // Add a delay before closing the modal
+    setTimeout(() => {
+      const modalElement = this.closeAttendanceDetailModalButton.nativeElement;
+  
+      // Ensure the mouse is not hovering over the modal before closing it
+      if (!modalElement.matches(':hover')) {
+        this.closeAttendanceModal();
+      }
+    }, 0); // Delay of 300ms to reduce flickering
   }
 
+  date = new Date();
+  mode: NzCalendarMode = 'month';
+  // getEventForDate(date: Date): any {
+  //   return this.events.find(event => moment(event.date).isSame(moment(date), 'day'));
+  // }
+  
+
+  
+
+  panelChange(event: { date: Date; mode: 'month' | 'year' }): void {
+    this.mode = event.mode; // Update mode
+    // console.log('Panel change event:', event);
+
+    // Check if the mode is 'month' and the month has changed
+    const selectedDate = event.date;
+    const currentMonth = this.date.getMonth();
+    const currentYear = this.date.getFullYear();
+    const newMonth = selectedDate.getMonth();
+    const newYear = selectedDate.getFullYear();
+
+    // Check if the month or year has changed
+    if (newMonth !== currentMonth || newYear !== currentYear) {
+      // Update the date to the new selected date
+      this.date = selectedDate;
+
+      // Call your method to handle data fetching based on the new month/year
+      this.handleMonthChange(newMonth, newYear);
+    }
+  }
+  
+
+  disableDate = (current: Date): boolean => {
+    // Disable dates before the user's joining date
+    // console.log('Current:', current, 'Joining Date:', this.onboardingPreviewData.user.joiningDate);
+    return current < this.joiningDate;
+  };
+
+  disablePreviousYears = (current: Date): boolean => {
+    const currentYear = new Date().getFullYear();
+    return current.getFullYear() < currentYear;
+  };
+
+  disablePreviousMonths = (current: Date): boolean => {
+    return current && current < this.joiningDate;
+  };
+
+  selectChange(selectedDate: Date): void {
+    // console.log('Selected date:', selectedDate);
+    
+    // Calculate the start and end dates for the month
+    const startDateStr = moment(selectedDate).startOf('month').format('YYYY-MM-DD');
+    const endDateStr = moment(selectedDate).endOf('month').format('YYYY-MM-DD');
+    
+    // Call the method to fetch user attendance data
+    this.getUserAttendanceDataFromDate(startDateStr, endDateStr);
+  }
+
+  handleMonthChange(month: number, year: number): void {
+    const startDate = moment().year(year).month(month).startOf('month');
+    const endDate = moment(startDate).endOf('month');
+
+    const startDateStr = startDate.format('YYYY-MM-DD');
+    const endDateStr = endDate.format('YYYY-MM-DD');
+
+    // console.log(`Start Date: ${startDateStr}, End Date: ${endDateStr}`);
+
+    // Call your method to get user attendance data
+    this.getUserAttendanceDataFromDate(startDateStr, endDateStr);
+  }
+  
   // });
   getUserAttendanceDataFromDate(sDate: string, eDate: string): void {
-    
+    debugger
     this.dataService
       .getUserAttendanceDetailsByDateDuration(this.userId, 'USER', sDate, eDate)
       .subscribe(
         (response: any) => {
-          response = response.listOfObject;
+          const attendances = response?.listOfObject || [];
           this.events = [];
           this.totalPresent = 0;
           this.totalAbsent = 0;
-
-          if (response == null) {
-            let currentDate = moment(sDate);
-            const endDate = moment(eDate);
-
+  
+          if (!attendances.length) {
+            let currentDate = moment(sDate, 'YYYY-MM-DD');
+            const endDate = moment(eDate, 'YYYY-MM-DD');
+  
             while (currentDate.isSameOrBefore(endDate)) {
-              const title = 'A';
-              const date = currentDate.format('YYYY-MM-DD');
-              var color = '#f8d7d7';
+              this.events.push({ 
+                title: 'A', 
+                date: currentDate.format('YYYY-MM-DD'), 
+                color: '#f8d7d7' 
+              });
               this.totalAbsent++;
-              var tempEvent: { title: string; date: string; color: string } = {
-                title: title,
-                date: date,
-                color: color,
-              };
-              this.events.push(tempEvent);
-
               currentDate.add(1, 'days');
-
-              this.calendarOptions = {
-                plugins: [dayGridPlugin],
-                initialView: 'dayGridMonth',
-                weekends: true,
-                events: this.events,
-                eventClick: this.openModal.bind(this),
-                eventMouseEnter: this.openModal.bind(this),
-                eventMouseLeave: this.mouseLeaveInfo.bind(this),
-                // eventClick: function(mouseEnterInfo) {
-                //   alert('Event: ' + mouseEnterInfo.event.title);
-                //   mouseEnterInfo.el.style.borderColor = 'red';
-                // }
-              };
             }
           } else {
-            // this.attendanceDetails = Object.values(response);
-            // this.attendances = this.attendanceDetails[0];
-            // this.attendanceDetailsResponse = this.attendanceDetails[0];
-
-            this.attendances = response;
-            this.attendanceDetailsResponse = response;
-
-            // console.log('Attendance Details:', this.attendances);
-            // console.log(
-            //   'Attendance Details length:',
-            //   this.attendanceDetails[0].length
-            // );
-            for (let i = 0; i < this.attendances.length; i++) {
-              const attendance = this.attendances[i];
-              let title = this.getStatusTitle(attendance);
-              let color = this.getStatusColor(attendance.status);
-              if (
-                attendance.status == 'Present' ||
-                attendance.status == 'Half Day' ||
-                attendance.status == 'Late'
-              ) {
+            this.attendances = attendances;
+            this.attendanceDetailsResponse = attendances;
+            this.attendanceDetailDayWise = response?.listOfObject || [];
+  
+            for (let attendance of attendances) {
+              const title = this.getStatusTitle(attendance);
+              const color = this.getStatusColor(attendance.status);
+  
+              if (['Present', 'Half Day', 'Late'].includes(attendance.status)) {
                 this.totalPresent++;
-              } else if (attendance.status == 'Absent') {
+              } else if (attendance.status === 'Absent') {
                 this.totalAbsent++;
               }
-              const date = moment(this.attendances[i].createdDate).format(
-                'YYYY-MM-DD'
-              );
-
-              var tempEvent2 = {
-                title: title,
-                date: date,
-                color: color,
+  
+              this.events.push({
+                title,
+                date: moment(attendance.createdDate).format('YYYY-MM-DD'),
+                color,
                 checkInTime: attendance.checkInTime,
                 checkOutTime: attendance.checkOutTime,
                 breakCount: attendance.breakCount,
@@ -582,67 +637,29 @@ export class EmployeeProfileComponent implements OnInit {
                 totalWorkingHours: attendance.totalWorkingHours,
                 createdDate: attendance.createdDate,
                 status: attendance.status,
-              };
-              this.events.push(tempEvent2);
+              });              
             }
           }
-
+  
           this.updateCalendarOptions();
-          //   let title = '';
-
-          //   if((date == moment(new Date()).format('YYYY-MM-DD')) && (this.attendances[i].checkInTime==null)){
-          //     title == '-';
-          //   } else {
-          //   title = this.attendances[i].checkInTime != null ? 'P' : 'A';
-          //   if (title == 'Present') {
-          //     this.totalPresent++;
-          //   } else if (title == 'Absent') {
-          //     this.totalAbsent++;
-          //   }
-          // }
-
-          //   var checkInTime = this.attendances[i].checkInTime;
-          //   var checkOutTime = this.attendances[i].checkOutTime;
-          //   var breakCount = this.attendances[i].breakCount;
-          //   var breakDuration = this.attendances[i].totalBreakHours;
-          //   var totalWorkingHours = this.attendances[i].totalWorkingHours;
-          //   var createdDate = this.attendances[i].createdDate
-          //   var color = title == 'Present' ? '#e0ffe0' : title == 'Absent' ? '#f8d7d7' : '';
-          //   var tempEvent2: { title: string, date: string, color: string, checkInTime:any, checkOutTime:any, breakCount:any, breakDuration:any, totalWorkingHours:any, createdDate:any} = { title: title, date: date, color: color,checkInTime:checkInTime, checkOutTime:checkOutTime, breakCount:breakCount, breakDuration:breakDuration, totalWorkingHours:totalWorkingHours, createdDate:createdDate };
-          //   this.events.push(tempEvent2);
-
-          // if (i == this.attendances.length - 1) {
-          //   this.calendarOptions = {
-          //     plugins: [dayGridPlugin],
-          //     initialView: 'dayGridMonth',
-          //     weekends: true,
-          //     events: this.events,
-          //     eventClick: this.openModal.bind(this),
-          //     eventMouseEnter: this.openModal.bind(this),
-          //     eventMouseLeave:this.mouseLeaveInfo.bind(this)
-
-          //   };
-          // }
-
-          //   }
-          // }
-
-          var flag = false;
-          if (!flag) {
-            var date = new Date(this.prevDate);
-            const calendarApi = this.calendarComponent.getApi();
-            this.changeForwardButtonVisibilty(calendarApi);
-            flag = true;
+  
+          if (this.prevDate) {
+            //TODO : uncomment if required
+            // const calendarApi = this.calendarComponent.getApi();
+            // this.changeForwardButtonVisibilty(calendarApi);
           }
+  
           this.count++;
         },
         (error: any) => {
           this.count++;
-          // console.error('Error fetching data:', error);
+          console.error('Error fetching data:', error);
         }
       );
   }
-
+  
+  
+  // Function to update calendar options
   updateCalendarOptions(): void {
     this.calendarOptions = {
       plugins: [dayGridPlugin],
@@ -702,6 +719,84 @@ export class EmployeeProfileComponent implements OnInit {
         return '#ffffff';
     }
   }
+
+  attendanceDetailDayWise: AttendanceDetailDayWise[] =[];
+  
+
+  // Function to get attendance details for a particular date
+  getAttendance(date: Date): AttendanceDetailDayWise | undefined {
+    const formattedDate = this.formatDate(date);
+    return this.attendanceDetailDayWise.find(attendance => attendance.createdDate === formattedDate);
+  }
+  
+  getEventForDate(date: Date): any {
+    const formattedDate = this.formatDate(date);
+    return this.events.find(event => event.date === formattedDate);
+  }
+  
+  // Helper function to format date to match the event date format
+  // formatDate(date: Date): string {
+  //   const year = date.getFullYear();
+  //   const month = ('0' + (date.getMonth() + 1)).slice(-2);
+  //   const day = ('0' + date.getDate()).slice(-2);
+  //   return `${year}-${month}-${day}`;
+  // }
+  
+  // Function to get details for tooltip
+  getDetails(attendance: AttendanceDetailDayWise): string {
+    const createdDate = new Date(attendance.createdDate).toLocaleDateString();
+
+    // Define details based on the attendance status
+    let details = `Date: ${createdDate || 'N/A'}\n`;
+
+    switch (attendance.status) {
+        case 'Present':
+          case 'Half Day':
+            const checkInTime = new Date(attendance.checkInTime).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true });
+            const checkOutTime = new Date(attendance.checkOutTime).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true });
+            details += `: Check-in: ${checkInTime || 'N/A'}\n`;
+            details += `Check-out: ${checkOutTime || 'N/A'}\n`;
+            details += `Total Hours: ${attendance.totalWorkingHours || 'N/A'}\n`;
+            details += `Break Duration: ${attendance.breakDuration || 'N/A'}\n`;
+            break;
+
+        case 'Absent':
+            details += `: Absent\n`;
+            break;
+
+        case 'Weekly Holiday':
+            details += `: Weekly Holiday\n`;
+            break;
+
+        case 'Universal Holiday':
+        case 'Custom Holiday':
+            details += `: Holiday\n`;
+            break;
+
+        case 'On Leave':
+            details += `: On Leave\n`;
+            break;
+
+        case 'Not Marked':
+            details += `: Not Marked\n`;
+            break;
+
+        default:
+            details += `: Unknown\n`;
+            break;
+    }
+
+    return details;
+}
+
+
+   // Function to handle mode change (month/year change)
+   onModeChange(mode: string) {
+    // console.log('Calendar mode changed:', mode);
+    // Handle actions here if necessary, such as re-fetching data based on mode
+  }
+
+  
 
   // getStatusColor(status: any): string {
   //   switch (status) {
@@ -907,10 +1002,16 @@ export class EmployeeProfileComponent implements OnInit {
           this.fileToUpload = '';
           // this.selectedFile = null;
           this.fileInput.nativeElement.value = '';
-          this.getUserLeaveReq();
+          // this.getUserLeaveReq();
+
+          setTimeout(() => {
+            this.getUserLeaveReq();
+          },100);
+
           this.resetUserLeave();
           this.formGroupDirective.resetForm();
           this.getUserLeaveLogByUuid();
+          
           this.requestLeaveCloseModel.nativeElement.click();
           // location.reload();
         },
@@ -1001,7 +1102,7 @@ export class EmployeeProfileComponent implements OnInit {
   userLeave: any = [];
   leaveCountPlaceholderFlag: boolean = false;
 
-  getUserLeaveReq() {
+  getUserLeaveReq1() {
     this.leaveCountPlaceholderFlag = false;
     this.dataService.getUserLeaveRequests(this.userId).subscribe(
       (data) => {
@@ -1023,6 +1124,14 @@ export class EmployeeProfileComponent implements OnInit {
     );
   }
 
+  getUserLeaveReq(){
+    this.leaveCountPlaceholderFlag = false;
+    this.dataService.getUserLeaveRequests(this.userId).subscribe(
+      (res: any) => {
+          this.userLeave = res.object;
+      });
+  }
+
   selectedStatus!: string;
   selectStatusFlag: boolean = false;
   isLeaveErrorPlaceholder: boolean = false;
@@ -1032,7 +1141,7 @@ export class EmployeeProfileComponent implements OnInit {
     // this.selectStatusFlag=true;
 
     if (this.selectedStatus && this.selectedStatus != 'ALL') {
-      console.log('selectedStatus :' + this.selectedStatus);
+      // console.log('selectedStatus :' + this.selectedStatus);
       this.dataService
         .getUserLeaveLogByStatus(this.userId, this.selectedStatus)
         .subscribe(
@@ -1048,7 +1157,7 @@ export class EmployeeProfileComponent implements OnInit {
           }
         );
     } else {
-      console.log('selectedStatus :' + this.selectedStatus);
+      // console.log('selectedStatus :' + this.selectedStatus);
       this.dataService.getUserLeaveLog(this.userId).subscribe(
         (data) => {
           this.userLeaveLog = data;
@@ -1114,11 +1223,11 @@ export class EmployeeProfileComponent implements OnInit {
     return formattedDate;
   }
 
-  formatTime(date: Date) {
-    const dateObject = new Date(date);
-    const formattedTime = this.datePipe.transform(dateObject, 'hh:mm a');
-    return formattedTime;
-  }
+  // formatTime(date: Date) {
+  //   const dateObject = new Date(date);
+  //   const formattedTime = this.datePipe.transform(dateObject, 'hh:mm a');
+  //   return formattedTime;
+  // }
 
   calculateDateDifference(endDate: string, startDate: string): number {
     const end = new Date(endDate);
@@ -1167,8 +1276,8 @@ export class EmployeeProfileComponent implements OnInit {
         if (this.experienceEmployee[0].fresher == true) {
           this.isFresher = this.experienceEmployee[0].fresher;
         }
-        console.log('experience length' + this.experienceEmployee.length);
-        if (data == undefined || data == null || data.experiences.length == 0) {
+        // console.log('experience length' + this.experienceEmployee.length);
+        if (data == undefined || data == null || data.experiences?.length == 0) {
           this.isCompanyPlaceholder = true;
         }
         this.count++;
@@ -1777,7 +1886,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.dataService.getPFContributionRate().subscribe(
       (response) => {
         this.pFContributionRateList = response.listOfObject;
-        console.log(response.listOfObject);
+        // console.log(response.listOfObject);
       },
       (error) => {}
     );
@@ -1828,7 +1937,7 @@ export class EmployeeProfileComponent implements OnInit {
       (response) => {
         this.statutoryResponseList = response.listOfObject;
         this.setStatutoryVariablesToFalse();
-        console.log(this.statutoryResponseList);
+        // console.log(this.statutoryResponseList);
         this.clearInputValues();
       },
       (error) => {}
@@ -1844,7 +1953,7 @@ export class EmployeeProfileComponent implements OnInit {
         .subscribe(
           (response) => {
             this.statutoryAttributeResponseList = response.listOfObject;
-            console.log(response);
+            // console.log(response);
             resolve(response);
           },
           (error) => {
@@ -1869,7 +1978,7 @@ export class EmployeeProfileComponent implements OnInit {
     this.statutoryRequest.statutoryAttributeRequestList =
       this.statutoryAttributeResponseList;
 
-    console.log(this.statutoryAttributeResponseList);
+    // console.log(this.statutoryAttributeResponseList);
 
     if (statutoryResponse.switchValue === false) {
       if (statutoryResponse.id == this.EPF_ID) {
@@ -1957,8 +2066,10 @@ export class EmployeeProfileComponent implements OnInit {
   startDate: string = '';
   endDate: string = '';
 
-  onMonthChange(month: Date): void {
-    this.selectedDate = month;
+  onMonthChange(month: any): void {
+    // console.log(month);
+    this.selectedDate =   new Date(this.selectedYear, month, 1),
+    // month;
     this.getFirstAndLastDateOfMonth(this.selectedDate);
 
     this.financeSectionMethodCall();
@@ -1973,6 +2084,8 @@ export class EmployeeProfileComponent implements OnInit {
     this.endDate = this.helperService.formatDateToYYYYMMDD(
       new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0),
     );
+   
+    this.getUserAttendanceDataFromDate(this.startDate, this.endDate);
   }
   disableMonths = (date: Date): boolean => {
     const currentYear = new Date().getFullYear();
@@ -2114,6 +2227,8 @@ export class EmployeeProfileComponent implements OnInit {
         this.dataNotFoundPlaceholderForEmployeePayslipLogResponse = true;
       } else{
         this.employeePayslipLogResponseList = response.listOfObject;
+        console.log( this.employeePayslipLogResponseList);
+      
       }
       this.isShimmerForEmployeePayslipLogResponse = false;
     }, (error) => {
@@ -2242,13 +2357,16 @@ export class EmployeeProfileComponent implements OnInit {
     this.router.navigate([routePath], navExtra);
   }
 
+  joiningDate!: Date;
   getOnboardingFormPreviewMethodCall() {
     const userUuid = new URLSearchParams(window.location.search).get('userId') || '';
     if (userUuid) {
       this.dataService.getOnboardingFormPreview(userUuid).subscribe(
         (preview) => {
-          console.log(preview);
+          // console.log(preview);
           this.onboardingPreviewData = preview;
+          this.joiningDate = new Date(this.onboardingPreviewData.user.joiningDate);
+          this.yearList = this.generateYearList();
           if (preview.companyLogo) {
             this.companyLogoUrl = preview.companyLogo;
           }
@@ -2260,56 +2378,56 @@ export class EmployeeProfileComponent implements OnInit {
           if (preview.employeeCompanyDocuments) {
             this.onboardingPreviewData.employeeCompanyDocuments =
               preview.employeeCompanyDocuments;
-            console.log(
-              'testtttt' + this.onboardingPreviewData.employeeCompanyDocuments
-            );
+            // console.log(
+            //   'testtttt' + this.onboardingPreviewData.employeeCompanyDocuments
+            // );
           }
 
           // if (preview.employeeAdditionalDocument && preview.employeeAdditionalDocument.length > 0) {
           this.employeeAdditionalDocument = preview.employeeAdditionalDocuments;
-          console.log(this.employeeAdditionalDocument);
+          // console.log(this.employeeAdditionalDocument);
           // } else {
           //   console.log("eroor ")
           //     // Handle the case where employeeAdditionalDocument is undefined, null, or empty
           //     this.employeeAdditionalDocument = [];
           // }
 
-          if (preview.userDocuments.secondarySchoolCertificate) {
+          if (preview?.userDocuments.secondarySchoolCertificate) {
             this.isSchoolDocument = false;
           }
-          if (preview.userDocuments.highSchoolCertificate) {
+          if (preview?.userDocuments.highSchoolCertificate) {
             this.isHighSchoolDocument = false;
           }
-          if (preview.userExperience) {
+          if (preview?.userExperience) {
             this.userExperienceArray = preview.userExperience;
           }
-          if (preview.fresher == true) {
+          if (preview?.fresher == true) {
             this.isFresher = true;
           }
-          if (preview.userEmergencyContacts) {
+          if (preview?.userEmergencyContacts) {
             this.userEmergencyContactArray = preview.userEmergencyContacts;
           } else {
             console.log('No guarantor information available.');
             this.userEmergencyContactArray = [];
           }
-          if (preview.userDocuments != null) {
+          if (preview?.userDocuments != null) {
             this.secondarySchoolCertificateFileName = this.getFilenameFromUrl(
               preview.userDocuments.secondarySchoolCertificate
             );
             this.highSchoolCertificateFileName1 = this.getFilenameFromUrl(
-              preview.userDocuments.highSchoolCertificate
+              preview?.userDocuments.highSchoolCertificate
             );
             this.highestQualificationDegreeFileName1 = this.getFilenameFromUrl(
-              preview.userDocuments.highestQualificationDegree
+              preview?.userDocuments.highestQualificationDegree
             );
             this.testimonialReccomendationFileName1 = this.getFilenameFromUrl(
-              preview.userDocuments.testimonialReccomendation
+              preview?.userDocuments.testimonialReccomendation
             );
             this.aadhaarCardFileName = this.getFilenameFromUrl(
-              preview.userDocuments.aadhaarCard
+              preview?.userDocuments.aadhaarCard
             );
             this.pancardFileName = this.getFilenameFromUrl(
-              preview.userDocuments.pancard
+              preview?.userDocuments.pancard
             );
           }
           this.isLoading = false;
@@ -2453,7 +2571,7 @@ export class EmployeeProfileComponent implements OnInit {
 
   getFileTypeIcon(fileUrl: string): string {
     // Log the file URL to inspect its format
-    console.log('File URL:', fileUrl);
+    // console.log('File URL:', fileUrl);
 
     // Extract the file extension, ensuring you consider URLs with parameters or fragments
     const url = new URL(fileUrl, window.location.origin); // This normalizes the URL
@@ -2461,7 +2579,7 @@ export class EmployeeProfileComponent implements OnInit {
     const extension = `.${fileName?.split('.').pop()?.toLowerCase()}`;
 
     // Log the detected extension
-    console.log('Detected extension:', extension);
+    // console.log('Detected extension:', extension);
 
     // Return the corresponding icon class or a default value
     return this.fileTypeToIcon[extension] || 'lar la-file text-secondary';
@@ -2520,7 +2638,7 @@ export class EmployeeProfileComponent implements OnInit {
       this.isInvalidFileType = true;
       return true;
     }
-    console.log(this.isInvalidFileType);
+    // console.log(this.isInvalidFileType);
     this.isInvalidFileType = false;
     return false;
   }
@@ -2749,7 +2867,7 @@ export class EmployeeProfileComponent implements OnInit {
           .getDownloadURL()
           .toPromise()
           .then((url) => {
-            console.log('File URL:', url);
+            // console.log('File URL:', url);
             this.fileToUpload = url;
             // console.log('file url : ' + this.fileToUpload);
             this.isFileUploaded = false;
@@ -2953,7 +3071,7 @@ return
     this.dataService.getOrganizationHrPolicies().subscribe(response => {
       this.fileUrl = response.object.hrPolicyDoc;
       this.docsUploadedDate = response.object.docsUploadedDate;
-      console.log('policy retrieved successfully', response.object);
+      // console.log('policy retrieved successfully', response.object);
     }, (error) => {
       console.log(error);
     });
@@ -3003,7 +3121,7 @@ return
     const formattedDate = this.datePipe.transform(this.requestedDate, 'yyyy-MM-dd');
     this.dataService.getAttendanceChecktimeList(this.userId, formattedDate, this.statusString).subscribe(response => {
       this.attendanceCheckTimeResponse = response.listOfObject;
-      console.log('checktime retrieved successfully', response.listOfObject);
+      // console.log('checktime retrieved successfully', response.listOfObject);
     }, (error) => {
       console.log(error);
     });
@@ -3012,32 +3130,162 @@ return
   attendanceTimeUpdateForm!: FormGroup;
   requestedDate!: Date;
   statusString!: string;
-
+  attendanceRequestType: string= 'UPDATE';
+  selectedDateAttendance!: Date;
+  choosenDateString!: string;
 
   submitForm(): void {
-    if (this.attendanceTimeUpdateForm.valid) {
-      const attendanceTimeUpdateRequest: AttendanceTimeUpdateRequestDto = this.attendanceTimeUpdateForm.value;
-      this.dataService.sendAttendanceTimeUpdateRequest(this.userId, this.attendanceTimeUpdateForm.value).subscribe(
+    debugger
+    if (this.checkHoliday || this.checkAttendance) {
+      return;
+     }
+      const formValue = this.attendanceTimeUpdateForm.value;
+      let attendanceTimeUpdateRequest: AttendanceTimeUpdateRequestDto = {
+        managerId: formValue.managerId,
+        requestReason: formValue.requestReason
+      };
+  
+      if (this.attendanceRequestType === 'UPDATE') {
+        attendanceTimeUpdateRequest = {
+          ...attendanceTimeUpdateRequest,
+          attendanceId: formValue.updateGroup.attendanceId,
+          updatedTime: formValue.updateGroup.updatedTime,
+        };
+      } else if (this.attendanceRequestType === 'CREATE') {
+        attendanceTimeUpdateRequest = {
+          ...attendanceTimeUpdateRequest,
+          selectedDateAttendance: formValue.createGroup.selectedDateAttendance,
+          inRequestTime: formValue.createGroup.inRequestTime,
+          outRequestTime: formValue.createGroup.outRequestTime
+        };
+      }
+  
+      this.dataService.sendAttendanceTimeUpdateRequest(this.userId, attendanceTimeUpdateRequest, this.attendanceRequestType, this.choosenDateString).subscribe(
         (response) => {
+          // console.log('Request sent successfully', response);
+
+          console.log("retrive", response, response.status);
+          if(response.status === true) {
           console.log('Request sent successfully', response);
           this.resetForm();
           document.getElementById('attendanceUpdateModal')?.click();
-          this.getAttendanceRequestLogData();
+          // this.getAttendanceRequestLogData();
+          this.helperService.showToast('Request Sent Successfully!', Key.TOAST_STATUS_SUCCESS);
+          } else if(response.status === false) {
+            console.log('Request Already present', response);
+            // this.resetForm();
+            // document.getElementById('attendanceUpdateModal')?.click();
+            // this.getAttendanceRequestLogData();
+            this.helperService.showToast('Request Already Registered!', Key.TOAST_STATUS_ERROR);
+            }
         },
         (error) => {
           console.error('Error sending request:', error);
         }
       );
-    }
+    // }
   }
+  
+
+  // submitForm(): void {
+  //   debugger
+  //   if (this.attendanceTimeUpdateForm.valid) {
+  //     const attendanceTimeUpdateRequest: AttendanceTimeUpdateRequestDto = this.attendanceTimeUpdateForm.value;
+  //     this.dataService.sendAttendanceTimeUpdateRequest(this.userId, this.attendanceTimeUpdateForm.value, this.attendanceRequestType).subscribe(
+  //       (response) => {
+  //         console.log('Request sent successfully', response);
+  //         this.resetForm();
+  //         document.getElementById('attendanceUpdateModal')?.click();
+  //         this.getAttendanceRequestLogData();
+  //       },
+  //       (error) => {
+  //         console.error('Error sending request:', error);
+  //       }
+  //     );
+  //   }
+  // }
+
+  // onDateChange(date: Date | null): void {
+  //   if (date) {
+  //     this.requestedDate = date; 
+  //     this.statusString = this.attendanceTimeUpdateForm.get('requestType')?.value || '';
+  //     this.getAttendanceChecktimeListDate();
+  //   }
+  // }
 
   onDateChange(date: Date | null): void {
-    if (date) {
-      this.requestedDate = date; 
-      this.statusString = this.attendanceTimeUpdateForm.get('requestType')?.value || '';
+    if (date && this.attendanceRequestType === 'UPDATE') {
+      this.requestedDate = date;
+      this.choosenDateString = this.helperService.formatDateToYYYYMMDD(date);
+      this.statusString = this.attendanceTimeUpdateForm.get('updateGroup.requestType')?.value || '';
       this.getAttendanceChecktimeListDate();
     }
   }
+
+  onDateChangeForCreateAttendance(date: Date | null): void {
+    if (date && this.attendanceRequestType === 'CREATE') {
+      this.selectedDateAttendance = date;
+      this.choosenDateString = this.helperService.formatDateToYYYYMMDD(date);
+      console.log(" this.choosenDateString",  this.choosenDateString);
+      this.statusString = this.attendanceTimeUpdateForm.get('createGroup.requestType')?.value || '';
+      this.getHolidayForOrganization(this.selectedDateAttendance);
+      this.getAttendanceExistanceStatus(this.selectedDateAttendance);
+    }
+  }
+
+  // isAttendanceFormValid(): boolean {
+  //   if (this.attendanceRequestType === 'UPDATE') {
+  //     return this.attendanceTimeUpdateForm.get('updateGroup')?.valid && this.attendanceTimeUpdateForm.get('managerId')?.valid && this.attendanceTimeUpdateForm.get('requestReason')?.valid;
+  //   } else if (this.attendanceRequestType === 'CREATE') {
+  //     return this.attendanceTimeUpdateForm.get('createGroup')?.valid && this.attendanceTimeUpdateForm.get('managerId')?.valid && this.attendanceTimeUpdateForm.get('requestReason')?.valid;
+  //   }
+  //   return false;
+  // }
+
+  isAttendanceFormValid(): boolean {
+
+    if(this.checkHoliday === true || this.checkAttendance === true) {
+      return false;
+    }
+    if (this.attendanceRequestType === 'UPDATE') {
+      const updateGroup = this.attendanceTimeUpdateForm.get('updateGroup');
+      const managerId = this.attendanceTimeUpdateForm.get('managerId');
+      const requestReason = this.attendanceTimeUpdateForm.get('requestReason');
+  
+      return (updateGroup ? updateGroup.valid : false) &&
+             (managerId ? managerId.valid : false) &&
+             (requestReason ? requestReason.valid : false);
+    } else if (this.attendanceRequestType === 'CREATE') {
+      const createGroup = this.attendanceTimeUpdateForm.get('createGroup');
+      const managerId = this.attendanceTimeUpdateForm.get('managerId');
+      const requestReason = this.attendanceTimeUpdateForm.get('requestReason');
+  
+      return (createGroup ? createGroup.valid : false) &&
+             (managerId ? managerId.valid : false) &&
+             (requestReason ? requestReason.valid : false);
+    }
+    return false;
+  }
+  
+
+  onAttendanceRequestTypeChange(): void {
+    this.resetFormFields();
+    this.checkHoliday = false;
+    this.checkAttendance = false;
+  }
+
+  private resetFormFields(): void {
+    if (this.attendanceRequestType === 'UPDATE') {
+      this.attendanceTimeUpdateForm.get('updateGroup')?.reset();
+    } else if (this.attendanceRequestType === 'CREATE') {
+      this.attendanceTimeUpdateForm.get('createGroup')?.reset();
+    }
+    // Optionally reset common fields if needed
+    this.attendanceTimeUpdateForm.get('managerId')?.reset();
+    this.attendanceTimeUpdateForm.get('requestReason')?.reset();
+  }
+  
+  
 
 
   resetForm(): void {
@@ -3049,16 +3297,83 @@ disabledDate = (current: Date): boolean => {
   return moment(current).isAfter(moment(), 'day');
 }
 
+// attendanceRequestLog: any[] = [];
+// pageNumberAttendanceLogs: number = 1;
+// itemPerPageAttendanceLogs: number = 5;
+// fullAttendanceLogCount:number = 0;
+//   getAttendanceRequestLogData(): void {
+//     debugger
+//     this.dataService.getAttendanceRequestLog(this.userId, this.pageNumberAttendanceLogs, this.itemPerPageAttendanceLogs).subscribe(response => {
+//       this.attendanceRequestLog = response.object;
+//       this.fullAttendanceLogCount = response.totalItems;
+//       console.log('logs retrieved successfully', response.listOfObject);
+//     }, (error) => {
+//       console.log(error);
+//     });
+//   }
+
 attendanceRequestLog: any[] = [];
-  getAttendanceRequestLogData(): void {
-    this.dataService.getAttendanceRequestLog(this.userId).subscribe(response => {
-      debugger
-      this.attendanceRequestLog = response.object;
-      console.log('logs retrieved successfully', response.listOfObject);
-    }, (error) => {
-      console.log(error);
-    });
+
+pageNumberAttendanceLogs: number = 1;
+itemPerPageAttendanceLogs: number = 5;
+fullAttendanceLogCount: number = 0;
+isFullLogLoader: boolean = false;
+debounceTimer: any;
+getAttendanceRequestLogData(debounceTime: number = 300) {
+  return new Promise((resolve, reject) => {
+    this.isFullLogLoader = true;
+    if (this.debounceTimer) {
+      clearTimeout(this.debounceTimer);
+    }
+    this.debounceTimer = setTimeout(() => {
+  
+  // this.attendanceRequestLog = [];
+  this.dataService.getAttendanceRequestLog(this.userId, this.pageNumberAttendanceLogs, this.itemPerPageAttendanceLogs).subscribe(response => {
+    this.attendanceRequestLog = [...this.attendanceRequestLog, ...response.object];
+    this.fullAttendanceLogCount = response.totalItems;
+    this.isFullLogLoader = false;
+    console.log('logs retrieved successfully', response.listOfObject);
+  }, (error) => {
+    console.log(error);
+    this.isFullLogLoader = false;
+  });
+}, debounceTime);
+});
+}
+initialLoadDone: boolean = false;
+@ViewChild('logContainer') logContainer!: ElementRef<HTMLDivElement>;
+scrollDownRecentActivity(event: any) {
+  debugger
+  if (!this.initialLoadDone) return;
+
+  if(this.fullAttendanceLogCount < ((this.pageNumberAttendanceLogs - 1) * this.itemPerPageAttendanceLogs)) {
+    return;
   }
+  const target = event.target as HTMLElement;
+  const atBottom =
+    target.scrollHeight - (target.scrollTop + target.clientHeight) < 10;
+
+  if (atBottom) {
+    this.pageNumberAttendanceLogs++;
+    this.getAttendanceRequestLogData();
+  }
+}
+
+loadMoreLogs(): void {
+  this.initialLoadDone = true;
+  this.pageNumberAttendanceLogs++;
+  // this.attendanceRequestLog = [];
+  this.getAttendanceRequestLogData();
+  // setTimeout(() => {
+  //   this.scrollToBottom();
+  // }, 500);
+}
+
+closeAttendanceFunc() {
+  this.attendanceRequestLog = [];
+  this.pageNumberAttendanceLogs = 1;
+}
+
 
   //  super coins func 
 
@@ -3069,9 +3384,9 @@ attendanceRequestLog: any[] = [];
     currentMonthTotalCoins: 0
   };
   getSuperCoinsResponseForEmployeeData() {
-    console.log('this.userId' + this.userId);
+    // console.log('this.userId' + this.userId);
     this.dataService.getSuperCoinsResponseForEmployee(this.userId).subscribe(response => {
-        console.log("success");
+        // console.log("success");
         this.employeeSuperCoinsResponse = response.object;
     }, (error) => {
       console.log(error);
@@ -3132,14 +3447,14 @@ attendanceRequestLog: any[] = [];
         this.overtimeRequestDTO.startTime = dates[0] ? new Date(dates[0]) : null;
         this.overtimeRequestDTO.endTime = dates[1] ? new Date(dates[1]) : null;
         this.overtimeRequestDTO.workingHour = this.helperService.durationBetweenTwoDatesInHHmmssFormat(this.overtimeRequestDTO.endTime, this.overtimeRequestDTO.startTime);
-        console.log("Working Hour: "+this.overtimeRequestDTO.workingHour);
+        // console.log("Working Hour: "+this.overtimeRequestDTO.workingHour);
       } else {
         // Handle case where array length is not 2 if necessary
         console.warn('Expected array with 2 dates, but got:', dates);
       }
     } else if (dates instanceof Date) {
       // Handle single date case if needed
-      console.log('Single Date Selected:', dates);
+      // console.log('Single Date Selected:', dates);
     } else if (dates === null) {
       // Handle null case
       this.overtimeRequestDTO.endTime = null;
@@ -3217,9 +3532,111 @@ attendanceRequestLog: any[] = [];
     })
   }
 
+  checkHoliday:boolean = false;
+
+ getHolidayForOrganization(selectedDate:any){
+    debugger
+    this.checkHoliday = false;
+    this.dataService.getHolidayForOrganization(this.helperService.formatDateToYYYYMMDD(selectedDate))
+    .subscribe(
+      (response) => {
+        this.checkHoliday = response.object;
+        console.log(response);
+        console.error("Response", response.object);
+      },
+      (error) =>{
+        console.error('Error details:', error);
+      }
+  )
+  }
+
+  checkAttendance:boolean = false;
+  getAttendanceExistanceStatus(selectedDate:any){
+    debugger
+    this.checkAttendance = false;
+    this.dataService.getAttendanceExistanceStatus(this.userId, this.helperService.formatDateToYYYYMMDD(selectedDate))
+    .subscribe(
+      (response) => {
+        this.checkAttendance = response.object;
+        console.log(response);
+        console.error("Response", response.object);
+      },
+      (error) =>{
+        console.error('Error details:', error);
+      }
+  )
+  }
+
   
   
   
+
+
+
+ 
+  // regDate = new Date('2023-01-01'); // Example registration date
+  selectedYear = this.date.getFullYear();
+  selectedMonth = this.date.getMonth() + 1;
+
+  // Generate a list of years (from registration year to current year)
+  yearList :number[]= [];
+
+  // List of months
+  monthList = [
+    { value: 1, label: 'January' },
+    { value: 2, label: 'February' },
+    { value: 3, label: 'March' },
+    { value: 4, label: 'April' },
+    { value: 5, label: 'May' },
+    { value: 6, label: 'June' },
+    { value: 7, label: 'July' },
+    { value: 8, label: 'August' },
+    { value: 9, label: 'September' },
+    { value: 10, label: 'October' },
+    { value: 11, label: 'November' },
+    { value: 12, label: 'December' }
+  ];
+
+
+
+  // Disable months earlier than registration date if the selected year matches the registration year
+  disableMonth = (month: number): boolean => {
+    if (this.selectedYear === this.joiningDate.getFullYear()) {
+      return month < (this.joiningDate.getMonth() + 1); // disable months before regDate in the registration year
+    }
+    return false;
+  };
+
+  // Handle year change
+  onYearChange(year: number) {
+    this.selectedYear = year;
+    this.updateCalendarDate();
+  }
+
+
+
+  // Update the calendar date based on the selected month and year
+  updateCalendarDate() {
+    // console.log("this.selectedYear",this.selectedYear)
+    this.date = new Date(this.selectedYear, this.selectedMonth - 1, 1);
+  }
+
+  // Generate year list from registration year to the current year
+  generateYearList(): number[] {
+    if(!this.joiningDate){
+      this.joiningDate = new Date(this.onboardingPreviewData.user.joiningDate);
+    }
+    const startYear = this.joiningDate.getFullYear();
+    const currentYear = new Date().getFullYear();
+    const years = [];
+    // console.log(startYear)
+    for (let year = startYear; year <= currentYear; year++) {
+      years.push(year);
+    }
+    // console.log("years ",years)
+    return years;
+  }
+
 }
 
 

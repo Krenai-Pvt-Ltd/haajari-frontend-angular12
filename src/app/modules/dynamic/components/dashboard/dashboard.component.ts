@@ -60,7 +60,7 @@ export class DashboardComponent implements OnInit {
     private roleBasedAccessControlService: RoleBasedAccessControlService
   ) {
     
-    console.log(this.roleBasedAccessControlService.isUserInfoInitialized,"--9999-----");
+    // console.log(this.roleBasedAccessControlService.isUserInfoInitialized,"--9999-----");
     
     const currentDate = moment();
     this.startDateStr = currentDate.startOf('month').format('YYYY-MM-DD');
@@ -127,12 +127,20 @@ export class DashboardComponent implements OnInit {
   endDate: string = '';
   startDateAndEndDate : StartDateAndEndDate = new StartDateAndEndDate();
 
+
+  
+  onError(event: Event) {
+    const target = event.target as HTMLImageElement;
+    target.src = './assets/images/broken-image-icon.jpg';
+  }
+  
+
   onMonthChange(month: Date): void {
-    console.log('Month is getting selected');
+    // console.log('Month is getting selected');
     this.selectedDate = month;
     this.getFirstAndLastDateOfMonth(this.selectedDate);
     this.isAllCollapsed = true;
-    console.log(this.startDate, this.endDate);
+    // console.log(this.startDate, this.endDate);
     this.getAttendanceReportByDateDurationMethodCall();
   }
 
@@ -196,11 +204,11 @@ export class DashboardComponent implements OnInit {
     this.orgUuid = this.roleBasedAccessControlService.getOrgRefUUID();
     this.getActiveUserCount();
     this.selecrPlanType('annual');
-this.getAdminPersonalDetailMethodCall();
+    this.getAdminPersonalDetailMethodCall();
     this.getTeamNames();
     window.scroll(0, 0);
     this.getOrganizationRegistrationDateMethodCall();
-    
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
     // this.checkAccessToken();
 
     // const today = dayjs();
@@ -344,7 +352,7 @@ this.getAdminPersonalDetailMethodCall();
               this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
 
               debugger;
-              console.log(this.myAttendanceData);
+              // console.log(this.myAttendanceData);
               this.isAttendanceShimer = false;
 
               // Additional processing if needed
@@ -542,13 +550,13 @@ this.getAdminPersonalDetailMethodCall();
     this.dataService.checkingUserRole().subscribe(
       (data) => {
         this.flag = data;
-        console.log(data);
+        // console.log(data);
       },
       (error) => {
         console.log(error);
       }
     );
-    console.log(this.flag);
+    // console.log(this.flag);
 
     return this.flag;
   }
@@ -605,7 +613,7 @@ this.getAdminPersonalDetailMethodCall();
           // if(data.attendanceLatePerformers){
           //   this.isLateShimmer=false;
           // }
-          console.log(this.responseDto);
+          // console.log(this.responseDto);
         },
         (error) => {
           // console.error(error);
@@ -622,13 +630,13 @@ this.getAdminPersonalDetailMethodCall();
       .getAttendanceLatePerformers('2023-12-04', '2023-12-04')
       .subscribe(
         (data) => {
-          console.log(data);
+          // console.log(data);
           this.responseData = data;
 
           if (data.attendanceLatePerformers) {
             this.isLateShimmer = false;
           }
-          console.log(this.responseDto);
+          // console.log(this.responseDto);
         },
         (error) => {
           this.isLateShimmer = false;
@@ -775,12 +783,13 @@ this.getAdminPersonalDetailMethodCall();
 
   downloadingFlag: boolean = false;
   downloadAttendanceDataInExcelFormatMethodCall() {
+    debugger
     this.downloadingFlag = true;
     this.dataService
       .downloadAttendanceDataInExcelFormat(this.startDate, this.endDate)
       .subscribe(
         (response) => {
-          console.log(response);
+          // console.log(response);
 
           const downloadLink = document.createElement('a');
           downloadLink.href = response.message;
@@ -861,7 +870,7 @@ this.getAdminPersonalDetailMethodCall();
       // } else {
       //   this.monthlyPlaceholderFlag = false;
       // }
-      console.log('length' + data.length);
+      // console.log('length' + data.length);
       this.monthlyChartData = data.map((item) => ({
         name: this.sliceWord(item.monthName),
         series: [
@@ -941,7 +950,7 @@ this.getAdminPersonalDetailMethodCall();
         (response) => {
           debugger;
           this.attendanceDetailsResponseList = response.listOfObject;
-          console.log(this.attendanceDetailsResponseList);
+          // console.log(this.attendanceDetailsResponseList);
           this.totalItems = response.totalItems;
           this.lastPageNumberNew = Math.ceil(this.totalItems / this.itemPerPage);
           // console.log("lastPageNumberNew" + this.lastPageNumberNew );
@@ -1260,7 +1269,7 @@ this.getAdminPersonalDetailMethodCall();
       .subscribe(
         (response) => {
           this.userAttendanceDetailDateWise = response.object;
-          console.log('Attendance Details:', response.object);
+          // console.log('Attendance Details:', response.object);
           // this.openEventsModal.nativeElement.click();
           this.loadingFlag = false;
          
@@ -1309,22 +1318,92 @@ this.getAdminPersonalDetailMethodCall();
   isPurchased: boolean = false;
   @ViewChild('billingModal') billingModal!: ElementRef;
   getPurchasedStatus() {
+    debugger
     this._subscriptionPlanService.getPurchasedStatus().subscribe((response) => {
       this.isPurchased = response;
-
-      if (this.isPurchased == true) {
-        this.router.navigate(['/dashboard']);
-      } else {
-        // this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = true
-        // this.billingModal.nativeElement.click();
-        if (this.ROLE=="ADMIN") {
-          this.router.navigate(['/billing-and-subscription']);
-        }
+      // this.router.navigate(['/to-do-step-dashboard']);
+      // if(this.isPurchased) {
+      //   this.router.navigate(['/to-do-step-dashboard']);
+      // }else {
+      //   this.router.navigate(['/to-do-step-dashboard']);
+      // }
+      this.isOrgOnboarTodayData();
+      // if (this.isPurchased == true) {
+      //   this.router.navigate(['/to-do-step-dashboard']);
+      //   // this.router.navigate(['/dashboard']);
+      // } else {
+      //   // this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = true
+      //   // this.billingModal.nativeElement.click();
+      //   if (this.ROLE=="ADMIN") {
+      //     this.router.navigate(['/billing-and-subscription']);
+      //   }
         
        
-      }
+      // }
     });
   }
+
+  isToDoStepsCompleted: number = 0;
+  isToDoStepsCompletedData(isOrgOnboardToday : number) {
+    debugger
+    this.dataService.isToDoStepsCompleted().subscribe(
+      (response) => {
+        this.isToDoStepsCompleted = response.object;
+        
+        // if(this.isToDoStepsCompleted == 0 && isOrgOnboardToday == 1) {
+        //   this.router.navigate(['/to-do-step-dashboard']);
+        // }else {
+        //   this.router.navigate(['/dashboard']);
+        // }
+        console.log("isToDoStepsCompletedFlag :", this.isToDoStepsCompleted);
+        
+      },
+      (error) => {
+        console.log('error');
+      }
+    );
+  }
+
+  isOrgOnboardToday: number = 0;
+  isOrgOnboarTodayData() {
+    debugger
+    this.dataService.isOrgOnboarToday().subscribe(
+      (response) => {
+        this.isOrgOnboardToday = response.object;
+
+        // if(this.isOrgOnboardToday == 0) {
+        //   this.router.navigate(['/to-do-step-dashboard']);
+        // }else {
+        //   this.router.navigate(['/dashboard']);
+        // }
+        this.isToDoStepsCompletedData(this.isOrgOnboardToday);
+        if(this.isOrgOnboardToday == 0) {
+            this.hideOrganizationInitialToDoStepBar();
+        }
+        console.log("isToDoStepsCompletedFlag :", this.isToDoStepsCompleted);
+        
+      },
+      (error) => {
+        console.log('error');
+      }
+    );
+  }
+
+  hideOrganizationInitialToDoStepBar() {
+    debugger
+    this.dataService.hideOrganizationInitialToDoStepBar().subscribe(
+      (response) => {
+        console.log("hide");  
+        // this.getOrganizationInitialToDoStepBar();
+        // location.reload();
+      },
+      (error) => {
+        console.log('error');
+      }
+    );
+  }
+
+  
 
   routeToBillingPaymentPage(plandId : any) {
 this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = false
@@ -1436,7 +1515,7 @@ this.getSubscriptionPlanDetails(plandId);
 
   isPaymentDone: boolean = false;
   checkout(value: any) {
-    console.log('transaction id', value);
+    // console.log('transaction id', value);
     // this.isPaymentDone = true;
     window.location.reload();
   }
@@ -1477,8 +1556,8 @@ this.getSubscriptionPlanDetails(plandId);
     .subscribe(
       (response) => {
         this.checkHoliday = response.object;
-        console.log(response);
-        console.error("Response", response.object);
+        // console.log(response);
+        // console.error("Response", response.object);
 
         if (this.checkHoliday == true) {
           this.showPlaceholder = true; 
@@ -1574,4 +1653,14 @@ this.getSubscriptionPlanDetails(plandId);
               }
           });
   }
+
+  @ViewChild('presentModal') presentModal!: ElementRef; 
+  routeToAttendanceSetting() {
+   
+    this.presentModal.nativeElement.click();
+    this.router.navigate(['/setting/attendance-setting']);
+  }
 }
+
+
+

@@ -43,6 +43,7 @@ export class SalarySettingComponent implements OnInit {
     this.getAllStatutoriesMethodCall();
     this.getAllSalaryTemplateComponentByOrganizationIdMethodCall();
     this.getAllSalaryComponentsMethodCall();
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
   }
 
   //Variable for pagination
@@ -485,6 +486,7 @@ export class SalarySettingComponent implements OnInit {
             response.message,
             Key.TOAST_STATUS_SUCCESS
           );
+          this.helperService.registerOrganizationRegistratonProcessStepData(Key.SALARY_TEMPLATE_ID, Key.PROCESS_COMPLETED);
         },
         (error) => {
           this.helperService.showToast(
@@ -536,6 +538,7 @@ export class SalarySettingComponent implements OnInit {
     this.dataService.getAllSalaryTemplateComponentByOrganizationId().subscribe(
       (response) => {
         this.salaryTemplateComponentResponseList = response.listOfObject;
+        // this.helperService.registerOrganizationRegistratonProcessStepData(Key.SALARY_TEMPLATE_ID, Key.PROCESS_COMPLETED);
         if (this.salaryTemplateComponentResponseList.length == 1) {
           this.activeIndex = 0;
         }
@@ -548,6 +551,7 @@ export class SalarySettingComponent implements OnInit {
           response.listOfObject === null
         ) {
           this.dataNotFoundPlaceholderForSalaryTemplate = true;
+          // this.helperService.registerOrganizationRegistratonProcessStepData(Key.SALARY_TEMPLATE_ID, Key.PROCESS_PENDING);
         }
       },
       (error) => {

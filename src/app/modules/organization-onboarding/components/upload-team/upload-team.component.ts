@@ -28,6 +28,7 @@ export class UploadTeamComponent implements OnInit {
   userList: UserReq[] = new Array();
   databaseHelper: DatabaseHelper = new DatabaseHelper();
   sampleFileUrl: string = ''; //put sample file url
+  viewMore: boolean = true;
 
   @ViewChild('importModalOpen') importModalOpen!: ElementRef;
 
@@ -47,6 +48,8 @@ export class UploadTeamComponent implements OnInit {
     this.selectMethod('mannual');
     this.checkShiftTimingExistsMethodCall();
     this.getOnboardingVia();
+    this.getOnboardingAdminUserData();
+
   }
 
   isShimmer = false;
@@ -82,6 +85,7 @@ export class UploadTeamComponent implements OnInit {
   }
   selectedMethod: string = 'mannual';
   selectMethod(method: string) {
+    // debugger
     if (method == 'excel') {
       this.selectedMethod = '';
       this.getReport();
@@ -91,6 +95,7 @@ export class UploadTeamComponent implements OnInit {
       this.userList = [];
       this.user = new UserReq();
       this.userList.push(this.user);
+      this.showUserList = false;
     }
   }
 
@@ -105,6 +110,9 @@ export class UploadTeamComponent implements OnInit {
 
   removeUser(index: number) {
     this.userList.splice(index, 1);
+    if(this.userList.length == 1) {
+      this.showUserList = false;
+    }
   }
 
   fileName: any;
@@ -148,7 +156,7 @@ export class UploadTeamComponent implements OnInit {
   alreadyUsedPhoneNumberArray: any = [];
   alreadyUsedEmailArray: any = [];
   uploadUserFile(file: any, fileName: string) {
-    debugger;
+    // debugger;
     this.importToggle = true;
     this.isProgressToggle = true;
     this.isErrorToggle = false;
@@ -162,7 +170,7 @@ export class UploadTeamComponent implements OnInit {
           this.isProgressToggle = false;
           this.getReport();
           this.getUser();
-          console.log(this.onboardUserList.length);
+          // console.log(this.onboardUserList.length);
           this.alreadyUsedPhoneNumberArray = response.arrayOfString;
           this.alreadyUsedEmailArray = response.arrayOfString2;
         } else {
@@ -171,7 +179,7 @@ export class UploadTeamComponent implements OnInit {
           this.isProgressToggle = false;
           this.errorMessage = response.message;
         }
-
+        this.getOrgExcelLogLink();
         // this.importToggle = false;
       },
       (error) => {
@@ -194,7 +202,7 @@ export class UploadTeamComponent implements OnInit {
   uploadDate: Date = new Date();
 
   getReport() {
-    debugger;
+    // debugger;
     this.importReport = [];
     this.importLoading = true;
     this.databaseHelper.itemPerPage = 5;
@@ -233,12 +241,57 @@ export class UploadTeamComponent implements OnInit {
   }
   isManualUploadSubmitLoader: boolean = false;
   submit() {
+    // debugger;
     this.isManualUploadSubmitLoader = true;
     if (this.allUsersValid()) {
       this.create();
     } else {
+      this.isManualUploadSubmitLoader = false;
       return;
     }
+  }
+
+
+  // allUsersValid(): boolean {
+  //   if(!this.lastUsersValid()) {
+  //     return false;
+  //   }
+  //   return this.userList.length > 0 && this.userList.every((u) => this.isValidUser(u));
+  // }
+
+  allUsersValid(): boolean {
+    // debugger
+
+    const lastUser = this.userList[this.userList.length - 1];
+    if (!lastUser.name && !lastUser.phone && this.userList.length == 1) {
+      return false;
+    }
+    if (!this.lastUsersValid()) {
+      return false;
+    }
+    return this.userList.length > 0 && this.userList.every((u, index) => {
+      if (index === this.userList.length - 1) {
+        return true;
+      }
+      return this.isValidUser(u);
+    });
+  }
+  lastUsersValid(): boolean {
+    // debugger
+    const lastUser = this.userList[this.userList.length - 1];
+    if (!lastUser.name && !lastUser.phone) {
+      return true;
+    }
+    return this.isValidUser(lastUser);
+  }
+  currentUsersValid(): boolean {
+    // debugger;
+    // const previousEntriesValid = this.userList.slice(0, -1).every((u) => this.isValidUser(u));
+    const lastEntryValid = this.isValidUser(
+      this.userList[this.userList.length - 1]
+    );
+
+    return !this.isNumberExist && !this.isEmailExist && lastEntryValid;
   }
 
   isValidUser(u: any): boolean {
@@ -252,16 +305,24 @@ export class UploadTeamComponent implements OnInit {
   }
 
   // Use this method to determine if all users are valid
-  allUsersValid(): boolean {
-    return (
-      !this.isNumberExist &&
-      !this.isEmailExist &&
-      this.userList.every((u) => this.isValidUser(u))
-    );
-  }
+  // allUsersValid(): boolean {
+  //   debugger;
+  //   return (
+  //     !this.isNumberExist &&
+  //     !this.isEmailExist &&
+  //     this.userList.slice(0, -1).every((u) => this.isValidUser(u))
+  //   );
+  // }
+
+
+
+  // allUsersValid(): boolean {
+  //   return this.userList.length > 0 && this.userList.every((u) => this.isValidUser(u));
+  // }
+
 
   resetManualUploadModal() {
-    debugger;
+    // debugger;
     this.closeManualUploadModal();
 
     this.userList.forEach((user) => {
@@ -283,6 +344,8 @@ export class UploadTeamComponent implements OnInit {
   createLoading: boolean = false;
   create() {
     debugger;
+    this.isManualUploadSubmitLoader = true;
+    // this.userListReq.userList = this.userList.slice(0, -1);
     this.userListReq.userList = this.userList;
     this.createLoading = true;
     this._onboardingService.createOnboardUser(this.userListReq).subscribe(
@@ -305,15 +368,29 @@ export class UploadTeamComponent implements OnInit {
     );
   }
 
+
+  restrictToDigits(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input) {
+      input.value = input.value.replace(/[^0-9]/g, '');
+    }
+  }
+
+
   onboardUserList: any[] = new Array();
   loading: boolean = false;
+  totalOnboardingUserListCount: number = 0;
+
+  page: number = 0;
+  size: number = 5;
   getUser() {
     this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
     this.loading = true;
-    this._onboardingService.getOnboardUser().subscribe(
+    this._onboardingService.getOnboardUser(0, 5).subscribe(
       (response: any) => {
         if (response.status) {
           this.onboardUserList = response.object;
+          this.totalOnboardingUserListCount = response.totalItems;
         } else {
           this.onboardUserList = [];
           this.dataNotFoundPlaceholder = true;
@@ -329,6 +406,48 @@ export class UploadTeamComponent implements OnInit {
     );
   }
 
+  allUserIds: any[] = [];
+  getAllUser() {
+    this._onboardingService.getOnboardUser(0, 5).subscribe(
+      (response: any) => {
+        if (response.status) {
+          this.allUserIds = response.object;
+          this.listOfIds = this.allUserIds.map((user) => user.id);
+          // this.listOfIds = [...this.allUserIds];
+        }
+      },
+      (error) => {}
+    );
+  }
+
+  getRowNumber(index: number): number {
+    return this.page * this.size + index + 1;
+  }
+
+  nextPage() {
+    if (this.onboardUserList.length === this.size) {
+      // this.unselectAllUsers();
+      this.onboardUserList = [];
+      this.page++;
+      this.getUser();
+    }
+  }
+
+  previousPage() {
+    if (this.page > 0) {
+      // this.unselectAllUsers();
+      this.onboardUserList = [];
+      this.page--;
+      this.getUser();
+    }
+  }
+
+  get currentDisplayedCount(): number {
+    const previousPagesCount = this.page * this.size;
+    const currentPageCount = this.onboardUserList.length;
+    return previousPagesCount + currentPageCount;
+  }
+
   @ViewChild('userEditModal') userEditModal!: ElementRef;
   openUserEditModal(user: any) {
     this.isEmailExist = false;
@@ -340,6 +459,7 @@ export class UploadTeamComponent implements OnInit {
   @ViewChild('closeUserEditModal') closeUserEditModal!: ElementRef;
   editLoader: boolean = false;
   editUser() {
+    debugger
     this.editLoader = true;
     this._onboardingService.editOnboardUser(this.user).subscribe(
       (response: any) => {
@@ -347,10 +467,10 @@ export class UploadTeamComponent implements OnInit {
           this.getUser();
           this.closeUserEditModal.nativeElement.click();
           this.editLoader = false;
-          this.helperService.showToast(
-            'user update sucessfully',
-            Key.TOAST_STATUS_SUCCESS
-          );
+          // this.helperService.showToast(
+          //   'user update sucessfully',
+          //   Key.TOAST_STATUS_SUCCESS
+          // );
         }
       },
       (error) => {
@@ -359,12 +479,15 @@ export class UploadTeamComponent implements OnInit {
     );
   }
 
-  deleteUser(id: number) {
-   
-    this._onboardingService.deleteOnboardUser(id).subscribe(
+  @ViewChild('closeButtonDeleteUser') closeButtonDeleteUser!: ElementRef;
+  deleteUser() {
+    this._onboardingService.deleteOnboardUser(this.idToDeleteUser).subscribe(
       (response: any) => {
         if (response.status) {
           this.getUser();
+          this.page = 0;
+          this.getUser();
+          this.closeButtonDeleteUser.nativeElement.click();
         }
       },
       (error) => {}
@@ -374,6 +497,61 @@ export class UploadTeamComponent implements OnInit {
     this.alreadyUsedEmailArray = 0;
   }
 
+  idToDeleteUser: number = 0;
+  deleteUserId(id: number) {
+    this.idToDeleteUser = id;
+  }
+
+  listOfIds: number[] = [];
+
+  deleteUsers() {
+    this._onboardingService.deleteOnboardUsers(this.listOfIds).subscribe(
+      (response: any) => {
+        if (response.status) {
+          this.getUser();
+          this.listOfIds = [];
+          this.isSelectAll = false;
+        }
+      },
+      (error) => {}
+    );
+    this.isErrorToggle = false;
+    this.alreadyUsedPhoneNumberArray = 0;
+    this.alreadyUsedEmailArray = 0;
+  }
+
+  isSelectAll: boolean = false;
+
+  toggleUserSelection(userId: number, event: Event): void {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    if (isChecked) {
+      this.listOfIds.push(userId);
+    } else {
+      this.listOfIds = this.listOfIds.filter((id) => id !== userId);
+    }
+    this.isSelectAll = this.onboardUserList.length === this.listOfIds.length;
+  }
+
+  toggleSelectAll(event: Event): void {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    if (isChecked) {
+      this.listOfIds = this.onboardUserList.map((user) => user.id);
+    } else {
+      this.listOfIds = [];
+    }
+    this.isSelectAll = isChecked;
+  }
+
+  selectAllPageUsers() {
+    this.getAllUser();
+    this.isSelectAll = true;
+  }
+
+  unselectAllUsers() {
+    this.listOfIds = [];
+    this.isSelectAll = false;
+  }
+
   isNumberExist: boolean = false;
   checkNumberExistance(index: number, number: string, uuid: string) {
     if (number.trim() === '') {
@@ -381,7 +559,7 @@ export class UploadTeamComponent implements OnInit {
         this.userList[index].isPhoneExist = false;
       }
       this.isNumberExist = false;
-      console.log('Phone number is empty, skipping API call.');
+      // console.log('Phone number is empty, skipping API call.');
     } else {
       this._onboardingService
         .checkEmployeeNumberExist(number, uuid)
@@ -390,14 +568,14 @@ export class UploadTeamComponent implements OnInit {
             this.userList[index].isPhoneExist = response;
           }
           this.isNumberExist = response;
-          console.log(response);
+          // console.log(response);
         });
     }
   }
 
   isEmailExist: boolean = false;
   checkEmailExistance(index: number, email: string, uuid: string) {
-    debugger;
+    // debugger;
     // this.userList[index].isEmailExist = false;
     if (email != null && email.length > 5) {
       this._onboardingService
@@ -412,6 +590,7 @@ export class UploadTeamComponent implements OnInit {
   }
   isNextloading: boolean = false;
   next() {
+    // debugger;
     // setTimeout(() => {
     this.isNextloading = true;
     // }, 1000);
@@ -427,7 +606,9 @@ export class UploadTeamComponent implements OnInit {
     if (this.shiftTimingExists) {
       this._router.navigate(['/organization-onboarding/shift-time-list']);
     } else {
-      this._router.navigate(['/organization-onboarding/add-shift-time']);
+      // this._router.navigate(['/organization-onboarding/add-shift-time']);
+      this._router.navigate(['/organization-onboarding/add-shift-placeholder']);
+      //  routerLink="/organization-onboarding/add-shift-placeholder"
     }
 
     // this._onboardingService.refreshOnboarding();
@@ -456,15 +637,91 @@ export class UploadTeamComponent implements OnInit {
 
   onboardingViaString: string = '';
   getOnboardingVia() {
-    debugger;
+    // debugger;
     this.dataService.getOnboardingVia().subscribe(
       (response) => {
         this.onboardingViaString = response.message;
-        console.log('this.onboardingViaString ' + this.onboardingViaString);
+        // console.log('this.onboardingViaString ' + this.onboardingViaString);
       },
       (error) => {
         console.log('error');
       }
     );
   }
+
+  showUserList: boolean = false;
+
+  // viewUserList() {
+  //   if (this.showUserList == false) {
+  //     this.showUserList = true;
+  //   } else {
+  //     this.showUserList = false;
+  //   }
+  // }
+
+  viewUserList() {
+    this.showUserList = !this.showUserList;
+  }
+
+  excelLogLink!: string;
+  getOrgExcelLogLink() {
+    this.excelLogLink = '';
+    this.dataService.getOrgExcelLogLink().subscribe(
+      (response) => {
+        this.excelLogLink = response.object;
+        console.log('excelLink ' + response.object);
+      },
+      (error) => {
+        console.log('error');
+      }
+    );
+  }
+
+  downloadExcelLog() {
+    if (this.excelLogLink) {
+      const link = document.createElement('a');
+      link.href = this.excelLogLink;
+      link.setAttribute('download', 'Organization_Excel_Log.xlsx'); // Set file name
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  }
+
+  adminUser: any;
+  getOnboardingAdminUserData() {
+    this.dataService.getOnboardingAdminUser().subscribe(
+      (response) => {
+        this.adminUser = response.object;
+
+      },
+      (error) => {
+        console.log('error');
+      }
+    );
+  }
+
+  isSyncFlag: boolean = false;
+  syncSlackUsersToDatabaseData() {
+    this.isSyncFlag = true;
+    this.page = 0;
+    this.dataService.syncSlackUsersToDatabase().subscribe(
+      (response) => {
+        this.isSyncFlag = false;
+
+        this.getUser();
+      },
+      (error) => {
+        this.isSyncFlag = false;
+        console.log('error');
+      }
+    );
+  }
+
+
+
+
+
+
+
 }

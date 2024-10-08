@@ -74,6 +74,9 @@ import { SalaryChangeOvertimeRequest } from '../models/salary-change-overtime-re
 import { AllocateCoinsRoleWiseRequest, AllocateCoinsRoleWiseResponse, AllocateCoinsToBadgeRequest } from '../models/allocate-coins-role-wise-request';
 import { OvertimeSettingRequest } from '../models/overtime-setting-request';
 import { OvertimeRequestDTO } from '../models/overtime-request-dto';
+import { LeaveTemplateRequest } from '../models/leave-template-request';
+import { OrganizationRegistrationFormRequest } from '../models/organization-registration-form-request';
+import { rootCertificates } from 'tls';
 
 
 @Injectable({
@@ -117,7 +120,7 @@ export class DataService {
     state: string,
     timeZone: string
   ): Observable<any> {
-    const params = new HttpParams().set('code', code).set('state', state).set('timeZone', timeZone);
+    const params = new HttpParams().set('code', code).set('state', state).set('time_zone', timeZone);
     return this.httpClient.put<any>(
       `${this.baseUrl}/organization/auth/slackauth`,
       {},
@@ -335,6 +338,12 @@ export class DataService {
   getShiftTimings(): Observable<any> {
     return this.httpClient.get<ShiftTimings[]>(
       `${this.baseUrl}/organization-shift-timing/get/last-detail`
+    );
+  }
+
+  getOrgExcelLogLink(): Observable<any> {
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/whatsapp-user-onboarding/get-excel-link`
     );
   }
 
@@ -1550,10 +1559,15 @@ export class DataService {
       // Add any additional headers as needed
     });
 
-    const params = { leaveSettingId: leaveSettingId.toString() };
+    // const params = { leaveSettingId: leaveSettingId.toString() };
+    const params = { leaveTemplateId: leaveSettingId.toString() };
 
+    // return this.httpClient.get<FullLeaveSettingResponse>(
+    //   `${this.baseUrl}/user-leave-rule/get/leave-rule-by-Id`,
+    //   { headers, params }
+    // ); amit
     return this.httpClient.get<FullLeaveSettingResponse>(
-      `${this.baseUrl}/user-leave-rule/get/leave-rule-by-Id`,
+      `${this.baseUrl}/user-leave-template`,
       { headers, params }
     );
   }
@@ -1593,6 +1607,68 @@ export class DataService {
       { params }
     );
   }
+  updateMasterAttendanceMode(attendanceMasterModeId: number, modeStepId: number): Observable<any> {
+    const params = new HttpParams().set('attendance_master_mode_id', attendanceMasterModeId).set('mode_step', modeStepId);
+
+    return this.httpClient.put<any>(
+      `${this.baseUrl}/organization/update/master/attendance-mode`,
+      {},
+      { params }
+    );
+  }
+
+  getMasterAttendanceMode(): Observable<any> {
+
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/organization/get/master/attendance-mode`,
+    );
+  }
+
+
+  getAttendanceModeStep(): Observable<any> {
+
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/organization/get/attendance-mode-step`,
+    );
+  }
+
+  getOnboardingAdminUser(): Observable<any> {
+
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/whatsapp-user-onboarding/onboarding-admin-user`,
+    );
+  }
+
+  checkShiftPresence(shiftName:string): Observable<any> {
+
+    const params = new HttpParams()
+      .set('shiftName', shiftName);
+
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/organization-shift-timing/check-shift-presence`, {params}
+    );
+  }
+
+  // getOrganizationUserNameWithShiftName(selectedStaffsUuids: string[]): Observable<any> {
+
+  //   const params = new HttpParams()
+  //     .set('selectedStaffsUuids', selectedStaffsUuids);
+  //   return this.httpClient.get<any>(
+  //     `${this.baseUrl}/organization-shift-timing/get-organization-user-shift-name`,{params}
+  //   );
+  // }
+
+  getOrganizationUserNameWithShiftName(selectedStaffsUuids: string[], shiftId: number): Observable<any> {
+    let params = new HttpParams().set("shiftId", shiftId);
+    
+
+    return this.httpClient.post<any>(
+      `${this.baseUrl}/organization-shift-timing/get-organization-user-shift-name`,  selectedStaffsUuids, {params}
+    );
+  }
+
+  
+
 
   getBestPerformerAttendanceDetails(
     startDate: string,
@@ -1743,9 +1819,14 @@ export class DataService {
     );
   }
 
-  deleteAllUsersByLeaveSettingId(userUuids: string[]): Observable<void> {
+  // deleteAllUsersByLeaveSettingId(userUuids: string[]): Observable<void> { amit
+  //   const url = `${this.baseUrl}/user-leave-rule/delete-all-users-leave-setting-rule`;
+  //   return this.httpClient.delete<void>(url, { body: userUuids });
+  // }
+
+  deleteAllUsersByLeaveSettingId(userIds: number[]): Observable<void> {
     const url = `${this.baseUrl}/user-leave-rule/delete-all-users-leave-setting-rule`;
-    return this.httpClient.delete<void>(url, { body: userUuids });
+    return this.httpClient.delete<void>(url, { body: userIds });
   }
 
   deleteUserFromUserLeaveRule(userUuid: string): Observable<void> {
@@ -1753,11 +1834,19 @@ export class DataService {
     return this.httpClient.delete<void>(url);
   }
 
+  // addUserToLeaveRule( amit
+  //   userUuid: string,
+  //   leaveSettingId: number
+  // ): Observable<any> {
+  //   const url = `${this.baseUrl}/user-leave-rule/add-users-in-leave-setting?userUuid=${userUuid}&leaveSettingId=${leaveSettingId}`;
+  //   return this.httpClient.post<any>(url, {});
+  // }
+
   addUserToLeaveRule(
-    userUuid: string,
+    userId: number,
     leaveSettingId: number
   ): Observable<any> {
-    const url = `${this.baseUrl}/user-leave-rule/add-users-in-leave-setting?userUuid=${userUuid}&leaveSettingId=${leaveSettingId}`;
+    const url = `${this.baseUrl}/user-leave-rule/add-users-in-leave-setting?userUuid=${userId}&leaveSettingId=${leaveSettingId}`;
     return this.httpClient.post<any>(url, {});
   }
 
@@ -2878,6 +2967,18 @@ export class DataService {
     );
   }
 
+  deleteLeaveTemplateCategory(id: number){
+    const params = new HttpParams()
+    .set('leaveCategoryId', id)
+    return this.httpClient.delete<void>(`${this.baseUrl}/leave-template-category`, {params});
+  }
+
+  deleteLeaveTemplate(id: number){
+    const params = new HttpParams()
+    .set('leaveTemplateId', id)
+    return this.httpClient.delete<void>(`${this.baseUrl}/leave-template`, {params});
+  }
+
   getTeamListUserForEmpOnboarding(): Observable<any> {
     const url = `${this.baseUrl}/users/fetch-team-list-user`;
     return this.httpClient.get(url, {});
@@ -3613,29 +3714,49 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/checktime/list`, {params});
   }
 
-  sendAttendanceTimeUpdateRequest(userId: string, attendanceTimeUpdateRequestDto: AttendanceTimeUpdateRequestDto): Observable<any> {
+  sendAttendanceTimeUpdateRequest(userId: string, attendanceTimeUpdateRequestDto: AttendanceTimeUpdateRequestDto, requestType: string, choosenDateString: string): Observable<any> {
     const params = new HttpParams()
-    .set('userUuid', userId)
+    .set('userUuid', userId).set('requestType', requestType).set('choosenDateString', choosenDateString);
     const url = `${this.baseUrl}/attendance/send/attendance/update/request`;
     return this.httpClient.post<any>(url, attendanceTimeUpdateRequestDto, {params});
   }
 
 
-  getAttendanceRequestLog(userUuid : string): Observable<any>{
+  getAttendanceRequestLog(userUuid : string, pageNumber: number, itemPerPage: number): Observable<any>{
     const params = new HttpParams()
-    .set('userUuid', userUuid)
+    .set('userUuid', userUuid).set('pageNumber', pageNumber)
+    .set('itemPerPage', itemPerPage);
 
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/attendance/request/logs`, {params});
   }
 
-  getFullAttendanceRequestLog(): Observable<any>{
-
-    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/full/attendance/request/logs`);
+  getFullAttendanceRequestLog(pageNumber: number, itemPerPage: number,searchString:string ): Observable<any>{
+    const params = new HttpParams()
+    .set('pageNumber', pageNumber)
+    .set('itemPerPage', itemPerPage).set('searchString', searchString);
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/full/attendance/request/logs`, {params});
   }
 
-  getAttendanceRequests(): Observable<any>{
+  getAttendanceRequests(pageNumber: number, itemPerPage: number, searchString:string, startDate: string, endDate: string): Observable<any>{
+    const params = new HttpParams()
+    .set('pageNumber', pageNumber)
+    .set('itemPerPage', itemPerPage)
+    .set('searchString', searchString)
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+    
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/attendance/requests`, {params});
+  }
 
-    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/attendance/requests`);
+  getAttendanceExistanceStatus(userUuid: string, selectedDate: any): Observable<any>{
+    const params = new HttpParams()
+    .set('userUuid', userUuid).set('selectedDate', selectedDate);
+     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/attendance/existance/status`, {params});
+  }
+
+  getAttendanceRequestCount(): Observable<any>{
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/attendance/request/count`);
   }
 
   approveOrRejectAttendanceRequest(attendanceReqId: number, requestString: string): Observable<any> {
@@ -3767,13 +3888,13 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.post<any>(`${this.baseUrl}/overtime/register`, overtimeRequestDTO, {});
   }
 
-  approveOrRejectOvertime(overtimeRequestId : number, requestTypeId : number): Observable<any>{
+  approveOrRejectOvertimeRequest(overtimeRequestId : number, requestTypeId : number): Observable<any>{
 
     const params = new HttpParams()
     .set('overtime_request_id', overtimeRequestId)
     .set('request_type_id', requestTypeId);
 
-    return this.httpClient.post<any>(`${this.baseUrl}/overtime/register`, {params});
+    return this.httpClient.post<any>(`${this.baseUrl}/overtime/approve-reject`, {}, {params});
 
   }
 
@@ -3785,6 +3906,37 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/overtime/log/response/get-by-user-uuid`, {params});
   }
 
+  getOvertimeRequestLogResponseByOrganizationUuidAndStartDateAndEndDate(startDate : string, endDate : string, itemPerPage : number, pageNumber : number, searchText : string, searchBy : string): Observable<any>{
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+    .set('item_per_page', itemPerPage)
+    .set('page_number', pageNumber)
+    .set('search_text', searchText)
+    .set('search_by', searchBy);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/overtime/log/response/get-by-organization-uuid`, {params});
+  }
+
+  getOvertimeRequestResponseByOrganizationUuidAndStartDateAndEndDate(startDate : string, endDate : string): Observable<any>{
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/overtime/response/get-by-organization-uuid`, {params});
+  }
+
+  getOvertimePendingRequestResponseByOrganizationUuidAndStartDateAndEndDate(startDate : string, endDate : string): Observable<any>{
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/overtime/pending/response/get-by-organization-uuid`, {params});
+  }
+
   getLopReversalApplicationResponseListByUserUuid(userUuid : string): Observable<any>{
 
     const params = new HttpParams()
@@ -3793,6 +3945,38 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/lop-reversal-application/response/get-by-user-uuid`, {params});
   }
 
+
+  getLeaveCategoryList(): Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/leave-category/list`, {});
+  }
+
+  getYearTypeList(): Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/year-type/list`, {});
+  }
+
+  getLeaveCycleList(): Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/leave-cycle/list`, {});
+  }
+
+  getUnusedLeaveActionList(): Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/unused-leave/list`, {});
+  }
+
+
+  /** Get all employee type */
+  getAllEmployeeType(): Observable<any>{
+    return this.httpClient.get<any>(`${this.baseUrl}/emplyee-type/list`, {});
+  }
+
+  
+  registerLeaveTemplate(leaveTemplateRequest : LeaveTemplateRequest): Observable<any>{
+    return this.httpClient.post<any>(`${this.baseUrl}/leave-template/register-new`, leaveTemplateRequest);
+  }
+  
+  registerOrganizationRegistrationFormInfo(request: OrganizationRegistrationFormRequest): Observable<any> {
+    const url = `${this.baseUrl}/organization-registration-form/register`;
+    return this.httpClient.post(url, request);
+  }  
   registerBillingAndSubscriptionTemp(subscriptionPlanId : number): Observable<any>{
     
     const params = new HttpParams()
@@ -3801,7 +3985,118 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.post<any>(`${this.baseUrl}/organization-subs-plan/register-temp`, {}, {params});
   }
 
+  syncSlackUsersToDatabase(): Observable<any> {
+    return this.httpClient.post<any>(
+      `${this.baseUrl}/slack/sync/slack/users`,
+      {}
+    );
+  }
+
+  registerOrganizationRegistratonProcessStep(statusId: number, stepId:number): Observable<any> {
+    debugger
+    const params = new HttpParams().set('statusId', statusId).set('stepId', stepId);
+    return this.httpClient.put<any>(
+      `${this.baseUrl}/organization/register/onboarding/process/step`, {}, {params}
+
+    );
+  }
+
+  getOrganizationRegistratonProcessStepStatus(): Observable<any> {
+    debugger
+    // const params = new HttpParams().set('statusId', statusId).set('stepId', stepId);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/organization/get/onboarding/process/step/status`,
+
+    );
+  }
+
+  hideOrganizationInitialToDoStepBar(): Observable<any> {
+    debugger
+    // const params = new HttpParams().set('statusId', statusId).set('stepId', stepId);
+    return this.httpClient.put<any>(
+      `${this.baseUrl}/organization/hide/org/initial/to/do/step/bar`,{}
+
+    );
+  }
+
+  getOrganizationInitialToDoStepBar(): Observable<any> {
+    debugger
+    // const params = new HttpParams().set('statusId', statusId).set('stepId', stepId);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/organization/get/org/initial/to/do/step/bar`,
+
+    );
+  }
+
+  saveOrgSecondaryToDoStepBar(hideOrUnhide : number): Observable<any> {
+    debugger
+    const params = new HttpParams().set('hideOrUnhide', hideOrUnhide);
+    return this.httpClient.put<any>(
+      `${this.baseUrl}/organization/save/secondary/to/do/step/bar`,{},{params}
+
+    );
+  }
+
+  getOrgSecondaryToDoStepBar(): Observable<any> {
+    debugger
+    // const params = new HttpParams().set('statusId', statusId).set('stepId', stepId);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/organization/get/secondary/to/do/step/bar`,
+
+    );
+  }
+
+  getStepsData(): Observable<any> {
+    debugger
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/organization/get/Steps`,
+
+    );
+  }
+
+  isToDoStepsCompleted(): Observable<any> {
+    debugger
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/organization/get/to-do/steps/completed`,
+
+    );
+  }
+
+  isOrgOnboarToday(): Observable<any> {
+    debugger
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/organization/is/organization/onboard/today`,
+
+    );
+  }
+
+  
   getShifts(): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/organization-shift-timing/organization-shift`);
+
+  }
+
+  getLeaveTemplateResponseListByOrganizationId(): Observable<any>{
+
+    return this.httpClient.get<any>(`${this.baseUrl}/leave-template/get`, {});
+  }
+
+  getAllLeaveTemplate(pageNumber: number, itemPerPage: number){
+    const params = new HttpParams()
+    .set('item_per_page', itemPerPage)
+    .set('page_number', pageNumber)
+
+    return this.httpClient.get<any>(`${this.baseUrl}/leave-template`, {params});
+  }
+
+  saveSlackUserIdViaEmail(email : string){
+    const params = new HttpParams()
+    .set('emailId', email)
+
+    return this.httpClient.get<any>(`${this.baseUrl}/users/save-slack-user-id`, {params});
+  }
+
+  getSlackUserCount(){
+    return this.httpClient.get<any>(`${this.baseUrl}/users/get-slack-user-count`, {});
   }
 }

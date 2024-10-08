@@ -28,7 +28,12 @@ export class SlackAuthComponent implements OnInit {
     //this.convertAccessTokenFromCode();
     this.registerOrganizationByCodeParam();
     this.continueInSlack();
+    this.getSlackUserCountData();
+    
   }
+
+  // formatOne = (percent: number): string => `${percent}`;
+  // formatTwo = (): string => `Done`;
 
   isSuccessComponent: boolean = false;
   isErrorComponent: boolean = false;
@@ -42,7 +47,7 @@ export class SlackAuthComponent implements OnInit {
     const codeParam = new URLSearchParams(window.location.search).get('code');
     const stateParam = new URLSearchParams(window.location.search).get('state');
 
-    console.log('codeParam' + codeParam + 'stateParam' + stateParam);
+    // console.log('codeParam' + codeParam + 'stateParam' + stateParam);
     if (!codeParam || !stateParam) {
       this.router.navigate(['/auth/login']);
       // alert('Invalid URL: Missing code parameter');
@@ -50,10 +55,14 @@ export class SlackAuthComponent implements OnInit {
     }
     this.errorFlag = false;
     this.dataService
-      .registerOrganizationUsingCodeParam(codeParam, stateParam, this.helperService.getTimeZone())
+      .registerOrganizationUsingCodeParam(
+        codeParam,
+        stateParam,
+        this.helperService.getTimeZone()
+      )
       .subscribe(
         async (response: any) => {
-          console.log(response.object);
+          // console.log(response.object);
           this.isSuccessComponent = true;
           if(this.isSuccessComponent) {
             this.startCountdown();
@@ -73,15 +82,15 @@ export class SlackAuthComponent implements OnInit {
           Key.LOGGED_IN_USER = decodedValue;
 
           debugger;
-          console.log(decodedValue);
+          // console.log(decodedValue);
 
           this.isRouteDashboard = true;
-            this.isRouteOnboarding = false;
+          this.isRouteOnboarding = false;
           // if (
           //   decodedValue.httpCustomStatus === 'UPDATED' &&
           //   decodedValue.statusResponse === 'Attendance Rule Setting'
           // ) {
-            
+
           //   this.router.navigate(['/dashboard']);
           // }
           // } else {
@@ -110,26 +119,48 @@ export class SlackAuthComponent implements OnInit {
       );
   }
 
-  countdown: number = 20;
+  countdown: number = 20; // Countdown duration in seconds
+  countdownPercent: number = 100; // Starts at 100%
   intervalId: any;
+  formatOne = (percent: number): string => `${percent}%`;
+  formatTwo = (): string => `Done`;
 
+  // startCountdown(): void {
+  //   this.intervalId = setInterval(() => {
+  //     this.countdown--;
+  //     if (this.countdown === 0) {
+  //       this.redirectNow();
+  //     }
+  //   }, 1000);
+  // }
   startCountdown(): void {
+    const totalSeconds = this.countdown; 
+
     this.intervalId = setInterval(() => {
       this.countdown--;
-      if (this.countdown === 0) {
+
+      if (this.countdown > 1) {
+       
+        this.countdownPercent = (this.countdown / totalSeconds) * 100;
+      } else if (this.countdown === 1) {
+        
+        this.countdownPercent = 0; 
+      } else if (this.countdown === 0) {
+       
         this.redirectNow();
       }
-    }, 1000);
+    }, 1000); 
   }
 
   redirectNow(): void {
-    clearInterval(this.intervalId); // Clear the interval to stop the countdown
+    clearInterval(this.intervalId); 
     this.navigateToRoute();
   }
 
   navigateToRoute(): void {
     debugger;
-    this.router.navigate(['/dashboard']);
+    // this.router.navigate(['/dashboard']);
+    this.router.navigate(['/organization-onboarding/personal-information']);
     // this.helperService.showToast(
     //   'Please add shift settings in the Attendance Settings section and leave settings in the Leave Settings section to establish shift rules for your organization’s users and assign their leave quotas, if not already configured.',
     //   Key.TOAST_STATUS_SUCCESS
@@ -150,14 +181,14 @@ export class SlackAuthComponent implements OnInit {
     const decodedToken: any = jwtDecode(access_token);
 
     debugger;
-    console.log(decodedToken);
+    // console.log(decodedToken);
     return decodedToken;
   }
   workspaceName: any;
   slackWorkspaceUrl: string = '';
   continueInSlack() {
     // this.workspaceName = localStorage.getItem('WORKSPACENAME');
-    this.slackWorkspaceUrl = `https://slack.com/app_redirect?app=A05QD5T9EK1&tab=home`;
+    this.slackWorkspaceUrl = Key.SLACK_WORKSPACE_URL;
     // window.location.href = slackWorkspaceUrl;
   }
 
@@ -215,4 +246,15 @@ export class SlackAuthComponent implements OnInit {
   //     }
   //   );
   // }
+  
+  slackUserCount: number = 0;
+  getSlackUserCountData() {
+    this.dataService.getSlackUserCount().subscribe((response: any)=>{
+      this.slackUserCount = response.object
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+  }
 }

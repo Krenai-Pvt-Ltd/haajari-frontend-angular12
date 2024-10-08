@@ -62,6 +62,8 @@ export class Key {
     '/payment/bonus-and-deduction',
     '/payment/payment-history',
     '/payment/payroll-dashboard/leave-summary',
+    '/to-do-step-dashboard',
+    '/setting/subscription',
   ];
 
   public static TOPBAR_ROUTES = [
@@ -102,6 +104,8 @@ export class Key {
     '/payment/bonus-and-deduction',
     '/payment/payment-history',
     '/payment/payroll-dashboard/leave-summary',
+    '/setting/subscription',
+    // '/to-do-step-dashboard',
   ];
 
   public static ORGANIZATION_ONBOARDING_SIDEBAR_ROUTES = [
@@ -117,6 +121,7 @@ export class Key {
     '/organization-onboarding/upload-team',
     '/organization-onboarding/shift-time-list',
     '/organization-onboarding/attendance-mode',
+    '/organization-onboarding/add-shift-placeholder',
   ];
 
   // Deduction Ids
@@ -207,13 +212,11 @@ export class Key {
   // Attendance mode id
   public static MANUAL_ATTENDANCE = 1;
 
-  
-
   // Krenai UUID
   public static KRENAI_UUID = '60811bf3-ae1e-11ee-9597-784f4361d885';
   public static DEMO_ORGANIZATION_UUID = '8d3cc5c2-21a7-11ef-98b2-0a3b903b1973';
 
-  // base_url = 'http://localhost:8080/api/v2';
+  // base_url = 'http://localhost:8082/api/v2';
 
   /* ------------------  Staging urls ----------------*/
   // base_url = 'https://staging.hajiri.work/api/v2';
@@ -270,6 +273,9 @@ export class Key {
 
   check_number_existence = '/whatsapp-user-onboarding/check-number-existence';
   check_email_existence = '/whatsapp-user-onboarding/check-email-existence';
+
+  check_number_existence_without_token = '/users/check-number-existence';
+  check_email_existence_without_token = '/users/check-email-existence';
 
   save_organization_onboarding_step = '/organization/save-onboarding-step';
   get_organization_onboarding_step = '/organization/onboarding-step';
@@ -340,7 +346,7 @@ export class Key {
   // RazorPay Key
 
   // public static razorKey =  'rzp_test_Wd1RYd0fng3673'; // Test
-  public static razorKey = 'rzp_live_twiokSC5krYrnQ'  // Live
+  public static razorKey = 'rzp_live_twiokSC5krYrnQ'; // Live
   //
   public static ENABLE = 1;
   public static DISABLE = 2;
@@ -350,7 +356,72 @@ export class Key {
   public static OVERTIME_LOG = 2;
   public static LOP_REVERSAL_LOG = 3;
 
+  // public static SLACK_WORKSPACE_URL = `https://slack.com/app_redirect?app=A07AT94EHK7&tab=home`;
+  // static GEOLOCATION = 'geolocation'
+  // Tabs in Attendance Section
+  public static ATTENDANCE_TAB = 1;
+  public static OVERTIME_TAB = 2;
+  public static ATTENDANCE_UPDATE_REQUEST_TAB = 3;
+
+  // Tabs in Overtime Section
+  public static OVERTIME_PENDING_REQUEST_TAB = 1;
+  public static OVERTIME_HISTORY_TAB = 2;
+
+  // Tabs in Updation request section
+  public static ATTENDANCE_UPDATE_PENDING_REQUEST_TAB = 1;
+  public static ATTENDANCE_UPDATE_REQUEST_HISTORY_TAB = 2;
+
+  // Gender
+  public static ALL = 1;
+  public static MALE = 2;
+  public static FEMALE = 3;
+  public static OTHERS = 4;
+
+  // Unused leave action
+  public static LAPSE = 1;
+  public static CARRY_FORWARD = 2;
+  public static ENCASH = 3;
+
+  // Leave Cycle
+  public static MONTHLY = 1;
+  public static QUARTERLY = 2;
+  public static HALF_YEARLY = 3;
+  public static YEARLY = 4;
+
+  // Leave renewal cycle
+  public static ANNUAL_YEAR = 'Annual Year (Jan - Dec)';
+  public static FINANCIAL_YEAR = 'Financial Year (Apr - Mar)';
+
+  // Sandwitch rule
+  public static YES = 'Yes';
+  public static NO = 'No';
+
+  //  Attendance Main Modes
+  public static MODE1 = 'Slack_and_Whatsapp';
+  public static MODE2 = 'Machine';
+  public static MODE3 = 'Lens';
+
+  // OnboardingProcessStep
+  public static COMPANY_SETTING_ID = 1;
+  public static ATTENDANCE_MODE_ID = 2;
+  public static SHIFT_TIME_ID = 3;
+  public static AUTOMATION_RULE_ID = 4;
+  public static LEAVE_TEMPLATE_ID = 5;
+  public static SALARY_TEMPLATE_ID = 6;
+
+  public static PROCESS_COMPLETED = 36;
+  public static PROCESS_PENDING = 35;
+
+  // redirect to slack
+
+  // public static SLACK_WORKSPACE_URL= `https://slack.com/app_redirect?app=A05QD5T9EK1&tab=home`;
   public static SLACK_WORKSPACE_URL = `https://slack.com/app_redirect?app=A07AT94EHK7&tab=home`;
-  static GEOLOCATION = 'geolocation'
+
+  static GEOLOCATION = 'geolocation';
+
+  // Automation rule definition component count to apply CSS dynamically
+  public static COL_MD_4 = 3;
+  public static COL_MD_6 = 2;
+  public static COL_MD_12 = 1;
 }
 

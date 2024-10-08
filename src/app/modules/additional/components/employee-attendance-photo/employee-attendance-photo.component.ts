@@ -64,7 +64,7 @@ export class EmployeeAttendancePhotoComponent implements OnInit {
       .markAttendaceWithLocation(this.employeeAttendanceLocation, userUuid)
       .subscribe(
         (response: EmployeeAttendanceLocation) => {
-          console.log(response);
+          // console.log(response);
           this.toggle = false;
           if (response.status == 'Already Checked In') {
             this.helper.showToast(
@@ -81,8 +81,12 @@ export class EmployeeAttendancePhotoComponent implements OnInit {
               Key.TOAST_STATUS_SUCCESS
             );
             this.toggle = true;
-            window.location.href =
-              'https://api.whatsapp.com/send/?phone=918700822872&type=phone_number&app_absent=0';
+            if(response.onboardingVia == 'WHATSAPP') {
+              window.location.href =
+                'https://api.whatsapp.com/send/?phone=918700822872&type=phone_number&app_absent=0';
+              } else if(response.onboardingVia == 'SLACK'){
+                window.location.href = Key.SLACK_WORKSPACE_URL;
+              }
           }
           this.toggle = false;
         },
@@ -139,7 +143,7 @@ export class EmployeeAttendancePhotoComponent implements OnInit {
     this.imageFile = new File([imageBlob], 'captured_image.png', {
       type: 'image/png',
     });
-    console.log(this.imageFile);
+    // console.log(this.imageFile);
     // Upload file to Firebase
     this.uploadFile(this.imageFile, 'webcamImage');
   }
@@ -157,7 +161,7 @@ export class EmployeeAttendancePhotoComponent implements OnInit {
           fileRef.getDownloadURL().subscribe(
             (url) => {
               this.toggle = false;
-              console.log(url);
+              // console.log(url);
               this.employeeAttendanceLocation.imageUrl = url;
               this.submitButton = true;
             },
