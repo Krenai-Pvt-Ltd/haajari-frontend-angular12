@@ -242,27 +242,28 @@
 
 @media screen and (max-width: 2600px) {
   .onboardingStapsPoint {
-    height: 550px !important;
-    overflow: scroll;
-  }
-}
-@media screen and (max-width: 1920px) {
-  .onboardingStapsPoint {
-    height: 350px !important;
+    height: 530px;
     overflow: scroll;
   }
 }
 
-/* @media screen and (max-width: 1430px) {
+@media screen and (max-width: 1920px) {
+  .onboardingStapsPoint {
+    height: 520px;
+    overflow: scroll;
+  }
+}
+
+@media screen and (max-width: 1430px) {
   .onboardingStapsPoint {
     height: 400px;
     overflow: scroll;
   }
-} */
+}
 
 @media screen and (max-width: 1280px) {
   .onboardingStapsPoint {
-    height: 350px !important;
+    height: 350px;
     overflow: scroll;
   }
 }
