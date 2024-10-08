@@ -86,6 +86,11 @@ export class LeaveManagementComponent implements OnInit {
     return this.userLeaveForm.get('optNotes');
   }
 
+  onError(event: Event) {
+    const target = event.target as HTMLImageElement;
+    target.src = './assets/images/broken-image-icon.jpg';
+  }
+
   logInUserUuid: string = '';
   ROLE: string | null |any = '';
   currentNewDate: any;

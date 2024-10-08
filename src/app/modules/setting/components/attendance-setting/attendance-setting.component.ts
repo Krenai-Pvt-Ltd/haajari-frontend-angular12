@@ -53,6 +53,7 @@ import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { PlacesService } from 'src/app/services/places.service';
 declare var google: any;
+
 @Component({
   selector: 'app-attendance-setting',
   templateUrl: './attendance-setting.component.html',
@@ -117,15 +118,29 @@ export class AttendanceSettingComponent implements OnInit {
     }
   }
 
+  @ViewChild("automationRuless") automationRuless!:ElementRef;
   private scrollToAutomationRules() {
     
     setTimeout(() => {
       if (this.automationRules) {
         this.automationRules.nativeElement.scrollIntoView({ behavior: 'smooth' });
+        // this.automationRuless.nativeElement.click();
+        this.attendanceRuleWithAttendanceRuleDefinitionResponseList.push(new AttendanceRuleWithAttendanceRuleDefinitionResponse());
+        this.dataNotFoundPlaceholderForAttendanceRule=false;
+        this.networkConnectionErrorPlaceHolderForAttendanceRule=false;
         this.shouldScrollToAutomationRules = false; 
       }
     }, 100);
   }
+
+  // openModal() {
+  //   const modalElement = document.getElementById('automation-rules');
+
+  //   if (modalElement) {
+  //     const modalInstance = new Modal(modalElement);
+  //     modalInstance.show();
+  //   }
+  // }
 
   isShimmer = false;
   dataNotFoundPlaceholder = false;
@@ -1159,7 +1174,7 @@ export class AttendanceSettingComponent implements OnInit {
           response.listOfObject.length == 0
         ) {
           this.dataNotFoundPlaceholderForAttendanceRule = true;
-          this.helperService.registerOrganizationRegistratonProcessStepData(Key.AUTOMATION_RULE_ID, Key.PROCESS_PENDING);
+          // this.helperService.registerOrganizationRegistratonProcessStepData(Key.AUTOMATION_RULE_ID, Key.PROCESS_PENDING);
         } else {
           this.attendanceRuleWithAttendanceRuleDefinitionResponseList =
             response.listOfObject;
@@ -1735,7 +1750,7 @@ formatMinutesToTime(minutes: number): string {
         ) {
           this.isShimmer = false;
           this.dataNotFoundPlaceholder = true;
-          this.helperService.registerOrganizationRegistratonProcessStepData(Key.SHIFT_TIME_ID, Key.PROCESS_PENDING);
+          // this.helperService.registerOrganizationRegistratonProcessStepData(Key.SHIFT_TIME_ID, Key.PROCESS_PENDING);
         }
         if (this.organizationShiftTimingWithShiftTypeResponseList.length == 1) {
           this.activeIndex = 0;

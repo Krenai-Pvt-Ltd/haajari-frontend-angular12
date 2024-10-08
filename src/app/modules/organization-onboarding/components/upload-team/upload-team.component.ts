@@ -467,10 +467,10 @@ export class UploadTeamComponent implements OnInit {
           this.getUser();
           this.closeUserEditModal.nativeElement.click();
           this.editLoader = false;
-          this.helperService.showToast(
-            'user update sucessfully',
-            Key.TOAST_STATUS_SUCCESS
-          );
+          // this.helperService.showToast(
+          //   'user update sucessfully',
+          //   Key.TOAST_STATUS_SUCCESS
+          // );
         }
       },
       (error) => {
