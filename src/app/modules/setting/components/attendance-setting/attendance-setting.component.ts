@@ -794,12 +794,6 @@ export class AttendanceSettingComponent implements OnInit {
 
     if(attendanceRuleTypeId == this.DEDUCTION_RULE_DEFINITION) {
       if (isOpen && !this.customLateDurationValue) {
-        setTimeout(() => {
-          const nowButton = document.querySelector('.ant-picker-now-btn') as HTMLInputElement | null;
-          if (nowButton) {
-            nowButton.style.display = 'none'; // Hides the 'Now' button
-          }
-        }, 0); 
         // If the time picker is opened and no time has been set, default to 00:00
         this.customLateDurationValue = new Date();
         this.customLateDurationValue.setHours(0, 0, 0, 0);
