@@ -6,7 +6,6 @@ import { AttendenceDto } from 'src/app/models/attendence-dto';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { DataService } from 'src/app/services/data.service';
-import { Subject } from 'rxjs';
 import { UserLeaveRequest } from 'src/app/models/user-leave-request';
 import { FormBuilder, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import { FullCalendarComponent } from '@fullcalendar/angular';
@@ -14,7 +13,6 @@ import { AttendanceCheckTimeResponse, AttendanceTimeUpdateRequestDto, UserDto } 
 import { saveAs } from 'file-saver';
 import { HttpClient } from '@angular/common/http';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import * as dayjs from 'dayjs';
 import { AttendanceDetailsResponse } from 'src/app/models/attendance-detail-response';
 import { UserAddressDetailsRequest } from 'src/app/models/user-address-details-request';
 import { HelperService } from 'src/app/services/helper.service';
@@ -25,14 +23,11 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 import { UserDocumentsAsList } from 'src/app/models/UserDocumentsMain';
 import { TaxRegime } from 'src/app/models/tax-regime';
 import { StatutoryResponse } from 'src/app/models/statutory-response';
-import { Statutory } from 'src/app/models/statutory';
 import { StatutoryRequest } from 'src/app/models/statutory-request';
-import { StatutoryAttribute } from 'src/app/models/statutory-attribute';
 import { ESIContributionRate } from 'src/app/models/e-si-contribution-rate';
 import { PFContributionRate } from 'src/app/models/p-f-contribution-rate';
 import { StatutoryAttributeResponse } from 'src/app/models/statutory-attribute-response';
 import { UserExperienceDetailRequest } from 'src/app/models/user-experience-detail-request';
-import { EmployeeExperienceComponent } from 'src/app/modules/employee-onboarding/employee-experience/employee-experience.component';
 import { EmployeeAdditionalDocument } from 'src/app/models/employee-additional-document';
 import { OnboardingFormPreviewResponse } from 'src/app/models/onboarding-form-preview-response';
 import { UserEmergencyContactDetailsRequest } from 'src/app/models/user-emergency-contact-details-request';
@@ -41,8 +36,6 @@ import { TotalExperiences } from 'src/app/models/total-experiences';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { finalize } from 'rxjs/operators';
 import { EmployeeCompanyDocumentsRequest } from 'src/app/models/employee-company-documents-request';
-import { keys } from 'lodash';
-import { UserDocumentsDetailsRequest } from 'src/app/models/user-documents-details-request';
 import { SalaryTemplateComponentResponse } from 'src/app/models/salary-template-component-response';
 import { AppraisalRequest } from 'src/app/models/appraisal-request';
 import { BonusRequest } from 'src/app/models/bonus-request';
@@ -51,7 +44,6 @@ import { EmployeePayslipResponse } from 'src/app/models/employee-payslip-respons
 import { EmployeePayslipBreakupResponse } from 'src/app/models/employee-payslip-breakup-response';
 import { EmployeePayslipDeductionResponse } from 'src/app/models/employee-payslip-deduction-response';
 import { EmployeePayslipLogResponse } from 'src/app/employee-payslip-log-response';
-import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 import { LopReversalApplicationRequest } from 'src/app/models/lop-reversal-application-request';
 import { OrganizationAssetResponse } from 'src/app/models/asset-category-respose';
 import { EmployeeSuperCoinsResponse } from 'src/app/models/employee-super-coins-response';
@@ -60,10 +52,7 @@ import { OvertimeRequestDTO } from 'src/app/models/overtime-request-dto';
 import { OvertimeRequestLogResponse } from 'src/app/models/overtime-request-log-response';
 import { LopReversalApplicationResponse } from 'src/app/models/lop-reversal-application-response';
 import { NzCalendarMode } from 'ng-zorro-antd/calendar';
-import { AttendanceDetailDayWise } from 'src/app/models/attendance-detail-day-wise';
-
-import { OrganizationShift } from 'src/app/models/shift-type';
-
+import { AttendanceDetailDayWise } from 'src/app/models/attendance-detail-day-wise'
 
 @Component({
   selector: 'app-employee-profile',
@@ -1107,7 +1096,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   userLeave: any = [];
   leaveCountPlaceholderFlag: boolean = false;
 
-  getUserLeaveReq() {
+  getUserLeaveReq1() {
     this.leaveCountPlaceholderFlag = false;
     this.dataService.getUserLeaveRequests(this.userId).subscribe(
       (data) => {
@@ -1127,6 +1116,14 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
         this.count++;
       }
     );
+  }
+
+  getUserLeaveReq(){
+    this.leaveCountPlaceholderFlag = false;
+    this.dataService.getUserLeaveRequests(this.userId).subscribe(
+      (res: any) => {
+          this.userLeave = res.object;
+      });
   }
 
   selectedStatus!: string;
@@ -1274,7 +1271,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
           this.isFresher = this.experienceEmployee[0].fresher;
         }
         // console.log('experience length' + this.experienceEmployee.length);
-        if (data == undefined || data == null || data.experiences.length == 0) {
+        if (data == undefined || data == null || data.experiences?.length == 0) {
           this.isCompanyPlaceholder = true;
         }
         this.count++;
@@ -2389,42 +2386,42 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
           //     this.employeeAdditionalDocument = [];
           // }
 
-          if (preview.userDocuments.secondarySchoolCertificate) {
+          if (preview?.userDocuments.secondarySchoolCertificate) {
             this.isSchoolDocument = false;
           }
-          if (preview.userDocuments.highSchoolCertificate) {
+          if (preview?.userDocuments.highSchoolCertificate) {
             this.isHighSchoolDocument = false;
           }
-          if (preview.userExperience) {
+          if (preview?.userExperience) {
             this.userExperienceArray = preview.userExperience;
           }
-          if (preview.fresher == true) {
+          if (preview?.fresher == true) {
             this.isFresher = true;
           }
-          if (preview.userEmergencyContacts) {
+          if (preview?.userEmergencyContacts) {
             this.userEmergencyContactArray = preview.userEmergencyContacts;
           } else {
             console.log('No guarantor information available.');
             this.userEmergencyContactArray = [];
           }
-          if (preview.userDocuments != null) {
+          if (preview?.userDocuments != null) {
             this.secondarySchoolCertificateFileName = this.getFilenameFromUrl(
               preview.userDocuments.secondarySchoolCertificate
             );
             this.highSchoolCertificateFileName1 = this.getFilenameFromUrl(
-              preview.userDocuments.highSchoolCertificate
+              preview?.userDocuments.highSchoolCertificate
             );
             this.highestQualificationDegreeFileName1 = this.getFilenameFromUrl(
-              preview.userDocuments.highestQualificationDegree
+              preview?.userDocuments.highestQualificationDegree
             );
             this.testimonialReccomendationFileName1 = this.getFilenameFromUrl(
-              preview.userDocuments.testimonialReccomendation
+              preview?.userDocuments.testimonialReccomendation
             );
             this.aadhaarCardFileName = this.getFilenameFromUrl(
-              preview.userDocuments.aadhaarCard
+              preview?.userDocuments.aadhaarCard
             );
             this.pancardFileName = this.getFilenameFromUrl(
-              preview.userDocuments.pancard
+              preview?.userDocuments.pancard
             );
           }
           this.isLoading = false;

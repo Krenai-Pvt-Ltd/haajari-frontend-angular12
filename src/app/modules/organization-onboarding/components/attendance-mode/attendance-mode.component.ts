@@ -70,12 +70,12 @@ export class AttendanceModeComponent implements OnInit {
     this.dataService.updateAttendanceMode(attendanceModeId).subscribe(
       (response) => {
         this.getAttendanceModeMethodCall();
-        setTimeout(() => {
-          this.helperService.showToast(
-            'Attedance Mode updated successfully.',
-            Key.TOAST_STATUS_SUCCESS
-          );
-        }, 1000);
+        // setTimeout(() => {
+        //   this.helperService.showToast(
+        //     'Attedance Mode updated successfully.',
+        //     Key.TOAST_STATUS_SUCCESS
+        //   );
+        // }, 1000);
       },
       (error) => {
         this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
@@ -91,12 +91,12 @@ export class AttendanceModeComponent implements OnInit {
         this.getMasterAttendanceModeMethodCall();
         this.getAttendanceModeStep();
         this.helperService.registerOrganizationRegistratonProcessStepData(Key.ATTENDANCE_MODE_ID, Key.PROCESS_COMPLETED);
-        setTimeout(() => {
-          this.helperService.showToast(
-            'Attedance Master Mode updated successfully.',
-            Key.TOAST_STATUS_SUCCESS
-          );
-        }, 1000);
+        // setTimeout(() => {
+        //   this.helperService.showToast(
+        //     'Attedance Master Mode updated successfully.',
+        //     Key.TOAST_STATUS_SUCCESS
+        //   );
+        // }, 1000);
       },
       (error) => {
         this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
@@ -221,12 +221,12 @@ export class AttendanceModeComponent implements OnInit {
           this.updateAttendanceModeMethodCall(this.currentAttendanceModeId);
           this.closeAddressModal.nativeElement.click();
           // this.resetAddressDetailsModal();
-          setTimeout(() => {
-            this.helperService.showToast(
-              'Attedance Mode updated successfully',
-              Key.TOAST_STATUS_SUCCESS
-            );
-          }, 1000);
+          // setTimeout(() => {
+          //   this.helperService.showToast(
+          //     'Attedance Mode updated successfully',
+          //     Key.TOAST_STATUS_SUCCESS
+          //   );
+          // }, 1000);
           // this.helperService.showToast("Attedance Mode updated successfully", Key.TOAST_STATUS_SUCCESS);
         },
         (error) => {
@@ -527,9 +527,10 @@ currentLocation() {
     debugger
     this.dataService.registerBillingAndSubscriptionTemp(subscriptionPlanId).subscribe(
       (response) => {
-        this.helperService.showToast("Free trial started successfully.", Key.TOAST_STATUS_SUCCESS);
+        // this.helperService.showToast("Free trial started successfully.", Key.TOAST_STATUS_SUCCESS);
         setTimeout(() => {
-          this.router.navigate(['/dashboard']);
+          // this.router.navigate(['/dashboard']);
+          this.router.navigate(['/to-do-step-dashboard']);
         }, 1000);
 
       },
