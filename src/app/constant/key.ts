@@ -223,7 +223,7 @@ export class Key {
 
   /* ------------------  Production urls ----------------*/
   // base_url = 'https://production.hajiri.work/api/v2';
-
+ 
   //subscription plan
   get_subscription = '/subcription-plan';
   get_active_user_count = '/users/active-user-count';
