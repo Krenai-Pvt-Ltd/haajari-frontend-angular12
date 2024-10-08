@@ -1174,7 +1174,7 @@ export class AttendanceSettingComponent implements OnInit {
           response.listOfObject.length == 0
         ) {
           this.dataNotFoundPlaceholderForAttendanceRule = true;
-          this.helperService.registerOrganizationRegistratonProcessStepData(Key.AUTOMATION_RULE_ID, Key.PROCESS_PENDING);
+          // this.helperService.registerOrganizationRegistratonProcessStepData(Key.AUTOMATION_RULE_ID, Key.PROCESS_PENDING);
         } else {
           this.attendanceRuleWithAttendanceRuleDefinitionResponseList =
             response.listOfObject;
@@ -1750,7 +1750,7 @@ formatMinutesToTime(minutes: number): string {
         ) {
           this.isShimmer = false;
           this.dataNotFoundPlaceholder = true;
-          this.helperService.registerOrganizationRegistratonProcessStepData(Key.SHIFT_TIME_ID, Key.PROCESS_PENDING);
+          // this.helperService.registerOrganizationRegistratonProcessStepData(Key.SHIFT_TIME_ID, Key.PROCESS_PENDING);
         }
         if (this.organizationShiftTimingWithShiftTypeResponseList.length == 1) {
           this.activeIndex = 0;
