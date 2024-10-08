@@ -97,10 +97,11 @@
   right: 25px;
   width: 300px;
   cursor: pointer;
-  height: 83vh;
+  /* height: 83vh; */
   z-index: 999;
   transition: 0.3s linear;
   transform: translateY(150%);
+  padding-bottom: 20px;
 }
 
 .showOnboardingStepHover {
@@ -240,29 +241,30 @@
   color: #fff;
 }
 
-@media screen and (max-width: 2600px) {
+/* @media screen and (max-width: 2600px) {
   .onboardingStapsPoint {
-    height: 550px;
+    height: 530px;
     overflow: scroll;
   }
 }
-@media screen and (max-width: 1920px) {
-  .onboardingStapsPoint {
-    height: 510px;
-    overflow: scroll;
-  }
-}
+
+
 
 @media screen and (max-width: 1430px) {
   .onboardingStapsPoint {
     height: 400px;
     overflow: scroll;
   }
+} */
+@media screen and (max-width: 1920px) {
+  .onboardingStapsPoint {
+    max-height: 50vh;
+    overflow: scroll;
+  }
 }
-
 @media screen and (max-width: 1280px) {
   .onboardingStapsPoint {
-    height: 350px;
+    max-height: 50vh;
     overflow: scroll;
   }
 }
