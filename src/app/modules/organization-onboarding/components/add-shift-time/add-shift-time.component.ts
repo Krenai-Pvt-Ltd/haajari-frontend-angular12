@@ -716,4 +716,6 @@ export class AddShiftTimeComponent implements OnInit {
   hideShiftNote() {
     this.hideShiftNoteFlag = false;
   }
+
+  
 }

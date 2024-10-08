@@ -145,7 +145,7 @@ export class ShiftTimeListComponent implements OnInit {
           },
           (error) => {
             console.log(error);
-            this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+            // this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
             this.deleteOrganizationShiftTimingLoaderStatus[
               organizationShiftTimingId
             ] = false;
@@ -162,6 +162,7 @@ export class ShiftTimeListComponent implements OnInit {
   async getAllShiftTimingsMethodCall(): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
       this.allShiftTimingsLoader = true;
+      // this.organizationShiftTimingWithShiftTypeResponseList = [];
       this.dataService.getAllShiftTimings().subscribe(
         (response) => {
           this.organizationShiftTimingWithShiftTypeResponseList = response;
@@ -309,6 +310,7 @@ export class ShiftTimeListComponent implements OnInit {
           debugger;
           this.isEditStaffLoader = false;
           this.editShiftTimeLoader = false;
+          this.isRegisterLoad = false;
           // console.log(response);
           this.closeShiftTimingModal.nativeElement.click();
           this.getAllShiftTimingsMethodCall();
@@ -323,10 +325,10 @@ export class ShiftTimeListComponent implements OnInit {
           console.log(error);
           this.isEditStaffLoader = false;
           this.editShiftTimeLoader = false;
-          this.helperService.showToast(
-            'Error In Shift Creation',
-            Key.TOAST_STATUS_ERROR
-          );
+          // this.helperService.showToast(
+          //   'Error In Shift Creation',
+          //   Key.TOAST_STATUS_ERROR
+          // );
         }
       );
   }
@@ -755,4 +757,23 @@ calculateTimes(): void {
     this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId);
   }
 
+  @ViewChild('closeButton2') closeButton2!: ElementRef;
+  isRegisterLoad: boolean = false;
+  registerShift() {
+    debugger;
+    this.isRegisterLoad = true;
+    this.closeButton2.nativeElement.click();
+    this.editShiftStaffInfo();
+    // this.registerOrganizationShiftTimingMethodCall();
+
+    // setTimeout(() => {
+    //   this.closeButton2.nativeElement.click();
+    //   this.closeButtonEditStaffInfo.nativeElement.click();
+    // }, 300);
+  }
+
+  closeModal() {
+    this.isValidated = false;
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId);
+  }
 }

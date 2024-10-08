@@ -483,6 +483,7 @@
   role="dialog"
   aria-labelledby="exampleModalDefaultLabel"
   aria-hidden="true"
+  data-bs-backdrop="static"
 >
   <div
     class="modal-dialog modal-dialog-centered"
@@ -937,6 +938,7 @@
                       <button
                         class="btn mannualSubmit"
                         (click)="editShiftStaffInfo()"
+                        *ngIf="this.userNameWithShiftName?.length < 1"
                       >
                         <span *ngIf="!isEditStaffLoader">Submit</span>
                         <div
@@ -949,8 +951,27 @@
                         </div>
                         <!-- Submit -->
                       </button>
-
-                      
+                      <button
+                        class="btn mannualSubmit"
+                        
+                        *ngIf="
+                        this.userNameWithShiftName?.length > 0 &&
+                        !this.isValidated
+                      "
+                      data-bs-target="#usersAlreadyAssigned"
+                      data-bs-toggle="modal"
+                      >
+                        <span *ngIf="!isEditStaffLoader">Submit</span>
+                        <div
+                          class="dot-opacity-white-loader"
+                          *ngIf="isEditStaffLoader"
+                        >
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                        </div>
+                        
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -1345,6 +1366,7 @@
   tabindex="-1"
   role="dialog"
   aria-hidden="true"
+  data-bs-backdrop="static"
 >
   <div
     class="modal-dialog modal-dialog-centered"
@@ -1366,6 +1388,9 @@
             data-bs-dismiss="modal"
             aria-label="Close"
             #closeButton
+            (click)="closeModal()"
+            data-bs-toggle="modal"
+            data-bs-target="#shiftTime"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -1401,6 +1426,8 @@
           </button>
         </div>
 
+        <!-- data-bs-toggle="modal"
+        data-bs-target="#shiftTime" -->
         <div class="row p-3 pb-4 pt-4 align-items-center">
           <div class="col-md-8">
             <div
@@ -1425,25 +1452,27 @@
 
         <div class="p-3 employee-list bg-white">
           <h4 class="mb-1">Employee List</h4>
-          <div class="manualemployList">
+          <div class="manualemployList" *ngIf="userNameWithShiftName?.length > 0">
             <div
               class="d-flex align-items-center justify-content-between persnol-details userList p-0 pt-2 pb-2"
-              *ngFor="let item of [].constructor(10)"
+              *ngFor="let list of userNameWithShiftName"
             >
               <div class="d-flex align-items-center gap-3">
-                <span class="userName">D</span>
+                <span class="userName">{{
+                  list.userName.charAt(0).toUpperCase()
+                }}</span>
 
                 <div>
-                  <h5 class="alert-heading font-13 mb-1">Yogesh Kumar</h5>
+                  <h5 class="alert-heading font-13 mb-1"> {{ list.userName }}</h5>
                   <div class="d-flex align-items-center gap-2">
-                    <p class="mb-0 font-11">yogeh@krenai.com</p>
+                    <p class="mb-0 font-11">{{ list.userEmail || "N/A" }}</p>
                     <span class="spreter-line"></span>
-                    <span class="shift-tag">Night Shift</span>
+                    <span class="shift-tag">{{ list.shiftName }}</span>
                   </div>
                 </div>
               </div>
               <div>
-                <button class="btn p-0 addUserRemvo">
+                <button class="btn p-0 addUserRemvo" (click)="removeUser(list.userUuid)">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="22"
@@ -1485,11 +1514,13 @@
       <div class="border-top p-3">
         <div class="form-check" style="padding-left: 0px !important">
           <input
-            type="checkbox"
-            id="termsAndConditions"
-            required=""
-            style="height: auto !important; position: relative; top: 2px"
-            class="ng-dirty ng-touched"
+          type="checkbox"
+          id="validationCheck"
+          style="height: auto !important; position: relative; top: 2px"
+          class="ng-dirty ng-touched"
+          [(ngModel)]="isValidated"
+          (change)="checkValidation()"
+           
           /><label for="termsAndConditions" class="form-check-label iHaveRead">
             I have validated the information and will proceed to add users to
             the new shift.
@@ -1497,20 +1528,22 @@
         </div>
         <div class="d-flex align-items-center justify-content-end gap-3 mt-3">
           <button
-            class="btn submit-add-more"
+            class="btn submit-add-more d-none"
             data-bs-dismiss="modal"
             aria-label="Close"
+            #closeButton2
           >
             Cancel
           </button>
 
-          <button class="btn mannualSubmit" (click)="submitShiftTimingForm()">
-            <span *ngIf="!editShiftTimeLoader">Add all</span>
-            <div class="dot-opacity-white-loader" *ngIf="editShiftTimeLoader">
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
+          <button class="btn mannualSubmit" [disabled]="!isValidated"
+          (click)="registerShift()">
+          <span *ngIf="!isRegisterLoad">Add all</span>
+          <div class="dot-opacity-loader" *ngIf="isRegisterLoad">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
           </button>
         </div>
       </div>
