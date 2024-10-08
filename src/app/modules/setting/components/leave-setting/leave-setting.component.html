@@ -535,7 +535,7 @@
     </div>
   </div>
 </div>
-<!-- <div
+<div
   class="modal fade"
   id="requestleave"
   #requestleave
@@ -669,7 +669,6 @@
                     </div>
                   </div>
 
-                  
                   <div class="col-md-6 mt-3 mb-2" nz-form-item>
                     <label for="templateName" class="pb-2">
                       Template Name
@@ -693,7 +692,6 @@
                       required
                     />
                     <div *ngIf="tempName?.touched">
-                      
                       <label
                         *ngIf="tempName.errors?.required"
                         id="cname-error"
@@ -705,7 +703,6 @@
                     </div>
                   </div>
 
-                  
                   <div class="col-md-6 mt-2 mb-2" nz-form-item>
                     <label for="leaveRenewalCycle" class="pb-2">
                       Leave Quota Renew Cycle
@@ -749,7 +746,6 @@
                     </div>
                   </div>
 
-                 
                   <div class="col-md-6 mt-3 mb-2" nz-form-item>
                     <label for="leavePeriod" class="pb-2"
                       >Leave Period
@@ -800,7 +796,6 @@
                     </div>
                   </div>
 
-                 
                   <div
                     id="back-and-submit"
                     class="d-flex justify-content-end align-items-end"
@@ -814,7 +809,6 @@
                       Next
                     </button>
                   </div>
-               
                 </form>
               </div>
 
@@ -831,10 +825,7 @@
                         [formGroupName]="i"
                       >
                         <div class="col-md-2">
-                      
                           <label for="genderId">Select Gender</label>
-
-                         
 
                           <nz-select
                             style="width: 100%"
@@ -844,20 +835,17 @@
                             (ngModelChange)="onGenderChange($event, i)"
                             required
                           >
-                          
                             <nz-option
                               *ngFor="let gender of genders"
                               [nzValue]="gender.name"
                               [nzLabel]="gender.name"
                             ></nz-option>
                           </nz-select>
-
-                         
                         </div>
 
                         <div class="col-md-2">
                           <label class="mb-2">Leave Category Name</label>
-                        
+
                           <nz-select
                             style="width: 100%"
                             nzSize="large"
@@ -865,8 +853,6 @@
                             formControlName="leaveCategoryId"
                             required
                           >
-                            
-                          
                             <nz-option
                               *ngFor="
                                 let leaveCategory of filteredLeaveCategories[i]
@@ -875,8 +861,6 @@
                               [nzLabel]="leaveCategory.name"
                             ></nz-option>
                           </nz-select>
-
-                          
 
                           <p
                             class="errortxt mt-2 mb-0 text-danger"
@@ -925,7 +909,6 @@
                             (ngModelChange)="onAccrualChange($event)"
                             required
                           >
-                        
                             <nz-option
                               *ngFor="let accrualType of accrualTypes"
                               [nzValue]="accrualType.id"
@@ -960,7 +943,7 @@
                             >
                           </p>
                         </div>
-                       
+
                         <div class="col-md-2">
                           <label class="mb-2" for="unusedLeaveActionId"
                             >Unused Leave Action</label
@@ -985,8 +968,7 @@
                         </div>
                         <div class="col-md-2">
                           <label class="mb-2">Unused Leave Count</label>
-                          
-                          
+
                           <nz-select
                             style="width: 100%"
                             *ngIf="
@@ -1055,11 +1037,9 @@
                     </div>
                   </form>
                 </div>
-                
               </div>
 
               <div class="tab-pane fade" id="staffSelection" role="tabpanel">
-             
                 <div class="staf-list-box mt-3">
                   <div class="row mb-3">
                     <div class="">
@@ -1107,7 +1087,6 @@
                             role="tabpanel"
                           >
                             <div class="mt-3">
-                             
                               <div
                                 class="row border-top border-bottom pb-2 pt-2"
                               >
@@ -1332,7 +1311,7 @@
                                           (change)="selectAll(isAllSelected)"
                                         />
                                       </th>
-                                      
+
                                       <th
                                         style="width: 25%; padding: 12px 15px"
                                       >
@@ -1380,7 +1359,7 @@
                                           />
                                         </div>
                                       </td>
-                                   
+
                                       <td style="padding: 12px 15px">
                                         {{ staff.name }}
                                       </td>
@@ -1392,7 +1371,6 @@
                                         }}
                                       </td>
                                       <td>
-                                        
                                         <span *ngIf="!staff.isAdded">
                                           <div
                                             class="dot-opacity-loader"
@@ -1416,7 +1394,7 @@
                                             Add
                                           </button>
                                         </span>
-                                       
+
                                         <span *ngIf="staff.isAdded">
                                           <button
                                             class="btn btn-outline-primary btn-sm editdata-edit"
@@ -1429,7 +1407,6 @@
                                             Added
                                           </button>
                                         </span>
-                                     
                                       </td>
                                     </tr>
                                   </tbody>
@@ -1495,14 +1472,12 @@
                               </div>
                             </div>
                           </div>
-                          
-                          
+
                           <div
                             class="tab-pane fade"
                             id="mapped"
                             role="tabpanel"
                           >
-                           
                             <div class="mt-3">
                               <div
                                 class="row border-top border-bottom pb-2 pt-2"
@@ -1637,7 +1612,6 @@
                                     align-items: center;
                                   "
                                 >
-                                 
                                   <div
                                     class="mt-3 d-flex"
                                     style="gap: 10px"
@@ -1673,7 +1647,7 @@
                                         >Clear all users <i class="bi bi-x"></i>
                                       </span>
                                     </ng-container>
-                                    
+
                                     <ng-template #elseCondition2>
                                       <span
                                         (click)="deleteAllUsers()"
@@ -1752,7 +1726,7 @@
                                           "
                                         />
                                       </th>
-                                      
+
                                       <th
                                         style="width: 25%; padding: 12px 15px"
                                       >
@@ -1800,8 +1774,7 @@
                                           />
                                         </div>
                                       </td>
-                                      
-                                      
+
                                       <td style="padding: 12px 15px">
                                         {{ newstaff.name }}
                                       </td>
@@ -1898,13 +1871,11 @@
                       </div>
                     </div>
                   </div>
-                  
+
                   <div id="back-and-submit">
                     <div
                       class="modal-footer d-flex align-items-center justify-content-end"
-                    >
-                      
-                    </div>
+                    ></div>
                     <div
                       class="modal-footer d-flex align-items-center justify-content-end"
                     >
@@ -1928,29 +1899,38 @@
                       </div>
                     </div>
                   </div>
-                  
                 </div>
               </div>
             </div>
           </div>
-
-          
         </div>
       </form>
     </div>
   </div>
-</div> -->
+</div>
+
+<button
+  class="btn leave-modal"
+  data-bs-toggle="modal"
+  data-bs-target="#leavemodal"
+>
+  Leave Modal
+</button>
 
 <div
   class="modal fade"
-  id="requestleave"
+  id="leavemodal"
   #requestleave
   tabindex="-1"
   role="dialog"
-  aria-labelledby="requestLeave"
+  aria-labelledby="leavemodal"
   aria-hidden="true"
 >
-  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+  <div
+    class="modal-dialog modal-lg modal-dialog-centered"
+    style="max-width: 950px"
+    role="document"
+  >
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="requestLeave">Create another template</h5>
@@ -2024,7 +2004,7 @@
                       aria-labelledby="v-pills-home-tab"
                     >
                       <form nz-form #leaveTemplateDefinitionForm="ngForm">
-                        <div class="row">
+                        <div class="row register-form-box">
                           <div class="col-md-12 mb-3" nz-form-item>
                             <label for="templateName" class="pb-2">
                               Template Name
@@ -2063,9 +2043,7 @@
                               <label for="employeeTypeId" class="pb-2"
                                 >Employee Type</label
                               >
-                              <nz-form-control
-                                nzErrorTip="Please select an employee type."
-                              >
+                              <nz-form-control nzErrorTip="All">
                                 <nz-select
                                   style="width: 100%"
                                   nzSize="large"
@@ -2074,6 +2052,7 @@
                                   name="empTypeId"
                                   #empTypeId="ngModel"
                                   required
+                                  class="form-control"
                                 >
                                   <nz-option
                                     *ngFor="
@@ -2104,7 +2083,7 @@
                               <nz-select
                                 style="width: 100%"
                                 nzSize="large"
-                                nzPlaceHolder="Select leave quota renew cycle type"
+                                nzPlaceHolder="Select Leave Quota Renew Cycle "
                                 [(ngModel)]="leaveTemplateRequest.yearTypeName"
                                 (ngModelChange)="
                                   selectDateForLeaveTemplateRequest($event)
@@ -2112,6 +2091,7 @@
                                 name="leaveRenewalCycle"
                                 #leaveRenewalCycle="ngModel"
                                 required
+                                class="form-control"
                               >
                                 <nz-option
                                   *ngFor="let yearType of yearTypeList"
@@ -2132,7 +2112,9 @@
                             </div>
                           </div>
 
-                          <div class="leave-period border-bottom pb-3 mb-3">
+                          <div
+                            class="leave-period border-bottom pb-3 mb-3 m-2 mt-3"
+                          >
                             <h5 class="mb-0">Leave Period</h5>
                           </div>
 
@@ -2154,6 +2136,7 @@
                                   name="startDate"
                                   #startDate="ngModel"
                                   required
+                                  class="form-control"
                                 >
                                 </nz-date-picker>
                               </div>
@@ -2182,6 +2165,7 @@
                                   name="endDate"
                                   #endDate="ngModel"
                                   required
+                                  class="form-control"
                                 >
                                 </nz-date-picker>
                               </div>
@@ -2195,6 +2179,26 @@
                             </div>
                           </div>
                         </div>
+
+                        <div
+                          class="modal-footer d-flex align-items-center justify-content-end leave-footer"
+                        >
+                          <button class="btn p-0 next-btn">
+                            Next
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="22"
+                              height="22"
+                              viewBox="0 0 22 22"
+                              fill="none"
+                            >
+                              <path
+                                d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z"
+                                fill="#6666F2"
+                              />
+                            </svg>
+                          </button>
+                        </div>
                       </form>
                     </div>
 
@@ -2204,7 +2208,299 @@
                       role="tabpanel"
                       aria-labelledby="v-pills-profile-tab"
                     >
-                      CXZC
+                      <form nz-form #leaveTemplateDefinitionForm="ngForm">
+                        <div class="row register-form-box">
+                          <div class="col-md-6 mb-3">
+                            <div
+                              class="form-group"
+                              [class.has-error]="
+                                empTypeId.invalid && empTypeId.touched
+                              "
+                            >
+                              <label for="employeeTypeId" class="pb-2"
+                                >select gender</label
+                              >
+                              <nz-form-control nzErrorTip="All">
+                                <nz-select
+                                  style="width: 100%"
+                                  nzSize="large"
+                                  nzPlaceHolder="select gender"
+                                  [(ngModel)]="employeeTypeId"
+                                  name="empTypeId"
+                                  #empTypeId="ngModel"
+                                  required
+                                  class="form-control"
+                                >
+                                  <nz-option
+                                    *ngFor="
+                                      let employeeType of employeeTypeList
+                                    "
+                                    [nzValue]="employeeType.id"
+                                    [nzLabel]="employeeType.name"
+                                  >
+                                  </nz-option>
+                                </nz-select>
+                              </nz-form-control>
+                              <div
+                                *ngIf="empTypeId.invalid && empTypeId.touched"
+                                class="invalid-feedback"
+                              >
+                                Employee Type is required.
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-md-6 mb-3" nz-form-item>
+                            <label for="leaveRenewalCycle" class="pb-2">
+                              Leave Category Name
+                            </label>
+                            <nz-form-control
+                              nzErrorTip="Please select a valid renewal cycle."
+                            >
+                              <nz-select
+                                style="width: 100%"
+                                nzSize="large"
+                                nzPlaceHolder="select category"
+                                [(ngModel)]="leaveTemplateRequest.yearTypeName"
+                                (ngModelChange)="
+                                  selectDateForLeaveTemplateRequest($event)
+                                "
+                                name="leaveRenewalCycle"
+                                #leaveRenewalCycle="ngModel"
+                                required
+                                class="form-control"
+                              >
+                                <nz-option
+                                  *ngFor="let yearType of yearTypeList"
+                                  [nzValue]="yearType.name"
+                                  [nzLabel]="yearType.name"
+                                >
+                                </nz-option>
+                              </nz-select>
+                            </nz-form-control>
+                            <div
+                              *ngIf="
+                                leaveRenewalCycle.invalid &&
+                                leaveRenewalCycle.touched
+                              "
+                              class="invalid-feedback"
+                            >
+                              Renewal cycle is required.
+                            </div>
+                          </div>
+
+                          <div class="col-md-6 mb-3" nz-form-item>
+                            <label for="leaveRenewalCycle" class="pb-2">
+                              Leave Cycle
+                            </label>
+                            <nz-form-control
+                              nzErrorTip="Please select a valid renewal cycle."
+                            >
+                              <nz-select
+                                style="width: 100%"
+                                nzSize="large"
+                                nzPlaceHolder="select leave cycle"
+                                [(ngModel)]="leaveTemplateRequest.yearTypeName"
+                                (ngModelChange)="
+                                  selectDateForLeaveTemplateRequest($event)
+                                "
+                                name="leaveRenewalCycle"
+                                #leaveRenewalCycle="ngModel"
+                                required
+                                class="form-control"
+                              >
+                                <nz-option
+                                  *ngFor="let yearType of yearTypeList"
+                                  [nzValue]="yearType.name"
+                                  [nzLabel]="yearType.name"
+                                >
+                                </nz-option>
+                              </nz-select>
+                            </nz-form-control>
+                            <div
+                              *ngIf="
+                                leaveRenewalCycle.invalid &&
+                                leaveRenewalCycle.touched
+                              "
+                              class="invalid-feedback"
+                            >
+                              Renewal cycle is required.
+                            </div>
+                          </div>
+
+                          <div class="col-md-6 mb-3" nz-form-item>
+                            <label for="leaveRenewalCycle" class="pb-2">
+                              Select Account Type
+                            </label>
+                            <nz-form-control
+                              nzErrorTip="Please select a valid renewal cycle."
+                            >
+                              <nz-select
+                                style="width: 100%"
+                                nzSize="large"
+                                nzPlaceHolder="select account type"
+                                [(ngModel)]="leaveTemplateRequest.yearTypeName"
+                                (ngModelChange)="
+                                  selectDateForLeaveTemplateRequest($event)
+                                "
+                                name="leaveRenewalCycle"
+                                #leaveRenewalCycle="ngModel"
+                                required
+                                class="form-control"
+                              >
+                                <nz-option
+                                  *ngFor="let yearType of yearTypeList"
+                                  [nzValue]="yearType.name"
+                                  [nzLabel]="yearType.name"
+                                >
+                                </nz-option>
+                              </nz-select>
+                            </nz-form-control>
+                            <div
+                              *ngIf="
+                                leaveRenewalCycle.invalid &&
+                                leaveRenewalCycle.touched
+                              "
+                              class="invalid-feedback"
+                            >
+                              Renewal cycle is required.
+                            </div>
+                          </div>
+
+                          <div class="col-md-6 mb-2" nz-form-item>
+                            <label for="templateName" class="pb-2">
+                              Leave Count
+                            </label>
+
+                            <input
+                              nz-input
+                              [(ngModel)]="leaveTemplateRequest.name"
+                              placeholder="Enter the template name here"
+                              nzSize="large"
+                              minlength="3"
+                              maxlength="50"
+                              name="templateName"
+                              #tempName="ngModel"
+                              required
+                            />
+                            <div *ngIf="tempName?.touched">
+                              <label
+                                *ngIf="tempName.errors?.required"
+                                id="cname-error"
+                                class="error mt-2 text-danger"
+                                for="cname"
+                              >
+                                Name is required
+                              </label>
+                            </div>
+                          </div>
+
+                          <div class="col-md-3 mb-2" nz-form-item>
+                            <label for="leaveRenewalCycle" class="pb-2">
+                              Unused Leave Action
+                            </label>
+                            <nz-form-control
+                              nzErrorTip="Please select a valid renewal cycle."
+                            >
+                              <nz-select
+                                style="width: 100%"
+                                nzSize="large"
+                                nzPlaceHolder="Encash"
+                                [(ngModel)]="leaveTemplateRequest.yearTypeName"
+                                (ngModelChange)="
+                                  selectDateForLeaveTemplateRequest($event)
+                                "
+                                name="leaveRenewalCycle"
+                                #leaveRenewalCycle="ngModel"
+                                required
+                                class="form-control"
+                              >
+                                <nz-option
+                                  *ngFor="let yearType of yearTypeList"
+                                  [nzValue]="yearType.name"
+                                  [nzLabel]="yearType.name"
+                                >
+                                </nz-option>
+                              </nz-select>
+                            </nz-form-control>
+                            <div
+                              *ngIf="
+                                leaveRenewalCycle.invalid &&
+                                leaveRenewalCycle.touched
+                              "
+                              class="invalid-feedback"
+                            >
+                              Renewal cycle is required.
+                            </div>
+                          </div>
+                          <div class="col-md-3 mb-2" nz-form-item>
+                            <label for="leaveRenewalCycle" class="pb-2">
+                              Unused Leave Action
+                            </label>
+                            <nz-form-control
+                              nzErrorTip="Please select a valid renewal cycle."
+                            >
+                              <nz-select
+                                style="width: 100%"
+                                nzSize="large"
+                                nzPlaceHolder="Select leave action"
+                                [(ngModel)]="leaveTemplateRequest.yearTypeName"
+                                (ngModelChange)="
+                                  selectDateForLeaveTemplateRequest($event)
+                                "
+                                name="leaveRenewalCycle"
+                                #leaveRenewalCycle="ngModel"
+                                required
+                                class="form-control"
+                              >
+                                <nz-option
+                                  *ngFor="let yearType of yearTypeList"
+                                  [nzValue]="yearType.name"
+                                  [nzLabel]="yearType.name"
+                                >
+                                </nz-option>
+                              </nz-select>
+                            </nz-form-control>
+                            <div
+                              *ngIf="
+                                leaveRenewalCycle.invalid &&
+                                leaveRenewalCycle.touched
+                              "
+                              class="invalid-feedback"
+                            >
+                              Renewal cycle is required.
+                            </div>
+                          </div>
+
+                          <div
+                            class="d-flex align-items-center justify-content-end"
+                          >
+                            <button class="p-0 btn text-primary leave-category">
+                              <i class="bi bi-plus-lg"></i> Add leave Category
+                            </button>
+                          </div>
+                        </div>
+
+                        <div
+                          class="modal-footer d-flex align-items-center justify-content-end leave-footer"
+                        >
+                          <button class="btn p-0 next-btn">
+                            Next
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="22"
+                              height="22"
+                              viewBox="0 0 22 22"
+                              fill="none"
+                            >
+                              <path
+                                d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z"
+                                fill="#6666F2"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      </form>
                     </div>
                     <div
                       class="tab-pane fade"
@@ -2212,7 +2508,76 @@
                       role="tabpanel"
                       aria-labelledby="v-pills-messages-tab"
                     >
-                      SDFD
+                      <div class="">
+                        <div class="employ-list-height table-responsive">
+                          <table class="table table-striped">
+                            <thead class="thead-light">
+                              <tr>
+                                <th style="width: 2%" class="text-left">
+                                  <input
+                                    type="checkbox"
+                                    class="form-check-input pointer"
+                                  />
+                                </th>
+                                <th style="width: 15%" class="text-left">
+                                  Name
+                                </th>
+                                <th style="width: 30%" class="text-left">
+                                  Email Address
+                                </th>
+                                <th style="width: 25%" class="text-left">
+                                  Phone Number
+                                </th>
+                                <th style="width: 20%" class="text-end">
+                                  Action
+                                </th>
+                              </tr>
+                            </thead>
+
+                            <tbody>
+                              <tr *ngFor="let item of [].constructor(10)">
+                                <td class="text-left">
+                                  <input
+                                    type="checkbox"
+                                    class="form-check-input pointer"
+                                  />
+                                </td>
+                                <td class="text-left">Savannah Howard</td>
+                                <td class="text-left">
+                                  jeff.brown@example.com
+                                </td>
+                                <td class="text-left">2345689753</td>
+                                <td class="text-end">
+                                  <button class="add-employee">
+                                    <i class="bi bi-plus-lg"></i>
+                                    Add
+                                  </button>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+
+                        <div
+                          class="modal-footer d-flex align-items-center justify-content-end leave-footer"
+                        >
+                          <button class="btn p-0 next-btn">
+                            Next
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="22"
+                              height="22"
+                              viewBox="0 0 22 22"
+                              fill="none"
+                            >
+                              <path
+                                d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z"
+                                fill="#6666F2"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

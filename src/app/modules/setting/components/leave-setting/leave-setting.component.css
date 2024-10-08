@@ -1493,3 +1493,75 @@ i.bi.bi-plus {
   font-size: 14px !important;
   font-weight: 500;
 }
+
+.leave-modal {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+}
+
+.register-form-box input {
+  border-radius: 2px !important;
+  border: 1.021px solid #e9e9e9 !important;
+  background: rgba(236, 236, 236, 0.21) !important;
+  height: 45px !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+}
+
+.register-form-box label {
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px !important;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20.854px;
+  letter-spacing: 0.102px;
+}
+.leave-footer {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  left: 0px;
+}
+.next-btn {
+  color: #6666f2;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 22px;
+}
+
+.next-btn svg {
+  position: relative;
+  top: -1px;
+  width: 18px;
+}
+.leave-category:hover {
+  text-decoration: underline;
+}
+.leave-category i {
+  position: relative;
+  top: -2px;
+}
+.employ-list-height {
+  max-height: 55vh;
+  overflow: scroll;
+}
+.employ-list-height::-webkit-scrollbar {
+  display: none;
+}
+.add-employee {
+  border-radius: 2px;
+  background: #e4e7ff;
+  color: var(--primary-color);
+  border: none;
+  font-weight: 400;
+  text-align: center;
+  padding: 3px 15px;
+  line-height: 22px;
+}
+.add-employee i {
+  font-size: 13px;
+  position: relative;
+  top: -2px;
+}
