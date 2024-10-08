@@ -747,14 +747,24 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
     const createdDate = new Date(attendance.createdDate).toLocaleDateString();
 
     // Define details based on the attendance status
-    let details = `Date: ${createdDate || 'N/A'}\n`;
+    let details = `Date: ${createdDate || 'N/A'}\n\n`;  // Double newline for spacing
 
     switch (attendance.status) {
         case 'Present':
-          case 'Half Day':
-            const checkInTime = new Date(attendance.checkInTime).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true });
-            const checkOutTime = new Date(attendance.checkOutTime).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true });
-            details += `: Check-in: ${checkInTime || 'N/A'}\n`;
+        case 'Half Day':
+            const checkInTime = new Date(attendance.checkInTime).toLocaleTimeString([], { 
+                hour: 'numeric', 
+                minute: '2-digit', 
+                hour12: true 
+            });
+            const checkOutTime = new Date(attendance.checkOutTime).toLocaleTimeString([], { 
+                hour: 'numeric', 
+                minute: '2-digit', 
+                hour12: true 
+            });
+
+            // Adding details with line breaks between each
+            details += `Check-in: ${checkInTime || 'N/A'}\n`;
             details += `Check-out: ${checkOutTime || 'N/A'}\n`;
             details += `Total Hours: ${attendance.totalWorkingHours || 'N/A'}\n`;
             details += `Break Duration: ${attendance.breakDuration || 'N/A'}\n`;
@@ -786,8 +796,9 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
             break;
     }
 
-    return details;
+    return details;  // Each detail will be on a new line
 }
+
 
 
    // Function to handle mode change (month/year change)
