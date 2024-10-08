@@ -53,6 +53,7 @@ import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { PlacesService } from 'src/app/services/places.service';
 declare var google: any;
+
 @Component({
   selector: 'app-attendance-setting',
   templateUrl: './attendance-setting.component.html',
@@ -117,15 +118,29 @@ export class AttendanceSettingComponent implements OnInit {
     }
   }
 
+  @ViewChild("automationRuless") automationRuless!:ElementRef;
   private scrollToAutomationRules() {
     
     setTimeout(() => {
       if (this.automationRules) {
         this.automationRules.nativeElement.scrollIntoView({ behavior: 'smooth' });
+        // this.automationRuless.nativeElement.click();
+        this.attendanceRuleWithAttendanceRuleDefinitionResponseList.push(new AttendanceRuleWithAttendanceRuleDefinitionResponse());
+        this.dataNotFoundPlaceholderForAttendanceRule=false;
+        this.networkConnectionErrorPlaceHolderForAttendanceRule=false;
         this.shouldScrollToAutomationRules = false; 
       }
     }, 100);
   }
+
+  // openModal() {
+  //   const modalElement = document.getElementById('automation-rules');
+
+  //   if (modalElement) {
+  //     const modalInstance = new Modal(modalElement);
+  //     modalInstance.show();
+  //   }
+  // }
 
   isShimmer = false;
   dataNotFoundPlaceholder = false;
