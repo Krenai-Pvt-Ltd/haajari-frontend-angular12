@@ -429,6 +429,7 @@
                           border-radius: 50%;
                           object-fit: cover;
                         "
+                         (error)="onError($event)"
                       />
                     </div>
                   </ng-container>
@@ -641,9 +642,9 @@
                       <div class="card-body p-0">
                         <div class="media p-3 align-items-center">
                           <!-- <img src="" alt="user" class="rounded-circle thumb-xl"> -->
-                          <span *ngIf="performer.image != null">
+                          <span >
                             <img
-                              src="{{ performer.image }}"
+                              [src]="performer.image"
                               alt="user"
                               class="rounded-circle"
                               style="
@@ -652,13 +653,18 @@
                                 height: 60px;
                                 object-fit: cover;
                               "
+                              (error)="onError($event)"
                             />
                           </span>
                           <span
                             class="members-name"
-                            *ngIf="performer.image == null"
-                            >{{ performer.name[0] }}</span
+                            *ngIf="!performer.image"
                           >
+                            {{ performer.name[0] }}
+                          </span>
+                                                 
+
+
                           <div class="media-body ms-3 align-self-center">
                             <h5
                               class="pro-title m-0 Regular-data"
@@ -2137,6 +2143,7 @@
                   alt=""
                   class="rounded-circle thumb-sm me-1"
                   *ngIf="attendList.image"
+                  (error)="onError($event)"
                 />
                 <span
                   class="members-name-new"
@@ -2347,6 +2354,7 @@
                   alt=""
                   class="rounded-circle thumb-sm me-1"
                   *ngIf="user.image"
+                  (error)="onError($event)"
                 />
                 <span
                   class="members-name-new"
@@ -2521,6 +2529,7 @@
                   alt=""
                   class="rounded-circle thumb-sm me-1"
                   *ngIf="user.image"
+                  (error)="onError($event)"
                 />
                 <span
                   class="members-name-new"
@@ -2713,6 +2722,7 @@
                   alt=""
                   class="rounded-circle thumb-sm me-1"
                   *ngIf="user?.image"
+                  (error)="onError($event)"
                 />
                 <span
                   class="members-name-new"

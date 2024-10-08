@@ -90,10 +90,10 @@
        src="{{ user?.image }}" 
        alt="Profile Picture" 
        height="110" 
-       class="rounded-circle" />
+       class="rounded-circle"  (error)="onError($event)" />
   
   <!-- If no valid image, display the user's initial -->
-  <span *ngIf="!isImage || user?.image.includes('fakepath')" 
+  <span *ngIf="!isImage" 
         class="thumb-xl justify-content-center d-flex align-items-center bg-soft-success rounded-circle me-2">
     {{ user?.name[0] }}
   </span>
