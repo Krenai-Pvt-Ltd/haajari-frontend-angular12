@@ -470,7 +470,7 @@ export class LeaveManagementComponent implements OnInit {
     this.dataService
       .getRequestedUserLeaveByLeaveIdAndLeaveType(leaveId, leaveType)
       .subscribe({
-        next: (response) => (this.specificLeaveRequest = response.object[0]),
+        next: (response) => (this.specificLeaveRequest = response.object),
         error: (error) => {
           console.error('Failed to fetch pending leave:', error);
           this.helperService.showToast(
@@ -479,6 +479,15 @@ export class LeaveManagementComponent implements OnInit {
           );
         },
       });
+  }
+
+  getPendingLeave1(leaveId: number, leaveType: string) {
+    this.dataService
+      .getRequestedUserLeaveByLeaveIdAndLeaveType(leaveId, leaveType).subscribe((res: any)  => {
+        if(res.status){
+          this.specificLeaveRequest = res.object;
+        }
+      })
   }
 
   formatDateIn(newdate: any) {
