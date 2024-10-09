@@ -187,6 +187,7 @@ export class AddShiftTimeComponent implements OnInit {
   registerOrganizationShiftTimingMethodCall() {
     debugger;
     this.loading = true;
+  
     this.organizationShiftTimingRequest.userUuids = this.selectedStaffsUuids;
     this.organizationShiftTimingRequest.shiftTypeId = 1;
     this.dataService
@@ -200,6 +201,7 @@ export class AddShiftTimeComponent implements OnInit {
           );
           this.loading = false;
           this.isRegisterLoad = false;
+          this.hideShiftNoteFlag = true;
           // this.helperService.showToast(
           //   'Shift Timing registered successfully',
           //   Key.TOAST_STATUS_SUCCESS
@@ -213,6 +215,7 @@ export class AddShiftTimeComponent implements OnInit {
             Key.TOAST_STATUS_ERROR
           );
           this.loading = false;
+          this.hideShiftNoteFlag = true;
         }
       );
   }
@@ -405,6 +408,7 @@ export class AddShiftTimeComponent implements OnInit {
   staffActiveTabInShiftTimingMethod() {
     debugger;
     this.isAddShiftLastLoading = true;
+    this.hideShiftNoteFlag = false;
     if (this.isValidForm()) {
       this.isAddShiftLastLoading = false;
       this.SHIFT_TIME_STEP_ID = Key.STAFF_SELECTION;
@@ -708,10 +712,19 @@ export class AddShiftTimeComponent implements OnInit {
     this.selectedStaffsUuids = this.selectedStaffsUuids.filter(
       (id) => id !== uuid
     );
+    this.staffs.forEach((staff) => {
+      staff.selected = this.selectedStaffsUuids.includes(staff.uuid);
+    });
+
+    this.isAllSelected = false;
+    // if(this.selectedStaffsUuids.length <1) {
+      // this.unselectAllUsers();
+    // }
     // this.updateSelectedStaffs();
     this.userNameWithShiftName = [];
     this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "SHIFT_USER_EDIT");
     // this.getUserByFiltersMethodCall();
+    
   }
 
   hideShiftNoteFlag: boolean = true;
