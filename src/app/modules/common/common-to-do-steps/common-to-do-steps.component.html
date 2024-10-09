@@ -1,32 +1,43 @@
 <div
   class="onboaredinStapBox p-3"
   (click)="saveOrgSecondaryToDoStepBarData(1)"
-  *ngIf="ROLE == 'ADMIN' && isToDoStepsCompletedFlag == 0 && (showToDo || !isToDoStep)"
-  
+  *ngIf="
+    ROLE == 'ADMIN' &&
+    isToDoStepsCompletedFlag == 0 &&
+    (showToDo || !isToDoStep)
+  "
 >
-<!-- *ngIf="((showToDo && isToDoStepsCompletedFlag == 0) || !isToDoStep ) && ROLE == 'ADMIN'" -->
-<!-- {{isToDoStepsCompletedFlag}}----{{showToDo}}----{{isToDoStep}}----{{ ROLE == 'ADMIN'}}---{{ ROLE}} -->
-<!-- {{isToDoStep}} -->
+  <!-- {{isToDoStep}} -->
+
+  <!-- *ngIf="((showToDo && isToDoStepsCompletedFlag == 0) || !isToDoStep ) && ROLE == 'ADMIN'" -->
+  <!-- {{isToDoStepsCompletedFlag}}----{{showToDo}}----{{isToDoStep}}----{{ ROLE == 'ADMIN'}}---{{ ROLE}} -->
+  <!-- {{isToDoStep}} -->
+
   <div class="d-flex align-items-center justify-content-between">
     <h5 class="mb-0">Onboarding Steps</h5>
-    <h4 class="mb-0">{{stepsData?.totalCompletedSteps}}/{{stepsData?.totalSteps}}</h4>
+    <h4 class="mb-0">
+      {{ stepsData?.totalCompletedSteps }}/{{ stepsData?.totalSteps }}
+    </h4>
   </div>
   <div class="progress mt-3">
     <!-- {{ROLE}} -->
     <div
-    class="progress-bar"
-    role="progressbar"
-    [style.width.%]="getProgressPercentage()" 
-    [attr.aria-valuenow]="getProgressPercentage()"
-    aria-valuemin="0"
-    aria-valuemax="100"
+      class="progress-bar"
+      role="progressbar"
+      [style.width.%]="getProgressPercentage()"
+      [attr.aria-valuenow]="getProgressPercentage()"
+      aria-valuemin="0"
+      aria-valuemax="100"
     ></div>
   </div>
 </div>
 
 <div
   class="showOnboardingStep"
-  [ngClass]="{ 'showOnboardingStepHover': isShowSecondaryToDoSteps,'d-none': (ROLE == 'ADMIN' && isToDoStepsCompletedFlag == 1)}"
+  [ngClass]="{
+    showOnboardingStepHover: isShowSecondaryToDoSteps,
+    'd-none': ROLE == 'ADMIN' && isToDoStepsCompletedFlag == 1
+  }"
 >
   <div class="onboardingStapsHedding p-3 position-relative">
     <div
@@ -70,18 +81,23 @@
       >
         <div class="progress">
           <div
-          class="progress-bar"
-          role="progressbar"
-          [style.width.%]="getProgressPercentage()" 
-          [attr.aria-valuenow]="getProgressPercentage()"
-          aria-valuemin="0"
-          aria-valuemax="100"
+            class="progress-bar"
+            role="progressbar"
+            [style.width.%]="getProgressPercentage()"
+            [attr.aria-valuenow]="getProgressPercentage()"
+            aria-valuemin="0"
+            aria-valuemax="100"
           ></div>
         </div>
-        <p class="mb-0 onboardCount">{{ getProgressPercentage() | number: '1.0-0' }}%</p>
+        <p class="mb-0 onboardCount">
+          {{ getProgressPercentage() | number : "1.0-0" }}%
+        </p>
       </div>
 
-      <h6>{{stepsData?.totalCompletedSteps}}/{{stepsData?.totalSteps}} Steps Completed</h6>
+      <h6>
+        {{ stepsData?.totalCompletedSteps }}/{{ stepsData?.totalSteps }} Steps
+        Completed
+      </h6>
     </div>
   </div>
 
@@ -99,9 +115,9 @@
         </div>
 
         <div>
-          <h4>{{step?.name}}</h4>
+          <h4>{{ step?.name }}</h4>
           <p class="mb-0">
-            {{step?.description}}
+            {{ step?.description }}
           </p>
         </div>
       </div>
@@ -110,6 +126,82 @@
           <span class="toStepArrow">
             <i class="bi bi-chevron-right"></i>
           </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button
+  id = "stepCompletionModal"
+  class="d-none"
+  #stepCompletionModal
+  data-bs-toggle="modal"
+  style="position: absolute; right: 0px; bottom: 0px"
+  data-bs-target="#to-do-complete-modal"
+>
+  To Do Complete
+</button>
+<div
+  class="modal fade"
+  id="to-do-complete-modal"
+  data-bs-backdrop="false"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-dialog-centered"
+    style="max-width: 500px"
+    role="document"
+  >
+    <div class="modal-content">
+      <div class="modal-body p-0">
+        <!-- <button
+          type="button"
+          aria-label="Close"
+          class="close-btn"
+          data-bs-dismiss="modal"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            viewBox="0 0 18 18"
+            fill="none"
+          >
+            <path
+              d="M2 17.75L0.25 16L7.25 9L0.25 2L2 0.25L9 7.25L16 0.25L17.75 2L10.75 9L17.75 16L16 17.75L9 10.75L2 17.75Z"
+              fill="black"
+            />
+          </svg>
+        </button> -->
+
+        <div class="congration-modal-box">
+          <div class="congration-modal-img p-5 text-center">
+            <img src="assets/images/downgrade-plan-img.svg" />
+          </div>
+
+          <div class="bg-white p-5 congratulation-info">
+            <h5 class="mb-2 font-20">Congratulation, You did it!</h5>
+            <p class="mb-3 font-13">
+              We know hitting send isn’t always easy, so take a moment to
+              celebrate!
+            </p>
+
+            <p class="mb-3 font-13">
+              Ultrices mauris. Maecenas vitae mattis tellus. Nullam quis
+              imperdiet augue. Vestibulum auctor ornare leo, non suscipit
+              ultrices mauris. Maecenas vitae mattis tellus. Nullam quis
+              imperdiet augue. Vestibulum auctor ornare leo, non suscipit
+            </p>
+            <p class="mb-0 font-13">lets get started!</p>
+          </div>
+          <div class="p-5 pt-0 pb-4">
+            <button class="btn action-btn w-100" (click)="routeToDashboard()">
+              Finish setup and view dashboard
+            </button>
+          </div>
         </div>
       </div>
     </div>
