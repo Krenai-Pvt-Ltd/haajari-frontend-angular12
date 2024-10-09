@@ -343,15 +343,12 @@
                 <h6 class="text-truncate mb-0">Leave</h6>
               </div>
               <div class="" *ngIf="!idFlag">
-                <a
-                  class="add-shift-time-btn"
+                <!-- data-bs-target="#requestleave" -->
+                <a class="add-shift-time-btn"
                   data-bs-toggle="modal"
-                  data-bs-target="#requestleave"
-                  (click)="
-                    emptyAddLeaveSettingRule();
-                    preMethodCallToCreateLeaveTemplate()
-                  "
-                >
+                  data-bs-target="#leavemodal"
+                  (click)="emptyAddLeaveSettingRule();
+                    preMethodCallToCreateLeaveTemplate()">
                   <i class="bi bi-plus"></i> Create another template
                 </a>
               </div>
@@ -2020,7 +2017,7 @@
 </div>
 
 <button
-  class="btn leave-modal"
+  class="btn leave-modal d-none"
   (click)="preMethodCallToCreateLeaveTemplate()"
   data-bs-toggle="modal"
   data-bs-target="#leavemodal"
@@ -2046,7 +2043,7 @@
   >
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="requestLeave">Create another templated</h5>
+        <h5 class="modal-title" id="requestLeave">Create another template</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="requestLeaveCloseModel1"
           #requestLeaveCloseModel1></button>
       </div>
