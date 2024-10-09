@@ -1239,8 +1239,8 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="requestLeave">Create another templated</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="requestLeaveCloseModel"
-          #requestLeaveCloseModel></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="requestLeaveCloseModel1"
+          #requestLeaveCloseModel1></button>
       </div>
       <form #leaveSetForm="ngForm">
         <div class="modal-body p-0">
@@ -1588,7 +1588,7 @@
                               Update leave Category
                             </button>
 
-                            <button *ngIf="!editToggle" class="p-0 btn text-primary leave-category" (click)="addFormRow(i)">
+                            <button [disabled]="!form.valid" *ngIf="!editToggle" class="p-0 btn text-primary leave-category" (click)="addFormRow(i)">
                               <i class="bi bi-plus-lg"></i> 
                               {{!addFormToggle ? 'Add leave Category' : 'Add More Category'}}
                             </button>
