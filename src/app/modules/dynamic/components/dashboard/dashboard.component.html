@@ -429,7 +429,7 @@
                           border-radius: 50%;
                           object-fit: cover;
                         "
-                         (error)="onError($event)"
+                        (error)="onError($event)"
                       />
                     </div>
                   </ng-container>
@@ -642,7 +642,7 @@
                       <div class="card-body p-0">
                         <div class="media p-3 align-items-center">
                           <!-- <img src="" alt="user" class="rounded-circle thumb-xl"> -->
-                          <span >
+                          <span>
                             <img
                               [src]="performer.image"
                               alt="user"
@@ -656,14 +656,9 @@
                               (error)="onError($event)"
                             />
                           </span>
-                          <span
-                            class="members-name"
-                            *ngIf="!performer.image"
-                          >
+                          <span class="members-name" *ngIf="!performer.image">
                             {{ performer.name[0] }}
                           </span>
-                                                 
-
 
                           <div class="media-body ms-3 align-self-center">
                             <h5
@@ -1710,7 +1705,7 @@
                 </div>
 
                 <div
-                  class="pagination pl-3" 
+                  class="pagination pl-3"
                   *ngIf="
                     (total > 11 &&
                       attendanceReportResponseList.length > 11 &&
@@ -2189,7 +2184,7 @@
         </ul>
 
         <!-- Pagination -->
-        <div class="pagination pl-3" *ngIf="this.totalItems > 10"> 
+        <div class="pagination pl-3" *ngIf="this.totalItems > 10">
           <p class="mb-0" style="padding-left: 15px">
             Showing {{ getStartIndexNew() }} - {{ getEndIndexNew() }} of
             {{ totalItems }} items
@@ -2213,7 +2208,7 @@
                     *ngFor="let page of getPagesNew()"
                     [class.active]="pageNumberNew == page"
                   >
-                 <a
+                    <a
                       class="page-link"
                       href="javascript:void(0);"
                       (click)="changePageNew(page)"
@@ -2394,7 +2389,7 @@
 
         <!-- Pagination -->
         <div class="pagination pl-3" *ngIf="totalCountBreak > 10">
-          <p class="mb-0"> 
+          <p class="mb-0">
             Showing {{ startIndexBreak }} - {{ endIndexBreak }} of
             {{ totalCountBreak }} items
           </p>
@@ -2571,7 +2566,7 @@
 
         <!-- Pagination -->
         <div class="pagination pl-3" *ngIf="totalCountLate > itemsPerPageLate">
-          <p class="mb-0"> 
+          <p class="mb-0">
             Showing {{ startIndexLate }} - {{ endIndexLate }} of
             {{ totalCountLate }} items
           </p>
@@ -2760,7 +2755,7 @@
 
         <!-- Pagination -->
         <div class="pagination pl-3" *ngIf="totalCountLeave > 8">
-          <p class="mb-0"> 
+          <p class="mb-0">
             Showing {{ startIndexLeave }} - {{ endIndexLeave }} of
             {{ totalCountLeave }} items
           </p>
