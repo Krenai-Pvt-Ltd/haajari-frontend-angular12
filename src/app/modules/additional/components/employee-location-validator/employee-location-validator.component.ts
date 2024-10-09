@@ -210,6 +210,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
   // }
 
   calculateDistance() {
+    console.log("calculate distance called",this.organizationAddressDetails)
     this.enableSubmitToggle = false;
 
     const userLatLng = new google.maps.LatLng(this.lat, this.lng);
@@ -219,7 +220,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
         const organizationLatLng = new google.maps.LatLng(Number(addressDetail.latitude), Number(addressDetail.longitude));
         const distance = google.maps.geometry.spherical.computeDistanceBetween(userLatLng, organizationLatLng);
 
-        // console.log(distance + '---' + addressDetail.radius);
+        console.log(distance + '---' + addressDetail.radius);
         if (distance <= addressDetail.radius) {
             isWithinAnyLocation = true;
             this.attendanceMode = addressDetail.attendanceMode;
