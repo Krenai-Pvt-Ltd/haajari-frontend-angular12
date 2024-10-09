@@ -17,6 +17,8 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.getOnboardingFormPreviewMethodCall();
+    this.userUuid = new URLSearchParams(window.location.search).get('userUuid') || null;
+    this.loadRoutes();
   }
 
   routeToUserDetails(routePath: string) {
@@ -26,7 +28,7 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
     this.router.navigate([routePath], navExtra);
 }
 
-
+  private userUuid: string | null = null;
   secondarySchoolCertificateFileName: string = '';
   highSchoolCertificateFileName1: string = '';
   highestQualificationDegreeFileName1: string = '';
@@ -142,5 +144,20 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
         // this.displaySuccessModal = false;
         break;
     }
+  }
+  isRoutePresent(routeToCheck: string): boolean {
+    const isPresent = this.dataService.onboardingRoutes.includes(routeToCheck);
+    console.log(`Is route present: ${isPresent}`);
+    return isPresent;
+  }
+  private loadRoutes(): void {
+    this.dataService.getRoutesByOrganization(this.userUuid).subscribe(
+      (routes: string[]) => {
+        this.dataService.onboardingRoutes=routes;
+      },
+      error => {
+        console.error('Error fetching routes', error);
+      }
+    );
   }
 }

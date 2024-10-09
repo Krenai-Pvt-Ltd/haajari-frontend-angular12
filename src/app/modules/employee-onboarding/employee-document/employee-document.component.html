@@ -62,7 +62,11 @@
                             <div class="mb-3">
                               <label for="pancardFile" class="pb-2">Pancard <span class="text-optional">*</span></label>
                               <div class="importfilebox">
-                                <input id="pancardFile" name="pancardFile" type="file" accept=".pdf, image/jpeg, image/jpg, image/png" class="input" (change)="onFileSelected($event, 'pancard')" #pancard="ngModel" [required]="ispancardRequired" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.pancard">
+                                <input id="pancardFile" name="pancardFile" type="file" 
+                                accept=".pdf, image/jpeg, image/jpg, image/png" class="input"
+                                 (change)="onFileSelected($event, 'pancard')" 
+                                 (input)="onFileSelected($event, 'pancard')" #pancard="ngModel"
+                                  [required]="ispancardRequired" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.pancard">
                                 <label for="pancardFile">
                                   <!-- Loader for Pancard -->
                                   <div *ngIf="isUploadingPancard" class="loader d-flex align-items-center justify-content-center w-100">
@@ -266,6 +270,7 @@
                                                readonly
                                                hidden>
                                         <div class="importfilebox">
+                                          
                                           <input id="additionalDocumentFile{{i}}"
                                                  type="file"
                                                  class="input"
