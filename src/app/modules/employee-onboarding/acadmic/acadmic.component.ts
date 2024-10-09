@@ -40,8 +40,22 @@ export class AcadmicComponent implements OnInit {
   
     // Create NavigationExtras object with the queryParams
     let navExtra: NavigationExtras = { queryParams };
-  
-    this.router.navigate(['/employee-onboarding/employee-document'], navExtra);
+   if(this.dataService.isRoutePresent('/employee-document')){
+      this.router.navigate(
+        ['/employee-onboarding/employee-document'],
+        navExtra
+      );
+  } else if(this.dataService.isRoutePresent('/employee-address-detail')){
+        this.router.navigate(
+          ['/employee-onboarding/employee-address-detail'],
+          navExtra
+        );
+  }else {
+    this.router.navigate(
+      ['/employee-onboarding/employee-onboarding-form'],
+      navExtra
+    );
+}
   }
 
 

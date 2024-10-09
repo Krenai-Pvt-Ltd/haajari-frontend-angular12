@@ -40,7 +40,32 @@ export class BankDetailsComponent implements OnInit {
   
     // Create NavigationExtras object with the queryParams
     let navExtra: NavigationExtras = { queryParams };
-    this.router.navigate(['/employee-onboarding/employee-experience'], navExtra);
+    if(this.dataService.isRoutePresent('/employee-experience')){
+      this.router.navigate(
+        ['/employee-onboarding/employee-experience'],
+        navExtra
+      );
+  } else if(this.dataService.isRoutePresent('/acadmic')){
+      this.router.navigate(
+        ['/employee-onboarding/acadmic'],
+        navExtra
+      );
+  } else if(this.dataService.isRoutePresent('/employee-document')){
+      this.router.navigate(
+        ['/employee-onboarding/employee-document'],
+        navExtra
+      );
+  } else if(this.dataService.isRoutePresent('/employee-address-detail')){
+        this.router.navigate(
+          ['/employee-onboarding/employee-address-detail'],
+          navExtra
+        );
+  }else {
+    this.router.navigate(
+      ['/employee-onboarding/employee-onboarding-form'],
+      navExtra
+    );
+  }
   }
 
   routeToUserDetails() {

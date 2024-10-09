@@ -59,9 +59,20 @@ selectedHighSchoolCertificateFileName: any;
     let navExtra: NavigationExtras = { queryParams };
   
     // Navigate to the specified route with the query parameters
-    this.router.navigate(['/employee-onboarding/employee-address-detail'], navExtra);
-  }
+    
+  if(this.dataService.isRoutePresent('/employee-address-detail')){
+        this.router.navigate(
+          ['/employee-onboarding/employee-address-detail'],
+          navExtra
+        );
+  }else {
+    this.router.navigate(
+      ['/employee-onboarding/employee-onboarding-form'],
+      navExtra
+    );
 
+  }
+}
   userDocumentsStatus = "";
 
 
