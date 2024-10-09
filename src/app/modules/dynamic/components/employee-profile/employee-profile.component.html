@@ -1118,47 +1118,40 @@
                       [nzDisabledDate]="disablePreviousYears"
                       [nzDisabledDate]="disablePreviousMonths"
                       [nzDisabledDate]="disableDate">
-                  
-                    <ul *nzDateCell="let date" class="events">
-                      <ng-container *ngIf="date >= joiningDate; else beforeJoiningDate">
-                        <ng-container *ngIf="getEventForDate(date) as event">
-                          <li>
-                            <span [ngStyle]="{'background-color': event.color}">
-                              <!-- Badge without date info, only event details -->
-                              <nz-badge nz-popover nzPopoverTrigger="hover" nzPopoverTitle="Summary"
-                                [nzPopoverContent]="contentTemplate" nzPopoverPlacement="topLeft"
-                                [nzColor]="event.color" [nzDot]="false" nzStandalone>
-                              </nz-badge>
-                  
-                              <!-- Event details in the tooltip (without the date) -->
-                              <span class="event-details" nz-tooltip [nzTooltipTitle]="getDetails(event)">
-                                {{ event.status }}
-                              </span>
-                            </span>
-                  
-                            <!-- Event summary in popover content -->
-                            <ng-template #contentTemplate>
-                              <div
-                                style="background-color: white; padding: 10px; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
-                                <h4 style="margin: 0; font-weight: bold;">Summary</h4>
-                                <p>CHECK IN: {{ event.checkInTime | date: 'short' }}</p>
-                                <p>CHECK OUT: {{ event.checkOutTime | date: 'short' }}</p>
-                                <p>BREAK: {{ event.breakDuration }}</p>
-                              </div>
-                            </ng-template>
-                          </li>
-                        </ng-container>
-                      </ng-container>
-                  
-                      <!-- Placeholder for dates before joining -->
-                      <ng-template #beforeJoiningDate>
-                        <li>
-                          <span class="event-details">-</span>
-                        </li>
-                      </ng-template>
-                    </ul>
-                  </nz-calendar>
-                  
+           <ul *nzDateCell="let date" class="events">
+             <ng-container *ngIf="date >= joiningDate; else beforeJoiningDate">
+               <ng-container *ngIf="getEventForDate(date) as event">
+                 <li>
+                   <span [ngStyle]="{'background-color': event.color}">
+                     <nz-badge nz-popover nzPopoverTrigger="hover" 
+                       [nzPopoverContent]="contentTemplate" nzPopoverPlacement="topLeft"
+                       [nzColor]="event.color" [nzDot]="false" nzStandalone>
+                     </nz-badge>
+                     <span class="event-details" nz-tooltip [nzTooltipTitle]="getDetails(event)">
+                       {{ event.status }}
+                     </span>
+                   </span>
+         
+                   <ng-template #contentTemplate>
+                     <div
+                       style="background-color: white; padding: 10px; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+                       <h4 style="margin: 0; font-weight: bold;">Summary</h4><br>
+                       <ng-container>CHECK IN: {{ event.checkInTime | date: 'short' }}</ng-container><br>
+                       <ng-container>CHECK OUT: {{ event.checkOutTime | date: 'short' }}</ng-container><br>
+                       <ng-container>BREAK: {{ event.breakDuration }}</ng-container>
+                     </div>
+                   </ng-template>
+                 </li>
+               </ng-container>
+             </ng-container>
+         
+             <ng-template #beforeJoiningDate>
+               <li>
+                 <span class="event-details">-</span>
+               </li>
+             </ng-template>
+           </ul>
+                      </nz-calendar>
          
                
                       <div class="legends-section" style="margin-top: 20px; font-size: 13px">
