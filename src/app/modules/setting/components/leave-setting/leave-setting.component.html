@@ -1277,7 +1277,7 @@
                     <!-- [disabled]="leaveCategories1.length == 0" -->
                     <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill"
                       data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages"
-                      aria-selected="false"   #staffSelectionTab1>
+                      aria-selected="false" [disabled]="leaveCategories1.length == 0"  #staffSelectionTab1>
                       Staff selection
                     </button>
 
@@ -1428,15 +1428,16 @@
                           <div class="row" *ngFor="let category of categories.controls; let i = index" [formGroupName]="i">
                           <!-- <div class="row" *ngFor="let category of categories[formIndex].controls; let i = index" [formGroupName]="i"> -->
 
-                            <div class="row" *ngIf="i === categories.controls.length - 1">
+                            <!-- <div class="row" *ngIf="i === categories.controls.length - 1"> for 1 row working -->
                             <!-- <div class="row" *ngIf="(!addFormToggle  && i === categories.controls.length - 1) || (addFormToggle && i === categories.controls.length - 2)"> -->
 
+                        <div class="row" *ngIf="!editToggle ? i === categories.controls.length - 1 : i === editingIndex">
                           <div class="col-md-6 mb-3" >
                             <div class="form-group" >
                              
                               <label for="genderId" class="pb-2">select gender</label>
                               <nz-form-control nzErrorTip="All">
-                                <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select gender"
+                                <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select Gender"
                                 formControlName="gender" (ngModelChange)="onGenderChange($event, i)"  required
                                   class="form-control">
                                   <nz-option *ngFor="let gender of genders" [nzValue]="gender.name" [nzLabel]="gender.name">
@@ -1578,9 +1579,20 @@
                           </div>
 
                           <div class="d-flex align-items-center justify-content-end">
-                            <button class="p-0 btn text-primary leave-category" (click)="addFormRow(i)">
+                            <!-- <button class="p-0 btn text-primary leave-category" (click)="addFormRow(i)">
                               <i class="bi bi-plus-lg"></i> Add leave Category
+                            </button> -->
+
+                            <button *ngIf="editToggle" class="p-0 btn text-primary leave-category" (click)="addFormRow(i)">
+                              <i class="bi bi-plus-lg"></i> 
+                              Update leave Category
                             </button>
+
+                            <button *ngIf="!editToggle" class="p-0 btn text-primary leave-category" (click)="addFormRow(i)">
+                              <i class="bi bi-plus-lg"></i> 
+                              {{!addFormToggle ? 'Add leave Category' : 'Add More Category'}}
+                            </button>
+
                           </div>
 
                           <div class="table-responsive bg-white mt-3" *ngIf="displayedCategories.length > 0">
@@ -1748,7 +1760,7 @@
                         <div class="modal-footer d-flex align-items-center justify-content-end leave-footer">
                           <!-- <button type="submit" class="btn p-0 next-btn" [disabled]="!form.valid" (click)="goToStaffSelectionTab()">  [disabled]="!form.valid || leaveCategories1.length==0"  -->
                           <!-- <button type="submit" class="btn p-0 next-btn" [disabled]="leaveCategories1.length==0" (click)="goToStaffSelectionTab()"> -->
-                          <button type="submit" class="btn p-0 next-btn" (click)="goToStaffSelectionTab()">
+                          <button [disabled]="displayedCategories.length==0"  type="submit" class="btn p-0 next-btn" (click)="goToStaffSelectionTab()">
                             Next
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
                               fill="none">
