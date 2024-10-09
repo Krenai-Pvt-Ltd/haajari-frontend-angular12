@@ -1627,6 +1627,10 @@ i.bi.bi-plus {
   border-color: #d9d9d9;
   cursor: not-allowed;
 }
+
+.leave-create-modal {
+  height: 80vh;
+}
 @media screen and (max-width: 2600px) {
   .employ-list-height {
     max-height: 40vh;
