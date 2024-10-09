@@ -1602,6 +1602,10 @@ i.bi.bi-plus {
   left: 10px;
 }
 
+.empOnnoardtable tr {
+  font-size: 12px;
+}
+
 .empOnnoardtable td {
   font-weight: 500;
   vertical-align: middle;
@@ -1622,7 +1626,7 @@ i.bi.bi-plus {
   font-weight: 400;
 }
 
-.input-zorro{
+.input-zorro {
   width: 100%;
   background-color: #fbfbfb;
   border: 1px solid #e9e9e9;
@@ -1637,9 +1641,34 @@ i.bi.bi-plus {
 .leave-create-modal {
   height: 80vh;
 }
+
+.leave-category-list {
+  max-height: 20vh;
+  overflow: scroll;
+}
+.leave-category-list::-webkit-scrollbar {
+  display: none;
+}
+
+.close-btn {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+}
+
+.close-btn svg {
+  width: 20px;
+  position: relative;
+  top: -1px;
+}
 @media screen and (max-width: 2600px) {
   .employ-list-height {
-    max-height: 40vh;
+    max-height: 50vh;
+    overflow: scroll;
+  }
+
+  .leave-category-list {
+    max-height: 30vh;
     overflow: scroll;
   }
 }
@@ -1647,6 +1676,11 @@ i.bi.bi-plus {
 @media screen and (max-width: 1280px) {
   .employ-list-height {
     max-height: 45vh;
+    overflow: scroll;
+  }
+
+  .leave-category-list {
+    max-height: 20vh;
     overflow: scroll;
   }
 }
