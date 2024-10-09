@@ -90,10 +90,10 @@
        src="{{ user?.image }}" 
        alt="Profile Picture" 
        height="110" 
-       class="rounded-circle" />
+       class="rounded-circle"  (error)="onError($event)" />
   
   <!-- If no valid image, display the user's initial -->
-  <span *ngIf="!isImage || user?.image.includes('fakepath')" 
+  <span *ngIf="!isImage" 
         class="thumb-xl justify-content-center d-flex align-items-center bg-soft-success rounded-circle me-2">
     {{ user?.name[0] }}
   </span>
@@ -1106,13 +1106,13 @@
                         </div>
                         <!--end row-->
                       </div>
-                      <div>
+                      <!-- <div>
                         <full-calendar 
                         [options]="calendarOptions" id="calendar" #calendar></full-calendar>
-                      </div>
+                      </div> -->
                       
                  
-                      <!-- <nz-calendar [(ngModel)]="date" [(nzMode)]="mode" 
+                      <nz-calendar [(ngModel)]="date" [(nzMode)]="mode" 
                       (nzPanelChange)="panelChange($event)" 
                       (nzSelectChange)="selectChange($event)"
                       [nzDisabledDate]="disablePreviousYears"
@@ -1123,22 +1123,22 @@
                <ng-container *ngIf="getEventForDate(date) as event">
                  <li>
                    <span [ngStyle]="{'background-color': event.color}">
-                     <nz-badge nz-popover nzPopoverTrigger="hover" nzPopoverTitle="Summary"
+                     <nz-badge nz-popover nzPopoverTrigger="hover" 
                        [nzPopoverContent]="contentTemplate" nzPopoverPlacement="topLeft"
                        [nzColor]="event.color" [nzDot]="false" nzStandalone>
                      </nz-badge>
-                     <span class="event-details" nz-tooltip [nzTooltipTitle]="getDetails(event)">
+                     <!-- <span class="event-details" nz-tooltip [nzTooltipTitle]="getDetails(event)">
                        {{ event.status }}
-                     </span>
+                     </span> -->
                    </span>
          
                    <ng-template #contentTemplate>
                      <div
                        style="background-color: white; padding: 10px; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
-                       <h4 style="margin: 0; font-weight: bold;">Summary</h4>
-                       <p>CHECK IN: {{ event.checkInTime | date: 'short' }}</p>
-                       <p>CHECK OUT: {{ event.checkOutTime | date: 'short' }}</p>
-                       <p>BREAK: {{ event.breakDuration }}</p>
+                       <h4 style="margin: 0; font-weight: bold;">Summary</h4><br>
+                       <ng-container>CHECK IN: {{ event.checkInTime | date: 'short' }}</ng-container><br>
+                       <ng-container>CHECK OUT: {{ event.checkOutTime | date: 'short' }}</ng-container><br>
+                       <ng-container>BREAK: {{ event.breakDuration }}</ng-container>
                      </div>
                    </ng-template>
                  </li>
@@ -1151,7 +1151,7 @@
                </li>
              </ng-template>
            </ul>
-                      </nz-calendar> -->
+                      </nz-calendar>
          
                
                       <div class="legends-section" style="margin-top: 20px; font-size: 13px">

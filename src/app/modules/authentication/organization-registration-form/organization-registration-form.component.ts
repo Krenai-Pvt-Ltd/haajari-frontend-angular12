@@ -50,7 +50,7 @@ export class OrganizationRegistrationFormComponent implements OnInit {
           if(response.status === false) {
             this.orgName = response.object;
             this.errorMessage = 'This Info is Already Registered with us!'
-            this.helperService.showToast(this.errorMessage, Key.TOAST_STATUS_ERROR);
+            // this.helperService.showToast(this.errorMessage, Key.TOAST_STATUS_ERROR);
             this.isLoading = false;
           }else if(response.status === true){
           console.log('Registration successful', response);

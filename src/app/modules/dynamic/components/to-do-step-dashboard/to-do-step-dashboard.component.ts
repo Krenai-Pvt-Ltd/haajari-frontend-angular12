@@ -140,9 +140,6 @@ export class ToDoStepDashboardComponent implements OnInit {
       }
     );
   }
-
-  // Reference to the iframe video element
-  // @ViewChild('videoIframe') videoIframe!: ElementRef;
   @ViewChild('close_button') close_button!: ElementRef;
   @ViewChild('videoIframe', { static: false }) youtubeIframe:
     | ElementRef<HTMLIFrameElement>
@@ -158,52 +155,24 @@ export class ToDoStepDashboardComponent implements OnInit {
         this.youtubeIframe.nativeElement as HTMLIFrameElement
       ).contentWindow;
 
-      if (iframeWindow) {
-        // Send the 'pauseVideo' command to the YouTube iframe
-        iframeWindow.postMessage(
-          '{"event":"command","func":"pauseVideo","args":""}',
-          '*'
-        );
-      }
+      const iframeElement = this.youtubeIframe.nativeElement as HTMLIFrameElement;
+      iframeElement.src = '';
     }
-    // this.pauseYouTubeVideo();
-    // if (this.videoIframe) {
-    //   const iframeElement = this.videoIframe.nativeElement;
-    //   const iframeSrc = iframeElement.src;
-
-    //   // Reload the iframe (if it's a YouTube iframe or similar)
-    //   iframeElement.src = iframeSrc;
-
-    //   // Handle YouTube API or HTML5 Video pause
-    //   const videoTag = iframeElement.contentDocument?.querySelector(
-    //     'video'
-    //   ) as HTMLVideoElement | null;
-
-    //   if (videoTag) {
-    //     videoTag.pause(); // Pauses HTML5 video inside iframe
-    //   }
-    // }
+    
   }
 
-  // Pauses the YouTube video
-  pauseYouTubeVideo(): void {
-    // let video = document.getElementById('videoIframe');
-    // console.log(video);
-    // console.log('jdjshfkjsdfhek');
-    // var temp =
-    //   this.youtubeIframe.nativeElement.contentDocument ||
-    //   this.youtubeIframe.nativeElement.contentWindow;
-    // // if (video) {
-    // temp.postMessage(
-    //   '{"event":"command", "func":"pauseVideo", "args":""}',
-    //   '*'
-    // );
-    // }
+
+
+  setSrc(){
+    if (this.youtubeIframe) {
+    const iframeElement = this.youtubeIframe.nativeElement as HTMLIFrameElement;
+      iframeElement.src = 'https://www.youtube.com/embed/jh7-qF48ANk?si=WJvojNbQucaWaknY';
+    }
   }
 
   // Call this method when modal closes to stop the video
   onModalClose(): void {
     this.stopVideo();
-    this.pauseYouTubeVideo();
+    // this.pauseYouTubeVideo();
   }
 }

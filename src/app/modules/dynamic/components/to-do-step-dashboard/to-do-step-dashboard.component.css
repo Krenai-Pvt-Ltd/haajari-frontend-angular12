@@ -245,7 +245,7 @@
     z-index: 999;
     position: relative;
     overflow: scroll;
-    max-height: 545px !important;
+    max-height: 70vh ;
   }
 }
 @media screen and (max-width: 1280px) {
@@ -253,7 +253,7 @@
     z-index: 999;
     position: relative;
     overflow: scroll;
-    max-height: 460px !important;
+    max-height: 70vh ;
   }
 }
 
