@@ -3146,7 +3146,6 @@ return
   choosenDateString!: string;
 
   submitForm(): void {
-    debugger
     if (this.checkHoliday || this.checkAttendance) {
       return;
      }
@@ -3156,13 +3155,13 @@ return
         requestReason: formValue.requestReason
       };
   
-      if (this.attendanceRequestType === 'UPDATE') {
+      if (this.attendanceRequestType == 'UPDATE') {
         attendanceTimeUpdateRequest = {
           ...attendanceTimeUpdateRequest,
           attendanceId: formValue.updateGroup.attendanceId,
           updatedTime: formValue.updateGroup.updatedTime,
         };
-      } else if (this.attendanceRequestType === 'CREATE') {
+      } else if (this.attendanceRequestType == 'CREATE') {
         attendanceTimeUpdateRequest = {
           ...attendanceTimeUpdateRequest,
           selectedDateAttendance: formValue.createGroup.selectedDateAttendance,

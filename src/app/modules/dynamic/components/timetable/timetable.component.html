@@ -1045,11 +1045,14 @@
                                 <div class="activity-info-text">
                                   <div class="float-end">
                                     <div class="dropdown d-inline-block">
-                                      <div class="align-self-center">
-                                        <h6 class="fw-semibold">
-                                          <span class="badge badge-outline-primary"> Request Type | {{attendanceRequest.attendanceStatus}}</span>
-                                        </h6>
+                                      <div class="align-self-center text-end">
                                         <small>{{ attendanceRequest.createdDate | date:'medium' || "N/A" }}</small>
+                                        <h5 class="fw-semibold">
+                                          <!-- Request Type | {{attendanceRequest.attendanceStatus}} -->
+                                          <span class="badge badge-outline-primary" *ngIf="attendanceRequest.requestType === 'UPDATE'">Request Type | {{attendanceRequest.attendanceStatus | uppercase}}</span>
+                                          <span class="badge badge-outline-primary" *ngIf="attendanceRequest.requestType === 'CREATE'">New Request !</span>
+
+                                        </h5>
                                       </div>
                                     </div>
                                   </div>
@@ -1058,8 +1061,17 @@
                                       <h5 class="m-0 Regular-data" (click)="routeToUserProfile(attendanceRequest.userUuid)">
                                         {{ attendanceRequest.userName }}
                                       </h5>
-                                      <p> Time: <u> - </u>
-                                      </p>
+                                      <ng-container *ngIf="attendanceRequest.requestType === 'UPDATE'">
+                                        <small>Previous Time: <u> {{attendanceRequest.oldDate | date:'medium' || "N/A"}} </u></small>
+                                        <br>
+                                        <small>Requested Time: <u> {{attendanceRequest.updatedDate | date:'medium' || "N/A"}} </u></small>
+                                      </ng-container>
+                                        
+                                      <ng-container *ngIf="attendanceRequest.requestType === 'CREATE'">
+                                        <small>In Time: <u> {{attendanceRequest.inRequestTime | date:'medium' || "N/A"}} </u></small>
+                                        <br>
+                                        <small>Out Time: <u> {{attendanceRequest.outRequestTime | date:'medium' || "N/A"}} </u></small>
+                                      </ng-container>
                                     </div>
                                   </div>
                                 </div>
