@@ -101,7 +101,17 @@ export class EmployeeExperienceComponent implements OnInit {
     let navExtra: NavigationExtras = {
       queryParams: { userUuid: this.getUserUuid() },
     };
-    this.router.navigate(['/employee-onboarding/bank-details'], navExtra);
+    if(this.dataService.isRoutePresent('/bank-details')){
+      this.router.navigate(
+        ['/employee-onboarding/bank-details'],
+        navExtra
+      );
+    }else if(this.dataService.isRoutePresent('/emergency-contact')){
+      this.router.navigate(
+        ['/employee-onboarding/emergency-contact'],
+        navExtra
+      );
+    }
   }
 
 

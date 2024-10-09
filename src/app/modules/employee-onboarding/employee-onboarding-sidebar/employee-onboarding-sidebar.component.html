@@ -15,7 +15,7 @@
                             <div class="d-flex new-stap">
                                 <div class="tracing-icon" [ngClass]="{'active': isStepCompleted(17)}">
                                     <i class="bi bi-check2" *ngIf="isStepCompleted(17)"></i>
-                                    <span *ngIf="!isStepCompleted(17)">1</span>
+                                    <span *ngIf="!isStepCompleted(17)"></span>
                                 </div>
                                 <div class="tracking-data">
                                     <p>Personal Info</p>
@@ -28,7 +28,7 @@
                             <div class="d-flex new-stap">
                                 <div class="tracing-icon" [ngClass]="{'active': isStepCompleted(18)}">
                                     <i class="bi bi-check2" *ngIf="isStepCompleted(18)"></i>
-                                    <span *ngIf="!isStepCompleted(18)">2</span>
+                                    <span *ngIf="!isStepCompleted(18)">{{ findRouteIndex('/employee-address-detail') }}</span>
                                 </div>
                                 <div class="tracking-data">
                                     <p>Address Details</p>
@@ -40,7 +40,7 @@
                             <div class="d-flex new-stap">
                                 <div class="tracing-icon" [ngClass]="{'active': isStepCompleted(19)}">
                                     <i class="bi bi-check2" *ngIf="isStepCompleted(19)"></i>
-                                    <span *ngIf="!isStepCompleted(19)">3</span>
+                                    <span *ngIf="!isStepCompleted(19)">{{ findRouteIndex('/employee-document') }}</span>
                                 </div>
                                 <div class="tracking-data">
                                     <p>Documents</p>
@@ -52,7 +52,7 @@
                             <div class="d-flex new-stap">
                                 <div class="tracing-icon" [ngClass]="{'active': isStepCompleted(20)}">
                                     <i class="bi bi-check2" *ngIf="isStepCompleted(20)"></i>
-                                    <span *ngIf="!isStepCompleted(20)">4</span>
+                                    <span *ngIf="!isStepCompleted(20)">{{ findRouteIndex('/acadmic') }}</span>
                                 </div>
                                 <div class="tracking-data">
                                     <p>Academics</p>
@@ -64,7 +64,7 @@
                             <div class="d-flex new-stap">
                                 <div class="tracing-icon" [ngClass]="{'active': isStepCompleted(21)}">
                                     <i class="bi bi-check2" *ngIf="isStepCompleted(21)"></i>
-                                    <span *ngIf="!isStepCompleted(21)">5</span>
+                                    <span *ngIf="!isStepCompleted(21)">{{ findRouteIndex('/employee-experience') }}</span>
                                 </div>
                                 <div class="tracking-data">
                                     <p>Experience</p>
@@ -76,7 +76,7 @@
                             <div class="d-flex new-stap">
                                 <div class="tracing-icon" [ngClass]="{'active': isStepCompleted(22)}">
                                     <i class="bi bi-check2" *ngIf="isStepCompleted(22)"></i>
-                                    <span *ngIf="!isStepCompleted(22)">6</span>
+                                    <span *ngIf="!isStepCompleted(22)">{{ findRouteIndex('/bank-details') }}</span>
                                 </div>
                                 <div class="tracking-data">
                                     <p>Bank Details</p>
@@ -89,7 +89,7 @@
                             <div class="d-flex new-stap">
                                 <div class="tracing-icon" [ngClass]="{'active': isStepCompleted(23)}">
                                     <i class="bi bi-check2" *ngIf="isStepCompleted(23)"></i>
-                                    <span *ngIf="!isStepCompleted(23)">7</span>
+                                    <span *ngIf="!isStepCompleted(23)">{{ findRouteIndex('/emergency-contact') }}</span>
                                 </div>
                                 <div class="tracking-data">
                                     <p>Emergency Contacts</p>

@@ -80,10 +80,37 @@ export class EmployeeOnboardingFormComponent implements OnInit {
         userUuid: new URLSearchParams(window.location.search).get('userUuid'),
       },
     };
-    this.router.navigate(
-      ['/employee-onboarding/employee-address-detail'],
-      navExtra
-    );
+    if(this.dataService.isRoutePresent('/employee-address-detail')){
+      this.router.navigate(
+        ['/employee-onboarding/employee-address-detail'],
+        navExtra
+      );
+    }else if(this.dataService.isRoutePresent('/employee-document')){
+      this.router.navigate(
+        ['/employee-onboarding/employee-document'],
+        navExtra
+      );
+    }else if(this.dataService.isRoutePresent('/acadmic')){
+      this.router.navigate(
+        ['/employee-onboarding/acadmic'],
+        navExtra
+      );
+    }else if(this.dataService.isRoutePresent('/employee-experience')){
+      this.router.navigate(
+        ['/employee-onboarding/employee-experience'],
+        navExtra
+      );
+    }else if(this.dataService.isRoutePresent('/bank-details')){
+      this.router.navigate(
+        ['/employee-onboarding/bank-details'],
+        navExtra
+      );
+    }else if(this.dataService.isRoutePresent('/emergency-contact')){
+      this.router.navigate(
+        ['/employee-onboarding/emergency-contact'],
+        navExtra
+      );
+    }
   }
   routeToLastSavedStep(lastSavedStep: number) {
     // Extract userUuid from URL

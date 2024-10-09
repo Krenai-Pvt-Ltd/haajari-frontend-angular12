@@ -887,17 +887,15 @@ export class DataService {
   getEnabledModuleIds(): Observable<number[]> {
     return this.httpClient.get<number[]>(`${this.baseUrl}/onboarding-setting/getEnabledModules`);
   }
+  onboardingRoutes: string[] =[];
   getRoutesByOrganization(userUuid: any): Observable<string[]> {
     console.log("APPPPPPPPPPPPIIIIIIIIIIIIIIIII");
-    const params = new HttpParams()
-      .set('userUuid', userUuid.join(','));
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/x-www-form-urlencoded',
-      }),
-      params: params,
-    };
-    return this.httpClient.get<string[]>(`${this.baseUrl}/onboarding-setting/routes`,httpOptions);
+    return this.httpClient.get<string[]>(`${this.baseUrl}/onboarding-setting/routes/${userUuid}`);
+  }
+  isRoutePresent(routeToCheck: string): boolean {
+    const isPresent = this.onboardingRoutes.includes(routeToCheck);
+    console.log(`Is route present: ${isPresent}`);
+    return isPresent;
   }
   getAttendanceLatePerformers(
     startDate: string,

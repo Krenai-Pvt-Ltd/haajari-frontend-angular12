@@ -136,6 +136,7 @@ getEmployeeStatusMethodCall() {
     this.stepService.getRoutesByOrganization(this.userUuid).subscribe(
       (routes: string[]) => {
         this.routes = routes;
+        this.stepService.onboardingRoutes=routes;
         console.log('Loaded routes:', this.routes);
       },
       error => {
@@ -149,6 +150,10 @@ getEmployeeStatusMethodCall() {
     console.log(`Is route present: ${isPresent}`);
     return isPresent;
   }
+  findRouteIndex( searchString: string): number {
+    return this.routes.indexOf(searchString)+1;
+  }
+  
 
 
 }
