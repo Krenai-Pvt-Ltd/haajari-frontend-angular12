@@ -66,16 +66,17 @@
 }
 .active {
   border: 1px solid var(--primary-color) !important;
-  /* background-color: #0cb56208; */
-  border-radius: 2px !important;
 }
 
 .attendance-mode-card {
   background-color: #fff;
   border-radius: 2px;
-  border: 1px solid #f9fafb;
+  border: 1px solid #e6e6e6;
   margin: 0 auto;
-  min-height: 330px;
+  min-height: 150px;
+}
+.attendance-mode-card:hover {
+  border: 1px solid var(--primary-color) !important;
 }
 
 .dot-opacity-loader {
@@ -187,17 +188,6 @@
   animation-delay: -0.16s;
 }
 
-@keyframes dotOpacity {
-  0%,
-  80%,
-  100% {
-    opacity: 0;
-  }
-  40% {
-    opacity: 1;
-  }
-}
-
 .side-img {
   height: 100px;
   background-position: center center;
@@ -216,6 +206,10 @@
   border-radius: 2px;
   border: 1px solid #e6e6e6;
 }
+
+.attendanceModeBox:hover {
+  border: 1px solid var(--primary-color) !important;
+}
 .attendanceModeBox h5 {
   color: #000;
   font-size: 14px;
@@ -225,10 +219,10 @@
 }
 .attendanceModeBox p {
   color: #717171;
-  font-size: 14px;
+  font-size: 12px;
   font-style: normal;
   font-weight: 300;
-  line-height: 20px;
+  line-height: 18px;
 }
 .whatAppSlackBox {
   border-radius: 2px;
@@ -287,7 +281,7 @@
   font-size: 15px;
   font-style: normal;
   font-weight: 500;
-  line-height: 18px;
+  line-height: 26px;
 }
 
 .employeeInformation p {
@@ -295,7 +289,7 @@
   font-size: 13px;
   font-style: normal;
   font-weight: 300;
-  line-height: 26px;
+  line-height: 18px;
 }
 .whatAppSlack {
   border-radius: 3px;
@@ -304,7 +298,7 @@
 }
 .attendance-mode-card p {
   color: #717171;
-  font-size: 14px;
+  font-size: 12px;
   font-style: normal;
   font-weight: 300;
   line-height: 20px;
@@ -380,24 +374,38 @@ a.fetch-location {
   animation-delay: -0.16s;
 }
 
-@keyframes dotOpacity {
-  0%,
-  80%,
-  100% {
-    opacity: 0;
-  }
-  40% {
-    opacity: 1;
-  }
-}
-
 .stap-back-btn {
-  background-color: var(--primary-background-color);
-  width: 22px;
-  height: 22px;
+  background-color: #fff;
+  border: 1px solid var(--primary-color);
+  width: 33px;
+  height: 33px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
+}
+.mode-icon {
+  background-color: #f3f5fa;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+}
+.mode-icon img {
+  width: auto !important;
+  border-radius: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+@media screen and (max-width: 2600px) {
+  .attendance-mode-card {
+    min-height: 180px;
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .attendance-mode-card {
+    min-height: 220px;
+  }
 }

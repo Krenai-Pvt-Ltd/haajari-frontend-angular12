@@ -116,7 +116,7 @@ getEmployeeStatusMethodCall() {
         (isAdminPresent: boolean) => {
           if (isAdminPresent) {
             this.isAdminPresent = isAdminPresent;
-            console.log('Admin verification successful. ' + this.isAdminPresent);
+            // console.log('Admin verification successful. ' + this.isAdminPresent);
           } else {
             this.isAdminPresent = isAdminPresent;
             console.error('Admin verification failed.');

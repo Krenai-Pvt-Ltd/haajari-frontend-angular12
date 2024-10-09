@@ -3,7 +3,7 @@
   <div class="page-content-tab">
     <div class="container-fluid">
       <!-- end page title end breadcrumb -->
-      <div class="row mb-1"> 
+      <div class="row mb-1 mt-4">
         <div class="col-md-6 col-lg-4 order-lg-1 order-md-1">
           <ng-container *ngIf="!showPlaceholder; else notShowPlaceholder">
             <div class="card report-card">
@@ -429,6 +429,7 @@
                           border-radius: 50%;
                           object-fit: cover;
                         "
+                         (error)="onError($event)"
                       />
                     </div>
                   </ng-container>
@@ -641,9 +642,9 @@
                       <div class="card-body p-0">
                         <div class="media p-3 align-items-center">
                           <!-- <img src="" alt="user" class="rounded-circle thumb-xl"> -->
-                          <span *ngIf="performer.image != null">
+                          <span >
                             <img
-                              src="{{ performer.image }}"
+                              [src]="performer.image"
                               alt="user"
                               class="rounded-circle"
                               style="
@@ -652,13 +653,18 @@
                                 height: 60px;
                                 object-fit: cover;
                               "
+                              (error)="onError($event)"
                             />
                           </span>
                           <span
                             class="members-name"
-                            *ngIf="performer.image == null"
-                            >{{ performer.name[0] }}</span
+                            *ngIf="!performer.image"
                           >
+                            {{ performer.name[0] }}
+                          </span>
+                                                 
+
+
                           <div class="media-body ms-3 align-self-center">
                             <h5
                               class="pro-title m-0 Regular-data"
@@ -704,10 +710,16 @@
                   </div>
                 </div>
               </div>
-              <div class="errorboxmain" *ngIf="dataNotFoundPlaceholderForBestPerfomer">
+              <div
+                class="errorboxmain"
+                *ngIf="dataNotFoundPlaceholderForBestPerfomer"
+              >
                 <div class="errorboxinner">
                   <div class="errorboxplaceholder mb-2">
-                    <img src="assets/images/empty-box.svg" style="width: 65px" />
+                    <img
+                      src="assets/images/empty-box.svg"
+                      style="width: 65px"
+                    />
                   </div>
                   <div class="">
                     <h4 class="fs-5 mb-1">No Data Found</h4>
@@ -897,7 +909,10 @@
       <div class="row mb-3" #attendanceMasterRollReport>
         <div class="col-md-12" id="attendance-master-roll-reports">
           <div class="col">
-            <h4 class="card-title" style="font-size: 18px; margin: 0px 0px 15px 0px">
+            <h4
+              class="card-title"
+              style="font-size: 18px; margin: 0px 0px 15px 0px"
+            >
               Attendance Muster Roll Report
             </h4>
           </div>
@@ -1253,7 +1268,10 @@
                             ></ngx-shimmer-loading>
                           </td>
                           <td class="text-center">
-                            <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
+                            <ngx-shimmer-loading
+                              [width]="'70%'"
+                              [height]="'10px'"
+                            ></ngx-shimmer-loading>
                           </td>
                           <td class="text-center">
                             <ngx-shimmer-loading
@@ -1670,7 +1688,9 @@
                       *ngIf="dataNotFoundPlaceholderForAttendanceData"
                     >
                       <!-- style="display: flex; flex-direction: column; align-items: center; text-align: center;" -->
-                      <div class="errorboxinner flex-column justify-content-center mx-auto py-2 text-center w-50">
+                      <div
+                        class="errorboxinner flex-column justify-content-center mx-auto py-2 text-center w-50"
+                      >
                         <div class="errorboxplaceholder mb-2">
                           <img
                             src="assets/images/empty-box.svg"
@@ -1690,7 +1710,7 @@
                 </div>
 
                 <div
-                  class="pagination pl-3"
+                  class="pagination pl-3" 
                   *ngIf="
                     (total > 11 &&
                       attendanceReportResponseList.length > 11 &&
@@ -2137,6 +2157,7 @@
                   alt=""
                   class="rounded-circle thumb-sm me-1"
                   *ngIf="attendList.image"
+                  (error)="onError($event)"
                 />
                 <span
                   class="members-name-new"
@@ -2168,7 +2189,7 @@
         </ul>
 
         <!-- Pagination -->
-        <div class="pagination pl-3" *ngIf="this.totalItems > 10">
+        <div class="pagination pl-3" *ngIf="this.totalItems > 10"> 
           <p class="mb-0" style="padding-left: 15px">
             Showing {{ getStartIndexNew() }} - {{ getEndIndexNew() }} of
             {{ totalItems }} items
@@ -2192,7 +2213,7 @@
                     *ngFor="let page of getPagesNew()"
                     [class.active]="pageNumberNew == page"
                   >
-                    <a
+                 <a
                       class="page-link"
                       href="javascript:void(0);"
                       (click)="changePageNew(page)"
@@ -2347,6 +2368,7 @@
                   alt=""
                   class="rounded-circle thumb-sm me-1"
                   *ngIf="user.image"
+                  (error)="onError($event)"
                 />
                 <span
                   class="members-name-new"
@@ -2372,7 +2394,7 @@
 
         <!-- Pagination -->
         <div class="pagination pl-3" *ngIf="totalCountBreak > 10">
-          <p class="mb-0">
+          <p class="mb-0"> 
             Showing {{ startIndexBreak }} - {{ endIndexBreak }} of
             {{ totalCountBreak }} items
           </p>
@@ -2521,6 +2543,7 @@
                   alt=""
                   class="rounded-circle thumb-sm me-1"
                   *ngIf="user.image"
+                  (error)="onError($event)"
                 />
                 <span
                   class="members-name-new"
@@ -2548,7 +2571,7 @@
 
         <!-- Pagination -->
         <div class="pagination pl-3" *ngIf="totalCountLate > itemsPerPageLate">
-          <p class="mb-0">
+          <p class="mb-0"> 
             Showing {{ startIndexLate }} - {{ endIndexLate }} of
             {{ totalCountLate }} items
           </p>
@@ -2713,6 +2736,7 @@
                   alt=""
                   class="rounded-circle thumb-sm me-1"
                   *ngIf="user?.image"
+                  (error)="onError($event)"
                 />
                 <span
                   class="members-name-new"
@@ -2736,7 +2760,7 @@
 
         <!-- Pagination -->
         <div class="pagination pl-3" *ngIf="totalCountLeave > 8">
-          <p class="mb-0">
+          <p class="mb-0"> 
             Showing {{ startIndexLeave }} - {{ endIndexLeave }} of
             {{ totalCountLeave }} items
           </p>

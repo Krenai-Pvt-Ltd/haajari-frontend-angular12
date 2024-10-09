@@ -70,12 +70,12 @@ export class AttendanceModeComponent implements OnInit {
     this.dataService.updateAttendanceMode(attendanceModeId).subscribe(
       (response) => {
         this.getAttendanceModeMethodCall();
-        setTimeout(() => {
-          this.helperService.showToast(
-            'Attedance Mode updated successfully.',
-            Key.TOAST_STATUS_SUCCESS
-          );
-        }, 1000);
+        // setTimeout(() => {
+        //   this.helperService.showToast(
+        //     'Attedance Mode updated successfully.',
+        //     Key.TOAST_STATUS_SUCCESS
+        //   );
+        // }, 1000);
       },
       (error) => {
         this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
@@ -91,12 +91,12 @@ export class AttendanceModeComponent implements OnInit {
         this.getMasterAttendanceModeMethodCall();
         this.getAttendanceModeStep();
         this.helperService.registerOrganizationRegistratonProcessStepData(Key.ATTENDANCE_MODE_ID, Key.PROCESS_COMPLETED);
-        setTimeout(() => {
-          this.helperService.showToast(
-            'Attedance Master Mode updated successfully.',
-            Key.TOAST_STATUS_SUCCESS
-          );
-        }, 1000);
+        // setTimeout(() => {
+        //   this.helperService.showToast(
+        //     'Attedance Master Mode updated successfully.',
+        //     Key.TOAST_STATUS_SUCCESS
+        //   );
+        // }, 1000);
       },
       (error) => {
         this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
@@ -115,7 +115,7 @@ export class AttendanceModeComponent implements OnInit {
         if (response.status) {
           this.selectedAttendanceModeId = response.object.id;
         }
-        console.log(this.selectedAttendanceModeId);
+        // console.log(this.selectedAttendanceModeId);
       },
       (error) => {
         console.log(error);
@@ -221,12 +221,12 @@ export class AttendanceModeComponent implements OnInit {
           this.updateAttendanceModeMethodCall(this.currentAttendanceModeId);
           this.closeAddressModal.nativeElement.click();
           // this.resetAddressDetailsModal();
-          setTimeout(() => {
-            this.helperService.showToast(
-              'Attedance Mode updated successfully',
-              Key.TOAST_STATUS_SUCCESS
-            );
-          }, 1000);
+          // setTimeout(() => {
+          //   this.helperService.showToast(
+          //     'Attedance Mode updated successfully',
+          //     Key.TOAST_STATUS_SUCCESS
+          //   );
+          // }, 1000);
           // this.helperService.showToast("Attedance Mode updated successfully", Key.TOAST_STATUS_SUCCESS);
         },
         (error) => {
@@ -266,8 +266,8 @@ export class AttendanceModeComponent implements OnInit {
     this.organizationAddressDetail.longitude = e.geometry.location.lng();
     this.organizationAddressDetail.latitude = e.geometry.location.lat();
 
-    console.log(e.geometry.location.lat());
-    console.log(e.geometry.location.lng());
+    // console.log(e.geometry.location.lat());
+    // console.log(e.geometry.location.lng());
     this.organizationAddressDetail.addressLine1 = e.name + ', ' + e.vicinity;
 
     e?.address_components?.forEach((entry: any) => {
@@ -468,7 +468,7 @@ currentLocation() {
         if (response) {
           // console.log(response);
           this.organizationAddressDetail = response;
-          console.log(this.organizationAddressDetail.latitude);
+          // console.log(this.organizationAddressDetail.latitude);
           if (this.organizationAddressDetail.latitude == null) {
             this.currentLocation();
           } else {
@@ -527,9 +527,10 @@ currentLocation() {
     debugger
     this.dataService.registerBillingAndSubscriptionTemp(subscriptionPlanId).subscribe(
       (response) => {
-        this.helperService.showToast("Free trial started successfully.", Key.TOAST_STATUS_SUCCESS);
+        // this.helperService.showToast("Free trial started successfully.", Key.TOAST_STATUS_SUCCESS);
         setTimeout(() => {
-          this.router.navigate(['/dashboard']);
+          // this.router.navigate(['/dashboard']);
+          this.router.navigate(['/to-do-step-dashboard']);
         }, 1000);
 
       },

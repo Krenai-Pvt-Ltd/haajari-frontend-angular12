@@ -1579,10 +1579,15 @@ export class DataService {
       // Add any additional headers as needed
     });
 
-    const params = { leaveSettingId: leaveSettingId.toString() };
+    // const params = { leaveSettingId: leaveSettingId.toString() };
+    const params = { leaveTemplateId: leaveSettingId.toString() };
 
+    // return this.httpClient.get<FullLeaveSettingResponse>(
+    //   `${this.baseUrl}/user-leave-rule/get/leave-rule-by-Id`,
+    //   { headers, params }
+    // ); amit
     return this.httpClient.get<FullLeaveSettingResponse>(
-      `${this.baseUrl}/user-leave-rule/get/leave-rule-by-Id`,
+      `${this.baseUrl}/user-leave-template`,
       { headers, params }
     );
   }
@@ -3752,10 +3757,14 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/full/attendance/request/logs`, {params});
   }
 
-  getAttendanceRequests(pageNumber: number, itemPerPage: number,searchString:string ): Observable<any>{
+  getAttendanceRequests(pageNumber: number, itemPerPage: number, searchString:string, startDate: string, endDate: string): Observable<any>{
     const params = new HttpParams()
     .set('pageNumber', pageNumber)
-    .set('itemPerPage', itemPerPage).set('searchString', searchString);
+    .set('itemPerPage', itemPerPage)
+    .set('searchString', searchString)
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+    
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/attendance/requests`, {params});
   }
 
@@ -3763,6 +3772,11 @@ getHolidayForOrganization(date: string): Observable<any>{
     const params = new HttpParams()
     .set('userUuid', userUuid).set('selectedDate', selectedDate);
      return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/attendance/existance/status`, {params});
+  }
+
+  getAttendanceRequestCount(): Observable<any>{
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/attendance/request/count`);
   }
 
   approveOrRejectAttendanceRequest(attendanceReqId: number, requestString: string): Observable<any> {
@@ -4034,6 +4048,24 @@ getHolidayForOrganization(date: string): Observable<any>{
     );
   }
 
+  saveOrgSecondaryToDoStepBar(hideOrUnhide : number): Observable<any> {
+    debugger
+    const params = new HttpParams().set('hideOrUnhide', hideOrUnhide);
+    return this.httpClient.put<any>(
+      `${this.baseUrl}/organization/save/secondary/to/do/step/bar`,{},{params}
+
+    );
+  }
+
+  getOrgSecondaryToDoStepBar(): Observable<any> {
+    debugger
+    // const params = new HttpParams().set('statusId', statusId).set('stepId', stepId);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/organization/get/secondary/to/do/step/bar`,
+
+    );
+  }
+
   getStepsData(): Observable<any> {
     debugger
     return this.httpClient.get<any>(
@@ -4076,4 +4108,17 @@ getHolidayForOrganization(date: string): Observable<any>{
 
     return this.httpClient.get<any>(`${this.baseUrl}/leave-template`, {params});
   }
+
+  saveSlackUserIdViaEmail(email : string){
+    const params = new HttpParams()
+    .set('emailId', email)
+
+    return this.httpClient.get<any>(`${this.baseUrl}/users/save-slack-user-id`, {params});
+  }
+
+  getSlackUserCount(){
+    return this.httpClient.get<any>(`${this.baseUrl}/users/get-slack-user-count`, {});
+  }
 }
+
+

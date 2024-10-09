@@ -91,7 +91,7 @@ export class AcadmicComponent implements OnInit {
     this.dataService.setEmployeeAcademics(this.userAcademicsDetailRequest, userUuid)
       .subscribe(
         (response: UserAcademicsDetailRequest) => {
-          console.log(response);  
+          // console.log(response);  
           this.employeeOnboardingFormStatus = response.employeeOnboardingStatus;
        
           this.toggle = false
@@ -374,7 +374,7 @@ displayModal = false;
         this.dataService.getAdminVerifiedForOnboardingUpdate(userUuid, adminUuid).subscribe(
           (isAdminPresent: boolean) => {
             this.userAcademicsDetailRequest.updateRequest = isAdminPresent;
-            console.log('Admin verification successful.');
+            // console.log('Admin verification successful.');
             resolve(isAdminPresent); // Resolve the promise with the result
           },
           (error: any) => {

@@ -91,9 +91,7 @@
               routerLink="/employee-onboarding-data"
             >
               <a class="sidebar-menu-link">
-                <span class=" "
-                  ><i class="bi bi-person-plus menu-icon"></i> Onboarding</span
-                >
+                <span><i class="bi bi-person-plus menu-icon"></i> Onboarding</span>
               </a>
             </li>
             <li
@@ -108,13 +106,12 @@
               (click)="setActiveTabEmpty()"
             >
               <a class="sidebar-menu-link">
-                <span class=" "
-                  ><i class="bi bi-people menu-icon"></i> Team</span
-                >
+                <span><i class="bi bi-people menu-icon"></i> Team</span>
               </a>
             </li>
           </ul>
         </div>
+        
 
         <div class="">
           <div *ngIf="checkModule(management)" class="sidebar-menu-heding">
@@ -136,8 +133,9 @@
               <a class="sidebar-menu-link">
                 <span class=" ">
                   <i class="bi bi-calendar2-check menu-icon"></i>
-                  Attendance</span
-                >
+                  Attendance
+                  <span class="alert-badge" *ngIf="newNotification"></span>
+                </span>
               </a>
             </li>
             <li

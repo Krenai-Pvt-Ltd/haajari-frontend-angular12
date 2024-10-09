@@ -38,6 +38,7 @@ export class CoinsComponent implements OnInit {
     this.loadRoleWiseAllocatedCoins();
     // this.getBadgesData();
     this.getBadgeCoinsInfoData();
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
   }
 
   roles: RolesForSuperCoinsResponse[] = [];
@@ -59,7 +60,7 @@ export class CoinsComponent implements OnInit {
       const request: AllocateCoinsRoleWiseRequest = this.allocateCoinsForm.value;
       this.dataService.allocateCoinsRoleAndOrganizationWise(request).subscribe(
         response => {
-          console.log("assigned successfully")
+          // console.log("assigned successfully")
           this.closeEditModal.nativeElement.click();
           this.loadRoleWiseAllocatedCoins();
           this.allocateCoinsForm.reset();
@@ -124,7 +125,7 @@ deleteRoleWiseAllocatedCoinsInformationById() {
   this.disableLoader = true;
 this.dataService.deleteRoleWiseAllocatedCoinsInformationById(this.allocateSuperCoinsId).subscribe(
   response => {
-    console.log("Deleted successfully", response);
+    // console.log("Deleted successfully", response);
     this.disableLoader = false;
     this.closeUserDeleteModal.nativeElement.click();
     this.loadRoleWiseAllocatedCoins();
@@ -240,12 +241,12 @@ uploadFile(file: File): void {
     .snapshotChanges()
     .toPromise()
     .then(() => {
-      console.log('Upload completed');
+      // console.log('Upload completed');
       fileRef
         .getDownloadURL()
         .toPromise()
         .then((url) => {
-          console.log('File URL:', url);
+          // console.log('File URL:', url);
           this.fileToUpload = url;
           this.allocateCoinsForBadgesForm.get('badgeLogo')?.setValue(url);
         })

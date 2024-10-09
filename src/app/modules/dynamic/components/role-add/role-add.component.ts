@@ -24,7 +24,7 @@ export class RoleAddComponent implements OnInit {
   ngOnInit(): void {
     window.scroll(0, 0);
     const roleIdParam = this.activateRoute.snapshot.queryParamMap.get('roleId');
-
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
     if (roleIdParam !== null) {
       debugger;
       this.roleRequest.id = +roleIdParam;
@@ -67,7 +67,7 @@ export class RoleAddComponent implements OnInit {
 
   getSubModuleByRoleMethodCall() {
     this.preRuleForShimmersAndErrorPlaceholdersMethodCallForRolePermissionModules();
-    console.log(this.roleRequest.id);
+    // console.log(this.roleRequest.id);
     debugger;
     this.dataService.getSubModuleByRole(this.roleRequest.id).subscribe(
       (data) => {
@@ -83,7 +83,7 @@ export class RoleAddComponent implements OnInit {
             this.moduleRequestList.push(moduleRequest);
           }
         }
-        console.log(this.moduleResponseList);
+        // console.log(this.moduleResponseList);
       },
       (error) => {
         console.log(error);
@@ -198,7 +198,7 @@ export class RoleAddComponent implements OnInit {
       }
     }
 
-    console.log(this.moduleRequestList);
+    // console.log(this.moduleRequestList);
     this.roleRequest.moduleRequestList = this.moduleRequestList;
   }
 

@@ -127,7 +127,7 @@ setEmployeeAddressDetailsMethodCall() {
   this.dataService.setEmployeeAddressDetails(this.userAddressDetailsRequest, userUuid)
     .subscribe(
       (response: UserAddressDetailsRequest) => {
-        console.log('Response:', response);
+        // console.log('Response:', response);
         this.dataService.markStepAsCompleted(response.statusId);
         this.toggle = false;
         this.employeeOnboardingFormStatus = response.employeeOnboardingStatus;
@@ -337,7 +337,7 @@ handleOnboardingStatus(response: string) {
     this.userAddressRequest[0].id=id;
     this.userAddressRequest[0].addressLine1=e.formatted_address.toString() ;
     e?.address_components?.forEach((entry: any) => {
-      console.log(entry);
+      // console.log(entry);
       
       // if (entry.types?.[0] === "route") {
       //   this.userAddressRequest[0].addressLine2 = entry.long_name + ",";
@@ -373,7 +373,7 @@ handleOnboardingStatus(response: string) {
     this.userAddressRequest[1].id=id;
     this.userAddressRequest[1].addressLine1=e.formatted_address.toString() ;
     e?.address_components?.forEach((entry: any) => {
-      console.log(entry);
+      // console.log(entry);
       
       // if (entry.types?.[0] == "route") {
       //   this.userAddressRequest[1].addressLine2 = entry.long_name + ",";
@@ -450,7 +450,7 @@ async getAdminVerifiedForOnboardingUpdateMethodCall(): Promise<boolean> {
       (isAdminPresent: boolean) => {
         this.userAddressDetailsRequest.updateRequest = isAdminPresent;
         if (isAdminPresent) {
-          console.log('Admin verification successful.');
+          // console.log('Admin verification successful.');
           this.userAddressDetailsRequest.updateRequest = true;
           resolve(true); // Resolve the promise with true if admin is present
         } else {

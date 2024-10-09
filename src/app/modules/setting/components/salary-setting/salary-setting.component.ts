@@ -43,6 +43,7 @@ export class SalarySettingComponent implements OnInit {
     this.getAllStatutoriesMethodCall();
     this.getAllSalaryTemplateComponentByOrganizationIdMethodCall();
     this.getAllSalaryComponentsMethodCall();
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
   }
 
   //Variable for pagination
@@ -550,7 +551,7 @@ export class SalarySettingComponent implements OnInit {
           response.listOfObject === null
         ) {
           this.dataNotFoundPlaceholderForSalaryTemplate = true;
-          this.helperService.registerOrganizationRegistratonProcessStepData(Key.SALARY_TEMPLATE_ID, Key.PROCESS_PENDING);
+          // this.helperService.registerOrganizationRegistratonProcessStepData(Key.SALARY_TEMPLATE_ID, Key.PROCESS_PENDING);
         }
       },
       (error) => {

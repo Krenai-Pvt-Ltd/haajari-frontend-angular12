@@ -59,7 +59,7 @@
                       <h4 class="alert-heading font-16">
                         Download the Sample Excel File!
                       </h4>
-                      <p class="mb-0">
+                      <p class="mb-0 font-12">
                         Use this Excel template to organise and input your
                         employee data correctly. Review the sample structure to
                         avoid errors.
@@ -94,7 +94,7 @@
                             <h5 class="alert-heading font-14 mb-2">
                               Upload Employee Data via Excel
                             </h5>
-                            <p class="mb-0">
+                            <p class="mb-0 font-12">
                               Streamline the process by uploading your organized
                               employee data directly <br />
                               from the Excel sheet
@@ -160,7 +160,7 @@
                               id="fileSelect"
                               type="file"
                               name="img[]"
-                              accept=".xlsx"
+                              accept=".xlsx,application/vnd.ms-excel"
                               class="input"
                               style="display: none"
                               (change)="selectFile($event)"
@@ -189,7 +189,7 @@
                             <h5 class="alert-heading font-14 mb-2">
                               Manually Enter Employee Details
                             </h5>
-                            <p class="mb-0 font-13">
+                            <p class="mb-0 font-12">
                               Add employee details individually if you prefer to
                               build a <br />
                               customized and specific list tailored to your
@@ -478,7 +478,7 @@
                           id="fileSelect"
                           type="file"
                           name="img[]"
-                          accept=".xlsx"
+                          accept=".xlsx,application/vnd.ms-excel"
                           class="input"
                           style="display: none"
                           (change)="selectFile($event)"
@@ -578,6 +578,7 @@
                           class="mb-0 selectAll"
                           style="font-weight: 400; cursor: pointer"
                           (click)="selectAllPageUsers()"
+                          *ngIf="totalOnboardingUserListCount > size"
                         >
                           Select all
                           <span class="text-primary">
@@ -864,14 +865,16 @@
                           class="mb-0 font-11"
                           *ngIf="alreadyUsedPhoneNumberArray.length > 0"
                         >
+                          <!-- <b>Duplicate phone number</b> -->
                           <b>Duplicate phone number</b>
+                          <span class="Duplicate-number-count">{{alreadyUsedPhoneNumberArray.length}}</span>
                         </p>
                         <span class="error-spreter"></span>
                         <p
                           class="mb-0 font-11"
                           *ngIf="alreadyUsedEmailArray.length > 0"
                         >
-                          <b>Duplicate email id :</b> You can check this error
+                          <b>Duplicate email id <span class="Duplicate-number-count">{{alreadyUsedPhoneNumberArray.length}}</span> :</b> You can check this error
                           log here.
                         </p>
                         <P class="mb-0 font-11" *ngIf="isErrorToggle">
@@ -1309,7 +1312,7 @@
                     />
                     <p
                       *ngIf="userList[i].isPhoneExist"
-                      class="error text-muted text-danger"
+                      class="error text-danger mt-2 mb-2"
                     >
                       <i class="bi bi-exclamation-circle"></i> Phone number is
                       already exist.
@@ -1350,7 +1353,7 @@
                     />
                     <p
                       *ngIf="userList[i].isEmailExist"
-                      class="error text-muted text-danger"
+                      class="error mt-2 mb-2 text-danger"
                     >
                       This email already exist.
                     </p>

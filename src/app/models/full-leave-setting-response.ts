@@ -1,8 +1,14 @@
+import { LeaveTemplateCategoryRes } from "./LeaveTemplateCategoryRes";
+import { LeaveTemplateRes } from "./LeaveTemplateRes";
+
 export class FullLeaveSettingResponse {
   leaveSetting!: LeaveSettingResponse;
   leaveSettingCategories!: LeaveSettingCategoryResponse[];
   userLeaveRule!: UserLeaveSettingRule[];
   userUuids!: string[];
+
+  leaveTemplate: LeaveTemplateRes = new LeaveTemplateRes();
+  leaveTemplateCategories!: LeaveTemplateCategoryRes[];
 }
 
 export class LeaveSettingResponse {
@@ -26,6 +32,7 @@ export class LeaveSettingCategoryResponse {
   carryForwardDays!: number;
   leaveSettingId!: number;
   accrualTypeId!: number;
+  gender: string = 'All';
 }
 
 export class UserLeaveSettingRule {
