@@ -343,15 +343,12 @@
                 <h6 class="text-truncate mb-0">Leave</h6>
               </div>
               <div class="" *ngIf="!idFlag">
-                <a
-                  class="add-shift-time-btn"
+                <!-- data-bs-target="#requestleave" -->
+                <a class="add-shift-time-btn"
                   data-bs-toggle="modal"
-                  data-bs-target="#requestleave"
-                  (click)="
-                    emptyAddLeaveSettingRule();
-                    preMethodCallToCreateLeaveTemplate()
-                  "
-                >
+                  data-bs-target="#leavemodal"
+                  (click)="emptyAddLeaveSettingRule();
+                    preMethodCallToCreateLeaveTemplate()">
                   <i class="bi bi-plus"></i> Create another template
                 </a>
               </div>
@@ -2020,7 +2017,7 @@
 </div>
 
 <button
-  class="btn leave-modal"
+  class="btn leave-modal d-none"
   (click)="preMethodCallToCreateLeaveTemplate()"
   data-bs-toggle="modal"
   data-bs-target="#leavemodal"
@@ -2046,41 +2043,9 @@
   >
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="requestLeave">Create another templated</h5>
-        <button
-          type="button"
-          class="close-btn"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-          id="requestLeaveCloseModel"
-          #requestLeaveCloseModel
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-          >
-            <mask
-              id="mask0_4127_1991"
-              style="mask-type: alpha"
-              maskUnits="userSpaceOnUse"
-              x="0"
-              y="0"
-              width="24"
-              height="24"
-            >
-              <rect width="24" height="24" fill="#D9D9D9" />
-            </mask>
-            <g mask="url(#mask0_4127_1991)">
-              <path
-                d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
-                fill="black"
-              />
-            </g>
-          </svg>
-        </button>
+        <h5 class="modal-title" id="requestLeave">Create another template</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="requestLeaveCloseModel1"
+          #requestLeaveCloseModel1></button>
       </div>
       <form #leaveSetForm="ngForm">
         <div class="modal-body p-0">
@@ -2705,19 +2670,11 @@
                                   Update leave Category
                                 </button>
 
-                                <button
-                                  *ngIf="!editToggle"
-                                  class="p-0 btn text-primary leave-category"
-                                  (click)="addFormRow(i)"
-                                >
-                                  <i class="bi bi-plus-lg"></i>
-                                  {{
-                                    !addFormToggle
-                                      ? "Add leave Category"
-                                      : "Add More Category"
-                                  }}
-                                </button>
-                              </div>
+                            <button [disabled]="!form.valid" *ngIf="!editToggle" class="p-0 btn text-primary leave-category" (click)="addFormRow(i)">
+                              <i class="bi bi-plus-lg"></i> 
+                              {{!addFormToggle ? 'Add leave Category' : 'Add More Category'}}
+                            </button>
+                            </div>
 
                               <div
                                 class="table-responsive bg-white mt-4 leave-category-list"
