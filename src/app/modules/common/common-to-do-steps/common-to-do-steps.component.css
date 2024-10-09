@@ -272,3 +272,38 @@
 .onboardingStapsPoint::-webkit-scrollbar {
   display: none;
 }
+.congration-modal-img {
+  background-color: #f1f2ff;
+}
+.congratulation-info h5 {
+  font-weight: 600;
+  line-height: 22px;
+}
+
+.congratulation-info p {
+  line-height: 24px;
+  color: #3f3e3e;
+}
+.action-btn {
+  background-color: var(--primary-background-color);
+  text-align: center;
+  height: 40px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #fff;
+}
+
+.action-btn:hover {
+  background-color: #5959cb;
+}
+.close-btn {
+  position: absolute;
+  right: 15px;
+  top: 13px;
+}
+
+.close-btn svg {
+  width: 13px;
+  position: relative;
+  top: -1px;
+}
