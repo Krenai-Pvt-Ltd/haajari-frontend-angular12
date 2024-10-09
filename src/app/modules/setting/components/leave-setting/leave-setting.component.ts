@@ -388,25 +388,25 @@ export class LeaveSettingComponent implements OnInit {
 
       if (this.editingIndex !== null) {
         // Update existing entry
-        this.leaveCategories1[this.editingIndex] = this.form.value;
+        // this.leaveCategories1[this.editingIndex] = this.form.value;
         // this.editingIndex = null;
         this.editToggle = false;
 
         console.log('this.form.value: ', this.form.value)
 
-        this.displayedCategories[this.editingIndex] = this.form.value.categories[this.editingIndex].map((category: any) => {
-          const matchedCategory = this.leaveCategoryList.find(c => c.id === category.leaveCategoryId);
-          const matchedUnusedLeaveAction = this.unusedLeaveActionList.find(c => c.id === category.unusedLeaveActionId);
-          const matchedAccrualType = this.accrualTypes.find(c => c.id === category.accrualTypeId);
-          const matchedLeaveCycle = this.leaveCycleList.find(c => c.id === category.leaveCycleId);
-          return {
-            ...category,
-            categoryName: matchedCategory ? matchedCategory.name : 'N/A',
-            unusedLeaveName: matchedUnusedLeaveAction ? matchedUnusedLeaveAction.name : 'N/A',
-            accrualName: matchedAccrualType ? matchedAccrualType.name : 'N/A',
-            leaveCycleName: matchedLeaveCycle ? matchedLeaveCycle.name : 'N/A'
-          };
-        });
+        // this.displayedCategories[this.editingIndex] = this.form.value.categories[this.editingIndex].map((category: any) => {
+        //   const matchedCategory = this.leaveCategoryList.find(c => c.id === category.leaveCategoryId);
+        //   const matchedUnusedLeaveAction = this.unusedLeaveActionList.find(c => c.id === category.unusedLeaveActionId);
+        //   const matchedAccrualType = this.accrualTypes.find(c => c.id === category.accrualTypeId);
+        //   const matchedLeaveCycle = this.leaveCycleList.find(c => c.id === category.leaveCycleId);
+        //   return {
+        //     ...category,
+        //     categoryName: matchedCategory ? matchedCategory.name : 'N/A',
+        //     unusedLeaveName: matchedUnusedLeaveAction ? matchedUnusedLeaveAction.name : 'N/A',
+        //     accrualName: matchedAccrualType ? matchedAccrualType.name : 'N/A',
+        //     leaveCycleName: matchedLeaveCycle ? matchedLeaveCycle.name : 'N/A'
+        //   };
+        // });
 
         console.log('update display Category: ', this.displayedCategories[this.editingIndex])
 
@@ -1060,7 +1060,7 @@ export class LeaveSettingComponent implements OnInit {
   // ###################### saveInOne ###################
 
   fullLeaveSettingRuleRequest: FullLeaveSettingRequest = new FullLeaveSettingRequest();
-  @ViewChild('requestLeaveCloseModel') requestLeaveCloseModel!: ElementRef;
+  
   submitLeaveLoader: boolean = false;
 
   saveLeaveSettingRules(flag: boolean) {
@@ -1103,7 +1103,7 @@ export class LeaveSettingComponent implements OnInit {
           (response) => {
             this.getFullLeaveSettingInformation();
             this.submitLeaveLoader = false;
-            this.requestLeaveCloseModel.nativeElement.click();
+            this.requestLeaveCloseModel1.nativeElement.click();
             this.helperService.showToast(
               'Leave rules registered successfully',
               Key.TOAST_STATUS_SUCCESS
@@ -1873,7 +1873,8 @@ export class LeaveSettingComponent implements OnInit {
       onGenderChange(value: any, i: number) {
         debugger
 
-        if(value != null){
+        if(value != null && !this.editToggle){
+        // if(value != null){
 
         if(value == 'Male'){
           this.selectedGenderId = 2;
@@ -2141,10 +2142,12 @@ onStartDateChange(startDate: Date) {
 
   }*/
 
+    @ViewChild('requestLeaveCloseModel1') requestLeaveCloseModel1!: ElementRef;
     registerLeaveTemplateMethodCall(){
       this.registerToggle = true;
       this.setFieldsToLeaveTemplateRequest();
 
+      console.log('CategoryList: ',this.leaveTemplateRequest.leaveTemplateCategoryRequestList)
       this.leaveTemplateRequest.leaveTemplateCategoryRequestList.splice(
         this.leaveTemplateRequest.leaveTemplateCategoryRequestList.length - 1, 1 
         );
@@ -2154,7 +2157,7 @@ onStartDateChange(startDate: Date) {
         this.leaveTemplateRequest = new LeaveTemplateRequest();
         this.getAllLeaveTemplate();
         this.registerToggle = false;
-        this.requestLeaveCloseModel.nativeElement.click();
+        this.requestLeaveCloseModel1.nativeElement.click();
         this.helperService.showToast('Leave template registered successfully.', Key.TOAST_STATUS_SUCCESS);
       }, (error) => {
         this.registerToggle = false;
