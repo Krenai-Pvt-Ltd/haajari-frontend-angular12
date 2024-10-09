@@ -282,7 +282,7 @@ export class LeaveSettingComponent implements OnInit {
     }
 
     addFormToggle: boolean = false;
-    addFormRow(index: number) {
+    addFormRowWork(index: number) {
       debugger
      
       this.addFormToggle = true;
@@ -337,6 +337,9 @@ export class LeaveSettingComponent implements OnInit {
           accrualName: matchedAccrualType ? matchedAccrualType.name : 'N/A',
           leaveCycleName: matchedLeaveCycle ? matchedLeaveCycle.name : 'N/A'
         };
+
+
+
       });
 
 
@@ -365,9 +368,96 @@ export class LeaveSettingComponent implements OnInit {
       
     }
 
+    addFormRow(index: number) {
+      debugger
+     
+      this.addFormToggle = true;
+
+      //for array
+      // const newRow = this.fb.group({
+      //   leaveCategoryId: ['', Validators.required],
+      //   leaveCycleId: ['', Validators.required],
+      //   leaveCount: ['', [Validators.required, Validators.min(0)]],
+      //   isSandwichLeave: [''],
+      //   unusedLeaveActionId: [''],
+      //   unusedLeaveActionCount: [''],
+      //   accrualTypeId: [''],
+      //   gender: ['']
+      // });
+      // this.categories.push(newRow); 
+
+      if (this.editingIndex !== null) {
+        // Update existing entry
+        this.leaveCategories1[this.editingIndex] = this.form.value;
+        // this.editingIndex = null;
+        this.editToggle = false;
+
+        console.log('this.form.value: ', this.form.value)
+
+        this.displayedCategories[this.editingIndex] = this.form.value.categories[this.editingIndex].map((category: any) => {
+          const matchedCategory = this.leaveCategoryList.find(c => c.id === category.leaveCategoryId);
+          const matchedUnusedLeaveAction = this.unusedLeaveActionList.find(c => c.id === category.unusedLeaveActionId);
+          const matchedAccrualType = this.accrualTypes.find(c => c.id === category.accrualTypeId);
+          const matchedLeaveCycle = this.leaveCycleList.find(c => c.id === category.leaveCycleId);
+          return {
+            ...category,
+            categoryName: matchedCategory ? matchedCategory.name : 'N/A',
+            unusedLeaveName: matchedUnusedLeaveAction ? matchedUnusedLeaveAction.name : 'N/A',
+            accrualName: matchedAccrualType ? matchedAccrualType.name : 'N/A',
+            leaveCycleName: matchedLeaveCycle ? matchedLeaveCycle.name : 'N/A'
+          };
+        });
+
+        console.log('update display Category: ', this.displayedCategories[this.editingIndex])
+
+        this.editingIndex = null;
+
+      } else {
+
+        const newRow = this.fb.group({
+          leaveCategoryId: ['', Validators.required],
+          leaveCycleId: ['', Validators.required],
+          leaveCount: ['', [Validators.required, Validators.min(0)]],
+          isSandwichLeave: [''],
+          unusedLeaveActionId: [''],
+          unusedLeaveActionCount: [''],
+          accrualTypeId: [''],
+          gender: ['']
+        });
+        this.categories.push(newRow); 
+
+        this.leaveCategories1.push(this.form.value);
+        console.log('this.leaveCategories1: ',this.leaveCategories1)
+        this.tempLeaveCategories1 = this.leaveCategories1;
+
+        this.leaveCategories2.push(this.form.value.categories[index]);
+        console.log('this.leaveCategories2: ', this.leaveCategories2)
+      
+        // Process leaveCategories2 to include categoryName
+      this.displayedCategories = this.leaveCategories2.map((category: any) => {
+        const matchedCategory = this.leaveCategoryList.find(c => c.id === category.leaveCategoryId);
+        const matchedUnusedLeaveAction = this.unusedLeaveActionList.find(c => c.id === category.unusedLeaveActionId);
+        const matchedAccrualType = this.accrualTypes.find(c => c.id === category.accrualTypeId);
+        const matchedLeaveCycle = this.leaveCycleList.find(c => c.id === category.leaveCycleId);
+        return {
+          ...category,
+          categoryName: matchedCategory ? matchedCategory.name : 'N/A',
+          unusedLeaveName: matchedUnusedLeaveAction ? matchedUnusedLeaveAction.name : 'N/A',
+          accrualName: matchedAccrualType ? matchedAccrualType.name : 'N/A',
+          leaveCycleName: matchedLeaveCycle ? matchedLeaveCycle.name : 'N/A'
+        };
+      });
+
+      }
+
+       
+      // console.log('this.displayedCategories: ',this.displayedCategories)
+      
+    }
+
 
   editToggle: boolean = false;
-  editCategory(index: number) {
+  editCategory1(index: number) {
     debugger
     // this.editingIndex = index;
     // const category = this.leaveCategories1[index];
@@ -389,6 +479,51 @@ export class LeaveSettingComponent implements OnInit {
         accrualTypeId: category.accrualTypeId,
         gender: category.gender
     });
+
+    console.log('form dataset: ',this.form)
+
+  }
+
+  editCategory(index: number) {
+    debugger
+    this.editToggle = true;
+    this.editingIndex = index;
+    const category = this.leaveCategories1[index];
+    this.form.patchValue(category);
+
+    // this.editToggle = true;
+    // this.editingIndex = index;
+    // console.log('edit leaveCategories1 witout ind: ',this.tempLeaveCategories1)
+    // console.log('edit leaveCategories1: ',this.tempLeaveCategories1[0].categories[index])
+
+    // const category = this.tempLeaveCategories1[0].categories[index];
+    // console.log('form category: ',category)
+
+
+
+    // this.form.patchValue(category);
+    // this.form.patchValue({
+    //   leaveCategoryId: category.leaveCategoryId,
+    //     leaveCycleId: category.leaveCycleId,
+    //     leaveCount: category.leaveCount,
+    //    unusedLeaveActionId: category.unusedLeaveActionId,
+    //     unusedLeaveActionCount: category.unusedLeaveActionCount,
+    //     accrualTypeId: category.accrualTypeId,
+    //     gender: category.gender
+    // });
+
+    // this.form.patchValue(category.controls[index]);
+
+    // this.form.patchValue({
+    //   leaveCategoryId: category.controls[index].leaveCategoryId,
+    //     leaveCycleId: category.controls[index].leaveCycleId,
+    //     leaveCount: category.leaveCount,
+    //    unusedLeaveActionId: category.unusedLeaveActionId,
+    //     unusedLeaveActionCount: category.unusedLeaveActionCount,
+    //     accrualTypeId: category.accrualTypeId,
+    //     gender: category.gender
+    // });
+    console.log('form dataset: ',this.form)
 
   }
 

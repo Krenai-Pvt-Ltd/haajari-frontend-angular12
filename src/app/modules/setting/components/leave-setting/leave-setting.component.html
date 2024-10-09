@@ -2146,6 +2146,7 @@
                       role="tab"
                       aria-controls="v-pills-messages"
                       aria-selected="false"
+                      [disabled]="leaveCategories1.length == 0"
                       #staffSelectionTab1
                     >
                       Staff selection
@@ -2414,22 +2415,27 @@
                           >
                             <!-- <div class="row" *ngFor="let category of categories[formIndex].controls; let i = index" [formGroupName]="i"> -->
 
+                            <!-- <div class="row" *ngIf="i === categories.controls.length - 1"> for 1 row working -->
+                            <!-- <div class="row" *ngIf="(!addFormToggle  && i === categories.controls.length - 1) || (addFormToggle && i === categories.controls.length - 2)"> -->
+
                             <div
                               class="row"
-                              *ngIf="i === categories.controls.length - 1"
+                              *ngIf="
+                                !editToggle
+                                  ? i === categories.controls.length - 1
+                                  : i === editingIndex
+                              "
                             >
-                              <!-- <div class="row" *ngIf="(!addFormToggle  && i === categories.controls.length - 1) || (addFormToggle && i === categories.controls.length - 2)"> -->
-
                               <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                   <label for="genderId" class="pb-2"
-                                    >Select Gender</label
+                                    >select gender</label
                                   >
                                   <nz-form-control nzErrorTip="All">
                                     <nz-select
                                       style="width: 100%"
                                       nzSize="large"
-                                      nzPlaceHolder="Select gender"
+                                      nzPlaceHolder="Select Gender"
                                       formControlName="gender"
                                       (ngModelChange)="
                                         onGenderChange($event, i)
@@ -2684,14 +2690,32 @@
                               </div>
 
                               <div
-                                class="d-flex align-items-center justify-content-end mt-2"
+                                class="d-flex align-items-center justify-content-end"
                               >
+                                <!-- <button class="p-0 btn text-primary leave-category" (click)="addFormRow(i)">
+                              <i class="bi bi-plus-lg"></i> Add leave Category
+                            </button> -->
+
                                 <button
+                                  *ngIf="editToggle"
                                   class="p-0 btn text-primary leave-category"
                                   (click)="addFormRow(i)"
                                 >
-                                  <i class="bi bi-plus-lg"></i> Add leave
-                                  Category
+                                  <i class="bi bi-plus-lg"></i>
+                                  Update leave Category
+                                </button>
+
+                                <button
+                                  *ngIf="!editToggle"
+                                  class="p-0 btn text-primary leave-category"
+                                  (click)="addFormRow(i)"
+                                >
+                                  <i class="bi bi-plus-lg"></i>
+                                  {{
+                                    !addFormToggle
+                                      ? "Add leave Category"
+                                      : "Add More Category"
+                                  }}
                                 </button>
                               </div>
 
@@ -2904,6 +2928,7 @@
                           <!-- <button type="submit" class="btn p-0 next-btn" [disabled]="!form.valid" (click)="goToStaffSelectionTab()">  [disabled]="!form.valid || leaveCategories1.length==0"  -->
                           <!-- <button type="submit" class="btn p-0 next-btn" [disabled]="leaveCategories1.length==0" (click)="goToStaffSelectionTab()"> -->
                           <button
+                            [disabled]="displayedCategories.length == 0"
                             type="submit"
                             class="btn p-0 next-btn"
                             (click)="goToStaffSelectionTab()"
