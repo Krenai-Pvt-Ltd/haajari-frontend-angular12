@@ -216,13 +216,13 @@ export class Key {
   public static KRENAI_UUID = '60811bf3-ae1e-11ee-9597-784f4361d885';
   public static DEMO_ORGANIZATION_UUID = '8d3cc5c2-21a7-11ef-98b2-0a3b903b1973';
 
-  // base_url = 'http://localhost:8082/api/v2';
+  // base_url = 'http://localhost:8080/api/v2';
 
   /* ------------------  Staging urls ----------------*/
-  base_url = 'https://staging.hajiri.work/api/v2';
+  // base_url = 'https://staging.hajiri.work/api/v2';
 
   /* ------------------  Production urls ----------------*/
-  // base_url = 'https://production.hajiri.work/api/v2';
+  base_url = 'https://production.hajiri.work/api/v2';
 
   //subscription plan
   get_subscription = '/subcription-plan';
@@ -356,6 +356,8 @@ export class Key {
   public static OVERTIME_LOG = 2;
   public static LOP_REVERSAL_LOG = 3;
 
+  // public static SLACK_WORKSPACE_URL = `https://slack.com/app_redirect?app=A07AT94EHK7&tab=home`;
+  // static GEOLOCATION = 'geolocation'
   // Tabs in Attendance Section
   public static ATTENDANCE_TAB = 1;
   public static OVERTIME_TAB = 2;
@@ -412,8 +414,8 @@ export class Key {
 
   // redirect to slack
 
-  // public static SLACK_WORKSPACE_URL= `https://slack.com/app_redirect?app=A05QD5T9EK1&tab=home`;
-  public static SLACK_WORKSPACE_URL = `https://slack.com/app_redirect?app=A07AT94EHK7&tab=home`;
+  public static SLACK_WORKSPACE_URL= `https://slack.com/app_redirect?app=A05QD5T9EK1&tab=home`;
+  // public static SLACK_WORKSPACE_URL = `https://slack.com/app_redirect?app=A07AT94EHK7&tab=home`;
 
   static GEOLOCATION = 'geolocation';
 
@@ -422,3 +424,4 @@ export class Key {
   public static COL_MD_6 = 2;
   public static COL_MD_12 = 1;
 }
+
