@@ -127,6 +127,14 @@ export class DashboardComponent implements OnInit {
   endDate: string = '';
   startDateAndEndDate : StartDateAndEndDate = new StartDateAndEndDate();
 
+
+  
+  onError(event: Event) {
+    const target = event.target as HTMLImageElement;
+    target.src = './assets/images/broken-image-icon.jpg';
+  }
+  
+
   onMonthChange(month: Date): void {
     // console.log('Month is getting selected');
     this.selectedDate = month;
@@ -1342,11 +1350,11 @@ export class DashboardComponent implements OnInit {
       (response) => {
         this.isToDoStepsCompleted = response.object;
         
-        if(this.isToDoStepsCompleted == 0 && isOrgOnboardToday == 1) {
-          this.router.navigate(['/to-do-step-dashboard']);
-        }else {
-          this.router.navigate(['/dashboard']);
-        }
+        // if(this.isToDoStepsCompleted == 0 && isOrgOnboardToday == 1) {
+        //   this.router.navigate(['/to-do-step-dashboard']);
+        // }else {
+        //   this.router.navigate(['/dashboard']);
+        // }
         console.log("isToDoStepsCompletedFlag :", this.isToDoStepsCompleted);
         
       },

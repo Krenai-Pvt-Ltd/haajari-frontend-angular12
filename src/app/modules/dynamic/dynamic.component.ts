@@ -41,11 +41,11 @@ export class DynamicComponent implements OnInit {
     this.dataService.isToDoStepsCompleted().subscribe(
       (response) => {
         this.isToDoStepsCompleted = response.object;
-        console.log("success");
+        // console.log("success");
         
       },
       (error) => {
-        console.log('error');
+        // console.log('error');
       }
     );
   }

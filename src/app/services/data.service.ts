@@ -1559,10 +1559,15 @@ export class DataService {
       // Add any additional headers as needed
     });
 
-    const params = { leaveSettingId: leaveSettingId.toString() };
+    // const params = { leaveSettingId: leaveSettingId.toString() };
+    const params = { leaveTemplateId: leaveSettingId.toString() };
 
+    // return this.httpClient.get<FullLeaveSettingResponse>(
+    //   `${this.baseUrl}/user-leave-rule/get/leave-rule-by-Id`,
+    //   { headers, params }
+    // ); amit
     return this.httpClient.get<FullLeaveSettingResponse>(
-      `${this.baseUrl}/user-leave-rule/get/leave-rule-by-Id`,
+      `${this.baseUrl}/user-leave-template`,
       { headers, params }
     );
   }
