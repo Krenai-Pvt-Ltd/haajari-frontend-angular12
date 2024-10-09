@@ -596,7 +596,15 @@
                   <p class="mb-0">Plan Upgrade Now</p>
                 </div>
                 <div>
-                  <button class="btn upgradeBtn">
+                  <button class="btn upgradeBtn" nz-button
+                  nzType="text"
+                  nz-popover
+                  [nzPopoverContent]="contentTemplate" nzPopoverPlacement="top">
+                  <ng-template #contentTemplate>
+                    <p class="mb-0">
+                      You're on a free trial—upgrade options will be available once the trial ends.
+                    </p>
+                    </ng-template>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="15"

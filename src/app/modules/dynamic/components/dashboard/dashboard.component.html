@@ -951,6 +951,17 @@
                     </ul>
                   </div>
                 </div> -->
+                <div class="" style="width: 15%">
+                  <div class="dropdown deshboard-date-filter">
+                    <nz-date-picker
+                      nzMode="month"
+                      [nzSize]="size"
+                      [(ngModel)]="selectedDate"
+                      (ngModelChange)="onMonthChange($event)"
+                      [nzDisabledDate]="disableMonths"
+                    ></nz-date-picker>
+                  </div>
+                </div>
                 <div
                   class="onboarding-date d-flex align-items-center"
                   style="gap: 10px; width: 70%"
@@ -1004,21 +1015,12 @@
                   </div>
                 </div>
 
-                <div class="" style="width: 15%">
-                  <div class="dropdown deshboard-date-filter">
-                    <nz-date-picker
-                      nzMode="month"
-                      [nzSize]="size"
-                      [(ngModel)]="selectedDate"
-                      (ngModelChange)="onMonthChange($event)"
-                      [nzDisabledDate]="disableMonths"
-                    ></nz-date-picker>
-                  </div>
-                </div>
-                <div class="" style="width: 15%">
+               
+                <div class="" style="width: 12%">
                   <div class="dropdown">
                     <button
                       class="btn btn-secondary dropdown-toggle new-deopdown"
+                      style="text-align: center;"
                       type="button"
                       id="dropdownMenuButton1"
                       data-bs-toggle="dropdown"
@@ -1026,7 +1028,7 @@
                       [disabled]="attendanceReportResponseList.length === 0"
                       (click)="downloadAttendanceDataInExcelFormatMethodCall()"
                     >
-                      <span *ngIf="!downloadingFlag">Download</span>
+                      <span *ngIf="!downloadingFlag" >Download</span>
                       <div class="dot-opacity-loader" *ngIf="downloadingFlag">
                         <span></span>
                         <span></span>
