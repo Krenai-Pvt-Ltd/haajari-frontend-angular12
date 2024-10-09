@@ -1010,12 +1010,11 @@
                   </div>
                 </div>
 
-               
                 <div class="" style="width: 12%">
                   <div class="dropdown">
                     <button
                       class="btn btn-secondary dropdown-toggle new-deopdown"
-                      style="text-align: center;"
+                      style="text-align: center"
                       type="button"
                       id="dropdownMenuButton1"
                       data-bs-toggle="dropdown"
@@ -1023,7 +1022,7 @@
                       [disabled]="attendanceReportResponseList.length === 0"
                       (click)="downloadAttendanceDataInExcelFormatMethodCall()"
                     >
-                      <span *ngIf="!downloadingFlag" >Download</span>
+                      <span *ngIf="!downloadingFlag">Download</span>
                       <div class="dot-opacity-loader" *ngIf="downloadingFlag">
                         <span></span>
                         <span></span>
@@ -1418,7 +1417,9 @@
                             >
                               <td colspan="9" class="p-1">
                                 <div class="month-deta">
-                                  <table class="table table-bordered day-deta">
+                                  <table
+                                    class="table table-bordered day-data mb-0"
+                                  >
                                     <tr class="position-relative">
                                       <th class="text-center">Day</th>
                                       <ng-container
