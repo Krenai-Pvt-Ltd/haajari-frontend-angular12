@@ -45,6 +45,7 @@ export class CommonToDoStepsComponent implements OnInit {
   }
 
   isToDoStepsCompletedFlag: number = 0;
+  count : number = 0;
   isToDoStepsCompletedData() {
     debugger
     this.dataService.isToDoStepsCompleted().subscribe(
@@ -54,9 +55,11 @@ export class CommonToDoStepsComponent implements OnInit {
         if(this.isToDoStepsCompletedFlag == 0) {
           this.getToDoStepViaSubject();
         }else {
-        
+            if(this.count == 0) {
             // console.log(this.isTo)
             this.stepCompletionModal.nativeElement.click();
+            this.count++;
+            }
           
           this.getOrganizationInitialToDoStepBar();
           // this.router.navigate(['/dashboard']);

@@ -454,7 +454,7 @@
                       <a
                         href=""
                         data-bs-toggle="modal"
-                        data-bs-target="#requestleave"
+                        data-bs-target="#leavemodal"
                       >
                         <i
                           class="bi bi-pencil pointer"
@@ -2115,12 +2115,15 @@
   >
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="requestLeave">Create another template</h5>
+        <h5 class="modal-title" id="requestLeave">
+          {{ updateToggle ? "Update" : "Create another" }} template
+        </h5>
         <button
           type="button"
           class="btn-close"
           data-bs-dismiss="modal"
           aria-label="Close"
+          (click)="clearModalData()"
           id="requestLeaveCloseModel1"
           #requestLeaveCloseModel1
         ></button>
@@ -2132,21 +2135,27 @@
               <div class="col-md-3 p-0 m-0">
                 <div class="leave-sidebar-menu">
                   <div
+                    *ngIf="!updateToggle"
                     class="nav flex-column nav-pills pt-3"
                     id="v-pills-tab"
                     role="tablist"
                     aria-orientation="vertical"
                   >
+                    <!-- <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill"
+                      data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home"
+                      aria-selected="true" #templateSettingTab2>
+                      Template setting
+                    </button> -->
                     <button
-                      class="nav-link active"
+                      class="nav-link"
                       id="v-pills-home-tab"
                       data-bs-toggle="pill"
                       data-bs-target="#v-pills-home"
                       type="button"
                       role="tab"
                       aria-controls="v-pills-home"
-                      aria-selected="true"
-                      #templateSettingTab
+                      aria-selected="false"
+                      #templateSettingTab2
                     >
                       Template setting
                     </button>
@@ -2167,19 +2176,6 @@
                       Leave Categories
                     </button>
 
-                    <!-- <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="tab" id="profile-tab"
-                    data-bs-target="#profile" type="button" role="tab" aria-controls="v-pills-profile"
-                    aria-selected="false" [disabled]="!leaveTemplateDefinitionForm.form.valid" #leaveCategoryTab>
-                    Leave Categories
-                  </button> -->
-
-                    <!-- <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill"
-                      data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages"
-                      aria-selected="false"  [disabled]="!form.valid" #staffSelectionTab1>
-                      Staff selection
-                    </button> -->
-
-                    <!-- [disabled]="leaveCategories1.length == 0" -->
                     <button
                       class="nav-link"
                       id="v-pills-messages-tab"
@@ -2191,6 +2187,58 @@
                       aria-selected="false"
                       [disabled]="leaveCategories1.length == 0"
                       #staffSelectionTab1
+                    >
+                      Staff selection
+                    </button>
+                  </div>
+
+                  <div
+                    *ngIf="updateToggle"
+                    class="nav flex-column nav-pills pt-3"
+                    id="v-pills-tab"
+                    role="tablist"
+                    aria-orientation="vertical"
+                  >
+                    <button
+                      disabled
+                      class="nav-link active"
+                      id="v-pills-home-tab"
+                      data-bs-toggle="pill"
+                      data-bs-target="#v-pills-home"
+                      type="button"
+                      role="tab"
+                      aria-controls="v-pills-home"
+                      aria-selected="true"
+                    >
+                      Template setting
+                    </button>
+
+                    <button
+                      disabled
+                      class="nav-link"
+                      id="v-pills-profile-tab"
+                      data-bs-toggle="pill"
+                      id="profile-tab"
+                      data-bs-target="#v-pills-profile"
+                      type="button"
+                      role="tab"
+                      aria-controls="v-pills-profile"
+                      aria-selected="false"
+                    >
+                      Leave Categories
+                    </button>
+
+                    <!-- (click)="getUserByUpdateMethodCall(leaveTempId)" -->
+                    <button
+                      class="nav-link"
+                      id="v-pills-messages-tab"
+                      data-bs-toggle="pill"
+                      data-bs-target="#v-pills-messages"
+                      type="button"
+                      role="tab"
+                      aria-controls="v-pills-messages"
+                      aria-selected="false"
+                      #staffSelectionTab2
                     >
                       Staff selection
                     </button>
@@ -2299,39 +2347,34 @@
                             <label for="leaveRenewalCycle" class="pb-2">
                               Leave Quota Renew Cycle
                             </label>
-                            <nz-form-control
-                              nzErrorTip="Please select a valid renewal cycle."
+                            <!-- <nz-form-control nzErrorTip="Please select a valid renewal cycle."> -->
+                            <nz-select
+                              style="width: 100%"
+                              nzSize="large"
+                              nzPlaceHolder="Select Leave Quota Renew Cycle "
+                              [(ngModel)]="leaveTemplateRequest.yearTypeName"
+                              (ngModelChange)="
+                                selectDateForLeaveTemplateRequest($event)
+                              "
+                              name="leaveRenewalCycle"
+                              #leaveRenewalCycle="ngModel"
+                              required
+                              class="form-control"
                             >
-                              <nz-select
-                                style="width: 100%"
-                                nzSize="large"
-                                nzPlaceHolder="Select Leave Quota Renew Cycle "
-                                [(ngModel)]="leaveTemplateRequest.yearTypeName"
-                                (ngModelChange)="
-                                  selectDateForLeaveTemplateRequest($event)
-                                "
-                                name="leaveRenewalCycle"
-                                #leaveRenewalCycle="ngModel"
-                                required
-                                class="form-control"
+                              <nz-option
+                                *ngFor="let yearType of yearTypeList"
+                                [nzValue]="yearType.name"
+                                [nzLabel]="yearType.name"
                               >
-                                <nz-option
-                                  *ngFor="let yearType of yearTypeList"
-                                  [nzValue]="yearType.name"
-                                  [nzLabel]="yearType.name"
-                                >
-                                </nz-option>
-                              </nz-select>
-                            </nz-form-control>
-                            <div
-                              *ngIf="
+                              </nz-option>
+                            </nz-select>
+                            <!-- </nz-form-control> -->
+                            <!-- <div *ngIf="
                                 leaveRenewalCycle.invalid &&
                                 leaveRenewalCycle.touched
-                              "
-                              class="invalid-feedback"
-                            >
+                              " class="invalid-feedback">
                               Renewal cycle is required.
-                            </div>
+                            </div> working -->
                           </div>
 
                           <div *ngIf="isCustomDateRange">
@@ -2625,23 +2668,27 @@
                                   Leave Count
                                 </label>
 
-                                <!-- <input nz-input formControlName="leaveCount"
-                            nzPlaceHolder="Day Count" (ngModelChange)="generateDaysDropdown($event, i)"
-                             nzSize="large" minlength="1" maxlength="10" [nzStep]="1" required /> -->
-                                <nz-input-number
+                                <input
+                                  class="form-control"
+                                  type="number"
                                   style="width: 100%"
                                   formControlName="leaveCount"
                                   class="form-control input-zorro"
-                                  nzPlaceHolder="Day Count"
+                                  placeholder="Day Count"
                                   (ngModelChange)="
                                     generateDaysDropdown($event, i)
                                   "
-                                  nzSize="large"
-                                  [nzMin]="1"
-                                  [nzMax]="10"
-                                  [nzStep]="1"
+                                  min="1"
+                                  max="10"
+                                  step="1"
                                   required
-                                ></nz-input-number>
+                                />
+
+                                <!-- <nz-input-number style="width: 100%" formControlName="leaveCount"
+                                  class="form-control input-zorro" nzPlaceHolder="Day Count" (ngModelChange)="
+                                    generateDaysDropdown($event, i)
+                                  " nzSize="large" [nzMin]="1" [nzMax]="10" [nzStep]="1" required>
+                                </nz-input-number> -->
 
                                 <p
                                   class="errortxt mt-2 mb-0 text-danger"
@@ -2839,10 +2886,25 @@
                                         >
                                       </td>
                                       <td class="text-center">
+                                        <!-- <div class="badge rounded-pill badge-soft-primary"> -->
                                         <div
-                                          class="badge rounded-pill badge-soft-primary"
+                                          class="badge rounded-pill"
+                                          [ngClass]="{
+                                            'badge-soft-primary':
+                                              category.leaveCycleName ===
+                                              'Monthly',
+                                            'badge-soft-warning':
+                                              category.leaveCycleName ===
+                                              'Quarterly',
+                                            'badge-soft-success':
+                                              category.leaveCycleName ===
+                                              'Half Yearly',
+                                            'badge-soft-info':
+                                              category.leaveCycleName ===
+                                              'Yearly'
+                                          }"
                                         >
-                                          <span>
+                                          <span class="fw-semibold">
                                             {{ category.leaveCycleName }}
                                           </span>
                                         </div>
@@ -3017,10 +3079,26 @@
                               padding: 0px 0px 0px 35px;
                             "
                           />
+                          <button
+                            type="button"
+                            class="btn close-btn"
+                            (click)="clearSearchUsers()"
+                            *ngIf="crossFlag"
+                          >
+                            <i class="bi bi-x"></i>
+                          </button>
+                          <i
+                            class="bi bi-search search-icon"
+                            style="
+                              position: absolute;
+                              top: 50%;
+                              transform: translateY(-50%);
+                              left: 10px;
+                            "
+                          ></i>
 
-                          <span class="saerch-i">
-                            <i class="bi bi-search"></i
-                          ></span>
+                          <!-- <span class="saerch-i">
+                            <i class="bi bi-search"></i></span> -->
                         </div>
 
                         <div
@@ -3034,14 +3112,21 @@
                               Total Employees
                             </p>
 
-                            <!-- <p class="mapped-user mb-0 font-13">
-                              Mapper <span class="text-primary">250 </span>User
-                            </p> -->
+                            <p
+                              *ngIf="selectedStaffIdsUser.length > 0"
+                              class="mapped-user mb-0 font-13"
+                            >
+                              Mapper
+                              <span class="text-primary"
+                                >{{ selectedStaffIdsUser.length }} </span
+                              >User
+                            </p>
 
                             <span class="separator"></span>
 
                             <button
-                              *ngIf="leaveTemplateRequest.userIds.length > 0"
+                              *ngIf="selectedStaffIdsUser.length > 0"
+                              (click)="clearIds()"
                               class="p-0 btn clear-section"
                             >
                               <svg
@@ -3086,16 +3171,14 @@
                                 <tr>
                                   <th style="width: 2%" class="text-left">
                                     <!-- <input type="checkbox" class="form-check-input pointer" /> -->
+                                    <!-- <input type="checkbox" style="cursor: pointer" [ngModelOptions]="{standalone: true}" 
+                                    class="form-check-input" name="selectAllCheckbox" [(ngModel)]="isAllSelected" (change)="selectAll(isAllSelected)" /> -->
+
+                                    <!-- <input type="checkBox" (click)="selectAll1($event)"  [(ngModel)]="allselected"> -->
                                     <input
-                                      type="checkbox"
-                                      style="cursor: pointer"
-                                      [ngModelOptions]="{
-                                        standalone: true
-                                      }"
-                                      class="form-check-input"
-                                      name="selectAllCheckbox"
-                                      [(ngModel)]="isAllSelected"
-                                      (change)="selectAll(isAllSelected)"
+                                      type="checkBox"
+                                      (click)="selectAll1($event)"
+                                      [checked]="allselected"
                                     />
                                   </th>
                                   <th style="width: 15%" class="text-left">
@@ -3114,8 +3197,7 @@
                               </thead>
 
                               <tbody>
-                                <tr
-                                  *ngFor="
+                                <!-- <tr *ngFor="
                                     let staff of staffs
                                       | paginate
                                         : {
@@ -3123,19 +3205,37 @@
                                             currentPage: pageNumber,
                                             totalItems: total
                                           }
-                                  "
-                                >
+                                  "> -->
+                                <tr *ngFor="let staff of staffs; let i = index">
                                   <td class="text-left">
                                     <!-- <input type="checkbox" class="form-check-input pointer" /> -->
+                                    <!-- <input type="checkbox" style="cursor: pointer"
+                                      [ngModelOptions]="{ standalone: true }" class="form-check-input pointer"
+                                      name="individualSelectionCheckbox" [(ngModel)]="staff.selected"
+                                      (click)="selectSingle(staff, i)" /> -->
+
                                     <input
-                                      type="checkbox"
-                                      style="cursor: pointer"
-                                      [ngModelOptions]="{ standalone: true }"
-                                      class="form-check-input pointer"
-                                      name="individualSelectionCheckbox"
-                                      [(ngModel)]="staff.selected"
-                                      (change)="checkIndividualSelection()"
+                                      type="checkBox"
+                                      name="checkBox{{ i }}"
+                                      id="checkBoxid{{ i }}"
+                                      (click)="selectSingle(staff, i)"
+                                      [checked]="staff.checked"
                                     />
+
+                                    <!-- <input
+                                          type="checkbox"
+                                          style="cursor: pointer"
+                                          [ngModelOptions]="{ standalone: true }"
+                                          class="form-check-input pointer"
+                                          name="individualSelectionCheckbox"
+                                          [(ngModel)]="staff.selected"
+                                          (change)="selectSingle(staff, i)"
+                                          [checked]="selectedStaffIdsUser.includes(staff.id)" /> -->
+
+                                    <!-- <input type="checkbox" style="cursor: pointer"
+                                      [ngModelOptions]="{ standalone: true }" class="form-check-input pointer"
+                                      name="individualSelectionCheckbox" [(ngModel)]="staff.selected"
+                                      (change)="checkIndividualSelection()" /> old code-->
                                   </td>
                                   <td class="text-left">{{ staff.name }}</td>
                                   <td class="text-left">
@@ -3153,34 +3253,33 @@
                                     }}
                                   </td>
                                   <td class="text-center">
-                                    <!-- <button class="add-employee" *ngIf="!addEmployeeLoader(staff)" (click)="addUser(staff.id, idOfLeaveSetting)">
-                                    <i class="bi bi-plus-lg"></i>
-                                    Add
-                                  </button> -->
+                                    <button
+                                      class="add-employee"
+                                      *ngIf="!addEmployeeLoader(staff)"
+                                      (click)="selectSingle(staff, i)"
+                                    >
+                                      <i
+                                        class="{{
+                                          staff.checked
+                                            ? 'bi bi-minus-lg'
+                                            : 'bi bi-plus-lg'
+                                        }}"
+                                      ></i>
+                                      {{ staff.checked ? "Remove" : "Add" }}
+                                    </button>
 
-                                    <span *ngIf="!staff.isAdded">
-                                      <button
-                                        class="add-employee"
-                                        *ngIf="!addEmployeeLoader(staff)"
-                                        (click)="
-                                          addUser(staff.id, idOfLeaveSetting)
-                                        "
-                                      >
-                                        <i class="bi bi-plus-lg"></i>
-                                        Add
+                                    <!-- <span *ngIf="!staff.isAdded">
+                                      <button class="add-employee" *ngIf="!addEmployeeLoader(staff)" (click)="addUser(staff.id, idOfLeaveSetting)">
+                                        <i class="bi bi-plus-lg"></i> Add
                                       </button>
                                     </span>
 
                                     <span *ngIf="staff.isAdded">
-                                      <button
-                                        class="btn btn-outline-primary btn-sm editdata-edit"
-                                        name="addedButton"
-                                        [(ngModel)]="staff.selected"
-                                        [ngModelOptions]="{ standalone: true }"
-                                      >
+                                      <button class="btn btn-outline-primary btn-sm editdata-edit" name="addedButton"
+                                        [(ngModel)]="staff.selected" [ngModelOptions]="{ standalone: true }">
                                         Added
                                       </button>
-                                    </span>
+                                    </span> -->
                                   </td>
                                 </tr>
                               </tbody>
@@ -3255,13 +3354,16 @@
                          </button> -->
 
                           <button
-                            *ngIf="!submitLeaveLoader"
-                            [disabled]="registerToggle"
+                            *ngIf="!registerToggle"
+                            [disabled]="
+                              selectedStaffIdsUser.length == 0 || registerToggle
+                            "
                             type="submit"
                             class="btn p-0 next-btn"
                             (click)="registerLeaveTemplateMethodCall()"
                           >
-                            Create Leave Policy
+                            {{ updateToggle ? "Update" : "Create" }} Leave
+                            Policy
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width="22"
@@ -3275,6 +3377,15 @@
                               />
                             </svg>
                           </button>
+
+                          <div
+                            class="dot-opacity-loader"
+                            *ngIf="registerToggle"
+                          >
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                          </div>
                         </div>
                       </div>
                     </div>
