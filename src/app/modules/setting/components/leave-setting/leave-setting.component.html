@@ -41,6 +41,74 @@
           </div>
         </div>
       </div>
+
+      <div class="row leave-management-settings p-3 mt-2 align-items-center">
+        <div class="col-md-6">
+          <div class="leave-management-detail pt-5 pb-5">
+            <h3 class="mb-3">
+              Configure Your <br />
+              Leave Management Settings.
+            </h3>
+            <p class="mb-0 font-14">
+              Easily customize your leave management preferences, define leave
+              <br />
+              types, set approval workflows, and streamline employee leave
+              tracking.
+            </p>
+            <button
+              class="btn add-leave-btn mt-4 mb-2"
+              data-bs-toggle="modal"
+              data-bs-target="#leavemodal"
+              (click)="
+                emptyAddLeaveSettingRule(); preMethodCallToCreateLeaveTemplate()
+              "
+            >
+              Add Leave Settings
+            </button>
+            <hr />
+            <span class="mb-0">
+              By signing, you are creating
+              <a href="#!">
+                Learn more about it
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="21"
+                  viewBox="0 0 20 21"
+                  fill="none"
+                >
+                  <mask
+                    id="mask0_4244_1588"
+                    style="mask-type: alpha"
+                    maskUnits="userSpaceOnUse"
+                    x="0"
+                    y="0"
+                    width="20"
+                    height="21"
+                  >
+                    <rect y="0.546875" width="20" height="20" fill="#6666F2" />
+                  </mask>
+                  <g mask="url(#mask0_4244_1588)">
+                    <path
+                      d="M4.50016 17.2148L3.3335 16.0482L13.0002 6.38151H7.50016V4.71484H15.8335V13.0482H14.1668V7.54818L4.50016 17.2148Z"
+                      fill="#6666F2"
+                    />
+                  </g>
+                </svg>
+              </a>
+            </span>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="leave-management-detail-img text-end">
+            <img
+              src="assets/images/leave-management-img.svg"
+              style="width: 400px"
+            />
+          </div>
+        </div>
+      </div>
+
       <div class="row mt-2">
         <div
           class="col-md-4 mt-3 mb-3"
@@ -344,11 +412,15 @@
               </div>
               <div class="" *ngIf="!idFlag">
                 <!-- data-bs-target="#requestleave" -->
-                <a class="add-shift-time-btn"
+                <a
+                  class="add-shift-time-btn"
                   data-bs-toggle="modal"
                   data-bs-target="#leavemodal"
-                  (click)="emptyAddLeaveSettingRule();
-                    preMethodCallToCreateLeaveTemplate()">
+                  (click)="
+                    emptyAddLeaveSettingRule();
+                    preMethodCallToCreateLeaveTemplate()
+                  "
+                >
                   <i class="bi bi-plus"></i> Create another template
                 </a>
               </div>
@@ -2044,8 +2116,14 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="requestLeave">Create another template</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="requestLeaveCloseModel1"
-          #requestLeaveCloseModel1></button>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          id="requestLeaveCloseModel1"
+          #requestLeaveCloseModel1
+        ></button>
       </div>
       <form #leaveSetForm="ngForm">
         <div class="modal-body p-0">
@@ -2670,11 +2748,20 @@
                                   Update leave Category
                                 </button>
 
-                            <button [disabled]="!form.valid" *ngIf="!editToggle" class="p-0 btn text-primary leave-category" (click)="addFormRow(i)">
-                              <i class="bi bi-plus-lg"></i> 
-                              {{!addFormToggle ? 'Add leave Category' : 'Add More Category'}}
-                            </button>
-                            </div>
+                                <button
+                                  [disabled]="!form.valid"
+                                  *ngIf="!editToggle"
+                                  class="p-0 btn text-primary leave-category"
+                                  (click)="addFormRow(i)"
+                                >
+                                  <i class="bi bi-plus-lg"></i>
+                                  {{
+                                    !addFormToggle
+                                      ? "Add leave Category"
+                                      : "Add More Category"
+                                  }}
+                                </button>
+                              </div>
 
                               <div
                                 class="table-responsive bg-white mt-4 leave-category-list"
