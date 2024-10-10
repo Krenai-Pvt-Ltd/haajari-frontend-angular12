@@ -338,10 +338,10 @@ export class EmployeeOnboardingFormComponent implements OnInit {
             this.isLoading = false;
             this.employeeOnboardingFormStatus =
               response.employeeOnboardingStatus.response;
-            // if(response.employeeOnboardingFormStatus.id && this.employeeOnboardingFormStatus != 'REJECTED' ){
-            //   this.lastSavedStep = response.employeeOnboardingFormStatus.id;
-            //   this.routeToLastSavedStep(this.lastSavedStep);
-            // }
+            if(response.employeeOnboardingFormStatus.id && this.helperService.isFirstTime ){
+              this.lastSavedStep = response.employeeOnboardingFormStatus.id;
+              this.routeToLastSavedStep(this.lastSavedStep);
+            }
             if (adminUuid) {
               await this.getAdminVerifiedForOnboardingUpdateMethodCall();
             }

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OnboardingSidebarResponse } from 'src/app/models/onboarding-sidebar-response';
 import { DataService } from 'src/app/services/data.service';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-employee-onboarding-sidebar',
@@ -16,7 +17,7 @@ export class EmployeeOnboardingSidebarComponent implements OnInit {
   stepsCompletionStatus: boolean[] = [];
   routes: string[] =[];
   private userUuid: string | null = null;
-  constructor(private router: Router, private stepService: DataService) { }
+  constructor(private router: Router, private stepService: DataService, private helperService: HelperService) { }
 
   ngOnInit(): void {
     this.getAdminVerifiedForOnboardingUpdateMethodCall();
@@ -33,7 +34,7 @@ export class EmployeeOnboardingSidebarComponent implements OnInit {
   navigateTo(route: string, stepIndex: number): void {
     debugger;
     const userUuid = new URLSearchParams(window.location.search).get('userUuid');
-
+    this.helperService.markAsVisited();
     let adminUuid: any;
     if(new URLSearchParams(window.location.search).get('adminUuid')){
      adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
