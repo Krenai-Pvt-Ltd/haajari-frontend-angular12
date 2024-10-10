@@ -507,23 +507,6 @@
                 >
               </a>
             </li>
-
-            <li
-              [class.active]="0 === activeIndex"
-              (mouseover)="updateSliderStyle4(0)"
-              (mouseout)="resetHoverIndex4()"
-              (click)="setActive4(0)"
-              class="pointer"
-              routerLinkActive="sidebar-menu-active"
-              routerLink="/setting/onboarding-setting"
-              *ngIf="this.rbacService.shouldDisplay('company setting')"
-            >
-              <a class="sidebar-menu-link">
-                <span class=" ">
-                  <i class="bi bi-building menu-icon"></i> Onboarding Setting</span
-                >
-              </a>
-            </li>
           </ul>
         </div>
 

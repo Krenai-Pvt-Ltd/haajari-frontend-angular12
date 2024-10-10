@@ -9,7 +9,6 @@ import { AccountSettingsComponent } from './components/account-settings/account-
 import { StaffAttendanceLocationComponent } from './components/staff-attendance-location/staff-attendance-location.component';
 import { UploadPhotoComponent } from './components/upload-photo/upload-photo.component';
 import { SalarySettingComponent } from './components/salary-setting/salary-setting.component';
-import { OnboardingSettingComponent } from './components/onboarding-setting/onboarding-setting.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/setting/attendance-setting', pathMatch: 'full' },
@@ -26,11 +25,6 @@ const routes: Routes = [
       {
         path: 'company-setting',
         component: CompanySettingComponent,
-        canActivate: [AuthGuard],
-      },
-      {
-        path: 'onboarding-setting',
-        component: OnboardingSettingComponent,
         canActivate: [AuthGuard],
       },
       {
