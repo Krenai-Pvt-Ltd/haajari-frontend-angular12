@@ -1019,11 +1019,11 @@
                 </div>
                 <hr style="margin-bottom: 10px" />
                 <ul class="nav nav-tabs bg-white" role="tablist">
-                  <li class="nav-item" (click)="changeLogTabInAttendanceUpdateRequestTab(ATTENDANCE_UPDATE_PENDING_REQUEST_TAB); getOvertimePendingRequestResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();">
+                  <li class="nav-item" (click)="changeLogTabInAttendanceUpdateRequestTab(ATTENDANCE_UPDATE_PENDING_REQUEST_TAB); getAttendanceRequestsData();">
                     <a class="nav-link" [ngClass]="{'active': ACTIVE_TAB_IN_ATTENDANCE_UPDATE_REQUEST_TAB == ATTENDANCE_UPDATE_PENDING_REQUEST_TAB}" data-bs-toggle="tab" href="#attendance-update-pending-request" role="tab" aria-selected="true">Pending requests <span class="badge rounded-pill badge-outline-warning" style="margin-left: 10px" *ngIf="pendingRequestCount > 0">{{ pendingRequestCount }}</span></a>
                   </li>
-                  <li class="nav-item" (click)="changeLogTabInAttendanceUpdateRequestTab(ATTENDANCE_UPDATE_REQUEST_HISTORY_TAB); getOvertimeRequestResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();">
-                    <a class="nav-link" [ngClass]="{'active': ACTIVE_TAB_IN_ATTENDANCE_UPDATE_REQUEST_TAB == ATTENDANCE_UPDATE_REQUEST_HISTORY_TAB}" data-bs-toggle="tab" href="#overtime-history" role="tab" aria-selected="false">Update History</a>
+                  <li class="nav-item" (click)="changeLogTabInAttendanceUpdateRequestTab(ATTENDANCE_UPDATE_REQUEST_HISTORY_TAB); getAttendanceRequestsHistoryData();">
+                    <a class="nav-link" [ngClass]="{'active': ACTIVE_TAB_IN_ATTENDANCE_UPDATE_REQUEST_TAB == ATTENDANCE_UPDATE_REQUEST_HISTORY_TAB}" data-bs-toggle="tab" href="#attendance-update-request-history" role="tab" aria-selected="false">Update History</a>
                   </li>
                 </ul>
                 <div class="tab-content">
@@ -1075,7 +1075,7 @@
                                     </div>
                                   </div>
                                 </div>
-                                <a href="#" class="text-primary" (click)="getOvertimeRequestActionResponseMethodCall(attendanceRequest)" data-bs-toggle="modal" data-bs-target="#overtime-request-action">
+                                <a href="#" class="text-primary" (click)="getAttendanceUpdateRequestActionResponseMethodCall(attendanceRequest)" data-bs-toggle="modal" data-bs-target="#attendance-update-request-action">
                                   <i class="fas fa-external-link-square-alt me-1"></i>View </a>
                               </div>
                             </div>
@@ -1113,54 +1113,55 @@
 
 
 
-                  <div class="pt-3 pb-3" id="overtime-history" role="" *ngIf="ACTIVE_TAB_IN_ATTENDANCE_UPDATE_REQUEST_TAB == ATTENDANCE_UPDATE_REQUEST_HISTORY_TAB">
-
-
-                    <ng-container *ngIf="isShimmerForAttendanceUpdateRequestResponse && overtimeRequestResponseList.length == 0 && !dataNotFoundForAttendanceUpdateRequestResponse && !networkConnectionErrorForAttendanceUpdateRequestResponse; else attendanceUpdateRequestResponseListCondition">
+                  <div class="pt-3 pb-3" id="attendance-update-request-history" role="" *ngIf="ACTIVE_TAB_IN_ATTENDANCE_UPDATE_REQUEST_TAB == ATTENDANCE_UPDATE_REQUEST_HISTORY_TAB">
+                    <ng-container *ngIf="isShimmerForAttendanceUpdateRequestResponse && attendanceRequestsHistory.length == 0 && !dataNotFoundForAttendanceUpdateRequestResponse && !networkConnectionErrorForAttendanceUpdateRequestResponse; else attendanceUpdateRequestResponseListCondition">
 
                     </ng-container>
                     <ng-template #attendanceUpdateRequestResponseListCondition>
-                      <ng-container *ngIf="!isShimmerForAttendanceUpdateRequestResponse && overtimeRequestResponseList.length != 0 && !dataNotFoundForAttendanceUpdateRequestResponse && !networkConnectionErrorForAttendanceUpdateRequestResponse; else errorWhileFetchingAttendanceUpdateRequestResponseListCondition">
+                      <ng-container *ngIf="!isShimmerForAttendanceUpdateRequestResponse && attendanceRequestsHistory.length != 0 && !dataNotFoundForAttendanceUpdateRequestResponse && !networkConnectionErrorForAttendanceUpdateRequestResponse; else errorWhileFetchingAttendanceUpdateRequestResponseListCondition">
                         <!-- #logContainerOfApprovedRejected (scroll)="scrollDownRecentActivityOfApprovedRejected($event)" -->
                         <div class="leave-history-box-if-pending-null">
-                          <div class="row mt-2" *ngFor="let overtimeRequestResponse of overtimeRequestResponseList">
+                          <div class="row mt-2" *ngFor="let attendanceRequestHistory of attendanceRequestsHistory">
                             <div class="col-auto">
-                              <img *ngIf="overtimeRequestResponse.userImage" src="{{ overtimeRequestResponse.userImage }}" alt="" class="thumb-md rounded-circle" style="width: 32px; height: 32px" />
-                              <img *ngIf="!overtimeRequestResponse.userImage" src="assets/images/user.png" alt="" class="thumb-md rounded-circle" style="width: 32px; height: 32px" />
+                              <img *ngIf="attendanceRequestHistory.userImage" src="{{ attendanceRequestHistory.userImage }}" alt="" class="thumb-md rounded-circle" style="width: 32px; height: 32px" />
+                              <img *ngIf="!attendanceRequestHistory.userImage" src="assets/images/user.png" alt="" class="thumb-md rounded-circle" style="width: 32px; height: 32px" />
                             </div>
                             <!--end col-->
                             <div class="col">
                               <div class="comment-body ms-n2 p-3" [ngClass]="{
-                                  'bg-soft-success': overtimeRequestResponse.requestStatusId == key.APPROVED,
-                                  'bg-soft-danger': overtimeRequestResponse.requestStatusId == key.REJECTED
+                                  'bg-soft-success': attendanceRequestHistory.status == 'APPROVED',
+                                  'bg-soft-danger': attendanceRequestHistory.status == 'REJECTED'
                                 }">
                                 <div class="activity-info-text">
                                   <div class="float-end">
                                     <div class="dropdown d-inline-block">
-                                      <div class="align-self-center">
+                                      <div class="align-self-center text-end">
+                                        <small>{{ attendanceRequestHistory.createdDate | date:'medium' || "N/A" }}</small>
                                         <h6 class="fw-semibold">
-                                          <span class="badge badge-outline-primary"> Duration | {{ this.helperService.formatHHmmssToHHmm(overtimeRequestResponse.workingHour) }} hrs.</span>
+                                          <span class="badge badge-outline-primary" *ngIf="attendanceRequestHistory.requestType === 'UPDATE'">Request Type | {{attendanceRequestHistory.attendanceStatus | uppercase}}</span>
+                                          <span class="badge badge-outline-primary" *ngIf="attendanceRequestHistory.requestType === 'CREATE'">New Request !</span>
                                         </h6>
-                                        <small>{{ overtimeRequestResponse.createdDate | date:'medium' ||
-                                              "N/A"
-                                          }}
-                                          <!-- &nbsp;
-                                          <span>{{
-                                            arl.leaveDate | date:'medium' || "N/A"
-                                          }}</span> -->
-                                        </small>
                                       </div>
                                     </div>
                                   </div>
                                   <div class="media align-items-center">
                                     <div class="media-body ms-2 align-self-center">
-                                      <h5 class="m-0 Regular-data" (click)="routeToUserProfile(overtimeRequestResponse.userUuid)">
-                                        {{ overtimeRequestResponse.userName }}
-                                        <i class="ti ti-checks bg-soft-success" *ngIf="overtimeRequestResponse.requestStatusId == key.APPROVED"></i>
-                                        <i class="ti ti-x bg-soft-danger" *ngIf="overtimeRequestResponse.requestStatusId == key.REJECTED"></i>
+                                      <h5 class="m-0 Regular-data" (click)="routeToUserProfile(attendanceRequestHistory.userUuid)">
+                                        {{ attendanceRequestHistory.userName }}
+                                        <i class="ti ti-checks bg-soft-success" *ngIf="attendanceRequestHistory.status == 'APPROVED'"></i>
+                                        <i class="ti ti-x bg-soft-danger" *ngIf="attendanceRequestHistory.status == 'REJECTED'"></i>
                                       </h5>
-                                      <p> Time: <u>{{ overtimeRequestResponse.startTime | date : 'd MMM, h:mm a'}} - {{ overtimeRequestResponse.endTime | date : 'd MMM, h:mm a' }}</u>
-                                      </p>
+                                      <ng-container *ngIf="attendanceRequestHistory.requestType === 'UPDATE'">
+                                        <small>Previous Time: <u> {{attendanceRequestHistory.oldDate | date:'medium' || "N/A"}} </u></small>
+                                        <br>
+                                        <small>Requested Time: <u> {{attendanceRequestHistory.updatedDate | date:'medium' || "N/A"}} </u></small>
+                                      </ng-container>
+                                        
+                                      <ng-container *ngIf="attendanceRequestHistory.requestType === 'CREATE'">
+                                        <small>In Time: <u> {{attendanceRequestHistory.inRequestTime | date:'medium' || "N/A"}} </u></small>
+                                        <br>
+                                        <small>Out Time: <u> {{attendanceRequestHistory.outRequestTime | date:'medium' || "N/A"}} </u></small>
+                                      </ng-container>
                                     </div>
                                   </div>
                                 </div>
@@ -1185,7 +1186,7 @@
                       </ng-container>
                     </ng-template>
                     <ng-template #errorWhileFetchingAttendanceUpdateRequestResponseListCondition>
-                      <div class="errorboxmain text-center" *ngIf="dataNotFoundForOvertimeRequestResponse && !networkConnectionErrorForOvertimeRequestResponse">
+                      <div class="errorboxmain text-center" *ngIf="dataNotFoundForAttendanceUpdateRequestResponse && !networkConnectionErrorForAttendanceUpdateRequestResponse">
                         <div class="errorboxinner">
                           <div class="errorboxplaceholder mb-2">
                             <img src="assets/images/empty-box.svg" style="width: 80px" />
@@ -1264,10 +1265,10 @@
                       <div class="activity" *ngFor="let attenFullRequestLog of attendanceFullRequestLog">
                         <div class="activity-info">
                           <div class="icon-info-activity">
-                            <i class="ti ti-clock bg-soft-warning" *ngIf="attenFullRequestLog.requestStatusId == key.PENDING"></i>
+                            <i class="ti ti-clock bg-soft-warning" *ngIf="attenFullRequestLog.status == 'PENDING'"></i>
                             <!-- <i class="ti ti-clock bg-soft-warning" *ngIf="fullLogList.status == 'requested'"></i> -->
-                            <i class="ti ti-checks bg-soft-success" *ngIf="attenFullRequestLog.requestStatusId == key.APPROVED"></i>
-                            <i class="ti ti-x bg-soft-danger" *ngIf="attenFullRequestLog.requestStatusId == key.REJECTED"></i>
+                            <i class="ti ti-checks bg-soft-success" *ngIf="attenFullRequestLog.status == 'APPROVED'"></i>
+                            <i class="ti ti-x bg-soft-danger" *ngIf="attenFullRequestLog.status == 'REJECTED'"></i>
                           </div>
                           <div class="activity-info-text">
                             <div>
@@ -1286,11 +1287,11 @@
                                     {{ attenFullRequestLog.userName }}
                                   </h5>
                                   <p class="text-muted font-12 mb-0">
-                                    <span style="color: orange" class="ng-star-inserted" *ngIf="attenFullRequestLog.requestStatusId == key.PENDING">Applied <span> To </span>
+                                    <span style="color: orange" class="ng-star-inserted" *ngIf="attenFullRequestLog.status == 'PENDING'">Applied <span> To </span>
                                     </span>
-                                    <span style="color: green" class="ng-star-inserted" *ngIf="attenFullRequestLog.requestStatusId == key.APPROVED">Approved <span> By </span>
+                                    <span style="color: green" class="ng-star-inserted" *ngIf="attenFullRequestLog.status == 'APPROVED'">Approved <span> By </span>
                                     </span>
-                                    <span style="color: rgb(255, 55, 0)" class="ng-star-inserted" *ngIf="attenFullRequestLog.requestStatusId == key.REJECTED">Rejected <span> By </span>
+                                    <span style="color: rgb(255, 55, 0)" class="ng-star-inserted" *ngIf="attenFullRequestLog.status == 'REJECTED'">Rejected <span> By </span>
                                     </span>
                                     <!-- <span style="color: rgb(155, 235, 234)" class="ng-star-inserted" *ngIf="fullLogList.status == 'requested'">Requested <span> To </span>
                                     </span> -->
@@ -1299,13 +1300,25 @@
                                 </div>
                               </div>
                               <hr class="hr-dashed" />
-                              <div class="d-flex justify-content-between">
-                                <p> Time: <u>{{ attenFullRequestLog.startTime | date : 'd MMM, h:mm a'}} - {{ attenFullRequestLog.endTime | date : 'd MMM, h:mm a' }}</u></p>
+                              <div class="d-flex justify-content-between" *ngIf="attenFullRequestLog.requestType === 'CREATE'">
+                                <div>
+                                  <p> In Time: <u>{{ attenFullRequestLog.inRequestTime | date : 'd MMM, h:mm a'}}</u></p>
+                                  <p> Out Time: <u>{{ attenFullRequestLog.outRequestTime | date : 'd MMM, h:mm a'}}</u></p>
+                                </div>
                                 <h6 class="fw-semibold">
-                                  <span class="badge badge-outline-primary">Duration | {{ this.helperService.formatHHmmssToHHmm(attenFullRequestLog.workingHour) }} hrs.</span>
+                                  <span class="badge badge-outline-primary">New Request !</span>
                                 </h6>
                               </div>
-                              <p class="text-muted mb-0">{{ attenFullRequestLog.note }}</p>
+                              <div class="d-flex justify-content-between" *ngIf="attenFullRequestLog.requestType === 'UPDATE'">
+                                <div>
+                                  <p> Previous Time: <u>{{ attenFullRequestLog.oldDate | date : 'd MMM, h:mm a'}}</u></p>
+                                  <p> Requested Time: <u>{{ attenFullRequestLog.updatedDate | date : 'd MMM, h:mm a'}}</u></p>
+                                </div>
+                                <h6 class="fw-semibold">
+                                  <span class="badge badge-outline-primary">Request Type | {{attenFullRequestLog.attendanceStatus | uppercase}}</span>
+                                </h6>
+                              </div>
+                              <p class="text-muted mb-0">Note: {{ attenFullRequestLog.requestReason }}</p>
                             </div>
                             <hr class="hr-dashed" />
                           </div>
@@ -1693,6 +1706,89 @@
               <!-- Approve Button -->
               <button class="btn approve-btn" type="button" (click)="approveOrRejectOvertimeRequestMethodCall(overtimeRequestActionResponse.overtimeRequestId, this.key.APPROVED)">
                 <div *ngIf="approveLoader; else approveLabel">
+                  <div class="dot-opacity-loader-approve">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </div>
+                <ng-template #approveLabel>Approve</ng-template>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- attendance update request action modal -->
+<div class="modal fade" id="attendance-update-request-action" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 570px" role="document">
+    <div class="modal-content">
+      <div class="modal-body p-5">
+        <button type="button" class="overtime-request-action-close-btn" data-bs-dismiss="modal" aria-label="Close" #closeAttendanceUpdateRequestActionModal>
+          <i class="bi bi-x" style="line-height: 20px"></i>
+        </button>
+        <div class="text-center overtime-request-action-modal">
+          <div class="d-flex align-items-start justify-content-between">
+            <div class="d-flex align-items-center profile-details" style="gap: 15px">
+              <div class="profile-user-img">
+                <img [src]="
+                    attendanceUpdateRequestActionResponse.userImage || 'assets/images/user.png'
+                  " style="width: 50px; height: 50px; object-fit: cover" />
+              </div>
+              <div>
+                <h4 style="cursor: pointer" (click)="this.helperService.routeToUserProfile(attendanceUpdateRequestActionResponse.userUuid)">
+                  {{ attendanceUpdateRequestActionResponse.userName }}
+                </h4>
+                <p>{{ attendanceUpdateRequestActionResponse.userEmail }}</p>
+              </div>
+            </div>
+            <div class="total-holidey-live text-end">
+              <h5>
+                <p>
+                  {{ attendanceUpdateRequestActionResponse.createdDate
+                      | date : "dd MMM yyyy hh:mm a"
+                  }}
+                </p>
+                <span class="badge badge-outline-primary" *ngIf="attendanceUpdateRequestActionResponse.requestType === 'UPDATE'">Request Type | {{attendanceUpdateRequestActionResponse.attendanceStatus | uppercase}}</span>
+                <span class="badge badge-outline-primary" *ngIf="attendanceUpdateRequestActionResponse.requestType === 'CREATE'">New Request !</span>
+              </h5>
+              <!-- <h5>{{ formatDateIn(formatDate(specificLeaveRequest.startDate)) }} - {{ formatDateIn(formatDate(specificLeaveRequest.endDate)) }}</h5> -->
+            </div>
+          </div>
+          <div class="mt-4">
+            <div class="overtime-request-action-field">
+              <ng-container *ngIf="attendanceUpdateRequestActionResponse.requestType === 'UPDATE'">
+                <p><span>Previous Time: </span><u>{{ attendanceUpdateRequestActionResponse.oldDate | date : 'd MMM, h:mm a'}}</u></p>
+                <p><span>Requested Time: </span><u>{{attendanceUpdateRequestActionResponse.updatedDate | date : 'd MMM, h:mm a'}}</u></p>
+              </ng-container>
+              <ng-container *ngIf="attendanceUpdateRequestActionResponse.requestType === 'CREATE'">
+                <p><span>In Time: </span><u>{{ attendanceUpdateRequestActionResponse.inRequestTime | date : 'd MMM, h:mm a'}}</u></p>
+                <p><span>Out Time: </span><u>{{attendanceUpdateRequestActionResponse.outRequestTime | date : 'd MMM, h:mm a'}}</u></p>
+              </ng-container>
+              <p><span>Applied To: </span>{{ attendanceUpdateRequestActionResponse.managerName }}</p>
+              <p><span>Note: </span>{{ attendanceUpdateRequestActionResponse.requestReason }}</p>
+            </div>
+            <!-- *ngIf="
+            specificLeaveRequest.managerUuid === logInUserUuid ||
+            ROLE == 'ADMIN'" -->
+            <div class="d-flex align-items-center justify-content-end" style="gap: 10px">
+              <!-- Reject Button -->
+              <button class="btn reject-btn" type="button" (click)="approveOrReject(attendanceUpdateRequestActionResponse.id, 'REJECT')">
+                <div *ngIf="attendanceUpdateRequestRejectLoader; else rejectLabel">
+                  <div class="dot-opacity-loader-reject">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </div>
+                <ng-template #rejectLabel>Reject</ng-template>
+              </button>
+              <!-- Approve Button -->
+              <button class="btn approve-btn" type="button" (click)="approveOrReject(attendanceUpdateRequestActionResponse.id, 'APPROVE')">
+                <div *ngIf="attendanceUpdateRequestApproveLoader; else approveLabel">
                   <div class="dot-opacity-loader-approve">
                     <span></span>
                     <span></span>
