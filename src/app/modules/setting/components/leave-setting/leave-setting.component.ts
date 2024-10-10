@@ -1159,6 +1159,7 @@ export class LeaveSettingComponent implements OnInit {
     this.leaveTemplateRequest.startDate=''
     this.leaveTemplateRequest.endDate=''
     this.employeeTypeId = 0
+    this.clearSearchUsers()
     // this.dateRange[0]
     this.employeeTypeList = []
     this.leaveTemplateRequest.leaveTemplateCategoryRequestList = []
@@ -2354,6 +2355,7 @@ export class LeaveSettingComponent implements OnInit {
 
       this.editToggle = false;
       this.updateToggle = false;
+      this.clearSearchUsers()
 
       this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
       // this.helperService.showToast('Leave template registered successfully.', Key.TOAST_STATUS_SUCCESS);

@@ -1577,7 +1577,7 @@
                                     formControlName="leaveCount" 
                                     class="form-control input-zorro" 
                                     placeholder="Day Count" 
-                                    (input)="generateDaysDropdown($event, i)" 
+                                    (ngModelChange)="generateDaysDropdown($event, i)" 
                                     min="1" 
                                     max="10" 
                                     step="1" 
