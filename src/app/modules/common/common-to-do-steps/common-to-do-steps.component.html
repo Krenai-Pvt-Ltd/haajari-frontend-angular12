@@ -133,13 +133,13 @@
 </div>
 
 <button
-  id = "stepCompletionModal"
+  id="stepCompletionModal"
   class="d-none"
   #stepCompletionModal
   data-bs-toggle="modal"
   style="position: absolute; right: 0px; bottom: 0px"
   data-bs-target="#to-do-complete-modal"
-  *ngIf="count == 0"
+  *ngIf="count == 0 && ROLE == 'ADMIN'"
 >
   To Do Complete
 </button>
@@ -181,24 +181,27 @@
         </button> -->
 
         <div class="congration-modal-box">
-          <div class="congration-modal-img p-5 text-center">
-            <img src="assets/images/downgrade-plan-img.svg" />
+          <div class="congration-modal-img p-5 pb-1 text-center">
+            <img
+              src="assets/images/congratulation-img.svg"
+              style="width: 270px"
+            />
           </div>
 
-          <div class="bg-white p-5 congratulation-info">
+          <div
+            class="bg-white p-5 congratulation-info"
+            style="padding-top: 35px !important"
+          >
             <h5 class="mb-2 font-20">Congratulation, You did it!</h5>
             <p class="mb-3 font-13">
-              We know hitting send isn’t always easy, so take a moment to
-              celebrate!
+              Great job! You've successfully completed all the steps required to set up your organization in Hajiri.
             </p>
 
             <p class="mb-3 font-13">
-              Ultrices mauris. Maecenas vitae mattis tellus. Nullam quis
-              imperdiet augue. Vestibulum auctor ornare leo, non suscipit
-              ultrices mauris. Maecenas vitae mattis tellus. Nullam quis
-              imperdiet augue. Vestibulum auctor ornare leo, non suscipit
+              Your organization is now fully onboarded, and you're ready to start managing your team seamlessly.
+               From setting up your company profile to configuring user roles and attendance settings, you're all set to maximize productivity with Hajiri.
             </p>
-            <p class="mb-0 font-13">lets get started!</p>
+            <p class="mb-0 font-13">Let's get started on your journey to efficient team management!</p>
           </div>
           <div class="p-5 pt-0 pb-4">
             <button class="btn action-btn w-100" (click)="routeToDashboard()">

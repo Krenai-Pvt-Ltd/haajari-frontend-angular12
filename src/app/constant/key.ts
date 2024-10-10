@@ -414,7 +414,7 @@ export class Key {
 
   // redirect to slack
 
-  public static SLACK_WORKSPACE_URL= `https://slack.com/app_redirect?app=A05QD5T9EK1&tab=home`;
+  public static SLACK_WORKSPACE_URL = `https://slack.com/app_redirect?app=A05QD5T9EK1&tab=home`;
   // public static SLACK_WORKSPACE_URL = `https://slack.com/app_redirect?app=A07AT94EHK7&tab=home`;
 
   static GEOLOCATION = 'geolocation';
@@ -424,4 +424,3 @@ export class Key {
   public static COL_MD_6 = 2;
   public static COL_MD_12 = 1;
 }
-
