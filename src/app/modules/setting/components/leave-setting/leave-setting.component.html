@@ -268,7 +268,7 @@
                   <div class="d-flex align-items-center gap-3">
                     <div class="d-flex align-items-center gap-3">
                       <!-- <i class="bi bi-pencil pointer"></i><i class="bi bi-trash pointer text-danger"></i> -->
-                      <a href="" data-bs-toggle="modal" data-bs-target="#requestleave">
+                      <a href="" data-bs-toggle="modal" data-bs-target="#leavemodal">
                         <i class="bi bi-pencil pointer" style="color: #6666f3" (click)="
                             getLeaveSettingInformationById(
                               newLeaveSetting.id,
@@ -1247,8 +1247,8 @@
   <div class="modal-dialog modal-lg modal-dialog-centered" style="max-width: 1050px" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="requestLeave">Create another template</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="requestLeaveCloseModel1"
+        <h5 class="modal-title" id="requestLeave">{{updateToggle ? 'Update' : 'Create another'}} template</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="clearModalData()" id="requestLeaveCloseModel1"
           #requestLeaveCloseModel1></button>
       </div>
       <form #leaveSetForm="ngForm">
@@ -1257,13 +1257,18 @@
             <div class="row h-100 p-0 m-0">
               <div class="col-md-3 p-0 m-0">
                 <div class="leave-sidebar-menu">
-                  <div class="nav flex-column nav-pills pt-3" id="v-pills-tab" role="tablist"
-                    aria-orientation="vertical">
-                    <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill"
+                  
+                  <div *ngIf="!updateToggle"  class="nav flex-column nav-pills pt-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <!-- <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill"
                       data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home"
-                      aria-selected="true" #templateSettingTab1>
+                      aria-selected="true" #templateSettingTab2>
                       Template setting
-                    </button>
+                    </button> -->
+                    <button class="nav-link" id="v-pills-home-tab" data-bs-toggle="pill"
+                    data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home"
+                    aria-selected="false"  #templateSettingTab2>
+                    Template setting
+                  </button>
 
                     <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" id="profile-tab"
                       data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile"
@@ -1271,25 +1276,34 @@
                       Leave Categories
                     </button>
 
-                    <!-- <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="tab" id="profile-tab"
-                    data-bs-target="#profile" type="button" role="tab" aria-controls="v-pills-profile"
-                    aria-selected="false" [disabled]="!leaveTemplateDefinitionForm.form.valid" #leaveCategoryTab>
-                    Leave Categories
-                  </button> -->
-
-                    <!-- <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill"
-                      data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages"
-                      aria-selected="false"  [disabled]="!form.valid" #staffSelectionTab1>
-                      Staff selection
-                    </button> -->
-
-                    <!-- [disabled]="leaveCategories1.length == 0" -->
                     <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill"
                       data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages"
                       aria-selected="false" [disabled]="leaveCategories1.length == 0" #staffSelectionTab1>
                       Staff selection
                     </button>
                   </div>
+
+                  <div *ngIf="updateToggle"  class="nav flex-column nav-pills pt-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <button disabled class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill"
+                      data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home"
+                      aria-selected="true">
+                      Template setting
+                    </button>
+
+                    <button disabled class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" id="profile-tab"
+                      data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile"
+                      aria-selected="false">
+                      Leave Categories
+                    </button>
+
+                    <!-- (click)="getUserByUpdateMethodCall(leaveTempId)" -->
+                    <button class="nav-link"  id="v-pills-messages-tab" data-bs-toggle="pill"
+                      data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages"
+                      aria-selected="false" #staffSelectionTab2>
+                      Staff selection
+                    </button>
+                  </div>
+
                 </div>
               </div>
               <div class="col-md-9 p-0 m-0">
@@ -1557,13 +1571,25 @@
                                   Leave Count
                                 </label>
 
-                                <!-- <input nz-input formControlName="leaveCount"
-                            nzPlaceHolder="Day Count" (ngModelChange)="generateDaysDropdown($event, i)"
-                             nzSize="large" minlength="1" maxlength="10" [nzStep]="1" required /> -->
-                                <nz-input-number style="width: 100%" formControlName="leaveCount"
+                                <input class="form-control"
+                                    type="number" 
+                                    style="width: 100%" 
+                                    formControlName="leaveCount" 
+                                    class="form-control input-zorro" 
+                                    placeholder="Day Count" 
+                                    (input)="generateDaysDropdown($event, i)" 
+                                    min="1" 
+                                    max="10" 
+                                    step="1" 
+                                    required 
+                                />
+
+
+                                <!-- <nz-input-number style="width: 100%" formControlName="leaveCount"
                                   class="form-control input-zorro" nzPlaceHolder="Day Count" (ngModelChange)="
                                     generateDaysDropdown($event, i)
-                                  " nzSize="large" [nzMin]="1" [nzMax]="10" [nzStep]="1" required></nz-input-number>
+                                  " nzSize="large" [nzMin]="1" [nzMax]="10" [nzStep]="1" required>
+                                </nz-input-number> -->
 
                                 <p class="errortxt mt-2 mb-0 text-danger" *ngIf="
                                     hasError('leaveCount', i, 'required') ||
@@ -1978,7 +2004,7 @@
 
                           <button *ngIf="!registerToggle" [disabled]="selectedStaffIdsUser.length == 0 || registerToggle" type="submit"
                             class="btn p-0 next-btn" (click)="registerLeaveTemplateMethodCall()">
-                            Create Leave Policy
+                            {{updateToggle ? 'Update' : 'Create'}} Leave Policy
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
                               fill="none">
                               <path
