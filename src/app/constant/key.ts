@@ -355,6 +355,7 @@ export class Key {
   public static LEAVE_LOG = 1;
   public static OVERTIME_LOG = 2;
   public static LOP_REVERSAL_LOG = 3;
+  public static ATTENDANCE_UPDATE_REQUEST_LOG = 4;
 
   // public static SLACK_WORKSPACE_URL = `https://slack.com/app_redirect?app=A07AT94EHK7&tab=home`;
   // static GEOLOCATION = 'geolocation'
