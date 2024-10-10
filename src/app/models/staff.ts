@@ -7,4 +7,5 @@ export class Staff {
     selected ?: boolean;
     isAdded:boolean=false;
     
+    checked: boolean = false;
 }

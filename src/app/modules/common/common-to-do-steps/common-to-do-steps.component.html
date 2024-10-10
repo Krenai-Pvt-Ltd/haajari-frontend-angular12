@@ -12,7 +12,7 @@
   <!-- *ngIf="((showToDo && isToDoStepsCompletedFlag == 0) || !isToDoStep ) && ROLE == 'ADMIN'" -->
   <!-- {{isToDoStepsCompletedFlag}}----{{showToDo}}----{{isToDoStep}}----{{ ROLE == 'ADMIN'}}---{{ ROLE}} -->
   <!-- {{isToDoStep}} -->
-
+  <!-- {{count}} -->
   <div class="d-flex align-items-center justify-content-between">
     <h5 class="mb-0">Onboarding Steps</h5>
     <h4 class="mb-0">
@@ -139,9 +139,11 @@
   data-bs-toggle="modal"
   style="position: absolute; right: 0px; bottom: 0px"
   data-bs-target="#to-do-complete-modal"
+  *ngIf="count == 0"
 >
   To Do Complete
 </button>
+
 <div
   class="modal fade"
   id="to-do-complete-modal"
@@ -149,6 +151,7 @@
   tabindex="-1"
   role="dialog"
   aria-hidden="true"
+  
 >
   <div
     class="modal-dialog modal-dialog-centered"
