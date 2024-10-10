@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
   selector: 'app-to-do-step-dashboard',
@@ -12,16 +13,25 @@ export class ToDoStepDashboardComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private router: Router,
-    private helperService: HelperService
+    private helperService: HelperService,
+    private rbacService: RoleBasedAccessControlService
   ) {}
 
   ngOnInit(): void {
+    this.getRoleDetails();
     this.isOrgOnboarTodayData();
     this.getOrganizationRegistratonProcessStepData();
     this.getStepsData();
     this.getOrganizationInitialToDoStepBar();
     // this.helperService.saveOrgSecondaryToDoStepBarData(0);
   }
+
+  ROLE: any;
+  async getRoleDetails() {
+    this.ROLE = await this.rbacService.getRole();
+  }
+
+  
 
   showToDoStep: boolean = true;
   showToDoStepModal: boolean = false;
