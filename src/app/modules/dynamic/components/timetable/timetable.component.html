@@ -695,7 +695,7 @@
                 <hr style="margin-bottom: 10px" />
                 <ul class="nav nav-tabs bg-white" role="tablist">
                   <li class="nav-item" (click)="changeLogTabInOvertimeTab(OVERTIME_PENDING_REQUEST_TAB); getOvertimePendingRequestResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();">
-                    <a class="nav-link" [ngClass]="{'active': ACTIVE_TAB_IN_OVERTIME_TAB == OVERTIME_PENDING_REQUEST_TAB}" data-bs-toggle="tab" href="#overtime-pending-request" role="tab" aria-selected="true">Pending requests <span class="badge rounded-pill badge-outline-warning" style="margin-left: 10px" *ngIf="pendingRequestCount > 0">{{ pendingRequestCount }}</span></a>
+                    <a class="nav-link" [ngClass]="{'active': ACTIVE_TAB_IN_OVERTIME_TAB == OVERTIME_PENDING_REQUEST_TAB}" data-bs-toggle="tab" href="#overtime-pending-request" role="tab" aria-selected="true">Pending requests<span class="badge rounded-pill badge-outline-warning" style="margin-left: 10px" *ngIf="pendingRequestCount > 0">{{ pendingRequestCount }}</span></a>
                   </li>
                   <li class="nav-item" (click)="changeLogTabInOvertimeTab(OVERTIME_HISTORY_TAB); getOvertimeRequestResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();">
                     <a class="nav-link" [ngClass]="{'active': ACTIVE_TAB_IN_OVERTIME_TAB == OVERTIME_HISTORY_TAB}" data-bs-toggle="tab" href="#overtime-history" role="tab" aria-selected="false">Overtime History</a>
@@ -1020,7 +1020,7 @@
                 <hr style="margin-bottom: 10px" />
                 <ul class="nav nav-tabs bg-white" role="tablist">
                   <li class="nav-item" (click)="changeLogTabInAttendanceUpdateRequestTab(ATTENDANCE_UPDATE_PENDING_REQUEST_TAB); getAttendanceRequestsData();">
-                    <a class="nav-link" [ngClass]="{'active': ACTIVE_TAB_IN_ATTENDANCE_UPDATE_REQUEST_TAB == ATTENDANCE_UPDATE_PENDING_REQUEST_TAB}" data-bs-toggle="tab" href="#attendance-update-pending-request" role="tab" aria-selected="true">Pending requests <span class="badge rounded-pill badge-outline-warning" style="margin-left: 10px" *ngIf="pendingRequestCount > 0">{{ pendingRequestCount }}</span></a>
+                    <a class="nav-link" [ngClass]="{'active': ACTIVE_TAB_IN_ATTENDANCE_UPDATE_REQUEST_TAB == ATTENDANCE_UPDATE_PENDING_REQUEST_TAB}" data-bs-toggle="tab" href="#attendance-update-pending-request" role="tab" aria-selected="true">Pending requests <span class="badge rounded-pill badge-outline-warning" style="margin-left: 10px" *ngIf="attendanceRequestCount > 0">{{ attendanceRequestCount }}</span></a>
                   </li>
                   <li class="nav-item" (click)="changeLogTabInAttendanceUpdateRequestTab(ATTENDANCE_UPDATE_REQUEST_HISTORY_TAB); getAttendanceRequestsHistoryData();">
                     <a class="nav-link" [ngClass]="{'active': ACTIVE_TAB_IN_ATTENDANCE_UPDATE_REQUEST_TAB == ATTENDANCE_UPDATE_REQUEST_HISTORY_TAB}" data-bs-toggle="tab" href="#attendance-update-request-history" role="tab" aria-selected="false">Update History</a>
