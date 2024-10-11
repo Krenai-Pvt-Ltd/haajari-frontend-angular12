@@ -231,6 +231,8 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
     this.getUserLeaveLogByUuid();
     this.getTotalExperiences();
 
+
+
     this.lopReversalApplicationRequestForm = this.fb.group({
       selectedDate: [null, Validators.required],
       daysCount: [null, [Validators.required, Validators.pattern("^[0-9]*$")]],
@@ -277,7 +279,10 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
    
   }
 
-
+  onError(event: Event) {
+    const target = event.target as HTMLImageElement;
+    target.src = './assets/images/broken-image-icon.jpg';
+  }
   
   getRoleData() {
     //  const managerDetails =localStorage.getItem('managerFunc');
@@ -456,43 +461,35 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   attendanceDetailModalToggle: boolean = false;
   clientX: string = '0px';
   clientY: string = '0px';
+  
   openModal(mouseEnterInfo: any): void {
-    
     if (!this.attendanceDetailModalToggle) {
-      // console.log("events : ", mouseEnterInfo.event);
-      this.userAttendanceDetailDateWise.checkInTime = '';
-      this.userAttendanceDetailDateWise.checkOutTime = '';
-      this.userAttendanceDetailDateWise.breakCount = '';
-      this.userAttendanceDetailDateWise.breakDuration = '';
-      this.userAttendanceDetailDateWise.totalWorkingHours = '';
-      this.userAttendanceDetailDateWise.createdDate = '';
-      this.userAttendanceDetailDateWise.status = '';
-      this.userAttendanceDetailDateWise.checkInTime =
-        mouseEnterInfo.event._def.extendedProps.checkInTime;
-      this.userAttendanceDetailDateWise.checkOutTime =
-        mouseEnterInfo.event._def.extendedProps.checkOutTime;
-      this.userAttendanceDetailDateWise.breakCount =
-        mouseEnterInfo.event._def.extendedProps.breakCount;
-      this.userAttendanceDetailDateWise.breakDuration =
-        mouseEnterInfo.event._def.extendedProps.breakDuration;
-      this.userAttendanceDetailDateWise.totalWorkingHours =
-        mouseEnterInfo.event._def.extendedProps.totalWorkingHours;
-      this.userAttendanceDetailDateWise.createdDate =
-        mouseEnterInfo.event._def.extendedProps.createdDate;
-      this.userAttendanceDetailDateWise.status =
-        mouseEnterInfo.event._def.extendedProps.status;
-      // console.log("totalworkinghour :" + this.userAttendanceDetailDateWise.totalWorkingHours);
-      var rect = mouseEnterInfo.el.getBoundingClientRect();
-      this.clientX = rect.left - 210 + 'px';
-      this.clientY = rect.top - 70 + 'px';
-      console.log(
-        'mouse location:',
-        mouseEnterInfo.jsEvent.clientX,
-        mouseEnterInfo.jsEvent.clientY
-      );
+      // Reset modal data
+      const extendedProps = mouseEnterInfo.event._def.extendedProps;
+  
+      this.userAttendanceDetailDateWise = {
+        checkInTime: extendedProps.checkInTime || '',
+        checkOutTime: extendedProps.checkOutTime || '',
+        breakCount: extendedProps.breakCount || '',
+        breakDuration: extendedProps.breakDuration || '',
+        totalWorkingHours: extendedProps.totalWorkingHours || '',
+        createdDate: extendedProps.createdDate || '',
+        status: extendedProps.status || '',
+      };
+  
+      // Get the event element's position on the screen
+      const rect = mouseEnterInfo.el.getBoundingClientRect();
+  
+      
+      this.clientX = `${rect.left - 210}px`; 
+      this.clientY = `${rect.top - 70}px`;   
+  
+      // Open modal
+      this.attendanceDetailModalToggle = true;
       this.openEventsModal.nativeElement.click();
     }
   }
+  
 
   closeAttendanceModal() {
     this.attendanceDetailModalToggle = false;
@@ -506,9 +503,17 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   // }
   @ViewChild('closeAttendanceDetailModalButton')
   closeAttendanceDetailModalButton!: ElementRef;
+  
   mouseLeaveInfo(mouseEnterInfo: any): void {
-    
-    this.closeAttendanceModal();
+    // Add a delay before closing the modal
+    setTimeout(() => {
+      const modalElement = this.closeAttendanceDetailModalButton.nativeElement;
+  
+      // Ensure the mouse is not hovering over the modal before closing it
+      if (!modalElement.matches(':hover')) {
+        this.closeAttendanceModal();
+      }
+    }, 0); // Delay of 300ms to reduce flickering
   }
 
   date = new Date();
@@ -742,14 +747,24 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
     const createdDate = new Date(attendance.createdDate).toLocaleDateString();
 
     // Define details based on the attendance status
-    let details = `Date: ${createdDate || 'N/A'}\n`;
+    let details = `Date: ${createdDate || 'N/A'}\n\n`;  // Double newline for spacing
 
     switch (attendance.status) {
         case 'Present':
-          case 'Half Day':
-            const checkInTime = new Date(attendance.checkInTime).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true });
-            const checkOutTime = new Date(attendance.checkOutTime).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true });
-            details += `: Check-in: ${checkInTime || 'N/A'}\n`;
+        case 'Half Day':
+            const checkInTime = new Date(attendance.checkInTime).toLocaleTimeString([], { 
+                hour: 'numeric', 
+                minute: '2-digit', 
+                hour12: true 
+            });
+            const checkOutTime = new Date(attendance.checkOutTime).toLocaleTimeString([], { 
+                hour: 'numeric', 
+                minute: '2-digit', 
+                hour12: true 
+            });
+
+            // Adding details with line breaks between each
+            details += `Check-in: ${checkInTime || 'N/A'}\n`;
             details += `Check-out: ${checkOutTime || 'N/A'}\n`;
             details += `Total Hours: ${attendance.totalWorkingHours || 'N/A'}\n`;
             details += `Break Duration: ${attendance.breakDuration || 'N/A'}\n`;
@@ -781,8 +796,9 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
             break;
     }
 
-    return details;
+    return details;  // Each detail will be on a new line
 }
+
 
 
    // Function to handle mode change (month/year change)
@@ -997,10 +1013,16 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
           this.fileToUpload = '';
           // this.selectedFile = null;
           this.fileInput.nativeElement.value = '';
-          this.getUserLeaveReq();
+          // this.getUserLeaveReq();
+
+          setTimeout(() => {
+            this.getUserLeaveReq();
+          },100);
+
           this.resetUserLeave();
           this.formGroupDirective.resetForm();
           this.getUserLeaveLogByUuid();
+          
           this.requestLeaveCloseModel.nativeElement.click();
           // location.reload();
         },
@@ -3124,7 +3146,6 @@ return
   choosenDateString!: string;
 
   submitForm(): void {
-    debugger
     if (this.checkHoliday || this.checkAttendance) {
       return;
      }
@@ -3134,13 +3155,13 @@ return
         requestReason: formValue.requestReason
       };
   
-      if (this.attendanceRequestType === 'UPDATE') {
+      if (this.attendanceRequestType == 'UPDATE') {
         attendanceTimeUpdateRequest = {
           ...attendanceTimeUpdateRequest,
           attendanceId: formValue.updateGroup.attendanceId,
           updatedTime: formValue.updateGroup.updatedTime,
         };
-      } else if (this.attendanceRequestType === 'CREATE') {
+      } else if (this.attendanceRequestType == 'CREATE') {
         attendanceTimeUpdateRequest = {
           ...attendanceTimeUpdateRequest,
           selectedDateAttendance: formValue.createGroup.selectedDateAttendance,
@@ -3308,25 +3329,42 @@ itemPerPageAttendanceLogs: number = 5;
 fullAttendanceLogCount: number = 0;
 isFullLogLoader: boolean = false;
 debounceTimer: any;
-getAttendanceRequestLogData(debounceTime: number = 300) {
+
+isShimmerForAttendanceUpdateRequestLog: boolean = false;
+dataNotFoundForAttendanceUpdateRequestLog: boolean = false;
+networkConnectionErrorForAttendanceUpdateRequestLog: boolean = false;
+
+preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdateRequestLogMethodCall() {
+  this.isShimmerForAttendanceUpdateRequestLog = true;
+  this.dataNotFoundForAttendanceUpdateRequestLog = false;
+  this.networkConnectionErrorForAttendanceUpdateRequestLog = false;
+}
+getAttendanceRequestLogData() {
+  this.attendanceRequestLog = [];
+  this.preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdateRequestLogMethodCall();
   return new Promise((resolve, reject) => {
     this.isFullLogLoader = true;
-    if (this.debounceTimer) {
-      clearTimeout(this.debounceTimer);
-    }
-    this.debounceTimer = setTimeout(() => {
+    // if (this.debounceTimer) {
+    //   clearTimeout(this.debounceTimer);
+    // }
+    // this.debounceTimer = setTimeout(() => {
   
   // this.attendanceRequestLog = [];
   this.dataService.getAttendanceRequestLog(this.userId, this.pageNumberAttendanceLogs, this.itemPerPageAttendanceLogs).subscribe(response => {
-    this.attendanceRequestLog = [...this.attendanceRequestLog, ...response.object];
-    this.fullAttendanceLogCount = response.totalItems;
+    if(this.helperService.isObjectNullOrUndefined(response)){
+      this.dataNotFoundForAttendanceUpdateRequestLog = true;
+    } else{
+      this.attendanceRequestLog = [...this.attendanceRequestLog, ...response.object];
+      this.fullAttendanceLogCount = response.totalItems;
+    }
     this.isFullLogLoader = false;
-    console.log('logs retrieved successfully', response.listOfObject);
+    this.isShimmerForAttendanceUpdateRequestLog = false;
   }, (error) => {
-    console.log(error);
+    this.networkConnectionErrorForAttendanceUpdateRequestLog = true;
+    this.isShimmerForAttendanceUpdateRequestLog = false;
     this.isFullLogLoader = false;
   });
-}, debounceTime);
+// }, debounceTime);
 });
 }
 initialLoadDone: boolean = false;
@@ -3480,6 +3518,7 @@ closeAttendanceFunc() {
   LEAVE_LOG = Key.LEAVE_LOG;
   OVERTIME_LOG = Key.OVERTIME_LOG;
   LOP_REVERSAL_LOG = Key.LOP_REVERSAL_LOG;
+  ATTENDANCE_UPDATE_REQUEST_LOG = Key.ATTENDANCE_UPDATE_REQUEST_LOG;
 
   ACTIVE_LOG_TAB = Key.LEAVE_LOG;
 

@@ -54,12 +54,70 @@
                     onboardingViaString != 'SLACK'
                   "
                 >
+                <div class="col-md-12 mt-3" *ngIf="adminUser != null">
+                  <div
+                    class="alreadyMemberBox p-3 d-flex align-items-center justify-content-between"
+                  >
+                    <div class="d-flex align-items-center gap-2">
+                      <span class="alreadyUser">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="23"
+                          viewBox="0 0 24 23"
+                          fill="none"
+                        >
+                          <mask
+                            id="mask0_3510_3972"
+                            style="mask-type: alpha"
+                            maskUnits="userSpaceOnUse"
+                            x="0"
+                            y="0"
+                            width="24"
+                            height="23"
+                          >
+                            <rect
+                              x="0.675781"
+                              y="0.148651"
+                              width="22.7027"
+                              height="22.7027"
+                              fill="white"
+                            />
+                          </mask>
+                          <g mask="url(#mask0_3510_3972)">
+                            <path
+                              d="M9.92378 11.5C9.35621 11.5 8.88324 11.2871 8.50486 10.8615C8.12648 10.4358 7.9767 9.93916 8.05553 9.37159L8.36297 7.05403C8.48909 6.15538 8.899 5.41044 9.5927 4.81923C10.2864 4.22801 11.0983 3.9324 12.0285 3.9324C12.9587 3.9324 13.7706 4.22801 14.4643 4.81923C15.158 5.41044 15.5679 6.15538 15.694 7.05403L16.0015 9.37159C16.0803 9.93916 15.9305 10.4358 15.5522 10.8615C15.1738 11.2871 14.7008 11.5 14.1332 11.5H9.92378ZM9.92378 9.60808H14.1332L13.8258 7.33781C13.7627 6.89637 13.5617 6.53376 13.2228 6.24997C12.8838 5.96619 12.4857 5.8243 12.0285 5.8243C11.5713 5.8243 11.1732 5.96619 10.8342 6.24997C10.4953 6.53376 10.2943 6.89637 10.2312 7.33781L9.92378 9.60808ZM4.46094 19.0675V16.4189C4.46094 15.8829 4.59889 15.3902 4.87479 14.9409C5.15069 14.4915 5.51724 14.1486 5.97445 13.9121C6.95193 13.4234 7.94517 13.0568 8.95418 12.8125C9.96319 12.5681 10.988 12.4459 12.0285 12.4459C13.069 12.4459 14.0938 12.5681 15.1028 12.8125C16.1118 13.0568 17.1051 13.4234 18.0826 13.9121C18.5398 14.1486 18.9063 14.4915 19.1822 14.9409C19.4581 15.3902 19.5961 15.8829 19.5961 16.4189V19.0675H4.46094ZM6.35283 17.1756H17.7042V16.4189C17.7042 16.2455 17.6608 16.0878 17.5741 15.9459C17.4874 15.804 17.3731 15.6937 17.2312 15.6148C16.3799 15.1892 15.5206 14.8699 14.6535 14.6571C13.7864 14.4442 12.9114 14.3378 12.0285 14.3378C11.1456 14.3378 10.2706 14.4442 9.40351 14.6571C8.53639 14.8699 7.67715 15.1892 6.8258 15.6148C6.68391 15.6937 6.56961 15.804 6.4829 15.9459C6.39619 16.0878 6.35283 16.2455 6.35283 16.4189V17.1756Z"
+                              fill="white"
+                            />
+                          </g>
+                        </svg>
+                      </span>
+                      <h5 class="mb-0">
+                        You’re already a member of this organization.
+                      </h5>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                      <p class="mb-0 font-13">
+                        Your Name: <span> {{ adminUser.name || "N/A" }}</span>
+                      </p>
+                      <span class="spreter" style="height: 15px"></span>
+                      <p class="mb-0 font-13">
+                        Email: <span>{{ adminUser.email || "N/A" }}</span>
+                      </p>
+                      <span class="spreter" style="height: 15px"></span>
+                      <p class="mb-0 font-13">
+                        Mobile Number:
+                        <span>{{ adminUser.phoneNumber || "N/A" }}</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
                   <div class="card-body mt-3 p-0">
                     <div class="alert alert-light mb-0 sampleExcelFileBox">
                       <h4 class="alert-heading font-16">
                         Download the Sample Excel File!
                       </h4>
-                      <p class="mb-0">
+                      <p class="mb-0 font-12">
                         Use this Excel template to organise and input your
                         employee data correctly. Review the sample structure to
                         avoid errors.
@@ -94,7 +152,7 @@
                             <h5 class="alert-heading font-14 mb-2">
                               Upload Employee Data via Excel
                             </h5>
-                            <p class="mb-0">
+                            <p class="mb-0 font-12">
                               Streamline the process by uploading your organized
                               employee data directly <br />
                               from the Excel sheet
@@ -160,7 +218,7 @@
                               id="fileSelect"
                               type="file"
                               name="img[]"
-                              accept=".xlsx"
+                              accept=".xlsx,application/vnd.ms-excel"
                               class="input"
                               style="display: none"
                               (change)="selectFile($event)"
@@ -189,7 +247,7 @@
                             <h5 class="alert-heading font-14 mb-2">
                               Manually Enter Employee Details
                             </h5>
-                            <p class="mb-0 font-13">
+                            <p class="mb-0 font-12">
                               Add employee details individually if you prefer to
                               build a <br />
                               customized and specific list tailored to your
@@ -442,7 +500,7 @@
                           </svg>
                         </span>
                         <h5 class="mb-0">
-                          You’re already a member of this team.
+                          You’re already a member of this organization.
                         </h5>
                       </div>
                       <div class="d-flex align-items-center gap-2">
@@ -478,7 +536,7 @@
                           id="fileSelect"
                           type="file"
                           name="img[]"
-                          accept=".xlsx"
+                          accept=".xlsx,application/vnd.ms-excel"
                           class="input"
                           style="display: none"
                           (change)="selectFile($event)"
@@ -578,6 +636,7 @@
                           class="mb-0 selectAll"
                           style="font-weight: 400; cursor: pointer"
                           (click)="selectAllPageUsers()"
+                          *ngIf="totalOnboardingUserListCount > size"
                         >
                           Select all
                           <span class="text-primary">
@@ -864,14 +923,16 @@
                           class="mb-0 font-11"
                           *ngIf="alreadyUsedPhoneNumberArray.length > 0"
                         >
+                          <!-- <b>Duplicate phone number</b> -->
                           <b>Duplicate phone number</b>
+                          <span class="Duplicate-number-count">{{alreadyUsedPhoneNumberArray.length}}</span>
                         </p>
                         <span class="error-spreter"></span>
                         <p
                           class="mb-0 font-11"
                           *ngIf="alreadyUsedEmailArray.length > 0"
                         >
-                          <b>Duplicate email id :</b> You can check this error
+                          <b>Duplicate email id <span class="Duplicate-number-count">{{alreadyUsedEmailArray.length}}</span> :</b> You can check this error
                           log here.
                         </p>
                         <P class="mb-0 font-11" *ngIf="isErrorToggle">
@@ -1309,7 +1370,7 @@
                     />
                     <p
                       *ngIf="userList[i].isPhoneExist"
-                      class="error text-muted text-danger"
+                      class="error text-danger mt-2 mb-2"
                     >
                       <i class="bi bi-exclamation-circle"></i> Phone number is
                       already exist.
@@ -1350,7 +1411,7 @@
                     />
                     <p
                       *ngIf="userList[i].isEmailExist"
-                      class="error text-muted text-danger"
+                      class="error mt-2 mb-2 text-danger"
                     >
                       This email already exist.
                     </p>

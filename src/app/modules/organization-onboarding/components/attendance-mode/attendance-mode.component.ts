@@ -70,12 +70,12 @@ export class AttendanceModeComponent implements OnInit {
     this.dataService.updateAttendanceMode(attendanceModeId).subscribe(
       (response) => {
         this.getAttendanceModeMethodCall();
-        setTimeout(() => {
-          this.helperService.showToast(
-            'Attedance Mode updated successfully.',
-            Key.TOAST_STATUS_SUCCESS
-          );
-        }, 1000);
+        // setTimeout(() => {
+        //   this.helperService.showToast(
+        //     'Attedance Mode updated successfully.',
+        //     Key.TOAST_STATUS_SUCCESS
+        //   );
+        // }, 1000);
       },
       (error) => {
         this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
@@ -91,12 +91,12 @@ export class AttendanceModeComponent implements OnInit {
         this.getMasterAttendanceModeMethodCall();
         this.getAttendanceModeStep();
         this.helperService.registerOrganizationRegistratonProcessStepData(Key.ATTENDANCE_MODE_ID, Key.PROCESS_COMPLETED);
-        setTimeout(() => {
-          this.helperService.showToast(
-            'Attedance Master Mode updated successfully.',
-            Key.TOAST_STATUS_SUCCESS
-          );
-        }, 1000);
+        // setTimeout(() => {
+        //   this.helperService.showToast(
+        //     'Attedance Master Mode updated successfully.',
+        //     Key.TOAST_STATUS_SUCCESS
+        //   );
+        // }, 1000);
       },
       (error) => {
         this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
@@ -221,12 +221,12 @@ export class AttendanceModeComponent implements OnInit {
           this.updateAttendanceModeMethodCall(this.currentAttendanceModeId);
           this.closeAddressModal.nativeElement.click();
           // this.resetAddressDetailsModal();
-          setTimeout(() => {
-            this.helperService.showToast(
-              'Attedance Mode updated successfully',
-              Key.TOAST_STATUS_SUCCESS
-            );
-          }, 1000);
+          // setTimeout(() => {
+          //   this.helperService.showToast(
+          //     'Attedance Mode updated successfully',
+          //     Key.TOAST_STATUS_SUCCESS
+          //   );
+          // }, 1000);
           // this.helperService.showToast("Attedance Mode updated successfully", Key.TOAST_STATUS_SUCCESS);
         },
         (error) => {
@@ -527,9 +527,10 @@ currentLocation() {
     debugger
     this.dataService.registerBillingAndSubscriptionTemp(subscriptionPlanId).subscribe(
       (response) => {
-        this.helperService.showToast("Free trial started successfully.", Key.TOAST_STATUS_SUCCESS);
+        // this.helperService.showToast("Free trial started successfully.", Key.TOAST_STATUS_SUCCESS);
         setTimeout(() => {
-          this.router.navigate(['/dashboard']);
+          // this.router.navigate(['/dashboard']);
+          this.router.navigate(['/to-do-step-dashboard']);
         }, 1000);
 
       },
@@ -538,5 +539,63 @@ currentLocation() {
       }
     );
   }
+
+  radiusOptions: number[] = [50, 100, 200, 500]; // Available radius options
+  selectedRadius: number | null = null; // Holds the selected radius or null
+  errorMessage: string | null = null; // Error message for invalid input
+  onRadiusChange(value: any) {
+    // Ensure that the value is either a number or a string that can be converted to a number
+    const radiusValue = typeof value === 'string' ? parseInt(value, 10) : value;
+
+    // Validate the radius value
+    if (isNaN(radiusValue) || radiusValue < 50) {
+      this.errorMessage = 'Radius must be greater than or equal to 50 meters.';
+      this.selectedRadius = null; // Reset selected value
+    } else {
+      this.errorMessage = null; // Clear any previous error
+      this.selectedRadius = radiusValue; // Update selected value
+    }
+  }
+
+  minRadius: boolean = false;
+  radiusFilteredOptions: string[] = [];
+  onChange(value: string): void {
+    const numericValue = Number(value);
+    if (numericValue < 50) {
+      this.minRadius = true;
+     
+    } else {
+      this.minRadius = false;
+     
+    }
+      this.radiusFilteredOptions = this.radius.filter((option) =>
+        option.toLowerCase().includes(value.toLowerCase())
+      );
+   
+  }
+  radius: string[] = ["50","100","200", "500","1000"];
+
+  preventLeadingWhitespace(event: KeyboardEvent): void {
+    const input = event.target as HTMLInputElement;
+    // Prevent leading spaces
+    if (event.key === ' ' && input.selectionStart === 0) {
+        event.preventDefault();
+    }
+  }
+
+  allowOnlyNumbers(event: KeyboardEvent): void {
+    const input = event.target as HTMLInputElement;
+
+    // Check if the pressed key is not a digit (0-9) or is not a control key
+    if (!/[0-9]/.test(event.key) && !['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete'].includes(event.key)) {
+        event.preventDefault();
+    }
+
+    // Optionally, restrict the maximum value if it exceeds 99000
+    if (input.value.length >= 5 && event.key !== 'Backspace') {
+        event.preventDefault();
+    }
+}
+
 
 }

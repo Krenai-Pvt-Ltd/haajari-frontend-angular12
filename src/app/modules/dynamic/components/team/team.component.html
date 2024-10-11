@@ -33,7 +33,7 @@
                     (keyup)="searchTeams()"
                     [(ngModel)]="searchText"
                     [ngModelOptions]="{ standalone: true }"
-                    style="padding: 10px 35px;"
+                    style="padding: 10px 35px"
                   />
 
                   <button
@@ -66,7 +66,7 @@
                   *ngIf="ROLE == 'ADMIN'"
                   class="btn primaryBtnLink"
                 >
-                  <i class="bi bi-plus-lg" ></i> Create Team
+                  <i class="bi bi-plus-lg"></i> Create Team
                 </button>
 
                 <!-- <p
@@ -75,12 +75,17 @@
                 >
                   |
                 </p> -->
-                <span class="btnSeprator" *ngIf="ROLE == 'ADMIN' && onboardingVia == 'SLACK'"></span>
-                <button class="btn primaryBtnLink"
+                <span
+                  class="btnSeprator"
+                  *ngIf="ROLE == 'ADMIN' && onboardingVia == 'SLACK'"
+                ></span>
+                <button
+                  class="btn primaryBtnLink"
                   (click)="getFlagOfSlackPlaceholder2()"
                   [ngClass]="{ 'disabled-lnk': rotateToggle }"
                   *ngIf="ROLE == 'ADMIN' && onboardingVia == 'SLACK'"
-                  ><i
+                >
+                  <i
                     [ngClass]="{
                       'spinner-border': rotateToggle,
                       'bi bi-arrow-clockwise': !rotateToggle
@@ -92,50 +97,6 @@
             </div>
           </div>
         </div>
-        <!-- <div class="col-md-7">
-          <div
-            class="d-flex justify-content-end align-items-center"
-            style="gap: 10px"
-          >
-            <div
-              class="add-filtter d-flex align-items-center justify-content-end"
-              style="gap: 10px"
-            >
-              <a
-                data-bs-toggle="modal"
-                data-bs-target="#createteam"
-                type="button"
-                *ngIf="ROLE != 'USER'"
-                ><i class="bi bi-plus-circle"></i> Create Team
-              </a>
-
-              <p
-                style="color: #a1a0a0; margin-bottom: 0px"
-                *ngIf="ROLE == 'ADMIN' && onboardingVia == 'SLACK'"
-              >
-                |
-              </p>
-              <a
-                (click)="getFlagOfSlackPlaceholder2()"
-                [ngClass]="{ 'disabled-lnk': rotateToggle }"
-                *ngIf="ROLE == 'ADMIN' && onboardingVia == 'SLACK'"
-                ><i
-                  style="
-                    font-size: 16px;
-                    color: #6666f3;
-                    height: 1rem;
-                    width: 1rem;
-                  "
-                  [ngClass]="{
-                    'spinner-border': rotateToggle,
-                    'bi bi-arrow-clockwise': !rotateToggle
-                  }"
-                ></i>
-                Data Sync
-              </a>
-            </div>
-          </div>
-        </div> -->
       </div>
       <!-- *ngIf="firebaseDataReloadFlag && teamsNew.length > 0" -->
       <div
@@ -318,7 +279,7 @@
           </div>
         </div>
 
-        <div
+        <!-- <div
           class="row app-emptiy-notifaction"
           *ngIf="
             !isShimmer &&
@@ -334,10 +295,6 @@
           >
             <div class="">
               <h4>No Data Found</h4>
-              <!-- <p>
-                Create a new team for your organization from here<br />
-                once they finish their onboarding.
-              </p> -->
 
               <div class="mb-3">
                 <a href="" class="addinh-hiar"
@@ -353,7 +310,6 @@
                   ></i
                 ></a>
               </div>
-               
             </div>
           </div>
           <div
@@ -392,7 +348,6 @@
                   class="btn create-team"
                   data-bs-toggle="modal"
                   data-bs-target="#createteam2"
-                  
                 >
                   Create Team
                 </button>
@@ -410,6 +365,96 @@
           <div class="col-md-6">
             <div class="">
               <img src="assets/images/group.svg" style="width: 80%" />
+            </div>
+          </div>
+        </div> -->
+
+        <div
+          class="row leave-management-settings p-3 mt-2 align-items-center"
+          *ngIf="
+            !isShimmer &&
+            total == 0 &&
+            !searchTeamPlaceholderFlag &&
+            !slackDataPlaceholderFlag
+          "
+        >
+          <div class="col-md-6">
+            <div class="leave-management-detail pt-5 pb-5">
+              <h3 class="mb-3">
+                Create and Manage <br />
+                Your Team Easily
+              </h3>
+              <p class="mb-0 font-14">
+                Easily customize your leave management preferences, define leave
+                <br />
+                types, set approval workflows, and streamline employee leave
+                tracking.
+              </p>
+
+              <!-- <button class="btn add-leave-btn mt-4 mb-2">Create Team</button> -->
+
+              <button
+                type="button"
+                class="btn add-leave-btn mt-4 mb-2"
+                data-bs-toggle="modal"
+                data-bs-target="#createteam2"
+              >
+                Create Team
+              </button>
+              <button
+                type="button"
+                class="btn add-leave-btn mt-4 mb-2"
+                (click)="getFlagOfSlackPlaceholder()"
+                *ngIf="onboardingVia == 'SLACK' && ROLE == 'ADMIN'"
+              >
+                Slack Data Sync..
+              </button>
+
+              <hr />
+              <span class="mb-0">
+                By signing, you are creating
+                <a href="#!">
+                  Learn more about it
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="21"
+                    viewBox="0 0 20 21"
+                    fill="none"
+                  >
+                    <mask
+                      id="mask0_4244_1588"
+                      style="mask-type: alpha"
+                      maskUnits="userSpaceOnUse"
+                      x="0"
+                      y="0"
+                      width="20"
+                      height="21"
+                    >
+                      <rect
+                        y="0.546875"
+                        width="20"
+                        height="20"
+                        fill="#6666F2"
+                      />
+                    </mask>
+                    <g mask="url(#mask0_4244_1588)">
+                      <path
+                        d="M4.50016 17.2148L3.3335 16.0482L13.0002 6.38151H7.50016V4.71484H15.8335V13.0482H14.1668V7.54818L4.50016 17.2148Z"
+                        fill="#6666F2"
+                      />
+                    </g>
+                  </svg>
+                </a>
+              </span>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="leave-management-detail-img text-end">
+              <img
+                src="assets/images/team-icon-image.svg"
+                style="width: 380px"
+              />
             </div>
           </div>
         </div>
@@ -592,7 +637,11 @@
                                           <p class="m-0 mt-3 font-12 mb-0" style="color: red;">Manager isn't assigned yet!</p>
                                       </div> -->
                   <div>
-                    <h4 class="m-0 mt-3 font-13 mb-0 fw-bold Regular-data" (click)="routeToUserDetails(team.manager.uuid)" *ngIf="ROLE == 'ADMIN'">
+                    <h4
+                      class="m-0 mt-3 font-13 mb-0 fw-bold Regular-data"
+                      (click)="routeToUserDetails(team.manager.uuid)"
+                      *ngIf="ROLE == 'ADMIN'"
+                    >
                       {{ capitalizeFirstLetter(team.manager.name) }}
                       <span style="padding-left: 8px" class="maneger-point">
                         <i
@@ -601,7 +650,10 @@
                         ></i
                       ></span>
                     </h4>
-                    <h4 class="m-0 mt-3 font-13 mb-0 fw-bold " *ngIf="ROLE != 'ADMIN'">
+                    <h4
+                      class="m-0 mt-3 font-13 mb-0 fw-bold"
+                      *ngIf="ROLE != 'ADMIN'"
+                    >
                       {{ capitalizeFirstLetter(team.manager.name) }}
                       <span style="padding-left: 8px" class="maneger-point">
                         <i
@@ -1551,8 +1603,8 @@
                       </div>
                       <div>
                         <h6 class="mb-0 mt-0">
-                       {{ capitalizeFirstLetter(ul.name) }}
-                    </h6>
+                          {{ capitalizeFirstLetter(ul.name) }}
+                        </h6>
                         <p class="mb-0">{{ ul.email }}</p>
                       </div>
                     </div>

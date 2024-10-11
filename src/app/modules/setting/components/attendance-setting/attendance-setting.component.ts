@@ -53,6 +53,7 @@ import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { PlacesService } from 'src/app/services/places.service';
 declare var google: any;
+
 @Component({
   selector: 'app-attendance-setting',
   templateUrl: './attendance-setting.component.html',
@@ -105,6 +106,7 @@ export class AttendanceSettingComponent implements OnInit {
         this.shouldScrollToAutomationRules = true; 
       }
     });
+
   }
 
   @ViewChild('automationRules') automationRules!: ElementRef;
@@ -116,15 +118,29 @@ export class AttendanceSettingComponent implements OnInit {
     }
   }
 
+  @ViewChild("automationRuless") automationRuless!:ElementRef;
   private scrollToAutomationRules() {
     
     setTimeout(() => {
       if (this.automationRules) {
         this.automationRules.nativeElement.scrollIntoView({ behavior: 'smooth' });
+        // this.automationRuless.nativeElement.click();
+        // this.attendanceRuleWithAttendanceRuleDefinitionResponseList.push(new AttendanceRuleWithAttendanceRuleDefinitionResponse());
+        // this.dataNotFoundPlaceholderForAttendanceRule=false;
+        // this.networkConnectionErrorPlaceHolderForAttendanceRule=false;
         this.shouldScrollToAutomationRules = false; 
       }
     }, 100);
   }
+
+  // openModal() {
+  //   const modalElement = document.getElementById('automation-rules');
+
+  //   if (modalElement) {
+  //     const modalInstance = new Modal(modalElement);
+  //     modalInstance.show();
+  //   }
+  // }
 
   isShimmer = false;
   dataNotFoundPlaceholder = false;
@@ -789,6 +805,22 @@ export class AttendanceSettingComponent implements OnInit {
   time1!: Date;
   invalidCustomlateDuration1: boolean = false;
   invalidCustomlateDuration2: boolean = false;
+  onCustomDurationOpen(isOpen : boolean, attendanceRuleTypeId: number){
+
+    if(attendanceRuleTypeId == this.DEDUCTION_RULE_DEFINITION) {
+      if (isOpen && !this.customLateDurationValue) {
+        // If the time picker is opened and no time has been set, default to 00:00
+        this.customLateDurationValue = new Date();
+        this.customLateDurationValue.setHours(0, 0, 0, 0);
+      }
+    } else{
+      if (isOpen && !this.customOvertimeDurationValue) {
+        // If the time picker is opened and no time has been set, default to 00:00
+        this.customOvertimeDurationValue = new Date();
+        this.customOvertimeDurationValue.setHours(0, 0, 0, 0);
+      }
+    }
+  }
   getlateDuration(event: Date, attendanceRuleTypeId: number) {
     let duration = this.helperService.formatDateToHHmmss(event);
 
@@ -828,7 +860,23 @@ export class AttendanceSettingComponent implements OnInit {
   invalidHalfDaylateDuration1: boolean = false;
   invalidHalfDaylateDuration2: boolean = false;
   time2!: Date;
+  onHalfDayDurationOpen(isOpen : boolean, attendanceRuleTypeId: number){
+    if(attendanceRuleTypeId == this.DEDUCTION_RULE_DEFINITION) {
+      if (isOpen && !this.halfDayLateDurationValue) {
+        // If the time picker is opened and no time has been set, default to 00:00
+        this.halfDayLateDurationValue = new Date();
+        this.halfDayLateDurationValue.setHours(0, 0, 0, 0);
+      }
+    } else{
+      if (isOpen && !this.halfDayOvertimeDurationValue) {
+        // If the time picker is opened and no time has been set, default to 00:00
+        this.halfDayOvertimeDurationValue = new Date();
+        this.halfDayOvertimeDurationValue.setHours(0, 0, 0, 0);
+      }
+    }
+  }
   getHalfDaylateDuration(event: Date, attendanceRuleTypeId: number) {
+
     let duration = this.helperService.formatDateToHHmmss(event);
 
     if (attendanceRuleTypeId == this.DEDUCTION_RULE_DEFINITION) {
@@ -846,7 +894,6 @@ export class AttendanceSettingComponent implements OnInit {
     }
     this.halfDayDurationValidation();
   }
-
   halfDayDurationValidation(){
     this.invalidCustomlateDuration1 = false;
     this.invalidCustomlateDuration2 = false;
@@ -872,6 +919,21 @@ export class AttendanceSettingComponent implements OnInit {
   invalidFullDaylateDuration1: boolean = false;
   invalidFullDaylateDuration2: boolean = false;
   time3!: Date;
+  onFullDayDurationOpen(isOpen : boolean, attendanceRuleTypeId: number) {
+    if(attendanceRuleTypeId == this.DEDUCTION_RULE_DEFINITION) {
+      if (isOpen && !this.fullDayLateDurationValue) {
+        // If the time picker is opened and no time has been set, default to 00:00
+        this.fullDayLateDurationValue = new Date();
+        this.fullDayLateDurationValue.setHours(0, 0, 0, 0);
+      }
+    } else{
+      if (isOpen && !this.fullDayOvertimeDurationValue) {
+        // If the time picker is opened and no time has been set, default to 00:00
+        this.fullDayOvertimeDurationValue = new Date();
+        this.fullDayOvertimeDurationValue.setHours(0, 0, 0, 0);
+      }
+    }
+  }
   getFullDaylateDuration(event: Date, attendanceRuleTypeId: number) {
     let duration = this.helperService.formatDateToHHmmss(event);
 
@@ -1112,7 +1174,7 @@ export class AttendanceSettingComponent implements OnInit {
           response.listOfObject.length == 0
         ) {
           this.dataNotFoundPlaceholderForAttendanceRule = true;
-          this.helperService.registerOrganizationRegistratonProcessStepData(Key.AUTOMATION_RULE_ID, Key.PROCESS_PENDING);
+          // this.helperService.registerOrganizationRegistratonProcessStepData(Key.AUTOMATION_RULE_ID, Key.PROCESS_PENDING);
         } else {
           this.attendanceRuleWithAttendanceRuleDefinitionResponseList =
             response.listOfObject;
@@ -1688,7 +1750,7 @@ formatMinutesToTime(minutes: number): string {
         ) {
           this.isShimmer = false;
           this.dataNotFoundPlaceholder = true;
-          this.helperService.registerOrganizationRegistratonProcessStepData(Key.SHIFT_TIME_ID, Key.PROCESS_PENDING);
+          // this.helperService.registerOrganizationRegistratonProcessStepData(Key.SHIFT_TIME_ID, Key.PROCESS_PENDING);
         }
         if (this.organizationShiftTimingWithShiftTypeResponseList.length == 1) {
           this.activeIndex = 0;

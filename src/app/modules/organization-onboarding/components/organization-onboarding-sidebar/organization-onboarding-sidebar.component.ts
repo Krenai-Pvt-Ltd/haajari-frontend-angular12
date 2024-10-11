@@ -76,7 +76,7 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
   }
 
   goToStep(index: string) {
-    debugger
+    debugger;
     // console.log("Index to Go :", index);
     switch (index) {
       case '1': {
@@ -210,7 +210,10 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
   }
 
   openLogoutModal() {
-    const modalRef = this.modalService.open(LogoutConfirmationModalComponent);
+    const modalRef = this.modalService.open(LogoutConfirmationModalComponent, {
+      centered: true,
+      backdropClass: 'static',
+    });
     modalRef.result.then((result) => {
       if (result === 'logoutConfirmed') {
         // Handle the logout logic if confirmed

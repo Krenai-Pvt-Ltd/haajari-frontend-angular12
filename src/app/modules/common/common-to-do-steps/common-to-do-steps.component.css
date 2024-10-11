@@ -60,6 +60,7 @@
   right: 25px;
   width: 300px;
   cursor: pointer;
+  z-index: 999;
 }
 .progress {
   background-color: #f4f3fe;
@@ -97,10 +98,11 @@
   right: 25px;
   width: 300px;
   cursor: pointer;
-  height: 83vh;
+  /* height: 83vh; */
   z-index: 999;
   transition: 0.3s linear;
   transform: translateY(150%);
+  padding-bottom: 20px;
 }
 
 .showOnboardingStepHover {
@@ -240,10 +242,68 @@
   color: #fff;
 }
 
-.onboardingStapsPoint {
-  height: 352px;
-  overflow: scroll;
+/* @media screen and (max-width: 2600px) {
+  .onboardingStapsPoint {
+    height: 530px;
+    overflow: scroll;
+  }
+}
+
+
+
+@media screen and (max-width: 1430px) {
+  .onboardingStapsPoint {
+    height: 400px;
+    overflow: scroll;
+  }
+} */
+@media screen and (max-width: 1920px) {
+  .onboardingStapsPoint {
+    max-height: 50vh;
+    overflow: scroll;
+  }
+}
+@media screen and (max-width: 1280px) {
+  .onboardingStapsPoint {
+    max-height: 50vh;
+    overflow: scroll;
+  }
 }
 .onboardingStapsPoint::-webkit-scrollbar {
   display: none;
+}
+.congration-modal-img {
+  background-color: #f1f2ff;
+}
+.congratulation-info h5 {
+  font-weight: 600;
+  line-height: 22px;
+}
+
+.congratulation-info p {
+  line-height: 24px;
+  color: #3f3e3e;
+}
+.action-btn {
+  background-color: var(--primary-background-color);
+  text-align: center;
+  height: 40px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #fff;
+}
+
+.action-btn:hover {
+  background-color: #5959cb;
+}
+.close-btn {
+  position: absolute;
+  right: 15px;
+  top: 13px;
+}
+
+.close-btn svg {
+  width: 13px;
+  position: relative;
+  top: -1px;
 }

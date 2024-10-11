@@ -11,7 +11,7 @@ import { SubscriptionPlanService } from 'src/app/services/subscription-plan.serv
 export class SubscriptionComponent implements OnInit {
   planSwitch: boolean = false;
   RulesRegulation: boolean = false;
-  showMonthlyPlans:number=0;
+  showYearlyPlans:number=1;
   constructor( private _subscriptionPlanService: SubscriptionPlanService,) {}
 
   ngOnInit(): void {
@@ -27,7 +27,7 @@ export class SubscriptionComponent implements OnInit {
   }
 
 
-
+  selectedSubscriptionPlans:SubscriptionPlan = new SubscriptionPlan();
   subscriptionPlans:SubscriptionPlan[] = new Array();
   typeBySubscriptionPlans:SubscriptionPlan[] = new Array();
   getPlans(){
@@ -64,10 +64,18 @@ export class SubscriptionComponent implements OnInit {
     });
   }
 
-  selectPlan(type:string){
+  selectPlan(index:number){
+    this.selectedSubscriptionPlans = this.subscriptionPlans[index];
+    console.log("======selectedSubscriptionPlans=======", this.selectedSubscriptionPlans);
     this.typeBySubscriptionPlans = new Array();
-    this.typeBySubscriptionPlans = this.subscriptionPlans.filter(plan=> plan.planType == type);
+    this.typeBySubscriptionPlans = this.subscriptionPlans.filter(x=> x.planType == this.selectedSubscriptionPlans.planType);
     console.log("=============", this.typeBySubscriptionPlans);
     this.switchSubscriptionPlan();
+  }
+
+  isGstAvailable:boolean=false;
+  isVerified:boolean=false;
+  applyGst(){
+    this.isGstAvailable = this.isGstAvailable == true? false: true;
   }
 }

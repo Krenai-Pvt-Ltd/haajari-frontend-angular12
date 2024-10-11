@@ -11,6 +11,7 @@
   --borderColor: #eceff5;
   --seprator: #f9f9f9;
   --primary-color: #6666f3;
+  --secondary-color: #fff;
   --primary-background-color: #6666f3;
 }
 .navbar-custom {
@@ -754,6 +755,18 @@ body.dark-topbar .app-search form .form-control:focus {
     display: -ms-flexbox;
     display: flex;
   }
+}
+
+.modal-content {
+    background-color: #fff;
+    border-radius: 0px !important;
+}
+
+.page-item.active .page-link {
+  z-index: 3;
+  color: #fff !important;
+  background-color: #6666f3;
+  border-color: #6666f3;
 }
 
 body.dark-sidebar .left-sidebar {

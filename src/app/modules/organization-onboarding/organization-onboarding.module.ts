@@ -35,6 +35,13 @@ import { ShiftTimeListComponent } from './components/shift-time-list/shift-time-
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { AddShiftPlaceholderComponent } from './components/add-shift-placeholder/add-shift-placeholder.component';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 
 @NgModule({
   declarations: [
@@ -74,6 +81,16 @@ import { AddShiftPlaceholderComponent } from './components/add-shift-placeholder
     NzDatePickerModule,
     ImageCropperModule,
     NzEmptyModule,
+    NzSelectModule,
+    // NzOptionModule,
+    NzToolTipModule,
+    NgxMaskModule.forRoot(),
+    NgbModule,
+    NzAutocompleteModule,
+    NzDropDownModule,
+    NzIconModule,
+    NzInputModule,
+    NzInputNumberModule
   ],
 })
 export class OrganizationOnboardingModule {}

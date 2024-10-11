@@ -42,8 +42,11 @@ export class UploadTeamComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // this.sampleFileUrl =
+      // 'https://firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/Hajiri%2FSample%2FEmployee_Details_Sample%2Femployee_details_sample.xlsx?alt=media';
     this.sampleFileUrl =
-      'https://firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/Hajiri%2FSample%2FEmployee_Details_Sample%2Femployee_details_sample.xlsx?alt=media';
+      'https://firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/Hajiri%2FSample%2Femployee_details_sample.xlsx?alt=media';
+      
     this.getUser();
     this.selectMethod('mannual');
     this.checkShiftTimingExistsMethodCall();
@@ -85,7 +88,7 @@ export class UploadTeamComponent implements OnInit {
   }
   selectedMethod: string = 'mannual';
   selectMethod(method: string) {
-    debugger
+    // debugger
     if (method == 'excel') {
       this.selectedMethod = '';
       this.getReport();
@@ -156,7 +159,7 @@ export class UploadTeamComponent implements OnInit {
   alreadyUsedPhoneNumberArray: any = [];
   alreadyUsedEmailArray: any = [];
   uploadUserFile(file: any, fileName: string) {
-    debugger;
+    // debugger;
     this.importToggle = true;
     this.isProgressToggle = true;
     this.isErrorToggle = false;
@@ -202,7 +205,7 @@ export class UploadTeamComponent implements OnInit {
   uploadDate: Date = new Date();
 
   getReport() {
-    debugger;
+    // debugger;
     this.importReport = [];
     this.importLoading = true;
     this.databaseHelper.itemPerPage = 5;
@@ -241,7 +244,7 @@ export class UploadTeamComponent implements OnInit {
   }
   isManualUploadSubmitLoader: boolean = false;
   submit() {
-    debugger;
+    // debugger;
     this.isManualUploadSubmitLoader = true;
     if (this.allUsersValid()) {
       this.create();
@@ -260,7 +263,7 @@ export class UploadTeamComponent implements OnInit {
   // }
 
   allUsersValid(): boolean {
-    debugger
+    // debugger
 
     const lastUser = this.userList[this.userList.length - 1];
     if (!lastUser.name && !lastUser.phone && this.userList.length == 1) {
@@ -277,7 +280,7 @@ export class UploadTeamComponent implements OnInit {
     });
   }
   lastUsersValid(): boolean {
-    debugger
+    // debugger
     const lastUser = this.userList[this.userList.length - 1];
     if (!lastUser.name && !lastUser.phone) {
       return true;
@@ -285,7 +288,7 @@ export class UploadTeamComponent implements OnInit {
     return this.isValidUser(lastUser);
   }
   currentUsersValid(): boolean {
-    debugger;
+    // debugger;
     // const previousEntriesValid = this.userList.slice(0, -1).every((u) => this.isValidUser(u));
     const lastEntryValid = this.isValidUser(
       this.userList[this.userList.length - 1]
@@ -322,7 +325,7 @@ export class UploadTeamComponent implements OnInit {
 
 
   resetManualUploadModal() {
-    debugger;
+    // debugger;
     this.closeManualUploadModal();
 
     this.userList.forEach((user) => {
@@ -459,6 +462,7 @@ export class UploadTeamComponent implements OnInit {
   @ViewChild('closeUserEditModal') closeUserEditModal!: ElementRef;
   editLoader: boolean = false;
   editUser() {
+    debugger
     this.editLoader = true;
     this._onboardingService.editOnboardUser(this.user).subscribe(
       (response: any) => {
@@ -466,10 +470,10 @@ export class UploadTeamComponent implements OnInit {
           this.getUser();
           this.closeUserEditModal.nativeElement.click();
           this.editLoader = false;
-          this.helperService.showToast(
-            'user update sucessfully',
-            Key.TOAST_STATUS_SUCCESS
-          );
+          // this.helperService.showToast(
+          //   'user update sucessfully',
+          //   Key.TOAST_STATUS_SUCCESS
+          // );
         }
       },
       (error) => {
@@ -574,7 +578,7 @@ export class UploadTeamComponent implements OnInit {
 
   isEmailExist: boolean = false;
   checkEmailExistance(index: number, email: string, uuid: string) {
-    debugger;
+    // debugger;
     // this.userList[index].isEmailExist = false;
     if (email != null && email.length > 5) {
       this._onboardingService
@@ -589,7 +593,7 @@ export class UploadTeamComponent implements OnInit {
   }
   isNextloading: boolean = false;
   next() {
-    debugger;
+    // debugger;
     // setTimeout(() => {
     this.isNextloading = true;
     // }, 1000);
@@ -636,7 +640,7 @@ export class UploadTeamComponent implements OnInit {
 
   onboardingViaString: string = '';
   getOnboardingVia() {
-    debugger;
+    // debugger;
     this.dataService.getOnboardingVia().subscribe(
       (response) => {
         this.onboardingViaString = response.message;

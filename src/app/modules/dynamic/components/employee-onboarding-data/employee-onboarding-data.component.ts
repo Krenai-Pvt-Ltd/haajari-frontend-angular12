@@ -1,10 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, NgForm } from '@angular/forms';
+import {  NgForm } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, debounceTime, map, switchMap } from 'rxjs/operators';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { BehaviorSubject } from 'rxjs';
 import { Key } from 'src/app/constant/key';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { EmployeeOnboardingDataDto } from 'src/app/models/employee-onboarding-data-dto';
@@ -901,11 +900,11 @@ export class EmployeeOnboardingDataComponent implements OnInit {
             this.isSlackUserFlag = false;
             // console.log("success");
             this.reloadPage();
-            this.helperService.showToast("There is some error to fetch slack user id for this email!", Key.TOAST_STATUS_ERROR);
+            this.helperService.showToast("Sync failed: Please ensure the user exists in your Slack workspace!", Key.TOAST_STATUS_ERROR);
           }
         },
         (error) => {
-          this.helperService.showToast("There is some error to fetch slack user id for this email!", Key.TOAST_STATUS_ERROR);
+          this.helperService.showToast("Sync failed: Please ensure the user exists in your Slack workspace!", Key.TOAST_STATUS_ERROR);
           this.isSlackUserFlag = false;
           // console.log("error");
         }

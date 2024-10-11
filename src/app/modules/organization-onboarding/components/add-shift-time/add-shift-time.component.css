@@ -336,3 +336,15 @@ button.btn.close-btn {
 .form-check input[type="checkbox"] {
   accent-color: var(--primary-color);
 }
+
+span.guideclose-btn {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-size: 16px;
+  background-color: #fff;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  line-height: 22px;
+}

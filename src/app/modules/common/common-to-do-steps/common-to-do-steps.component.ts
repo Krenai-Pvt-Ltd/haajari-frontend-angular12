@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -16,19 +16,28 @@ export class CommonToDoStepsComponent implements OnInit {
     this.isToDoStepsCompletedData();
   }
 
+  @ViewChild("stepCompletionModal") stepCompletionModal!:ElementRef;
   getToDoStepViaSubject() {
+    debugger
     this.helperService.todoStepsSubject.subscribe(
       (res)=>{
         console.log(res)
         if(res ){
           // this.saveOrgSecondaryToDoStepBarData(0);
           // this.getOrgSecondaryToDoStepBarData();
+          this.showToDoStep();
           if(res=='close'){
           this.isShowSecondaryToDoSteps = false;
           }else{
           this.getStepsData();
           this.getOrganizationRegistratonProcessStepData();
+          this.isToDoStepsCompletedData();
+          if(this.isToDoStepsCompletedFlag == 1) {
+            // console.log(this.isTo)
+            this.stepCompletionModal.nativeElement.click();
           }
+          }
+          
           // this.getOrganizationInitialToDoStepBar();
         }
       }
@@ -36,6 +45,7 @@ export class CommonToDoStepsComponent implements OnInit {
   }
 
   isToDoStepsCompletedFlag: number = 0;
+  count : number = 0;
   isToDoStepsCompletedData() {
     debugger
     this.dataService.isToDoStepsCompleted().subscribe(
@@ -45,6 +55,12 @@ export class CommonToDoStepsComponent implements OnInit {
         if(this.isToDoStepsCompletedFlag == 0) {
           this.getToDoStepViaSubject();
         }else {
+            if(this.count == 0) {
+            // console.log(this.isTo)
+            this.stepCompletionModal.nativeElement.click();
+            this.count++;
+            }
+          
           this.getOrganizationInitialToDoStepBar();
           // this.router.navigate(['/dashboard']);
         }
@@ -62,6 +78,7 @@ export class CommonToDoStepsComponent implements OnInit {
     this.getStepsData();
     this.getOrganizationInitialToDoStepBar();
     this.getOrganizationRegistratonProcessStepData();
+    this.getRoleDetails();
   }
 
   async getRoleDetails() {
@@ -85,12 +102,23 @@ export class CommonToDoStepsComponent implements OnInit {
   }
 
   isToDoStep: boolean = false;
-  getOrganizationInitialToDoStepBar() {
+  showToDo:boolean = false;
+
+  showToDoStep() {
+    const currentRoute = this.router.url;
+    if (!currentRoute.includes('/to-do-step-dashboard')) {
+      this.showToDo = true;  
+    }else{
+      this.showToDo = false;
+    }
+  }
+   getOrganizationInitialToDoStepBar() {
     debugger
     this.dataService.getOrganizationInitialToDoStepBar().subscribe(
       (response) => {
         this.isToDoStep = response.object;
         // console.log("success");  
+       
       },
       (error) => {
         // console.log('error');
@@ -185,6 +213,10 @@ export class CommonToDoStepsComponent implements OnInit {
         // console.log('error');
       }
     );
+  }
+
+  routeToDashboard() {
+    this.router.navigate(['/dashboard']);
   }
 
   

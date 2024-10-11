@@ -1,10 +1,5 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component,  OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Key } from 'src/app/constant/key';
-import { OrganizationShiftTimingRequest } from 'src/app/models/organization-shift-timing-request';
-import { OrganizationShiftTimingWithShiftTypeResponse } from 'src/app/models/organization-shift-timing-with-shift-type-response';
-import { ShiftType } from 'src/app/models/shift-type';
-import { Staff } from 'src/app/models/staff';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';

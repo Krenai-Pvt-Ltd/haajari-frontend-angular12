@@ -1564,10 +1564,15 @@ export class DataService {
       // Add any additional headers as needed
     });
 
-    const params = { leaveSettingId: leaveSettingId.toString() };
+    // const params = { leaveSettingId: leaveSettingId.toString() };
+    const params = { leaveTemplateId: leaveSettingId.toString() };
 
+    // return this.httpClient.get<FullLeaveSettingResponse>(
+    //   `${this.baseUrl}/user-leave-rule/get/leave-rule-by-Id`,
+    //   { headers, params }
+    // ); amit
     return this.httpClient.get<FullLeaveSettingResponse>(
-      `${this.baseUrl}/user-leave-rule/get/leave-rule-by-Id`,
+      `${this.baseUrl}/user-leave-template`,
       { headers, params }
     );
   }
@@ -3748,6 +3753,17 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/attendance/requests`, {params});
   }
 
+  getAttendanceRequestsHistory(pageNumber: number, itemPerPage: number, searchString:string, startDate: string, endDate: string): Observable<any>{
+    const params = new HttpParams()
+    .set('pageNumber', pageNumber)
+    .set('itemPerPage', itemPerPage)
+    .set('searchString', searchString)
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+    
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/attendance/requests/history`, {params});
+  }
+
   getAttendanceExistanceStatus(userUuid: string, selectedDate: any): Observable<any>{
     const params = new HttpParams()
     .set('userUuid', userUuid).set('selectedDate', selectedDate);
@@ -4100,3 +4116,5 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/users/get-slack-user-count`, {});
   }
 }
+
+
