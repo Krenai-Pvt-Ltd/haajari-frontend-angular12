@@ -864,6 +864,13 @@ export class CompanySettingComponent implements OnInit {
       }
     );
   }
+
+  activeTab: string = 'companySetting'; // Default tab
+
+  // Method to switch tabs
+  switchTab(tabName: string) {
+    this.activeTab = tabName;
+  }
 }
 
 

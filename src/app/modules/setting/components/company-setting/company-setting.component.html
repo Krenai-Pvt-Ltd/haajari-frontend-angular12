@@ -1,11 +1,36 @@
 <div class="page-wrapper">
   <div class="page-content-tab">
+    <ul id="myTab" role="tablist" class="nav nav-tabs">
+        <li role="presentation" class="nav-item">
+            <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#company-details-box" type="button"
+                role="tab" aria-controls="profile" aria-selected="false" class="nav-link active" (click)="switchTab('companySetting')"
+                >
+                Company Details
+            </button>
+        </li>
+        <li role="presentation" class="nav-item">
+            <button id="home-tab" data-bs-toggle="tab" data-bs-target="#company-details-box" type="button"
+                role="tab" aria-controls="home" aria-selected="true" class="nav-link" (click)="switchTab('locationSetting')"
+                #rolesAndSecurity>
+                Location Setting
+            </button>
+        </li>
+        <li role="presentation" class="nav-item">
+          <button id="home-tab" data-bs-toggle="tab" data-bs-target="#onboardingSetting" type="button"
+              role="tab" aria-controls="home" aria-selected="true" class="nav-link" (click)="switchTab('onboardingSetting')"
+              #onboardingSetting>
+              Onboarding Setting
+          </button>
+      </li>
+    </ul>
     <div class="container-fluid">
-      <form #documentsInformationForm="ngForm" (ngSubmit)="checkFormValidation()">
+      
+      <form #documentsInformationForm="ngForm" *ngIf="activeTab === 'companySetting'" (ngSubmit)="checkFormValidation()">
         <div class="company-setting bg-white">
+
           <div class="row mt-3">
             <div class="col-md-4">
-              <div class="company-details-box">
+              <div class="company-details-box" id="company-details-box">
                 <h4 class="card-title">Company Details</h4>
                 <span class="text-muted font-12 fw-normal">Essential Overview of Company's Core Information</span>
 
@@ -171,18 +196,18 @@
 
         </div>
       </form>
-      <div class="col-md-11">
+      <div class="col-md-11" *ngIf="activeTab === 'companySetting'">
         <hr class="mt-5 mb-5" />
       </div>
 
       <div class="row mt-3">
-        <div class="col-md-4">
+        <div class="col-md-4" *ngIf="activeTab === 'companySetting'">
           <div class="company-details-box" style="padding: 15px;">
             <h4 class="card-title">HR Policy</h4>
             <span class="text-muted font-12 fw-normal">A quick snapshot of your company HR policies.</span>
           </div>
         </div>
-        <div class="col-md-7">
+        <div class="col-md-7" *ngIf="activeTab === 'companySetting'">
           <!-- Section to show the uploaded document -->
 
           <div class="row">
@@ -217,13 +242,10 @@
             </div>
           </div>
         </div>
-
+        
 
         <!-- multilocation func  -->
-        <div class="col-md-11">
-          <hr class="mt-5 mb-5" />
-        </div>
-        <div class="col-md-4 mt-3 mb-3" style="padding: 20px;">
+        <div class="col-md-4 mt-3 mb-3" style="padding: 20px;" *ngIf="activeTab === 'locationSetting'">
           <div class="form-roe-data">
             <h5>Location Setting</h5>
             <p>A quick snapshot of your company.</p>
@@ -242,7 +264,7 @@
           </div>
         </div>
 
-        <div class="col-md-7 mt-3 mb-3">
+        <div class="col-md-7 mt-3 mb-3" *ngIf="activeTab === 'locationSetting'">
 
           <!-- old -->
           <!-- {{isShimmer}}{{dataNotFoundPlaceholder}}{{networkConnectionErrorPlaceHolder}} -->
@@ -501,12 +523,9 @@
 
           <div class="col-md-1"></div>
         </div>
-        <!-- multilocation func  -->
-        <div class="col-md-11">
-          <hr class="mt-5 mb-5" />
-        </div>
+        <!-- onooarding func  -->
 
-        <div class="col-md-4 mt-3 mb-3" style="padding: 20px;">
+        <div class="col-md-4 mt-3 mb-3" *ngIf="activeTab === 'onboardingSetting'" style="padding: 20px;">
           <div class="form-roe-data">
             <h5>Employee Onboarding Setting</h5>
             <p>A quick snapshot of your company.</p>
@@ -526,12 +545,12 @@
         </div>
        
 
-        <div class="col-md-7 mt-3 mb-3" style="
+        <div class="col-md-7 mt-3 mb-3" *ngIf="activeTab === 'onboardingSetting'" style="
         border: 1px solid #f5f5f5;
         padding: 5px;
       ">
 
-          <div class="mt-4">
+          <div class="mt-4 onboardingSetting" id="onboardingSetting" role="tabpanel">
             <div class="mt-3">
               <div class="accordion accordion-flush" id="accordionFlushExample">
                 <div *ngFor="let module of onboardingModules; let i = index" class="accordion-item">
