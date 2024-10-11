@@ -4033,7 +4033,6 @@
                       <div class="dropdown" style="width: 100%">
                         <!-- <button type="button"id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> Select leave type <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i></button> -->
                        
-                        {{userLeaveRequest.leaveType | json}}
                         <!-- <select class="form-select" id="exampleFormControlSelect1" formControlName="leaveType"
                           [(ngModel)]="userLeaveRequest.leaveType">
                           <option value="">Select Leave Type</option>
@@ -4042,19 +4041,10 @@
                           </option>
                         </select> old -->
 
-
-                        <!-- <select class="form-select" id="exampleFormControlSelect1" formControlName="leaveType"
-                        [(ngModel)]="userLeaveRequest.leaveType" (ngModelChange)="onLeaveTypeChange($event)">
-                        <option value="">Select Leave Type</option>
-                        <option *ngFor="let ul of userLeave" [ngValue]="ul">
-                          {{ ul.leaveType }}
-                        </option>
-                      </select> -->
-
                       <select class="form-select" id="exampleFormControlSelect1" formControlName="leaveType"
-                      [(ngModel)]="userLeaveRequest.userLeaveTemplateId" (ngModelChange)="onLeaveTypeChange($event)">
+                      [(ngModel)]="userLeaveRequest.leaveType" (ngModelChange)="onLeaveTypeChange($event)">
                       <option value="">Select Leave Type</option>
-                      <option *ngFor="let ul of userLeave" [ngValue]="ul">
+                      <option *ngFor="let ul of userLeave" [ngValue]="ul.userLeaveTemplateId">
                         {{ ul.leaveType }}
                       </option>
                     </select>

@@ -1140,24 +1140,19 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
     this.dataService.getUserLeaveRequests(this.userId).subscribe(
       (res: any) => {
           this.userLeave = res.object;
+
+          console.log('All userLeave :', this.userLeave)
+
       });
   }
 
   tempLeaveType: string =''
   onLeaveTypeChange(selectedLeave: any): void {
     debugger
-
-    console.log('selectedLeave: ',selectedLeave)
-
-    // this.userLeaveRequest.leaveType = selectedLeave ? selectedLeave.leaveType : '';
-    this.userLeaveRequest.userLeaveTemplateId = selectedLeave ? selectedLeave.userLeaveTemplateId : null;
-
-
-this.userLeaveRequest.leaveType = selectedLeave ? selectedLeave.leaveType : null;
-
-this.tempLeaveType = this.userLeaveRequest.leaveType;
-    console.log('userLeaveTemplate leaveType', this.userLeaveRequest.leaveType)
-}
+    // if(selectedLeave == undefined){
+      this.userLeaveRequest.userLeaveTemplateId = selectedLeave ;
+    // console.log('userLeaveTemplate leaveType', this.userLeaveRequest)
+  }
 
   selectedStatus!: string;
   selectStatusFlag: boolean = false;
