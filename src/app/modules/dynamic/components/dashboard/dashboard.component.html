@@ -216,25 +216,35 @@
             <div class="card-header">
               <div class="row align-items-center">
                 <div class="col">
+                  <h6 class="mb-2">Upcoming Activities</h6>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="text-center">
+                <ngx-charts-bar-vertical-stacked
+                  [view]="view2"
+                  [results]="monthlyChartData"
+                  [scheme]="colorScheme"
+                  [gradient]="gradient"
+                  [xAxis]="true"
+                  [yAxis]="true"
+                  [legend]="false"
+                  [animations]="true"
+                >
+                </ngx-charts-bar-vertical-stacked>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4 order-lg-1 order-md-1">
+          <div class="card fixheigt-section">
+            <div class="card-header">
+              <div class="row align-items-center">
+                <div class="col">
                   <h6 class="mb-2">Weekly Leave Pattern</h6>
                 </div>
-                <!-- <div class="col-auto">
-                  <div class="dropdown">
-                    <a
-                      href="#"
-                      class="btn btn-sm btn-outline-light dropdown-toggle"
-                      data-bs-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                    >
-                      <i class="mdi mdi-dots-horizontal text-muted"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end">
-                      <a class="dropdown-item" href="#">Purchases</a>
-                      <a class="dropdown-item" href="#">Emails</a>
-                    </div>
-                  </div>
-                </div> -->
               </div>
             </div>
 
@@ -252,49 +262,16 @@
                 >
                 </ngx-charts-bar-vertical-stacked>
               </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4 order-lg-1 order-md-1">
-          <div class="card fixheigt-section">
-            <div class="card-header">
-              <div class="row align-items-center">
-                <div class="col">
-                  <h6 class="mb-2">Last 6 Months Pattern</h6>
-                </div>
-                <!-- <div class="col-auto">
-                  <div class="dropdown">
-                    <a
-                      href="#"
-                      class="btn btn-sm btn-outline-light dropdown-toggle"
-                      data-bs-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                    >
-                      <i class="mdi mdi-dots-horizontal text-muted"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end">
-                      <a class="dropdown-item" href="#">Purchases</a>
-                      <a class="dropdown-item" href="#">Emails</a>
-                    </div>
-                  </div>
-                </div> -->
-              </div>
-            </div>
-            <div class="card-body">
-              <div class="text-center">
-                <ngx-charts-bar-vertical-stacked
-                  [view]="view2"
-                  [results]="monthlyChartData"
-                  [scheme]="colorScheme"
-                  [gradient]="gradient"
-                  [xAxis]="true"
-                  [yAxis]="true"
-                  [legend]="false"
-                  [animations]="true"
+              <!-- <div class="empty-file" style="margin-top: 10%">
+                <nz-empty
+                  nzNotFoundImage="assets/images/no-data-found-img-2.svg"
+                  [nzNotFoundContent]="contentTpl"
                 >
-                </ngx-charts-bar-vertical-stacked>
-              </div>
+                  <ng-template #contentTpl>
+                    <p class="mb-1 empty-detail font-16">No leave crated</p>
+                  </ng-template>
+                </nz-empty>
+              </div> -->
             </div>
           </div>
         </div>
@@ -583,8 +560,6 @@
             </div>
           </div>
           <div class="mt-3 dashnodata" *ngIf="errorToggleTop"></div>
-          <!-- *ngIf="(responseDto.attendanceLatePerformers).length!=0" -->
-          <!-- *ngFor="let performer of responseDto.attendanceTopPerformers" -->
           <div>
             <ng-container
               *ngIf="
@@ -705,7 +680,7 @@
                   </div>
                 </div>
               </div>
-              <div
+              <!-- <div
                 class="errorboxmain"
                 *ngIf="dataNotFoundPlaceholderForBestPerfomer"
               >
@@ -724,6 +699,19 @@
                     </p>
                   </div>
                 </div>
+              </div> -->
+              <div
+                class="empty-file"
+                *ngIf="dataNotFoundPlaceholderForBestPerfomer"
+              >
+                <nz-empty
+                  nzNotFoundImage="assets/images/no-data-found-img.svg"
+                  [nzNotFoundContent]="contentTpl"
+                >
+                  <ng-template #contentTpl>
+                    <p class="mb-1 empty-detail font-16">No data for now</p>
+                  </ng-template>
+                </nz-empty>
               </div>
             </ng-template>
           </div>
@@ -915,38 +903,10 @@
           <div class="onboard-add row align-items-center">
             <div class="col-md-12">
               <div class="d-flex" style="border: 1px solid #f1f1f1">
-                <!-- <div class="" style="width: 15%">
-                  <div class="dropdown">
-                    <button
-                      class="btn btn-secondary dropdown-toggle new-deopdown"
-                      type="button"
-                      id="dropdownMenuButton1"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                      [disabled]="attendanceReportResponseList.length === 0"
-                    >
-                      Download <i class="bi bi-chevron-down"></i>
-                    </button>
-                    <ul
-                      class="dropdown-menu"
-                      aria-labelledby="dropdownMenuButton1"
-                      style="width: 100%"
-                    >
-                      <li>
-                        <a
-                          id="attendance-data-download-in-excel-format"
-                          class="dropdown-item"
-                          (click)="
-                            downloadAttendanceDataInExcelFormatMethodCall()
-                          "
-                          >Excel</a
-                        >
-                      </li>
-                      <li><a class="dropdown-item">CSV</a></li>
-                    </ul>
-                  </div>
-                </div> -->
-                <div class="" style="width: 15%">
+                <div
+                  class=""
+                  style="width: 15%; border-right: 1px solid #f1f1f1"
+                >
                   <div class="dropdown deshboard-date-filter">
                     <nz-date-picker
                       nzMode="month"
@@ -969,7 +929,7 @@
                     style="width: 100%; position: relative"
                   >
                     <div
-                      class="form-group"
+                      class="form-group pr-2"
                       style="width: 100%; position: relative"
                     >
                       <input
@@ -991,7 +951,7 @@
                       </button>
                       <i
                         class="bi bi-search search-icon"
-                        style="margin: auto; margin-left: 10px"
+                        style="margin: auto; margin-left: 15px"
                       ></i>
                     </div>
                   </form>
@@ -999,8 +959,7 @@
                 <div *ngIf="!errorToggleTop" style="width: 12%">
                   <div class="dropdown">
                     <button
-                      class="btn btn-secondary new-deopdown"
-                      style="text-align: center"
+                      class="btn btn-secondary new-deopdown text-center bg-transparent"
                       type="button"
                       (click)="toggleAllCollapse(isAllCollapsed)"
                       [disabled]="attendanceReportResponseList.length === 0"
@@ -1014,7 +973,7 @@
                   <div class="dropdown">
                     <button
                       class="btn btn-secondary dropdown-toggle new-deopdown"
-                      style="text-align: center"
+                      style="text-align: center; border-right: none"
                       type="button"
                       id="dropdownMenuButton1"
                       data-bs-toggle="dropdown"
@@ -1028,207 +987,16 @@
                         <span></span>
                         <span></span>
                       </div>
-                      <!-- <i class="bi bi-chevron-down"></i> -->
                     </button>
-                    <!-- <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%">
-                      <li>
-                        <a id="attendance-data-download-in-excel-format" class="dropdown-item" (click)="
-                            downloadAttendanceDataInExcelFormatMethodCall()
-                          ">Excel</a>
-                      </li>
-                      <li><a class="dropdown-item">CSV</a></li>
-                    </ul> -->
                   </div>
                 </div>
               </div>
             </div>
-
-            <!-- </div> -->
           </div>
-
-          <!-- <div class="row mb-3">
-            <div class="col-md-6 d-flex align-items-center">
-              <div class="col-md-12 mt-2">
-                <form
-          novalidate
-          role="search"
-          (submit)="searchUsers($event)"
-          class="searching ng-untouched ng-pristine ng-valid"
-        >
-          <div class="form-group" style="width: 100%; display: flex; align-items: center;">
-            <div style="width: 30%; position: relative; margin-right: 10px;">
-              <div class="dropdown" style="width: 100%">
-                <button
-                  type="button"
-                  id="dropdownMenuButton1"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                  class="btn btn-secondary dropdown-toggle new-dropdown"
-                >
-                  {{ selectedTeamName }}
-                  <i class="bi bi-chevron-down" style="color: #444; font-size: 15px"></i>
-                </button>
-                <ul
-                  aria-labelledby="dropdownMenuButton1"
-                  class="dropdown-menu team-dropdown"
-                  style="width: 100%; max-height: 200px; overflow-y: auto;"
-                >
-                  <li class="ng-star-inserted" (click)="selectTeam(0)">
-                    <a class="dropdown-item">All</a>
-                  </li>
-                  <li
-                    class="ng-star-inserted"
-                    *ngFor="let tn of teamNameList"
-                    (click)="selectTeam(tn.teamId)"
-                  >
-                    <a class="dropdown-item">{{ tn.teamName }}</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-    <div class="form-group" style="width: 350px; position: relative;">
-      <input
-        type="text"
-        id="searchText"
-        placeholder="Search by name and email"
-        class="form-control me-2 ng-untouched ng-pristine ng-valid"
-        (keyup)="searchUsers($event)"
-        [(ngModel)]="searchText"
-        [ngModelOptions]="{ standalone: true }"
-        style="padding: 10px 30px;"
-      />
-      <button
-        *ngIf="searchText.length !== 0"
-        type="button"
-        class="btn close-btn"
-        (click)="clearSearchText()"
-      >
-        <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-      </button>
-      <i
-      class="bi bi-search search-icon"
-      style="margin: auto; margin-left: 10px"
-    ></i>
-    </div>
-  </div>
-</form>
-
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div
-                class="filtter-box d-flex align-items-center justify-content-end"
-                style="gap: 10px"
-              >
-                <div class="dropdown">
-                  <button
-                    class="btn btn-secondary new-deopdown"
-                    type="button"
-                    (click)="toggleAllCollapse(isAllCollapsed)"
-                    [disabled]="attendanceReportResponseList.length === 0"
-                  >
-                    {{ isAllCollapsed ? "Expand All" : "Collapse All" }}
-                  </button>
-                </div>
-
-                <div class="col-md-3" *ngIf="ROLE == ADMIN">
-                  <ng-container
-                    *ngIf="!downloadingFlag; else downloadingCondition"
-                  >
-                    <div class="dropdown">
-                      <button
-                        class="btn btn-secondary dropdown-toggle new-deopdown"
-                        type="button"
-                        id="dropdownMenuButton1"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                        [disabled]="attendanceReportResponseList.length === 0"
-                      >
-                        Download <i class="bi bi-chevron-down"></i>
-                      </button>
-                      <ul
-                        class="dropdown-menu"
-                        aria-labelledby="dropdownMenuButton1"
-                        style="width: 100%"
-                      >
-                        <li>
-                          <a
-                            id="attendance-data-download-in-excel-format"
-                            class="dropdown-item"
-                            (click)="
-                              downloadAttendanceDataInExcelFormatMethodCall()
-                            "
-                            >Excel</a
-                          >
-                        </li>
-                        <li><a class="dropdown-item">CSV</a></li>
-                      </ul>
-                    </div>
-                  </ng-container>
-                  <ng-template #downloadingCondition>
-                    <div class="dropdown">
-                      <button
-                        class="btn btn-secondary dropdown-toggle new-deopdown"
-                        type="button"
-                        id="dropdownMenuButton1"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                        [disabled]="attendanceReportResponseList.length === 0"
-                        style="
-                          display: flex;
-                          justify-content: space-evenly;
-                          align-items: center;
-                        "
-                      >
-                        Downloading
-
-                        <div class="download-button-loader">
-                          <span></span>
-                          <span></span>
-                          <span></span>
-                        </div>
-                      </button>
-                    </div>
-                  </ng-template>
-                </div>
-
-            
-
-                <div class="dropdown col-md-3">
-                  <nz-date-picker
-                    nzMode="month"
-                    [nzSize]="size"
-                    [(ngModel)]="selectedDate"
-                    (ngModelChange)="onMonthChange($event)"
-                    [nzDisabledDate]="disableMonths"
-                  ></nz-date-picker>
-                </div>
-              </div>
-            </div>
-
-       
-          </div> -->
 
           <div class="col-md-12">
             <div class="mt-3 dashnodata">
-              <!-- <div class="errorboxmain" > -->
-              <!-- <div class="errorboxinner ">
-                                      <div class="errorboxplaceholder mb-2">
-                                        <img src="assets/images/addnewproduct.svg" style="width:80px;" />
-                                      </div>
-                                     <div class="">
-                                         <h4>No Data Found</h4>
-                                         <p class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                    </div>
-                                    </div> -->
-
-              <!-- </div> -->
-
-              <!-- *ngIf="isAttendanceShimer || (myAttendanceData | json )!= '{}' && !isAttendanceShimer " -->
               <div>
-                <!-- <h5>Monthly Regular</h5> -->
-
                 <div class="mt-3">
                   <table class="table">
                     <thead class="table-light">
@@ -1244,7 +1012,6 @@
                         <th class="text-left">Total Attendance</th>
                       </tr>
                     </thead>
-                    <!-- *ngIf="isAttendanceShimer" -->
 
                     <ng-container
                       *ngIf="
@@ -1311,18 +1078,6 @@
                               [height]="'10px'"
                             ></ngx-shimmer-loading>
                           </td>
-                          <!-- <td class="text-center">
-                                                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                                                </td> -->
-                          <!-- <td class="text-center">
-                                                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                                                </td>
-                                                <td class="text-center">
-                                                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                                                </td>
-                                                <td class="text-center">
-                                                    <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                                                </td> -->
                         </tr>
                       </tbody>
                     </ng-container>
@@ -1579,29 +1334,6 @@
                                       </ng-container>
                                     </tr>
                                   </table>
-                                  <!-- Modal -->
-                                  <!-- <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#eventsModal" #openEventsModal id="openEventsModal"></button> 
-                                  <div class="modal fade" id="eventsModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true" #eventsModal>
-                                    <div class="modal-dialog modal-dialog-centered">
-                                      <div class="modal-content">
-                                        <div class="modal-header">
-                                          <h5 class="modal-title" id="deleteConfirmationModalLabel">Attendance Details</h5>
-                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                          <ng-container *ngIf="userAttendanceDetailDateWise">
-                                            <div class="calenInfo">
-                                              <p><b>Check In Time:</b> {{ userAttendanceDetailDateWise.checkInTime | timeFormat }}</p>
-                                              <p><b>Check Out Time:</b> {{ userAttendanceDetailDateWise.checkOutTime | timeFormat }}</p>
-                                              <p><b>Total Hours:</b> {{ userAttendanceDetailDateWise.totalWorkingHours }}</p>
-                                              <p><b>Total Break:</b> {{ userAttendanceDetailDateWise.breakCount }}</p>
-                                              <p><b>Break Duration:</b> {{ userAttendanceDetailDateWise.breakDuration }}</p>
-                                            </div>
-                                          </ng-container>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div> -->
                                 </div>
                               </td>
                             </tr>
@@ -1609,55 +1341,6 @@
                         </tbody>
                       </ng-container>
                     </ng-template>
-
-                    <!-- <tbody *ngIf="(attendanceReportResponseList | json )!= '{}' && !isAttendanceShimer">
-                                        <ng-container *ngFor="let attendanceReportResponse of attendanceReportResponseList let i = index">
-                                            <tr>
-                                                
-                                                <td class="text-left plandtlMainicon">
-                                                    <i class="bi bi-chevron-right month-d projectdIcon collapsed"
-                                                    data-bs-toggle="collapse" [attr.href]="'#collapseExamplesheet' + i"
-                                                    role="button" aria-expanded="false" aria-controls="collapseExamplesheet0"></i>
-                                                     {{attendanceReportResponse.userDetailsResponse.userName}}
-                                                        <p class="attendance-name" >{{attendanceReportResponse.userDetailsResponse.userEmail}}</p>
-                                                </td>
-                                                <td class="text-center">{{attendanceReportResponse.presentDaysCount}}</td>
-                                                <td class="text-center">{{attendanceReportResponse.absentDaysCount}}</td>
-                                                <td class="text-center">{{attendanceReportResponse.halfDaysCount}}</td>
-                                                <td class="text-center"> - </td>
-                                                <td class="text-center"> - </td>
-                                                <td class="text-center"> - </td>
-                                                <td class="text-center"> - </td>
-                                                <td class="text-center"> - </td>
-                                            </tr>
-                                            <tr class="collapse" [attr.id]="'collapseExamplesheet' + i">
-                                                <td colspan="9" class="p-1">
-                                                    <div class="month-deta">
-                                                        <table class="table table-bordered day-deta">
-                                                            <tr>
-                                                                <th class="text-center">Day</th>
-                                                                <ng-container>
-                                                                    <th class="text-center">{{ getDayNameFromDate(today)[0] }} <br> {{getDayFromDate(today)}}</th>
-                                                                </ng-container>
-                                                            </tr>
-                                                            <tr>
-                
-                                                                <td></td>
-                                                                <ng-container *ngFor="let attendance of entry.value">
-                                                                    <td class="text-center" [ngClass]="{'absent': (attendance.checkInTime==null && convertStringToDate(attendance)<today), 'present': attendance.checkInTime!=null }">{{( attendance.checkInTime==null && convertStringToDate(attendance) < today )?'A':(attendance.checkInTime != null )?'P':'-' }}</td>
-                                                                </ng-container>
-
-                                                                <ng-container>
-                                                                    <td class="text-center">P</td>
-                                                                </ng-container>
-                                                                
-                                                            </tr>
-                                                        </table>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </ng-container>
-                                    </tbody> -->
                   </table>
 
                   <ng-container>
@@ -1681,11 +1364,11 @@
                         </div>
                       </div>
                     </div>
-                    <div
+                    <!-- <div
                       class="errorboxmain"
                       *ngIf="dataNotFoundPlaceholderForAttendanceData"
                     >
-                      <!-- style="display: flex; flex-direction: column; align-items: center; text-align: center;" -->
+                     
                       <div
                         class="errorboxinner flex-column justify-content-center mx-auto py-2 text-center w-50"
                       >
@@ -1703,6 +1386,23 @@
                           </p>
                         </div>
                       </div>
+                    </div> -->
+
+                    <div
+                      class="empty-file"
+                      style="margin-top: 8%"
+                      *ngIf="dataNotFoundPlaceholderForAttendanceData"
+                    >
+                      <nz-empty
+                        nzNotFoundImage="assets/images/no-data-found-img.svg"
+                        [nzNotFoundContent]="contentTpl"
+                      >
+                        <ng-template #contentTpl>
+                          <p class="mb-1 empty-detail font-16">
+                            No data for now
+                          </p>
+                        </ng-template>
+                      </nz-empty>
                     </div>
                   </ng-container>
                 </div>

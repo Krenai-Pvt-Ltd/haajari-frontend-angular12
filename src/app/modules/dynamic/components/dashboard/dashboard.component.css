@@ -511,13 +511,14 @@ span.total-holiday {
   border-right: 1px solid #f1f1f1;
   border-radius: 0px;
   height: 50px !important;
+  background-color: transparent !important;
 }
 
 .deshboard-search-box {
   padding: 10px 40px;
   border: none;
   border-right: 1px solid #f1f1f1;
-  border-radius: 0px;
+  border-radius: 0px !important;
   height: 50px !important;
 }
 
@@ -962,4 +963,15 @@ button.btn.add-card-btn {
   40% {
     opacity: 1;
   }
+}
+.empty-detail {
+  color: #6b7280;
+  line-height: 20px;
+}
+
+::ng-deep.ant-empty-image img {
+  width: 90px;
+}
+::ng-deep.ant-picker {
+  background-color: transparent !important;
 }
