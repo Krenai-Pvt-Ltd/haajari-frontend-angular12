@@ -12,7 +12,23 @@ export class SubscriptionPlanService {
   private _key: Key = new Key();
 
   constructor(private _httpClient: HttpClient) {
+    this.getOrganizationSubsPlanDetail();
+  }
 
+
+  isTrial!:boolean;
+  planName:string='';
+  month:number=0;
+  getOrganizationSubsPlanDetail() {
+    this.getOrgSubsPlanDetail().subscribe((response) => {
+        if (response.status){
+          this.planName = response.object.planName;
+          this.isTrial = response.object.isTrial;
+          this.month = response.object.month;
+        }
+      },(error)=>{
+
+      });
   }
 
   getAllSubscriptionPlan() {
@@ -88,4 +104,19 @@ export class SubscriptionPlanService {
   }
 
 
+  // =================================================================================Abhijeet================================================
+
+
+  getPlans(){
+    return this._httpClient.get<any>(this._key.base_url + this._key.get_subscription_plans);
+  }
+
+
+  getCurrentPlan(){
+    return this._httpClient.get<any>(this._key.base_url + this._key.get_current_subscription_plan);
+  }
+
+  getOrgSubsPlanDetail(){
+    return this._httpClient.get<any>(this._key.base_url + this._key.get_subscription_plan_light_detail);
+  }
 }

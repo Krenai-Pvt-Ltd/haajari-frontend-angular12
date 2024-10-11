@@ -526,11 +526,12 @@
               </a>
             </div> -->
 
-            <!-- <div class="PremierPlan">
+            <div class="PremierPlan" *ngIf="!_subscriptionPlanService.isTrial">
               <div class="d-flex align-items-center justify-content-between">
                 <div>
                   <h3 class="mb-2">
-                    Premier
+                    <!-- Premier -->
+                     {{_subscriptionPlanService.planName}}
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="19"
@@ -582,21 +583,21 @@
                       </defs>
                     </svg>
                   </h3>
-                  <p class="mb-0">Valid up to 3 months</p>
+                  <p class="mb-0">Valid up to {{_subscriptionPlanService.month}} months</p>
                 </div>
                 <div>
-                  <button class="btn p-0 modifyBtn">Modify</button>
+                  <button class="btn p-0 modifyBtn" (click)="routeToBilling()">Modify</button>
                 </div>
               </div>
-            </div> -->
-            <div class="basicPlan">
+            </div>
+            <div class="basicPlan" *ngIf="_subscriptionPlanService.isTrial">
               <div class="d-flex align-items-center justify-content-between">
                 <div>
                   <h3 class="mb-2">Trial Plan</h3>
                   <p class="mb-0">Plan Upgrade Now</p>
                 </div>
                 <div>
-                  <button class="btn upgradeBtn">
+                  <button class="btn upgradeBtn" (click)="routeToBilling()">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="15"
@@ -633,20 +634,7 @@
                   </button>
                 </div>
               </div>
-              <!-- <div class="mt-3">
-                <div class="progress">
-                  <div
-                    class="progress-bar"
-                    role="progressbar"
-                    style="width: 25%"
-                    aria-valuenow="25"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                  ></div>
-                </div>
-
-                <h4 class="mt-3 mb-0">On day 1 of 30</h4>
-              </div> -->
+              
             </div>
           </div>
           <div

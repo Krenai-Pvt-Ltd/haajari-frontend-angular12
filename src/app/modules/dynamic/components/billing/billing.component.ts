@@ -45,11 +45,11 @@ export class BillingComponent implements OnInit {
 
   ngOnInit(): void {
     window.scroll(0, 0);
-    this.getAllSubscription();
-    this.getPurchasedStatus();
-    this.getInvoices();
-    this.getOrgSubsPlanMonthDetail();
-    this.getDuePendingStatus();
+    // this.getAllSubscription();
+    // this.getPurchasedStatus();
+    // this.getInvoices();
+    // this.getOrgSubsPlanMonthDetail();
+    // this.getDuePendingStatus();
     // this.helperService.saveOrgSecondaryToDoStepBarData(0);
   }
 
@@ -133,7 +133,7 @@ export class BillingComponent implements OnInit {
                 'Employee successfully added',
                 Key.TOAST_STATUS_SUCCESS
               );
-              this.getOrgSubsPlanMonthDetail();
+              // this.getOrgSubsPlanMonthDetail();
             }
           });
       } else {
@@ -161,7 +161,7 @@ export class BillingComponent implements OnInit {
                 'Employee successfully added',
                 Key.TOAST_STATUS_SUCCESS
               );
-              this.getOrgSubsPlanMonthDetail();
+              // this.getOrgSubsPlanMonthDetail();
             }
           });
       }
@@ -226,7 +226,7 @@ export class BillingComponent implements OnInit {
       Key.TOAST_STATUS_SUCCESS
     );
     this.getInvoices();
-    this.getOrgSubsPlanMonthDetail();
+    // this.getOrgSubsPlanMonthDetail();
     this.getDueInvoices();
     // }
     // else if(this.paymentFor == "due_invoice")
@@ -307,16 +307,16 @@ export class BillingComponent implements OnInit {
 
   OrgSubsPlanMonthDetail: OrganizationSubscriptionPlanMonthDetail =
     new OrganizationSubscriptionPlanMonthDetail();
-  getOrgSubsPlanMonthDetail() {
-    this._subscriptionPlanService
-      .getOrgSubsPlanMonthDetail()
-      .subscribe((response) => {
-        if (response.status) {
-          this.OrgSubsPlanMonthDetail = response.object;
-          this.OrgSubsPlanMonthDetail.viewCard = 1;
-        }
-      });
-  }
+  // getOrgSubsPlanMonthDetail() {
+  //   this._subscriptionPlanService
+  //     .getOrgSubsPlanMonthDetail()
+  //     .subscribe((response) => {
+  //       if (response.status) {
+  //         this.OrgSubsPlanMonthDetail = response.object;
+  //         this.OrgSubsPlanMonthDetail.viewCard = 1;
+  //       }
+  //     });
+  // }
 
   invoiceNo: string = '';
   paymentFor: string = '';

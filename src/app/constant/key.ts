@@ -246,6 +246,12 @@ export class Key {
   get_org_subs_plan_month_detail = '/organization-subs-plan-month-detail';
   cancel_subscription = '/organization-subs-plan-month-detail';
 
+
+  //NEW SUBSCRIPTION PLAN API KEY
+  get_subscription_plans = '/subscription/plan';
+  get_current_subscription_plan='/subscription/current';
+  get_subscription_plan_light_detail='/subscription/plan/detail';
+
   //user notification
   get_notification = '/user-notification';
   read_notification = '/user-notification/read';

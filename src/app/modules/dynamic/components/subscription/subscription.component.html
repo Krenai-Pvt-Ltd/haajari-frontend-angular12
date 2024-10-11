@@ -15,7 +15,7 @@
               >Subscription</a
             >
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="!orgSubscriptionPlanDetail!.trial">
             <a
               id="pills-profile-tab"
               data-bs-toggle="pill"
@@ -36,7 +36,7 @@
             aria-labelledby="subscription-tab"
           >
             <div class="row">
-              <div class="col-md-3">
+              <div class="col-md-3" *ngIf="!orgSubscriptionPlanDetail.trial">
                 <div class="current-plan-box pt-4" *ngIf="!RulesRegulation">
                   <h2 class="font-18">Current</h2>
 
@@ -44,7 +44,7 @@
                     class="d-flex align-items-start justify-content-between mt-5"
                   >
                     <div>
-                      <h5 class="mb-0">Basic Plan</h5>
+                      <h5 class="mb-0">{{orgSubscriptionPlanDetail.planName}} Plan</h5>
 
                       <p class="mb-0 font-14 pt-2">
                         Our most popular plan for<br />
@@ -52,17 +52,16 @@
                       </p>
                     </div>
 
-                    <span class="plan-tag">Monthly</span>
+                    <span class="plan-tag">{{orgSubscriptionPlanDetail.yearly?'Yearly':'Monthly'}}</span>
                   </div>
-
                   <div
                     class="mt-5 d-flex align-items-center gap-2 active-plan-velue"
                   >
-                    <h4>₹49</h4>
+                    <h4>₹{{orgSubscriptionPlanDetail.planAmount | number: '1.0-2'}}</h4>
                     <p class="mb-0 font-16">Per month</p>
                   </div>
 
-                  <h3>Employee 2/64 (3%)</h3>
+                  <h3>Employee {{orgSubscriptionPlanDetail.quotaUsed}}/{{orgSubscriptionPlanDetail.employeeQuota}} ({{(orgSubscriptionPlanDetail.quotaUsed/ orgSubscriptionPlanDetail.employeeQuota)* 100 | number: '1.0-2'}}%)</h3>
 
                   <div class="progress w-100">
                     <div
@@ -116,7 +115,7 @@
                         <p class="mb-0 font-14">Start Day</p>
                       </div>
 
-                      <span class="mb-0">12th Oct 2024</span>
+                      <span class="mb-0">{{orgSubscriptionPlanDetail.startDate | date: "dd MMM yyyy"}}</span>
                     </div>
                     <div
                       class="d-flex align-items-center justify-content-between mt-3"
@@ -156,7 +155,7 @@
                         <p class="mb-0 font-14">Next Billing Date</p>
                       </div>
 
-                      <span class="mb-0 text-primary">12th Nov 2024</span>
+                      <span class="mb-0 text-primary">{{orgSubscriptionPlanDetail.endDate | date: "dd MMM yyyy"}}</span>
                     </div>
 
                     <div class="footer-action">
@@ -399,7 +398,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-9">
+              <div class="col-md-9" [ngClass]="{'col-md-12':orgSubscriptionPlanDetail!.trial}">
                 <div class="plan-box p-4">
                   <div
                     class="d-flex align-items-center justify-content-between"
@@ -454,7 +453,7 @@
                         Plan
                       </p>
 
-                      <ul
+                      <!-- <ul
                         class="nav priceToggleMain"
                         id="pills-tab"
                         role="tablist"
@@ -462,9 +461,6 @@
                         <li class="nav-item" role="presentation">
                           <button
                             class="priceToggleBtn active"
-                            id="yearly-plan-tab"
-                            data-bs-toggle="pill"
-                            data-bs-target="#yearly-plan"
                             type="button"
                             role="tab"
                             aria-controls="pills-home"
@@ -476,9 +472,6 @@
                         <li class="nav-item" role="presentation">
                           <button
                             class="priceToggleBtn"
-                            id="monthly-plan-tab"
-                            data-bs-toggle="pill"
-                            data-bs-target="#monthly-plan"
                             type="button"
                             role="tab"
                             aria-controls="monthly-plan"
@@ -488,23 +481,29 @@
                             Monthly
                           </button>
                         </li>
-                      </ul>
+                      </ul> -->
+
+
+                      <form>
+                        <div class="btn-container w-100">
+                          <input type="radio" id="r_Yearly" name="radio_choices" value="Yearly" [checked]="showMonthlyPlans==0" (click)="showMonthlyPlans = 0" >
+                          <label for="r_Yearly">Yearly</label>
+                          <br >
+                          <input type="radio" id="r_Monthly" name="radio_choices" value="Monthly" [checked]="showMonthlyPlans==1" (click)="showMonthlyPlans = 1" >
+                          <label for="r_Monthly">Monthly</label>            
+                        </div>
+                      </form>
                     </div>
                   </div>
                   <div class="mt-3">
-                    <div class="tab-content" id="pills-tabContent">
-                      <div
-                        class="tab-pane fade active show"
-                        id="yearly-plan"
-                        aria-labelledby="yearly-plan-tab"
-                      >
+                    <div class="tab-content" >
+                     
                         <div class="row">
-                          <div class="col-md-4">
+                          <div class="col-md-4"  [ngClass]="{'d-none':showMonthlyPlans==plan.isMonthly}" *ngFor="let plan of subscriptionPlans; let i=index;">
                             <div class="plan-detail-box p-3 pt-4 pb-4">
-                              <h5 class="mb-0 font-20">Basic</h5>
+                              <h5 class="mb-0 font-20">{{plan.name}}</h5>
                               <p class="mb-0 font-13 mt-2">
-                                Ideal for small businesses looking to start
-                                digital attendance management.
+                                {{plan.description}}
                               </p>
 
                               <div
@@ -513,7 +512,7 @@
                                 <h3 class="mb-0">₹49</h3>
 
                                 <div>
-                                  <h4 class="mb-0">₹69</h4>
+                                  <h4 class="mb-0">₹{{plan.amount}}</h4>
                                   <h6 class="mb-0 font-14">
                                     month/per employee
                                   </h6>
@@ -528,11 +527,19 @@
 
                               <button
                                 class="btn current-plan w-100 mb-4"
-                                data-bs-toggle="modal"
-                                data-bs-target="#downgrade-plan"
+                                *ngIf="plan.isPurchased==0"
+                                (click)="selectPlan(plan.planType)"
                               >
-                                Current plan
+                                Purchase plan
                               </button>
+                              <button
+                              class="btn current-plan w-100 mb-4"
+                              data-bs-toggle="modal"
+                              data-bs-target="#downgrade-plan"
+                              *ngIf="plan.isPurchased==1"
+                            >
+                              Current plan
+                            </button>
 
                               <ul class="plan-pints pl-0">
                                 <li>
@@ -572,7 +579,7 @@
                               </ul>
                             </div>
                           </div>
-                          <div class="col-md-4">
+                          <!-- <div class="col-md-4">
                             <div class="plan-detail-box p-3 pt-4 pb-4">
                               <h5 class="mb-0 font-20">Premium</h5>
                               <p class="mb-0 font-13 mt-2">
@@ -640,7 +647,7 @@
                                 </li>
                               </ul>
                             </div>
-                          </div>
+                          </div> -->
                           <div class="col-md-4">
                             <div class="plan-detail-box p-3 pt-4">
                               <h5 class="mb-0 font-20">Custom</h5>
@@ -656,7 +663,7 @@
                               <span class="saperater-border mt-4 mb-4"></span>
 
                               <button class="btn change-plan w-100 mb-4">
-                                Upgrade plan
+                              Request
                               </button>
 
                               <ul class="plan-pints pl-0">
@@ -680,13 +687,8 @@
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <div
-                        class="tab-pane fade"
-                        id="monthly-plan"
-                        aria-labelledby="monthly-plan-tab"
-                      >
-                        <div class="row">
+                     
+                        <!-- <div class="row">
                           <div class="col-md-4">
                             <div class="plan-detail-box p-3 pt-4 pb-4">
                               <h5 class="mb-0 font-20">Basic</h5>
@@ -867,8 +869,7 @@
                               </ul>
                             </div>
                           </div>
-                        </div>
-                      </div>
+                        </div> -->
                     </div>
                   </div>
                 </div>
@@ -1409,7 +1410,7 @@
             (click)="switchSubscriptionPlan()"
             ><i class="bi bi-chevron-left"></i
           ></span>
-          Lorem ipsum dolor sit amet consectetur.
+          Back
         </h5>
 
         <div class="mt-4 row">
