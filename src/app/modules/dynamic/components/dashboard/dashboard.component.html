@@ -221,7 +221,7 @@
               </div>
             </div>
             <div class="card-body">
-              <div class="text-center">
+              <!-- <div class="text-center">
                 <ngx-charts-bar-vertical-stacked
                   [view]="view2"
                   [results]="monthlyChartData"
@@ -233,6 +233,74 @@
                   [animations]="true"
                 >
                 </ngx-charts-bar-vertical-stacked>
+              </div> -->
+
+              <!-- <div class="upcoming-activities">
+                <div
+                  class="d-flex align-items-center justify-content-between leave-list p-3 mb-3"
+                >
+                  <div class="">
+                    <p class="mb-0 font-14">Holiday</p>
+                    <h3 class="mb-0">Dussehra</h3>
+                  </div>
+
+                  <h5 class="mb-0 font-14">Sat,12th October</h5>
+                </div>
+                <div
+                  class="d-flex align-items-center justify-content-between Upcoming-holiday-list p-3 pt-0 pb-0"
+                >
+                  <div class="">
+                    <p class="mb-0 font-14">Upcoming</p>
+                    <h3 class="mb-0">Dussehra</h3>
+                  </div>
+
+                  <h5 class="mb-0 font-14">Sat,12th October</h5>
+                </div>
+
+                <div
+                  class="d-flex align-items-center justify-content-between all-holiday-list"
+                >
+                  <p class="mb-0 font-14">View All Holidays for This Year</p>
+                  <button class="p-0 btn text-primary font-15">View all</button>
+                </div>
+              </div> -->
+
+              <div class="upcoming-birthday">
+                <div
+                  class="d-flex align-items-center justify-content-between today-birthday mb-3 p-2"
+                  style="
+                    background-image: url(../assets/images/barthday-img.svg);
+                  "
+                >
+                  <div class="d-flex align-items-center gap-3">
+                    <img src="assets/images/media-upload.jpg" />
+                    <div>
+                      <p class="mb-0 font-14">Today</p>
+                      <h5 class="mb-0 font-16">Ahaan Panady</h5>
+                    </div>
+                  </div>
+                  <!-- <p class="mb-0 font-12">Sat,12th October</p> -->
+                </div>
+
+                <div
+                  class="d-flex align-items-center justify-content-between upcoming-birthday-box mb-3 p-2 pt-0 pb-0"
+                >
+                  <div class="d-flex align-items-center gap-3">
+                    <img src="assets/images/media-upload.jpg" />
+                    <div>
+                      <p class="mb-0 font-14">Upcoming</p>
+                      <h5 class="mb-0 font-16">Ahaan Panady</h5>
+                    </div>
+                  </div>
+                  <!-- <p class="mb-0 font-12">Sat,12th October</p> -->
+                </div>
+
+                <div
+                  class="d-flex align-items-center justify-content-between all-holiday-list"
+                >
+                  <p class="mb-0 font-14">View All Barthday for This Year</p>
+                  <button class="p-0 btn text-primary font-15">View all</button>
+                </div>
               </div>
             </div>
           </div>
@@ -663,7 +731,7 @@
               </ng-container>
             </ng-template>
             <ng-template #errorInFetchingBestPerformerData>
-              <div
+              <!-- <div
                 class="errorboxmain"
                 *ngIf="networkConnectionErrorPlaceHolderForBestPerformer"
               >
@@ -679,6 +747,23 @@
                     </p>
                   </div>
                 </div>
+              </div> -->
+
+              <div
+                class="empty-file"
+                style="margin-top: 5%; margin-bottom: 5%"
+                *ngIf="networkConnectionErrorPlaceHolderForBestPerformer"
+              >
+                <nz-empty
+                  nzNotFoundImage="assets/images/no-data-found-img.svg"
+                  [nzNotFoundContent]="contentTpl"
+                >
+                  <ng-template #contentTpl>
+                    <p class="mb-1 empty-detail font-16">
+                      Something went wrong!
+                    </p>
+                  </ng-template>
+                </nz-empty>
               </div>
               <!-- <div
                 class="errorboxmain"
@@ -702,6 +787,7 @@
               </div> -->
               <div
                 class="empty-file"
+                style="margin-top: 5%; margin-bottom: 5%"
                 *ngIf="dataNotFoundPlaceholderForBestPerfomer"
               >
                 <nz-empty
@@ -1344,7 +1430,7 @@
                   </table>
 
                   <ng-container>
-                    <div
+                    <!-- <div
                       class="errorboxmain"
                       *ngIf="networkConnectionErrorPlaceHolderForAttendanceData"
                     >
@@ -1363,6 +1449,23 @@
                           </p>
                         </div>
                       </div>
+                    </div> -->
+
+                    <div
+                      class="empty-file"
+                      style="margin-top: 8%"
+                      *ngIf="networkConnectionErrorPlaceHolderForAttendanceData"
+                    >
+                      <nz-empty
+                        nzNotFoundImage="assets/images/no-data-found-img.svg"
+                        [nzNotFoundContent]="contentTpl"
+                      >
+                        <ng-template #contentTpl>
+                          <p class="mb-1 empty-detail font-16">
+                            Something went wrong!
+                          </p>
+                        </ng-template>
+                      </nz-empty>
                     </div>
                     <!-- <div
                       class="errorboxmain"

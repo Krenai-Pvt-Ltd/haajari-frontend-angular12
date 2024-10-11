@@ -47,7 +47,6 @@
                 <div
                   class="row leave-management-settings p-3 align-items-center"
                   style="margin-top: -8px"
-                  *ngIf="dataNotFoundPlaceholderForUserAndControl"
                 >
                   <div class="col-md-6">
                     <div class="leave-management-detail pt-5 pb-5">
@@ -1062,7 +1061,9 @@
                           "
                         >
                           <div class="row">
-                            <div class="col-md-4 mb-3">
+                            <div
+                              class="col-xxl-3 col-xl-4 col-md-4 cols-sm-12 mb-3"
+                            >
                               <div class="add-role-security p-3">
                                 <div class="d-flex align-items-center gap-3">
                                   <span
@@ -1124,7 +1125,7 @@
                               </div>
                             </div>
                             <div
-                              class="col-md-4 mb-3"
+                              class="col-xxl-3 col-xl-4 col-md-4 cols-sm-12 mb-3"
                               *ngFor="
                                 let role of roles
                                   | paginate

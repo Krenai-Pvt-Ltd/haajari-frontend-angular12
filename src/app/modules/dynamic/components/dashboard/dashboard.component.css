@@ -975,3 +975,97 @@ button.btn.add-card-btn {
 ::ng-deep.ant-picker {
   background-color: transparent !important;
 }
+.leave-list {
+  background-color: #fff3f5;
+  border-left: 5px solid #f96b7c;
+}
+.Upcoming-holiday-list {
+  border-left: 5px solid var(--primary-color);
+}
+
+.leave-list h3 {
+  font-size: 20px;
+  font-weight: 500;
+  color: #f96b7c;
+  line-height: 30px;
+}
+.leave-list p {
+  font-weight: 400;
+  color: #8a8a8a;
+  line-height: 18px;
+}
+
+.leave-list h5 {
+  font-weight: 500;
+  color: #000;
+  line-height: 16px;
+}
+
+.Upcoming-holiday-list h3 {
+  font-size: 20px;
+  font-weight: 500;
+  color: #555558;
+  line-height: 30px;
+}
+
+.Upcoming-holiday-list p {
+  font-weight: 400;
+  color: #8a8a8a;
+  line-height: 18px;
+}
+
+.Upcoming-holiday-list h5 {
+  font-weight: 500;
+  color: #000;
+  line-height: 16px;
+}
+.all-holiday-list {
+  padding-top: 35px;
+}
+.all-holiday-list p {
+  font-weight: 400;
+  color: #8a8a8a;
+  line-height: 18px;
+}
+.all-holiday-list button {
+  font-weight: 500;
+  text-decoration: underline;
+}
+.upcoming-birthday img {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+.today-birthday {
+  background-color: #f6f6f6;
+  border-right: 5px solid var(--primary-color);
+  background-repeat: no-repeat;
+  background-position: right top;
+  right: 10px;
+}
+
+.today-birthday p {
+  font-weight: 400;
+  color: #8a8a8a;
+  line-height: 22px;
+}
+.today-birthday h5 {
+  font-weight: 500;
+  color: #000;
+  line-height: 20px;
+}
+
+.upcoming-birthday-box p {
+  font-weight: 400;
+  color: #8a8a8a;
+  line-height: 22px;
+}
+.upcoming-birthday-box h5 {
+  font-weight: 500;
+  color: #000;
+  line-height: 20px;
+}
+/* .upcoming-birthday-box {
+  border-right: 5px solid var(--primary-color);
+} */
