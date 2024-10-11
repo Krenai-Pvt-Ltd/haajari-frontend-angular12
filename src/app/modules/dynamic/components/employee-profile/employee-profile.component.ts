@@ -1143,6 +1143,22 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
       });
   }
 
+  tempLeaveType: string =''
+  onLeaveTypeChange(selectedLeave: any): void {
+    debugger
+
+    console.log('selectedLeave: ',selectedLeave)
+
+    // this.userLeaveRequest.leaveType = selectedLeave ? selectedLeave.leaveType : '';
+    this.userLeaveRequest.userLeaveTemplateId = selectedLeave ? selectedLeave.userLeaveTemplateId : null;
+
+
+this.userLeaveRequest.leaveType = selectedLeave ? selectedLeave.leaveType : null;
+
+this.tempLeaveType = this.userLeaveRequest.leaveType;
+    console.log('userLeaveTemplate leaveType', this.userLeaveRequest.leaveType)
+}
+
   selectedStatus!: string;
   selectStatusFlag: boolean = false;
   isLeaveErrorPlaceholder: boolean = false;

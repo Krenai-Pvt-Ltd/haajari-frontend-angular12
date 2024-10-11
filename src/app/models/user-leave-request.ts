@@ -5,10 +5,12 @@ export class UserLeaveRequest {
     halfDayLeave: boolean = false; // Initialize to false
     dayShift: boolean = false; // Initialize to false
     eveningShift: boolean = false; // Initialize to false
-    leaveType!: string;
+    // leaveType!: string;
+    leaveType!: any;
     uuid!: string;
     status!: string;
     managerId!: number;
     optNotes!: string;
+    userLeaveTemplateId!: number;
   }
   
