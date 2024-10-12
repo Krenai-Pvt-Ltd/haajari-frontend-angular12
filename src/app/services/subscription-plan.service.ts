@@ -119,4 +119,10 @@ export class SubscriptionPlanService {
   getOrgSubsPlanDetail(){
     return this._httpClient.get<any>(this._key.base_url + this._key.get_subscription_plan_light_detail);
   }
+
+  verifyGstNumber(gstNumber:string) {
+    const params = new HttpParams()
+    .set('gstNumber', gstNumber)
+    return this._httpClient.get<any>(this._key.base_url + this._key.verify_gst_number,{params});
+  }
 }

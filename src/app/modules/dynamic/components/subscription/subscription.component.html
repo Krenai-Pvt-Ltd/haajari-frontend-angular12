@@ -458,7 +458,7 @@
                           </defs>
                         </svg>
                         &nbsp;
-                        <span class="discount-tag">20%off</span> &nbsp;On Yearly
+                        <span class="discount-tag">30%off</span> &nbsp;On Yearly
                         Plan
                       </p>
 
@@ -529,7 +529,7 @@
                               </div>
 
                               <p class="mb-0 font-14" *ngIf="plan.isYearly==1">
-                                <span class="plan-year-off" > 15% off </span>
+                                <span class="plan-year-off" > 30% off </span>
                                 with annual contract
                               </p>
                               <span class="saperater-border mt-4 mb-4"></span>
@@ -1435,13 +1435,21 @@
                   </p>
                 </div>
 
+               
+               
+
                 <div>
                   <input
                     type="text"
                     class="form-control employee-count-form"
                     placeholder="Enter Employee Count"
                     name="employee-count"
-                    pattern="^[0-9]{10}$"
+                    pattern="^[1-9][0-9]{0,5}$"
+                    maxlength="6"
+                    [(ngModel)]="employeeCount"
+                    (keyup)="calculateByEmployeeSize()"
+                    #employeeNumber="ngModel"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/^0+/, '').slice(0, 6);"
                     required
                   />
                 </div>
@@ -1489,7 +1497,7 @@
                     class="p-3 plan-detail d-flex align-items-center justify-content-between p-4"
                   >
                     <div>
-                      <h1 class="mb-3">{{selectedSubscriptionPlans.name}} Plan</h1>
+                      <h1 class="mb-3">{{selectedSubscriptionPlan.name}} Plan</h1>
                       <p class="mb-0 text-black font-16">
                         Perfect for growing businesses that need <br />
                         advanced workforce management
@@ -1497,13 +1505,13 @@
                     </div>
 
                     <div class="d-flex align-items-center gap-3">
-                      <h2>₹{{selectedSubscriptionPlans.amount}}</h2>
+                      <h2>₹{{selectedSubscriptionPlan.amount}}</h2>
                       <div>
-                        <h3 class="mb-0" *ngIf="selectedSubscriptionPlans.isYearly==1">₹{{selectedSubscriptionPlans.amount + selectedSubscriptionPlans.discountAmount}}</h3>
+                        <h3 class="mb-0" *ngIf="selectedSubscriptionPlan.isYearly==1">₹{{selectedSubscriptionPlan.amount + selectedSubscriptionPlan.discountAmount}}</h3>
                         <h5 class="font-18">month/per employee</h5>
 
-                        <p *ngIf="selectedSubscriptionPlans.isYearly==1">
-                          <span><b>15% off</b></span> with annual contract
+                        <p *ngIf="selectedSubscriptionPlan.isYearly==1">
+                          <span><b>30% off</b></span> with annual contract
                         </p>
                       </div>
                     </div>
@@ -1518,8 +1526,8 @@
                           type="radio"
                           name="exampleRadios"
                           id="exampleRadios{{i}}"
-                          [checked]="typeByPlan.id == selectedSubscriptionPlans.id"
-                          
+                          [checked]="typeByPlan.id == selectedSubscriptionPlan.id"
+                          (change)="selectPlanPeriodically(typeByPlan)"
                         />
                       </div>
                       <div *ngIf="typeByPlan.isMonthly==1">
@@ -1529,7 +1537,7 @@
                       <div  *ngIf="typeByPlan.isYearly==1">
                         <h5 class="mb-1 font-18" >Annual Plan</h5>
                         <p class="mb-0">
-                          <span class="text-primary"><b>20% off</b> </span> On
+                          <span class="text-primary"><b>30% off</b> </span> On
                           Yearly Plan
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -1582,7 +1590,8 @@
                       </div>
                       <span class="separator"></span>
                       <h4 class="mb-0">
-                        <span class="text-primary">₹1180</span>
+                        <span class="text-primary" *ngIf="typeByPlan.isYearly==1">₹{{annualAmount}}</span>
+                        <span class="text-primary" *ngIf="typeByPlan.isMonthly==1">₹{{monthlyAmount}}</span>
                       </h4>
                     </div>
                   </label>
@@ -1647,18 +1656,13 @@
                         <div>
                           <h5 class="font-18 mb-1">GST Number</h5>
                           <p class="mb-0 font-14">
-                            Please enter a valid 12-digit GST number.
+                            Please enter a valid 15-digit GST number.
                           </p>
                         </div>
                         <div>
-                          <input
-                            type="text"
-                            class="form-control employee-count-form text-center verified-gst"
-                            placeholder="Enter GST Number"
-                            name="employee-count"
-                            pattern="^[0-9]{10}$"
-                            required
-                          />
+                          <input type="text" class="form-control employee-count-form text-center" id="gst" name="gst" minlength="15" 
+                          [ngClass]="{'verified-gst':isVerified}" maxlength="15"  placeholder="Enter GST Number" [(ngModel)]="gstNumber" #gstnumber="ngModel"
+                          oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/g,'').replace(/(\..*)\./g, '$1');" (keyup)="checkGst()">
                         </div>
                       </div>
   
@@ -1667,12 +1671,11 @@
                         *ngIf="isVerified">
                         <div style="width: 70%">
                           <p class="mb-1 font-16">Name</p>
-                          <h5 class="mb-3 font-18">Barbeque Nation - M3M IFC</h5>
+                          <h5 class="mb-3 font-18">{{gstResponse.tradeName}}</h5>
   
                           <p class="mb-1 font-16">Address</p>
                           <h5 class="mb-0 font-18 gst-address">
-                            2nd Floor, M3M International Financial Center,
-                            Badshahpur, Sector 66, Gurugram, Haryana 122002
+                           {{gstResponse.fullAddress}}
                           </h5>
                         </div>
   
@@ -1775,23 +1778,23 @@
                   class="d-flex align-items-center justify-content-between pt-2 pb-2"
                 >
                   <h5 class="font-16">No of Employee</h5>
-                  <h5 class="font-16">37</h5>
+                  <h5 class="font-16">{{employeeCount}}</h5>
                 </div>
                 <div
                   class="d-flex align-items-center justify-content-between pt-2 pb-2"
                 >
                   <h5 class="font-16">Amount</h5>
-                  <h5 class="font-16">3</h5>
+                  <h5 class="font-16">{{subAmount | number : '1.2-2'}}</h5>
                 </div>
                 <div
                   class="d-flex align-items-center justify-content-between pt-2 pb-2"
                 >
                   <h5 class="font-16">Tax</h5>
-                  <h5 class="font-16">3</h5>
+                  <h5 class="font-16">18%</h5>
                 </div>
                 <div
                   class="d-flex align-items-center justify-content-between pt-2 pb-2"
-                >
+                  *ngIf="couponDiscount>0">
                   <h5 class="font-16">Coupon</h5>
                   <h5 class="font-16">34%off</h5>
                 </div>
@@ -1799,22 +1802,25 @@
                   class="d-flex align-items-center justify-content-between pt-2 pb-2"
                 >
                   <h5 class="font-16">Tax Amount</h5>
-                  <h5 class="font-16">₹1249</h5>
+                  <h5 class="font-16">{{taxAmount | number : '1.2-2' }}</h5>
                 </div>
-
+                <div
+                class="d-flex align-items-center justify-content-between pt-2 pb-2"
+              >
+                <h5 class="font-16">Round off</h5>
+                <h5 class="font-16">- {{roundOffAmount | number : '1.2-2'}}</h5>
+              </div>
                 <div
                   class="d-flex align-items-center justify-content-between pt-3 pb-2 border-top"
                 >
                   <h5 class="text-primary font-16">Total Amount</h5>
-                  <h5 class="text-primary font-16">₹1249</h5>
+                  <h5 class="text-primary font-16">₹{{payableAmount}}</h5>
                 </div>
               </div>
             </div>
             <button
-              class="btn w-100 text-white proceed-payment mt-3"
-              data-bs-toggle="modal"
-              data-bs-target="#munal-upload"
-            >
+              class="btn w-100 text-white proceed-payment mt-3" [disabled]="payableAmount == undefined || payableAmount == null || payableAmount == 0"
+            (click)="activatePlan()">
               Proceed To Payment
             </button>
           </div>

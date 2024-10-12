@@ -251,6 +251,7 @@ export class Key {
   get_subscription_plans = '/subscription/plan';
   get_current_subscription_plan='/subscription/current';
   get_subscription_plan_light_detail='/subscription/plan/detail';
+  verify_gst_number='/subscription/gst'
 
   //user notification
   get_notification = '/user-notification';
@@ -355,8 +356,8 @@ export class Key {
 
   // RazorPay Key
 
-  // public static razorKey =  'rzp_test_Wd1RYd0fng3673'; // Test
-  public static razorKey = 'rzp_live_twiokSC5krYrnQ'; // Live
+  public static razorKey =  'rzp_test_Wd1RYd0fng3673'; // Test
+  // public static razorKey = 'rzp_live_twiokSC5krYrnQ'; // Live
   //
   public static ENABLE = 1;
   public static DISABLE = 2;
