@@ -10,6 +10,7 @@ export class LeaveTemplateRequest {
     leaveTemplateCategoryRequestList : LeaveTemplateCategoryRequest[] = [];
     // userUuidList : String[] = [];
     userIds : number[] = [];
+    // deselectUserIds : number[] = [];
     deselectUserIds : number[] = [];
 
     gender: string = 'All';

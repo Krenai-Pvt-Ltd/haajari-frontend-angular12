@@ -37,7 +37,7 @@
         </div>
       </div>
 
-      <div *ngIf="leaveTemplates.length == 0" class="row leave-management-settings p-3 mt-2 align-items-center">
+      <div *ngIf="leaveTemplates.length == 0 && !isLoading" class="row leave-management-settings p-3 mt-2 align-items-center">
         <div class="col-md-6">
           <div class="leave-management-detail pt-5 pb-5">
             <h3 class="mb-3">
@@ -82,11 +82,11 @@
         </div>
       </div>
 
-      <div *ngIf="leaveTemplates.length > 0" class="row mt-2">
+      <div  class="row mt-2">
         <div class="col-md-4 mt-3 mb-3" *ngIf="
             (!leaveSettingPlaceholder && !isLeaveErrorPlaceholder) || isLoading
           ">
-          <div class="form-roe-data">
+          <div *ngIf="leaveTemplates.length > 0 && !isLoading" class="form-roe-data">
             <h5>Leave Settings</h5>
             <p>This will be displayed on your profile.</p>
           </div>
@@ -280,9 +280,8 @@
               </div>
             </div>
           </div>
-          <div class="add-shift-main-box" *ngIf="
-              !leaveSettingPlaceholder && !isLeaveErrorPlaceholder && !isLoading
-            ">
+          <div class="add-shift-main-box" *ngIf="leaveTemplates.length > 0  && !leaveSettingPlaceholder && !isLeaveErrorPlaceholder && !isLoading">
+
             <div class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2">
               <div class="">
                 <h6 class="text-truncate mb-0">Leave</h6>
@@ -297,7 +296,7 @@
                 </a>
               </div>
             </div>
-            <div class="shift-time p-3 m-3" *ngFor="let newLeaveSetting of leaveTemplates; let i = index">
+            <div  class="shift-time p-3 m-3" *ngFor="let newLeaveSetting of leaveTemplates; let i = index">
               <div class="">
                 <div class="d-flex align-items-center justify-content-between">
                   <div class="d-flex align-items-center gap-3">
