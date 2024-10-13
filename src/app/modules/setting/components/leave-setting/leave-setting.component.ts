@@ -2290,6 +2290,8 @@ export class LeaveSettingComponent implements OnInit {
     );
 
     this.leaveTemplateRequest.userIds = [...this.selectedStaffIds, ...this.selectedStaffIdsUser];
+    this.leaveTemplateRequest.deselectUserIds = this.deSelectedStaffIdsUser;
+    
   }
 
 
@@ -2350,7 +2352,9 @@ export class LeaveSettingComponent implements OnInit {
       this.leaveTemplateRequest.id = 0
       this.selectedStaffIdsUser = []
 
-      this.templateSettingTab1.nativeElement.click();
+      this.emptyAddLeaveSettingRule();
+
+      // this.templateSettingTab1.nativeElement.click(); right now
 
 
       this.editToggle = false;
@@ -2405,7 +2409,7 @@ export class LeaveSettingComponent implements OnInit {
 
       this.isLoading = false;
       this.leaveTemplates = response.object;
-      // console.log('leaveTemplates: ',this.leaveTemplates)
+      console.log('leaveTemplates: ',this.leaveTemplates)
     });
   }
 
@@ -2422,7 +2426,7 @@ export class LeaveSettingComponent implements OnInit {
   }
 
   allselected: boolean = false;
-  selectAll1(event: any) {
+  selectAllEmployee(event: any) {
     if (!this.allselected) {
       this.staffs.forEach((element) => {
         this.selectedStaffIdsUser.push(element.id);
@@ -2439,7 +2443,7 @@ export class LeaveSettingComponent implements OnInit {
     // console.log('all Ids: ',this.selectedStaffIdsUser)
   }
 
-  selectSingle(event: any, i: any) {
+  selectSingle1(event: any, i: any) {
     debugger
     if (event.checked) {
       this.allselected = false;
@@ -2459,6 +2463,47 @@ export class LeaveSettingComponent implements OnInit {
     }
 
     console.log('selIds: ', this.selectedStaffIdsUser)
+    // console.log('staff is: ',this.staffs)
+  }
+
+  deSelectedStaffIdsUser: number[] = [];
+  selectSingle(event: any, i: any) {
+    debugger
+    if (event.checked) {
+      this.allselected = false;
+      // this.selecteduser
+      this.deSelectedStaffIdsUser.push(event.id)
+
+      this.staffs[i].checked = false;
+      var index = this.selectedStaffIdsUser.indexOf(event.id);
+      this.selectedStaffIdsUser.splice(index, 1);
+
+      console.log('deSelectedStaffIdsUser: ', this.deSelectedStaffIdsUser)
+
+    } else {
+      this.staffs[i].checked = true;
+      this.selectedStaffIdsUser.push(event.id);
+
+      // if (this.selectedStaffIdsUser.length == this.staffs.length) {
+      //   this.allselected = true;
+      // }
+
+      if (this.deSelectedStaffIdsUser.includes(event.id)) {
+        const index = this.deSelectedStaffIdsUser.indexOf(event.id);
+        if (index > -1) {
+            this.deSelectedStaffIdsUser.splice(index, 1);
+        }
+    }
+
+    if (this.selectedStaffIdsUser.length == this.staffs.length) {
+      this.allselected = true;
+    }
+
+      console.log('selectedIds: ', this.selectedStaffIdsUser)
+      console.log('del: ', this.deSelectedStaffIdsUser)
+    }
+
+    
     // console.log('staff is: ',this.staffs)
   }
 
