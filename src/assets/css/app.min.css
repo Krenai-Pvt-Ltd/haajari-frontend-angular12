@@ -7818,8 +7818,8 @@ input.add-file-input {
 
 .met-profile .met-profile-main .met-profile-main-pic {
   position: relative;
-  max-width: 70px;
-  max-height: 70px;
+  /* max-width: 70px;
+  max-height: 70px; */
   margin-right: 15px;
 }
 
