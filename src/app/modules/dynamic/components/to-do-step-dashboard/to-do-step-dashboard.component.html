@@ -181,8 +181,8 @@
                   </div>
 
                   <h6>
-                    {{ stepsData?.totalCompletedSteps }}/{{
-                      stepsData?.totalSteps
+                    {{ stepsData?.totalCompletedSteps || 0 }}/{{
+                      stepsData?.totalSteps || 0
                     }}
                     Steps Completed
                   </h6>
