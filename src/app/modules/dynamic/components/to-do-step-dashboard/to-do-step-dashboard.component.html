@@ -21,6 +21,7 @@
                   class="rightBoxImage"
                 />
               </div>
+             
               <div class="row align-items-center">
                 <div class="col-md-7">
                   <div class="videoIntro">
@@ -180,8 +181,8 @@
                   </div>
 
                   <h6>
-                    {{ stepsData?.totalCompletedSteps }}/{{
-                      stepsData?.totalSteps
+                    {{ stepsData?.totalCompletedSteps || 0 }}/{{
+                      stepsData?.totalSteps || 0
                     }}
                     Steps Completed
                   </h6>

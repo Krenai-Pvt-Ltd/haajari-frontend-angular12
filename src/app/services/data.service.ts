@@ -431,7 +431,8 @@ export class DataService {
     search: string,
     searchBy: string,
     leaveSettingId: number,
-    teamId: number
+    teamId: number,
+    selectedStaffIdsUser: any
   ): Observable<any> {
     const params = new HttpParams()
       .set('item_per_page', itemPerPage.toString())
@@ -441,7 +442,8 @@ export class DataService {
       .set('search', search)
       .set('search_by', searchBy)
       .set('leave_setting_id', leaveSettingId)
-      .set('team_id', teamId);
+      .set('team_id', teamId)
+      .set('userIds', selectedStaffIdsUser);
     return this.httpClient.get<any>(
       `${this.baseUrl}/users/get/by-filters-leave-setting`,
       { params }
@@ -3719,11 +3721,10 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/checktime/list`, {params});
   }
 
-  sendAttendanceTimeUpdateRequest(userId: string, attendanceTimeUpdateRequestDto: AttendanceTimeUpdateRequestDto, requestType: string, choosenDateString: string): Observable<any> {
-    const params = new HttpParams()
-    .set('userUuid', userId).set('requestType', requestType).set('choosenDateString', choosenDateString);
-    const url = `${this.baseUrl}/attendance/send/attendance/update/request`;
-    return this.httpClient.post<any>(url, attendanceTimeUpdateRequestDto, {params});
+  sendAttendanceTimeUpdateRequest(attendanceTimeUpdateRequestDto: AttendanceTimeUpdateRequestDto): Observable<any> {
+
+    const url = `${this.baseUrl}/attendance/request-update`;
+    return this.httpClient.post<any>(url, attendanceTimeUpdateRequestDto, {});
   }
 
 
@@ -3770,9 +3771,11 @@ getHolidayForOrganization(date: string): Observable<any>{
      return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/attendance/existance/status`, {params});
   }
 
-  getAttendanceRequestCount(): Observable<any>{
+  getAttendanceRequestCount(startDate : string, endDate : string): Observable<any>{
+    const params = new HttpParams()
+    .set('start_date', startDate).set('end_date', endDate);
 
-    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/attendance/request/count`);
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/attendance/request/count`, {params});
   }
 
   approveOrRejectAttendanceRequest(attendanceReqId: number, requestString: string): Observable<any> {

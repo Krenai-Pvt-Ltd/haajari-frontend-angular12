@@ -227,7 +227,6 @@ export class Key {
   public static DEMO_ORGANIZATION_UUID = '8d3cc5c2-21a7-11ef-98b2-0a3b903b1973';
 
 
-
   //subscription plan
   get_subscription = '/subcription-plan';
   get_active_user_count = '/users/active-user-count';

@@ -798,6 +798,11 @@ export class CompanySettingComponent implements OnInit {
       }
     );
   }
+
+  triggerFileInput() {
+    const fileInput = document.getElementById('hrpolicies') as HTMLInputElement;
+    fileInput.click(); 
+}
 }
 
 

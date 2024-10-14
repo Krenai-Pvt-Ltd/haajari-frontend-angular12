@@ -6,9 +6,11 @@ export class UserLeaveRequest {
     dayShift: boolean = false; // Initialize to false
     eveningShift: boolean = false; // Initialize to false
     leaveType!: string;
+    // leaveType!: any;
     uuid!: string;
     status!: string;
     managerId!: number;
     optNotes!: string;
+    userLeaveTemplateId!: number;
   }
   
