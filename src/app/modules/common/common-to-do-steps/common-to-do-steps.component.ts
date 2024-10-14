@@ -12,7 +12,6 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 export class CommonToDoStepsComponent implements OnInit {
 
   constructor(private dataService :DataService, private router : Router, private helperService:HelperService, private rbacService: RoleBasedAccessControlService) { 
-
     this.isToDoStepsCompletedData();
   }
 
@@ -21,7 +20,6 @@ export class CommonToDoStepsComponent implements OnInit {
     debugger
     this.helperService.todoStepsSubject.subscribe(
       (res)=>{
-        console.log(res)
         if(res ){
           // this.saveOrgSecondaryToDoStepBarData(0);
           // this.getOrgSecondaryToDoStepBarData();
@@ -34,6 +32,7 @@ export class CommonToDoStepsComponent implements OnInit {
           this.isToDoStepsCompletedData();
           if(this.isToDoStepsCompletedFlag == 1) {
             // console.log(this.isTo)
+            this.dataService.isToDoStepCompleted=1;
             this.stepCompletionModal.nativeElement.click();
           }
           }
@@ -216,6 +215,7 @@ export class CommonToDoStepsComponent implements OnInit {
   }
 
   routeToDashboard() {
+    this.dataService.step=5;
     this.router.navigate(['/dashboard']);
   }
 
