@@ -258,7 +258,64 @@ export class AttendanceModeComponent implements OnInit {
 
   @ViewChild('placesRef') placesRef!: GooglePlaceDirective;
 
+  checkLocationAccess(){
+    navigator.permissions.query({ name: 'geolocation' })
+    .then( (PermissionStatus) => {
+      if (PermissionStatus.state == 'granted') {
+        if (Key.GEOLOCATION in navigator) {
+          navigator.geolocation.getCurrentPosition((position) => {
+            
+           
+          },
+          (error) => {
+            
+          },
+          {
+            enableHighAccuracy: true,  // Precise location
+          maximumAge: 0              // Prevent cached locations
+          }
+          );
+        }
+      } else {
+        this.requestPermission();
+      } 
+    
+    });
+
+  }
+  requestPermission(){
+    window.alert('To enable Location Services and allow the site to determine your location, click the location icon in the address bar and select "Always allow.');  
+    if (Key.GEOLOCATION in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+        },
+        (error) => {
+          if (error.code === error.PERMISSION_DENIED) {
+            window.alert('To enable Location Services and allow the site to determine your location, click the location icon in the address bar and select "Always allow.');  
+
+          //  this.requestPermission();
+          navigator.permissions.query({name:'geolocation'})
+            console.error('User denied the request for Geolocation.');
+          } else if (error.code === error.POSITION_UNAVAILABLE) {
+            console.error('Location information is unavailable.');
+          } else if (error.code === error.TIMEOUT) {
+            console.error('The request to get user location timed out.');
+          } else {
+            console.error('An unknown error occurred.');
+          }
+        },
+        {
+          enableHighAccuracy: true,  // Precise location
+          maximumAge: 0              // Prevent cached locations
+        }
+      );
+    }else{
+     window.alert("Geolocation is not supported by this browser.");
+    }
+  }
+
   public handleAddressChange(e: any) {
+    this.checkLocationAccess();
     debugger;
     var id = this.organizationAddressDetail.id;
     this.organizationAddressDetail = new OrganizationAddressDetail();
