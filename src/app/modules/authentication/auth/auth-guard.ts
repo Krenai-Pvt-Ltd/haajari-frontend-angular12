@@ -51,39 +51,22 @@ export class AuthGuard implements CanActivate {
     this.ROLE = await this.rbacService.getRole();
     this.PLAN_PURCHASED =
     this.ONBOARDING_STEP = await this.rbacService.getOnboardingStep();
-    await this.isToDoStepsCompletedData();
 
-    this._onboardingService.getOrgOnboardingStep().subscribe((response: any) => {
-       this.step = parseInt(response?.object?.step);
-      console.log("step count" + this.step);
-    });
 
+    await this.isOnboardingCompleted();
     if (this.step < 5) {
-      this.router.navigate(['organization-onboarding/personal-information']);
+      this.router.navigate(['/organization-onboarding/personal-information']);
       return false;
     }
-    // if (this.isOrganizationOnboarded(this.ONBOARDING_STEP)) {
-    //   console.log(this.ONBOARDING_STEP);
-    //   this.router.navigate(['/dashboard']);
-    // } else {
-    //   console.log(this.ONBOARDING_STEP);
-    //   this.router.navigate(['/organization-onboarding/personal-information']);
-    // }
-// if(role+todo incopplete(){
-//   this.router.navigate(['/roo']);
-//   return false;
-// }
-debugger
-console.log("this.ROLE",this.ROLE,"----",this.isToDoStepsCompleted )
+    
+    await this.isToDoStepsCompletedData();
+
    if(this.ROLE == 'ADMIN' && this.isToDoStepsCompleted == 0 && route!.routeConfig!.path == 'dashboard') {
-    console.log("redirecting from guaRD")
     this.router.navigate(['/to-do-step-dashboard']);
     return false;
    }
     await this.rbacService.isUserInfoInitializedMethod();
     if (route !== null && route.routeConfig !== null) {
-      console.log(!this.rbacService.shouldDisplay('dashboard') ,
-    route.routeConfig.path == 'dashboard');
       if (
           !this.rbacService.shouldDisplay('dashboard') &&
         route.routeConfig.path == 'dashboard'
@@ -212,4 +195,19 @@ console.log("this.ROLE",this.ROLE,"----",this.isToDoStepsCompleted )
     });
   }
 
+  isOnboardingCompleted():Promise<any> {
+    return new Promise((resolve, reject) => {
+      this._onboardingService.getOrgOnboardingStep().subscribe((response: any) => {
+        this.step = parseInt(response?.object?.step);
+        resolve(response);
+        
+     },
+     (error: any) => {
+      resolve(true);
+    }
+     );
+    });
+    
+
+  }
 }
