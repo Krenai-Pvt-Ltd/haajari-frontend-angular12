@@ -144,6 +144,8 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
             if(this.searchText == '' && response.count <1) {
               this.isMainPlaceholder = true;
+            }else {
+              this.isMainPlaceholder = false;
             }
             if (this.users == null) {
               this.users = [];
