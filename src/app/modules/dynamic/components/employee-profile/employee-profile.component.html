@@ -4752,16 +4752,6 @@
           <div *ngIf="attendanceRequestType === 'UPDATE'" formGroupName="updateGroup">
             <!-- Additional fields for UPDATE -->
             <div class="mb-3 row">
-              <label for="requestedDate" class="col-sm-4 col-form-label">Date<span class="text-danger">*</span></label>
-              <div class="col-sm-8">
-                <nz-date-picker formControlName="requestedDate" id="requestedDate" nzFormat="yyyy-MM-dd"
-                  (ngModelChange)="onDateChange($event); getHolidayForOrganization(requestedDate)" class="w-100" [nzDisabledDate]="disabledDate"></nz-date-picker>
-
-                  <small class="text-danger d-block mt-2" *ngIf="checkHoliday">There was holiday on selected date!</small>
-              </div>
-            </div>
-
-            <div class="mb-3 row">
               <label for="requestType" class="col-sm-4 col-form-label">Type<span class="text-danger">*</span></label>
               <div class="col-sm-8">
                 <nz-select formControlName="requestType" id="requestType" nzPlaceHolder="Select request type" class="w-100">
@@ -4773,6 +4763,16 @@
               </div>
             </div>
             
+            <div class="mb-3 row">
+              <label for="requestedDate" class="col-sm-4 col-form-label">Date<span class="text-danger">*</span></label>
+              <div class="col-sm-8">
+                <nz-date-picker formControlName="requestedDate" id="requestedDate" nzFormat="yyyy-MM-dd"
+                  (ngModelChange)="onDateChange($event); getHolidayForOrganization(requestedDate)" class="w-100" [nzDisabledDate]="disabledDate"></nz-date-picker>
+
+                  <small class="text-danger d-block mt-2" *ngIf="checkHoliday">There was holiday on selected date!</small>
+              </div>
+            </div>
+
             <div class="mb-3 row">
               <label for="attendanceId" class="col-sm-4 col-form-label">Time<span class="text-danger">*</span></label>
               <div class="col-sm-8">

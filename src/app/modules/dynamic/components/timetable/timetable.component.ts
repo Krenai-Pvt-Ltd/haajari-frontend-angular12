@@ -1026,14 +1026,12 @@ getAttendanceRequestsData() {
 });
 }
 
-attendanceRequestCount!: number;
-
+attendanceRequestCount: number = 0;
 getAttendanceRequestsDataCount(): void {
   debugger
-  this.dataService.getAttendanceRequestCount().subscribe(
+  this.dataService.getAttendanceRequestCount(this.startDate, this.endDate).subscribe(
     (response: any) => {
       this.attendanceRequestCount = response.object; 
-      // console.log('requests retrieved successfully', this.attendanceRequestCount);
     },
     (error) => {
       console.log(error);
@@ -1162,6 +1160,7 @@ approveOrReject(id:number, reqString: string) {
   this.pageNumberAttendanceRequest = 1; 
   this.attendanceRequests = []; 
   this.getAttendanceRequestsData();
+  this.getAttendanceRequestsDataCount();
   this.pageNumberFullAttendanceRequest = 1;
   this.fullAttendanceRequestCount = 0;
   this.attendanceFullRequestLog = [];
@@ -1211,6 +1210,7 @@ approveOrReject(id:number, reqString: string) {
       this.getAttendanceRequestsData();
       this.getAttendanceRequestsHistoryData();
       this.getFullAttendanceRequestLogData();
+      this.getAttendanceRequestsDataCount();
     }
   }
 

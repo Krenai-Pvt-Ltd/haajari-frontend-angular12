@@ -3785,9 +3785,11 @@ getHolidayForOrganization(date: string): Observable<any>{
      return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/attendance/existance/status`, {params});
   }
 
-  getAttendanceRequestCount(): Observable<any>{
+  getAttendanceRequestCount(startDate : string, endDate : string): Observable<any>{
+    const params = new HttpParams()
+    .set('start_date', startDate).set('end_date', endDate);
 
-    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/attendance/request/count`);
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/attendance/request/count`, {params});
   }
 
   approveOrRejectAttendanceRequest(attendanceReqId: number, requestString: string): Observable<any> {

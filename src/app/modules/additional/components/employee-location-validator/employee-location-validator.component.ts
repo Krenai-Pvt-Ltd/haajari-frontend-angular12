@@ -210,7 +210,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
   // }
 
   calculateDistance() {
-    console.log("calculate distance called",this.organizationAddressDetails)
+    // console.log("calculate distance called",this.organizationAddressDetails)
     this.enableSubmitToggle = false;
 
     const userLatLng = new google.maps.LatLng(this.lat, this.lng);
@@ -220,7 +220,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
         const organizationLatLng = new google.maps.LatLng(Number(addressDetail.latitude), Number(addressDetail.longitude));
         const distance = google.maps.geometry.spherical.computeDistanceBetween(userLatLng, organizationLatLng);
 
-        console.log(distance + '---' + addressDetail.radius);
+        // console.log(distance + '---' + addressDetail.radius);
         if (distance <= addressDetail.radius) {
             isWithinAnyLocation = true;
             this.attendanceMode = addressDetail.attendanceMode;
@@ -304,7 +304,8 @@ export class EmployeeLocationValidatorComponent implements OnInit {
             );
             this.toggle = true;
 
-            if(response.onboardingVia == 'WHATSAPP') {
+          
+            if(response.onboardingVia == 'WHATSAPP' || !response.onboardingVia || response.onboardingVia== null ) {
             window.location.href =
               'https://api.whatsapp.com/send/?phone=918700822872&type=phone_number&app_absent=0';
             } else if(response.onboardingVia == 'SLACK'){
