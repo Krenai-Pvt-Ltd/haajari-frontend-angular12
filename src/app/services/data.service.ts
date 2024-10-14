@@ -4068,6 +4068,9 @@ getHolidayForOrganization(date: string): Observable<any>{
     );
   }
 
+  step!: number;
+  isToDoStepCompleted !: number;
+
   isToDoStepsCompleted(): Observable<any> {
     debugger
     return this.httpClient.get<any>(
