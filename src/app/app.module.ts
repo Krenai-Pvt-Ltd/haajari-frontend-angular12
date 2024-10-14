@@ -30,8 +30,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { BillAndSubscriptionComponent } from './modules/sharable/bill-and-subscription/bill-and-subscription.component';
-
-
+import { HeaderComponent } from './modules/common/header/header.component';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
 
 // import { OnboardingSidebarResponse } from './models/onboarding-sidebar-response';
 
@@ -44,6 +44,7 @@ import { BillAndSubscriptionComponent } from './modules/sharable/bill-and-subscr
     UnauthorizedComponent,
     ConfirmationDialogComponent,
     BillAndSubscriptionComponent,
+    HeaderComponent,
 
     // AuthenticationComponent,
   ],
@@ -70,7 +71,7 @@ import { BillAndSubscriptionComponent } from './modules/sharable/bill-and-subscr
     MatDialogModule,
     MatButtonModule,
     NzSwitchModule,
-
+    NzPopoverModule,
     // OnboardingSidebarResponse
 
     // CalendarModule.forRoot({

@@ -13,7 +13,7 @@
           searchTeamPlaceholderFlag
         "
       >
-        <div class="col-md-12">
+        <div class="col-md-12 mt-4">
           <div
             class="d-flex align-items-center"
             style="border: 1px solid #f1f1f1"
@@ -51,11 +51,11 @@
                     *ngIf="searchText == ''"
                   ></i>
                   <i
-                  class="bi bi-x search-icon"
-                  style="margin: auto; margin-left: 10px"
-                  (click)="reloadPage()"
-                  *ngIf="searchText != ''"
-                ></i>
+                    class="bi bi-x search-icon"
+                    style="margin: auto; margin-left: 10px"
+                    (click)="reloadPage()"
+                    *ngIf="searchText != ''"
+                  ></i>
                 </div>
               </form>
             </div>
@@ -246,7 +246,7 @@
         <div class="col-md-4"></div>
         <div class="col-md-4"></div>
       </div>
-      <div
+      <!-- <div
         class="row app-emptiy-notifaction"
         *ngIf="!isShimmer && total == 0 && searchTeamPlaceholderFlag"
       >
@@ -264,9 +264,23 @@
             <img src="assets/images/empty-2.png" style="width: 100%" />
           </div>
         </div>
+      </div> -->
+
+      <div
+        class="empty-file"
+        style="margin-top: 15%"
+        *ngIf="!isShimmer && total == 0 && searchTeamPlaceholderFlag"
+      >
+        <nz-empty
+          nzNotFoundImage="assets/images/no-data-found-img.svg"
+          [nzNotFoundContent]="contentTpl"
+        >
+          <ng-template #contentTpl>
+            <p class="mb-1 empty-detail font-16">Team not found</p>
+          </ng-template>
+        </nz-empty>
       </div>
-      <!-- (click)="getFlagOfSlackPlaceholder()" -->
-      <!-- TO DO -->
+
       <div>
         <div class="errorboxmain" *ngIf="errorToggleTeam && !showNotification">
           <div class="errorboxinner text-center">
