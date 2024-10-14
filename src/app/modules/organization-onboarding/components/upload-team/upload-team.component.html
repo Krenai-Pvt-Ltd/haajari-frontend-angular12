@@ -1191,10 +1191,11 @@
                     class="total-people mt-4 d-flex align-items-center justify-content-between"
                   >
                     <h5 class="mb-0 alert-heading text-white font-16">
-                      {{ userList.length - 1 }} People
+                      {{ userList.length}} People
                     </h5>
+                    <!-- {{ userList.length - 1}} People -->
                     <span
-                      *ngIf="!showUserList && userList.length > 1"
+                      *ngIf="!showUserList && userList.length > 0"
                       class="font-14 pointer"
                       style="font-weight: 500"
                       ngIg="viewMore"
@@ -1248,10 +1249,56 @@
             <!-- {{showUserList}} -->
             <div class="p-3 bg-white" *ngIf="showUserList">
               <div class="manualemployList">
+                <div class="d-flex align-items-center justify-content-between"
+              > 
+               
+              <div class="d-flex align-items-center gap-3">
+                <div>
+                  <span class="userName">{{
+                    adminUser.name.charAt(0).toUpperCase()
+                  }}</span>
+                </div>
+                <div>
+                  <h5 class="alert-heading font-13 mb-1">
+                    {{ adminUser.name }}
+                  </h5>
+                  <div class="d-flex align-items-center gap-2">
+                    <p class="mb-0 font-11">
+                      {{ adminUser.email || "N/A" }}
+                    </p>
+                    <span class="error-spreter"></span>
+                    <p class="mb-0 font-11">{{ adminUser.phoneNumber || "N/A"}}</p>
+                  </div>
+                </div>
+               </div> 
+                <div>
+                  <span class="admin pointer">Admin</span>
+                </div>
+              </div>
                 <div
                   class="d-flex align-items-center justify-content-between persnol-details userList p-0 pt-3 pb-1"
                   *ngFor="let user of userList | slice : 0 : -1; let i = index"
-                >
+                > 
+                 <!-- {{ i }}  entry ii  -->
+                <!-- <div class="d-flex align-items-center gap-3" *ngIf="i== 0">
+                  <div>
+                    <span class="userName">{{
+                      adminUser.name.charAt(0).toUpperCase()
+                    }}</span>
+                  </div>
+                  <div>
+                    <h5 class="alert-heading font-13 mb-1">
+                      {{ adminUser.name }}
+                    </h5>
+                    <div class="d-flex align-items-center gap-2">
+                      <p class="mb-0 font-11">
+                        {{ adminUser.email || "N/A" }}
+                      </p>
+                      <span class="error-spreter"></span>
+                      <p class="mb-0 font-11">{{ adminUser.phoneNumber }}</p>
+                    </div>
+                  </div>
+                 </div> -->
                   <div class="d-flex align-items-center gap-3">
                     <div>
                       <span class="userName">{{
@@ -1352,9 +1399,9 @@
                 </div>
                 <div class="col-md-12">
                   <div class="mb-3">
-                    <label class="mb-2"
-                      >Phone Number <span class="text-optional">*</span></label
-                    >
+                    <label class="mb-2">
+                      Phone Number <span class="text-optional">*</span>
+                    </label>
                     <input
                       type="tel"
                       name="userPhone{{ i }}"
@@ -1368,31 +1415,32 @@
                       (input)="restrictToDigits($event)"
                       required
                     />
+                    <!-- Showing phone existence error first if it exists -->
                     <p
                       *ngIf="userList[i].isPhoneExist"
                       class="error text-danger mt-2 mb-2"
                     >
-                      <i class="bi bi-exclamation-circle"></i> Phone number is
-                      already exist.
+                      <i class="bi bi-exclamation-circle"></i> Phone number already exists.
                     </p>
-                    <div *ngIf="phone?.dirty || isFormInvalid">
+                
+                    <!-- Showing other validation errors only if the phone doesn't already exist -->
+                    <div *ngIf="(phone?.dirty || isFormInvalid) && !userList[i].isPhoneExist">
                       <p
                         class="errortxt mt-2 mb-2 text-danger"
                         *ngIf="phone.errors?.required"
                       >
-                        <i class="bi bi-exclamation-circle"></i> Phone number is
-                        required.
+                        <i class="bi bi-exclamation-circle"></i> Phone number is required.
                       </p>
                       <p
                         class="errortxt mt-2 mb-2 text-danger"
                         *ngIf="phone.errors?.minlength"
                       >
-                        <i class="bi bi-exclamation-circle"></i> Please enter a
-                        valid phone no.
+                        <i class="bi bi-exclamation-circle"></i> Please enter a valid phone number.
                       </p>
                     </div>
                   </div>
                 </div>
+                
                 <div class="col-md-12">
                   <div class="mb-3">
                     <label class="mb-2"

@@ -115,7 +115,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   isUserShimer: boolean = true;
   placeholder: boolean = false;
   errorToggleTop: boolean = false;
-
+  isMainPlaceholder: boolean = false;
   // selectSearchCriteria(option: string) {
   //   this.searchCriteria = option;
   // }
@@ -141,6 +141,10 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           (response: any) => {
             this.users = response.users;
             this.total = response.count;
+
+            if(this.searchText == '' && response.count <1) {
+              this.isMainPlaceholder = true;
+            }
             if (this.users == null) {
               this.users = [];
             }
