@@ -483,7 +483,7 @@ export class LeaveSettingComponent implements OnInit {
 
     }
 
-
+    // this.deleteCategoryToggle = false;
     // console.log('this.displayedCategories: ',this.displayedCategories)
 
   }
@@ -561,12 +561,16 @@ export class LeaveSettingComponent implements OnInit {
     //     accrualTypeId: category.accrualTypeId,
     //     gender: category.gender
     // });
-    console.log('form dataset: ', this.form)
+    console.log('Edit form: ', this.form)
 
   }
 
+  // deleteCategoryToggle: boolean = false;
   deleteCategory(index: number) {
     // this.leaveCategories1.splice(index, 1);
+    // this.editToggle = false; // now added
+    // console.log('Update form before: ', this.form)
+    // this.deleteCategoryToggle = true;
 
     this.leaveCategories1.splice(index, 1);
     this.leaveCategories2.splice(index, 1);
@@ -574,6 +578,7 @@ export class LeaveSettingComponent implements OnInit {
 
     // this.form.reset(); // Clear form fields
     // this.addFormRow();
+    
     if (this.editToggle) {
       if (this.editingIndex !== null) {
         // Update existing entry
@@ -584,7 +589,12 @@ export class LeaveSettingComponent implements OnInit {
 
     // this.leaveCategories1 = 
 
-    this.form.reset();
+    // this.form.reset();  //open it
+
+    // this.form[this.editingIndex].reset();
+    this.categories.removeAt(index);
+
+    // console.log('Update form after: ', this.form)
 
   }
 
@@ -627,9 +637,12 @@ export class LeaveSettingComponent implements OnInit {
 
   clearSearchUsers() {
     debugger;
+    // this.showMappedUserToggle = false;
+    this.pageNumber =1
     this.searchUserPlaceholderFlag = false;
     this.searchText = '';
-    this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
+    // this.getUserByFiltersMethodCall(this.idOfLeaveSetting); now
+    this.showAllUser();
     this.crossFlag = false;
   }
 
@@ -663,7 +676,8 @@ export class LeaveSettingComponent implements OnInit {
           this.searchText,
           '',
           leaveSettingId,
-          this.selectedTeamId
+          this.selectedTeamId,
+          this.selectedUserIds
         )
         .subscribe(
           (response) => {
@@ -739,7 +753,9 @@ export class LeaveSettingComponent implements OnInit {
           this.searchText,
           '',
           leaveSettingId,
-          this.selectedTeamId
+          this.selectedTeamId,
+          this.selectedStaffIdsUser
+          
         )
         .subscribe(
           (response) => {
@@ -887,7 +903,8 @@ export class LeaveSettingComponent implements OnInit {
         this.searchText,
         '',
         this.idOfLeaveSetting,
-        this.selectedTeamId
+        this.selectedTeamId,
+        this.selectedStaffIdsUser
       )
       .toPromise();
 
@@ -1771,9 +1788,12 @@ export class LeaveSettingComponent implements OnInit {
   leaveTemplateCategoryId: number = 0;
   leaveTemplateId: number = 0;
   isLeaveTemplate: boolean = false;
+  leaveAppliedUserCount: number = 0;
   @ViewChild('closeButtonDeleteLeave') closeButtonDeleteLeave!: ElementRef
-  getLeaveTemplateOrCategoryId(id: number, isLeaveTemplate: boolean) {
+  getLeaveTemplateOrCategoryId(id: number, isLeaveTemplate: boolean, leaveAppliedUserCount: number) {
     // this.leaveTemplateCategoryId = id;
+    this.leaveAppliedUserCount = leaveAppliedUserCount;
+
     if (isLeaveTemplate) {
       this.leaveTemplateCategoryId = 0;
       this.leaveTemplateId = id;
@@ -1791,6 +1811,7 @@ export class LeaveSettingComponent implements OnInit {
     this.dataService.deleteLeaveTemplateCategory(this.leaveTemplateCategoryId).subscribe((response: any) => {
       if (response.status) {
         this.leaveTemplateCategoryId = 0;
+        this.leaveAppliedUserCount = 0;
         this.closeButtonDeleteLeave.nativeElement.click()
         this.deleteToggle = false;
         this.getAllLeaveTemplate();
@@ -2026,6 +2047,7 @@ export class LeaveSettingComponent implements OnInit {
     this.employeeTypeId = id;
 
     this.leaveTemplateRequest.employeeTypeId = id;
+    console.log('empId: ',this.leaveTemplateRequest.employeeTypeId)
   }
 
   genders: Array<{ id: number, name: string, value: string }> = []; // Gender options
@@ -2074,10 +2096,12 @@ export class LeaveSettingComponent implements OnInit {
       // Filter based on the selected gender and index
       if (this.selectedGenderId == 2) {
         // Example: Exclude leave category with id 3 for males
+        this.filteredLeaveCategories[i] = [...this.leaveCategoryList];
         this.filteredLeaveCategories[i] = this.filteredLeaveCategories[i].filter((leaveCategory: any) => leaveCategory.id !== 3);
         this.leaveTemplateRequest.gender = 'Male';
       } else if (this.selectedGenderId == 3) {
         // Example: Exclude leave category with id 4 for females
+        this.filteredLeaveCategories[i] = [...this.leaveCategoryList];
         this.filteredLeaveCategories[i] = this.filteredLeaveCategories[i].filter((leaveCategory: any) => leaveCategory.id !== 4);
         this.leaveTemplateRequest.gender = 'Female';
       } else if (this.selectedGenderId == 1) {
@@ -2320,8 +2344,11 @@ export class LeaveSettingComponent implements OnInit {
 
   @ViewChild('templateSettingTab1') templateSettingTab1!: ElementRef;
   @ViewChild('requestLeaveCloseModel1') requestLeaveCloseModel1!: ElementRef;
+  isSubmitted: boolean = true;
   registerLeaveTemplateMethodCall() {
     this.registerToggle = true;
+    this.isSubmitted = false;
+    this.allselected = false;
     this.setFieldsToLeaveTemplateRequest();
 
     console.log('CategoryList: ', this.leaveTemplateRequest.leaveTemplateCategoryRequestList)
@@ -2360,6 +2387,13 @@ export class LeaveSettingComponent implements OnInit {
       this.editToggle = false;
       this.updateToggle = false;
       this.clearSearchUsers()
+
+        // Mark all controls as pristine and untouched to clear validation errors
+    Object.keys(this.leaveTemplateDefinitionForm.controls).forEach((key) => {
+      const control = this.leaveTemplateDefinitionForm.get(key);
+      control?.markAsPristine();
+      control?.markAsUntouched();
+    });
 
       this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
       // this.helperService.showToast('Leave template registered successfully.', Key.TOAST_STATUS_SUCCESS);
@@ -2409,7 +2443,7 @@ export class LeaveSettingComponent implements OnInit {
 
       this.isLoading = false;
       this.leaveTemplates = response.object;
-      console.log('leaveTemplates: ',this.leaveTemplates)
+      // console.log('leaveTemplates: ',this.leaveTemplates)
     });
   }
 
@@ -2478,7 +2512,11 @@ export class LeaveSettingComponent implements OnInit {
       var index = this.selectedStaffIdsUser.indexOf(event.id);
       this.selectedStaffIdsUser.splice(index, 1);
 
-      console.log('deSelectedStaffIdsUser: ', this.deSelectedStaffIdsUser)
+      // console.log('deSelectedStaffIdsUser: ', this.deSelectedStaffIdsUser)
+
+      if(this.selectedStaffIdsUser.length == 0 && this.showMappedUserToggle ){
+        this.showAllUser();
+      }
 
     } else {
       this.staffs[i].checked = true;
@@ -2512,7 +2550,27 @@ export class LeaveSettingComponent implements OnInit {
     this.staffs.forEach((staff, index) => {
       staff.checked = false;
     });
+
+    this.showAllUser();
+
   }
 
+  selectedStaffList: Staff[] = [];
+  selectedUserIds: number[] = [];
+  showMappedUserToggle: boolean = false;
+  showMappedUser(){
+    this.showMappedUserToggle = true;
+    this.selectedUserIds = this.selectedStaffIdsUser
+    // this.selectedStaffList = this.staffs.filter(staff => this.selectedStaffIdsUser.includes(staff.id));
+    this.getUserByFiltersMethodCall(0);
+
+    console.log('sele staff', this.staffs);
+  }
+
+  showAllUser(){
+    this.showMappedUserToggle = false;
+    this.selectedUserIds = []
+    this.getUserByFiltersMethodCall(0);
+  }
 
 }

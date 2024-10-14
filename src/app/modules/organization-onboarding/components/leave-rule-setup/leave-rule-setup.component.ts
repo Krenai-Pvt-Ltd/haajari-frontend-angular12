@@ -172,6 +172,7 @@ export class LeaveRuleSetupComponent implements OnInit {
         this.searchText,
         '',
         leaveSettingId,
+        0,
         0
       )
       .subscribe(
@@ -288,6 +289,7 @@ export class LeaveRuleSetupComponent implements OnInit {
         this.searchText,
         '',
         this.idOfLeaveSetting,
+        0,
         0
       )
       .toPromise();

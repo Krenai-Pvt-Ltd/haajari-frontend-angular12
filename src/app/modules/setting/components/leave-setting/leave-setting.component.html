@@ -335,7 +335,7 @@
                         <i class="bi bi-trash pointer text-danger"></i>Bot
                       </a> -->
                       <a class="delete-rule" data-bs-toggle="modal" data-bs-target="#delete-leave" (click)="
-                          getLeaveTemplateOrCategoryId(newLeaveSetting.id, true)
+                          getLeaveTemplateOrCategoryId(newLeaveSetting.id, true, newLeaveSetting.leaveAppliedUserCount)
                         " *ngIf="!deleteLeaveTemplateLoader(newLeaveSetting.id)">
                         <i class="bi bi-trash pointer text-danger"></i>
                       </a>
@@ -382,7 +382,7 @@
                                 newLeaveSetting.leaveTemplateCategoryRes
                                   .length > 1
                               " data-bs-toggle="modal" data-bs-target="#delete-leave" (click)="
-                                getLeaveTemplateOrCategoryId(category.id, false)
+                                getLeaveTemplateOrCategoryId(category.id, false, newLeaveSetting.leaveAppliedUserCount)
                               " class="bi bi-trash pointer text-danger"></i>
                           </div>
                         </div>
@@ -1295,7 +1295,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="requestLeave">
-          {{ updateToggle ? "Update" : "Create another" }} template
+          {{ updateToggle ? "Update" : "Create New" }} Template
         </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="clearModalData()"
           id="requestLeaveCloseModel1" #requestLeaveCloseModel1></button>
@@ -1370,7 +1370,7 @@
                               placeholder="Enter template name here" nzSize="large" minlength="3" maxlength="50"
                               name="tempNamed" #tempNamed="ngModel" required />
 
-                              <div *ngIf="tempNamed?.touched">
+                              <div *ngIf="tempNamed?.touched && isSubmitted">
                               <label *ngIf="tempNamed.errors?.required" id="cname-error" class="error mt-2 text-danger fw-light"
                                 for="cname">
                                 Template name is required
@@ -1387,7 +1387,7 @@
                               <label for="employeeTypeId" class="pb-2">Employee Type</label>
                               <!-- <nz-form-control nzErrorTip="All"> -->
                                 <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select Employee type"
-                                  [(ngModel)]="employeeTypeId" name="emplTypeId" #emplTypeId="ngModel" required
+                                  [(ngModel)]="employeeTypeId" (ngModelChange)="onEmployeeTypeChange($event)" name="emplTypeId" #emplTypeId="ngModel" required
                                   class="form-control">
                                   <nz-option *ngFor="
                                       let employeeType of employeeTypeList
@@ -1400,7 +1400,7 @@
                                 Employee Type is required.
                               </div> -->
 
-                              <label *ngIf="emplTypeId?.touched && employeeTypeId == 0" class="error mt-2 fw-light text-danger">
+                              <label *ngIf="isSubmitted && emplTypeId?.touched && employeeTypeId == 0" class="error mt-2 fw-light text-danger">
                                 Employee type is required
                               </label>
 
@@ -1423,7 +1423,7 @@
                             </nz-select>
                             <!-- </nz-form-control> -->
 
-                              <label *ngIf="leaveRenewalCycled?.touched && leaveRenewalCycled.errors?.required" class="error mt-2 fw-light text-danger">
+                              <label *ngIf="isSubmitted && leaveRenewalCycled?.touched && leaveRenewalCycled.errors?.required" class="error mt-2 fw-light text-danger">
                                 Leave quota renew cycle is required
                               </label>
 
@@ -1510,7 +1510,7 @@
                               ">
                               <div class="col-md-6 mb-3">
                                 <div class="form-group">
-                                  <label for="genderId" class="pb-2">select gender</label>
+                                  <label for="genderId" class="pb-2">Select Gender</label>
                                   <nz-form-control nzErrorTip="All">
                                     <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select Gender"
                                       formControlName="gender" (ngModelChange)="
@@ -1687,6 +1687,8 @@
                                   Update leave Category
                                 </button>
 
+                                <!-- <button [disabled]="!form.valid" *ngIf="!editToggle" -->
+                                  <!-- [disabled]="!form.valid || deleteCategoryToggle" -->
                                 <button [disabled]="!form.valid" *ngIf="!editToggle"
                                   class="p-0 btn text-primary leave-category" (click)="addFormRow(i)">
                                   <i class="bi bi-plus-lg"></i>
@@ -1721,9 +1723,9 @@
                                       <th class="text-center" style="width: 10%">
                                         Unused Leave Action
                                       </th>
-                                      <th class="text-center" style="width: 10%">
+                                      <!-- <th class="text-center" style="width: 10%">
                                         Leave Action
-                                      </th>
+                                      </th> -->
                                       <th class="text-center" style="width: 10%">
                                         Action
                                       </th>
@@ -1774,15 +1776,16 @@
                                       </td>
                                       <td class="text-center">
                                         <span class="teme-maneger mb-0 table-font-weight">
-                                          {{ category.unusedLeaveName }}</span>
+                                          {{ category.unusedLeaveName }} - {{category.unusedLeaveActionCount != "" ?  category.unusedLeaveActionCount : '0'}}
+                                        </span>
                                       </td>
 
-                                      <td class="text-center">
+                                      <!-- <td class="text-center">
                                         <span class="teme-maneger mb-0 table-font-weight">
                                           {{
                                           category.unusedLeaveActionId
                                           }}</span>
-                                      </td>
+                                      </td> -->
 
                                       <td class="text-center">
                                         <div class="d-flex align-items-center gap-2">
@@ -1878,9 +1881,13 @@
                               Total Employees
                             </p>
 
-                            <p *ngIf="selectedStaffIdsUser.length > 0" class="mapped-user mb-0 font-13">
-                              Mapper
+                            <p *ngIf="!showMappedUserToggle && selectedStaffIdsUser.length > 0" class="mapped-user mb-0 font-13 pointer" (click)="showMappedUser()">
+                              Mapped
                               <span class="text-primary">{{ selectedStaffIdsUser.length }} </span>User
+                            </p>
+
+                            <p *ngIf="showMappedUserToggle && selectedStaffIdsUser.length > 0" class="mapped-user mb-0 font-13 pointer" (click)="showAllUser()">
+                              View All Users
                             </p>
 
                             <span class="separator"></span>
@@ -2105,11 +2112,26 @@
           <img src="/assets/images/delete-img.svg" style="width: 70px" />
         </div>
         <div class="bg-white p-4 text-center">
-          <h5 class="alert-heading font-18 mb-2">
+          <!-- <h5 class="alert-heading font-18 mb-2">
             Are you sure you want to delete <br />
             {{ leaveTemplateId > 0 ? "Leave Template ?" : "Leave Category ?" }}
           </h5>
-          <p class="font-11">You will not be able to recover this</p>
+          <p class="font-11">You will not be able to recover this</p> -->
+          <div *ngIf="leaveAppliedUserCount == 0">
+            <h5 class="alert-heading font-18 mb-2">
+              Are you sure you want to delete <br />
+              {{ leaveTemplateId > 0 ? "Leave Template ?" : "Leave Category ?" }}
+            </h5>
+            <p class="font-11">You will not be able to recover this</p>
+          </div>
+
+          <div *ngIf="leaveAppliedUserCount > 0">
+            <h5 class="alert-heading font-18 mb-2">
+              Are you sure ?
+            </h5>
+            <p class="font-11">There are <b class="font-13">{{leaveAppliedUserCount}}</b> users who have submitted leave applications associated with this template. Deleting the leave 
+              template will permanently remove all related data and cannot be recovered</p>
+          </div>
 
           <div class="mt-4 d-flex align-items-center flex-column">
             <button [disabled]="deleteToggle" class="btn continue-btn" *ngIf="leaveTemplateId > 0"
