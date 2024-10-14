@@ -1140,7 +1140,18 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
     this.dataService.getUserLeaveRequests(this.userId).subscribe(
       (res: any) => {
           this.userLeave = res.object;
+
+          console.log('All userLeave :', this.userLeave)
+
       });
+  }
+
+  tempLeaveType: string =''
+  onLeaveTypeChange(selectedLeave: any): void {
+    debugger
+    // if(selectedLeave == undefined){
+      this.userLeaveRequest.userLeaveTemplateId = selectedLeave ;
+    // console.log('userLeaveTemplate leaveType', this.userLeaveRequest)
   }
 
   selectedStatus!: string;

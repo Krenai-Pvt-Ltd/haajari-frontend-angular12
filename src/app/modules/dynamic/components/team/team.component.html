@@ -36,19 +36,26 @@
                     style="padding: 10px 35px"
                   />
 
-                  <button
+                  <!-- <button
                     type="button"
                     class="btn close-btn"
                     (click)="reloadPage()"
                     *ngIf="crossFlag"
                   >
                     <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-                  </button>
+                  </button> -->
 
                   <i
                     class="bi bi-search search-icon"
                     style="margin: auto; margin-left: 10px"
+                    *ngIf="searchText == ''"
                   ></i>
+                  <i
+                  class="bi bi-x search-icon"
+                  style="margin: auto; margin-left: 10px"
+                  (click)="reloadPage()"
+                  *ngIf="searchText != ''"
+                ></i>
                 </div>
               </form>
             </div>

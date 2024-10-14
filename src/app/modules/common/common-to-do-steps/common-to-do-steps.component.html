@@ -16,7 +16,7 @@
   <div class="d-flex align-items-center justify-content-between">
     <h5 class="mb-0">Onboarding Steps</h5>
     <h4 class="mb-0">
-      {{ stepsData?.totalCompletedSteps }}/{{ stepsData?.totalSteps }}
+      {{ stepsData?.totalCompletedSteps || 0 }}/{{ stepsData?.totalSteps || 0 }}
     </h4>
   </div>
   <div class="progress mt-3">
@@ -95,7 +95,7 @@
       </div>
 
       <h6>
-        {{ stepsData?.totalCompletedSteps }}/{{ stepsData?.totalSteps }} Steps
+        {{ stepsData?.totalCompletedSteps || 0 }}/{{ stepsData?.totalSteps || 0 }} Steps
         Completed
       </h6>
     </div>
