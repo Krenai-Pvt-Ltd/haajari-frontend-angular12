@@ -18,7 +18,7 @@ import {
 } from '../models/Attendance.model';
 import { RoleRequest } from '../models/role-request';
 import { UserPersonalInformationRequest } from '../models/user-personal-information-request';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { UserAddressDetailsRequest } from '../models/user-address-details-request';
 import { UserAcademicsDetailRequest } from '../models/user-academics-detail-request';
 import { UserExperience } from '../models/user-experience';
@@ -889,9 +889,13 @@ export class DataService {
   }
   onboardingRoutes: string[] =[];
   getRoutesByOrganization(userUuid: any): Observable<string[]> {
-    console.log("APPPPPPPPPPPPIIIIIIIIIIIIIIIII");
-    return this.httpClient.get<string[]>(`${this.baseUrl}/onboarding-setting/routes/${userUuid}`);
-  }
+  return this.httpClient.get<string[]>(`${this.baseUrl}/onboarding-setting/routes/${userUuid}`).pipe(
+    tap((routes: string[]) => {
+      // Assign the value to the local variable before returning it
+      this.onboardingRoutes = routes;
+    })
+  );
+}
   isRoutePresent(routeToCheck: string): boolean {
     const isPresent = this.onboardingRoutes.includes(routeToCheck);
     console.log(`Is route present: ${isPresent}`);

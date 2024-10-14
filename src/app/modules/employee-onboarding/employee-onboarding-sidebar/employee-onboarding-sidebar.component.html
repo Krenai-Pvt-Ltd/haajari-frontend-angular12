@@ -11,7 +11,7 @@
                 <div class="tracking-body">
                     <ul class="tracking-steps">
 
-                        <li class="tracking-item " [ngClass]="{'tracking-itemActive newline': isStepCompleted(17) }" (click)="navigateTo('/employee-onboarding/employee-onboarding-form', 17)">
+                        <li class="tracking-item " *ngIf="isRoutePresent('/employee-onboarding-form')" [ngClass]="{'tracking-itemActive newline': isStepCompleted(17) }" (click)="navigateTo('/employee-onboarding/employee-onboarding-form', 17)">
                             <div class="d-flex new-stap">
                                 <div class="tracing-icon" [ngClass]="{'active': isStepCompleted(17)}">
                                     <i class="bi bi-check2" *ngIf="isStepCompleted(17)"></i>
