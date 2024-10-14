@@ -615,7 +615,7 @@ currentLocation() {
   }
 
   minRadius: boolean = false;
-  radiusFilteredOptions: string[] = [];
+  radiusFilteredOptions: { label: string, value: string }[] = [];
   onChange(value: string): void {
     const numericValue = Number(value);
     if (numericValue < 50) {
@@ -627,7 +627,7 @@ currentLocation() {
     }
       this.radiusFilteredOptions = this.radius.filter((option) =>
         option.toLowerCase().includes(value.toLowerCase())
-      );
+      ).map((option) => ({ label: `${option}m`, value: option }));
    
   }
   radius: string[] = ["50","100","200", "500","1000"];
@@ -638,6 +638,13 @@ currentLocation() {
     if (event.key === ' ' && input.selectionStart === 0) {
         event.preventDefault();
     }
+  }
+
+  onFocus(): void {
+    this.radiusFilteredOptions = this.radius.map((option) => ({
+      label: `${option}m`, 
+      value: option
+    }));
   }
 
   allowOnlyNumbers(event: KeyboardEvent): void {
@@ -653,6 +660,17 @@ currentLocation() {
         event.preventDefault();
     }
 }
+
+onSelect(event: any): void {
+  // Get the selected value from the event
+  const selectedValue = event.nzValue; // Extract the value (without 'm')
+  this.organizationAddressDetail.radius = selectedValue; // Store only the numeric value
+}
+
+// onSelect(event: any): void {
+//   const selectedValue = event?.option?.value.replace('m', '');
+//   this.organizationAddressDetail.radius = selectedValue;
+// }
 
 
 }
