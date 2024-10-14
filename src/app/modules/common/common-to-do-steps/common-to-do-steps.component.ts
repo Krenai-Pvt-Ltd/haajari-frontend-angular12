@@ -32,6 +32,7 @@ export class CommonToDoStepsComponent implements OnInit {
           this.isToDoStepsCompletedData();
           if(this.isToDoStepsCompletedFlag == 1) {
             // console.log(this.isTo)
+            this.dataService.step=5;
             this.dataService.isToDoStepCompleted=1;
             this.stepCompletionModal.nativeElement.click();
           }
