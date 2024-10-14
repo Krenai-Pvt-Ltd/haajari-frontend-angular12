@@ -1,6 +1,6 @@
 <div
   class="onboaredinStapBox p-3"
-  (click)="saveOrgSecondaryToDoStepBarData(1)"
+  (click)="saveOrgSecondaryToDoStepBarData(1); scrollToView()"
   *ngIf="
     ROLE == 'ADMIN' &&
     isToDoStepsCompletedFlag == 0 &&
@@ -95,13 +95,15 @@
       </div>
 
       <h6>
-        {{ stepsData?.totalCompletedSteps || 0 }}/{{ stepsData?.totalSteps || 0 }} Steps
-        Completed
+        {{ stepsData?.totalCompletedSteps || 0 }}/{{
+          stepsData?.totalSteps || 0
+        }}
+        Steps Completed
       </h6>
     </div>
   </div>
 
-  <div class="onboardingStapsPoint mt-3 p-2">
+  <div class="onboardingStapsPoint mt-3 p-2" #onboardingview>
     <div
       class="d-flex align-items-center justify-content-between pendingStepPoint pb-3"
       *ngFor="let step of organizationRegistrationProcessResponse"
@@ -151,7 +153,6 @@
   tabindex="-1"
   role="dialog"
   aria-hidden="true"
-  
 >
   <div
     class="modal-dialog modal-dialog-centered"
@@ -194,14 +195,19 @@
           >
             <h5 class="mb-2 font-20">Congratulation, You did it!</h5>
             <p class="mb-3 font-13">
-              Great job! You've successfully completed all the steps required to set up your organization in Hajiri.
+              Great job! You've successfully completed all the steps required to
+              set up your organization in Hajiri.
             </p>
 
             <p class="mb-3 font-13">
-              Your organization is now fully onboarded, and you're ready to start managing your team seamlessly.
-               From setting up your company profile to configuring user roles and attendance settings, you're all set to maximize productivity with Hajiri.
+              Your organization is now fully onboarded, and you're ready to
+              start managing your team seamlessly. From setting up your company
+              profile to configuring user roles and attendance settings, you're
+              all set to maximize productivity with Hajiri.
             </p>
-            <p class="mb-0 font-13">Let's get started on your journey to efficient team management!</p>
+            <p class="mb-0 font-13">
+              Let's get started on your journey to efficient team management!
+            </p>
           </div>
           <div class="p-5 pt-0 pb-4">
             <button class="btn action-btn w-100" (click)="routeToDashboard()">
