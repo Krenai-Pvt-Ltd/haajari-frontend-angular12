@@ -2044,7 +2044,7 @@
                       *ngIf="
                       dataNotFoundForAttendanceUpdatePendingRequestResponse &&
                       !networkConnectionErrorForAttendanceUpdatePendingRequestResponse"
-                    >g
+                    >
                       <nz-empty
                         nzNotFoundImage="assets/images/no-data-found-img.svg"
                         [nzNotFoundContent]="contentTpl"
@@ -2099,7 +2099,7 @@
                             <div class="col-auto">
                               <img
                                 *ngIf="attendanceRequestHistory.userImage"
-                                src="{{ attendanceRequestHistory.userImage }}"
+                                src="{{attendanceRequestHistory.userImage}}"
                                 alt=""
                                 class="thumb-md rounded-circle"
                                 style="width: 32px; height: 32px"
@@ -2287,7 +2287,7 @@
                           </div>
                         </div>
                       </div>
-                      --> 
+                      -->
 
                       <div
                         class="empty-file"

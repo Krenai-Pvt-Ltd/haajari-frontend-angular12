@@ -3156,6 +3156,7 @@ return
   selectedDateAttendance!: Date;
   choosenDateString!: string;
 
+  attendanceUpdateRequestLoader : boolean = false;
   submitForm(): void {
     if (this.checkHoliday || this.checkAttendance) {
       return;
@@ -3181,10 +3182,14 @@ return
         };
       }
   
-      this.dataService.sendAttendanceTimeUpdateRequest(this.userId, attendanceTimeUpdateRequest, this.attendanceRequestType, this.choosenDateString).subscribe(
+      this.attendanceUpdateRequestLoader = true;
+      attendanceTimeUpdateRequest.userUuid = this.userId;
+      attendanceTimeUpdateRequest.requestType = this.attendanceRequestType;
+      attendanceTimeUpdateRequest.choosenDateString = this.choosenDateString;
+      this.dataService.sendAttendanceTimeUpdateRequest(attendanceTimeUpdateRequest).subscribe(
         (response) => {
           // console.log('Request sent successfully', response);
-
+          this.attendanceUpdateRequestLoader = false;
           console.log("retrive", response, response.status);
           if(response.status === true) {
           this.resetForm();
@@ -3200,6 +3205,7 @@ return
             }
         },
         (error) => {
+          this.attendanceUpdateRequestLoader = false;
           console.error('Error sending request:', error);
         }
       );
@@ -3477,36 +3483,65 @@ closeAttendanceFunc() {
   // Requesting for overtime
   dateRange : Date[] = [];
   
+  // Validation error message
+  validationError: string | null = null;
   selectTimeForOvertimeRequest(dates: Array<Date | null> | Date | Date[] | null): void {
-    // Handle array of dates
-    if (Array.isArray(dates)) {
-      if (dates.length === 2) {
-        this.overtimeRequestDTO.startTime = dates[0] ? new Date(dates[0]) : null;
-        this.overtimeRequestDTO.endTime = dates[1] ? new Date(dates[1]) : null;
-        this.overtimeRequestDTO.workingHour = this.helperService.durationBetweenTwoDatesInHHmmssFormat(this.overtimeRequestDTO.endTime, this.overtimeRequestDTO.startTime);
-        // console.log("Working Hour: "+this.overtimeRequestDTO.workingHour);
+    this.validationError = null; // Reset validation error message
+
+    if (Array.isArray(dates) && dates.length === 2) {
+      const startTime = dates[0] ? new Date(dates[0]) : null;
+      const endTime = dates[1] ? new Date(dates[1]) : null;
+
+      if (startTime && endTime) {
+        const duration = this.helperService.durationBetweenTwoDatesInHHmmssFormat(endTime, startTime);
+
+        // Ensure the duration is within 23:59:59
+        if (duration && duration <= '23:59:59') {
+          this.overtimeRequestDTO.startTime = startTime;
+          this.overtimeRequestDTO.endTime = endTime;
+          this.overtimeRequestDTO.workingHour = duration;
+        } else {
+          // Show error message on the front-end
+          this.validationError = 'The duration cannot exceed 23 hours, 59 minutes.';
+          this.overtimeRequestDTO.workingHour = null;
+        }
       } else {
-        // Handle case where array length is not 2 if necessary
-        console.warn('Expected array with 2 dates, but got:', dates);
+        // Invalid date range
+        this.validationError = null;
       }
-    } else if (dates instanceof Date) {
-      // Handle single date case if needed
-      // console.log('Single Date Selected:', dates);
     } else if (dates === null) {
-      // Handle null case
+      // Handle null case (clearing the date range)
+      this.overtimeRequestDTO.startTime = null;
       this.overtimeRequestDTO.endTime = null;
+      this.overtimeRequestDTO.workingHour = '';
     }
   }
+
+
+  // Disable inappropriate dates based on the start date
+  disabledDateForOvertimeRequest = (current: Date): boolean => {
+    if (this.dateRange && this.dateRange[0]) {
+      const nextValidDate = new Date(this.dateRange[0]); // Clone the start date
+      nextValidDate.setDate(nextValidDate.getDate() + 1); // Set the next valid date to the day after the start date
+
+      return current && current < nextValidDate; // Compare both as Date objects
+    }
+    return false; // No date is disabled if no start date is selected
+  };
   
 
+  overtimeRequestLoader : boolean = false;
   overtimeRequestDTO : OvertimeRequestDTO = new OvertimeRequestDTO();
   registerOvertimeRequestMethodCall(){
+    this.overtimeRequestLoader = true;
     this.dataService.registerOvertimeRequest(this.overtimeRequestDTO).subscribe((response) => {
+      this.overtimeRequestLoader = false;
       this.clearOvertimeRequestModal();
       this.closeOvertimeRequestModal.nativeElement.click();
       this.helperService.showToast('Overtime request submitted successfully.', Key.TOAST_STATUS_SUCCESS);
       this.getOvertimeRequestLogResponseByUserUuidMethodCall();
     }, (error) => {
+      this.overtimeRequestLoader = false;
       this.helperService.showToast('Error while submitting the request!', Key.TOAST_STATUS_ERROR);
     })
 
