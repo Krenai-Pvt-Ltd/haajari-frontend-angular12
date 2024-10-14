@@ -7,7 +7,7 @@
         <div class="col-md-6 col-lg-4 order-lg-1 order-md-1">
           <ng-container *ngIf="!showPlaceholder; else notShowPlaceholder">
             <div class="card report-card">
-              <div class="card-body p-4">
+              <div class="card-body">
                 <div class="row d-flex justify-content-center">
                   <div class="col">
                     <p class="text-dark mb-2 fw-semibold">Present</p>
@@ -56,7 +56,7 @@
 
             <!--end card-->
             <div class="card report-card">
-              <div class="card-body p-4">
+              <div class="card-body">
                 <div class="row d-flex justify-content-center">
                   <div class="col">
                     <p class="text-dark mb-2 fw-semibold">On Break</p>
@@ -214,14 +214,15 @@
         <div class="col-md-6 col-lg-4 order-lg-1 order-md-1">
           <div class="card fixheigt-section">
             <div class="card-header">
-              <div class="row align-items-center">
+              <div class="row align-items-center justify-content-between">
                 <div class="col">
                   <h6 class="mb-2">Upcoming Activities</h6>
                 </div>
+                <div></div>
               </div>
             </div>
             <div class="card-body">
-              <!-- <div class="text-center">
+              <div class="text-center mt-2">
                 <ngx-charts-bar-vertical-stacked
                   [view]="view2"
                   [results]="monthlyChartData"
@@ -233,11 +234,11 @@
                   [animations]="true"
                 >
                 </ngx-charts-bar-vertical-stacked>
-              </div> -->
+              </div>
 
-              <div class="upcoming-activities">
+              <!-- <div class="upcoming-activities">
                 <div
-                  class="d-flex align-items-center justify-content-between leave-list p-3 mb-3"
+                  class="d-flex align-items-center justify-content-between leave-list p-3 pt-2 pb-2 mb-3"
                 >
                   <div class="">
                     <p class="mb-0 font-14">Holiday</p>
@@ -272,18 +273,18 @@
                 >
                   <p class="mb-0 font-13">View All Holidays for This Year</p>
                   <button
-                    class="p-0 btn text-primary font-14"
+                    class="p-0 btn text-primary font-13"
                     data-bs-toggle="modal"
                     data-bs-target="#holidayList"
                   >
                     View all
                   </button>
                 </div>
-              </div>
+              </div> -->
 
               <!-- <div class="upcoming-birthday">
                 <div
-                  class="d-flex align-items-center justify-content-between today-birthday mb-3 p-2"
+                  class="d-flex align-items-end justify-content-between today-birthday mb-3 p-2"
                   style="
                     background-image: url(../assets/images/barthday-img.svg);
                   "
@@ -291,31 +292,50 @@
                   <div class="d-flex align-items-center gap-3">
                     <img src="assets/images/media-upload.jpg" />
                     <div>
-                      <p class="mb-0 font-14">Today</p>
+                      <p class="mb-0 font-14">Sat,12th October</p>
                       <h5 class="mb-0 font-16">Ahaan Panady</h5>
                     </div>
                   </div>
-                  <p class="mb-0 font-12">Sat,12th October</p>
+                  <p class="mb-0 font-12">Today</p>
                 </div>
 
                 <div
-                  class="d-flex align-items-center justify-content-between upcoming-birthday-box mb-3 p-2 pt-0 pb-0"
+                  class="d-flex align-items-end justify-content-between upcoming-birthday-box mb-3 p-2 pt-0 pb-0"
                 >
                   <div class="d-flex align-items-center gap-3">
                     <img src="assets/images/media-upload.jpg" />
                     <div>
-                      <p class="mb-0 font-14">Upcoming</p>
+                      <p class="mb-0 font-14">Sat,12th October</p>
                       <h5 class="mb-0 font-16">Ahaan Panady</h5>
                     </div>
                   </div>
-                  <p class="mb-0 font-12">Sat,12th October</p>
+                  <p class="mb-0 font-12">Upcoming</p>
+                </div>
+
+                <div
+                  class="d-flex align-items-end justify-content-between upcoming-birthday-box p-2 pt-0 pb-0"
+                >
+                  <div class="d-flex align-items-center gap-3">
+                    <img src="assets/images/media-upload.jpg" />
+                    <div>
+                      <p class="mb-0 font-14">Sat,12th October</p>
+                      <h5 class="mb-0 font-16">Ahaan Panady</h5>
+                    </div>
+                  </div>
+                  <p class="mb-0 font-12">Upcoming</p>
                 </div>
 
                 <div
                   class="d-flex align-items-center justify-content-between all-holiday-list"
                 >
-                  <p class="mb-0 font-14">View All Barthday for This Year</p>
-                  <button class="p-0 btn text-primary font-15">View all</button>
+                  <p class="mb-0 font-13">View All Barthday for This Year</p>
+                  <button
+                    class="p-0 btn text-primary font-13"
+                    data-bs-toggle="modal"
+                    data-bs-target="#birthdayList"
+                  >
+                    View all
+                  </button>
                 </div>
               </div> -->
             </div>
@@ -333,7 +353,7 @@
             </div>
 
             <div class="card-body">
-              <div class="text-center">
+              <div class="text-center mt-2">
                 <ngx-charts-bar-vertical-stacked
                   [view]="view1"
                   [results]="weeklyChartData"
@@ -1272,10 +1292,17 @@
                               class="collapse"
                               [attr.id]="'collapseExamplesheet' + i"
                             >
-                              <td colspan="9" class="p-1">
-                                <div class="month-deta">
+                              <td
+                                colspan="9"
+                                class="p-1"
+                                style="
+                                  padding-top: 0px !important;
+                                  padding-bottom: 0px !important;
+                                "
+                              >
+                                <div class="month-deta pb-3">
                                   <table
-                                    class="table table-bordered day-data mb-0"
+                                    class="table table-bordered day-data mb-0 border-bottom pb-3"
                                   >
                                     <tr class="position-relative">
                                       <th class="text-center">Day</th>
@@ -3176,7 +3203,83 @@
           </div>
         </div>
       </div>
-      <div class="modal-footer p-2"></div>
+      <div class="modal-footer p-2" style="border-top: none"></div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="birthdayList"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLongTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">
+          Employees Birthday
+        </h5>
+        <button
+          type="button"
+          class="close-btn"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <mask
+              id="mask0_4476_834"
+              style="mask-type: alpha"
+              maskUnits="userSpaceOnUse"
+              x="0"
+              y="0"
+              width="24"
+              height="24"
+            >
+              <rect width="24" height="24" fill="#D9D9D9" />
+            </mask>
+            <g mask="url(#mask0_4476_834)">
+              <path
+                d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+                fill="black"
+              />
+            </g>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="holiday-list-box">
+          <div
+            class="d-flex align-items-center justify-content-between p-3 active-leave-list"
+          >
+            <div>
+              <h4 class="mb-1 font-15 text-black">Anchal</h4>
+              <p class="mb-0">Developer</p>
+            </div>
+            <h5 class="mb-0 font-15">January 29th, Saturday</h5>
+          </div>
+          <div
+            class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list"
+            style="border-color: #6f6cff"
+            *ngFor="let item of [].constructor(10)"
+          >
+            <div>
+              <h4 class="mb-1 font-15 text-black">Yogesh Yadav</h4>
+              <p class="mb-0">Designer</p>
+            </div>
+            <h5 class="mb-0 font-15">January 29th, Saturday</h5>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer p-2" style="border-top: none"></div>
     </div>
   </div>
 </div>

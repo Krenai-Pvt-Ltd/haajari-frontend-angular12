@@ -1,5 +1,5 @@
 .fixheigt-section {
-  height: 342px;
+  height: 310px;
 }
 
 .fixheigt-section img {
@@ -104,10 +104,10 @@ span.todo-task {
   font-size: 10px !important;
 }
 
-.month-deta {
+/* .month-deta {
   padding-bottom: 10px;
   padding-top: 10px;
-}
+} */
 
 .table th {
   color: #8997bd;
@@ -1019,7 +1019,7 @@ button.btn.add-card-btn {
   line-height: 16px;
 }
 .all-holiday-list {
-  padding-top: 20px;
+  padding-top: 10px;
 }
 .all-holiday-list p {
   font-weight: 400;
@@ -1082,8 +1082,19 @@ button.btn.add-card-btn {
 .upcoming-leave-list {
   background-color: #fbfbfb;
   border-left: 5px solid var(--primary-background-color);
-  border-bottom: 1px solid #f3f3f3 !important;
+  margin-bottom: 2px;
 }
 .upcoming-leave-list h5 {
   color: #444;
+}
+
+.dashnodata table td {
+  border-bottom: none !important;
+}
+.month-deta tr td {
+  border-bottom: 1px solid #e6e7e9 !important;
+}
+
+.month-deta {
+  border-bottom: 1px solid #f7f7f7 !important;
 }

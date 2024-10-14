@@ -9,11 +9,12 @@ import { LogoutConfirmationModalComponent } from './logout-confirmation-modal/lo
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SharedComponent } from './shared.component';
+import { HeaderComponent } from '../common/header/header.component';
 
 @NgModule({
   declarations: [
     // ConstantComponent,
-    
+
     SharedComponent,
     HelperComponent,
     LogoutConfirmationModalComponent,
