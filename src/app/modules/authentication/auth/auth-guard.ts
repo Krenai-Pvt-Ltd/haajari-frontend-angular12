@@ -26,7 +26,7 @@ export class AuthGuard implements CanActivate {
   ) {
     this.PLAN_PURCHASED = _subscriptionPlanService
   }
-
+  step:number=0;
   UUID: any;
   ROLE: any;
   ONBOARDING_STEP: any;
@@ -54,14 +54,14 @@ export class AuthGuard implements CanActivate {
     await this.isToDoStepsCompletedData();
 
     this._onboardingService.getOrgOnboardingStep().subscribe((response: any) => {
-      const step = parseInt(response?.object?.step);
-
-      if (step < 5) {
-        this.router.navigate(['organization-onboarding/personal-information']);
-      }
+       this.step = parseInt(response?.object?.step);
+      console.log("step count" + this.step);
     });
 
-
+    if (this.step < 5) {
+      this.router.navigate(['organization-onboarding/personal-information']);
+      return false;
+    }
     // if (this.isOrganizationOnboarded(this.ONBOARDING_STEP)) {
     //   console.log(this.ONBOARDING_STEP);
     //   this.router.navigate(['/dashboard']);
