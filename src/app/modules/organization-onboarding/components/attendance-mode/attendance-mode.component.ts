@@ -628,7 +628,7 @@ currentLocation() {
     }
       this.radiusFilteredOptions = this.radius.filter((option) =>
         option.toLowerCase().includes(value.toLowerCase())
-      ).map((option) => ({ label: `${option}m`, value: option }));
+      ).map((option) => ({ label: `${option}-Meters`, value: option }));
    
   }
   radius: string[] = ["50","100","200", "500","1000"];
@@ -643,7 +643,7 @@ currentLocation() {
 
   onFocus(): void {
     this.radiusFilteredOptions = this.radius.map((option) => ({
-      label: `${option}m`, 
+      label: `${option}-Meters`, 
       value: option
     }));
   }
