@@ -361,7 +361,7 @@
 }
 .actual-price {
   text-decoration: line-through;
-  padding-left: 10px;
+  /* padding-left: 10px; */
 }
 .annual-plan p {
   line-height: 20px;
@@ -631,7 +631,12 @@
   background-color: var(--primary-background-color);
   color: #fff;
 }
-
+.plan-detail .mt-2{
+  margin-bottom: .5rem!important;
+}
+.planPriceList {
+  min-width: 4em;
+}
 .btn-container input[type=radio] {
   visibility: hidden;
   height: 0;
@@ -913,4 +918,9 @@
   .btnPayNow {
     font-size: 12px !important;
   }
+}
+.adddd{
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
 }

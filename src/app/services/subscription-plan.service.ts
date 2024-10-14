@@ -125,4 +125,8 @@ export class SubscriptionPlanService {
     .set('gstNumber', gstNumber)
     return this._httpClient.get<any>(this._key.base_url + this._key.verify_gst_number,{params});
   }
+
+  getRecentPaidInvoiceDetail(){
+    return this._httpClient.get<any>(this._key.base_url + this._key.get_subscription_payment_detail);
+  }
 }

@@ -1,11 +1,11 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
+import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
 import { GstResponse } from 'src/app/models/GstResponse';
+import { InvoiceDetail } from 'src/app/models/InvoiceDetail';
 import { OrganizationSubscriptionDetail } from 'src/app/models/OrganizationSubscriptionDetail';
 import { SubscriptionPlan } from 'src/app/models/SubscriptionPlan';
-import { SubscriptionPlanReq } from 'src/app/models/SubscriptionPlanReq';
-import { DataService } from 'src/app/services/data.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
 declare var Razorpay: any;
@@ -62,12 +62,15 @@ export class SubscriptionComponent implements OnInit {
   }
 
   orgSubscriptionPlanDetail: OrganizationSubscriptionDetail = new OrganizationSubscriptionDetail();
+  progress:number=0;
   getCurrentSubscriptionPlan(){
     this._subscriptionPlanService.getCurrentPlan().subscribe((response) => {
       if(response.status){
         this.orgSubscriptionPlanDetail = response.object;
         if(this.orgSubscriptionPlanDetail == null){
           this.orgSubscriptionPlanDetail = new OrganizationSubscriptionDetail();
+        }else{
+          this.progress =  (this.orgSubscriptionPlanDetail.quotaUsed/ this.orgSubscriptionPlanDetail.employeeQuota)* 100;
         }
       }else{
         this.orgSubscriptionPlanDetail = new OrganizationSubscriptionDetail();
@@ -132,44 +135,54 @@ export class SubscriptionComponent implements OnInit {
   payableAmount:number=0;
   roundOffAmount:number=0;
   calculateByEmployeeSize() {
- 
-    this.monthlyAmount = this.employeeCount * this.selectedSubscriptionPlan.amount;
-    this.annualAmount =  this.monthlyAmount * 12; 
+    this.calcPlanPeriodicallyAmount();
     if(this.selectedSubscriptionPlan.isMonthly==1){
-      this.subAmount = this.employeeCount * this.selectedSubscriptionPlan.amount;
-      this.taxAmount =  (this.monthlyAmount * 18 ) / 100 ;
-      this.payableAmount = Math.floor(this.monthlyAmount +  this.taxAmount);
-      this.roundOffAmount = (this.monthlyAmount +  this.taxAmount) - this.payableAmount;
+      this.payableAmount = this.employeeCount * this.selectedSubscriptionPlan.amount;
+      this.subAmount = Math.round(( this.payableAmount / (1.18)) * 100.0) / 100.0;
+      this.taxAmount = Math.round(((this.payableAmount -  this.subAmount)) * 100.0) / 100.0;
+
     }else if(this.selectedSubscriptionPlan.isYearly==1){
-      this.subAmount = this.employeeCount * this.selectedSubscriptionPlan.amount * 12;
-      this.taxAmount =  (this.annualAmount * 18 ) / 100 ;
-      this.payableAmount = Math.floor(this.annualAmount +  this.taxAmount);
-      this.roundOffAmount =  (this.annualAmount +  this.taxAmount) - this.payableAmount;
+      this.payableAmount = this.employeeCount * this.selectedSubscriptionPlan.amount * 12;
+      this.subAmount= Math.round(( this.payableAmount / (1.18)) * 100.0) / 100.0;
+      this.taxAmount = Math.round((this.payableAmount -  this.subAmount) * 100.0) / 100.0;
     }
   }
 
 
+  calcPlanPeriodicallyAmount(){
+    this.typeBySubscriptionPlans.forEach(plan=>{
+      if(plan.isMonthly == 1){
+        this.monthlyAmount = this.employeeCount * plan.amount;
+      }
+      if(plan.isYearly == 1){
+        this.annualAmount =  this.employeeCount * plan.amount * 12; 
+      }
+    }) 
+  }
+
+  // ,
+  // "prefill": {
+  //   "email": this.email,
+  //   "phone": '7667790550'
+  // }
 
   processingPayment: boolean = false;
   verifiedCoupon!: string;
-
+  @ViewChild('sucessPaymentModalButton')sucessPaymentModalButton!:ElementRef;
   async activatePlan(): Promise<void> {
    
     this.createFirebaseForProcessing();
     var options = {
       "key": Key.razorKey,
-      "amount": Math.round(this.payableAmount) * 100,
+      "amount": this.payableAmount * 100,
       //  "amount":  1 * 100,
       "name": "HAJIRI",
       "description": this.selectedSubscriptionPlan.name + " plan purchase",
       "image": "../../../../../assets/images/hajiri-icon.png",
+      "handler": this.showPaymentDetail.bind(this),
       "modal": {
         "confirm_close": true,
-        "ondismiss": this.stopProcessingPayment.bind(this)
-      },
-      "prefill": {
-        "email": this.email,
-        "phone": '7667790550'
+        // "ondismiss": this.stopProcessingPayment.bind(this)
       },
       "notes": {
         "orderFrom": 'Hajiri',
@@ -179,7 +192,11 @@ export class SubscriptionComponent implements OnInit {
         "employeeCount": this.employeeCount,
         "couponCode": this.couponCode,
         "invoiceId": '',
-        "couponDiscount": ''
+        "couponDiscount": '',
+        "gstNumber":  !constant.EMPTY_STRINGS.includes(this.gstResponse.gstNo)?this.gstResponse.gstNo:'',
+        "tradeName":  !constant.EMPTY_STRINGS.includes(this.gstResponse.tradeName)?this.gstResponse.tradeName:'',
+        "address":  !constant.EMPTY_STRINGS.includes(this.gstResponse.fullAddress)?this.gstResponse.fullAddress:''
+
       },
       "theme": {
         "color": "#6666f3"
@@ -226,29 +243,17 @@ export class SubscriptionComponent implements OnInit {
               }
               this.isUnderProcess = false;
               this.stopProcessingPayment();
-
-              // if (this.isRegistration && this.tempPlanId != 1 && this.selectedPlanObject.discountedAmount != 0) {
-              //   debugger
-              //   if (!this.isloadingPopupOpen) {
-              //     this.loaderPopup.nativeElement.click();
-              //     this.isloadingPopupOpen = true;
-              //   }
-              //   this._sharedService.statusId = StatusKeys.ACTIVE;
-              //   setTimeout(() => {
-              //     this._sharedService.routing = true;
-              //     if (this.loaderDismiss != undefined && this.isloadingPopupOpen) {
-              //       this.loaderDismiss.nativeElement.click();
-              //       this.isloadingPopupOpen = false;
-              //     }
-
-              //     this._router.navigate([Routes.STORE_DASHBOARD], { replaceUrl: true });
-
-              //   }, 8000);
-              // }
+              this.getRecentPaidInvoiceDetail();
+              this.getCurrentSubscriptionPlan();
+              this._subscriptionPlanService.getOrganizationSubsPlanDetail();
             }
           }
         });
       });
+  }
+
+  showPaymentDetail(){
+    this.sucessPaymentModalButton.nativeElement.click();
   }
 
 gstNumber:string='';
@@ -268,6 +273,18 @@ gstResponse:GstResponse = new GstResponse();
       }else{
         this.isVerified =false;
       }
+    });
+  }
+
+
+invoiceDetail:InvoiceDetail = new InvoiceDetail();
+  getRecentPaidInvoiceDetail(){
+    this._subscriptionPlanService.getRecentPaidInvoiceDetail().subscribe((response) => {
+      if(response.status){
+        this.invoiceDetail = response.object;
+      }
+    },(error)=>{
+
     });
   }
 }

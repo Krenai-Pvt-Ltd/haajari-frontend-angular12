@@ -251,7 +251,8 @@ export class Key {
   get_subscription_plans = '/subscription/plan';
   get_current_subscription_plan='/subscription/current';
   get_subscription_plan_light_detail='/subscription/plan/detail';
-  verify_gst_number='/subscription/gst'
+  verify_gst_number='/subscription/gst';
+  get_subscription_payment_detail='/subscription/payment'
 
   //user notification
   get_notification = '/user-notification';

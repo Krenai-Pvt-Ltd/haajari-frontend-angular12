@@ -69,7 +69,7 @@
                     <div
                       class="progress-bar"
                       role="progressbar"
-                      style="width: 25%"
+                      [ngStyle]="{ 'width': progress + '%'}"
                       aria-valuenow="25"
                       aria-valuemin="0"
                       aria-valuemax="100"
@@ -199,12 +199,12 @@
                     </div>
                   </div>
 
-                  <button
+                  <!-- <button
                     class="btn w-100 text-white proceed-payment mt-3"
                     style="background-color: #ec4b42"
                   >
                     Make Payment
-                  </button>
+                  </button> -->
                 </div>
 
                 <div class="rules-regulation-box pt-4" *ngIf="RulesRegulation">
@@ -1496,7 +1496,7 @@
                   <div
                     class="p-3 plan-detail d-flex align-items-center justify-content-between p-4"
                   >
-                    <div>
+                    <div class="col-md-9">
                       <h1 class="mb-3">{{selectedSubscriptionPlan.name}} Plan</h1>
                       <p class="mb-0 text-black font-16">
                         Perfect for growing businesses that need <br />
@@ -1504,11 +1504,11 @@
                       </p>
                     </div>
 
-                    <div class="d-flex align-items-center gap-3">
-                      <h2>₹{{selectedSubscriptionPlan.amount}}</h2>
+                    <div class="d-flex align-items-center gap-3 col-md-3">
                       <div>
                         <h3 class="mb-0" *ngIf="selectedSubscriptionPlan.isYearly==1">₹{{selectedSubscriptionPlan.amount + selectedSubscriptionPlan.discountAmount}}</h3>
-                        <h5 class="font-18">month/per employee</h5>
+                        <h2 class="mt-2">₹{{selectedSubscriptionPlan.amount}}</h2>
+                        <h5 class="font-14">month/per employee</h5>
 
                         <p *ngIf="selectedSubscriptionPlan.isYearly==1">
                           <span><b>30% off</b></span> with annual contract
@@ -1519,7 +1519,7 @@
 
                   <label class="mt-3 d-flex align-items-center justify-content-between p-3 annual-plan"
                     *ngFor="let typeByPlan of typeBySubscriptionPlans; let i=index;">
-                    <div class="d-flex align-items-center gap-3">
+                    <div class="d-flex align-items-center col-md-8 gap-3">
                       <div class="form-check">
                         <input
                           class="form-check-input"
@@ -1576,13 +1576,12 @@
                       </div>
                     </div>
 
-                    <div class="d-flex align-items-center gap-3">
+                    <div class="d-flex align-items-center gap-3 col-md-4">
                       <div class="d-flex align-items-center gap-2">
-                        <h4 class="mb-0 font-22">
-                          <span class="actual-price text-muted" *ngIf="typeByPlan.isYearly==1">₹{{typeByPlan.amount + typeByPlan.discountAmount}} </span>
-                          &nbsp;
-                          <span class="text-black">₹{{typeByPlan.amount}}</span>
-                        </h4>
+                        <div class="planPriceList mb-0">
+                          <h4 class="actual-price font-22 text-muted" *ngIf="typeByPlan.isYearly==1">₹{{typeByPlan.amount + typeByPlan.discountAmount}} </h4>
+                          <h4 class="text-black font-22">₹{{typeByPlan.amount}}</h4>
+                        </div>
                         <p class="text-muted mb-0">
                           Month Per<br />
                           Employee
@@ -1804,12 +1803,12 @@
                   <h5 class="font-16">Tax Amount</h5>
                   <h5 class="font-16">{{taxAmount | number : '1.2-2' }}</h5>
                 </div>
-                <div
+                <!-- <div
                 class="d-flex align-items-center justify-content-between pt-2 pb-2"
               >
                 <h5 class="font-16">Round off</h5>
                 <h5 class="font-16">- {{roundOffAmount | number : '1.2-2'}}</h5>
-              </div>
+              </div> -->
                 <div
                   class="d-flex align-items-center justify-content-between pt-3 pb-2 border-top"
                 >
@@ -1819,9 +1818,9 @@
               </div>
             </div>
             <button
-              class="btn w-100 text-white proceed-payment mt-3" [disabled]="payableAmount == undefined || payableAmount == null || payableAmount == 0"
+              class="btn w-100 text-white proceed-payment mt-3" [disabled]="payableAmount == undefined || payableAmount == null || payableAmount == 0 || isUnderProcess"
             (click)="activatePlan()">
-              Proceed To Payment
+              Proceed To Payment <span *ngIf="isUnderProcess" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             </button>
           </div>
         </div>
@@ -1833,14 +1832,17 @@
 <button
   class="d-none"
   data-bs-toggle="modal"
-  data-bs-target="#munal-upload"
+  data-bs-target="#success-payment"
+  #sucessPaymentModalButton
+
 ></button>
 <div
   class="modal fade"
-  id="munal-upload"
+  id="success-payment"
   tabindex="-1"
   role="dialog"
   aria-hidden="true"
+  data-bs-backdrop="static" data-bs-keyboard="false"
 >
   <div
     class="modal-dialog modal-dialog-centered"
@@ -1848,159 +1850,161 @@
     role="document"
   >
     <div class="modal-content">
-      <div class="modal-body p-0">
-        <div
-          class="payment-confirmed p-5 d-flex align-items-center justify-content-center flex-column"
-        >
+      <div class="modal-body p-0" *ngIf="isUnderProcess"> 
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+
+      </div>
+      <div *ngIf="!isUnderProcess">
+        <div class="modal-body p-0" >
           <div
-            class="d-flex align-items-center justify-content-end pt-2"
-            style="padding-right: 10px"
+            class="payment-confirmed p-5 d-flex align-items-center justify-content-center flex-column"
           >
-            <button
-              type="button"
-              class="close-btn"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-              #closeButton
+            <div
+              class="d-flex align-items-center justify-content-end pt-2"
+              style="padding-right: 10px"
+            >
+              <button
+                type="button"
+                class="close-btn"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                #closeButton
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="30"
+                  height="30"
+                  viewBox="0 0 30 30"
+                  fill="none"
+                >
+                  <mask
+                    id="mask0_3881_6289"
+                    style="mask-type: alpha"
+                    maskUnits="userSpaceOnUse"
+                    x="0"
+                    y="0"
+                    width="30"
+                    height="30"
+                  >
+                    <rect width="30" height="30" fill="#D9D9D9" />
+                  </mask>
+                  <g mask="url(#mask0_3881_6289)">
+                    <path
+                      d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                      fill="black"
+                    />
+                  </g>
+                </svg>
+              </button>
+            </div>
+  
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="80"
+              height="80"
+              viewBox="0 0 102 101"
+              fill="none"
+            >
+              <g clip-path="url(#clip0_3826_7181)">
+                <path
+                  d="M50.5215 0C22.6321 0 0.0214844 22.6027 0.0214844 50.5C0.0214844 78.3973 22.6321 101 50.5215 101C78.4109 101 101.021 78.3835 101.021 50.5C101.021 22.6165 78.4109 0 50.5215 0Z"
+                  fill="#2AD352"
+                />
+                <path
+                  d="M0.0215313 50.5001C0.0101314 58.8473 2.07718 67.066 6.03616 74.4146C11.08 75.8955 16.3101 76.6455 21.5669 76.6417C51.9261 76.6417 76.5369 52.0308 76.5369 21.6717C76.5415 16.3316 75.7679 11.0193 74.2408 5.90226C66.9403 2.0136 58.7931 -0.0137047 50.5215 6.97256e-05C22.6321 6.97256e-05 0.0215313 22.6028 0.0215313 50.5001Z"
+                  fill="#74DA7F"
+                />
+                <path
+                  d="M79.3225 42.1307L48.9692 74.0068C48.142 74.8746 47.1482 75.5665 46.0472 76.041C44.9463 76.5156 43.7609 76.763 42.562 76.7686H42.5226C41.3304 76.7689 40.1503 76.5296 39.0524 76.0651C37.9544 75.6005 36.961 74.92 36.1312 74.064L20.0244 57.474C19.1922 56.6386 18.5342 55.6463 18.0886 54.5546C17.643 53.4629 17.4186 52.2935 17.4285 51.1144C17.4385 49.9353 17.6825 48.7699 18.1465 47.6858C18.6104 46.6018 19.285 45.6207 20.1312 44.7994C20.9774 43.9782 21.9782 43.3332 23.0757 42.9019C24.1731 42.4706 25.3453 42.2616 26.5242 42.2869C27.7031 42.3123 28.8652 42.5715 29.9431 43.0496C31.021 43.5277 31.9932 44.2151 32.8033 45.0719L42.4595 55.018L66.4253 29.8509C67.2281 28.99 68.1936 28.2969 69.266 27.8116C70.3385 27.3263 71.4964 27.0584 72.673 27.0235C73.8496 26.9885 75.0215 27.1872 76.1208 27.608C77.2201 28.0288 78.2251 28.6635 79.0776 29.4751C79.9301 30.2868 80.6132 31.2595 81.0874 32.3369C81.5616 33.4142 81.8175 34.5749 81.8403 35.7518C81.8631 36.9287 81.6523 38.0984 81.2201 39.1934C80.7879 40.2883 80.143 41.2866 79.3225 42.1307Z"
+                  fill="white"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_3826_7181">
+                  <rect
+                    width="101"
+                    height="101"
+                    fill="white"
+                    transform="translate(0.0214844)"
+                  />
+                </clipPath>
+              </defs>
+            </svg>
+  
+            <h5 class="mb-0 mt-4">Payment Confirmed</h5>
+            <p class="mb-0 mt-2">Your payment has been processed successfully.</p>
+          </div>
+  
+          <div class="p-4">
+            <h5 class="mb-0 font-20 border-bottom pb-3 mb-2">Plan details</h5>
+  
+            <div
+              class="d-flex align-items-center justify-content-between pt-2 pb-2"
+            >
+              <h5 class="mb-0 font-16">Employee</h5>
+              <h5 class="mb-0 font-16">{{invoiceDetail.employeeQuota}}</h5>
+            </div>
+            <div
+              class="d-flex align-items-center justify-content-between pt-2 pb-2"
+            >
+              <h5 class="mb-0 font-16">Plan Opted</h5>
+              <h5 class="mb-0 font-16">{{invoiceDetail.planName}}/ {{invoiceDetail.periodically | titlecase}}</h5>
+            </div>
+            <div
+              class="d-flex align-items-center justify-content-between pt-2 pb-2"
+            >
+              <h5 class="mb-0 font-16">Amount</h5>
+              <h5 class="mb-0 font-16">₹{{invoiceDetail.payableAmount}}</h5>
+            </div>   
+          </div>
+        </div>
+        <div
+          class="modal-footer p-3 d-flex align-items-center justify-content-between"
+          style="background-color: #f8f8f8"
+        >
+          <div class="d-flex align-items-center gap-3">
+            <span
+              class="download-invoice-icon d-flex align-items-center justify-content-center bg-white"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="30"
-                height="30"
-                viewBox="0 0 30 30"
+                width="28"
+                height="27"
+                viewBox="0 0 28 27"
                 fill="none"
               >
-                <mask
-                  id="mask0_3881_6289"
-                  style="mask-type: alpha"
-                  maskUnits="userSpaceOnUse"
-                  x="0"
-                  y="0"
-                  width="30"
-                  height="30"
-                >
-                  <rect width="30" height="30" fill="#D9D9D9" />
-                </mask>
-                <g mask="url(#mask0_3881_6289)">
-                  <path
-                    d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
-                    fill="black"
-                  />
-                </g>
-              </svg>
-            </button>
-          </div>
-
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="80"
-            height="80"
-            viewBox="0 0 102 101"
-            fill="none"
-          >
-            <g clip-path="url(#clip0_3826_7181)">
-              <path
-                d="M50.5215 0C22.6321 0 0.0214844 22.6027 0.0214844 50.5C0.0214844 78.3973 22.6321 101 50.5215 101C78.4109 101 101.021 78.3835 101.021 50.5C101.021 22.6165 78.4109 0 50.5215 0Z"
-                fill="#2AD352"
-              />
-              <path
-                d="M0.0215313 50.5001C0.0101314 58.8473 2.07718 67.066 6.03616 74.4146C11.08 75.8955 16.3101 76.6455 21.5669 76.6417C51.9261 76.6417 76.5369 52.0308 76.5369 21.6717C76.5415 16.3316 75.7679 11.0193 74.2408 5.90226C66.9403 2.0136 58.7931 -0.0137047 50.5215 6.97256e-05C22.6321 6.97256e-05 0.0215313 22.6028 0.0215313 50.5001Z"
-                fill="#74DA7F"
-              />
-              <path
-                d="M79.3225 42.1307L48.9692 74.0068C48.142 74.8746 47.1482 75.5665 46.0472 76.041C44.9463 76.5156 43.7609 76.763 42.562 76.7686H42.5226C41.3304 76.7689 40.1503 76.5296 39.0524 76.0651C37.9544 75.6005 36.961 74.92 36.1312 74.064L20.0244 57.474C19.1922 56.6386 18.5342 55.6463 18.0886 54.5546C17.643 53.4629 17.4186 52.2935 17.4285 51.1144C17.4385 49.9353 17.6825 48.7699 18.1465 47.6858C18.6104 46.6018 19.285 45.6207 20.1312 44.7994C20.9774 43.9782 21.9782 43.3332 23.0757 42.9019C24.1731 42.4706 25.3453 42.2616 26.5242 42.2869C27.7031 42.3123 28.8652 42.5715 29.9431 43.0496C31.021 43.5277 31.9932 44.2151 32.8033 45.0719L42.4595 55.018L66.4253 29.8509C67.2281 28.99 68.1936 28.2969 69.266 27.8116C70.3385 27.3263 71.4964 27.0584 72.673 27.0235C73.8496 26.9885 75.0215 27.1872 76.1208 27.608C77.2201 28.0288 78.2251 28.6635 79.0776 29.4751C79.9301 30.2868 80.6132 31.2595 81.0874 32.3369C81.5616 33.4142 81.8175 34.5749 81.8403 35.7518C81.8631 36.9287 81.6523 38.0984 81.2201 39.1934C80.7879 40.2883 80.143 41.2866 79.3225 42.1307Z"
-                fill="white"
-              />
-            </g>
-            <defs>
-              <clipPath id="clip0_3826_7181">
-                <rect
-                  width="101"
-                  height="101"
-                  fill="white"
-                  transform="translate(0.0214844)"
+                <path
+                  d="M21.896 1.35938H6.44146C6.17695 1.36242 5.92232 1.46036 5.72393 1.63535C6.51116 1.91232 7.20379 2.40671 7.72153 3.06121C8.23928 3.71572 8.56095 4.50356 8.64926 5.3334C8.66613 5.4801 8.66613 5.62826 8.64926 5.77496V24.5412C8.64873 24.7523 8.70877 24.9592 8.82226 25.1372C8.93574 25.3153 9.0979 25.4571 9.28952 25.5457C9.48158 25.6342 9.695 25.6656 9.90439 25.6362C10.1138 25.6068 10.3103 25.518 10.4707 25.3802L13.6168 22.6866L16.7629 25.3802C16.9628 25.5512 17.2173 25.6452 17.4804 25.6452C17.7435 25.6452 17.998 25.5512 18.198 25.3802L21.3441 22.6866L24.4902 25.3802C24.6901 25.5512 24.9446 25.6451 25.2077 25.6451C25.3674 25.644 25.5252 25.6101 25.6713 25.5457C25.863 25.4571 26.0251 25.3153 26.1386 25.1372C26.2521 24.9592 26.3121 24.7523 26.3116 24.5412V5.77496C26.3116 4.60387 25.8464 3.48075 25.0183 2.65267C24.1902 1.82459 23.0671 1.35938 21.896 1.35938ZM20.7921 16.8139H14.1687C13.876 16.8139 13.5952 16.6976 13.3882 16.4906C13.1811 16.2836 13.0648 16.0028 13.0648 15.71C13.0648 15.4173 13.1811 15.1365 13.3882 14.9295C13.5952 14.7224 13.876 14.6061 14.1687 14.6061H20.7921C21.0849 14.6061 21.3657 14.7224 21.5727 14.9295C21.7797 15.1365 21.896 15.4173 21.896 15.71C21.896 16.0028 21.7797 16.2836 21.5727 16.4906C21.3657 16.6976 21.0849 16.8139 20.7921 16.8139ZM20.7921 12.3983H14.1687C13.876 12.3983 13.5952 12.282 13.3882 12.075C13.1811 11.868 13.0648 11.5872 13.0648 11.2944C13.0648 11.0017 13.1811 10.7209 13.3882 10.5139C13.5952 10.3068 13.876 10.1905 14.1687 10.1905H20.7921C21.0849 10.1905 21.3657 10.3068 21.5727 10.5139C21.7797 10.7209 21.896 11.0017 21.896 11.2944C21.896 11.5872 21.7797 11.868 21.5727 12.075C21.3657 12.282 21.0849 12.3983 20.7921 12.3983ZM20.7921 7.98275H14.1687C13.876 7.98275 13.5952 7.86645 13.3882 7.65943C13.1811 7.45241 13.0648 7.17163 13.0648 6.87886C13.0648 6.58608 13.1811 6.3053 13.3882 6.09828C13.5952 5.89126 13.876 5.77496 14.1687 5.77496H20.7921C21.0849 5.77496 21.3657 5.89126 21.5727 6.09828C21.7797 6.3053 21.896 6.58608 21.896 6.87886C21.896 7.17163 21.7797 7.45241 21.5727 7.65943C21.3657 7.86645 21.0849 7.98275 20.7921 7.98275ZM6.44146 5.77496V14.6061H3.12978C2.837 14.6061 2.55622 14.4898 2.3492 14.2828C2.14218 14.0758 2.02588 13.795 2.02588 13.5022V5.77496C2.02588 5.62041 2.02588 5.47691 2.02588 5.3334C2.08443 4.74786 2.3732 4.20956 2.82864 3.83692C3.28409 3.46428 3.86891 3.28783 4.45445 3.34639C5.03999 3.40494 5.57829 3.6937 5.95093 4.14915C6.32357 4.6046 6.50002 5.18942 6.44146 5.77496Z"
+                  fill="black"
                 />
-              </clipPath>
-            </defs>
-          </svg>
-
-          <h5 class="mb-0 mt-4">Payment Confirmed</h5>
-          <p class="mb-0 mt-2">Your payment has been processed successfully.</p>
-        </div>
-
-        <div class="p-4">
-          <h5 class="mb-0 font-20 border-bottom pb-3 mb-2">Plan details</h5>
-
-          <div
-            class="d-flex align-items-center justify-content-between pt-2 pb-2"
-          >
-            <h5 class="mb-0 font-16">Employee</h5>
-            <h5 class="mb-0 font-16">123</h5>
-          </div>
-          <div
-            class="d-flex align-items-center justify-content-between pt-2 pb-2"
-          >
-            <h5 class="mb-0 font-16">Plan Opted</h5>
-            <h5 class="mb-0 font-16">Premium/ Yearly</h5>
-          </div>
-          <div
-            class="d-flex align-items-center justify-content-between pt-2 pb-2"
-          >
-            <h5 class="mb-0 font-16">Amount</h5>
-            <h5 class="mb-0 font-16">123</h5>
-          </div>
-          <div
-            class="d-flex align-items-center justify-content-between pt-2 pb-2"
-          >
-            <h5 class="mb-0 font-16">Tax Amount</h5>
-            <h5 class="mb-0 font-16">₹6.2</h5>
-          </div>
-        </div>
-      </div>
-      <div
-        class="modal-footer p-3 d-flex align-items-center justify-content-between"
-        style="background-color: #f8f8f8"
-      >
-        <div class="d-flex align-items-center gap-3">
-          <span
-            class="download-invoice-icon d-flex align-items-center justify-content-center bg-white"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="28"
-              height="27"
-              viewBox="0 0 28 27"
-              fill="none"
-            >
-              <path
-                d="M21.896 1.35938H6.44146C6.17695 1.36242 5.92232 1.46036 5.72393 1.63535C6.51116 1.91232 7.20379 2.40671 7.72153 3.06121C8.23928 3.71572 8.56095 4.50356 8.64926 5.3334C8.66613 5.4801 8.66613 5.62826 8.64926 5.77496V24.5412C8.64873 24.7523 8.70877 24.9592 8.82226 25.1372C8.93574 25.3153 9.0979 25.4571 9.28952 25.5457C9.48158 25.6342 9.695 25.6656 9.90439 25.6362C10.1138 25.6068 10.3103 25.518 10.4707 25.3802L13.6168 22.6866L16.7629 25.3802C16.9628 25.5512 17.2173 25.6452 17.4804 25.6452C17.7435 25.6452 17.998 25.5512 18.198 25.3802L21.3441 22.6866L24.4902 25.3802C24.6901 25.5512 24.9446 25.6451 25.2077 25.6451C25.3674 25.644 25.5252 25.6101 25.6713 25.5457C25.863 25.4571 26.0251 25.3153 26.1386 25.1372C26.2521 24.9592 26.3121 24.7523 26.3116 24.5412V5.77496C26.3116 4.60387 25.8464 3.48075 25.0183 2.65267C24.1902 1.82459 23.0671 1.35938 21.896 1.35938ZM20.7921 16.8139H14.1687C13.876 16.8139 13.5952 16.6976 13.3882 16.4906C13.1811 16.2836 13.0648 16.0028 13.0648 15.71C13.0648 15.4173 13.1811 15.1365 13.3882 14.9295C13.5952 14.7224 13.876 14.6061 14.1687 14.6061H20.7921C21.0849 14.6061 21.3657 14.7224 21.5727 14.9295C21.7797 15.1365 21.896 15.4173 21.896 15.71C21.896 16.0028 21.7797 16.2836 21.5727 16.4906C21.3657 16.6976 21.0849 16.8139 20.7921 16.8139ZM20.7921 12.3983H14.1687C13.876 12.3983 13.5952 12.282 13.3882 12.075C13.1811 11.868 13.0648 11.5872 13.0648 11.2944C13.0648 11.0017 13.1811 10.7209 13.3882 10.5139C13.5952 10.3068 13.876 10.1905 14.1687 10.1905H20.7921C21.0849 10.1905 21.3657 10.3068 21.5727 10.5139C21.7797 10.7209 21.896 11.0017 21.896 11.2944C21.896 11.5872 21.7797 11.868 21.5727 12.075C21.3657 12.282 21.0849 12.3983 20.7921 12.3983ZM20.7921 7.98275H14.1687C13.876 7.98275 13.5952 7.86645 13.3882 7.65943C13.1811 7.45241 13.0648 7.17163 13.0648 6.87886C13.0648 6.58608 13.1811 6.3053 13.3882 6.09828C13.5952 5.89126 13.876 5.77496 14.1687 5.77496H20.7921C21.0849 5.77496 21.3657 5.89126 21.5727 6.09828C21.7797 6.3053 21.896 6.58608 21.896 6.87886C21.896 7.17163 21.7797 7.45241 21.5727 7.65943C21.3657 7.86645 21.0849 7.98275 20.7921 7.98275ZM6.44146 5.77496V14.6061H3.12978C2.837 14.6061 2.55622 14.4898 2.3492 14.2828C2.14218 14.0758 2.02588 13.795 2.02588 13.5022V5.77496C2.02588 5.62041 2.02588 5.47691 2.02588 5.3334C2.08443 4.74786 2.3732 4.20956 2.82864 3.83692C3.28409 3.46428 3.86891 3.28783 4.45445 3.34639C5.03999 3.40494 5.57829 3.6937 5.95093 4.14915C6.32357 4.6046 6.50002 5.18942 6.44146 5.77496Z"
-                fill="black"
-              />
-            </svg>
-          </span>
-          <div>
-            <h5 class="mb-1 font-16 text-black">Download Invoice</h5>
-            <div class="d-flex align-items-center gap-3">
-              <p class="mb-0 font-14">Perfect for growing businesses</p>
-              <button class="p-0 btn font-16 text-primary download-btn">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="15"
-                  height="15"
-                  viewBox="0 0 15 15"
-                  fill="none"
-                >
-                  <path
-                    d="M7.49825 11.2474L2.81184 6.56097L4.12404 5.20191L6.56097 7.63884V0H8.43553V7.63884L10.8725 5.20191L12.1847 6.56097L7.49825 11.2474ZM1.87456 14.9965C1.35906 14.9965 0.917755 14.813 0.550653 14.4459C0.183551 14.0787 0 13.6374 0 13.1219V10.3101H1.87456V13.1219H13.1219V10.3101H14.9965V13.1219C14.9965 13.6374 14.813 14.0787 14.4459 14.4459C14.0787 14.813 13.6374 14.9965 13.1219 14.9965H1.87456Z"
-                    fill="#6666F2"
-                  />
-                </svg>
-                Download
-              </button>
+              </svg>
+            </span>
+            <div>
+              <h5 class="mb-1 font-16 text-black">Download Invoice</h5>
+              <div class="d-flex align-items-center gap-3">
+                <p class="mb-0 font-14">Perfect for growing businesses</p>
+                <button class="p-0 btn font-16 text-primary download-btn">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="15"
+                    height="15"
+                    viewBox="0 0 15 15"
+                    fill="none"
+                  >
+                    <path
+                      d="M7.49825 11.2474L2.81184 6.56097L4.12404 5.20191L6.56097 7.63884V0H8.43553V7.63884L10.8725 5.20191L12.1847 6.56097L7.49825 11.2474ZM1.87456 14.9965C1.35906 14.9965 0.917755 14.813 0.550653 14.4459C0.183551 14.0787 0 13.6374 0 13.1219V10.3101H1.87456V13.1219H13.1219V10.3101H14.9965V13.1219C14.9965 13.6374 14.813 14.0787 14.4459 14.4459C14.0787 14.813 13.6374 14.9965 13.1219 14.9965H1.87456Z"
+                      fill="#6666F2"
+                    />
+                  </svg>
+                  Download
+                </button>
+              </div>
             </div>
           </div>
+          <button class="btn payment-done"  data-bs-dismiss="modal" (click)="switchSubscriptionPlan()">Done</button>
         </div>
-        <button class="btn payment-done">Done</button>
       </div>
     </div>
   </div>
