@@ -17,7 +17,7 @@ declare var bootstrap: any;
 export class EmergencyContactComponent implements OnInit {
   userEmergencyContactDetails: UserEmergencyContactDetailsRequest[] = [];
 
-  constructor(private dataService: DataService, private router: Router, private cd: ChangeDetectorRef, private helperService:HelperService) { }
+  constructor(public dataService: DataService, private router: Router, private cd: ChangeDetectorRef, private helperService:HelperService) { }
 
   ngOnInit(): void {
     this.getOnboardingFormPreviewMethodCall();

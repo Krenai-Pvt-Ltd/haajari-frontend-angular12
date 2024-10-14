@@ -84,8 +84,8 @@
                             </div>
 
                         </li>
-                        <!-- Placeholder for Emergency Contact -->
-                        <li class="tracking-item " *ngIf="isRoutePresent('/emergency-contact')" (click)="navigateTo('/employee-onboarding/emergency-contact', 23)">
+                        <!-- Placeholder for Emergency Contact  *ngIf="isRoutePresent('/emergency-contact')" -->
+                        <li class="tracking-item " (click)="navigateTo('/employee-onboarding/emergency-contact', 23)">
                             <div class="d-flex new-stap">
                                 <div class="tracing-icon" [ngClass]="{'active': isStepCompleted(23)}">
                                     <i class="bi bi-check2" *ngIf="isStepCompleted(23)"></i>
