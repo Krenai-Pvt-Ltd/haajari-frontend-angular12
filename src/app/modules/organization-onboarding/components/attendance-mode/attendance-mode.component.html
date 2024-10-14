@@ -256,7 +256,10 @@
                       <span
                         class="mode-icon d-flex align-items-center justify-content-center"
                       >
-                        <img src="assets/images/person_book.svg" />
+                        <!-- <img src="assets/images/person_book.svg" /> -->
+                        <img src="https://firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/Hajiri%2FSample%2Fattendance-location.svg?alt=media" *ngIf="attendanceMode.id == 2"/>
+                        <img src="https://firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/Hajiri%2FSample%2Fmanual-attendance.svg?alt=media" *ngIf="attendanceMode.id == 1"/>
+                        <img src="https://firebasestorage.googleapis.com/v0/b/haajiri.appspot.com/o/Hajiri%2FSample%2Fselfie-location.svg?alt=media"  *ngIf="attendanceMode.id == 3"/>
                       </span>
                       <h5
                         class="mb-2 mt-3"
@@ -473,7 +476,7 @@
                       </div>
                     </div>
                     <div class="col-md-3">
-                      <div class="mb-3">
+                      <!-- <div class="mb-3">
                         <label for="radius" class="pb-2">
                           Employee location Must be in
                           <i
@@ -493,8 +496,65 @@
                           required
                           #radius="ngModel"
                         />
+                      </div> -->
+                      <div class="mb-3">
+                        <label for="radius" class="pb-2">
+                          Employee location Must be in
+                          <i class="bi bi-exclamation-circle tolltip-icon"
+                            ngbTooltip="Please enter the location range (in meters) within which your employees are allowed to mark their attendance. This ensures that attendance can only be marked when they are within the specified location range."
+                            placement="top">
+                          </i>
+                        </label>
+                        
+                        <!-- <nz-select
+                        [(ngModel)]="selectedRadius"
+                        [nzMode]="'tags'" 
+                        nzPlaceHolder="Select or type a radius"
+                        [nzAllowClear]="true"
+                        (ngModelChange)="onRadiusChange($event)"
+                        class="form-control profile-input"
+                        #radius="ngModel"
+                      >
+                        <nz-option
+                          *ngFor="let radius of radiusOptions"
+                          [nzLabel]="radius + 'm'"
+                          [nzValue]="radius"
+                        ></nz-option>
+                      </nz-select> -->
+                            <input
+                            maxlength="5"
+                            class="form-control profile-input"
+                            id="radiusDropdown"
+                            name="radiusDropdown"
+                            placeholder="Enter radius in meters"
+                            nz-input
+                            [(ngModel)]="organizationAddressDetail.radius"
+                            (ngModelChange)="onChange($event)"
+                            [nzAutocomplete]="radiusAuto"
+                            required
+                            #radius="ngModel"
+                            (keydown)="preventLeadingWhitespace($event)"
+                            (keypress)="allowOnlyNumbers($event)"
+                        />
+                        <nz-autocomplete [nzDataSource]="radiusFilteredOptions" #radiusAuto></nz-autocomplete>
+                        <div *ngIf="radius?.touched || isFormInvalid">
+                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="radius.errors?.required">
+                                <i class="bi bi-exclamation-circle"></i> Radius selection is required.
+                            </p>
+                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="radius.errors?.maxlength">
+                                <i class="bi bi-exclamation-circle"></i> Maximum 5 characters allowed.
+                            </p>
+                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="minRadius">
+                                <i class="bi bi-exclamation-circle"></i> Radius must be at least 50 meters.
+                            </p>
+                            <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="radius.value > 99000">
+                                <i class="bi bi-exclamation-circle"></i> Maximum radius is 99,000 meters.
+                            </p>
+                        </div>
+                  
+                  
                       </div>
-                      <div
+                      <!-- <div
                         *ngIf="
                           (radius.touched && radius.invalid) || isFormInvalid
                         "
@@ -515,7 +575,7 @@
                           <i class="bi bi-exclamation-circle"></i> Minimum
                           radius is 50 meters.
                         </p>
-                      </div>
+                      </div> -->
                     </div>
                     <div class="col-md-3">
                       <div class="mb-3">
@@ -682,15 +742,16 @@
                   </div>
                 </button>
                 <!-- {{selectedMasterAttendanceModeId}} -->
+                
                 <button
                   type="submit"
                   class="btn nextBtn p-0"
                   [disabled]="
                     (organizationAddressForm?.invalid &&
                       selectedMasterAttendanceModeId === 1) ||
-                    (attendanceModeStep === 2 &&
+                    ((attendanceModeStep === 2 &&
                       (selectedAttendanceModeId === 2 ||
-                        selectedAttendanceModeId === 3)) ||
+                        selectedAttendanceModeId === 3)) || minRadius )||
                     selectedMasterAttendanceModeId == null
                   "
                   (click)="goToDashboardSection(); submit()"

@@ -1462,7 +1462,7 @@ i.bi.bi-plus {
   max-width: 900px;
 }
 .leave-create-modal {
-  height: 550px;
+  height: 80vh;
 }
 .leave-sidebar-menu {
   background-color: #fbfbfb;
@@ -1555,7 +1555,7 @@ i.bi.bi-plus {
   border: none;
   font-weight: 400;
   text-align: center;
-  padding: 3px 15px;
+  padding: 2px 13px;
   line-height: 22px;
 }
 .add-employee i {
@@ -1602,6 +1602,10 @@ i.bi.bi-plus {
   left: 10px;
 }
 
+.empOnnoardtable tr {
+  font-size: 12px;
+}
+
 .empOnnoardtable td {
   font-weight: 500;
   vertical-align: middle;
@@ -1622,14 +1626,92 @@ i.bi.bi-plus {
   font-weight: 400;
 }
 
+.input-zorro {
+  width: 100%;
+  background-color: #fbfbfb;
+  border: 1px solid #e9e9e9;
+}
+
 .ant-picker.ant-picker-disabled {
   background: #f9faff !important;
   border-color: #d9d9d9;
   cursor: not-allowed;
 }
+
+.leave-create-modal {
+  height: 80vh;
+}
+
+.leave-category-list {
+  max-height: 20vh;
+  overflow: scroll;
+}
+.leave-category-list::-webkit-scrollbar {
+  display: none;
+}
+
+.close-btn {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+}
+
+.close-btn svg {
+  width: 20px;
+  position: relative;
+  top: -1px;
+}
+
+.leave-management-settings {
+  background-color: #f5f6ff;
+}
+
+.add-leave-btn {
+  background-color: var(--primary-background-color);
+  color: #fff;
+  font-size: 14px;
+  height: 40px;
+  min-width: 180px;
+  border-radius: 2px;
+  font-weight: 400;
+}
+
+.leave-management-detail h3 {
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 42px;
+}
+.leave-management-detail p {
+  font-weight: 300;
+  color: #444;
+}
+
+.leave-management-detail svg {
+  width: 15px;
+  position: relative;
+  top: -1px;
+}
+.leave-management-detail a {
+  color: var(--primary-color) !important;
+}
+.leave-management-detail a:hover {
+  text-decoration: underline;
+  color: var(--primary-color) !important;
+}
+
+.leave-management-detail span {
+  font-size: 13px;
+  font-weight: 400;
+  color: #878a9a;
+}
 @media screen and (max-width: 2600px) {
   .employ-list-height {
-    max-height: 40vh;
+    max-height: 50vh;
+    overflow: scroll;
+  }
+
+  .leave-category-list {
+    max-height: 30vh;
     overflow: scroll;
   }
 }
@@ -1637,6 +1719,11 @@ i.bi.bi-plus {
 @media screen and (max-width: 1280px) {
   .employ-list-height {
     max-height: 45vh;
+    overflow: scroll;
+  }
+
+  .leave-category-list {
+    max-height: 20vh;
     overflow: scroll;
   }
 }

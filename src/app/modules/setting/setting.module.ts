@@ -37,9 +37,7 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-
-
-
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
 
 @NgModule({
   declarations: [
@@ -51,8 +49,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     AccountSettingsComponent,
     StaffAttendanceLocationComponent,
     UploadPhotoComponent,
-    SalarySettingComponent
-    
+    SalarySettingComponent,
   ],
   imports: [
     CommonModule,
@@ -81,7 +78,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     NzButtonModule,
     NzFormModule,
     NzToolTipModule,
-    
+    NzEmptyModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyB6SQE_TmOLpGLohpMLl-6FzdwJJAU9MnA',
       libraries: ['places'],

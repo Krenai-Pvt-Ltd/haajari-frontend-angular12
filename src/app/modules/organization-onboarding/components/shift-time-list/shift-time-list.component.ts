@@ -759,10 +759,17 @@ calculateTimes(): void {
    debugger
     this.selectedStaffsUuids = this.selectedStaffsUuids.filter(id => id !== uuid);
 
-    
+    this.staffs.forEach((staff) => {
+      staff.selected = this.selectedStaffsUuids.includes(staff.uuid);
+    });
+    this.isAllSelected = false;
+    // if(this.selectedStaffsUuids.length <1) {
+      // this.unselectAllUsers();
+    // }
     // this.updateSelectedStaffs();
     this.userNameWithShiftName = [];
     this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "SHIFT_USER_EDIT");
+
 
     
   }

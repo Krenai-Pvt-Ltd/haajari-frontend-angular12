@@ -1083,10 +1083,9 @@
                           </div>
                         </div>
                       </div>
-                      <div class="card-header p-0" style="border: none">
+                      <!-- <div class="card-header p-0" style="border: none">
                         <div class="row align-items-center">
                           <div class="col"></div>
-                          <!--end col-->
                           <div class="col-auto">
                             <div class="btn-group mb-2 mb-lg-0" role="group"
                               aria-label="Basic checkbox toggle button group">
@@ -1102,10 +1101,8 @@
                                 data-bs-target="#attendanceLogsModal" (click)="getAttendanceRequestLogData()"> <i class="bi bi-substack"></i> Logs</label>
                             </div>
                           </div>
-                          <!--end col-->
                         </div>
-                        <!--end row-->
-                      </div>
+                      </div> -->
                       <!-- <div>
                         <full-calendar 
                         [options]="calendarOptions" id="calendar" #calendar></full-calendar>
@@ -1118,47 +1115,40 @@
                       [nzDisabledDate]="disablePreviousYears"
                       [nzDisabledDate]="disablePreviousMonths"
                       [nzDisabledDate]="disableDate">
-                  
-                    <ul *nzDateCell="let date" class="events">
-                      <ng-container *ngIf="date >= joiningDate; else beforeJoiningDate">
-                        <ng-container *ngIf="getEventForDate(date) as event">
-                          <li>
-                            <span [ngStyle]="{'background-color': event.color}">
-                              <!-- Badge without date info, only event details -->
-                              <nz-badge nz-popover nzPopoverTrigger="hover" nzPopoverTitle="Summary"
-                                [nzPopoverContent]="contentTemplate" nzPopoverPlacement="topLeft"
-                                [nzColor]="event.color" [nzDot]="false" nzStandalone>
-                              </nz-badge>
-                  
-                              <!-- Event details in the tooltip (without the date) -->
-                              <span class="event-details" nz-tooltip [nzTooltipTitle]="getDetails(event)">
-                                {{ event.status }}
-                              </span>
-                            </span>
-                  
-                            <!-- Event summary in popover content -->
-                            <ng-template #contentTemplate>
-                              <div
-                                style="background-color: white; padding: 10px; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
-                                <h4 style="margin: 0; font-weight: bold;">Summary</h4>
-                                <p>CHECK IN: {{ event.checkInTime | date: 'short' }}</p>
-                                <p>CHECK OUT: {{ event.checkOutTime | date: 'short' }}</p>
-                                <p>BREAK: {{ event.breakDuration }}</p>
-                              </div>
-                            </ng-template>
-                          </li>
-                        </ng-container>
-                      </ng-container>
-                  
-                      <!-- Placeholder for dates before joining -->
-                      <ng-template #beforeJoiningDate>
-                        <li>
-                          <span class="event-details">-</span>
-                        </li>
-                      </ng-template>
-                    </ul>
-                  </nz-calendar>
-                  
+           <ul *nzDateCell="let date" class="events">
+             <ng-container *ngIf="date >= joiningDate; else beforeJoiningDate">
+               <ng-container *ngIf="getEventForDate(date) as event">
+                 <li>
+                   <span [ngStyle]="{'background-color': event.color}">
+                     <nz-badge nz-popover nzPopoverTrigger="hover" 
+                       [nzPopoverContent]="contentTemplate" nzPopoverPlacement="topLeft"
+                       [nzColor]="event.color" [nzDot]="false" nzStandalone>
+                     </nz-badge>
+                     <span class="event-details" nz-tooltip [nzTooltipTitle]="getDetails(event)">
+                       {{ event.status }}
+                     </span>
+                   </span>
+         
+                   <ng-template #contentTemplate>
+                     <div
+                       style="background-color: white; padding: 10px; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+                       <h4 style="margin: 0; font-weight: bold;">Summary</h4><br>
+                       <ng-container>CHECK IN: {{ event.checkInTime | date: 'short' }}</ng-container><br>
+                       <ng-container>CHECK OUT: {{ event.checkOutTime | date: 'short' }}</ng-container><br>
+                       <ng-container>BREAK: {{ event.breakDuration }}</ng-container>
+                     </div>
+                   </ng-template>
+                 </li>
+               </ng-container>
+             </ng-container>
+         
+             <ng-template #beforeJoiningDate>
+               <li>
+                 <span class="event-details">-</span>
+               </li>
+             </ng-template>
+           </ul>
+                      </nz-calendar>
          
                
                       <div class="legends-section" style="margin-top: 20px; font-size: 13px">
@@ -1274,6 +1264,8 @@
                           <i class="bi bi-plus" style="font-size: 15px"></i>Apply for Lop Reversal </a>
                         <a class="btn" data-bs-toggle="modal" data-bs-target=".overtime-request">
                           <i class="bi bi-plus" style="font-size: 15px"></i>Request for Overtime </a>
+                          <a class="btn" data-bs-toggle="modal" data-bs-target="#attendanceUpdateModal">
+                            <i class="bi bi-plus" style="font-size: 15px"></i>Request for Attendance Update </a>
                       </div>
                       <ng-container *ngIf="
                           userLeave?.length !== 0 && !leaveCountPlaceholderFlag
@@ -1319,8 +1311,12 @@
                           <li class="nav-item"
                             (click)="changeLogTabInAttendanceTab(LOP_REVERSAL_LOG); getLopReversalApplicationLogResponseListByUserUuidMethodCall()">
                             <a class="nav-link" [ngClass]="{'active': ACTIVE_LOG_TAB === LOP_REVERSAL_LOG}"
-                              data-bs-toggle="tab" href="#lop-reversal-log" role="tab" aria-selected="true">Lop
-                              Reversal</a>
+                              data-bs-toggle="tab" href="#lop-reversal-log" role="tab" aria-selected="true">Lop Reversal</a>
+                          </li>
+                          <li class="nav-item"
+                            (click)="changeLogTabInAttendanceTab(ATTENDANCE_UPDATE_REQUEST_LOG); getAttendanceRequestLogData()">
+                            <a class="nav-link" [ngClass]="{'active': ACTIVE_LOG_TAB === ATTENDANCE_UPDATE_REQUEST_LOG}"
+                              data-bs-toggle="tab" href="#attendance-update-request-log" role="tab" aria-selected="true">Updation Request</a>
                           </li>
                         </ul>
                       </div>
@@ -1649,8 +1645,7 @@
                                         </div>
                                         <hr class="hr-dashed" />
                                         <div class="d-flex justify-content-between">
-                                          <p> Time: <u>{{ overtimeRequestLogResponse.startTime | date : 'd MMM, h:mm
-                                              a'}} - {{ overtimeRequestLogResponse.endTime | date : 'd MMM, h:mm a'
+                                          <p> Time: <u>{{ overtimeRequestLogResponse.startTime | date : 'd MMM, h:mm a'}} - {{ overtimeRequestLogResponse.endTime | date : 'd MMM, h:mm a'
                                               }}</u>
                                           </p>
                                           <h6 class="fw-semibold">
@@ -1827,8 +1822,7 @@
                                         </div>
                                         <hr class="hr-dashed" />
                                         <div class="d-flex justify-content-between">
-                                          <p> Month: <u>{{ lopReversalApplicationResponse.startDate | date : 'MMM,
-                                              y'}}</u>
+                                          <p> Month: <u>{{ lopReversalApplicationResponse.startDate | date : 'MMM, y'}}</u>
                                           </p>
                                           <h6 class="fw-semibold">
                                             <span class="badge badge-outline-primary">Approved Days |
@@ -1873,6 +1867,200 @@
                               </div>
                             </div>
                           </ng-template>
+                        </div>
+                        <div class="" id="attendance-update-request-log" *ngIf="ACTIVE_LOG_TAB == ATTENDANCE_UPDATE_REQUEST_LOG">
+                          <div class="row">
+                            <div class="col-md-12" id="leave-log" *ngIf="isShimmerForAttendanceUpdateRequestLog">
+                              <div class="leves-type-s mb-2">
+                                <div class="row">
+                                  <div class="col-md-4">
+                                    <h4>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </h4>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <h4>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </h4>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <h4>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </h4>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <h4>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </h4>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <h4>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </h4>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="leves-type-s mb-2">
+                                <div class="row">
+                                  <div class="col-md-4">
+                                    <h4>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </h4>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <h4>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </h4>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <h4>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </h4>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <h4>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </h4>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <h4>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </h4>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="leves-type-s mb-2">
+                                <div class="row">
+                                  <div class="col-md-4">
+                                    <h4>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </h4>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <h4>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </h4>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <h4>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </h4>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <h4>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </h4>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <h4>
+                                      <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </h4>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="errorboxmain text-center" *ngIf="!isShimmerForAttendanceUpdateRequestLog && networkConnectionErrorForAttendanceUpdateRequestLog">
+                            <div class="errorboxinner">
+                              <div class="errorboxplaceholder mb-2">
+                                <img src="assets/images/signal.svg" style="width: 80px" />
+                              </div>
+                              <div class="">
+                                <h4>Something went wrong!</h4>
+                                <p class="mb-0"> An error occurred while processing your request. Please refresh the
+                                  page and try again. </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="errorboxmain text-center" *ngIf="!isShimmerForAttendanceUpdateRequestLog && dataNotFoundForAttendanceUpdateRequestLog">
+                            <div class="errorboxinner">
+                              <div class="errorboxplaceholder mb-2">
+                                <img src="assets/images/empty-box.svg" style="width: 80px" />
+                              </div>
+                              <div class="">
+                                <h4>No Data Found</h4>
+                                <p class="mb-0"> We're unable to locate a record associated with the information you
+                                  entered. </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="leave-logs" style="max-height: 450px; overflow: scroll"
+                            *ngIf="!isShimmerForAttendanceUpdateRequestLog && !dataNotFoundForAttendanceUpdateRequestLog">
+                            <div class="activity" *ngFor="let attendanceReqLog of attendanceRequestLog">
+                              <div class="activity-info">
+                                <div class="icon-info-activity">
+                                  <i class="ti ti-clock bg-soft-warning" *ngIf="attendanceReqLog.status == 'PENDING'"></i>
+                                  <i class="ti ti-checks bg-soft-success" *ngIf="attendanceReqLog.status == 'APPROVED'"></i>
+                                  <i class="ti ti-x bg-soft-danger" *ngIf="attendanceReqLog.status == 'REJECTED'"></i>
+                                </div>
+                                <div class="activity-info-text">
+                                  <div>
+                                    <div class="float-end">
+                                      <div class="dropdown d-inline-block">
+                                        <div class="align-self-center">
+                                          <div class="btn btn-xs btn-light btn-round">
+                                            {{ attendanceReqLog.createdDate | date:'medium' || "N/A" }}
+                                          </div>
+                                          <!-- {{ leaves.docFileLink }} -->
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="media align-items-center">
+                                      <div class="media-body ms-2 align-self-center">
+                                        <h5 class="m-0">{{ attendanceReqLog.username }}</h5>
+                                        <p class="text-muted font-12 mb-0">
+                                          <span style="color: orange" class="ng-star-inserted"
+                                            *ngIf="attendanceReqLog.status == 'PENDING'">Applied <span> To </span>
+                                          </span>
+                                          <span style="color: green" class="ng-star-inserted"
+                                            *ngIf="attendanceReqLog.status == 'APPROVED'">Approved <span> By </span>
+                                          </span>
+                                          <span style="color: rgb(255, 55, 0)" class="ng-star-inserted"
+                                            *ngIf="attendanceReqLog.status == 'REJECTED'">Rejected <span> By </span>
+                                          </span>
+                                          {{ attendanceReqLog.managerName }}
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <hr class="hr-dashed" />
+                                    <div class="d-flex justify-content-between">
+                                      <ng-container *ngIf="attendanceReqLog.requestType === 'UPDATE'">
+                                        <div>
+                                          <small>Previous Time: <u> {{attendanceReqLog.oldDate | date:'medium' || "N/A"}} </u></small>
+                                          <br>
+                                          <small>Requested Time: <u> {{attendanceReqLog.updatedDate | date:'medium' || "N/A"}} </u></small>
+                                        </div>
+                                      </ng-container>
+                                        
+                                      <ng-container *ngIf="attendanceReqLog.requestType === 'CREATE'">
+                                        <div>
+                                          <small>In Time: <u> {{attendanceReqLog.inRequestTime | date:'medium' || "N/A"}} </u></small>
+                                          <br>
+                                          <small>Out Time: <u> {{attendanceReqLog.outRequestTime | date:'medium' || "N/A"}} </u></small>
+                                        </div>
+                                      </ng-container>
+                                      <!-- <p> Duration: <u>{{ formatDateIn(formatDate(leaves.startDate)) }} - {{
+                                          formatDateIn(formatDate(leaves.endDate)) }}</u>
+                                      </p> -->
+                                      <h6 class="fw-semibold">
+                                        <span class="badge badge-outline-primary" *ngIf="attendanceReqLog.requestType === 'UPDATE'">Request Type | {{attendanceReqLog.attendanceStatus | uppercase}}</span>
+                                        <span class="badge badge-outline-primary" *ngIf="attendanceReqLog.requestType === 'CREATE'">New Request !</span>
+                                      </h6>
+                                    </div>
+                                    <p class="text-muted mb-0">{{ attendanceReqLog.requestReason }}</p>
+                                  </div>
+                                  <!-- <div class="mt-3">
+                                    <a class="text-primary" *ngIf="leaves.docFileLink != null"
+                                      (click)="downloadSingleImage(leaves.docFileLink)"> Declaration <i
+                                        class="bi bi-arrow-down"></i>
+                                    </a>
+                                  </div> -->
+                                  <hr class="hr-dashed" />
+                                </div>
+                              </div>
+                            </div>
+                            <!--end activity-->
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -4489,7 +4677,7 @@
               </nz-select>
               <small class="text-muted d-block mt-2"
                 *ngIf="!attendanceTimeUpdateForm.get('requestType')?.value || !attendanceTimeUpdateForm.get('requestedDate')?.value">
-                Please select the Request Type and Date above before choosing a time! </small>
+                Please select the Date and Type above before choosing a time! </small>
             </div>
           </div>
           
@@ -4542,16 +4730,16 @@
       </div>
       <div class="modal-body">
         <!-- Toggle Buttons for Request Type -->
-        <div class="mb-3 text-center">
+        <div class="mb-3 text-left">
           <div class="form-check form-check-inline me-2">
-            <input class="form-check-input" type="radio" name="attendanceRequestType" id="updateRequestType"
+            <input style="cursor: pointer;" class="form-check-input" type="radio" name="attendanceRequestType" id="updateRequestType"
                    [value]="'UPDATE'" [(ngModel)]="attendanceRequestType" (change)="onAttendanceRequestTypeChange()">
-            <label class="form-check-label" for="updateRequestType">Attendance Update</label>
+            <label class="form-check-label" for="updateRequestType">Update</label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="attendanceRequestType" id="createRequestType"
+            <input style="cursor: pointer;" class="form-check-input" type="radio" name="attendanceRequestType" id="createRequestType"
                    [value]="'CREATE'" [(ngModel)]="attendanceRequestType" (change)="onAttendanceRequestTypeChange()">
-            <label class="form-check-label" for="createRequestType">Mark Present</label>
+            <label class="form-check-label" for="createRequestType">New Request</label>
           </div>
         </div>
         
@@ -4559,8 +4747,9 @@
         <form [formGroup]="attendanceTimeUpdateForm">
           <!-- Fields for UPDATE request -->
           <div *ngIf="attendanceRequestType === 'UPDATE'" formGroupName="updateGroup">
+            <!-- Additional fields for UPDATE -->
             <div class="mb-3 row">
-              <label for="requestType" class="col-sm-4 col-form-label">Request Type<span class="text-danger">*</span></label>
+              <label for="requestType" class="col-sm-4 col-form-label">Type<span class="text-danger">*</span></label>
               <div class="col-sm-8">
                 <nz-select formControlName="requestType" id="requestType" nzPlaceHolder="Select request type" class="w-100">
                   <nz-option nzValue="in" nzLabel="IN"></nz-option>
@@ -4570,38 +4759,34 @@
                 </nz-select>
               </div>
             </div>
-            <!-- Additional fields for UPDATE -->
+            
             <div class="mb-3 row">
               <label for="requestedDate" class="col-sm-4 col-form-label">Date<span class="text-danger">*</span></label>
               <div class="col-sm-8">
                 <nz-date-picker formControlName="requestedDate" id="requestedDate" nzFormat="yyyy-MM-dd"
                   (ngModelChange)="onDateChange($event); getHolidayForOrganization(requestedDate)" class="w-100" [nzDisabledDate]="disabledDate"></nz-date-picker>
 
-                  <small class="text-danger d-block mt-2"
-                *ngIf="checkHoliday">
-                 Seleted date is registered as holiday for your organization!
-                </small>
+                  <small class="text-danger d-block mt-2" *ngIf="checkHoliday">There was holiday on selected date!</small>
               </div>
             </div>
-            
+
             <div class="mb-3 row">
-              <label for="attendanceId" class="col-sm-4 col-form-label">Select Time<span class="text-danger">*</span></label>
+              <label for="attendanceId" class="col-sm-4 col-form-label">Time<span class="text-danger">*</span></label>
               <div class="col-sm-8">
-                <nz-select formControlName="attendanceId" id="attendanceId" nzPlaceHolder="Select time" class="w-100">
+                <nz-select formControlName="attendanceId" id="attendanceId" nzPlaceHolder="Select time to be updated" class="w-100">
                   <nz-option *ngFor="let time of attendanceCheckTimeResponse" [nzValue]="time.attendanceId"
                     [nzLabel]="time.checkTime | date: 'shortTime'"></nz-option>
                 </nz-select>
                 <small class="text-muted d-block mt-2"
                 *ngIf="!attendanceTimeUpdateForm.get('updateGroup.requestType')?.value || !attendanceTimeUpdateForm.get('updateGroup.requestedDate')?.value">
-                Please select the Request Type and Date above before choosing a time!
+                Please select the Date and Type above before choosing a time!
               </small>
               </div>
             </div>
             <div class="mb-3 row">
-              <label for="updatedTime" class="col-sm-4 col-form-label">Update Time<span class="text-danger">*</span></label>
+              <label for="updatedTime" class="col-sm-4 col-form-label">Actual Time<span class="text-danger">*</span></label>
               <div class="col-sm-8">
-                <nz-time-picker formControlName="updatedTime" id="updatedTime" nzFormat="HH:mm"
-                  class="w-100"></nz-time-picker>
+                <nz-time-picker formControlName="updatedTime" id="updatedTime" nzFormat="HH:mm" class="w-100" nzPlaceHolder="Enter the new time"></nz-time-picker>
               </div>
             </div>
           </div>
@@ -4610,12 +4795,12 @@
            <!-- {{selectedDateAttendance}} -->
           <div *ngIf="attendanceRequestType === 'CREATE'" formGroupName="createGroup">
             <div class="mb-3 row">
-              <label for="selectedDate" class="col-sm-4 col-form-label">Select Date<span class="text-danger">*</span></label>
+              <label for="selectedDate" class="col-sm-4 col-form-label">Date<span class="text-danger">*</span></label>
               <div class="col-sm-8">
                 <nz-date-picker formControlName="selectedDateAttendance" id="selectedDateAttendance" (ngModelChange)="onDateChangeForCreateAttendance($event);" nzFormat="yyyy-MM-dd" class="w-100" [nzDisabledDate]="disabledDate"></nz-date-picker>
                 <small class="text-danger d-block mt-2"
                 *ngIf="checkHoliday">
-                 Seleted date is registered as holiday for your organization!
+                There was holiday on selected date!
                 </small>
                 <small class="text-danger d-block mt-2"
                 *ngIf="checkAttendance">
@@ -4650,8 +4835,7 @@
             <label for="requestReason" class="col-sm-4 col-form-label">Reason<span class="text-danger">*</span></label>
             <div class="col-sm-8">
               <textarea formControlName="requestReason" id="requestReason" class="form-control" rows="3" [maxLength]="255" #maxWords></textarea>
-              <small *ngIf="maxWords.value.length > 254" style="color: red">The maximum number of characters
-                allowed in above field is 255!</small>
+              <small *ngIf="maxWords.value.length > 254" style="color: red">The maximum number of characters allowed in above field is 255!</small>
             </div>
           </div>
         </form>

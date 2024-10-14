@@ -3146,7 +3146,6 @@ return
   choosenDateString!: string;
 
   submitForm(): void {
-    debugger
     if (this.checkHoliday || this.checkAttendance) {
       return;
      }
@@ -3156,13 +3155,13 @@ return
         requestReason: formValue.requestReason
       };
   
-      if (this.attendanceRequestType === 'UPDATE') {
+      if (this.attendanceRequestType == 'UPDATE') {
         attendanceTimeUpdateRequest = {
           ...attendanceTimeUpdateRequest,
           attendanceId: formValue.updateGroup.attendanceId,
           updatedTime: formValue.updateGroup.updatedTime,
         };
-      } else if (this.attendanceRequestType === 'CREATE') {
+      } else if (this.attendanceRequestType == 'CREATE') {
         attendanceTimeUpdateRequest = {
           ...attendanceTimeUpdateRequest,
           selectedDateAttendance: formValue.createGroup.selectedDateAttendance,
@@ -3177,17 +3176,16 @@ return
 
           console.log("retrive", response, response.status);
           if(response.status === true) {
-          console.log('Request sent successfully', response);
           this.resetForm();
           document.getElementById('attendanceUpdateModal')?.click();
+          this.attendanceRequestType = 'UPDATE';
           // this.getAttendanceRequestLogData();
-          this.helperService.showToast('Request Sent Successfully!', Key.TOAST_STATUS_SUCCESS);
+          this.helperService.showToast('Request Sent Successfully.', Key.TOAST_STATUS_SUCCESS);
           } else if(response.status === false) {
-            console.log('Request Already present', response);
             // this.resetForm();
             // document.getElementById('attendanceUpdateModal')?.click();
             // this.getAttendanceRequestLogData();
-            this.helperService.showToast('Request Already Registered!', Key.TOAST_STATUS_ERROR);
+            this.helperService.showToast('Request already registered!', Key.TOAST_STATUS_ERROR);
             }
         },
         (error) => {
@@ -3330,25 +3328,42 @@ itemPerPageAttendanceLogs: number = 5;
 fullAttendanceLogCount: number = 0;
 isFullLogLoader: boolean = false;
 debounceTimer: any;
-getAttendanceRequestLogData(debounceTime: number = 300) {
+
+isShimmerForAttendanceUpdateRequestLog: boolean = false;
+dataNotFoundForAttendanceUpdateRequestLog: boolean = false;
+networkConnectionErrorForAttendanceUpdateRequestLog: boolean = false;
+
+preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdateRequestLogMethodCall() {
+  this.isShimmerForAttendanceUpdateRequestLog = true;
+  this.dataNotFoundForAttendanceUpdateRequestLog = false;
+  this.networkConnectionErrorForAttendanceUpdateRequestLog = false;
+}
+getAttendanceRequestLogData() {
+  this.attendanceRequestLog = [];
+  this.preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdateRequestLogMethodCall();
   return new Promise((resolve, reject) => {
     this.isFullLogLoader = true;
-    if (this.debounceTimer) {
-      clearTimeout(this.debounceTimer);
-    }
-    this.debounceTimer = setTimeout(() => {
+    // if (this.debounceTimer) {
+    //   clearTimeout(this.debounceTimer);
+    // }
+    // this.debounceTimer = setTimeout(() => {
   
   // this.attendanceRequestLog = [];
   this.dataService.getAttendanceRequestLog(this.userId, this.pageNumberAttendanceLogs, this.itemPerPageAttendanceLogs).subscribe(response => {
-    this.attendanceRequestLog = [...this.attendanceRequestLog, ...response.object];
-    this.fullAttendanceLogCount = response.totalItems;
+    if(this.helperService.isObjectNullOrUndefined(response)){
+      this.dataNotFoundForAttendanceUpdateRequestLog = true;
+    } else{
+      this.attendanceRequestLog = [...this.attendanceRequestLog, ...response.object];
+      this.fullAttendanceLogCount = response.totalItems;
+    }
     this.isFullLogLoader = false;
-    console.log('logs retrieved successfully', response.listOfObject);
+    this.isShimmerForAttendanceUpdateRequestLog = false;
   }, (error) => {
-    console.log(error);
+    this.networkConnectionErrorForAttendanceUpdateRequestLog = true;
+    this.isShimmerForAttendanceUpdateRequestLog = false;
     this.isFullLogLoader = false;
   });
-}, debounceTime);
+// }, debounceTime);
 });
 }
 initialLoadDone: boolean = false;
@@ -3502,6 +3517,7 @@ closeAttendanceFunc() {
   LEAVE_LOG = Key.LEAVE_LOG;
   OVERTIME_LOG = Key.OVERTIME_LOG;
   LOP_REVERSAL_LOG = Key.LOP_REVERSAL_LOG;
+  ATTENDANCE_UPDATE_REQUEST_LOG = Key.ATTENDANCE_UPDATE_REQUEST_LOG;
 
   ACTIVE_LOG_TAB = Key.LEAVE_LOG;
 
