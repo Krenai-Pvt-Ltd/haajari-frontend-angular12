@@ -487,8 +487,9 @@ export class UploadTeamComponent implements OnInit {
     this._onboardingService.deleteOnboardUser(this.idToDeleteUser).subscribe(
       (response: any) => {
         if (response.status) {
-          this.getUser();
+          // this.getUser();
           this.page = 0;
+          this.totalOnboardingUserListCount = 0;
           this.getUser();
           this.closeButtonDeleteUser.nativeElement.click();
         }
@@ -696,7 +697,7 @@ export class UploadTeamComponent implements OnInit {
     this.dataService.getOnboardingAdminUser().subscribe(
       (response) => {
         this.adminUser = response.object;
-
+        // this.userList = response.object;
       },
       (error) => {
         console.log('error');

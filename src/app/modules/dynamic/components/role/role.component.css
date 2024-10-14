@@ -686,3 +686,11 @@ button.btn.close-btn {
   position: relative;
   top: -1px;
 }
+.empty-detail {
+  color: #6b7280;
+  line-height: 20px;
+}
+
+::ng-deep.ant-empty-image img {
+  width: 90px;
+}

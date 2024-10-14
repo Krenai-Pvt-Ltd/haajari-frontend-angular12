@@ -1181,3 +1181,11 @@ button.btn.close-btn {
   text-decoration: underline;
   color: var(--primary-color) !important;
 }
+.empty-detail {
+  color: #6b7280;
+  line-height: 20px;
+}
+
+::ng-deep.ant-empty-image img {
+  width: 90px;
+}
