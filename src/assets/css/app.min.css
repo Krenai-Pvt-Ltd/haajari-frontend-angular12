@@ -757,6 +757,11 @@ body.dark-topbar .app-search form .form-control:focus {
   }
 }
 
+.modal-content {
+    background-color: #fff;
+    border-radius: 0px !important;
+}
+
 .page-item.active .page-link {
   z-index: 3;
   color: #fff !important;
@@ -7813,8 +7818,8 @@ input.add-file-input {
 
 .met-profile .met-profile-main .met-profile-main-pic {
   position: relative;
-  max-width: 70px;
-  max-height: 70px;
+  /* max-width: 70px;
+  max-height: 70px; */
   margin-right: 15px;
 }
 

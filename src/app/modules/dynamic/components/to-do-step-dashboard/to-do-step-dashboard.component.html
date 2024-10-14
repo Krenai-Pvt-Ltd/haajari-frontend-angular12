@@ -1,6 +1,6 @@
 <div class="page-wrapper">
   <!-- Page Content-->
-  <div class="page-content-tab">
+  <div class="page-content-tab" *ngIf="ROLE == 'ADMIN'">
     <div class="container-fluid">
       <div class="to-do-step-section row">
         <div
@@ -21,6 +21,7 @@
                   class="rightBoxImage"
                 />
               </div>
+             
               <div class="row align-items-center">
                 <div class="col-md-7">
                   <div class="videoIntro">

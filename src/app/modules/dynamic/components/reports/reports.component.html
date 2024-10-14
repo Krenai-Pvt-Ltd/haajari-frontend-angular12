@@ -301,7 +301,7 @@
                 </div>
 
                 <ng-template #placeholderTemplate>
-                  <div class="errorboxmain" style="text-align: center">
+                  <!-- <div class="errorboxmain" style="text-align: center">
                     <div class="errorboxinner">
                       <div class="errorboxplaceholder mb-2">
                         <img
@@ -317,6 +317,19 @@
                         </p>
                       </div>
                     </div>
+                  </div> -->
+
+                  <div class="empty-file" style="margin-top: 50%">
+                    <nz-empty
+                      nzNotFoundImage="assets/images/report-img.svg"
+                      [nzNotFoundContent]="contentTpl"
+                    >
+                      <ng-template #contentTpl>
+                        <p class="mb-1 empty-detail font-16">
+                          No report logs for now
+                        </p>
+                      </ng-template>
+                    </nz-empty>
                   </div>
                 </ng-template>
 

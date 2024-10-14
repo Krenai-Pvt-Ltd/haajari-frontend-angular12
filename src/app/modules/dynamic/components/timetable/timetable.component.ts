@@ -24,6 +24,7 @@ import { DatePipe } from '@angular/common';
 import { OvertimeRequestLogResponse } from 'src/app/models/overtime-request-log-response';
 import { OvertimeResponseDTO } from 'src/app/models/overtime-response-dto';
 import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-reflection';
+import { AttendanceTimeUpdateResponse } from 'src/app/models/attendance-time-update-response';
 
 // import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
 
@@ -331,7 +332,7 @@ export class TimetableComponent implements OnInit {
     } else {
       this.dateRangeInputValue = '';
     }
-  }
+  }  
 
   // formatDate(date: Date): string {
   //   const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
@@ -891,25 +892,41 @@ itemPerPageFullAttendanceRequest: number = 5;
 totalAttendanceRequestCount: number = 0;
 isRequestLoader: boolean = false;
 fullAttendanceRequestSearchString: string = '';
-getFullAttendanceRequestLogData(debounceTime: number = 300) {
 
+isShimmerForAttendanceUpdateRequestLogResponse: boolean = false;
+dataNotFoundForAttendanceUpdateRequestLogResponse: boolean = false;
+networkConnectionErrorForAttendanceUpdateRequestLogResponse: boolean = false;
+
+preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdateRequestLogResponseMethodCall() {
+  this.isShimmerForAttendanceUpdateRequestLogResponse = true;
+  this.dataNotFoundForAttendanceUpdateRequestLogResponse = false;
+  this.networkConnectionErrorForAttendanceUpdateRequestLogResponse = false;
+}
+getFullAttendanceRequestLogData() {
+  this.attendanceFullRequestLog = [];
+  this.preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdateRequestLogResponseMethodCall();
   return new Promise((resolve, reject) => {
   this.isRequestLoader = true;
-  if (this.debounceTimer) {
-    clearTimeout(this.debounceTimer);
-  } 
-  this.debounceTimer = setTimeout(() => {
+  // if (this.debounceTimer) {
+  //   clearTimeout(this.debounceTimer);
+  // } 
+  // this.debounceTimer = setTimeout(() => {
   this.dataService.getFullAttendanceRequestLog(this.pageNumberFullAttendanceRequest, this.itemPerPageFullAttendanceRequest, this.fullAttendanceRequestSearchString).subscribe(response => {
-    // this.attendanceFullRequestLog = response.listOfObject;
-    this.attendanceFullRequestLog = [...this.attendanceFullRequestLog, ...response.object];
-    this.totalAttendanceRequestCount = response.totalItems;
-    this.isRequestLoader = false;
-    console.log('logs retrieved successfully', response.listOfObject);
+    if(this.helperService.isObjectNullOrUndefined(response)){
+      this.dataNotFoundForAttendanceUpdateRequestLogResponse = true;
+    } else{
+      // this.attendanceFullRequestLog = response.listOfObject;
+      this.attendanceFullRequestLog = [...this.attendanceFullRequestLog, ...response.object];
+      this.totalAttendanceRequestCount = response.totalItems;
+      this.isRequestLoader = false;
+    }
+    this.isShimmerForAttendanceUpdateRequestLogResponse = false;
   }, (error) => {
-    console.log(error);
+    this.networkConnectionErrorForAttendanceUpdateRequestLogResponse = true;
+    this.isShimmerForAttendanceUpdateRequestLogResponse = false;
     this.isRequestLoader = false;
   });
-   }, debounceTime);
+  //  }, debounceTime);
   });
 }
 
@@ -962,41 +979,59 @@ clearSearchUsersOfFullLogs() {
   this.getFullAttendanceRequestLogData();
 }
 
-attendanceRequests: any[] = [];
+attendanceRequests: AttendanceTimeUpdateResponse[] = [];
 pageNumberAttendanceRequest: number = 1;
 itemPerPageAttendanceRequest: number = 5;
 fullAttendanceRequestCount: number = 0;
 isFullRequestLoader: boolean = false;
 attendanceRequestSearchString: string = '';
-getAttendanceRequestsData(debounceTime: number = 300) {
+
+
+
+
+isShimmerForAttendanceUpdatePendingRequestResponse: boolean = false;
+dataNotFoundForAttendanceUpdatePendingRequestResponse: boolean = false;
+networkConnectionErrorForAttendanceUpdatePendingRequestResponse: boolean = false;
+
+preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdatePendingRequestResponseMethodCall() {
+  this.isShimmerForAttendanceUpdatePendingRequestResponse = true;
+  this.dataNotFoundForAttendanceUpdatePendingRequestResponse = false;
+  this.networkConnectionErrorForAttendanceUpdatePendingRequestResponse = false;
+}
+getAttendanceRequestsData() {
+  this.attendanceRequests = [];
+  this.preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdatePendingRequestResponseMethodCall();
   return new Promise((resolve, reject) => {
   this.isFullRequestLoader = true;
-  if (this.debounceTimer) {
-    clearTimeout(this.debounceTimer);
-  }
-  this.debounceTimer = setTimeout(() => {
+  // if (this.debounceTimer) {
+  //   clearTimeout(this.debounceTimer);
+  // }
+  // this.debounceTimer = setTimeout(() => {
   this.dataService.getAttendanceRequests(this.pageNumberAttendanceRequest, this.itemPerPageAttendanceRequest, this.attendanceRequestSearchString, this.startDate, this.endDate).subscribe(response => {
-    // this.attendanceRequests = response.listOfObject;
-    this.attendanceRequests = [...this.attendanceRequests, ...response.object];
-    this.fullAttendanceRequestCount = response.totalItems;
-    this.isFullRequestLoader = false;
-    console.log('requests retrieved successfully', response.listOfObject);
+    if(this.helperService.isObjectNullOrUndefined(response)){
+      this.dataNotFoundForAttendanceUpdatePendingRequestResponse = true;
+    } else{
+      // this.attendanceRequests = response.listOfObject;
+      this.attendanceRequests = [...this.attendanceRequests, ...response.object];
+      this.fullAttendanceRequestCount = response.totalItems;
+      this.isFullRequestLoader = false;
+    }
+    this.isShimmerForAttendanceUpdatePendingRequestResponse = false;
   }, (error) => {
     this.isFullRequestLoader = false;
-    console.log(error);
+    this.isShimmerForAttendanceUpdatePendingRequestResponse = false;
+    this.networkConnectionErrorForAttendanceUpdatePendingRequestResponse = true;
   });
-}, debounceTime);
+// }, debounceTime);
 });
 }
 
-attendanceRequestCount!: number;
-
+attendanceRequestCount: number = 0;
 getAttendanceRequestsDataCount(): void {
   debugger
-  this.dataService.getAttendanceRequestCount().subscribe(
+  this.dataService.getAttendanceRequestCount(this.startDate, this.endDate).subscribe(
     (response: any) => {
       this.attendanceRequestCount = response.object; 
-      // console.log('requests retrieved successfully', this.attendanceRequestCount);
     },
     (error) => {
       console.log(error);
@@ -1004,6 +1039,44 @@ getAttendanceRequestsDataCount(): void {
   );
 }
 
+isShimmerForAttendanceUpdateRequestResponse: boolean = false;
+dataNotFoundForAttendanceUpdateRequestResponse: boolean = false;
+networkConnectionErrorForAttendanceUpdateRequestResponse: boolean = false;
+
+preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdateRequestResponseMethodCall() {
+  this.isShimmerForAttendanceUpdateRequestResponse = true;
+  this.dataNotFoundForAttendanceUpdateRequestResponse = false;
+  this.networkConnectionErrorForAttendanceUpdateRequestResponse = false;
+}
+attendanceRequestsHistory: AttendanceTimeUpdateResponse[] = [];
+getAttendanceRequestsHistoryData() {
+  this.attendanceRequestsHistory = [];
+  this.preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdateRequestResponseMethodCall();
+  return new Promise((resolve, reject) => {
+  // this.isFullRequestLoader = true;
+  // if (this.debounceTimer) {
+  //   clearTimeout(this.debounceTimer);
+  // }
+  // this.debounceTimer = setTimeout(() => {
+  this.dataService.getAttendanceRequestsHistory(this.pageNumberAttendanceRequest, this.itemPerPageAttendanceRequest, this.attendanceRequestSearchString, this.startDate, this.endDate).subscribe(response => {
+    if(this.helperService.isObjectNullOrUndefined(response)){
+      this.dataNotFoundForAttendanceUpdateRequestResponse = true;
+    } else{
+      // this.attendanceRequests = response.listOfObject;
+      this.attendanceRequestsHistory = [...this.attendanceRequestsHistory, ...response.object];
+      // this.fullAttendanceRequestCount = response.totalItems;
+      // this.isFullRequestLoader = false;
+      console.log('requests retrieved successfully', response.listOfObject);
+    }
+    this.isShimmerForAttendanceUpdateRequestResponse = false;
+  }, (error) => {
+    // this.isFullRequestLoader = false;
+    this.networkConnectionErrorForAttendanceUpdateRequestResponse = true;
+    this.isShimmerForAttendanceUpdateRequestResponse = false;
+  });
+// }, debounceTime);
+});
+}
 
 // approveOrRequest(id:number, reqString: string) {
 initialLoadDone: boolean = false;
@@ -1061,16 +1134,23 @@ clearAttendanceRequestLogs() {
 }
 
 approveOrReject(id:number, reqString: string) {
+  if(reqString == 'APPROVE'){
+    this.attendanceUpdateRequestApproveLoader = true;
+  } else if(reqString == 'REJECT'){
+    this.attendanceUpdateRequestRejectLoader = true;
+  }
   this.dataService.approveOrRejectAttendanceRequest(id, reqString).subscribe(response => {
+    this.attendanceUpdateRequestApproveLoader = false;
+    this.attendanceUpdateRequestRejectLoader = false;
     // console.log('requests retrieved successfully', response.listOfObject);
     if(response.message == 'APPROVE') {
     this.helperService.showToast(
-      'Request Approved Successfully',
+      'Request Approved Successfully.',
       Key.TOAST_STATUS_SUCCESS
     );
   } else if (response.message == 'REJECT') {
     this.helperService.showToast(
-      'Request Rejected Successfully',
+      'Request Rejected Successfully.',
       Key.TOAST_STATUS_SUCCESS
     );
   }
@@ -1080,16 +1160,19 @@ approveOrReject(id:number, reqString: string) {
   this.pageNumberAttendanceRequest = 1; 
   this.attendanceRequests = []; 
   this.getAttendanceRequestsData();
+  this.getAttendanceRequestsDataCount();
   this.pageNumberFullAttendanceRequest = 1;
   this.fullAttendanceRequestCount = 0;
   this.attendanceFullRequestLog = [];
   this.fullAttendanceRequestSearchString = '';
   this.getFullAttendanceRequestLogData();
-
+  this.closeAttendanceUpdateRequestActionModal.nativeElement.click();
   }, (error) => {
+    this.attendanceUpdateRequestApproveLoader = false;
+    this.attendanceUpdateRequestRejectLoader = false;
     console.log(error);
     this.helperService.showToast(
-      'Error',
+      'Error while processing the request!',
       Key.TOAST_STATUS_ERROR
     );
   });
@@ -1124,7 +1207,10 @@ approveOrReject(id:number, reqString: string) {
     }
 
     if(this.ACTIVE_TAB == this.ATTENDANCE_UPDATE_REQUEST_TAB){
-      
+      this.getAttendanceRequestsData();
+      this.getAttendanceRequestsHistoryData();
+      this.getFullAttendanceRequestLogData();
+      this.getAttendanceRequestsDataCount();
     }
   }
 
@@ -1354,36 +1440,14 @@ approveOrReject(id:number, reqString: string) {
     this.ACTIVE_TAB_IN_ATTENDANCE_UPDATE_REQUEST_TAB = tabId;
   }
 
-  isShimmerForAttendanceUpdateRequestLogResponse: boolean = false;
-  dataNotFoundForAttendanceUpdateRequestLogResponse: boolean = false;
-  networkConnectionErrorForAttendanceUpdateRequestLogResponse: boolean = false;
-
-  preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdateRequestLogResponseMethodCall() {
-    this.isShimmerForAttendanceUpdateRequestLogResponse = true;
-    this.dataNotFoundForAttendanceUpdateRequestLogResponse = false;
-    this.networkConnectionErrorForAttendanceUpdateRequestLogResponse = false;
-  }
-
-  isShimmerForAttendanceUpdateRequestResponse: boolean = false;
-  dataNotFoundForAttendanceUpdateRequestResponse: boolean = false;
-  networkConnectionErrorForAttendanceUpdateRequestResponse: boolean = false;
-
-  preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdateRequestResponseMethodCall() {
-    this.isShimmerForAttendanceUpdateRequestResponse = true;
-    this.dataNotFoundForAttendanceUpdateRequestResponse = false;
-    this.networkConnectionErrorForAttendanceUpdateRequestResponse = false;
-  }
-
-  isShimmerForAttendanceUpdatePendingRequestResponse: boolean = false;
-  dataNotFoundForAttendanceUpdatePendingRequestResponse: boolean = false;
-  networkConnectionErrorForAttendanceUpdatePendingRequestResponse: boolean = false;
-
-  preRuleForShimmersAndErrorPlaceholdersForAttendanceUpdatePendingRequestResponseMethodCall() {
-    this.isShimmerForAttendanceUpdatePendingRequestResponse = true;
-    this.dataNotFoundForAttendanceUpdatePendingRequestResponse = false;
-    this.networkConnectionErrorForAttendanceUpdatePendingRequestResponse = false;
+  @ViewChild("closeAttendanceUpdateRequestActionModal") closeAttendanceUpdateRequestActionModal !: ElementRef;
+  attendanceUpdateRequestActionResponse : AttendanceTimeUpdateResponse = new AttendanceTimeUpdateResponse();
+  getAttendanceUpdateRequestActionResponseMethodCall(attendanceTimeUpdateResponse : AttendanceTimeUpdateResponse){
+    this.attendanceUpdateRequestActionResponse = attendanceTimeUpdateResponse;
   }
   
+  attendanceUpdateRequestApproveLoader : boolean = false;
+  attendanceUpdateRequestRejectLoader : boolean = false;
 
 
 }

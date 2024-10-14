@@ -18,10 +18,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 import { LeaveSummaryComponent } from './leave-summary/leave-summary.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-
-
-
-
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
 
 @NgModule({
   declarations: [
@@ -31,8 +28,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     TdsComponent,
     BonusAndDeductionComponent,
     DateFormatterPipe,
-    LeaveSummaryComponent
-    
+    LeaveSummaryComponent,
   ],
   imports: [
     CommonModule,
@@ -45,7 +41,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     NzDropDownModule,
     NgxPaginationModule,
     NgxShimmerLoadingModule,
-    NgxChartsModule
+    NgxChartsModule,
+    NzEmptyModule,
   ],
 })
 export class PaymentModule {}
