@@ -3176,17 +3176,16 @@ return
 
           console.log("retrive", response, response.status);
           if(response.status === true) {
-          console.log('Request sent successfully', response);
           this.resetForm();
           document.getElementById('attendanceUpdateModal')?.click();
+          this.attendanceRequestType = 'UPDATE';
           // this.getAttendanceRequestLogData();
-          this.helperService.showToast('Request Sent Successfully!', Key.TOAST_STATUS_SUCCESS);
+          this.helperService.showToast('Request Sent Successfully.', Key.TOAST_STATUS_SUCCESS);
           } else if(response.status === false) {
-            console.log('Request Already present', response);
             // this.resetForm();
             // document.getElementById('attendanceUpdateModal')?.click();
             // this.getAttendanceRequestLogData();
-            this.helperService.showToast('Request Already Registered!', Key.TOAST_STATUS_ERROR);
+            this.helperService.showToast('Request already registered!', Key.TOAST_STATUS_ERROR);
             }
         },
         (error) => {
