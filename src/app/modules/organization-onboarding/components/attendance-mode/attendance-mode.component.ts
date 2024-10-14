@@ -258,6 +258,62 @@ export class AttendanceModeComponent implements OnInit {
 
   @ViewChild('placesRef') placesRef!: GooglePlaceDirective;
 
+  // checkLocationAccess(){
+  //   navigator.permissions.query({ name: 'geolocation' })
+  //   .then( (PermissionStatus) => {
+  //     if (PermissionStatus.state == 'granted') {
+  //       if (Key.GEOLOCATION in navigator) {
+  //         navigator.geolocation.getCurrentPosition((position) => {
+            
+           
+  //         },
+  //         (error) => {
+            
+  //         },
+  //         {
+  //           enableHighAccuracy: true,  // Precise location
+  //         maximumAge: 0              // Prevent cached locations
+  //         }
+  //         );
+  //       }
+  //     } else {
+  //       this.requestPermission();
+  //     } 
+    
+  //   });
+
+  // }
+  // requestPermission(){
+  //   window.alert('To enable Location Services and allow the site to determine your location, click the location icon in the address bar and select "Always allow.');  
+  //   if (Key.GEOLOCATION in navigator) {
+  //     navigator.geolocation.getCurrentPosition(
+  //       (position) => {
+  //       },
+  //       (error) => {
+  //         if (error.code === error.PERMISSION_DENIED) {
+  //           window.alert('To enable Location Services and allow the site to determine your location, click the location icon in the address bar and select "Always allow.');  
+
+  //         //  this.requestPermission();
+  //         navigator.permissions.query({name:'geolocation'})
+  //           console.error('User denied the request for Geolocation.');
+  //         } else if (error.code === error.POSITION_UNAVAILABLE) {
+  //           console.error('Location information is unavailable.');
+  //         } else if (error.code === error.TIMEOUT) {
+  //           console.error('The request to get user location timed out.');
+  //         } else {
+  //           console.error('An unknown error occurred.');
+  //         }
+  //       },
+  //       {
+  //         enableHighAccuracy: true,  // Precise location
+  //         maximumAge: 0              // Prevent cached locations
+  //       }
+  //     );
+  //   }else{
+  //    window.alert("Geolocation is not supported by this browser.");
+  //   }
+  // }
+
   public handleAddressChange(e: any) {
     debugger;
     var id = this.organizationAddressDetail.id;
@@ -341,6 +397,8 @@ currentLocation() {
         });
     })
     .catch((error) => {
+      window.alert('To enable Location Services and allow the site to determine your location, click the location icon in the address bar and select "Always allow.');  
+
       console.error('Error fetching current location:', error);
       this.locationLoader = false;
       this.fetchCurrentLocationLoader = false;
@@ -558,7 +616,7 @@ currentLocation() {
   }
 
   minRadius: boolean = false;
-  radiusFilteredOptions: string[] = [];
+  radiusFilteredOptions: { label: string, value: string }[] = [];
   onChange(value: string): void {
     const numericValue = Number(value);
     if (numericValue < 50) {
@@ -570,7 +628,7 @@ currentLocation() {
     }
       this.radiusFilteredOptions = this.radius.filter((option) =>
         option.toLowerCase().includes(value.toLowerCase())
-      );
+      ).map((option) => ({ label: `${option}-Meters`, value: option }));
    
   }
   radius: string[] = ["50","100","200", "500","1000"];
@@ -581,6 +639,13 @@ currentLocation() {
     if (event.key === ' ' && input.selectionStart === 0) {
         event.preventDefault();
     }
+  }
+
+  onFocus(): void {
+    this.radiusFilteredOptions = this.radius.map((option) => ({
+      label: `${option}-Meters`, 
+      value: option
+    }));
   }
 
   allowOnlyNumbers(event: KeyboardEvent): void {
@@ -596,6 +661,17 @@ currentLocation() {
         event.preventDefault();
     }
 }
+
+onSelect(event: any): void {
+  
+  const selectedValue = event.nzValue; 
+  this.organizationAddressDetail.radius = selectedValue; 
+}
+
+// onSelect(event: any): void {
+//   const selectedValue = event?.option?.value.replace('m', '');
+//   this.organizationAddressDetail.radius = selectedValue;
+// }
 
 
 }

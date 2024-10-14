@@ -521,6 +521,7 @@
                           [nzValue]="radius"
                         ></nz-option>
                       </nz-select> -->
+                      <!-- {{organizationAddressDetail.radius}} -->
                             <input
                             maxlength="5"
                             class="form-control profile-input"
@@ -535,8 +536,17 @@
                             #radius="ngModel"
                             (keydown)="preventLeadingWhitespace($event)"
                             (keypress)="allowOnlyNumbers($event)"
+                            (focus)="onFocus()"
                         />
-                        <nz-autocomplete [nzDataSource]="radiusFilteredOptions" #radiusAuto></nz-autocomplete>
+                        <!-- <nz-autocomplete [nzDataSource]="radiusFilteredOptions" #radiusAuto></nz-autocomplete> -->
+                        <nz-autocomplete #radiusAuto (select)="onSelect($event)">
+                          <nz-auto-option
+                            *ngFor="let option of radiusFilteredOptions"
+                            [nzValue]="option.value"  
+                            [nzLabel]="option.label"> 
+                            {{ option.label }}         
+                          </nz-auto-option>
+                        </nz-autocomplete>
                         <div *ngIf="radius?.touched || isFormInvalid">
                             <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="radius.errors?.required">
                                 <i class="bi bi-exclamation-circle"></i> Radius selection is required.
