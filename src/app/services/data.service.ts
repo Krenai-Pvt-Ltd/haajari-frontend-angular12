@@ -427,7 +427,8 @@ export class DataService {
     search: string,
     searchBy: string,
     leaveSettingId: number,
-    teamId: number
+    teamId: number,
+    selectedStaffIdsUser: any
   ): Observable<any> {
     const params = new HttpParams()
       .set('item_per_page', itemPerPage.toString())
@@ -437,7 +438,8 @@ export class DataService {
       .set('search', search)
       .set('search_by', searchBy)
       .set('leave_setting_id', leaveSettingId)
-      .set('team_id', teamId);
+      .set('team_id', teamId)
+      .set('userIds', selectedStaffIdsUser);
     return this.httpClient.get<any>(
       `${this.baseUrl}/users/get/by-filters-leave-setting`,
       { params }

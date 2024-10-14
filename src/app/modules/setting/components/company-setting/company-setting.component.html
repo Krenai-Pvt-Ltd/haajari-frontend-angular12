@@ -865,7 +865,28 @@
                 </ng-template>
               </nz-empty>
             </div>
+
             <div class="empty-file" *ngIf="networkConnectionErrorPlaceHolder">
+              <nz-empty
+                nzNotFoundImage="assets/images/location-setting-icon.svg"
+                [nzNotFoundContent]="contentTpl"
+              >
+                <ng-template #contentTpl>
+                  <p class="mb-1 empty-detail font-14">Something went wrong</p>
+                  <!-- <div class="add-filtter">
+                    <a
+                      class="text-primary font-14 text-center"
+                      data-bs-toggle="modal"
+                      data-bs-target="#shiftTime"
+                      (click)="clearLocationModel()"
+                    >
+                      Add Locations
+                    </a>
+                  </div> -->
+                </ng-template>
+              </nz-empty>
+            </div>
+            <!-- <div class="empty-file" *ngIf="networkConnectionErrorPlaceHolder">
               <div class="errorboxmain">
                 <div class="errorboxinner text-center">
                   <div class="errorboxplaceholder mb-2">
@@ -880,7 +901,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
           </ng-template>
 
           <!--  new  -->

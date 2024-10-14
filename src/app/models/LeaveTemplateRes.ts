@@ -10,6 +10,7 @@ export class LeaveTemplateRes{
     employeeTypeId!: number;
     gender!: string;
     totalEmployees!: number;
+    leaveAppliedUserCount!: number;
 
     leaveTemplateCategoryRes: LeaveTemplateCategoryRes[] = [];
     
