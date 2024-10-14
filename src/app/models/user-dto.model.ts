@@ -23,6 +23,9 @@ export class UserDto {
   // }
 
   export class AttendanceTimeUpdateRequestDto {
+    userUuid?:string;
+    requestType?:string;
+    choosenDateString?:string;
     attendanceId?: number; // Only needed for UPDATE request
     updatedTime?: Date; // Only for UPDATE
     managerId!: number;

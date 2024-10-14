@@ -3716,11 +3716,10 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/checktime/list`, {params});
   }
 
-  sendAttendanceTimeUpdateRequest(userId: string, attendanceTimeUpdateRequestDto: AttendanceTimeUpdateRequestDto, requestType: string, choosenDateString: string): Observable<any> {
-    const params = new HttpParams()
-    .set('userUuid', userId).set('requestType', requestType).set('choosenDateString', choosenDateString);
-    const url = `${this.baseUrl}/attendance/send/attendance/update/request`;
-    return this.httpClient.post<any>(url, attendanceTimeUpdateRequestDto, {params});
+  sendAttendanceTimeUpdateRequest(attendanceTimeUpdateRequestDto: AttendanceTimeUpdateRequestDto): Observable<any> {
+
+    const url = `${this.baseUrl}/attendance/request-update`;
+    return this.httpClient.post<any>(url, attendanceTimeUpdateRequestDto, {});
   }
 
 
