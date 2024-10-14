@@ -1,6 +1,81 @@
 <div class="page-wrapper">
   <div class="page-content-tab">
     <div class="container-fluid">
+      <div class="row leave-management-settings p-3 mt-2 align-items-center">
+        <div class="col-md-6">
+          <div class="leave-management-detail pt-5 pb-5">
+            <h3 class="mb-3">
+              Create and Manage <br />
+              Your Team Easily
+            </h3>
+            <p class="mb-0 font-14">
+              Easily customize your leave management preferences, define leave
+              <br />
+              types, set approval workflows, and streamline employee leave
+              tracking.
+            </p>
+
+            <!-- <button class="btn add-leave-btn mt-4 mb-2">Add New Members</button> -->
+
+            <div class="d-flex align-items-center gap-3">
+              <button
+                class="btn add-leave-btn mt-4 mb-2"
+                data-bs-toggle="modal"
+                data-bs-target="#add-employee"
+                type="button"
+              >
+                <i class="bi bi-plus-lg"></i> Add New Members
+              </button>
+              <button
+                class="btn excel-upload-members mt-4 mb-2"
+                data-bs-toggle="modal"
+                data-bs-target="#sampleFileModal"
+                type="button"
+              >
+                <i class="bi bi-upload"></i> Upload Members
+              </button>
+            </div>
+            <hr />
+            <span class="mb-0">
+              By signing, you are creating
+              <a href="#!">
+                Learn more about it
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="21"
+                  viewBox="0 0 20 21"
+                  fill="none"
+                >
+                  <mask
+                    id="mask0_4244_1588"
+                    style="mask-type: alpha"
+                    maskUnits="userSpaceOnUse"
+                    x="0"
+                    y="0"
+                    width="20"
+                    height="21"
+                  >
+                    <rect y="0.546875" width="20" height="20" fill="#6666F2" />
+                  </mask>
+                  <g mask="url(#mask0_4244_1588)">
+                    <path
+                      d="M4.50016 17.2148L3.3335 16.0482L13.0002 6.38151H7.50016V4.71484H15.8335V13.0482H14.1668V7.54818L4.50016 17.2148Z"
+                      fill="#6666F2"
+                    />
+                  </g>
+                </svg>
+              </a>
+            </span>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="leave-management-detail-img text-end">
+            <img src="assets/images/team-img.svg" style="width: 380px" />
+          </div>
+        </div>
+      </div>
+
       <div class="row mt-4">
         <div class="col-md-3">
           <div
@@ -672,79 +747,6 @@
                     </div>
                   </div>
                 </div>
-                <!-- <div class="d-none justify-content-between align-items-center">
-
-
-                                  <div class="" style="width: 200px; position: relative;">
-                                      <div class="dropdown" style="width: 100%;">
-                                          <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
-                                              {{ selectedStatus || "All" }}
-                                              <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
-                                          </button>
-                                          <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;">
-                                              <li>
-                                                  <a class="dropdown-item" (click)="selectStatus('ALL')">All</a>
-                                              </li>
-                                              
-                                              <li class="dropdown-header" aria-disabled="true">Status Wise</li>
-
-                                              <li>
-                                                  <a class="dropdown-item" (click)="selectStatus('APPROVED')">Approved</a>
-                                              </li>
-                                              <li>
-                                                  <a class="dropdown-item" (click)="selectStatus('PENDING')">Pending</a>
-                                              </li>
-                                              <li>
-                                                  <a class="dropdown-item" (click)="selectStatus('REQUESTED')">Requested</a>
-                                              </li>
-                                              <li>
-                                                  <a class="dropdown-item" (click)="selectStatus('REJECTED')">Rejected</a>
-                                              </li>
-
-                                              <li class="dropdown-header" aria-disabled="true">Accessibility Wise</li>
-                                              <li>
-                                                  <a class="dropdown-item" (click)="selectStatus('ACTIVE')">Active</a>
-                                              </li>
-                                              <li>
-                                                  <a class="dropdown-item" (click)="selectStatus('INACTIVE')">Inactive</a>
-                                              </li>
-                                          </ul>
-                                      </div>
-                                  </div>
-                                  <div class="onboarding-date d-flex align-items-center" style="gap: 10px; width: 70%;">
-                                      <form role="search" class="searching ng-untouched ng-pristine ng-valid" style="width: 100%;">
-                                          <div class="form-group" style="width: 100%; position: relative;">
-                                              <input
-                                                  type="text"
-                                                  id="searchText"
-                                                  placeholder="Search by name, email and phone number ..."
-                                                  class="form-control me-2 ng-untouched ng-pristine ng-valid"
-                                                  (keyup)="searchUsers('any')"
-                                                  [(ngModel)]="search"
-                                                  [ngModelOptions]="{ standalone: true }"
-                                                  style="padding: 10px 40px;"
-                                              />
-                                              <button type="button" class="btn close-btn" (click)="reloadPage()" *ngIf="crossFlag">
-                                                  <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-                                              </button>
-                                              <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px;"></i>
-                                          </div>
-                                      </form>
-                                  </div>
-                                  <div *ngIf="!errorToggleTop" style="width: 50%;">
-                                      <div class="add-filtter text-end">
-                                          <a data-bs-toggle="modal" data-bs-target="#add-employee" type="button">
-                                              <i class="bi bi-plus" style="font-size: 18px;"></i>
-                                              Add New Members
-                                          </a>
-                                          <a data-bs-toggle="modal" data-bs-target="#sampleFileModal" type="button">
-                                              <i class="bi bi-upload" style="font-size: 18px;"></i>
-                                              Upload Members
-                                          </a>
-                                      </div>
-                            
-                                  </div>
-                              </div> -->
               </div>
 
               <!-- </div> -->
@@ -829,11 +831,6 @@
                               }
                       "
                     >
-                      <!-- <td>
-                                              <p class="mb-0 weekly-pro">
-                                                  {{ user!.onboardingStatusUpdateDate.toString() | dateFormat }}
-                                              </p>
-                                          </td> -->
                       <td class="stickyColTd">
                         <a
                           routerLink="/employee-profile"
@@ -1119,45 +1116,38 @@
                     <tr>
                       <td colspan="8">
                         <div class="mt-3 dashnodata">
-                          <!-- <div class="errorboxmain" *ngIf="mainPlaceholdersTableFlag && errorToggleTop"><div class="errorboxinner"><div class="errorboxplaceholder mb-2"><img src="assets/images/signal.svg" style="width:80px;" /></div><div class=""><h4>Something went wrong</h4><p class="mb-0">An error occurred while processing your request. Please refresh the page and try again.</p></div></div></div> -->
                           <div
-                            class="errorboxmain"
+                            class="empty-file"
+                            style="margin-top: 5%; margin-bottom: 5%"
                             *ngIf="errorToggleTop && users.length == 0"
                           >
-                            <div class="errorboxinner text-center">
-                              <div class="errorboxplaceholder mb-2">
-                                <img
-                                  src="assets/images/signal.svg"
-                                  style="width: 80px"
-                                />
-                              </div>
-                              <div class="">
-                                <h4>Something went wrong</h4>
-                                <p>
-                                  An error occurred while processing your
-                                  request. Please refresh the page and try
-                                  again.
+                            <nz-empty
+                              nzNotFoundImage="assets/images/no-data-found-img-2.svg"
+                              [nzNotFoundContent]="contentTpl"
+                            >
+                              <ng-template #contentTpl>
+                                <p class="mb-1 empty-detail font-16">
+                                  Something went wrong
                                 </p>
-                              </div>
-                            </div>
+                              </ng-template>
+                            </nz-empty>
                           </div>
+
                           <div
-                            class="errorboxmain"
+                            class="empty-file"
+                            style="margin-top: 5%; margin-bottom: 5%"
                             *ngIf="placeholder && total == 0 && !isUserShimer"
                           >
-                            <div class="errorboxinner text-center">
-                              <div class="errorboxplaceholder mb-2">
-                                <img
-                                  src="assets/images/empty-folder.svg"
-                                  style="width: 80px"
-                                />
-                              </div>
-                              <h4>No Data Found</h4>
-                              <p>
-                                We're unable to locate a record associated with
-                                the information you entered.
-                              </p>
-                            </div>
+                            <nz-empty
+                              nzNotFoundImage="assets/images/nodate-found-3.svg"
+                              [nzNotFoundContent]="contentTpl"
+                            >
+                              <ng-template #contentTpl>
+                                <p class="mb-1 empty-detail font-16">
+                                  No data for now
+                                </p>
+                              </ng-template>
+                            </nz-empty>
                           </div>
                         </div>
                       </td>

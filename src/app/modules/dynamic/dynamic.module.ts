@@ -85,9 +85,7 @@ import { SubscriptionComponent } from './components/subscription/subscription.co
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
-
-
-
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
 
 @NgModule({
   declarations: [
@@ -179,7 +177,8 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
     NzToolTipModule,
     NzIconModule,
     NzButtonModule,
-    NzPopoverModule
+    NzPopoverModule,
+    NzEmptyModule,
   ],
   exports: [HeaderComponent],
   providers: [
