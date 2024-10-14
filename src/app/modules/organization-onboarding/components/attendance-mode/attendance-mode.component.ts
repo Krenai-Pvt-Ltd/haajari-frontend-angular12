@@ -663,9 +663,9 @@ currentLocation() {
 }
 
 onSelect(event: any): void {
-  // Get the selected value from the event
-  const selectedValue = event.nzValue; // Extract the value (without 'm')
-  this.organizationAddressDetail.radius = selectedValue; // Store only the numeric value
+  
+  const selectedValue = event.nzValue; 
+  this.organizationAddressDetail.radius = selectedValue; 
 }
 
 // onSelect(event: any): void {
