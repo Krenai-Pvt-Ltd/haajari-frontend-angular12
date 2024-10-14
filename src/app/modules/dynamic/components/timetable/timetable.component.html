@@ -3,20 +3,6 @@
   <div class="page-content-tab">
     <div class="container-fluid">
       <div class="row">
-        <!-- <div
-          class="d-flex align-items-center justify-content-center flex-column attendance-details-section"
-        >
-          <img
-            src="assets/images/attendance-details-img.svg"
-            style="width: 200px"
-          />
-          <h5 class="font-18 mt-4">Team is on Holiday Today</h5>
-          <p class="font-13 text-center">
-            Your team is not available today as they<br />
-            are on a scheduled holiday.
-          </p>
-        </div> -->
-
         <div
           class="col-md-12 search-area mt-4"
           style="
@@ -348,7 +334,7 @@
                     "
                   >
                     <div class="row">
-                      <div class="col-md-6">
+                      <div class="col-md-5">
                         <div class="Regular-data">
                           <h5
                             class="route-to-userprofile"
@@ -402,7 +388,7 @@
                           </div>
                         </div>
                       </div>
-                      <div class="col-md-6">
+                      <div class="col-md-7">
                         <div class="row position-relative">
                           <div class="col-md-4">
                             <div class="in-time">
@@ -1095,8 +1081,31 @@
                 </div>
                 <hr style="margin-bottom: 10px" />
                 <ul class="nav nav-tabs bg-white" role="tablist">
-                  <li class="nav-item" (click)="changeLogTabInOvertimeTab(OVERTIME_PENDING_REQUEST_TAB); getOvertimePendingRequestResponseByOrganizationUuidAndStartDateAndEndDateMethodCall();">
-                    <a class="nav-link" [ngClass]="{'active': ACTIVE_TAB_IN_OVERTIME_TAB == OVERTIME_PENDING_REQUEST_TAB}" data-bs-toggle="tab" href="#overtime-pending-request" role="tab" aria-selected="true">Pending requests<span class="badge rounded-pill badge-outline-warning" style="margin-left: 10px" *ngIf="pendingRequestCount > 0">{{ pendingRequestCount }}</span></a>
+                  <li
+                    class="nav-item"
+                    (click)="
+                      changeLogTabInOvertimeTab(OVERTIME_PENDING_REQUEST_TAB);
+                      getOvertimePendingRequestResponseByOrganizationUuidAndStartDateAndEndDateMethodCall()
+                    "
+                  >
+                    <a
+                      class="nav-link"
+                      [ngClass]="{
+                        active:
+                          ACTIVE_TAB_IN_OVERTIME_TAB ==
+                          OVERTIME_PENDING_REQUEST_TAB
+                      }"
+                      data-bs-toggle="tab"
+                      href="#overtime-pending-request"
+                      role="tab"
+                      aria-selected="true"
+                      >Pending requests<span
+                        class="badge rounded-pill badge-outline-warning"
+                        style="margin-left: 10px"
+                        *ngIf="pendingRequestCount > 0"
+                        >{{ pendingRequestCount }}</span
+                      ></a
+                    >
                   </li>
                   <li
                     class="nav-item"
@@ -1792,8 +1801,34 @@
                 </div>
                 <hr style="margin-bottom: 10px" />
                 <ul class="nav nav-tabs bg-white" role="tablist">
-                  <li class="nav-item" (click)="changeLogTabInAttendanceUpdateRequestTab(ATTENDANCE_UPDATE_PENDING_REQUEST_TAB); getAttendanceRequestsData();">
-                    <a class="nav-link" [ngClass]="{'active': ACTIVE_TAB_IN_ATTENDANCE_UPDATE_REQUEST_TAB == ATTENDANCE_UPDATE_PENDING_REQUEST_TAB}" data-bs-toggle="tab" href="#attendance-update-pending-request" role="tab" aria-selected="true">Pending requests <span class="badge rounded-pill badge-outline-warning" style="margin-left: 10px" *ngIf="attendanceRequestCount > 0">{{ attendanceRequestCount }}</span></a>
+                  <li
+                    class="nav-item"
+                    (click)="
+                      changeLogTabInAttendanceUpdateRequestTab(
+                        ATTENDANCE_UPDATE_PENDING_REQUEST_TAB
+                      );
+                      getAttendanceRequestsData()
+                    "
+                  >
+                    <a
+                      class="nav-link"
+                      [ngClass]="{
+                        active:
+                          ACTIVE_TAB_IN_ATTENDANCE_UPDATE_REQUEST_TAB ==
+                          ATTENDANCE_UPDATE_PENDING_REQUEST_TAB
+                      }"
+                      data-bs-toggle="tab"
+                      href="#attendance-update-pending-request"
+                      role="tab"
+                      aria-selected="true"
+                      >Pending requests
+                      <span
+                        class="badge rounded-pill badge-outline-warning"
+                        style="margin-left: 10px"
+                        *ngIf="attendanceRequestCount > 0"
+                        >{{ attendanceRequestCount }}</span
+                      ></a
+                    >
                   </li>
                   <li
                     class="nav-item"
@@ -2039,23 +2074,25 @@
                         </div>
                       </div> -->
                       <div
-                      class="empty-file"
-                      style="margin-top: 25%"
-                      *ngIf="
-                      dataNotFoundForAttendanceUpdatePendingRequestResponse &&
-                      !networkConnectionErrorForAttendanceUpdatePendingRequestResponse"
-                    >g
-                      <nz-empty
-                        nzNotFoundImage="assets/images/no-data-found-img.svg"
-                        [nzNotFoundContent]="contentTpl"
+                        class="empty-file"
+                        style="margin-top: 25%"
+                        *ngIf="
+                          dataNotFoundForAttendanceUpdatePendingRequestResponse &&
+                          !networkConnectionErrorForAttendanceUpdatePendingRequestResponse
+                        "
                       >
-                        <ng-template #contentTpl>
-                          <p class="mb-1 empty-detail font-16">
-                            No data for now
-                          </p>
-                        </ng-template>
-                      </nz-empty>
-                    </div>
+                        g
+                        <nz-empty
+                          nzNotFoundImage="assets/images/no-data-found-img.svg"
+                          [nzNotFoundContent]="contentTpl"
+                        >
+                          <ng-template #contentTpl>
+                            <p class="mb-1 empty-detail font-16">
+                              No data for now
+                            </p>
+                          </ng-template>
+                        </nz-empty>
+                      </div>
                     </ng-template>
                   </div>
 
@@ -2099,7 +2136,7 @@
                             <div class="col-auto">
                               <img
                                 *ngIf="attendanceRequestHistory.userImage"
-                                src="{{ attendanceRequestHistory.userImage }}"
+                                src="{{attendanceRequestHistory.userImage}}"
                                 alt=""
                                 class="thumb-md rounded-circle"
                                 style="width: 32px; height: 32px"
@@ -2287,7 +2324,7 @@
                           </div>
                         </div>
                       </div>
-                      --> 
+                      -->
 
                       <div
                         class="empty-file"

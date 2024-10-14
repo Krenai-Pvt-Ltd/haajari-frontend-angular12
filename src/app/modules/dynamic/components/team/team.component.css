@@ -55,6 +55,7 @@
   border-radius: 50%;
   font-size: 18px;
   text-transform: uppercase;
+  color: var(--primary-color);
 }
 
 span.members-name {
@@ -1179,4 +1180,12 @@ button.btn.close-btn {
 .leave-management-detail a:hover {
   text-decoration: underline;
   color: var(--primary-color) !important;
+}
+.empty-detail {
+  color: #6b7280;
+  line-height: 20px;
+}
+
+::ng-deep.ant-empty-image img {
+  width: 90px;
 }
