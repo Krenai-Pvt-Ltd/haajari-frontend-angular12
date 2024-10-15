@@ -13,6 +13,7 @@ export class SubscriptionPlanService {
 
   constructor(private _httpClient: HttpClient) {
     this.getOrganizationSubsPlanDetail();
+    this.isSubscriptionPlanExpired();
   }
 
 
@@ -30,6 +31,20 @@ export class SubscriptionPlanService {
 
       });
   }
+
+  isPlanExpired:boolean=false;
+  isUpgradePlan:boolean=false;
+  isSubscriptionPlanExpired() {
+    this.isSubscrPlanExpired().subscribe((response) => {
+        if (response.status){
+          this.isPlanExpired = response.object.isExpired;
+          this.isUpgradePlan = response.object.isUpgradePlan;
+        }
+      },(error)=>{
+
+      });
+  }
+
 
   getAllSubscriptionPlan() {
     return this._httpClient.get<any>(this._key.base_url + this._key.get_subscription)
@@ -128,5 +143,10 @@ export class SubscriptionPlanService {
 
   getRecentPaidInvoiceDetail(){
     return this._httpClient.get<any>(this._key.base_url + this._key.get_subscription_payment_detail);
+  }
+
+
+  isSubscrPlanExpired() {
+    return this._httpClient.get<any>(this._key.base_url + this._key.is_plan_expired);
   }
 }

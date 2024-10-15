@@ -33,6 +33,7 @@ import { BillingAndSubscriptionPageComponent } from './components/billing-and-su
 import { CoinsComponent } from './components/coins/coins.component';
 import { ToDoStepDashboardComponent } from './components/to-do-step-dashboard/to-do-step-dashboard.component';
 import { SubscriptionComponent } from './components/subscription/subscription.component';
+import { SubscriptionGuard } from 'src/app/guards/subscription.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -43,64 +44,64 @@ const routes: Routes = [
       {
         path: 'dashboard',
         component: DashboardComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard,SubscriptionGuard],
         data: { requiredSubmodule: '/dashboard' },
       }, //canActivate: [AuthGuard] (To activate the auth guard, need to add this under curly braces of this line by seperated commas)
       {
         path: 'timetable',
         component: TimetableComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard,SubscriptionGuard],
         data: { requiredSubmodule: '/timetable' },
       },
       {
         path: 'project',
         component: ProjectComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard,SubscriptionGuard],
         data: { requiredSubmodule: '/project' },
       },
       {
         path: 'team',
         component: TeamComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard,SubscriptionGuard],
         data: { requiredSubmodule: '/team' },
       },
       {
         path: 'task-manager',
         component: TaskManagerComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard,SubscriptionGuard],
         data: { requiredSubmodule: '/task-manager' },
       },
       {
         path: 'onboarding',
         component: OnboardingComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard,SubscriptionGuard],
       },
       {
         path: 'userlist',
         component: UserlistComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard,SubscriptionGuard],
       },
       { path: 'waiting', component: WaitingPageComponent },
       {
         path: 'team-detail',
         component: TeamDetailComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard,,SubscriptionGuard],
         data: { requiredSubmodule: '/team-detail' },
       },
       {
         path: 'user-profile',
         component: UserProfileComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard,SubscriptionGuard],
       },
       {
         path: 'employee-onboarding-data',
         component: EmployeeOnboardingDataComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard,SubscriptionGuard],
       },
       {
         path: 'role',
         component: RoleComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard,SubscriptionGuard],
         data: { requiredSubmodule: '/role' },
       },
       {
@@ -110,56 +111,56 @@ const routes: Routes = [
       {
         path: 'reports',
         component: ReportsComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, SubscriptionGuard],
         data: { requiredSubmodule: '/reports' },
       },
       {
         path: 'assets',
         component: AssetsComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, SubscriptionGuard],
         data: { requiredSubmodule: '/assets' },
       },
       {
         path: 'coins',
         component: CoinsComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, SubscriptionGuard],
         data: { requiredSubmodule: '/coins' },
       },
       {
         path: 'employee-profile',
         component: EmployeeProfileComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, SubscriptionGuard],
         data: { requiredSubmodule: '/employee-profile' },
       },
       { path: 'testing', component: TestingComponent },
       {
         path: 'privacy',
         component: PrivacyComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, SubscriptionGuard],
         data: { requiredSubmodule: '/privacy' },
       },
       {
         path: 'support',
         component: SupportComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, SubscriptionGuard],
         data: { requiredSubmodule: '/support' },
       },
       {
         path: 'add-role',
         component: RoleAddComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, SubscriptionGuard],
         data: { requiredSubmodule: '/add-role' },
       },
       {
         path: 'billing',
         component: BillingComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, SubscriptionGuard],
         data: { requiredSubmodule: '/billing' },
       },
       {
         path: 'billing-payment',
         component: BillingPaymentComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard, SubscriptionGuard],
         data: { requiredSubmodule: '/billing-payment' },
       },
       { path: 'success', component: SuccessComponent },

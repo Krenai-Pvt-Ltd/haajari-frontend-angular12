@@ -1,8 +1,8 @@
 export class Key {
-  // base_url = 'http://localhost:8082/api/v2';
+  base_url = 'http://localhost:8082/api/v2';
 
   /* ------------------  Staging urls ----------------*/
-  base_url = 'https://staging.hajiri.work/api/v2';
+  // base_url = 'https://staging.hajiri.work/api/v2';
 
   /* ------------------  Production urls ----------------*/
   // base_url = 'https://production.hajiri.work/api/v2';
@@ -244,10 +244,11 @@ export class Key {
 
   //NEW SUBSCRIPTION PLAN API KEY
   get_subscription_plans = '/subscription/plan';
-  get_current_subscription_plan = '/subscription/current';
-  get_subscription_plan_light_detail = '/subscription/plan/detail';
-  verify_gst_number = '/subscription/gst';
-  get_subscription_payment_detail = '/subscription/payment';
+  get_current_subscription_plan='/subscription/current';
+  get_subscription_plan_light_detail='/subscription/plan/detail';
+  verify_gst_number='/subscription/gst';
+  get_subscription_payment_detail='/subscription/payment';
+  is_plan_expired = '/subscription/is-expired';
 
   //user notification
   get_notification = '/user-notification';
