@@ -260,13 +260,13 @@
 @media screen and (max-width: 1920px) {
   .onboardingStapsPoint {
     max-height: 50vh;
-    overflow: scroll;
+    overflow-y: auto;
   }
 }
 @media screen and (max-width: 1280px) {
   .onboardingStapsPoint {
     max-height: 50vh;
-    overflow: scroll;
+    overflow-y: auto;
   }
 }
 .onboardingStapsPoint::-webkit-scrollbar {

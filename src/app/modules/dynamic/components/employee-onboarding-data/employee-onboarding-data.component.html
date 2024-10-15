@@ -1,7 +1,7 @@
 <div class="page-wrapper">
   <div class="page-content-tab">
     <div class="container-fluid">
-      <div class="row leave-management-settings p-3 mt-2 align-items-center">
+      <div class="row leave-management-settings p-3 mt-2 align-items-center" *ngIf="isMainPlaceholder">
         <div class="col-md-6">
           <div class="leave-management-detail pt-5 pb-5">
             <h3 class="mb-3">
@@ -76,7 +76,7 @@
         </div>
       </div>
 
-      <div class="row mt-4">
+      <div class="row mt-4" *ngIf="!isMainPlaceholder">
         <div class="col-md-3">
           <div
             class="employe-onbording"
@@ -167,7 +167,7 @@
           </div>
         </div>
       </div>
-      <div class="row mt-3" *ngIf="isShowPendingVerificationTab">
+      <div class="row mt-3" *ngIf="isShowPendingVerificationTab && !isMainPlaceholder">
         <div class="col-md-7">
           <div class="on-leave-section">
             <h5>Latest Joining - Pending Verification</h5>
@@ -594,7 +594,7 @@
         </div>
       </div>
 
-      <div class="row mt-3">
+      <div class="row mt-3" *ngIf="!isMainPlaceholder">
         <div class="col-md-12">
           <div class="obboard-employee-list">
             <div class="onboard-add row align-items-center mx-0">
@@ -704,17 +704,24 @@
                               [ngModelOptions]="{ standalone: true }"
                               style="padding: 10px 40px"
                             />
-                            <button
+                            <!-- <button
                               type="button"
                               class="btn close-btn"
                               (click)="reloadPage()"
                               *ngIf="crossFlag"
                             >
                               <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-                            </button>
+                            </button> -->
                             <i
                               class="bi bi-search search-icon"
                               style="margin: auto; margin-left: 15px"
+                              *ngIf="search==''"
+                            ></i>
+                            <i
+                              class="bi bi-x search-icon"
+                              style="margin: auto; margin-left: 15px"
+                              *ngIf="search!=''"
+                              (click)="reloadPage()"
                             ></i>
                           </div>
                         </form>
@@ -1112,14 +1119,13 @@
                     </tr>
                     <!-- <tr><td>06/06/2023</td><td>Wekreta</td><td>Meeting</td><td><p class="mb-0 weekly-pro">Weekly progress meeting</p></td><td class="text-center">12</td><td class="half-per"><span class="">50%</span></td><td class="text-center">13</td><td><div class="hstack gap-3 justify-content-center"><a href="javascript:void(0);" class="link-success text-decoration-underline">Request</a><a href="javascript:void(0);" routerLink="/employee-profile" class="link-primary text-decoration-underline">View</a></div></td></tr><tr><td>06/06/2023</td><td>Wekreta</td><td>Meeting</td><td><p class="mb-0 weekly-pro">Weekly progress meeting</p></td><td class="text-center">12</td><td class="full-per"><span class="">100%</span></td><td class="text-center">13</td><td><div class="hstack gap-3 justify-content-center"><a href="javascript:void(0);" class="link-success text-decoration-underline">Request</a><a href="javascript:void(0);" routerLink="/employee-profile" class="link-primary text-decoration-underline">View</a></div></td></tr> -->
                   </tbody>
-                  <tbody>
+                  <tbody *ngIf="errorToggleTop && users.length == 0">
                     <tr>
                       <td colspan="8">
                         <div class="mt-3 dashnodata">
                           <div
                             class="empty-file"
                             style="margin-top: 5%; margin-bottom: 5%"
-                            *ngIf="errorToggleTop && users.length == 0"
                           >
                             <nz-empty
                               nzNotFoundImage="assets/images/no-data-found-img-2.svg"

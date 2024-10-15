@@ -283,7 +283,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
     const target = event.target as HTMLImageElement;
     target.src = './assets/images/broken-image-icon.jpg';
   }
-  
+
   getRoleData() {
     //  const managerDetails =localStorage.getItem('managerFunc');
     // if(managerDetails !== null){
@@ -461,12 +461,12 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   attendanceDetailModalToggle: boolean = false;
   clientX: string = '0px';
   clientY: string = '0px';
-  
+
   openModal(mouseEnterInfo: any): void {
     if (!this.attendanceDetailModalToggle) {
       // Reset modal data
       const extendedProps = mouseEnterInfo.event._def.extendedProps;
-  
+
       this.userAttendanceDetailDateWise = {
         checkInTime: extendedProps.checkInTime || '',
         checkOutTime: extendedProps.checkOutTime || '',
@@ -476,20 +476,20 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
         createdDate: extendedProps.createdDate || '',
         status: extendedProps.status || '',
       };
-  
+
       // Get the event element's position on the screen
       const rect = mouseEnterInfo.el.getBoundingClientRect();
-  
-      
-      this.clientX = `${rect.left - 210}px`; 
-      this.clientY = `${rect.top - 70}px`;   
-  
+
+
+      this.clientX = `${rect.left - 210}px`;
+      this.clientY = `${rect.top - 70}px`;
+
       // Open modal
       this.attendanceDetailModalToggle = true;
       this.openEventsModal.nativeElement.click();
     }
   }
-  
+
 
   closeAttendanceModal() {
     this.attendanceDetailModalToggle = false;
@@ -503,12 +503,12 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   // }
   @ViewChild('closeAttendanceDetailModalButton')
   closeAttendanceDetailModalButton!: ElementRef;
-  
+
   mouseLeaveInfo(mouseEnterInfo: any): void {
     // Add a delay before closing the modal
     setTimeout(() => {
       const modalElement = this.closeAttendanceDetailModalButton.nativeElement;
-  
+
       // Ensure the mouse is not hovering over the modal before closing it
       if (!modalElement.matches(':hover')) {
         this.closeAttendanceModal();
@@ -521,9 +521,9 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   // getEventForDate(date: Date): any {
   //   return this.events.find(event => moment(event.date).isSame(moment(date), 'day'));
   // }
-  
 
-  
+
+
 
   panelChange(event: { date: Date; mode: 'month' | 'year' }): void {
     this.mode = event.mode; // Update mode
@@ -545,7 +545,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
       this.handleMonthChange(newMonth, newYear);
     }
   }
-  
+
 
   disableDate = (current: Date): boolean => {
     // Disable dates before the user's joining date
@@ -564,11 +564,11 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
 
   selectChange(selectedDate: Date): void {
     // console.log('Selected date:', selectedDate);
-    
+
     // Calculate the start and end dates for the month
     const startDateStr = moment(selectedDate).startOf('month').format('YYYY-MM-DD');
     const endDateStr = moment(selectedDate).endOf('month').format('YYYY-MM-DD');
-    
+
     // Call the method to fetch user attendance data
     this.getUserAttendanceDataFromDate(startDateStr, endDateStr);
   }
@@ -585,7 +585,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
     // Call your method to get user attendance data
     this.getUserAttendanceDataFromDate(startDateStr, endDateStr);
   }
-  
+
   // });
   getUserAttendanceDataFromDate(sDate: string, eDate: string): void {
     debugger
@@ -597,16 +597,16 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
           this.events = [];
           this.totalPresent = 0;
           this.totalAbsent = 0;
-  
+
           if (!attendances.length) {
             let currentDate = moment(sDate, 'YYYY-MM-DD');
             const endDate = moment(eDate, 'YYYY-MM-DD');
-  
+
             while (currentDate.isSameOrBefore(endDate)) {
-              this.events.push({ 
-                title: 'A', 
-                date: currentDate.format('YYYY-MM-DD'), 
-                color: '#f8d7d7' 
+              this.events.push({
+                title: 'A',
+                date: currentDate.format('YYYY-MM-DD'),
+                color: '#f8d7d7'
               });
               this.totalAbsent++;
               currentDate.add(1, 'days');
@@ -615,17 +615,17 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
             this.attendances = attendances;
             this.attendanceDetailsResponse = attendances;
             this.attendanceDetailDayWise = response?.listOfObject || [];
-  
+
             for (let attendance of attendances) {
               const title = this.getStatusTitle(attendance);
               const color = this.getStatusColor(attendance.status);
-  
+
               if (['Present', 'Half Day', 'Late'].includes(attendance.status)) {
                 this.totalPresent++;
               } else if (attendance.status === 'Absent') {
                 this.totalAbsent++;
               }
-  
+
               this.events.push({
                 title,
                 date: moment(attendance.createdDate).format('YYYY-MM-DD'),
@@ -637,18 +637,18 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
                 totalWorkingHours: attendance.totalWorkingHours,
                 createdDate: attendance.createdDate,
                 status: attendance.status,
-              });              
+              });
             }
           }
-  
+
           this.updateCalendarOptions();
-  
+
           if (this.prevDate) {
             //TODO : uncomment if required
             // const calendarApi = this.calendarComponent.getApi();
             // this.changeForwardButtonVisibilty(calendarApi);
           }
-  
+
           this.count++;
         },
         (error: any) => {
@@ -657,8 +657,8 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
         }
       );
   }
-  
-  
+
+
   // Function to update calendar options
   updateCalendarOptions(): void {
     this.calendarOptions = {
@@ -721,19 +721,19 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   }
 
   attendanceDetailDayWise: AttendanceDetailDayWise[] =[];
-  
+
 
   // Function to get attendance details for a particular date
   getAttendance(date: Date): AttendanceDetailDayWise | undefined {
     const formattedDate = this.formatDate(date);
     return this.attendanceDetailDayWise.find(attendance => attendance.createdDate === formattedDate);
   }
-  
+
   getEventForDate(date: Date): any {
     const formattedDate = this.formatDate(date);
     return this.events.find(event => event.date === formattedDate);
   }
-  
+
   // Helper function to format date to match the event date format
   // formatDate(date: Date): string {
   //   const year = date.getFullYear();
@@ -741,7 +741,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   //   const day = ('0' + date.getDate()).slice(-2);
   //   return `${year}-${month}-${day}`;
   // }
-  
+
   // Function to get details for tooltip
   getDetails(attendance: AttendanceDetailDayWise): string {
     const createdDate = new Date(attendance.createdDate).toLocaleDateString();
@@ -752,15 +752,15 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
     switch (attendance.status) {
         case 'Present':
         case 'Half Day':
-            const checkInTime = new Date(attendance.checkInTime).toLocaleTimeString([], { 
-                hour: 'numeric', 
-                minute: '2-digit', 
-                hour12: true 
+            const checkInTime = new Date(attendance.checkInTime).toLocaleTimeString([], {
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
             });
-            const checkOutTime = new Date(attendance.checkOutTime).toLocaleTimeString([], { 
-                hour: 'numeric', 
-                minute: '2-digit', 
-                hour12: true 
+            const checkOutTime = new Date(attendance.checkOutTime).toLocaleTimeString([], {
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
             });
 
             // Adding details with line breaks between each
@@ -807,7 +807,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
     // Handle actions here if necessary, such as re-fetching data based on mode
   }
 
-  
+
 
   // getStatusColor(status: any): string {
   //   switch (status) {
@@ -1022,7 +1022,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
           this.resetUserLeave();
           this.formGroupDirective.resetForm();
           this.getUserLeaveLogByUuid();
-          
+
           this.requestLeaveCloseModel.nativeElement.click();
           // location.reload();
         },
@@ -2106,7 +2106,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
     this.endDate = this.helperService.formatDateToYYYYMMDD(
       new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0),
     );
-   
+
     this.getUserAttendanceDataFromDate(this.startDate, this.endDate);
   }
   disableMonths = (date: Date): boolean => {
@@ -2250,7 +2250,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
       } else{
         this.employeePayslipLogResponseList = response.listOfObject;
         console.log( this.employeePayslipLogResponseList);
-      
+
       }
       this.isShimmerForEmployeePayslipLogResponse = false;
     }, (error) => {
@@ -3157,6 +3157,7 @@ return
   selectedDateAttendance!: Date;
   choosenDateString!: string;
 
+  attendanceUpdateRequestLoader : boolean = false;
   submitForm(): void {
     if (this.checkHoliday || this.checkAttendance) {
       return;
@@ -3166,7 +3167,7 @@ return
         managerId: formValue.managerId,
         requestReason: formValue.requestReason
       };
-  
+
       if (this.attendanceRequestType == 'UPDATE') {
         attendanceTimeUpdateRequest = {
           ...attendanceTimeUpdateRequest,
@@ -3182,10 +3183,14 @@ return
         };
       }
 
-      this.dataService.sendAttendanceTimeUpdateRequest(this.userId, attendanceTimeUpdateRequest, this.attendanceRequestType, this.choosenDateString).subscribe(
+      this.attendanceUpdateRequestLoader = true;
+      attendanceTimeUpdateRequest.userUuid = this.userId;
+      attendanceTimeUpdateRequest.requestType = this.attendanceRequestType;
+      attendanceTimeUpdateRequest.choosenDateString = this.choosenDateString;
+      this.dataService.sendAttendanceTimeUpdateRequest(attendanceTimeUpdateRequest).subscribe(
         (response) => {
           // console.log('Request sent successfully', response);
-
+          this.attendanceUpdateRequestLoader = false;
           console.log("retrive", response, response.status);
           if(response.status === true) {
           this.resetForm();
@@ -3201,6 +3206,7 @@ return
             }
         },
         (error) => {
+          this.attendanceUpdateRequestLoader = false;
           console.error('Error sending request:', error);
         }
       );
@@ -3359,7 +3365,7 @@ getAttendanceRequestLogData() {
     //   clearTimeout(this.debounceTimer);
     // }
     // this.debounceTimer = setTimeout(() => {
-  
+
   // this.attendanceRequestLog = [];
   this.dataService.getAttendanceRequestLog(this.userId, this.pageNumberAttendanceLogs, this.itemPerPageAttendanceLogs).subscribe(response => {
     if(this.helperService.isObjectNullOrUndefined(response)){
@@ -3478,36 +3484,65 @@ closeAttendanceFunc() {
   // Requesting for overtime
   dateRange : Date[] = [];
 
+  // Validation error message
+  validationError: string | null = null;
   selectTimeForOvertimeRequest(dates: Array<Date | null> | Date | Date[] | null): void {
-    // Handle array of dates
-    if (Array.isArray(dates)) {
-      if (dates.length === 2) {
-        this.overtimeRequestDTO.startTime = dates[0] ? new Date(dates[0]) : null;
-        this.overtimeRequestDTO.endTime = dates[1] ? new Date(dates[1]) : null;
-        this.overtimeRequestDTO.workingHour = this.helperService.durationBetweenTwoDatesInHHmmssFormat(this.overtimeRequestDTO.endTime, this.overtimeRequestDTO.startTime);
-        // console.log("Working Hour: "+this.overtimeRequestDTO.workingHour);
+    this.validationError = null; // Reset validation error message
+
+    if (Array.isArray(dates) && dates.length === 2) {
+      const startTime = dates[0] ? new Date(dates[0]) : null;
+      const endTime = dates[1] ? new Date(dates[1]) : null;
+
+      if (startTime && endTime) {
+        const duration = this.helperService.durationBetweenTwoDatesInHHmmssFormat(endTime, startTime);
+
+        // Ensure the duration is within 23:59:59
+        if (duration && duration <= '23:59:59') {
+          this.overtimeRequestDTO.startTime = startTime;
+          this.overtimeRequestDTO.endTime = endTime;
+          this.overtimeRequestDTO.workingHour = duration;
+        } else {
+          // Show error message on the front-end
+          this.validationError = 'The duration cannot exceed 23 hours, 59 minutes.';
+          this.overtimeRequestDTO.workingHour = null;
+        }
       } else {
-        // Handle case where array length is not 2 if necessary
-        console.warn('Expected array with 2 dates, but got:', dates);
+        // Invalid date range
+        this.validationError = null;
       }
-    } else if (dates instanceof Date) {
-      // Handle single date case if needed
-      // console.log('Single Date Selected:', dates);
     } else if (dates === null) {
-      // Handle null case
+      // Handle null case (clearing the date range)
+      this.overtimeRequestDTO.startTime = null;
       this.overtimeRequestDTO.endTime = null;
+      this.overtimeRequestDTO.workingHour = '';
     }
   }
 
 
+  // Disable inappropriate dates based on the start date
+  disabledDateForOvertimeRequest = (current: Date): boolean => {
+    if (this.dateRange && this.dateRange[0]) {
+      const nextValidDate = new Date(this.dateRange[0]); // Clone the start date
+      nextValidDate.setDate(nextValidDate.getDate() + 1); // Set the next valid date to the day after the start date
+
+      return current && current < nextValidDate; // Compare both as Date objects
+    }
+    return false; // No date is disabled if no start date is selected
+  };
+
+
+  overtimeRequestLoader : boolean = false;
   overtimeRequestDTO : OvertimeRequestDTO = new OvertimeRequestDTO();
   registerOvertimeRequestMethodCall(){
+    this.overtimeRequestLoader = true;
     this.dataService.registerOvertimeRequest(this.overtimeRequestDTO).subscribe((response) => {
+      this.overtimeRequestLoader = false;
       this.clearOvertimeRequestModal();
       this.closeOvertimeRequestModal.nativeElement.click();
       this.helperService.showToast('Overtime request submitted successfully.', Key.TOAST_STATUS_SUCCESS);
       this.getOvertimeRequestLogResponseByUserUuidMethodCall();
     }, (error) => {
+      this.overtimeRequestLoader = false;
       this.helperService.showToast('Error while submitting the request!', Key.TOAST_STATUS_ERROR);
     })
 
@@ -3606,13 +3641,13 @@ closeAttendanceFunc() {
   )
   }
 
-  
-  
-  
 
 
 
- 
+
+
+
+
   // regDate = new Date('2023-01-01'); // Example registration date
   selectedYear = this.date.getFullYear();
   selectedMonth = this.date.getMonth() + 1;

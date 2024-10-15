@@ -237,7 +237,7 @@ export class CompanySettingComponent implements OnInit {
     }
   }
 
-  //  new to upload hr policies 
+  //  new to upload hr policies
 
   isEditModeHrPolicies: boolean = false;
   isUpdatingHrPolicies: boolean = false;
@@ -338,7 +338,7 @@ export class CompanySettingComponent implements OnInit {
     link.click();
   }
 
-  //  new code 
+  //  new code
 
 
   itemPerPage: number = 8;
@@ -452,7 +452,7 @@ export class CompanySettingComponent implements OnInit {
   onTableDataChange(event: any) {
     this.pageNumber = event;
   }
-  
+
 
   checkIndividualSelection() {
     this.isAllUsersSelected = this.staffs.every((staff) => staff.selected);
@@ -555,9 +555,9 @@ export class CompanySettingComponent implements OnInit {
     });
   }
 
-  //  location 
+  //  location
 
- 
+
 
   resetAddressDetailsModal() {
     this.organizationAddressForm.resetForm();
@@ -734,7 +734,7 @@ export class CompanySettingComponent implements OnInit {
   //     );
   // }
 
-  //  new code 
+  //  new code
 
   allAddresses: any;
   specificAddress: any;
@@ -744,7 +744,7 @@ export class CompanySettingComponent implements OnInit {
 
   saveStaffAddressDetails(): void {
 
-    this.staffAddressDetails.organizationMultiLocationAddressDTO = this.organizationAddressDetail; 
+    this.staffAddressDetails.organizationMultiLocationAddressDTO = this.organizationAddressDetail;
     this.staffAddressDetails.userUuidsList = this.selectedStaffsUuids;
 
     this.dataService.saveStaffAddressDetails(this.staffAddressDetails, this.addressId)
@@ -760,7 +760,7 @@ export class CompanySettingComponent implements OnInit {
         this.getAllAddressDetails();
       });
   }
- 
+
 
   isShimmer = false;
   dataNotFoundPlaceholder = false;
@@ -848,7 +848,7 @@ export class CompanySettingComponent implements OnInit {
    openLocationSetting() {
     this.locationSettingTab.nativeElement.click();
    }
-  
+
   deleteAddress(addressId: number) {
     this.dataService.deleteByAddressId(addressId).subscribe(
       (response) => {
@@ -870,6 +870,10 @@ export class CompanySettingComponent implements OnInit {
   // Method to switch tabs
   switchTab(tabName: string) {
     this.activeTab = tabName;
+  }
+  triggerFileInput() {
+    const fileInput = document.getElementById('hrpolicies') as HTMLInputElement;
+    fileInput.click();
   }
 }
 

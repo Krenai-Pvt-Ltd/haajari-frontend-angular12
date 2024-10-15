@@ -24,7 +24,7 @@
       </li>
     </ul>
     <div class="container-fluid">
-      
+
       <form #documentsInformationForm="ngForm" *ngIf="activeTab === 'companySetting'" (ngSubmit)="checkFormValidation()">
         <div class="company-setting bg-white">
 
@@ -342,6 +342,7 @@
                   type="file"
                   name="hrpolicies"
                   class="input"
+                  accept="application/pdf"
                   (change)="onFileSelectedHrPolicies($event)"
                 />
                 <!-- <img src="assets/images/documentation.svg" style="width: 50px" class="pb-3" /> -->
@@ -432,7 +433,24 @@
                       </g>
                     </svg>
                   </span>
-                  <span (click)="downloadFile(fileUrl)">
+                  <!-- (click)="downloadFile(fileUrl)" -->
+                  <input
+                  id="hrpolicies"
+                  type="file"
+                  name="hrpolicies"
+                  class="input"
+                  accept="application/pdf"
+                  (change)="onFileSelectedHrPolicies($event)"
+                  style="display: none;"
+                />
+                <span>
+                <div
+                *ngIf="isUpdatingHrPolicies"
+                class="spinner-border text-primary"
+                role="status"
+              ></div>
+            </span>
+                  <span (click)="triggerFileInput()" *ngIf="!isUpdatingHrPolicies">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="23"
@@ -501,7 +519,7 @@
             </div>
           </div>
         </div>
-        
+
 
         <!-- multilocation func  -->
         <div class="col-md-4 mt-3 mb-3" style="padding: 20px;" *ngIf="activeTab === 'locationSetting'">
@@ -928,7 +946,7 @@
 
           </div> -->
         </div>
-       
+
 
         <div class="col-md-7 mt-3 mb-3" *ngIf="activeTab === 'onboardingSetting'" style="
         border: 1px solid #f5f5f5;
@@ -1094,7 +1112,7 @@
                             <input type="text" id="addressLine1"
                               placeholder="Please Select Address from Address Dropdown Or Fetch Current Location.."
                               class="form-control">
-                           
+
                           </div>
                         </div>
                         <div class="col-md-12">
