@@ -1307,13 +1307,10 @@
             <div class="row h-100 p-0 m-0">
               <div class="col-md-3 p-0 m-0">
                 <div class="leave-sidebar-menu">
-                  <div *ngIf="!updateToggle" class="nav flex-column nav-pills pt-3" id="v-pills-tab" role="tablist"
+                 
+                  <div  class="nav flex-column nav-pills pt-3" id="v-pills-tab" role="tablist"
                     aria-orientation="vertical">
-                    <!-- <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill"
-                      data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home"
-                      aria-selected="true" #templateSettingTab2>
-                      Template setting
-                    </button> -->
+
                     <button class="nav-link" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home"
                       type="button" role="tab" aria-controls="v-pills-home" aria-selected="false" #templateSettingTab2>
                       Template setting
@@ -1325,14 +1322,19 @@
                       Leave Categories
                     </button>
 
-                    <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill"
+                    <!-- <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill"
                       data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages"
                       aria-selected="false" [disabled]="leaveCategories1.length == 0" #staffSelectionTab1>
                       Staff selection
-                    </button>
+                    </button> -->
+                    <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill"
+                    data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages"
+                    aria-selected="false" [disabled]="displayedCategories.length == 0" #staffSelectionTab1>
+                    Staff selection
+                  </button>
                   </div>
 
-                  <div *ngIf="updateToggle" class="nav flex-column nav-pills pt-3" id="v-pills-tab" role="tablist"
+                  <!-- <div *ngIf="updateToggle" class="nav flex-column nav-pills pt-3" id="v-pills-tab" role="tablist"
                     aria-orientation="vertical">
                     <button disabled class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill"
                       data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home"
@@ -1346,13 +1348,13 @@
                       Leave Categories
                     </button>
 
-                    <!-- (click)="getUserByUpdateMethodCall(leaveTempId)" -->
                     <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill"
                       data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages"
                       aria-selected="false" #staffSelectionTab2>
                       Staff selection
                     </button>
-                  </div>
+                  </div> -->
+
                 </div>
               </div>
               <div class="col-md-9 p-0 m-0">
@@ -1727,7 +1729,7 @@
                                       <!-- <th class="text-center" style="width: 10%">
                                         Leave Action
                                       </th> -->
-                                      <th class="text-center" style="width: 10%">
+                                      <th *ngIf="!updateToggle" class="text-center" style="width: 10%">
                                         Action
                                       </th>
                                     </tr>
@@ -1788,7 +1790,7 @@
                                           }}</span>
                                       </td> -->
 
-                                      <td class="text-center">
+                                      <td *ngIf="!updateToggle" class="text-center">
                                         <div class="d-flex align-items-center gap-2">
                                           <button (click)="editCategory(i)" type="button" class="btn btnAction p-0">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19"
@@ -1835,6 +1837,8 @@
                         <div class="modal-footer d-flex align-items-center justify-content-end leave-footer">
                           <!-- <button type="submit" class="btn p-0 next-btn" [disabled]="!form.valid" (click)="goToStaffSelectionTab()">  [disabled]="!form.valid || leaveCategories1.length==0"  -->
                           <!-- <button type="submit" class="btn p-0 next-btn" [disabled]="leaveCategories1.length==0" (click)="goToStaffSelectionTab()"> -->
+                         
+                         
                           <button [disabled]="displayedCategories.length == 0" type="submit" class="btn p-0 next-btn"
                             (click)="goToStaffSelectionTab()">
                             Next
