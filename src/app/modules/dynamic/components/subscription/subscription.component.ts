@@ -80,8 +80,8 @@ export class SubscriptionComponent implements OnInit {
     });
   }
 
-  selectPlan(index:number){
-    this.selectedSubscriptionPlan = this.subscriptionPlans[index];
+  selectPlan(plan:SubscriptionPlan){
+    this.selectedSubscriptionPlan = plan;
     // console.log("======selectedSubscriptionPlans=======", this.selectedSubscriptionPlan);
     this.typeBySubscriptionPlans = new Array();
     this.typeBySubscriptionPlans = this.subscriptionPlans.filter(x=> x.planType == this.selectedSubscriptionPlan.planType);
@@ -90,9 +90,10 @@ export class SubscriptionComponent implements OnInit {
     if(this.totalEmployee>0){
       this.employeeCount = this.totalEmployee;
     }
-
     this.calculateByEmployeeSize();
   }
+
+
 
   isGstAvailable:boolean=false;
   isVerified:boolean=false;
@@ -184,6 +185,10 @@ export class SubscriptionComponent implements OnInit {
         "confirm_close": true,
         // "ondismiss": this.stopProcessingPayment.bind(this)
       },
+      "prefill": {
+        "email": '',
+        "phone": ''
+      },
       "notes": {
         "orderFrom": 'Hajiri',
         "type": 'Plan-Activate',
@@ -242,14 +247,20 @@ export class SubscriptionComponent implements OnInit {
                 this.realtimeDbSubscriber.unsubscribe();
               }
               this.isUnderProcess = false;
-              this.stopProcessingPayment();
-              this.getRecentPaidInvoiceDetail();
-              this.getCurrentSubscriptionPlan();
-              this._subscriptionPlanService.getOrganizationSubsPlanDetail();
+              this.stopProcessingPayment(); 
+              this.afterSuccessfulPayment();     
             }
           }
         });
       });
+  }
+
+
+  afterSuccessfulPayment(){
+    this.getRecentPaidInvoiceDetail();
+    this.getPlans();
+    this.getCurrentSubscriptionPlan();
+    this._subscriptionPlanService.getOrganizationSubsPlanDetail();
   }
 
   showPaymentDetail(){
@@ -287,4 +298,6 @@ invoiceDetail:InvoiceDetail = new InvoiceDetail();
 
     });
   }
+
+  toggle:boolean =false;
 }

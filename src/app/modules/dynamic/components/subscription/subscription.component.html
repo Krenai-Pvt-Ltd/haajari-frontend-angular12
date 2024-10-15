@@ -418,7 +418,7 @@
                     </p>
 
                     <div class="d-flex align-items-center gap-3">
-                      <p class="mb-0 font-14">
+                      <p class="mb-0 font-14" *ngIf="showYearlyPlans" >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="22"
@@ -461,37 +461,6 @@
                         <span class="discount-tag">30%off</span> &nbsp;On Yearly
                         Plan
                       </p>
-
-                      <!-- <ul
-                        class="nav priceToggleMain"
-                        id="pills-tab"
-                        role="tablist"
-                      >
-                        <li class="nav-item" role="presentation">
-                          <button
-                            class="priceToggleBtn active"
-                            type="button"
-                            role="tab"
-                            aria-controls="pills-home"
-                            aria-selected="true"
-                          >
-                            Yearly
-                          </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                          <button
-                            class="priceToggleBtn"
-                            type="button"
-                            role="tab"
-                            aria-controls="monthly-plan"
-                            aria-selected="false"
-                            tabindex="-1"
-                          >
-                            Monthly
-                          </button>
-                        </li>
-                      </ul> -->
-
 
                       <form>
                         <div class="btn-container w-100">
@@ -537,20 +506,21 @@
                               <button
                                 class="btn current-plan w-100 mb-4"
                                 *ngIf="plan.isPurchased==0"
-                                (click)="selectPlan(i)"
+                                (click)="selectPlan(plan)"
                               >
                                 Purchase plan
                               </button>
+                              <!-- data-bs-toggle="modal" -->
+                              <!-- data-bs-target="#downgrade-plan" -->
                               <button
-                              class="btn current-plan w-100 mb-4"
-                              data-bs-toggle="modal"
-                              data-bs-target="#downgrade-plan"
+                              class="btn current-plan w-100 mb-4"                          
                               *ngIf="plan.isPurchased==1"
+                              (click)="selectPlan(plan)"
                             >
                               Current plan
                             </button>
 
-                              <ul class="plan-pints pl-0">
+                              <ul class="plan-pints pl-0" *ngIf="plan.planType=='BASIC'">
                                 <li>
                                   <i class="bi bi-check2"></i> Onboarding &
                                   Documents - Employee
@@ -586,47 +556,11 @@
                                   <i class="bi bi-check2"></i> Report - Basic
                                 </li>
                               </ul>
-                            </div>
-                          </div>
-                          <!-- <div class="col-md-4">
-                            <div class="plan-detail-box p-3 pt-4 pb-4">
-                              <h5 class="mb-0 font-20">Premium</h5>
-                              <p class="mb-0 font-13 mt-2">
-                                Ideal for small businesses looking to start
-                                digital attendance management.
-                              </p>
 
-                              <div
-                                class="d-flex align-items-center gap-2 mt-4 mb-3"
-                              >
-                                <h3 class="mb-0">₹99</h3>
-
-                                <div>
-                                  <h4 class="mb-0">₹125</h4>
-                                  <h6 class="mb-0 font-14">
-                                    month/per employee
-                                  </h6>
+                              <ul class="plan-pints pl-0" *ngIf="plan.planType=='PREMIUM'">
+                                <div class="mt-2 font-14" style="color: #01be4f">
+                                  All Basic Features +
                                 </div>
-                              </div>
-
-                              <p class="mb-0 font-14">
-                                <span class="plan-year-off"> 15% off </span>
-                                with annual contract
-                              </p>
-                              <span class="saperater-border mt-4 mb-4"></span>
-
-                              <button
-                                class="btn change-plan w-100 mb-4"
-                                (click)="switchSubscriptionPlan()"
-                              >
-                                Change Plan
-                              </button>
-
-                              <div class="mt-2 font-14" style="color: #01be4f">
-                                All Basic Features +
-                              </div>
-
-                              <ul class="plan-pints pl-0">
                                 <li>
                                   <i class="bi bi-check2"></i> Payroll and
                                   Salary Slip Automation
@@ -656,7 +590,8 @@
                                 </li>
                               </ul>
                             </div>
-                          </div> -->
+                          </div>
+                         
                           <div class="col-md-4">
                             <div class="plan-detail-box p-3 pt-4">
                               <h5 class="mb-0 font-20">Custom</h5>
@@ -697,188 +632,7 @@
                           </div>
                         </div>
                      
-                        <!-- <div class="row">
-                          <div class="col-md-4">
-                            <div class="plan-detail-box p-3 pt-4 pb-4">
-                              <h5 class="mb-0 font-20">Basic</h5>
-                              <p class="mb-0 font-13 mt-2">
-                                Ideal for small businesses looking to start
-                                digital attendance management.
-                              </p>
-
-                              <div
-                                class="d-flex align-items-center gap-2 mt-4 mb-4"
-                              >
-                                <h3 class="mb-0">₹69</h3>
-
-                                <div>
-                                  <h6 class="mb-0 font-14">
-                                    month/per employee
-                                  </h6>
-                                </div>
-                              </div>
-
-                              <p class="mb-0 font-14">
-                                <span class="plan-year-off"> 15% off </span>
-                                with annual contract
-                              </p>
-                              <span class="saperater-border mt-4 mb-4"></span>
-
-                              <button
-                                class="btn current-plan w-100 mb-4"
-                                data-bs-toggle="modal"
-                                data-bs-target="#downgrade-plan"
-                              >
-                                Current plan
-                              </button>
-
-                              <ul class="plan-pints pl-0">
-                                <li>
-                                  <i class="bi bi-check2"></i> Onboarding &
-                                  Documents - Employee
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Shift-based
-                                  attendance management
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Slack & WhatsApp
-                                  Integration
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Salary Structure
-                                  & Compliance
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Leave Request &
-                                  Approval Management
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Automation rule
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> User Roles &
-                                  Privileges
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Reminders &
-                                  Alerts - Notifications
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Report - Basic
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                          <div class="col-md-4">
-                            <div class="plan-detail-box p-3 pt-4 pb-4">
-                              <h5 class="mb-0 font-20">Premium</h5>
-                              <p class="mb-0 font-13 mt-2">
-                                Ideal for small businesses looking to start
-                                digital attendance management.
-                              </p>
-
-                              <div
-                                class="d-flex align-items-center gap-2 mt-4 mb-4"
-                              >
-                                <h3 class="mb-0">₹125</h3>
-
-                                <div>
-                                  <h6 class="mb-0 font-14">
-                                    month/per employee
-                                  </h6>
-                                </div>
-                              </div>
-
-                              <p class="mb-0 font-14">
-                                <span class="plan-year-off"> 15% off </span>
-                                with annual contract
-                              </p>
-                              <span class="saperater-border mt-4 mb-4"></span>
-
-                              <button
-                                class="btn change-plan w-100 mb-4"
-                                (click)="switchSubscriptionPlan()"
-                              >
-                                Change Plan
-                              </button>
-
-                              <div class="mt-2 font-14" style="color: #01be4f">
-                                All Basic Features +
-                              </div>
-
-                              <ul class="plan-pints pl-0">
-                                <li>
-                                  <i class="bi bi-check2"></i> Payroll and
-                                  Salary Slip Automation
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Employee Tax
-                                  Management
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Advance
-                                  Automation Rules
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Custom Roles &
-                                  Privileges
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Employee Exit -
-                                  Documentation
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Assets
-                                  Allocation/ Management
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Report - Advance
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                          <div class="col-md-4">
-                            <div class="plan-detail-box p-3 pt-4">
-                              <h5 class="mb-0 font-20">Custom</h5>
-                              <p class="mb-0 font-13 mt-2">
-                                Ideal for small businesses looking to start
-                                digital attendance management.
-                              </p>
-
-                              <h1
-                                class="requestQuote requestQuote-without-discount mb-0 mt-2"
-                              >
-                                Request a quote
-                              </h1>
-
-                              <span class="saperater-border mt-4 mb-4"></span>
-
-                              <button class="btn change-plan w-100 mb-4">
-                                Upgrade plan
-                              </button>
-
-                              <ul class="plan-pints pl-0">
-                                <li>
-                                  <i class="bi bi-check2"></i> Custom workflows
-                                  and HR processes
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Dedicated
-                                  deployment & onboarding support
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Integrations with
-                                  your existing systems
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Scalable
-                                  solutions for future growth
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div> -->
+                        
                     </div>
                   </div>
                 </div>
@@ -1728,7 +1482,7 @@
                 class="d-flex align-items-center justify-content-between p-3 border-bottom"
               >
                 <h5 class="mb-0 font-20">Order Recap</h5>
-                <button class="btn contactActionBtn bg-white">
+                <button class="btn contactActionBtn bg-white" (click)="toggle=true;">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
@@ -1764,11 +1518,11 @@
                 </button>
               </div>
               <div class="p-3">
-                <div class="mb-2 position-relative">
+                <div class="mb-2 position-relative" *ngIf="toggle">
                   <input
                     class="form-control"
                     type="text"
-                    placeholder="Add Coupon code "
+                    placeholder="Apply Coupon code "
                   />
                   <button class="btn btn-outline-krenai">Apply</button>
                 </div>
@@ -1777,7 +1531,7 @@
                   class="d-flex align-items-center justify-content-between pt-2 pb-2"
                 >
                   <h5 class="font-16">No of Employee</h5>
-                  <h5 class="font-16">{{employeeCount}}</h5>
+                  <h5 class="font-16">{{employeeCount || '0'}}</h5>
                 </div>
                 <div
                   class="d-flex align-items-center justify-content-between pt-2 pb-2"
@@ -1813,7 +1567,7 @@
                   class="d-flex align-items-center justify-content-between pt-3 pb-2 border-top"
                 >
                   <h5 class="text-primary font-16">Total Amount</h5>
-                  <h5 class="text-primary font-16">₹{{payableAmount}}</h5>
+                  <h5 class="text-primary font-16">₹{{payableAmount | number : '1.2-2'}}</h5>
                 </div>
               </div>
             </div>
