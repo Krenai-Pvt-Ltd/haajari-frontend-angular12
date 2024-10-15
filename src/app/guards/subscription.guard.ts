@@ -17,18 +17,20 @@ export class SubscriptionGuard implements CanActivate {
 
     canActivate(
       route: ActivatedRouteSnapshot,
-      state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+      state: RouterStateSnapshot):boolean  {
 
         
       if(this._subscriptionService.isPlanExpired!=undefined){
        if(this._subscriptionService.isPlanExpired){
-         this._router.navigate( ['/setting/billing/plan-expired']);
+         this._router.navigate( ['/subscription-ended']);
          return false;
        }else{
         return true;
        } 
+      }else{
+        return true;     
       }
-      return true;
+      
   }
   
 }

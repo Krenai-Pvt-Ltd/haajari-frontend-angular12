@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-subscription-ended',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SubscriptionEndedComponent implements OnInit {
 
-  constructor() { }
+  constructor(private _router:Router) { }
 
   ngOnInit(): void {
+  }
+
+  routeToSubscription(){
+    this._router.navigate(['/setting/subscription']);
   }
 
 }
