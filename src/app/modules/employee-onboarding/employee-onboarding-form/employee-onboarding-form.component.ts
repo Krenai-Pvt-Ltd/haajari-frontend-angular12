@@ -1,10 +1,12 @@
 import {
   Component,
+  ComponentFactoryResolver,
   ElementRef,
   OnInit,
   QueryList,
   ViewChild,
   ViewChildren,
+  ViewContainerRef,
 } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import {
@@ -18,7 +20,7 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { url } from 'inspector';
 import { UserPersonalInformationRequest } from 'src/app/models/user-personal-information-request';
 import { DataService } from 'src/app/services/data.service';
-import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subject } from 'rxjs';
 import {
   debounceTime,
@@ -30,6 +32,7 @@ import { debug } from 'console';
 import { DomSanitizer } from '@angular/platform-browser';
 import { HelperService } from 'src/app/services/helper.service';
 import { Key } from 'src/app/constant/key';
+import { PreviewFormComponent } from '../preview-form/preview-form.component';
 
 @Component({
   selector: 'app-employee-onboarding-form',
@@ -42,12 +45,13 @@ export class EmployeeOnboardingFormComponent implements OnInit {
   maxDob: string;
   // minJoiningDate: string;
   constructor(
-    private dataService: DataService,
+    public dataService: DataService,
     private router: Router,
     private activateRoute: ActivatedRoute,
     private afStorage: AngularFireStorage,
     private domSanitizer: DomSanitizer,
-    private helperService: HelperService
+    private helperService: HelperService,
+    private modalService: NgbModal
   ) {
     // DOB Date logic
     const today = new Date();
@@ -68,13 +72,13 @@ export class EmployeeOnboardingFormComponent implements OnInit {
   @ViewChild('closeModel') closeModel!: ElementRef;
   @ViewChild('imageGallerButton') imageGallerButton!: ElementRef;
   @ViewChildren('checkboxes') checkboxes!: QueryList<ElementRef>;
-  ngOnInit(): void {
-    this.dataService.getRoutesByOrganization(new URLSearchParams(window.location.search).get('userUuid'));
+  async ngOnInit() {
+    await this.dataService.loadOnboardingRoute(new URLSearchParams(window.location.search).get('userUuid'));
     this.isPagePresent();
     this.userPersonalInformationRequest.dateOfBirth = this.getInitialDate();
     // console.log();
     this.getNewUserPersonalInformationMethodCall();
-    
+
   }
   isPagePresent() {
     debugger;
@@ -83,7 +87,10 @@ export class EmployeeOnboardingFormComponent implements OnInit {
         userUuid: new URLSearchParams(window.location.search).get('userUuid'),
       },
     };
+    console.log(" personal info ",this.dataService.isRoutePresent('/employee-onboarding-form'))
+    console.log(" address info ",this.dataService.isRoutePresent('/employee-address-detail'))
     if(this.dataService.isRoutePresent('/employee-onboarding-form')){
+
       return;
     }
     else if(this.dataService.isRoutePresent('/employee-address-detail')){
@@ -118,7 +125,7 @@ export class EmployeeOnboardingFormComponent implements OnInit {
       );
     }
   }
-  
+
 
   routeToUserDetails() {
     let navExtra: NavigationExtras = {
@@ -909,12 +916,23 @@ export class EmployeeOnboardingFormComponent implements OnInit {
   }
 
   @ViewChild('formSubmitButton') formSubmitButton!: ElementRef;
-
   buttonType: string = 'next';
   selectButtonType(type: string) {
+    try {
+
+
     this.buttonType = type;
     this.userPersonalInformationRequest.directSave = false;
     this.formSubmitButton.nativeElement.click();
+    if(type === 'preview'){
+    const modalRef = this.modalService.open(PreviewFormComponent, {
+      centered: true,
+      size: 'lg', backdrop: 'static'
+    });
+    }
+  } catch (error) {
+      console.log(error)
+  }
   }
 
   directSave: boolean = false;

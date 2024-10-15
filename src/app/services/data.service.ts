@@ -898,11 +898,33 @@ export class DataService {
     })
   );
 }
+loadOnboardingRoute(userUuid: any):Promise<any> {
+  debugger
+  console.log(" in finddding route");
+  return new Promise((resolve, reject) => {
+    this.httpClient.get<string[]>(`${this.baseUrl}/onboarding-setting/routes/${userUuid}`).subscribe(
+      (routes: string[]) => {
+        this.onboardingRoutes = routes;
+        resolve(true);
+      }
+    );
+  });
+   
+   
+  
+
+}
   isRoutePresent(routeToCheck: string): boolean {
     const isPresent = this.onboardingRoutes.includes(routeToCheck);
     console.log(`Is route present: ${isPresent}`);
     return isPresent;
   }
+  isLastRoute(routeToCheck: string): boolean {
+    const lastRoute = this.onboardingRoutes[this.onboardingRoutes.length - 1];
+    return lastRoute === routeToCheck;
+  }
+  
+
   getAttendanceLatePerformers(
     startDate: string,
     endDate: string

@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
-import { Console } from 'console';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { OnboardingSidebarResponse } from 'src/app/models/onboarding-sidebar-response';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';

@@ -332,10 +332,10 @@ getOnboardingFormPreviewMethodCall() {
       //     this.employeeAdditionalDocument = [];
       // }
       
-        if(preview.userDocuments.secondarySchoolCertificate){
+        if(preview.userDocuments!=null && preview.userDocuments.secondarySchoolCertificate){
           this.isSchoolDocument = false;
         }
-        if(preview.userDocuments.highSchoolCertificate){
+        if(preview.userDocuments!=null && preview.userDocuments.highSchoolCertificate){
           this.isHighSchoolDocument = false;
         }
         if(preview.userExperience){
