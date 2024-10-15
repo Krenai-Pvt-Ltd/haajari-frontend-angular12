@@ -1,6 +1,4 @@
 export class Key {
-
-
   base_url = 'http://localhost:8082/api/v2';
 
   /* ------------------  Staging urls ----------------*/
@@ -226,7 +224,6 @@ export class Key {
   public static KRENAI_UUID = '60811bf3-ae1e-11ee-9597-784f4361d885';
   public static DEMO_ORGANIZATION_UUID = '8d3cc5c2-21a7-11ef-98b2-0a3b903b1973';
 
-
   //subscription plan
   get_subscription = '/subcription-plan';
   get_active_user_count = '/users/active-user-count';
@@ -244,7 +241,6 @@ export class Key {
 
   get_org_subs_plan_month_detail = '/organization-subs-plan-month-detail';
   cancel_subscription = '/organization-subs-plan-month-detail';
-
 
   //NEW SUBSCRIPTION PLAN API KEY
   get_subscription_plans = '/subscription/plan';
@@ -357,7 +353,7 @@ export class Key {
 
   // RazorPay Key
 
-  public static razorKey =  'rzp_test_Wd1RYd0fng3673'; // Test
+  public static razorKey = 'rzp_test_Wd1RYd0fng3673'; // Test
   // public static razorKey = 'rzp_live_twiokSC5krYrnQ'; // Live
   //
   public static ENABLE = 1;

@@ -7,6 +7,7 @@ import { CommonComponent } from './common.component';
 import { TopbarComponent } from './topbar/topbar.component';
 import { HajiriPageLoaderComponent } from './hajiri-page-loader/hajiri-page-loader.component';
 import { HeaderComponent } from './header/header.component';
+import { SubscriptionEndedComponent } from './subscription-ended/subscription-ended.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { HeaderComponent } from './header/header.component';
     DurationPickerComponent,
     CommonComponent,
     HeaderComponent,
+    SubscriptionEndedComponent,
     
   ],
   imports: [CommonModule, CommonRoutingModule],
