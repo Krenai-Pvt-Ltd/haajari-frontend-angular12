@@ -4073,6 +4073,9 @@ getHolidayForOrganization(date: string): Observable<any>{
     );
   }
 
+  step!: number;
+  isToDoStepCompleted !: number;
+
   isToDoStepsCompleted(): Observable<any> {
     debugger
     return this.httpClient.get<any>(
@@ -4080,6 +4083,22 @@ getHolidayForOrganization(date: string): Observable<any>{
 
     );
   }
+
+  // isToDoStepCompleted: number = 0;
+  // isToDoStepsCompletedData(): Promise<any>  {
+  //   return new Promise((resolve, reject) => {
+  //     this.isToDoStepsCompleted().subscribe(
+  //       (response) => {
+  //         this.isToDoStepCompleted = response.object;
+  //         resolve(response);
+  //       },
+  //         (error: any) => {
+  //           resolve(true);
+  //         }
+  //       );
+  //   });
+  // }
+  
 
   isOrgOnboarToday(): Observable<any> {
     debugger

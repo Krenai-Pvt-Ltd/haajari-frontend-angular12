@@ -10,7 +10,7 @@
               <div class="card-body">
                 <div class="row d-flex justify-content-center">
                   <div class="col">
-                    <p class="text-dark mb-1 fw-semibold">Present</p>
+                    <p class="text-dark mb-2 fw-semibold">Present</p>
                     <h4 class="font-22 fw-bold">
                       <span>
                         <!-- {{ attendanceDetailsCountResponse.presentUsers }}/{{
@@ -59,7 +59,7 @@
               <div class="card-body">
                 <div class="row d-flex justify-content-center">
                   <div class="col">
-                    <p class="text-dark mb-1 fw-semibold">On Break</p>
+                    <p class="text-dark mb-2 fw-semibold">On Break</p>
                     <h4 class="font-22 fw-bold">
                       <a
                         href="#"
@@ -214,14 +214,15 @@
         <div class="col-md-6 col-lg-4 order-lg-1 order-md-1">
           <div class="card fixheigt-section">
             <div class="card-header">
-              <div class="row align-items-center">
+              <div class="row align-items-center justify-content-between">
                 <div class="col">
-                  <h6 class="mb-2">Upcoming Activities</h6>
+                  <h6 class="mb-2">Last 6 Month Pattern</h6>
                 </div>
+                <div></div>
               </div>
             </div>
             <div class="card-body">
-              <!-- <div class="text-center">
+              <div class="text-center mt-2">
                 <ngx-charts-bar-vertical-stacked
                   [view]="view2"
                   [results]="monthlyChartData"
@@ -233,14 +234,24 @@
                   [animations]="true"
                 >
                 </ngx-charts-bar-vertical-stacked>
-              </div> -->
+              </div>
 
-              <div class="upcoming-activities">
+              <!-- <div class="upcoming-activities">
                 <div
-                  class="d-flex align-items-center justify-content-between leave-list p-3 mb-3"
+                  class="d-flex align-items-center justify-content-between leave-list p-3 pt-2 pb-2 mb-3"
                 >
                   <div class="">
                     <p class="mb-0 font-14">Holiday</p>
+                    <h3 class="mb-0">Dussehra</h3>
+                  </div>
+
+                  <h5 class="mb-0 font-14">Sat,12th October</h5>
+                </div>
+                <div
+                  class="d-flex align-items-center justify-content-between upcoming-holiday-list p-3 pt-0 pb-0 mb-3"
+                >
+                  <div class="">
+                    <p class="mb-0 font-14">Upcoming</p>
                     <h3 class="mb-0">Dussehra</h3>
                   </div>
 
@@ -260,20 +271,20 @@
                 <div
                   class="d-flex align-items-center justify-content-between all-holiday-list"
                 >
-                  <p class="mb-0 font-14">View All Holidays for This Year</p>
+                  <p class="mb-0 font-13">View All Holidays for This Year</p>
                   <button
-                    class="p-0 btn text-primary font-15"
+                    class="p-0 btn text-primary font-13"
                     data-bs-toggle="modal"
                     data-bs-target="#holidayList"
                   >
                     View all
                   </button>
                 </div>
-              </div>
+              </div> -->
 
               <!-- <div class="upcoming-birthday">
                 <div
-                  class="d-flex align-items-center justify-content-between today-birthday mb-3 p-2"
+                  class="d-flex align-items-end justify-content-between today-birthday mb-3 p-2"
                   style="
                     background-image: url(../assets/images/barthday-img.svg);
                   "
@@ -281,31 +292,50 @@
                   <div class="d-flex align-items-center gap-3">
                     <img src="assets/images/media-upload.jpg" />
                     <div>
-                      <p class="mb-0 font-14">Today</p>
+                      <p class="mb-0 font-14">Sat,12th October</p>
                       <h5 class="mb-0 font-16">Ahaan Panady</h5>
                     </div>
                   </div>
-                  <p class="mb-0 font-12">Sat,12th October</p>
+                  <p class="mb-0 font-12">Today</p>
                 </div>
 
                 <div
-                  class="d-flex align-items-center justify-content-between upcoming-birthday-box mb-3 p-2 pt-0 pb-0"
+                  class="d-flex align-items-end justify-content-between upcoming-birthday-box mb-3 p-2 pt-0 pb-0"
                 >
                   <div class="d-flex align-items-center gap-3">
                     <img src="assets/images/media-upload.jpg" />
                     <div>
-                      <p class="mb-0 font-14">Upcoming</p>
+                      <p class="mb-0 font-14">Sat,12th October</p>
                       <h5 class="mb-0 font-16">Ahaan Panady</h5>
                     </div>
                   </div>
-                  <p class="mb-0 font-12">Sat,12th October</p>
+                  <p class="mb-0 font-12">Upcoming</p>
+                </div>
+
+                <div
+                  class="d-flex align-items-end justify-content-between upcoming-birthday-box p-2 pt-0 pb-0"
+                >
+                  <div class="d-flex align-items-center gap-3">
+                    <img src="assets/images/media-upload.jpg" />
+                    <div>
+                      <p class="mb-0 font-14">Sat,12th October</p>
+                      <h5 class="mb-0 font-16">Ahaan Panady</h5>
+                    </div>
+                  </div>
+                  <p class="mb-0 font-12">Upcoming</p>
                 </div>
 
                 <div
                   class="d-flex align-items-center justify-content-between all-holiday-list"
                 >
-                  <p class="mb-0 font-14">View All Barthday for This Year</p>
-                  <button class="p-0 btn text-primary font-15">View all</button>
+                  <p class="mb-0 font-13">View All Barthday for This Year</p>
+                  <button
+                    class="p-0 btn text-primary font-13"
+                    data-bs-toggle="modal"
+                    data-bs-target="#birthdayList"
+                  >
+                    View all
+                  </button>
                 </div>
               </div> -->
             </div>
@@ -323,7 +353,7 @@
             </div>
 
             <div class="card-body">
-              <div class="text-center">
+              <div class="text-center mt-2">
                 <ngx-charts-bar-vertical-stacked
                   [view]="view1"
                   [results]="weeklyChartData"
@@ -1048,7 +1078,7 @@
                     </div>
                   </form>
                 </div>
-                <div *ngIf="!errorToggleTop" style="width: 12%">
+                <div *ngIf="!errorToggleTop" style="width: 11%">
                   <div class="dropdown">
                     <button
                       class="btn btn-secondary new-deopdown text-center bg-transparent"
@@ -1061,7 +1091,7 @@
                   </div>
                 </div>
 
-                <div class="" style="width: 12%">
+                <div class="" style="width: 10%">
                   <div class="dropdown">
                     <button
                       class="btn btn-secondary dropdown-toggle new-deopdown"
@@ -1262,10 +1292,17 @@
                               class="collapse"
                               [attr.id]="'collapseExamplesheet' + i"
                             >
-                              <td colspan="9" class="p-1">
-                                <div class="month-deta">
+                              <td
+                                colspan="9"
+                                class="p-1"
+                                style="
+                                  padding-top: 0px !important;
+                                  padding-bottom: 0px !important;
+                                "
+                              >
+                                <div class="month-deta pb-3">
                                   <table
-                                    class="table table-bordered day-data mb-0"
+                                    class="table table-bordered day-data mb-0 border-bottom pb-3"
                                   >
                                     <tr class="position-relative">
                                       <th class="text-center">Day</th>
@@ -1781,69 +1818,6 @@
 </button>
 
 <!-- Modal Structure -->
-<!-- <div
-  class="modal fade"
-  id="presentModal"
-  tabindex="-1"
-  aria-labelledby="transactionModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="transactionModalLabel">
-          Total Present Users
-        </h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <div class="card-body">
-          <ul
-            class="list-unsyled m-0 ps-0 transaction-history"
-            *ngFor="let attendList of attendanceDetailsResponseList"
-          >
-            <li class="align-items-center d-flex justify-content-between">
-              <div class="media">
-                <div
-                  class="thumb-xs bg-soft-primary rounded-circle d-flex justify-content-center align-items-center"
-                >
-                  <img
-                    src="{{ attendList.image }}"
-                    alt=""
-                    class="rounded-circle thumb-sm me-1"
-                    *ngIf="attendList.image"
-                  />
-                </div>
-                <div class="media-body align-self-center ms-3">
-                  <div class="transaction-data">
-                    <h5 class="m-0 font-14">{{ attendList.name }}</h5>
-                    <p class="text-muted mb-0">{{ attendList.email }}</p>
-                  </div>
-                </div>
-                
-              </div>
-              <span class="text-success">{{
-                attendList.checkInTime | date : "medium"
-              }}</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Close
-        </button>
-      </div>
-    </div>
-  </div>
-</div> -->
-
-<!-- Modal Structure -->
 <div
   class="modal fade"
   id="presentModal"
@@ -1926,7 +1900,7 @@
           </div>
         </form>
       </div>
-      <div
+      <!-- <div
         class="errorboxmain text-center"
         *ngIf="attendanceDetailsResponseList.length == 0"
       >
@@ -1942,6 +1916,21 @@
             </p>
           </div>
         </div>
+      </div> -->
+
+      <div
+        class="empty-file"
+        style="margin-top: 7%; margin-bottom: 7%"
+        *ngIf="attendanceDetailsResponseList.length == 0"
+      >
+        <nz-empty
+          nzNotFoundImage="assets/images/no-data-found-img.svg"
+          [nzNotFoundContent]="contentTpl"
+        >
+          <ng-template #contentTpl>
+            <p class="mb-1 empty-detail font-16">No data for now</p>
+          </ng-template>
+        </nz-empty>
       </div>
 
       <div
@@ -2263,9 +2252,6 @@
       <div class="modal-header">
         <h5 class="modal-title" id="transactionModalLabel">Late Users</h5>
 
-        <!-- <h5 class="modal-title" id="lateUsersModalLabel">
-          Late Users List
-        </h5> -->
         <button
           type="button"
           class="btn-close"
@@ -2315,7 +2301,7 @@
           </div>
         </form>
       </div>
-      <div class="errorboxmain text-center" *ngIf="lateUsers.length == 0">
+      <!-- <div class="errorboxmain text-center" *ngIf="lateUsers.length == 0">
         <div class="errorboxinner">
           <div class="errorboxplaceholder mb-2">
             <img src="assets/images/empty-box.svg" style="width: 80px" />
@@ -2328,14 +2314,23 @@
             </p>
           </div>
         </div>
+      </div> -->
+
+      <div
+        class="empty-file"
+        style="margin-top: 7%; margin-bottom: 7%"
+        *ngIf="lateUsers.length == 0"
+      >
+        <nz-empty
+          nzNotFoundImage="assets/images/no-data-found-img.svg"
+          [nzNotFoundContent]="contentTpl"
+        >
+          <ng-template #contentTpl>
+            <p class="mb-1 empty-detail font-16">No data for now</p>
+          </ng-template>
+        </nz-empty>
       </div>
       <div class="modal-body" *ngIf="lateUsers.length > 0">
-        <!-- <div class="card-body"> -->
-        <!-- <div class="row mb-3"> -->
-
-        <!-- </div> -->
-
-        <!-- Attendance List -->
         <ul
           class="list-unstyled m-0 ps-0 transaction-history pt-0"
           *ngFor="let user of lateUsers"
@@ -2490,7 +2485,7 @@
         </form>
       </div>
 
-      <div class="errorboxmain text-center" *ngIf="leaveUsers.length == 0">
+      <!-- <div class="errorboxmain text-center" *ngIf="leaveUsers.length == 0">
         <div class="errorboxinner">
           <div class="errorboxplaceholder mb-2">
             <img src="assets/images/empty-box.svg" style="width: 80px" />
@@ -2503,6 +2498,21 @@
             </p>
           </div>
         </div>
+      </div> -->
+
+      <div
+        class="empty-file"
+        style="margin-top: 7%; margin-bottom: 7%"
+        *ngIf="leaveUsers.length == 0"
+      >
+        <nz-empty
+          nzNotFoundImage="assets/images/no-data-found-img.svg"
+          [nzNotFoundContent]="contentTpl"
+        >
+          <ng-template #contentTpl>
+            <p class="mb-1 empty-detail font-16">No data for now</p>
+          </ng-template>
+        </nz-empty>
       </div>
 
       <div class="modal-body pt-0" *ngIf="leaveUsers.length > 0">
@@ -3105,7 +3115,7 @@
   aria-labelledby="exampleModalLongTitle"
   aria-hidden="true"
 >
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">Holidays List</h5>
@@ -3145,17 +3155,104 @@
       <div class="modal-body">
         <div class="holiday-list-box">
           <div
-            class="d-flex align-items-center justify-content-between p-3 leave-list mb-1"
+            class="d-flex align-items-center justify-content-between p-3 active-leave-list"
+          >
+            <div>
+              <h4 class="mb-1 font-15 text-black">17th January</h4>
+              <p class="mb-0">Saturday</p>
+            </div>
+            <h5 class="mb-0 font-15">New Year</h5>
+          </div>
+          <div
+            class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list"
+            style="border-color: #6f6cff"
             *ngFor="let item of [].constructor(10)"
           >
             <div>
-              <h5 class="mb-1 font-16">17th January</h5>
+              <h4 class="mb-1 font-15 text-black">17th January</h4>
               <p class="mb-0">Saturday</p>
             </div>
-            <h5 class="mb-0">New Year</h5>
+            <h5 class="mb-0 font-15">New Year</h5>
           </div>
         </div>
       </div>
+      <div class="modal-footer p-2" style="border-top: none"></div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="birthdayList"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLongTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">
+          Employees Birthday
+        </h5>
+        <button
+          type="button"
+          class="close-btn"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <mask
+              id="mask0_4476_834"
+              style="mask-type: alpha"
+              maskUnits="userSpaceOnUse"
+              x="0"
+              y="0"
+              width="24"
+              height="24"
+            >
+              <rect width="24" height="24" fill="#D9D9D9" />
+            </mask>
+            <g mask="url(#mask0_4476_834)">
+              <path
+                d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+                fill="black"
+              />
+            </g>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="holiday-list-box">
+          <div
+            class="d-flex align-items-center justify-content-between p-3 active-leave-list"
+          >
+            <div>
+              <h4 class="mb-1 font-15 text-black">Anchal</h4>
+              <p class="mb-0">Developer</p>
+            </div>
+            <h5 class="mb-0 font-15">January 29th, Saturday</h5>
+          </div>
+          <div
+            class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list"
+            style="border-color: #6f6cff"
+            *ngFor="let item of [].constructor(10)"
+          >
+            <div>
+              <h4 class="mb-1 font-15 text-black">Yogesh Yadav</h4>
+              <p class="mb-0">Designer</p>
+            </div>
+            <h5 class="mb-0 font-15">January 29th, Saturday</h5>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer p-2" style="border-top: none"></div>
     </div>
   </div>
 </div>

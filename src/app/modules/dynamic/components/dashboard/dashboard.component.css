@@ -1,5 +1,5 @@
 .fixheigt-section {
-  height: 302px;
+  height: 310px;
 }
 
 .fixheigt-section img {
@@ -104,10 +104,10 @@ span.todo-task {
   font-size: 10px !important;
 }
 
-.month-deta {
+/* .month-deta {
   padding-bottom: 10px;
   padding-top: 10px;
-}
+} */
 
 .table th {
   color: #8997bd;
@@ -902,9 +902,8 @@ button.btn.add-card-btn {
 
 .modal-body {
   overflow-y: auto;
-  height: calc(
-    80vh - 100px
-  ); /* Adjust this value based on your modal header/footer height */
+  height: calc(85vh - 100px);
+  /* Adjust this value based on your modal header/footer height */
 }
 
 .bill-detail {
@@ -1002,7 +1001,7 @@ button.btn.add-card-btn {
 }
 
 .upcoming-holiday-list h3 {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 500;
   color: #555558;
   line-height: 30px;
@@ -1020,7 +1019,7 @@ button.btn.add-card-btn {
   line-height: 16px;
 }
 .all-holiday-list {
-  padding-top: 35px;
+  padding-top: 10px;
 }
 .all-holiday-list p {
   font-weight: 400;
@@ -1069,3 +1068,33 @@ button.btn.add-card-btn {
 /* .upcoming-birthday-box {
   border-right: 5px solid var(--primary-color);
 } */
+
+.holiday-list-box h5 {
+  color: #f3a73d;
+}
+.leave-list:last-child {
+  border-bottom: 0px !important;
+}
+.active-leave-list {
+  background-color: #fff6eb;
+  border-left: 5px solid #f3a73d;
+}
+.upcoming-leave-list {
+  background-color: #fbfbfb;
+  border-left: 5px solid var(--primary-background-color);
+  margin-bottom: 2px;
+}
+.upcoming-leave-list h5 {
+  color: #444;
+}
+
+.dashnodata table td {
+  border-bottom: none !important;
+}
+.month-deta tr td {
+  border-bottom: 1px solid #e6e7e9 !important;
+}
+
+.month-deta {
+  border-bottom: 1px solid #f7f7f7 !important;
+}
