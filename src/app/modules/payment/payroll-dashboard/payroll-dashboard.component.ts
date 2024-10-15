@@ -1827,7 +1827,7 @@ extractPreviousMonthNameFromDate(dateString : string){
     this.salaryChangeOvertimeRequestList = [];
     
     this.salaryChangeOvertimeResponseList.forEach((item) => {
-      let salaryChangeOvertimeRequest = new SalaryChangeOvertimeRequest(item.uuid,item.payActionType.id);
+      let salaryChangeOvertimeRequest = new SalaryChangeOvertimeRequest(item.uuid,item.payActionTypeId);
 
       this.salaryChangeOvertimeRequestList.push(salaryChangeOvertimeRequest);
     })
@@ -1847,20 +1847,20 @@ extractPreviousMonthNameFromDate(dateString : string){
     }, (error) => {
       this.helperService.showToast("Error while registering the request!", this.TOAST_STATUS_ERROR);
       // To be commented
-      this.dataService.registerPayrollProcessStepByOrganizationIdAndStartDateAndEndDate(this.startDate, this.endDate, this.EPF).subscribe((response)=>{
-        this.getPayrollProcessStepByOrganizationIdAndStartDateAndEndDateMethodCall();
-        setTimeout(() => {
-          this.salaryChangeModal.nativeElement.click();
-        }, 100)
-      }, ((error) => {
-        console.log(error);
-      }))   
+      // this.dataService.registerPayrollProcessStepByOrganizationIdAndStartDateAndEndDate(this.startDate, this.endDate, this.EPF).subscribe((response)=>{
+      //   this.getPayrollProcessStepByOrganizationIdAndStartDateAndEndDateMethodCall();
+      //   setTimeout(() => {
+      //     this.salaryChangeModal.nativeElement.click();
+      //   }, 100)
+      // }, ((error) => {
+      //   console.log(error);
+      // }))   
     })
   }
 
 
 
-  // ###########################################################
+  // ################################################
   // Step 4: EPF, ESI & TDS
 
   

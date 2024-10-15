@@ -3222,7 +3222,7 @@ export class DataService {
   }
 
   registerSalaryChangeOvertimeListByOrganizationId(salaryChangeOvertimeRequestList : SalaryChangeOvertimeRequest[]): Observable<any>{
-    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/salary-change/overtime`, salaryChangeOvertimeRequestList);
+    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/salary-change/overtime`, salaryChangeOvertimeRequestList, {});
   }
 
   getEpfDetailsResponseListByOrganizationId(
