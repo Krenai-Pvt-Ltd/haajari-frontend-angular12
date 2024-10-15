@@ -2,8 +2,10 @@ import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core'
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
+import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { GstResponse } from 'src/app/models/GstResponse';
 import { InvoiceDetail } from 'src/app/models/InvoiceDetail';
+import { Invoices } from 'src/app/models/Invoices';
 import { OrganizationSubscriptionDetail } from 'src/app/models/OrganizationSubscriptionDetail';
 import { SubscriptionPlan } from 'src/app/models/SubscriptionPlan';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
@@ -123,8 +125,6 @@ export class SubscriptionComponent implements OnInit {
     this.calculateByEmployeeSize();
   }
 
-  email:string='abhi.verma@krenai.com'; ///todo
-  // subscriptionPlanReq: SubscriptionPlanReq = new SubscriptionPlanReq();
   employeeCount:number=0;
   monthlyAmount:number=0;
   annualAmount: number =0;
@@ -161,11 +161,6 @@ export class SubscriptionComponent implements OnInit {
     }) 
   }
 
-  // ,
-  // "prefill": {
-  //   "email": this.email,
-  //   "phone": '7667790550'
-  // }
 
   processingPayment: boolean = false;
   verifiedCoupon!: string;
@@ -300,4 +295,67 @@ invoiceDetail:InvoiceDetail = new InvoiceDetail();
   }
 
   toggle:boolean =false;
+  invoiceLoading:boolean = false;
+  databaseHelper:DatabaseHelper = new DatabaseHelper();
+  invoices:Invoices[] = new Array();
+  totalInvoices:number=0;
+  getAllInvoices() {
+    this.invoiceLoading = true;
+    this.invoices = [];
+    var statusIds = [33];
+    this._subscriptionPlanService.getInvoices(this.databaseHelper,statusIds).subscribe((response) => {
+        if (response.status) {
+          this.invoices = response.object;
+          this.totalInvoices = response.totalItems;
+          if(this.invoices == null){
+            this.invoices =  new Array();
+            this.totalInvoices = 0;
+          }
+        }else{
+          this.invoices =  new Array();
+          this.totalInvoices = 0;
+        }
+        this.invoiceLoading = false;
+      },(error)=>{
+        this.invoiceLoading = false;
+      });
+  }
+
+  invoicePageChanged(page:any){
+    if(page!=this.databaseHelper.currentPage){
+      this.databaseHelper.currentPage = page;
+      this.getAllInvoices();
+    }
+  }
+
+
+  downloadInvoice(invoiceUrl:string){
+    if(!constant.EMPTY_STRINGS.includes(invoiceUrl)){
+      window.open(invoiceUrl, "_blank");
+    }
+  }
+
+  dueInvoices:Invoices[] = new Array();
+  totalDueInvoices :number=0;
+  getDueInvoice(){
+    this.invoiceLoading = true;
+    this.dueInvoices = [];
+    var statusIds = [34];
+    this._subscriptionPlanService.getInvoices(this.databaseHelper,statusIds).subscribe((response) => {
+      if (response.status) {
+        this.dueInvoices = response.object;
+        this.totalDueInvoices = response.totalItems;
+        if(this.invoices == null){
+          this.dueInvoices =  new Array();
+          this.totalDueInvoices = 0;
+        }
+      }else{
+        this.dueInvoices =  new Array();
+        this.totalDueInvoices = 0;
+      }
+      this.invoiceLoading = false;
+    },(error)=>{
+      this.invoiceLoading = false;
+    });
+  }
 }

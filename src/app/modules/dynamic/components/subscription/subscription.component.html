@@ -24,6 +24,7 @@
               aria-controls="pills-profile"
               aria-selected="false"
               class="nav-link"
+              (click)="getAllInvoices();getDueInvoice();"
               >Billing</a
             >
           </li>
@@ -709,21 +710,22 @@
                           </th>
                           <th class="text-center" style="width: 10%">Plan</th>
                           <th class="text-center" style="width: 10%">
-                            Created Date
+                            Payment Date
+                          </th>
+                          <th class="text-center" style="width: 10%">
+                            Transaction ID
                           </th>
                           <th class="text-center" style="width: 10%">Amount</th>
                           <th class="text-center" style="width: 10%">
-                            Valid Form
+                            Valid From
                           </th>
                           <th class="text-center" style="width: 10%">
                             Valid Till
                           </th>
-                          <th class="text-center" style="width: 10%">
+                          <!-- <th class="text-center" style="width: 10%">
                             Payment Mode
-                          </th>
-                          <th class="text-center" style="width: 10%">
-                            Payment Date
-                          </th>
+                          </th> -->
+                         
                           <th
                             class="text-center stickyColThend"
                             style="width: 10%"
@@ -732,169 +734,51 @@
                           </th>
                         </tr>
                       </thead>
-
                       <tbody class="">
-                        <tr class="">
+                        <tr class="" *ngFor="let invoice of invoices;">
                           <td class="stickyColTd text-center">
                             <span class="teme-maneger mb-0 table-font-weight">
-                              SAL/23-24/SUB-127</span
+                              {{invoice.invoiceNo}}</span
                             >
                           </td>
                           <td class="text-center">
-                            <div class="badge rounded-pill badge-soft-primary">
-                              <span> Basic</span>
+                            <div class="badge rounded-pill" [ngClass]="{'badge-soft-primary': invoice.planName == 'Basic', 'badge-soft-warning': invoice.planName == 'Premium'}">
+                              <span> {{invoice.planName}}</span>
                             </div>
-                          </td>
-                          <td class="text-center">
-                            <span class="teme-maneger mb-0 table-font-weight">
-                              27 Jul 2024</span
-                            >
-                          </td>
-                          <td class="text-center">
-                            <span class="teme-maneger mb-0"> ₹243</span>
-                          </td>
-                          <td class="text-center">
-                            <span class="teme-maneger mb-0 table-font-weight">
-                              01 Jul 2024</span
-                            >
-                          </td>
-                          <td class="text-center">
-                            <span class="teme-maneger mb-0 table-font-weight">
-                              31 Aug 2024</span
-                            >
-                          </td>
-
-                          <td class="text-center">
-                            <span class="teme-maneger mb-0"> Online</span>
                           </td>
                           <td>
                             <span
                               class="teme-maneger text-center mb-0 table-font-weight"
                             >
-                              30 Aug 2024</span
+                            {{invoice.paymentDate | date:'dd MMM yyyy'}}</span
                             >
                           </td>
+                          <td class="text-center">
+                            <span class="teme-maneger mb-0 table-font-weight">
+                              {{invoice.transactionId}}</span
+                            >
+                          </td>
+                          <td class="text-center">
+                            <span class="teme-maneger mb-0"> ₹{{invoice.payableAmount}}</span>
+                          </td>
+                          <td class="text-center">
+                            <span class="teme-maneger mb-0 table-font-weight">
+                             {{invoice.fromDate | date:'dd MMM yyyy'}}</span
+                            >
+                          </td>
+                          <td class="text-center">
+                            <span class="teme-maneger mb-0 table-font-weight">
+                              {{invoice.toDate | date:'dd MMM yyyy'}}</span
+                            >
+                          </td>
+                          <!-- 31 Aug 2024 -->
+                          <!-- <td class="text-center">
+                            <span class="teme-maneger mb-0"> {{invoice.paymentMode}}</span>
+                          </td> -->
+                          
 
                           <td class="stickyColTdend text-center">
-                            <button type="button" class="btn btnAction">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="12"
-                                height="11"
-                                viewBox="0 0 12 11"
-                                fill="none"
-                              >
-                                <path
-                                  d="M6.00006 8.24863L2.56313 4.8117L3.52548 3.81499L5.31268 5.6022V0H6.68745V5.6022L8.47465 3.81499L9.43699 4.8117L6.00006 8.24863ZM1.87575 10.9982C1.49769 10.9982 1.17404 10.8636 0.904816 10.5943C0.63559 10.3251 0.500977 10.0015 0.500977 9.6234V7.56125H1.87575V9.6234H10.1244V7.56125H11.4992V9.6234C11.4992 10.0015 11.3645 10.3251 11.0953 10.5943C10.8261 10.8636 10.5024 10.9982 10.1244 10.9982H1.87575Z"
-                                  fill="#6666F2"
-                                />
-                              </svg>
-                              Download
-                            </button>
-                          </td>
-                        </tr>
-                        <tr class="" *ngFor="let item of [].constructor(7)">
-                          <td class="stickyColTd text-center">
-                            <span class="teme-maneger mb-0 table-font-weight">
-                              SAL/23-24/SUB-127</span
-                            >
-                          </td>
-                          <td class="text-center">
-                            <div class="badge rounded-pill badge-soft-warning">
-                              <span> Premium</span>
-                            </div>
-                          </td>
-                          <td class="text-center">
-                            <span class="teme-maneger mb-0 table-font-weight">
-                              27 Jul 2024</span
-                            >
-                          </td>
-                          <td class="text-center">
-                            <span class="teme-maneger mb-0"> ₹243</span>
-                          </td>
-                          <td class="text-center">
-                            <span class="teme-maneger mb-0 table-font-weight">
-                              01 Jul 2024</span
-                            >
-                          </td>
-                          <td class="text-center">
-                            <span class="teme-maneger mb-0 table-font-weight">
-                              31 Aug 2024</span
-                            >
-                          </td>
-
-                          <td class="text-center">
-                            <span class="teme-maneger mb-0"> Online</span>
-                          </td>
-                          <td>
-                            <span
-                              class="teme-maneger text-center mb-0 table-font-weight"
-                            >
-                              30 Aug 2024</span
-                            >
-                          </td>
-
-                          <td class="stickyColTdend text-center">
-                            <button type="button" class="btn btnAction">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="12"
-                                height="11"
-                                viewBox="0 0 12 11"
-                                fill="none"
-                              >
-                                <path
-                                  d="M6.00006 8.24863L2.56313 4.8117L3.52548 3.81499L5.31268 5.6022V0H6.68745V5.6022L8.47465 3.81499L9.43699 4.8117L6.00006 8.24863ZM1.87575 10.9982C1.49769 10.9982 1.17404 10.8636 0.904816 10.5943C0.63559 10.3251 0.500977 10.0015 0.500977 9.6234V7.56125H1.87575V9.6234H10.1244V7.56125H11.4992V9.6234C11.4992 10.0015 11.3645 10.3251 11.0953 10.5943C10.8261 10.8636 10.5024 10.9982 10.1244 10.9982H1.87575Z"
-                                  fill="#6666F2"
-                                />
-                              </svg>
-                              Download
-                            </button>
-                          </td>
-                        </tr>
-                        <tr class="">
-                          <td class="stickyColTd text-center">
-                            <span class="teme-maneger mb-0 table-font-weight">
-                              SAL/23-24/SUB-127</span
-                            >
-                          </td>
-                          <td class="text-center">
-                            <div class="badge rounded-pill badge-soft-success">
-                              <span> Custom</span>
-                            </div>
-                          </td>
-                          <td class="text-center">
-                            <span class="teme-maneger mb-0 table-font-weight">
-                              27 Jul 2024</span
-                            >
-                          </td>
-                          <td class="text-center">
-                            <span class="teme-maneger mb-0"> ₹243</span>
-                          </td>
-                          <td class="text-center">
-                            <span class="teme-maneger mb-0 table-font-weight">
-                              01 Jul 2024</span
-                            >
-                          </td>
-                          <td class="text-center">
-                            <span class="teme-maneger mb-0 table-font-weight">
-                              31 Aug 2024</span
-                            >
-                          </td>
-
-                          <td class="text-center">
-                            <span class="teme-maneger mb-0"> Online</span>
-                          </td>
-                          <td>
-                            <span
-                              class="teme-maneger text-center mb-0 table-font-weight"
-                            >
-                              30 Aug 2024</span
-                            >
-                          </td>
-
-                          <td class="stickyColTdend text-center">
-                            <button type="button" class="btn btnAction">
+                            <button type="button" class="btn btnAction" (click)="downloadInvoice(invoice.invoiceUrl)">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="12"
@@ -913,59 +797,28 @@
                         </tr>
                       </tbody>
                     </table>
+                   
                   </div>
 
-                  <!-- <div class="pagination pl-3 ">
+                  <div class="pagination justify-content-between pl-3 " *ngIf="databaseHelper.itemPerPage < totalInvoices">
                 <p class="mb-0" style="padding-left: 15px">
-                  Showing 1 - 12 of 80 users
+                  Showing {{ invoices.length }} of
+                  {{ totalInvoices }}
                 </p>
                 <div class="row">
                   <div class="col-md-12">
-                    <nav aria-label="Page navigation example">
-                      <ul class="pagination justify-content-end">
-                        <li class="page-item disabled">
-                          <a
-                            href="javascript:void(0);"
-                            aria-label="Previous"
-                            class="page-link"
-                            ><span aria-hidden="true">«</span></a
-                          >
-                        </li>
-                        <li class="page-item active ">
-                          <a href="javascript:void(0);" class="page-link">1</a>
-                        </li>
-                        <li class="page-item ">
-                          <a href="javascript:void(0);" class="page-link">2</a>
-                        </li>
-                        <li class="page-item ">
-                          <a href="javascript:void(0);" class="page-link">3</a>
-                        </li>
-                        <li class="page-item ">
-                          <a href="javascript:void(0);" class="page-link">4</a>
-                        </li>
-                        <li class="page-item ">
-                          <a href="javascript:void(0);" class="page-link">5</a>
-                        </li>
-                        <li class="page-item ">
-                          <a href="javascript:void(0);" class="page-link">6</a>
-                        </li>
-                        <li class="page-item ">
-                          <a href="javascript:void(0);" class="page-link">7</a>
-                        </li>
-
-                        <li class="page-item">
-                          <a
-                            href="javascript:void(0);"
-                            aria-label="Next"
-                            class="page-link"
-                            ><span aria-hidden="true">»</span></a
-                          >
-                        </li>
-                      </ul>
-                    </nav>
+                    <ngb-pagination
+                          [collectionSize]="totalInvoices"
+                          [rotate]="true"
+                          (pageChange)="invoicePageChanged($event)"
+                          [pageSize]="databaseHelper.itemPerPage"
+                          [(page)]="databaseHelper.currentPage"
+                          [maxSize]="4"
+                          [boundaryLinks]="true"
+                        ></ngb-pagination>
                   </div>
                 </div>
-              </div> -->
+              </div>
                 </div>
                 <div
                   class="tab-pane fade"
@@ -1107,25 +960,25 @@
                       </thead>
 
                       <tbody class="">
-                        <tr class="" *ngFor="let item of [].constructor(5)">
+                        <tr class="" *ngFor="let dueInvoice of dueInvoices">
                           <td class="stickyColTd text-center">
                             <span class="teme-maneger mb-0 table-font-weight">
-                              27 Jul 2024</span
+                              {{dueInvoice.createdDate | date: 'dd MMM yyyy'}}</span
                             >
                           </td>
                           <td class="text-center">
                             <span class="teme-maneger mb-0 table-font-weight">
-                              SAL/23-24/SUB-127</span
+                              {{dueInvoice.invoiceNo}}</span
                             >
                           </td>
                           <td class="text-center">
                             <span class="teme-maneger mb-0 table-font-weight">
-                              Invoice</span
+                              {{dueInvoice.invoiceNo}}</span
                             >
                           </td>
                           <td class="text-center">
                             <span class="teme-maneger mb-0 table-font-weight">
-                              27 Jul 2024</span
+                              {{dueInvoice.invoiceNo}}</span
                             >
                           </td>
                           <td class="text-center">
@@ -1140,13 +993,13 @@
                           </td>
 
                           <td class="text-center">
-                            <span class="teme-maneger mb-0"> 129,502.66</span>
+                            <span class="teme-maneger mb-0"> {{dueInvoice.invoiceNo}}</span>
                           </td>
                           <td>
                             <span
                               class="teme-maneger text-center mb-0 table-font-weight"
                             >
-                              129,502.66</span
+                            {{dueInvoice.invoiceNo}}</span
                             >
                           </td>
 

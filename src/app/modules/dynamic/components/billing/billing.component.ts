@@ -246,17 +246,17 @@ export class BillingComponent implements OnInit {
     if (!this.pageToggle) {
       this.databaseHelper.currentPage = 1;
     }
-    this._subscriptionPlanService
-      .getInvoices(this.databaseHelper)
-      .subscribe((response) => {
-        if (response.status) {
-          this.pageToggle = false;
-          this.invoicesList = response.object;
-          this.totalInvoicesItems = response.totalItems;
-          this.invoiceLoading = false;
-        }
-        this.invoiceLoading = false;
-      });
+    // this._subscriptionPlanService
+    //   .getInvoices(this.databaseHelper)
+    //   .subscribe((response) => {
+    //     if (response.status) {
+    //       this.pageToggle = false;
+    //       this.invoicesList = response.object;
+    //       this.totalInvoicesItems = response.totalItems;
+    //       this.invoiceLoading = false;
+    //     }
+    //     this.invoiceLoading = false;
+    //   });
   }
 
   pageToggle: boolean = false;

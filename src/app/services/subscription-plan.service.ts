@@ -73,14 +73,14 @@ export class SubscriptionPlanService {
     return this._httpClient.post<any>(this._key.base_url + this._key.add_more_employee, {}, { params })
   }
 
-  getInvoices(databaseHelper:DatabaseHelper){
-    const params = new HttpParams()
-      .set('itemPerPage', databaseHelper.itemPerPage)
-      .set('currentPage', databaseHelper.currentPage)
-      .set('sortBy', "id")
-      .set('sortOrder', "desc")
-    return this._httpClient.get<any>(this._key.base_url + this._key.get_invoices, {params})
-  }
+  // getInvoices(databaseHelper:DatabaseHelper){
+  //   const params = new HttpParams()
+  //     .set('itemPerPage', databaseHelper.itemPerPage)
+  //     .set('currentPage', databaseHelper.currentPage)
+  //     .set('sortBy', "id")
+  //     .set('sortOrder', "desc")
+  //   return this._httpClient.get<any>(this._key.base_url + this._key.get_invoices, {params})
+  // }
   getLastInvoices(){
     return this._httpClient.get<any>(this._key.base_url + this._key.get_last_invoices)
   }
@@ -148,5 +148,15 @@ export class SubscriptionPlanService {
 
   isSubscrPlanExpired() {
     return this._httpClient.get<any>(this._key.base_url + this._key.is_plan_expired);
+  }
+
+  getInvoices(databaseHelper:DatabaseHelper,statusIds:number[]){
+    const params = new HttpParams()
+      .set('itemPerPage', databaseHelper.itemPerPage)
+      .set('currentPage', databaseHelper.currentPage)
+      .set('sortBy', "createdDate")
+      .set('sortOrder', "desc")
+      .set('statusIds', String(statusIds))
+    return this._httpClient.get<any>(this._key.base_url + this._key.get_invoices, {params})
   }
 }
