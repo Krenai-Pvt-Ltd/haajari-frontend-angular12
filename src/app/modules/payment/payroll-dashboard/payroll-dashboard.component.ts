@@ -1292,6 +1292,7 @@ export class PayrollDashboardComponent implements OnInit {
       }
       
       this.dataService.registerNewJoineeAndUserExit(this.newJoineeAndUserExitRequestList, this.startDate, this.endDate).subscribe((response) => {
+        debugger;
         this.selectedPayActionCache={};
         this.commentCache = {};
         this.helperService.showToast(response.message, this.TOAST_STATUS_SUCCESS);
@@ -1757,7 +1758,6 @@ extractPreviousMonthNameFromDate(dateString : string){
         this.total = response.totalItems;
         this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
       }
-
       this.isShimmerForSalaryChangeOvertimeResponse = false;
     }, (error) => {
       this.isShimmerForSalaryChangeOvertimeResponse = false;

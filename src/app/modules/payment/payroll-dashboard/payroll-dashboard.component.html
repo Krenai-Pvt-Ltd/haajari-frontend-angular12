@@ -5,19 +5,16 @@
       <div class="row">
         <div class="col-md-9"></div>
         <div class="dropdown col-md-3 mt-3">
-          <nz-date-picker nzMode="year" [nzSize]="size" [(ngModel)]="selectedDate"
-            (ngModelChange)="onYearChange($event)" [nzDisabledDate]="disableYears"></nz-date-picker>
+          <nz-date-picker nzMode="year" [nzSize]="size" [(ngModel)]="selectedDate" (ngModelChange)="onYearChange($event)" [nzDisabledDate]="disableYears"></nz-date-picker>
         </div>
         <div class="col-md-12 mt-3">
           <div class="file-box-content d-flex">
-            <div class="file-box" *ngFor="let monthResponse of monthResponseList"
-              [class.disabled]="monthResponse.disable" [ngClass]="{
+            <div class="file-box" *ngFor="let monthResponse of monthResponseList" [class.disabled]="monthResponse.disable" [ngClass]="{
                 'selected-month-color':
                   monthResponse.firstDate == startDate &&
                   monthResponse.lastDate == endDate
               }">
-              <div class="text-center"
-                (click)="getOrganizationIndividualMonthSalaryDataMethodCall(monthResponse); getOrganizationPreviousMonthSalaryDataMethodCall(monthResponse); getPayrollLogs(); getPayrollProcessStepByOrganizationIdAndStartDateAndEndDateMethodCall();">
+              <div class="text-center" (click)="getOrganizationIndividualMonthSalaryDataMethodCall(monthResponse); getOrganizationPreviousMonthSalaryDataMethodCall(monthResponse); getPayrollLogs(); getPayrollProcessStepByOrganizationIdAndStartDateAndEndDateMethodCall();">
                 <h6 class="text-truncate">
                   {{ monthResponse.firstDate | date: 'MMM' }} - {{ monthResponse.firstDate | date: 'yyyy' }}
                 </h6>
@@ -156,12 +153,10 @@
                 <div class="col align-self-center mt-4 mt-lg-0">
                   <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item">
-                      <a class="nav-link active fw-semibold pt-0" data-bs-toggle="tab" href="#wallet_BTC" role="tab">
-                        RUN PAYROLL </a>
+                      <a class="nav-link active fw-semibold pt-0" data-bs-toggle="tab" href="#wallet_BTC" role="tab"> RUN PAYROLL </a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link fw-semibold pt-0" data-bs-toggle="tab" href="#payrollHistory" role="tab"
-                        (click)="getPayrollLogs()"> PAYROLL HISTORY </a>
+                      <a class="nav-link fw-semibold pt-0" data-bs-toggle="tab" href="#payrollHistory" role="tab" (click)="getPayrollLogs()"> PAYROLL HISTORY </a>
                     </li>
                     <!-- <li class="nav-item"><a class="nav-link fw-semibold pt-0" data-bs-toggle="tab" href="#wallet_ETH" role="tab"> PAYROLL
                         OUTCOME </a></li> -->
@@ -170,19 +165,15 @@
                     <div class="tab-pane fade show active" id="wallet_BTC" role="tabpanel">
                       <div class="row">
                         <div class="col-md-6" (click)="employeeChangesSection(PAYROLL_PROCESS_STEP)">
-                          <div class="card-body mt-3 payroll-step"
-                            [ngClass]="{'bg-soft-success': PAYROLL_PROCESS_STEP > FINAL_SETTLEMENT, 'bg-soft-warning': PAYROLL_PROCESS_STEP <= FINAL_SETTLEMENT}"
-                            data-bs-toggle="modal" data-bs-target="#createteam">
+                          <div class="card-body mt-3 payroll-step" [ngClass]="{'bg-soft-success': PAYROLL_PROCESS_STEP > FINAL_SETTLEMENT, 'bg-soft-warning': PAYROLL_PROCESS_STEP <= FINAL_SETTLEMENT}" data-bs-toggle="modal" data-bs-target="#createteam">
                             <div class="row">
                               <div class="col-auto">
-                                <img src="assets/images/creative-idea.svg" alt="user" height="50"
-                                  class="align-self-center mb-3 mb-lg-0" />
+                                <img src="assets/images/creative-idea.svg" alt="user" height="50" class="align-self-center mb-3 mb-lg-0" />
                               </div>
                               <!--end col-->
                               <div class="col align-self-center">
                                 <p class="font-14 mb-2"> Employee Changes <span class="task-priority-icon float-end">
-                                    <i class="ti"
-                                      [ngClass]="{'ti-checkbox text-success': PAYROLL_PROCESS_STEP > FINAL_SETTLEMENT,'ti-circle-1': PAYROLL_PROCESS_STEP <= FINAL_SETTLEMENT}">
+                                    <i class="ti" [ngClass]="{'ti-checkbox text-success': PAYROLL_PROCESS_STEP > FINAL_SETTLEMENT,'ti-circle-1': PAYROLL_PROCESS_STEP <= FINAL_SETTLEMENT}">
                                     </i>
                                   </span>
                                 </p>
@@ -193,21 +184,15 @@
                           </div>
                         </div>
                         <div class="col-md-6" (click)="attendanceAndLeaveSection(PAYROLL_PROCESS_STEP)">
-                          <div class="card-body mt-3 payroll-step"
-                            [ngClass]="{'bg-soft-success': PAYROLL_PROCESS_STEP > LOP_REVERSAL, 'bg-soft-warning': PAYROLL_PROCESS_STEP <= LOP_REVERSAL}"
-                            data-bs-toggle="modal" data-bs-target="#leaves"
-                            [class.disabled]="PAYROLL_PROCESS_STEP <= FINAL_SETTLEMENT">
+                          <div class="card-body mt-3 payroll-step" [ngClass]="{'bg-soft-success': PAYROLL_PROCESS_STEP > LOP_REVERSAL, 'bg-soft-warning': PAYROLL_PROCESS_STEP <= LOP_REVERSAL}" data-bs-toggle="modal" data-bs-target="#leaves" [class.disabled]="PAYROLL_PROCESS_STEP <= FINAL_SETTLEMENT">
                             <div class="row">
                               <div class="col-auto">
-                                <img src="assets/images/schedule.svg" alt="user" height="50"
-                                  class="align-self-center mb-3 mb-lg-0" />
+                                <img src="assets/images/schedule.svg" alt="user" height="50" class="align-self-center mb-3 mb-lg-0" />
                               </div>
                               <!--end col-->
                               <div class="col align-self-center">
-                                <p class="font-14 mb-2"> Attendance, Leave & Present Days <span
-                                    class="task-priority-icon float-end">
-                                    <i class="ti"
-                                      [ngClass]="{'ti-checkbox': PAYROLL_PROCESS_STEP > LOP_REVERSAL,'ti-circle-2': PAYROLL_PROCESS_STEP <= LOP_REVERSAL}">
+                                <p class="font-14 mb-2"> Attendance, Leave & Present Days <span class="task-priority-icon float-end">
+                                    <i class="ti" [ngClass]="{'ti-checkbox': PAYROLL_PROCESS_STEP > LOP_REVERSAL,'ti-circle-2': PAYROLL_PROCESS_STEP <= LOP_REVERSAL}">
                                     </i>
                                   </span>
                                 </p>
@@ -220,21 +205,15 @@
                           <!--end col-->
                         </div>
                         <div class="col-md-6" (click)="salaryChangeSection(PAYROLL_PROCESS_STEP)">
-                          <div class="card-body mt-3 payroll-step"
-                            [ngClass]="{'bg-soft-success': PAYROLL_PROCESS_STEP > OVERTIME, 'bg-soft-warning': PAYROLL_PROCESS_STEP <= OVERTIME}"
-                            data-bs-toggle="modal" data-bs-target="#salarychange"
-                            [class.disabled]="PAYROLL_PROCESS_STEP <= LOP_REVERSAL">
+                          <div class="card-body mt-3 payroll-step" [ngClass]="{'bg-soft-success': PAYROLL_PROCESS_STEP > OVERTIME, 'bg-soft-warning': PAYROLL_PROCESS_STEP <= OVERTIME}" data-bs-toggle="modal" data-bs-target="#salarychange" [class.disabled]="PAYROLL_PROCESS_STEP <= LOP_REVERSAL">
                             <div class="row">
                               <div class="col-auto">
-                                <img src="assets/images/business-report.svg" alt="user" height="50"
-                                  class="align-self-center mb-3 mb-lg-0" />
+                                <img src="assets/images/business-report.svg" alt="user" height="50" class="align-self-center mb-3 mb-lg-0" />
                               </div>
                               <!--end col-->
                               <div class="col align-self-center">
-                                <p class="font-14 mb-2"> Salary Revision, Overtime & Deduction <span
-                                    class="task-priority-icon float-end">
-                                    <i class="ti"
-                                      [ngClass]="{'ti-checkbox': PAYROLL_PROCESS_STEP > OVERTIME,'ti-circle-3': PAYROLL_PROCESS_STEP <= OVERTIME}">
+                                <p class="font-14 mb-2"> Salary Revision, Overtime & Deduction <span class="task-priority-icon float-end">
+                                    <i class="ti" [ngClass]="{'ti-checkbox': PAYROLL_PROCESS_STEP > OVERTIME,'ti-circle-3': PAYROLL_PROCESS_STEP <= OVERTIME}">
                                     </i>
                                   </span>
                                 </p>
@@ -246,21 +225,15 @@
                           </div>
                         </div>
                         <div class="col-md-6" (click)="epfEsiTdsSection(PAYROLL_PROCESS_STEP)">
-                          <div class="card-body mt-3 payroll-step"
-                            [ngClass]="{'bg-soft-success': PAYROLL_PROCESS_STEP > TDS, 'bg-soft-warning': PAYROLL_PROCESS_STEP <= TDS}"
-                            data-bs-toggle="modal" data-bs-target="#epf_esi_tds"
-                            [class.disabled]="PAYROLL_PROCESS_STEP <= OVERTIME">
+                          <div class="card-body mt-3 payroll-step" [ngClass]="{'bg-soft-success': PAYROLL_PROCESS_STEP > TDS, 'bg-soft-warning': PAYROLL_PROCESS_STEP <= TDS}" data-bs-toggle="modal" data-bs-target="#epf_esi_tds" [class.disabled]="PAYROLL_PROCESS_STEP <= OVERTIME">
                             <div class="row">
                               <div class="col-auto">
-                                <img src="assets/images/card-reader.svg" alt="user" height="50"
-                                  class="align-self-center mb-3 mb-lg-0" />
+                                <img src="assets/images/card-reader.svg" alt="user" height="50" class="align-self-center mb-3 mb-lg-0" />
                               </div>
                               <!--end col-->
                               <div class="col align-self-center">
-                                <p class="font-14 mb-2"> EPF, ESI & TDS (OVERRIDE) <span
-                                    class="task-priority-icon float-end">
-                                    <i class="ti"
-                                      [ngClass]="{'ti-checkbox text-success': PAYROLL_PROCESS_STEP > TDS,'ti-circle-4': PAYROLL_PROCESS_STEP <= TDS}">
+                                <p class="font-14 mb-2"> EPF, ESI & TDS (OVERRIDE) <span class="task-priority-icon float-end">
+                                    <i class="ti" [ngClass]="{'ti-checkbox text-success': PAYROLL_PROCESS_STEP > TDS,'ti-circle-4': PAYROLL_PROCESS_STEP <= TDS}">
                                     </i>
                                   </span>
                                 </p>
@@ -276,10 +249,7 @@
                         <div class="col">
                           <div class="media">
                             <div class="media-body align-self-center">
-                              <p class="text-muted font-12 mb-0 mt-2"> Last Preview Run On
-                                {{organizationMonthWiseSalaryData?.updatedDate | date: 'dd MMM'}} at
-                                {{organizationMonthWiseSalaryData?.updatedDate | date:'shortTime'}} By
-                                {{organizationMonthWiseSalaryData?.updatedBy}} </p>
+                              <p class="text-muted font-12 mb-0 mt-2"> Last Preview Run On {{organizationMonthWiseSalaryData?.updatedDate | date: 'dd MMM'}} at {{organizationMonthWiseSalaryData?.updatedDate | date:'shortTime'}} By {{organizationMonthWiseSalaryData?.updatedBy}} </p>
                             </div>
                             <!--end media body-->
                           </div>
@@ -288,8 +258,7 @@
                         <!--end col-->
                         <div class="col-auto align-self-center">
                           <div class="button-items">
-                            <button type="button" class="btn btn-outline-primary btn-round"
-                              [disabled]="PAYROLL_PROCESS_STEP < PAYROLL_STEP_COMPLETED" (click)="generateSalaryReportMethodCall()">
+                            <button type="button" class="btn btn-outline-primary btn-round" [disabled]="PAYROLL_PROCESS_STEP < PAYROLL_STEP_COMPLETED" (click)="generateSalaryReportMethodCall()">
                               <ng-container *ngIf="RUN_PAYROLL_LOADER; else runPayrollLoaderFalseCondition">
                                 <div class="dot-opacity-loader">
                                   <span></span>
@@ -314,17 +283,17 @@
                       <div class="content">
                         <ul class="list-group" *ngIf="!isPayrollHistoryPlaceholder; else errorConditionWhileFetchingReport">
                           <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let payroll of payrollLogs">
-                              <div>
-                                  <i class="la la-check text-muted font-16 me-2"></i> {{ payroll.reportName }}
-                              </div>
-                              <small> {{ payroll.adminName ||
+                            <div>
+                              <i class="la la-check text-muted font-16 me-2"></i> {{ payroll.reportName }}
+                            </div>
+                            <small> {{ payroll.adminName ||
                                 'N/A' }} - {{ payroll.createdDate | date: 'medium' || 'N/A' }}</small>
-                                <a href="{{ payroll.reportExcelLink }}" target="_blank">
-                                  <span class="badge badge-outline-success badge-pill"><i class="ti ti-download"></i> Download</span>
-                                </a>
+                            <a href="{{ payroll.reportExcelLink }}" target="_blank">
+                              <span class="badge badge-outline-success badge-pill">
+                                <i class="ti ti-download"></i> Download </span>
+                            </a>
                           </li>
-                      </ul>
-
+                        </ul>
                         <ng-template #errorConditionWhileFetchingReport>
                           <div class="errorboxmain" *ngIf="
                                     networkConnectionErrorPlaceHolderForPayrollHistory
@@ -335,8 +304,7 @@
                               </div>
                               <div class="">
                                 <h4>Something went wrong</h4>
-                                <p> An error occurred while processing your request. Please refresh the page and try
-                                  again. </p>
+                                <p> An error occurred while processing your request. Please refresh the page and try again. </p>
                               </div>
                             </div>
                           </div>
@@ -367,19 +335,16 @@
                           <nav aria-label="Page navigation example">
                             <ul class="pagination justify-content-end">
                               <li class="page-item" [class.disabled]="pageNumber == 1">
-                                <a class="page-link" href="javascript:void(0);" aria-label="Previous"
-                                  (click)="changePage('prev', PAYROLL_HISTORY)">
+                                <a class="page-link" href="javascript:void(0);" aria-label="Previous" (click)="changePage('prev', PAYROLL_HISTORY)">
                                   <span aria-hidden="true">&laquo;</span>
                                 </a>
                               </li>
                               <li class="page-item" *ngFor="let page of getPages()" [class.active]="pageNumber == page">
-                                <a class="page-link" href="javascript:void(0);"
-                                  (click)="changePage(page, PAYROLL_HISTORY)">{{ page
+                                <a class="page-link" href="javascript:void(0);" (click)="changePage(page, PAYROLL_HISTORY)">{{ page
                                   }}</a>
                               </li>
                               <li class="page-item" [class.disabled]="pageNumber == totalPages">
-                                <a class="page-link" href="javascript:void(0);" aria-label="Next"
-                                  (click)="changePage('next', PAYROLL_HISTORY)">
+                                <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changePage('next', PAYROLL_HISTORY)">
                                   <span aria-hidden="true">&raquo;</span>
                                 </a>
                               </li>
@@ -415,11 +380,7 @@
             </div>
             <div class="card-body">
               <div class="text-center">
-                <ngx-charts-pie-chart [view]="view" [scheme]="colorScheme" [results]="single"
-                  [legend]="showLegend" [explodeSlices]="explodeSlices" [labels]="showLabels"
-                  [doughnut]="doughnut" [gradient]="gradient"
-                  (select)="onSelect($event)">
-                </ngx-charts-pie-chart>
+                <ngx-charts-pie-chart [view]="view" [scheme]="colorScheme" [results]="single" [legend]="showLegend" [explodeSlices]="explodeSlices" [labels]="showLabels" [doughnut]="doughnut" [gradient]="gradient" (select)="onSelect($event)"></ngx-charts-pie-chart>
               </div>
             </div>
           </div>
@@ -429,27 +390,20 @@
       </div>
       <!--end row-->
       <!-- Employee Management -->
-      <div class="modal fade" id="createteam" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel"
-        aria-hidden="true">
+      <div class="modal fade" id="createteam" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
         <div class="modal-dialog modal-fullscreen" role="document">
           <div class="modal-content">
             <div class="modal-header" style="background-color: #fff">
               <h5 class="modal-title m-0" style="color: #111; font-size: 18px" id="exampleModalDefaultLabel">
-                <div class="back-btns-box" style="cursor: pointer;" data-bs-dismiss="modal" aria-label="Close"
-                  #employeeChangeModal>
+                <div class="back-btns-box" style="cursor: pointer;" data-bs-dismiss="modal" aria-label="Close" #employeeChangeModal>
                   <i class="bi bi-chevron-left"></i>
                   <span class="font-16 pt-2 pl-2">Employee Changes </span>
                 </div>
               </h5>
               <div class="button-items">
-                <button type="button" class="btn btn-light btn-round" (click)="employeeChangesBackTab()"
-                  *ngIf="CURRENT_TAB_IN_EMPLOYEE_CHANGE != NEW_JOINEE"> BACK </button>
-                <button type="button" class="btn btn-primary btn-round"
-                  (click)="registerNewJoineeAndUserExitMethodCall()"
-                  *ngIf="CURRENT_TAB_IN_EMPLOYEE_CHANGE != FINAL_SETTLEMENT"> SAVE & CONTINUE </button>
-                <button type="button" class="btn btn-primary btn-round"
-                  (click)="registerNewJoineeAndUserExitMethodCall()"
-                  *ngIf="CURRENT_TAB_IN_EMPLOYEE_CHANGE == FINAL_SETTLEMENT"> MARK AS COMPLETE </button>
+                <button type="button" class="btn btn-light btn-round" (click)="employeeChangesBackTab()" *ngIf="CURRENT_TAB_IN_EMPLOYEE_CHANGE != NEW_JOINEE"> BACK </button>
+                <button type="button" class="btn btn-primary btn-round" (click)="registerNewJoineeAndUserExitMethodCall()" *ngIf="CURRENT_TAB_IN_EMPLOYEE_CHANGE != FINAL_SETTLEMENT"> SAVE & CONTINUE </button>
+                <button type="button" class="btn btn-primary btn-round" (click)="registerNewJoineeAndUserExitMethodCall()" *ngIf="CURRENT_TAB_IN_EMPLOYEE_CHANGE == FINAL_SETTLEMENT"> MARK AS COMPLETE </button>
               </div>
             </div>
             <!--end modal-header-->
@@ -458,28 +412,19 @@
                 <form action="#" method="post" id="custom-step">
                   <nav>
                     <div class="nav nav-tabs" id="nav-tab">
-                      <a class="nav-link active" id="step1-tab" data-bs-toggle="tab" href="#step1"
-                        (click)="newJoineeTab()" #step1Tab>NEW JOINEE</a>
-                      <a class="nav-link" id="step2-tab" data-bs-toggle="tab" href="#step2" (click)="userExitTab()"
-                        #step2Tab [class.disabled]="PAYROLL_PROCESS_STEP < USER_EXIT">EMPLOYEES IN EXIT PROCESS </a>
-                      <a class="nav-link" id="step3-tab" data-bs-toggle="tab" href="#step3"
-                        (click)="finalSettlementTab()" #step3Tab
-                        [class.disabled]="PAYROLL_PROCESS_STEP < FINAL_SETTLEMENT">FULL AND FINAL SETTLEMENT </a>
+                      <a class="nav-link active" id="step1-tab" data-bs-toggle="tab" href="#step1" (click)="newJoineeTab()" #step1Tab>NEW JOINEE</a>
+                      <a class="nav-link" id="step2-tab" data-bs-toggle="tab" href="#step2" (click)="userExitTab()" #step2Tab [class.disabled]="PAYROLL_PROCESS_STEP < USER_EXIT">EMPLOYEES IN EXIT PROCESS </a>
+                      <a class="nav-link" id="step3-tab" data-bs-toggle="tab" href="#step3" (click)="finalSettlementTab()" #step3Tab [class.disabled]="PAYROLL_PROCESS_STEP < FINAL_SETTLEMENT">FULL AND FINAL SETTLEMENT </a>
                     </div>
                   </nav>
                   <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane active" id="step1">
                       <div class="table-responsive">
                         <div class="col-md-12 mt-2">
-                          <form novalidate="" role="search" (submit)="searchUsers($event, 1)"
-                            class="searching ng-untouched ng-pristine ng-valid">
+                          <form novalidate="" role="search" (submit)="searchUsers($event, 1)" class="searching ng-untouched ng-pristine ng-valid">
                             <div class="form-group" style="width: 350px; position: relative">
-                              <input type="text" id="search" placeholder="Search by name and email"
-                                class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px"
-                                (keyup)="searchUsers($event, 1)" [(ngModel)]="search"
-                                [ngModelOptions]="{ standalone: true }" />
-                              <button *ngIf="search.length !== 0" type="button" class="btn close-btn"
-                                (click)="clearSearch(1)">
+                              <input type="text" id="search" placeholder="Search by name and email" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px" (keyup)="searchUsers($event, 1)" [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" />
+                              <button *ngIf="search.length !== 0" type="button" class="btn close-btn" (click)="clearSearch(1)">
                                 <i class="bi bi-x mt-auto mb-auto pl-3"></i>
                               </button>
                               <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
@@ -572,9 +517,7 @@
                                   <td class="text-">
                                     <div class="dudct-type">
                                       <div class="dropdown pay-action-type">
-                                        <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button"
-                                          id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
-                                          style="
+                                        <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="
                                             text-align: left;
                                             background-color: white;
                                             color: black;
@@ -583,8 +526,7 @@
                                           {{ getSelectedPayActionTypeName(newJoineeResponse) || "Select pay action" }}
                                           <i class="bi bi-chevron-down"></i>
                                         </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"
-                                          style="width: 100%">
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%">
                                           <li *ngFor="let payActionType of payActionTypeList">
                                             <a class="dropdown-item" (click)="selectPayActionType(
                                                   payActionType,
@@ -597,10 +539,7 @@
                                     </div>
                                   </td>
                                   <td class="text-start">
-                                    <input class="comment-input p-2" type="text" placeholder="Write the comment here"
-                                      [(ngModel)]="newJoineeResponse.comment"
-                                      (change)="updateComment(newJoineeResponse, newJoineeResponse.comment)"
-                                      [ngModelOptions]="{ standalone: true }" />
+                                    <input class="comment-input p-2" type="text" placeholder="Write the comment here" [(ngModel)]="newJoineeResponse.comment" (change)="updateComment(newJoineeResponse, newJoineeResponse.comment)" [ngModelOptions]="{ standalone: true }" />
                                   </td>
                                   <!-- <td class="text-start"><a (click)="
                                         routeToUserProfile(
@@ -624,8 +563,7 @@
                                       </div>
                                       <div class="">
                                         <h4>Something went wrong</h4>
-                                        <p> An error occurred while processing your request. Please refresh the page and
-                                          try again. </p>
+                                        <p> An error occurred while processing your request. Please refresh the page and try again. </p>
                                       </div>
                                     </div>
                                   </div>
@@ -655,15 +593,10 @@
                     <div class="tab-pane" id="step2">
                       <div class="table-responsive">
                         <div class="col-md-12 mt-2">
-                          <form novalidate="" role="search" (submit)="searchUsers($event, 2)"
-                            class="searching ng-untouched ng-pristine ng-valid">
+                          <form novalidate="" role="search" (submit)="searchUsers($event, 2)" class="searching ng-untouched ng-pristine ng-valid">
                             <div class="form-group" style="width: 350px; position: relative">
-                              <input type="text" id="search" placeholder="Search by name and email"
-                                class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px"
-                                (keyup)="searchUsers($event, 2)" [(ngModel)]="search"
-                                [ngModelOptions]="{ standalone: true }" />
-                              <button *ngIf="search.length !== 0" type="button" class="btn close-btn"
-                                (click)="clearSearch(2)">
+                              <input type="text" id="search" placeholder="Search by name and email" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px" (keyup)="searchUsers($event, 2)" [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" />
+                              <button *ngIf="search.length !== 0" type="button" class="btn close-btn" (click)="clearSearch(2)">
                                 <i class="bi bi-x mt-auto mb-auto pl-3"></i>
                               </button>
                               <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
@@ -753,9 +686,7 @@
                                   <td class="text-">
                                     <div class="dudct-type">
                                       <div class="dropdown pay-action-type">
-                                        <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button"
-                                          id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
-                                          style="
+                                        <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="
                                             text-align: left;
                                             background-color: white;
                                             color: black;
@@ -765,8 +696,7 @@
                                           {{ getSelectedPayActionTypeName(userExitResponse) || "Select pay action" }}
                                           <i class="bi bi-chevron-down"></i>
                                         </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"
-                                          style="width: 100%">
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%">
                                           <li *ngFor="
                                               let payActionType of payActionTypeList
                                             ">
@@ -784,10 +714,7 @@
                                     </div>
                                   </td>
                                   <td class="text-start">
-                                    <input class="comment-input p-2" type="text" placeholder="Write the comment here"
-                                      [(ngModel)]="userExitResponse.comment"
-                                      (change)="updateComment(userExitResponse, userExitResponse.comment)"
-                                      [ngModelOptions]="{ standalone: true }" />
+                                    <input class="comment-input p-2" type="text" placeholder="Write the comment here" [(ngModel)]="userExitResponse.comment" (change)="updateComment(userExitResponse, userExitResponse.comment)" [ngModelOptions]="{ standalone: true }" />
                                   </td>
                                   <td class="text-start">
                                     {{ userExitResponse.resignationStatus }}
@@ -814,8 +741,7 @@
                                       </div>
                                       <div class="">
                                         <h4>Something went wrong</h4>
-                                        <p> An error occurred while processing your request. Please refresh the page and
-                                          try again. </p>
+                                        <p> An error occurred while processing your request. Please refresh the page and try again. </p>
                                       </div>
                                     </div>
                                   </div>
@@ -845,15 +771,10 @@
                     <div class="tab-pane" id="step3">
                       <div class="table-responsive">
                         <div class="col-md-12 mt-2">
-                          <form novalidate="" role="search" (submit)="searchUsers($event, 3)"
-                            class="searching ng-untouched ng-pristine ng-valid">
+                          <form novalidate="" role="search" (submit)="searchUsers($event, 3)" class="searching ng-untouched ng-pristine ng-valid">
                             <div class="form-group" style="width: 350px; position: relative">
-                              <input type="text" id="search" placeholder="Search by name and email"
-                                class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px"
-                                (keyup)="searchUsers($event, 3)" [(ngModel)]="search"
-                                [ngModelOptions]="{ standalone: true }" />
-                              <button *ngIf="search.length !== 0" type="button" class="btn close-btn"
-                                (click)="clearSearch(3)">
+                              <input type="text" id="search" placeholder="Search by name and email" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px" (keyup)="searchUsers($event, 3)" [(ngModel)]="search" [ngModelOptions]="{ standalone: true }" />
+                              <button *ngIf="search.length !== 0" type="button" class="btn close-btn" (click)="clearSearch(3)">
                                 <i class="bi bi-x mt-auto mb-auto pl-3"></i>
                               </button>
                               <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px"></i>
@@ -944,9 +865,7 @@
                                   <td class="text-">
                                     <div class="dudct-type">
                                       <div class="dropdown pay-action-type">
-                                        <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button"
-                                          id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
-                                          style="
+                                        <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="
                                             text-align: left;
                                             background-color: white;
                                             color: black;
@@ -957,8 +876,7 @@
                                           action" }}
                                           <i class="bi bi-chevron-down"></i>
                                         </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"
-                                          style="width: 100%">
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%">
                                           <li *ngFor="
                                               let payActionType of payActionTypeList
                                             ">
@@ -976,12 +894,9 @@
                                     </div>
                                   </td>
                                   <td class="text-start">
-                                    <input class="comment-input p-2" type="text" placeholder="Write the comment here"
-                                      [(ngModel)]="
+                                    <input class="comment-input p-2" type="text" placeholder="Write the comment here" [(ngModel)]="
                                         finalSettlementResponse.comment
-                                      "
-                                      (change)="updateComment(finalSettlementResponse, finalSettlementResponse.comment)"
-                                      [ngModelOptions]="{ standalone: true }" />
+                                      " (change)="updateComment(finalSettlementResponse, finalSettlementResponse.comment)" [ngModelOptions]="{ standalone: true }" />
                                   </td>
                                   <td>
                                     {{ finalSettlementResponse.resignationStatus
@@ -1009,8 +924,7 @@
                                       </div>
                                       <div class="">
                                         <h4>Something went wrong</h4>
-                                        <p> An error occurred while processing your request. Please refresh the page and
-                                          try again. </p>
+                                        <p> An error occurred while processing your request. Please refresh the page and try again. </p>
                                       </div>
                                     </div>
                                   </div>
@@ -1062,8 +976,7 @@
                   <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-end">
                       <li class="page-item" [class.disabled]="pageNumber == 1">
-                        <a class="page-link" href="javascript:void(0);" aria-label="Previous"
-                          (click)="changePage('prev', CURRENT_TAB)">
+                        <a class="page-link" href="javascript:void(0);" aria-label="Previous" (click)="changePage('prev', CURRENT_TAB)">
                           <span aria-hidden="true">&laquo;</span>
                         </a>
                       </li>
@@ -1072,8 +985,7 @@
                           }}</a>
                       </li>
                       <li class="page-item" [class.disabled]="pageNumber == totalPages">
-                        <a class="page-link" href="javascript:void(0);" aria-label="Next"
-                          (click)="changePage('next', CURRENT_TAB)">
+                        <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changePage('next', CURRENT_TAB)">
                           <span aria-hidden="true">&raquo;</span>
                         </a>
                       </li>
@@ -1088,27 +1000,20 @@
         <!--end modal-->
       </div>
       <!-- Leave, Attendance & Daily Wages -->
-      <div class="modal fade" id="leaves" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel"
-        aria-hidden="true">
+      <div class="modal fade" id="leaves" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
         <div class="modal-dialog modal-fullscreen" role="document">
           <div class="modal-content">
             <div class="modal-header" style="background-color: #fff">
               <h5 class="modal-title m-0" style="color: #111; font-size: 18px" id="exampleModalDefaultLabel">
-                <div class="back-btns-box" style="cursor: pointer;" data-bs-dismiss="modal" aria-label="Close"
-                  #attendanceAndLeaveModal>
+                <div class="back-btns-box" style="cursor: pointer;" data-bs-dismiss="modal" aria-label="Close" #attendanceAndLeaveModal>
                   <i class="bi bi-chevron-left"></i>
                   <span class="font-16 pt-2 pl-2">Attendance, Leaves & Present Days</span>
                 </div>
               </h5>
               <div class="button-items">
-                <button type="button" class="btn btn-light btn-round" (click)="attendanceAndLeaveBackTab()"
-                  *ngIf="CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE != LEAVES"> BACK </button>
-                <button type="button" class="btn btn-primary btn-round"
-                  (click)="registerAttendanceAndLeavesMethodCall(CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE)"
-                  *ngIf="CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE != LOP_REVERSAL"> SAVE & CONTINUE </button>
-                <button type="button" class="btn btn-primary btn-round"
-                  (click)="registerAttendanceAndLeavesMethodCall(CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE)"
-                  *ngIf="CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE == LOP_REVERSAL"> MARK AS COMPLETE </button>
+                <button type="button" class="btn btn-light btn-round" (click)="attendanceAndLeaveBackTab()" *ngIf="CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE != LEAVES"> BACK </button>
+                <button type="button" class="btn btn-primary btn-round" (click)="registerAttendanceAndLeavesMethodCall(CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE)" *ngIf="CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE != LOP_REVERSAL"> SAVE & CONTINUE </button>
+                <button type="button" class="btn btn-primary btn-round" (click)="registerAttendanceAndLeavesMethodCall(CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE)" *ngIf="CURRENT_TAB_IN_ATTENDANCE_AND_LEAVE == LOP_REVERSAL"> MARK AS COMPLETE </button>
               </div>
             </div>
             <!--end modal-header-->
@@ -1117,12 +1022,9 @@
                 <form action="#" method="post" id="custom-step">
                   <nav>
                     <div class="nav nav-tabs" id="nav-tab">
-                      <a class="nav-link active" id="step4-tab" data-bs-toggle="tab" href="#step4" (click)="leavesTab()"
-                        #step4Tab [class.disabled]="PAYROLL_PROCESS_STEP < LEAVES">LEAVES </a>
-                      <a class="nav-link" id="step5-tab" data-bs-toggle="tab" href="#step5" (click)="lopSummaryTab()"
-                        #step5Tab [class.disabled]="PAYROLL_PROCESS_STEP < LOP_SUMMARY">LOP SUMMARY </a>
-                      <a class="nav-link" id="step6-tab" data-bs-toggle="tab" href="#step6" (click)="lopReversalTab()"
-                        #step6Tab [class.disabled]="PAYROLL_PROCESS_STEP < LOP_REVERSAL">LOP REVERSAL </a>
+                      <a class="nav-link active" id="step4-tab" data-bs-toggle="tab" href="#step4" (click)="leavesTab()" #step4Tab [class.disabled]="PAYROLL_PROCESS_STEP < LEAVES">LEAVES </a>
+                      <a class="nav-link" id="step5-tab" data-bs-toggle="tab" href="#step5" (click)="lopSummaryTab()" #step5Tab [class.disabled]="PAYROLL_PROCESS_STEP < LOP_SUMMARY">LOP SUMMARY </a>
+                      <a class="nav-link" id="step6-tab" data-bs-toggle="tab" href="#step6" (click)="lopReversalTab()" #step6Tab [class.disabled]="PAYROLL_PROCESS_STEP < LOP_REVERSAL">LOP REVERSAL </a>
                     </div>
                   </nav>
                   <div class="tab-content" id="nav-tabContent">
@@ -1140,8 +1042,7 @@
                               <th>ACTION</th>
                             </tr>
                           </thead>
-                          <ng-container
-                            *ngIf="isShimmerForPayrollLeaveResponse && payrollLeaveResponseList.length == 0; else payrollLeaveResponseListData">
+                          <ng-container *ngIf="isShimmerForPayrollLeaveResponse && payrollLeaveResponseList.length == 0; else payrollLeaveResponseListData">
                             <tbody>
                               <tr *ngFor="let item of [].constructor(10)">
                                 <td class="text-center">
@@ -1175,8 +1076,7 @@
                             </tbody>
                           </ng-container>
                           <ng-template #payrollLeaveResponseListData>
-                            <ng-container
-                              *ngIf="!isShimmerForPayrollLeaveResponse && payrollLeaveResponseList.length != 0; else errorInFetchingPayrollLeaveResponseListData">
+                            <ng-container *ngIf="!isShimmerForPayrollLeaveResponse && payrollLeaveResponseList.length != 0; else errorInFetchingPayrollLeaveResponseListData">
                               <tbody *ngFor="let payrollLeaveResponse of payrollLeaveResponseList
                                 | paginate
                                   : {
@@ -1193,8 +1093,7 @@
                                   <!-- <td><input class="comment-input p-2" type="text" placeholder="Write the comment here" /></td> -->
                                   <td class="text-start">
                                     <a>
-                                      <i class="bi bi-pencil-square"
-                                        (click)="openLeaveLogsModal(payrollLeaveResponse.userInfo.userUuid)"></i>
+                                      <i class="bi bi-pencil-square" (click)="openLeaveLogsModal(payrollLeaveResponse.userInfo.userUuid)"></i>
                                     </a>
                                   </td>
                                 </tr>
@@ -1205,16 +1104,14 @@
                             <tbody>
                               <tr>
                                 <td colspan="8">
-                                  <div class="errorboxmain"
-                                    *ngIf="networkConnectionErrorPlaceHolderForPayrollLeaveResponse">
+                                  <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolderForPayrollLeaveResponse">
                                     <div class="errorboxinner text-center">
                                       <div class="errorboxplaceholder mb-2">
                                         <img src="assets/images/signal.svg" style="width: 100px" />
                                       </div>
                                       <div class="">
                                         <h4>Something went wrong</h4>
-                                        <p> An error occurred while processing your request. Please refresh the page and
-                                          try again. </p>
+                                        <p> An error occurred while processing your request. Please refresh the page and try again. </p>
                                       </div>
                                     </div>
                                   </div>
@@ -1297,28 +1194,19 @@
                             </tbody>
                           </ng-container>
                           <ng-template #lopSummaryResponseListData>
-                            <ng-container
-                              *ngIf="!isShimmerForLopSummary && lopSummaryResponseList.length != 0; else errorInFetchingLopSummaryResponseListData">
-                              <tbody
-                                *ngFor="let lopSummaryResponse of lopSummaryResponseList | paginate : { itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total }">
+                            <ng-container *ngIf="!isShimmerForLopSummary && lopSummaryResponseList.length != 0; else errorInFetchingLopSummaryResponseListData">
+                              <tbody *ngFor="let lopSummaryResponse of lopSummaryResponseList | paginate : { itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total }">
                                 <tr>
                                   <td>{{ lopSummaryResponse.name }}</td>
                                   <td>{{ lopSummaryResponse.email }}</td>
                                   <td>{{ lopSummaryResponse.lopDays }}</td>
                                   <td>
-                                    <input class="comment-input p-2" type="number" placeholder="Days count"
-                                      [(ngModel)]="lopSummaryResponse.adjustedLopDays"
-                                      (ngModelChange)="saveAdjustedLopDaysToCache(lopSummaryResponse.uuid, $event)"
-                                      [ngModelOptions]="{ standalone: true }" />
-                                    <a data-bs-toggle="modal" data-bs-target="#adjustLop"
-                                      (click)="openLopAdjustmentRequestModal(lopSummaryResponse.uuid, lopSummaryResponse.adjustedLopDays)">Adjust</a>
+                                    <input class="comment-input p-2" type="number" placeholder="Days count" [(ngModel)]="lopSummaryResponse.adjustedLopDays" (ngModelChange)="saveAdjustedLopDaysToCache(lopSummaryResponse.uuid, $event)" [ngModelOptions]="{ standalone: true }" />
+                                    <a data-bs-toggle="modal" data-bs-target="#adjustLop" (click)="openLopAdjustmentRequestModal(lopSummaryResponse.uuid, lopSummaryResponse.adjustedLopDays)">Adjust</a>
                                   </td>
                                   <td>{{ lopSummaryResponse.finalLopDays }}</td>
                                   <td>
-                                    <input class="comment-input p-2" type="text" placeholder="Write the comment here"
-                                      [(ngModel)]="lopSummaryResponse.lopSummaryComment"
-                                      (ngModelChange)="saveLopSummaryCommentToCache(lopSummaryResponse.uuid, $event)"
-                                      [ngModelOptions]="{ standalone: true }" />
+                                    <input class="comment-input p-2" type="text" placeholder="Write the comment here" [(ngModel)]="lopSummaryResponse.lopSummaryComment" (ngModelChange)="saveLopSummaryCommentToCache(lopSummaryResponse.uuid, $event)" [ngModelOptions]="{ standalone: true }" />
                                   </td>
                                 </tr>
                               </tbody>
@@ -1337,8 +1225,7 @@
                                       </div>
                                       <div class="">
                                         <h4>Something went wrong</h4>
-                                        <p> An error occurred while processing your request. Please refresh the page and
-                                          try again. </p>
+                                        <p> An error occurred while processing your request. Please refresh the page and try again. </p>
                                       </div>
                                     </div>
                                   </div>
@@ -1382,8 +1269,7 @@
                               <!-- <th>ACTION</th> -->
                             </tr>
                           </thead>
-                          <ng-container
-                            *ngIf="isShimmerForLopReversal && lopReversalResponseList.length == 0; else lopReversalResponseListData">
+                          <ng-container *ngIf="isShimmerForLopReversal && lopReversalResponseList.length == 0; else lopReversalResponseListData">
                             <tbody>
                               <tr *ngFor="let item of [].constructor(10)">
                                 <td class="text-center">
@@ -1417,26 +1303,18 @@
                             </tbody>
                           </ng-container>
                           <ng-template #lopReversalResponseListData>
-                            <ng-container
-                              *ngIf="!isShimmerForLopReversal && lopReversalResponseList.length != 0; else errorInFetchingLopReversalResponseListData">
-                              <tbody
-                                *ngFor="let lopReversalResponse of lopReversalResponseList | paginate : { itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total }">
+                            <ng-container *ngIf="!isShimmerForLopReversal && lopReversalResponseList.length != 0; else errorInFetchingLopReversalResponseListData">
+                              <tbody *ngFor="let lopReversalResponse of lopReversalResponseList | paginate : { itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total }">
                                 <tr>
                                   <td>{{ lopReversalResponse.name }}</td>
                                   <td>{{ lopReversalResponse.email }}</td>
                                   <td>{{ extractPreviousMonthNameFromDate(startDate) }}</td>
                                   <td>{{ lopReversalResponse?.lopDays || 0}}</td>
                                   <td>
-                                    <input class="comment-input p-2" type="number" placeholder="Days count"
-                                      [(ngModel)]="lopReversalResponse.reversedLopDays"
-                                      (ngModelChange)="updateReversedLopDays(lopReversalResponse, $event)"
-                                      [ngModelOptions]="{ standalone: true }" />
+                                    <input class="comment-input p-2" type="number" placeholder="Days count" [(ngModel)]="lopReversalResponse.reversedLopDays" (ngModelChange)="updateReversedLopDays(lopReversalResponse, $event)" [ngModelOptions]="{ standalone: true }" />
                                   </td>
                                   <td>
-                                    <input class="comment-input p-2" type="text" placeholder="Write the comment here"
-                                      [(ngModel)]="lopReversalResponse.comment"
-                                      (change)="updateLopComment(lopReversalResponse, lopReversalResponse.comment)"
-                                      [ngModelOptions]="{ standalone: true }" />
+                                    <input class="comment-input p-2" type="text" placeholder="Write the comment here" [(ngModel)]="lopReversalResponse.comment" (change)="updateLopComment(lopReversalResponse, lopReversalResponse.comment)" [ngModelOptions]="{ standalone: true }" />
                                   </td>
                                 </tr>
                               </tbody>
@@ -1453,8 +1331,7 @@
                                       </div>
                                       <div class="">
                                         <h4>Something went wrong</h4>
-                                        <p> An error occurred while processing your request. Please refresh the page and
-                                          try again. </p>
+                                        <p> An error occurred while processing your request. Please refresh the page and try again. </p>
                                       </div>
                                     </div>
                                   </div>
@@ -1495,8 +1372,7 @@
             <!--end modal-content-->
             <div class="modal-footer report-footer d-flex align-items-center justify-content-between border-top">
               <!-- pagination -->
-              <div class="pagination pl-3 align-items-center justify-content-between"
-                *ngIf="(total > itemPerPage - 1 || (pageNumber === lastPageNumber && lastPageNumber !== 1)) && 
+              <div class="pagination pl-3 align-items-center justify-content-between" *ngIf="(total > itemPerPage - 1 || (pageNumber === lastPageNumber && lastPageNumber !== 1)) && 
                           ((CURRENT_TAB == LEAVES && !dataNotFoundPlaceholderForPayrollLeaveResponse && !networkConnectionErrorPlaceHolderForPayrollLeaveResponse) || 
                             (CURRENT_TAB == LOP_SUMMARY && !dataNotFoundPlaceholderForLopSummary && !networkConnectionErrorPlaceHolderForLopSummary) || 
                             (CURRENT_TAB == LOP_REVERSAL && !dataNotFoundPlaceholderForLopReversal && !networkConnectionErrorPlaceHolderForLopReversal))">
@@ -1506,8 +1382,7 @@
                   <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-end">
                       <li class="page-item" [class.disabled]="pageNumber == 1">
-                        <a class="page-link" href="javascript:void(0);" aria-label="Previous"
-                          (click)="changePage('prev', CURRENT_TAB)">
+                        <a class="page-link" href="javascript:void(0);" aria-label="Previous" (click)="changePage('prev', CURRENT_TAB)">
                           <span aria-hidden="true">&laquo;</span>
                         </a>
                       </li>
@@ -1516,8 +1391,7 @@
                           }}</a>
                       </li>
                       <li class="page-item" [class.disabled]="pageNumber == totalPages">
-                        <a class="page-link" href="javascript:void(0);" aria-label="Next"
-                          (click)="changePage('next', CURRENT_TAB)">
+                        <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changePage('next', CURRENT_TAB)">
                           <span aria-hidden="true">&raquo;</span>
                         </a>
                       </li>
@@ -1532,27 +1406,20 @@
         <!--end modal-->
       </div>
       <!-- Salary Changes, Bonus & Overtime -->
-      <div class="modal fade" id="salarychange" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel"
-        aria-hidden="true">
+      <div class="modal fade" id="salarychange" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
         <div class="modal-dialog modal-fullscreen" role="document">
           <div class="modal-content">
             <div class="modal-header" style="background-color: #fff">
               <h5 class="modal-title m-0" style="color: #111; font-size: 18px" id="exampleModalDefaultLabel">
-                <div class="back-btns-box" style="cursor: pointer;" data-bs-dismiss="modal" aria-label="Close"
-                  #salaryChangeModal>
+                <div class="back-btns-box" style="cursor: pointer;" data-bs-dismiss="modal" aria-label="Close" #salaryChangeModal>
                   <i class="bi bi-chevron-left"></i>
                   <span class="font-16 pt-2 pl-2">Salary Changes, Bonus & Overtime</span>
                 </div>
               </h5>
               <div class="button-items">
-                <button type="button" class="btn btn-light btn-round" (click)="salaryChangesBackTab()"
-                  *ngIf="CURRENT_TAB_IN_SALARY_CHANGE != SALARY_CHANGE"> BACK </button>
-                <button type="button" class="btn btn-primary btn-round"
-                  (click)="registerSalaryChangesAndBonusAndOvertimeMethodCall(CURRENT_TAB_IN_SALARY_CHANGE)"
-                  *ngIf="CURRENT_TAB_IN_SALARY_CHANGE != OVERTIME"> SAVE & CONTINUE </button>
-                <button type="button" class="btn btn-primary btn-round"
-                  (click)="registerSalaryChangesAndBonusAndOvertimeMethodCall(CURRENT_TAB_IN_SALARY_CHANGE)"
-                  *ngIf="CURRENT_TAB_IN_SALARY_CHANGE == OVERTIME"> MARK AS COMPLETE </button>
+                <button type="button" class="btn btn-light btn-round" (click)="salaryChangesBackTab()" *ngIf="CURRENT_TAB_IN_SALARY_CHANGE != SALARY_CHANGE"> BACK </button>
+                <button type="button" class="btn btn-primary btn-round" (click)="registerSalaryChangesAndBonusAndOvertimeMethodCall(CURRENT_TAB_IN_SALARY_CHANGE)" *ngIf="CURRENT_TAB_IN_SALARY_CHANGE != OVERTIME"> SAVE & CONTINUE </button>
+                <button type="button" class="btn btn-primary btn-round" (click)="registerSalaryChangesAndBonusAndOvertimeMethodCall(CURRENT_TAB_IN_SALARY_CHANGE)" *ngIf="CURRENT_TAB_IN_SALARY_CHANGE == OVERTIME"> MARK AS COMPLETE </button>
               </div>
             </div>
             <!--end modal-header-->
@@ -1561,15 +1428,9 @@
                 <form action="#" method="post" id="custom-step">
                   <nav>
                     <div class="nav nav-tabs" id="nav-tab">
-                      <a class="nav-link active" id="step7-tab" data-bs-toggle="tab" href="#step7" (click)="
-                      salaryChangeTab()
-                      " #step7Tab [class.disabled]="PAYROLL_PROCESS_STEP < SALARY_CHANGE">SALARY CHANGES </a>
-                      <a class="nav-link" id="step8-tab" data-bs-toggle="tab" href="#step8" (click)="
-                        bonusTab()
-                      " #step8Tab [class.disabled]="PAYROLL_PROCESS_STEP < BONUS">BONUS </a>
-                      <a class="nav-link" id="step9-tab" data-bs-toggle="tab" href="#step9" (click)="
-                        overtimeTab()
-                      " #step9Tab [class.disabled]="PAYROLL_PROCESS_STEP < OVERTIME">OVERTIME </a>
+                      <a class="nav-link active" id="step7-tab" data-bs-toggle="tab" href="#step7" (click)="salaryChangeTab()" #step7Tab [class.disabled]="PAYROLL_PROCESS_STEP < SALARY_CHANGE">SALARY CHANGES </a>
+                      <a class="nav-link" id="step8-tab" data-bs-toggle="tab" href="#step8" (click)="bonusTab()" #step8Tab [class.disabled]="PAYROLL_PROCESS_STEP < BONUS">BONUS </a>
+                      <a class="nav-link" id="step9-tab" data-bs-toggle="tab" href="#step9" (click)="overtimeTab()" #step9Tab [class.disabled]="PAYROLL_PROCESS_STEP < OVERTIME">OVERTIME </a>
                     </div>
                   </nav>
                   <div class="tab-content" id="nav-tabContent">
@@ -1586,8 +1447,7 @@
                               <th>ACTION</th>
                             </tr>
                           </thead>
-                          <ng-container
-                            *ngIf="isShimmerForSalaryChangeResponse && salaryChangeResponseList.length == 0; else salaryChangeResponseListCondition">
+                          <ng-container *ngIf="isShimmerForSalaryChangeResponse && salaryChangeResponseList.length == 0; else salaryChangeResponseListCondition">
                             <tbody>
                               <tr *ngFor="let item of [].constructor(10)">
                                 <td class="text-center">
@@ -1621,8 +1481,7 @@
                             </tbody>
                           </ng-container>
                           <ng-template #salaryChangeResponseListCondition>
-                            <ng-container
-                              *ngIf="!isShimmerForSalaryChangeResponse && salaryChangeResponseList.length != 0; else errorInFetchingSalaryChangeResponseListCondition">
+                            <ng-container *ngIf="!isShimmerForSalaryChangeResponse && salaryChangeResponseList.length != 0; else errorInFetchingSalaryChangeResponseListCondition">
                               <tbody *ngFor="let salaryChangeResponse of salaryChangeResponseList
                               | paginate
                                 : {
@@ -1658,8 +1517,7 @@
                                       </div>
                                       <div class="">
                                         <h4>Something went wrong</h4>
-                                        <p> An error occurred while processing your request. Please refresh the page and
-                                          try again. </p>
+                                        <p> An error occurred while processing your request. Please refresh the page and try again. </p>
                                       </div>
                                     </div>
                                   </div>
@@ -1701,11 +1559,7 @@
                               <th>COMMENT(Optional)</th>
                               <th>ACTION</th>
                           </thead>
-                          <ng-container *ngIf="
-                            isShimmerForSalaryChangeBonusResponse &&
-                            salaryChangeBonusResponseList.length == 0;
-                            else salaryChangeBonusResponseListCondition
-                          ">
+                          <ng-container *ngIf="isShimmerForSalaryChangeBonusResponse && salaryChangeBonusResponseList.length == 0; else salaryChangeBonusResponseListCondition">
                             <tbody>
                               <tr *ngFor="let item of [].constructor(10)">
                                 <td class="text-center">
@@ -1759,9 +1613,7 @@
                                   <td class="text-">
                                     <div class="dudct-type">
                                       <div class="dropdown pay-action-type">
-                                        <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button"
-                                          id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
-                                          style="
+                                        <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="
                                           text-align: left;
                                           background-color: white;
                                           color: black;
@@ -1772,8 +1624,7 @@
                                           action" }}
                                           <i class="bi bi-chevron-down"></i>
                                         </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"
-                                          style="width: 100%">
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%">
                                           <li *ngFor="
                                             let payActionType of payActionTypeList
                                           ">
@@ -1791,10 +1642,7 @@
                                     </div>
                                   </td>
                                   <td>
-                                    <input class="comment-input p-2" type="text" placeholder="Write the comment here"
-                                      [(ngModel)]="salaryChangeBonusResponse.comment"
-                                      (ngModelChange)="updateComment(salaryChangeBonusResponse, salaryChangeBonusResponse.comment)"
-                                      [ngModelOptions]="{standalone: true}" />
+                                    <input class="comment-input p-2" type="text" placeholder="Write the comment here" [(ngModel)]="salaryChangeBonusResponse.comment" (ngModelChange)="updateComment(salaryChangeBonusResponse, salaryChangeBonusResponse.comment)" [ngModelOptions]="{standalone: true}" />
                                   </td>
                                   <td class="text-start">
                                     <a>
@@ -1809,16 +1657,14 @@
                             <tbody>
                               <tr>
                                 <td colspan="8">
-                                  <div class="errorboxmain"
-                                    *ngIf="networkConnectionErrorPlaceHolderForSalaryChangeBonusResponse">
+                                  <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolderForSalaryChangeBonusResponse">
                                     <div class="errorboxinner text-center">
                                       <div class="errorboxplaceholder mb-2">
                                         <img src="assets/images/signal.svg" style="width: 100px" />
                                       </div>
                                       <div class="">
                                         <h4>Something went wrong</h4>
-                                        <p> An error occurred while processing your request. Please refresh the page and
-                                          try again. </p>
+                                        <p> An error occurred while processing your request. Please refresh the page and try again. </p>
                                       </div>
                                     </div>
                                   </div>
@@ -1848,6 +1694,7 @@
                         <!--end /table-->
                       </div>
                     </div>
+
                     <div class="tab-pane" id="step9">
                       <div class="table-responsive">
                         <table class="table border-dashed mb-0">
@@ -1860,8 +1707,7 @@
                               <th>PAY ACTION</th>
                             </tr>
                           </thead>
-                          <ng-container
-                            *ngIf="isShimmerForSalaryChangeOvertimeResponse && salaryChangeOvertimeResponseList.length == 0; else salaryChangeOvertimeResponseListCondition">
+                          <ng-container *ngIf="isShimmerForSalaryChangeOvertimeResponse && salaryChangeOvertimeResponseList.length == 0; else salaryChangeOvertimeResponseListCondition">
                             <tbody>
                               <tr *ngFor="let item of [].constructor(10)">
                                 <td class="text-center">
@@ -1900,14 +1746,7 @@
                               salaryChangeOvertimeResponseList.length != 0;
                               else errorWhileFetchingSalaryChangeOvertimeResponseListCondition
                             ">
-                              <tbody *ngFor="let salaryChangeOvertimeResponse of salaryChangeOvertimeResponseList
-                                  | paginate
-                                    : {
-                                        itemsPerPage: itemPerPage,
-                                        currentPage: pageNumber,
-                                        totalItems: total
-                                      }
-                              ">
+                              <tbody *ngFor="let salaryChangeOvertimeResponse of salaryChangeOvertimeResponseList | paginate : {itemsPerPage: itemPerPage, currentPage: pageNumber, totalItems: total}">
                                 <tr>
                                   <td>{{ salaryChangeOvertimeResponse.name }}</td>
                                   <td>{{ salaryChangeOvertimeResponse.email }}</td>
@@ -1915,32 +1754,23 @@
                                   <td>{{ salaryChangeOvertimeResponse.overtimeHour }}</td>
                                   <td class="text-">
                                     <div class="dudct-type">
-                                        <div class="dropdown pay-action-type">
-                                          <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button"
-                                              id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
-                                              style="
-                                              text-align: left;
+                                      <div class="dropdown pay-action-type">
+                                        <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" 
+                                              style="text-align: left;
                                               background-color: white;
                                               color: black;
                                               border-color: #ced4da;
-                                              width: 100%;">{{ getSelectedPayActionTypeName(salaryChangeOvertimeResponse) || "Select pay action" }} <i class="bi bi-chevron-down"></i>
-                                          </button>
-                                          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"
-                                              style="width: 100%">
-                                              <li *ngFor="
-                                                let payActionType of payActionTypeList
-                                                ">
-                                                <a class="dropdown-item" (click)="
-                                                    selectPayActionType(
-                                                    payActionType,
-                                                    salaryChangeOvertimeResponse
-                                                    )
-                                                    ">
-                                                {{ payActionType.name }}
-                                                </a>
-                                              </li>
-                                          </ul>
-                                        </div>
+                                              width: 100%;">{{ getSelectedPayActionTypeName(salaryChangeOvertimeResponse) || "Select pay action" }}
+                                          <i class="bi bi-chevron-down"></i>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%">
+                                          <li *ngFor="let payActionType of payActionTypeList">
+                                            <a class="dropdown-item" (click)="selectPayActionType(payActionType, salaryChangeOvertimeResponse)">
+                                              {{ payActionType.name }}
+                                            </a>
+                                          </li>
+                                        </ul>
+                                      </div>
                                     </div>
                                   </td>
                                 </tr>
@@ -1960,8 +1790,7 @@
                                       </div>
                                       <div class="">
                                         <h4>Something went wrong</h4>
-                                        <p> An error occurred while processing your request. Please refresh the page and
-                                          try again. </p>
+                                        <p> An error occurred while processing your request. Please refresh the page and try again. </p>
                                       </div>
                                     </div>
                                   </div>
@@ -2002,19 +1831,16 @@
             <!--end modal-content-->
             <div class="modal-footer report-footer d-flex align-items-center justify-content-between border-top">
               <!-- Pagination -->
-              <div class="pagination pl-3 align-items-center justify-content-between"
-                *ngIf="(total > itemPerPage - 1 || (pageNumber === lastPageNumber && lastPageNumber !== 1)) && 
+              <div class="pagination pl-3 align-items-center justify-content-between" *ngIf="(total > itemPerPage - 1 || (pageNumber === lastPageNumber && lastPageNumber !== 1)) && 
                 ((CURRENT_TAB == SALARY_CHANGE && !dataNotFoundPlaceholderForSalaryChangeResponse && !networkConnectionErrorPlaceHolderForSalaryChangeResponse) || 
                  (CURRENT_TAB == BONUS && !dataNotFoundPlaceholderForSalaryChangeBonusResponse && !networkConnectionErrorPlaceHolderForSalaryChangeBonusResponse) || 
                  (CURRENT_TAB == OVERTIME && !dataNotFoundPlaceholderForSalaryChangeOvertimeResponse && !networkConnectionErrorPlaceHolderForSalaryChangeOvertimeResponse))">
-                <p style="padding-left: 15px"> Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total
-                  }} employees </p>
+                <p style="padding-left: 15px"> Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} employees </p>
                 <div>
                   <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-end">
                       <li class="page-item" [class.disabled]="pageNumber == 1">
-                        <a class="page-link" href="javascript:void(0);" aria-label="Previous"
-                          (click)="changePage('prev', CURRENT_TAB)">
+                        <a class="page-link" href="javascript:void(0);" aria-label="Previous" (click)="changePage('prev', CURRENT_TAB)">
                           <span aria-hidden="true">&laquo;</span>
                         </a>
                       </li>
@@ -2023,8 +1849,7 @@
                           }}</a>
                       </li>
                       <li class="page-item" [class.disabled]="pageNumber == totalPages">
-                        <a class="page-link" href="javascript:void(0);" aria-label="Next"
-                          (click)="changePage('next', CURRENT_TAB)">
+                        <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changePage('next', CURRENT_TAB)">
                           <span aria-hidden="true">&raquo;</span>
                         </a>
                       </li>
@@ -2039,27 +1864,20 @@
         <!--end modal-->
       </div>
       <!-- EPF, ESI & TDS -->
-      <div class="modal fade" id="epf_esi_tds" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel"
-        aria-hidden="true">
+      <div class="modal fade" id="epf_esi_tds" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
         <div class="modal-dialog modal-fullscreen" role="document">
           <div class="modal-content">
             <div class="modal-header" style="background-color: #fff">
               <h5 class="modal-title m-0" style="color: #111; font-size: 18px" id="exampleModalDefaultLabel">
-                <div class="back-btns-box" style="cursor: pointer;" data-bs-dismiss="modal" aria-label="Close"
-                  #epfEsiTdsModal>
+                <div class="back-btns-box" style="cursor: pointer;" data-bs-dismiss="modal" aria-label="Close" #epfEsiTdsModal>
                   <i class="bi bi-chevron-left"></i>
                   <span class="font-16 pt-2 pl-2">EPF, ESI & TDS (OVERRIDE)</span>
                 </div>
               </h5>
               <div class="button-items">
-                <button type="button" class="btn btn-light btn-round" (click)="epfEsiTdsBackTab()"
-                  *ngIf="CURRENT_TAB_IN_EPF_ESI_TDS != EPF"> BACK </button>
-                <button type="button" class="btn btn-primary btn-round"
-                  (click)="registerEpfEsiTdsMethodCall(CURRENT_TAB_IN_EPF_ESI_TDS)"
-                  *ngIf="CURRENT_TAB_IN_EPF_ESI_TDS != TDS"> SAVE & CONTINUE </button>
-                <button type="button" class="btn btn-primary btn-round"
-                  (click)="registerEpfEsiTdsMethodCall(CURRENT_TAB_IN_EPF_ESI_TDS)"
-                  *ngIf="CURRENT_TAB_IN_EPF_ESI_TDS == TDS"> MARK AS COMPLETE </button>
+                <button type="button" class="btn btn-light btn-round" (click)="epfEsiTdsBackTab()" *ngIf="CURRENT_TAB_IN_EPF_ESI_TDS != EPF"> BACK </button>
+                <button type="button" class="btn btn-primary btn-round" (click)="registerEpfEsiTdsMethodCall(CURRENT_TAB_IN_EPF_ESI_TDS)" *ngIf="CURRENT_TAB_IN_EPF_ESI_TDS != TDS"> SAVE & CONTINUE </button>
+                <button type="button" class="btn btn-primary btn-round" (click)="registerEpfEsiTdsMethodCall(CURRENT_TAB_IN_EPF_ESI_TDS)" *ngIf="CURRENT_TAB_IN_EPF_ESI_TDS == TDS"> MARK AS COMPLETE </button>
               </div>
             </div>
             <!--end modal-header-->
@@ -2093,8 +1911,7 @@
                               <!-- <th>ACTION</th> -->
                             </tr>
                           </thead>
-                          <ng-container
-                            *ngIf="isShimmerForEpfDetailsResponse && epfDetailsResponseList.length == 0; else epfDetailsResponseListCondition">
+                          <ng-container *ngIf="isShimmerForEpfDetailsResponse && epfDetailsResponseList.length == 0; else epfDetailsResponseListCondition">
                             <tbody>
                               <tr *ngFor="let item of [].constructor(10)">
                                 <td class="text-center">
@@ -2128,8 +1945,7 @@
                             </tbody>
                           </ng-container>
                           <ng-template #epfDetailsResponseListCondition>
-                            <ng-container
-                              *ngIf="!isShimmerForEpfDetailsResponse && epfDetailsResponseList.length != 0; else errorInFetchingEpfDetailsResponseListCondition">
+                            <ng-container *ngIf="!isShimmerForEpfDetailsResponse && epfDetailsResponseList.length != 0; else errorInFetchingEpfDetailsResponseListCondition">
                               <tbody *ngFor="let epfDetailsResponse of epfDetailsResponseList
                                 | paginate
                                   : {
@@ -2142,11 +1958,7 @@
                                   <td>{{ epfDetailsResponse.email }}</td>
                                   <td>{{ epfDetailsResponse.amount }}</td>
                                   <td>
-                                    <input class="comment-input p-2" type="number"
-                                      placeholder="Enter the new amount here"
-                                      [(ngModel)]="epfDetailsResponse.amountToBeAdjusted"
-                                      (ngModelChange)="updateFinalAmount(epfDetailsResponse)"
-                                      [ngModelOptions]="{ standalone: true }" />
+                                    <input class="comment-input p-2" type="number" placeholder="Enter the new amount here" [(ngModel)]="epfDetailsResponse.amountToBeAdjusted" (ngModelChange)="updateFinalAmount(epfDetailsResponse)" [ngModelOptions]="{ standalone: true }" />
                                   </td>
                                   <td>{{ epfDetailsResponse.finalAmount }}</td>
                                   <!-- <td class="text-start"><a><i class="bi bi-pencil-square"></i></a></td> -->
@@ -2158,16 +1970,14 @@
                             <tbody>
                               <tr>
                                 <td colspan="8">
-                                  <div class="errorboxmain"
-                                    *ngIf="networkConnectionErrorPlaceHolderForEpfDetailsResponse">
+                                  <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolderForEpfDetailsResponse">
                                     <div class="errorboxinner text-center">
                                       <div class="errorboxplaceholder mb-2">
                                         <img src="assets/images/signal.svg" style="width: 100px" />
                                       </div>
                                       <div class="">
                                         <h4>Something went wrong</h4>
-                                        <p> An error occurred while processing your request. Please refresh the page and
-                                          try again. </p>
+                                        <p> An error occurred while processing your request. Please refresh the page and try again. </p>
                                       </div>
                                     </div>
                                   </div>
@@ -2210,8 +2020,7 @@
                               <!-- <th>ACTION</th> -->
                             </tr>
                           </thead>
-                          <ng-container
-                            *ngIf="isShimmerForEsiDetailsResponse && esiDetailsResponseList.length == 0; else esiDetailsResponseListCondition">
+                          <ng-container *ngIf="isShimmerForEsiDetailsResponse && esiDetailsResponseList.length == 0; else esiDetailsResponseListCondition">
                             <tbody>
                               <tr *ngFor="let item of [].constructor(10)">
                                 <td class="text-center">
@@ -2245,8 +2054,7 @@
                             </tbody>
                           </ng-container>
                           <ng-template #esiDetailsResponseListCondition>
-                            <ng-container
-                              *ngIf="!isShimmerForEsiDetailsResponse && esiDetailsResponseList.length != 0; else errorInFetchingEsiDetailsResponseListCondition">
+                            <ng-container *ngIf="!isShimmerForEsiDetailsResponse && esiDetailsResponseList.length != 0; else errorInFetchingEsiDetailsResponseListCondition">
                               <tbody *ngFor="let esiDetailsResponse of esiDetailsResponseList
                                 | paginate
                                   : {
@@ -2259,11 +2067,7 @@
                                   <td>{{ esiDetailsResponse.email }}</td>
                                   <td>{{ esiDetailsResponse.amount }}</td>
                                   <td>
-                                    <input class="comment-input p-2" type="number"
-                                      placeholder="Enter the new amount here"
-                                      [(ngModel)]="esiDetailsResponse.amountToBeAdjusted"
-                                      (ngModelChange)="updateFinalAmount(esiDetailsResponse)"
-                                      [ngModelOptions]="{ standalone: true }" />
+                                    <input class="comment-input p-2" type="number" placeholder="Enter the new amount here" [(ngModel)]="esiDetailsResponse.amountToBeAdjusted" (ngModelChange)="updateFinalAmount(esiDetailsResponse)" [ngModelOptions]="{ standalone: true }" />
                                   </td>
                                   <td>{{ esiDetailsResponse.finalAmount }}</td>
                                   <!-- <td class="text-start"><a><i class="bi bi-pencil-square"></i></a></td> -->
@@ -2275,16 +2079,14 @@
                             <tbody>
                               <tr>
                                 <td colspan="8">
-                                  <div class="errorboxmain"
-                                    *ngIf="networkConnectionErrorPlaceHolderForEsiDetailsResponse">
+                                  <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolderForEsiDetailsResponse">
                                     <div class="errorboxinner text-center">
                                       <div class="errorboxplaceholder mb-2">
                                         <img src="assets/images/signal.svg" style="width: 100px" />
                                       </div>
                                       <div class="">
                                         <h4>Something went wrong</h4>
-                                        <p> An error occurred while processing your request. Please refresh the page and
-                                          try again. </p>
+                                        <p> An error occurred while processing your request. Please refresh the page and try again. </p>
                                       </div>
                                     </div>
                                   </div>
@@ -2327,8 +2129,7 @@
                               <!-- <th>ACTION</th> -->
                             </tr>
                           </thead>
-                          <ng-container
-                            *ngIf="isShimmerForTdsDetailsResponse && tdsDetailsResponseList.length == 0; else tdsDetailsResponseListCondition">
+                          <ng-container *ngIf="isShimmerForTdsDetailsResponse && tdsDetailsResponseList.length == 0; else tdsDetailsResponseListCondition">
                             <tbody>
                               <tr *ngFor="let item of [].constructor(10)">
                                 <td class="text-center">
@@ -2362,8 +2163,7 @@
                             </tbody>
                           </ng-container>
                           <ng-template #tdsDetailsResponseListCondition>
-                            <ng-container
-                              *ngIf="!isShimmerForTdsDetailsResponse && tdsDetailsResponseList.length != 0; else errorInFetchingTdsDetailsResponseListCondition">
+                            <ng-container *ngIf="!isShimmerForTdsDetailsResponse && tdsDetailsResponseList.length != 0; else errorInFetchingTdsDetailsResponseListCondition">
                               <tbody *ngFor="let tdsDetailsResponse of tdsDetailsResponseList
                                 | paginate
                                   : {
@@ -2376,11 +2176,7 @@
                                   <td>{{ tdsDetailsResponse.email }}</td>
                                   <td>{{ tdsDetailsResponse.amount }}</td>
                                   <td>
-                                    <input class="comment-input p-2" type="number"
-                                      placeholder="Enter the new amount here"
-                                      [(ngModel)]="tdsDetailsResponse.amountToBeAdjusted"
-                                      (ngModelChange)="updateFinalAmount(tdsDetailsResponse)"
-                                      [ngModelOptions]="{ standalone: true }" />
+                                    <input class="comment-input p-2" type="number" placeholder="Enter the new amount here" [(ngModel)]="tdsDetailsResponse.amountToBeAdjusted" (ngModelChange)="updateFinalAmount(tdsDetailsResponse)" [ngModelOptions]="{ standalone: true }" />
                                   </td>
                                   <td>{{ tdsDetailsResponse.finalAmount }}</td>
                                   <!-- <td class="text-start"><a><i class="bi bi-pencil-square"></i></a></td> -->
@@ -2392,16 +2188,14 @@
                             <tbody>
                               <tr>
                                 <td colspan="8">
-                                  <div class="errorboxmain"
-                                    *ngIf="networkConnectionErrorPlaceHolderForTdsDetailsResponse">
+                                  <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceHolderForTdsDetailsResponse">
                                     <div class="errorboxinner text-center">
                                       <div class="errorboxplaceholder mb-2">
                                         <img src="assets/images/signal.svg" style="width: 100px" />
                                       </div>
                                       <div class="">
                                         <h4>Something went wrong</h4>
-                                        <p> An error occurred while processing your request. Please refresh the page and
-                                          try again. </p>
+                                        <p> An error occurred while processing your request. Please refresh the page and try again. </p>
                                       </div>
                                     </div>
                                   </div>
@@ -2442,19 +2236,16 @@
             <!--end modal-content-->
             <div class="modal-footer report-footer d-flex align-items-center justify-content-between border-top">
               <!-- Pagination -->
-              <div class="pagination pl-3 align-items-center justify-content-between"
-                *ngIf="(total > itemPerPage - 1 || (pageNumber === lastPageNumber && lastPageNumber !== 1)) && 
+              <div class="pagination pl-3 align-items-center justify-content-between" *ngIf="(total > itemPerPage - 1 || (pageNumber === lastPageNumber && lastPageNumber !== 1)) && 
                 ((CURRENT_TAB == EPF && !dataNotFoundPlaceholderForEpfDetailsResponse && !networkConnectionErrorPlaceHolderForEpfDetailsResponse) || 
                  (CURRENT_TAB == ESI && !dataNotFoundPlaceholderForEsiDetailsResponse && !networkConnectionErrorPlaceHolderForEsiDetailsResponse) || 
                  (CURRENT_TAB == TDS && !dataNotFoundPlaceholderForTdsDetailsResponse && !networkConnectionErrorPlaceHolderForTdsDetailsResponse))">
-                <p style="padding-left: 15px"> Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }}
-                  employees </p>
+                <p style="padding-left: 15px"> Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} employees </p>
                 <div>
                   <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-end">
                       <li class="page-item" [class.disabled]="pageNumber == 1">
-                        <a class="page-link" href="javascript:void(0);" aria-label="Previous"
-                          (click)="changePage('prev', CURRENT_TAB)">
+                        <a class="page-link" href="javascript:void(0);" aria-label="Previous" (click)="changePage('prev', CURRENT_TAB)">
                           <span aria-hidden="true">&laquo;</span>
                         </a>
                       </li>
@@ -2463,8 +2254,7 @@
                           }}</a>
                       </li>
                       <li class="page-item" [class.disabled]="pageNumber == totalPages">
-                        <a class="page-link" href="javascript:void(0);" aria-label="Next"
-                          (click)="changePage('next', CURRENT_TAB)">
+                        <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changePage('next', CURRENT_TAB)">
                           <span aria-hidden="true">&raquo;</span>
                         </a>
                       </li>
@@ -2478,14 +2268,12 @@
         </div>
         <!--end modal-->
       </div>
-      <div class="modal fade" id="adjustLop" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
-        aria-hidden="true" data-bs-backdrop="static">
+      <div class="modal fade" id="adjustLop" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
               <h6 class="modal-title m-0" id="exampleModalDefaultLabel"> Adjust LOP with remaining Leave quota </h6>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="modal"
-                data-bs-target="#leaves" #closeLopAdjustmentRequestModal></button>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="modal" data-bs-target="#leaves" #closeLopAdjustmentRequestModal></button>
             </div>
             <div class="modal-body">
               <div class="row">
@@ -2493,16 +2281,14 @@
                 <div class="col-md-12">
                   <div class="mb-3">
                     <label for="exampleInputEmail1" class="pb-2">LOP days count to be adjusted</label>
-                    <input id="count-input" class="comment-input p-2" type="number" placeholder="Days count"
-                      [(ngModel)]="lopAdjustmentRequest.lopDaysToBeAdjusted" readonly />
+                    <input id="count-input" class="comment-input p-2" type="number" placeholder="Days count" [(ngModel)]="lopAdjustmentRequest.lopDaysToBeAdjusted" readonly />
                   </div>
                 </div>
                 <div class="col-md-12">
                   <div class="mb-3">
                     <label for="exampleInputEmail1" class="pb-2">Leave Type</label>
                     <div class="dropdown" style="width: 100%">
-                      <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button"
-                        id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="
+                      <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="
                           background-color: white;
                           color: black;
                           border-color: #ced4da;
@@ -2514,8 +2300,7 @@
                       </button>
                       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%">
                         <li *ngFor="let leaveTypeResponse of leaveTypeResponseList">
-                          <a class="dropdown-item" (click)="selectLeaveType(leaveTypeResponse)">{{
-                            leaveTypeResponse.name }}</a>
+                          <a class="dropdown-item" (click)="selectLeaveType(leaveTypeResponse)">{{ leaveTypeResponse.name }}</a>
                         </li>
                       </ul>
                     </div>
@@ -2523,19 +2308,15 @@
                 </div>
                 <div class="col-md-12">
                   <div class="mb-3">
-                    <label for="exampleInputEmail1" class="pb-2">Select a date where it should be reflected as
-                      leave</label>
-                    <nz-range-picker [(ngModel)]="dateRange" (ngModelChange)="selectDateForLopAdjustmentRequest($event)"
-                      [nzSize]="size"></nz-range-picker>
+                    <label for="exampleInputEmail1" class="pb-2">Select a date where it should be reflected as leave</label>
+                    <nz-range-picker [(ngModel)]="dateRange" (ngModelChange)="selectDateForLopAdjustmentRequest($event)" [nzSize]="size"></nz-range-picker>
                   </div>
                 </div>
               </div>
             </div>
             <div class="modal-footer d-flex align-items-center justify-content-end">
-              <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" data-bs-toggle="modal"
-                data-bs-target="#leaves"> Cancel </button>
-              <button type="button" class="btn btn-primary"
-                (click)="registerLopAdjustmentRequestMethodCall()">Save</button>
+              <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#leaves"> Cancel </button>
+              <button type="button" class="btn btn-primary" (click)="registerLopAdjustmentRequestMethodCall()">Save</button>
             </div>
           </div>
         </div>
@@ -2547,16 +2328,14 @@
   </div>
 </div>
 <!-- Button to trigger modal -->
-<button type="button" style="display: none" id="leaveLogsModalButton" #leaveLogsModalButton data-bs-toggle="modal"
-  data-bs-target="#leaveLogsModal"></button>
+<button type="button" style="display: none" id="leaveLogsModalButton" #leaveLogsModalButton data-bs-toggle="modal" data-bs-target="#leaveLogsModal"></button>
 <!-- Modal -->
 <div class="modal fade" id="leaveLogsModal" tabindex="-1" aria-labelledby="leaveLogsModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="leaveLogsModalLabel">Pending Leave Logs</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="modal"
-          data-bs-target="#leaves" (click)="leavesTab()"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="modal" data-bs-target="#leaves" (click)="leavesTab()"></button>
       </div>
       <div class="modal-body">
         <div class="row" *ngIf="userLeaveLogs != undefined && userLeaveLogs.length == 0">
@@ -2566,10 +2345,8 @@
         </div>
         <div class="row mt-2" *ngFor="let ul of userLeaveLogs">
           <div class="col-2">
-            <img *ngIf="ul.image" [src]="ul.image" alt="" class="thumb-md rounded-circle"
-              style="width: 50px; height: 50px" />
-            <img *ngIf="!ul.image" src="assets/images/user.png" alt="" class="thumb-md rounded-circle"
-              style="width: 50px; height: 50px" />
+            <img *ngIf="ul.image" [src]="ul.image" alt="" class="thumb-md rounded-circle" style="width: 50px; height: 50px" />
+            <img *ngIf="!ul.image" src="assets/images/user.png" alt="" class="thumb-md rounded-circle" style="width: 50px; height: 50px" />
           </div>
           <div class="col-10">
             <h5>{{ ul.name }}</h5>
@@ -2579,15 +2356,13 @@
             <p>Notes: {{ ul.notes }}</p>
             <p>Leave Type: {{ ul.leaveType }}</p>
             <p>Manager: {{ ul.managerName }}</p>
-            <button type="button" class="btn btn-success me-2"
-              (click)="approveOrDeny(ul.id, 'approved')">Approve</button>
+            <button type="button" class="btn btn-success me-2" (click)="approveOrDeny(ul.id, 'approved')">Approve</button>
             <button type="button" class="btn btn-danger" (click)="approveOrDeny(ul.id, 'rejected')">Reject</button>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-toggle="modal"
-          data-bs-target="#leaves" (click)="leavesTab()">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#leaves" (click)="leavesTab()">Close</button>
       </div>
     </div>
   </div>

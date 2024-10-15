@@ -3482,32 +3482,38 @@ closeAttendanceFunc() {
   
   // Requesting for overtime
   dateRange : Date[] = [];
-  
   // Validation error message
   validationError: string | null = null;
   selectTimeForOvertimeRequest(dates: Array<Date | null> | Date | Date[] | null): void {
     this.validationError = null; // Reset validation error message
-
+  
     if (Array.isArray(dates) && dates.length === 2) {
       const startTime = dates[0] ? new Date(dates[0]) : null;
       const endTime = dates[1] ? new Date(dates[1]) : null;
-
+  
       if (startTime && endTime) {
-        const duration = this.helperService.durationBetweenTwoDatesInHHmmssFormat(endTime, startTime);
-
-        // Ensure the duration is within 23:59:59
-        if (duration && duration <= '23:59:59') {
-          this.overtimeRequestDTO.startTime = startTime;
-          this.overtimeRequestDTO.endTime = endTime;
-          this.overtimeRequestDTO.workingHour = duration;
-        } else {
-          // Show error message on the front-end
+        // Check if end time is before start time
+        if (endTime < startTime) {
+          this.validationError = 'End time cannot be earlier than start time.';
+          this.overtimeRequestDTO.workingHour = null;
+          return; // Exit early if the validation fails
+        }
+  
+        // Calculate the time difference
+        const durationMs = endTime.getTime() - startTime.getTime();
+        const durationInHours = durationMs / (1000 * 60 * 60); // Convert milliseconds to hours
+  
+        // Check if the duration exceeds 23 hours 59 minutes
+        if (durationInHours > 23.9833) { // 23.9833 hours is 23 hours 59 minutes
           this.validationError = 'The duration cannot exceed 23 hours, 59 minutes.';
           this.overtimeRequestDTO.workingHour = null;
+        } else {
+          // Valid duration
+          const formattedDuration = this.helperService.durationBetweenTwoDatesInHHmmssFormat(endTime, startTime);
+          this.overtimeRequestDTO.startTime = startTime;
+          this.overtimeRequestDTO.endTime = endTime;
+          this.overtimeRequestDTO.workingHour = formattedDuration;
         }
-      } else {
-        // Invalid date range
-        this.validationError = null;
       }
     } else if (dates === null) {
       // Handle null case (clearing the date range)
@@ -3516,18 +3522,19 @@ closeAttendanceFunc() {
       this.overtimeRequestDTO.workingHour = '';
     }
   }
+  
 
 
-  // Disable inappropriate dates based on the start date
-  disabledDateForOvertimeRequest = (current: Date): boolean => {
-    if (this.dateRange && this.dateRange[0]) {
-      const nextValidDate = new Date(this.dateRange[0]); // Clone the start date
-      nextValidDate.setDate(nextValidDate.getDate() + 1); // Set the next valid date to the day after the start date
+  // // Disable inappropriate dates based on the start date
+  // disabledDateForOvertimeRequest = (current: Date): boolean => {
+  //   if (this.dateRange && this.dateRange[0]) {
+  //     const nextValidDate = new Date(this.dateRange[0]); // Clone the start date
+  //     nextValidDate.setDate(nextValidDate.getDate() + 1); // Set the next valid date to the day after the start date
 
-      return current && current < nextValidDate; // Compare both as Date objects
-    }
-    return false; // No date is disabled if no start date is selected
-  };
+  //     return current && current < nextValidDate; // Compare both as Date objects
+  //   }
+  //   return false; // No date is disabled if no start date is selected
+  // };
   
 
   overtimeRequestLoader : boolean = false;
@@ -3553,6 +3560,7 @@ closeAttendanceFunc() {
     this.overtimeRequestDTO = new OvertimeRequestDTO();
     this.overtimeRequestDTO.startTime = null;
     this.overtimeRequestDTO.endTime = null;
+    this.dateRange = [];
   }
   
 
