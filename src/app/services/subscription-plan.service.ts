@@ -17,7 +17,7 @@ export class SubscriptionPlanService {
   }
 
 
-  isTrial!:boolean;
+  isTrial:boolean=false;
   planName:string='';
   month:number=0;
   getOrganizationSubsPlanDetail() {
