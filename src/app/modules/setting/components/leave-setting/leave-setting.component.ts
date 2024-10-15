@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { error } from 'console';
+import { th } from 'date-fns/locale';
 import * as _ from 'lodash';
 import { template } from 'lodash';
 import * as moment from 'moment';
@@ -650,6 +651,7 @@ export class LeaveSettingComponent implements OnInit {
     this.searchUserPlaceholderFlag = false;
     this.searchText = '';
     this.isSubmitted = false;
+    this.isCustomDateRange = false;
     // this.getUserByFiltersMethodCall(this.idOfLeaveSetting); 
     this.showAllUser();
     this.crossFlag = false;
@@ -1090,9 +1092,11 @@ export class LeaveSettingComponent implements OnInit {
   getLeaveSettingInformationById(leaveSettingId: number, flag: boolean): void {
     debugger
 
+    this.templateSettingTab2.nativeElement.click();
     this.updateToggle = true;
     this.leaveTempId = leaveSettingId;
     this.selectedStaffIdsUser = []
+    this.isCustomDateRange = false;
 
     this.getYearTypeListMethodCall();
 
@@ -1131,7 +1135,11 @@ export class LeaveSettingComponent implements OnInit {
           if (yearType) {
             this.leaveTemplateRequest.yearTypeName = yearType.name;
             // console.log("Year Type Name:", this.leaveTemplateRequest.yearTypeName);
-        }
+            }
+
+            if(response.leaveTemplate.fiscalYearId == 3){
+              this.isCustomDateRange = true;
+          }
         },200)
 
 
@@ -1200,6 +1208,7 @@ export class LeaveSettingComponent implements OnInit {
     // this.templateSettingTab2.nativeElement.click();
 
     this.idOfLeaveSetting = 0;
+    this.displayedCategories = []
     this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
     this.staffsUser = [];
     this.totalUser = 0;
@@ -2209,7 +2218,7 @@ export class LeaveSettingComponent implements OnInit {
 
   dateRange: Date[] = [];
   size: 'large' | 'small' | 'default' = 'small';
-  selectDateForLeaveTemplateRequest1(yearTypeName: string) {
+  selectDateForLeaveTemplateRequest1(yearTypeName: string, index: number) {
 
     debugger
 
@@ -2224,6 +2233,9 @@ export class LeaveSettingComponent implements OnInit {
     this.leaveTemplateRequest.yearTypeName = yearTypeName;
     this.leaveTemplateRequest.startDate = this.helperService.formatDateToYYYYMMDD(this.dateRange[0]);
     this.leaveTemplateRequest.endDate = this.helperService.formatDateToYYYYMMDD(this.dateRange[1]);
+  
+    console.log("index: ",index)
+  
   }
 
   //amit code
@@ -2249,6 +2261,12 @@ export class LeaveSettingComponent implements OnInit {
       this.leaveTemplateRequest.endDate = '';
     }
 
+    var yearType = this.yearTypeList.find(item => item.name === yearTypeName);
+        
+    if (yearType) {
+      this.leaveTemplateRequest.fiscalYearId = yearType.id;
+      }
+    // console.log("fiscalYearId: ",this.leaveTemplateRequest.fiscalYearId)
     // this.leaveTemplateRequest.yearTypeName = yearTypeName;
   }
 
