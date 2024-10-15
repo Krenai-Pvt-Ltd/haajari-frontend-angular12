@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ErrorPageComponent } from './modules/common/error-page/error-page.component';
+import { SubscriptionEndedComponent } from './modules/common/subscription-ended/subscription-ended.component';
 
 const routes: Routes = [
   // { path: '', redirectTo: '/login', pathMatch:'full'},
@@ -53,6 +54,8 @@ const routes: Routes = [
         (m) => m.AuthenticationModule
       ),
   },
+  { path: 'subscription-ended', component: SubscriptionEndedComponent },
+
   { path: '**', component: ErrorPageComponent },
 ];
 
