@@ -300,7 +300,7 @@
         </table>
   </div>
 
-  <div class="onboarding-deta">
+  <div class="onboarding-deta" *ngIf="this.dataService.isRoutePresent('/emergency-contact')">
       <table class="table mb-0">
           <tr style="background-color: #f1f1f1;">
                 <td>
