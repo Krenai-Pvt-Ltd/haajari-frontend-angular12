@@ -641,6 +641,7 @@ export class LeaveSettingComponent implements OnInit {
     this.pageNumber =1
     this.searchUserPlaceholderFlag = false;
     this.searchText = '';
+    this.isSubmitted = false;
     // this.getUserByFiltersMethodCall(this.idOfLeaveSetting); now
     this.showAllUser();
     this.crossFlag = false;
@@ -1194,6 +1195,7 @@ export class LeaveSettingComponent implements OnInit {
   emptyAddLeaveSettingRule() {
     debugger;
     this.updateToggle = false;
+    // this.isSubmitted = false;
     // this.templateSettingTab2.nativeElement.click();
 
     this.idOfLeaveSetting = 0;
@@ -2288,6 +2290,7 @@ export class LeaveSettingComponent implements OnInit {
     this.getAllEmployeeType();
     this.loadGenders();
     this.loadAccrualType();
+    this.getOrganizationName();
 
     this.filteredLeaveCategories = []
     this.leaveCategories1 = []
@@ -2571,6 +2574,20 @@ export class LeaveSettingComponent implements OnInit {
     this.showMappedUserToggle = false;
     this.selectedUserIds = []
     this.getUserByFiltersMethodCall(0);
+  }
+
+  organizationName: string =''
+  getOrganizationName(){
+    this.dataService.getOrganizationName().subscribe((res: any)=> {
+      
+      if(res.status){
+        this.organizationName = res.object;
+        this.leaveTemplateRequest.name = this.organizationName +" Leave"
+      }else{
+        this.organizationName = '';
+      }
+
+    })
   }
 
 }
