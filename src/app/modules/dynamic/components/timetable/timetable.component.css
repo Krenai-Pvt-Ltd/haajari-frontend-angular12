@@ -1493,3 +1493,6 @@ span.leave-rejected {
   line-height: 18px;
   font-weight: 500;
 }
+::ng-deep.ant-picker {
+  background-color: transparent !important;
+}

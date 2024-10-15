@@ -26,13 +26,13 @@ export class AuthGuard implements CanActivate {
   ) {
     this.PLAN_PURCHASED = _subscriptionPlanService
   }
-  step:number=0;
+  step!: number;
   UUID: any;
   ROLE: any;
   ONBOARDING_STEP: any;
   PLAN_PURCHASED: any;
   async ngOnInit(): Promise<void> {
-    
+
   }
 
   async canActivate(
@@ -50,25 +50,40 @@ export class AuthGuard implements CanActivate {
     this.UUID = await this.rbacService.getUUID();
     this.ROLE = await this.rbacService.getRole();
     this.PLAN_PURCHASED =
-    this.ONBOARDING_STEP = await this.rbacService.getOnboardingStep();
+      this.ONBOARDING_STEP = await this.rbacService.getOnboardingStep();
 
+      console.log("this.dataService.step",this.dataService.step);
+      if(this.dataService.step){
+        this.step=this.dataService.step;
+        if (this.step < 5) {
+          this.router.navigate(['/organization-onboarding/personal-information']);
+          return false;
+        }
+      }
+   else if (!this.step) {
+      await this.isOnboardingCompleted();
 
-    await this.isOnboardingCompleted();
-    if (this.step < 5) {
-      this.router.navigate(['/organization-onboarding/personal-information']);
+      if (this.step < 5) {
+        this.router.navigate(['/organization-onboarding/personal-information']);
+        return false;
+      }
+    }
+    if(this.dataService.isToDoStepCompleted){
+      this.isToDoStepsCompleted=this.dataService.isToDoStepCompleted;
+    }
+    else  if (!this.isToDoStepsCompleted) {
+      await this.isToDoStepsCompletedData();
+
+    }
+
+    if (this.ROLE == 'ADMIN' && this.isToDoStepsCompleted == 0 && route!.routeConfig!.path == 'dashboard') {
+      this.router.navigate(['/to-do-step-dashboard']);
       return false;
     }
-    
-    await this.isToDoStepsCompletedData();
-
-   if(this.ROLE == 'ADMIN' && this.isToDoStepsCompleted == 0 && route!.routeConfig!.path == 'dashboard') {
-    this.router.navigate(['/to-do-step-dashboard']);
-    return false;
-   }
     await this.rbacService.isUserInfoInitializedMethod();
     if (route !== null && route.routeConfig !== null) {
       if (
-          !this.rbacService.shouldDisplay('dashboard') &&
+        !this.rbacService.shouldDisplay('dashboard') &&
         route.routeConfig.path == 'dashboard'
       ) {
         this.router.navigate(['/employee-profile'], {
@@ -180,34 +195,34 @@ export class AuthGuard implements CanActivate {
   // }
 
 
-  isToDoStepsCompleted : number = 0;
- isToDoStepsCompletedData(): Promise<any>  {
+  isToDoStepsCompleted !: number;
+  isToDoStepsCompletedData(): Promise<any> {
     return new Promise((resolve, reject) => {
       this.dataService.isToDoStepsCompleted().subscribe(
         (response) => {
           this.isToDoStepsCompleted = response.object;
           resolve(response);
         },
-          (error: any) => {
-            resolve(true);
-          }
-        );
+        (error: any) => {
+          resolve(true);
+        }
+      );
     });
   }
 
-  isOnboardingCompleted():Promise<any> {
+  isOnboardingCompleted(): Promise<any> {
     return new Promise((resolve, reject) => {
       this._onboardingService.getOrgOnboardingStep().subscribe((response: any) => {
         this.step = parseInt(response?.object?.step);
         resolve(response);
-        
-     },
-     (error: any) => {
-      resolve(true);
-    }
-     );
+
+      },
+        (error: any) => {
+          resolve(true);
+        }
+      );
     });
-    
+
 
   }
 }

@@ -5,27 +5,23 @@ import { HajiriPageLoaderComponent } from '../modules/common/hajiri-page-loader/
 import { TopbarComponent } from '../modules/common/topbar/topbar.component';
 import { NotifactionTostComponent } from '../modules/sharable/notifaction-toast/notifaction-toast.component';
 import { CommonToDoStepsComponent } from '../modules/common/common-to-do-steps/common-to-do-steps.component';
-
-
+import { HeaderComponent } from '../modules/common/header/header.component';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
 
 @NgModule({
   declarations: [
     CommonToDoStepsComponent,
     TopbarComponent,
     HajiriPageLoaderComponent,
-    NotifactionTostComponent
+    NotifactionTostComponent,
   ],
- 
-  imports: [
-    CommonModule,
-    NgbModule,
-    
-  ],
-  exports:[
+
+  imports: [CommonModule, NgbModule],
+  exports: [
     TopbarComponent,
     HajiriPageLoaderComponent,
     NotifactionTostComponent,
-    CommonToDoStepsComponent
+    CommonToDoStepsComponent,
   ],
 })
-export class SharedModule { } 
+export class SharedModule {}
