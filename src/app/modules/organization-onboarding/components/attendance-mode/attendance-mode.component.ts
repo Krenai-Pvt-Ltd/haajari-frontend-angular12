@@ -41,6 +41,7 @@ export class AttendanceModeComponent implements OnInit {
     this.getOrganizationAddressDetailMethodCall();
     this.getMasterAttendanceModeMethodCall();
     this.getAttendanceModeStep();
+    this.getFlexibleAttendanceMode();
   }
 
   routeToBilling() {
@@ -57,7 +58,7 @@ export class AttendanceModeComponent implements OnInit {
       this.updateAttendanceModeMethodCall(attendanceModeId);
     } else {
       this.updateAttendanceModeMethodCall(attendanceModeId);
-      this.updateMasterAttendanceModeMethodCall(1, 3);
+      // this.updateMasterAttendanceModeMethodCall(1, 3);
       // this.attendanceWithLocationButton.nativeElement.click();
       this.currentAttendanceModeId = attendanceModeId;
       this.currentLocation();
@@ -673,5 +674,56 @@ onSelect(event: any): void {
 //   this.organizationAddressDetail.radius = selectedValue;
 // }
 
+locationType: string = 'flexible'; 
+
+onLocationTypeChange() {
+  if (this.locationType === 'fixed') {
+    this.organizationAddressDetail.addressLine1 = '';
+    this.organizationAddressDetail.radius = '';
+    this.resetAddressDetailsModal();
+  }
+   
+}
+offFinishSetup : boolean = false;
+saveAttendaceFlexibleModeInfo() {
+  this.dataService.saveFlexibleAttendanceMode(this.locationType).subscribe((response) => {
+    if(this.locationType == 'fixed') {
+       this.updateMasterAttendanceModeMethodCall(1, 3);
+       this.offFinishSetup = true;
+    }else {
+      this.offFinishSetup = false;
+    }
+  }, (error) => {
+     console.log(error);
+  })
+}
+
+saveLocationInfo() {
+  if(this.locationType == 'flexible') {
+    this.saveAttendaceFlexibleModeInfo();
+  //  this.attendancewithlocationssButton.nativeElement.click();
+    this.getAttendanceModeMethodCall();
+          // this.toggle = false;
+    this.closeAddressModal.nativeElement.click();
+    // this.helperService.showToast(
+    //   'Attedance Mode updated successfully',
+    //   Key.TOAST_STATUS_SUCCESS);
+  }else if(this.locationType == 'fixed') {
+   this.saveAttendaceFlexibleModeInfo();
+   this.setOrganizationAddressDetailMethodCall();
+  }
+}
+
+getFlexibleAttendanceMode() {
+  this.dataService.getFlexibleAttendanceMode().subscribe((response) => {
+    if(response.object == true) {
+      this.locationType = 'flexible';
+    }else {
+      this.locationType = 'fixed';
+    }
+  },(error) =>{
+     console.log(error);
+  })
+}
 
 }

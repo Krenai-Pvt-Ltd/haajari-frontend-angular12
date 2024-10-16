@@ -4229,9 +4229,9 @@
                       <nz-range-picker 
                         [nzShowTime]="{ nzFormat: 'HH:mm' }" 
                         nzFormat="yyyy-MM-dd HH:mm" 
-                        [(ngModel)]="dateRange" 
+                        [(ngModel)]="dateRange"
+                        [ngModelOptions]="{standalone: true}"
                         required
-                        [nzDisabledDate]="disabledDateForOvertimeRequest"
                         (ngModelChange)="selectTimeForOvertimeRequest($event)"
                         (nzOnCalendarChange)="selectTimeForOvertimeRequest($event)"
                         (nzOnOk)="selectTimeForOvertimeRequest($event)">
@@ -4453,19 +4453,12 @@
                   <b>Holiday!</b>
                 </p>
               </div>
-              <div class="calenInfo d-block" *ngIf="
-                  userAttendanceDetailDateWise.status == 'On Leave' &&
-                  userAttendanceDetailDateWise.createdDate != endDateStr
-                ">
+              <div class="calenInfo d-block" *ngIf="userAttendanceDetailDateWise.status == 'On Leave' && userAttendanceDetailDateWise.createdDate != endDateStr">
                 <p>
                   <b>On Leave!</b>
                 </p>
               </div>
-              <div class="calenInfo d-block" *ngIf="
-                  (userAttendanceDetailDateWise.checkInTime == null ||
-                    userAttendanceDetailDateWise.checkInTime == undefined) &&
-                  userAttendanceDetailDateWise.createdDate == endDateStr
-                ">
+              <div class="calenInfo d-block" *ngIf="(userAttendanceDetailDateWise.checkInTime == null || userAttendanceDetailDateWise.checkInTime == undefined) && userAttendanceDetailDateWise.createdDate == endDateStr">
                 <p>
                   <b>Not Marked Yet :)</b>
                 </p>
