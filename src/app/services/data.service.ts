@@ -4178,6 +4178,11 @@ getHolidayForOrganization(date: string): Observable<any>{
   getSlackUserCount(){
     return this.httpClient.get<any>(`${this.baseUrl}/users/get-slack-user-count`, {});
   }
+
+  getOrganizationName(){
+    return this.httpClient.get<any>(`${this.baseUrl}/organization/name`);
+  }
+
 }
 
 

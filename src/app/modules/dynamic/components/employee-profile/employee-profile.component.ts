@@ -1141,6 +1141,10 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
       (res: any) => {
           this.userLeave = res.object;
 
+          if(this.userLeave == null){
+            this.userLeave = []
+          }
+
           console.log('All userLeave :', this.userLeave)
 
       });
