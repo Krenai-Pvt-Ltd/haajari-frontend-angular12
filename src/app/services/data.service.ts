@@ -4179,6 +4179,29 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/users/get-slack-user-count`, {});
   }
 
+  saveFlexibleAttendanceMode(requestType : string): Observable<any> {
+    const params = new HttpParams().set('requestType', requestType);
+    return this.httpClient.put<any>(
+      `${this.baseUrl}/attendance/mode/save-flexible-modes-info`,{}, {params}
+
+    );
+  }
+
+  getFlexibleAttendanceMode(): Observable<any> {
+    // const params = new HttpParams().set('requestType', requestType);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/attendance/mode/get-flexible-modes-info`,{}
+
+    );
+  }
+
+  getFlexibleAttendanceModeByUserUuid(userUuid: string): Observable<any> {
+    const params = new HttpParams().set('userUuid', userUuid);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/attendance/mode/get-flexible-modes-info-by-user-uuid`,{params}
+
+    );
+  }
   getOrganizationName(){
     return this.httpClient.get<any>(`${this.baseUrl}/organization/name`);
   }
