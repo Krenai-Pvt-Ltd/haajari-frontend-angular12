@@ -17,9 +17,9 @@
                           <!-- Aadhaar Card -->
                           <div class="col-md-6">
                             <div class="mb-3">
-                              <label for="aadhaarCardFile" class="pb-2">Aadhaar Card <span class="text-optional">*</span></label>
+                              <label for="aadhaarCardFile" class="pb-2">Aadhaar Card </label>
                               <div class="importfilebox">
-                                <input id="aadhaarCardFile" name="aadhaarCardFile" type="file" accept=".pdf, image/jpeg, image/jpg, image/png" class="input" (change)="onFileSelected($event, 'aadhaarCard')" #aadhaar="ngModel" [required]="isaadhaarCardRequired" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.aadhaarCard">
+                                <input id="aadhaarCardFile" name="aadhaarCardFile" type="file" accept=".pdf, image/jpeg, image/jpg, image/png" class="input" (change)="onFileSelected($event, 'aadhaarCard')" #aadhaar="ngModel" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.aadhaarCard">
                                 <label for="aadhaarCardFile">
                                   <!-- Loader for Aadhaar Card -->
                                   <div *ngIf="isUploadingAadhaarCard" class="loader d-flex align-items-center justify-content-center w-100" >
@@ -60,13 +60,13 @@
                           <!-- Pancard -->
                           <div class="col-md-6">
                             <div class="mb-3">
-                              <label for="pancardFile" class="pb-2">Pancard <span class="text-optional">*</span></label>
+                              <label for="pancardFile" class="pb-2">Pancard </label>
                               <div class="importfilebox">
                                 <input id="pancardFile" name="pancardFile" type="file"
                                 accept=".pdf, image/jpeg, image/jpg, image/png" class="input"
                                  (change)="onFileSelected($event, 'pancard')"
                                  (input)="onFileSelected($event, 'pancard')" #pancard="ngModel"
-                                  [required]="ispancardRequired" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.pancard">
+                                [(ngModel)]="userDocumentsDetailsRequest.userDocuments.pancard">
                                 <label for="pancardFile">
                                   <!-- Loader for Pancard -->
                                   <div *ngIf="isUploadingPancard" class="loader d-flex align-items-center justify-content-center w-100">
@@ -107,9 +107,9 @@
                           <!-- Highest Qualification Degree -->
                           <div class="col-md-6">
                             <div class="mb-3">
-                              <label for="highestQualificationDegreeFile" class="pb-2">Highest Qualification Degree <span class="text-optional">*</span></label>
+                              <label for="highestQualificationDegreeFile" class="pb-2">Highest Qualification Degree </label>
                               <div class="importfilebox">
-                                <input id="highestQualificationDegreeFile" name="highestQualificationDegreeFile" type="file" accept=".pdf, image/jpeg, image/jpg, image/png" class="input" (change)="onFileSelected($event, 'highestQualificationDegree')" #highestQualificationDegree="ngModel" [required]="isHighestQualificationDegreeRequired" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.highestQualificationDegree">
+                                <input id="highestQualificationDegreeFile" name="highestQualificationDegreeFile" type="file" accept=".pdf, image/jpeg, image/jpg, image/png" class="input" (change)="onFileSelected($event, 'highestQualificationDegree')" #highestQualificationDegree="ngModel" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.highestQualificationDegree">
                                 <label for="highestQualificationDegreeFile">
                                   <!-- Loader for Highest Qualification Degree -->
                                   <div *ngIf="isUploadingHighestQualificationDegree" class="loader d-flex align-items-center justify-content-center w-100">
