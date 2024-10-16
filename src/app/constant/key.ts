@@ -64,6 +64,7 @@ export class Key {
     '/payment/payroll-dashboard/leave-summary',
     '/to-do-step-dashboard',
     '/setting/subscription',
+    '/setting/onboarding-setting',
   ];
 
   public static TOPBAR_ROUTES = [
@@ -105,6 +106,7 @@ export class Key {
     '/payment/payment-history',
     '/payment/payroll-dashboard/leave-summary',
     '/setting/subscription',
+    '/setting/onboarding-setting',
     // '/to-do-step-dashboard',
   ];
 
@@ -219,10 +221,10 @@ export class Key {
   // base_url = 'http://localhost:8082/api/v2';
 
   /* ------------------  Staging urls ----------------*/
-  base_url = 'https://staging.hajiri.work/api/v2';
+  // base_url = 'https://staging.hajiri.work/api/v2';
 
   /* ------------------  Production urls ----------------*/
-  // base_url = 'https://production.hajiri.work/api/v2';
+  base_url = 'https://production.hajiri.work/api/v2';
 
   //subscription plan
   get_subscription = '/subcription-plan';

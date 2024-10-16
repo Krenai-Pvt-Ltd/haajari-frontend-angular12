@@ -52,6 +52,7 @@ export class AuthGuard implements CanActivate {
     this.PLAN_PURCHASED =
       this.ONBOARDING_STEP = await this.rbacService.getOnboardingStep();
 
+      console.log("this.dataService.step",this.dataService.step);
       if(this.dataService.step){
         this.step=this.dataService.step;
         if (this.step < 5) {
@@ -59,7 +60,7 @@ export class AuthGuard implements CanActivate {
           return false;
         }
       }
-    if (!this.step) {
+   else if (!this.step) {
       await this.isOnboardingCompleted();
 
       if (this.step < 5) {
@@ -70,7 +71,7 @@ export class AuthGuard implements CanActivate {
     if(this.dataService.isToDoStepCompleted){
       this.isToDoStepsCompleted=this.dataService.isToDoStepCompleted;
     }
-    if (!this.isToDoStepsCompleted) {
+    else  if (!this.isToDoStepsCompleted) {
       await this.isToDoStepsCompletedData();
 
     }

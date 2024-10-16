@@ -144,3 +144,56 @@ input[type="checkbox"] {
     opacity: 1;
   }
 }
+
+
+
+/* No Template found css*/
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f7f6;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  text-align: center;
+  width: 90%;
+  max-width: 600px;
+}
+
+.expired-message {
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  color: #e53935;
+  margin: 0 0 20px;
+}
+
+p {
+  color: #555;
+  line-height: 1.6;
+}
+
+.home-link {
+  display: inline-block;
+  background-color: #4CAF50;
+  color: #ffffff !important;
+  padding: 10px 20px;
+  margin-top: 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: normal;
+}
+
+.home-link:hover {
+  background-color: #43A047;
+}

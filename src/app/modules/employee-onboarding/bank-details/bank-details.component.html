@@ -16,7 +16,7 @@
                     <div class="persnol-info mt-4">
                         <div class="row">
 
-                         
+
 
                             <div class="col-md-6">
                                 <div class="mb-3">
@@ -34,7 +34,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-6">
                                 <div class="mb-3">
                                   <label for="bankName" class="pb-2">Bank Name <span class="text-optional">*</span></label>
@@ -63,8 +63,8 @@
                                   </div>
                                 </div>
                               </div>
-                            
-                            
+
+
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="accountNumber" class="pb-2">Account Number <span class="text-optional">*</span></label>
@@ -75,14 +75,14 @@
                                             <i class="bi bi-exclamation-circle"></i>
                                             Account Number is required.
                                         </p>
-                                       
+
                                         <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="accountNumber.errors?.maxlength">
                                             <i class="bi bi-exclamation-circle"></i> Maximum 30 characters allowed.
                                         </p>
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="ifsc" class="pb-2"> IFSC Number <span class="text-optional">*</span></label>
@@ -99,8 +99,8 @@
                                     </div>
                                 </div>
                             </div>
-                            
-                            
+
+
 
                             <div class="col-md-12 d-flex justify-content-between mt-3">
                                 <div class="info-btn d-flex justify-content-start">
@@ -122,14 +122,14 @@
                                             </span>
                                         </button>
                                     </div>
-                                    
+
                                     <!-- Go Back to Profile Button: Shown only if there is an update request -->
                                     <div class="info-btn" *ngIf="this.userBankDetailRequest.updateRequest">
                                         <button (click)="goBackToProfile()" class="btn btn-warning" type="button" aria-label="Go Back to Profile">
                                             Go Back to Profile
                                         </button>
                                     </div>
-                                    
+
                                     <!-- Conditional Update Button: Replaces 'Next' button if there is an update request -->
                                     <button *ngIf="this.userBankDetailRequest.updateRequest" (click)="selectButtonType('update')" class="btn btn-info save-button" type="button" aria-label="Update">
                                         <div *ngIf="toggle" class="dot-opacity-loader">
@@ -141,9 +141,9 @@
                                             Update <i class="bi bi-pencil-square" style="padding-left: 8px;"></i>
                                         </span>
                                     </button>
-                                    
+
                                     <!-- Original 'Next' Button: Shown only when there is no update request -->
-                                    <button *ngIf="!this.userBankDetailRequest.updateRequest" (click)="selectButtonType('next')" class="btn btn-primary save-button" type="button" [disabled]="toggle" aria-label="Next Step">
+                                    <button *ngIf="!this.userBankDetailRequest.updateRequest && !this.dataService.isLastRoute('/bank-details')" (click)="selectButtonType('next')" class="btn btn-primary save-button" type="button" [disabled]="toggle" aria-label="Next Step">
                                         <div *ngIf="toggle" class="dot-opacity-loader">
                                             <span></span>
                                             <span></span>
@@ -156,8 +156,18 @@
                                             Save & Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
                                         </span>
                                     </button>
+                                    <button *ngIf="this.dataService.isLastRoute('/bank-details')" (click)="selectButtonType('preview')" class="btn btn-primary save-button" type="button" [disabled]="toggle"  aria-label="Next Step">
+                                        <div *ngIf="toggle" class="dot-opacity-loader">
+                                          <span></span>
+                                          <span></span>
+                                          <span></span>
+                                        </div>
+                                        <span>
+                                          Preview Form <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                                      </span>
+                                      </button>
                                 </div>
-                                
+
                                 <button type="submit" style="display: none;" id="formSubmitButton"  #formSubmitButton></button>
                             </div>
                         </div>
@@ -180,7 +190,7 @@
          <div class="modal-body text-center">
              <i class="bi bi-check-circle" *ngIf="employeeOnboardingFormStatus != 'REJECTED'" style="font-size: 48px; color: green;"></i>
              <i class="bi bi-exclamation-triangle-fill" *ngIf="employeeOnboardingFormStatus == 'REJECTED'" style="font-size: 48px; color: red;"></i>
-             
+
              <!-- Conditional Messages -->
              <p class="mt-2" *ngIf="employeeOnboardingFormStatus == 'PENDING'">
                  Your registration is successful. Pending for verification.

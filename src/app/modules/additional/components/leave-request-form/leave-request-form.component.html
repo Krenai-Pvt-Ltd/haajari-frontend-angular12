@@ -1,4 +1,19 @@
-<div class="form-container">
+
+<div *ngIf="leaveLoading" class="d-flex align-items-center justify-content-center" style="height: 100vh;">
+  <img src="assets/images/load-8.gif" style="width: 80px;">
+</div>
+
+<div *ngIf="!leaveLoading && userLeave.length == 0" class="container d-flex align-items-center justify-content-center" style="height: 100vh;">
+  <div class="expired-message">
+      <h1>No Leave Assigned</h1>
+      <p>You currently have no leave days allocated.</p>
+      <p>Please check with your administrator or refer to the leave policy for further assistance.</p>
+      <!-- <button type="button"  class="home-link">Send New Link</button> -->
+  </div>
+</div>
+
+
+<div *ngIf="!leaveLoading && userLeave.length > 0" class="form-container">
   <div class="form-header">Apply for a Leave</div>
   <form
     [formGroup]="userLeaveForm"
@@ -32,12 +47,21 @@
     <!-- Leave Type -->
     <div class="form-field">
       <label>Select the type of leave you want to request</label>
-      <select formControlName="leaveType">
+      <!-- <select formControlName="leaveType">
         <option value="">Select Leave Type</option>
         <option *ngFor="let ul of userLeave" [ngValue]="ul.leaveType">
           {{ ul.leaveType }}
         </option>
-      </select>
+      </select> -->
+
+      <select class="form-select" id="exampleFormControlSelect1" formControlName="leaveType"
+       (ngModelChange)="onLeaveTypeChange($event)">
+      <option value="">Select Leave Type</option>
+      <option *ngFor="let ul of userLeave" [ngValue]="ul.userLeaveTemplateId">
+        {{ ul.leaveType }}
+      </option>
+    </select>
+
       <div
         *ngIf="
           userLeaveForm.get('leaveType')?.touched &&
