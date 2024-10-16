@@ -1,34 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EmployeeAdditionalDocument } from 'src/app/models/employee-additional-document';
 import { OnboardingFormPreviewResponse } from 'src/app/models/onboarding-form-preview-response';
 import { UserEmergencyContactDetailsRequest } from 'src/app/models/user-emergency-contact-details-request';
 import { UserExperience } from 'src/app/models/user-experience';
 import { DataService } from 'src/app/services/data.service';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
-  selector: 'app-employee-onboarding-preview',
-  templateUrl: './employee-onboarding-preview.component.html',
-  styleUrls: ['./employee-onboarding-preview.component.css']
+  selector: 'app-preview-form',
+  templateUrl: './preview-form.component.html',
+  styleUrls: ['./preview-form.component.css']
 })
-export class EmployeeOnboardingPreviewComponent implements OnInit {
+export class PreviewFormComponent implements OnInit {
 
-  constructor(private router: Router, private dataService: DataService) { }
-
+  constructor(public dataService: DataService,  private modalService: NgbModal,
+    private router: Router, private helperService: HelperService) { }
   ngOnInit(): void {
     this.getOnboardingFormPreviewMethodCall();
-    this.userUuid = new URLSearchParams(window.location.search).get('userUuid') || null;
-    this.loadRoutes();
   }
-
-  routeToUserDetails(routePath: string) {
-    let navExtra: NavigationExtras = {
-        queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
-    };
-    this.router.navigate([routePath], navExtra);
-}
-
-  private userUuid: string | null = null;
+  @ViewChild("dismissPreviewModalButton") dismissPreviewModalButton!: ElementRef;
+  @ViewChild("previewModalCallButton") previewModalCallButton!: ElementRef;
+  onboardingPreviewData: OnboardingFormPreviewResponse = new OnboardingFormPreviewResponse();
+  toggle = false;
+  isLoading:boolean = true;
+  employeeAdditionalDocument: EmployeeAdditionalDocument[] = [];
+  isFresher: boolean = false;
+  isSchoolDocument: boolean = true;
+  isHighSchoolDocument: boolean = true
+  userEmergencyContactArray: UserEmergencyContactDetailsRequest[]=[];
+  userExperienceArray: UserExperience[]=[];
   secondarySchoolCertificateFileName: string = '';
   highSchoolCertificateFileName1: string = '';
   highestQualificationDegreeFileName1: string = '';
@@ -36,15 +38,18 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
   aadhaarCardFileName: string = '';
   pancardFileName: string = '';
   companyLogoUrl: string = '';
+  displaySuccessModal = false;
+  allowEdit = false;
 
-  isLoading: boolean = true;
-  isFresher: boolean = false;
-  isSchoolDocument: boolean = true;
-  isHighSchoolDocument: boolean = true
-  onboardingPreviewData: OnboardingFormPreviewResponse = new OnboardingFormPreviewResponse();
-  userEmergencyContactArray: UserEmergencyContactDetailsRequest[]=[];
-  userExperienceArray: UserExperience[]=[];
-  employeeAdditionalDocument: EmployeeAdditionalDocument[] = [];
+  routeToUserDetails(routePath: string) {
+    this.dismissPreviewModalButton.nativeElement.click();
+    setTimeout(x=>{
+    let navExtra: NavigationExtras = {
+        queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
+    };
+    this.router.navigate([routePath], navExtra);
+  },2000)
+  }
 
   getOnboardingFormPreviewMethodCall() {
     debugger
@@ -53,10 +58,9 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
       this.dataService.getOnboardingFormPreview(userUuid).subscribe(
         (preview) => {
           // console.log(preview);
+          this.toggle = false;
           this.onboardingPreviewData = preview;
-          if(preview.companyLogo){
-            this.companyLogoUrl = preview.companyLogo;
-          }
+
           this.isLoading = false;
           this.handleOnboardingStatus(preview.user.employeeOnboardingStatus.response);
 
@@ -86,7 +90,7 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
             this.userEmergencyContactArray = preview.userEmergencyContacts;
           } else {
 
-            console.log('No guarantor information available.');
+            // console.log('No guarantor information available.');
             this.userEmergencyContactArray = [];
           }
           if(preview.userDocuments!=null){
@@ -100,6 +104,7 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
 
           }
           this.isLoading = false;
+          this.previewModalCallButton.nativeElement.click();
         },
         (error: any) => {
           console.error('Error fetching user details:', error);
@@ -109,6 +114,23 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
     } else {
       console.error('User UUID not found');
       this.userEmergencyContactArray = [];
+    }
+  }
+
+  handleOnboardingStatus(response: string) {
+    this.displaySuccessModal = true;
+    switch (response) {
+
+      case 'REJECTED':
+        this.allowEdit = true;
+        break;
+      case 'APPROVED' :
+      case 'PENDING':
+        this.allowEdit = false;
+        break;
+      default:
+        this.displaySuccessModal = false;
+        break;
     }
   }
 
@@ -127,41 +149,44 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
     return cleanFilename;
   }
 
-  allowEdit = false;
-
-  handleOnboardingStatus(response: string) {
-    // this.displaySuccessModal = true;
-    switch (response) {
-
-      case 'REJECTED':
-        this.allowEdit = true;
-        break;
-      case 'APPROVED' :
-      case 'PENDING':
-        this.allowEdit = false;
-        break;
-      default:
-        // this.displaySuccessModal = false;
-        break;
-    }
-  }
-  isRoutePresent(routeToCheck: string): boolean {
-    const isPresent = this.dataService.onboardingRoutes.includes(routeToCheck);
-    console.log(`Is route present: ${isPresent}`);
-    return isPresent;
-  }
-  private loadRoutes(): void {
-    this.dataService.getRoutesByOrganization(this.userUuid).subscribe(
-      (routes: string[]) => {
-        this.dataService.onboardingRoutes=routes;
+  saveUserOnboardingFormStatusMethodCall(){
+    debugger
+    this.toggle = true;
+    const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
+    this.dataService.saveUserOnboardingFormStatus(userUuid)
+    .subscribe(
+      (response: UserEmergencyContactDetailsRequest) => {
+        // console.log('Response:', response);
+      this.toggle= false;
+          if(response.employeeOnboardingStatus == 'PENDING' ){
+            this.handleOnboardingStatus(response.employeeOnboardingStatus);
+            this.routeToFormPreview();
+          }
+          this.toggle = false;
       },
-      error => {
-        console.error('Error fetching routes', error);
+      (error) => {
+        console.error('Error occurred:', error);
+
       }
     );
   }
 
-  navigateToDashboard() {
-    window.location.href = '/dashboard';
-  }
+  routeToFormPreview() {
+    debugger
+        this.dismissPreviewModalButton.nativeElement.click();
+        // this.dismissSuccessModalButton.nativeElement.click();
+        setTimeout(x=>{
+          let navExtra: NavigationExtras = {
+            queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
+          };
+          this.router.navigate(['/employee-onboarding/employee-onboarding-preview'], navExtra);
+        },2000);
+
+
+
+      }
+
+      closeModal(){
+        this.modalService.dismissAll();
+      }
 }

@@ -12,12 +12,14 @@ import { EmployeeExperienceComponent } from './employee-experience/employee-expe
 import { EmployeeOnboardingFormComponent } from './employee-onboarding-form/employee-onboarding-form.component';
 import { EmployeeOnboardingPreviewComponent } from './employee-onboarding-preview/employee-onboarding-preview.component';
 import { EmployeeOnboardingSidebarComponent } from './employee-onboarding-sidebar/employee-onboarding-sidebar.component';
+import { PreviewFormComponent } from './preview-form/preview-form.component';
 
 const routes: Routes = [
   { path: '', component: EmployeeOnboardingComponent,
   children:[
     {path: 'employee-onboarding-form', component: EmployeeOnboardingFormComponent},
     {path: 'employee-onboarding-sidebar', component: EmployeeOnboardingSidebarComponent},
+    {path: 'preview-form', component: PreviewFormComponent},
     {path: 'employee-address-detail', component: EmployeeAddressDetailComponent},
     {path: 'employee-document', component: EmployeeDocumentComponent},
     {path: 'acadmic', component: AcadmicComponent},
@@ -25,7 +27,7 @@ const routes: Routes = [
     {path: 'bank-details', component: BankDetailsComponent},
     {path: 'emergency-contact', component: EmergencyContactComponent},
     {path: 'employee-onboarding-preview', component: EmployeeOnboardingPreviewComponent},
-    
+
     ]
 
 }];

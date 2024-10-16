@@ -131,6 +131,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
         // Initialize the Geocoder
         const geocoder = new google.maps.Geocoder();
         const latlng = { lat: this.lat, lng: this.lng };
+        console.log(latlng); 
         geocoder.geocode(
           { location: latlng },
           (results: { formatted_address: string }[], status: string) => {
@@ -141,7 +142,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
                 this.city = results[0].address_components[2].long_name;
                 this.address = address;
                 this.employeeAttendanceLocation.currentLocation = address;
-                // console.log(address); // Log the address to console or update the UI as needed
+                console.log(address); // Log the address to console or update the UI as needed
                 this.enableSubmitToggle = true;
                 (
                   document.getElementById(
