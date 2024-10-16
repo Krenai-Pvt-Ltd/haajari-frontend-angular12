@@ -278,6 +278,55 @@
                 </div>
               </div>
             </div>
+            <div
+                class="location-selection mt-4 p-3 border rounded"
+                *ngIf="
+                  selectedMasterAttendanceModeId === 1 && 
+                  (attendanceModeStep === 2) && 
+                  selectedAttendanceModeId != 1
+                "
+              >
+                <h6 class="mb-3">Select Location Type</h6>
+                
+                <div class="d-flex align-items-center gap-3">
+                  <div class="custom-radio">
+                   
+                    <label for="flexibleLocation">
+                      <input
+                      type="radio"
+                      id="flexibleLocation"
+                      name="locationType"
+                      [(ngModel)]="locationType"
+                      (ngModelChange)="saveAttendaceFlexibleModeInfo()"
+                      value="flexible"
+                    />
+                      <strong>Flexible Location</strong>
+                      <span class="text-muted d-block">
+                        Enable flexible location tracking.
+                      </span>
+                    </label>
+                  </div>
+
+                  <div class="custom-radio">
+                    
+                    <label for="fixedLocation">
+                      <input
+                      type="radio"
+                      id="fixedLocation"
+                      name="locationType"
+                      [(ngModel)]="locationType"
+                      (ngModelChange)="saveAttendaceFlexibleModeInfo()"
+                      value="fixed"
+                    />
+                      <strong>Fixed Location</strong>
+                      <span class="text-muted d-block">
+                        Restrict attendance to a specific location.
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
 
             <!-- {{selectedAttendanceModeId}} -->
             <div
@@ -753,15 +802,21 @@
                 </button>
                 <!-- {{selectedMasterAttendanceModeId}} -->
                 
+                <!-- (organizationAddressForm?.invalid &&
+                selectedMasterAttendanceModeId === 1) ||
+              ((attendanceModeStep === 2 &&
+                (selectedAttendanceModeId === 2 ||
+                  selectedAttendanceModeId === 3)) || minRadius )||
+              selectedMasterAttendanceModeId == null -->
                 <button
                   type="submit"
                   class="btn nextBtn p-0"
                   [disabled]="
                     (organizationAddressForm?.invalid &&
                       selectedMasterAttendanceModeId === 1) ||
-                    ((attendanceModeStep === 2 &&
+                    ((attendanceModeStep === 3 &&
                       (selectedAttendanceModeId === 2 ||
-                        selectedAttendanceModeId === 3)) || minRadius )||
+                        selectedAttendanceModeId === 3)) && locationType === 'fixed' && minRadius )||
                     selectedMasterAttendanceModeId == null
                   "
                   (click)="goToDashboardSection(); submit()"
