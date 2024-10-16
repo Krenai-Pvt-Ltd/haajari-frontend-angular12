@@ -59,7 +59,7 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
           }
           this.isLoading = false;
           this.handleOnboardingStatus(preview.user.employeeOnboardingStatus.response);
-          
+
           // if (preview.employeeAdditionalDocument && preview.employeeAdditionalDocument.length > 0) {
             this.employeeAdditionalDocument = preview.employeeAdditionalDocuments;
             // console.log(this.employeeAdditionalDocument);
@@ -68,7 +68,7 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
         //     // Handle the case where employeeAdditionalDocument is undefined, null, or empty
         //     this.employeeAdditionalDocument = [];
         // }
-        
+
           if(preview.userDocuments!=null && preview.userDocuments.secondarySchoolCertificate){
             this.isSchoolDocument = false;
           }
@@ -79,20 +79,20 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
             this.userExperienceArray = preview.userExperience;
           }
           if(preview.fresher==true){
-            
+
             this.isFresher=true;
           }
           if (preview.userEmergencyContacts) {
             this.userEmergencyContactArray = preview.userEmergencyContacts;
           } else {
-            
+
             console.log('No guarantor information available.');
             this.userEmergencyContactArray = [];
           }
           if(preview.userDocuments!=null){
-            
+
           this.secondarySchoolCertificateFileName = this.getFilenameFromUrl(preview.userDocuments.secondarySchoolCertificate);
-          this.highSchoolCertificateFileName1 = this.getFilenameFromUrl(preview.userDocuments.highSchoolCertificate);     
+          this.highSchoolCertificateFileName1 = this.getFilenameFromUrl(preview.userDocuments.highSchoolCertificate);
           this.highestQualificationDegreeFileName1 = this.getFilenameFromUrl(preview.userDocuments.highestQualificationDegree);
           this.testimonialReccomendationFileName1 = this.getFilenameFromUrl(preview.userDocuments.testimonialReccomendation);
          this.aadhaarCardFileName = this.getFilenameFromUrl(preview.userDocuments.aadhaarCard);
@@ -103,26 +103,26 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
         },
         (error: any) => {
           console.error('Error fetching user details:', error);
-          this.userEmergencyContactArray = []; 
+          this.userEmergencyContactArray = [];
         }
       );
     } else {
       console.error('User UUID not found');
-      this.userEmergencyContactArray = []; 
+      this.userEmergencyContactArray = [];
     }
   }
-  
+
   getFilenameFromUrl(url: string): string {
     if (!url) return '';
-    
+
     const decodedUrl = decodeURIComponent(url);
-   
+
     const parts = decodedUrl.split('/');
-    
+
     const filenameWithQuery = parts.pop() || '';
-    
+
     const filename = filenameWithQuery.split('?')[0];
-   
+
     const cleanFilename = filename.replace(/^\d+_/,'');
     return cleanFilename;
   }
@@ -132,7 +132,7 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
   handleOnboardingStatus(response: string) {
     // this.displaySuccessModal = true;
     switch (response) {
-      
+
       case 'REJECTED':
         this.allowEdit = true;
         break;
@@ -159,5 +159,9 @@ export class EmployeeOnboardingPreviewComponent implements OnInit {
         console.error('Error fetching routes', error);
       }
     );
+  }
+
+  navigateToDashboard() {
+    window.location.href = '/dashboard';
   }
 }

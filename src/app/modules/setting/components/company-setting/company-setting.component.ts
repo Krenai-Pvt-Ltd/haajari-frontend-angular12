@@ -88,8 +88,8 @@ export class CompanySettingComponent implements OnInit {
       }
     );
   }
-  onModuleSelect(index: number, event: any) {
-    this.onboardingModules[index].isFlag = event.target.checked;
+  onModuleSelect(index: number) {
+    // this.onboardingModules[index].isFlag = event.target.checked;
     this.onSave();
   }
 

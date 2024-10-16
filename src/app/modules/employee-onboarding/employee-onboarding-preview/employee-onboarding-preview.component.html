@@ -364,7 +364,7 @@
                             'status-rejected': onboardingPreviewData.user.employeeOnboardingStatus.response === 'REJECTED',
                             'status-pending': onboardingPreviewData.user.employeeOnboardingStatus.response === 'PENDING'
                         }">{{ onboardingPreviewData.user.employeeOnboardingStatus.response }}</span></p>
-
+                        <span *ngIf="onboardingPreviewData.user.employeeOnboardingStatus.response === 'APPROVED'"><a href="/dashboard">Click here</a> to go to dashboard</span>
                         <!-- Conditionally display the rejection reason -->
                         <p *ngIf="onboardingPreviewData.user.employeeOnboardingStatus.response === 'REJECTED'">
                             Reason for Rejection: {{ onboardingPreviewData.reasonOfRejection || 'N/A' }}
@@ -707,6 +707,10 @@
                     </div>
 
 
+                </div>
+
+                <div class="d-flex align-items-center justify-content-center mt-2">
+                  <button (click)="navigateToDashboard()" *ngIf="onboardingPreviewData.user.employeeOnboardingStatus.response === 'APPROVED'" class="btn action-btn">Go to Dashboard</button>
                 </div>
 
             </div>

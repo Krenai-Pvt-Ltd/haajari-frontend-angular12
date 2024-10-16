@@ -963,13 +963,20 @@
                         <span class="epkbnY" style="font-size: 12px;">{{ module.name }}</span>
                       </div>
                       <div class="form-check">
-                        <input
+                        <!-- <input
                           type="checkbox"
                           class="form-check-input"
                           id="enableModule{{ module.id }}"
                           [checked]="module.isFlag"
                           (change)="onModuleSelect(i, $event)"
-                        />
+                        /> -->
+                        <nz-switch
+                      [(ngModel)]="module.isFlag"
+                      [ngModelOptions]="{ standalone: true }"
+                      id="enableModule{{ module.id }}"
+                      (ngModelChange)="onModuleSelect(i)"
+
+                    ></nz-switch>
                         <label class="form-check-label d-flex align-items-center gap-2" for="enableModule{{ module.id }}">
                           Enable
                         </label>
