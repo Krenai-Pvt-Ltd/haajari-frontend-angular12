@@ -14,6 +14,8 @@ import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-refl
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { PlacesService } from 'src/app/services/places.service';
+import { OnboardingModule } from 'src/app/models/OnboardingModule';
+import { Role } from 'src/app/models/role';
 
 @Component({
   selector: 'app-company-setting',
@@ -23,7 +25,9 @@ import { PlacesService } from 'src/app/services/places.service';
 export class CompanySettingComponent implements OnInit {
   organizationPersonalInformationRequest: OrganizationPersonalInformationRequest =
     new OrganizationPersonalInformationRequest();
-
+    roles: Role[] = [];
+    onboardingModules: OnboardingModule[] = [];
+    pageNumberUser: number = 1;
   constructor(
     private dataService: DataService,
     private afStorage: AngularFireStorage,
@@ -40,6 +44,68 @@ export class CompanySettingComponent implements OnInit {
     this.getUserByFiltersMethodCall();
     this.getAllAddressDetails();
     // this.helperService.saveOrgSecondaryToDoStepBarData(0);
+    this.getAllRolesMethodCall();
+    this.fetchOnboardingModules();
+    this.dataService.getEnabledModuleIds()
+      .subscribe((enabledIds: number[]) => {
+        // Update the isFlag property of the modules based on the fetched enabled IDs
+        this.onboardingModules.forEach(module => {
+          module.isFlag = enabledIds.includes(module.id);
+        });
+      }, error => {
+        console.error('Error fetching enabled modules:', error);
+      });
+  }
+
+  getAllRolesMethodCall() {
+    this.dataService
+      .getAllRoles(
+        this.itemPerPage,
+        this.pageNumberUser,
+        'asc',
+        'id',
+        '',
+        '',
+        0
+      )
+      .subscribe(
+        async (data) => {
+          this.roles = data.object;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
+  fetchOnboardingModules(): void {
+    this.dataService.getAllOnboardingModules().subscribe(
+      (data) => {
+        this.onboardingModules = data;
+      },
+      (error) => {
+        console.error('Error fetching onboarding modules:', error);
+      }
+    );
+  }
+  onModuleSelect(index: number) {
+    // this.onboardingModules[index].isFlag = event.target.checked;
+    this.onSave();
+  }
+
+  onSave() {
+
+    const selectedModuleIds = this.onboardingModules
+      .filter(module => module.isFlag)
+      .map(module => module.id);
+
+
+    this.dataService.saveSelectedModuleIds(selectedModuleIds)
+      .subscribe(response => {
+        console.log('Modules saved:', response);
+      }, error => {
+        console.error('Error saving modules:', error);
+      });
   }
 
   isFileSelected = false;
@@ -171,7 +237,7 @@ export class CompanySettingComponent implements OnInit {
     }
   }
 
-  //  new to upload hr policies 
+  //  new to upload hr policies
 
   isEditModeHrPolicies: boolean = false;
   isUpdatingHrPolicies: boolean = false;
@@ -272,7 +338,7 @@ export class CompanySettingComponent implements OnInit {
     link.click();
   }
 
-  //  new code 
+  //  new code
 
 
   itemPerPage: number = 8;
@@ -386,7 +452,7 @@ export class CompanySettingComponent implements OnInit {
   onTableDataChange(event: any) {
     this.pageNumber = event;
   }
-  
+
 
   checkIndividualSelection() {
     this.isAllUsersSelected = this.staffs.every((staff) => staff.selected);
@@ -489,9 +555,9 @@ export class CompanySettingComponent implements OnInit {
     });
   }
 
-  //  location 
+  //  location
 
- 
+
 
   resetAddressDetailsModal() {
     this.organizationAddressForm.resetForm();
@@ -668,7 +734,7 @@ export class CompanySettingComponent implements OnInit {
   //     );
   // }
 
-  //  new code 
+  //  new code
 
   allAddresses: any;
   specificAddress: any;
@@ -678,7 +744,7 @@ export class CompanySettingComponent implements OnInit {
 
   saveStaffAddressDetails(): void {
 
-    this.staffAddressDetails.organizationMultiLocationAddressDTO = this.organizationAddressDetail; 
+    this.staffAddressDetails.organizationMultiLocationAddressDTO = this.organizationAddressDetail;
     this.staffAddressDetails.userUuidsList = this.selectedStaffsUuids;
 
     this.dataService.saveStaffAddressDetails(this.staffAddressDetails, this.addressId)
@@ -694,7 +760,7 @@ export class CompanySettingComponent implements OnInit {
         this.getAllAddressDetails();
       });
   }
- 
+
 
   isShimmer = false;
   dataNotFoundPlaceholder = false;
@@ -782,7 +848,7 @@ export class CompanySettingComponent implements OnInit {
    openLocationSetting() {
     this.locationSettingTab.nativeElement.click();
    }
-  
+
   deleteAddress(addressId: number) {
     this.dataService.deleteByAddressId(addressId).subscribe(
       (response) => {
@@ -799,10 +865,16 @@ export class CompanySettingComponent implements OnInit {
     );
   }
 
+  activeTab: string = 'companySetting'; // Default tab
+
+  // Method to switch tabs
+  switchTab(tabName: string) {
+    this.activeTab = tabName;
+  }
   triggerFileInput() {
     const fileInput = document.getElementById('hrpolicies') as HTMLInputElement;
-    fileInput.click(); 
-}
+    fileInput.click();
+  }
 }
 
 
