@@ -1019,7 +1019,7 @@ button.btn.add-card-btn {
   line-height: 16px;
 }
 .all-holiday-list {
-  padding-top: 10px;
+  padding-top: 20px;
 }
 .all-holiday-list p {
   font-weight: 400;
@@ -1032,8 +1032,8 @@ button.btn.add-card-btn {
 }
 .upcoming-birthday img {
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   object-fit: cover;
 }
 .today-birthday {
@@ -1078,11 +1078,12 @@ button.btn.add-card-btn {
 .active-leave-list {
   background-color: #fff6eb;
   border-left: 5px solid #f3a73d;
+  margin-bottom: 4px;
 }
 .upcoming-leave-list {
   background-color: #fbfbfb;
   border-left: 5px solid var(--primary-background-color);
-  margin-bottom: 2px;
+  margin-bottom: 4px;
 }
 .upcoming-leave-list h5 {
   color: #444;
@@ -1097,4 +1098,18 @@ button.btn.add-card-btn {
 
 .month-deta {
   border-bottom: 1px solid #f7f7f7 !important;
+}
+
+
+.denger-border{
+  border-left : 5px solid red !important;
+}
+.success-border{
+  border-left : 5px solid green !important;
+}
+.warning-border{
+  border-left : 5px solid orange !important;
+}
+.primiry-border{
+  border-left : 5px solid var(--primary-background-color) !important;
 }

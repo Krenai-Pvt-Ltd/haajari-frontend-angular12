@@ -218,3 +218,20 @@ button.btn.close-btn {
   position: relative;
   top: -5px;
 }
+.video-img{
+  min-width: 140px;
+}
+
+
+@media screen and (max-width: 2600px) {
+  .video-img img {
+      width: 60%;
+    }
+}
+
+
+@media screen and (max-width: 1280px) {
+  .video-img img {
+    width: 60%;
+  }
+}
