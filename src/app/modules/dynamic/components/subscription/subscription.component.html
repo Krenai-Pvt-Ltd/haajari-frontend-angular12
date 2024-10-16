@@ -800,7 +800,7 @@
                    
                   </div>
 
-                  <div class="pagination justify-content-between pl-3 " *ngIf="databaseHelper.itemPerPage < totalInvoices">
+                  <div class="pagination justify-content-between pl-3 " *ngIf="invoicesDatabaseHelper.itemPerPage < totalInvoices">
                 <p class="mb-0" style="padding-left: 15px">
                   Showing {{ invoices.length }} of
                   {{ totalInvoices }}
@@ -811,8 +811,8 @@
                           [collectionSize]="totalInvoices"
                           [rotate]="true"
                           (pageChange)="invoicePageChanged($event)"
-                          [pageSize]="databaseHelper.itemPerPage"
-                          [(page)]="databaseHelper.currentPage"
+                          [pageSize]="invoicesDatabaseHelper.itemPerPage"
+                          [(page)]="invoicesDatabaseHelper.currentPage"
                           [maxSize]="4"
                           [boundaryLinks]="true"
                         ></ngb-pagination>
@@ -1054,7 +1054,7 @@
                     pattern="^[1-9][0-9]{0,5}$"
                     maxlength="6"
                     [(ngModel)]="employeeCount"
-                    (keyup)="calculateByEmployeeSize()"
+                    (keyup)="calculateEmployeeSize()"
                     #employeeNumber="ngModel"
                     oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/^0+/, '').slice(0, 6);"
                     required
@@ -1246,12 +1246,12 @@
                         id="termsAndConditions"
                         class="position-relative check-box"
                         [checked]="isGstAvailable"
-                        (change)="applyGst()"
+                        (change)="checkedGst()"
                       />
                       <label
                         class="form-check-label font-16"
                         for="termsAndConditions"
-                        (change)="applyGst()">
+                        (change)="checkedGst()">
                         Do you want GST invoice?
                       </label>
                     </div>
@@ -1335,7 +1335,7 @@
                 class="d-flex align-items-center justify-content-between p-3 border-bottom"
               >
                 <h5 class="mb-0 font-20">Order Recap</h5>
-                <button class="btn contactActionBtn bg-white" (click)="toggle=true;">
+                <button class="btn contactActionBtn bg-white" *ngIf="!isCouponVerified" (click)="showCoupon=true;">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
@@ -1369,17 +1369,31 @@
                   </svg>
                   Apply Coupons
                 </button>
+                <button class="btn contactActionBtn bg-white" *ngIf="isCouponVerified" >
+                  {{couponCode}}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16" (click)="removeCoupon()">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                  </svg>
+             
+                </button>
               </div>
               <div class="p-3">
-                <div class="mb-2 position-relative" *ngIf="toggle">
+                <div class="mb-2 position-relative" *ngIf="showCoupon && !isCouponVerified">
                   <input
                     class="form-control"
                     type="text"
                     placeholder="Apply Coupon code "
+                    name="couponCode"
+                    [(ngModel)]="couponCode"
+                    (keyup)="couponErrorMessage=''"
+                    (keydown.enter)="applyCoupon()"
                   />
-                  <button class="btn btn-outline-krenai">Apply</button>
+                  <button class="btn btn-outline-krenai" [disabled]="couponCode.length==0" (click)="applyCoupon()">Apply</button>
                 </div>
-
+                <div *ngIf="couponErrorMessage.length>0">
+                  <span>{{couponErrorMessage}}</span>
+                </div>
                 <div
                   class="d-flex align-items-center justify-content-between pt-2 pb-2"
                 >
@@ -1390,32 +1404,27 @@
                   class="d-flex align-items-center justify-content-between pt-2 pb-2"
                 >
                   <h5 class="font-16">Amount</h5>
-                  <h5 class="font-16">{{subAmount | number : '1.2-2'}}</h5>
+                  <h5 class="font-16">₹{{subAmount | number : '1.2-2'}}</h5>
                 </div>
+               
                 <div
                   class="d-flex align-items-center justify-content-between pt-2 pb-2"
-                >
-                  <h5 class="font-16">Tax</h5>
-                  <h5 class="font-16">18%</h5>
-                </div>
-                <div
-                  class="d-flex align-items-center justify-content-between pt-2 pb-2"
-                  *ngIf="couponDiscount>0">
-                  <h5 class="font-16">Coupon</h5>
-                  <h5 class="font-16">34%off</h5>
-                </div>
-                <div
-                  class="d-flex align-items-center justify-content-between pt-2 pb-2"
-                >
-                  <h5 class="font-16">Tax Amount</h5>
-                  <h5 class="font-16">{{taxAmount | number : '1.2-2' }}</h5>
+                  *ngIf="couponDiscount>0 && isCouponVerified">
+                  <h5 class="font-16">Coupon Discount</h5>
+                  <h5 class="font-16">- ₹{{couponDiscount}}</h5>
                 </div>
                 <!-- <div
                 class="d-flex align-items-center justify-content-between pt-2 pb-2"
               >
-                <h5 class="font-16">Round off</h5>
-                <h5 class="font-16">- {{roundOffAmount | number : '1.2-2'}}</h5>
+                <h5 class="font-16">Tax</h5>
+                <h5 class="font-16">18%</h5>
               </div> -->
+                <div
+                  class="d-flex align-items-center justify-content-between pt-2 pb-2"
+                >
+                  <h5 class="font-16">Tax Amount (18%)</h5>
+                  <h5 class="font-16">₹{{taxAmount | number : '1.2-2' }}</h5>
+                </div>
                 <div
                   class="d-flex align-items-center justify-content-between pt-3 pb-2 border-top"
                 >

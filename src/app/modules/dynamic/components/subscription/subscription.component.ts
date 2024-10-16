@@ -17,15 +17,19 @@ declare var Razorpay: any;
   styleUrls: ['./subscription.component.css'],
 })
 export class SubscriptionComponent implements OnInit {
+
+
   planSwitch: boolean = false;
   RulesRegulation: boolean = false;
   showYearlyPlans:number=1;
   orgUuid:string='';
+
+  readonly Constant = constant; 
   constructor( private _subscriptionPlanService: SubscriptionPlanService,
     private _roleBasedService: RoleBasedAccessControlService,
     private db: AngularFireDatabase,private ngZone: NgZone) {
 
-      this.orgUuid = this._roleBasedService.getOrgRefUUID();
+      this.orgUuid = this._roleBasedService.userInfo.orgRefId;
     }
 
   ngOnInit(): void {
@@ -55,9 +59,8 @@ export class SubscriptionComponent implements OnInit {
       }else{
         this.subscriptionPlans = new Array();
       }
-
     },(error)=>{
-      this.subscriptionPlans = new Array();
+
     });
 
     
@@ -82,30 +85,6 @@ export class SubscriptionComponent implements OnInit {
     });
   }
 
-  selectPlan(plan:SubscriptionPlan){
-    this.selectedSubscriptionPlan = plan;
-    // console.log("======selectedSubscriptionPlans=======", this.selectedSubscriptionPlan);
-    this.typeBySubscriptionPlans = new Array();
-    this.typeBySubscriptionPlans = this.subscriptionPlans.filter(x=> x.planType == this.selectedSubscriptionPlan.planType);
-    // console.log("=============", this.typeBySubscriptionPlan);
-    this.switchSubscriptionPlan();
-    if(this.totalEmployee>0){
-      this.employeeCount = this.totalEmployee;
-    }
-    this.calculateByEmployeeSize();
-  }
-
-
-
-  isGstAvailable:boolean=false;
-  isVerified:boolean=false;
-  applyGst(){
-    this.isGstAvailable = this.isGstAvailable == true? false: true;
-    this.isVerified = false;
-    this.gstNumber = '';
-    this.gstResponse = new GstResponse();
-  }
-
 
   totalEmployee: number = 0;
   getActiveUserCount() {
@@ -119,37 +98,98 @@ export class SubscriptionComponent implements OnInit {
     });
   }
 
-
-  selectPlanPeriodically(plan:any){
+  selectPlan(plan:SubscriptionPlan){
     this.selectedSubscriptionPlan = plan;
+    this.typeBySubscriptionPlans = new Array();
+    this.typeBySubscriptionPlans = this.subscriptionPlans.filter(x=> x.planType == this.selectedSubscriptionPlan.planType);
+    this.switchSubscriptionPlan();
+    if(this.totalEmployee>0){
+      this.employeeCount = this.totalEmployee;
+    }
     this.calculateByEmployeeSize();
   }
 
+
+
+  isGstAvailable:boolean=false;
+  isVerified:boolean=false;
+  checkedGst(){
+    this.isGstAvailable = this.isGstAvailable == true? false: true;
+    this.isVerified = false;
+    this.gstNumber = '';
+    this.gstResponse = new GstResponse();
+  }
+
+
+  selectPlanPeriodically(plan:any){
+    this.selectedSubscriptionPlan = plan;
+    this.calculateEmployeeSize();
+  }
+
+  
+  isCouponVerified:boolean=false;
+  couponErrorMessage:string='';
+  applyCoupon() {
+    if(!constant.EMPTY_STRINGS.includes(this.couponCode)){
+      this._subscriptionPlanService.verifyCoupon(this.couponCode, this.payableAmount)
+          .subscribe((response) => {
+              if (response.status) {
+                this.isCouponVerified = true;
+                this.couponDiscount = response.object;
+                this.calculateByEmployeeSize();
+              } else {
+                this.isCouponVerified = false;
+                this.couponErrorMessage = response.message;
+                this.couponDiscount = 0;
+              }
+          },(error)=>{
+            this.isCouponVerified = false;
+          });
+    }
+}
+
+  showCoupon:boolean =false;
+  removeCoupon(){
+    this.couponErrorMessage = '';
+    this.showCoupon =false;
+    this.couponCode ='';
+    this.isCouponVerified = false;
+    this.couponDiscount = 0;
+    this.calculateByEmployeeSize();
+  }
+  
+  calculateEmployeeSize(){
+    this.removeCoupon();
+  }
+
   employeeCount:number=0;
-  monthlyAmount:number=0;
-  annualAmount: number =0;
   couponCode:string='';
   couponDiscount:number=0;
   taxAmount:number=0;
-  tax:string='18%';
   subAmount:number =0;
   payableAmount:number=0;
-  roundOffAmount:number=0;
   calculateByEmployeeSize() {
     this.calcPlanPeriodicallyAmount();
     if(this.selectedSubscriptionPlan.isMonthly==1){
       this.payableAmount = this.employeeCount * this.selectedSubscriptionPlan.amount;
+      if(this.isCouponVerified){
+        this.payableAmount = this.payableAmount - this.couponDiscount;
+      }
       this.subAmount = Math.round(( this.payableAmount / (1.18)) * 100.0) / 100.0;
       this.taxAmount = Math.round(((this.payableAmount -  this.subAmount)) * 100.0) / 100.0;
 
     }else if(this.selectedSubscriptionPlan.isYearly==1){
       this.payableAmount = this.employeeCount * this.selectedSubscriptionPlan.amount * 12;
+      if(this.isCouponVerified){
+        this.payableAmount = this.payableAmount - this.couponDiscount;
+      }
       this.subAmount= Math.round(( this.payableAmount / (1.18)) * 100.0) / 100.0;
       this.taxAmount = Math.round((this.payableAmount -  this.subAmount) * 100.0) / 100.0;
     }
   }
 
-
+  monthlyAmount:number=0;
+  annualAmount: number =0;
   calcPlanPeriodicallyAmount(){
     this.typeBySubscriptionPlans.forEach(plan=>{
       if(plan.isMonthly == 1){
@@ -161,28 +201,26 @@ export class SubscriptionComponent implements OnInit {
     }) 
   }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+  isUnderProcess: boolean = false;
+  realtimeDbSubscriber!: any;
   processingPayment: boolean = false;
-  verifiedCoupon!: string;
   @ViewChild('sucessPaymentModalButton')sucessPaymentModalButton!:ElementRef;
-  async activatePlan(): Promise<void> {
-   
+  activatePlan() {
     this.createFirebaseForProcessing();
     var options = {
       "key": Key.razorKey,
       "amount": this.payableAmount * 100,
-      //  "amount":  1 * 100,
       "name": "HAJIRI",
       "description": this.selectedSubscriptionPlan.name + " plan purchase",
       "image": "../../../../../assets/images/hajiri-icon.png",
-      "handler": this.showPaymentDetail.bind(this),
+      "handler": this.handleSuccesfullPayment.bind(this),
       "modal": {
         "confirm_close": true,
-        // "ondismiss": this.stopProcessingPayment.bind(this)
-      },
-      "prefill": {
-        "email": '',
-        "phone": ''
+        "ondismiss": this.stopProcessingPayment.bind(this)
       },
       "notes": {
         "orderFrom": 'Hajiri',
@@ -190,9 +228,9 @@ export class SubscriptionComponent implements OnInit {
         "orgUuid": this.orgUuid,
         "planId": this.selectedSubscriptionPlan.id,
         "employeeCount": this.employeeCount,
-        "couponCode": this.couponCode,
         "invoiceId": '',
-        "couponDiscount": '',
+        "couponCode": !constant.EMPTY_STRINGS.includes(this.couponCode)?this.couponCode:'',
+        "couponDiscount": this.couponDiscount,
         "gstNumber":  !constant.EMPTY_STRINGS.includes(this.gstResponse.gstNo)?this.gstResponse.gstNo:'',
         "tradeName":  !constant.EMPTY_STRINGS.includes(this.gstResponse.tradeName)?this.gstResponse.tradeName:'',
         "address":  !constant.EMPTY_STRINGS.includes(this.gstResponse.fullAddress)?this.gstResponse.fullAddress:''
@@ -206,6 +244,9 @@ export class SubscriptionComponent implements OnInit {
     rzp.open();
   }
 
+  handleSuccesfullPayment() {
+    this.sucessPaymentModalButton.nativeElement.click();
+  }
 
   createFirebaseForProcessing() {
     this.ngZone.run(() => {
@@ -224,8 +265,7 @@ export class SubscriptionComponent implements OnInit {
     });
   }
 
-  isUnderProcess: boolean = false;
-  realtimeDbSubscriber!: any;
+
   getExportStatusFromFirebase() {
     debugger
     var orgUuid = this.orgUuid.replace(/[^a-zA-Z0-9_]/g, "_");
@@ -256,14 +296,14 @@ export class SubscriptionComponent implements OnInit {
     this.getPlans();
     this.getCurrentSubscriptionPlan();
     this._subscriptionPlanService.getOrganizationSubsPlanDetail();
+    this.removeCoupon();
   }
 
-  showPaymentDetail(){
-    this.sucessPaymentModalButton.nativeElement.click();
-  }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 gstNumber:string='';
-verified!:boolean;
 checkGst(){
   if(this.gstNumber.length == 15){
     this.verifyGst();
@@ -294,16 +334,16 @@ invoiceDetail:InvoiceDetail = new InvoiceDetail();
     });
   }
 
-  toggle:boolean =false;
+
   invoiceLoading:boolean = false;
-  databaseHelper:DatabaseHelper = new DatabaseHelper();
+  invoicesDatabaseHelper:DatabaseHelper = new DatabaseHelper();
   invoices:Invoices[] = new Array();
   totalInvoices:number=0;
   getAllInvoices() {
     this.invoiceLoading = true;
     this.invoices = [];
     var statusIds = [33];
-    this._subscriptionPlanService.getInvoices(this.databaseHelper,statusIds).subscribe((response) => {
+    this._subscriptionPlanService.getInvoices(this.invoicesDatabaseHelper,statusIds).subscribe((response) => {
         if (response.status) {
           this.invoices = response.object;
           this.totalInvoices = response.totalItems;
@@ -322,8 +362,8 @@ invoiceDetail:InvoiceDetail = new InvoiceDetail();
   }
 
   invoicePageChanged(page:any){
-    if(page!=this.databaseHelper.currentPage){
-      this.databaseHelper.currentPage = page;
+    if(page!=this.invoicesDatabaseHelper.currentPage){
+      this.invoicesDatabaseHelper.currentPage = page;
       this.getAllInvoices();
     }
   }
@@ -337,11 +377,12 @@ invoiceDetail:InvoiceDetail = new InvoiceDetail();
 
   dueInvoices:Invoices[] = new Array();
   totalDueInvoices :number=0;
+  duesDatabaseHelper : DatabaseHelper = new DatabaseHelper();
   getDueInvoice(){
     this.invoiceLoading = true;
     this.dueInvoices = [];
     var statusIds = [34];
-    this._subscriptionPlanService.getInvoices(this.databaseHelper,statusIds).subscribe((response) => {
+    this._subscriptionPlanService.getInvoices(this.duesDatabaseHelper,statusIds).subscribe((response) => {
       if (response.status) {
         this.dueInvoices = response.object;
         this.totalDueInvoices = response.totalItems;

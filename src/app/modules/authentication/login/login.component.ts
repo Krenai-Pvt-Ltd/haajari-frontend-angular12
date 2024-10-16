@@ -70,21 +70,16 @@ export class LoginComponent implements OnInit {
   signIn() {
     debugger
     this.loginButtonLoader = true;
-    this.dataService
-      .loginUser(this.email, this.password)
-      .pipe(
+    this.dataService.loginUser(this.email, this.password).pipe(
         tap(async (response) => {
           // console.log(response);
-          this.helperService.subModuleResponseList =
-            response.subModuleResponseList;
+          this.helperService.subModuleResponseList = response.subModuleResponseList;
           localStorage.setItem('token', response.tokenResponse.access_token);
-          localStorage.setItem(
-            'refresh_token',
-            response.tokenResponse.refresh_token
-          );
-         await this.rbacService.initializeUserInfo();
-         this.UUID=this.rbacService.userInfo.uuid;
-         this.ROLE = this.rbacService.userInfo.role;
+          localStorage.setItem('refresh_token',response.tokenResponse.refresh_token);
+          
+          await this.rbacService.initializeUserInfo();
+          this.UUID=this.rbacService.userInfo.uuid;
+          this.ROLE = this.rbacService.userInfo.role;
 
          if (this.ROLE === 'USER') {
           this.router.navigate(['/employee-profile'], {

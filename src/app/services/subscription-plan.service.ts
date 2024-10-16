@@ -110,11 +110,10 @@ export class SubscriptionPlanService {
     return this._httpClient.get<any>(this._key.base_url + this._key.cancel_subscription)
   }
 
-  verifyCoupon(couponCode:string, amount:number, planType: any){
+  verifyCoupon(couponCode:string, amount:number){
     const params = new HttpParams()
       .set('couponCode', couponCode)
-      .set('amount', Math.round(amount) )
-      .set('planType', planType )
+      .set('amount', amount)
     return this._httpClient.get<any>(this._key.base_url + this._key.verify_coupon, {params})
   }
 
