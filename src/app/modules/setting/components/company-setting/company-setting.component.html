@@ -178,6 +178,7 @@
                   </div>
                 </div>
                 <div class="col-md-6 mt-3">
+                  <!-- [disabled]="!isEditMode" -->
                   <div class="">
                     <input
                       type="text"
@@ -189,13 +190,14 @@
                       name="phoneNumber"
                       placeholder="Phone number"
                       #phoneNumber="ngModel"
-                      [disabled]="!isEditMode"
+                      
                       [(ngModel)]="
                         organizationPersonalInformationRequest.phoneNumber
                       "
                       minlength="10"
                       maxlength="10"
                       pattern="[0-9]*"
+                      disabled
                     />
 
                     <p
