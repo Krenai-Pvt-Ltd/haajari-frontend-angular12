@@ -909,9 +909,9 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
       }
     );
   });
-   
-   
-  
+
+
+
 
 }
   isRoutePresent(routeToCheck: string): boolean {
@@ -923,7 +923,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     const lastRoute = this.onboardingRoutes[this.onboardingRoutes.length - 1];
     return lastRoute === routeToCheck;
   }
-  
+
 
   getAttendanceLatePerformers(
     startDate: string,
@@ -1012,13 +1012,15 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     userPersonalInformationRequest: UserPersonalInformationRequest,
     userUuid: string,
     selectedTeamIds: number[],
-    selectedShift: number
+    selectedShift: number,
+    selectedLeaveIds: number[]
   ): Observable<any> {
     debugger;
     let params = new HttpParams().set('userUuid', userUuid).set('selectedShiftId', selectedShift);
     const requestBody = {
       userPersonalInformationRequest,
       selectedTeamIds,
+      selectedLeaveIds
     };
     console.log('save');
     return this.httpClient
@@ -3268,7 +3270,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   }
 
   registerSalaryChangeOvertimeListByOrganizationId(salaryChangeOvertimeRequestList : SalaryChangeOvertimeRequest[]): Observable<any>{
-    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/salary-change/overtime`, salaryChangeOvertimeRequestList);
+    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/salary-change/overtime`, salaryChangeOvertimeRequestList, {});
   }
 
   getEpfDetailsResponseListByOrganizationId(
@@ -3791,7 +3793,7 @@ getHolidayForOrganization(date: string): Observable<any>{
     .set('searchString', searchString)
     .set('start_date', startDate)
     .set('end_date', endDate);
-    
+
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/attendance/requests`, {params});
   }
 
@@ -3802,7 +3804,7 @@ getHolidayForOrganization(date: string): Observable<any>{
     .set('searchString', searchString)
     .set('start_date', startDate)
     .set('end_date', endDate);
-    
+
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/attendance/requests/history`, {params});
   }
 
@@ -4139,7 +4141,7 @@ getHolidayForOrganization(date: string): Observable<any>{
   //       );
   //   });
   // }
-  
+
 
   isOrgOnboarToday(): Observable<any> {
     debugger
@@ -4179,6 +4181,29 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/users/get-slack-user-count`, {});
   }
 
+  saveFlexibleAttendanceMode(requestType : string): Observable<any> {
+    const params = new HttpParams().set('requestType', requestType);
+    return this.httpClient.put<any>(
+      `${this.baseUrl}/attendance/mode/save-flexible-modes-info`,{}, {params}
+
+    );
+  }
+
+  getFlexibleAttendanceMode(): Observable<any> {
+    // const params = new HttpParams().set('requestType', requestType);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/attendance/mode/get-flexible-modes-info`,{}
+
+    );
+  }
+
+  getFlexibleAttendanceModeByUserUuid(userUuid: string): Observable<any> {
+    const params = new HttpParams().set('userUuid', userUuid);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/attendance/mode/get-flexible-modes-info-by-user-uuid`,{params}
+
+    );
+  }
   getOrganizationName(){
     return this.httpClient.get<any>(`${this.baseUrl}/organization/name`);
   }
