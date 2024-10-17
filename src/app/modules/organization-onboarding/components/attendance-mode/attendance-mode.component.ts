@@ -41,7 +41,7 @@ export class AttendanceModeComponent implements OnInit {
     this.getOrganizationAddressDetailMethodCall();
     this.getMasterAttendanceModeMethodCall();
     this.getAttendanceModeStep();
-    this.getFlexibleAttendanceMode();
+    // this.getFlexibleAttendanceMode();
   }
 
   routeToBilling() {
