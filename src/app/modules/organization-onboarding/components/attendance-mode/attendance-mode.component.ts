@@ -674,7 +674,7 @@ onSelect(event: any): void {
 //   this.organizationAddressDetail.radius = selectedValue;
 // }
 
-locationType: string = 'flexible'; 
+locationType: string = ''; 
 
 onLocationTypeChange() {
   if (this.locationType === 'fixed') {
