@@ -1661,9 +1661,7 @@
                               </div>
 
                               <div class="d-flex align-items-center justify-content-end">
-                                <!-- <button class="p-0 btn text-primary leave-category" (click)="addFormRow(i)">
-                              <i class="bi bi-plus-lg"></i> Add leave Category
-                            </button> -->
+                               
 
                                 <button *ngIf="editToggle" class="p-0 btn text-primary leave-category"
                                   (click)="addFormRow(i)">
@@ -1671,10 +1669,9 @@
                                   Update leave Category
                                 </button>
 
-                                <!-- <button [disabled]="!form.valid" *ngIf="!editToggle" -->
-                                  <!-- [disabled]="!form.valid || deleteCategoryToggle" -->
+                             
                                 <button [disabled]="!form.valid" *ngIf="!editToggle"
-                                [ngClass]="{'animate__shakeX':!(!form.valid)}"
+                                [ngClass]="{'btn-active-action':!(!form.valid)}"
                                   class="p-0 btn text-primary leave-category animate__animated" (click)="addFormRow(i)">
                                   <i class="bi bi-plus-lg"></i>
                                   {{
