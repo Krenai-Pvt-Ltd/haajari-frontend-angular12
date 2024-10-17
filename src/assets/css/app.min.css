@@ -9913,6 +9913,10 @@ button:disabled {
   fill: #fff !important;
 }
 
+.btn-border svg path {
+  fill: #fff !important;
+}
+
 @-webkit-keyframes wobble {
   16.65% {
     -webkit-transform: translateX(8px);
