@@ -2,6 +2,7 @@ import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core'
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
+import { StatusKeys } from 'src/app/constant/StatusKeys';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { GstResponse } from 'src/app/models/GstResponse';
 import { InvoiceDetail } from 'src/app/models/InvoiceDetail';
@@ -342,7 +343,7 @@ invoiceDetail:InvoiceDetail = new InvoiceDetail();
   getAllInvoices() {
     this.invoiceLoading = true;
     this.invoices = [];
-    var statusIds = [33];
+    var statusIds = [StatusKeys.BILLING_PAID];
     this._subscriptionPlanService.getInvoices(this.invoicesDatabaseHelper,statusIds).subscribe((response) => {
         if (response.status) {
           this.invoices = response.object;
@@ -381,7 +382,7 @@ invoiceDetail:InvoiceDetail = new InvoiceDetail();
   getDueInvoice(){
     this.invoiceLoading = true;
     this.dueInvoices = [];
-    var statusIds = [34];
+    var statusIds = [StatusKeys.BILLING_UNPAID];
     this._subscriptionPlanService.getInvoices(this.duesDatabaseHelper,statusIds).subscribe((response) => {
       if (response.status) {
         this.dueInvoices = response.object;
