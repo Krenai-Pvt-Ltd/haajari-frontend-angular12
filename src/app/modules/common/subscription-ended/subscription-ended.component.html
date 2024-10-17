@@ -14,10 +14,10 @@
 
   <div class="container">
     <div class="bg-white p-5">
-      <div class="row">
+      <div class="row align-items-center" *ngIf="_subscriptionService.isTrial">
         <div class="col-md-6">
           <!--  -->
-          <div class="subscription-ended-text" *ngIf="_subscriptionService.isTrial">
+          <div class="subscription-ended-text" >
             <img src="assets/images/HAjiRi.svg" style="width: 120px" />
             <h5 class="mb-3 mt-5">
               Your Free trial has just <br />
@@ -40,7 +40,17 @@
             </span>
           </div>
           <!--  -->
-          <div class="subscription-ended-text" *ngIf="!_subscriptionService.isTrial">
+          
+          <!--  -->
+        </div>
+        <div class="col-md-6 text-end">
+           <img src="assets/images/subscription-end.svg" style="width: 450px;">
+        </div>
+      </div>
+      <div class="row align-items-center" *ngIf="!_subscriptionService.isTrial">
+        <div class="col-md-6">
+          
+          <div class="subscription-ended-text" >
             <img src="assets/images/HAjiRi.svg" style="width: 120px" />
             <h5 class="mb-3 mt-5" style="font-size: 32px">
               Your Subscription has been <br />
@@ -59,16 +69,16 @@
             </p>
             <p class="mb-0">Cheers,</p>
             <p class="mb-0">@1234</p>
-
-            <button class="btn get-subscription mt-4 mb-4" (click)="routeToSubscription()"> 
+      
+            <button class="btn get-subscription mt-4 mb-4" (click)="routeToSubscription()">
               Reactivate Subscription
             </button>
             &nbsp;&nbsp;&nbsp;
-
+      
             <span class="p-0 text-primary pointer">
               Contact Help & support
             </span>
-
+      
             <p class="mb-0 font-13">
               By signing, you are creating a COMMIT account, and you agree to
               COMMIT <a class="text-primary">Terms of Use</a> and
@@ -76,6 +86,9 @@
             </p>
           </div>
           <!--  -->
+        </div>
+        <div class="col-md-6">
+          <img src="assets/images/subscription.svg" style="width: 500px;">
         </div>
       </div>
     </div>
