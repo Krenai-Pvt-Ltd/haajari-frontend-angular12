@@ -1482,9 +1482,13 @@
                                           formatDateIn(formatDate(leaves.endDate)) }}</u>
                                       </p>
                                       <h6 class="fw-semibold">
-                                        <span class="badge badge-outline-primary">{{
+                                        <!-- <span class="badge badge-outline-primary">{{
                                           calculateDateDifference(leaves.endDate, leaves.startDate) || "N/A" }} Days |
-                                          {{ leaves.leaveType }}</span>
+                                          {{ leaves.leaveType }}
+                                        </span> -->
+                                        <span class="badge badge-outline-primary">{{ leaves.totalDays }} Days |
+                                          {{ leaves.leaveType }}
+                                        </span>
                                       </h6>
                                     </div>
                                     <p class="text-muted mb-0">{{ leaves.optNotes }}</p>

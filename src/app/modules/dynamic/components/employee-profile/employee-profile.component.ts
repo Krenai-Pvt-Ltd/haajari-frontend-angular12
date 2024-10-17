@@ -1027,7 +1027,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
           
           this.requestLeaveCloseModel.nativeElement.click();
           // location.reload();
-          }else{
+          } else{
             this.submitLeaveLoader = false;
             this.isLeavePlaceholder = false;
             this.isFileUploaded = false;
