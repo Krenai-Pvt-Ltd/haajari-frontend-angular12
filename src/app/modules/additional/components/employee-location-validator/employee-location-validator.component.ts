@@ -324,11 +324,28 @@ getFlexibleAttendanceMode() {
               "You're Successfully Checked In",
               Key.TOAST_STATUS_SUCCESS
             );
+            
             this.toggle = true;
 
           
             
 
+          }
+          if (response.status == 'Out') {
+            this.helper.showToast(
+              "You've Successfully Checked Out",
+              Key.TOAST_STATUS_SUCCESS
+            );
+            
+            this.toggle = true;
+          }
+
+          if(response.onboardingVia == 'SLACK') {
+            this.helper.showToast(
+              response.status,
+              Key.TOAST_STATUS_SUCCESS
+            );
+            this.toggle = true;
           }
 
           if(response.onboardingVia == 'WHATSAPP' || !response.onboardingVia || response.onboardingVia== null ) {
