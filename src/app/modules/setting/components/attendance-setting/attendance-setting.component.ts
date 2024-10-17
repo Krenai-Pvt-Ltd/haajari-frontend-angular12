@@ -107,6 +107,7 @@ export class AttendanceSettingComponent implements OnInit {
       }
     });
 
+    this.getFlexibleAttendanceMode();
   }
 
   @ViewChild('automationRules') automationRules!: ElementRef;
@@ -1929,6 +1930,7 @@ formatMinutesToTime(minutes: number): string {
   toggle = false;
   @ViewChild('closeAddressModal') closeAddressModal!: ElementRef;
   setOrganizationAddressDetailMethodCall() {
+    debugger
     this.toggle = true;
     this.dataService
       .setOrganizationAddressDetail(this.organizationAddressDetail)
@@ -2535,6 +2537,10 @@ formatMinutesToTime(minutes: number): string {
           },
           (err) => {
             reject(err);
+          },
+          {
+            enableHighAccuracy: true,  // Precise location
+          maximumAge: 0              // Prevent cached locations
           }
         );
       } else {
@@ -2716,4 +2722,50 @@ formatMinutesToTime(minutes: number): string {
       console.log(error);
     })
   }
+
+  locationType: string = 'flexible'; 
+
+onLocationTypeChange() {
+  if (this.locationType === 'fixed') {
+    this.organizationAddressDetail.addressLine1 = '';
+    this.organizationAddressDetail.radius = '';
+  }
+   
+}
+
+saveAttendaceFlexibleModeInfo() {
+  this.dataService.saveFlexibleAttendanceMode(this.locationType).subscribe((response) => {
+      
+  }, (error) => {
+     console.log(error);
+  })
+}
+
+saveLocationInfo() {
+  if(this.locationType == 'flexible') {
+   this.saveAttendaceFlexibleModeInfo();
+  //  this.attendancewithlocationssButton.nativeElement.click();
+  this.getAttendanceModeMethodCall();
+          // this.toggle = false;
+          this.closeAddressModal.nativeElement.click();
+          this.helperService.showToast(
+            'Attedance Mode updated successfully',
+            Key.TOAST_STATUS_SUCCESS);
+  }else if(this.locationType == 'fixed') {
+   this.saveAttendaceFlexibleModeInfo();
+   this.setOrganizationAddressDetailMethodCall();
+  }
+}
+
+getFlexibleAttendanceMode() {
+  this.dataService.getFlexibleAttendanceMode().subscribe((response) => {
+    if(response.object == true) {
+      this.locationType = 'flexible';
+    }else {
+      this.locationType = 'fixed';
+    }
+  },(error) =>{
+     console.log(error);
+  })
+}
 }
