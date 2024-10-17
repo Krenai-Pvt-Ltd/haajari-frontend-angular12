@@ -44,6 +44,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
   ngOnInit(): void {
     debugger
     window.scroll(0, 0);
+    this.getFlexibleAttendanceMode()
     this.checkAttendanceLocationLinkStatusMethodCall();
     const userUuid = new URLSearchParams(window.location.search).get(
       'userUuid'
@@ -52,6 +53,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
     //   queryParams: { userUuid: userUuid },
     // };
     // this.router.navigate(['/location-validator'], navExtra);
+    // this.getFlexibleAttendanceMode();
   }
 
 
@@ -129,6 +131,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
         // Initialize the Geocoder
         const geocoder = new google.maps.Geocoder();
         const latlng = { lat: this.lat, lng: this.lng };
+        console.log(latlng); 
         geocoder.geocode(
           { location: latlng },
           (results: { formatted_address: string }[], status: string) => {
@@ -139,7 +142,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
                 this.city = results[0].address_components[2].long_name;
                 this.address = address;
                 this.employeeAttendanceLocation.currentLocation = address;
-                // console.log(address); // Log the address to console or update the UI as needed
+                console.log(address); // Log the address to console or update the UI as needed
                 this.enableSubmitToggle = true;
                 (
                   document.getElementById(
@@ -211,6 +214,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
 
   calculateDistance() {
     // console.log("calculate distance called",this.organizationAddressDetails)
+    debugger
     this.enableSubmitToggle = false;
 
     const userLatLng = new google.maps.LatLng(this.lat, this.lng);
@@ -220,8 +224,14 @@ export class EmployeeLocationValidatorComponent implements OnInit {
         const organizationLatLng = new google.maps.LatLng(Number(addressDetail.latitude), Number(addressDetail.longitude));
         const distance = google.maps.geometry.spherical.computeDistanceBetween(userLatLng, organizationLatLng);
 
+        // console.log(usee)
+
         // console.log(distance + '---' + addressDetail.radius);
-        if (distance <= addressDetail.radius) {
+        if (distance <= addressDetail.radius && !this.isFlexible) {
+            isWithinAnyLocation = true;
+            this.attendanceMode = addressDetail.attendanceMode;
+            break;
+        }else if(this.isFlexible) {
             isWithinAnyLocation = true;
             this.attendanceMode = addressDetail.attendanceMode;
             break;
@@ -242,6 +252,18 @@ export class EmployeeLocationValidatorComponent implements OnInit {
             this.markAttendaceWithLocationMethodCall();
         }
     }
+}
+
+isFlexible: boolean = false;
+getFlexibleAttendanceMode() {
+  const userUuid = new URLSearchParams(window.location.search).get('userUuid');
+  if(userUuid) {
+  this.dataService.getFlexibleAttendanceModeByUserUuid(userUuid).subscribe((response) => {
+     this.isFlexible = response.object;
+  },(error) =>{
+     console.log(error);
+  })
+  }
 }
 
 
@@ -305,14 +327,16 @@ export class EmployeeLocationValidatorComponent implements OnInit {
             this.toggle = true;
 
           
-            if(response.onboardingVia == 'WHATSAPP' || !response.onboardingVia || response.onboardingVia== null ) {
+            
+
+          }
+
+          if(response.onboardingVia == 'WHATSAPP' || !response.onboardingVia || response.onboardingVia== null ) {
             window.location.href =
               'https://api.whatsapp.com/send/?phone=918700822872&type=phone_number&app_absent=0';
             } else if(response.onboardingVia == 'SLACK'){
               window.location.href = Key.SLACK_WORKSPACE_URL;
             }
-
-          }
           this.toggle = false;
         },
         (error) => {

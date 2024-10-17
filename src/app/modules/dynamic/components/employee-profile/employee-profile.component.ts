@@ -164,7 +164,7 @@ export class EmployeeProfileComponent implements OnInit {
   MANAGER = Key.MANAGER;
   USER = Key.USER;
 
-  @ViewChild("paySlipTab") paySlipTab !: ElementRef; 
+  @ViewChild("paySlipTab") paySlipTab !: ElementRef;
   goToPaySlipTab(){
     this.paySlipTab.nativeElement.click();
   }
@@ -241,7 +241,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
     });
     this.getHrPolicy();
 
-    
+
     // this.attendanceTimeUpdateForm = this.fb.group({
     //   requestType: [null, [Validators.required]],
     //   requestedDate: [null, [Validators.required]],
@@ -266,7 +266,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
       managerId: [null, Validators.required],
       requestReason: [null, Validators.required]
     });
-    
+
     this.donateCoinsForm = this.fb.group({
       userId: ['', Validators.required],
       coins: ['', [Validators.required, Validators.min(1)]],
@@ -276,14 +276,14 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
     this.getSuperCoinsResponseForEmployeeData();
     this.getUserListToDonateCoins();
     this.getDonateSuperCoinReasonData();
-   
+
   }
 
   onError(event: Event) {
     const target = event.target as HTMLImageElement;
     target.src = './assets/images/broken-image-icon.jpg';
   }
-  
+
   getRoleData() {
     //  const managerDetails =localStorage.getItem('managerFunc');
     // if(managerDetails !== null){
@@ -351,7 +351,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   approvedToggle = false;
   @ViewChild('closeRejectModalButton') closeRejectModalButton!: ElementRef;
   updateStatusUserByUuid(type: string) {
-    
+
     if (type == 'REJECTED') {
       this.toggle = true;
       this.setReasonOfRejectionMethodCall();
@@ -407,7 +407,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   // }
 
   // getTotalPresentAbsentMonthwise(): void {
-  //   
+  //
   //   this.dataService
   //     .getUserAttendanceDetailsByDateDuration(
   //       this.userId,
@@ -461,12 +461,12 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   attendanceDetailModalToggle: boolean = false;
   clientX: string = '0px';
   clientY: string = '0px';
-  
+
   openModal(mouseEnterInfo: any): void {
     if (!this.attendanceDetailModalToggle) {
       // Reset modal data
       const extendedProps = mouseEnterInfo.event._def.extendedProps;
-  
+
       this.userAttendanceDetailDateWise = {
         checkInTime: extendedProps.checkInTime || '',
         checkOutTime: extendedProps.checkOutTime || '',
@@ -476,20 +476,20 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
         createdDate: extendedProps.createdDate || '',
         status: extendedProps.status || '',
       };
-  
+
       // Get the event element's position on the screen
       const rect = mouseEnterInfo.el.getBoundingClientRect();
-  
-      
-      this.clientX = `${rect.left - 210}px`; 
-      this.clientY = `${rect.top - 70}px`;   
-  
+
+
+      this.clientX = `${rect.left - 210}px`;
+      this.clientY = `${rect.top - 70}px`;
+
       // Open modal
       this.attendanceDetailModalToggle = true;
       this.openEventsModal.nativeElement.click();
     }
   }
-  
+
 
   closeAttendanceModal() {
     this.attendanceDetailModalToggle = false;
@@ -503,12 +503,12 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   // }
   @ViewChild('closeAttendanceDetailModalButton')
   closeAttendanceDetailModalButton!: ElementRef;
-  
+
   mouseLeaveInfo(mouseEnterInfo: any): void {
     // Add a delay before closing the modal
     setTimeout(() => {
       const modalElement = this.closeAttendanceDetailModalButton.nativeElement;
-  
+
       // Ensure the mouse is not hovering over the modal before closing it
       if (!modalElement.matches(':hover')) {
         this.closeAttendanceModal();
@@ -521,9 +521,9 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   // getEventForDate(date: Date): any {
   //   return this.events.find(event => moment(event.date).isSame(moment(date), 'day'));
   // }
-  
 
-  
+
+
 
   panelChange(event: { date: Date; mode: 'month' | 'year' }): void {
     this.mode = event.mode; // Update mode
@@ -545,7 +545,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
       this.handleMonthChange(newMonth, newYear);
     }
   }
-  
+
 
   disableDate = (current: Date): boolean => {
     // Disable dates before the user's joining date
@@ -564,11 +564,11 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
 
   selectChange(selectedDate: Date): void {
     // console.log('Selected date:', selectedDate);
-    
+
     // Calculate the start and end dates for the month
     const startDateStr = moment(selectedDate).startOf('month').format('YYYY-MM-DD');
     const endDateStr = moment(selectedDate).endOf('month').format('YYYY-MM-DD');
-    
+
     // Call the method to fetch user attendance data
     this.getUserAttendanceDataFromDate(startDateStr, endDateStr);
   }
@@ -585,7 +585,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
     // Call your method to get user attendance data
     this.getUserAttendanceDataFromDate(startDateStr, endDateStr);
   }
-  
+
   // });
   getUserAttendanceDataFromDate(sDate: string, eDate: string): void {
     debugger
@@ -597,16 +597,16 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
           this.events = [];
           this.totalPresent = 0;
           this.totalAbsent = 0;
-  
+
           if (!attendances.length) {
             let currentDate = moment(sDate, 'YYYY-MM-DD');
             const endDate = moment(eDate, 'YYYY-MM-DD');
-  
+
             while (currentDate.isSameOrBefore(endDate)) {
-              this.events.push({ 
-                title: 'A', 
-                date: currentDate.format('YYYY-MM-DD'), 
-                color: '#f8d7d7' 
+              this.events.push({
+                title: 'A',
+                date: currentDate.format('YYYY-MM-DD'),
+                color: '#f8d7d7'
               });
               this.totalAbsent++;
               currentDate.add(1, 'days');
@@ -615,17 +615,17 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
             this.attendances = attendances;
             this.attendanceDetailsResponse = attendances;
             this.attendanceDetailDayWise = response?.listOfObject || [];
-  
+
             for (let attendance of attendances) {
               const title = this.getStatusTitle(attendance);
               const color = this.getStatusColor(attendance.status);
-  
+
               if (['Present', 'Half Day', 'Late'].includes(attendance.status)) {
                 this.totalPresent++;
               } else if (attendance.status === 'Absent') {
                 this.totalAbsent++;
               }
-  
+
               this.events.push({
                 title,
                 date: moment(attendance.createdDate).format('YYYY-MM-DD'),
@@ -637,18 +637,18 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
                 totalWorkingHours: attendance.totalWorkingHours,
                 createdDate: attendance.createdDate,
                 status: attendance.status,
-              });              
+              });
             }
           }
-  
+
           this.updateCalendarOptions();
-  
+
           if (this.prevDate) {
             //TODO : uncomment if required
             // const calendarApi = this.calendarComponent.getApi();
             // this.changeForwardButtonVisibilty(calendarApi);
           }
-  
+
           this.count++;
         },
         (error: any) => {
@@ -657,8 +657,8 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
         }
       );
   }
-  
-  
+
+
   // Function to update calendar options
   updateCalendarOptions(): void {
     this.calendarOptions = {
@@ -721,19 +721,19 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   }
 
   attendanceDetailDayWise: AttendanceDetailDayWise[] =[];
-  
+
 
   // Function to get attendance details for a particular date
   getAttendance(date: Date): AttendanceDetailDayWise | undefined {
     const formattedDate = this.formatDate(date);
     return this.attendanceDetailDayWise.find(attendance => attendance.createdDate === formattedDate);
   }
-  
+
   getEventForDate(date: Date): any {
     const formattedDate = this.formatDate(date);
     return this.events.find(event => event.date === formattedDate);
   }
-  
+
   // Helper function to format date to match the event date format
   // formatDate(date: Date): string {
   //   const year = date.getFullYear();
@@ -741,7 +741,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   //   const day = ('0' + date.getDate()).slice(-2);
   //   return `${year}-${month}-${day}`;
   // }
-  
+
   // Function to get details for tooltip
   getDetails(attendance: AttendanceDetailDayWise): string {
     const createdDate = new Date(attendance.createdDate).toLocaleDateString();
@@ -752,15 +752,15 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
     switch (attendance.status) {
         case 'Present':
         case 'Half Day':
-            const checkInTime = new Date(attendance.checkInTime).toLocaleTimeString([], { 
-                hour: 'numeric', 
-                minute: '2-digit', 
-                hour12: true 
+            const checkInTime = new Date(attendance.checkInTime).toLocaleTimeString([], {
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
             });
-            const checkOutTime = new Date(attendance.checkOutTime).toLocaleTimeString([], { 
-                hour: 'numeric', 
-                minute: '2-digit', 
-                hour12: true 
+            const checkOutTime = new Date(attendance.checkOutTime).toLocaleTimeString([], {
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
             });
 
             // Adding details with line breaks between each
@@ -807,7 +807,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
     // Handle actions here if necessary, such as re-fetching data based on mode
   }
 
-  
+
 
   // getStatusColor(status: any): string {
   //   switch (status) {
@@ -845,7 +845,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   forwordFlag: boolean = false;
 
   goforward() {
-    
+
     const calendarApi = this.calendarComponent.getApi();
 
     calendarApi.next();
@@ -868,7 +868,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   }
 
   changeForwardButtonVisibilty(calendarApi: any) {
-    
+
     var enrolmentDate = new Date(this.prevDate);
     if (calendarApi?.getDate().getFullYear() != new Date().getFullYear()) {
       this.forwordFlag = true;
@@ -895,7 +895,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
 
   backwardFlag: boolean = true;
   goBackward() {
-    
+
     const calendarApi = this.calendarComponent.getApi();
     var date = new Date(this.prevDate);
     var month = date.getMonth();
@@ -990,7 +990,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   submitLeaveLoader: boolean = false;
   @ViewChild('fileInput') fileInput!: ElementRef;
   saveLeaveRequestUser() {
-    
+
 
     if (this.userLeaveForm.invalid || this.isFileUploaded) {
       return;
@@ -1022,7 +1022,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
           this.resetUserLeave();
           this.formGroupDirective.resetForm();
           this.getUserLeaveLogByUuid();
-          
+
           this.requestLeaveCloseModel.nativeElement.click();
           // location.reload();
         },
@@ -1043,7 +1043,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
       request.daysCount = +this.lopReversalApplicationRequestForm.get('daysCount')?.value; // Cast the value to a number
       request.notes = this.lopReversalApplicationRequestForm.get('notes')?.value;
       request.userUuid = this.userId;
-      
+
       this.dataService.registerLopReversalApplication(request).subscribe((response) => {
         if(response.message != null){
           this.helperService.showToast(response.message, Key.TOAST_STATUS_SUCCESS);
@@ -1141,6 +1141,10 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
       (res: any) => {
           this.userLeave = res.object;
 
+          if(this.userLeave == null){
+            this.userLeave = []
+          }
+
           console.log('All userLeave :', this.userLeave)
 
       });
@@ -1158,7 +1162,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   selectStatusFlag: boolean = false;
   isLeaveErrorPlaceholder: boolean = false;
   getUserLeaveLogByUuid() {
-    
+
     this.isLeaveShimmer = true;
     // this.selectStatusFlag=true;
 
@@ -1378,7 +1382,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   pancardString: string = '';
   // isDocumentsShimmer:boolean=false;
   getEmployeeDocumentsDetailsByUuid() {
-    
+
     // this.isDocumentsShimmer=true;
     this.dataService.getEmployeeDocumentAsList(this.userId).subscribe(
       (data) => {
@@ -1463,7 +1467,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   hideNextButton: boolean = false;
   @ViewChild('openViewModal') openViewModal!: ElementRef;
   openPdfModel(viewString: string, docsName: string) {
-    
+
     this.nextOpenDocName = docsName;
     this.downloadString = viewString;
     this.previewString =
@@ -1686,7 +1690,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
 
   @ViewChild('openRejectModal') openRejectModal!: ElementRef;
   setReasonOfRejectionMethodCall() {
-    
+
     this.dataService
       .setReasonOfRejection(this.userId, this.reasonOfRejectionProfile)
       .subscribe(
@@ -1875,7 +1879,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
 
   salaryTemplateComponentResponse: SalaryTemplateComponentResponse = new SalaryTemplateComponentResponse();
   getSalaryTemplateComponentByUserUuidMethodCall() {
-    
+
     this.preRuleForShimmersAndErrorPlaceholdersForSalaryTemplateMethodCall();
     this.dataService.getSalaryTemplateComponentByUserUuid().subscribe((response) => {
 
@@ -1954,7 +1958,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
 
   statutoryResponseList: StatutoryResponse[] = [];
   getStatutoryByOrganizationIdMethodCall() {
-    
+
     this.dataService.getStatutoryByOrganizationId().subscribe(
       (response) => {
         this.statutoryResponseList = response.listOfObject;
@@ -2106,7 +2110,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
     this.endDate = this.helperService.formatDateToYYYYMMDD(
       new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0),
     );
-   
+
     this.getUserAttendanceDataFromDate(this.startDate, this.endDate);
   }
   disableMonths = (date: Date): boolean => {
@@ -2163,7 +2167,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
 
   organizationRegistrationDate: string = '';
   getOrganizationRegistrationDateMethodCall() {
-    
+
     this.dataService.getOrganizationRegistrationDate().subscribe(
       (response) => {
         this.organizationRegistrationDate = response;
@@ -2174,7 +2178,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
     );
   }
 
-  
+
 
 
   // Finance Section APIs
@@ -2250,7 +2254,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
       } else{
         this.employeePayslipLogResponseList = response.listOfObject;
         console.log( this.employeePayslipLogResponseList);
-      
+
       }
       this.isShimmerForEmployeePayslipLogResponse = false;
     }, (error) => {
@@ -2264,7 +2268,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   }
 
   // #################-- Payroll chart code --###########################
-  
+
   view: [number, number] = [375, 375]; // explicitly define as tuple
   // options
   showLegend: boolean = false;
@@ -2485,6 +2489,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
     // this.displaySuccessModal = true;
     switch (response) {
       case 'REJECTED':
+      case 'REQUESTED':
         this.allowEdit = true;
         break;
       case 'APPROVED':
@@ -2610,7 +2615,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   documentName: string = '';
 
   addNewDocument() {
-    
+
     this.addMoreDocModalButton.nativeElement.click();
     if (!this.onboardingPreviewData.employeeCompanyDocuments) {
       this.onboardingPreviewData.employeeCompanyDocuments = [];
@@ -2707,7 +2712,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   }
 
   assignAdditionalDocumentUrl(index: number, url: string): void {
-    
+
     if (!this.employeeCompanyDocuments) {
       this.onboardingPreviewData.employeeCompanyDocuments = [];
     }
@@ -2733,7 +2738,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   // }
 
   setEmployeeCompanyDocumentsMethodCall(): void {
-    
+
     if (this.onboardingPreviewData.employeeCompanyDocuments == null) {
       this.onboardingPreviewData.employeeCompanyDocuments = [];
     }
@@ -2854,7 +2859,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   }
 
   onFileSelected(event: Event): void {
-    
+
     const element = event.currentTarget as HTMLInputElement;
     const fileList: FileList | null = element.files;
 
@@ -2923,12 +2928,12 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
     this.dataService.getEmployeeSalary(this.userId).subscribe(
       (data: AppraisalRequest) => {
         this.appraisalRequest = data;
-    
+
         this.appraisalRequestModalButton.nativeElement.click();
       },
       (error) => {
         console.error('Error fetching employee CTC:', error);
-      
+
       }
     );
   }
@@ -2942,7 +2947,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
       (error) => {
         console.error('Error submitting appraisal request:', error);
         this.helperService.showToast("Error submitting appraisal request!", Key.TOAST_STATUS_ERROR);
-       
+
       }
     );
   }
@@ -2986,12 +2991,12 @@ return
       (error) => {
         console.error('Error submitting bonus request:', error);
         this.helperService.showToast("Error submitting bonus request", Key.TOAST_STATUS_ERROR);
-       
+
       }
     );
   }}
 
-  //  new 
+  //  new
 
   search: string = '';
   pageNumber: number = 1;
@@ -3055,7 +3060,7 @@ return
     return Array.from({ length: totalPages }, (_, index) => index + 1);
   }
 
-  //  asset logs 
+  //  asset logs
 
   isAssetErrorPlaceholder: boolean = false;
   userAssetLog: any;
@@ -3073,7 +3078,7 @@ return
           this.userAssetLog = response.listOfObject;
           this.isAssetShimmer = false;
           if(response.listOfObject==null || this.userAssetLog.length == 0) {
-          this.isAssetPlaceholder = true; 
+          this.isAssetPlaceholder = true;
           }
         },
         (error) => {
@@ -3082,9 +3087,9 @@ return
         }
       );
   }
-  
 
-  // hr policy 
+
+  // hr policy
 
 
   fileUrl!: string;
@@ -3137,7 +3142,7 @@ return
 
 
 
-  //  attendance update fucnionality 
+  //  attendance update fucnionality
   attendanceCheckTimeResponse : AttendanceCheckTimeResponse[] = [];
   getAttendanceChecktimeListDate(): void {
     const formattedDate = this.datePipe.transform(this.requestedDate, 'yyyy-MM-dd');
@@ -3166,7 +3171,7 @@ return
         managerId: formValue.managerId,
         requestReason: formValue.requestReason
       };
-  
+
       if (this.attendanceRequestType == 'UPDATE') {
         attendanceTimeUpdateRequest = {
           ...attendanceTimeUpdateRequest,
@@ -3181,7 +3186,7 @@ return
           outRequestTime: formValue.createGroup.outRequestTime
         };
       }
-  
+
       this.attendanceUpdateRequestLoader = true;
       attendanceTimeUpdateRequest.userUuid = this.userId;
       attendanceTimeUpdateRequest.requestType = this.attendanceRequestType;
@@ -3211,7 +3216,7 @@ return
       );
     // }
   }
-  
+
 
   // submitForm(): void {
   //   debugger
@@ -3233,7 +3238,7 @@ return
 
   // onDateChange(date: Date | null): void {
   //   if (date) {
-  //     this.requestedDate = date; 
+  //     this.requestedDate = date;
   //     this.statusString = this.attendanceTimeUpdateForm.get('requestType')?.value || '';
   //     this.getAttendanceChecktimeListDate();
   //   }
@@ -3277,7 +3282,7 @@ return
       const updateGroup = this.attendanceTimeUpdateForm.get('updateGroup');
       const managerId = this.attendanceTimeUpdateForm.get('managerId');
       const requestReason = this.attendanceTimeUpdateForm.get('requestReason');
-  
+
       return (updateGroup ? updateGroup.valid : false) &&
              (managerId ? managerId.valid : false) &&
              (requestReason ? requestReason.valid : false);
@@ -3285,14 +3290,14 @@ return
       const createGroup = this.attendanceTimeUpdateForm.get('createGroup');
       const managerId = this.attendanceTimeUpdateForm.get('managerId');
       const requestReason = this.attendanceTimeUpdateForm.get('requestReason');
-  
+
       return (createGroup ? createGroup.valid : false) &&
              (managerId ? managerId.valid : false) &&
              (requestReason ? requestReason.valid : false);
     }
     return false;
   }
-  
+
 
   onAttendanceRequestTypeChange(): void {
     this.resetFormFields();
@@ -3310,8 +3315,8 @@ return
     this.attendanceTimeUpdateForm.get('managerId')?.reset();
     this.attendanceTimeUpdateForm.get('requestReason')?.reset();
   }
-  
-  
+
+
 
 
   resetForm(): void {
@@ -3364,7 +3369,7 @@ getAttendanceRequestLogData() {
     //   clearTimeout(this.debounceTimer);
     // }
     // this.debounceTimer = setTimeout(() => {
-  
+
   // this.attendanceRequestLog = [];
   this.dataService.getAttendanceRequestLog(this.userId, this.pageNumberAttendanceLogs, this.itemPerPageAttendanceLogs).subscribe(response => {
     if(this.helperService.isObjectNullOrUndefined(response)){
@@ -3418,7 +3423,7 @@ closeAttendanceFunc() {
 }
 
 
-  //  super coins func 
+  //  super coins func
 
   employeeSuperCoinsResponse: EmployeeSuperCoinsResponse = {
     totalSuperCoins: 0,
@@ -3461,7 +3466,7 @@ closeAttendanceFunc() {
 
   donateCoinsForm!: FormGroup;
   isReasonTyped: boolean = false;
-  isReason: number = 0; 
+  isReason: number = 0;
   toggleReason(isTyped: boolean): void {
     this.isReasonTyped = isTyped;
     if (this.donateCoinsForm) {
@@ -3476,10 +3481,10 @@ closeAttendanceFunc() {
   }
 
 
-  
-  
 
-  
+
+
+
   // Requesting for overtime
   dateRange : Date[] = [];
   // Validation error message
@@ -3562,7 +3567,7 @@ closeAttendanceFunc() {
     this.overtimeRequestDTO.endTime = null;
     this.dateRange = [];
   }
-  
+
 
   LEAVE_LOG_TOGGLE : boolean = false;
   OVERTIME_LOG_TOGGLE : boolean = false;
@@ -3648,13 +3653,13 @@ closeAttendanceFunc() {
   )
   }
 
-  
-  
-  
 
 
 
- 
+
+
+
+
   // regDate = new Date('2023-01-01'); // Example registration date
   selectedYear = this.date.getFullYear();
   selectedMonth = this.date.getMonth() + 1;

@@ -17,7 +17,7 @@ declare var bootstrap: any;
 export class EmergencyContactComponent implements OnInit {
   userEmergencyContactDetails: UserEmergencyContactDetailsRequest[] = [];
 
-  constructor(private dataService: DataService, private router: Router, private cd: ChangeDetectorRef, private helperService:HelperService) { }
+  constructor(public dataService: DataService, private router: Router, private cd: ChangeDetectorRef, private helperService:HelperService) { }
 
   ngOnInit(): void {
     this.getOnboardingFormPreviewMethodCall();
@@ -62,7 +62,37 @@ debugger
   
     // Create NavigationExtras object with the queryParams
     let navExtra: NavigationExtras = { queryParams };
-    this.router.navigate(['/employee-onboarding/bank-details'], navExtra);
+    if(this.dataService.isRoutePresent('/bank-details')){
+      this.router.navigate(
+        ['/employee-onboarding/bank-details'],
+        navExtra
+      );
+  } else if(this.dataService.isRoutePresent('/employee-experience')){
+      this.router.navigate(
+        ['/employee-onboarding/employee-experience'],
+        navExtra
+      );
+  } else if(this.dataService.isRoutePresent('/acadmic')){
+      this.router.navigate(
+        ['/employee-onboarding/acadmic'],
+        navExtra
+      );
+  } else if(this.dataService.isRoutePresent('/employee-document')){
+      this.router.navigate(
+        ['/employee-onboarding/employee-document'],
+        navExtra
+      );
+  } else if(this.dataService.isRoutePresent('/employee-address-detail')){
+        this.router.navigate(
+          ['/employee-onboarding/employee-address-detail'],
+          navExtra
+        );
+  }else {
+    this.router.navigate(
+      ['/employee-onboarding/employee-onboarding-form'],
+      navExtra
+    );
+  }
   }
 
   deleteEmergencyContact(index: number) {
@@ -302,10 +332,10 @@ getOnboardingFormPreviewMethodCall() {
       //     this.employeeAdditionalDocument = [];
       // }
       
-        if(preview.userDocuments.secondarySchoolCertificate){
+        if(preview.userDocuments!=null && preview.userDocuments.secondarySchoolCertificate){
           this.isSchoolDocument = false;
         }
-        if(preview.userDocuments.highSchoolCertificate){
+        if(preview.userDocuments!=null && preview.userDocuments.highSchoolCertificate){
           this.isHighSchoolDocument = false;
         }
         if(preview.userExperience){

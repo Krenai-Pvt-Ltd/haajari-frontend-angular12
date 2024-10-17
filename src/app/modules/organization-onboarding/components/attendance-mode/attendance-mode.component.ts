@@ -41,6 +41,7 @@ export class AttendanceModeComponent implements OnInit {
     this.getOrganizationAddressDetailMethodCall();
     this.getMasterAttendanceModeMethodCall();
     this.getAttendanceModeStep();
+    // this.getFlexibleAttendanceMode();
   }
 
   routeToBilling() {
@@ -55,10 +56,13 @@ export class AttendanceModeComponent implements OnInit {
     debugger
     if (attendanceModeId == Key.MANUAL_ATTENDANCE) {
       this.updateAttendanceModeMethodCall(attendanceModeId);
+      this.saveAttendaceFlexibleModeInfo('flexible');
     } else {
       this.updateAttendanceModeMethodCall(attendanceModeId);
-      this.updateMasterAttendanceModeMethodCall(1, 3);
+      // this.getFlexibleAttendanceMode();
+      // this.updateMasterAttendanceModeMethodCall(1, 3);
       // this.attendanceWithLocationButton.nativeElement.click();
+      this.saveAttendaceFlexibleModeInfo('flexible');
       this.currentAttendanceModeId = attendanceModeId;
       this.currentLocation();
     }
@@ -91,6 +95,13 @@ export class AttendanceModeComponent implements OnInit {
         this.getMasterAttendanceModeMethodCall();
         this.getAttendanceModeStep();
         this.helperService.registerOrganizationRegistratonProcessStepData(Key.ATTENDANCE_MODE_ID, Key.PROCESS_COMPLETED);
+        if(attendanceMasterModeId == 1 && modeStepId == 1) {
+        this.locationType = '';
+        }
+        // else {
+          
+        // }
+        // this.getFlexibleAttendanceMode();
         // setTimeout(() => {
         //   this.helperService.showToast(
         //     'Attedance Master Mode updated successfully.',
@@ -673,5 +684,52 @@ onSelect(event: any): void {
 //   this.organizationAddressDetail.radius = selectedValue;
 // }
 
+locationType: string = ''; 
+
+onLocationTypeChange() {
+  if (this.locationType === 'fixed') {
+    this.organizationAddressDetail.addressLine1 = '';
+    this.organizationAddressDetail.radius = '';
+    this.resetAddressDetailsModal();
+  }
+   
+}
+offFinishSetup : boolean = false;
+saveAttendaceFlexibleModeInfo(locationType: string) {
+  this.dataService.saveFlexibleAttendanceMode(locationType).subscribe((response) => {
+    if(locationType == 'fixed') {
+       this.updateMasterAttendanceModeMethodCall(1, 3);
+       this.offFinishSetup = true;
+    }else {
+      this.offFinishSetup = false;
+    }
+  }, (error) => {
+     console.log(error);
+  })
+}
+
+// saveLocationInfo() {
+//   if(this.locationType == 'flexible') {
+//     this.saveAttendaceFlexibleModeInfo();
+//     this.getAttendanceModeMethodCall();
+//     this.closeAddressModal.nativeElement.click();
+//   }else if(this.locationType == 'fixed') {
+//    this.saveAttendaceFlexibleModeInfo();
+//    this.setOrganizationAddressDetailMethodCall();
+//   }
+// }
+
+getFlexibleAttendanceMode() {
+  this.dataService.getFlexibleAttendanceMode().subscribe((response) => {
+    if(response.object == true) {
+      this.locationType = 'flexible';
+    }else {
+      this.locationType = 'fixed';
+      this.updateMasterAttendanceModeMethodCall(1, 3);
+    }
+  },(error) =>{
+     console.log(error);
+  })
+}
 
 }

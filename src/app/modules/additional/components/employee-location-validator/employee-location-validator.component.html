@@ -2,7 +2,7 @@
     <div class="containernn">
       <app-link-expired-page *ngIf="isInvalid"></app-link-expired-page>
       <!--  *ngIf="!isInvalid" -->
-      <div class="row" *ngIf="!isInvalid" >
+      <div class="row"  *ngIf="!isInvalid">
         <div class="col-md-3 border-right">
            <div class="location-sidebar">
              <div class="d-flex align-items-center justify-content-between loaction-side-div" >
@@ -86,7 +86,7 @@
 
                 <div class="set-location-btn d-flex align-items-center justify-content-end mt-4" >
                     <!-- <button class="btn previous-stap"> <i class="bi bi-chevron-left pl-2"></i> Previous</button> -->
-
+{{this.isFlexible}}
                     <button type="button" (click)="calculateDistance()" [disabled]="!enableSubmitToggle" class="btn next-stap">
                       <!-- Conditionally display button text based on attendanceMode -->
                       <div *ngIf="toggle" class="dot-opacity-loader">

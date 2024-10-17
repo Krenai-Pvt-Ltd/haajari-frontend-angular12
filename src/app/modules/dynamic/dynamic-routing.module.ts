@@ -33,6 +33,7 @@ import { BillingAndSubscriptionPageComponent } from './components/billing-and-su
 import { CoinsComponent } from './components/coins/coins.component';
 import { ToDoStepDashboardComponent } from './components/to-do-step-dashboard/to-do-step-dashboard.component';
 import { SubscriptionComponent } from './components/subscription/subscription.component';
+import { PreviewFormComponent } from '../employee-onboarding/preview-form/preview-form.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -106,6 +107,10 @@ const routes: Routes = [
       {
         path: 'employee-onboarding-sidebar',
         component: EmployeeOnboardingSidebarComponent,
+      },
+      {
+        path: 'preview-form',
+        component: PreviewFormComponent,
       },
       {
         path: 'reports',
