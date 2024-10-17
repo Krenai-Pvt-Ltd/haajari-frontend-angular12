@@ -86,7 +86,6 @@
 
                 <div class="set-location-btn d-flex align-items-center justify-content-end mt-4" >
                     <!-- <button class="btn previous-stap"> <i class="bi bi-chevron-left pl-2"></i> Previous</button> -->
-{{this.isFlexible}}
                     <button type="button" (click)="calculateDistance()" [disabled]="!enableSubmitToggle" class="btn next-stap">
                       <!-- Conditionally display button text based on attendanceMode -->
                       <div *ngIf="toggle" class="dot-opacity-loader">
