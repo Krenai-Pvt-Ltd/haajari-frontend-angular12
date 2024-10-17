@@ -138,7 +138,7 @@
             <div
               class="mt-3 whatAppSlackBox p-3"
               *ngIf="
-                selectedMasterAttendanceModeId === 1 && attendanceModeStep === 2
+                selectedMasterAttendanceModeId === 1 && (attendanceModeStep === 2 || attendanceModeStep === 3)
               "
             >
               <div
@@ -278,17 +278,16 @@
                 </div>
               </div>
             </div>
-            {{locationType}}
             <div
                 class="location-selection mt-4 p-3 border rounded"
                 *ngIf="
                   selectedMasterAttendanceModeId === 1 && 
-                  (attendanceModeStep === 2) && 
-                  selectedAttendanceModeId != 1
+                  (attendanceModeStep === 2 || attendanceModeStep === 3) && 
+                  selectedAttendanceModeId != 1 && selectedAttendanceModeId != 0
                 "
               >
                 <h6 class="mb-3">Select Location Type :</h6>
-                <!-- {{locationType}} -->
+                
                 <div class="d-flex align-items-center gap-3">
                   <div class="custom-radio">
                    
@@ -298,7 +297,7 @@
                       id="flexibleLocation"
                       name="locationType"
                       [(ngModel)]="locationType"
-                      (ngModelChange)="saveAttendaceFlexibleModeInfo()"
+                      (ngModelChange)="saveAttendaceFlexibleModeInfo(locationType)"
                       value="flexible"
                     />
                       <strong>Flexible Location</strong>
@@ -317,7 +316,7 @@
                       id="fixedLocation"
                       name="locationType"
                       [(ngModel)]="locationType"
-                      (ngModelChange)="saveAttendaceFlexibleModeInfo()"
+                      (ngModelChange)="saveAttendaceFlexibleModeInfo(locationType)"
                       value="fixed"
                     />
                       <strong>Fixed Location</strong>
@@ -336,10 +335,10 @@
               class="mt-3 whatAppSlackBox"
               style="border: none"
               *ngIf="
-                selectedMasterAttendanceModeId === 1 && attendanceModeStep === 3
+                selectedMasterAttendanceModeId === 1 && attendanceModeStep === 3 && locationType === 'fixed' && selectedAttendanceModeId != 1
               "
             >
-              <div
+              <!-- <div
                 class="d-flex align-items-center justify-content-between p-3 whatAppSlack"
               >
                 <div class="d-flex align-items-center gap-3">
@@ -385,7 +384,7 @@
                     </svg>
                   </button>
                 </div>
-              </div>
+              </div> -->
 
               <div class="col-md-12 mt-4">
                 <div class="card-header p-0 pb-3 bg-white mb-3">
@@ -393,7 +392,7 @@
                     class="d-flex align-items-center justify-content-between"
                   >
                     <div class="d-flex align-items-center gap-3">
-                      <span
+                      <!-- <span
                         class="stap-back-btn"
                         (click)="updateMasterAttendanceModeMethodCall(1, 2)"
                       >
@@ -428,7 +427,7 @@
                             />
                           </g>
                         </svg>
-                      </span>
+                      </span> -->
                       <div>
                         <h4 class="mb-0 font-15">Office Address</h4>
                         <p class="mb-0 font-13">
@@ -814,13 +813,19 @@
                 <button
                   type="submit"
                   class="btn nextBtn p-0"
+                  [ngClass]="{'btn-border':!((organizationAddressForm?.invalid &&
+                      selectedMasterAttendanceModeId === 1) ||
+                    ((attendanceModeStep === 2 &&
+                      (selectedAttendanceModeId === 2 ||
+                        selectedAttendanceModeId === 3)) && locationType === 'fixed' && minRadius )||
+                    selectedMasterAttendanceModeId == null)}"
                   [disabled]="
                     (organizationAddressForm?.invalid &&
                       selectedMasterAttendanceModeId === 1) ||
                     ((attendanceModeStep === 3 &&
                       (selectedAttendanceModeId === 2 ||
                         selectedAttendanceModeId === 3)) && locationType === 'fixed' && minRadius )||
-                    selectedMasterAttendanceModeId == null
+                    selectedMasterAttendanceModeId == null || (selectedMasterAttendanceModeId === 1 && (attendanceModeStep === 2 || attendanceModeStep === 3 ) && locationType === '' && selectedAttendanceModeId != 1)
                   "
                   (click)="goToDashboardSection(); submit()"
                 >

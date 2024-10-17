@@ -987,6 +987,7 @@
                     class="btn nextBtn p-0"
                     [disabled]="totalOnboardingUserListCount === 0"
                     (click)="next()"
+                    [ngClass]="{'btn-border':!(totalOnboardingUserListCount === 0)}"
                   >
                     <span *ngIf="!isNextloading"
                       >Next

@@ -725,6 +725,7 @@
                         Leave Category
                       </button>
                       <button type="submit" class="btn btn-outline-primary btn-round" [disabled]="!form.valid"
+
                         (click)="goToStaffSelectionTab()">
                         Next
                       </button>
@@ -1310,7 +1311,6 @@
                  
                   <div  class="nav flex-column nav-pills pt-3" id="v-pills-tab" role="tablist"
                     aria-orientation="vertical">
-
                     <button class="nav-link" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home"
                       type="button" role="tab" aria-controls="v-pills-home" aria-selected="false" #templateSettingTab2>
                       Template setting
@@ -1478,7 +1478,8 @@
                           <button type="submit" class="btn p-0 next-btn" (click)="goToLeaveCategoryTab()" [disabled]="
                               !leaveTemplateDefinitionForm.valid ||
                               employeeTypeId == 0
-                            ">
+                            " 
+                            >
                             Next
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
                               fill="none">
@@ -1703,7 +1704,7 @@
                                 </button>
                               </div>
 
-                              <div class="table-responsive bg-white mt-4 leave-category-list"
+                              <div class="table-responsive bg-white mt-4 leave-category-list pe-0"
                                 *ngIf="displayedCategories.length > 0">
                                 <table class="table empOnnoardtable">
                                   <thead class="thead-light">
@@ -1729,7 +1730,7 @@
                                       <!-- <th class="text-center" style="width: 10%">
                                         Leave Action
                                       </th> -->
-                                      <th *ngIf="!updateToggle" class="text-center" style="width: 10%">
+                                      <th *ngIf="!updateToggle" class="text-center stickyColThend bg-white" style="width: 10%">
                                         Action
                                       </th>
                                     </tr>
@@ -1790,7 +1791,7 @@
                                           }}</span>
                                       </td> -->
 
-                                      <td *ngIf="!updateToggle" class="text-center">
+                                      <td *ngIf="!updateToggle" class="text-center stickyColThend bg-white">
                                         <div class="d-flex align-items-center gap-2">
                                           <button (click)="editCategory(i)" type="button" class="btn btnAction p-0">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19"

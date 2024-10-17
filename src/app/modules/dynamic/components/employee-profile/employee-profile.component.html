@@ -1258,8 +1258,8 @@
                       <!--end card-->
                       <div class="d-flex justify-content-end align-items-center add-filtter mb-2"
                         *ngIf="userRoleFlag && ROLE!= 'ADMIN'">
-                        <a class="btn" data-bs-toggle="modal" data-bs-target=".apply-leave">
-                          <i class="bi bi-plus" style="font-size: 15px"></i>Apply for a Leave</a>
+                        <a *ngIf="userLeave.length > 0" class="btn" data-bs-toggle="modal" data-bs-target=".apply-leave">
+                          <i class="bi bi-plus" style="font-size: 15px"></i>Apply for a Leaved</a>
                         <a class="btn" data-bs-toggle="modal" data-bs-target=".lop-reversal-request">
                           <i class="bi bi-plus" style="font-size: 15px"></i>Apply for Lop Reversal </a>
                         <a class="btn" data-bs-toggle="modal" data-bs-target=".overtime-request">
@@ -4237,9 +4237,9 @@
                       <nz-range-picker 
                         [nzShowTime]="{ nzFormat: 'HH:mm' }" 
                         nzFormat="yyyy-MM-dd HH:mm" 
-                        [(ngModel)]="dateRange" 
+                        [(ngModel)]="dateRange"
+                        [ngModelOptions]="{standalone: true}"
                         required
-                        [nzDisabledDate]="disabledDateForOvertimeRequest"
                         (ngModelChange)="selectTimeForOvertimeRequest($event)"
                         (nzOnCalendarChange)="selectTimeForOvertimeRequest($event)"
                         (nzOnOk)="selectTimeForOvertimeRequest($event)">
@@ -4461,19 +4461,12 @@
                   <b>Holiday!</b>
                 </p>
               </div>
-              <div class="calenInfo d-block" *ngIf="
-                  userAttendanceDetailDateWise.status == 'On Leave' &&
-                  userAttendanceDetailDateWise.createdDate != endDateStr
-                ">
+              <div class="calenInfo d-block" *ngIf="userAttendanceDetailDateWise.status == 'On Leave' && userAttendanceDetailDateWise.createdDate != endDateStr">
                 <p>
                   <b>On Leave!</b>
                 </p>
               </div>
-              <div class="calenInfo d-block" *ngIf="
-                  (userAttendanceDetailDateWise.checkInTime == null ||
-                    userAttendanceDetailDateWise.checkInTime == undefined) &&
-                  userAttendanceDetailDateWise.createdDate == endDateStr
-                ">
+              <div class="calenInfo d-block" *ngIf="(userAttendanceDetailDateWise.checkInTime == null || userAttendanceDetailDateWise.checkInTime == undefined) && userAttendanceDetailDateWise.createdDate == endDateStr">
                 <p>
                   <b>Not Marked Yet :)</b>
                 </p>
