@@ -106,7 +106,7 @@ export class SubscriptionComponent implements OnInit {
     if(this.totalEmployee>0){
       this.employeeCount = this.totalEmployee;
     }
-    this.calculateByEmployeeSize();
+    this.calculateEmployeeSize();
   }
 
 
