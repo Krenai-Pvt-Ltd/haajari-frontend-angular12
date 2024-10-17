@@ -13,6 +13,7 @@ import { OrganizationOnboardingComponent } from './organization-onboarding.compo
 import { AttendanceModeComponent } from './components/attendance-mode/attendance-mode.component';
 import { ShiftTimeListComponent } from './components/shift-time-list/shift-time-list.component';
 import { AddShiftPlaceholderComponent } from './components/add-shift-placeholder/add-shift-placeholder.component';
+import { OnboardingSuccessfulComponent } from './components/onboarding-successful/onboarding-successful.component';
 
 const routes: Routes = [
   {
@@ -33,6 +34,7 @@ const routes: Routes = [
       { path: 'attendance-mode', component: AttendanceModeComponent },
       { path: 'shift-time-list', component: ShiftTimeListComponent },
       { path: 'add-shift-placeholder', component: AddShiftPlaceholderComponent },
+      { path: 'onboarding-successful', component: OnboardingSuccessfulComponent },
     ],
   },
 ];

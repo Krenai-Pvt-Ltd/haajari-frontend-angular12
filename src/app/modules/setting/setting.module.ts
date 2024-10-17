@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import { SettingRoutingModule } from './setting-routing.module';
 import { AccountSettingsComponent } from './components/account-settings/account-settings.component';
 import { AttendanceSettingComponent } from './components/attendance-setting/attendance-setting.component';
@@ -38,7 +37,6 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
-
 @NgModule({
   declarations: [
     SettingComponent,
@@ -86,6 +84,7 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
     DragDropModule,
     NgbTooltipModule,
     SharedModule,
+
   ],
 })
 export class SettingModule {}

@@ -32,7 +32,6 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { BillAndSubscriptionComponent } from './modules/sharable/bill-and-subscription/bill-and-subscription.component';
 import { HeaderComponent } from './modules/common/header/header.component';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
-
 // import { OnboardingSidebarResponse } from './models/onboarding-sidebar-response';
 
 @NgModule({
@@ -45,7 +44,6 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
     ConfirmationDialogComponent,
     BillAndSubscriptionComponent,
     HeaderComponent,
-
     // AuthenticationComponent,
   ],
   imports: [
@@ -86,7 +84,7 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
       useClass: RequestInterceptorService,
       multi: true,
     },
-    AngularFireStorage,
+    AngularFireStorage
     // Compiler
   ],
   bootstrap: [AppComponent],
