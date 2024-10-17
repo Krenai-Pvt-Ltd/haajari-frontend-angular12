@@ -41,7 +41,7 @@ export class AttendanceModeComponent implements OnInit {
     this.getOrganizationAddressDetailMethodCall();
     this.getMasterAttendanceModeMethodCall();
     this.getAttendanceModeStep();
-    this.getFlexibleAttendanceMode();
+    // this.getFlexibleAttendanceMode();
   }
 
   routeToBilling() {
@@ -56,10 +56,13 @@ export class AttendanceModeComponent implements OnInit {
     debugger
     if (attendanceModeId == Key.MANUAL_ATTENDANCE) {
       this.updateAttendanceModeMethodCall(attendanceModeId);
+      this.saveAttendaceFlexibleModeInfo('flexible');
     } else {
       this.updateAttendanceModeMethodCall(attendanceModeId);
+      // this.getFlexibleAttendanceMode();
       // this.updateMasterAttendanceModeMethodCall(1, 3);
       // this.attendanceWithLocationButton.nativeElement.click();
+      this.saveAttendaceFlexibleModeInfo('flexible');
       this.currentAttendanceModeId = attendanceModeId;
       this.currentLocation();
     }
@@ -92,6 +95,13 @@ export class AttendanceModeComponent implements OnInit {
         this.getMasterAttendanceModeMethodCall();
         this.getAttendanceModeStep();
         this.helperService.registerOrganizationRegistratonProcessStepData(Key.ATTENDANCE_MODE_ID, Key.PROCESS_COMPLETED);
+        if(attendanceMasterModeId == 1 && modeStepId == 1) {
+        this.locationType = '';
+        }
+        // else {
+          
+        // }
+        // this.getFlexibleAttendanceMode();
         // setTimeout(() => {
         //   this.helperService.showToast(
         //     'Attedance Master Mode updated successfully.',
@@ -674,7 +684,7 @@ onSelect(event: any): void {
 //   this.organizationAddressDetail.radius = selectedValue;
 // }
 
-locationType: string = 'flexible'; 
+locationType: string = ''; 
 
 onLocationTypeChange() {
   if (this.locationType === 'fixed') {
@@ -685,9 +695,9 @@ onLocationTypeChange() {
    
 }
 offFinishSetup : boolean = false;
-saveAttendaceFlexibleModeInfo() {
-  this.dataService.saveFlexibleAttendanceMode(this.locationType).subscribe((response) => {
-    if(this.locationType == 'fixed') {
+saveAttendaceFlexibleModeInfo(locationType: string) {
+  this.dataService.saveFlexibleAttendanceMode(locationType).subscribe((response) => {
+    if(locationType == 'fixed') {
        this.updateMasterAttendanceModeMethodCall(1, 3);
        this.offFinishSetup = true;
     }else {
@@ -698,21 +708,16 @@ saveAttendaceFlexibleModeInfo() {
   })
 }
 
-saveLocationInfo() {
-  if(this.locationType == 'flexible') {
-    this.saveAttendaceFlexibleModeInfo();
-  //  this.attendancewithlocationssButton.nativeElement.click();
-    this.getAttendanceModeMethodCall();
-          // this.toggle = false;
-    this.closeAddressModal.nativeElement.click();
-    // this.helperService.showToast(
-    //   'Attedance Mode updated successfully',
-    //   Key.TOAST_STATUS_SUCCESS);
-  }else if(this.locationType == 'fixed') {
-   this.saveAttendaceFlexibleModeInfo();
-   this.setOrganizationAddressDetailMethodCall();
-  }
-}
+// saveLocationInfo() {
+//   if(this.locationType == 'flexible') {
+//     this.saveAttendaceFlexibleModeInfo();
+//     this.getAttendanceModeMethodCall();
+//     this.closeAddressModal.nativeElement.click();
+//   }else if(this.locationType == 'fixed') {
+//    this.saveAttendaceFlexibleModeInfo();
+//    this.setOrganizationAddressDetailMethodCall();
+//   }
+// }
 
 getFlexibleAttendanceMode() {
   this.dataService.getFlexibleAttendanceMode().subscribe((response) => {
@@ -720,6 +725,7 @@ getFlexibleAttendanceMode() {
       this.locationType = 'flexible';
     }else {
       this.locationType = 'fixed';
+      this.updateMasterAttendanceModeMethodCall(1, 3);
     }
   },(error) =>{
      console.log(error);
