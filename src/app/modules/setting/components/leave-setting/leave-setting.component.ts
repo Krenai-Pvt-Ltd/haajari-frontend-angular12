@@ -31,6 +31,7 @@ import { YearType } from 'src/app/models/year-type';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 
+
 @Component({
   selector: 'app-leave-setting',
   templateUrl: './leave-setting.component.html',
