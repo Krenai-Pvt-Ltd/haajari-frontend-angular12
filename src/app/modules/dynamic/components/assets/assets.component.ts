@@ -569,7 +569,7 @@ colorScheme: Color = {
   group: ScaleType.Ordinal, 
   domain: ['#80CBC4', '#FFE082', '#80CBC4', '#FFCCBC', '#9575CD', '#4FC3F7', '#AED581', '#FFD54F', '#FF7043']
 };
-view: [number, number] = [700, 340];
+view: [number, number] = [600, 340];
 
 getCategoryCounts(): void {
   debugger
