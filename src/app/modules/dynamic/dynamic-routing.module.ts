@@ -34,6 +34,7 @@ import { CoinsComponent } from './components/coins/coins.component';
 import { ToDoStepDashboardComponent } from './components/to-do-step-dashboard/to-do-step-dashboard.component';
 import { SubscriptionComponent } from './components/subscription/subscription.component';
 import { PreviewFormComponent } from '../employee-onboarding/preview-form/preview-form.component';
+import { ReferFriendComponent } from './components/refer-friend/refer-friend.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -184,6 +185,10 @@ const routes: Routes = [
       {
         path: 'subscription',
         component: SubscriptionComponent,
+      },
+      {
+        path: 'refer-friend',
+        component: ReferFriendComponent,
       },
     ],
   },
