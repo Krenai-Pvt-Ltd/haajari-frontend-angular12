@@ -733,6 +733,21 @@
                       <div
                         class="add-filtter d-flex justify-content-end align-items-center gap-1"
                       >
+                      <button
+                      class="btn primaryBtnLink"
+                      data-bs-toggle="modal"
+                      (click)="downloadUserDataInExcelFormatMethodCall()"
+                      type="button"
+                    >
+                      <i class="bi bi-download"></i>
+                      <span *ngIf="!downloadingFlag">Download</span>
+                      <div class="dot-opacity-loader" *ngIf="downloadingFlag">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                    </button>
+                    <span class="btnSeprator"></span>
                         <button
                           class="btn primaryBtnLink"
                           data-bs-toggle="modal"

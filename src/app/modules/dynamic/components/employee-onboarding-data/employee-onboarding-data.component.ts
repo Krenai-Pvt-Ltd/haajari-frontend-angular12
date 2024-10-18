@@ -96,6 +96,13 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.getShiftData();
     this.getOnboardingVia();
 
+    const storedDownloadUrl = localStorage.getItem('downloadUrl');
+
+    if (storedDownloadUrl) {
+      this.downloadingFlag = true;
+      this.downloadFileFromUrl(storedDownloadUrl);
+    }
+
     // const getRandomNameList = (): Observable<string[]> =>
     //   this.http.get<string[]>(`${this.randomUserUrl}`).pipe(
     //     catchError(() => of([])),
@@ -980,6 +987,33 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       }
     );
   }
+
+  downloadingFlag: boolean = false;
+  downloadUserDataInExcelFormatMethodCall() {
+    this.downloadingFlag = true;
+    this.dataService
+      .downloadUserDataInExcelFormat()
+      .subscribe(
+        (response) => {
+          const downloadUrl = response.message;
+      localStorage.setItem('downloadUrl', downloadUrl);
+      this.downloadFileFromUrl(downloadUrl);
+        },
+        (error) => {
+          console.log(error);
+          this.downloadingFlag = false;
+        }
+      );
+  }
+  downloadFileFromUrl(downloadUrl: string) {
+    const downloadLink = document.createElement('a');
+    downloadLink.href = downloadUrl;
+    downloadLink.download = 'attendance.xlsx';
+    downloadLink.click();
+    this.downloadingFlag = false;
+    localStorage.removeItem('downloadUrl');
+  }
+
 
 
 
