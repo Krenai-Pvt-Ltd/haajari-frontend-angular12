@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, NgZone, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 // import { LottieComponent, AnimationOptions } from 'ngx-lottie';
 
 @Component({
@@ -9,9 +10,14 @@ import { ChangeDetectorRef, Component, NgZone, OnInit } from '@angular/core';
 export class OnboardingSuccessfulComponent implements OnInit {
 
   constructor(private ngZone: NgZone,
-    private ref: ChangeDetectorRef,) { }
+    private ref: ChangeDetectorRef, private router: Router) { }
  
   ngOnInit(): void {
+
+    // setTimeout(() => {
+    //   // this.router.navigate(['/dashboard']);
+    //   this.router.navigate(['/to-do-step-dashboard']);
+    // }, 5000);
   }
 
   //  options: AnimationOptions = {

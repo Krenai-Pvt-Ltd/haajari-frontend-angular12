@@ -113,7 +113,11 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
         break;
       }
       case '5': {
-        this.router.navigate(['/dashboard']);
+         setTimeout(() => {
+         this.router.navigate(['/dashboard']);
+          // this.router.navigate(['/to-do-step-dashboard']);
+        }, 5000);
+        // this.router.navigate(['/dashboard']);
         // console.log("Step 5 is calling");
         break;
       }
