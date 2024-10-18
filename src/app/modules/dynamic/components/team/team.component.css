@@ -1205,4 +1205,8 @@ button.btn.close-btn {
 .create-team{
   height: 45px;
   border-radius: 2px;
+  color: #fff !important;
+}
+.create-team:hover{
+  color: #fff !important;
 }
