@@ -2160,7 +2160,7 @@
         </form>
       </div>
 
-
+<!-- 
       <div class="errorboxmain text-center" *ngIf="breakUsers.length == 0 && !isBreakLoaderLoading">
 
         <div class="errorboxinner">
@@ -2175,12 +2175,12 @@
             </p>
           </div>
         </div>
-      </div> -->
+      </div>  -->
 
      <div
       class="empty-file"
       style="margin-top: 7%; margin-bottom: 7%"
-      *ngIf="breakUsers.length == 0"
+      *ngIf="breakUsers.length == 0 && !isBreakLoaderLoading"
       >
       <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
         <ng-template #contentTpl>
