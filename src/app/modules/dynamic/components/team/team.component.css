@@ -46,7 +46,7 @@
 }
 
 .members-icon {
-  background-color: #eea2cc;
+  background-color: #a69ff3;
   width: 40px;
   height: 40px;
   display: flex;
@@ -55,7 +55,7 @@
   border-radius: 50%;
   font-size: 18px;
   text-transform: uppercase;
-  color: var(--primary-color);
+  color: #fff;
 }
 
 span.members-name {
@@ -143,6 +143,7 @@ span.members-namess {
 .user-item img {
   width: 30px;
   border-radius: 50%;
+  height: 30px;
 }
 #members {
   width: 100%;
@@ -158,6 +159,13 @@ span.members-namess {
   align-items: center;
   line-height: 45px;
   cursor: pointer;
+}
+
+#manager-list-details{
+  display: flex;
+    align-items: center;
+    line-height: 45px;
+    cursor: pointer;
 }
 
 .team-name {
@@ -1188,4 +1196,13 @@ button.btn.close-btn {
 
 ::ng-deep.ant-empty-image img {
   width: 90px;
+}
+.user-dropdown{
+  max-height: 200px;
+  overflow: scroll;
+}
+
+.create-team{
+  height: 45px;
+  border-radius: 2px;
 }
