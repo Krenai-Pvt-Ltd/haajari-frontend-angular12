@@ -1,0 +1,59 @@
+.refer-friend-main-box{
+    background: linear-gradient(182deg, #E4E7FF -9.67%, #F2F4FF 8.88%, #FFF 68.76%);
+    height: 100vh;
+}
+
+.refer-friend-detail h5{
+    color: #000;
+        font-size: 32px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 40px;
+        letter-spacing: 0.096px;
+}
+
+.refer-friend-detail p {
+    color: #3F3E3E;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24.317px;
+}
+
+.functions-box h4{
+    color: #000;
+        font-size: 26px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 24.317px;
+}
+.functions-box p{
+    color: #3F3E3E;
+        font-size: 15px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 28px;
+        margin-bottom: 20px;
+}
+
+.refer-friend-detail h3{
+    color: #000;
+        font-weight: 600;
+}
+.copy-link{
+    background-color: #F6F7FF;
+    max-width: 500px;
+}
+.copy-link p{
+    color: var(--primary-color);
+    overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 360px;
+}
+
+.functions-box svg{
+    width: 15px;
+    height: 15px;
+    position: relative;
+    top: 7px;
+}

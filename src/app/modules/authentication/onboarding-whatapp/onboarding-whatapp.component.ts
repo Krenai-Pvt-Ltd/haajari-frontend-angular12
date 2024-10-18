@@ -645,5 +645,8 @@ export class OnboardingWhatappComponent implements OnInit {
     }, 500);
   }
   
+  routeToSignup() {
+    this.router.navigate(['/auth/signup']);
+  }
 
 }
