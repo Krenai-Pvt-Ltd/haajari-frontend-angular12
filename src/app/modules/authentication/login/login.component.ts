@@ -263,6 +263,7 @@ export class LoginComponent implements OnInit {
   ngAfterViewInit() {
     this.autoplayVideo();
   }
+  
 
   autoplayVideo() {
     var div = document.getElementById('videoId');
@@ -578,11 +579,24 @@ export class LoginComponent implements OnInit {
     }, 1000);
   }
 
+  @ViewChild('otp1Input') otp1Input!: ElementRef<HTMLInputElement>;
   changeNumber() {
     this.showOtpInput = false;
     this.verifyOtpButtonFlag = false;
     this.phoneNumber = '';
     this.email = '';
+    this.focusOnFirstInput();
+    // if (this.firstOtpInput) {
+    //   this.firstOtpInput.nativeElement.focus();
+    // }
+    
+    // this.activeInputIndex = 1;
+  }
+
+  focusOnFirstInput() {
+    setTimeout(() => {
+      this.otp1Input.nativeElement.focus(); 
+    }, 0); 
   }
 
   backToLogin() {
