@@ -236,10 +236,6 @@ export class OnboardingWhatappComponent implements OnInit {
             this.createPasswordFlag = true;
             this.showMessageFlag = false;
             this.isOtpVerify = false;
-            if(!constant.EMPTY_STRINGS.includes(this.promotionCode) ){
-              this.promotionCode ='';
-              this.deleteAllCookies();
-            }
           } else {
             this.isOtpVerify = true;
             this.loading = false;
@@ -417,6 +413,10 @@ export class OnboardingWhatappComponent implements OnInit {
       .subscribe(
         async (response: any) => {
           if (response.status) {
+            if(!constant.EMPTY_STRINGS.includes(this.promotionCode) ){
+              this.promotionCode ='';
+              this.deleteAllCookies();
+            }
             this.loading = false;
             this.helperService.subModuleResponseList =
               response.object.subModuleResponseList;

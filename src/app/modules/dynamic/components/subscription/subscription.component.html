@@ -1335,7 +1335,7 @@
                 class="d-flex align-items-center justify-content-between p-3 border-bottom"
               >
                 <h5 class="mb-0 font-20">Order Recap</h5>
-                <button class="btn contactActionBtn bg-white" *ngIf="!isCouponVerified" (click)="showCoupon=true;">
+                <button class="btn contactActionBtn bg-white" *ngIf="!isCouponVerified && !Constant.EMPTY_STRINGS.includes(employeeCount+'')" (click)="showCoupon=true;">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"

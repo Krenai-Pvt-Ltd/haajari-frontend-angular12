@@ -609,7 +609,7 @@
                 </div>
               </div>
             </div>
-            <div class="basicPlan" *ngIf="_subscriptionPlanService.isTrial">
+            <div class="basicPlan" *ngIf="_subscriptionPlanService.isTrial && _subscriptionPlanService.isSubscription">
               <div class="d-flex align-items-center justify-content-between">
                 <div>
                   <h3 class="mb-2">Trial Plan</h3>
@@ -621,9 +621,9 @@
                   nz-popover
                   [nzPopoverContent]="contentTemplate" nzPopoverPlacement="top">
                   <ng-template #contentTemplate>
-                    <p class="mb-0">
+                    <!-- <p class="mb-0">
                       You're on a free trial—upgrade options will be available once the trial ends.
-                    </p>
+                    </p> -->
                     </ng-template>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

@@ -297,6 +297,7 @@ export class SubscriptionComponent implements OnInit {
     this.getPlans();
     this.getCurrentSubscriptionPlan();
     this._subscriptionPlanService.getOrganizationSubsPlanDetail();
+    this._subscriptionPlanService.isSubscriptionPlanExpired();
     this.removeCoupon();
   }
 

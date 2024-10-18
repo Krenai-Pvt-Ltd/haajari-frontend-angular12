@@ -190,7 +190,7 @@ export class AttendanceModeComponent implements OnInit {
     this.onboardingService.saveOrgOnboardingStep(5).subscribe((resp) => {
       this.onboardingService.refreshOnboarding();
     });
-     this.registerBillingAndSubscriptionTempMethodCall(this.basicSubscriptionPlanId);
+    //  this.registerBillingAndSubscriptionTempMethodCall(this.basicSubscriptionPlanId);
 
     this.dataService.sendOnboardingNotificationInWhatsapp().subscribe(
       (response) => {

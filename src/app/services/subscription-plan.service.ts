@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Key } from "../constant/key";
 import { DatabaseHelper } from "../models/DatabaseHelper";
 
@@ -23,8 +23,11 @@ export class SubscriptionPlanService {
   getOrganizationSubsPlanDetail() {
     this.getOrgSubsPlanDetail().subscribe((response) => {
         if (response.status){
+          //@ts-ignore
           this.planName = response.object.planName;
+          //@ts-ignore
           this.isTrial = response.object.isTrial;
+          //@ts-ignore
           this.month = response.object.month;
         }
       },(error)=>{
@@ -34,11 +37,16 @@ export class SubscriptionPlanService {
 
   isPlanExpired:boolean=false;
   isUpgradePlan:boolean=false;
+  isSubscription:boolean=false;
   isSubscriptionPlanExpired() {
     this.isSubscrPlanExpired().subscribe((response) => {
         if (response.status){
+            //@ts-ignore
           this.isPlanExpired = response.object.isExpired;
+            //@ts-ignore
           this.isUpgradePlan = response.object.isUpgradePlan;
+            //@ts-ignore
+          this.isSubscription = response.object.isSubscription;
         }
       },(error)=>{
 
