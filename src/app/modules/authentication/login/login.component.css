@@ -220,7 +220,7 @@
 }
 @media (max-width: 2600px) {
   .otpInput input {
-    height: 67px !important;
+    height: 60px !important;
     border-radius: 0px !important;
     text-align: center;
   }
