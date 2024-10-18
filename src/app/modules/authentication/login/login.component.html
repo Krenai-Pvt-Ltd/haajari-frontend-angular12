@@ -226,7 +226,7 @@
                 <div class="d-flex align-items-center otpInputBox">
                   <input type="text" maxlength="1" [(ngModel)]="otp1" (input)="moveToNext($event, otp2Input, 2)"
                     (keydown)="moveToPrevious($event, otp1Input, 1)" (paste)="handleOtpPaste($event)"
-                    class="form-control whatapp-login-input" [ngClass]="{ 'active-input': activeInputIndex === 1 }" #otp1Input
+                    class="form-control whatapp-login-input" [ngClass]="{ 'active-input': activeInputIndex === 1 }" #otp1Input 
                     autofocus />
                   <input type="text" maxlength="1" [(ngModel)]="otp2" (input)="moveToNext($event, otp3Input, 3)"
                     (keydown)="moveToPrevious($event, otp1Input, 1)" class="form-control whatapp-login-input"
