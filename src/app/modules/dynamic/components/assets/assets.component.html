@@ -215,10 +215,11 @@
                 <!--end row-->
               </div>
               <!--end card-header-->
+              <!-- [view]="view" -->
               <div class="card-body">
                 <div class="text-center" *ngIf="categoryCounts.length > 0">
                   <ngx-charts-bar-vertical-stacked
-                    [view]="view"
+                   
                     [scheme]="colorScheme"
                     [results]="categoryCounts"
                     [gradient]="false"
