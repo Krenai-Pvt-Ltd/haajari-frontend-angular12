@@ -729,6 +729,7 @@ export class DashboardComponent implements OnInit {
   attendanceReportResponseList: AttendanceReportResponse[] = [];
   debounceTimer: any;
   getAttendanceReportByDateDurationMethodCall(debounceTime: number = 300) {
+    debugger
     return new Promise((resolve, reject) => {
       if (this.debounceTimer) {
         clearTimeout(this.debounceTimer);
