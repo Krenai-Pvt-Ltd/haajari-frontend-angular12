@@ -73,6 +73,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { ReferFriendComponent } from './components/refer-friend/refer-friend.component';
 
 @NgModule({
   declarations: [
@@ -119,6 +120,7 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
     CoinsComponent,
     ToDoStepDashboardComponent,
     SubscriptionComponent,
+    ReferFriendComponent,
   ],
   imports: [
     CommonModule,
@@ -166,7 +168,7 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
     NzPopoverModule,
     NzEmptyModule,
   ],
-  exports: [],
+  exports: [DurationFormatPipe],
   providers: [
     { provide: NZ_I18N, useValue: en_US },
     DataService,

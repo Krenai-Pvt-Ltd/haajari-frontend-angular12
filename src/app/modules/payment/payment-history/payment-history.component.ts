@@ -63,6 +63,7 @@ export class PaymentHistoryComponent implements OnInit {
   endDateStr: string = '';
   month: string = '';
   inputDate: string = '';
+  mainPlaceholderFlag : boolean = false;
 
   employeeMonthWiseSalaryDataList: EmployeeMonthWiseSalaryData[] = [];
   getOrganizationMonthWiseSalaryDataMethodCall() {
@@ -86,6 +87,11 @@ export class PaymentHistoryComponent implements OnInit {
             response.listOfObject.length == 0
           ) {
             this.dataNotFoundPlaceholder = true;
+            if(this.search == '') {
+              this.mainPlaceholderFlag = true;
+            }else {
+              this.mainPlaceholderFlag = false;
+            }
           } else {
             this.employeeMonthWiseSalaryDataList = response.listOfObject;
             this.total = response.totalItems;

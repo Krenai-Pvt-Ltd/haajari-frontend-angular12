@@ -70,6 +70,7 @@ export class BonusAndDeductionComponent implements OnInit {
   month: string = '';
   inputDate: string = '';
 
+mainPlaceholderFlag : boolean = false;
 bonusAndDeductionDataList: BonusAndDeductionData[] = [];
   getBonusAndDeductionMethodCall() {
     this.preRuleForShimmersAndErrorPlaceholders();
@@ -88,6 +89,11 @@ bonusAndDeductionDataList: BonusAndDeductionData[] = [];
             this.helperService.isListOfObjectNullOrUndefined(response)
           ) {
             this.dataNotFoundPlaceholder = true;
+            if(this.search == '') {
+              this.mainPlaceholderFlag = true;
+            }else {
+              this.mainPlaceholderFlag = false;
+            }
           } else {
             this.bonusAndDeductionDataList = response.listOfObject;
             this.total = response.totalItems;

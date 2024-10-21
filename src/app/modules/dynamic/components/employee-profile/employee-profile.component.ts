@@ -1007,7 +1007,9 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
         (data) => {
           // console.log(data);
           // console.log(data.body);
-          this.submitLeaveLoader = false;
+
+          if(data.status){
+            this.submitLeaveLoader = false;
           this.isLeavePlaceholder = false;
           this.isFileUploaded = false;
           this.fileToUpload = '';
@@ -1025,6 +1027,14 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
 
           this.requestLeaveCloseModel.nativeElement.click();
           // location.reload();
+          } else{
+            this.submitLeaveLoader = false;
+            this.isLeavePlaceholder = false;
+            this.isFileUploaded = false;
+            this.helperService.showToast(data.message, Key.TOAST_STATUS_ERROR);
+          }
+
+          
         },
         (error) => {
           this.submitLeaveLoader = false;

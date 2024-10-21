@@ -34,7 +34,7 @@ const routes: Routes = [
       { path: 'attendance-mode', component: AttendanceModeComponent },
       { path: 'shift-time-list', component: ShiftTimeListComponent },
       { path: 'add-shift-placeholder', component: AddShiftPlaceholderComponent },
-      { path: 'onboarding-successful', component: OnboardingSuccessfulComponent },
+      // { path: 'onboarding-successful', component: OnboardingSuccessfulComponent },
     ],
   },
 ];

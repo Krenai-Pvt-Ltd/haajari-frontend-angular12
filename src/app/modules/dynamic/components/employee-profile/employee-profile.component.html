@@ -1257,7 +1257,7 @@
                       <div class="d-flex justify-content-end align-items-center add-filtter mb-2"
                         *ngIf="userRoleFlag && ROLE!= 'ADMIN'">
                         <a *ngIf="userLeave.length > 0" class="btn" data-bs-toggle="modal" data-bs-target=".apply-leave">
-                          <i class="bi bi-plus" style="font-size: 15px"></i>Apply for a Leaved</a>
+                          <i class="bi bi-plus" style="font-size: 15px"></i>Apply for a Leave</a>
                         <a class="btn" data-bs-toggle="modal" data-bs-target=".lop-reversal-request">
                           <i class="bi bi-plus" style="font-size: 15px"></i>Apply for Lop Reversal </a>
                         <a class="btn" data-bs-toggle="modal" data-bs-target=".overtime-request">
@@ -1480,9 +1480,13 @@
                                           formatDateIn(formatDate(leaves.endDate)) }}</u>
                                       </p>
                                       <h6 class="fw-semibold">
-                                        <span class="badge badge-outline-primary">{{
+                                        <!-- <span class="badge badge-outline-primary">{{
                                           calculateDateDifference(leaves.endDate, leaves.startDate) || "N/A" }} Days |
-                                          {{ leaves.leaveType }}</span>
+                                          {{ leaves.leaveType }}
+                                        </span> -->
+                                        <span class="badge badge-outline-primary">{{ leaves.totalDays }} Days |
+                                          {{ leaves.leaveType }}
+                                        </span>
                                       </h6>
                                     </div>
                                     <p class="text-muted mb-0">{{ leaves.optNotes }}</p>
