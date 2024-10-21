@@ -405,13 +405,15 @@
                             <i class="bi bi-three-dots-vertical"></i>
                           </button>
                           <div class="dropdown-menu actionMenuList">
-                             <li   (click)="openDeleteAssetModal(ad.assetId)"  *ngIf="ad.status === 'ASSIGNED' ||ad.status === 'AVAILABLE' ">
+                             <li   (click)="makeAssetUnavailable('UNAVAILABLE', ad.assetId)"  *ngIf="ad.status === 'ASSIGNED' ||ad.status === 'AVAILABLE' ">
                               <a class="dropdown-item" ><i class="bi bi-ban"></i> Mark as unavailable</a>
                             </li>
-                            <li  (click)="assignAssetId(ad.assetId)" *ngIf="ad.status === 'ASSIGNED' ||ad.status === 'AVAILABLE' "> 
+                            <li  data-bs-toggle="modal"
+                            data-bs-target="#createAssetModal" (click)="assignAssetId(ad.assetId)" *ngIf="ad.status === 'ASSIGNED' ||ad.status === 'AVAILABLE' "> 
                               <a class="dropdown-item"><i class="bi bi-tools"></i> Update Assets</a>
                             </li>
-                            <li (click)="openDeleteAssetModal(ad.assetId)">
+                            <li data-bs-toggle="modal"
+                            data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)">
                               <a class="dropdown-item"  ><i class="bi bi-trash3"></i> Delete Assets</a>
                             </li> 
                             
@@ -575,6 +577,7 @@
           class="btn-close"
           data-bs-dismiss="modal"
           aria-label="Close"
+          #closeCreateAssetModal
         ></button>
       </div>
       <!-- {{assetIdToUpdate}} -->
