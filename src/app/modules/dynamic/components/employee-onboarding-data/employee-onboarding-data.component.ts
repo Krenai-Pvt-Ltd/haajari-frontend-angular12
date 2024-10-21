@@ -90,6 +90,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     // this.getEmpLastApprovedAndLastRejecetdStatus();
     this.getUsersByFiltersFunction();
     this.getTeamNames();
+    this.getLeaveNames();
     this.getUser();
     this.selectMethod('mannual');
     this.getShiftData();
@@ -135,7 +136,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           'id',
           this.searchText,
           this.searchCriteria
-          
+
         )
         .subscribe(
           (response: any) => {
@@ -395,7 +396,8 @@ export class EmployeeOnboardingDataComponent implements OnInit {
         this.userPersonalInformationRequest,
         userUuid,
         this.selectedTeamIds,
-        this.selectedShift
+        this.selectedShift,
+        this.selectedLeaveIds
       )
       .subscribe(
         (response: UserPersonalInformationRequest) => {
@@ -410,6 +412,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
             this.closeModal();
           }
           this.selectedTeamIds = [];
+          this.selectedLeaveIds = [];
           this.selectedTeams = [];
           this.selectedShift = 0;
           this.getUsersByFiltersFunction();
@@ -427,13 +430,14 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   }
 
   shiftList: { value: number, label: string }[] = [];
-  selectedShift: number = 0;  
-  isLoadingShifts = false;  
+  selectedShift: number = 0;
+  selectedLeave: number = 0;
+  isLoadingShifts = false;
   getShiftData() {
     this.isLoadingShifts = true;
     this.dataService.getShifts().subscribe(
       (response) => {
-        // console.log('Shift data response:', response); 
+        // console.log('Shift data response:', response);
         if (response && response.listOfObject) {
           this.shiftList = response.listOfObject.map((shift: OrganizationShift) => ({
             value: shift.shiftId,
@@ -443,6 +447,10 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           console.warn('No shift data found in the response.');
         }
         this.isLoadingShifts = false;
+        if (this.shiftList.length == 1) {
+          this.selectedShift = this.shiftList[0].value;
+
+        }
       },
       (error) => {
         console.error('Error fetching shift data:', error);
@@ -450,7 +458,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       }
     );
   }
-  
+
 
   clearForm() {
     this.userPersonalInformationRequest = new UserPersonalInformationRequest();
@@ -572,14 +580,19 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   isShowPendingVerificationTab: boolean = false;
 
   selectedTeams: Team[] = [];
+  selectedLeaves: Team[] = [];
   teamNameList: Team[] = [];
+  leaveNameList: Team[] =[];
+  originalLeaveNameList: Team[]=[];
+  originalTeamNameList: Team[] = [];
   isLoadingTeams = false;
+  isLoadingLeave = false;
 
   getTeamNames() {
     this.isLoadingTeams = true;
     this.dataService.getAllTeamNames().subscribe({
       next: (response: any) => {
-        this.teamNameList = response.object.map((team: any) => ({
+        this.originalTeamNameList = response.object.map((team: any) => ({
           label: team.teamName,
           value: team.teamId.toString(),
         }));
@@ -592,8 +605,25 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     });
   }
 
-  selectedTeamIds: number[] = [];
+  getLeaveNames() {
+    this.isLoadingLeave = true;
+    this.dataService.getAllLeaveTemplate(1, 100).subscribe({
+      next: (response: any) => {
+        this.originalLeaveNameList = response.object.map((leave: any) => ({
+          label: leave.templateName,
+          value: leave.id.toString(),
+        }));
+        this.isLoadingLeave = false;
+      },
+      error: (error) => {
+        console.error('Failed to fetch team names:', error);
+        this.isLoadingLeave = false;
+      },
+    });
+  }
 
+  selectedTeamIds: number[] = [];
+  selectedLeaveIds: number[] = [];
   // onTeamSelectionChange(selectedTeams: string[]): void {
   //   this.selectedTeamIds = selectedTeams.map((id) => parseInt(id, 10));
   //   console.log('Selected team IDs:', this.selectedTeams);
@@ -604,15 +634,36 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     // console.log('Selected teams:', this.selectedTeams);
   }
 
+  onLeaveSelectionChange(selectedLeave: string[]): void {
+    this.selectedLeaveIds = selectedLeave.map((id) => parseInt(id, 10));
+  }
+
   onSearch(value: string): void {
     this.isLoadingTeams = true;
-
-    setTimeout(() => {
-      this.teamNameList = this.teamNameList.filter((team) =>
+    if (!value) {
+      this.teamNameList = this.originalTeamNameList; // Keep a copy of the original full list
+    } else {
+      setTimeout(() => {
+        this.teamNameList = this.originalTeamNameList.filter((team) =>
         team.label.toLowerCase().includes(value.toLowerCase())
       );
-      this.isLoadingTeams = false;
-    }, 1000);
+      }, 1000);
+    }
+    this.isLoadingTeams = false;
+  }
+
+  onSearchLeave(value: string): void {
+    this.isLoadingLeave = true;
+    if (!value) {
+      this.leaveNameList = this.originalLeaveNameList;
+    } else {
+      setTimeout(() => {
+        this.leaveNameList = this.originalLeaveNameList.filter((leave) =>
+        leave.label.toLowerCase().includes(value.toLowerCase())
+        );
+      }, 1000);
+  }
+  this.isLoadingLeave = false;
   }
 
 
@@ -849,10 +900,10 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   //   this.dataService.getShifts().subscribe((response) => {
   //     this.organizationShift = response.listOfObject;
   //   }, (error) => {
-      
+
   //   })
   // }
- 
+
   checkPhoneExistance(number: string) {
     if (number != '' && number.length >= 10) {
       this._onboardingService.checkEmployeeNumberExistBefore(number).subscribe(
@@ -869,7 +920,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   checkEmailExistanceBefore(email: string) {
     // Basic email pattern check to ensure email has '@' and '.'
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  
+
     if (email && emailPattern.test(email)) {
       this._onboardingService.checkEmployeeEmailExistBefore(email).subscribe(
         (response: any) => {
@@ -877,7 +928,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           if (response == false) {
 
           } else {
-            
+
           }
         },
         (error) => {
@@ -889,7 +940,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       console.warn('Invalid email format');
     }
   }
-  
+
   isSlackUserFlag:boolean=false;
   saveSlackUserIdViaEmailData(email : string) {
     this.isSlackUserFlag = true;
@@ -929,7 +980,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       }
     );
   }
-  
+
 
 
 }

@@ -713,15 +713,19 @@
 
                   <span class="separator"></span>
 
-                  <p class="mb-0 font-14" style="color: #8d93a1">
+                  <p class="mb-0 font-13" style="color: #8d93a1">
                     Uploaded: 11th Jun 2024
                   </p>
                 </div>
-
+<!-- (click)="downloadDocument()" -->
                 <button
                   class="btn p-0 text-primary font-14"
-                  (click)="downloadDocument()"
-                >
+                  data-bs-toggle="collapse" href="#collapseExample"
+                  role="button" aria-expanded="false"
+                   aria-controls="collapseExample"
+                   *ngIf="viewlogsToggel"
+                   (click)="viewlogsToggel=!viewlogsToggel"
+                  >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="17"
@@ -749,23 +753,57 @@
                   </svg>
                   View logs
                 </button>
+                <button class="btn p-0 text-primary font-14" data-bs-toggle="collapse" href="#collapseExample" role="button"
+                *ngIf="!viewlogsToggel"  (click)="viewlogsToggel=!viewlogsToggel"
+                  aria-expanded="false" aria-controls="collapseExample">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
+                  <mask id="mask0_4700_378" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="17">
+                    <rect width="17" height="17" fill="#D9D9D9" />
+                  </mask>
+                  <g mask="url(#mask0_4700_378)">
+                    <path d="M8.49958 8.44225L3.94183 13L2.55469 11.6129L8.49958 5.66797L14.4445 11.6129L13.0573 13L8.49958 8.44225Z"
+                      fill="#6666F2" />
+                  </g>
+                </svg>
+                  View Less
+                </button>
               </div>
-              <!-- <div class="row mt-3 mb-3" *ngIf="lastUploadedSalaryDoc">
-                <div
-                  class="col-md-12 whatapp-login-input d-flex justify-content-between align-items-center"
-                >
-                  <div>
-                    Last Uploaded Salary Doc |
-                    <span>{{ lastUploadedSalaryDocName }}</span>
+            
+              <div class="collapse" id="collapseExample">
+                  <div class="selery-logs p-3 ">
+                    <div class="activity ng-star-inserted">
+                      <div class="activity-info">
+                        <div class="icon-info-activity active-logs">
+                         <p class="mb-0">30</p>
+                        </div>
+                        <div class="activity-info-text">
+                            <div class="media align-items-center">
+                              <div class="media-body ms-2 align-self-center">
+                                <h5 class="mb-1 font-14"> Updated to : On 22nd September, 2024 | 9:30 pm </h5>
+                                <p class="text-muted font-12 mb-0"> File name:HR.files.doc </p>
+                              </div>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="activity ng-star-inserted" *ngFor="let item of [].constructor(5)">
+                      <div class="activity-info">
+                        <div class="icon-info-activity">
+                            <p class="mb-0">28</p>
+                            </div>
+                        <div class="activity-info-text">
+                            <div class="media align-items-center">
+                              <div class="media-body ms-2 align-self-center">
+                                <h5 class="mb-1 font-14"> Updated to : On 22nd September, 2024 | 9:30 pm</h5>
+                                <p class="text-muted font-12 mb-0"> File name:HR.files.doc </p>
+                              </div>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                    
                   </div>
-                  <div>
-                    <i
-                      class="bi bi-download text-primary ms-3"
-                      (click)="downloadDocument()"
-                    ></i>
-                  </div>
-                </div>
-              </div> -->
+              </div>
             </div>
           </div>
 

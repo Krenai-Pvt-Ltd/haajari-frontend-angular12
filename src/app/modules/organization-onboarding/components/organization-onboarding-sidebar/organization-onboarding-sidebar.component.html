@@ -1,4 +1,4 @@
-<div class="employee-onboarding-section">
+<div class="employee-onboarding-section" *ngIf = "STEP_ID < 5">
   <div class="container-scroller">
     <div class="left-sidebar-onbording">
       <div [ngClass]="getStepClass()">

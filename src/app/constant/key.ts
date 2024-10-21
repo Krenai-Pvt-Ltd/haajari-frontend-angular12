@@ -65,6 +65,7 @@ export class Key {
     '/to-do-step-dashboard',
     '/setting/subscription',
     '/setting/onboarding-setting',
+    '/refer-friend',
   ];
 
   public static TOPBAR_ROUTES = [
@@ -107,6 +108,7 @@ export class Key {
     '/payment/payroll-dashboard/leave-summary',
     '/setting/subscription',
     '/setting/onboarding-setting',
+    '/refer-friend',
     // '/to-do-step-dashboard',
   ];
 
@@ -219,6 +221,8 @@ export class Key {
   public static DEMO_ORGANIZATION_UUID = '8d3cc5c2-21a7-11ef-98b2-0a3b903b1973';
 
   base_url = 'http://localhost:8082/api/v2';
+
+  // base_url = 'https://53b6-43-230-65-6.ngrok-free.app/api/v2';
 
   /* ------------------  Staging urls ----------------*/
   // base_url = 'https://staging.hajiri.work/api/v2';
