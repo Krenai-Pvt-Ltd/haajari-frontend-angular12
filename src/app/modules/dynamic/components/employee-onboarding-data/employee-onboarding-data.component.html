@@ -1761,7 +1761,7 @@
               isErrorToggle
             "
           >
-            <h4 class="alert-heading font-18">Attention!</h4>
+            <h4 class="alert-heading font-18">Attention!!</h4>
             <p *ngIf="alreadyUsedPhoneNumberArray.length > 0">
               Phone Numbers:
               {{ formatAsCommaSeparated(alreadyUsedPhoneNumberArray) }}
@@ -1778,6 +1778,29 @@
                 </div> -->
             <p *ngIf="!isErrorToggle">
               These credentials are already registered with us!
+            </p>
+          </div>
+          <div
+            class="alert alert-light mb-0 mt-4 bg-soft-warning create-password-warning text-start"
+            role="alert"
+            *ngIf="
+              mismatches.length > 0 ||
+              invalidRows.length > 0 ||
+              isExcel!=''
+            "
+          >
+            <h4 class="alert-heading font-18">Attention</h4>
+            <p *ngIf="isExcel.length > 0">
+              {{ isExcel }}
+            </p>
+            <p *ngIf="mismatches.length > 0">
+              {{ formatAsCommaSeparated(mismatches) }}
+            </p>
+            <p *ngIf="invalidRows.length > 0">
+               {{ formatAsCommaSeparated(invalidRows) }}
+            </p>
+            <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p>
+            <p *ngIf="!isErrorToggle">
             </p>
           </div>
         </ng-container>

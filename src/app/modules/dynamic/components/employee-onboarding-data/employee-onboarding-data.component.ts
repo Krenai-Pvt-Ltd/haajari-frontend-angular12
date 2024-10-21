@@ -3,6 +3,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {  NgForm } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import * as XLSX from 'xlsx';
 import { BehaviorSubject } from 'rxjs';
 import { Key } from 'src/app/constant/key';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
@@ -678,14 +679,126 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   fileName: any;
   currentFileUpload: any;
 
+
+  expectedColumns: string[] = ['S. NO.*', 'Name*', 'Phone*', 'Email*'];
+  isExcel: string='';
   selectFile(event: any) {
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
       this.currentFileUpload = file;
       this.fileName = file.name;
-      this.uploadUserFile(file, this.fileName);
+
+      if (!this.isExcelFile(file)) {
+        this.isExcel='Invalid file type. Please upload an Excel file.';
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e: ProgressEvent<FileReader>) => {
+        const arrayBuffer = e.target?.result as ArrayBuffer;
+        const binaryStr = this.arrayBufferToString(arrayBuffer);
+        const workbook = XLSX.read(binaryStr, { type: 'binary' });
+        const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+        const jsonData: any[] = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+        const validRows = jsonData.filter((row: any[]) =>
+          row.some((cell: any) => cell !== undefined && cell !== null && cell.toString().trim() !== '')
+        );
+        const columnNames: string[] = jsonData[0] as string[];
+
+        if (this.validateColumns(columnNames)) {
+          if (this.validateRows(validRows)) {
+            this.uploadUserFile(file, this.fileName);
+          } else {
+            console.error('Invalid row data: Some rows have empty required columns.');
+          }
+        } else {
+          console.error('Invalid column names');
+        }
+      };
+      reader.readAsArrayBuffer(file);
     }
   }
+
+  arrayBufferToString(buffer: ArrayBuffer): string {
+    const byteArray = new Uint8Array(buffer);
+    let binaryStr = '';
+    for (let i = 0; i < byteArray.length; i++) {
+      binaryStr += String.fromCharCode(byteArray[i]);
+    }
+    return binaryStr;
+  }
+
+  isExcelFile(file: File): boolean {
+    const allowedMimeTypes = [
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // .xlsx
+      'application/vnd.ms-excel' // .xls
+    ];
+
+    const allowedExtensions = ['xlsx', 'xls'];
+
+    const fileTypeValid = allowedMimeTypes.includes(file.type);
+    const extensionValid = allowedExtensions.includes(file.name.split('.').pop()?.toLowerCase() || '');
+
+    if (!fileTypeValid || !extensionValid) {
+      return false;
+    }
+
+    return true;
+  }
+
+  mismatches: string[] = [];
+  validateColumns(columnNames: string[]): boolean {
+
+    if (columnNames.length !== this.expectedColumns.length) {
+      console.error(`Column length mismatch: expected ${this.expectedColumns.length}, but got ${columnNames.length}`);
+    }
+
+    for (let i = 0; i < Math.max(this.expectedColumns.length, columnNames.length); i++) {
+      if (columnNames[i] !== this.expectedColumns[i]) {
+        const expected = this.expectedColumns[i] || 'undefined';
+        const actual = columnNames[i] || 'undefined';
+        this.mismatches.push(`Column ${i + 1}: expected "${expected}", but got "${actual}"`);
+      }
+    }
+
+    if (this.mismatches.length > 0) {
+      console.error('Column mismatches found:');
+      this.mismatches.forEach(mismatch => console.error(mismatch));
+      return false;
+    }
+    return true;
+  }
+
+  invalidRows: string[] = [];
+  validateRows(rows: any[]): boolean {
+
+    for (let i = 1; i < rows.length; i++) {
+      const row = rows[i];
+      let rowIsValid = true;
+
+
+      for (let j = 1; j < this.expectedColumns.length; j++) {
+        if (row[j] === undefined || row[j] === null || row[j].toString().trim() === '') {
+          rowIsValid = false;
+          this.invalidRows.push(`Row ${i + 1}, Column ${j + 1} is empty.`);
+        }
+      }
+
+      if (!rowIsValid) {
+        console.error(`Invalid row at index ${i + 1}:`, row);
+      }
+    }
+    if (this.invalidRows.length > 0) {
+      console.error('Row validation errors:');
+      this.invalidRows.forEach(error => console.error(error));
+      return false;
+    }
+
+    return true;
+  }
+
+
+
 
   importToggle: boolean = false;
   isProgressToggle: boolean = false;
