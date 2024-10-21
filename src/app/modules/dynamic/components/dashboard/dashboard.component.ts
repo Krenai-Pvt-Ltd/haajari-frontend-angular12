@@ -793,7 +793,8 @@ export class DashboardComponent implements OnInit {
           // console.log(response);
 
           const downloadLink = document.createElement('a');
-          downloadLink.href = response.message;
+          // downloadLink.href = response.message;
+          downloadLink.href = response.object;
           downloadLink.download = 'attendance.xlsx';
           downloadLink.click();
           this.downloadingFlag = false;
