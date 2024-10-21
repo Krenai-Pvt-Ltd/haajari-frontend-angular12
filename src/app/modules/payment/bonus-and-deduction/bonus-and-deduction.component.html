@@ -2,7 +2,7 @@
   <!-- Page Content-->
   <div class="page-content-tab">
     <div class="container-fluid">
-      <div class="row leave-management-settings p-3 mt-2 align-items-center">
+      <div class="row leave-management-settings p-3 mt-2 align-items-center" *ngIf="mainPlaceholderFlag">
         <div class="col-md-6">
           <div class="leave-management-detail pt-5 pb-5">
             <h3 class="mb-3">
@@ -14,7 +14,7 @@
               discounts in one place.
             </p>
 
-            <button class="btn add-leave-btn mt-4 mb-2">Add New Members</button>
+            <!-- <button class="btn add-leave-btn mt-4 mb-2">Add New Members</button> -->
 
             <hr />
             <span class="mb-0">
@@ -60,9 +60,11 @@
         </div>
       </div>
 
+      <div *ngIf="!mainPlaceholderFlag">
       <div
         class="row mb-1 mt-3 align-items-center"
         style="padding-bottom: 15px"
+        
       >
         <div class="col-md-12">
           <div
@@ -397,5 +399,6 @@
         </nav>
       </div>
     </div>
+  </div>
   </div>
 </div>
