@@ -166,7 +166,7 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
     NzPopoverModule,
     NzEmptyModule,
   ],
-  exports: [],
+  exports: [DurationFormatPipe],
   providers: [
     { provide: NZ_I18N, useValue: en_US },
     DataService,

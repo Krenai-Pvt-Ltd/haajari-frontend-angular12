@@ -5,7 +5,7 @@ export class SalaryChangeOvertimeResponse {
     name : string = '';
     email : string = '';
     overtimeCount : number = 0;
-    overtimeHour : string = '';
+    overtimeHour : number = 0;
     payActionType : PayActionType = new PayActionType();
     payActionTypeId !: number;
 }
