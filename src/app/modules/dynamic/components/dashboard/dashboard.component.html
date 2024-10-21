@@ -1031,6 +1031,7 @@
                     <nz-date-picker
                       nzMode="month"
                       [nzSize]="size"
+                      nzFormat="MMM, yyyy"
                       [(ngModel)]="selectedDate"
                       (ngModelChange)="onMonthChange($event)"
                       [nzDisabledDate]="disableMonths"
