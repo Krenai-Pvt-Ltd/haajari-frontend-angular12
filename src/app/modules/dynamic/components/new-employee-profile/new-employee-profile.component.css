@@ -311,3 +311,31 @@
     padding: 7px 10px ;
     border-radius: 2px;
 }
+
+span.lat {
+    color: #6B7280;
+    font-size: 11px;
+    letter-spacing: 0.357px;
+    text-transform: capitalize;
+}
+.attendance-summery p{
+    color: #6B7280 !important;
+}
+.attendance-summery h5 {
+    line-height: 22px;
+}
+.check-in-btn{
+    background-color: var(--primary-background-color);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 400;
+    min-width: 100px;
+}
+.break-btn{
+    border: 1px solid #BABABA;
+    background-color: transparent;
+    color: #BABABA;
+    font-size: 13px;
+    font-weight: 400;
+    min-width: 100px;
+}
