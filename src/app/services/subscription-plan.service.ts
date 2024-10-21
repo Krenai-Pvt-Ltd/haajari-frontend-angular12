@@ -12,22 +12,24 @@ export class SubscriptionPlanService {
   private _key: Key = new Key();
 
   constructor(private _httpClient: HttpClient) {
-    this.getOrganizationSubsPlanDetail();
-    this.isSubscriptionPlanExpired();
+    this.getPlanAfterOnboarding();
   }
 
 
-  isTrial:boolean=false;
+  async getPlanAfterOnboarding(){
+    await this.isSubscriptionPlanExpired();
+    this.getOrganizationSubsPlanDetail();
+  }
+
+
   planName:string='';
   month:number=0;
   getOrganizationSubsPlanDetail() {
     this.getOrgSubsPlanDetail().subscribe((response) => {
         if (response.status){
-          //@ts-ignore
+  
           this.planName = response.object.planName;
-          //@ts-ignore
-          this.isTrial = response.object.isTrial;
-          //@ts-ignore
+      
           this.month = response.object.month;
         }
       },(error)=>{
@@ -36,21 +38,23 @@ export class SubscriptionPlanService {
   }
 
   isPlanExpired:boolean=false;
-  isUpgradePlan:boolean=false;
+  isTrialPlan:boolean=false;
   isSubscription:boolean=false;
+  isDuesInvoice:boolean=false;
   isSubscriptionPlanExpired() {
-    this.isSubscrPlanExpired().subscribe((response) => {
-        if (response.status){
-            //@ts-ignore
-          this.isPlanExpired = response.object.isExpired;
-            //@ts-ignore
-          this.isUpgradePlan = response.object.isUpgradePlan;
-            //@ts-ignore
-          this.isSubscription = response.object.isSubscription;
-        }
-      },(error)=>{
-
-      });
+    return new Promise((resolve)=>{
+      this.isSubscrPlanExpired().subscribe((response) => {
+          if (response.status){
+            this.isPlanExpired = response.object.isExpired;
+            this.isTrialPlan = response.object.isTrialPlan;
+            this.isSubscription = response.object.isSubscription;
+            this.isDuesInvoice = response.object.isDuesInvoice;
+          }
+          resolve(true);
+        },(error)=>{
+          resolve(true);
+        });
+    });
   }
 
 

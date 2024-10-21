@@ -15,7 +15,7 @@
               >Subscription</a
             >
           </li>
-          <li class="nav-item" *ngIf="!orgSubscriptionPlanDetail!.trial">
+          <li class="nav-item" *ngIf="_subscriptionPlanService.isSubscription && !_subscriptionPlanService.isTrialPlan">
             <a
               id="pills-profile-tab"
               data-bs-toggle="pill"
@@ -24,7 +24,7 @@
               aria-controls="pills-profile"
               aria-selected="false"
               class="nav-link"
-              (click)="getAllInvoices();getDueInvoice();"
+              (click)="getInvoices()"
               >Billing</a
             >
           </li>
@@ -37,7 +37,7 @@
             aria-labelledby="subscription-tab"
           >
             <div class="row">
-              <div class="col-md-3" *ngIf="!orgSubscriptionPlanDetail.trial">
+              <div class="col-md-3" *ngIf="_subscriptionPlanService.isSubscription">
                 <div class="current-plan-box pt-4" *ngIf="!RulesRegulation">
                   <h2 class="font-18">Current</h2>
 
@@ -64,7 +64,8 @@
                     <p class="mb-0 font-16">Per month</p>
                   </div>
 
-                  <h3>Employee {{orgSubscriptionPlanDetail.quotaUsed}}/{{orgSubscriptionPlanDetail.employeeQuota}} ({{(orgSubscriptionPlanDetail.quotaUsed/ orgSubscriptionPlanDetail.employeeQuota)* 100 | number: '1.0-2'}}%)</h3>
+                  <h3>Employee {{orgSubscriptionPlanDetail.quotaUsed > orgSubscriptionPlanDetail.employeeQuota ? orgSubscriptionPlanDetail.employeeQuota: orgSubscriptionPlanDetail.quotaUsed}}/{{orgSubscriptionPlanDetail.employeeQuota}} 
+                    ({{((orgSubscriptionPlanDetail.quotaUsed > orgSubscriptionPlanDetail.employeeQuota ? orgSubscriptionPlanDetail.employeeQuota: orgSubscriptionPlanDetail.quotaUsed)/ orgSubscriptionPlanDetail.employeeQuota)* 100 | number: '1.0-2'}}%)</h3>
 
                   <div class="progress w-100">
                     <div
@@ -408,7 +409,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-9" [ngClass]="{'col-md-12':orgSubscriptionPlanDetail!.trial}">
+              <div class="col-md-9" [ngClass]="{'col-md-12':(!_subscriptionPlanService.isSubscription || (_subscriptionPlanService.isSubscription && _subscriptionPlanService.isTrialPlan))}">
                 <div class="plan-box p-4">
                   <div
                     class="d-flex align-items-center justify-content-between"
@@ -511,8 +512,7 @@
                               >
                                 Purchase plan
                               </button>
-                              <!-- data-bs-toggle="modal" -->
-                              <!-- data-bs-target="#downgrade-plan" -->
+                    
                               <button
                               class="btn current-plan w-100 mb-4"                          
                               *ngIf="plan.isPurchased==1"
@@ -682,7 +682,7 @@
                       height="20"
                       viewBox="0 0 43 40"
                       fill="none"
-                    >
+                    *ngIf="totalDuesAmount>0">
                       <path
                         d="M41.1459 30.7012L26.3026 3.41549C23.9178 -0.599372 18.1043 -0.604706 15.7163 3.41549L0.873772 30.7012C-1.56415 34.8037 1.38744 39.9988 6.1657 39.9988H35.8528C40.627 39.9988 43.5839 34.8079 41.1459 30.7012ZM21.0095 35.0747C19.6522 35.0747 18.5474 33.9699 18.5474 32.6127C18.5474 31.2554 19.6522 30.1506 21.0095 30.1506C22.3667 30.1506 23.4715 31.2554 23.4715 32.6127C23.4715 33.9699 22.3667 35.0747 21.0095 35.0747ZM23.4715 25.2265C23.4715 26.5838 22.3667 27.6886 21.0095 27.6886C19.6522 27.6886 18.5474 26.5838 18.5474 25.2265V12.9163C18.5474 11.559 19.6522 10.4542 21.0095 10.4542C22.3667 10.4542 23.4715 11.559 23.4715 12.9163V25.2265Z"
                         fill="#FF2F2F"
@@ -800,7 +800,7 @@
                    
                   </div>
 
-                  <div class="pagination justify-content-between pl-3 " *ngIf="invoicesDatabaseHelper.itemPerPage < totalInvoices">
+                  <div class="pagination justify-content-between pl-3 " *ngIf="paidInvoiceDatabaseHelper.itemPerPage < totalInvoices">
                 <p class="mb-0" style="padding-left: 15px">
                   Showing {{ invoices.length }} of
                   {{ totalInvoices }}
@@ -811,8 +811,8 @@
                           [collectionSize]="totalInvoices"
                           [rotate]="true"
                           (pageChange)="invoicePageChanged($event)"
-                          [pageSize]="invoicesDatabaseHelper.itemPerPage"
-                          [(page)]="invoicesDatabaseHelper.currentPage"
+                          [pageSize]="paidInvoiceDatabaseHelper.itemPerPage"
+                          [(page)]="paidInvoiceDatabaseHelper.currentPage"
                           [maxSize]="4"
                           [boundaryLinks]="true"
                         ></ngb-pagination>
@@ -908,7 +908,7 @@
                   >
                     <div classs="">
                       <p class="mb-2 font-14">Total amount due</p>
-                      <h5 class="font-16 mb-0">INR 129,502.66</h5>
+                      <h5 class="font-16 mb-0">INR {{totalDuesAmount | number: '1.2-2'}}</h5>
                     </div>
                     <div classs="">
                       <p class="mb-2 font-14">Total amount scheduled</p>
@@ -933,22 +933,13 @@
                           >
                             Issued date
                           </th>
-                          <th class="text-center" style="width: 10%">
-                            Invoice ID
-                          </th>
                           <th class="text-center" style="width: 10%">Type</th>
-                          <th class="text-center" style="width: 10%">
-                            Due date
-                          </th>
                           <th class="text-center" style="width: 10%">Status</th>
                           <th class="text-center" style="width: 10%">
                             Currency
                           </th>
                           <th class="text-center" style="width: 10%">
-                            Invoice amount
-                          </th>
-                          <th class="text-center" style="width: 10%">
-                            Balance Due
+                           Amount
                           </th>
                           <th
                             class="text-center stickyColThend"
@@ -968,19 +959,10 @@
                           </td>
                           <td class="text-center">
                             <span class="teme-maneger mb-0 table-font-weight">
-                              {{dueInvoice.invoiceNo}}</span
+                              {{dueInvoice.invoiceType}}</span
                             >
                           </td>
-                          <td class="text-center">
-                            <span class="teme-maneger mb-0 table-font-weight">
-                              {{dueInvoice.invoiceNo}}</span
-                            >
-                          </td>
-                          <td class="text-center">
-                            <span class="teme-maneger mb-0 table-font-weight">
-                              {{dueInvoice.invoiceNo}}</span
-                            >
-                          </td>
+                         
                           <td class="text-center">
                             <div class="badge rounded-pill badge-soft-danger">
                               <span> Pending</span>
@@ -993,18 +975,10 @@
                           </td>
 
                           <td class="text-center">
-                            <span class="teme-maneger mb-0"> {{dueInvoice.invoiceNo}}</span>
+                            <span class="teme-maneger mb-0"> {{dueInvoice.payableAmount | number: '1.0-2'}}</span>
                           </td>
-                          <td>
-                            <span
-                              class="teme-maneger text-center mb-0 table-font-weight"
-                            >
-                            {{dueInvoice.invoiceNo}}</span
-                            >
-                          </td>
-
                           <td class="stickyColTdend text-center">
-                            <button type="button" class="btn btnPayNow">
+                            <button type="button" class="btn btnPayNow" (click)="selectedDuesInvoice(dueInvoice)">
                               Pay Now
                             </button>
                           </td>
@@ -1632,6 +1606,7 @@
   class="d-none"
   data-bs-toggle="modal"
   data-bs-target="#downgrade-plan"
+  #downgradeModalButton
 ></button>
 <div
   class="modal fade"
@@ -1743,8 +1718,10 @@
             id="termsAndConditions"
             required
             class="position-relative check-box"
+            [checked]="valiadteDowngrade"
+            (change)="validateDowngradeConfirm()"
           />
-          <label class="form-check-label iHaveRead" for="termsAndConditions">
+          <label class="form-check-label iHaveRead" for="termsAndConditions" (change)="validateDowngradeConfirm()">
             I have validated the information and will proceed with it .
           </label>
         </div>
@@ -1759,7 +1736,7 @@
             Cancel
           </button>
 
-          <button class="btn mannualSubmit">Confirm</button>
+          <button class="btn mannualSubmit" data-bs-dismiss="modal" [disabled]="!valiadteDowngrade" (click)="switchSubscriptionPlan()">Confirm</button>
         </div>
       </div>
     </div>

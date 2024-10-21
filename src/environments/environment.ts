@@ -16,6 +16,7 @@ export const environment = {
     }
 };
 
+export const RAZOR_PAY_KEY: string = "rzp_test_Wd1RYd0fng3673";
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

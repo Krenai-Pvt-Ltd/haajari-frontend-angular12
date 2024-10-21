@@ -6,7 +6,6 @@ export class OrganizationSubscriptionDetail{
     endDate:string='';
     yearly:boolean=false;
     expired:boolean=false;
-    trial:boolean=false;
     employeeQuota:number=0;
     quotaUsed:number=0;;
 }

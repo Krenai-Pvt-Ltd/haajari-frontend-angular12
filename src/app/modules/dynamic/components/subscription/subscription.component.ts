@@ -11,6 +11,7 @@ import { OrganizationSubscriptionDetail } from 'src/app/models/OrganizationSubsc
 import { SubscriptionPlan } from 'src/app/models/SubscriptionPlan';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
+import { RAZOR_PAY_KEY } from 'src/environments/environment';
 declare var Razorpay: any;
 @Component({
   selector: 'app-subscription',
@@ -26,7 +27,7 @@ export class SubscriptionComponent implements OnInit {
   orgUuid:string='';
 
   readonly Constant = constant; 
-  constructor( private _subscriptionPlanService: SubscriptionPlanService,
+  constructor( public _subscriptionPlanService: SubscriptionPlanService,
     private _roleBasedService: RoleBasedAccessControlService,
     private db: AngularFireDatabase,private ngZone: NgZone) {
 
@@ -73,13 +74,9 @@ export class SubscriptionComponent implements OnInit {
     this._subscriptionPlanService.getCurrentPlan().subscribe((response) => {
       if(response.status){
         this.orgSubscriptionPlanDetail = response.object;
-        if(this.orgSubscriptionPlanDetail == null){
-          this.orgSubscriptionPlanDetail = new OrganizationSubscriptionDetail();
-        }else{
+        if(this.orgSubscriptionPlanDetail != null){
           this.progress =  (this.orgSubscriptionPlanDetail.quotaUsed/ this.orgSubscriptionPlanDetail.employeeQuota)* 100;
         }
-      }else{
-        this.orgSubscriptionPlanDetail = new OrganizationSubscriptionDetail();
       }
     },(error)=>{
 
@@ -99,15 +96,30 @@ export class SubscriptionComponent implements OnInit {
     });
   }
 
+  valiadteDowngrade:boolean=false;
+  @ViewChild('downgradeModalButton')downgradeModalButton!:ElementRef;
   selectPlan(plan:SubscriptionPlan){
     this.selectedSubscriptionPlan = plan;
     this.typeBySubscriptionPlans = new Array();
     this.typeBySubscriptionPlans = this.subscriptionPlans.filter(x=> x.planType == this.selectedSubscriptionPlan.planType);
-    this.switchSubscriptionPlan();
+    if(this.orgSubscriptionPlanDetail !=null){
+        if(this.orgSubscriptionPlanDetail.planName.toUpperCase() == 'PREMIUM' &&  this.selectedSubscriptionPlan.name.toUpperCase()== 'BASIC'){
+          this.valiadteDowngrade = false;
+          this.downgradeModalButton.nativeElement.click();
+        }else{
+          this.switchSubscriptionPlan();
+        }
+    }else{
+      this.switchSubscriptionPlan();
+    }
     if(this.totalEmployee>0){
       this.employeeCount = this.totalEmployee;
     }
     this.calculateEmployeeSize();
+  }
+
+  validateDowngradeConfirm(){
+    this.valiadteDowngrade = this.valiadteDowngrade ? false: true;
   }
 
 
@@ -213,7 +225,7 @@ export class SubscriptionComponent implements OnInit {
   activatePlan() {
     this.createFirebaseForProcessing();
     var options = {
-      "key": Key.razorKey,
+      "key": RAZOR_PAY_KEY,
       "amount": this.payableAmount * 100,
       "name": "HAJIRI",
       "description": this.selectedSubscriptionPlan.name + " plan purchase",
@@ -229,7 +241,6 @@ export class SubscriptionComponent implements OnInit {
         "orgUuid": this.orgUuid,
         "planId": this.selectedSubscriptionPlan.id,
         "employeeCount": this.employeeCount,
-        "invoiceId": '',
         "couponCode": !constant.EMPTY_STRINGS.includes(this.couponCode)?this.couponCode:'',
         "couponDiscount": this.couponDiscount,
         "gstNumber":  !constant.EMPTY_STRINGS.includes(this.gstResponse.gstNo)?this.gstResponse.gstNo:'',
@@ -337,15 +348,22 @@ invoiceDetail:InvoiceDetail = new InvoiceDetail();
   }
 
 
+  getInvoices(){
+    this.duesDatabaseHelper = new DatabaseHelper();
+    this.paidInvoiceDatabaseHelper = new DatabaseHelper();
+    this.getDueInvoices();
+    this.getPaidInvoices();
+  }
+
   invoiceLoading:boolean = false;
-  invoicesDatabaseHelper:DatabaseHelper = new DatabaseHelper();
+  paidInvoiceDatabaseHelper:DatabaseHelper = new DatabaseHelper();
   invoices:Invoices[] = new Array();
   totalInvoices:number=0;
-  getAllInvoices() {
+  getPaidInvoices() {
     this.invoiceLoading = true;
     this.invoices = [];
     var statusIds = [StatusKeys.BILLING_PAID];
-    this._subscriptionPlanService.getInvoices(this.invoicesDatabaseHelper,statusIds).subscribe((response) => {
+    this._subscriptionPlanService.getInvoices(this.paidInvoiceDatabaseHelper,statusIds).subscribe((response) => {
         if (response.status) {
           this.invoices = response.object;
           this.totalInvoices = response.totalItems;
@@ -364,9 +382,9 @@ invoiceDetail:InvoiceDetail = new InvoiceDetail();
   }
 
   invoicePageChanged(page:any){
-    if(page!=this.invoicesDatabaseHelper.currentPage){
-      this.invoicesDatabaseHelper.currentPage = page;
-      this.getAllInvoices();
+    if(page!=this.paidInvoiceDatabaseHelper.currentPage){
+      this.paidInvoiceDatabaseHelper.currentPage = page;
+      this.getPaidInvoices();
     }
   }
 
@@ -380,7 +398,7 @@ invoiceDetail:InvoiceDetail = new InvoiceDetail();
   dueInvoices:Invoices[] = new Array();
   totalDueInvoices :number=0;
   duesDatabaseHelper : DatabaseHelper = new DatabaseHelper();
-  getDueInvoice(){
+  getDueInvoices(){
     this.invoiceLoading = true;
     this.dueInvoices = [];
     var statusIds = [StatusKeys.BILLING_UNPAID];
@@ -391,6 +409,8 @@ invoiceDetail:InvoiceDetail = new InvoiceDetail();
         if(this.invoices == null){
           this.dueInvoices =  new Array();
           this.totalDueInvoices = 0;
+        }else{
+          this.findTotalDuesAmount();
         }
       }else{
         this.dueInvoices =  new Array();
@@ -401,4 +421,61 @@ invoiceDetail:InvoiceDetail = new InvoiceDetail();
       this.invoiceLoading = false;
     });
   }
+
+  totalDuesAmount:number=0;
+  findTotalDuesAmount(){
+    this.dueInvoices.forEach((invoice)=>{
+      this.totalDuesAmount = this.totalDuesAmount + invoice.payableAmount;
+
+    })
+  }
+
+
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  selectedInvoice: Invoices = new Invoices();
+  invoiceIds:number[]= new Array();
+  duesAmount:number=0;
+  selectedDuesInvoice(invoice:Invoices){
+    this.invoiceIds = [];
+    this.selectedInvoice = invoice;
+    this.invoiceIds.push(this.selectedInvoice.id);
+    this.duesAmount = this.selectedInvoice.payableAmount;
+    this.payInvoice();
+  }
+
+  payInvoice() {
+    var options = {
+      "key": RAZOR_PAY_KEY,
+      "amount": this.duesAmount * 100,
+      "name": "HAJIRI",
+      "description": "Dues Payment",
+      "image": "../../../../../assets/images/hajiri-icon.png",
+      "handler": this.handleSuccesfullDuesPayment.bind(this),
+      "modal": {
+        "confirm_close": true,
+        // "ondismiss": this.stopProcessingPayment.bind(this)
+      },
+      "notes": {
+        "orderFrom": 'Hajiri',
+        "type": 'Bill',
+        "orgUuid": this.orgUuid,
+        "invoiceIds": String(this.invoiceIds),
+      },
+      "theme": {
+        "color": "#6666f3"
+      }
+    };
+    var rzp = new Razorpay(options);
+    rzp.open();
+  }
+
+
+  handleSuccesfullDuesPayment(){
+    this.getInvoices();
+  }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  
 }

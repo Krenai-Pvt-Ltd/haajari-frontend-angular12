@@ -534,18 +534,14 @@
             <div class="">
               <p class="mb-0"></p>
             </div>
-            <!-- <div class="" style="cursor: pointer">
-              <a class="mb-0" routerLink="/setting/billing"
+            <div class="" style="cursor: pointer" *ngIf="!_subscriptionPlanService.isSubscription">
+              <a class="mb-0" routerLink="/setting/subscription"
                 ><i class="bi bi-lightning-fill"></i>
-                {{
-                  orgSubsPlanMonthDetail.planName
-                    ? orgSubsPlanMonthDetail.planName
-                    : "Upgrade"
-                }}
+               Purchase Subscription
               </a>
-            </div> -->
+            </div>
 
-            <div class="PremierPlan" *ngIf="!_subscriptionPlanService.isTrial">
+            <div class="PremierPlan" *ngIf="!_subscriptionPlanService.isTrialPlan && _subscriptionPlanService.isSubscription">
               <div class="d-flex align-items-center justify-content-between">
                 <div>
                   <h3 class="mb-2">
@@ -609,7 +605,7 @@
                 </div>
               </div>
             </div>
-            <div class="basicPlan" *ngIf="_subscriptionPlanService.isTrial && _subscriptionPlanService.isSubscription">
+            <div class="basicPlan" *ngIf="_subscriptionPlanService.isTrialPlan && _subscriptionPlanService.isSubscription">
               <div class="d-flex align-items-center justify-content-between">
                 <div>
                   <h3 class="mb-2">Trial Plan</h3>
