@@ -24,7 +24,7 @@
             'd-flex align-items-center': userRoleFlag
           }" style="gap: 20px">
           <!-- <div *ngIf="InOutLoader"><div class="dot-opacity-loader"><span></span><span></span><span></span></div></div> -->
-          <div *ngIf="status == 'out'">
+          <div *ngIf="status == 'out' || this.userAttendanceDetailDateWise.status== '' ">
             <button class="btn btn-outline-success btn-round" type="button" (click)="checkinCheckout('/in')"> Check-In
             </button>
           </div>
@@ -49,9 +49,7 @@
             'mt-1': adminRoleFlag
           }">
           <div class="d-flex align-items-center gap-3 mt-2" style="gap: 10px" *ngIf="
-              user!.employeeOnboardingStatus?.response == 'PENDING' ||
-              user!.employeeOnboardingStatus?.response == 'REQUESTED' ||
-              user!.employeeOnboardingStatus?.response == 'NEW_USER'
+              user!.employeeOnboardingStatus?.response == 'REQUESTED'
             ">
             <button class="btn btn-soft-success btn-round" type="button" (click)="updateStatusUserByUuid('APPROVED')">
               <div *ngIf="!approvedToggle">
@@ -86,14 +84,14 @@
                   <div class="col-lg-5 align-self-center mb-3 mb-lg-0">
                     <div class="met-profile-main">
                       <div class="met-profile-main-pic">
-                        <img *ngIf="isImage && !user?.image.includes('fakepath')" 
-       src="{{ user?.image }}" 
-       alt="Profile Picture" 
-       height="110" 
+                        <img *ngIf="isImage && !user?.image.includes('fakepath')"
+       src="{{ user?.image }}"
+       alt="Profile Picture"
+       height="110"
        class="rounded-circle"  (error)="onError($event)" />
-  
+
   <!-- If no valid image, display the user's initial -->
-  <span *ngIf="!isImage" 
+  <span *ngIf="!isImage"
         class="thumb-xl justify-content-center d-flex align-items-center bg-soft-success rounded-circle me-2">
     {{ user?.name[0] }}
   </span>
@@ -1104,13 +1102,13 @@
                         </div>
                       </div> -->
                       <!-- <div>
-                        <full-calendar 
+                        <full-calendar
                         [options]="calendarOptions" id="calendar" #calendar></full-calendar>
                       </div> -->
-                      
-                 
-                      <nz-calendar [(ngModel)]="date" [(nzMode)]="mode" 
-                      (nzPanelChange)="panelChange($event)" 
+
+
+                      <nz-calendar [(ngModel)]="date" [(nzMode)]="mode"
+                      (nzPanelChange)="panelChange($event)"
                       (nzSelectChange)="selectChange($event)"
                       [nzDisabledDate]="disablePreviousYears"
                       [nzDisabledDate]="disablePreviousMonths"
@@ -1120,7 +1118,7 @@
                <ng-container *ngIf="getEventForDate(date) as event">
                  <li>
                    <span [ngStyle]="{'background-color': event.color}">
-                     <nz-badge nz-popover nzPopoverTrigger="hover" 
+                     <nz-badge nz-popover nzPopoverTrigger="hover"
                        [nzPopoverContent]="contentTemplate" nzPopoverPlacement="topLeft"
                        [nzColor]="event.color" [nzDot]="false" nzStandalone>
                      </nz-badge>
@@ -1128,7 +1126,7 @@
                        {{ event.status }}
                      </span>
                    </span>
-         
+
                    <ng-template #contentTemplate>
                      <div
                        style="background-color: white; padding: 10px; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
@@ -1141,7 +1139,7 @@
                  </li>
                </ng-container>
              </ng-container>
-         
+
              <ng-template #beforeJoiningDate>
                <li>
                  <span class="event-details">-</span>
@@ -1149,8 +1147,8 @@
              </ng-template>
            </ul>
                       </nz-calendar>
-         
-               
+
+
                       <div class="legends-section" style="margin-top: 20px; font-size: 13px">
                         <div class="legend" style="
                             display: inline-flex;
@@ -1482,9 +1480,13 @@
                                           formatDateIn(formatDate(leaves.endDate)) }}</u>
                                       </p>
                                       <h6 class="fw-semibold">
-                                        <span class="badge badge-outline-primary">{{
+                                        <!-- <span class="badge badge-outline-primary">{{
                                           calculateDateDifference(leaves.endDate, leaves.startDate) || "N/A" }} Days |
-                                          {{ leaves.leaveType }}</span>
+                                          {{ leaves.leaveType }}
+                                        </span> -->
+                                        <span class="badge badge-outline-primary">{{ leaves.totalDays }} Days |
+                                          {{ leaves.leaveType }}
+                                        </span>
                                       </h6>
                                     </div>
                                     <p class="text-muted mb-0">{{ leaves.optNotes }}</p>
@@ -2031,7 +2033,7 @@
                                           <small>Requested Time: <u> {{attendanceReqLog.updatedDate | date:'medium' || "N/A"}} </u></small>
                                         </div>
                                       </ng-container>
-                                        
+
                                       <ng-container *ngIf="attendanceReqLog.requestType === 'CREATE'">
                                         <div>
                                           <small>In Time: <u> {{attendanceReqLog.inRequestTime | date:'medium' || "N/A"}} </u></small>
@@ -4027,7 +4029,7 @@
                     <div class="" style="width: 100%; position: relative">
                       <div class="dropdown" style="width: 100%">
                         <!-- <button type="button"id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> Select leave type <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i></button> -->
-                       
+
                         <!-- <select class="form-select" id="exampleFormControlSelect1" formControlName="leaveType"
                           [(ngModel)]="userLeaveRequest.leaveType">
                           <option value="">Select Leave Type</option>
@@ -4226,9 +4228,9 @@
                   <div class="mb-2" nz-form-item>
                     <nz-form-label nzFor="selectedDate" style="padding-bottom: 6px">Pick up the date and time:</nz-form-label>
                     <nz-form-control nzErrorTip="Please select a valid date and time.">
-                      <nz-range-picker 
-                        [nzShowTime]="{ nzFormat: 'HH:mm' }" 
-                        nzFormat="yyyy-MM-dd HH:mm" 
+                      <nz-range-picker
+                        [nzShowTime]="{ nzFormat: 'HH:mm' }"
+                        nzFormat="yyyy-MM-dd HH:mm"
                         [(ngModel)]="dateRange"
                         [ngModelOptions]="{standalone: true}"
                         required
@@ -4270,7 +4272,7 @@
                   </div>
                   <div class="d-flex justify-content-end modal-footer">
                     <button type="submit" class="btn btn-outline-primary btn-round"
-                      [disabled]="!overtimeRequestForm.form.valid || validationError != null" (click)="registerOvertimeRequestMethodCall()"> 
+                      [disabled]="!overtimeRequestForm.form.valid || validationError != null" (click)="registerOvertimeRequestMethodCall()">
                       <ng-container *ngIf="!overtimeRequestLoader">
                         Submit
                       </ng-container>
@@ -4733,7 +4735,7 @@
         <button type="button" class="btn btn-primary" [disabled]="!attendanceTimeUpdateForm.valid"
           (click)="submitForm()">
           Submit
-          
+
           </button>
       </div>
     </div>
@@ -4781,7 +4783,7 @@
                 </nz-select>
               </div>
             </div>
-            
+
             <div class="mb-3 row">
               <label for="requestedDate" class="col-sm-4 col-form-label">Date<span class="text-danger">*</span></label>
               <div class="col-sm-8">

@@ -1704,26 +1704,42 @@ i.bi.bi-plus {
   font-weight: 400;
   color: #878a9a;
 }
+
+
 @media screen and (max-width: 2600px) {
   .employ-list-height {
-    max-height: 50vh;
+    max-height: 40vh;
     overflow: scroll;
   }
+    .leave-name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 300px;
+    }
 
   .leave-category-list {
     max-height: 30vh;
     overflow: scroll;
   }
+
+   
 }
 
 @media screen and (max-width: 1280px) {
   .employ-list-height {
-    max-height: 45vh;
+    max-height: 42vh;
     overflow: scroll;
   }
 
   .leave-category-list {
-    max-height: 20vh;
+    max-height: 18vh;
     overflow: scroll;
   }
+     .leave-name {
+       overflow: hidden;
+       text-overflow: ellipsis;
+       white-space: nowrap;
+       width: 230px;
+     }
 }

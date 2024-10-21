@@ -356,7 +356,7 @@ export class RoleComponent implements OnInit {
         );
       },
       (error) => {
-        this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+        this.helperService.showToast('Cannot be deleted', Key.TOAST_STATUS_ERROR);
         console.log(error);
       }
     );

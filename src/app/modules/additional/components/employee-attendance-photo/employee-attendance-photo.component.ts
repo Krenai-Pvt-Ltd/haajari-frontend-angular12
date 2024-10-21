@@ -83,6 +83,24 @@ export class EmployeeAttendancePhotoComponent implements OnInit {
             this.toggle = true;
             
           }
+
+          if (response.status == 'Out') {
+            this.helper.showToast(
+              "You've Successfully Checked Out",
+              Key.TOAST_STATUS_SUCCESS
+            );
+            
+            this.toggle = true;
+          }
+
+          if(response.onboardingVia == 'SLACK') {
+            this.helper.showToast(
+              response.status,
+              Key.TOAST_STATUS_SUCCESS
+            );
+            this.toggle = true;
+          }
+
           if(response.onboardingVia == 'WHATSAPP') {
             window.location.href =
               'https://api.whatsapp.com/send/?phone=918700822872&type=phone_number&app_absent=0';
