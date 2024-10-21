@@ -377,3 +377,11 @@ span.lat {
 .teme-maneger p {
     color: #54545C;
 }
+
+.col-md-3 {
+    width: 22% !important;
+}
+
+.col-md-9 {
+    width: 78% !important;
+}

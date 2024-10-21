@@ -236,10 +236,10 @@
     background: #EAEAFF !important;
 }
 
-.attendance-history {
+/* .attendance-history {
     border: 1px solid #EDEDED;
     border-radius: 2px;
-}
+} */
 
 .calendar-icon {
     width: 30px;
@@ -263,10 +263,11 @@
 }
 
 .calendar-back {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
     border-radius: 2px;
     border: 1px solid #EDEDED;
+    background-color: rgba(236, 236, 236, 0.21);
 }
 
 .calendar-back svg {
@@ -382,8 +383,9 @@ span.lat {
     background-color: #F5F5F5;
     border-radius: 2px;
     color: #060606;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 400;
+    padding: 2px 6px;
 }
 .active-week{
     background-color: #EAEAFF !important;
@@ -394,25 +396,41 @@ span.lat {
     color: #fff !important;
 } */
 .summary-month{
-        background-color: #979797;
+    background-color: #979797;
         color: #fff;
         border-radius: 2px;
-        font-size: 14px;
+        font-size: 13px;
         font-weight: 500;
-        height: 35px;
-        min-width: 71px;
+        height: 28px;
+        min-width: 50px;
         display: flex;
         align-items: center;
         justify-content: center;
-        line-height: 23px;
-
+        line-height: 20px;
 }
 
 .deshboard-date-filter .ant-picker {
     border: 1px solid #f1f1f1 !important;
-    height: 36px !important;
+    height: 30px !important;
 }
 
 ::ng-deep.ant-picker {
-    background-color: transparent !important;
+    background-color: rgba(236, 236, 236, 0.21) !important;
+}
+
+nz-select.request-dropdown.ng-tns-c209-1.ant-select.ant-select-lg.ant-select-show-arrow.ant-select-single.ng-star-inserted {
+    border: 1px solid #f1f1f1 !important;
+}
+
+nz-select.request-dropdown .ant-select-selector {
+    height: 35px !important;
+}
+
+@media screen and (max-width: 1280px) {
+    .font-15 {
+        font-size: 13px !important;
+    }
+    .font-12 {
+        font-size: 11px !important;
+    }
 }

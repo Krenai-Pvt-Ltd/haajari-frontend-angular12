@@ -4,7 +4,7 @@
 
 .company-logo {
     background-color: #F2F2FF;
-    height: 140px;
+    height: 133px;
 }
 
 .employee-detail img {
@@ -386,4 +386,25 @@ span.lat {
 }
 .emplyee-profile-sidebar-main-box::-webkit-scrollbar{
     display: none;
+}
+
+
+
+@media screen and (max-width: 1280px) {
+    .employee-detail h5 {
+        color: #000;
+        font-size: 16px !important;
+        font-weight: 600;
+        line-height: 26.208px;
+        letter-spacing: 0.357px;
+        text-transform: capitalize;
+    }
+        .employee-detail p {
+            color: #6B7280;
+            font-size: 12px !important;
+            font-weight: 400;
+            line-height: 26.208px;
+            letter-spacing: 0.357px;
+            text-transform: capitalize;
+        }
 }
