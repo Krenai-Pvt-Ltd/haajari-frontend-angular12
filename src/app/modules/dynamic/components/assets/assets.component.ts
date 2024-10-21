@@ -513,6 +513,11 @@ totalAssetsStatusWiseData: StatusWiseTotalAssetsResponse[] = [];
       this.modalSelectUserString = 'Select User To Assign Asset';
       this.modalDateString = 'Assign Date';
       this.stringToSaveData = 'ASSIGNEDTO';
+    } else if (statusString == 'UNAVAILABLE') {
+      this.modalHeadString = 'Assign Asset';
+      this.modalSelectUserString = 'Select User To Assign Asset';
+      this.modalDateString = 'Assign Date';
+      this.stringToSaveData = 'ASSIGNEDTO';
     }
   }
 
