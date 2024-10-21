@@ -351,7 +351,7 @@ span.lat {
 }
 
 .attendance-summery p {
-    color: #6B7280 !important;
+    color: #6B7280 ;
 }
 
 .attendance-summery h5 {
@@ -442,7 +442,7 @@ nz-select.request-dropdown .ant-select-selector {
 }
 
 .deshboard-date-filter{
-    width: 130px !important;
+    width: 150px !important;
 }
 
 ::ng-deep.ant-select-single .ant-select-selector{
@@ -462,6 +462,18 @@ nz-select.request-dropdown .ant-select-selector {
     font-weight: 400;
     letter-spacing: 0.1px;
     min-width: 55px;
+}
+
+.leave-summery-box{
+    background-color: #F5F5F5;
+    margin-bottom: 10px;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.col-md-3-summary{
+    width: 18%;
 }
 @media screen and (max-width: 1280px) {
     .font-15 {
