@@ -1,0 +1,392 @@
+<div class="employee-detail-box">
+<div class="attendance-history p-3 m-3 mt-0">
+
+    <div class="d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center gap-2 attendance-date">
+            <span class="calendar-icon d-flex align-items-center justify-content-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <mask id="mask0_4719_1399" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20"
+                        height="20">
+                        <rect width="20" height="20" fill="#D9D9D9" />
+                    </mask>
+                    <g mask="url(#mask0_4719_1399)">
+                        <path
+                            d="M4.16667 18.3346C3.70833 18.3346 3.31597 18.1714 2.98958 17.8451C2.66319 17.5187 2.5 17.1263 2.5 16.668V5.0013C2.5 4.54297 2.66319 4.15061 2.98958 3.82422C3.31597 3.49783 3.70833 3.33464 4.16667 3.33464H5V1.66797H6.66667V3.33464H13.3333V1.66797H15V3.33464H15.8333C16.2917 3.33464 16.684 3.49783 17.0104 3.82422C17.3368 4.15061 17.5 4.54297 17.5 5.0013V16.668C17.5 17.1263 17.3368 17.5187 17.0104 17.8451C16.684 18.1714 16.2917 18.3346 15.8333 18.3346H4.16667ZM4.16667 16.668H15.8333V8.33464H4.16667V16.668ZM4.16667 6.66797H15.8333V5.0013H4.16667V6.66797Z"
+                            fill="#1C1B1F" />
+                    </g>
+                </svg>
+            </span>
+            <p class="mb-0">January 2024</p>
+        </div>
+
+        <div class="d-flex align-items-center gap-3">
+
+            <div class="d-flex align-items-center gap-2">
+                <span class="calendar-back d-flex align-items-center justify-content-center pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                        <mask id="mask0_4719_1625" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="21" height="21">
+                            <rect x="0.5" y="0.5" width="20" height="20" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_4719_1625)">
+                            <path
+                                d="M8.83203 15.5L3.83203 10.5L8.83203 5.5L9.9987 6.70833L7.04036 9.66667H17.1654V11.3333H7.04036L9.9987 14.2917L8.83203 15.5Z"
+                                fill="#060606" />
+                        </g>
+                    </svg>
+                </span>
+                <span class="calendar-back d-flex align-items-center justify-content-center pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                        <mask id="mask0_4719_1634" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="21" height="21">
+                            <rect x="0.5" y="0.5" width="20" height="20" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_4719_1634)">
+                            <path
+                                d="M4.66667 18.8346C4.20833 18.8346 3.81597 18.6714 3.48958 18.3451C3.16319 18.0187 3 17.6263 3 17.168V5.5013C3 5.04297 3.16319 4.65061 3.48958 4.32422C3.81597 3.99783 4.20833 3.83464 4.66667 3.83464H5.5V2.16797H7.16667V3.83464H13.8333V2.16797H15.5V3.83464H16.3333C16.7917 3.83464 17.184 3.99783 17.5104 4.32422C17.8368 4.65061 18 5.04297 18 5.5013V17.168C18 17.6263 17.8368 18.0187 17.5104 18.3451C17.184 18.6714 16.7917 18.8346 16.3333 18.8346H4.66667ZM4.66667 17.168H16.3333V8.83464H4.66667V17.168ZM4.66667 7.16797H16.3333V5.5013H4.66667V7.16797Z"
+                                fill="#1C1B1F" />
+                        </g>
+                    </svg>
+                </span>
+                <span class="calendar-back d-flex align-items-center justify-content-center pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                        <mask id="mask0_4719_1639" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="21" height="21">
+                            <rect width="20" height="20" transform="matrix(-1 0 0 1 20.5 0.5)" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_4719_1639)">
+                            <path
+                                d="M12.168 15.5L17.168 10.5L12.168 5.5L11.0013 6.70833L13.9596 9.66667H3.83464V11.3333H13.9596L11.0013 14.2917L12.168 15.5Z"
+                                fill="#060606" />
+                        </g>
+                    </svg>
+                </span>
+            </div>
+
+
+            <div class="dropdown deshboard-date-filter" style="width: 100%;">
+                <nz-date-picker nzMode="month"></nz-date-picker>
+            </div>
+
+            <nz-select style="width: 100%; background-color: #fff;" nzSize="large" nzPlaceHolder="New Request" required>
+                <nz-option [nzValue]="'Yogesh'" [nzLabel]="'Request for attendance update'"></nz-option>
+                <nz-option [nzValue]="'Aditya'" [nzLabel]="'Request for overtime'"></nz-option>
+                <nz-option [nzValue]="'Sneha'" [nzLabel]="'Apply for lop reversal'"></nz-option>
+            </nz-select>
+
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <ul id="pills-tab" role="tablist" class="nav nav-pills">
+            <li class="nav-item">
+                <a id="pills-home-tab" data-bs-toggle="pill" href="#attendance" role="tab" aria-controls="pills-home"
+                    aria-selected="true" class="nav-link active">Attendance</a>
+            </li>
+            <li class="nav-item">
+                <a id="pills-profile-tab" data-bs-toggle="pill" href="#leaves" role="tab" aria-controls="pills-profile"
+                    aria-selected="false" class="nav-link">Leaves</a>
+            </li>
+            <li class="nav-item">
+                <a id="pills-profile-tab" data-bs-toggle="pill" href="#viewrequests" role="tab"
+                    aria-controls="pills-profile" aria-selected="false" class="nav-link">View requests</a>
+            </li>
+        </ul>
+        <div id="pills-tabContent" class="tab-content">
+            <div class="tab-pane fade active show pt-3" id="attendance" role="tabpanel"
+                aria-labelledby="attendance-tab">
+                <div class="row ">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h5 class="mb-0 font-14">Summary</h5>
+
+                    <div class="d-flex align-items-center gap-2">
+                       <button class="btn week-summary active-week">Week 1</button>
+                    <button class="btn week-summary">Week 2</button>
+                    <button class="btn week-summary">Week 3</button>
+                    <button class="btn week-summary">Week 4</button>
+                    <button class="btn week-summary">Week 5</button>
+                   <span class="summary-month">JAN</span>
+                    </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="attendance-summery p-3">
+                            <h5 class="mb-0 font-15">208 hr 30 min</h5>
+                            <p class="mb-0 font-12">Scheduled</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="attendance-summery p-3">
+                            <h5 class="mb-0 font-15">215 hr 15 min</h5>
+                            <p class="mb-0 font-12">Worked</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="attendance-summery p-3">
+                            <h5 class="mb-0 font-15">+ 7 hr 30 min</h5>
+                            <p class="mb-0 font-12">Difference</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="attendance-summery p-3">
+                            <h5 class="mb-0 font-15">208 hr 30 min</h5>
+                            <p class="mb-0 font-12">Scheduled</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="attendance-summery p-3">
+                            <h5 class="mb-0 font-15">4 hr 30 min <span class="lat">(3 late in’s)</span></h5>
+                            <p class="mb-0 font-12">Total delay</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="attendance-summery p-3">
+                            <h5 class="mb-0 font-15">1 hr 5 min <span class="lat">(5 Early Out’s)</span></h5>
+                            <p class="mb-0 font-12">Total shortage</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="attendance-summery p-3">
+                            <h5 class="mb-0 font-15">3</h5>
+                            <p class="mb-0 font-12">Half Days</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="attendance-summery p-3">
+                            <h5 class="mb-0 font-15">208 hr 30 min</h5>
+                            <p class="mb-0 font-12">Scheduled</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade pt-3" id="leaves" role="tabpanel" aria-labelledby="leaves-tab">
+                <div class="row ">
+                    <h5 class="mb-3 font-14">Summary</h5>
+                    <div class="col-md-3">
+                        <div class="attendance-summery p-3">
+                            <h5 class="mb-1 font-15">208 hr 30 min</h5>
+                            <p class="mb-0 font-12">Scheduled</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="attendance-summery p-3">
+                            <h5 class="mb-1 font-15">215 hr 15 min</h5>
+                            <p class="mb-0 font-12">Worked</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="attendance-summery p-3">
+                            <h5 class="mb-1 font-15">+ 7 hr 30 min</h5>
+                            <p class="mb-0 font-12">Difference</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="attendance-summery p-3">
+                            <h5 class="mb-1 font-15">208 hr 30 min</h5>
+                            <p class="mb-0 font-12">Scheduled</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="attendance-summery p-3">
+                            <h5 class="mb-1 font-15">4 hr 30 min <span class="lat">(3 late in’s)</span></h5>
+                            <p class="mb-0 font-12">Total delay</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="attendance-summery p-3">
+                            <h5 class="mb-1 font-15">1 hr 5 min <span class="lat">(5 Early Out’s)</span></h5>
+                            <p class="mb-0 font-12">Total shortage</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="attendance-summery p-3">
+                            <h5 class="mb-1 font-15">3</h5>
+                            <p class="mb-0 font-12">Half Days</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="attendance-summery p-3">
+                            <h5 class="mb-1 font-15">208 hr 30 min</h5>
+                            <p class="mb-0 font-12">Scheduled</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade pt-3" id="viewrequests" role="tabpanel" aria-labelledby="viewrequests-tab">
+                <div class="row ">
+                    <h5 class="mb-3 font-14">Summary</h5>
+                    <div class="col-md-3">
+                        <div class="attendance-summery p-3">
+                            <h5 class="mb-1 font-15">208 hr 30 min</h5>
+                            <p class="mb-0 font-12">Scheduled</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="attendance-summery p-3">
+                            <h5 class="mb-1 font-15">215 hr 15 min</h5>
+                            <p class="mb-0 font-12">Worked</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="attendance-summery p-3">
+                            <h5 class="mb-1 font-15">+ 7 hr 30 min</h5>
+                            <p class="mb-0 font-12">Difference</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="attendance-summery p-3">
+                            <h5 class="mb-1 font-15">208 hr 30 min</h5>
+                            <p class="mb-0 font-12">Scheduled</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="attendance-summery p-3">
+
+                            <h5 class="mb-1 font-15">4 hr 30 min</h5>
+
+
+                            <p class="mb-0 font-12">Total delay</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="attendance-summery p-3">
+                            <h5 class="mb-1 font-15">1 hr 5 min</h5>
+                            <p class="mb-0 font-12">Total shortage</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="attendance-summery p-3">
+                            <h5 class="mb-1 font-15">3</h5>
+                            <p class="mb-0 font-12">Half Days</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="attendance-summery p-3">
+                            <h5 class="mb-1 font-15">208 hr 30 min</h5>
+                            <p class="mb-0 font-12">Scheduled</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="table-responsive bg-white mt-3">
+        <table class="table empOnnoardtable">
+            <thead class="thead-light">
+                <tr>
+                    <th class=" text-left" style="width: 10%">
+                        Date
+                    </th>
+                    <th class="text-left" style="width: 10%">Status</th>
+                    <th class="text-left" style="width: 10%">
+                        Mode
+                    </th>
+                    <th class="text-left" style="width: 10%">Schedule</th>
+                    <th class="text-left" style="width: 10%">
+                        Check In
+                    </th>
+                    <th class="text-left" style="width: 10%">
+                        Check Out
+                    </th>
+                    <th class="text-left" style="width: 10%">
+                        Break
+                    </th>
+                    <th class="text-left" style="width: 10%">
+                        Break Duration
+                    </th>
+                    <th class="text-left" style="width: 10%">
+                        Worked
+                    </th>
+                    <th class="text-left" style="width: 10%">
+                        Difference
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody class="">
+                <tr class="" *ngFor="let item of [].constructor(30)">
+                    <td class="text-left">
+                        <span class="teme-maneger mb-0 ">
+                            Monday, 1 Jun 2023</span>
+                    </td>
+                    <td class="text-left">
+                        <div class="badge rounded-pill badge-soft-success">
+                            <span> Present</span>
+                        </div>
+                    </td>
+                    <td class="text-left">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <g clip-path="url(#clip0_4742_116)">
+                                <path
+                                    d="M7.31906 10.5859C6.16523 10.5859 5.22656 11.5246 5.22656 12.6784V17.9075C5.22656 19.0613 6.16523 20 7.31906 20C8.47289 20 9.41156 19.0613 9.41156 17.9075V12.6784C9.41156 11.5246 8.47289 10.5859 7.31906 10.5859Z"
+                                    fill="#E01E5A" />
+                                <path
+                                    d="M4.05938 10.5859H2.03359C0.916562 10.5859 0.0078125 11.4947 0.0078125 12.6117C0.0078125 13.7287 0.916602 14.6375 2.03359 14.6375C3.15059 14.6375 4.05938 13.7287 4.05938 12.6117V10.5859Z"
+                                    fill="#E01E5A" />
+                                <path
+                                    d="M0 7.32297C0 8.4768 0.938672 9.41547 2.0925 9.41547H7.32152C8.47539 9.41547 9.41406 8.4768 9.41406 7.32297C9.41406 6.16914 8.47539 5.23047 7.32156 5.23047H2.0925C0.938672 5.23043 0 6.16914 0 7.32297Z"
+                                    fill="#36C5F0" />
+                                <path
+                                    d="M7.38906 4.05547H9.41484V2.02969C9.41484 0.912656 8.50605 0.00390625 7.38906 0.00390625C6.27203 0.00390625 5.36328 0.912695 5.36328 2.02969C5.36328 3.14668 6.27203 4.05547 7.38906 4.05547Z"
+                                    fill="#36C5F0" />
+                                <path
+                                    d="M12.6784 9.41406C13.8323 9.41406 14.7709 8.47539 14.7709 7.32156V2.0925C14.771 0.938672 13.8323 0 12.6784 0C11.5246 0 10.5859 0.938672 10.5859 2.0925V7.32152C10.5859 8.47539 11.5246 9.41406 12.6784 9.41406Z"
+                                    fill="#2EB67D" />
+                                <path
+                                    d="M15.9453 9.41484H17.9711C19.0881 9.41484 19.9969 8.50605 19.9969 7.38906C19.9969 6.27203 19.0881 5.36328 17.9711 5.36328C16.8541 5.36328 15.9453 6.27207 15.9453 7.38906V9.41484Z"
+                                    fill="#2EB67D" />
+                                <path
+                                    d="M20 12.6784C20 11.5246 19.0613 10.5859 17.9075 10.5859H12.6784C11.5246 10.5859 10.5859 11.5246 10.5859 12.6784C10.5859 13.8323 11.5246 14.7709 12.6784 14.7709H17.9075C19.0613 14.771 20 13.8323 20 12.6784Z"
+                                    fill="#ECB22E" />
+                                <path
+                                    d="M12.6117 15.9414H10.5859V17.9672C10.5859 19.0842 11.4947 19.993 12.6117 19.993C13.7287 19.993 14.6375 19.0842 14.6375 17.9672C14.6375 16.8502 13.7287 15.9414 12.6117 15.9414Z"
+                                    fill="#ECB22E" />
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_4742_116">
+                                    <rect width="20" height="20" fill="white" />
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </td>
+                    <td class="text-left">
+                        <div class="teme-maneger mb-0 table-font-weight schedule">
+                            <h5 class="mb-0 font-12">9 am - 6 pm</h5>
+                            <p class="mb-0 font-10">Shift: Morning Shift</p>
+                        </div>
+                    </td>
+                    <td class="text-left">
+                        <span class="teme-maneger mb-0 table-font-weight">
+                            9:00 am</span>
+                    </td>
+                    <td class="text-left">
+                        <span class="teme-maneger mb-0 table-font-weight">
+                            36:00 pm</span>
+                    </td>
+
+                    <td class="text-left">
+                        <span class="teme-maneger mb-0 table-font-weight"> 1</span>
+                    </td>
+                    <td>
+                        <span class="teme-maneger text-center mb-0 table-font-weight">
+                            1 hr 30 min</span>
+                    </td>
+
+                    <td class="text-left">
+                        <span class="teme-maneger text-center mb-0 table-font-weight">
+                            5 hr 30 min</span>
+                    </td>
+                    <td class=" text-left">
+                        <span class="teme-maneger mb-0 table-font-weight text-danger">
+                            -30 min</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+</div>

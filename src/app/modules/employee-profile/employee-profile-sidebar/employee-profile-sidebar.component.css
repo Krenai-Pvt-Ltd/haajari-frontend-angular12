@@ -1,21 +1,23 @@
-.emplyee-profile-sidebar-main-box{
+.emplyee-profile-sidebar-main-box {
     border-right: 1px solid #f1f1f1;
 }
-.company-logo{
+
+.company-logo {
     background-color: #F2F2FF;
     height: 140px;
 }
 
-.employee-detail img{
+.employee-detail img {
     width: 100px;
     height: 100px;
     border-radius: 50%;
 }
+
 .employee-detail {
     margin-top: -75px;
 }
 
-.employee-detail h5{
+.employee-detail h5 {
     color: #000;
     font-size: 20px;
     font-weight: 600;
@@ -25,7 +27,7 @@
     text-transform: capitalize;
 }
 
-.employee-detail p{
+.employee-detail p {
     color: #6B7280;
     font-size: 13px;
     font-weight: 400;
@@ -33,7 +35,8 @@
     letter-spacing: 0.357px;
     text-transform: capitalize;
 }
-.full-time{
+
+.full-time {
     font-size: 13px;
     font-weight: 500;
     background-color: #D2F6D2;
@@ -41,7 +44,8 @@
     columns: #000;
     padding: 3px 10px;
 }
-.icon{
+
+.icon {
     background-color: #EFEFEF;
     border-radius: 50%;
     width: 25px;
@@ -51,24 +55,26 @@
     justify-content: center;
 }
 
-.icon svg{
+.icon svg {
     width: 15px;
 }
 
-.employ-contact-detail p{
+.employ-contact-detail p {
     color: #000;
     font-size: 13px;
-    font-weight:  400;
+    font-weight: 400;
     line-height: 26.208px;
     letter-spacing: 0.357px;
     text-transform: capitalize;
 }
-.separator{
+
+.separator {
     border-bottom: 1px solid #EDEDED;
     height: 1px;
     display: flex;
 }
-.employe-about h5{
+
+.employe-about h5 {
     color: #444;
     font-size: 14px;
     font-weight: 600;
@@ -76,7 +82,8 @@
     letter-spacing: 0.357px;
     text-transform: uppercase;
 }
-.employe-about p{
+
+.employe-about p {
     color: #6B7280;
     font-size: 12px;
     font-weight: 400;
@@ -84,7 +91,8 @@
     letter-spacing: 0.357px;
     text-transform: capitalize;
 }
-.skill-set li{
+
+.skill-set li {
     display: inline-block;
     border-radius: 40px;
     border: 1px solid #CECDFF;
@@ -96,11 +104,13 @@
     margin-right: 10px;
     color: #000;
 }
+
 .skill-set {
     list-style: none;
     padding-left: 0px;
 }
-.skill-set span{
+
+.skill-set span {
     width: 28px;
     height: 28px;
     background-color: #6666f2;
@@ -113,20 +123,23 @@
     line-height: 24px;
     cursor: pointer;
 }
-.download-icon{
+
+.download-icon {
     border-radius: 2px;
-        background: #EDEFF5;
-        width: 30px;
-        height: 30px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    background: #EDEFF5;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
 }
-.employee-agreenment{
+
+.employee-agreenment {
     border-radius: 2px;
-        border: 1px solid #F2F2F2;
+    border: 1px solid #F2F2F2;
 }
+
 .activity .activity-info::before {
     content: "";
     position: absolute;
@@ -135,6 +148,7 @@
     left: 2px;
     border-left: 2px dotted #e8ebf3;
 }
+
 .icon-info-activity p {
     background-color: #EDEDFF;
     padding: 8px 3px;
@@ -151,10 +165,11 @@
     border-radius: 10px;
 }
 
-.activity-info-text h5{
+.activity-info-text h5 {
     text-transform: capitalize !important;
-        line-height: 18px !important; 
+    line-height: 18px !important;
 }
+
 .activity .activity-info .activity-info-text {
     margin-left: 10px;
     margin-bottom: 25px;
@@ -177,21 +192,24 @@
     max-height: 160px;
     overflow: scroll;
 }
-.selery-logs::-webkit-scrollbar{
+
+.selery-logs::-webkit-scrollbar {
     display: none;
 }
 
-.employee-detail-header h5{
+.employee-detail-header h5 {
     color: #000;
     font-size: 20px;
     font-weight: 500;
     letter-spacing: 0.357px;
     text-transform: capitalize;
 }
-.employee-profile-menu ul{
+
+.employee-profile-menu ul {
     list-style: none;
     padding-left: 0px;
 }
+
 .employee-profile-menu ul li {
     font-size: 12px;
     border: 1px solid #DCDCE4;
@@ -206,21 +224,24 @@
     font-weight: 500;
     cursor: pointer;
 }
-.employee-profile-menu ul li svg{
+
+.employee-profile-menu ul li svg {
     width: 15px;
     position: relative;
     top: -1px;
 }
-.active-menu{
+
+.active-menu {
     border: 1px solid var(--primary-background-color) !important;
-        background: #EAEAFF !important;
+    background: #EAEAFF !important;
 }
 
-.attendance-history{
+.attendance-history {
     border: 1px solid #EDEDED;
     border-radius: 2px;
 }
-.calendar-icon{
+
+.calendar-icon {
     width: 30px;
     height: 30px;
     border-radius: 50%;
@@ -228,11 +249,11 @@
     cursor: pointer;
 }
 
-.calendar-icon svg{
+.calendar-icon svg {
     width: 15px;
 }
 
-.attendance-date p{
+.attendance-date p {
     color: #000;
     font-size: 16px;
     font-weight: 500;
@@ -240,14 +261,15 @@
     letter-spacing: 0.357px;
     text-transform: capitalize;
 }
-.calendar-back{
+
+.calendar-back {
     width: 30px;
     height: 30px;
     border-radius: 2px;
     border: 1px solid #EDEDED;
 }
 
-.calendar-back svg{
+.calendar-back svg {
     width: 17px;
     position: relative;
     top: 0px;
@@ -277,7 +299,7 @@
     text-align: left;
 }
 
-.attendance-summery{
+.attendance-summery {
     background-color: #F9FAFC;
     border-radius: 2px;
     margin-bottom: 10px;
@@ -285,7 +307,8 @@
 
 .table-font-weight {
     font-weight: 400;
-}   
+}
+
 .badge {
     line-height: 12px;
     padding: 0.55em 10px;
@@ -294,9 +317,11 @@
     letter-spacing: 0.1px;
     min-width: 80px;
 }
-.table tr{
+
+.table tr {
     font-size: 12px !important;
 }
+
 .table td {
     font-weight: 500;
     vertical-align: middle;
@@ -305,13 +330,15 @@
     /* border: 1px solid #f1f1f1; */
     padding: 10px 15px !important
 }
-.table tbody{
+
+.table tbody {
     border: 1px solid #f1f1f1;
 }
-.schedule{
+
+.schedule {
     border-left: var(--Border-Radius-4-px, 4px) solid #CECDFF;
     background-color: #F6F6F6;
-    padding: 7px 10px ;
+    padding: 7px 10px;
     border-radius: 2px;
 }
 
@@ -321,20 +348,24 @@ span.lat {
     letter-spacing: 0.357px;
     text-transform: capitalize;
 }
-.attendance-summery p{
+
+.attendance-summery p {
     color: #6B7280 !important;
 }
+
 .attendance-summery h5 {
     line-height: 22px;
 }
-.check-in-btn{
+
+.check-in-btn {
     background-color: var(--primary-background-color);
     color: #fff;
     font-size: 13px;
     font-weight: 400;
     min-width: 100px;
 }
-.break-btn{
+
+.break-btn {
     border: 1px solid #BABABA;
     background-color: transparent;
     color: #BABABA;
@@ -342,6 +373,17 @@ span.lat {
     font-weight: 400;
     min-width: 100px;
 }
-.teme-maneger p{
+
+.teme-maneger p {
     color: #54545C;
+}
+
+.emplyee-profile-sidebar-main-box{
+    height: 100vh;
+    overflow: scroll;
+    position: sticky;
+    top: 0;
+}
+.emplyee-profile-sidebar-main-box::-webkit-scrollbar{
+    display: none;
 }

@@ -53,6 +53,7 @@ const routes: Routes = [
         (m) => m.AuthenticationModule
       ),
   },
+  { path: 'employee', loadChildren: () => import('./modules/employee-profile/employee-profile.module').then(m => m.EmployeeProfileModule) },
   { path: '**', component: ErrorPageComponent },
 ];
 
