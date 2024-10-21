@@ -470,10 +470,83 @@ nz-select.request-dropdown .ant-select-selector {
     height: 55px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
 }
 .col-md-3-summary{
     width: 18%;
+}
+.approved-btn svg{
+    width: 15px;
+}
+.rejected-btn svg{
+    width: 12px;
+}
+
+
+
+.onboard-add {
+    border: 1px solid #f1f1f1;
+}
+.empFilerDropfilter .new-deopdown {
+    display: block;
+    width: 120px;
+    padding: 0.4rem 0.5rem;
+    font-size: 13px !important;
+    text-align: left;
+    background-color: #fff;
+    border: none;
+    border-radius: 0px;
+    position: relative;
+    border-right: 1px solid #f2f2f2 !important;
+    color: #777 !important;
+    font-weight: 400;
+    letter-spacing: 0.1px;
+    box-shadow: unset;
+}
+
+.dropdown-menu {
+    padding: 0rem 0;
+}
+
+
+.dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    clear: both;
+    font-weight: 400;
+    color: #000444;
+    text-align: inherit;
+    text-decoration: none;
+    white-space: nowrap;
+    background-color: #ffffff;
+    border: 0;
+    font-size: 13px;
+    color: #3e3e3e;
+}
+
+.search-icon{
+    font-size: 12px !important;
+    position: absolute !important;
+    top: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    color: var(--tb-secondary-color) !important;
+}
+.onboarding-date input[type="text"] {
+    width: 680px;
+    border-radius: 0px 10px 10px 0px;
+    border: 0px solid #f2f2f2;
+    height: 45px !important;
+    border-left: 0;
+    font-weight: 400 !important;
+    font-size: 14px !important;
+    color: #1f1f1f !important;
+}
+.onboarding-date input::placeholder{
+    font-size: 13px;
+    color: #777;
 }
 @media screen and (max-width: 1280px) {
     .font-15 {
