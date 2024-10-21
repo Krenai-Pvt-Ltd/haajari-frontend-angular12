@@ -9854,10 +9854,14 @@ input[type="time"]::-webkit-datetime-edit-ampm-field {
 .ant-select-single .ant-select-selector .ant-select-selection-item,
 .ant-select-single .ant-select-selector .ant-select-selection-placeholder {
   padding: 0;
-  line-height: 41px !important;
+  line-height: 41px;
   transition: all 0.3s;
 }
-
+:ng-deep.ant-select-single.ant-select-lg:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-item,
+:ng-deep.ant-select-single.ant-select-lg:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-placeholder,
+:ng-deep.ant-select-single.ant-select-lg:not(.ant-select-customize-input) .ant-select-selector::after {
+  line-height: 32px !important;
+}
 .personalInformationForm label {
   color: rgba(0, 0, 0, 0.85);
   font-size: 14px !important;
