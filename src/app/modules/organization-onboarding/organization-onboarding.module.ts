@@ -42,6 +42,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { OnboardingSuccessfulComponent } from './components/onboarding-successful/onboarding-successful.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
     AttendanceModeComponent,
     ShiftTimeListComponent,
     AddShiftPlaceholderComponent,
+    OnboardingSuccessfulComponent,
   ],
   imports: [
     CommonModule,
@@ -90,7 +92,7 @@ import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
     NzDropDownModule,
     NzIconModule,
     NzInputModule,
-    NzInputNumberModule
+    NzInputNumberModule,
   ],
 })
 export class OrganizationOnboardingModule {}

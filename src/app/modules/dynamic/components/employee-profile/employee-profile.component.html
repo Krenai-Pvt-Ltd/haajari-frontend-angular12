@@ -24,7 +24,7 @@
             'd-flex align-items-center': userRoleFlag
           }" style="gap: 20px">
           <!-- <div *ngIf="InOutLoader"><div class="dot-opacity-loader"><span></span><span></span><span></span></div></div> -->
-          <div *ngIf="status == 'out'">
+          <div *ngIf="status == 'out' || this.userAttendanceDetailDateWise.status== '' ">
             <button class="btn btn-outline-success btn-round" type="button" (click)="checkinCheckout('/in')"> Check-In
             </button>
           </div>
@@ -49,9 +49,7 @@
             'mt-1': adminRoleFlag
           }">
           <div class="d-flex align-items-center gap-3 mt-2" style="gap: 10px" *ngIf="
-              user!.employeeOnboardingStatus?.response == 'PENDING' ||
-              user!.employeeOnboardingStatus?.response == 'REQUESTED' ||
-              user!.employeeOnboardingStatus?.response == 'NEW_USER'
+              user!.employeeOnboardingStatus?.response == 'REQUESTED'
             ">
             <button class="btn btn-soft-success btn-round" type="button" (click)="updateStatusUserByUuid('APPROVED')">
               <div *ngIf="!approvedToggle">
@@ -86,14 +84,14 @@
                   <div class="col-lg-5 align-self-center mb-3 mb-lg-0">
                     <div class="met-profile-main">
                       <div class="met-profile-main-pic">
-                        <img *ngIf="isImage && !user?.image.includes('fakepath')" 
-       src="{{ user?.image }}" 
-       alt="Profile Picture" 
-       height="110" 
+                        <img *ngIf="isImage && !user?.image.includes('fakepath')"
+       src="{{ user?.image }}"
+       alt="Profile Picture"
+       height="110"
        class="rounded-circle"  (error)="onError($event)" />
-  
+
   <!-- If no valid image, display the user's initial -->
-  <span *ngIf="!isImage" 
+  <span *ngIf="!isImage"
         class="thumb-xl justify-content-center d-flex align-items-center bg-soft-success rounded-circle me-2">
     {{ user?.name[0] }}
   </span>
@@ -455,7 +453,7 @@
                                 <p class="mb-0">10:05 AM</p>
                               </div>
                             </div>
-                            
+
                             <p class="mb-0 leaveMsg">Today | Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
                             <!-- <button class="btn w-100 chckINBtn">Check In</button> -->
                           </div>
@@ -1104,13 +1102,13 @@
                         </div>
                       </div> -->
                       <!-- <div>
-                        <full-calendar 
+                        <full-calendar
                         [options]="calendarOptions" id="calendar" #calendar></full-calendar>
                       </div> -->
-                      
-                 
-                      <nz-calendar [(ngModel)]="date" [(nzMode)]="mode" 
-                      (nzPanelChange)="panelChange($event)" 
+
+
+                      <nz-calendar [(ngModel)]="date" [(nzMode)]="mode"
+                      (nzPanelChange)="panelChange($event)"
                       (nzSelectChange)="selectChange($event)"
                       [nzDisabledDate]="disablePreviousYears"
                       [nzDisabledDate]="disablePreviousMonths"
@@ -1120,7 +1118,7 @@
                <ng-container *ngIf="getEventForDate(date) as event">
                  <li>
                    <span [ngStyle]="{'background-color': event.color}">
-                     <nz-badge nz-popover nzPopoverTrigger="hover" 
+                     <nz-badge nz-popover nzPopoverTrigger="hover"
                        [nzPopoverContent]="contentTemplate" nzPopoverPlacement="topLeft"
                        [nzColor]="event.color" [nzDot]="false" nzStandalone>
                      </nz-badge>
@@ -1128,7 +1126,7 @@
                        {{ event.status }}
                      </span>
                    </span>
-         
+
                    <ng-template #contentTemplate>
                      <div
                        style="background-color: white; padding: 10px; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
@@ -1141,7 +1139,7 @@
                  </li>
                </ng-container>
              </ng-container>
-         
+
              <ng-template #beforeJoiningDate>
                <li>
                  <span class="event-details">-</span>
@@ -1149,8 +1147,8 @@
              </ng-template>
            </ul>
                       </nz-calendar>
-         
-               
+
+
                       <div class="legends-section" style="margin-top: 20px; font-size: 13px">
                         <div class="legend" style="
                             display: inline-flex;
@@ -1258,7 +1256,7 @@
                       <!--end card-->
                       <div class="d-flex justify-content-end align-items-center add-filtter mb-2"
                         *ngIf="userRoleFlag && ROLE!= 'ADMIN'">
-                        <a class="btn" data-bs-toggle="modal" data-bs-target=".apply-leave">
+                        <a *ngIf="userLeave.length > 0" class="btn" data-bs-toggle="modal" data-bs-target=".apply-leave">
                           <i class="bi bi-plus" style="font-size: 15px"></i>Apply for a Leave</a>
                         <a class="btn" data-bs-toggle="modal" data-bs-target=".lop-reversal-request">
                           <i class="bi bi-plus" style="font-size: 15px"></i>Apply for Lop Reversal </a>
@@ -1295,7 +1293,7 @@
                           </div>
                         </div>
                       </ng-container>
-                      <!-- 
+                      <!--
                       <div class="row"><ul class="nav nav-tabs bg-light border-top" role="tablist"><li class="nav-item" (click)="changeLogTabInAttendanceTab(LEAVE_LOG)"><a class="nav-link active" data-bs-toggle="tab" href="#leave-log" role="tab" aria-selected="true">Leave</a></li><li class="nav-item" (click)="changeLogTabInAttendanceTab(OVERTIME_LOG); financeSectionMethodCall()"><a class="nav-link" data-bs-toggle="tab" href="#overtime-log" role="tab" aria-selected="false">Overtime</a></li><li class="nav-item" (click)="changeLogTabInAttendanceTab(LOP_REVERSAL_LOG); getAttendanceRequestLogData()"><a class="nav-link" data-bs-toggle="tab" href="#lop-reversal-log" role="tab" aria-selected="true">Lop Reversal</a></li></ul></div> -->
                       <div class="row">
                         <ul class="nav nav-tabs bg-light border-top" role="tablist">
@@ -1482,9 +1480,13 @@
                                           formatDateIn(formatDate(leaves.endDate)) }}</u>
                                       </p>
                                       <h6 class="fw-semibold">
-                                        <span class="badge badge-outline-primary">{{
+                                        <!-- <span class="badge badge-outline-primary">{{
                                           calculateDateDifference(leaves.endDate, leaves.startDate) || "N/A" }} Days |
-                                          {{ leaves.leaveType }}</span>
+                                          {{ leaves.leaveType }}
+                                        </span> -->
+                                        <span class="badge badge-outline-primary">{{ leaves.totalDays }} Days |
+                                          {{ leaves.leaveType }}
+                                        </span>
                                       </h6>
                                     </div>
                                     <p class="text-muted mb-0">{{ leaves.optNotes }}</p>
@@ -2031,7 +2033,7 @@
                                           <small>Requested Time: <u> {{attendanceReqLog.updatedDate | date:'medium' || "N/A"}} </u></small>
                                         </div>
                                       </ng-container>
-                                        
+
                                       <ng-container *ngIf="attendanceReqLog.requestType === 'CREATE'">
                                         <div>
                                           <small>In Time: <u> {{attendanceReqLog.inRequestTime | date:'medium' || "N/A"}} </u></small>
@@ -3376,6 +3378,9 @@
                                 ></i> -->
                               </p>
                             </td>
+                            <td class="nav-item" *ngIf="allowEdit" (click)="routeToUserDetails('/employee-onboarding/employee-onboarding-form')">
+                              <a class="nav-link" data-bs-toggle="tab" href="/employee-onboarding/employee-onboarding-form" role="tab" aria-selected="false">Complete your profile</a>
+                            </td>
                           </tr>
                         </table>
                         <table class="table table-bordered">
@@ -3682,7 +3687,7 @@
                             <p>No data available :)</p>
                           </div>
                         </ng-template>
-                        <!-- 
+                        <!--
                           <table class="table table-bordered"><tbody class="table-design" *ngIf="onboardingPreviewData.userGuarantorInformation!=undefined && onboardingPreviewData.userGuarantorInformation.length>0"><tr><td>Relation : {{ onboardingPreviewData.userGuarantorInformation[1].relation }}</td><td>Name : {{ onboardingPreviewData.userGuarantorInformation[1].name }}</td><td>Phone Number : {{ onboardingPreviewData.userGuarantorInformation[1].phoneNumber }}</td><td>Email : {{ onboardingPreviewData.userGuarantorInformation[1].emailId ? onboardingPreviewData.userGuarantorInformation[1].emailId : 'N/A' }}</td></tr></tbody></table> -->
                       </div>
                       <div class="onboarding-deta">
@@ -4032,7 +4037,7 @@
                     <div class="" style="width: 100%; position: relative">
                       <div class="dropdown" style="width: 100%">
                         <!-- <button type="button"id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> Select leave type <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i></button> -->
-                       
+
                         <!-- <select class="form-select" id="exampleFormControlSelect1" formControlName="leaveType"
                           [(ngModel)]="userLeaveRequest.leaveType">
                           <option value="">Select Leave Type</option>
@@ -4231,12 +4236,12 @@
                   <div class="mb-2" nz-form-item>
                     <nz-form-label nzFor="selectedDate" style="padding-bottom: 6px">Pick up the date and time:</nz-form-label>
                     <nz-form-control nzErrorTip="Please select a valid date and time.">
-                      <nz-range-picker 
-                        [nzShowTime]="{ nzFormat: 'HH:mm' }" 
-                        nzFormat="yyyy-MM-dd HH:mm" 
-                        [(ngModel)]="dateRange" 
+                      <nz-range-picker
+                        [nzShowTime]="{ nzFormat: 'HH:mm' }"
+                        nzFormat="yyyy-MM-dd HH:mm"
+                        [(ngModel)]="dateRange"
+                        [ngModelOptions]="{standalone: true}"
                         required
-                        [nzDisabledDate]="disabledDateForOvertimeRequest"
                         (ngModelChange)="selectTimeForOvertimeRequest($event)"
                         (nzOnCalendarChange)="selectTimeForOvertimeRequest($event)"
                         (nzOnOk)="selectTimeForOvertimeRequest($event)">
@@ -4275,7 +4280,7 @@
                   </div>
                   <div class="d-flex justify-content-end modal-footer">
                     <button type="submit" class="btn btn-outline-primary btn-round"
-                      [disabled]="!overtimeRequestForm.form.valid || validationError != null" (click)="registerOvertimeRequestMethodCall()"> 
+                      [disabled]="!overtimeRequestForm.form.valid || validationError != null" (click)="registerOvertimeRequestMethodCall()">
                       <ng-container *ngIf="!overtimeRequestLoader">
                         Submit
                       </ng-container>
@@ -4296,21 +4301,21 @@
       </div>
       <!-- <div *ngIf="POST_HOUR_TOGGLE" class="modal show d-block" id="post-hour" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog modal-dialog-centered" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Define Post Hrs.</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="postHourModalClose()"></button></div><div class="modal-body"><form nz-form #postHourOvertimeSettingForm="ngForm">
               forr
-              <nz-form-item><nz-form-label [nzFor]="'postHour'">Enter the number of hours before shift start to be counted as overtime</nz-form-label><nz-form-control nzErrorTip="Please enter a valid hour."><nz-time-picker 
-                    id="postHour" 
-                    nzFormat="HH:mm" 
-                    [(ngModel)]="overtimeSettingRequest.hour" 
-                    (ngModelChange)="updatePostHourOvertimeSetting($event)" 
-                    nzPlaceHolder="Enter duration here" 
-                    [nzDisabledHours]="disabledHours" 
-                    required 
-                    name="postHour" 
-                    #postHour="ngModel"></nz-time-picker></nz-form-control></nz-form-item><div class="d-flex justify-content-end modal-footer"><button 
-                  type="submit" 
-                  class="btn btn-outline-primary btn-round" 
-                  [disabled]="postHourOvertimeSettingForm.invalid" 
-                  (click)="enableOrDisablePostHourOvertimeSettingMethodCall()"> 
-                  Submit 
+              <nz-form-item><nz-form-label [nzFor]="'postHour'">Enter the number of hours before shift start to be counted as overtime</nz-form-label><nz-form-control nzErrorTip="Please enter a valid hour."><nz-time-picker
+                    id="postHour"
+                    nzFormat="HH:mm"
+                    [(ngModel)]="overtimeSettingRequest.hour"
+                    (ngModelChange)="updatePostHourOvertimeSetting($event)"
+                    nzPlaceHolder="Enter duration here"
+                    [nzDisabledHours]="disabledHours"
+                    required
+                    name="postHour"
+                    #postHour="ngModel"></nz-time-picker></nz-form-control></nz-form-item><div class="d-flex justify-content-end modal-footer"><button
+                  type="submit"
+                  class="btn btn-outline-primary btn-round"
+                  [disabled]="postHourOvertimeSettingForm.invalid"
+                  (click)="enableOrDisablePostHourOvertimeSettingMethodCall()">
+                  Submit
                 </button></div></form></div></div></div></div> -->
       <!-- show image modal -->
       <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#showImageModal"
@@ -4458,19 +4463,12 @@
                   <b>Holiday!</b>
                 </p>
               </div>
-              <div class="calenInfo d-block" *ngIf="
-                  userAttendanceDetailDateWise.status == 'On Leave' &&
-                  userAttendanceDetailDateWise.createdDate != endDateStr
-                ">
+              <div class="calenInfo d-block" *ngIf="userAttendanceDetailDateWise.status == 'On Leave' && userAttendanceDetailDateWise.createdDate != endDateStr">
                 <p>
                   <b>On Leave!</b>
                 </p>
               </div>
-              <div class="calenInfo d-block" *ngIf="
-                  (userAttendanceDetailDateWise.checkInTime == null ||
-                    userAttendanceDetailDateWise.checkInTime == undefined) &&
-                  userAttendanceDetailDateWise.createdDate == endDateStr
-                ">
+              <div class="calenInfo d-block" *ngIf="(userAttendanceDetailDateWise.checkInTime == null || userAttendanceDetailDateWise.checkInTime == undefined) && userAttendanceDetailDateWise.createdDate == endDateStr">
                 <p>
                   <b>Not Marked Yet :)</b>
                 </p>
@@ -4674,7 +4672,7 @@
       </div>
       <div class="modal-body">
         <form [formGroup]="attendanceTimeUpdateForm" (ngSubmit)="submitForm()">
-          
+
           <div class="mb-3 row">
             <label for="requestType" class="col-sm-4 col-form-label">Request Type <span class="text-danger">*</span>
             </label>
@@ -4688,7 +4686,7 @@
               </nz-select>
             </div>
           </div>
-         
+
           <div class="mb-3 row">
             <label for="requestedDate" class="col-sm-4 col-form-label">Date <span class="text-danger">*</span>
             </label>
@@ -4697,7 +4695,7 @@
                 (ngModelChange)="onDateChange($event)" class="w-100" [nzDisabledDate]="disabledDate"></nz-date-picker>
             </div>
           </div>
-          
+
           <div class="mb-3 row">
             <label for="attendanceId" class="col-sm-4 col-form-label">Select Time <span class="text-danger">*</span>
             </label>
@@ -4711,7 +4709,7 @@
                 Please select the Date and Type above before choosing a time! </small>
             </div>
           </div>
-          
+
           <div class="mb-3 row">
             <label for="updatedTime" class="col-sm-4 col-form-label">Update Time <span class="text-danger">*</span>
             </label>
@@ -4720,7 +4718,7 @@
               </nz-time-picker>
             </div>
           </div>
-         
+
           <div class="mb-3 row">
             <label for="managerId" class="col-sm-4 col-form-label">Manager <span class="text-danger">*</span>
             </label>
@@ -4730,7 +4728,7 @@
               </nz-select>
             </div>
           </div>
-         
+
           <div class="mb-3 row">
             <label for="requestReason" class="col-sm-4 col-form-label">Reason <span class="text-danger">*</span>
             </label>
@@ -4745,7 +4743,7 @@
         <button type="button" class="btn btn-primary" [disabled]="!attendanceTimeUpdateForm.valid"
           (click)="submitForm()">
           Submit
-          
+
           </button>
       </div>
     </div>
@@ -4776,7 +4774,7 @@
             <label class="form-check-label" for="createRequestType">New Request</label>
           </div>
         </div>
-        
+
 
         <form [formGroup]="attendanceTimeUpdateForm">
           <!-- Fields for UPDATE request -->
@@ -4793,7 +4791,7 @@
                 </nz-select>
               </div>
             </div>
-            
+
             <div class="mb-3 row">
               <label for="requestedDate" class="col-sm-4 col-form-label">Date<span class="text-danger">*</span></label>
               <div class="col-sm-8">
@@ -4824,7 +4822,7 @@
               </div>
             </div>
           </div>
-        
+
           <!-- Fields for CREATE request -->
            <!-- {{selectedDateAttendance}} -->
           <div *ngIf="attendanceRequestType === 'CREATE'" formGroupName="createGroup">
@@ -4855,7 +4853,7 @@
               </div>
             </div>
           </div>
-        
+
           <!-- Common Fields for Both -->
           <div class="mb-3 row">
             <label for="managerId" class="col-sm-4 col-form-label">Manager<span class="text-danger">*</span></label>
@@ -4873,7 +4871,7 @@
             </div>
           </div>
         </form>
-        
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -4894,7 +4892,7 @@
         </button>
 
       </div>
-      
+
     </div>
   </div>
 </div>
@@ -4968,7 +4966,7 @@
                     <p>In Time Date: <u>{{ log.inRequestTime | date:"MMM dd, yyyy 'at' hh:mm a" }}</u></p>
                     <p>Out Time Date: <u>{{ log.outRequestTime | date:"MMM dd, yyyy 'at' hh:mm a" }}</u></p>
                   </div>
-                  <h6>Reason: </h6> 
+                  <h6>Reason: </h6>
                   <p class="text-muted mb-0">
                    {{ log.requestReason }}</p>
                 </div>
@@ -4993,7 +4991,7 @@
   </div>
 </div>
 
- 
+
 <!-- <div id="attendanceLogsModal" class="modal fade" tabindex="-1" aria-labelledby="attendanceLogsModalLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-lg">

@@ -530,7 +530,7 @@ div img.ngx-ic-source-image {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: #6666f3 !important; /* Change to your preferred color */
+  background-color: #fff !important; /* Change to your preferred color */
   margin: 0 4px;
   animation: dotOpacity 1.4s infinite ease-in-out both;
 }
@@ -563,34 +563,6 @@ div img.ngx-ic-source-image {
   /* padding: 6px 6px; */
 }
 
-.loader-fetching-location span {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: #6666f3 !important; /* Change to your preferred color */
-  margin: 0 4px;
-  animation: dotOpacity 1.4s infinite ease-in-out both;
-}
-
-.loader-fetching-location span:nth-child(1) {
-  animation-delay: -0.32s;
-}
-
-.loader-fetching-location span:nth-child(2) {
-  animation-delay: -0.16s;
-}
-
-@keyframes dotOpacity {
-  0%,
-  80%,
-  100% {
-    opacity: 0;
-  }
-  40% {
-    opacity: 1;
-  }
-}
 
 .attention-box {
   background-color: #f7f7f7;
@@ -630,3 +602,4 @@ div img.ngx-ic-source-image {
 .upload-image:hover {
   text-decoration-line: underline;
 }
+

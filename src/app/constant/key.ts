@@ -72,6 +72,8 @@ export class Key {
     '/payment/payroll-dashboard/leave-summary',
     '/to-do-step-dashboard',
     '/setting/subscription',
+    '/setting/onboarding-setting',
+    '/refer-friend',
   ];
 
   public static TOPBAR_ROUTES = [
@@ -113,6 +115,8 @@ export class Key {
     '/payment/payment-history',
     '/payment/payroll-dashboard/leave-summary',
     '/setting/subscription',
+    '/setting/onboarding-setting',
+    '/refer-friend',
     // '/to-do-step-dashboard',
   ];
 

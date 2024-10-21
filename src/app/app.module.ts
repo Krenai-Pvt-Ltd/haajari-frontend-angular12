@@ -87,7 +87,7 @@ import { SubscriptionExpiredComponent } from './modules/common/subscription-expi
       useClass: RequestInterceptorService,
       multi: true,
     },
-    AngularFireStorage,
+    AngularFireStorage
     // Compiler
   ],
   bootstrap: [AppComponent],

@@ -55,6 +55,7 @@ export class TdsComponent implements OnInit {
   month: string = '';
   inputDate: string = '';
 
+  mainPlaceholderFlag : boolean = false;
   employeeMonthWiseSalaryDataList: EmployeeMonthWiseSalaryData[] = [];
   getEmployeeMonthWiseSalaryDataMethodCall() {
     this.preRuleForShimmersAndErrorPlaceholders();
@@ -75,6 +76,11 @@ export class TdsComponent implements OnInit {
             this.helperService.isListOfObjectNullOrUndefined(response)
           ) {
             this.dataNotFoundPlaceholder = true;
+            if(this.search == '') {
+              this.mainPlaceholderFlag = true;
+            }else {
+              this.mainPlaceholderFlag = false;
+            }
           } else {
             this.employeeMonthWiseSalaryDataList = response.listOfObject;
             this.total = response.totalItems;

@@ -13,9 +13,7 @@
                     <p class="text-dark mb-2 fw-semibold">Present</p>
                     <h4 class="font-22 fw-bold">
                       <span>
-                        <!-- {{ attendanceDetailsCountResponse.presentUsers }}/{{
-                          attendanceDetailsCountResponse.totalUsers
-                        }} -->
+                       
                         <div *ngIf="!showPlaceholder">
                           <a
                             href="#"
@@ -241,17 +239,17 @@
                   class="d-flex align-items-center justify-content-between leave-list p-3 pt-2 pb-2 mb-3"
                 >
                   <div class="">
-                    <p class="mb-0 font-14">Holiday</p>
+                    <p class="mb-0 font-13">Holiday</p>
                     <h3 class="mb-0">Dussehra</h3>
                   </div>
 
                   <h5 class="mb-0 font-14">Sat,12th October</h5>
                 </div>
                 <div
-                  class="d-flex align-items-center justify-content-between upcoming-holiday-list p-3 pt-0 pb-0 mb-3"
+                  class="d-flex align-items-center justify-content-between upcoming-holiday-list p-3 pt-0 pb-0 mb-3 success-border"
                 >
                   <div class="">
-                    <p class="mb-0 font-14">Upcoming</p>
+                    <p class="mb-0 font-13">Upcoming</p>
                     <h3 class="mb-0">Dussehra</h3>
                   </div>
 
@@ -261,7 +259,7 @@
                   class="d-flex align-items-center justify-content-between upcoming-holiday-list p-3 pt-0 pb-0"
                 >
                   <div class="">
-                    <p class="mb-0 font-14">Upcoming</p>
+                    <p class="mb-0 font-13">Upcoming</p>
                     <h3 class="mb-0">Dussehra</h3>
                   </div>
 
@@ -269,7 +267,7 @@
                 </div>
 
                 <div
-                  class="d-flex align-items-center justify-content-between all-holiday-list"
+                  class="d-flex align-items-center justify-content-between all-holiday-list" style="padding-top: 10px;"
                 >
                   <p class="mb-0 font-13">View All Holidays for This Year</p>
                   <button
@@ -289,11 +287,11 @@
                     background-image: url(../assets/images/barthday-img.svg);
                   "
                 >
-                  <div class="d-flex align-items-center gap-3">
+                  <div class="d-flex align-items-center gap-2">
                     <img src="assets/images/media-upload.jpg" />
                     <div>
-                      <p class="mb-0 font-14">Sat,12th October</p>
-                      <h5 class="mb-0 font-16">Ahaan Panady</h5>
+                      <p class="mb-0 font-13">Sat,12th October</p>
+                      <h5 class="mb-0 font-15">Ahaan Panady</h5>
                     </div>
                   </div>
                   <p class="mb-0 font-12">Today</p>
@@ -302,11 +300,11 @@
                 <div
                   class="d-flex align-items-end justify-content-between upcoming-birthday-box mb-3 p-2 pt-0 pb-0"
                 >
-                  <div class="d-flex align-items-center gap-3">
+                  <div class="d-flex align-items-center gap-2">
                     <img src="assets/images/media-upload.jpg" />
                     <div>
-                      <p class="mb-0 font-14">Sat,12th October</p>
-                      <h5 class="mb-0 font-16">Ahaan Panady</h5>
+                      <p class="mb-0 font-13">Sat,12th October</p>
+                      <h5 class="mb-0 font-15">Ahaan Panady</h5>
                     </div>
                   </div>
                   <p class="mb-0 font-12">Upcoming</p>
@@ -315,11 +313,11 @@
                 <div
                   class="d-flex align-items-end justify-content-between upcoming-birthday-box p-2 pt-0 pb-0"
                 >
-                  <div class="d-flex align-items-center gap-3">
+                  <div class="d-flex align-items-center gap-2">
                     <img src="assets/images/media-upload.jpg" />
                     <div>
-                      <p class="mb-0 font-14">Sat,12th October</p>
-                      <h5 class="mb-0 font-16">Ahaan Panady</h5>
+                      <p class="mb-0 font-13">Sat,12th October</p>
+                      <h5 class="mb-0 font-15">Ahaan Panady</h5>
                     </div>
                   </div>
                   <p class="mb-0 font-12">Upcoming</p>
@@ -1856,11 +1854,14 @@
           class="btn-close"
           data-bs-dismiss="modal"
           aria-label="Close"
+          (click)="resetPresentModal()"
         ></button>
       </div>
+      <!-- {{hideSearchBar}} -->
       <div
         class="onboarding-date d-flex align-items-center"
         style="gap: 10px; width: 100%"
+        *ngIf="!hideSearchBar"
       >
         <form
           role="search"
@@ -1889,13 +1890,13 @@
             <i
               class="bi bi-search search-icon"
               style="margin: auto; margin-left: 15px"
-              *ngIf="!crossFlag"
+              *ngIf="search == ''"
             ></i>
             <i
               class="bi bi-x search-icon"
               style="margin: auto; margin-left: 15px"
               (click)="reloadPage()"
-              *ngIf="crossFlag"
+              *ngIf="search != ''"
             ></i>
           </div>
         </form>
@@ -1921,7 +1922,7 @@
       <div
         class="empty-file"
         style="margin-top: 7%; margin-bottom: 7%"
-        *ngIf="attendanceDetailsResponseList.length == 0"
+        *ngIf="attendanceDetailsResponseList.length == 0 && !isLoaderLoading"
       >
         <nz-empty
           nzNotFoundImage="assets/images/no-data-found-img.svg"
@@ -1932,6 +1933,24 @@
           </ng-template>
         </nz-empty>
       </div>
+      <div
+      class="empty-file"
+      style="margin-top: 7%; margin-bottom: 7%"
+      *ngIf="attendanceDetailsResponseList.length == 0 && isLoaderLoading"
+    >
+          <div
+          class="text-center load-more-btn"
+        >
+          <div
+            class="spinner-border spinner-border-custom-1 text-primary"
+            role="status"
+          ></div>
+          <div>
+            <small>Loading...</small>
+          </div>
+        </div>
+            
+    </div>
 
       <div
         class="modal-body mt-0 pt-0"
@@ -1985,7 +2004,7 @@
         </ul>
 
         <!-- Pagination -->
-        <div class="pagination pl-3" *ngIf="this.totalItems > 10">
+        <!-- <div class="pagination pl-3" *ngIf="this.totalItems > 10">
           <p class="mb-0" style="padding-left: 15px">
             Showing {{ getStartIndexNew() }} - {{ getEndIndexNew() }} of
             {{ totalItems }} items
@@ -2033,8 +2052,36 @@
               </nav>
             </div>
           </div>
+        </div> -->
+         
+        <div class="pagination pl-3" *ngIf="totalItems > 10">
+          <p class="mb-0" style="padding-left: 15px">
+            Showing {{ getStartIndexNew() }} - {{ getEndIndexNew() }} of {{ totalItems }} items
+          </p>
+          <div class="row">
+            <div class="col-md-12">
+              <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-end">
+                  <li class="page-item" [class.disabled]="pageNumberNew === 1">
+                    <a class="page-link" href="javascript:void(0);" aria-label="Previous" (click)="changePageNew('prev')">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                  <li class="page-item" *ngFor="let pageNew of getPagesNew()" [class.active]="pageNumberNew === pageNew" [class.disabled]="pageNew === '...'">
+                    <a class="page-link" href="javascript:void(0);" (click)="changePageNew(pageNew)" *ngIf="pageNew !== '...'">{{ pageNew }}</a>
+                    <span class="page-link" *ngIf="pageNew === '...'">{{ pageNew }}</span>
+                  </li>
+                  <li class="page-item" [class.disabled]="pageNumberNew === lastPageNumberNew">
+                    <a class="page-link" href="javascript:void(0);" aria-label="Next" (click)="changePageNew('next')">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
         </div>
-
+        
         <!-- </div> -->
       </div>
       <!-- <div class="modal-footer">
@@ -2072,6 +2119,7 @@
       <div
         class="onboarding-date d-flex align-items-center"
         style="gap: 10px; width: 100%"
+        *ngIf="!hideSearchBreak"
       >
         <form
           role="search"
@@ -2112,7 +2160,9 @@
         </form>
       </div>
 
-      <div class="errorboxmain text-center" *ngIf="breakUsers.length == 0">
+<!-- 
+      <div class="errorboxmain text-center" *ngIf="breakUsers.length == 0 && !isBreakLoaderLoading">
+
         <div class="errorboxinner">
           <div class="errorboxplaceholder mb-2">
             <img src="assets/images/empty-box.svg" style="width: 80px" />
@@ -2125,31 +2175,39 @@
             </p>
           </div>
         </div>
+      </div>  -->
+
+     <div
+      class="empty-file"
+      style="margin-top: 7%; margin-bottom: 7%"
+      *ngIf="breakUsers.length == 0 && !isBreakLoaderLoading"
+      >
+      <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+        <ng-template #contentTpl>
+          <p class="mb-1 empty-detail font-16">No data for now</p>
+        </ng-template>
+      </nz-empty>
       </div>
+      <div
+      class="empty-file"
+      style="margin-top: 7%; margin-bottom: 7%"
+      *ngIf="breakUsers.length == 0 && isBreakLoaderLoading"
+    >
+          <div
+          class="text-center load-more-btn"
+        >
+          <div
+            class="spinner-border spinner-border-custom-1 text-primary"
+            role="status"
+          ></div>
+          <div>
+            <small>Loading...</small>
+          </div>
+        </div>
+            
+    </div>
       <div class="modal-body pt-0" *ngIf="breakUsers.length > 0">
-        <!-- <div class="card-body"> -->
-        <!-- Search Controls -->
-        <!-- <div class="row mb-3">
-            <div class="col-md-8">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Search by Name or Email..."
-                [(ngModel)]="searchTermBreak"
-                (keyup)="searchBreak()"
-              />
-            </div>
-            <div class="col-md-4 text-end">
-              <button class="btn btn-secondary" (click)="reloadPageBreak()">
-                Clear Search
-              </button>
-            </div>
-          </div> -->
-        <!-- <div class="row mb-3"> -->
-
-        <!-- </div> -->
-
-        <!-- Attendance List -->
+       
         <ul
           class="list-unstyled m-0 ps-0 transaction-history"
           *ngFor="let user of breakUsers"
@@ -2189,7 +2247,7 @@
         </ul>
 
         <!-- Pagination -->
-        <div class="pagination pl-3" *ngIf="totalCountBreak > 10">
+        <!-- <div class="pagination pl-3" *ngIf="totalCountBreak > 10">
           <p class="mb-0">
             Showing {{ startIndexBreak }} - {{ endIndexBreak }} of
             {{ totalCountBreak }} items
@@ -2227,8 +2285,41 @@
               </nav>
             </div>
           </div>
+        </div> -->
+        
+        <div class="pagination pl-3" *ngIf="totalCountBreak > 10">
+          <p class="mb-0">
+            Showing {{ startIndexBreak }} - {{ endIndexBreak }} of {{ totalCountBreak }} items
+          </p>
+          <div class="row">
+            <div class="col-md-12">
+              <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-end">
+                  <li class="page-item" [class.disabled]="pageNumberBreak === 1">
+                    <a class="page-link" (click)="changePageBreak('prev')">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                  <li
+                    class="page-item"
+                    *ngFor="let page of pagesBreak"
+                    [class.active]="pageNumberBreak === page"
+                    [class.disabled]="page === '...'">
+                    <a class="page-link" (click)="changePageBreak(page)" *ngIf="page !== '...'">{{ page }}</a>
+                    <span class="page-link" *ngIf="page === '...'">{{ page }}</span>
+                  </li>
+                  <li class="page-item" [class.disabled]="pageNumberBreak === totalPagesBreak">
+                    <a class="page-link" (click)="changePageBreak('next')">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
         </div>
-        <!-- </div> -->
+        
+      <!-- </div> -->
       </div>
       <!-- <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
@@ -2262,6 +2353,7 @@
       <div
         class="onboarding-date d-flex align-items-center"
         style="gap: 10px; width: 100%"
+        *ngIf="!hideSearchLate"
       >
         <form
           role="search"
@@ -2319,7 +2411,7 @@
       <div
         class="empty-file"
         style="margin-top: 7%; margin-bottom: 7%"
-        *ngIf="lateUsers.length == 0"
+        *ngIf="lateUsers.length == 0  && !isLateLoaderLoading"
       >
         <nz-empty
           nzNotFoundImage="assets/images/no-data-found-img.svg"
@@ -2330,6 +2422,24 @@
           </ng-template>
         </nz-empty>
       </div>
+      <div
+      class="empty-file"
+      style="margin-top: 7%; margin-bottom: 7%"
+      *ngIf="lateUsers.length == 0 && isLateLoaderLoading"
+    >
+          <div
+          class="text-center load-more-btn"
+        >
+          <div
+            class="spinner-border spinner-border-custom-1 text-primary"
+            role="status"
+          ></div>
+          <div>
+            <small>Loading...</small>
+          </div>
+        </div>
+            
+    </div>
       <div class="modal-body" *ngIf="lateUsers.length > 0">
         <ul
           class="list-unstyled m-0 ps-0 transaction-history pt-0"
@@ -2372,7 +2482,7 @@
         </ul>
 
         <!-- Pagination -->
-        <div class="pagination pl-3" *ngIf="totalCountLate > itemsPerPageLate">
+        <!-- <div class="pagination pl-3" *ngIf="totalCountLate > itemsPerPageLate">
           <p class="mb-0">
             Showing {{ startIndexLate }} - {{ endIndexLate }} of
             {{ totalCountLate }} items
@@ -2410,8 +2520,44 @@
               </nav>
             </div>
           </div>
+        </div> -->
+        <div class="pagination pl-3" *ngIf="totalCountLate > itemsPerPageLate">
+          <p class="mb-0">
+            Showing {{ startIndexLate }} - {{ endIndexLate }} of {{ totalCountLate }} items
+          </p>
+          <div class="row">
+            <div class="col-md-12">
+              <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-end">
+                  <li class="page-item" [class.disabled]="currentPageLate === 1">
+                    <a class="page-link" (click)="changePageLate('prev')">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                  <li
+                    class="page-item"
+                    *ngFor="let page of getPagesLate()"
+                    [class.active]="currentPageLate === page"
+                    [class.disabled]="page === '...'"
+                  >
+                    <a class="page-link" *ngIf="page !== '...'" (click)="changePageLate(page)">
+                      {{ page }}
+                    </a>
+                    <span class="page-link" *ngIf="page === '...'">{{ page }}</span>
+                  </li>
+                  <li class="page-item" [class.disabled]="currentPageLate === totalPagesLate">
+                    <a class="page-link" (click)="changePageLate('next')">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
         </div>
-        <!-- </div> -->
+        
+      
+      <!-- </div> -->
       </div>
       <!-- <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
@@ -2445,6 +2591,7 @@
       <div
         class="onboarding-date d-flex align-items-center"
         style="gap: 10px; width: 100%"
+        *ngIf="!hideSearchLeave"
       >
         <form
           role="search"
@@ -2503,7 +2650,7 @@
       <div
         class="empty-file"
         style="margin-top: 7%; margin-bottom: 7%"
-        *ngIf="leaveUsers.length == 0"
+        *ngIf="leaveUsers.length == 0 && !isLeaveLoaderLoading"
       >
         <nz-empty
           nzNotFoundImage="assets/images/no-data-found-img.svg"
@@ -2514,6 +2661,24 @@
           </ng-template>
         </nz-empty>
       </div>
+      <div
+      class="empty-file"
+      style="margin-top: 7%; margin-bottom: 7%"
+      *ngIf="leaveUsers.length == 0 && isLeaveLoaderLoading"
+    >
+          <div
+          class="text-center load-more-btn"
+        >
+          <div
+            class="spinner-border spinner-border-custom-1 text-primary"
+            role="status"
+          ></div>
+          <div>
+            <small>Loading...</small>
+          </div>
+        </div>
+            
+    </div>
 
       <div class="modal-body pt-0" *ngIf="leaveUsers.length > 0">
         <!-- <div class="card-body"> -->
@@ -2576,7 +2741,7 @@
         </ul>
 
         <!-- Pagination -->
-        <div class="pagination pl-3" *ngIf="totalCountLeave > 8">
+        <!-- <div class="pagination pl-3" *ngIf="totalCountLeave > 8">
           <p class="mb-0">
             Showing {{ startIndexLeave }} - {{ endIndexLeave }} of
             {{ totalCountLeave }} items
@@ -2614,8 +2779,43 @@
               </nav>
             </div>
           </div>
+        </div> -->
+        
+        <div class="pagination pl-3" *ngIf="totalCountLeave > itemsPerPageLeave">
+          <p class="mb-0">
+            Showing {{ startIndexLeave }} - {{ endIndexLeave }} of {{ totalCountLeave }} items
+          </p>
+          <div class="row">
+            <div class="col-md-12">
+              <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-end">
+                  <li class="page-item" [class.disabled]="currentPageLeave === 1">
+                    <a class="page-link" (click)="changePageLeave('prev')">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                  <li
+                    class="page-item"
+                    *ngFor="let page of getPagesLeave()"
+                    [class.active]="currentPageLeave === page"
+                    [class.disabled]="page === '...'">
+                    <a class="page-link" *ngIf="page !== '...'" (click)="changePageLeave(page)">
+                      {{ page }}
+                    </a>
+                    <span class="page-link" *ngIf="page === '...'">{{ page }}</span>
+                  </li>
+                  <li class="page-item" [class.disabled]="currentPageLeave === totalPagesLeave">
+                    <a class="page-link" (click)="changePageLeave('next')">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
         </div>
-        <!-- </div> -->
+        
+      <!-- </div> -->
       </div>
       <!-- <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
@@ -3155,25 +3355,75 @@
       <div class="modal-body">
         <div class="holiday-list-box">
           <div
-            class="d-flex align-items-center justify-content-between p-3 active-leave-list"
+            class="d-flex align-items-center justify-content-between p-3 active-leave-list pt-2 pb-2"
           >
             <div>
-              <h4 class="mb-1 font-15 text-black">17th January</h4>
+              <h4 class="mb-0 font-15 text-black">17th January</h4>
               <p class="mb-0">Saturday</p>
             </div>
             <h5 class="mb-0 font-15">New Year</h5>
           </div>
           <div
-            class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list"
+            class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list pb-2 pt-2 denger-border"
             style="border-color: #6f6cff"
-            *ngFor="let item of [].constructor(10)"
           >
             <div>
-              <h4 class="mb-1 font-15 text-black">17th January</h4>
+              <h4 class="mb-0 font-15 text-black">17th January</h4>
               <p class="mb-0">Saturday</p>
             </div>
             <h5 class="mb-0 font-15">New Year</h5>
           </div>
+          <div class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list pb-2 pt-2 success-border"
+            style="border-color: #6f6cff">
+            <div>
+              <h4 class="mb-0 font-15 text-black">17th January</h4>
+              <p class="mb-0">Saturday</p>
+            </div>
+            <h5 class="mb-0 font-15">New Year</h5>
+          </div>
+          <div class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list pb-2 pt-2 warning-border"
+            style="border-color: #6f6cff">
+            <div>
+              <h4 class="mb-0 font-15 text-black">17th January</h4>
+              <p class="mb-0">Saturday</p>
+            </div>
+            <h5 class="mb-0 font-15">New Year</h5>
+          </div>
+          <div class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list pb-2 pt-2 primiry-border"
+            style="border-color: #6f6cff">
+            <div>
+              <h4 class="mb-0 font-15 text-black">17th January</h4>
+              <p class="mb-0">Saturday</p>
+            </div>
+            <h5 class="mb-0 font-15">New Year</h5>
+          </div>
+
+          <div class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list pb-2 pt-2 success-border"
+            style="border-color: #6f6cff">
+            <div>
+              <h4 class="mb-0 font-15 text-black">17th January</h4>
+              <p class="mb-0">Saturday</p>
+            </div>
+            <h5 class="mb-0 font-15">New Year</h5>
+          </div>
+          <div class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list pb-2 pt-2 warning-border"
+            style="border-color: #6f6cff">
+            <div>
+              <h4 class="mb-0 font-15 text-black">17th January</h4>
+              <p class="mb-0">Saturday</p>
+            </div>
+            <h5 class="mb-0 font-15">New Year</h5>
+          </div>
+          <div class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list pb-2 pt-2 primiry-border"
+            style="border-color: #6f6cff">
+            <div>
+              <h4 class="mb-0 font-15 text-black">17th January</h4>
+              <p class="mb-0">Saturday</p>
+            </div>
+            <h5 class="mb-0 font-15">New Year</h5>
+          </div>
+         
+
         </div>
       </div>
       <div class="modal-footer p-2" style="border-top: none"></div>
@@ -3231,24 +3481,79 @@
       <div class="modal-body">
         <div class="holiday-list-box">
           <div
-            class="d-flex align-items-center justify-content-between p-3 active-leave-list"
+            class="d-flex align-items-center justify-content-between p-3 active-leave-list pt-2 pb-2"
           >
             <div>
-              <h4 class="mb-1 font-15 text-black">Anchal</h4>
+              <h4 class="mb-0 font-15 text-black">Anchal</h4>
               <p class="mb-0">Developer</p>
             </div>
-            <h5 class="mb-0 font-15">January 29th, Saturday</h5>
+            <h5 class="mb-0 font-14">January 29th, Saturday</h5>
           </div>
+            <!-- [ngStyle]="{'border-color: #6f6cff':((i+1)%1)==0,'border-color: red':((i+1)%2)==0}" -->
           <div
-            class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list"
-            style="border-color: #6f6cff"
-            *ngFor="let item of [].constructor(10)"
+            class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list pt-2 pb-2 denger-border"
           >
             <div>
-              <h4 class="mb-1 font-15 text-black">Yogesh Yadav</h4>
+              <h4 class="mb-0 font-15 text-black">Yogesh Yadav</h4>
               <p class="mb-0">Designer</p>
             </div>
-            <h5 class="mb-0 font-15">January 29th, Saturday</h5>
+            <h5 class="mb-0 font-14">January 29th, Saturday</h5>
+          </div>
+          <div class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list pt-2 pb-2 success-border">
+            <div>
+              <h4 class="mb-0 font-15 text-black">Yogesh Yadav</h4>
+              <p class="mb-0">Designer</p>
+            </div>
+            <h5 class="mb-0 font-14">January 29th, Saturday</h5>
+          </div>
+          <div class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list pt-2 pb-2 warning-border">
+            <div>
+              <h4 class="mb-0 font-15 text-black">Yogesh Yadav</h4>
+              <p class="mb-0">Designer</p>
+            </div>
+            <h5 class="mb-0 font-14">January 29th, Saturday</h5>
+          </div>
+          <div class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list pt-2 pb-2 denger-border" >
+            <div>
+              <h4 class="mb-0 font-15 text-black">Yogesh Yadav</h4>
+              <p class="mb-0">Designer</p>
+            </div>
+            <h5 class="mb-0 font-14">January 29th, Saturday</h5>
+          </div>
+          <div class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list pt-2 pb-2">
+            <div>
+              <h4 class="mb-0 font-15 text-black">Yogesh Yadav</h4>
+              <p class="mb-0">Designer</p>
+            </div>
+            <h5 class="mb-0 font-14">January 29th, Saturday</h5>
+          </div>
+          <div class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list pt-2 pb-2 success-border">
+            <div>
+              <h4 class="mb-0 font-15 text-black">Yogesh Yadav</h4>
+              <p class="mb-0">Designer</p>
+            </div>
+            <h5 class="mb-0 font-14">January 29th, Saturday</h5>
+          </div>
+          <div class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list pt-2 pb-2 warning-border">
+            <div>
+              <h4 class="mb-0 font-15 text-black">Yogesh Yadav</h4>
+              <p class="mb-0">Designer</p>
+            </div>
+            <h5 class="mb-0 font-14">January 29th, Saturday</h5>
+          </div>
+          <div class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list pt-2 pb-2 denger-border">
+            <div>
+              <h4 class="mb-0 font-15 text-black">Yogesh Yadav</h4>
+              <p class="mb-0">Designer</p>
+            </div>
+            <h5 class="mb-0 font-14">January 29th, Saturday</h5>
+          </div>
+          <div class="d-flex align-items-center justify-content-between p-3 upcoming-leave-list pt-2 pb-2">
+            <div>
+              <h4 class="mb-0 font-15 text-black">Yogesh Yadav</h4>
+              <p class="mb-0">Designer</p>
+            </div>
+            <h5 class="mb-0 font-14">January 29th, Saturday</h5>
           </div>
         </div>
       </div>

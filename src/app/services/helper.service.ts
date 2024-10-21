@@ -17,6 +17,10 @@ export class HelperService {
     , private router: Router) {
 
    }
+   isFirstTime: boolean = true;
+   markAsVisited() {
+    this.isFirstTime = false;
+  }
 
   clearHelperService(){
     this.subModuleResponseList = [];

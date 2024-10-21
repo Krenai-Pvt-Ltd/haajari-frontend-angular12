@@ -933,8 +933,16 @@ export class DashboardComponent implements OnInit {
   filterCriteria: string = 'PRESENT';
   lastPageNumberNew: number = 1;
 
+  resetPresentModal() {
+    this.search = '';
+    this.attendanceDetailsResponseList = [];
+  }
+
+  hideSearchBar: boolean = false;
+  isLoaderLoading: boolean = false;
   getAttendanceDetailsReportByDateMethodCall(filterCriteria: string) {
     this.filterCriteria = filterCriteria;
+    this.isLoaderLoading = true;
     this.dataService
       .getAttendanceDetailsReportByDateForDashboard(
         this.helperService.formatDateToYYYYMMDD(this.selectedDate),
@@ -948,21 +956,28 @@ export class DashboardComponent implements OnInit {
       )
       .subscribe(
         (response) => {
-          debugger;
+          // debugger;
+          this.isLoaderLoading = false;
           this.attendanceDetailsResponseList = response.listOfObject;
           // console.log(this.attendanceDetailsResponseList);
           this.totalItems = response.totalItems;
           this.lastPageNumberNew = Math.ceil(this.totalItems / this.itemPerPage);
           // console.log("lastPageNumberNew" + this.lastPageNumberNew );
-
+         
           if (
-            this.attendanceDetailsResponseList === undefined ||
+           (this.attendanceDetailsResponseList === undefined ||
             this.attendanceDetailsResponseList === null ||
-            this.attendanceDetailsResponseList.length === 0
+            this.attendanceDetailsResponseList.length === 0 ) && this.search ==''
           ) {
+              this.hideSearchBar = true;
+          }else {
+            this.hideSearchBar = false;
           }
+          
+         
         },
         (error) => {
+          this.isLoaderLoading = false;
           console.log(error);
         }
       );
@@ -988,13 +1003,49 @@ export class DashboardComponent implements OnInit {
     return endIndex > this.totalItems ? this.totalItems : endIndex;
   }
 
-  getPagesNew(): number[] {
-    const pages = [];
-    for (let i = 1; i <= this.lastPageNumberNew; i++) {
+  // getPagesNew(): number[] {
+  //   const pages = [];
+  //   for (let i = 1; i <= this.lastPageNumberNew; i++) {
+  //     pages.push(i);
+  //   }
+  //   return pages;
+  // }
+
+ // Generate page numbers, with '...' for skipped pages
+getPagesNew(): (number | string)[] {
+  const pages: (number | string)[] = [];
+  const totalPages = this.lastPageNumberNew;
+
+  if (totalPages <= 2) {
+    for (let i = 1; i <= totalPages; i++) {
       pages.push(i);
     }
-    return pages;
+  } else {
+    const startPage = Math.max(1, this.pageNumberNew - 2);
+    const endPage = Math.min(totalPages, this.pageNumberNew + 2);
+
+    if (startPage > 1) {
+      pages.push(1);
+      if (startPage > 2) {
+        pages.push('...');
+      }
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+
+    if (endPage < totalPages) {
+      if (endPage < totalPages - 1) {
+        pages.push('...');
+      }
+      pages.push(totalPages);
+    }
   }
+
+  return pages;
+}
+  
 
   // onSearchChange(): void {
   //   this.pageNumberNew = 1;
@@ -1036,18 +1087,29 @@ export class DashboardComponent implements OnInit {
   itemsPerPageBreak: number = 10;
   currentPageBreak: number = 1;
   totalPagesBreak: number = 0;
-
+  hideSearchBreak: boolean = false;
+  isBreakLoaderLoading: boolean = false;
 
   getBreakUsers(): void {
+    this.isBreakLoaderLoading = true;
      this.dataService
       .getBreakUsers(this.searchTermBreak, this.pageNumberBreak, this.itemsPerPageBreak)
       .subscribe(
         (response) => {
+          this.isBreakLoaderLoading = false;
         this.breakUsers = response.listOfObject;
+
+        if(this.searchTermBreak == '' && this.breakUsers.length == 0) {
+          this.hideSearchBreak = true;
+        }else {
+          this.hideSearchBreak = false;
+        }
         this.totalCountBreak = response.totalItems;
         this.calculatePagination();
+
         },
         (error) => {
+          this.isBreakLoaderLoading = false;
           console.log(error);
         }
      );
@@ -1057,6 +1119,9 @@ export class DashboardComponent implements OnInit {
   getAbsentAndNotMarkedUsers(searchTerm : string, count: number){
     if(count == 0){
       this.attendanceDetailsResponseList = [];
+      this.hideSearchBar = true;
+      this.absentFlag = false;
+      this.filterCriteria = searchTerm;
       // return;
     } else{
       this.getAttendanceDetailsReportByDateMethodCall(searchTerm);
@@ -1103,13 +1168,49 @@ export class DashboardComponent implements OnInit {
     return Math.min(this.pageNumberBreak * this.itemsPerPageBreak, this.totalCountBreak);
   }
 
-  get pagesBreak(): number[] {
-    const pages: number[] = [];
-    for (let i = 1; i <= this.totalPagesBreak; i++) {
-      pages.push(i);
+  // get pagesBreak(): number[] {
+  //   const pages: number[] = [];
+  //   for (let i = 1; i <= this.totalPagesBreak; i++) {
+  //     pages.push(i);
+  //   }
+  //   return pages;
+  // }
+
+  get pagesBreak(): (number | string)[] {
+    const pages: (number | string)[] = [];
+    const totalPages = this.totalPagesBreak;
+    
+    if (totalPages <= 2) {
+      
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      const startPage = Math.max(1, this.pageNumberBreak - 2);
+      const endPage = Math.min(totalPages, this.pageNumberBreak + 2);
+  
+      if (startPage > 1) {
+        pages.push(1);
+        if (startPage > 2) {
+          pages.push('...');
+        }
+      }
+  
+      for (let i = startPage; i <= endPage; i++) {
+        pages.push(i);
+      }
+  
+      if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+          pages.push('...');
+        }
+        pages.push(totalPages);
+      }
     }
+  
     return pages;
   }
+  
 
   //  late empl 
 
@@ -1121,16 +1222,26 @@ export class DashboardComponent implements OnInit {
   itemsPerPageLate: number = 10;
   currentPageLate: number = 1;
   totalPagesLate: number = 0;
-
+  hideSearchLate: boolean = false;
+  isLateLoaderLoading: boolean = false;
 
   getLateUsers(): void {
+    this.isLateLoaderLoading = true;
     this.dataService.getLateEmployeeDashboardDetails(this.getCurrentDate(), this.viewAll, this.searchTermLate, this.pageNumberLate, this.itemsPerPageLate).subscribe(
       response => {
+        this.isLateLoaderLoading = false;
         this.lateUsers = response.listOfObject;
+
+        if(this.searchTermLate == '' && this.lateUsers.length == 0) {
+          this.hideSearchLate = true;
+        }else {
+          this.hideSearchLate = false;
+        }
         this.totalCountLate = response.totalItems;
         this.calculatePaginationLate();
       },
       error => {
+        this.isLateLoaderLoading = false;
         console.error('Error fetching late users:', error);
       }
     );
@@ -1173,13 +1284,50 @@ export class DashboardComponent implements OnInit {
     return Math.min(this.pageNumberLate * this.itemsPerPageLate, this.totalCountLate);
   }
 
-  get pagesLate(): number[] {
-    const pages: number[] = [];
-    for (let i = 1; i <= this.totalPagesLate; i++) {
-      pages.push(i);
+  // get pagesLate(): number[] {
+  //   const pages: number[] = [];
+  //   for (let i = 1; i <= this.totalPagesLate; i++) {
+  //     pages.push(i);
+  //   }
+  //   return pages;
+  // }
+
+  getPagesLate(): (number | string)[] {
+    const pages: (number | string)[] = [];
+    const totalPages = this.totalPagesLate;
+  
+    if (totalPages <= 2) {
+      
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      const startPage = Math.max(1, this.currentPageLate - 2);
+      const endPage = Math.min(totalPages, this.currentPageLate + 2);
+  
+      if (startPage > 1) {
+        pages.push(1);
+        if (startPage > 2) {
+          pages.push('...');
+        }
+      }
+  
+      for (let i = startPage; i <= endPage; i++) {
+        pages.push(i);
+      }
+  
+      if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+          pages.push('...');
+        }
+        pages.push(totalPages);
+      }
     }
+  
     return pages;
   }
+  
+
 
   //  leave users 
 
@@ -1190,18 +1338,27 @@ export class DashboardComponent implements OnInit {
   itemsPerPageLeave: number = 8;
   currentPageLeave: number = 1;
   totalPagesLeave: number = 0;
-
+  hideSearchLeave: boolean = false;
+  isLeaveLoaderLoading: boolean = false;
 
   getLeaveUsers(): void {
+    this.isLeaveLoaderLoading = true;
      this.dataService
       .getLeaveUsers(this.searchTermLeave, this.pageNumberLeave, this.itemsPerPageLeave)
       .subscribe(
         (response) => {
+          this.isLeaveLoaderLoading = false;
         this.leaveUsers = response.listOfObject;
+        if(this.searchTermLeave == '' && this.leaveUsers.length == 0) {
+          this.hideSearchLeave = true;
+        }else {
+          this.hideSearchLeave = false;
+        }
         this.totalCountLeave = response.totalItems;
         this.calculatePaginationLeave();
         },
         (error) => {
+          this.isLeaveLoaderLoading = false;
           console.log(error);
         }
      );
@@ -1248,13 +1405,49 @@ export class DashboardComponent implements OnInit {
     return Math.min(this.pageNumberLeave * this.itemsPerPageLeave, this.totalCountLeave);
   }
 
-  get pagesLeave(): number[] {
-    const pages: number[] = [];
-    for (let i = 1; i <= this.totalPagesLeave; i++) {
-      pages.push(i);
+  // get pagesLeave(): number[] {
+  //   const pages: number[] = [];
+  //   for (let i = 1; i <= this.totalPagesLeave; i++) {
+  //     pages.push(i);
+  //   }
+  //   return pages;
+  // }
+
+  getPagesLeave(): (number | string)[] {
+    const pages: (number | string)[] = [];
+    const totalPages = this.totalPagesLeave;
+  
+    if (totalPages <= 2) {
+
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      const startPage = Math.max(1, this.currentPageLeave - 2);
+      const endPage = Math.min(totalPages, this.currentPageLeave + 2);
+  
+      if (startPage > 1) {
+        pages.push(1);
+        if (startPage > 2) {
+          pages.push('...');
+        }
+      }
+  
+      for (let i = startPage; i <= endPage; i++) {
+        pages.push(i);
+      }
+  
+      if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+          pages.push('...');
+        }
+        pages.push(totalPages);
+      }
     }
+  
     return pages;
   }
+  
 
 
   // tooltip attendance data
@@ -1263,15 +1456,24 @@ export class DashboardComponent implements OnInit {
 
   // @ViewChild("openEventsModal") openEventsModal!:ElementRef;
   loadingFlag:boolean = false;
+  currentDateString : string = '';
   fetchAttendanceDetails(userEmail: string, dateString:string) {
+    debugger
     this.loadingFlag = true;
+    this.currentDateString = dateString;
+    this.userAttendanceDetailDateWise = [];
     this.dataService.getAttendanceDetailsForUserByDate(userEmail, dateString)
       .subscribe(
         (response) => {
-          this.userAttendanceDetailDateWise = response.object;
+          if(this.currentDateString == dateString) {
+           this.userAttendanceDetailDateWise = response.object;
+           this.loadingFlag = false;
+          }else {
+             this.loadingFlag = false;
+          }
           // console.log('Attendance Details:', response.object);
           // this.openEventsModal.nativeElement.click();
-          this.loadingFlag = false;
+         
          
         },
         (error) => {
@@ -1285,6 +1487,7 @@ export class DashboardComponent implements OnInit {
   absentFlag:boolean = false;
   getAbsentFlag(str: string, count:number) {
 
+    // hideSearchBar
       if((str === 'ABSENT') ) {
         this.absentFlag = true;
       }else  if((str === 'Not Marked')) {

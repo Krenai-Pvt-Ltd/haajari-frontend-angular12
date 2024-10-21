@@ -652,6 +652,9 @@ export class OnboardingWhatappComponent implements OnInit {
     }, 500);
   }
   
+  routeToSignup() {
+    this.router.navigate(['/auth/signup']);
+  }
 
   // Get a cookie for promotionalOffer
   getCookie(name:string) {

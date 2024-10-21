@@ -43,8 +43,10 @@ export class LeaveRequestFormComponent implements OnInit {
       'userUuid'
     );
     this.userUuid = userUuidParam?.toString() ?? '';
-    this.fetchManagerNames();
     this.getUserLeaveReq();
+
+    this.fetchManagerNames();
+    // this.getUserLeaveReq();
   }
   @ViewChild('fileInput') fileInput!: ElementRef;
   saveLeaveRequestForWhatsappUser() {
@@ -89,8 +91,9 @@ export class LeaveRequestFormComponent implements OnInit {
       );
   }
 
-  userLeave: any = [];
-  getUserLeaveReq() {
+  // userLeave: any = [];
+  userLeave: any[] = new Array();
+  getUserLeaveReq1() {
     this.dataService.getUserLeaveRequests(this.userUuid).subscribe(
       (data) => {
         if (
@@ -103,6 +106,43 @@ export class LeaveRequestFormComponent implements OnInit {
       },
       (error) => {}
     );
+  }
+
+  leaveLoading: boolean = false;
+  getUserLeaveReq(){
+    debugger
+    this.leaveLoading = true;
+    this.userLeave = [];
+    // this.leaveCountPlaceholderFlag = false;
+    this.dataService.getUserLeaveRequests(this.userUuid).subscribe(
+      (res: any) => {
+          this.userLeave = res.object;
+          // if(res.status){
+          //   this.userLeave = res.object;
+          // }else if(res.status == 'false'){
+          //   this.userLeave = [];
+          // }
+
+          if(this.userLeave == null){
+            this.userLeave = []
+          }
+
+          this.leaveLoading = false;
+          console.log('All userLeave :', this.userLeave)
+      });
+  }
+
+  tempLeaveType: string =''
+  onLeaveTypeChange(selectedLeave: any): void {
+    debugger
+      // this.userLeaveRequest.userLeaveTemplateId = selectedLeave ;
+    // console.log('userLeaveTemplate leaveType', this.userLeaveRequest)
+
+    this.userLeaveForm.patchValue({
+      userLeaveTemplateId: selectedLeave,
+    });
+
+    console.log('userLeaveForm form ', this.userLeaveForm)
   }
 
   halfLeaveShiftToggle() {

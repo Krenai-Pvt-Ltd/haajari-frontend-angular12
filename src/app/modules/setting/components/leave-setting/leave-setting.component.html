@@ -306,7 +306,7 @@
                       </span>
                     </div>
                     <div class="">
-                      <h6 class="text-truncate mb-0">
+                      <h6 class="text-truncate mb-0 leave-name">
                         {{ newLeaveSetting?.templateName }}
                       </h6>
                       <small class="text-muted">Define the leave rules for the employees</small>
@@ -579,6 +579,7 @@
 
                   <div id="back-and-submit" class="d-flex justify-content-end align-items-end">
                     <button type="submit" [disabled]="!leaveTemplateDefinitionForm.valid"
+                    [ngClass]="{'btn-border':!(!leaveTemplateDefinitionForm.valid)}"
                       (click)="goToLeaveCategoryTab()" class="btn btn-outline-primary btn-round">
                       Next
                     </button>
@@ -725,6 +726,7 @@
                         Leave Category
                       </button>
                       <button type="submit" class="btn btn-outline-primary btn-round" [disabled]="!form.valid"
+
                         (click)="goToStaffSelectionTab()">
                         Next
                       </button>
@@ -1307,13 +1309,9 @@
             <div class="row h-100 p-0 m-0">
               <div class="col-md-3 p-0 m-0">
                 <div class="leave-sidebar-menu">
-                  <div *ngIf="!updateToggle" class="nav flex-column nav-pills pt-3" id="v-pills-tab" role="tablist"
+                 
+                  <div  class="nav flex-column nav-pills pt-3" id="v-pills-tab" role="tablist"
                     aria-orientation="vertical">
-                    <!-- <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill"
-                      data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home"
-                      aria-selected="true" #templateSettingTab2>
-                      Template setting
-                    </button> -->
                     <button class="nav-link" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home"
                       type="button" role="tab" aria-controls="v-pills-home" aria-selected="false" #templateSettingTab2>
                       Template setting
@@ -1325,34 +1323,16 @@
                       Leave Categories
                     </button>
 
+                   
                     <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill"
-                      data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages"
-                      aria-selected="false" [disabled]="leaveCategories1.length == 0" #staffSelectionTab1>
-                      Staff selection
-                    </button>
+                    data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages"
+                    aria-selected="false" [disabled]="displayedCategories.length == 0" #staffSelectionTab1>
+                    Staff selection
+                  </button>
                   </div>
 
-                  <div *ngIf="updateToggle" class="nav flex-column nav-pills pt-3" id="v-pills-tab" role="tablist"
-                    aria-orientation="vertical">
-                    <button disabled class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill"
-                      data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home"
-                      aria-selected="true">
-                      Template setting
-                    </button>
+                  
 
-                    <button disabled class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" id="profile-tab"
-                      data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile"
-                      aria-selected="false">
-                      Leave Categories
-                    </button>
-
-                    <!-- (click)="getUserByUpdateMethodCall(leaveTempId)" -->
-                    <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill"
-                      data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages"
-                      aria-selected="false" #staffSelectionTab2>
-                      Staff selection
-                    </button>
-                  </div>
                 </div>
               </div>
               <div class="col-md-9 p-0 m-0">
@@ -1387,7 +1367,7 @@
                             
                               <label for="employeeTypeId" class="pb-2">Employee Type</label>
                               <!-- <nz-form-control nzErrorTip="All"> -->
-                                <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select Employee type"
+                                <nz-select [disabled]="updateToggle" style="width: 100%" nzSize="large" nzPlaceHolder="Select Employee type"
                                   [(ngModel)]="employeeTypeId" (ngModelChange)="onEmployeeTypeChange($event)" name="emplTypeId" #emplTypeId="ngModel" required
                                   class="form-control">
                                   <nz-option *ngFor="
@@ -1413,7 +1393,7 @@
                               Leave Quota Renew Cycle
                             </label>
                             <!-- <nz-form-control nzErrorTip="Please select a valid renewal cycle."> -->
-                            <nz-select style="width: 100%" nzSize="large" id="leaveFicsalYear"
+                            <nz-select [disabled]="updateToggle" style="width: 100%" nzSize="large" id="leaveFicsalYear"
                               nzPlaceHolder="Select Leave Quota Renew Cycle "
                               [(ngModel)]="leaveTemplateRequest.yearTypeName" (ngModelChange)="
                                 selectDateForLeaveTemplateRequest($event)
@@ -1442,7 +1422,7 @@
                                 <nz-form-control nzErrorTip="Please select valid dates.">
                                   <div class="d-flex justify-content-between align-items-center">
                                     <nz-date-picker [(ngModel)]="dateRange[0]" nzPlaceHolder="Start Date"
-                                      [disabled]="!isCustomDateRange" (ngModelChange)="
+                                      [disabled]="!isCustomDateRange || updateToggle" (ngModelChange)="
                                         onStartDateChange($event)
                                       " name="startDate" #startDate="ngModel" required class="form-control">
                                     </nz-date-picker>
@@ -1458,7 +1438,7 @@
                                 <nz-form-control nzErrorTip="Please select valid dates.">
                                   <div class="d-flex justify-content-between align-items-center">
                                     <nz-date-picker [(ngModel)]="dateRange[1]" nzPlaceHolder="End Date"
-                                      [disabled]="!isCustomDateRange" name="endDate" #endDate="ngModel" required
+                                      [disabled]="!isCustomDateRange || updateToggle" name="endDate" #endDate="ngModel" required
                                       class="form-control">
                                     </nz-date-picker>
                                   </div>
@@ -1476,7 +1456,10 @@
                           <button type="submit" class="btn p-0 next-btn" (click)="goToLeaveCategoryTab()" [disabled]="
                               !leaveTemplateDefinitionForm.valid ||
                               employeeTypeId == 0
-                            ">
+                            " 
+                             [ngClass]="{'btn-border':!(!leaveTemplateDefinitionForm.valid ||
+                              employeeTypeId == 0)}"
+                            >
                             Next
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
                               fill="none">
@@ -1678,9 +1661,7 @@
                               </div>
 
                               <div class="d-flex align-items-center justify-content-end">
-                                <!-- <button class="p-0 btn text-primary leave-category" (click)="addFormRow(i)">
-                              <i class="bi bi-plus-lg"></i> Add leave Category
-                            </button> -->
+                               
 
                                 <button *ngIf="editToggle" class="p-0 btn text-primary leave-category"
                                   (click)="addFormRow(i)">
@@ -1688,10 +1669,10 @@
                                   Update leave Category
                                 </button>
 
-                                <!-- <button [disabled]="!form.valid" *ngIf="!editToggle" -->
-                                  <!-- [disabled]="!form.valid || deleteCategoryToggle" -->
+                             
                                 <button [disabled]="!form.valid" *ngIf="!editToggle"
-                                  class="p-0 btn text-primary leave-category" (click)="addFormRow(i)">
+                                [ngClass]="{'btn-active-action':!(!form.valid)}"
+                                  class="p-0 btn text-primary leave-category animate__animated" (click)="addFormRow(i)">
                                   <i class="bi bi-plus-lg"></i>
                                   {{
                                   !addFormToggle
@@ -1701,7 +1682,7 @@
                                 </button>
                               </div>
 
-                              <div class="table-responsive bg-white mt-4 leave-category-list"
+                              <div class="table-responsive bg-white mt-4 leave-category-list pe-0"
                                 *ngIf="displayedCategories.length > 0">
                                 <table class="table empOnnoardtable">
                                   <thead class="thead-light">
@@ -1727,7 +1708,7 @@
                                       <!-- <th class="text-center" style="width: 10%">
                                         Leave Action
                                       </th> -->
-                                      <th class="text-center" style="width: 10%">
+                                      <th *ngIf="!updateToggle" class="text-center stickyColThend bg-white" style="width: 10%">
                                         Action
                                       </th>
                                     </tr>
@@ -1781,14 +1762,9 @@
                                         </span>
                                       </td>
 
-                                      <!-- <td class="text-center">
-                                        <span class="teme-maneger mb-0 table-font-weight">
-                                          {{
-                                          category.unusedLeaveActionId
-                                          }}</span>
-                                      </td> -->
+                                     
 
-                                      <td class="text-center">
+                                      <td *ngIf="!updateToggle" class="text-center stickyColThend bg-white">
                                         <div class="d-flex align-items-center gap-2">
                                           <button (click)="editCategory(i)" type="button" class="btn btnAction p-0">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19"
@@ -1833,10 +1809,11 @@
                         </div>
 
                         <div class="modal-footer d-flex align-items-center justify-content-end leave-footer">
-                          <!-- <button type="submit" class="btn p-0 next-btn" [disabled]="!form.valid" (click)="goToStaffSelectionTab()">  [disabled]="!form.valid || leaveCategories1.length==0"  -->
-                          <!-- <button type="submit" class="btn p-0 next-btn" [disabled]="leaveCategories1.length==0" (click)="goToStaffSelectionTab()"> -->
+                         
                           <button [disabled]="displayedCategories.length == 0" type="submit" class="btn p-0 next-btn"
-                            (click)="goToStaffSelectionTab()">
+                            (click)="goToStaffSelectionTab()"
+                            [ngClass]="{'btn-border':!(displayedCategories.length == 0)}"
+                            >
                             Next
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
                               fill="none">
@@ -2001,18 +1978,7 @@
                                       {{ staff.checked ? "Remove" : "Add" }}
                                     </button>
 
-                                    <!-- <span *ngIf="!staff.isAdded">
-                                      <button class="add-employee" *ngIf="!addEmployeeLoader(staff)" (click)="addUser(staff.id, idOfLeaveSetting)">
-                                        <i class="bi bi-plus-lg"></i> Add
-                                      </button>
-                                    </span>
-
-                                    <span *ngIf="staff.isAdded">
-                                      <button class="btn btn-outline-primary btn-sm editdata-edit" name="addedButton"
-                                        [(ngModel)]="staff.selected" [ngModelOptions]="{ standalone: true }">
-                                        Added
-                                      </button>
-                                    </span> -->
+                                    
                                   </td>
                                 </tr>
                               </tbody>
@@ -2053,13 +2019,13 @@
                         </div>
 
                         <div class="modal-footer d-flex align-items-center justify-content-end leave-footer bg-white">
-                          <!-- <button type="button" [disabled]="registerToggle" class="btn btn-outline-primary btn-round" (click)="registerLeaveTemplateMethodCall()"
-                          *ngIf="!submitLeaveLoader"> Submit <i class="fa fa-spinner fa-spin" *ngIf="registerToggle"></i>
-                         </button> -->
+                      
 
                           <button *ngIf="!registerToggle" [disabled]="
                               selectedStaffIdsUser.length == 0 || registerToggle
-                            " type="submit" class="btn p-0 next-btn" (click)="registerLeaveTemplateMethodCall()">
+                            " type="submit" class="btn p-0 next-btn" (click)="registerLeaveTemplateMethodCall()"
+                            [ngClass]="{'btn-border':!(selectedStaffIdsUser.length == 0 || registerToggle)}"
+                            >
                             {{ updateToggle ? "Update" : "Create" }} Leave
                             Policy
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"

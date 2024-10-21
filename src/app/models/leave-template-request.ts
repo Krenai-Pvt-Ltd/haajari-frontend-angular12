@@ -15,5 +15,6 @@ export class LeaveTemplateRequest {
 
     gender: string = 'All';
     employeeTypeId: number = 1;
+    fiscalYearId: number = 0;
 
 }

@@ -47,6 +47,8 @@ export class SalarySettingComponent implements OnInit {
   }
 
   //Variable for pagination
+  viewlogsToggel: boolean = true;
+  viewlessToggel:boolean=false;
   pageNumber: number = 1;
   itemPerPage: number = 8;
   total: number = 0;

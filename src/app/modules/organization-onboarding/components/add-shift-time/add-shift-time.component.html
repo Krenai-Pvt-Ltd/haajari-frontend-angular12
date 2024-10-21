@@ -786,6 +786,11 @@
                       !organizationShiftTimingRequest.endLunchDate
                     "
                     (click)="staffActiveTabInShiftTimingMethod()"
+                     [ngClass]="{'btn-border':!(shiftForm.invalid ||
+                      !organizationShiftTimingRequest.inTimeDate ||
+                      !organizationShiftTimingRequest.outTimeDate ||
+                      !organizationShiftTimingRequest.startLunchDate ||
+                      !organizationShiftTimingRequest.endLunchDate)}"
                   >
                     <span>
                       Next
@@ -856,6 +861,7 @@
                     [disabled]="
                       shiftForm.invalid || this.selectedStaffsUuids.length < 1
                     "
+                     [ngClass]="{'btn-border':!(shiftForm.invalid || this.selectedStaffsUuids.length < 1)}"
                   >
                     <span *ngIf="!loading">
                       Create Shift Time
@@ -905,6 +911,7 @@
                     [disabled]="
                       shiftForm.invalid || this.selectedStaffsUuids.length < 1
                     "
+                    [ngClass]="{'btn-border':!(shiftForm.invalid || this.selectedStaffsUuids.length < 1)}"
                     (click)="registerOrganizationShiftTimingMethodCall()"
                   >
                     <span *ngIf="!loading">

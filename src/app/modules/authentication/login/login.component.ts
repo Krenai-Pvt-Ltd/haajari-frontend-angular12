@@ -258,6 +258,7 @@ export class LoginComponent implements OnInit {
   ngAfterViewInit() {
     this.autoplayVideo();
   }
+  
 
   autoplayVideo() {
     var div = document.getElementById('videoId');
@@ -573,11 +574,24 @@ export class LoginComponent implements OnInit {
     }, 1000);
   }
 
+  @ViewChild('otp1Input') otp1Input!: ElementRef<HTMLInputElement>;
   changeNumber() {
     this.showOtpInput = false;
     this.verifyOtpButtonFlag = false;
     this.phoneNumber = '';
     this.email = '';
+    this.focusOnFirstInput();
+    // if (this.firstOtpInput) {
+    //   this.firstOtpInput.nativeElement.focus();
+    // }
+    
+    // this.activeInputIndex = 1;
+  }
+
+  focusOnFirstInput() {
+    setTimeout(() => {
+      this.otp1Input.nativeElement.focus(); 
+    }, 0); 
   }
 
   backToLogin() {
@@ -652,4 +666,76 @@ export class LoginComponent implements OnInit {
   }
 
 
+  otp1: string = '';
+  otp2: string = '';
+  otp3: string = '';
+  otp4: string = '';
+  otp5: string = '';
+  otp6: string = '';
+  activeInputIndex: number = 1;
+  isPasting: boolean = false;
+
+
+   moveToNext(event: any, nextInput: any, index: number) {
+
+    if(this.isPasting) {
+      return;
+    }
+   
+    const input = event.target;
+    const value = input.value;
+  
+   
+    if (value.length >= 1 && nextInput) {
+      nextInput.focus();
+      this.activeInputIndex = index;
+    }
+  
+    
+    this.otp = this.otp1 + this.otp2 + this.otp3 + this.otp4 + this.otp5 + this.otp6;
+  
+   
+    this.onOtpChange(this.otp);
+  }
+  
+  // Handle backspace navigation
+  moveToPrevious(event: any, previousInput: any, index: number) {
+
+    this.otpErrorMessage = '';
+    const input = event.target;
+    if (event.key === 'Backspace' && input.value === '' && previousInput) {
+      previousInput.focus();
+      this.activeInputIndex = index;
+    }
+  
+   
+    this.otp = this.otp1 + this.otp2 + this.otp3 + this.otp4 + this.otp5 + this.otp6;
+    
+    
+    this.onOtpChange(this.otp);
+  }
+
+  handleOtpPaste(event: ClipboardEvent) {
+    this.isPasting = true;
+    // console.log('pasteevent :' + event);
+    const clipboardData = event.clipboardData;
+    const pastedData = clipboardData?.getData('text');
+    
+    if (pastedData && pastedData.length === 6) {
+      this.otp1 = pastedData[0];
+      this.otp2 = pastedData[1];
+      this.otp3 = pastedData[2];
+      this.otp4 = pastedData[3];
+      this.otp5 = pastedData[4];
+      this.otp6 = pastedData[5];
+  
+      this.activeInputIndex = 6;  
+  
+
+      this.onOtpChange(this.otp1 + this.otp2 + this.otp3 + this.otp4 + this.otp5 + this.otp6);
+    }
+    this.debounceTimer = setTimeout(() => {
+     this.isPasting = false;
+    }, 500);
+  }
 }
