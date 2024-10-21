@@ -19,6 +19,7 @@ import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 import { LeaveSummaryComponent } from './leave-summary/leave-summary.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { DurationFormatPipe } from '../dynamic/duration-format.pipe';
 
 @NgModule({
   declarations: [

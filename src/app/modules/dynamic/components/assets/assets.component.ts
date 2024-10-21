@@ -358,6 +358,8 @@ updateOrSaveAsset() {
   }
 }
 
+@ViewChild('closeCreateAssetModal') closeCreateAssetModal!:ElementRef;
+
 updateAsset(): void {
   this.dataService.editAsset(this.assetIdToUpdate, this.assetForm.value)
     .subscribe(
@@ -368,6 +370,7 @@ updateAsset(): void {
         this.getTotalAssetData();
         this.getCategoryCounts();
         document.getElementById('createAssetModal')?.click();
+        this.closeCreateAssetModal.nativeElement.click();
         this.helperService.showToast('Asset updated successfully.', Key.TOAST_STATUS_SUCCESS);
       },
       error => {
@@ -399,6 +402,7 @@ saveAsset(): void {
         this.getAssetCategoryData();
         this.getTotalAssetData();
         this.getCategoryCounts();
+        this.closeCreateAssetModal.nativeElement.click();
         document.getElementById('createAssetModal')?.click();
         this.helperService.showToast('Asset created successfully.', Key.TOAST_STATUS_SUCCESS);
      
@@ -509,6 +513,11 @@ totalAssetsStatusWiseData: StatusWiseTotalAssetsResponse[] = [];
       this.modalDateString = 'Return Date';
       this.stringToSaveData = 'RETURNEDBY';
     } else if (statusString == 'AVAILABLE') {
+      this.modalHeadString = 'Assign Asset';
+      this.modalSelectUserString = 'Select User To Assign Asset';
+      this.modalDateString = 'Assign Date';
+      this.stringToSaveData = 'ASSIGNEDTO';
+    } else if (statusString == 'UNAVAILABLE') {
       this.modalHeadString = 'Assign Asset';
       this.modalSelectUserString = 'Select User To Assign Asset';
       this.modalDateString = 'Assign Date';

@@ -170,7 +170,7 @@ import { NewEmployeeProfileComponent } from './components/new-employee-profile/n
     NzPopoverModule,
     NzEmptyModule,
   ],
-  exports: [],
+  exports: [DurationFormatPipe],
   providers: [
     { provide: NZ_I18N, useValue: en_US },
     DataService,
