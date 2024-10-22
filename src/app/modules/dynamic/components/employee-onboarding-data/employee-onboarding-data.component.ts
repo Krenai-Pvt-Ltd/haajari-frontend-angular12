@@ -14,6 +14,7 @@ import { Users } from 'src/app/models/users';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
+import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
 
 export interface Team {
   label: string;
@@ -40,7 +41,8 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     private router: Router,
     private helperService: HelperService,
     private modalService: NgbModal,
-    private http: HttpClient
+    private http: HttpClient,
+    private _subscriptionService:SubscriptionPlanService
   ) {}
   users: EmployeeOnboardingDataDto[] = [];
   filteredUsers: Users[] = [];
@@ -981,6 +983,21 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     );
   }
 
-
+  
+@ViewChild('addEmployeeModalButton') addEmployee!:ElementRef;
+@ViewChild('sampleFileModalButton') bulkUpload!:ElementRef;
+@ViewChild('duesWarningModalButton') duesWarning!:ElementRef;
+  validateDuesInvoice(modal:any){
+    // console.log("================validate======",modal);
+    if(this._subscriptionService.isDuesInvoice){
+      this.duesWarning.nativeElement.click();
+    }else{
+      if(modal == 'add'){
+        this.addEmployee.nativeElement.click();
+      }else{
+        this.bulkUpload.nativeElement.click();
+      }
+    }
+  }
 
 }

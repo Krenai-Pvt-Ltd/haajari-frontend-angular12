@@ -10,6 +10,7 @@ import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 import { PlacesService } from 'src/app/services/places.service';
+import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
 
 interface AddressComponent {
   long_name: string;
@@ -28,8 +29,10 @@ export class AttendanceModeComponent implements OnInit {
     private router: Router,
     private onboardingService: OrganizationOnboardingService,
     private _location: Location,
-    private placesService: PlacesService
-  ) { }
+    private placesService: PlacesService,
+    private _subscriptionService: SubscriptionPlanService
+  ) {}
+
 
   ngOnInit(): void {
     const token = localStorage.getItem('token');
@@ -207,7 +210,8 @@ export class AttendanceModeComponent implements OnInit {
     this.onboardingService.saveOrgOnboardingStep(5).subscribe((resp) => {
       this.onboardingService.refreshOnboarding();
     });
-    this.registerBillingAndSubscriptionTempMethodCall(this.basicSubscriptionPlanId);
+    this._subscriptionService.getPlanAfterOnboarding();
+    //  this.registerBillingAndSubscriptionTempMethodCall(this.basicSubscriptionPlanId);
 
     this.dataService.sendOnboardingNotificationInWhatsapp().subscribe(
       (response) => {

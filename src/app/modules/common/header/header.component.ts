@@ -31,13 +31,14 @@ export class HeaderComponent implements OnInit {
     private helperService: HelperService,
     private dataService: DataService,
     public rbacService: RoleBasedAccessControlService,
-    private _subscriptionPlanService: SubscriptionPlanService,
+    public _subscriptionPlanService: SubscriptionPlanService,
     private db: AngularFireDatabase
   ) {
     // if (this.route.snapshot.queryParamMap.has('userId')) {
     //     this.activeTab = 'dashboard';
     //   }
   }
+
 
   ngOnInit(): void {
     this.getUserUUID();
@@ -65,8 +66,6 @@ export class HeaderComponent implements OnInit {
     } else {
        this.showSuperCoinFlag = false;
     }
-
-    this.getOrgSubsPlanMonthDetail();
   }
 
   setActiveTabEmpty() {
@@ -224,15 +223,10 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/setting/account-settings'], navigationExtra);
   }
 
-  orgSubsPlanMonthDetail: OrganizationSubscriptionPlanMonthDetail = new OrganizationSubscriptionPlanMonthDetail();
-  getOrgSubsPlanMonthDetail() {
-    this._subscriptionPlanService
-      .getOrgSubsPlanMonthDetail()
-      .subscribe((response) => {
-        if (response.status) {
-          this.orgSubsPlanMonthDetail = response.object;
-        }
-      });
+
+
+  routeToBilling(){
+    this.router.navigate(['/setting/subscription']);
   }
 
   isCollapsed = true; // Initially collapsed

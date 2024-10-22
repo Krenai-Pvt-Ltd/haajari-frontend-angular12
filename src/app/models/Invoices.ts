@@ -5,7 +5,7 @@ export class Invoices{
     id: number = 0;
     invoiceNo: string = '';
     planName:string = '';
-    createdDate: Date = new Date();
+    createdDate: string='';
     fromDate: Date = new Date();
     toDate: Date = new Date();
     amount: number = 0;

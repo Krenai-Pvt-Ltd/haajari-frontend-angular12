@@ -4,18 +4,19 @@
 
 export const environment = {
   production: false,
-  firebase : {
-    apiKey: "AIzaSyDMXDcaTAaBp7cHGzkQZUs0QI0tXn3hjDM",
-    authDomain: "haajiri.firebaseapp.com",
-    databaseURL: "https://haajiri-default-rtdb.firebaseio.com",
-    projectId: "haajiri",
-    storageBucket: "haajiri.appspot.com",
-    messagingSenderId: "748934384098",
-    appId: "1:748934384098:web:cfc4c6f5802cfaff3011bb",
-    measurementId: "G-10T07L33BD"
-  }
+    firebase : {
+        apiKey: "AIzaSyDjRrxhbBNOUtNEj86naoIYZY_fD7mkzNo",
+        authDomain: "hajiri-staging.firebaseapp.com",
+        databaseURL: "https://hajiri-staging-default-rtdb.firebaseio.com",
+        projectId: "hajiri-staging",
+        storageBucket: "hajiri-staging.appspot.com",
+        messagingSenderId: "348840816295",
+        appId: "1:348840816295:web:3d2e8b3d76b6e30cb9f582",
+        measurementId: "G-4FFXG89F6R"
+    }
 };
 
+export const RAZOR_PAY_KEY: string = "rzp_test_Wd1RYd0fng3673";
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

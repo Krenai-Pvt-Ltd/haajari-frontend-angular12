@@ -20,11 +20,11 @@ export class AuthGuard implements CanActivate {
     private router: Router,
     private rbacService: RoleBasedAccessControlService,
     private helperService: HelperService,
-    private _subscriptionPlanService: SubscriptionPlanService,
+    private _subscriptionService: SubscriptionPlanService,
     private _onboardingService: OrganizationOnboardingService,
     private dataService: DataService
   ) {
-    this.PLAN_PURCHASED = _subscriptionPlanService
+  
   }
   step!: number;
   UUID: any;
@@ -46,10 +46,12 @@ export class AuthGuard implements CanActivate {
     }
 
 
+    if(!this._subscriptionService.isSubscription || this._subscriptionService.isPlanExpired){
+        return false;
+    }
 
     this.UUID = await this.rbacService.getUUID();
     this.ROLE = await this.rbacService.getRole();
-    this.PLAN_PURCHASED =
       this.ONBOARDING_STEP = await this.rbacService.getOnboardingStep();
 
       console.log("this.dataService.step",this.dataService.step);

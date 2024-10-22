@@ -11,3 +11,5 @@ export const environment = {
     measurementId: "G-10T07L33BD"
   }
 };
+
+export const RAZOR_PAY_KEY: string = "rzp_live_twiokSC5krYrnQ";
