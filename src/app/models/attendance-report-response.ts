@@ -29,6 +29,10 @@ export class AttendanceReportResponse {
 	unmarkedAttendanceCount : number = 0;
 	unpaidLeave : number = 0;
 	dayWiseStatusList : DayWiseStatus[] = [];
+
+	totalDeduction: number = 0;
+	totalAbsentCount: number = 0;
+	// totalDayInMonth: number = 0;
 }
 
 
