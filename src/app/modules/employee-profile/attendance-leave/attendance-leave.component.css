@@ -375,7 +375,7 @@ span.lat {
     min-width: 100px;
 }
 
-.teme-maneger p {
+.team-maneger p {
     color: #54545C;
 }
 
@@ -547,6 +547,21 @@ nz-select.request-dropdown .ant-select-selector {
 .onboarding-date input::placeholder{
     font-size: 13px;
     color: #777;
+}
+.white-space {
+    white-space: normal;
+        min-width: 170px;
+        max-width: 100px;
+        display: block;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    
+}
+
+.edit-action-btn svg{
+    width: 15px;
 }
 @media screen and (max-width: 1280px) {
     .font-15 {
