@@ -168,7 +168,7 @@ import { ReferFriendComponent } from './components/refer-friend/refer-friend.com
     NzPopoverModule,
     NzEmptyModule,
   ],
-  exports: [],
+  exports: [DurationFormatPipe],
   providers: [
     { provide: NZ_I18N, useValue: en_US },
     DataService,
