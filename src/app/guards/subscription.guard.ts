@@ -21,7 +21,7 @@ export class SubscriptionGuard implements CanActivate {
       route: ActivatedRouteSnapshot,
       state: RouterStateSnapshot):boolean  {
 
-        if(this._subscriptionService.isSubscription!=undefined){
+        if(this._subscriptionService.isSubscription!=undefined && this._rbacService.getRoles()=='ADMIN'){
           if(this._subscriptionService.isSubscription){
             if(this._subscriptionService.isPlanExpired){
               this._router.navigate( ['/subscription/expired']);
