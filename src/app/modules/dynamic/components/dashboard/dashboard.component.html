@@ -1210,7 +1210,7 @@
                           !networkConnectionErrorPlaceHolderForAttendanceData
                         "
                       >
-                        <tbody>
+                        <!-- <tbody>
                           <ng-container
                             *ngFor="
                               let attendanceReportResponse of attendanceReportResponseList;
@@ -1346,6 +1346,252 @@
                                           (mouseenter)="
                                             fetchAttendanceDetails(
                                               attendanceReportResponse.userEmail,
+                                              dayWiseStatus.date
+                                            )
+                                          "
+                                        >
+                                          {{
+                                            dayWiseStatus.status[0] == "U"
+                                              ? "A"
+                                              : dayWiseStatus.status[0]
+                                          }}
+
+                                          <span
+                                            class="user-details p-3"
+                                            *ngIf="
+                                              dayWiseStatus.status == HALFDAY ||
+                                              dayWiseStatus.status == PRESENT
+                                            "
+                                          >
+                                            <h5 class="p-0">
+                                              Attendance Details
+                                            </h5>
+                                            <div
+                                              class="p-0 d-flex justify-content-center"
+                                              *ngIf="loadingFlag"
+                                            >
+                                              <div
+                                                class="spinner-grow text-secondary"
+                                                style="
+                                                  width: 10px;
+                                                  height: 10px;
+                                                "
+                                                role="status"
+                                              >
+                                                <span class="visually-hidden"
+                                                  >Loading...</span
+                                                >
+                                              </div>
+                                              <div
+                                                class="spinner-grow text-secondary"
+                                                style="
+                                                  width: 10px;
+                                                  height: 10px;
+                                                "
+                                                role="status"
+                                              >
+                                                <span class="visually-hidden"
+                                                  >Loading...</span
+                                                >
+                                              </div>
+                                              <div
+                                                class="spinner-grow text-secondary"
+                                                style="
+                                                  width: 10px;
+                                                  height: 10px;
+                                                "
+                                                role="status"
+                                              >
+                                                <span class="visually-hidden"
+                                                  >Loading...</span
+                                                >
+                                              </div>
+                                            </div>
+
+                                            <div
+                                              class="p-0"
+                                              *ngIf="
+                                                userAttendanceDetailDateWise?.checkInTime !=
+                                                  null && !loadingFlag
+                                              "
+                                            >
+                                              <p class="mb-0">
+                                                Check In Time:
+                                                {{
+                                                  userAttendanceDetailDateWise.checkInTime
+                                                    | date : "shortTime"
+                                                }}
+                                              </p>
+                                              <p class="mb-0">
+                                                Check Out Time:
+                                                {{
+                                                  userAttendanceDetailDateWise.checkOutTime
+                                                    | date : "shortTime" || "-"
+                                                }}
+                                              </p>
+                                              <p class="mb-0">
+                                                Total Hours:
+                                                {{
+                                                  userAttendanceDetailDateWise.totalWorkingHours
+                                                }}
+                                              </p>
+                                              <p class="mb-0">
+                                                Total Break:
+                                                {{
+                                                  userAttendanceDetailDateWise.breakCount
+                                                }}
+                                              </p>
+                                              <p class="mb-0">
+                                                Break Duration:
+                                                {{
+                                                  userAttendanceDetailDateWise.totalBreakHours
+                                                }}
+                                              </p>
+                                            </div>
+                                          </span>
+                                        </td>
+                                      </ng-container>
+                                    </tr>
+                                  </table>
+                                </div>
+                              </td>
+                            </tr>
+                          </ng-container>
+                        </tbody> -->
+
+
+                        <tbody>
+                          <ng-container
+                            *ngFor="
+                              let attendanceReportResponse of attendanceReportResponseList;
+                              let i = index
+                            "
+                          >
+                            <tr
+                              style="border-bottom: 1px solid #f7f7f7"
+                              [ngStyle]="{
+                                'border-bottom': expandedStates[i]
+                                  ? 'none'
+                                  : '1px solid #f7f7f7'
+                              }"
+                            >
+                              <td class="text-left plandtlMainicon">
+                                <i
+                                  class="bi bi-chevron-right month-d projectdIcon collapsed"
+                                  data-bs-toggle="collapse"
+                                  [attr.href]="'#collapseExamplesheet' + i"
+                                  role="button"
+                                  aria-expanded="false"
+                                  aria-controls="collapseExamplesheet0"
+                                  (click)="toggleCollapse(i)"
+                                ></i>
+                                <span
+                                  class="Regular-data"
+                                  (click)="
+                                    routeToUserProfile(
+                                      attendanceReportResponse.userUuid
+                                    )
+                                  "
+                                  style="cursor: pointer"
+                                >
+                                  {{
+                                    extractFirstNameFromEmail(
+                                      attendanceReportResponse.userName
+                                    )
+                                  }}
+                                </span>
+                                <p class="attendance-name">
+                                  {{ attendanceReportResponse.email }}
+                                </p>
+                              </td>
+
+                              <td class="text-center">
+                                {{ attendanceReportResponse.presentCount }}
+                              </td>
+                              <td class="text-center">
+                                <!-- {{ attendanceReportResponse.absentUpToToday }} -->
+                                  0
+                              </td>
+                              <td class="text-center">
+                                {{ attendanceReportResponse.halfDayCount }}
+                              </td>
+                              <td class="text-center">
+                                <!-- {{ attendanceReportResponse.overTime }} -->
+                                  0
+                              </td>
+                              <td class="text-center">
+                                {{
+                                  attendanceReportResponse.paidLeave
+                                }}
+                              </td>
+                              <td class="text-center">
+                                {{
+                                  attendanceReportResponse.unpaidLeave
+                                }}
+                              </td>
+                              <td class="text-center">
+                                {{ attendanceReportResponse.unmarkedAttendanceCount }}
+                              </td>
+                              <td class="text-center">
+                                <!-- {{
+                                  attendanceReportResponse.totalPayOutDaysUpToToday
+                                }} -->
+                                  0
+                              </td>
+                            </tr>
+                            <tr
+                              class="collapse"
+                              [attr.id]="'collapseExamplesheet' + i"
+                            >
+                              <td colspan="9" class="p-1">
+                                <div class="month-deta">
+                                  <table
+                                    class="table table-bordered day-data mb-0"
+                                  >
+                                    <tr class="position-relative">
+                                      <th class="text-center">Day</th>
+                                      <ng-container
+                                        *ngFor="
+                                          let dayWiseStatus of attendanceReportResponse.dayWiseStatusList
+                                        "
+                                      >
+                                        <th class="text-center">
+                                          {{
+                                            getDayNameFromDate(
+                                              dayWiseStatus.date
+                                            )[0]
+                                          }}
+                                          <br />
+                                          {{
+                                            getDayFromDate(dayWiseStatus.date)
+                                          }}
+                                        </th>
+                                      </ng-container>
+                                    </tr>
+                                    <tr>
+                                      <td></td>
+                                      <ng-container
+                                        *ngFor="
+                                          let dayWiseStatus of attendanceReportResponse.dayWiseStatusList
+                                        "
+                                      >
+                                        <td
+                                          class="text-center position-relative attendance-detail"
+                                          [ngClass]="{
+                                            orange:
+                                              dayWiseStatus.status == LEAVE ||
+                                              dayWiseStatus.status == HALFDAY,
+                                            red:
+                                              dayWiseStatus.status == UNMARKED,
+                                            green:
+                                              dayWiseStatus.status == PRESENT,
+                                            blue:
+                                              dayWiseStatus.status == WEEKEND ||
+                                              dayWiseStatus.status == HOLIDAY
+                                          }"
+                                          (mouseenter)="
+                                            fetchAttendanceDetails(
+                                              attendanceReportResponse.email,
                                               dayWiseStatus.date
                                             )
                                           "
@@ -1553,14 +1799,6 @@
 
                 <div
                   class="pagination pl-3"
-                  *ngIf="
-                    (total > 11 &&
-                      attendanceReportResponseList.length > 11 &&
-                      !dataNotFoundPlaceholderForAttendanceData &&
-                      !networkConnectionErrorPlaceHolderForAttendanceData) ||
-                    (pageNumber === lastPageNumber &&
-                      firstPageNumber !== lastPageNumber)
-                  "
                 >
                   <p class="mb-0" style="padding-left: 15px">
                     Showing {{ getStartIndex() }} - {{ getEndIndex() }} of

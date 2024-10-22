@@ -729,6 +729,7 @@ export class DashboardComponent implements OnInit {
   attendanceReportResponseList: AttendanceReportResponse[] = [];
   debounceTimer: any;
   getAttendanceReportByDateDurationMethodCall(debounceTime: number = 300) {
+    debugger
     return new Promise((resolve, reject) => {
       if (this.debounceTimer) {
         clearTimeout(this.debounceTimer);
@@ -792,7 +793,8 @@ export class DashboardComponent implements OnInit {
           // console.log(response);
 
           const downloadLink = document.createElement('a');
-          downloadLink.href = response.message;
+          // downloadLink.href = response.message;
+          downloadLink.href = response.object;
           downloadLink.download = 'attendance.xlsx';
           downloadLink.click();
           this.downloadingFlag = false;
