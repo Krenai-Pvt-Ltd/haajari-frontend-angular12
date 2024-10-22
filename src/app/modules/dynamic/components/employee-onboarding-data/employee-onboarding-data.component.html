@@ -1011,7 +1011,7 @@
                         </div>
                       </td>
                       <td class="stickyColTdend text-end">
-                        
+
                         <div class="dropdown">
                           <button
                             class="btn btnAction dropdown-toggle"
@@ -1709,21 +1709,30 @@
             class="alert alert-light mb-0 mt-4 bg-soft-warning create-password-warning text-start"
             role="alert"
             *ngIf="
-              mismatches.length > 0 ||
-              invalidRows.length > 0 ||
-              isExcel!=''
+              data.length > 0
+              && !this.areAllFalse()
             "
           >
             <h4 class="alert-heading font-18">Attention</h4>
             <p *ngIf="isExcel.length > 0">
               {{ isExcel }}
             </p>
-            <p *ngIf="mismatches.length > 0">
-              {{ formatAsCommaSeparated(mismatches) }}
-            </p>
-            <p *ngIf="invalidRows.length > 0">
-               {{ formatAsCommaSeparated(invalidRows) }}
-            </p>
+            <div *ngIf="data.length > 0">
+              <h3>Uploaded Data</h3>
+              <table border="1">
+                <tr>
+                  <th *ngFor="let col of expectedColumns">{{ col }}</th>
+                </tr>
+                <tr *ngFor="let row of data; let i = index">
+                  <td *ngFor="let cell of expectedColumns; let j = index">
+                    <input
+                      [(ngModel)]="data[i][j]"
+                      [ngClass]="{'invalid-input': invalidCells[i][j]}" />
+                  </td>
+                </tr>
+              </table>
+              <button (click)="saveFile()">Save Changes</button>
+            </div>
             <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p>
             <p *ngIf="!isErrorToggle">
             </p>
