@@ -208,32 +208,27 @@
 .employee-profile-menu ul {
     list-style: none;
     padding-left: 0px;
+    border-bottom: 1px solid #f1f1f1;
 }
 
 .employee-profile-menu ul li {
     font-size: 12px;
-    border: 1px solid #DCDCE4;
-    padding: 3px 9px;
+    /* border: 1px solid #DCDCE4; */
+    padding: 8px 13px;
     border-radius: 2px;
     line-height: 20px;
     display: inline-flex;
-    grid-gap: 3px;
-    gap: 3px;
     flex-wrap: nowrap;
-    margin-right: 6px;
-    font-weight: 400;
+    margin-right: 15px;
+    font-weight: 500;
     cursor: pointer;
 }
 
-.employee-profile-menu ul li svg {
-    width: 15px;
-    position: relative;
-    top: -1px;
-}
+
 
 .active-menu {
-    border: 1px solid var(--primary-background-color) !important;
-    background: #EAEAFF !important;
+    border-bottom: 2px solid var(--primary-background-color) !important;
+  color: var(--primary-color);
 }
 
 .attendance-history {

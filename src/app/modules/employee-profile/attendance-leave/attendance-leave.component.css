@@ -301,7 +301,8 @@
 }
 
 .attendance-summery {
-    background-color: #F9FAFC;
+    /* background-color: #F9FAFC; */
+    border: 1px solid #f1f1f1;
     border-radius: 2px;
     margin-bottom: 10px;
 }

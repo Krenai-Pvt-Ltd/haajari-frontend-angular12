@@ -1,31 +1,16 @@
 <div class="employee-detail-box">
-<div class="attendance-history m-3 mt-0">
+<div class="attendance-history m-3 mt-3">
 
     <div class="d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center gap-2 attendance-date">
-            <span class="calendar-icon d-flex align-items-center justify-content-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                    <mask id="mask0_4719_1399" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20"
-                        height="20">
-                        <rect width="20" height="20" fill="#D9D9D9" />
-                    </mask>
-                    <g mask="url(#mask0_4719_1399)">
-                        <path
-                            d="M4.16667 18.3346C3.70833 18.3346 3.31597 18.1714 2.98958 17.8451C2.66319 17.5187 2.5 17.1263 2.5 16.668V5.0013C2.5 4.54297 2.66319 4.15061 2.98958 3.82422C3.31597 3.49783 3.70833 3.33464 4.16667 3.33464H5V1.66797H6.66667V3.33464H13.3333V1.66797H15V3.33464H15.8333C16.2917 3.33464 16.684 3.49783 17.0104 3.82422C17.3368 4.15061 17.5 4.54297 17.5 5.0013V16.668C17.5 17.1263 17.3368 17.5187 17.0104 17.8451C16.684 18.1714 16.2917 18.3346 15.8333 18.3346H4.16667ZM4.16667 16.668H15.8333V8.33464H4.16667V16.668ZM4.16667 6.66797H15.8333V5.0013H4.16667V6.66797Z"
-                            fill="#1C1B1F" />
-                    </g>
-                </svg>
-            </span>
-            <p class="mb-0">January 2024</p>
-        </div>
-
-        <div class="d-flex align-items-center justify-content-end gap-3 w-50">
-
+            <div class="dropdown deshboard-date-filter">
+                <nz-date-picker nzMode="month" nzFormat="MMM, yyyy"></nz-date-picker>
+            </div>
             <div class="d-flex align-items-center  gap-2 ">
                 <span class="calendar-back d-flex align-items-center justify-content-center pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                        <mask id="mask0_4719_1625" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                            width="21" height="21">
+                        <mask id="mask0_4719_1625" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
+                            height="21">
                             <rect x="0.5" y="0.5" width="20" height="20" fill="#D9D9D9" />
                         </mask>
                         <g mask="url(#mask0_4719_1625)">
@@ -37,8 +22,8 @@
                 </span>
                 <span class="calendar-back d-flex align-items-center justify-content-center pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                        <mask id="mask0_4719_1634" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                            width="21" height="21">
+                        <mask id="mask0_4719_1634" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
+                            height="21">
                             <rect x="0.5" y="0.5" width="20" height="20" fill="#D9D9D9" />
                         </mask>
                         <g mask="url(#mask0_4719_1634)">
@@ -50,8 +35,8 @@
                 </span>
                 <span class="calendar-back d-flex align-items-center justify-content-center pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                        <mask id="mask0_4719_1639" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                            width="21" height="21">
+                        <mask id="mask0_4719_1639" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
+                            height="21">
                             <rect width="20" height="20" transform="matrix(-1 0 0 1 20.5 0.5)" fill="#D9D9D9" />
                         </mask>
                         <g mask="url(#mask0_4719_1639)">
@@ -62,12 +47,9 @@
                     </svg>
                 </span>
             </div>
+        </div>
 
-
-            <div class="dropdown deshboard-date-filter" >
-                <nz-date-picker nzMode="month" nzFormat="MMM, yyyy"></nz-date-picker>
-            </div>
-
+        <div class="d-flex align-items-center justify-content-end gap-3 w-50">
             <nz-select class="request-dropdown" style="width: 150px !important; height: 32px !important; border-radius: 2px;" nzSize="large" nzPlaceHolder="New Request" required>
                 <nz-option [nzValue]="'Attendance update'" [nzLabel]="'Attendance update'"></nz-option>
                 <nz-option [nzValue]="'Overtime'" [nzLabel]="'Overtime'"></nz-option>
@@ -89,7 +71,7 @@
             </li>
             <li class="nav-item">
                 <a id="pills-profile-tab" data-bs-toggle="pill" href="#viewrequests" role="tab"
-                    aria-controls="pills-profile" aria-selected="false" class="nav-link">Attendance requests</a>
+                    aria-controls="pills-profile" aria-selected="false" class="nav-link">Attendance Requests</a>
             </li>
         </ul>
         <div id="pills-tabContent" class="tab-content">

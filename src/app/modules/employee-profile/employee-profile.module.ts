@@ -9,6 +9,7 @@ import { AttendanceLeaveComponent } from './attendance-leave/attendance-leave.co
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { EmployeeDocumentComponent } from './employee-document/employee-document.component';
 
 
 
@@ -17,7 +18,8 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
     EmployeeProfileComponent,
     EmployeeProfileSidebarComponent,
     EmployeeProfileTopbarComponent,
-    AttendanceLeaveComponent
+    AttendanceLeaveComponent,
+    EmployeeDocumentComponent
   ],
   imports: [
     CommonModule,

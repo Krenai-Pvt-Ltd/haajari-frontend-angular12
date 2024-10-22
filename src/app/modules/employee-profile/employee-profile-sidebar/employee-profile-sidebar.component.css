@@ -362,16 +362,35 @@ span.lat {
     color: #fff;
     font-size: 13px;
     font-weight: 400;
-    min-width: 100px;
+    width: 100%;
+    padding: 0px;
+    height: 90px;
+    display: flex;
+        gap: 5px;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
 }
 
 .break-btn {
-    border: 1px solid #BABABA;
-    background-color: transparent;
-    color: #BABABA;
+    border: 1px solid #CECDFF;
+    background-color: #FBFCFF;
+    color: #717171;
     font-size: 13px;
     font-weight: 400;
-    min-width: 100px;
+    width: 100%;
+    padding: 0px;
+    height: 90px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+}
+
+.break-btn svg{
+    width: 24px;
 }
 
 .teme-maneger p {
@@ -388,7 +407,38 @@ span.lat {
     display: none;
 }
 
+.checkin-active {
+    border: 1px solid #E0F4ED !important;
+    background-color: #E0F4ED !important;
+    color: #000 !important;
+    font-weight: 400;
+    width: 100%;
+    height: 90px;
+        font-size: 13px;
+        padding: 0px;
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+}
 
+.image-edit-btn{
+    background-color: #fff;
+    border: 1px solid #f1f1f1;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 80px;
+    top: 60%;
+}
+.image-edit-btn svg{
+    width: 18px;
+}
 
 @media screen and (max-width: 1280px) {
     .employee-detail h5 {
@@ -407,12 +457,22 @@ span.lat {
             letter-spacing: 0.357px;
             text-transform: capitalize;
         }
-                  .employe-about p {
-                      color: #6B7280;
-                      font-size: 11px !important;
-                      font-weight: 400;
-                      line-height: 21px;
-                      letter-spacing: 0.357px;
-                      text-transform: capitalize;
-                  }
+        .employe-about p {
+            color: #6B7280;
+            font-size: 11px !important;
+            font-weight: 400;
+            line-height: 21px;
+            letter-spacing: 0.357px;
+            text-transform: capitalize;
+        }
+        .checkin-active{
+        height: 80px !important;
+        }
+        .break-btn{
+        height: 80px !important;
+        }
+        .check-in-btn{
+        height: 80px !important;
+        }
+                
 }
