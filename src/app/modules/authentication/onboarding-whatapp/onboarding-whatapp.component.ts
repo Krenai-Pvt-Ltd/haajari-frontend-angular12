@@ -5,6 +5,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { truncate } from 'fs';
 import { Subscription, of, timer } from 'rxjs';
 import { catchError, switchMap, take, tap } from 'rxjs/operators';
+import { constant } from 'src/app/constant/constant';
 import { UserReq } from 'src/app/models/userReq';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -219,8 +220,10 @@ export class OnboardingWhatappComponent implements OnInit {
 
   createPasswordFlag: boolean = false;
   otpErrorMessage: string = '';
+  promotionCode:string='';
   verifyOtp() {
     if (this.isWhatsappLogin) {
+      this.promotionCode = this.getCookie('promotionalOffer');
       this.verifyOtpByWhatsappMethodCall();
     } else {
       this.loading = true;
@@ -406,10 +409,14 @@ export class OnboardingWhatappComponent implements OnInit {
   verifyOtpByWhatsappMethodCall() {
     this.loading = true;
     this.dataService
-      .verifyOtpByWhatsappNew(this.phoneNumber, this.otp)
+      .verifyOtpByWhatsappNew(this.phoneNumber, this.otp, this.promotionCode)
       .subscribe(
         async (response: any) => {
           if (response.status) {
+            if(!constant.EMPTY_STRINGS.includes(this.promotionCode) ){
+              this.promotionCode ='';
+              this.deleteAllCookies();
+            }
             this.loading = false;
             this.helperService.subModuleResponseList =
               response.object.subModuleResponseList;
@@ -647,6 +654,29 @@ export class OnboardingWhatappComponent implements OnInit {
   
   routeToSignup() {
     this.router.navigate(['/auth/signup']);
+  }
+
+  // Get a cookie for promotionalOffer
+  getCookie(name:string) {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) 
+        return c.substring(nameEQ.length, c.length);
+    }
+    return '';
+  }
+
+  deleteAllCookies() {
+    var cookies = document.cookie.split(";");
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = cookies[i];
+      var eqPos = cookie.indexOf("=");
+      var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    }
   }
 
 }

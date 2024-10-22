@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ErrorPageComponent } from './modules/common/error-page/error-page.component';
+import { SubscriptionExpiredComponent } from './modules/common/subscription-expired/subscription-expired.component';
 
 const routes: Routes = [
   // { path: '', redirectTo: '/login', pathMatch:'full'},
@@ -54,6 +55,9 @@ const routes: Routes = [
       ),
   },
   { path: 'employee', loadChildren: () => import('./modules/employee-profile/employee-profile.module').then(m => m.EmployeeProfileModule) },
+  
+  {path:'subscription/expired', component: SubscriptionExpiredComponent},
+
   { path: '**', component: ErrorPageComponent },
 ];
 
