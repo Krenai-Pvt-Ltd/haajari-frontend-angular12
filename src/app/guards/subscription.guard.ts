@@ -19,6 +19,7 @@ export class SubscriptionGuard implements CanActivate {
       route: ActivatedRouteSnapshot,
       state: RouterStateSnapshot):boolean  {
 
+        
         if(this._subscriptionService.isSubscription){
           if(this._subscriptionService.isPlanExpired){
             this._router.navigate( ['/subscription/expired']);

@@ -9,6 +9,7 @@ import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
 
 @Component({
   selector: 'app-login',
@@ -30,6 +31,7 @@ export class LoginComponent implements OnInit {
     private rbacService: RoleBasedAccessControlService,
     private helperService: HelperService,
     private _onboardingService: OrganizationOnboardingService,
+    private _subscriptionService: SubscriptionPlanService 
   ) {
     this.countDown = timer(0, this.tick)
       .pipe(take(this.counter))
@@ -81,6 +83,7 @@ export class LoginComponent implements OnInit {
           this.UUID=this.rbacService.userInfo.uuid;
           this.ROLE = this.rbacService.userInfo.role;
 
+          
          if (this.ROLE === 'USER') {
           this.router.navigate(['/employee-profile'], {
             queryParams: { userId: this.UUID, dashboardActive: 'true' },
@@ -88,6 +91,7 @@ export class LoginComponent implements OnInit {
         } else if (this.ROLE == 'HR ADMIN') {
            this.router.navigate(['/employee-onboarding-data']);
         } else {
+          await this._subscriptionService.isSubscriptionPlanExpired();
           const helper = new JwtHelperService();
           const token = localStorage.getItem('token');
           if (token != null) {

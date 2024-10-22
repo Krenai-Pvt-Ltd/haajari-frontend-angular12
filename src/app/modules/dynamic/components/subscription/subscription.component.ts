@@ -41,10 +41,10 @@ export class SubscriptionComponent implements OnInit {
   }
 
   switchSubscriptionPlan() {
-    this.planSwitch = this.planSwitch == true ? false : true;
+    this.planSwitch = this.planSwitch ? false : true;
   }
   switchRulesRegulation() {
-    this.RulesRegulation = this.RulesRegulation == true ? false : true;
+    this.RulesRegulation = this.RulesRegulation ? false : true;
   }
 
 
@@ -96,15 +96,16 @@ export class SubscriptionComponent implements OnInit {
     });
   }
 
-  valiadteDowngrade:boolean=false;
+  validateDowngrade:boolean=false;
   @ViewChild('downgradeModalButton')downgradeModalButton!:ElementRef;
   selectPlan(plan:SubscriptionPlan){
+    // console.log("======Soooo",this.orgSubscriptionPlanDetail )
     this.selectedSubscriptionPlan = plan;
     this.typeBySubscriptionPlans = new Array();
     this.typeBySubscriptionPlans = this.subscriptionPlans.filter(x=> x.planType == this.selectedSubscriptionPlan.planType);
     if(this.orgSubscriptionPlanDetail !=null){
         if(this.orgSubscriptionPlanDetail.planName.toUpperCase() == 'PREMIUM' &&  this.selectedSubscriptionPlan.name.toUpperCase()== 'BASIC'){
-          this.valiadteDowngrade = false;
+          this.validateDowngrade = false;
           this.downgradeModalButton.nativeElement.click();
         }else{
           this.switchSubscriptionPlan();
@@ -119,7 +120,7 @@ export class SubscriptionComponent implements OnInit {
   }
 
   validateDowngradeConfirm(){
-    this.valiadteDowngrade = this.valiadteDowngrade ? false: true;
+    this.validateDowngrade = this.validateDowngrade ? false: true;
   }
 
 
@@ -215,7 +216,7 @@ export class SubscriptionComponent implements OnInit {
   }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////=========SUBSCRIPTION===========///////////////////////////////////////////////////////
 
 
   isUnderProcess: boolean = false;
@@ -424,6 +425,7 @@ invoiceDetail:InvoiceDetail = new InvoiceDetail();
 
   totalDuesAmount:number=0;
   findTotalDuesAmount(){
+    this.totalDuesAmount  =0;
     this.dueInvoices.forEach((invoice)=>{
       this.totalDuesAmount = this.totalDuesAmount + invoice.payableAmount;
 
@@ -431,7 +433,7 @@ invoiceDetail:InvoiceDetail = new InvoiceDetail();
   }
 
 
-  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////=========INVOICE===========//////////////////////////////////////////////////////
 
   selectedInvoice: Invoices = new Invoices();
   invoiceIds:number[]= new Array();
@@ -454,7 +456,7 @@ invoiceDetail:InvoiceDetail = new InvoiceDetail();
       "handler": this.handleSuccesfullDuesPayment.bind(this),
       "modal": {
         "confirm_close": true,
-        // "ondismiss": this.stopProcessingPayment.bind(this)
+        // "ondismiss": this.stopInvoiceProcessingPayment.bind(this)
       },
       "notes": {
         "orderFrom": 'Hajiri',
@@ -470,9 +472,58 @@ invoiceDetail:InvoiceDetail = new InvoiceDetail();
     rzp.open();
   }
 
-
+@ViewChild('loaderModalButton')loaderModalButton!:ElementRef;
   handleSuccesfullDuesPayment(){
+    this.createInvoiceFirebaseForProcessing();
+    this.loaderModalButton.nativeElement.click();
+  }
+
+
+  createInvoiceFirebaseForProcessing() {
+    this.ngZone.run(() => {
+      var orgUuid = this.orgUuid.replace(/[^a-zA-Z0-9_]/g, "_");
+      this.db.object("/invoices/paid_by_" + orgUuid).set({ status: "Processing" });
+      this.isUnderProcess = true;
+      this.getExportStatusFromFirebase();
+    });
+  }
+
+  stopInvoiceProcessingPayment() {
+    this.ngZone.run(() => {
+      var orgUuid = this.orgUuid.replace(/[^a-zA-Z0-9_]/g, "_");
+      this.db.object("/invoices/paid_by_" + orgUuid).set({ status: "" });
+      this.isUnderProcess = false;
+    });
+  }
+
+
+  getInvoiceStatusFromFirebase() {
+    var orgUuid = this.orgUuid.replace(/[^a-zA-Z0-9_]/g, "_");
+    this.realtimeDbSubscriber = this.db.object("/invoices/paid_by_" + orgUuid).valueChanges()
+      .subscribe((res: any) => {
+        this.ngZone.run(() => {
+          console.log("/invoices/paid_by_" + orgUuid + "---" + JSON.stringify(res));
+          if (res != null) {
+            if (res.status == "Processing") {
+              this.isUnderProcess = true;
+            } else if (res.status == "Complete") {
+  
+              if (this.realtimeDbSubscriber) {
+                this.realtimeDbSubscriber.unsubscribe();
+              }
+              this.isUnderProcess = false;
+              this.afterSuccessfulInvoicePayment();
+              this.stopInvoiceProcessingPayment(); 
+            }
+          }
+        });
+      });
+  }
+
+
+  afterSuccessfulInvoicePayment(){
     this.getInvoices();
+    this._subscriptionPlanService.isSubscriptionPlanExpired();
   }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
