@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
 
 @Component({
   selector: 'app-common-to-do-steps',
@@ -14,9 +15,13 @@ export class CommonToDoStepsComponent implements OnInit {
     private dataService: DataService,
     private router: Router,
     private helperService: HelperService,
-    private rbacService: RoleBasedAccessControlService
+    private rbacService: RoleBasedAccessControlService,
+    private _subscriptionService:SubscriptionPlanService
   ) {
-    this.isToDoStepsCompletedData();
+    if(this._subscriptionService.isSubscription !=undefined && this._subscriptionService.isSubscription &&!this._subscriptionService.isPlanExpired){
+      this.isToDoStepsCompletedData();
+
+    }
   }
 
   @ViewChild('stepCompletionModal') stepCompletionModal!: ElementRef;

@@ -45,9 +45,10 @@ export class AuthGuard implements CanActivate {
       return false;
     }
 
-
-    if(!this._subscriptionService.isSubscription || this._subscriptionService.isPlanExpired){
-        return false;
+    if(this._subscriptionService.isSubscription!=undefined){
+      if(!this._subscriptionService.isSubscription || this._subscriptionService.isPlanExpired){
+          return false;
+      }
     }
 
     this.UUID = await this.rbacService.getUUID();

@@ -37,10 +37,10 @@ export class SubscriptionPlanService {
       });
   }
 
-  isPlanExpired:boolean=false;
-  isTrialPlan:boolean=false;
-  isSubscription:boolean=false;
-  isDuesInvoice:boolean=false;
+  isPlanExpired!:boolean;
+  isTrialPlan!:boolean;
+  isSubscription!:boolean;
+  isDuesInvoice!:boolean;
   isSubscriptionPlanExpired() {
     return new Promise((resolve)=>{
       this.isSubscrPlanExpired().subscribe((response) => {

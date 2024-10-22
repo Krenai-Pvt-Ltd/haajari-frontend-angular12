@@ -530,7 +530,7 @@
         </div>
 
         <div class="log-out-btn-box">
-          <div class="plan-box">
+          <div class="plan-box" *ngIf="rbacService.getRoles()=='ADMIN'">
             <div class="">
               <p class="mb-0"></p>
             </div>

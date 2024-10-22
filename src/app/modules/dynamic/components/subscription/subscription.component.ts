@@ -285,7 +285,7 @@ export class SubscriptionComponent implements OnInit {
     this.realtimeDbSubscriber = this.db.object("/subscription_plan/plan_purchased_by_" + orgUuid).valueChanges()
       .subscribe((res: any) => {
         this.ngZone.run(() => {
-          console.log("/subscription_plan/plan_purchased_by_" + orgUuid + "---" + JSON.stringify(res));
+          // console.log("/subscription_plan/plan_purchased_by_" + orgUuid + "---" + JSON.stringify(res));
           if (res != null) {
             if (res.status == "Processing") {
               this.isUnderProcess = true;
@@ -484,7 +484,7 @@ invoiceDetail:InvoiceDetail = new InvoiceDetail();
       var orgUuid = this.orgUuid.replace(/[^a-zA-Z0-9_]/g, "_");
       this.db.object("/invoices/paid_by_" + orgUuid).set({ status: "Processing" });
       this.isUnderProcess = true;
-      this.getExportStatusFromFirebase();
+      this.getInvoiceStatusFromFirebase();
     });
   }
 
@@ -502,7 +502,7 @@ invoiceDetail:InvoiceDetail = new InvoiceDetail();
     this.realtimeDbSubscriber = this.db.object("/invoices/paid_by_" + orgUuid).valueChanges()
       .subscribe((res: any) => {
         this.ngZone.run(() => {
-          console.log("/invoices/paid_by_" + orgUuid + "---" + JSON.stringify(res));
+          // console.log("/invoices/paid_by_" + orgUuid + "---" + JSON.stringify(res));
           if (res != null) {
             if (res.status == "Processing") {
               this.isUnderProcess = true;
