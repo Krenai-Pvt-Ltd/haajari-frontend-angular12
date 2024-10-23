@@ -1705,20 +1705,8 @@ i.bi.bi-plus {
   color: #878a9a;
 }
 
-.ant-select:not(.ant-select-customize-input) .ant-select-selector {
-  position: relative;
-  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-  background-color: rgba(236, 236, 236, 0.21) !important;
-  border: none !important;
-  border-radius: 0px !important;
-  min-height: 44px !important;
-  font-weight: 400 !important;
-  font-size: 12px !important;
-  line-height: 18px !important;
-  color: #1f1f1f !important;
-  box-shadow: none !important;
-  outline: none !important;
-}
+
+
 
 
 @media screen and (max-width: 2600px) {

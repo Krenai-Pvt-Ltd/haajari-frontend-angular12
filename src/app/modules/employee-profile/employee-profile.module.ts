@@ -10,6 +10,7 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { EmployeeDocumentComponent } from './employee-document/employee-document.component';
+import { AssetsComponent } from './assets/assets.component';
 
 
 
@@ -19,7 +20,8 @@ import { EmployeeDocumentComponent } from './employee-document/employee-document
     EmployeeProfileSidebarComponent,
     EmployeeProfileTopbarComponent,
     AttendanceLeaveComponent,
-    EmployeeDocumentComponent
+    EmployeeDocumentComponent,
+    AssetsComponent
   ],
   imports: [
     CommonModule,

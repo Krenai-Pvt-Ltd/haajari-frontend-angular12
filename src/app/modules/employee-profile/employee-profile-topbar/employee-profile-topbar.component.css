@@ -405,3 +405,25 @@ span.lat {
     border: 1px solid var(--primary-background-color) !important;
     color: var(--primary-color) !important;
 }
+
+.break-notifaction{
+    background-color: #FFF8F2;
+}
+.break-notifaction p{
+    color: #E27A17;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.back-btn{
+    background-color: #E27A17;
+    color: #fff;
+    border: none;
+    border-radius: 2px;
+    padding: 3px 5px;
+    min-width: 100px;
+}
+.back-btn svg{
+    position: relative;
+    top: -1px;
+}
