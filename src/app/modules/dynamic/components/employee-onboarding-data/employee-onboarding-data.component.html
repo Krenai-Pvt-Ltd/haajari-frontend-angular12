@@ -616,7 +616,7 @@
                           aria-expanded="false"
                           class="btn btn-secondary dropdown-toggle new-deopdown"
                         >
-                          {{ selectedStatus || "Active" }}
+                          {{ selectedStatus || "All" }}
                           <i class="bi bi-chevron-down"></i>
                         </button>
                         <ul
@@ -1725,9 +1725,28 @@
                 </tr>
                 <tr *ngFor="let row of data; let i = index">
                   <td *ngFor="let cell of expectedColumns; let j = index">
-                    <input
-                      [(ngModel)]="data[i][j]"
-                      [ngClass]="{'invalid-input': invalidCells[i][j]}" />
+                    <ng-container *ngIf="j === 4 && i!==0; else otherColumns">
+                      <!-- Dropdown for column 4 -->
+                      <select [(ngModel)]="data[i][j]" [ngClass]="{'invalid-input': invalidCells[i][j]}">
+                        <option *ngFor="let shift of shiftList" [value]="shift.label">{{ shift.label }}</option>
+                      </select>
+                    </ng-container>
+
+                    <ng-template #otherColumns>
+                      <ng-container *ngIf="j === 5 && i!==0; else defaultInput">
+                        <select multiple (change)="onMultiSelectChange($event, i, j)" [(ngModel)]="data[i][j]" [ngClass]="{'invalid-input': invalidCells[i][j]}">
+                          <option *ngFor="let leave of originalLeaveNameList" [value]="leave.label">{{ leave.label }}</option>
+                        </select>
+                      </ng-container>
+                    </ng-template>
+
+
+                    <!-- Default input for other columns -->
+                    <ng-template #defaultInput>
+                      <input
+                        [(ngModel)]="data[i][j]"
+                        [ngClass]="{'invalid-input': invalidCells[i][j]}" />
+                    </ng-template>
                   </td>
                 </tr>
               </table>

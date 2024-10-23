@@ -97,6 +97,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.selectMethod('mannual');
     this.getShiftData();
     this.getOnboardingVia();
+    this.selectStatus('ACTIVE');
 
     const storedDownloadUrl = localStorage.getItem('downloadUrl');
 
@@ -209,7 +210,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
   selectStatus(status: string) {
     if (status == 'ALL') {
-      this.selectedStatus = '';
+      this.selectedStatus = 'All';
       this.searchUsers('any');
     } else {
       this.selectedStatus = status;
@@ -681,7 +682,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   currentFileUpload: any;
 
 
-  expectedColumns: string[] = ['S. NO.*', 'Name*', 'Phone*', 'Email*'];
+  expectedColumns: string[] = ['S. NO.*', 'Name*', 'Phone*', 'Email*', 'Shift*', 'LeaveNames'];
   isExcel: string = '';
   data: any[] = [];
   mismatches: string[] = [];
@@ -791,7 +792,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       const row = rows[i];
       let rowIsValid = true;
 
-      for (let j = 1; j < this.expectedColumns.length; j++) {
+      for (let j = 1; j < this.expectedColumns.length-1; j++) {
         const cellValue = row[j];
         if (cellValue === undefined || cellValue === null || cellValue.toString().trim() === '') {
           rowIsValid = false;
@@ -802,8 +803,16 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     }
   }
 
+  onMultiSelectChange(event: any, rowIndex: number, colIndex: number) {
+    const selectedOptions = Array.from(event.target.selectedOptions, (option: any) => option.value);
+    this.data[rowIndex][colIndex] = selectedOptions.join(', ');
+  }
+
   saveFile() {
-    const ws = XLSX.utils.aoa_to_sheet(this.data);
+    const stringifiedData = this.data.map((row: any[]) =>
+      row.map(cell => cell !== null && cell !== undefined ? String(cell) : '')
+    );
+    const ws = XLSX.utils.aoa_to_sheet(stringifiedData);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
     const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
