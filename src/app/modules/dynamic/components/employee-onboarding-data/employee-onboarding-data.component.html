@@ -1730,13 +1730,46 @@
                       </select>
                     </ng-container>
 
+
+                    {{data[i][j]}}
                     <ng-template #otherColumns>
-                      <ng-container *ngIf="j === 5 && i!==0; else defaultInput">
-                        <select multiple (change)="onMultiSelectChange($event, i, j)" [(ngModel)]="data[i][j]" [ngClass]="{'invalid-input': invalidCells[i][j]}">
-                          <option *ngFor="let leave of originalLeaveNameList" [value]="leave.label">{{ leave.label }}</option>
-                        </select>
+                    <ng-container *ngIf="j === 5 && i!==0; else defaultInput">
+                    <nz-select
+                      class="whatapp-login-input"
+                      nzMode="multiple"
+                      nzPlaceHolder="Select leave"
+                      nzAllowClear
+                      nzShowSearch
+                      nzServerSearch
+                      [(ngModel)]="data[i][j]"
+                      [ngModelOptions]="{ standalone: true }"
+                      (ngModelChange)="onMultiSelectChange($event, i, j)"
+                      (nzOnSearch)="onSearchLeave($event)"
+                      [ngClass]="{'invalid-input': invalidCells[i][j]}"
+
+                    >
+                      <ng-container *ngFor="let o of originalLeaveNameList">
+                        <nz-option
+                          *ngIf="!isLoadingLeave"
+                          [nzValue]="o.label"
+                          [nzLabel]="o.label"
+                        ></nz-option>
                       </ng-container>
-                    </ng-template>
+                      <nz-option
+                        *ngIf="isLoadingLeave"
+                        nzDisabled
+                        nzCustomContent
+                      >
+                        <span
+                          nz-icon
+                          nzType="loading"
+                          class="loading-icon"
+                        ></span>
+                        Loading Data...
+                      </nz-option>
+                    </nz-select>
+                  </ng-container>
+                </ng-template>
 
 
                     <!-- Default input for other columns -->

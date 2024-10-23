@@ -721,9 +721,29 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
         if (this.validateColumns(columnNames)) {
           // Always process the rows, regardless of validity
-          this.data = jsonData.filter((row: any[]) =>
-            row.some((cell: any) => cell !== undefined && cell !== null && cell.toString().trim() !== '')
-          );
+          // this.data = jsonData.filter((row: any[]) =>
+          //   row.some((cell: any) => cell !== undefined && cell !== null && cell.toString().trim() !== '')
+          // );
+
+//new codde
+this.data = jsonData.map((row: any[]) => {
+  // Ensure the 5th column is an array of strings, other columns are treated as strings
+  return row.map((cell: any, index: number) => {
+    if (index === 5) {
+      // Convert the 5th column to an array of strings
+      return cell ? cell.toString().split(',').map((str: string) => str.trim()) : [];
+    } else {
+      // Convert other cells to string and trim whitespace
+      return cell ? cell.toString().trim() : '';
+    }
+  });
+}).filter((row: any[]) =>
+  // Filter out empty rows
+  row.some((cell: any) => cell !== '')
+);
+
+
+
 
           // Validate all rows and keep track of invalid entries
           this.validateRows(this.data);
@@ -806,9 +826,11 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     }
   }
 
-  onMultiSelectChange(event: any, rowIndex: number, colIndex: number) {
-    const selectedOptions = Array.from(event.target.selectedOptions, (option: any) => option.value);
-    this.data[rowIndex][colIndex] = selectedOptions.join(', ');
+  onMultiSelectChange(selectedOptions: any[], rowIndex: number, colIndex: number) {
+    debugger
+
+    this.data[rowIndex][colIndex] = selectedOptions;
+    console.log( this.data[rowIndex][colIndex],selectedOptions)
   }
 
   saveFile() {
