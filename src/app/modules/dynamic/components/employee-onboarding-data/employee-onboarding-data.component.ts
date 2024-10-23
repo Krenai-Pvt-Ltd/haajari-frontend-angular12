@@ -113,6 +113,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     //   this.optionList = data;
     //   this.isLoading = false;
     // });
+    this._subscriptionService.isSubscriptionPlanExpired();
   }
 
   isUserShimer: boolean = true;

@@ -7,6 +7,7 @@ import { CommonComponent } from './common.component';
 import { TopbarComponent } from './topbar/topbar.component';
 import { HajiriPageLoaderComponent } from './hajiri-page-loader/hajiri-page-loader.component';
 import { HeaderComponent } from './header/header.component';
+import { SubscriptionRestrictedComponent } from './subscription-restricted/subscription-restricted.component';
 import { NewEmployeeProfileSidebarComponent } from './new-employee-profile-sidebar/new-employee-profile-sidebar.component';
 
 @NgModule({
@@ -18,7 +19,7 @@ import { NewEmployeeProfileSidebarComponent } from './new-employee-profile-sideb
     DurationPickerComponent,
     CommonComponent,
     HeaderComponent,
-    NewEmployeeProfileSidebarComponent,
+    NewEmployeeProfileSidebarComponent
     
   ],
   imports: [CommonModule, CommonRoutingModule],

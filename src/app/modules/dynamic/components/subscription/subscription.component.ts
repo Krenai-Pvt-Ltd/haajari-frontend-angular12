@@ -1,7 +1,6 @@
 import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { constant } from 'src/app/constant/constant';
-import { Key } from 'src/app/constant/key';
 import { StatusKeys } from 'src/app/constant/StatusKeys';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { GstResponse } from 'src/app/models/GstResponse';
@@ -285,7 +284,7 @@ export class SubscriptionComponent implements OnInit {
     this.realtimeDbSubscriber = this.db.object("/subscription_plan/plan_purchased_by_" + orgUuid).valueChanges()
       .subscribe((res: any) => {
         this.ngZone.run(() => {
-          console.log("/subscription_plan/plan_purchased_by_" + orgUuid + "---" + JSON.stringify(res));
+          // console.log("/subscription_plan/plan_purchased_by_" + orgUuid + "---" + JSON.stringify(res));
           if (res != null) {
             if (res.status == "Processing") {
               this.isUnderProcess = true;
@@ -396,6 +395,28 @@ invoiceDetail:InvoiceDetail = new InvoiceDetail();
     }
   }
 
+
+  // downloadInvocie(invoiceUrl: string) {
+  //   var fileName = invoiceUrl
+  //     .substring(invoiceUrl.lastIndexOf('/'))
+  //     .split('%2F')
+  //     .join('/');
+  //   fileName = fileName.split('%26').join('/');
+  //   fileName = fileName.substring(fileName.lastIndexOf('/'));
+  //   if (fileName.charAt(0) == '/') {
+  //     fileName = fileName.substring(1);
+  //   }
+  //   fileName = fileName.substring(0, fileName.lastIndexOf('?'));
+  //   this.http
+  //     .get(invoiceUrl, { responseType: 'blob' })
+  //     .subscribe((blob: Blob) => {
+  //       const link = document.createElement('a');
+  //       link.href = window.URL.createObjectURL(blob);
+  //       link.download = fileName;
+  //       link.click();
+  //     });
+  // }
+
   dueInvoices:Invoices[] = new Array();
   totalDueInvoices :number=0;
   duesDatabaseHelper : DatabaseHelper = new DatabaseHelper();
@@ -484,7 +505,7 @@ invoiceDetail:InvoiceDetail = new InvoiceDetail();
       var orgUuid = this.orgUuid.replace(/[^a-zA-Z0-9_]/g, "_");
       this.db.object("/invoices/paid_by_" + orgUuid).set({ status: "Processing" });
       this.isUnderProcess = true;
-      this.getExportStatusFromFirebase();
+      this.getInvoiceStatusFromFirebase();
     });
   }
 
@@ -502,7 +523,7 @@ invoiceDetail:InvoiceDetail = new InvoiceDetail();
     this.realtimeDbSubscriber = this.db.object("/invoices/paid_by_" + orgUuid).valueChanges()
       .subscribe((res: any) => {
         this.ngZone.run(() => {
-          console.log("/invoices/paid_by_" + orgUuid + "---" + JSON.stringify(res));
+          // console.log("/invoices/paid_by_" + orgUuid + "---" + JSON.stringify(res));
           if (res != null) {
             if (res.status == "Processing") {
               this.isUnderProcess = true;
