@@ -245,7 +245,7 @@ export class DashboardComponent implements OnInit {
     this.getLateUsers();
     // this.getAttendanceDetailsReportByDateMethodCall();
     this.getHolidayForOrganization();
-    this.getAllSubscription();
+    // this.getAllSubscription();
     this.getPurchasedStatus();
   }
 
@@ -729,6 +729,7 @@ export class DashboardComponent implements OnInit {
   attendanceReportResponseList: AttendanceReportResponse[] = [];
   debounceTimer: any;
   getAttendanceReportByDateDurationMethodCall(debounceTime: number = 300) {
+    debugger
     return new Promise((resolve, reject) => {
       if (this.debounceTimer) {
         clearTimeout(this.debounceTimer);
@@ -792,7 +793,8 @@ export class DashboardComponent implements OnInit {
           // console.log(response);
 
           const downloadLink = document.createElement('a');
-          downloadLink.href = response.message;
+          // downloadLink.href = response.message;
+          downloadLink.href = response.object;
           downloadLink.download = 'attendance.xlsx';
           downloadLink.click();
           this.downloadingFlag = false;
@@ -1500,19 +1502,19 @@ getPagesNew(): (number | string)[] {
 
   subscriptionList: any[] = new Array();
   loading: boolean = false;
-  getAllSubscription() {
-    debugger;
-    this.loading = true;
-    this._subscriptionPlanService
-      .getAllSubscriptionPlan()
-      .subscribe((response) => {
-        if (response.status) {
-          this.subscriptionList = response.object;
-          this.loading = false;
-        }
-        this.loading = false;
-      });
-  }
+  // getAllSubscription() {
+  //   debugger;
+  //   this.loading = true;
+  //   this._subscriptionPlanService
+  //     .getAllSubscriptionPlan()
+  //     .subscribe((response) => {
+  //       if (response.status) {
+  //         this.subscriptionList = response.object;
+  //         this.loading = false;
+  //       }
+  //       this.loading = false;
+  //     });
+  // }
 
   selectSubscription(subscriptionId: number) {
     this.selectedSubscriptionId = subscriptionId;
@@ -1522,8 +1524,8 @@ getPagesNew(): (number | string)[] {
   @ViewChild('billingModal') billingModal!: ElementRef;
   getPurchasedStatus() {
     debugger
-    this._subscriptionPlanService.getPurchasedStatus().subscribe((response) => {
-      this.isPurchased = response;
+    // this._subscriptionPlanService.getPurchasedStatus().subscribe((response) => {
+    //   this.isPurchased = response;
       // this.router.navigate(['/to-do-step-dashboard']);
       // if(this.isPurchased) {
       //   this.router.navigate(['/to-do-step-dashboard']);
@@ -1543,7 +1545,7 @@ getPagesNew(): (number | string)[] {
         
        
       // }
-    });
+    // });
   }
 
   isToDoStepsCompleted: number = 0;
@@ -1802,7 +1804,7 @@ this.getSubscriptionPlanDetails(plandId);
 
   applyCoupon() {
       this._subscriptionPlanService
-          .verifyCoupon(this.couponCode, this.originalAmount, this.sbscriptionPlanReq.planType)
+          .verifyCoupon(this.couponCode, this.originalAmount)
           .subscribe((response) => {
               if (response.status) {
                 this.message = '';

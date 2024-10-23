@@ -258,7 +258,7 @@ this.getSubscriptionPlanDetails(plandId);
 
   applyCoupon() {
       this._subscriptionPlanService
-          .verifyCoupon(this.couponCode, this.originalAmount, this.sbscriptionPlanReq.planType)
+          .verifyCoupon(this.couponCode, this.originalAmount)
           .subscribe((response) => {
               if (response.status) {
                  this.message = '';

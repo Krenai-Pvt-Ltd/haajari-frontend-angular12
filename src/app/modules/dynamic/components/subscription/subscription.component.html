@@ -15,7 +15,7 @@
               >Subscription</a
             >
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="_subscriptionPlanService.isSubscription && !_subscriptionPlanService.isTrialPlan">
             <a
               id="pills-profile-tab"
               data-bs-toggle="pill"
@@ -24,6 +24,7 @@
               aria-controls="pills-profile"
               aria-selected="false"
               class="nav-link"
+              (click)="getInvoices()"
               >Billing</a
             >
           </li>
@@ -36,7 +37,7 @@
             aria-labelledby="subscription-tab"
           >
             <div class="row">
-              <div class="col-md-3">
+              <div class="col-md-3" *ngIf="_subscriptionPlanService.isSubscription">
                 <div class="current-plan-box pt-4" *ngIf="!RulesRegulation">
                   <h2 class="font-18">Current</h2>
 
@@ -44,7 +45,7 @@
                     class="d-flex align-items-start justify-content-between mt-5"
                   >
                     <div>
-                      <h5 class="mb-0">Basic Plan</h5>
+                      <h5 class="mb-0">{{orgSubscriptionPlanDetail.planName}} Plan</h5>
 
                       <p class="mb-0 font-14 pt-2">
                         Our most popular plan for<br />
@@ -52,24 +53,25 @@
                       </p>
                     </div>
 
+                    <span class="plan-tag">{{orgSubscriptionPlanDetail.yearly?'Yearly':'Monthly'}}</span>
                     <!-- <span class="plan-tag">Monthly</span> -->
-                    <span class="plan-expired">Plan Expired </span>
+                    <!-- <span class="plan-expired">Plan Expired </span> -->
                   </div>
-
                   <div
                     class="mt-5 d-flex align-items-center gap-2 active-plan-velue"
                   >
-                    <h4>₹49</h4>
+                    <h4>₹{{orgSubscriptionPlanDetail.planAmount | number: '1.0-2'}}</h4>
                     <p class="mb-0 font-16">Per month</p>
                   </div>
 
-                  <h3>Employee 2/64 (3%)</h3>
+                  <h3>Employee {{orgSubscriptionPlanDetail.quotaUsed > orgSubscriptionPlanDetail.employeeQuota ? orgSubscriptionPlanDetail.employeeQuota: orgSubscriptionPlanDetail.quotaUsed}}/{{orgSubscriptionPlanDetail.employeeQuota}} 
+                    ({{((orgSubscriptionPlanDetail.quotaUsed > orgSubscriptionPlanDetail.employeeQuota ? orgSubscriptionPlanDetail.employeeQuota: orgSubscriptionPlanDetail.quotaUsed)/ orgSubscriptionPlanDetail.employeeQuota)* 100 | number: '1.0-2'}}%)</h3>
 
                   <div class="progress w-100">
                     <div
                       class="progress-bar"
                       role="progressbar"
-                      style="width: 25%"
+                      [ngStyle]="{ 'width': progress + '%'}"
                       aria-valuenow="25"
                       aria-valuemin="0"
                       aria-valuemax="100"
@@ -117,7 +119,7 @@
                         <p class="mb-0 font-14">Start Day</p>
                       </div>
 
-                      <span class="mb-0">12th Oct 2024</span>
+                      <span class="mb-0">{{orgSubscriptionPlanDetail.startDate | date: "dd MMM yyyy"}}</span>
                     </div>
                     <div
                       class="d-flex align-items-center justify-content-between mt-3"
@@ -157,7 +159,7 @@
                         <p class="mb-0 font-14">Next Billing Date</p>
                       </div>
 
-                      <span class="mb-0 text-primary">12th Nov 2024</span>
+                      <span class="mb-0 text-primary">{{orgSubscriptionPlanDetail.endDate | date: "dd MMM yyyy"}}</span>
                     </div>
 
                     <div class="footer-action">
@@ -199,12 +201,12 @@
                     </div>
                   </div>
 
-                  <button
+                  <!-- <button
                     class="btn w-100 text-white proceed-payment mt-3"
                     style="background-color: #ec4b42"
                   >
                     Make Payment
-                  </button>
+                  </button> -->
                 </div>
 
                 <div class="rules-regulation-box pt-4" *ngIf="RulesRegulation">
@@ -407,7 +409,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-9">
+              <div class="col-md-9" [ngClass]="{'col-md-12':(!_subscriptionPlanService.isSubscription || (_subscriptionPlanService.isSubscription && _subscriptionPlanService.isTrialPlan))}">
                 <div class="plan-box p-4">
                   <div
                     class="d-flex align-items-center justify-content-between"
@@ -418,7 +420,7 @@
                     </p>
 
                     <div class="d-flex align-items-center gap-3">
-                      <p class="mb-0 font-14">
+                      <p class="mb-0 font-14" *ngIf="showYearlyPlans" >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="22"
@@ -458,91 +460,68 @@
                           </defs>
                         </svg>
                         &nbsp;
-                        <span class="discount-tag">20%off</span> &nbsp;On Yearly
+                        <span class="discount-tag">30%off</span> &nbsp;On Yearly
                         Plan
                       </p>
 
-                      <ul
-                        class="nav priceToggleMain"
-                        id="pills-tab"
-                        role="tablist"
-                      >
-                        <li class="nav-item" role="presentation">
-                          <button
-                            class="priceToggleBtn active"
-                            id="yearly-plan-tab"
-                            data-bs-toggle="pill"
-                            data-bs-target="#yearly-plan"
-                            type="button"
-                            role="tab"
-                            aria-controls="pills-home"
-                            aria-selected="true"
-                          >
-                            Yearly
-                          </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                          <button
-                            class="priceToggleBtn"
-                            id="monthly-plan-tab"
-                            data-bs-toggle="pill"
-                            data-bs-target="#monthly-plan"
-                            type="button"
-                            role="tab"
-                            aria-controls="monthly-plan"
-                            aria-selected="false"
-                            tabindex="-1"
-                          >
-                            Monthly
-                          </button>
-                        </li>
-                      </ul>
+                      <form>
+                        <div class="btn-container w-100">
+                          <input type="radio" id="r_Yearly" name="radio_choices" value="Yearly" [checked]="showYearlyPlans==1" (click)="showYearlyPlans = 1" >
+                          <label for="r_Yearly">Yearly</label>
+                          <br >
+                          <input type="radio" id="r_Monthly" name="radio_choices" value="Monthly" [checked]="showYearlyPlans==0" (click)="showYearlyPlans = 0" >
+                          <label for="r_Monthly">Monthly</label>            
+                        </div>
+                      </form>
                     </div>
                   </div>
                   <div class="mt-3">
-                    <div class="tab-content" id="pills-tabContent">
-                      <div
-                        class="tab-pane fade active show"
-                        id="yearly-plan"
-                        aria-labelledby="yearly-plan-tab"
-                      >
+                    <div class="tab-content" >
+                     
                         <div class="row">
-                          <div class="col-md-4">
+                          <div class="col-md-4"  [ngClass]="{'d-none':showYearlyPlans==plan.isMonthly}" *ngFor="let plan of subscriptionPlans; let i=index;">
                             <div class="plan-detail-box p-3 pt-4 pb-4">
-                              <h5 class="mb-0 font-20">Basic</h5>
+                              <h5 class="mb-0 font-20">{{plan.name}}</h5>
                               <p class="mb-0 font-13 mt-2">
-                                Ideal for small businesses looking to start
-                                digital attendance management.
+                                {{plan.description}}
                               </p>
 
                               <div
                                 class="d-flex align-items-center gap-2 mt-4 mb-3"
                               >
-                                <h3 class="mb-0">₹49</h3>
+                                <h3 class="mb-0">₹{{plan.amount}}</h3>
 
                                 <div>
-                                  <h4 class="mb-0">₹69</h4>
+                                  <h4 class="mb-0" *ngIf="plan.isYearly==1">₹{{plan.amount + plan.discountAmount}}</h4>
                                   <h6 class="mb-0 font-14">
                                     month/per employee
                                   </h6>
                                 </div>
                               </div>
 
-                              <p class="mb-0 font-14">
-                                <span class="plan-year-off"> 15% off </span>
+                              <p class="mb-0 font-14" *ngIf="plan.isYearly==1">
+                                <span class="plan-year-off" > 30% off </span>
                                 with annual contract
                               </p>
                               <span class="saperater-border mt-4 mb-4"></span>
 
                               <button
                                 class="btn current-plan w-100 mb-4"
-                                data-bs-toggle="modal"
-                                data-bs-target="#downgrade-plan"
+                                *ngIf="plan.isPurchased==0"
+                                (click)="selectPlan(plan)"
                               >
-                                Current plan
+                                Purchase plan
                               </button>
+                    
+                              <button
+                              class="btn current-plan w-100 mb-4"                          
+                              *ngIf="plan.isPurchased==1"
+                              (click)="selectPlan(plan)"
+                            >
+                              Current plan
+                            </button>
 
-                              <ul class="plan-pints pl-0">
+                              <ul class="plan-pints pl-0" *ngIf="plan.planType=='BASIC'">
                                 <li>
                                   <i class="bi bi-check2"></i> Onboarding &
                                   Documents - Employee
@@ -578,47 +557,11 @@
                                   <i class="bi bi-check2"></i> Report - Basic
                                 </li>
                               </ul>
-                            </div>
-                          </div>
-                          <div class="col-md-4">
-                            <div class="plan-detail-box p-3 pt-4 pb-4">
-                              <h5 class="mb-0 font-20">Premium</h5>
-                              <p class="mb-0 font-13 mt-2">
-                                Ideal for small businesses looking to start
-                                digital attendance management.
-                              </p>
 
-                              <div
-                                class="d-flex align-items-center gap-2 mt-4 mb-3"
-                              >
-                                <h3 class="mb-0">₹99</h3>
-
-                                <div>
-                                  <h4 class="mb-0">₹125</h4>
-                                  <h6 class="mb-0 font-14">
-                                    month/per employee
-                                  </h6>
+                              <ul class="plan-pints pl-0" *ngIf="plan.planType=='PREMIUM'">
+                                <div class="mt-2 font-14" style="color: #01be4f">
+                                  All Basic Features +
                                 </div>
-                              </div>
-
-                              <p class="mb-0 font-14">
-                                <span class="plan-year-off"> 15% off </span>
-                                with annual contract
-                              </p>
-                              <span class="saperater-border mt-4 mb-4"></span>
-
-                              <button
-                                class="btn change-plan w-100 mb-4"
-                                (click)="switchSubscriptionPlan()"
-                              >
-                                Change Plan
-                              </button>
-
-                              <div class="mt-2 font-14" style="color: #01be4f">
-                                All Basic Features +
-                              </div>
-
-                              <ul class="plan-pints pl-0">
                                 <li>
                                   <i class="bi bi-check2"></i> Payroll and
                                   Salary Slip Automation
@@ -649,6 +592,7 @@
                               </ul>
                             </div>
                           </div>
+                         
                           <div class="col-md-4">
                             <div class="plan-detail-box p-3 pt-4">
                               <h5 class="mb-0 font-20">Custom</h5>
@@ -664,7 +608,7 @@
                               <span class="saperater-border mt-4 mb-4"></span>
 
                               <button class="btn change-plan w-100 mb-4">
-                                Upgrade plan
+                              Request
                               </button>
 
                               <ul class="plan-pints pl-0">
@@ -688,195 +632,8 @@
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <div
-                        class="tab-pane fade"
-                        id="monthly-plan"
-                        aria-labelledby="monthly-plan-tab"
-                      >
-                        <div class="row">
-                          <div class="col-md-4">
-                            <div class="plan-detail-box p-3 pt-4 pb-4">
-                              <h5 class="mb-0 font-20">Basic</h5>
-                              <p class="mb-0 font-13 mt-2">
-                                Ideal for small businesses looking to start
-                                digital attendance management.
-                              </p>
-
-                              <div
-                                class="d-flex align-items-center gap-2 mt-4 mb-4"
-                              >
-                                <h3 class="mb-0">₹69</h3>
-
-                                <div>
-                                  <h6 class="mb-0 font-14">
-                                    month/per employee
-                                  </h6>
-                                </div>
-                              </div>
-
-                              <p class="mb-0 font-14">
-                                <span class="plan-year-off"> 15% off </span>
-                                with annual contract
-                              </p>
-                              <span class="saperater-border mt-4 mb-4"></span>
-
-                              <button
-                                class="btn current-plan w-100 mb-4"
-                                data-bs-toggle="modal"
-                                data-bs-target="#downgrade-plan"
-                              >
-                                Current plan
-                              </button>
-
-                              <ul class="plan-pints pl-0">
-                                <li>
-                                  <i class="bi bi-check2"></i> Onboarding &
-                                  Documents - Employee
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Shift-based
-                                  attendance management
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Slack & WhatsApp
-                                  Integration
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Salary Structure
-                                  & Compliance
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Leave Request &
-                                  Approval Management
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Automation rule
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> User Roles &
-                                  Privileges
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Reminders &
-                                  Alerts - Notifications
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Report - Basic
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                          <div class="col-md-4">
-                            <div class="plan-detail-box p-3 pt-4 pb-4">
-                              <h5 class="mb-0 font-20">Premium</h5>
-                              <p class="mb-0 font-13 mt-2">
-                                Ideal for small businesses looking to start
-                                digital attendance management.
-                              </p>
-
-                              <div
-                                class="d-flex align-items-center gap-2 mt-4 mb-4"
-                              >
-                                <h3 class="mb-0">₹125</h3>
-
-                                <div>
-                                  <h6 class="mb-0 font-14">
-                                    month/per employee
-                                  </h6>
-                                </div>
-                              </div>
-
-                              <p class="mb-0 font-14">
-                                <span class="plan-year-off"> 15% off </span>
-                                with annual contract
-                              </p>
-                              <span class="saperater-border mt-4 mb-4"></span>
-
-                              <button
-                                class="btn change-plan w-100 mb-4"
-                                (click)="switchSubscriptionPlan()"
-                              >
-                                Change Plan
-                              </button>
-
-                              <div class="mt-2 font-14" style="color: #01be4f">
-                                All Basic Features +
-                              </div>
-
-                              <ul class="plan-pints pl-0">
-                                <li>
-                                  <i class="bi bi-check2"></i> Payroll and
-                                  Salary Slip Automation
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Employee Tax
-                                  Management
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Advance
-                                  Automation Rules
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Custom Roles &
-                                  Privileges
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Employee Exit -
-                                  Documentation
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Assets
-                                  Allocation/ Management
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Report - Advance
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                          <div class="col-md-4">
-                            <div class="plan-detail-box p-3 pt-4">
-                              <h5 class="mb-0 font-20">Custom</h5>
-                              <p class="mb-0 font-13 mt-2">
-                                Ideal for small businesses looking to start
-                                digital attendance management.
-                              </p>
-
-                              <h1
-                                class="requestQuote requestQuote-without-discount mb-0 mt-2"
-                              >
-                                Request a quote
-                              </h1>
-
-                              <span class="saperater-border mt-4 mb-4"></span>
-
-                              <button class="btn change-plan w-100 mb-4">
-                                Upgrade plan
-                              </button>
-
-                              <ul class="plan-pints pl-0">
-                                <li>
-                                  <i class="bi bi-check2"></i> Custom workflows
-                                  and HR processes
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Dedicated
-                                  deployment & onboarding support
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Integrations with
-                                  your existing systems
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Scalable
-                                  solutions for future growth
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                     
+                        
                     </div>
                   </div>
                 </div>
@@ -925,7 +682,7 @@
                       height="20"
                       viewBox="0 0 43 40"
                       fill="none"
-                    >
+                    *ngIf="dueInvoices.length>0">
                       <path
                         d="M41.1459 30.7012L26.3026 3.41549C23.9178 -0.599372 18.1043 -0.604706 15.7163 3.41549L0.873772 30.7012C-1.56415 34.8037 1.38744 39.9988 6.1657 39.9988H35.8528C40.627 39.9988 43.5839 34.8079 41.1459 30.7012ZM21.0095 35.0747C19.6522 35.0747 18.5474 33.9699 18.5474 32.6127C18.5474 31.2554 19.6522 30.1506 21.0095 30.1506C22.3667 30.1506 23.4715 31.2554 23.4715 32.6127C23.4715 33.9699 22.3667 35.0747 21.0095 35.0747ZM23.4715 25.2265C23.4715 26.5838 22.3667 27.6886 21.0095 27.6886C19.6522 27.6886 18.5474 26.5838 18.5474 25.2265V12.9163C18.5474 11.559 19.6522 10.4542 21.0095 10.4542C22.3667 10.4542 23.4715 11.559 23.4715 12.9163V25.2265Z"
                         fill="#FF2F2F"
@@ -953,21 +710,22 @@
                           </th>
                           <th class="text-center" style="width: 10%">Plan</th>
                           <th class="text-center" style="width: 10%">
-                            Created Date
+                            Payment Date
+                          </th>
+                          <th class="text-center" style="width: 10%">
+                            Transaction ID
                           </th>
                           <th class="text-center" style="width: 10%">Amount</th>
                           <th class="text-center" style="width: 10%">
-                            Valid Form
+                            Valid From
                           </th>
                           <th class="text-center" style="width: 10%">
                             Valid Till
                           </th>
-                          <th class="text-center" style="width: 10%">
+                          <!-- <th class="text-center" style="width: 10%">
                             Payment Mode
-                          </th>
-                          <th class="text-center" style="width: 10%">
-                            Payment Date
-                          </th>
+                          </th> -->
+                         
                           <th
                             class="text-center stickyColThend"
                             style="width: 10%"
@@ -976,169 +734,51 @@
                           </th>
                         </tr>
                       </thead>
-
                       <tbody class="">
-                        <tr class="">
+                        <tr class="" *ngFor="let invoice of invoices;">
                           <td class="stickyColTd text-center">
                             <span class="teme-maneger mb-0 table-font-weight">
-                              SAL/23-24/SUB-127</span
+                              {{invoice.invoiceNo}}</span
                             >
                           </td>
                           <td class="text-center">
-                            <div class="badge rounded-pill badge-soft-primary">
-                              <span> Basic</span>
+                            <div class="badge rounded-pill" [ngClass]="{'badge-soft-primary': invoice.planName == 'Basic', 'badge-soft-warning': invoice.planName == 'Premium'}">
+                              <span> {{invoice.planName}}</span>
                             </div>
-                          </td>
-                          <td class="text-center">
-                            <span class="teme-maneger mb-0 table-font-weight">
-                              27 Jul 2024</span
-                            >
-                          </td>
-                          <td class="text-center">
-                            <span class="teme-maneger mb-0"> ₹243</span>
-                          </td>
-                          <td class="text-center">
-                            <span class="teme-maneger mb-0 table-font-weight">
-                              01 Jul 2024</span
-                            >
-                          </td>
-                          <td class="text-center">
-                            <span class="teme-maneger mb-0 table-font-weight">
-                              31 Aug 2024</span
-                            >
-                          </td>
-
-                          <td class="text-center">
-                            <span class="teme-maneger mb-0"> Online</span>
                           </td>
                           <td>
                             <span
                               class="teme-maneger text-center mb-0 table-font-weight"
                             >
-                              30 Aug 2024</span
+                            {{invoice.paymentDate | date:'dd MMM yyyy'}}</span
                             >
                           </td>
+                          <td class="text-center">
+                            <span class="teme-maneger mb-0 table-font-weight">
+                              {{invoice.transactionId}}</span
+                            >
+                          </td>
+                          <td class="text-center">
+                            <span class="teme-maneger mb-0"> ₹{{invoice.payableAmount}}</span>
+                          </td>
+                          <td class="text-center">
+                            <span class="teme-maneger mb-0 table-font-weight">
+                             {{invoice.fromDate | date:'dd MMM yyyy'}}</span
+                            >
+                          </td>
+                          <td class="text-center">
+                            <span class="teme-maneger mb-0 table-font-weight">
+                              {{invoice.toDate | date:'dd MMM yyyy'}}</span
+                            >
+                          </td>
+                          <!-- 31 Aug 2024 -->
+                          <!-- <td class="text-center">
+                            <span class="teme-maneger mb-0"> {{invoice.paymentMode}}</span>
+                          </td> -->
+                          
 
                           <td class="stickyColTdend text-center">
-                            <button type="button" class="btn btnAction">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="12"
-                                height="11"
-                                viewBox="0 0 12 11"
-                                fill="none"
-                              >
-                                <path
-                                  d="M6.00006 8.24863L2.56313 4.8117L3.52548 3.81499L5.31268 5.6022V0H6.68745V5.6022L8.47465 3.81499L9.43699 4.8117L6.00006 8.24863ZM1.87575 10.9982C1.49769 10.9982 1.17404 10.8636 0.904816 10.5943C0.63559 10.3251 0.500977 10.0015 0.500977 9.6234V7.56125H1.87575V9.6234H10.1244V7.56125H11.4992V9.6234C11.4992 10.0015 11.3645 10.3251 11.0953 10.5943C10.8261 10.8636 10.5024 10.9982 10.1244 10.9982H1.87575Z"
-                                  fill="#6666F2"
-                                />
-                              </svg>
-                              Download
-                            </button>
-                          </td>
-                        </tr>
-                        <tr class="" *ngFor="let item of [].constructor(7)">
-                          <td class="stickyColTd text-center">
-                            <span class="teme-maneger mb-0 table-font-weight">
-                              SAL/23-24/SUB-127</span
-                            >
-                          </td>
-                          <td class="text-center">
-                            <div class="badge rounded-pill badge-soft-warning">
-                              <span> Premium</span>
-                            </div>
-                          </td>
-                          <td class="text-center">
-                            <span class="teme-maneger mb-0 table-font-weight">
-                              27 Jul 2024</span
-                            >
-                          </td>
-                          <td class="text-center">
-                            <span class="teme-maneger mb-0"> ₹243</span>
-                          </td>
-                          <td class="text-center">
-                            <span class="teme-maneger mb-0 table-font-weight">
-                              01 Jul 2024</span
-                            >
-                          </td>
-                          <td class="text-center">
-                            <span class="teme-maneger mb-0 table-font-weight">
-                              31 Aug 2024</span
-                            >
-                          </td>
-
-                          <td class="text-center">
-                            <span class="teme-maneger mb-0"> Online</span>
-                          </td>
-                          <td>
-                            <span
-                              class="teme-maneger text-center mb-0 table-font-weight"
-                            >
-                              30 Aug 2024</span
-                            >
-                          </td>
-
-                          <td class="stickyColTdend text-center">
-                            <button type="button" class="btn btnAction">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="12"
-                                height="11"
-                                viewBox="0 0 12 11"
-                                fill="none"
-                              >
-                                <path
-                                  d="M6.00006 8.24863L2.56313 4.8117L3.52548 3.81499L5.31268 5.6022V0H6.68745V5.6022L8.47465 3.81499L9.43699 4.8117L6.00006 8.24863ZM1.87575 10.9982C1.49769 10.9982 1.17404 10.8636 0.904816 10.5943C0.63559 10.3251 0.500977 10.0015 0.500977 9.6234V7.56125H1.87575V9.6234H10.1244V7.56125H11.4992V9.6234C11.4992 10.0015 11.3645 10.3251 11.0953 10.5943C10.8261 10.8636 10.5024 10.9982 10.1244 10.9982H1.87575Z"
-                                  fill="#6666F2"
-                                />
-                              </svg>
-                              Download
-                            </button>
-                          </td>
-                        </tr>
-                        <tr class="">
-                          <td class="stickyColTd text-center">
-                            <span class="teme-maneger mb-0 table-font-weight">
-                              SAL/23-24/SUB-127</span
-                            >
-                          </td>
-                          <td class="text-center">
-                            <div class="badge rounded-pill badge-soft-success">
-                              <span> Custom</span>
-                            </div>
-                          </td>
-                          <td class="text-center">
-                            <span class="teme-maneger mb-0 table-font-weight">
-                              27 Jul 2024</span
-                            >
-                          </td>
-                          <td class="text-center">
-                            <span class="teme-maneger mb-0"> ₹243</span>
-                          </td>
-                          <td class="text-center">
-                            <span class="teme-maneger mb-0 table-font-weight">
-                              01 Jul 2024</span
-                            >
-                          </td>
-                          <td class="text-center">
-                            <span class="teme-maneger mb-0 table-font-weight">
-                              31 Aug 2024</span
-                            >
-                          </td>
-
-                          <td class="text-center">
-                            <span class="teme-maneger mb-0"> Online</span>
-                          </td>
-                          <td>
-                            <span
-                              class="teme-maneger text-center mb-0 table-font-weight"
-                            >
-                              30 Aug 2024</span
-                            >
-                          </td>
-
-                          <td class="stickyColTdend text-center">
-                            <button type="button" class="btn btnAction">
+                            <button type="button" class="btn btnAction" (click)="downloadInvoice(invoice.invoiceUrl)">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="12"
@@ -1157,59 +797,28 @@
                         </tr>
                       </tbody>
                     </table>
+                   
                   </div>
 
-                  <!-- <div class="pagination pl-3 ">
+                  <div class="pagination justify-content-between pl-3 " *ngIf="paidInvoiceDatabaseHelper.itemPerPage < totalInvoices">
                 <p class="mb-0" style="padding-left: 15px">
-                  Showing 1 - 12 of 80 users
+                  Showing {{ invoices.length }} of
+                  {{ totalInvoices }}
                 </p>
                 <div class="row">
                   <div class="col-md-12">
-                    <nav aria-label="Page navigation example">
-                      <ul class="pagination justify-content-end">
-                        <li class="page-item disabled">
-                          <a
-                            href="javascript:void(0);"
-                            aria-label="Previous"
-                            class="page-link"
-                            ><span aria-hidden="true">«</span></a
-                          >
-                        </li>
-                        <li class="page-item active ">
-                          <a href="javascript:void(0);" class="page-link">1</a>
-                        </li>
-                        <li class="page-item ">
-                          <a href="javascript:void(0);" class="page-link">2</a>
-                        </li>
-                        <li class="page-item ">
-                          <a href="javascript:void(0);" class="page-link">3</a>
-                        </li>
-                        <li class="page-item ">
-                          <a href="javascript:void(0);" class="page-link">4</a>
-                        </li>
-                        <li class="page-item ">
-                          <a href="javascript:void(0);" class="page-link">5</a>
-                        </li>
-                        <li class="page-item ">
-                          <a href="javascript:void(0);" class="page-link">6</a>
-                        </li>
-                        <li class="page-item ">
-                          <a href="javascript:void(0);" class="page-link">7</a>
-                        </li>
-
-                        <li class="page-item">
-                          <a
-                            href="javascript:void(0);"
-                            aria-label="Next"
-                            class="page-link"
-                            ><span aria-hidden="true">»</span></a
-                          >
-                        </li>
-                      </ul>
-                    </nav>
+                    <ngb-pagination
+                          [collectionSize]="totalInvoices"
+                          [rotate]="true"
+                          (pageChange)="invoicePageChanged($event)"
+                          [pageSize]="paidInvoiceDatabaseHelper.itemPerPage"
+                          [(page)]="paidInvoiceDatabaseHelper.currentPage"
+                          [maxSize]="4"
+                          [boundaryLinks]="true"
+                        ></ngb-pagination>
                   </div>
                 </div>
-              </div> -->
+              </div>
                 </div>
                 <div
                   class="tab-pane fade"
@@ -1299,7 +908,7 @@
                   >
                     <div classs="">
                       <p class="mb-2 font-14">Total amount due</p>
-                      <h5 class="font-16 mb-0">INR 129,502.66</h5>
+                      <h5 class="font-16 mb-0">INR {{totalDuesAmount | number: '1.2-2'}}</h5>
                     </div>
                     <div classs="">
                       <p class="mb-2 font-14">Total amount scheduled</p>
@@ -1324,22 +933,13 @@
                           >
                             Issued date
                           </th>
-                          <th class="text-center" style="width: 10%">
-                            Invoice ID
-                          </th>
                           <th class="text-center" style="width: 10%">Type</th>
-                          <th class="text-center" style="width: 10%">
-                            Due date
-                          </th>
                           <th class="text-center" style="width: 10%">Status</th>
                           <th class="text-center" style="width: 10%">
                             Currency
                           </th>
                           <th class="text-center" style="width: 10%">
-                            Invoice amount
-                          </th>
-                          <th class="text-center" style="width: 10%">
-                            Balance Due
+                           Amount
                           </th>
                           <th
                             class="text-center stickyColThend"
@@ -1351,27 +951,18 @@
                       </thead>
 
                       <tbody class="">
-                        <tr class="" *ngFor="let item of [].constructor(5)">
+                        <tr class="" *ngFor="let dueInvoice of dueInvoices">
                           <td class="stickyColTd text-center">
                             <span class="teme-maneger mb-0 table-font-weight">
-                              27 Jul 2024</span
+                              {{dueInvoice.createdDate | date: 'dd MMM yyyy'}}</span
                             >
                           </td>
                           <td class="text-center">
                             <span class="teme-maneger mb-0 table-font-weight">
-                              SAL/23-24/SUB-127</span
+                              {{dueInvoice.invoiceType}}</span
                             >
                           </td>
-                          <td class="text-center">
-                            <span class="teme-maneger mb-0 table-font-weight">
-                              Invoice</span
-                            >
-                          </td>
-                          <td class="text-center">
-                            <span class="teme-maneger mb-0 table-font-weight">
-                              27 Jul 2024</span
-                            >
-                          </td>
+                         
                           <td class="text-center">
                             <div class="badge rounded-pill badge-soft-danger">
                               <span> Pending</span>
@@ -1384,18 +975,10 @@
                           </td>
 
                           <td class="text-center">
-                            <span class="teme-maneger mb-0"> 129,502.66</span>
+                            <span class="teme-maneger mb-0"> {{dueInvoice.payableAmount | number: '1.0-2'}}</span>
                           </td>
-                          <td>
-                            <span
-                              class="teme-maneger text-center mb-0 table-font-weight"
-                            >
-                              129,502.66</span
-                            >
-                          </td>
-
                           <td class="stickyColTdend text-center">
-                            <button type="button" class="btn btnPayNow">
+                            <button type="button" class="btn btnPayNow" (click)="selectedDuesInvoice(dueInvoice)">
                               Pay Now
                             </button>
                           </td>
@@ -1417,7 +1000,7 @@
             (click)="switchSubscriptionPlan()"
             ><i class="bi bi-chevron-left"></i
           ></span>
-          Lorem ipsum dolor sit amet consectetur.
+          Back
         </h5>
 
         <div class="mt-4 row">
@@ -1433,13 +1016,21 @@
                   </p>
                 </div>
 
+               
+               
+
                 <div>
                   <input
                     type="text"
                     class="form-control employee-count-form"
                     placeholder="Enter Employee Count"
                     name="employee-count"
-                    pattern="^[0-9]{10}$"
+                    pattern="^[1-9][0-9]{0,5}$"
+                    maxlength="6"
+                    [(ngModel)]="employeeCount"
+                    (keyup)="calculateEmployeeSize()"
+                    #employeeNumber="ngModel"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/^0+/, '').slice(0, 6);"
                     required
                   />
                 </div>
@@ -1486,45 +1077,48 @@
                   <div
                     class="p-3 plan-detail d-flex align-items-center justify-content-between p-4"
                   >
-                    <div>
-                      <h1 class="mb-3">Premium Plan</h1>
+                    <div class="col-md-9">
+                      <h1 class="mb-3">{{selectedSubscriptionPlan.name}} Plan</h1>
                       <p class="mb-0 text-black font-16">
                         Perfect for growing businesses that need <br />
                         advanced workforce management
                       </p>
                     </div>
 
-                    <div class="d-flex align-items-center gap-3">
-                      <h2>₹49</h2>
+                    <div class="d-flex align-items-center gap-3 col-md-3">
                       <div>
-                        <h3 class="mb-0">₹69</h3>
-                        <h5 class="font-18">month/per employee</h5>
+                        <h3 class="mb-0" *ngIf="selectedSubscriptionPlan.isYearly==1">₹{{selectedSubscriptionPlan.amount + selectedSubscriptionPlan.discountAmount}}</h3>
+                        <h2 class="mt-2">₹{{selectedSubscriptionPlan.amount}}</h2>
+                        <h5 class="font-14">month/per employee</h5>
 
-                        <p>
-                          <span><b>15% off</b></span> with annual contract
+                        <p *ngIf="selectedSubscriptionPlan.isYearly==1">
+                          <span><b>30% off</b></span> with annual contract
                         </p>
                       </div>
                     </div>
                   </div>
 
-                  <label
-                    class="mt-3 d-flex align-items-center justify-content-between p-3 annual-plan"
-                  >
-                    <div class="d-flex align-items-center gap-3">
+                  <label class="mt-3 d-flex align-items-center justify-content-between p-3 annual-plan"
+                    *ngFor="let typeByPlan of typeBySubscriptionPlans; let i=index;">
+                    <div class="d-flex align-items-center col-md-8 gap-3">
                       <div class="form-check">
                         <input
                           class="form-check-input"
                           type="radio"
                           name="exampleRadios"
-                          id="exampleRadios1"
-                          value="option1"
-                          checked
+                          id="exampleRadios{{i}}"
+                          [checked]="typeByPlan.id == selectedSubscriptionPlan.id"
+                          (change)="selectPlanPeriodically(typeByPlan)"
                         />
                       </div>
-                      <div>
-                        <h5 class="mb-1 font-18">Annual Plan</h5>
+                      <div *ngIf="typeByPlan.isMonthly==1">
+                        <h5 class="mb-1 font-18">Monthly Plan</h5>
+                        <p class="mb-0">lorem ipsum dolo sit</p>
+                      </div>
+                      <div  *ngIf="typeByPlan.isYearly==1">
+                        <h5 class="mb-1 font-18" >Annual Plan</h5>
                         <p class="mb-0">
-                          <span class="text-primary"><b>20% off</b> </span> On
+                          <span class="text-primary"><b>30% off</b> </span> On
                           Yearly Plan
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -1563,13 +1157,12 @@
                       </div>
                     </div>
 
-                    <div class="d-flex align-items-center gap-3">
+                    <div class="d-flex align-items-center gap-3 col-md-4">
                       <div class="d-flex align-items-center gap-2">
-                        <h4 class="mb-0 font-22">
-                          <span class="actual-price text-muted">125 </span>
-                          &nbsp;
-                          <span class="text-black">₹99</span>
-                        </h4>
+                        <div class="planPriceList mb-0">
+                          <h4 class="actual-price font-22 text-muted" *ngIf="typeByPlan.isYearly==1">₹{{typeByPlan.amount + typeByPlan.discountAmount}} </h4>
+                          <h4 class="text-black font-22">₹{{typeByPlan.amount}}</h4>
+                        </div>
                         <p class="text-muted mb-0">
                           Month Per<br />
                           Employee
@@ -1577,44 +1170,8 @@
                       </div>
                       <span class="separator"></span>
                       <h4 class="mb-0">
-                        <span class="text-primary">₹1180</span>
-                      </h4>
-                    </div>
-                  </label>
-                  <label
-                    class="mt-3 d-flex align-items-center justify-content-between p-3 annual-plan"
-                  >
-                    <div class="d-flex align-items-center gap-3">
-                      <div class="form-check">
-                        <input
-                          class="form-check-input"
-                          type="radio"
-                          name="exampleRadios"
-                          id="exampleRadios1"
-                          value="option1"
-                        />
-                      </div>
-                      <div>
-                        <h5 class="mb-1 font-18">MonthlyPlan</h5>
-                        <p class="mb-0">lorem ipsum dolo sit</p>
-                      </div>
-                    </div>
-
-                    <div class="d-flex align-items-center gap-3">
-                      <div class="d-flex align-items-center gap-2">
-                        <h4 class="mb-0 font-22">
-                          <span class="text-black"> ₹125</span>
-                        </h4>
-                        <p class="text-muted mb-0">
-                          Month Per<br />
-                          Employee
-                        </p>
-                      </div>
-
-                      <span class="separator"></span>
-
-                      <h4 class="mb-0">
-                        <span class="text-primary">₹15,000</span>
+                        <span class="text-primary" *ngIf="typeByPlan.isYearly==1">₹{{annualAmount}}</span>
+                        <span class="text-primary" *ngIf="typeByPlan.isMonthly==1">₹{{monthlyAmount}}</span>
                       </h4>
                     </div>
                   </label>
@@ -1624,88 +1181,84 @@
                       <input
                         type="checkbox"
                         id="termsAndConditions"
-                        required
                         class="position-relative check-box"
+                        [checked]="isGstAvailable"
+                        (change)="checkedGst()"
                       />
                       <label
                         class="form-check-label font-16"
                         for="termsAndConditions"
-                      >
+                        (change)="checkedGst()">
                         Do you want GST invoice?
                       </label>
                     </div>
+                    <div *ngIf="isGstAvailable">
 
-                    <div
-                      class="gst-number-box d-flex align-items-center justify-content-between mt-3"
-                    >
-                      <div>
-                        <h5 class="font-18 mb-1">GST Number</h5>
-                        <p class="mb-0 font-14">
-                          Please enter a valid 12-digit GST number.
-                        </p>
+                      <div class="gst-number-box d-flex align-items-center justify-content-between mt-3"
+                       >
+                        <div>
+                          <h5 class="font-18 mb-1">GST Number</h5>
+                          <p class="mb-0 font-14">
+                            Please enter a valid 15-digit GST number.
+                          </p>
+                        </div>
+                        <div>
+                          <input type="text" class="form-control employee-count-form text-center" id="gst" name="gst" minlength="15" 
+                          [ngClass]="{'verified-gst':isVerified}" maxlength="15"  placeholder="Enter GST Number" [(ngModel)]="gstNumber" #gstnumber="ngModel"
+                          oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/g,'').replace(/(\..*)\./g, '$1');" (keyup)="checkGst()">
+                        </div>
                       </div>
-                      <div>
-                        <input
-                          type="text"
-                          class="form-control employee-count-form text-center verified-gst"
-                          placeholder="Enter GST Number"
-                          name="employee-count"
-                          pattern="^[0-9]{10}$"
-                          required
-                        />
-                      </div>
-                    </div>
-
-                    <div
-                      class="veified-gst-address p-3 d-flex align-items-center justify-content-between mt-3 pb-4"
-                    >
-                      <div style="width: 70%">
-                        <p class="mb-1 font-16">Name</p>
-                        <h5 class="mb-3 font-18">Barbeque Nation - M3M IFC</h5>
-
-                        <p class="mb-1 font-16">Address</p>
-                        <h5 class="mb-0 font-18 gst-address">
-                          2nd Floor, M3M International Financial Center,
-                          Badshahpur, Sector 66, Gurugram, Haryana 122002
-                        </h5>
-                      </div>
-
-                      <div style="width: 30%" class="text-end">
-                        <span class="verifed-user mb-0">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="18"
-                            height="18"
-                            viewBox="0 0 18 18"
-                            fill="none"
-                          >
-                            <g clip-path="url(#clip0_4063_92)">
-                              <path
-                                fill-rule="evenodd"
-                                clip-rule="evenodd"
-                                d="M8.59322 0.410156C3.85352 0.410156 0 4.26368 0 9.00337C0 13.7431 3.85352 17.5966 8.59322 17.5966C13.3329 17.5966 17.1864 13.7431 17.1864 9.00337C17.1864 4.26368 13.3329 0.410156 8.59322 0.410156Z"
-                                fill="#4BAE4F"
-                              />
-                              <path
-                                fill-rule="evenodd"
-                                clip-rule="evenodd"
-                                d="M12.7496 6.10001C12.9577 6.30813 12.9577 6.65051 12.7496 6.85863L7.71448 11.8937C7.61042 11.9978 7.47279 12.0515 7.33517 12.0515C7.19754 12.0515 7.05992 11.9978 6.95586 11.8937L4.43831 9.37618C4.2302 9.16806 4.2302 8.82567 4.43831 8.61756C4.64643 8.40944 4.98882 8.40944 5.19693 8.61756L7.33517 10.7558L11.9909 6.10001C12.1991 5.88854 12.5414 5.88854 12.7496 6.10001Z"
-                                fill="white"
-                              />
-                            </g>
-                            <defs>
-                              <clipPath id="clip0_4063_92">
-                                <rect
-                                  width="17.1864"
-                                  height="17.1864"
-                                  fill="white"
-                                  transform="translate(0 0.40625)"
+  
+                      <div
+                        class="veified-gst-address p-3 d-flex align-items-center justify-content-between mt-3 pb-4"
+                        *ngIf="isVerified">
+                        <div style="width: 70%">
+                          <p class="mb-1 font-16">Name</p>
+                          <h5 class="mb-3 font-18">{{gstResponse.tradeName}}</h5>
+  
+                          <p class="mb-1 font-16">Address</p>
+                          <h5 class="mb-0 font-18 gst-address">
+                           {{gstResponse.fullAddress}}
+                          </h5>
+                        </div>
+  
+                        <div style="width: 30%" class="text-end">
+                          <span class="verifed-user mb-0">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="18"
+                              height="18"
+                              viewBox="0 0 18 18"
+                              fill="none"
+                            >
+                              <g clip-path="url(#clip0_4063_92)">
+                                <path
+                                  fill-rule="evenodd"
+                                  clip-rule="evenodd"
+                                  d="M8.59322 0.410156C3.85352 0.410156 0 4.26368 0 9.00337C0 13.7431 3.85352 17.5966 8.59322 17.5966C13.3329 17.5966 17.1864 13.7431 17.1864 9.00337C17.1864 4.26368 13.3329 0.410156 8.59322 0.410156Z"
+                                  fill="#4BAE4F"
                                 />
-                              </clipPath>
-                            </defs>
-                          </svg>
-                          Verified Users</span
-                        >
+                                <path
+                                  fill-rule="evenodd"
+                                  clip-rule="evenodd"
+                                  d="M12.7496 6.10001C12.9577 6.30813 12.9577 6.65051 12.7496 6.85863L7.71448 11.8937C7.61042 11.9978 7.47279 12.0515 7.33517 12.0515C7.19754 12.0515 7.05992 11.9978 6.95586 11.8937L4.43831 9.37618C4.2302 9.16806 4.2302 8.82567 4.43831 8.61756C4.64643 8.40944 4.98882 8.40944 5.19693 8.61756L7.33517 10.7558L11.9909 6.10001C12.1991 5.88854 12.5414 5.88854 12.7496 6.10001Z"
+                                  fill="white"
+                                />
+                              </g>
+                              <defs>
+                                <clipPath id="clip0_4063_92">
+                                  <rect
+                                    width="17.1864"
+                                    height="17.1864"
+                                    fill="white"
+                                    transform="translate(0 0.40625)"
+                                  />
+                                </clipPath>
+                              </defs>
+                            </svg>
+                            Verified Users</span
+                          >
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1719,7 +1272,7 @@
                 class="d-flex align-items-center justify-content-between p-3 border-bottom"
               >
                 <h5 class="mb-0 font-20">Order Recap</h5>
-                <button class="btn contactActionBtn bg-white">
+                <button class="btn contactActionBtn bg-white" *ngIf="!isCouponVerified && !Constant.EMPTY_STRINGS.includes(employeeCount+'')" (click)="showCoupon=true;">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
@@ -1753,62 +1306,74 @@
                   </svg>
                   Apply Coupons
                 </button>
+                <button class="btn contactActionBtn bg-white" *ngIf="isCouponVerified" >
+                  {{couponCode}}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16" (click)="removeCoupon()">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                  </svg>
+             
+                </button>
               </div>
               <div class="p-3">
-                <div class="mb-2 position-relative">
+                <div class="mb-2 position-relative" *ngIf="showCoupon && !isCouponVerified">
                   <input
                     class="form-control"
                     type="text"
-                    placeholder="Add Coupon code "
+                    placeholder="Apply Coupon code "
+                    name="couponCode"
+                    [(ngModel)]="couponCode"
+                    (keyup)="couponErrorMessage=''"
+                    (keydown.enter)="applyCoupon()"
                   />
-                  <button class="btn btn-outline-krenai">Apply</button>
+                  <button class="btn btn-outline-krenai" [disabled]="couponCode.length==0" (click)="applyCoupon()">Apply</button>
                 </div>
-
+                <div *ngIf="couponErrorMessage.length>0">
+                  <span>{{couponErrorMessage}}</span>
+                </div>
                 <div
                   class="d-flex align-items-center justify-content-between pt-2 pb-2"
                 >
                   <h5 class="font-16">No of Employee</h5>
-                  <h5 class="font-16">37</h5>
+                  <h5 class="font-16">{{employeeCount || '0'}}</h5>
                 </div>
                 <div
                   class="d-flex align-items-center justify-content-between pt-2 pb-2"
                 >
                   <h5 class="font-16">Amount</h5>
-                  <h5 class="font-16">3</h5>
+                  <h5 class="font-16">₹{{subAmount | number : '1.2-2'}}</h5>
                 </div>
+               
+                <div
+                  class="d-flex align-items-center justify-content-between pt-2 pb-2"
+                  *ngIf="couponDiscount>0 && isCouponVerified">
+                  <h5 class="font-16">Coupon Discount</h5>
+                  <h5 class="font-16">- ₹{{couponDiscount}}</h5>
+                </div>
+                <!-- <div
+                class="d-flex align-items-center justify-content-between pt-2 pb-2"
+              >
+                <h5 class="font-16">Tax</h5>
+                <h5 class="font-16">18%</h5>
+              </div> -->
                 <div
                   class="d-flex align-items-center justify-content-between pt-2 pb-2"
                 >
-                  <h5 class="font-16">Tax</h5>
-                  <h5 class="font-16">3</h5>
+                  <h5 class="font-16">Tax Amount (18%)</h5>
+                  <h5 class="font-16">₹{{taxAmount | number : '1.2-2' }}</h5>
                 </div>
-                <div
-                  class="d-flex align-items-center justify-content-between pt-2 pb-2"
-                >
-                  <h5 class="font-16">Coupon</h5>
-                  <h5 class="font-16">34%off</h5>
-                </div>
-                <div
-                  class="d-flex align-items-center justify-content-between pt-2 pb-2"
-                >
-                  <h5 class="font-16">Tax Amount</h5>
-                  <h5 class="font-16">₹1249</h5>
-                </div>
-
                 <div
                   class="d-flex align-items-center justify-content-between pt-3 pb-2 border-top"
                 >
                   <h5 class="text-primary font-16">Total Amount</h5>
-                  <h5 class="text-primary font-16">₹1249</h5>
+                  <h5 class="text-primary font-16">₹{{payableAmount | number : '1.2-2'}}</h5>
                 </div>
               </div>
             </div>
             <button
-              class="btn w-100 text-white proceed-payment mt-3"
-              data-bs-toggle="modal"
-              data-bs-target="#munal-upload"
-            >
-              Proceed To Payment
+              class="btn w-100 text-white proceed-payment mt-3" [disabled]="payableAmount == undefined || payableAmount == null || payableAmount == 0 || isUnderProcess"
+            (click)="activatePlan()">
+              Proceed To Payment <span *ngIf="isUnderProcess" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             </button>
           </div>
         </div>
@@ -1820,14 +1385,17 @@
 <button
   class="d-none"
   data-bs-toggle="modal"
-  data-bs-target="#munal-upload"
+  data-bs-target="#success-payment"
+  #sucessPaymentModalButton
+
 ></button>
 <div
   class="modal fade"
-  id="munal-upload"
+  id="success-payment"
   tabindex="-1"
   role="dialog"
   aria-hidden="true"
+  data-bs-backdrop="static" data-bs-keyboard="false"
 >
   <div
     class="modal-dialog modal-dialog-centered"
@@ -1835,159 +1403,161 @@
     role="document"
   >
     <div class="modal-content">
-      <div class="modal-body p-0">
-        <div
-          class="payment-confirmed p-5 d-flex align-items-center justify-content-center flex-column"
-        >
+      <div class="modal-body p-0" *ngIf="isUnderProcess"> 
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+
+      </div>
+      <div *ngIf="!isUnderProcess">
+        <div class="modal-body p-0" >
           <div
-            class="d-flex align-items-center justify-content-end pt-2"
-            style="padding-right: 10px"
+            class="payment-confirmed p-5 d-flex align-items-center justify-content-center flex-column"
           >
-            <button
-              type="button"
-              class="close-btn"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-              #closeButton
+            <div
+              class="d-flex align-items-center justify-content-end pt-2"
+              style="padding-right: 10px"
+            >
+              <button
+                type="button"
+                class="close-btn"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                #closeButton
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="30"
+                  height="30"
+                  viewBox="0 0 30 30"
+                  fill="none"
+                >
+                  <mask
+                    id="mask0_3881_6289"
+                    style="mask-type: alpha"
+                    maskUnits="userSpaceOnUse"
+                    x="0"
+                    y="0"
+                    width="30"
+                    height="30"
+                  >
+                    <rect width="30" height="30" fill="#D9D9D9" />
+                  </mask>
+                  <g mask="url(#mask0_3881_6289)">
+                    <path
+                      d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                      fill="black"
+                    />
+                  </g>
+                </svg>
+              </button>
+            </div>
+  
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="80"
+              height="80"
+              viewBox="0 0 102 101"
+              fill="none"
+            >
+              <g clip-path="url(#clip0_3826_7181)">
+                <path
+                  d="M50.5215 0C22.6321 0 0.0214844 22.6027 0.0214844 50.5C0.0214844 78.3973 22.6321 101 50.5215 101C78.4109 101 101.021 78.3835 101.021 50.5C101.021 22.6165 78.4109 0 50.5215 0Z"
+                  fill="#2AD352"
+                />
+                <path
+                  d="M0.0215313 50.5001C0.0101314 58.8473 2.07718 67.066 6.03616 74.4146C11.08 75.8955 16.3101 76.6455 21.5669 76.6417C51.9261 76.6417 76.5369 52.0308 76.5369 21.6717C76.5415 16.3316 75.7679 11.0193 74.2408 5.90226C66.9403 2.0136 58.7931 -0.0137047 50.5215 6.97256e-05C22.6321 6.97256e-05 0.0215313 22.6028 0.0215313 50.5001Z"
+                  fill="#74DA7F"
+                />
+                <path
+                  d="M79.3225 42.1307L48.9692 74.0068C48.142 74.8746 47.1482 75.5665 46.0472 76.041C44.9463 76.5156 43.7609 76.763 42.562 76.7686H42.5226C41.3304 76.7689 40.1503 76.5296 39.0524 76.0651C37.9544 75.6005 36.961 74.92 36.1312 74.064L20.0244 57.474C19.1922 56.6386 18.5342 55.6463 18.0886 54.5546C17.643 53.4629 17.4186 52.2935 17.4285 51.1144C17.4385 49.9353 17.6825 48.7699 18.1465 47.6858C18.6104 46.6018 19.285 45.6207 20.1312 44.7994C20.9774 43.9782 21.9782 43.3332 23.0757 42.9019C24.1731 42.4706 25.3453 42.2616 26.5242 42.2869C27.7031 42.3123 28.8652 42.5715 29.9431 43.0496C31.021 43.5277 31.9932 44.2151 32.8033 45.0719L42.4595 55.018L66.4253 29.8509C67.2281 28.99 68.1936 28.2969 69.266 27.8116C70.3385 27.3263 71.4964 27.0584 72.673 27.0235C73.8496 26.9885 75.0215 27.1872 76.1208 27.608C77.2201 28.0288 78.2251 28.6635 79.0776 29.4751C79.9301 30.2868 80.6132 31.2595 81.0874 32.3369C81.5616 33.4142 81.8175 34.5749 81.8403 35.7518C81.8631 36.9287 81.6523 38.0984 81.2201 39.1934C80.7879 40.2883 80.143 41.2866 79.3225 42.1307Z"
+                  fill="white"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_3826_7181">
+                  <rect
+                    width="101"
+                    height="101"
+                    fill="white"
+                    transform="translate(0.0214844)"
+                  />
+                </clipPath>
+              </defs>
+            </svg>
+  
+            <h5 class="mb-0 mt-4">Payment Confirmed</h5>
+            <p class="mb-0 mt-2">Your payment has been processed successfully.</p>
+          </div>
+  
+          <div class="p-4">
+            <h5 class="mb-0 font-20 border-bottom pb-3 mb-2">Plan details</h5>
+  
+            <div
+              class="d-flex align-items-center justify-content-between pt-2 pb-2"
+            >
+              <h5 class="mb-0 font-16">Employee</h5>
+              <h5 class="mb-0 font-16">{{invoiceDetail.employeeQuota}}</h5>
+            </div>
+            <div
+              class="d-flex align-items-center justify-content-between pt-2 pb-2"
+            >
+              <h5 class="mb-0 font-16">Plan Opted</h5>
+              <h5 class="mb-0 font-16">{{invoiceDetail.planName}}/ {{invoiceDetail.periodically | titlecase}}</h5>
+            </div>
+            <div
+              class="d-flex align-items-center justify-content-between pt-2 pb-2"
+            >
+              <h5 class="mb-0 font-16">Amount</h5>
+              <h5 class="mb-0 font-16">₹{{invoiceDetail.payableAmount}}</h5>
+            </div>   
+          </div>
+        </div>
+        <div
+          class="modal-footer p-3 d-flex align-items-center justify-content-between"
+          style="background-color: #f8f8f8"
+        >
+          <div class="d-flex align-items-center gap-3">
+            <span
+              class="download-invoice-icon d-flex align-items-center justify-content-center bg-white"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="30"
-                height="30"
-                viewBox="0 0 30 30"
+                width="28"
+                height="27"
+                viewBox="0 0 28 27"
                 fill="none"
               >
-                <mask
-                  id="mask0_3881_6289"
-                  style="mask-type: alpha"
-                  maskUnits="userSpaceOnUse"
-                  x="0"
-                  y="0"
-                  width="30"
-                  height="30"
-                >
-                  <rect width="30" height="30" fill="#D9D9D9" />
-                </mask>
-                <g mask="url(#mask0_3881_6289)">
-                  <path
-                    d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
-                    fill="black"
-                  />
-                </g>
-              </svg>
-            </button>
-          </div>
-
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="80"
-            height="80"
-            viewBox="0 0 102 101"
-            fill="none"
-          >
-            <g clip-path="url(#clip0_3826_7181)">
-              <path
-                d="M50.5215 0C22.6321 0 0.0214844 22.6027 0.0214844 50.5C0.0214844 78.3973 22.6321 101 50.5215 101C78.4109 101 101.021 78.3835 101.021 50.5C101.021 22.6165 78.4109 0 50.5215 0Z"
-                fill="#2AD352"
-              />
-              <path
-                d="M0.0215313 50.5001C0.0101314 58.8473 2.07718 67.066 6.03616 74.4146C11.08 75.8955 16.3101 76.6455 21.5669 76.6417C51.9261 76.6417 76.5369 52.0308 76.5369 21.6717C76.5415 16.3316 75.7679 11.0193 74.2408 5.90226C66.9403 2.0136 58.7931 -0.0137047 50.5215 6.97256e-05C22.6321 6.97256e-05 0.0215313 22.6028 0.0215313 50.5001Z"
-                fill="#74DA7F"
-              />
-              <path
-                d="M79.3225 42.1307L48.9692 74.0068C48.142 74.8746 47.1482 75.5665 46.0472 76.041C44.9463 76.5156 43.7609 76.763 42.562 76.7686H42.5226C41.3304 76.7689 40.1503 76.5296 39.0524 76.0651C37.9544 75.6005 36.961 74.92 36.1312 74.064L20.0244 57.474C19.1922 56.6386 18.5342 55.6463 18.0886 54.5546C17.643 53.4629 17.4186 52.2935 17.4285 51.1144C17.4385 49.9353 17.6825 48.7699 18.1465 47.6858C18.6104 46.6018 19.285 45.6207 20.1312 44.7994C20.9774 43.9782 21.9782 43.3332 23.0757 42.9019C24.1731 42.4706 25.3453 42.2616 26.5242 42.2869C27.7031 42.3123 28.8652 42.5715 29.9431 43.0496C31.021 43.5277 31.9932 44.2151 32.8033 45.0719L42.4595 55.018L66.4253 29.8509C67.2281 28.99 68.1936 28.2969 69.266 27.8116C70.3385 27.3263 71.4964 27.0584 72.673 27.0235C73.8496 26.9885 75.0215 27.1872 76.1208 27.608C77.2201 28.0288 78.2251 28.6635 79.0776 29.4751C79.9301 30.2868 80.6132 31.2595 81.0874 32.3369C81.5616 33.4142 81.8175 34.5749 81.8403 35.7518C81.8631 36.9287 81.6523 38.0984 81.2201 39.1934C80.7879 40.2883 80.143 41.2866 79.3225 42.1307Z"
-                fill="white"
-              />
-            </g>
-            <defs>
-              <clipPath id="clip0_3826_7181">
-                <rect
-                  width="101"
-                  height="101"
-                  fill="white"
-                  transform="translate(0.0214844)"
+                <path
+                  d="M21.896 1.35938H6.44146C6.17695 1.36242 5.92232 1.46036 5.72393 1.63535C6.51116 1.91232 7.20379 2.40671 7.72153 3.06121C8.23928 3.71572 8.56095 4.50356 8.64926 5.3334C8.66613 5.4801 8.66613 5.62826 8.64926 5.77496V24.5412C8.64873 24.7523 8.70877 24.9592 8.82226 25.1372C8.93574 25.3153 9.0979 25.4571 9.28952 25.5457C9.48158 25.6342 9.695 25.6656 9.90439 25.6362C10.1138 25.6068 10.3103 25.518 10.4707 25.3802L13.6168 22.6866L16.7629 25.3802C16.9628 25.5512 17.2173 25.6452 17.4804 25.6452C17.7435 25.6452 17.998 25.5512 18.198 25.3802L21.3441 22.6866L24.4902 25.3802C24.6901 25.5512 24.9446 25.6451 25.2077 25.6451C25.3674 25.644 25.5252 25.6101 25.6713 25.5457C25.863 25.4571 26.0251 25.3153 26.1386 25.1372C26.2521 24.9592 26.3121 24.7523 26.3116 24.5412V5.77496C26.3116 4.60387 25.8464 3.48075 25.0183 2.65267C24.1902 1.82459 23.0671 1.35938 21.896 1.35938ZM20.7921 16.8139H14.1687C13.876 16.8139 13.5952 16.6976 13.3882 16.4906C13.1811 16.2836 13.0648 16.0028 13.0648 15.71C13.0648 15.4173 13.1811 15.1365 13.3882 14.9295C13.5952 14.7224 13.876 14.6061 14.1687 14.6061H20.7921C21.0849 14.6061 21.3657 14.7224 21.5727 14.9295C21.7797 15.1365 21.896 15.4173 21.896 15.71C21.896 16.0028 21.7797 16.2836 21.5727 16.4906C21.3657 16.6976 21.0849 16.8139 20.7921 16.8139ZM20.7921 12.3983H14.1687C13.876 12.3983 13.5952 12.282 13.3882 12.075C13.1811 11.868 13.0648 11.5872 13.0648 11.2944C13.0648 11.0017 13.1811 10.7209 13.3882 10.5139C13.5952 10.3068 13.876 10.1905 14.1687 10.1905H20.7921C21.0849 10.1905 21.3657 10.3068 21.5727 10.5139C21.7797 10.7209 21.896 11.0017 21.896 11.2944C21.896 11.5872 21.7797 11.868 21.5727 12.075C21.3657 12.282 21.0849 12.3983 20.7921 12.3983ZM20.7921 7.98275H14.1687C13.876 7.98275 13.5952 7.86645 13.3882 7.65943C13.1811 7.45241 13.0648 7.17163 13.0648 6.87886C13.0648 6.58608 13.1811 6.3053 13.3882 6.09828C13.5952 5.89126 13.876 5.77496 14.1687 5.77496H20.7921C21.0849 5.77496 21.3657 5.89126 21.5727 6.09828C21.7797 6.3053 21.896 6.58608 21.896 6.87886C21.896 7.17163 21.7797 7.45241 21.5727 7.65943C21.3657 7.86645 21.0849 7.98275 20.7921 7.98275ZM6.44146 5.77496V14.6061H3.12978C2.837 14.6061 2.55622 14.4898 2.3492 14.2828C2.14218 14.0758 2.02588 13.795 2.02588 13.5022V5.77496C2.02588 5.62041 2.02588 5.47691 2.02588 5.3334C2.08443 4.74786 2.3732 4.20956 2.82864 3.83692C3.28409 3.46428 3.86891 3.28783 4.45445 3.34639C5.03999 3.40494 5.57829 3.6937 5.95093 4.14915C6.32357 4.6046 6.50002 5.18942 6.44146 5.77496Z"
+                  fill="black"
                 />
-              </clipPath>
-            </defs>
-          </svg>
-
-          <h5 class="mb-0 mt-4">Payment Confirmed</h5>
-          <p class="mb-0 mt-2">Your payment has been processed successfully.</p>
-        </div>
-
-        <div class="p-4">
-          <h5 class="mb-0 font-20 border-bottom pb-3 mb-2">Plan details</h5>
-
-          <div
-            class="d-flex align-items-center justify-content-between pt-2 pb-2"
-          >
-            <h5 class="mb-0 font-16">Employee</h5>
-            <h5 class="mb-0 font-16">123</h5>
-          </div>
-          <div
-            class="d-flex align-items-center justify-content-between pt-2 pb-2"
-          >
-            <h5 class="mb-0 font-16">Plan Opted</h5>
-            <h5 class="mb-0 font-16">Premium/ Yearly</h5>
-          </div>
-          <div
-            class="d-flex align-items-center justify-content-between pt-2 pb-2"
-          >
-            <h5 class="mb-0 font-16">Amount</h5>
-            <h5 class="mb-0 font-16">123</h5>
-          </div>
-          <div
-            class="d-flex align-items-center justify-content-between pt-2 pb-2"
-          >
-            <h5 class="mb-0 font-16">Tax Amount</h5>
-            <h5 class="mb-0 font-16">₹6.2</h5>
-          </div>
-        </div>
-      </div>
-      <div
-        class="modal-footer p-3 d-flex align-items-center justify-content-between"
-        style="background-color: #f8f8f8"
-      >
-        <div class="d-flex align-items-center gap-3">
-          <span
-            class="download-invoice-icon d-flex align-items-center justify-content-center bg-white"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="28"
-              height="27"
-              viewBox="0 0 28 27"
-              fill="none"
-            >
-              <path
-                d="M21.896 1.35938H6.44146C6.17695 1.36242 5.92232 1.46036 5.72393 1.63535C6.51116 1.91232 7.20379 2.40671 7.72153 3.06121C8.23928 3.71572 8.56095 4.50356 8.64926 5.3334C8.66613 5.4801 8.66613 5.62826 8.64926 5.77496V24.5412C8.64873 24.7523 8.70877 24.9592 8.82226 25.1372C8.93574 25.3153 9.0979 25.4571 9.28952 25.5457C9.48158 25.6342 9.695 25.6656 9.90439 25.6362C10.1138 25.6068 10.3103 25.518 10.4707 25.3802L13.6168 22.6866L16.7629 25.3802C16.9628 25.5512 17.2173 25.6452 17.4804 25.6452C17.7435 25.6452 17.998 25.5512 18.198 25.3802L21.3441 22.6866L24.4902 25.3802C24.6901 25.5512 24.9446 25.6451 25.2077 25.6451C25.3674 25.644 25.5252 25.6101 25.6713 25.5457C25.863 25.4571 26.0251 25.3153 26.1386 25.1372C26.2521 24.9592 26.3121 24.7523 26.3116 24.5412V5.77496C26.3116 4.60387 25.8464 3.48075 25.0183 2.65267C24.1902 1.82459 23.0671 1.35938 21.896 1.35938ZM20.7921 16.8139H14.1687C13.876 16.8139 13.5952 16.6976 13.3882 16.4906C13.1811 16.2836 13.0648 16.0028 13.0648 15.71C13.0648 15.4173 13.1811 15.1365 13.3882 14.9295C13.5952 14.7224 13.876 14.6061 14.1687 14.6061H20.7921C21.0849 14.6061 21.3657 14.7224 21.5727 14.9295C21.7797 15.1365 21.896 15.4173 21.896 15.71C21.896 16.0028 21.7797 16.2836 21.5727 16.4906C21.3657 16.6976 21.0849 16.8139 20.7921 16.8139ZM20.7921 12.3983H14.1687C13.876 12.3983 13.5952 12.282 13.3882 12.075C13.1811 11.868 13.0648 11.5872 13.0648 11.2944C13.0648 11.0017 13.1811 10.7209 13.3882 10.5139C13.5952 10.3068 13.876 10.1905 14.1687 10.1905H20.7921C21.0849 10.1905 21.3657 10.3068 21.5727 10.5139C21.7797 10.7209 21.896 11.0017 21.896 11.2944C21.896 11.5872 21.7797 11.868 21.5727 12.075C21.3657 12.282 21.0849 12.3983 20.7921 12.3983ZM20.7921 7.98275H14.1687C13.876 7.98275 13.5952 7.86645 13.3882 7.65943C13.1811 7.45241 13.0648 7.17163 13.0648 6.87886C13.0648 6.58608 13.1811 6.3053 13.3882 6.09828C13.5952 5.89126 13.876 5.77496 14.1687 5.77496H20.7921C21.0849 5.77496 21.3657 5.89126 21.5727 6.09828C21.7797 6.3053 21.896 6.58608 21.896 6.87886C21.896 7.17163 21.7797 7.45241 21.5727 7.65943C21.3657 7.86645 21.0849 7.98275 20.7921 7.98275ZM6.44146 5.77496V14.6061H3.12978C2.837 14.6061 2.55622 14.4898 2.3492 14.2828C2.14218 14.0758 2.02588 13.795 2.02588 13.5022V5.77496C2.02588 5.62041 2.02588 5.47691 2.02588 5.3334C2.08443 4.74786 2.3732 4.20956 2.82864 3.83692C3.28409 3.46428 3.86891 3.28783 4.45445 3.34639C5.03999 3.40494 5.57829 3.6937 5.95093 4.14915C6.32357 4.6046 6.50002 5.18942 6.44146 5.77496Z"
-                fill="black"
-              />
-            </svg>
-          </span>
-          <div>
-            <h5 class="mb-1 font-16 text-black">Download Invoice</h5>
-            <div class="d-flex align-items-center gap-3">
-              <p class="mb-0 font-14">Perfect for growing businesses</p>
-              <button class="p-0 btn font-16 text-primary download-btn">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="15"
-                  height="15"
-                  viewBox="0 0 15 15"
-                  fill="none"
-                >
-                  <path
-                    d="M7.49825 11.2474L2.81184 6.56097L4.12404 5.20191L6.56097 7.63884V0H8.43553V7.63884L10.8725 5.20191L12.1847 6.56097L7.49825 11.2474ZM1.87456 14.9965C1.35906 14.9965 0.917755 14.813 0.550653 14.4459C0.183551 14.0787 0 13.6374 0 13.1219V10.3101H1.87456V13.1219H13.1219V10.3101H14.9965V13.1219C14.9965 13.6374 14.813 14.0787 14.4459 14.4459C14.0787 14.813 13.6374 14.9965 13.1219 14.9965H1.87456Z"
-                    fill="#6666F2"
-                  />
-                </svg>
-                Download
-              </button>
+              </svg>
+            </span>
+            <div>
+              <h5 class="mb-1 font-16 text-black">Download Invoice</h5>
+              <div class="d-flex align-items-center gap-3">
+                <p class="mb-0 font-14">Perfect for growing businesses</p>
+                <button class="p-0 btn font-16 text-primary download-btn">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="15"
+                    height="15"
+                    viewBox="0 0 15 15"
+                    fill="none"
+                  >
+                    <path
+                      d="M7.49825 11.2474L2.81184 6.56097L4.12404 5.20191L6.56097 7.63884V0H8.43553V7.63884L10.8725 5.20191L12.1847 6.56097L7.49825 11.2474ZM1.87456 14.9965C1.35906 14.9965 0.917755 14.813 0.550653 14.4459C0.183551 14.0787 0 13.6374 0 13.1219V10.3101H1.87456V13.1219H13.1219V10.3101H14.9965V13.1219C14.9965 13.6374 14.813 14.0787 14.4459 14.4459C14.0787 14.813 13.6374 14.9965 13.1219 14.9965H1.87456Z"
+                      fill="#6666F2"
+                    />
+                  </svg>
+                  Download
+                </button>
+              </div>
             </div>
           </div>
+          <button class="btn payment-done"  data-bs-dismiss="modal" (click)="switchSubscriptionPlan()">Done</button>
         </div>
-        <button class="btn payment-done">Done</button>
       </div>
     </div>
   </div>
@@ -1999,6 +1569,7 @@
   class="d-none"
   data-bs-toggle="modal"
   data-bs-target="#downgrade-plan"
+  #downgradeModalButton
 ></button>
 <div
   class="modal fade"
@@ -2110,8 +1681,10 @@
             id="termsAndConditions"
             required
             class="position-relative check-box"
+            [checked]="validateDowngrade"
+            (change)="validateDowngradeConfirm()"
           />
-          <label class="form-check-label iHaveRead" for="termsAndConditions">
+          <label class="form-check-label iHaveRead" for="termsAndConditions" (change)="validateDowngradeConfirm()">
             I have validated the information and will proceed with it .
           </label>
         </div>
@@ -2126,7 +1699,7 @@
             Cancel
           </button>
 
-          <button class="btn mannualSubmit">Confirm</button>
+          <button class="btn mannualSubmit" data-bs-dismiss="modal" [disabled]="!validateDowngrade" (click)="switchSubscriptionPlan()">Confirm</button>
         </div>
       </div>
     </div>
@@ -2134,3 +1707,26 @@
 </div>
 
 <!-- downgrade modal end -->
+
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#loaderModal" #loaderModalButton>
+Dues Paid Loader
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="loaderModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Numquam omnis possimus placeat vitae aspernatur dolores at voluptate sit, adipisci quas fugit dolor dicta reprehenderit earum excepturi, rem, recusandae aliquam delectus!
+      </div>
+      
+    </div>
+  </div>
+</div>
