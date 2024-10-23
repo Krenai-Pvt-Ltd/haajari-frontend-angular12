@@ -1690,9 +1690,7 @@
                                   Update leave Category
                                 </button>
 
-                                <!-- <button [disabled]="!form.valid" *ngIf="!editToggle" -->
-                                  <!-- [disabled]="!form.valid || deleteCategoryToggle" -->
-                                <button [disabled]="!form.valid" *ngIf="!editToggle"
+                                <!-- <button [disabled]="!form.valid" *ngIf="!editToggle"
                                   class="p-0 btn text-primary leave-category" (click)="addFormRow(i)">
                                   <i class="bi bi-plus-lg"></i>
                                   {{
@@ -1700,6 +1698,15 @@
                                   ? "Save leave Category"
                                   : "Add More Category"
                                   }}
+                                </button> -->
+
+                                <button [disabled]="!form.valid" *ngIf="!editToggle"
+                                  class="p-0 btn text-primary leave-category" (click)="addFormRow(i)">
+                                  <i class="bi bi-plus-lg"></i>
+                                  {{ !addFormToggle 
+                                    ? 'Save leave Category' 
+                                    : (form.valid ? 'Save leave Category' : 'Add More Category') 
+                                }}
                                 </button>
                               </div>
 
@@ -1778,9 +1785,15 @@
                                           {{ category.leaveCount }}</span>
                                       </td>
                                       <td class="text-center">
-                                        <span class="teme-maneger mb-0 table-font-weight">
+                                        <span *ngIf="category.unusedLeaveName == 'Lapse'" class="teme-maneger mb-0 table-font-weight">
+                                          {{ category.unusedLeaveName }} - {{ category.leaveCount }}
+                                          <!-- {{ category.unusedLeaveName }} - {{category.unusedLeaveActionCount != "" ?  category.unusedLeaveActionCount : '0'}} -->
+                                        </span>
+
+                                        <span *ngIf="category.unusedLeaveName != 'Lapse'" class="teme-maneger mb-0 table-font-weight">
                                           {{ category.unusedLeaveName }} - {{category.unusedLeaveActionCount != "" ?  category.unusedLeaveActionCount : '0'}}
                                         </span>
+
                                       </td>
 
                                       <!-- <td class="text-center">
@@ -1943,7 +1956,32 @@
                                 </tr>
                               </thead>
 
-                              <tbody>
+                              <tbody *ngIf="staffs.length == 0">
+                                <tr>
+                                  <td colspan="9">
+                                    <!-- <div class="errorboxinner" style="display: flex; align-items: center; gap: 10px">
+                                      <div class="errorboxplaceholder">
+                                        <img src="assets/images/empty-box.svg" style="width: 50px"/>
+                                      </div>
+                                      <div class="">
+                                        <h6 style="font-size: 13px; margin-bottom: 0px">
+                                          No Data Found
+                                        </h6>
+                                      </div>
+                                    </div> -->
+                                    <div class="col-md-12">
+                                      <div class="d-flex justify-content-center">
+                                          <img src="assets/images/empty-box.svg" alt="" height="50%" width="30%">
+                                      </div>
+                                      <div class="d-flex justify-content-center" style="margin-top: -1%; margin-left: 4%;">
+                                          <h3>No Data Available!!</h3>
+                                      </div>
+                                  </div>
+                                  </td>
+                                </tr>
+                              </tbody>
+
+                              <tbody *ngIf="staffs.length > 0">
                                 <!-- <tr *ngFor="
                                     let staff of staffs
                                       | paginate

@@ -374,6 +374,10 @@ export class LeaveSettingComponent implements OnInit {
   addFormRow(index: number) {
     debugger
 
+    if(this.deleteToggle){
+      this.deleteToggle = false;
+    }
+
     this.addFormToggle = true;
 
     //for array
@@ -712,9 +716,14 @@ export class LeaveSettingComponent implements OnInit {
             //   })
             // );
 
-            this.staffs.forEach((staff, index) => {
-              staff.checked = this.selectedStaffIdsUser.includes(staff.id);
-            });
+            if(this.staffs != undefined){
+              this.staffs.forEach((staff, index) => {
+                staff.checked = this.selectedStaffIdsUser.includes(staff.id);
+              });
+            }else{
+              this.staffs =[]
+            }
+           
 
           //  if(!this.updateToggle){
           //   this.staffs.forEach((staff, index) => {
