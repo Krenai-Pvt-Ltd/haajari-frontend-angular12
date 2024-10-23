@@ -20,16 +20,12 @@ import { TestingComponent } from './components/testing/testing.component';
 import { PrivacyComponent } from './components/privacy/privacy.component';
 import { SupportComponent } from './components/support/support.component';
 import { RoleAddComponent } from './components/role-add/role-add.component';
-import { BillingComponent } from './components/billing/billing.component';
 import { EmployeeOnboardingSidebarComponent } from '../employee-onboarding/employee-onboarding-sidebar/employee-onboarding-sidebar.component';
 import { EmployeeOnboardingDataComponent } from './components/employee-onboarding-data/employee-onboarding-data.component';
-import { BillingPaymentComponent } from './components/billing-payment/billing-payment.component';
-import { SuccessComponent } from './components/success/success.component';
 import { UnauthorizedComponent } from '../sharable/unauthorized/unauthorized.component';
 import { LeaveManagementComponent } from './components/leave-management/leave-management.component';
 
 import { AssetsComponent } from './components/assets/assets.component';
-import { BillingAndSubscriptionPageComponent } from './components/billing-and-subscription-page/billing-and-subscription-page.component';
 import { CoinsComponent } from './components/coins/coins.component';
 import { ToDoStepDashboardComponent } from './components/to-do-step-dashboard/to-do-step-dashboard.component';
 import { SubscriptionComponent } from './components/subscription/subscription.component';
@@ -157,19 +153,6 @@ const routes: Routes = [
         canActivate: [AuthGuard, SubscriptionGuard],
         data: { requiredSubmodule: '/add-role' },
       },
-      // {
-      //   path: 'billing',
-      //   component: BillingComponent,
-      //   canActivate: [AuthGuard, SubscriptionGuard],
-      //   data: { requiredSubmodule: '/billing' },
-      // },
-      // {
-      //   path: 'billing-payment',
-      //   component: BillingPaymentComponent,
-      //   canActivate: [AuthGuard, SubscriptionGuard],
-      //   data: { requiredSubmodule: '/billing-payment' },
-      // },
-      { path: 'success', component: SuccessComponent },
       // {path : 'location-validator', component: EmployeeLocationValidatorComponent},
       { path: 'unauthorized', component: UnauthorizedComponent },
       { path: 'leave-management', 

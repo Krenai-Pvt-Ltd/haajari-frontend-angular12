@@ -1,7 +1,6 @@
 import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { constant } from 'src/app/constant/constant';
-import { Key } from 'src/app/constant/key';
 import { StatusKeys } from 'src/app/constant/StatusKeys';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { GstResponse } from 'src/app/models/GstResponse';
@@ -395,6 +394,28 @@ invoiceDetail:InvoiceDetail = new InvoiceDetail();
       window.open(invoiceUrl, "_blank");
     }
   }
+
+
+  // downloadInvocie(invoiceUrl: string) {
+  //   var fileName = invoiceUrl
+  //     .substring(invoiceUrl.lastIndexOf('/'))
+  //     .split('%2F')
+  //     .join('/');
+  //   fileName = fileName.split('%26').join('/');
+  //   fileName = fileName.substring(fileName.lastIndexOf('/'));
+  //   if (fileName.charAt(0) == '/') {
+  //     fileName = fileName.substring(1);
+  //   }
+  //   fileName = fileName.substring(0, fileName.lastIndexOf('?'));
+  //   this.http
+  //     .get(invoiceUrl, { responseType: 'blob' })
+  //     .subscribe((blob: Blob) => {
+  //       const link = document.createElement('a');
+  //       link.href = window.URL.createObjectURL(blob);
+  //       link.download = fileName;
+  //       link.click();
+  //     });
+  // }
 
   dueInvoices:Invoices[] = new Array();
   totalDueInvoices :number=0;

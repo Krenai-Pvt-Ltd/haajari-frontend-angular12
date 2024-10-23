@@ -42,11 +42,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
-import { BillingComponent } from './components/billing/billing.component';
 import { EmployeeOnboardingDataComponent } from './components/employee-onboarding-data/employee-onboarding-data.component';
-import { BillingPaymentComponent } from './components/billing-payment/billing-payment.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { SuccessComponent } from './components/success/success.component';
 import { WebcamModule } from 'ngx-webcam';
 import { AgmCoreModule } from '@agm/core';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
@@ -64,7 +61,6 @@ import { AssetsComponent } from './components/assets/assets.component';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
-import { BillingAndSubscriptionPageComponent } from './components/billing-and-subscription-page/billing-and-subscription-page.component';
 import { CoinsComponent } from './components/coins/coins.component';
 import { ToDoStepDashboardComponent } from './components/to-do-step-dashboard/to-do-step-dashboard.component';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
@@ -108,15 +104,11 @@ import { ReferFriendComponent } from './components/refer-friend/refer-friend.com
     SafePipe,
     RoleAddComponent,
     // EmployeeOnboardingPreviewComponent,
-    BillingComponent,
     EmployeeOnboardingDataComponent,
-    BillingPaymentComponent,
-    SuccessComponent,
     // LinkExpiredPageComponent,
     EmployeeProfileComponent,
     LeaveManagementComponent,
     AssetsComponent,
-    BillingAndSubscriptionPageComponent,
     CoinsComponent,
     ToDoStepDashboardComponent,
     SubscriptionComponent,
