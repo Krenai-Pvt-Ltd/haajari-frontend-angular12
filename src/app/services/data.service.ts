@@ -4213,6 +4213,14 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/organization/name`);
   }
 
+  getEmployeeProfile(uuid : string){
+
+    const params = new HttpParams().set('userUuid', uuid);
+    return this.httpClient.get<any>(`${this.baseUrl}/employee-profile/profile-info`, {params});
+  }
+
+
+
 }
 
 
