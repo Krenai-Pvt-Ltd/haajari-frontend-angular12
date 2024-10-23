@@ -20,18 +20,14 @@
             <div class="d-flex align-items-center gap-3">
               <button
                 class="btn add-leave-btn mt-4 mb-2"
-                data-bs-toggle="modal"
-                data-bs-target="#add-employee"
                 type="button"
-              >
+                (click)="validateDuesInvoice('add')">
                 <i class="bi bi-plus-lg"></i> Add New Members
               </button>
               <button
                 class="btn excel-upload-members mt-4 mb-2"
-                data-bs-toggle="modal"
-                data-bs-target="#sampleFileModal"
                 type="button"
-              >
+                (click)="validateDuesInvoice('sample')">
                 <i class="bi bi-upload"></i> Upload Members
               </button>
             </div>
@@ -750,19 +746,15 @@
                     <span class="btnSeprator"></span>
                         <button
                           class="btn primaryBtnLink"
-                          data-bs-toggle="modal"
-                          data-bs-target="#add-employee"
                           type="button"
-                        >
+                          (click)="validateDuesInvoice('add')">
                           <i class="bi bi-plus-lg"></i> Add New Members
                         </button>
                         <span class="btnSeprator"></span>
                         <button
                           class="btn primaryBtnLink"
-                          data-bs-toggle="modal"
-                          data-bs-target="#sampleFileModal"
                           type="button"
-                        >
+                          (click)="validateDuesInvoice('sample')">
                           <i class="bi bi-upload"></i> Upload Members
                         </button>
                       </div>
@@ -1163,6 +1155,11 @@
       </div>
     </div>
   </div>
+
+
+  <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#add-employee" #addEmployeeModalButton>
+   Add Employee
+  </button>
   <form
     #personalInformationForm="ngForm"
     (ngSubmit)="setEmployeePersonalDetailsMethodCall()"
@@ -1587,6 +1584,7 @@
   data-bs-toggle="modal"
   data-bs-target="#sampleFileModal"
   id="uploadMembersModal"
+  #sampleFileModalButton
 >
   Open Sample File Modal
 </button>
@@ -2003,6 +2001,29 @@
             </div>
           </div>
         </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#duesWarningModal" #duesWarningModalButton>
+  Dues Warning Modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="duesWarningModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Dues Warning</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <p> Lorem ipsum dolor sit amet consectetur adipisicing elit.
+             Dignissimos magni ratione quae reiciendis ullam pariatur necessitatibus! Amet,
+              earum quae natus dolorum eligendi consectetur iure, cumque asperiores modi nemo culpa nostrum!</p>
       </div>
     </div>
   </div>
