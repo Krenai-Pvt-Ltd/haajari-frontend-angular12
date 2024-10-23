@@ -356,7 +356,7 @@ export class RoleComponent implements OnInit {
         );
       },
       (error) => {
-        this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+        this.helperService.showToast('Cannot be deleted', Key.TOAST_STATUS_ERROR);
         console.log(error);
       }
     );
@@ -433,12 +433,14 @@ export class RoleComponent implements OnInit {
 
   userAndControlRoles: UserAndControl[] = [];
   userAndControlRolesTotalCount: number = 0;
+
+  isPlaceholder: boolean = false;
   debounceTimer: any;
   getUserAndControlRolesByFilterMethodCall(debounceTime: number = 300) {
     if (this.debounceTimer) {
       clearTimeout(this.debounceTimer);
     }
-
+    debugger
     this.debounceTimer = setTimeout(() => {
       this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
       this.dataService
@@ -455,6 +457,13 @@ export class RoleComponent implements OnInit {
             this.userAndControlRoles = data.object;
             this.total = data.totalItems;
 
+            if(data === undefined ||
+              data === null ||
+              this.userAndControlRoles.length === 0 && this.searchText == '') {
+                this.isPlaceholder = true;
+            }else {
+              this.isPlaceholder = false;
+            }
             if (
               data === undefined ||
               data === null ||

@@ -354,10 +354,11 @@
                 <div class="d-flex align-items-center justify-content-end">
                   <button
                     type="submit"
-                    class="btn nextBtn p-0"
+                    class="btn nextBtn upsale-button p-0"
                     [disabled]="personalInformationForm.invalid"
                     (click)="submit()"
-                  >
+                    [ngClass]="{'btn-border':!personalInformationForm.invalid}">
+                  
                     <span *ngIf="!isInfoLoading"
                       >Next
                       <svg

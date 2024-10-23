@@ -361,7 +361,7 @@
 }
 .actual-price {
   text-decoration: line-through;
-  padding-left: 10px;
+  /* padding-left: 10px; */
 }
 .annual-plan p {
   line-height: 20px;
@@ -596,6 +596,53 @@
   }
 } */
 
+.btn-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  border: #eff5ff 1px solid;
+  width: -moz-fit-content;
+  width: fit-content;
+  background-color: #fff;
+  padding: .5rem;
+  border-radius: 2px;
+  box-shadow: 0 10px 20px -11px #00000012;
+}
+.btn-container label {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  color: #111;
+  margin: 0;
+  min-width: 80px;
+  background-color: #0058fc00;
+  border: none;
+  padding: 4px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 2px;
+  transition: .1s linear;
+}
+
+.btn-container input[type=radio]:checked + label {
+  background-color: var(--primary-background-color);
+  color: #fff;
+}
+.plan-detail .mt-2{
+  margin-bottom: .5rem!important;
+}
+.planPriceList {
+  min-width: 4em;
+}
+.btn-container input[type=radio] {
+  visibility: hidden;
+  height: 0;
+  width: 0;
+  margin: 0;
+}
 @media screen and (max-width: 1430px) {
   .font-14 {
     font-size: 11px !important;
@@ -871,4 +918,9 @@
   .btnPayNow {
     font-size: 12px !important;
   }
+}
+.adddd{
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
 }

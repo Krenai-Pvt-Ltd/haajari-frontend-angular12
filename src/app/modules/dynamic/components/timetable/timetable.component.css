@@ -301,7 +301,6 @@ select.form-control {
   border-right: none;
 }
 
-
 .search-icon {
   font-size: 12px !important;
   position: absolute !important;
@@ -844,7 +843,7 @@ td.text-right {
 }
 .attendance-log .icons {
   display: flex;
-  gap: 10px; 
+  gap: 10px;
 }
 
 .attendance-log {
@@ -855,14 +854,14 @@ td.text-right {
 
 .card {
   border: 1px solid #ededed;
-    border-radius: 8px;
-    padding: 8px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin: 10px 0;
-    box-shadow: 0 9px 8px -3px rgb(0 0 0 / 5%);
+  border-radius: 8px;
+  padding: 8px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 10px 0;
+  box-shadow: 0 9px 8px -3px rgb(0 0 0 / 5%);
 }
 
 .card-content {
@@ -919,7 +918,6 @@ td.text-right {
   background-color: #0056b3;
 }
 
-
 .logs-container {
   max-height: 400px;
   overflow-y: auto;
@@ -937,7 +935,6 @@ td.text-right {
   justify-content: space-between;
   align-items: center;
 }
-
 
 .log-header {
   display: flex;
@@ -957,7 +954,6 @@ hr {
   margin: 10px 0;
 }
 
-
 .action-buttons {
   display: flex;
   align-items: center;
@@ -967,15 +963,15 @@ hr {
   margin-left: 10px;
 }
 
-.attendance-section-tab{
+.attendance-section-tab {
   /* width: 35%; */
   padding: 1px;
-  border: 1px solid #E9E9FF;
+  border: 1px solid #e9e9ff;
   border-radius: 30px;
   /* background-color: #F1F1FD; */
   box-shadow: 0 0 0.875rem 0 rgba(52, 58, 64, 0.05);
 }
-.attendance-section-tab a{
+.attendance-section-tab a {
   /* border: 1px solid black; */
   padding: 10px 15px;
   margin-bottom: 0px;
@@ -987,12 +983,12 @@ hr {
   transition: background-color 0.3s ease;
 }
 
-.attendance-section-tab a:hover{
-  background-color: #F1F1FD;
+.attendance-section-tab a:hover {
+  background-color: #f1f1fd;
 }
 
 .active-tab {
-  background-color: #E9E9FF;
+  background-color: #e9e9ff;
   /* background-color: #F1F1FD;
   border: 0.5px solid #6666f3; */
 }
@@ -1428,22 +1424,22 @@ span.leave-rejected {
   animation: dotOpacity 1.4s infinite ease-in-out both;
 }
 
-.dot-opacity-loader-reject span{
+.dot-opacity-loader-reject span {
   display: inline-block;
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: #EB5050; /* Bootstrap primary color for example, change as needed */
+  background-color: #eb5050; /* Bootstrap primary color for example, change as needed */
   margin: 0 4px;
   animation: dotOpacity 1.4s infinite ease-in-out both;
 }
 
-.dot-opacity-loader-approve span{
+.dot-opacity-loader-approve span {
   display: inline-block;
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: #3E993E; /* Bootstrap primary color for example, change as needed */
+  background-color: #3e993e; /* Bootstrap primary color for example, change as needed */
   margin: 0 4px;
   animation: dotOpacity 1.4s infinite ease-in-out both;
 }
@@ -1471,9 +1467,32 @@ span.leave-rejected {
 .activity .activity-info:last-child ::before {
   border: none;
 }
-.overtime-request-action-field p{
+.overtime-request-action-field p {
   line-height: normal;
 }
-.overtime-request-action-field p>span{
+.overtime-request-action-field p > span {
   font-weight: bold;
+}
+
+.empty-detail {
+  color: #6b7280;
+  line-height: 20px;
+}
+
+::ng-deep.ant-empty-image img {
+  width: 90px;
+}
+.attendance-details-section {
+  height: 80vh;
+}
+.attendance-details-section h5 {
+  columns: #000;
+}
+.attendance-details-section p {
+  color: #6b7280;
+  line-height: 18px;
+  font-weight: 500;
+}
+::ng-deep.ant-picker {
+  background-color: transparent !important;
 }

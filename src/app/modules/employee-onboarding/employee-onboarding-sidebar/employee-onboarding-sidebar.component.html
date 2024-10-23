@@ -10,12 +10,12 @@
             <div class="mt-3">
                 <div class="tracking-body">
                     <ul class="tracking-steps">
-                        
-                        <li class="tracking-item " [ngClass]="{'tracking-itemActive newline': isStepCompleted(17) }" (click)="navigateTo('/employee-onboarding/employee-onboarding-form', 17)">
+
+                        <li class="tracking-item " *ngIf="isRoutePresent('/employee-onboarding-form')" [ngClass]="{'tracking-itemActive newline': isStepCompleted(17) }" (click)="navigateTo('/employee-onboarding/employee-onboarding-form', 17)">
                             <div class="d-flex new-stap">
                                 <div class="tracing-icon" [ngClass]="{'active': isStepCompleted(17)}">
                                     <i class="bi bi-check2" *ngIf="isStepCompleted(17)"></i>
-                                    <span *ngIf="!isStepCompleted(17)">1</span>
+                                    <span *ngIf="!isStepCompleted(17)"></span>
                                 </div>
                                 <div class="tracking-data">
                                     <p>Personal Info</p>
@@ -24,11 +24,11 @@
                         </li>
                         <!-- Repeat for each step, changing the index number in isStepCompleted() and the displayed number -->
                         <!-- Placeholder for Address Details -->
-                        <li class="tracking-item " [ngClass]="{'tracking-itemActive newline': isStepCompleted(18) }" (click)="navigateTo('/employee-onboarding/employee-address-detail', 18)">
+                        <li class="tracking-item " *ngIf="isRoutePresent('/employee-address-detail')" [ngClass]="{'tracking-itemActive newline': isStepCompleted(18) }" (click)="navigateTo('/employee-onboarding/employee-address-detail', 18)">
                             <div class="d-flex new-stap">
                                 <div class="tracing-icon" [ngClass]="{'active': isStepCompleted(18)}">
                                     <i class="bi bi-check2" *ngIf="isStepCompleted(18)"></i>
-                                    <span *ngIf="!isStepCompleted(18)">2</span>
+                                    <span *ngIf="!isStepCompleted(18)">{{ findRouteIndex('/employee-address-detail') }}</span>
                                 </div>
                                 <div class="tracking-data">
                                     <p>Address Details</p>
@@ -36,11 +36,11 @@
                             </div>
                         </li>
                         <!-- Placeholder for Documents -->
-                        <li class="tracking-item " [ngClass]="{'tracking-itemActive newline': isStepCompleted(19) }" (click)="navigateTo('/employee-onboarding/employee-document', 19)">
+                        <li class="tracking-item " *ngIf="isRoutePresent('/employee-document')" [ngClass]="{'tracking-itemActive newline': isStepCompleted(19) }" (click)="navigateTo('/employee-onboarding/employee-document', 19)">
                             <div class="d-flex new-stap">
                                 <div class="tracing-icon" [ngClass]="{'active': isStepCompleted(19)}">
                                     <i class="bi bi-check2" *ngIf="isStepCompleted(19)"></i>
-                                    <span *ngIf="!isStepCompleted(19)">3</span>
+                                    <span *ngIf="!isStepCompleted(19)">{{ findRouteIndex('/employee-document') }}</span>
                                 </div>
                                 <div class="tracking-data">
                                     <p>Documents</p>
@@ -48,11 +48,11 @@
                             </div>
                         </li>
                         <!-- Placeholder for Academic -->
-                        <li class="tracking-item " [ngClass]="{'tracking-itemActive newline': isStepCompleted(20) }" (click)="navigateTo('/employee-onboarding/acadmic', 20)">
+                        <li class="tracking-item " *ngIf="isRoutePresent('/acadmic')"  [ngClass]="{'tracking-itemActive newline': isStepCompleted(20) }" (click)="navigateTo('/employee-onboarding/acadmic', 20)">
                             <div class="d-flex new-stap">
                                 <div class="tracing-icon" [ngClass]="{'active': isStepCompleted(20)}">
                                     <i class="bi bi-check2" *ngIf="isStepCompleted(20)"></i>
-                                    <span *ngIf="!isStepCompleted(20)">4</span>
+                                    <span *ngIf="!isStepCompleted(20)">{{ findRouteIndex('/acadmic') }}</span>
                                 </div>
                                 <div class="tracking-data">
                                     <p>Academics</p>
@@ -60,11 +60,11 @@
                             </div>
                         </li>
                         <!-- Placeholder for Experience -->
-                        <li class="tracking-item " [ngClass]="{'tracking-itemActive newline': isStepCompleted(21) }" (click)="navigateTo('/employee-onboarding/employee-experience', 21)">
+                        <li class="tracking-item " *ngIf="isRoutePresent('/employee-experience')" [ngClass]="{'tracking-itemActive newline': isStepCompleted(21) }" (click)="navigateTo('/employee-onboarding/employee-experience', 21)">
                             <div class="d-flex new-stap">
                                 <div class="tracing-icon" [ngClass]="{'active': isStepCompleted(21)}">
                                     <i class="bi bi-check2" *ngIf="isStepCompleted(21)"></i>
-                                    <span *ngIf="!isStepCompleted(21)">5</span>
+                                    <span *ngIf="!isStepCompleted(21)">{{ findRouteIndex('/employee-experience') }}</span>
                                 </div>
                                 <div class="tracking-data">
                                     <p>Experience</p>
@@ -72,24 +72,24 @@
                             </div>
                         </li>
                         <!-- Placeholder for Bank Details -->
-                        <li class="tracking-item " [ngClass]="{'tracking-itemActive newline': isStepCompleted(22) }" (click)="navigateTo('/employee-onboarding/bank-details', 22)">
+                        <li class="tracking-item " *ngIf="isRoutePresent('/bank-details')" [ngClass]="{'tracking-itemActive newline': isStepCompleted(22) }" (click)="navigateTo('/employee-onboarding/bank-details', 22)">
                             <div class="d-flex new-stap">
                                 <div class="tracing-icon" [ngClass]="{'active': isStepCompleted(22)}">
                                     <i class="bi bi-check2" *ngIf="isStepCompleted(22)"></i>
-                                    <span *ngIf="!isStepCompleted(22)">6</span>
+                                    <span *ngIf="!isStepCompleted(22)">{{ findRouteIndex('/bank-details') }}</span>
                                 </div>
                                 <div class="tracking-data">
                                     <p>Bank Details</p>
                                 </div>
                             </div>
-                            
+
                         </li>
-                        <!-- Placeholder for Emergency Contact -->
-                        <li class="tracking-item " (click)="navigateTo('/employee-onboarding/emergency-contact', 23)">
+                        <!-- Placeholder for Emergency Contact  *ngIf="isRoutePresent('/emergency-contact')" -->
+                        <li class="tracking-item " *ngIf="isRoutePresent('/emergency-contact')" (click)="navigateTo('/employee-onboarding/emergency-contact', 23)">
                             <div class="d-flex new-stap">
                                 <div class="tracing-icon" [ngClass]="{'active': isStepCompleted(23)}">
                                     <i class="bi bi-check2" *ngIf="isStepCompleted(23)"></i>
-                                    <span *ngIf="!isStepCompleted(23)">7</span>
+                                    <span *ngIf="!isStepCompleted(23)">{{ findRouteIndex('/emergency-contact') }}</span>
                                 </div>
                                 <div class="tracking-data">
                                     <p>Emergency Contacts</p>
@@ -120,7 +120,7 @@
                                 <div class="manager-list" style="cursor: pointer;">
                                     <a class="dropdown-item"><i class="bi bi-gear" style="padding-right: 10px;"></i> Settings</a>
                                 </div>
-                                
+
                                 <div class="manager-list remove-team" style="cursor: pointer;">
                                     <a class="dropdown-item StaticMenuItemBase-button"><span><i class="bi bi-box-arrow-in-left"></i> Log out</span></a>
                                 </div>

@@ -95,7 +95,7 @@ p.tableinfo.mb-0 {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: #6666f3 !important; /* Change to your preferred color */
+  background-color: #fff !important; /* Change to your preferred color */
   margin: 0 4px;
   animation: dotOpacity 1.4s infinite ease-in-out both;
 }
@@ -431,4 +431,14 @@ span.Duplicate-number-count {
   border-radius: 2px;
   padding: 2px 5px;
   margin-left: 5px;
+}
+
+.admin{
+  border: 1px solid rgba(102, 102, 242, 0.4);
+  background-color: rgba(244, 247, 255, 0.5) !important;
+  border-radius: 2px;
+  padding: 5px 15px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 22px;
 }

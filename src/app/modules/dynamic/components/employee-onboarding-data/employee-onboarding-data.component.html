@@ -1,7 +1,78 @@
 <div class="page-wrapper">
   <div class="page-content-tab">
     <div class="container-fluid">
-      <div class="row mt-4">
+      <div class="row leave-management-settings p-3 mt-2 align-items-center" *ngIf="isMainPlaceholder">
+        <div class="col-md-6">
+          <div class="leave-management-detail pt-5 pb-5">
+            <h3 class="mb-3">
+              Create and Manage <br />
+              Your Team Easily
+            </h3>
+            <p class="mb-0 font-14">
+              Easily customize your leave management preferences, define leave
+              <br />
+              types, set approval workflows, and streamline employee leave
+              tracking.
+            </p>
+
+            <!-- <button class="btn add-leave-btn mt-4 mb-2">Add New Members</button> -->
+
+            <div class="d-flex align-items-center gap-3">
+              <button
+                class="btn add-leave-btn mt-4 mb-2"
+                type="button"
+                (click)="validateDuesInvoice('add')">
+                <i class="bi bi-plus-lg"></i> Add New Members
+              </button>
+              <button
+                class="btn excel-upload-members mt-4 mb-2"
+                type="button"
+                (click)="validateDuesInvoice('sample')">
+                <i class="bi bi-upload"></i> Upload Members
+              </button>
+            </div>
+            <hr />
+            <span class="mb-0">
+              By signing, you are creating
+              <a href="#!">
+                Learn more about it
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="21"
+                  viewBox="0 0 20 21"
+                  fill="none"
+                >
+                  <mask
+                    id="mask0_4244_1588"
+                    style="mask-type: alpha"
+                    maskUnits="userSpaceOnUse"
+                    x="0"
+                    y="0"
+                    width="20"
+                    height="21"
+                  >
+                    <rect y="0.546875" width="20" height="20" fill="#6666F2" />
+                  </mask>
+                  <g mask="url(#mask0_4244_1588)">
+                    <path
+                      d="M4.50016 17.2148L3.3335 16.0482L13.0002 6.38151H7.50016V4.71484H15.8335V13.0482H14.1668V7.54818L4.50016 17.2148Z"
+                      fill="#6666F2"
+                    />
+                  </g>
+                </svg>
+              </a>
+            </span>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="leave-management-detail-img text-end">
+            <img src="assets/images/team-img.svg" style="width: 380px" />
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-4" *ngIf="!isMainPlaceholder">
         <div class="col-md-3">
           <div
             class="employe-onbording"
@@ -92,7 +163,7 @@
           </div>
         </div>
       </div>
-      <div class="row mt-3" *ngIf="isShowPendingVerificationTab">
+      <div class="row mt-3" *ngIf="isShowPendingVerificationTab && !isMainPlaceholder">
         <div class="col-md-7">
           <div class="on-leave-section">
             <h5>Latest Joining - Pending Verification</h5>
@@ -519,7 +590,7 @@
         </div>
       </div>
 
-      <div class="row mt-3">
+      <div class="row mt-3" *ngIf="!isMainPlaceholder">
         <div class="col-md-12">
           <div class="obboard-employee-list">
             <div class="onboard-add row align-items-center mx-0">
@@ -629,17 +700,24 @@
                               [ngModelOptions]="{ standalone: true }"
                               style="padding: 10px 40px"
                             />
-                            <button
+                            <!-- <button
                               type="button"
                               class="btn close-btn"
                               (click)="reloadPage()"
                               *ngIf="crossFlag"
                             >
                               <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-                            </button>
+                            </button> -->
                             <i
                               class="bi bi-search search-icon"
                               style="margin: auto; margin-left: 15px"
+                              *ngIf="search==''"
+                            ></i>
+                            <i
+                              class="bi bi-x search-icon"
+                              style="margin: auto; margin-left: 15px"
+                              *ngIf="search!=''"
+                              (click)="reloadPage()"
                             ></i>
                           </div>
                         </form>
@@ -653,98 +731,21 @@
                       >
                         <button
                           class="btn primaryBtnLink"
-                          data-bs-toggle="modal"
-                          data-bs-target="#add-employee"
                           type="button"
-                        >
+                          (click)="validateDuesInvoice('add')">
                           <i class="bi bi-plus-lg"></i> Add New Members
                         </button>
                         <span class="btnSeprator"></span>
                         <button
                           class="btn primaryBtnLink"
-                          data-bs-toggle="modal"
-                          data-bs-target="#sampleFileModal"
                           type="button"
-                        >
+                          (click)="validateDuesInvoice('sample')">
                           <i class="bi bi-upload"></i> Upload Members
                         </button>
                       </div>
                     </div>
                   </div>
                 </div>
-                <!-- <div class="d-none justify-content-between align-items-center">
-
-
-                                  <div class="" style="width: 200px; position: relative;">
-                                      <div class="dropdown" style="width: 100%;">
-                                          <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
-                                              {{ selectedStatus || "All" }}
-                                              <i class="bi bi-chevron-down" style="color: #444; font-size: 15px;"></i>
-                                          </button>
-                                          <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="width: 100%;">
-                                              <li>
-                                                  <a class="dropdown-item" (click)="selectStatus('ALL')">All</a>
-                                              </li>
-                                              
-                                              <li class="dropdown-header" aria-disabled="true">Status Wise</li>
-
-                                              <li>
-                                                  <a class="dropdown-item" (click)="selectStatus('APPROVED')">Approved</a>
-                                              </li>
-                                              <li>
-                                                  <a class="dropdown-item" (click)="selectStatus('PENDING')">Pending</a>
-                                              </li>
-                                              <li>
-                                                  <a class="dropdown-item" (click)="selectStatus('REQUESTED')">Requested</a>
-                                              </li>
-                                              <li>
-                                                  <a class="dropdown-item" (click)="selectStatus('REJECTED')">Rejected</a>
-                                              </li>
-
-                                              <li class="dropdown-header" aria-disabled="true">Accessibility Wise</li>
-                                              <li>
-                                                  <a class="dropdown-item" (click)="selectStatus('ACTIVE')">Active</a>
-                                              </li>
-                                              <li>
-                                                  <a class="dropdown-item" (click)="selectStatus('INACTIVE')">Inactive</a>
-                                              </li>
-                                          </ul>
-                                      </div>
-                                  </div>
-                                  <div class="onboarding-date d-flex align-items-center" style="gap: 10px; width: 70%;">
-                                      <form role="search" class="searching ng-untouched ng-pristine ng-valid" style="width: 100%;">
-                                          <div class="form-group" style="width: 100%; position: relative;">
-                                              <input
-                                                  type="text"
-                                                  id="searchText"
-                                                  placeholder="Search by name, email and phone number ..."
-                                                  class="form-control me-2 ng-untouched ng-pristine ng-valid"
-                                                  (keyup)="searchUsers('any')"
-                                                  [(ngModel)]="search"
-                                                  [ngModelOptions]="{ standalone: true }"
-                                                  style="padding: 10px 40px;"
-                                              />
-                                              <button type="button" class="btn close-btn" (click)="reloadPage()" *ngIf="crossFlag">
-                                                  <i class="bi bi-x mt-auto mb-auto pl-3"></i>
-                                              </button>
-                                              <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px;"></i>
-                                          </div>
-                                      </form>
-                                  </div>
-                                  <div *ngIf="!errorToggleTop" style="width: 50%;">
-                                      <div class="add-filtter text-end">
-                                          <a data-bs-toggle="modal" data-bs-target="#add-employee" type="button">
-                                              <i class="bi bi-plus" style="font-size: 18px;"></i>
-                                              Add New Members
-                                          </a>
-                                          <a data-bs-toggle="modal" data-bs-target="#sampleFileModal" type="button">
-                                              <i class="bi bi-upload" style="font-size: 18px;"></i>
-                                              Upload Members
-                                          </a>
-                                      </div>
-                            
-                                  </div>
-                              </div> -->
               </div>
 
               <!-- </div> -->
@@ -756,7 +757,8 @@
                   <thead class="thead-light">
                     <tr>
                       <!-- <th style="width: 10%;">Date</th> -->
-                      <th style="width: 15%" class="stickyColTh">
+                      <!-- class="stickyColTh" -->
+                      <th style="width: 15%" >
                         Employee Name
                       </th>
                       <!-- <th style="width: 5%">Employee ID</th> -->
@@ -813,7 +815,7 @@
                       </td>
                     </tr>
                   </tbody>
-                  <!-- 
+                  <!--
                                       <tbody class="table-design"><tr><td colspan="8"><div class="mt-3 dashnodata" ><div class="errorboxmain"><div class="errorboxinner text-center"><div class="errorboxplaceholder mb-2"><img src="assets/images/addnewproduct.svg" style="width:80px;" /></div><h4>No Data Found</h4><p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p></div></div></div></td></tr></tbody> -->
                   <tbody *ngIf="users.length > 0 && !isUserShimer">
                     <tr
@@ -829,12 +831,8 @@
                               }
                       "
                     >
-                      <!-- <td>
-                                              <p class="mb-0 weekly-pro">
-                                                  {{ user!.onboardingStatusUpdateDate.toString() | dateFormat }}
-                                              </p>
-                                          </td> -->
-                      <td class="stickyColTd">
+                    <!-- class="stickyColTd" -->
+                      <td>
                         <a
                           routerLink="/employee-profile"
                           (click)="routeToUserDetails(user.uuid)"
@@ -990,84 +988,7 @@
                         </div>
                       </td>
                       <td class="stickyColTdend text-end">
-                        <!-- <div
-                            class="btn-group"
-                            role="group"
-                            aria-label="Basic example"
-                          >
-                            <button
-                              type="button"
-                              class="btn btn-light"
-                              (click)="sendMailToEmployees(user)"
-                              *ngIf="
-                                !sendingMailLoaderForUser(user) &&
-                                user.employeeOnboardingStatus.response !=
-                                  approvedResponse &&
-                                user.employeeOnboardingStatus.response !=
-                                  pendingResponse
-                              "
-                              ngbTooltip="Request Again"
-                              placement="top"
-                            >
-                              <div
-                                class="dot-opacity-loader"
-                                *ngIf="sendingMailLoaderForUser(user)"
-                              >
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                              </div>
-                              <i class="fas fa-bullhorn"></i>
-                            </button>
-                            <button
-                              type="button"
-                              class="btn btn-light"
-                              routerLink="/employee-profile"
-                              (click)="routeToUserDetails(user.uuid)"
-                              ngbTooltip="View Profile"
-                              placement="top"
-                            >
-                              <i class="far fa-eye"></i>
-                            </button>
-                            <button
-                              type="button"
-                              class="btn btn-light"
-                              data-bs-toggle="modal"
-                              data-bs-target="#deleteConfirmationModal"
-                              (click)="openDeleteConfirmationModal(user.id)"
-                              ngbTooltip="Delete Account"
-                              placement="top"
-                            >
-                              <i class="bi bi-trash"></i>
-                            </button>
-                          </div> -->
-
-                        <!-- <div class="button-items d-flex justify-content-center">
-                                                  <button type="button" class="btn btn-soft-secondary btn-icon-square-sm pointer" (click)="sendMailToEmployees(user)" *ngIf="!sendingMailLoaderForUser(user) && user.onboardingStatus != approvedResponse && user.onboardingStatus != pendingResponse " ngbTooltip="Request Again" placement="top" >
-                                                      <i class="fas fa-bullhorn"></i>
-                                                  </button>
-                                                  <button
-                                                      type="button"
-                                                      class="btn btn-soft-primary btn-icon-square-sm pointer"
-                                                      routerLink="/employee-profile"
-                                                      (click)="routeToUserDetails(user.uuid)"
-                                                      ngbTooltip="View Profile"
-                                                      placement="top"
-                                                  >
-                                                      <i class="far fa-eye"></i>
-                                                  </button>
-                                                  <button
-                                                      type="button"
-                                                      class="btn btn-soft-danger btn-icon-square-sm pointer"
-                                                      data-bs-toggle="modal"
-                                                      data-bs-target="#deleteConfirmationModal"
-                                                      (click)="openDeleteConfirmationModal(user.id)"
-                                                      ngbTooltip="Delete Account"
-                                                      placement="top"
-                                                  >
-                                                      <i class="bi bi-trash"></i>
-                                                  </button>
-                                              </div> -->
+                        
                         <div class="dropdown">
                           <button
                             class="btn btnAction dropdown-toggle"
@@ -1115,49 +1036,41 @@
                     </tr>
                     <!-- <tr><td>06/06/2023</td><td>Wekreta</td><td>Meeting</td><td><p class="mb-0 weekly-pro">Weekly progress meeting</p></td><td class="text-center">12</td><td class="half-per"><span class="">50%</span></td><td class="text-center">13</td><td><div class="hstack gap-3 justify-content-center"><a href="javascript:void(0);" class="link-success text-decoration-underline">Request</a><a href="javascript:void(0);" routerLink="/employee-profile" class="link-primary text-decoration-underline">View</a></div></td></tr><tr><td>06/06/2023</td><td>Wekreta</td><td>Meeting</td><td><p class="mb-0 weekly-pro">Weekly progress meeting</p></td><td class="text-center">12</td><td class="full-per"><span class="">100%</span></td><td class="text-center">13</td><td><div class="hstack gap-3 justify-content-center"><a href="javascript:void(0);" class="link-success text-decoration-underline">Request</a><a href="javascript:void(0);" routerLink="/employee-profile" class="link-primary text-decoration-underline">View</a></div></td></tr> -->
                   </tbody>
-                  <tbody>
+                  <tbody *ngIf="errorToggleTop && users.length == 0">
                     <tr>
                       <td colspan="8">
                         <div class="mt-3 dashnodata">
-                          <!-- <div class="errorboxmain" *ngIf="mainPlaceholdersTableFlag && errorToggleTop"><div class="errorboxinner"><div class="errorboxplaceholder mb-2"><img src="assets/images/signal.svg" style="width:80px;" /></div><div class=""><h4>Something went wrong</h4><p class="mb-0">An error occurred while processing your request. Please refresh the page and try again.</p></div></div></div> -->
                           <div
-                            class="errorboxmain"
-                            *ngIf="errorToggleTop && users.length == 0"
+                            class="empty-file"
+                            style="margin-top: 5%; margin-bottom: 5%"
                           >
-                            <div class="errorboxinner text-center">
-                              <div class="errorboxplaceholder mb-2">
-                                <img
-                                  src="assets/images/signal.svg"
-                                  style="width: 80px"
-                                />
-                              </div>
-                              <div class="">
-                                <h4>Something went wrong</h4>
-                                <p>
-                                  An error occurred while processing your
-                                  request. Please refresh the page and try
-                                  again.
+                            <nz-empty
+                              nzNotFoundImage="assets/images/no-data-found-img-2.svg"
+                              [nzNotFoundContent]="contentTpl"
+                            >
+                              <ng-template #contentTpl>
+                                <p class="mb-1 empty-detail font-16">
+                                  Something went wrong
                                 </p>
-                              </div>
-                            </div>
+                              </ng-template>
+                            </nz-empty>
                           </div>
+
                           <div
-                            class="errorboxmain"
+                            class="empty-file"
+                            style="margin-top: 5%; margin-bottom: 5%"
                             *ngIf="placeholder && total == 0 && !isUserShimer"
                           >
-                            <div class="errorboxinner text-center">
-                              <div class="errorboxplaceholder mb-2">
-                                <img
-                                  src="assets/images/empty-folder.svg"
-                                  style="width: 80px"
-                                />
-                              </div>
-                              <h4>No Data Found</h4>
-                              <p>
-                                We're unable to locate a record associated with
-                                the information you entered.
-                              </p>
-                            </div>
+                            <nz-empty
+                              nzNotFoundImage="assets/images/nodate-found-3.svg"
+                              [nzNotFoundContent]="contentTpl"
+                            >
+                              <ng-template #contentTpl>
+                                <p class="mb-1 empty-detail font-16">
+                                  No data for now
+                                </p>
+                              </ng-template>
+                            </nz-empty>
                           </div>
                         </div>
                       </td>
@@ -1227,6 +1140,11 @@
       </div>
     </div>
   </div>
+
+
+  <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#add-employee" #addEmployeeModalButton>
+   Add Employee
+  </button>
   <form
     #personalInformationForm="ngForm"
     (ngSubmit)="setEmployeePersonalDetailsMethodCall()"
@@ -1485,6 +1403,47 @@
                     </nz-select>
                   </div>
                 </div>
+                <div class="col-md-12">
+                  <div class="mb-3">
+                    <label for="teamNames" class="pb-2"
+                      >Select Leave <span class="text-optional">
+                        (Optional)</span
+                      ></label
+                    >
+                    <nz-select
+                      class="whatapp-login-input"
+                      nzMode="multiple"
+                      nzPlaceHolder="Select leave"
+                      nzAllowClear
+                      nzShowSearch
+                      nzServerSearch
+                      [(ngModel)]="selectedLeaves"
+                      [ngModelOptions]="{ standalone: true }"
+                      (ngModelChange)="onLeaveSelectionChange($event)"
+                      (nzOnSearch)="onSearchLeave($event)"
+                    >
+                      <ng-container *ngFor="let o of leaveNameList">
+                        <nz-option
+                          *ngIf="!isLoadingLeave"
+                          [nzValue]="o.value"
+                          [nzLabel]="o.label"
+                        ></nz-option>
+                      </ng-container>
+                      <nz-option
+                        *ngIf="isLoadingLeave"
+                        nzDisabled
+                        nzCustomContent
+                      >
+                        <span
+                          nz-icon
+                          nzType="loading"
+                          class="loading-icon"
+                        ></span>
+                        Loading Data...
+                      </nz-option>
+                    </nz-select>
+                  </div>
+                </div>
               </div>
             </div>
             <div
@@ -1610,6 +1569,7 @@
   data-bs-toggle="modal"
   data-bs-target="#sampleFileModal"
   id="uploadMembersModal"
+  #sampleFileModalButton
 >
   Open Sample File Modal
 </button>
@@ -1928,7 +1888,7 @@
                         <!-- <p
                               class="tableinfo mb-0 pointer text-center"
                               style="color: darkblue"
-                              
+
                               (click)="openUserEditModal(onboardUser)"
                             >
                               <i class="bi bi-pencil-square"></i>
@@ -1975,6 +1935,29 @@
             </div>
           </div>
         </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#duesWarningModal" #duesWarningModalButton>
+  Dues Warning Modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="duesWarningModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Dues Warning</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <p> Lorem ipsum dolor sit amet consectetur adipisicing elit.
+             Dignissimos magni ratione quae reiciendis ullam pariatur necessitatibus! Amet,
+              earum quae natus dolorum eligendi consectetur iure, cumque asperiores modi nemo culpa nostrum!</p>
       </div>
     </div>
   </div>

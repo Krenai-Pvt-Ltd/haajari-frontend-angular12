@@ -1,0 +1,21 @@
+<svg width="83" height="82" viewBox="0 0 83 82" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="41.5" cy="41" r="41" fill="#F8F8F8"/>
+<g clip-path="url(#clip0_4436_577)">
+<path d="M61.8903 50.4336H19.1089V45.5273H61.8903V50.4336Z" fill="#F3A73D"/>
+<path d="M48.1633 35.7338V33.4062C21.8597 33.4062 23.2285 41.87 23.2285 41.87H26.6536C28.1811 39.5028 33.0279 36.0974 48.1633 35.7338Z" fill="#EAEAEA"/>
+<path d="M19.1089 45.5156H26.832V50.4352H19.1089V45.5156Z" fill="#F3A73D"/>
+<path d="M53.4863 45.5156H61.8905V50.4352H53.4863V45.5156Z" fill="#F3A73D"/>
+<path d="M19.1089 41.875V53.9953" stroke="#2C426B" stroke-width="1.46792" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M61.8906 53.9952V27.0039" stroke="#2C426B" stroke-width="1.46792" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M26.832 45.5352H19.1089" stroke="#2C426B" stroke-width="1.46792" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M61.8903 45.5352H33.1401" stroke="#2C426B" stroke-width="1.46792" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M23.2286 41.8817C23.2286 41.8817 21.8533 33.418 48.1635 33.418V41.8817H23.2286Z" stroke="#2C426B" stroke-width="1.46792" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M59.3775 37.6498C59.3775 39.984 57.4798 41.8817 55.1391 41.8817C52.8049 41.8817 50.9072 39.984 50.9072 37.6498C50.9072 35.3091 52.8049 33.418 55.1391 33.418C57.4798 33.418 59.3775 35.3091 59.3775 37.6498Z" fill="#6666F2" stroke="#6666F2" stroke-width="1.46792" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M61.8903 50.4375H19.1089" stroke="#2C426B" stroke-width="1.46792" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<clipPath id="clip0_4436_577">
+<rect width="47" height="47" fill="white" transform="translate(17 17)"/>
+</clipPath>
+</defs>
+</svg>

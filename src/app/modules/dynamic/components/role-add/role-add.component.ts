@@ -22,9 +22,15 @@ export class RoleAddComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    debugger
     window.scroll(0, 0);
     const roleIdParam = this.activateRoute.snapshot.queryParamMap.get('roleId');
     // this.helperService.saveOrgSecondaryToDoStepBarData(0);
+
+    if (roleIdParam === null || roleIdParam === "" || roleIdParam === "1" || roleIdParam === "2" || roleIdParam === "3") {
+      window.location.href = '/role';
+      return;
+    }
     if (roleIdParam !== null) {
       debugger;
       this.roleRequest.id = +roleIdParam;

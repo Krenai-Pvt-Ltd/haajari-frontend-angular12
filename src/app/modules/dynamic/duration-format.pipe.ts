@@ -4,13 +4,15 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'durationFormat'
 })
 export class DurationFormatPipe implements PipeTransform {
-  transform(duration: string | null): string {
+  transform(duration: string | number | null): string {
     if (duration === null) {
       return '   -   ';
     }
 
     // Check if the duration is in ISO 8601 format (PT#H#M)
-    if (duration.startsWith('PT')) {
+    if(typeof duration === 'number'){
+      return this.formatSecondsToHoursAndMinutes(duration);
+    } else if (duration.startsWith('PT')) {
       return this.formatIsoDuration(duration);
     } else {
       return this.formatSimpleDuration(duration);
@@ -54,6 +56,14 @@ export class DurationFormatPipe implements PipeTransform {
     const formattedDuration = `${hours}:${minutes} hrs.`;
     
     return formattedDuration;
+  }
+
+  // Method to format seconds into hours and minutes
+  private formatSecondsToHoursAndMinutes(seconds: number): string {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+
+    return `${hours}h ${minutes}m`;
   }
 }
 

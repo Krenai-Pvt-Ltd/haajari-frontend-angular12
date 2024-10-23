@@ -20,19 +20,19 @@ export class AuthGuard implements CanActivate {
     private router: Router,
     private rbacService: RoleBasedAccessControlService,
     private helperService: HelperService,
-    private _subscriptionPlanService: SubscriptionPlanService,
+    private _subscriptionService: SubscriptionPlanService,
     private _onboardingService: OrganizationOnboardingService,
     private dataService: DataService
   ) {
-    this.PLAN_PURCHASED = _subscriptionPlanService
+  
   }
-
+  step!: number;
   UUID: any;
   ROLE: any;
   ONBOARDING_STEP: any;
   PLAN_PURCHASED: any;
   async ngOnInit(): Promise<void> {
-    
+
   }
 
   async canActivate(
@@ -46,46 +46,46 @@ export class AuthGuard implements CanActivate {
     }
 
 
+    if(!this._subscriptionService.isSubscription || this._subscriptionService.isPlanExpired){
+        return false;
+    }
 
     this.UUID = await this.rbacService.getUUID();
     this.ROLE = await this.rbacService.getRole();
-    this.PLAN_PURCHASED =
-    this.ONBOARDING_STEP = await this.rbacService.getOnboardingStep();
-    await this.isToDoStepsCompletedData();
+      this.ONBOARDING_STEP = await this.rbacService.getOnboardingStep();
 
-    this._onboardingService.getOrgOnboardingStep().subscribe((response: any) => {
-      const step = parseInt(response?.object?.step);
-
-      if (step < 5) {
-        this.router.navigate(['organization-onboarding/personal-information']);
+      console.log("this.dataService.step",this.dataService.step);
+      if(this.dataService.step){
+        this.step=this.dataService.step;
+        if (this.step < 5) {
+          this.router.navigate(['/organization-onboarding/personal-information']);
+          return false;
+        }
       }
-    });
+   else if (!this.step) {
+      await this.isOnboardingCompleted();
 
+      if (this.step < 5) {
+        this.router.navigate(['/organization-onboarding/personal-information']);
+        return false;
+      }
+    }
+    if(this.dataService.isToDoStepCompleted){
+      this.isToDoStepsCompleted=this.dataService.isToDoStepCompleted;
+    }
+    else  if (!this.isToDoStepsCompleted) {
+      await this.isToDoStepsCompletedData();
 
-    // if (this.isOrganizationOnboarded(this.ONBOARDING_STEP)) {
-    //   console.log(this.ONBOARDING_STEP);
-    //   this.router.navigate(['/dashboard']);
-    // } else {
-    //   console.log(this.ONBOARDING_STEP);
-    //   this.router.navigate(['/organization-onboarding/personal-information']);
-    // }
-// if(role+todo incopplete(){
-//   this.router.navigate(['/roo']);
-//   return false;
-// }
-debugger
-console.log("this.ROLE",this.ROLE,"----",this.isToDoStepsCompleted )
-   if(this.ROLE == 'ADMIN' && this.isToDoStepsCompleted == 0 && route!.routeConfig!.path == 'dashboard') {
-    console.log("redirecting from guaRD")
-    this.router.navigate(['/to-do-step-dashboard']);
-    return false;
-   }
+    }
+
+    if (this.ROLE == 'ADMIN' && this.isToDoStepsCompleted == 0 && route!.routeConfig!.path == 'dashboard') {
+      this.router.navigate(['/to-do-step-dashboard']);
+      return false;
+    }
     await this.rbacService.isUserInfoInitializedMethod();
     if (route !== null && route.routeConfig !== null) {
-      console.log(!this.rbacService.shouldDisplay('dashboard') ,
-    route.routeConfig.path == 'dashboard');
       if (
-          !this.rbacService.shouldDisplay('dashboard') &&
+        !this.rbacService.shouldDisplay('dashboard') &&
         route.routeConfig.path == 'dashboard'
       ) {
         this.router.navigate(['/employee-profile'], {
@@ -197,19 +197,34 @@ console.log("this.ROLE",this.ROLE,"----",this.isToDoStepsCompleted )
   // }
 
 
-  isToDoStepsCompleted : number = 0;
- isToDoStepsCompletedData(): Promise<any>  {
+  isToDoStepsCompleted !: number;
+  isToDoStepsCompletedData(): Promise<any> {
     return new Promise((resolve, reject) => {
       this.dataService.isToDoStepsCompleted().subscribe(
         (response) => {
           this.isToDoStepsCompleted = response.object;
           resolve(response);
         },
-          (error: any) => {
-            resolve(true);
-          }
-        );
+        (error: any) => {
+          resolve(true);
+        }
+      );
     });
   }
 
+  isOnboardingCompleted(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this._onboardingService.getOrgOnboardingStep().subscribe((response: any) => {
+        this.step = parseInt(response?.object?.step);
+        resolve(response);
+
+      },
+        (error: any) => {
+          resolve(true);
+        }
+      );
+    });
+
+
+  }
 }

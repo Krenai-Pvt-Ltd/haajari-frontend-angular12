@@ -11,12 +11,12 @@
             <span class="alert-badge" *ngIf="totalNewMailNotification>0"></span>
           </a>
           <div class="dropdown-menu dropdown-menu-end dropdown-lg pt-0">
-            <h6 class="dropdown-item-text font-15 m-0 py-3 border-bottom d-flex justify-content-between align-items-center"> Messages <span class="badge bg-soft-primary badge-pill" *ngIf="totalNewMailNotification>0">{{totalNewMailNotification}}</span>
+            <h6 class="dropdown-item-text font-15 m-0 py-3 border-bottom d-flex justify-content-between align-items-center"> Request <span class="badge bg-soft-primary badge-pill" *ngIf="totalNewMailNotification>0">{{totalNewMailNotification}}</span>
             </h6>
             <!-- <div class="notification-menu" data-simplebar *ngIf="mailLoading"><div class="text-center" style="height: 80px; padding-top: 30px;"><div class="spinner-border text-center" role="status" style="margin-left: 40px;"><span class="visually-hidden">Loading...</span></div></div></div> -->
             <div class="notification-menu" data-simplebar *ngIf="!mailLoading && mailList.length==0">
               <div class="text-center" style="height: 80px; padding-top: 30px;">
-                <h6>No Pending Message</h6>
+                <h6>No Pending Request</h6>
               </div>
             </div>
             <!-- <div class="scroll" (scroll)="onMailScroll($event)" *ngIf="mailList.length > 0"><a class="dropdown-item py-3" *ngFor="let mail of mailList"
@@ -49,10 +49,10 @@
           </div>
         </li>
         <li class="dropdown notification-list">
-          <a class="nav-link dropdown-toggle arrow-none nav-icon" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false" (click)="fetchNotification('notify')">
+          <!-- <a class="nav-link dropdown-toggle arrow-none nav-icon" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false" (click)="fetchNotification('notify')">
             <i class="ti ti-bell"></i>
             <span class="alert-badge" *ngIf="newNotiication"></span>
-          </a>
+          </a> -->
           <div class="dropdown-menu dropdown-menu-end dropdown-lg pt-0">
             <h6 class="dropdown-item-text font-15 m-0 py-3 border-bottom d-flex justify-content-between align-items-center"> Notifications <span class="badge bg-soft-primary badge-pill" *ngIf="totalNewNotification>0">{{totalNewNotification}}</span>
             </h6>

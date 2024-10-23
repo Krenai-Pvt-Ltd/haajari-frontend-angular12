@@ -409,3 +409,28 @@ a.fetch-location {
     min-height: 220px;
   }
 }
+
+.custom-radio {
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px;
+}
+
+.custom-radio input[type="radio"] {
+  margin-right: 10px;
+}
+
+.custom-radio label {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+}
+
+.custom-radio strong {
+  font-size: 1rem;
+}
+
+.custom-radio span {
+  font-size: 0.875rem;
+}
+
