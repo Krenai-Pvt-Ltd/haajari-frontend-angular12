@@ -32,6 +32,7 @@ import { SubscriptionComponent } from './components/subscription/subscription.co
 import { SubscriptionGuard } from 'src/app/guards/subscription.guard';
 import { PreviewFormComponent } from '../employee-onboarding/preview-form/preview-form.component';
 import { ReferFriendComponent } from './components/refer-friend/refer-friend.component';
+import { NewEmployeeProfileComponent } from './components/new-employee-profile/new-employee-profile.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -176,6 +177,10 @@ const routes: Routes = [
       {
         path: 'refer-friend',
         component: ReferFriendComponent,
+      },
+      {
+        path: 'new-employee-profile',
+        component: NewEmployeeProfileComponent,
       },
     ],
   },

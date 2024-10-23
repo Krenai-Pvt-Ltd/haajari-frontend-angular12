@@ -375,7 +375,7 @@ label {
   background-color: rgba(236, 236, 236, 0.21) !important;
   border: none !important;
   border-radius: 0px !important;
-  min-height: 44px !important;
+  min-height: 32px !important;
   font-weight: 400 !important;
   font-size: 12px !important;
   line-height: 18px !important;
@@ -617,4 +617,9 @@ actionMenuList .dropdown-item i {
 
 .navbar-custom.employeeLoginHead > ul:not(class) {
   padding-left: 15px;
+}
+
+
+::ng-deep.ant-select-selector{
+  background-color: #fff !important;
 }

@@ -70,6 +70,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { ReferFriendComponent } from './components/refer-friend/refer-friend.component';
+import { NewEmployeeProfileComponent } from './components/new-employee-profile/new-employee-profile.component';
 
 @NgModule({
   declarations: [
@@ -113,6 +114,7 @@ import { ReferFriendComponent } from './components/refer-friend/refer-friend.com
     ToDoStepDashboardComponent,
     SubscriptionComponent,
     ReferFriendComponent,
+    NewEmployeeProfileComponent,
   ],
   imports: [
     CommonModule,

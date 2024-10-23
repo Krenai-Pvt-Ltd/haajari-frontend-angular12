@@ -8,6 +8,7 @@ import { TopbarComponent } from './topbar/topbar.component';
 import { HajiriPageLoaderComponent } from './hajiri-page-loader/hajiri-page-loader.component';
 import { HeaderComponent } from './header/header.component';
 import { SubscriptionRestrictedComponent } from './subscription-restricted/subscription-restricted.component';
+import { NewEmployeeProfileSidebarComponent } from './new-employee-profile-sidebar/new-employee-profile-sidebar.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { SubscriptionRestrictedComponent } from './subscription-restricted/subsc
     SlackDataLoaderComponent,
     DurationPickerComponent,
     CommonComponent,
-    HeaderComponent
+    HeaderComponent,
+    NewEmployeeProfileSidebarComponent
     
   ],
   imports: [CommonModule, CommonRoutingModule],

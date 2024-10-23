@@ -1,0 +1,114 @@
+
+.employee-doucument{
+    border-radius: 2px;
+    border: 1px solid #f1f1f1;
+    background-color: #FFF;
+}
+
+.employee-doucument-box{
+    background-color: #F9FAFC;
+    border-radius: 2px;
+    margin-bottom: 15px;
+}
+
+.employee-doucument-box h5{
+    color: #000;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0.357px;
+    text-transform: capitalize;
+}
+.employee-doucument-box p {
+    color: #6B7280;
+    font-weight: 400;
+    line-height: 26px;
+    letter-spacing: 0.357px;
+    text-transform: capitalize;
+}
+
+.employee-doucument-box svg{
+    width: 24px;
+}
+
+.stap-back-btn {
+    background-color: #fff;
+    border: 1px solid var(--primary-color);
+    width: 31px;
+    height: 31px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+.stap-back-btn svg{
+    width: 18px;
+}
+
+.nav.nav-pills {
+    background-color: transparent;
+    border-bottom: 1px solid #edeff5;
+}
+
+.nav-pills .nav-item.show .nav-link,
+.nav-pills .nav-link.active {
+    background: transparent !important;
+    color: var(--primary-color) !important;
+    border-radius: 0;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.nav-link {
+    margin-right: 20px;
+    display: block;
+    padding: 7px 10px;
+    color: #000;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
+    text-align: left;
+}
+
+.employee-doc-file{
+    background-color: #F1F4F9;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.employee-doc-file svg{
+    width: 15px;
+    position: relative;
+    top: -1px;
+}
+.upload-file{
+    border-radius: 3px;
+}
+
+.upload-file img{
+    width: 100%;
+    height: 130px;
+    object-fit: cover;
+}
+
+.upload-file-input{
+    border: 1px dashed rgba(102, 102, 242, 0.40);
+    height: 150px;
+}
+.add-file{
+    border: 1px solid var(--primary-color);
+    padding: 2px 10px;
+    color: var(--primary-color);
+    font-size: 12px;
+    border-radius: 2px;
+    font-weight: 500;
+}
+
+.upload-file-input svg{
+    width: 28px;
+}
+
+.bi::before,
+[class*=" bi-"]::before,
+[class^=bi-]::before {
+    font-weight: 600 !important;
+}
