@@ -19,18 +19,19 @@ export class AuthGuard implements CanActivate {
   constructor(
     private router: Router,
     private rbacService: RoleBasedAccessControlService,
-    private helperService: HelperService,
-    private _subscriptionPlanService: SubscriptionPlanService,
+    private _helperService: HelperService,
+    private _subscriptionService: SubscriptionPlanService,
     private _onboardingService: OrganizationOnboardingService,
     private dataService: DataService
   ) {
-    this.PLAN_PURCHASED = _subscriptionPlanService
+  
   }
   step!: number;
   UUID: any;
   ROLE: any;
   ONBOARDING_STEP: any;
   PLAN_PURCHASED: any;
+  currentRoute:any;
   async ngOnInit(): Promise<void> {
 
   }
@@ -45,11 +46,14 @@ export class AuthGuard implements CanActivate {
       return false;
     }
 
-
+    if(this._subscriptionService.isSubscription!=undefined){
+      if(!this._subscriptionService.isSubscription || this._subscriptionService.isPlanExpired){
+          return false;
+      }
+    }
 
     this.UUID = await this.rbacService.getUUID();
     this.ROLE = await this.rbacService.getRole();
-    this.PLAN_PURCHASED =
       this.ONBOARDING_STEP = await this.rbacService.getOnboardingStep();
 
       console.log("this.dataService.step",this.dataService.step);
@@ -81,6 +85,21 @@ export class AuthGuard implements CanActivate {
       return false;
     }
     await this.rbacService.isUserInfoInitializedMethod();
+
+
+    if (route !== null && state.url!=null) {
+      this.currentRoute = state.url.split("?")[0];
+      // console.log("=====route========", this.currentRoute,"----","=================",this._helperService.restrictedModules)
+      if (this._helperService.restrictedModules!=null && this._helperService.restrictedModules.length > 0) {
+        var index = this._helperService.restrictedModules.findIndex(module => module.route == this.currentRoute.trim())
+        // console.log("===========restrict",index)
+        if (index > -1) {
+          return false;
+        }
+      }
+    } 
+
+
     if (route !== null && route.routeConfig !== null) {
       if (
         !this.rbacService.shouldDisplay('dashboard') &&
