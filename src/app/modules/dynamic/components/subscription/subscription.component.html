@@ -36,8 +36,8 @@
             role="tabpanel"
             aria-labelledby="subscription-tab"
           >
-            <div class="row">
-              <div class="col-md-3" *ngIf="_subscriptionPlanService.isSubscription">
+            <div class="row" >
+              <div class="col-md-3" *ngIf="_subscriptionPlanService.isSubscription && !_subscriptionPlanService.isTrialPlan">
                 <div class="current-plan-box pt-4" *ngIf="!RulesRegulation">
                   <h2 class="font-18">Current</h2>
 
