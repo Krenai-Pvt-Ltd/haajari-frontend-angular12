@@ -302,7 +302,7 @@ export class Key {
   //EPF, ESI & TDS
   public static EPF = 10;
   public static ESI = 11;
-  public static TDS = 12; 
+  public static TDS = 12;
 
   //Payroll steps
   public static PAYROLL_STEP_COMPLETED = 13;

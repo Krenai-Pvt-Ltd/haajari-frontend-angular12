@@ -729,6 +729,21 @@
                       <div
                         class="add-filtter d-flex justify-content-end align-items-center gap-1"
                       >
+                      <button
+                      class="btn primaryBtnLink"
+                      data-bs-toggle="modal"
+                      (click)="downloadUserDataInExcelFormatMethodCall()"
+                      type="button"
+                    >
+                      <i class="bi bi-download"></i>
+                      <span *ngIf="!downloadingFlag">Download</span>
+                      <div class="dot-opacity-loader" *ngIf="downloadingFlag">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                    </button>
+                    <span class="btnSeprator"></span>
                         <button
                           class="btn primaryBtnLink"
                           type="button"
@@ -988,7 +1003,7 @@
                         </div>
                       </td>
                       <td class="stickyColTdend text-end">
-                        
+
                         <div class="dropdown">
                           <button
                             class="btn btnAction dropdown-toggle"
@@ -1669,7 +1684,7 @@
               isErrorToggle
             "
           >
-            <h4 class="alert-heading font-18">Attention!</h4>
+            <h4 class="alert-heading font-18">Attention!!</h4>
             <p *ngIf="alreadyUsedPhoneNumberArray.length > 0">
               Phone Numbers:
               {{ formatAsCommaSeparated(alreadyUsedPhoneNumberArray) }}
@@ -1686,6 +1701,57 @@
                 </div> -->
             <p *ngIf="!isErrorToggle">
               These credentials are already registered with us!
+            </p>
+          </div>
+          <div
+            class="alert alert-light mb-0 mt-4 bg-soft-warning create-password-warning text-start"
+            role="alert"
+            *ngIf="
+              data.length > 0
+              && !this.areAllFalse()
+            "
+          >
+            <h4 class="alert-heading font-18">Attention</h4>
+            <p *ngIf="isExcel.length > 0">
+              {{ isExcel }}
+            </p>
+            <div *ngIf="data.length > 0">
+              <h3>Uploaded Data</h3>
+              <table border="1">
+                <tr>
+                  <th *ngFor="let col of expectedColumns">{{ col }}</th>
+                </tr>
+                <tr *ngFor="let row of data; let i = index">
+                  <td *ngFor="let cell of expectedColumns; let j = index">
+                    <ng-container *ngIf="j === 4 && i!==0; else otherColumns">
+                      <!-- Dropdown for column 4 -->
+                      <select [(ngModel)]="data[i][j]" [ngClass]="{'invalid-input': invalidCells[i][j]}">
+                        <option *ngFor="let shift of shiftList" [value]="shift.label">{{ shift.label }}</option>
+                      </select>
+                    </ng-container>
+
+                    <ng-template #otherColumns>
+                      <ng-container *ngIf="j === 5 && i!==0; else defaultInput">
+                        <select multiple (change)="onMultiSelectChange($event, i, j)" [(ngModel)]="data[i][j]" [ngClass]="{'invalid-input': invalidCells[i][j]}">
+                          <option *ngFor="let leave of originalLeaveNameList" [value]="leave.label">{{ leave.label }}</option>
+                        </select>
+                      </ng-container>
+                    </ng-template>
+
+
+                    <!-- Default input for other columns -->
+                    <ng-template #defaultInput>
+                      <input
+                        [(ngModel)]="data[i][j]"
+                        [ngClass]="{'invalid-input': invalidCells[i][j]}" />
+                    </ng-template>
+                  </td>
+                </tr>
+              </table>
+              <button (click)="saveFile()">Save Changes</button>
+            </div>
+            <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p>
+            <p *ngIf="!isErrorToggle">
             </p>
           </div>
         </ng-container>

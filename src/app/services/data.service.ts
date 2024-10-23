@@ -158,6 +158,10 @@ export class DataService {
       { params }
     );
   }
+  downloadUserDataInExcelFormat(): Observable<any> {
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/users/excel/usersData`);
+  }
   getAttendanceDetailsByDateDuration(
     startDate: any,
     endDate: any,
