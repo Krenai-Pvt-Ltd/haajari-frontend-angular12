@@ -673,6 +673,7 @@
                     aria-controls="due-payment"
                     aria-selected="false"
                     tabindex="-1"
+                    *ngIf="dueInvoices.length>0"
                   >
                     Due payment
 
@@ -824,46 +825,9 @@
                   class="tab-pane fade"
                   id="due-payment"
                   aria-labelledby="due-payment-tab"
+                  
                 >
-                  <div
-                    class="due-payment-notifaction p-3 mt-3 d-flex align-items-center justify-content-between"
-                    style="background-image: url(../assets/images/vector-3.svg)"
-                  >
-                    <div class="d-flex align-items-center gap-3">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="43"
-                        height="40"
-                        viewBox="0 0 43 40"
-                        fill="none"
-                      >
-                        <path
-                          d="M41.1459 30.7012L26.3026 3.41549C23.9178 -0.599372 18.1043 -0.604706 15.7163 3.41549L0.873772 30.7012C-1.56415 34.8037 1.38744 39.9988 6.1657 39.9988H35.8528C40.627 39.9988 43.5839 34.8079 41.1459 30.7012ZM21.0095 35.0747C19.6522 35.0747 18.5474 33.9699 18.5474 32.6127C18.5474 31.2554 19.6522 30.1506 21.0095 30.1506C22.3667 30.1506 23.4715 31.2554 23.4715 32.6127C23.4715 33.9699 22.3667 35.0747 21.0095 35.0747ZM23.4715 25.2265C23.4715 26.5838 22.3667 27.6886 21.0095 27.6886C19.6522 27.6886 18.5474 26.5838 18.5474 25.2265V12.9163C18.5474 11.559 19.6522 10.4542 21.0095 10.4542C22.3667 10.4542 23.4715 11.559 23.4715 12.9163V25.2265Z"
-                          fill="#FF2F2F"
-                        />
-                      </svg>
-
-                      <div>
-                        <h5 class="alert-heading text-danger font-18 mb-1">
-                          You have 1 payment(s) past due
-                        </h5>
-                        <p class="mb-0 font-14">
-                          To avoid suspension of your AwS account, pay the full
-                          amount immediately, If you made a payment recently, it
-                          will appear in the Payments page in 5 to 7
-                          <br />business days. For any questions, contact
-                        </p>
-                      </div>
-                    </div>
-
-                    <button
-                      class="p-0 btn text-danger font-18"
-                      style="font-weight: 500"
-                    >
-                      Customer Support
-                    </button>
-                  </div>
-
+                 
                   <div
                     class="mt-3 payment-summary p-3 d-flex align-items-center justify-content-between"
                   >
@@ -1006,9 +970,7 @@
         <div class="mt-4 row">
           <div class="col-md-7">
             <div class="subscription-plan-box">
-              <div
-                class="d-flex align-items-center justify-content-between TotalEmployee pb-3 mb-3"
-              >
+              <div class="d-flex align-items-center justify-content-between TotalEmployee pb-3 mb-3">
                 <div>
                   <h5 class="mb-1 font-16">Total Employee</h5>
                   <p class="mb-0">
@@ -1016,10 +978,8 @@
                   </p>
                 </div>
 
-               
-               
 
-                <div class="position-relative borderScaleanimation">
+                <div class="">
                   <div class="gradient-border">
                   <input
                     type="text"
@@ -1034,9 +994,13 @@
                     oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/^0+/, '').slice(0, 6);"
                     required
                   />
-                  </div>
+                  <p class="mb-0" *ngIf="!isValidEmployeeCount">
+                    Lorem ipsum dolor
+                  </p>
                 </div>
               </div>
+              </div>
+
               <div class="TotalEmployee" style="border: none">
                 <div>
                   <h5 class="mb-1 font-16">Subscription Plan</h5>
@@ -1081,21 +1045,24 @@
                   >
                     <div class="col-md-9">
                       <h1 class="mb-3">{{selectedSubscriptionPlan.name}} Plan</h1>
-                      <p class="mb-0 text-black font-16">
+                      <!-- <p class="mb-0 text-black font-16">
                         Perfect for growing businesses that need <br />
                         advanced workforce management
+                      </p> -->
+                      <p *ngIf="selectedSubscriptionPlan.isYearly==1" class="mb-0 text-black font-16">
+                        <span><b>30% off</b></span> with annual contract
                       </p>
                     </div>
 
                     <div class="d-flex align-items-center gap-3 col-md-3">
                       <div>
-                        <h3 class="mb-0" *ngIf="selectedSubscriptionPlan.isYearly==1">₹{{selectedSubscriptionPlan.amount + selectedSubscriptionPlan.discountAmount}}</h3>
-                        <h2 class="mt-2">₹{{selectedSubscriptionPlan.amount}}</h2>
-                        <h5 class="font-14">month/per employee</h5>
+                      <div class="d-flex align-items-center gap-3">
+                            <h3 class="mb-0" *ngIf="selectedSubscriptionPlan.isYearly==1">₹{{selectedSubscriptionPlan.amount + selectedSubscriptionPlan.discountAmount}}</h3>
+                            <h2 class="mt-2">₹{{selectedSubscriptionPlan.amount}}</h2>
+                        </div>
+                        <h5 class="font-14">Month/Per Employee</h5>
 
-                        <p *ngIf="selectedSubscriptionPlan.isYearly==1">
-                          <span><b>30% off</b></span> with annual contract
-                        </p>
+                       
                       </div>
                     </div>
                   </div>
@@ -1207,9 +1174,15 @@
                           </p>
                         </div>
                         <div>
-                          <input type="text" class="form-control employee-count-form text-center" id="gst" name="gst" minlength="15" 
-                          [ngClass]="{'verified-gst':isVerified}" maxlength="15"  placeholder="Enter GST Number" [(ngModel)]="gstNumber" #gstnumber="ngModel"
+                          <!-- -->
+                          <input type="text" class="form-control employee-gst-form text-center" id="gst" name="gst" minlength="15" 
+                          [ngClass]="{'verified-gst':!gstLoading && isVerified && gstNumber.length==15, 'incorrect-gst': !gstLoading &&  !isVerified && gstNumber.length==15 }" maxlength="15"  placeholder="Enter GST Number" [(ngModel)]="gstNumber" #gstnumber="ngModel"
                           oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/g,'').replace(/(\..*)\./g, '$1');" (keyup)="checkGst()">
+                         
+                            <div class="loader-line"  *ngIf="gstLoading"></div>
+                            <div class="text-end mt-2" *ngIf="!isVerified && !gstLoading &&  gstNumber.length==15">
+                          <p class="font-13 text-danger" style="font-weight: 400;">Incorrect GST Number</p>
+                          </div>
                         </div>
                       </div>
   
@@ -1375,7 +1348,7 @@
               </div>
             </div>
             <button
-              class="btn w-100 text-white proceed-payment mt-3" [disabled]="payableAmount == undefined || payableAmount == null || payableAmount == 0 || isUnderProcess"
+              class="btn w-100 text-white proceed-payment mt-3" [disabled]="payableAmount == undefined || payableAmount == null || payableAmount == 0 || isUnderProcess || !isValidEmployeeCount"
             (click)="activatePlan()">
               Proceed To Payment <span *ngIf="isUnderProcess" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             </button>
@@ -1728,7 +1701,15 @@ Dues Paid Loader
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Numquam omnis possimus placeat vitae aspernatur dolores at voluptate sit, adipisci quas fugit dolor dicta reprehenderit earum excepturi, rem, recusandae aliquam delectus!
+        <div class="modal-body p-0" *ngIf="isUnderProcess"> 
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+  
+        </div>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
+        Numquam omnis possimus placeat vitae aspernatur dolores at voluptate sit,
+         adipisci quas fugit dolor dicta reprehenderit earum excepturi, rem, recusandae aliquam delectus!
       </div>
       
     </div>

@@ -173,7 +173,13 @@ export class SubscriptionComponent implements OnInit {
     this.calculateByEmployeeSize();
   }
   
+  isValidEmployeeCount:boolean=false;
   calculateEmployeeSize(){
+    if(this.employeeCount < this.totalEmployee){
+      this.isValidEmployeeCount = false;
+    }else{
+      this.isValidEmployeeCount = true;
+    }
     this.removeCoupon();
   }
 
@@ -326,15 +332,26 @@ checkGst(){
   }
 }
 
-gstResponse:GstResponse = new GstResponse();
-  verifyGst(){
+  gstResponse: GstResponse = new GstResponse();
+  gstLoading: boolean = false;
+  verifyGst() {
+    this.gstLoading = true;
     this._subscriptionPlanService.verifyGstNumber(this.gstNumber).subscribe((response) => {
+      this.gstLoading = false;
       if (response.status) {
-        this.isVerified =true;
+     
         this.gstResponse = response.object;
+        if (this.gstResponse == null) {
+             this.isVerified =false;
+        } else {
+             this.isVerified =true;
+        }
       }else{
         this.isVerified =false;
-      }
+      }   
+    }, (error) => {
+      this.gstLoading = false;
+       this.isVerified =false;
     });
   }
 

@@ -1129,7 +1129,7 @@
                         <th class="text-left">Overtime</th>
                         <th class="text-left">Paid Leave</th>
                         <th class="text-left">Unpaid Leave</th>
-                        <th class="text-left">Unmarked</th>
+                        <!-- <th class="text-left">Unmarked</th> -->
                         <th class="text-left">Total Attendance</th>
                       </tr>
                     </thead>
@@ -1510,8 +1510,8 @@
                                 {{ attendanceReportResponse.presentCount }}
                               </td>
                               <td class="text-center">
-                                <!-- {{ attendanceReportResponse.absentUpToToday }} -->
-                                  0
+                                {{ attendanceReportResponse.totalAbsentCount }}
+                                  
                               </td>
                               <td class="text-center">
                                 {{ attendanceReportResponse.halfDayCount }}
@@ -1530,14 +1530,14 @@
                                   attendanceReportResponse.unpaidLeave
                                 }}
                               </td>
-                              <td class="text-center">
+                              <!-- <td class="text-center">
                                 {{ attendanceReportResponse.unmarkedAttendanceCount }}
-                              </td>
+                              </td> -->
                               <td class="text-center">
                                 <!-- {{
                                   attendanceReportResponse.totalPayOutDaysUpToToday
                                 }} -->
-                                  0
+                                  {{attendanceReportResponse.totalDayInMonth - attendanceReportResponse.totalDeduction}}
                               </td>
                             </tr>
                             <tr

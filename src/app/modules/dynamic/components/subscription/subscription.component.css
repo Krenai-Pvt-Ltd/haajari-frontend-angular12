@@ -351,17 +351,17 @@
    }
  } */
 
- /* .employee-count-form {
+ .employee-count-form {
    border-radius: 2px;
-   border: 1px solid var(--primary-color) !important;
+    border: 1px solid #f1f1f1;
    background: rgba(236, 236, 236, 0.21);
    font-size: 13px !important;
    font-weight: 400;
    opacity: 0.6;
    max-width: 150px;
    animation: border-glow 1.5s ease-in-out infinite;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 10px var(--primary-color);
+    /* border-color: var(--primary-color);
+    box-shadow: 0 0 10px var(--primary-color); */
     transition: border-color 0.3s, box-shadow 0.3s;
 
  }
@@ -381,11 +381,21 @@
      border-color: var(--primary-color);
      box-shadow: 0 0 5px var(--primary-color);
    }
- } */
+ }
 
- .employee-count-form {
+ .employee-gst-form {
    border-radius: 2px;
-   border: none;
+   border: 1px solid #f1f1f1;
+   background: #fff;
+   font-size: 13px !important;
+   font-weight: 400;
+   /* max-width: 150px; */
+   z-index: 2;
+ }
+
+ /* .employee-count-form {
+   border-radius: 2px;
+   border: 1px solid #f1f1f1;
    background: #fff;
    font-size: 13px !important;
    font-weight: 400;
@@ -417,7 +427,7 @@
       100% {
         background-position: 0% 50%;
       }
-    }
+    } */
 
 .plan-selected {
   background: #ebebff;
@@ -1025,3 +1035,47 @@
   bottom: 0px;
 }
 
+
+
+.loader-line {
+  height: 2px;
+  position: relative;
+  overflow: hidden;
+  background-color: #f1f1f1;
+  margin-top: 0px;
+  /* margin: 100px auto; */
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+}
+
+.loader-line:before {
+  content: "";
+  position: absolute;
+  left: -50%;
+  height: 2px;
+  width: 40%;
+  background-color: #4660f6;
+  -webkit-animation: lineAnim 1s linear infinite;
+  -moz-animation: lineAnim 1s linear infinite;
+  animation: lineAnim 1s linear infinite;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+}
+
+@keyframes lineAnim {
+  0% {
+    left: -40%;
+  }
+
+  50% {
+    left: 20%;
+    width: 80%;
+  }
+
+  100% {
+    left: 100%;
+    width: 100%;
+  }
+}
