@@ -8,6 +8,7 @@ import { InvoiceDetail } from 'src/app/models/InvoiceDetail';
 import { Invoices } from 'src/app/models/Invoices';
 import { OrganizationSubscriptionDetail } from 'src/app/models/OrganizationSubscriptionDetail';
 import { SubscriptionPlan } from 'src/app/models/SubscriptionPlan';
+import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
 import { RAZOR_PAY_KEY } from 'src/environments/environment';
@@ -28,6 +29,7 @@ export class SubscriptionComponent implements OnInit {
   readonly Constant = constant; 
   constructor( public _subscriptionPlanService: SubscriptionPlanService,
     private _roleBasedService: RoleBasedAccessControlService,
+    private _helperService: HelperService,
     private db: AngularFireDatabase,private ngZone: NgZone) {
 
       this.orgUuid = this._roleBasedService.userInfo.orgRefId;
@@ -309,6 +311,7 @@ export class SubscriptionComponent implements OnInit {
     this.getCurrentSubscriptionPlan();
     this._subscriptionPlanService.getOrganizationSubsPlanDetail();
     this._subscriptionPlanService.isSubscriptionPlanExpired();
+    this._helperService.getRestrictedModules();
     this.removeCoupon();
   }
 

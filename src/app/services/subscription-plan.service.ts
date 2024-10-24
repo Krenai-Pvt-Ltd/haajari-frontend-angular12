@@ -26,13 +26,6 @@ export class SubscriptionPlanService {
  };
 
 
-  // async getPlanAfterOnboarding(){
-  //   debugger
-  //   await this.isSubscriptionPlanExpired();
-  //   await this._helperService.getRestrictedModules();
-  //   this.getOrganizationSubsPlanDetail();
-  // }
-
 
   planName:string='';
   month:number=0;
