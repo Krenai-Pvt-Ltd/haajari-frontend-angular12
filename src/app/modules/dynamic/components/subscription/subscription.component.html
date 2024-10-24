@@ -673,6 +673,7 @@
                     aria-controls="due-payment"
                     aria-selected="false"
                     tabindex="-1"
+                    *ngIf="dueInvoices.length>0"
                   >
                     Due payment
 
@@ -824,8 +825,9 @@
                   class="tab-pane fade"
                   id="due-payment"
                   aria-labelledby="due-payment-tab"
+                  
                 >
-                  <div
+                  <!-- <div
                     class="due-payment-notifaction p-3 mt-3 d-flex align-items-center justify-content-between"
                     style="background-image: url(../assets/images/vector-3.svg)"
                   >
@@ -862,7 +864,7 @@
                     >
                       Customer Support
                     </button>
-                  </div>
+                  </div> -->
 
                   <div
                     class="mt-3 payment-summary p-3 d-flex align-items-center justify-content-between"
@@ -1033,6 +1035,9 @@
                     oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/^0+/, '').slice(0, 6);"
                     required
                   />
+                  <p class="mb-0" *ngIf="!isValidEmployeeCount">
+                    Lorem ipsum dolor
+                  </p>
                 </div>
               </div>
               <div class="TotalEmployee" style="border: none">
@@ -1371,7 +1376,7 @@
               </div>
             </div>
             <button
-              class="btn w-100 text-white proceed-payment mt-3" [disabled]="payableAmount == undefined || payableAmount == null || payableAmount == 0 || isUnderProcess"
+              class="btn w-100 text-white proceed-payment mt-3" [disabled]="payableAmount == undefined || payableAmount == null || payableAmount == 0 || isUnderProcess || !isValidEmployeeCount"
             (click)="activatePlan()">
               Proceed To Payment <span *ngIf="isUnderProcess" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             </button>
@@ -1724,7 +1729,15 @@ Dues Paid Loader
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Numquam omnis possimus placeat vitae aspernatur dolores at voluptate sit, adipisci quas fugit dolor dicta reprehenderit earum excepturi, rem, recusandae aliquam delectus!
+        <div class="modal-body p-0" *ngIf="isUnderProcess"> 
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+  
+        </div>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
+        Numquam omnis possimus placeat vitae aspernatur dolores at voluptate sit,
+         adipisci quas fugit dolor dicta reprehenderit earum excepturi, rem, recusandae aliquam delectus!
       </div>
       
     </div>
