@@ -1324,6 +1324,8 @@
                       >Select Shift <span class="text-optional">* </span></label
                     >
                     <nz-select
+                    id="shift"
+                    name="shift"
                       class="whatapp-login-input"
                       nzPlaceHolder="Select a shift"
                       nzAllowClear
@@ -1377,6 +1379,52 @@
                     </div>
                   </div>
                 </div>
+
+                <div class="col-md-12">
+                  <div class="mb-3">
+                    <label for="gender" class="pb-2">Select Gender <span class="text-optional">*</span></label>
+                    <nz-select
+                      id="gender"
+                      name="gender"
+                      [(ngModel)]="userPersonalInformationRequest.gender"
+                      required
+                      class="form-control whatapp-login-input"
+                      #genderField="ngModel"
+                      nzPlaceHolder="Select Gender"
+                    >
+                      <nz-option *ngFor="let gender of genders" [nzValue]="gender" [nzLabel]="gender"></nz-option>
+                    </nz-select>
+
+
+
+                    <!-- Error if no gender selected -->
+                    <div *ngIf="genderField.invalid && genderField.touched" class="errortxt mt-2 mb-0" style="color: red">
+                      <i class="bi bi-exclamation-circle"></i> Please select a gender.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="mb-3">
+                    <label for="joiningDate" class="pb-2">Joining Date <span class="text-optional">*</span></label>
+                    <nz-date-picker
+                      id="joiningDate"
+                      name="joiningDate"
+                      #joiningDateField="ngModel"
+                      [(ngModel)]="userPersonalInformationRequest.joiningDate"
+                      required
+                      nzPlaceHolder="Select Joining Date">
+                    </nz-date-picker>
+
+                    <!-- Error message for joining date if required -->
+                    <!-- <div *ngIf="isJoiningDateInvalid && joiningDateField.touched" class="errortxt mt-2 mb-0" style="color: red">
+                      <i class="bi bi-exclamation-circle"></i> Joining Date is required.
+                    </div> -->
+                  </div>
+                </div>
+
+
+
                 <div class="col-md-12">
                   <div class="mb-3">
                     <label for="teamNames" class="pb-2"
@@ -1597,7 +1645,7 @@
   aria-hidden="true"
   #sampleFileModal
 >
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-xl" style="max-width: 1400px !important;">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="sampleFileModalLabel">Sample Excel File</h5>
@@ -1708,7 +1756,7 @@
             role="alert"
             *ngIf="
               data.length > 0
-              && !this.areAllFalse()
+              && isinvalid
             "
           >
             <h4 class="alert-heading font-18">Attention</h4>
@@ -1723,17 +1771,20 @@
                 </tr>
                 <tr *ngFor="let row of data; let i = index">
                   <td *ngFor="let cell of expectedColumns; let j = index">
-                    <ng-container *ngIf="j === 4 && i!==0; else otherColumns">
+                    <ng-container *ngIf="this.expectedColumns[j] === 'Shift*' && this.expectedColumns[i] !== 'S. NO.*'; else leaveColumns">
                       <!-- Dropdown for column 4 -->
-                      <select [(ngModel)]="data[i][j]" [ngClass]="{'invalid-input': invalidCells[i][j]}">
-                        <option *ngFor="let shift of shiftList" [value]="shift.label">{{ shift.label }}</option>
-                      </select>
+                      <nz-select
+                        [(ngModel)]="data[i][j]"
+                        [ngClass]="{'invalid-input': invalidCells[i][j]}"
+                        (ngModelChange)="onValueChange(i, j)"
+                        nzPlaceHolder="Select Shift">
+                        <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label" [nzLabel]="shift.label"></nz-option>
+                      </nz-select>
+
                     </ng-container>
 
-
-                    {{data[i][j]}}
-                    <ng-template #otherColumns>
-                    <ng-container *ngIf="j === 5 && i!==0; else defaultInput">
+                    <ng-template #leaveColumns>
+                    <ng-container *ngIf="this.expectedColumns[j] === 'LeaveNames' && this.expectedColumns[i] !== 'S. NO.*'; else otherColumns">
                     <nz-select
                       class="whatapp-login-input"
                       nzMode="multiple"
@@ -1771,12 +1822,45 @@
                   </ng-container>
                 </ng-template>
 
+                <ng-template #otherColumns>
+
+                  <ng-container *ngIf="this.expectedColumns[j] === 'JoiningDate*' && this.expectedColumns[i] !== 'S. NO.*'; else genderColumns">
+                    <nz-date-picker
+                    id="joiningDate"
+                    name="joiningDate"
+                    #joiningDate="ngModel"
+                    [(ngModel)]="data[i][j]"
+                    required
+                    (ngModelChange)="onDateChange($event, i, j)"
+                    [ngClass]="{'invalid-input': invalidCells[i][j]}"
+                    [nzAllowClear]="false"
+                    nzPlaceHolder="Select Joining Date">
+                </nz-date-picker>
+                </ng-container>
+              </ng-template>
+
+              <ng-template #genderColumns>
+                <ng-container *ngIf="this.expectedColumns[j] === 'Gender' && this.expectedColumns[i] !== 'S. NO.*'; else defaultInput">
+                  <nz-select
+                    id="gender"
+                    name="gender"
+                    [(ngModel)]="data[i][j]"
+                    [ngClass]="{'invalid-input': invalidCells[i][j]}"
+                    (ngModelChange)="onValueChange(i, j)"
+                    nzPlaceHolder="Select Gender">
+                    <nz-option *ngFor="let gender of genders" [nzValue]="gender" [nzLabel]="gender"></nz-option>
+                  </nz-select>
+
+              </ng-container>
+            </ng-template>
+
 
                     <!-- Default input for other columns -->
                     <ng-template #defaultInput>
                       <input
                         [(ngModel)]="data[i][j]"
-                        [ngClass]="{'invalid-input': invalidCells[i][j]}" />
+                        [ngClass]="{'invalid-input': invalidCells[i][j]}"
+                        (ngModelChange)="onValueChange(i, j)"/>
                     </ng-template>
                   </td>
                 </tr>

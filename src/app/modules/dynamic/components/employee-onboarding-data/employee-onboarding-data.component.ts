@@ -17,7 +17,8 @@ import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
-
+import { DatePipe } from '@angular/common';
+import * as moment from 'moment';
 export interface Team {
   label: string;
   value: string;
@@ -44,7 +45,8 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     private helperService: HelperService,
     private modalService: NgbModal,
     private http: HttpClient,
-    private _subscriptionService:SubscriptionPlanService
+    private _subscriptionService:SubscriptionPlanService,
+    private datePipe: DatePipe
   ) {}
   users: EmployeeOnboardingDataDto[] = [];
   filteredUsers: Users[] = [];
@@ -400,6 +402,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   toggle = false;
   setEmployeePersonalDetailsMethodCall() {
     // Reset the flag
+    debugger
     this.emailAlreadyExists = false;
 
     this.toggle = true;
@@ -685,12 +688,14 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   currentFileUpload: any;
 
 
-  expectedColumns: string[] = ['S. NO.*', 'Name*', 'Phone*', 'Email*', 'Shift*', 'LeaveNames'];
+  expectedColumns: string[] = ['S. NO.*', 'Name*', 'Phone*', 'Email*', 'Shift*', 'LeaveNames','JoiningDate*','Gender'];
+  genders: string[] = ['Male', 'Female'];
   isExcel: string = '';
   data: any[] = [];
   mismatches: string[] = [];
   invalidRows: boolean[] = []; // Track invalid rows
   invalidCells: boolean[][] = []; // Track invalid cells
+  isinvalid: boolean=false;
 
   selectFile(event: any) {
     debugger
@@ -729,18 +734,23 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 this.data = jsonData.map((row: any[]) => {
   // Ensure the 5th column is an array of strings, other columns are treated as strings
   return row.map((cell: any, index: number) => {
-    if (index === 5) {
+    if (this.expectedColumns[index] === 'LeaveNames') {
       // Convert the 5th column to an array of strings
       return cell ? cell.toString().split(',').map((str: string) => str.trim()) : [];
-    } else {
+    }else if (this.expectedColumns[index] === 'JoiningDate*' && cell!=='JoiningDate*') {
+      // Convert the 5th column to an array of strings
+      return cell ?  moment(cell).format('MM-DD-YYYY'): "";
+    }
+     else {
       // Convert other cells to string and trim whitespace
       return cell ? cell.toString().trim() : '';
     }
+
   });
-}).filter((row: any[]) =>
-  // Filter out empty rows
-  row.some((cell: any) => cell !== '')
-);
+            }).filter((row: any[]) =>
+          // Filter out empty rows
+            row.some((cell: any) => cell !== '')
+            );
 
 
 
@@ -749,6 +759,8 @@ this.data = jsonData.map((row: any[]) => {
           this.validateRows(this.data);
           if(this.areAllFalse()){
             this.uploadUserFile(file, this.fileName);
+          }else{
+            this.isinvalid=true;
           }
 
 
@@ -761,7 +773,11 @@ this.data = jsonData.map((row: any[]) => {
   }
 
   areAllFalse(): boolean {
-    return this.invalidCells.reduce((acc, row) => acc.concat(row), []).every(value => value === false);
+    return this.invalidCells
+      .reduce((acc, row, rowIndex) => {
+        return acc.concat(row.filter((_, colIndex) => this.expectedColumns[colIndex] !== "LeaveNames"));
+      }, [])
+      .every(value => value === false);
   }
 
   arrayBufferToString(buffer: ArrayBuffer): string {
@@ -786,24 +802,26 @@ this.data = jsonData.map((row: any[]) => {
 
   validateColumns(columnNames: string[]): boolean {
     this.mismatches = []; // Reset mismatches
-    if (columnNames.length !== this.expectedColumns.length) {
-      console.error(`Column length mismatch: expected ${this.expectedColumns.length}, but got ${columnNames.length}`);
-    }
 
-    for (let i = 0; i < Math.max(this.expectedColumns.length, columnNames.length); i++) {
-      const expectedColumn = this.expectedColumns[i]?.trim() || 'undefined';
-      const actualColumn = columnNames[i]?.trim() || 'undefined';
+    // Step 2: Normalize both expected and actual column names for comparison
+    const normalizedColumnNames = columnNames.map(col => col.trim().toLowerCase());
+    const normalizedExpectedColumns = this.expectedColumns.map(col => col.trim().toLowerCase());
 
-      if (actualColumn !== expectedColumn) {
-        this.mismatches.push(`Column ${i + 1}: expected "${expectedColumn}", but got "${actualColumn}"`);
+    // Step 3: Check that every expected column is present in actual column names
+    for (const expectedColumn of normalizedExpectedColumns) {
+      if (!normalizedColumnNames.includes(expectedColumn)) {
+        console.error(`Missing column: "${expectedColumn}"`);
+        this.mismatches.push(`Missing column: "${expectedColumn}"`);
       }
     }
 
+    // Step 4: Log and return false if there are any mismatches
     if (this.mismatches.length > 0) {
       console.error('Column mismatches found:');
       this.mismatches.forEach(mismatch => console.error(mismatch));
       return false;
     }
+
     return true;
   }
 
@@ -815,7 +833,7 @@ this.data = jsonData.map((row: any[]) => {
       const row = rows[i];
       let rowIsValid = true;
 
-      for (let j = 1; j < this.expectedColumns.length-1; j++) {
+      for (let j = 1; j < this.expectedColumns.length; j++) {
         const cellValue = row[j];
         if (cellValue === undefined || cellValue === null || cellValue.toString().trim() === '') {
           rowIsValid = false;
@@ -830,7 +848,7 @@ this.data = jsonData.map((row: any[]) => {
     debugger
 
     this.data[rowIndex][colIndex] = selectedOptions;
-    console.log( this.data[rowIndex][colIndex],selectedOptions)
+    this.onValueChange(rowIndex,colIndex);
   }
 
   saveFile() {
@@ -854,6 +872,23 @@ this.data = jsonData.map((row: any[]) => {
   const event = new Event('change');
   Object.defineProperty(event, 'target', { writable: false, value: { files: dataTransfer.files } });
   this.selectFile(event);
+  }
+
+  onValueChange(i: number, j: number) {
+    if (this.invalidCells[i][j]) {
+      this.invalidCells[i][j] = false;
+    }
+  }
+
+  onDateChange(event: Date, rowIndex: number, columnIndex: number) {
+    // Format the selected date to 'MMM dd yyyy'
+    const formattedDate =moment(event).format('MM-DD-YYYY');
+
+    //  this.datePipe.transform(event, 'MMM dd yyyy');
+
+    // Assign the formatted date back to your data array
+    this.data[rowIndex][columnIndex] = formattedDate;
+    this.onValueChange(rowIndex,columnIndex);
   }
 
 

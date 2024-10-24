@@ -13,6 +13,11 @@
   font-weight: 500;
   letter-spacing: 0.1px;
 }
+.invalid-input {
+  border-color: red; /* Change the border color to red */
+  /* Optionally, you can also change the background color or other styles */
+  background-color: #ffe6e6; /* Light red background */
+}
 .orderpcardleft {
   width: 80%;
 }
@@ -261,7 +266,7 @@ tbody tr {
   padding: 5px 23px;
   border: 1px solid #6666f3;
 }
-/* 
+/*
 .errorboxmain{
     min-height: 20vh;
     background-color: #fff;
@@ -273,7 +278,7 @@ tbody tr {
     padding: 15px;
 } */
 
-/* 
+/*
 .errorboxinner{
     display: flex;
     align-items: center;
@@ -598,7 +603,7 @@ textarea {
   }
 }
 
-/* 
+/*
 .errorboxinner{
     display: flex;
     align-items: center;
