@@ -1,0 +1,38 @@
+.employee-assets{
+    border: 1px solid #f1f1f1;
+}
+
+.assets-request{
+    border-radius: 2px;
+    border: 1px solid #DCDCE4;
+    min-width: 100px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #1C1B1F;
+}
+.assets-request svg{
+    width: 18px;
+}
+.nav.nav-pills {
+    background-color: transparent;
+    border-bottom: 1px solid #edeff5;
+}
+
+.nav-pills .nav-item.show .nav-link,
+.nav-pills .nav-link.active {
+    background: transparent !important;
+    color: var(--primary-color) !important;
+    border-radius: 0;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.nav-link {
+    margin-right: 20px;
+    display: block;
+    padding: 7px 10px;
+    color: #000;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
+    text-align: left;
+}

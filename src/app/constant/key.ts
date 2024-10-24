@@ -1,11 +1,9 @@
+import { BASE_URL } from 'src/environments/environment';
 export class Key {
-  base_url = 'http://localhost:8080/api/v2';
 
-  /* ------------------  Staging urls ----------------*/
-  // base_url ='https://staging.hajiri.work/api/v2';
-
-  /* ------------------  Production urls ----------------*/
-  // base_url = 'https://production.hajiri.work/api/v2';
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  base_url = BASE_URL;
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   public static LOGGED_IN_USER = new Object();
 
@@ -229,22 +227,9 @@ export class Key {
   public static DEMO_ORGANIZATION_UUID = '8d3cc5c2-21a7-11ef-98b2-0a3b903b1973';
 
   //subscription plan
-  get_subscription = '/subcription-plan';
-  get_active_user_count = '/users/active-user-count';
-  get_purchased_status = '/organization-subs-plan/status';
-
-  add_more_employee = '/organization-subs-plan/add-more-employee';
-
   get_invoices = '/invoices';
-  get_last_invoices = '/invoices/last-invoices';
-  get_due_invoices = '/invoices/due-invoices';
-  get_due_pending_Status = '/invoices/due-pending-status';
-
-  get_plan_purchased_log = '/subcription-plan-log';
-  get_plan_purchased_status = '/organization-subs-plan/plan-purchased-status';
-
-  get_org_subs_plan_month_detail = '/organization-subs-plan-month-detail';
-  cancel_subscription = '/organization-subs-plan-month-detail';
+  get_active_user_count = '/users/active-user-count';
+  get_restricted_modules = '/module/restriction'
 
   //NEW SUBSCRIPTION PLAN API KEY
   get_subscription_plans = '/subscription/plan';

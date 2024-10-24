@@ -1,7 +1,6 @@
 import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { constant } from 'src/app/constant/constant';
-import { Key } from 'src/app/constant/key';
 import { StatusKeys } from 'src/app/constant/StatusKeys';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { GstResponse } from 'src/app/models/GstResponse';
@@ -9,6 +8,7 @@ import { InvoiceDetail } from 'src/app/models/InvoiceDetail';
 import { Invoices } from 'src/app/models/Invoices';
 import { OrganizationSubscriptionDetail } from 'src/app/models/OrganizationSubscriptionDetail';
 import { SubscriptionPlan } from 'src/app/models/SubscriptionPlan';
+import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
 import { RAZOR_PAY_KEY } from 'src/environments/environment';
@@ -29,6 +29,7 @@ export class SubscriptionComponent implements OnInit {
   readonly Constant = constant; 
   constructor( public _subscriptionPlanService: SubscriptionPlanService,
     private _roleBasedService: RoleBasedAccessControlService,
+    private _helperService: HelperService,
     private db: AngularFireDatabase,private ngZone: NgZone) {
 
       this.orgUuid = this._roleBasedService.userInfo.orgRefId;
@@ -172,7 +173,13 @@ export class SubscriptionComponent implements OnInit {
     this.calculateByEmployeeSize();
   }
   
+  isValidEmployeeCount:boolean=false;
   calculateEmployeeSize(){
+    if(this.employeeCount < this.totalEmployee){
+      this.isValidEmployeeCount = false;
+    }else{
+      this.isValidEmployeeCount = true;
+    }
     this.removeCoupon();
   }
 
@@ -285,7 +292,7 @@ export class SubscriptionComponent implements OnInit {
     this.realtimeDbSubscriber = this.db.object("/subscription_plan/plan_purchased_by_" + orgUuid).valueChanges()
       .subscribe((res: any) => {
         this.ngZone.run(() => {
-          console.log("/subscription_plan/plan_purchased_by_" + orgUuid + "---" + JSON.stringify(res));
+          // console.log("/subscription_plan/plan_purchased_by_" + orgUuid + "---" + JSON.stringify(res));
           if (res != null) {
             if (res.status == "Processing") {
               this.isUnderProcess = true;
@@ -310,6 +317,7 @@ export class SubscriptionComponent implements OnInit {
     this.getCurrentSubscriptionPlan();
     this._subscriptionPlanService.getOrganizationSubsPlanDetail();
     this._subscriptionPlanService.isSubscriptionPlanExpired();
+    this._helperService.getRestrictedModules();
     this.removeCoupon();
   }
 
@@ -395,6 +403,28 @@ invoiceDetail:InvoiceDetail = new InvoiceDetail();
       window.open(invoiceUrl, "_blank");
     }
   }
+
+
+  // downloadInvocie(invoiceUrl: string) {
+  //   var fileName = invoiceUrl
+  //     .substring(invoiceUrl.lastIndexOf('/'))
+  //     .split('%2F')
+  //     .join('/');
+  //   fileName = fileName.split('%26').join('/');
+  //   fileName = fileName.substring(fileName.lastIndexOf('/'));
+  //   if (fileName.charAt(0) == '/') {
+  //     fileName = fileName.substring(1);
+  //   }
+  //   fileName = fileName.substring(0, fileName.lastIndexOf('?'));
+  //   this.http
+  //     .get(invoiceUrl, { responseType: 'blob' })
+  //     .subscribe((blob: Blob) => {
+  //       const link = document.createElement('a');
+  //       link.href = window.URL.createObjectURL(blob);
+  //       link.download = fileName;
+  //       link.click();
+  //     });
+  // }
 
   dueInvoices:Invoices[] = new Array();
   totalDueInvoices :number=0;
@@ -484,7 +514,7 @@ invoiceDetail:InvoiceDetail = new InvoiceDetail();
       var orgUuid = this.orgUuid.replace(/[^a-zA-Z0-9_]/g, "_");
       this.db.object("/invoices/paid_by_" + orgUuid).set({ status: "Processing" });
       this.isUnderProcess = true;
-      this.getExportStatusFromFirebase();
+      this.getInvoiceStatusFromFirebase();
     });
   }
 
@@ -502,7 +532,7 @@ invoiceDetail:InvoiceDetail = new InvoiceDetail();
     this.realtimeDbSubscriber = this.db.object("/invoices/paid_by_" + orgUuid).valueChanges()
       .subscribe((res: any) => {
         this.ngZone.run(() => {
-          console.log("/invoices/paid_by_" + orgUuid + "---" + JSON.stringify(res));
+          // console.log("/invoices/paid_by_" + orgUuid + "---" + JSON.stringify(res));
           if (res != null) {
             if (res.status == "Processing") {
               this.isUnderProcess = true;
