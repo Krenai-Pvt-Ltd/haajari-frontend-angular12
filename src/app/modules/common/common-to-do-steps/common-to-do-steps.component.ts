@@ -46,7 +46,10 @@ export class CommonToDoStepsComponent implements OnInit {
     });
   }
 
-  isToDoStepsCompletedFlag: number = 0;
+  /***
+   * Initializing to 1, so that it should not be visible by default
+   */
+  isToDoStepsCompletedFlag: number = 1;
   count: number = 0;
   isToDoStepsCompletedData() {
     debugger;
