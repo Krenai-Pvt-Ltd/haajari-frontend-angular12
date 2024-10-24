@@ -495,7 +495,7 @@
                         ">
                         <label for="employeeTypeId">Employee Type</label>
                         <nz-form-control nzErrorTip="Please select an employee type.">
-                          <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select Employee type abc"
+                          <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select Employee type "
                             [(ngModel)]="employeeTypeId" name="empTypeId" #empTypeId="ngModel" required>
                             <nz-option *ngFor="let employeeType of employeeTypeList" [nzValue]="employeeType.id"
                               [nzLabel]="employeeType.name">
