@@ -173,7 +173,13 @@ export class SubscriptionComponent implements OnInit {
     this.calculateByEmployeeSize();
   }
   
+  isValidEmployeeCount:boolean=false;
   calculateEmployeeSize(){
+    if(this.employeeCount < this.totalEmployee){
+      this.isValidEmployeeCount = false;
+    }else{
+      this.isValidEmployeeCount = true;
+    }
     this.removeCoupon();
   }
 
