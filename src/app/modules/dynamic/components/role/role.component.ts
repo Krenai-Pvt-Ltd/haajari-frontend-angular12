@@ -356,7 +356,7 @@ export class RoleComponent implements OnInit {
         );
       },
       (error) => {
-        this.helperService.showToast('Cannot be deleted', Key.TOAST_STATUS_ERROR);
+        this.helperService.showToast('Deletion of all the admins is restricted .One user must always be an admin.', Key.TOAST_STATUS_ERROR);
         console.log(error);
       }
     );
@@ -414,12 +414,8 @@ export class RoleComponent implements OnInit {
           );
         },
         (error) => {
+          this.helperService.showToast('Edit of all the admins is restricted .One user must always be an admin.', Key.TOAST_STATUS_ERROR);
           console.log(error);
-          // this.getUserAndControlRolesByFilterMethodCall();
-          // this.assignroleModalClose.nativeElement.click();
-          // this.emptyAssignRoleToUserInUserAndControlMethodCall();
-          // this.buttonLoaderToAssignRole = false;
-          this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
         }
       );
   }
@@ -551,6 +547,9 @@ export class RoleComponent implements OnInit {
     let navExtra: NavigationExtras = {
       queryParams: { userId: uuid },
     };
-    this.router.navigate(['/employee-profile'], navExtra);
+    // this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], navExtra);
+    const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
+    window.open(url, '_blank');
+    return;
   }
 }

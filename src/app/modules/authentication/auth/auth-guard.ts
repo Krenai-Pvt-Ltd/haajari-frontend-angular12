@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate {
   constructor(
     private router: Router,
     private rbacService: RoleBasedAccessControlService,
-    private helperService: HelperService,
+    private _helperService: HelperService,
     private _subscriptionService: SubscriptionPlanService,
     private _onboardingService: OrganizationOnboardingService,
     private dataService: DataService
@@ -31,6 +31,7 @@ export class AuthGuard implements CanActivate {
   ROLE: any;
   ONBOARDING_STEP: any;
   PLAN_PURCHASED: any;
+  currentRoute:any;
   async ngOnInit(): Promise<void> {
 
   }
@@ -45,9 +46,10 @@ export class AuthGuard implements CanActivate {
       return false;
     }
 
-
-    if(!this._subscriptionService.isSubscription || this._subscriptionService.isPlanExpired){
-        return false;
+    if(this._subscriptionService.isSubscription!=undefined){
+      if(!this._subscriptionService.isSubscription || this._subscriptionService.isPlanExpired){
+          return false;
+      }
     }
 
     this.UUID = await this.rbacService.getUUID();
@@ -83,12 +85,27 @@ export class AuthGuard implements CanActivate {
       return false;
     }
     await this.rbacService.isUserInfoInitializedMethod();
+
+
+    if (route !== null && state.url!=null) {
+      this.currentRoute = state.url.split("?")[0];
+      // console.log("=====route========", this.currentRoute,"----","=================",this._helperService.restrictedModules)
+      if (this._helperService.restrictedModules!=null && this._helperService.restrictedModules.length > 0) {
+        var index = this._helperService.restrictedModules.findIndex(module => module.route == this.currentRoute.trim())
+        // console.log("===========restrict",index)
+        if (index > -1) {
+          return false;
+        }
+      }
+    } 
+
+
     if (route !== null && route.routeConfig !== null) {
       if (
         !this.rbacService.shouldDisplay('dashboard') &&
         route.routeConfig.path == 'dashboard'
       ) {
-        this.router.navigate(['/employee-profile'], {
+        this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], {
           queryParams: {
             userId: await this.rbacService.getUUID(),
             dashboardActive: 'true',

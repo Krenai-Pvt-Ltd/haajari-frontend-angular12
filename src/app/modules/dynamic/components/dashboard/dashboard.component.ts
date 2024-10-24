@@ -1612,7 +1612,7 @@ getPagesNew(): (number | string)[] {
 
   routeToBillingPaymentPage(plandId : any) {
 this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = false
-this.getSubscriptionPlanDetails(plandId);
+// this.getSubscriptionPlanDetails(plandId);
   }
 
 
@@ -1726,17 +1726,7 @@ this.getSubscriptionPlanDetails(plandId);
   }
 
   isPlanPurchased: boolean = false;
-  getPlanPurchasedStatus() {
-    let id = this._activeRouter.snapshot.queryParamMap.get('id')!;
-    this._subscriptionPlanService
-      .getPlanPurchasedStatus(id)
-      .subscribe((response) => {
-        this.isPlanPurchased = response;
-        if (this.isPlanPurchased) {
-          this.router.navigate(['/setting/success']);
-        }
-      });
-  }
+ 
 
   paymentMethod: string = '';
   selectPaymentMethod(value: any) {
@@ -1781,7 +1771,12 @@ this.getSubscriptionPlanDetails(plandId);
     let navExtra: NavigationExtras = {
       queryParams: { userId: uuid },
     };
-    this.router.navigate(['/employee-profile'], navExtra);
+    
+    // this.router.navigate(['/employee-profile'], navExtra);
+    // this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], navExtra);
+    const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
+    window.open(url, '_blank');
+    return;
   }
 
   couponCode: string = '';
@@ -1843,21 +1838,21 @@ this.getSubscriptionPlanDetails(plandId);
       this.totalAmount = this.sbscriptionPlanReq.amount + this.taxAmount;
   }
   
-  getSubscriptionPlanDetails(id: any) {
+  // getSubscriptionPlanDetails(id: any) {
       
-      this._subscriptionPlanService
-          .getSubscriptionPlan(id)
-          .subscribe((response) => {
-              if (response.status) {
-                  this.subscriptionPlan = response.object;
-                  this.originalAmount = this.sbscriptionPlanReq.noOfEmployee *
-                      this.subscriptionPlan.amount * 12 - (this.sbscriptionPlanReq.noOfEmployee *
-                      this.subscriptionPlan.amount * 20 * 12) / 100;
-                  this.sbscriptionPlanReq.amount = this.originalAmount;
-                  this.calculateTotalAmount();
-              }
-          });
-  }
+  //     this._subscriptionPlanService
+  //         .getSubscriptionPlan(id)
+  //         .subscribe((response) => {
+  //             if (response.status) {
+  //                 this.subscriptionPlan = response.object;
+  //                 this.originalAmount = this.sbscriptionPlanReq.noOfEmployee *
+  //                     this.subscriptionPlan.amount * 12 - (this.sbscriptionPlanReq.noOfEmployee *
+  //                     this.subscriptionPlan.amount * 20 * 12) / 100;
+  //                 this.sbscriptionPlanReq.amount = this.originalAmount;
+  //                 this.calculateTotalAmount();
+  //             }
+  //         });
+  // }
 
   @ViewChild('presentModal') presentModal!: ElementRef; 
   routeToAttendanceSetting() {
