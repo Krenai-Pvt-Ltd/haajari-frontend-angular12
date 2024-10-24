@@ -11,6 +11,8 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { EmployeeDocumentComponent } from './employee-document/employee-document.component';
 import { AssetsComponent } from './assets/assets.component';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NzFormModule } from 'ng-zorro-antd/form';
 
 
 
@@ -28,7 +30,9 @@ import { AssetsComponent } from './assets/assets.component';
     EmployeeProfileRoutingModule,
     NzDatePickerModule,
     NzDropDownModule,
-    NzSelectModule
+    NzSelectModule,
+    NzEmptyModule,
+    NzFormModule,
   ]
 })
 export class EmployeeProfileModule { }
