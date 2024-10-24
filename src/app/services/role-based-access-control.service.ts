@@ -151,8 +151,17 @@ export class RoleBasedAccessControlService {
       try {
         let subModules = this.helperService.subModuleResponseList;
 
+        // if(this.helperService.subModuleResponseList == undefined 
+        //   || this.helperService.subModuleResponseList == null 
+        //   || this.helperService.subModuleResponseList.length ==0  ){
+
+        //     this.helperService.subModuleResponseList = await this.helperService.getAccessibleSubModuleResponseMethodCall(); 
+
+        // }
+
         if (subModules == undefined || subModules == null || subModules.length == 0) {
-            subModules = await this.helperService.getAccessibleSubModuleResponseMethodCall();   
+          this.helperService.subModuleResponseList = await this.helperService.getAccessibleSubModuleResponseMethodCall();  
+          subModules = this.helperService.subModuleResponseList; 
         }
 
         if(subModules != undefined &&  subModules != null && subModules.length > 0){

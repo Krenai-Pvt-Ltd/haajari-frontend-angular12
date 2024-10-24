@@ -1,11 +1,6 @@
 import { HelperService } from './../../../services/helper.service';
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  RouterStateSnapshot,
-} from '@angular/router';
+import { ActivatedRouteSnapshot,CanActivate,Router,RouterStateSnapshot} from '@angular/router';
 import { Key } from 'src/app/constant/key';
 import { DataService } from 'src/app/services/data.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
@@ -88,8 +83,9 @@ export class AuthGuard implements CanActivate {
 
 
     this.currentRoute = state.url;
-    if (this.currentRoute !== null) {  
+    if (this.currentRoute != null) {  
         this.currentRoute = this.currentRoute.split("?")[0];
+        // console.log("======this.currentRoute==========",this.currentRoute)
       if (this._helperService.restrictedModules!=null && this._helperService.restrictedModules.length > 0) {
         var index = this._helperService.restrictedModules.findIndex(module => module.route == this.currentRoute.trim())
         if (index > -1) {
@@ -98,10 +94,7 @@ export class AuthGuard implements CanActivate {
       }
 
 
-      if (
-        !this.rbacService.shouldDisplay('dashboard') &&
-        this.currentRoute == '/dashboard'
-      ) {
+      if (!this.rbacService.shouldDisplay('dashboard') && this.currentRoute == '/dashboard') {
         this.router.navigate(['/employee-profile'], {
           queryParams: {
             userId: await this.rbacService.getUUID(),
