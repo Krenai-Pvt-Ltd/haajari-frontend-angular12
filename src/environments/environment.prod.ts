@@ -13,3 +13,6 @@ export const environment = {
 };
 
 export const RAZOR_PAY_KEY: string = "rzp_live_twiokSC5krYrnQ";
+
+export const BASE_URL = 'https://production.hajiri.work/api/v2';
+

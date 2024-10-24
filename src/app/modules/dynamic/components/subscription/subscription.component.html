@@ -36,8 +36,8 @@
             role="tabpanel"
             aria-labelledby="subscription-tab"
           >
-            <div class="row">
-              <div class="col-md-3" *ngIf="_subscriptionPlanService.isSubscription">
+            <div class="row" >
+              <div class="col-md-3" *ngIf="_subscriptionPlanService.isSubscription && !_subscriptionPlanService.isTrialPlan">
                 <div class="current-plan-box pt-4" *ngIf="!RulesRegulation">
                   <h2 class="font-18">Current</h2>
 
@@ -916,7 +916,7 @@
                     </div>
                     <div classs="">
                       <p class="mb-2 font-14">Total amount past due</p>
-                      <h5 class="font-16 mb-0">INR 129,502.66</h5>
+                      <h5 class="font-16 mb-0">INR 0.00</h5>
                     </div>
                     <div classs="">
                       <p class="mb-2 font-14">Total amount processing</p>
