@@ -95,6 +95,7 @@
 .upload-file-input{
     border: 1px dashed rgba(102, 102, 242, 0.40);
     height: 150px;
+    border-radius: 2px;
 }
 .add-file{
     padding: 0px 10px;

@@ -1019,10 +1019,10 @@
                
                
 
-                <div>
+                <div class="position-relative borderScaleanimation">
                   <input
                     type="text"
-                    class="form-control employee-count-form"
+                    class="form-control employee-count-form "
                     placeholder="Enter Employee Count"
                     name="employee-count"
                     pattern="^[1-9][0-9]{0,5}$"
@@ -1100,7 +1100,7 @@
 
                   <label class="mt-3 d-flex align-items-center justify-content-between p-3 annual-plan"
                     *ngFor="let typeByPlan of typeBySubscriptionPlans; let i=index;">
-                    <div class="d-flex align-items-center col-md-8 gap-3">
+                    <div class="d-flex align-items-center gap-3">
                       <div class="form-check">
                         <input
                           class="form-check-input"
@@ -1157,11 +1157,13 @@
                       </div>
                     </div>
 
-                    <div class="d-flex align-items-center gap-3 col-md-4">
+                    <div class="d-flex align-items-center gap-3 ">
                       <div class="d-flex align-items-center gap-2">
                         <div class="planPriceList mb-0">
-                          <h4 class="actual-price font-22 text-muted" *ngIf="typeByPlan.isYearly==1">₹{{typeByPlan.amount + typeByPlan.discountAmount}} </h4>
-                          <h4 class="text-black font-22">₹{{typeByPlan.amount}}</h4>
+                          <div class="d-flex align-items-center gap-2">
+                          <h4 class="actual-price font-22 text-muted mb-0" *ngIf="typeByPlan.isYearly==1">₹{{typeByPlan.amount + typeByPlan.discountAmount}} </h4>
+                          <h4 class="text-black font-22 mb-0">₹{{typeByPlan.amount}}</h4>
+                          </div>
                         </div>
                         <p class="text-muted mb-0">
                           Month Per<br />
@@ -1170,8 +1172,8 @@
                       </div>
                       <span class="separator"></span>
                       <h4 class="mb-0">
-                        <span class="text-primary" *ngIf="typeByPlan.isYearly==1">₹{{annualAmount}}</span>
-                        <span class="text-primary" *ngIf="typeByPlan.isMonthly==1">₹{{monthlyAmount}}</span>
+                        <h4 class="text-primary font-20 mb-0" *ngIf="typeByPlan.isYearly==1">₹{{annualAmount}}</h4>
+                        <h4 class="text-primary font-20 mb-0" *ngIf="typeByPlan.isMonthly==1">₹{{monthlyAmount}}</h4>
                       </h4>
                     </div>
                   </label>
