@@ -1,11 +1,6 @@
 import { HelperService } from './../../../services/helper.service';
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  RouterStateSnapshot,
-} from '@angular/router';
+import { ActivatedRouteSnapshot,CanActivate,Router,RouterStateSnapshot} from '@angular/router';
 import { Key } from 'src/app/constant/key';
 import { DataService } from 'src/app/services/data.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
@@ -87,24 +82,19 @@ export class AuthGuard implements CanActivate {
     await this.rbacService.isUserInfoInitializedMethod();
 
 
-    if (route !== null && state.url!=null) {
-      this.currentRoute = state.url.split("?")[0];
-      // console.log("=====route========", this.currentRoute,"----","=================",this._helperService.restrictedModules)
+    this.currentRoute = state.url;
+    if (this.currentRoute != null) {  
+        this.currentRoute = this.currentRoute.split("?")[0];
+        // console.log("======this.currentRoute==========",this.currentRoute)
       if (this._helperService.restrictedModules!=null && this._helperService.restrictedModules.length > 0) {
         var index = this._helperService.restrictedModules.findIndex(module => module.route == this.currentRoute.trim())
-        // console.log("===========restrict",index)
         if (index > -1) {
           return false;
         }
       }
-    } 
 
 
-    if (route !== null && route.routeConfig !== null) {
-      if (
-        !this.rbacService.shouldDisplay('dashboard') &&
-        route.routeConfig.path == 'dashboard'
-      ) {
+      if (!this.rbacService.shouldDisplay('dashboard') && this.currentRoute == '/dashboard') {
         this.router.navigate(['/employee-profile'], {
           queryParams: {
             userId: await this.rbacService.getUUID(),
@@ -114,15 +104,40 @@ export class AuthGuard implements CanActivate {
         return false;
       }
 
-      const requiredSubmodule = '/' + route.routeConfig.path;
-      if (
-        requiredSubmodule &&
-        !(await this.rbacService.hasAccessToSubmodule(requiredSubmodule))
-      ) {
+
+
+      if (!(await this.rbacService.hasAccessToSubmodule(this.currentRoute))) {
         this.router.navigate(['/unauthorized']);
         return false;
       }
-    }
+
+
+    } 
+
+
+    // if (route !== null && route.routeConfig !== null) {
+    //   if (
+    //     !this.rbacService.shouldDisplay('dashboard') &&
+    //     route.routeConfig.path == 'dashboard'
+    //   ) {
+    //     this.router.navigate(['/employee-profile'], {
+    //       queryParams: {
+    //         userId: await this.rbacService.getUUID(),
+    //         dashboardActive: 'true',
+    //       },
+    //     });
+    //     return false;
+    //   }
+
+    //   const requiredSubmodule = '/' + route.routeConfig.path;
+    //   if (
+    //     requiredSubmodule &&
+    //     !(await this.rbacService.hasAccessToSubmodule(requiredSubmodule))
+    //   ) {
+    //     this.router.navigate(['/unauthorized']);
+    //     return false;
+    //   }
+    // }
 
     return true;
   }
