@@ -91,7 +91,7 @@ export class LoginComponent implements OnInit {
         } else if (this.ROLE == 'HR ADMIN') {
            this.router.navigate(['/employee-onboarding-data']);
         } else {
-          await this._subscriptionService.isSubscriptionPlanExpired();
+          await this._subscriptionService.LoadAsync();
           const helper = new JwtHelperService();
           const token = localStorage.getItem('token');
           if (token != null) {
