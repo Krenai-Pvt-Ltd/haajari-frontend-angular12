@@ -57,7 +57,7 @@
   backdrop-filter: blur(4.699999809265137px);
   position: fixed;
   bottom: 70px;
-  right: 25px;
+  right: 40px;
   width: 300px;
   cursor: pointer;
   z-index: 999;
@@ -242,21 +242,30 @@
   color: #fff;
 }
 
-/* @media screen and (max-width: 2600px) {
-  .onboardingStapsPoint {
-    height: 530px;
-    overflow: scroll;
-  }
+
+.onboarding-steps-close-icon {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  width: 28px;
+  font-size: 12px;
+  height: 28px;
+  border: 1px solid #fff;
+  color: #000;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  line-height: 23px;
 }
 
+.bi::before,
+[class*=" bi-"]::before,
+[class^=bi-]::before {
+  font-weight: 600 !important;
+}
 
-
-@media screen and (max-width: 1430px) {
-  .onboardingStapsPoint {
-    height: 400px;
-    overflow: scroll;
-  }
-} */
 @media screen and (max-width: 1920px) {
   .onboardingStapsPoint {
     max-height: 50vh;

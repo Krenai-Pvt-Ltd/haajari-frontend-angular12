@@ -32,7 +32,7 @@
 .plan-box {
   border-left: 1px solid #f1f1f1;
   background: linear-gradient(178deg, #e4e7ff 0%, #f2f4ff 58.88%, #fff 138.76%);
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .priceToggleMain {
@@ -619,8 +619,8 @@
 }
 
 .back-subscription-page {
-  width: 25px;
-  height: 25px;
+  width: 32px;
+  height: 32px;
   background-color: #fff;
   border: 1px solid var(--primary-color);
   border-radius: 50%;
@@ -636,8 +636,8 @@
 }
 
 .rules-regulatio-back {
-  width: 22px;
-  height: 22px;
+  width: 32px;
+  height: 32px;
   background-color: #fff;
   border: 1px solid var(--primary-color);
   border-radius: 50%;
@@ -753,6 +753,57 @@
   width: 0;
   margin: 0;
 }
+
+.form-control:focus {
+  border-color: #e9e9e9 !important;
+}
+
+.footer-rule svg{
+  width: 15px;
+}
+.footer-rule h5{
+  font-size: 18px;
+  font-weight: 500;
+}
+/* .footer-rule p {
+  font-size: 13px;
+  font-weight: 400;
+} */
+.footer-rule a{
+  text-decoration: underline;
+}
+
+.subscription-help{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #C2C2FF;
+  background-color: #FCFCFC;
+}
+
+.subscription-help svg{
+  width: 18px;
+}
+
+.rules-regulation{
+  background-color: #fff;
+  height: 100vh;
+  position: absolute;
+  top: 88.8px;
+  max-width: 320px;
+  border-radius: 2px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  transition: 0.3s linear;
+}
+
+.rules-regulation svg{
+    min-width: 15px;
+}
+
+.showOnboardingStepHover {
+  transform: translateY(0%);
+}
+
 @media screen and (max-width: 1430px) {
   .font-14 {
     font-size: 11px !important;
@@ -897,6 +948,7 @@
   .btnPayNow {
     font-size: 12px !important;
   }
+  
 }
 
 @media screen and (max-width: 1280px) {
