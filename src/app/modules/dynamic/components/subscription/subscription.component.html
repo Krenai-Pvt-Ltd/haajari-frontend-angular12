@@ -480,161 +480,248 @@
                   </div>
                   <div class="mt-3">
                     <div class="tab-content" >
-                     
+
+                      <ng-container *ngIf="isShimmerForSubscriptionPlan && subscriptionPlans.length == 0; else subscriptionPlansDataCondition">
                         <div class="row">
-                          <div class="col-md-4"  [ngClass]="{'d-none':showYearlyPlans==plan.isMonthly}" *ngFor="let plan of subscriptionPlans; let i=index;">
-                            <div class="plan-detail-box p-3 pt-4 pb-4">
-                              <h5 class="mb-0 font-20">{{plan.name}}</h5>
-                              <p class="mb-0 font-13 mt-2">
-                                {{plan.description}}
-                              </p>
-
-                              <div
-                                class="d-flex align-items-center gap-2 mt-4 mb-3"
-                              >
-                                <h3 class="mb-0">₹{{plan.amount}}</h3>
-
-                                <div>
-                                  <h4 class="mb-0" *ngIf="plan.isYearly==1">₹{{plan.amount + plan.discountAmount}}</h4>
-                                  <h6 class="mb-0 font-14">
-                                    month/per employee
-                                  </h6>
-                                </div>
+                          <div class="col-md-4" *ngFor="let item of [].constructor(3)">
+                            <div class="bg-white p-3 pt-4 pb-4">
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'50%'" [height]="'15px'">
+                                </ngx-shimmer-loading>
                               </div>
-
-                              <p class="mb-0 font-14" *ngIf="plan.isYearly==1">
-                                <span class="plan-year-off" > 30% off </span>
-                                with annual contract
-                              </p>
-                              <span class="saperater-border mt-4 mb-4"></span>
-
-                              <button
-                                class="btn current-plan w-100 mb-4"
-                                *ngIf="plan.isPurchased==0"
-                                (click)="selectPlan(plan)"
-                              >
-                                Purchase plan
-                              </button>
-                    
-                              <button
-                              class="btn current-plan w-100 mb-4"                          
-                              *ngIf="plan.isPurchased==1"
-                              (click)="selectPlan(plan)"
-                            >
-                              Current plan
-                            </button>
-
-                              <ul class="plan-pints pl-0" *ngIf="plan.planType=='BASIC'">
-                                <li>
-                                  <i class="bi bi-check2"></i> Onboarding &
-                                  Documents - Employee
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Shift-based
-                                  attendance management
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Slack & WhatsApp
-                                  Integration
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Salary Structure
-                                  & Compliance
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Leave Request &
-                                  Approval Management
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Automation rule
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> User Roles &
-                                  Privileges
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Reminders &
-                                  Alerts - Notifications
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Report - Basic
-                                </li>
-                              </ul>
-
-                              <ul class="plan-pints pl-0" *ngIf="plan.planType=='PREMIUM'">
-                                <div class="mt-2 font-14" style="color: #01be4f">
-                                  All Basic Features +
-                                </div>
-                                <li>
-                                  <i class="bi bi-check2"></i> Payroll and
-                                  Salary Slip Automation
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Employee Tax
-                                  Management
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Advance
-                                  Automation Rules
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Custom Roles &
-                                  Privileges
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Employee Exit -
-                                  Documentation
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Assets
-                                  Allocation/ Management
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Report - Advance
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                         
-                          <div class="col-md-4">
-                            <div class="plan-detail-box p-3 pt-4">
-                              <h5 class="mb-0 font-20">Custom</h5>
-                              <p class="mb-0 font-13 mt-2">
-                                Ideal for small businesses looking to start
-                                digital attendance management.
-                              </p>
-
-                              <h1 class="requestQuote mb-0 mt-2">
-                                Request a quote
-                              </h1>
-
-                              <span class="saperater-border mt-4 mb-4"></span>
-
-                              <button class="btn change-plan w-100 mb-4">
-                              Request
-                              </button>
-
-                              <ul class="plan-pints pl-0">
-                                <li>
-                                  <i class="bi bi-check2"></i> Custom workflows
-                                  and HR processes
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Dedicated
-                                  deployment & onboarding support
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Integrations with
-                                  your existing systems
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Scalable
-                                  solutions for future growth
-                                </li>
-                              </ul>
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'90%'" [height]="'10px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                        
+                              <div class="feat-product-img mt-5 mb-2">
+                                <ngx-shimmer-loading [width]="'40%'" [height]="'25px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                              <div class="feat-product-img mt-3 mb-3">
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'25px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                        
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'70%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                        
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'80%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'60%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                        
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'70%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                        
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'50%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                        
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'30%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'70%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                        
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'80%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'60%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                        
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'70%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                        
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'50%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                        
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'30%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
                             </div>
                           </div>
                         </div>
+                      </ng-container>
+                      <ng-template #subscriptionPlansDataCondition>
+                      <div class="row">
+                        <div class="col-md-4" [ngClass]="{'d-none':showYearlyPlans==plan.isMonthly}"
+                          *ngFor="let plan of subscriptionPlans; let i=index;">
+                          <div class="plan-detail-box p-3 pt-4 pb-4">
+                            <h5 class="mb-0 font-20">{{plan.name}}</h5>
+                            <p class="mb-0 font-13 mt-2">
+                              {{plan.description}}
+                            </p>
+                      
+                            <div class="d-flex align-items-center gap-2 mt-4 mb-3" [ngClass]="{'yearlyHeight':showYearlyPlans==0}">
+                              <h3 class="mb-0">₹{{plan.amount}}</h3>
+                      
+                              <div>
+                                <h4 class="mb-0" *ngIf="plan.isYearly==1">₹{{plan.amount + plan.discountAmount}}</h4>
+                                <h6 class="mb-0 font-14">
+                                  month/per employee
+                                </h6>
+                              </div>
+                            </div>
+                      
+                            <p class="mb-0 font-14" *ngIf="plan.isYearly==1">
+                              <span class="plan-year-off"> 30% off </span>
+                              with annual contract
+                            </p>
+                            <span class="saperater-border mt-4 mb-4"></span>
+                      
+                            <button class="btn current-plan w-100 mb-4" *ngIf="plan.isPurchased==0" (click)="selectPlan(plan)">
+                              Purchase plan
+                            </button>
+                      
+                            <button class="btn current-plan w-100 mb-4" *ngIf="plan.isPurchased==1" (click)="selectPlan(plan)">
+                              Current plan
+                            </button>
+                      
+                            <ul class="plan-pints pl-0" *ngIf="plan.planType=='BASIC'">
+                              <li>
+                                <i class="bi bi-check2"></i> Onboarding &
+                                Documents - Employee
+                              </li>
+                              <li>
+                                <i class="bi bi-check2"></i> Shift-based
+                                attendance management
+                              </li>
+                              <li>
+                                <i class="bi bi-check2"></i> Slack & WhatsApp
+                                Integration
+                              </li>
+                              <li>
+                                <i class="bi bi-check2"></i> Salary Structure
+                                & Compliance
+                              </li>
+                              <li>
+                                <i class="bi bi-check2"></i> Leave Request &
+                                Approval Management
+                              </li>
+                              <li>
+                                <i class="bi bi-check2"></i> Automation rule
+                              </li>
+                              <li>
+                                <i class="bi bi-check2"></i> User Roles &
+                                Privileges
+                              </li>
+                              <li>
+                                <i class="bi bi-check2"></i> Reminders &
+                                Alerts - Notifications
+                              </li>
+                              <li>
+                                <i class="bi bi-check2"></i> Report - Basic
+                              </li>
+                            </ul>
+                      
+                            <ul class="plan-pints pl-0" *ngIf="plan.planType=='PREMIUM'">
+                              <div class="mt-2 font-14" style="color: #01be4f">
+                                All Basic Features +
+                              </div>
+                              <li>
+                                <i class="bi bi-check2"></i> Payroll and
+                                Salary Slip Automation
+                              </li>
+                              <li>
+                                <i class="bi bi-check2"></i> Employee Tax
+                                Management
+                              </li>
+                              <li>
+                                <i class="bi bi-check2"></i> Advance
+                                Automation Rules
+                              </li>
+                              <li>
+                                <i class="bi bi-check2"></i> Custom Roles &
+                                Privileges
+                              </li>
+                              <li>
+                                <i class="bi bi-check2"></i> Employee Exit -
+                                Documentation
+                              </li>
+                              <li>
+                                <i class="bi bi-check2"></i> Assets
+                                Allocation/ Management
+                              </li>
+                              <li>
+                                <i class="bi bi-check2"></i> Report - Advance
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      
+                        <div class="col-md-4">
+                          <div class="plan-detail-box p-3 pt-4">
+                            <h5 class="mb-0 font-20">Custom</h5>
+                            <p class="mb-0 font-13 mt-2">
+                              Ideal for small businesses looking to start
+                              digital attendance management.
+                            </p>
+                      
+                            <h1 class="requestQuote mb-0 mt-2">
+                              Request a quote
+                            </h1>
+                      
+                            <span class="saperater-border mt-4 mb-4"></span>
+                      
+                            <button class="btn change-plan w-100 mb-4">
+                              Request
+                            </button>
+                      
+                            <ul class="plan-pints pl-0">
+                              <li>
+                                <i class="bi bi-check2"></i> Custom workflows
+                                and HR processes
+                              </li>
+                              <li>
+                                <i class="bi bi-check2"></i> Dedicated
+                                deployment & onboarding support
+                              </li>
+                              <li>
+                                <i class="bi bi-check2"></i> Integrations with
+                                your existing systems
+                              </li>
+                              <li>
+                                <i class="bi bi-check2"></i> Scalable
+                                solutions for future growth
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                      </ng-template>
+
+                      
+                     
+                        
                      
                         
                     </div>
@@ -942,7 +1029,66 @@
                           </th>
                         </tr>
                       </thead>
-                      <tbody class="">
+
+                      <tbody *ngIf="invoiceLoading">
+                        <tr *ngFor="let item of [].constructor(6)">
+                          <td class="stickyColTd"> 
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                          </td>
+                          <td>
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                          </td>
+                          <td>
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+
+                          </td>
+                          <td>
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+
+                          </td>
+                          <td>
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+
+                          </td>
+                          <td>
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+
+                          </td>
+                          <td>
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+
+                          </td>
+                          <td class="stickyColTdend">
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+                            
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tbody *ngIf="!invoiceLoading">
                         <tr class="" *ngFor="let invoice of invoices;">
                           <td class="stickyColTd text-center">
                             <span class="teme-maneger mb-0 table-font-weight">
@@ -1120,6 +1266,55 @@
                           </th>
                         </tr>
                       </thead>
+
+                      <tbody *ngIf="invoiceLoading">
+                        <tr *ngFor="let item of [].constructor(6)">
+                          <td class="stickyColTd">
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+                      
+                          </td>
+                          <td>
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+                      
+                          </td>
+                          <td>
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+                      
+                          </td>
+                          <td>
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+                      
+                          </td>
+                         
+                        </tr>
+                      </tbody>
+
+
+                     
 
                       <tbody class="">
                         <tr class="" *ngFor="let dueInvoice of dueInvoices">
@@ -1914,7 +2109,6 @@ Dues Paid Loader
           <div class="spinner-border" role="status">
             <span class="visually-hidden">Loading...</span>
           </div>
-  
         </div>
         Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
         Numquam omnis possimus placeat vitae aspernatur dolores at voluptate sit,

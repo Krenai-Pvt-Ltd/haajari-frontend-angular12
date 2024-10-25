@@ -247,10 +247,10 @@
   position: absolute;
   top: -15px;
   right: -15px;
-  width: 28px;
+  width: 25px;
   font-size: 12px;
-  height: 28px;
-  border: 1px solid #fff;
+  height: 25px;
+  border: 1px solid #bcbcf5;
   color: #000;
   border-radius: 50%;
   display: flex;

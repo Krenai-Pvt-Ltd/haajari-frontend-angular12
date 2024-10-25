@@ -793,7 +793,7 @@
   max-width: 320px;
   border-radius: 2px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  transition: 0.3s linear;
+  transition: 0.1s linear;
 }
 
 .rules-regulation svg{
@@ -802,6 +802,9 @@
 
 .showOnboardingStepHover {
   transform: translateY(0%);
+}
+.yearlyHeight{
+  min-height: 76px;
 }
 
 @media screen and (max-width: 1430px) {
@@ -832,7 +835,7 @@
   }
 
   .requestQuote {
-    min-height: 5.6rem;
+    min-height: 90px;
     font-size: 24px !important;
   }
 

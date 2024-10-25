@@ -51,8 +51,10 @@ export class SubscriptionComponent implements OnInit {
 
   selectedSubscriptionPlan:SubscriptionPlan = new SubscriptionPlan();
   subscriptionPlans:SubscriptionPlan[] = new Array();
-  typeBySubscriptionPlans:SubscriptionPlan[] = new Array();
-  getPlans(){
+  typeBySubscriptionPlans: SubscriptionPlan[] = new Array();
+  isShimmerForSubscriptionPlan : boolean = false;
+  getPlans() {
+    this.isShimmerForSubscriptionPlan = true;
     this._subscriptionPlanService.getPlans().subscribe((response) => {
       if(response.status){
         this.subscriptionPlans = response.object;
@@ -62,8 +64,9 @@ export class SubscriptionComponent implements OnInit {
       }else{
         this.subscriptionPlans = new Array();
       }
-    },(error)=>{
-
+      this.isShimmerForSubscriptionPlan = false;
+    }, (error) => {
+      this.isShimmerForSubscriptionPlan = false;
     });
 
     
