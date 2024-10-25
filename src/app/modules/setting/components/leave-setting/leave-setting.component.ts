@@ -265,6 +265,11 @@ export class LeaveSettingComponent implements OnInit {
     }
     // this.deleteCategoryToggle = false;
     // console.log('this.displayedCategories: ',this.displayedCategories)
+    this.wfhIndex++;
+    if(this.wfhTemplateToggle){
+      this.leaveTemplateForm(true);
+    }
+
   }
 
 
@@ -729,7 +734,10 @@ export class LeaveSettingComponent implements OnInit {
   getLeaveSettingInformationById(leaveSettingId: number, flag: boolean): void {
     debugger
 
-    this.wfhTemplateToggle = flag;
+    // this.wfhTemplateToggle = flag;
+    this.enableWFH(flag);
+
+    // this.wfhIndex = 0
     // if(this.wfhTemplateToggle){
     //   this.leaveTemplateForm(true);
     // }else{
@@ -812,6 +820,7 @@ export class LeaveSettingComponent implements OnInit {
           this.tempDisplayedCategories = this.displayedCategories
         }, 400)
         // console.log('this.tempDisplayedCategories: ',this.tempDisplayedCategories)
+        this.wfhIndex = this.displayedCategories.length
 
 
       },
@@ -2249,6 +2258,14 @@ console.log('wfhLeaveTemplates: ',this.wfhLeaveTemplates)
     this.form.reset();
     // this.form.value.reset();
     // this.categories.clear();
+
+
+    this.wfhIndex = 0;
+    // this.wfhIndex = this.displayedCategories.length;
+
+
+    this.clearFormFields();
+
     this.displayedCategories = []
     this.leaveCategories1 = []
     this.leaveCategories2 = []
@@ -2260,6 +2277,7 @@ console.log('wfhLeaveTemplates: ',this.wfhLeaveTemplates)
   wfhTemplateToggle: boolean = false;
   defaultLeaveCategoryId: number = 0
   defaultLeaveActionId: number = 0
+  wfhIndex: number = 0;
   async leaveTemplateForm(flag: boolean){
     debugger
 
@@ -2289,15 +2307,15 @@ console.log('wfhLeaveTemplates: ',this.wfhLeaveTemplates)
     const wfhCategory = this.filteredLeaveCategories.find((leave: any) => leave.name === 'WFH');
     // console.log('earnedLeave Cat', wfhCategory)
 
-    if (wfhCategory) {
-      this.defaultLeaveCategoryId = wfhCategory.id; // Set the ID of 'Earned Leave' as default
-    }
+    // if (wfhCategory) {
+    //   this.defaultLeaveCategoryId = wfhCategory.id; // Set the ID of 'Earned Leave' as default
+    // }
   
     this.getUnusedLeaveActionList();
      this.unusedLeaveActionList = this.unusedLeaveActionList
     //  console.log('unusedLeaveActionList ',this.unusedLeaveActionList)
   
-    this.defaultLeaveActionId = 1
+    // this.defaultLeaveActionId = 1
     // }, 200)
 
 
@@ -2305,37 +2323,37 @@ console.log('wfhLeaveTemplates: ',this.wfhLeaveTemplates)
     // this.setCategoryValue(this.rowIndex -1, 8);
     // this.setUnusedLeaveAction(this.rowIndex -1, 1);
 
-    this.setGenderValue(1, 'All');
-    this.setCategoryValue(1, 8);
-    this.setUnusedLeaveAction(1, 1);
+    this.setGenderValue(this.wfhIndex, 'All');
+    this.setCategoryValue(this.wfhIndex, 8);
+    this.setUnusedLeaveAction(this.wfhIndex, 1);
 
   }
 }
 
 setGenderValue(index: number, value: any): void {
-  const leaveRulesControl = (this.form.get('categories') as FormArray)
+  const laveGender = (this.form.get('categories') as FormArray)
     .at(index)
     ?.get('gender');
-  if (leaveRulesControl) {
-    leaveRulesControl.setValue(value);
+  if (laveGender) {
+    laveGender.setValue(value);
   }
 }
 
 setCategoryValue(index: number, value: any): void {
-  const leaveRulesControl = (this.form.get('categories') as FormArray)
+  const laveCategory = (this.form.get('categories') as FormArray)
     .at(index)
     ?.get('leaveCategoryId');
-  if (leaveRulesControl) {
-    leaveRulesControl.setValue(value);
+  if (laveCategory) {
+    laveCategory.setValue(value);
   }
 }
 
 setUnusedLeaveAction(index: number, value: any): void {
-  const leaveRulesControl = (this.form.get('categories') as FormArray)
+  const laveUnusedAction = (this.form.get('categories') as FormArray)
     .at(index)
     ?.get('unusedLeaveActionId');
-  if (leaveRulesControl) {
-    leaveRulesControl.setValue(value);
+  if (laveUnusedAction) {
+    laveUnusedAction.setValue(value);
   }
 }
 

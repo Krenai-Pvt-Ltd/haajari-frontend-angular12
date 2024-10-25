@@ -919,7 +919,7 @@
                                 </p>
                               </div>
 
-                              <div *ngIf="wfhTemplateToggle" class="col-md-3 mb-2" nz-form-item>
+                              <!-- <div *ngIf="wfhTemplateToggle" class="col-md-3 mb-2" nz-form-item>
                                 <label for="unusedLeaveActionId" class="pb-2">
                                   Unused Leave Action
                                 </label>
@@ -931,14 +931,14 @@
                                     " [nzValue]="unusedLeaveAction.id" [nzLabel]="unusedLeaveAction.name">>
                                   </nz-option>
                                 </nz-select>
-                              </div>
+                              </div> -->
 
-                              <div *ngIf="!wfhTemplateToggle" class="col-md-3 mb-2" nz-form-item>
+                              <div  class="col-md-3 mb-2" nz-form-item>
                                 <label for="unusedLeaveActionId" class="pb-2">
                                   Unused Leave Action
                                 </label>
 
-                                <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Unused leave action"
+                                <nz-select [nzDisabled]="wfhTemplateToggle" style="width: 100%" nzSize="large" nzPlaceHolder="Unused leave action"
                                   formControlName="unusedLeaveActionId" required class="form-control">
                                   <nz-option *ngFor="
                                       let unusedLeaveAction of unusedLeaveActionList
@@ -985,6 +985,7 @@
                                   Update leave Category
                                 </button>
 
+                                {{form}}: {{form.valid}}
                                 <button [disabled]="!form.valid" *ngIf="!editToggle"
                                   class="p-0 btn text-primary leave-category" (click)="addFormRow(i)">
                                   <i class="bi bi-plus-lg"></i>
