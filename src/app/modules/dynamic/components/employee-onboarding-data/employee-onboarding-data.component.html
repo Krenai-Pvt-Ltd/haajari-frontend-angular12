@@ -1729,10 +1729,15 @@
             *ngIf="
               alreadyUsedPhoneNumberArray.length > 0 ||
               alreadyUsedEmailArray.length > 0 ||
+              this.mismatches.length > 0 ||
               isErrorToggle
             "
           >
             <h4 class="alert-heading font-18">Attention!!</h4>
+            <p *ngIf="this.mismatches.length > 0">
+
+              {{ this.mismatches }}
+            </p>
             <p *ngIf="alreadyUsedPhoneNumberArray.length > 0">
               Phone Numbers:
               {{ formatAsCommaSeparated(alreadyUsedPhoneNumberArray) }}
@@ -1765,13 +1770,12 @@
             </p>
             <div *ngIf="data.length > 0">
               <h3>Uploaded Data</h3>
+              <div class="table-responsive">
               <table border="1">
-                <tr>
-                  <th *ngFor="let col of expectedColumns">{{ col }}</th>
-                </tr>
+
                 <tr *ngFor="let row of data; let i = index">
-                  <td *ngFor="let cell of expectedColumns; let j = index">
-                    <ng-container *ngIf="this.expectedColumns[j] === 'Shift*' && this.expectedColumns[i] !== 'S. NO.*'; else leaveColumns">
+                  <td *ngFor="let cell of fileColumnName; let j = index">
+                    <ng-container *ngIf="this.fileColumnName[j] === 'shift*' && i !== 0; else leaveColumns">
                       <!-- Dropdown for column 4 -->
                       <nz-select
                         [(ngModel)]="data[i][j]"
@@ -1784,7 +1788,7 @@
                     </ng-container>
 
                     <ng-template #leaveColumns>
-                    <ng-container *ngIf="this.expectedColumns[j] === 'LeaveNames' && this.expectedColumns[i] !== 'S. NO.*'; else otherColumns">
+                    <ng-container *ngIf="this.fileColumnName[j] === 'leavenames' && i !== 0; else otherColumns">
                     <nz-select
                       class="whatapp-login-input"
                       nzMode="multiple"
@@ -1824,7 +1828,7 @@
 
                 <ng-template #otherColumns>
 
-                  <ng-container *ngIf="this.expectedColumns[j] === 'JoiningDate*' && this.expectedColumns[i] !== 'S. NO.*'; else genderColumns">
+                  <ng-container *ngIf="this.fileColumnName[j] === 'joiningdate*' && i !== 0; else genderColumns">
                     <nz-date-picker
                     id="joiningDate"
                     name="joiningDate"
@@ -1840,7 +1844,7 @@
               </ng-template>
 
               <ng-template #genderColumns>
-                <ng-container *ngIf="this.expectedColumns[j] === 'Gender' && this.expectedColumns[i] !== 'S. NO.*'; else defaultInput">
+                <ng-container *ngIf="this.fileColumnName[j] === 'gender*' && i !== 0; else defaultInput">
                   <nz-select
                     id="gender"
                     name="gender"
@@ -1865,6 +1869,7 @@
                   </td>
                 </tr>
               </table>
+            </div>
               <button (click)="saveFile()">Save Changes</button>
             </div>
             <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p>

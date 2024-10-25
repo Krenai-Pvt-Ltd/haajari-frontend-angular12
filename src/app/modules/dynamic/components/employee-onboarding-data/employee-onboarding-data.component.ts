@@ -688,7 +688,9 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   currentFileUpload: any;
 
 
-  expectedColumns: string[] = ['S. NO.*', 'Name*', 'Phone*', 'Email*', 'Shift*', 'LeaveNames','JoiningDate*','Gender'];
+  expectedColumns: string[] = ['Name*', 'Phone*', 'Email*', 'Shift*', 'JoiningDate*', 'Gender*'];
+  correctColumnName: string[] = ['S. NO.*', 'Name*', 'Phone*', 'Email*', 'Shift*', 'JoiningDate*', 'Gender*', 'leavenames', 'branch', 'department', 'position', 'grade', 'team', 'dob', 'fathername', 'maritalstatus', 'address', 'city', 'state', 'country', 'panno', 'aadharno', 'drivinglicence', 'emergencyname', 'emergencyphone', 'emergencyrelation'];
+  fileColumnName:string[] = [];
   genders: string[] = ['Male', 'Female'];
   isExcel: string = '';
   data: any[] = [];
@@ -725,32 +727,30 @@ export class EmployeeOnboardingDataComponent implements OnInit {
         const columnNames: string[] = jsonData[0] as string[];
 
         if (this.validateColumns(columnNames)) {
-          // Always process the rows, regardless of validity
-          // this.data = jsonData.filter((row: any[]) =>
-          //   row.some((cell: any) => cell !== undefined && cell !== null && cell.toString().trim() !== '')
-          // );
+              this.data = jsonData.map((row: any[]) => {
+                // Ensure the 5th column is an array of strings, other columns are treated as strings
+                return row.map((cell: any, index: number) => {
+                  if( this.data.length==0){
+                    return cell ? cell.toString().trim() : '';
+                  }else{
+                  if (this.fileColumnName[index] === 'leavenames') {
+                    // Convert the 5th column to an array of strings
+                    return cell ? cell.toString().split(',').map((str: string) => str.trim()) : [];
+                  }else if (this.fileColumnName[index] === 'joiningdate*' && cell!=='joiningdate*') {
+                    // Convert the 5th column to an array of strings
+                    return cell ?  moment(cell).format('MM-DD-YYYY'): "";
+                  }
+                   else {
+                    // Convert other cells to string and trim whitespace
+                    return cell ? cell.toString().trim() : '';
+                  }
+                }
 
-//new codde
-this.data = jsonData.map((row: any[]) => {
-  // Ensure the 5th column is an array of strings, other columns are treated as strings
-  return row.map((cell: any, index: number) => {
-    if (this.expectedColumns[index] === 'LeaveNames') {
-      // Convert the 5th column to an array of strings
-      return cell ? cell.toString().split(',').map((str: string) => str.trim()) : [];
-    }else if (this.expectedColumns[index] === 'JoiningDate*' && cell!=='JoiningDate*') {
-      // Convert the 5th column to an array of strings
-      return cell ?  moment(cell).format('MM-DD-YYYY'): "";
-    }
-     else {
-      // Convert other cells to string and trim whitespace
-      return cell ? cell.toString().trim() : '';
-    }
-
-  });
-            }).filter((row: any[]) =>
-          // Filter out empty rows
-            row.some((cell: any) => cell !== '')
-            );
+                });
+              }).filter((row: any[]) =>
+                        // Filter out empty rows
+                  row.some((cell: any) => cell !== '')
+                );
 
 
 
@@ -758,6 +758,7 @@ this.data = jsonData.map((row: any[]) => {
           // Validate all rows and keep track of invalid entries
           this.validateRows(this.data);
           if(this.areAllFalse()){
+            this.isinvalid=false;
             this.uploadUserFile(file, this.fileName);
           }else{
             this.isinvalid=true;
@@ -805,7 +806,9 @@ this.data = jsonData.map((row: any[]) => {
 
     // Step 2: Normalize both expected and actual column names for comparison
     const normalizedColumnNames = columnNames.map(col => col.trim().toLowerCase());
+    this.fileColumnName=normalizedColumnNames;
     const normalizedExpectedColumns = this.expectedColumns.map(col => col.trim().toLowerCase());
+    const normalizedCorrectColumns = this.correctColumnName.map(col => col.trim().toLowerCase());
 
     // Step 3: Check that every expected column is present in actual column names
     for (const expectedColumn of normalizedExpectedColumns) {
@@ -814,6 +817,14 @@ this.data = jsonData.map((row: any[]) => {
         this.mismatches.push(`Missing column: "${expectedColumn}"`);
       }
     }
+
+    // Step 4: Check if there are extra or incorrect columns in actual column names
+    for (const actualColumn of normalizedColumnNames) {
+      if (!normalizedExpectedColumns.includes(actualColumn) && !normalizedCorrectColumns.includes(actualColumn)) {
+          console.error(`Unexpected or incorrect column: "${actualColumn}"`);
+          this.mismatches.push(`Unexpected or incorrect column: "${actualColumn}"`);
+      }
+  }
 
     // Step 4: Log and return false if there are any mismatches
     if (this.mismatches.length > 0) {
@@ -833,12 +844,38 @@ this.data = jsonData.map((row: any[]) => {
       const row = rows[i];
       let rowIsValid = true;
 
-      for (let j = 1; j < this.expectedColumns.length; j++) {
+      for (let j = 1; j < this.fileColumnName.length; j++) {
+
         const cellValue = row[j];
         if (cellValue === undefined || cellValue === null || cellValue.toString().trim() === '') {
           rowIsValid = false;
           this.invalidRows[i] = true; // Mark the row as invalid
           this.invalidCells[i][j] = true; // Mark the cell as invalid
+        }
+        if (this.fileColumnName[j] === 'phone*' && cellValue) {
+          debugger
+          const phoneNumber = cellValue.toString().trim();
+          if (!/^\d{10}$/.test(phoneNumber)) {
+            rowIsValid = false;
+            this.invalidRows[i] = true; // Mark the row as invalid
+            this.invalidCells[i][j] = true; // Mark the cell as invalid
+          }
+        }
+
+        if (this.fileColumnName[j] === 'shift*' && cellValue) {
+          const shiftName = cellValue.toString().trim();
+          const shiftExists = this.shiftList.some(shift => shift.label === shiftName);
+
+          if (!shiftExists) {
+              rowIsValid = false;
+              this.invalidRows[i] = true;
+              this.invalidCells[i][j] = true;
+              this.data[i][j] = '';
+          }
+      }
+
+        if (!this.expectedColumns.some(expectedColumn => expectedColumn.toLowerCase() === this.fileColumnName[j].toLowerCase())) {
+          this.invalidCells[i][j] = false;
         }
       }
     }

@@ -27,7 +27,7 @@ export class RoleAddComponent implements OnInit {
     const roleIdParam = this.activateRoute.snapshot.queryParamMap.get('roleId');
     // this.helperService.saveOrgSecondaryToDoStepBarData(0);
 
-    if (roleIdParam === null || roleIdParam === "" || roleIdParam === "1" || roleIdParam === "2" || roleIdParam === "3") {
+    if (roleIdParam === "1" || roleIdParam === "2" || roleIdParam === "3") {
       window.location.href = '/role';
       return;
     }
