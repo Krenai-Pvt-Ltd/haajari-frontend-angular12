@@ -729,6 +729,13 @@ export class LeaveSettingComponent implements OnInit {
   getLeaveSettingInformationById(leaveSettingId: number, flag: boolean): void {
     debugger
 
+    this.wfhTemplateToggle = flag;
+    // if(this.wfhTemplateToggle){
+    //   this.leaveTemplateForm(true);
+    // }else{
+    //   this.leaveTemplateForm(false);
+    // }
+
     this.templateSettingTab2.nativeElement.click();
     this.updateToggle = true;
     this.leaveTempId = leaveSettingId;
@@ -2238,10 +2245,102 @@ console.log('wfhLeaveTemplates: ',this.wfhLeaveTemplates)
     })
   }
 
+  enableWFH(flag: boolean){
+    this.form.reset();
+    // this.form.value.reset();
+    // this.categories.clear();
+    this.displayedCategories = []
+    this.leaveCategories1 = []
+    this.leaveCategories2 = []
+    this.tempLeaveCategories1 =[]
+
+    this.wfhTemplateToggle = flag;
+  }
+
   wfhTemplateToggle: boolean = false;
   defaultLeaveCategoryId: number = 0
   defaultLeaveActionId: number = 0
-  leaveTemplateForm(flag: boolean){
+  async leaveTemplateForm(flag: boolean){
+    debugger
+
+    if(this.wfhTemplateToggle){
+     
+      // setTimeout(() => {
+      //   this.loadGenders();
+
+      //   this.onGenderChange(1, 1);
+      //   this.getLeaveCategoryListMethodCall();
+      // },200)
+
+      // await this.loadGenders();
+      // await this.onGenderChange(1, 1);
+      // await this.getLeaveCategoryListMethodCall();
+
+      this.loadGenders();
+      this.onGenderChange(1, 1);
+      this.getLeaveCategoryListMethodCall();
+
+    this.filteredLeaveCategories = this.leaveCategoryList;
+
+    // console.log('leaveTemplateForm Cat', this.filteredLeaveCategories)
+    // this.defaultLeaveCategoryId = 8
+    // setTimeout(() => {
+
+    const wfhCategory = this.filteredLeaveCategories.find((leave: any) => leave.name === 'WFH');
+    // console.log('earnedLeave Cat', wfhCategory)
+
+    if (wfhCategory) {
+      this.defaultLeaveCategoryId = wfhCategory.id; // Set the ID of 'Earned Leave' as default
+    }
+  
+    this.getUnusedLeaveActionList();
+     this.unusedLeaveActionList = this.unusedLeaveActionList
+    //  console.log('unusedLeaveActionList ',this.unusedLeaveActionList)
+  
+    this.defaultLeaveActionId = 1
+    // }, 200)
+
+
+    // this.setGenderValue(this.rowIndex - 1, 'All');
+    // this.setCategoryValue(this.rowIndex -1, 8);
+    // this.setUnusedLeaveAction(this.rowIndex -1, 1);
+
+    this.setGenderValue(1, 'All');
+    this.setCategoryValue(1, 8);
+    this.setUnusedLeaveAction(1, 1);
+
+  }
+}
+
+setGenderValue(index: number, value: any): void {
+  const leaveRulesControl = (this.form.get('categories') as FormArray)
+    .at(index)
+    ?.get('gender');
+  if (leaveRulesControl) {
+    leaveRulesControl.setValue(value);
+  }
+}
+
+setCategoryValue(index: number, value: any): void {
+  const leaveRulesControl = (this.form.get('categories') as FormArray)
+    .at(index)
+    ?.get('leaveCategoryId');
+  if (leaveRulesControl) {
+    leaveRulesControl.setValue(value);
+  }
+}
+
+setUnusedLeaveAction(index: number, value: any): void {
+  const leaveRulesControl = (this.form.get('categories') as FormArray)
+    .at(index)
+    ?.get('unusedLeaveActionId');
+  if (leaveRulesControl) {
+    leaveRulesControl.setValue(value);
+  }
+}
+
+
+  leaveTemplateForm1(flag: boolean){
     debugger
     this.wfhTemplateToggle = flag;
 
