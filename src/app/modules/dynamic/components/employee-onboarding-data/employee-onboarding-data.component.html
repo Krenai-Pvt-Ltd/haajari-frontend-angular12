@@ -1771,142 +1771,131 @@
             <div *ngIf="data.length > 0">
               <h3>Uploaded Data</h3>
               <div class="table-responsive">
-              <table border="1">
+                <table border="1">
+                  <thead>
+                    <tr>
+                      <th *ngFor="let col of fileColumnName">{{ col }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- Skip the first row for pagination purposes -->
+                    <tr *ngFor="let row of paginatedData; let i = index">
+                      <td *ngFor="let cell of fileColumnName; let j = index">
+                        <ng-container *ngIf="fileColumnName[j] === 'shift*' && (currentPage - 1) * pageSize + i  !== 0; else leaveColumns">
+                          <nz-select
+                            [(ngModel)]="row[j]"
+                            [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i ][j]}"
+                            (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i , j)"
+                            nzPlaceHolder="Select Shift">
+                            <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label" [nzLabel]="shift.label"></nz-option>
+                          </nz-select>
+                        </ng-container>
 
-                <tr *ngFor="let row of paginatedData; let i = index">
-                  <td *ngFor="let cell of row; let j = index">
-                    <ng-container *ngIf="fileColumnName[j] === 'shift*' && i !== 0; else leaveColumns">
-                      <nz-select
-                        [(ngModel)]="row[j]"
-                        [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
-                        (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)"
-                        nzPlaceHolder="Select Shift">
-                        <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label" [nzLabel]="shift.label"></nz-option>
-                      </nz-select>
-                    </ng-container>
-
-                    <ng-template #leaveColumns>
-                      <ng-container *ngIf="this.fileColumnName[j] === 'leavenames' && (currentPage - 1) * pageSize + i !== 0; else otherColumns">
-                        <nz-select
-                          class="whatapp-login-input"
-                          nzMode="multiple"
-                          nzPlaceHolder="Select leave"
-                          nzAllowClear
-                          nzShowSearch
-                          nzServerSearch
-                          [(ngModel)]="row[j]"
-                          [ngModelOptions]="{ standalone: true }"
-                          (ngModelChange)="onMultiSelectChange($event, (currentPage - 1) * pageSize + i, j)"
-                          (nzOnSearch)="onSearchLeave($event)"
-                          [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}">
-                          <ng-container *ngFor="let o of originalLeaveNameList">
-                            <nz-option *ngIf="!isLoadingLeave" [nzValue]="o.label" [nzLabel]="o.label"></nz-option>
+                        <ng-template #leaveColumns>
+                          <ng-container *ngIf="this.fileColumnName[j] === 'leavenames' && (currentPage - 1) * pageSize + i  !== 0; else otherColumns">
+                            <nz-select
+                              class="whatapp-login-input"
+                              nzMode="multiple"
+                              nzPlaceHolder="Select leave"
+                              nzAllowClear
+                              nzShowSearch
+                              nzServerSearch
+                              [(ngModel)]="row[j]"
+                              [ngModelOptions]="{ standalone: true }"
+                              (ngModelChange)="onMultiSelectChange($event, (currentPage - 1) * pageSize + i, j)"
+                              (nzOnSearch)="onSearchLeave($event)"
+                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}">
+                              <ng-container *ngFor="let o of originalLeaveNameList">
+                                <nz-option *ngIf="!isLoadingLeave" [nzValue]="o.label" [nzLabel]="o.label"></nz-option>
+                              </ng-container>
+                              <nz-option *ngIf="isLoadingLeave" nzDisabled nzCustomContent>
+                                <span nz-icon nzType="loading" class="loading-icon"></span>
+                                Loading Data...
+                              </nz-option>
+                            </nz-select>
                           </ng-container>
-                          <nz-option *ngIf="isLoadingLeave" nzDisabled nzCustomContent>
-                            <span nz-icon nzType="loading" class="loading-icon"></span>
-                            Loading Data...
-                          </nz-option>
-                        </nz-select>
-                      </ng-container>
-                    </ng-template>
-                <ng-template #otherColumns>
+                        </ng-template>
 
-                  <ng-container *ngIf="this.fileColumnName[j] === 'joiningdate*' && i !== 0; else teamColumns">
-                    <nz-date-picker
-                    id="joiningDate"
-                    name="joiningDate"
-                    #joiningDate="ngModel"
-                    [(ngModel)]="data[i][j]"
-                    required
-                    (ngModelChange)="onDateChange($event, i, j)"
-                    [ngClass]="{'invalid-input': invalidCells[i][j]}"
-                    [nzAllowClear]="false"
-                    nzPlaceHolder="Select Joining Date">
-                </nz-date-picker>
-                </ng-container>
-              </ng-template>
+                        <ng-template #otherColumns>
+                          <ng-container *ngIf="this.fileColumnName[j] === 'joiningdate*' && (currentPage - 1) * pageSize + i  !== 0; else teamColumns">
+                            <nz-date-picker
+                              id="joiningDate"
+                              name="joiningDate"
+                              #joiningDate="ngModel"
+                              [(ngModel)]="data[(currentPage - 1) * pageSize + i][j]"
+                              required
+                              (ngModelChange)="onDateChange($event, (currentPage - 1) * pageSize + i + 1, j)"
+                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
+                              [nzAllowClear]="false"
+                              nzPlaceHolder="Select Joining Date">
+                            </nz-date-picker>
+                          </ng-container>
+                        </ng-template>
 
-              <ng-template #teamColumns>
-                <ng-container *ngIf="this.fileColumnName[j] === 'team' && i !== 0; else genderColumns">
+                        <ng-template #teamColumns>
+                          <ng-container *ngIf="this.fileColumnName[j] === 'team' && (currentPage - 1) * pageSize + i  !== 0; else genderColumns">
+                            <nz-select
+                              nzAllowClear
+                              nzShowSearch
+                              nzServerSearch
+                              nzMode="multiple"
+                              nzPlaceHolder="Select teams"
+                              [(ngModel)]="row[j]"
+                              [ngModelOptions]="{ standalone: true }"
+                              (ngModelChange)="onTeamSelectionChanges($event, (currentPage - 1) * pageSize + i, j)"
+                              (nzOnSearch)="onSearch($event)"
+                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}">
+                              <ng-container *ngFor="let o of originalTeamNameList">
+                                <nz-option *ngIf="!isLoadingTeams" [nzValue]="o.label" [nzLabel]="o.label"></nz-option>
+                              </ng-container>
+                              <nz-option *ngIf="isLoadingTeams" nzDisabled nzCustomContent>
+                                <span nz-icon nzType="loading" class="loading-icon"></span>
+                                Loading Data...
+                              </nz-option>
+                            </nz-select>
+                          </ng-container>
+                        </ng-template>
 
+                        <ng-template #genderColumns>
+                          <ng-container *ngIf="this.fileColumnName[j] === 'gender*' && (currentPage - 1) * pageSize + i  !== 0; else defaultInput">
+                            <nz-select
+                              id="gender"
+                              name="gender"
+                              [(ngModel)]="row[j]"
+                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i + 1][j]}"
+                              (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)"
+                              nzPlaceHolder="Select Gender">
+                              <nz-option *ngFor="let gender of genders" [nzValue]="gender" [nzLabel]="gender"></nz-option>
+                            </nz-select>
+                          </ng-container>
+                        </ng-template>
 
-                  <nz-select
-                  nzAllowClear
-                  nzShowSearch
-                  nzServerSearch
-                    nzMode="multiple"
-                    nzPlaceHolder="Select teams"
-                    [(ngModel)]="row[j]"
-                    [ngModelOptions]="{ standalone: true }"
-                    (ngModelChange)="onTeamSelectionChanges($event, (currentPage - 1) * pageSize + i, j)"
-                    (nzOnSearch)="onSearch($event)"
-                    [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
-                  >
-                    <ng-container *ngFor="let o of originalTeamNameList">
-                      <nz-option
-                        *ngIf="!isLoadingTeams"
-                        [nzValue]="o.label"
-                        [nzLabel]="o.label"
-                      ></nz-option>
-                    </ng-container>
-                    <nz-option
-                      *ngIf="isLoadingTeams"
-                      nzDisabled
-                      nzCustomContent
-                    >
-                      <span nz-icon nzType="loading" class="loading-icon"></span>
-                      Loading Data...
-                    </nz-option>
-                  </nz-select>
-                </ng-container>
-              </ng-template>
+                        <!-- Default input for other columns -->
+                        <ng-template #defaultInput>
+                          <input
+                            [(ngModel)]="row[j]"
+                            [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
+                            (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)" />
+                        </ng-template>
 
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
 
-              <ng-template #genderColumns>
-                <ng-container *ngIf="this.fileColumnName[j] === 'gender*' && i !== 0; else defaultInput">
-                  <nz-select
-                    id="gender"
-                    name="gender"
-                    [(ngModel)]="row[j]"
-                    [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
-                    (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)"
-                    nzPlaceHolder="Select Gender">
-                    <nz-option *ngFor="let gender of genders" [nzValue]="gender" [nzLabel]="gender"></nz-option>
-                  </nz-select>
+                <ngb-pagination
+                  [rotate]="true"
+                  [maxSize]="4"
+                  [collectionSize]="data.length - 1"
+                  [pageSize]="pageSize"
+                  [(page)]="currentPage"
+                  (pageChange)="onPageChange($event)">
+                </ngb-pagination>
 
-              </ng-container>
-            </ng-template>
-
-
-                    <!-- Default input for other columns -->
-
-                    <ng-template #defaultInput>
-                      <input
-                        [(ngModel)]="row[j]"
-                        [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
-                        (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)"/>
-                    </ng-template>
-
-                  </td>
-                </tr>
-              </table>
-              <!-- <div class="pagination-controls">
-                <button [disabled]="currentPage === 1" (click)="onPageChange(currentPage - 1)">Previous</button>
-                <span>Page {{ currentPage }} of {{ totalPage }}</span>
-                <button [disabled]="currentPage === totalPage" (click)="onPageChange(currentPage + 1)">Next</button>
-              </div> -->
-              <ngb-pagination
-              [rotate]="true"
-              [maxSize]="4"
-              [collectionSize]="jsonData.length"
-              [pageSize]="pageSize"
-              [(page)]="currentPage"
-              (pageChange)="onPageChange($event)">
-            </ngb-pagination>
-
+                <button (click)="saveFile()">Save Changes</button>
+              </div>
             </div>
-              <button (click)="saveFile()">Save Changes</button>
-            </div>
+
             <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p>
             <p *ngIf="!isErrorToggle">
             </p>
