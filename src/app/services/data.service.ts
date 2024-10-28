@@ -3461,11 +3461,12 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   }
 
 
-  sendEmails(userEmails:any): Observable<any> {
+  sendEmails(userEmails:any, sendMail:boolean): Observable<any> {
     const url = `${this.baseUrl}/users/send-email-to-all-users`;
 
     const params = new HttpParams()
-      .set('emails', userEmails);
+      .set('emails', userEmails)
+      .set('sendMail', sendMail);
 
     return this.httpClient.post<any>(url,{},{ params });
   }

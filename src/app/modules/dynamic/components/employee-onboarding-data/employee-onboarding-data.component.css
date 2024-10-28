@@ -14,10 +14,11 @@
   letter-spacing: 0.1px;
 }
 .invalid-input {
-  border-color: red; /* Change the border color to red */
+  border-color: red !important; /* Change the border color to red */
   /* Optionally, you can also change the background color or other styles */
-  background-color: #010101; /* Light red background */
+  background-color: #010101 !important; /* Light red background */
 }
+
 .orderpcardleft {
   width: 80%;
 }
@@ -877,6 +878,7 @@ Remove
   color: #6b7280;
   line-height: 20px;
 }
+
 
 ::ng-deep.ant-empty-image img {
   width: 90px;

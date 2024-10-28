@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {  NgForm } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -46,7 +46,8 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     private modalService: NgbModal,
     private http: HttpClient,
     private _subscriptionService:SubscriptionPlanService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private cdr: ChangeDetectorRef
   ) {}
   users: EmployeeOnboardingDataDto[] = [];
   filteredUsers: Users[] = [];
@@ -57,6 +58,27 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   sampleFileUrl: string = '';
   databaseHelper: DatabaseHelper = new DatabaseHelper();
   userList: UserReq[] = new Array();
+
+  currentPage: number = 1;
+  pageSize: number = 10; // Adjust based on your requirements
+  totalPage: number = 0;
+
+  async onPageChange(page: number) {
+    debugger
+    this.currentPage = page;
+    const start = (this.currentPage - 1) * this.pageSize; // Calculate the starting index
+    console.log(this.currentPage);
+    console.log(start);
+    console.log(this.pageSize);
+    // return this.data.slice(start, start + this.pageSize);
+    await this.getCellData(this.jsonData.slice(start, start + this.pageSize));
+  }
+  // get paginatedData() {
+    // const start = (this.currentPage - 1) * this.pageSize; // Calculate the starting index
+    // return this.data.slice(start, start + this.pageSize);
+  //  return  this.getCellData(this.jsonData.slice(start, start + this.pageSize));
+
+  // }
 
   pendingResponse = 'PENDING';
   approvedResponse = 'APPROVED';
@@ -698,6 +720,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   invalidRows: boolean[] = []; // Track invalid rows
   invalidCells: boolean[][] = []; // Track invalid cells
   isinvalid: boolean=false;
+  jsonData:any[]=[];
 
   selectFile(event: any) {
     debugger
@@ -717,46 +740,21 @@ export class EmployeeOnboardingDataComponent implements OnInit {
         const binaryStr = this.arrayBufferToString(arrayBuffer);
         const workbook = XLSX.read(binaryStr, { type: 'binary' });
         const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-        const jsonData: any[] = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+        this.jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
         // Reset data and error tracking
         this.data = [];
         this.invalidRows = [];
         this.invalidCells = [];
 
-        const columnNames: string[] = jsonData[0] as string[];
+        const columnNames: string[] = this.jsonData[0] as string[];
 
         if (this.validateColumns(columnNames)) {
-              this.data = jsonData.map((row: any[]) => {
-                // Ensure the 5th column is an array of strings, other columns are treated as strings
-                return row.map((cell: any, index: number) => {
-                  if( this.data.length==0){
-                    return cell ? cell.toString().trim() : '';
-                  }else{
-                  if (this.fileColumnName[index] === 'leavenames') {
-                    // Convert the 5th column to an array of strings
-                    return cell ? cell.toString().split(',').map((str: string) => str.trim()) : [];
-                  }else if (this.fileColumnName[index] === 'joiningdate*' && cell!=='joiningdate*') {
-                    // Convert the 5th column to an array of strings
-                    return cell ?  moment(cell).format('MM-DD-YYYY'): "";
-                  }
-                   else {
-                    // Convert other cells to string and trim whitespace
-                    return cell ? cell.toString().trim() : '';
-                  }
-                }
 
-                });
-              }).filter((row: any[]) =>
-                        // Filter out empty rows
-                  row.some((cell: any) => cell !== '')
-                );
+          this.getCellData(this.jsonData.slice(0,11))
+          this.totalPage = Math.ceil(this.jsonData.length / this.pageSize);
+          console.log(this.jsonData.length,"this.jsonData.length",this.totalPage)
 
-
-
-
-          // Validate all rows and keep track of invalid entries
-          this.validateRows(this.data);
           if(this.areAllFalse()){
             this.isinvalid=false;
             this.uploadUserFile(file, this.fileName);
@@ -772,6 +770,81 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       reader.readAsArrayBuffer(file);
     }
   }
+  loadingXlsData:boolean=false;
+
+ async getCellData(jsonData: any[]): Promise<any[]> {
+  this.loading=true;
+  console.log("jsonData", jsonData);
+  this.data = [];
+
+  // Return a promise that resolves with the processed data
+  return new Promise((resolve, reject) => {
+    try {
+      var counter=0;
+      this.data = jsonData.map((row: any[]) => {
+        ++counter;
+        return row.map((cell: any, index: number) => {
+          if (this.data.length === 0) {
+            return cell ? cell.toString().trim() : '';
+          } else {
+
+            if (this.fileColumnName[index] === 'leavenames') {
+              return cell ? cell.toString().split(',').map((str: string) => str.trim()) : [];
+            } else if (this.fileColumnName[index] === 'joiningdate*' && cell !== 'joiningdate*') {
+              // Use regex to check if cell matches exact MM-DD-YYYY format (reject formats like MM/DD/YYYY)
+              const isExactFormat = /^\d{2}-\d{2}-\d{4}$/.test(cell);
+              if (cell.includes('/')) {
+                return undefined;
+              }
+              console.log(cell);
+              cell = cell.replace(/\//g, '-');
+              console.log(cell);
+
+              if (isExactFormat) {
+                // Parse with strict format checking
+                const formattedDate = moment(cell, 'MM-DD-YYYY', true);
+
+                // Check if the date is valid and within the next year
+                if (formattedDate.isValid()) {
+                  const oneYearFromNow = moment().add(1, 'year');
+
+                  // Ensure date is within the next year
+                  if (formattedDate.isBefore(oneYearFromNow)) {
+                    return formattedDate.format('MM-DD-YYYY');
+                  }
+                }
+              }
+              // Return empty string if the format, validity, or date range check fails
+              return "";
+            } else {
+              // Convert other cells to string and trim whitespace
+              return cell ? cell.toString().trim() : '';
+            }
+          }
+
+        });
+
+      }).filter((row: any[]) =>
+        // Filter out empty rows
+        row.some((cell: any) => cell !== '')
+
+      );
+
+      // Validate all rows and keep track of invalid entries
+      this.validateRows(this.data);
+      if(counter==jsonData.length){
+        this.loadingXlsData=false
+        // Resolve the promise with the processed data
+resolve(this.data);
+      }
+
+    } catch (error) {
+      // Reject the promise if an error occurs
+      reject(error);
+    }
+  });
+}
+
 
   areAllFalse(): boolean {
     return this.invalidCells
@@ -873,12 +946,85 @@ export class EmployeeOnboardingDataComponent implements OnInit {
               this.data[i][j] = '';
           }
       }
+      // if (this.fileColumnName[j] === 'team' ) {
+      //   // Split cellValue by commas and trim any whitespace
+      //   if(cellValue===undefined || cellValue===""){
+      //     this.data[i][j]=[];
+      //   }
+      //   else{
+      //   const selectedTeams: string[] = cellValue.split(',').map((team: string) => team.trim());
+      //   this.data[i][j]=selectedTeams;
+      //   console.log("this.data[i][j] ",this.data[i][j])
+      //   }
+
+      // }
+
+    if (this.fileColumnName[j] === 'leavenames' || this.fileColumnName[j] === 'team') {
+      if(cellValue===undefined || cellValue===""){
+        this.data[i][j]=[];
+      }
+      else{
+        const selectedData: string[] = cellValue.split(',').map((team: string) => team.trim());
+        this.data[i][j]=selectedData;
+      }
+    }
+
+
+
+
+
+      if (this.fileColumnName[j] === 'joiningdate*' && cellValue) {
+        debugger;
+
+        // Replace slashes with hyphens
+        const normalizedCell = cellValue.toString().trim().replace(/\//g, '-');
+
+        // Check if the normalized cell matches the exact MM-DD-YYYY format
+        const isExactFormat = /^\d{2}-\d{2}-\d{4}$/.test(normalizedCell);
+
+        if (isExactFormat) {
+            // Parse with strict format checking
+            const formattedDate = moment(normalizedCell, 'MM-DD-YYYY', true);
+
+            // Check if the date is valid
+            if (formattedDate.isValid()) {
+                const oneYearFromNow = moment().add(1, 'year');
+
+                // Ensure the date is in the past or less than one year from today
+                if (formattedDate.isAfter(oneYearFromNow)) {
+                    this.data[i][j] = undefined;
+                    rowIsValid = false;
+                    this.invalidRows[i] = true; // Mark the row as invalid
+                    this.invalidCells[i][j] = true; // Mark the cell as invalid
+                }
+            } else {
+                // If the date is not valid
+                this.data[i][j] = undefined;
+                rowIsValid = false;
+                this.invalidRows[i] = true; // Mark the row as invalid
+                this.invalidCells[i][j] = true; // Mark the cell as invalid
+            }
+        } else {
+            // If the format is not exactly MM-DD-YYYY
+            this.data[i][j] = undefined;
+            rowIsValid = false;
+            this.invalidRows[i] = true; // Mark the row as invalid
+            this.invalidCells[i][j] = true; // Mark the cell as invalid
+          }
+        }
+
+
 
         if (!this.expectedColumns.some(expectedColumn => expectedColumn.toLowerCase() === this.fileColumnName[j].toLowerCase())) {
           this.invalidCells[i][j] = false;
         }
       }
     }
+  }
+
+  getSelectedTeams(teamsString: string): string[] {
+    // Split the comma-separated string into an array
+    return teamsString ? teamsString.split(',').map(team => team.trim()) : [];
   }
 
   onMultiSelectChange(selectedOptions: any[], rowIndex: number, colIndex: number) {
@@ -926,6 +1072,10 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     // Assign the formatted date back to your data array
     this.data[rowIndex][columnIndex] = formattedDate;
     this.onValueChange(rowIndex,columnIndex);
+  }
+
+  onTeamSelectionChanges(selectedTeams: any[], rowIndex: number, columnIndex: number) {
+    this.data[rowIndex][columnIndex] = selectedTeams;
   }
 
 
@@ -1114,23 +1264,21 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   emails: string[] = [];
   sendMailExcelUserFlag:boolean = false;
   @ViewChild("closeButtonExcelModal") closeButtonExcelModal!:ElementRef;
-  sendEmailToUsers() {
+  sendEmailToUsers(sendMail:boolean) {
     this.sendMailExcelUserFlag = true;
     this.emails = this.onboardUserList.map(user => user.email).filter(email => email);
     // console.log(this.emails);
 
     this.dataService
-        .sendEmails(this.emails)
+        .sendEmails(this.emails,sendMail)
         .subscribe((response: any) => {
           console.log("Mail sent successfully");
           this.sendMailExcelUserFlag = false;
           this.closeButtonExcelModal.nativeElement.click();
           this.getUsersByFiltersFunction();
           this.getUser();
-          this.helperService.showToast(
-            'Mail sent Successfully.',
-            Key.TOAST_STATUS_SUCCESS
-          );
+          const toastMessage = sendMail ? 'Mail sent Successfully.' : 'Operation completed without sending mail.';
+          this.helperService.showToast(toastMessage, Key.TOAST_STATUS_SUCCESS);
         },
         (error) => {
           this.sendMailExcelUserFlag = false;
