@@ -42,6 +42,7 @@ export class SubscriptionPlanService {
       });
   }
 
+  isFullAccess:boolean=false;
   isPlanExpired!:boolean;
   isTrialPlan!:boolean;
   isSubscription!:boolean;
