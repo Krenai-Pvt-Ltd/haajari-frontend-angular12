@@ -63,22 +63,16 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   pageSize: number = 10; // Adjust based on your requirements
   totalPage: number = 0;
 
-  async onPageChange(page: number) {
+  onPageChange(page: number) {
     debugger
     this.currentPage = page;
-    const start = (this.currentPage - 1) * this.pageSize; // Calculate the starting index
-    console.log(this.currentPage);
-    console.log(start);
-    console.log(this.pageSize);
-    // return this.data.slice(start, start + this.pageSize);
-    await this.getCellData(this.jsonData.slice(start, start + this.pageSize));
   }
-  // get paginatedData() {
-    // const start = (this.currentPage - 1) * this.pageSize; // Calculate the starting index
-    // return this.data.slice(start, start + this.pageSize);
-  //  return  this.getCellData(this.jsonData.slice(start, start + this.pageSize));
-
-  // }
+  get paginatedData() {
+    console.log(this.currentPage);
+    const start = (this.currentPage - 1) * this.pageSize;
+    console.log(start);
+    return this.data.slice(start, start + this.pageSize);
+  }
 
   pendingResponse = 'PENDING';
   approvedResponse = 'APPROVED';
@@ -750,11 +744,59 @@ export class EmployeeOnboardingDataComponent implements OnInit {
         const columnNames: string[] = this.jsonData[0] as string[];
 
         if (this.validateColumns(columnNames)) {
+              this.data = this.jsonData.map((row: any[]) => {
+                // Ensure the 5th column is an array of strings, other columns are treated as strings
+                return row.map((cell: any, index: number) => {
+                  if( this.data.length==0){
+                    return cell ? cell.toString().trim() : '';
+                  }else{
+                  if (this.fileColumnName[index] === 'leavenames') {
+                    return cell ? cell.toString().split(',').map((str: string) => str.trim()) : [];
+                  }else if (this.fileColumnName[index] === 'joiningdate*' && cell !== 'joiningdate*') {
+                    // Use regex to check if cell matches exact MM-DD-YYYY format (reject formats like MM/DD/YYYY)
+                    const isExactFormat = /^\d{2}-\d{2}-\d{4}$/.test(cell);
+                    if (cell.includes('/')) {
+                      return undefined;
+                    }
+                    console.log(cell);
+                    cell=cell.replace(/\//g, '-');
+                    console.log(cell);
 
-          this.getCellData(this.jsonData.slice(0,11))
-          this.totalPage = Math.ceil(this.jsonData.length / this.pageSize);
-          console.log(this.jsonData.length,"this.jsonData.length",this.totalPage)
+                    if (isExactFormat) {
+                        // Parse with strict format checking
+                        const formattedDate = moment(cell, 'MM-DD-YYYY', true);
 
+                        // Check if the date is valid and within the next year
+                        if (formattedDate.isValid()) {
+                            const oneYearFromNow = moment().add(1, 'year');
+
+                            // Ensure date is within the next year
+                            if (formattedDate.isBefore(oneYearFromNow)) {
+                                return formattedDate.format('MM-DD-YYYY');
+                            }
+                        }
+                    }
+                    // Return empty string if the format, validity, or date range check fails
+                    return "";
+                  }
+                   else {
+                    // Convert other cells to string and trim whitespace
+                    return cell ? cell.toString().trim() : '';
+                  }
+                }
+
+                });
+              }).filter((row: any[]) =>
+                        // Filter out empty rows
+                  row.some((cell: any) => cell !== '')
+                );
+
+
+
+
+          // Validate all rows and keep track of invalid entries
+          this.validateRows(this.data);
+          this.totalPage = Math.ceil(this.data.length / this.pageSize);
           if(this.areAllFalse()){
             this.isinvalid=false;
             this.uploadUserFile(file, this.fileName);
@@ -770,81 +812,6 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       reader.readAsArrayBuffer(file);
     }
   }
-  loadingXlsData:boolean=false;
-
- async getCellData(jsonData: any[]): Promise<any[]> {
-  this.loading=true;
-  console.log("jsonData", jsonData);
-  this.data = [];
-
-  // Return a promise that resolves with the processed data
-  return new Promise((resolve, reject) => {
-    try {
-      var counter=0;
-      this.data = jsonData.map((row: any[]) => {
-        ++counter;
-        return row.map((cell: any, index: number) => {
-          if (this.data.length === 0) {
-            return cell ? cell.toString().trim() : '';
-          } else {
-
-            if (this.fileColumnName[index] === 'leavenames') {
-              return cell ? cell.toString().split(',').map((str: string) => str.trim()) : [];
-            } else if (this.fileColumnName[index] === 'joiningdate*' && cell !== 'joiningdate*') {
-              // Use regex to check if cell matches exact MM-DD-YYYY format (reject formats like MM/DD/YYYY)
-              const isExactFormat = /^\d{2}-\d{2}-\d{4}$/.test(cell);
-              if (cell.includes('/')) {
-                return undefined;
-              }
-              console.log(cell);
-              cell = cell.replace(/\//g, '-');
-              console.log(cell);
-
-              if (isExactFormat) {
-                // Parse with strict format checking
-                const formattedDate = moment(cell, 'MM-DD-YYYY', true);
-
-                // Check if the date is valid and within the next year
-                if (formattedDate.isValid()) {
-                  const oneYearFromNow = moment().add(1, 'year');
-
-                  // Ensure date is within the next year
-                  if (formattedDate.isBefore(oneYearFromNow)) {
-                    return formattedDate.format('MM-DD-YYYY');
-                  }
-                }
-              }
-              // Return empty string if the format, validity, or date range check fails
-              return "";
-            } else {
-              // Convert other cells to string and trim whitespace
-              return cell ? cell.toString().trim() : '';
-            }
-          }
-
-        });
-
-      }).filter((row: any[]) =>
-        // Filter out empty rows
-        row.some((cell: any) => cell !== '')
-
-      );
-
-      // Validate all rows and keep track of invalid entries
-      this.validateRows(this.data);
-      if(counter==jsonData.length){
-        this.loadingXlsData=false
-        // Resolve the promise with the processed data
-resolve(this.data);
-      }
-
-    } catch (error) {
-      // Reject the promise if an error occurs
-      reject(error);
-    }
-  });
-}
-
 
   areAllFalse(): boolean {
     return this.invalidCells

@@ -1768,23 +1768,21 @@
             <p *ngIf="isExcel.length > 0">
               {{ isExcel }}
             </p>
-            <div *ngIf="data.length > 0 && !loadingXlsData">
+            <div *ngIf="data.length > 0">
               <h3>Uploaded Data</h3>
               <div class="table-responsive">
               <table border="1">
 
-                <tr *ngFor="let row of this.data; let i = index">
-                  {{row|json}}
-                  <td *ngFor="let cell of fileColumnName; let j = index">
-                    <ng-container *ngIf="this.fileColumnName[j] === 'shift*' && (currentPage - 1) * pageSize + i !== 0; else leaveColumns">
+                <tr *ngFor="let row of paginatedData; let i = index">
+                  <td *ngFor="let cell of row; let j = index">
+                    <ng-container *ngIf="fileColumnName[j] === 'shift*' && i !== 0; else leaveColumns">
                       <nz-select
-                      [(ngModel)]="row[j]"
-                      [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
-                      (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)"
-                      nzPlaceHolder="Select Shift">
-                      <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label" [nzLabel]="shift.label"></nz-option>
-                    </nz-select>
-
+                        [(ngModel)]="row[j]"
+                        [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
+                        (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)"
+                        nzPlaceHolder="Select Shift">
+                        <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label" [nzLabel]="shift.label"></nz-option>
+                      </nz-select>
                     </ng-container>
 
                     <ng-template #leaveColumns>
@@ -1883,18 +1881,20 @@
                     <!-- Default input for other columns -->
 
                     <ng-template #defaultInput>
-                      <div *ngIf="row[j]">
                       <input
                         [(ngModel)]="row[j]"
                         [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
                         (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)"/>
-                      </div>
                     </ng-template>
 
                   </td>
                 </tr>
               </table>
-
+              <!-- <div class="pagination-controls">
+                <button [disabled]="currentPage === 1" (click)="onPageChange(currentPage - 1)">Previous</button>
+                <span>Page {{ currentPage }} of {{ totalPage }}</span>
+                <button [disabled]="currentPage === totalPage" (click)="onPageChange(currentPage + 1)">Next</button>
+              </div> -->
               <ngb-pagination
               [rotate]="true"
               [maxSize]="4"
