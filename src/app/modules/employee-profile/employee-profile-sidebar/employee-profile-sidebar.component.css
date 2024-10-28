@@ -439,6 +439,67 @@ span.lat {
 .image-edit-btn svg{
     width: 18px;
 }
+.check-in{
+    background-color: #388E3C;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 400;
+    border-radius: 2px;
+    border-radius: 0px 0px 2px 2px;
+}
+.check-in svg{
+    width: 15px;
+    position: relative;
+    top: -2px;
+}
+.check-in-info{
+    background-color: #E9FFEA;
+    border-radius: 2px 2px 0px 0px;
+}
+
+ .check-in-info h5 {
+     color: #388E3C;
+     text-transform: capitalize;
+     font-size: 15px;
+     font-weight: 500;
+     line-height: 22px;
+ }
+
+  .check-in-info img{
+    width: 70px;
+  }
+
+  .break-info{
+    background-color: #FFF8F2;
+     border-radius: 2px 2px 0px 0px;
+  }
+
+   .break-info h5 {
+       color: #E27A17;
+       text-transform: capitalize;
+       font-size: 15px;
+       font-weight: 500;
+       line-height: 22px;
+   }
+
+   .break-info img {
+       width: 70px;
+   }
+
+   .break-back {
+       background-color: #E27A17 !important;
+       color: #fff;
+       font-size: 13px;
+       font-weight: 400;
+       border-radius: 2px;
+       border-radius: 0px 0px 2px 2px;
+   }
+
+   .break-back svg {
+       width: 15px;
+       position: relative;
+       top: -2px;
+   }
 
 @media screen and (max-width: 1280px) {
     .employee-detail h5 {
@@ -474,5 +535,25 @@ span.lat {
         .check-in-btn{
         height: 80px !important;
         }
-                
+      
+         .check-in-info h5 {
+        color: #388E3C;
+        text-transform: capitalize;
+        font-size: 13px;
+        line-height: 20px;
+         }
+        .check-in-info img {
+            width: 60px;
+        }
+
+        .break-info h5 {
+            color: #E27A17;
+            text-transform: capitalize;
+            font-size: 13px;
+            line-height: 20px;
+        }
+           
+        .break-info img{
+            width: 60px;
+        }
 }

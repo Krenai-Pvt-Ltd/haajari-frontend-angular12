@@ -252,6 +252,10 @@
 .calendar-icon svg {
     width: 15px;
 }
+.attendance-date{
+    border-radius: 2px;
+    border: 1px solid #DCDCE4;
+}
 
 .attendance-date p {
     color: #000;
@@ -301,8 +305,8 @@
 }
 
 .attendance-summery {
-    /* background-color: #F9FAFC; */
-    border: 1px solid #f1f1f1;
+    background-color: #F9FAFC;
+    /* border: 1px solid #f1f1f1; */
     border-radius: 2px;
     margin-bottom: 10px;
 }
@@ -416,13 +420,33 @@ span.lat {
     background-color: transparent;
 }
 
+.request-dropdown{
+    width: 150px !important;
+    height: 36px !important;
+    border-radius: 2px;
+    border: 1px solid #DCDCE4 !important;
+}
+.total-worked svg{
+    width: 70px;
+}
+
+::ng-deep.request-dropdown .ant-select-selector{
+    min-height: 36px !important;
+    background-color: transparent !important;
+}
+::ng-deep.request-dropdown .ant-select-selection-placeholder {
+    line-height: 36px !important;
+}
+::ng-deep.request-dropdown .ant-select-selection-item{
+    line-height: 36px !important;
+}
 /* ::ng-deep.ant-picker {
     background-color: rgba(236, 236, 236, 0.21) !important;
 } */
 
-nz-select.request-dropdown.ng-tns-c209-1.ant-select.ant-select-lg.ant-select-show-arrow.ant-select-single.ng-star-inserted {
+/* nz-select.request-dropdown.ng-tns-c209-1.ant-select.ant-select-lg.ant-select-show-arrow.ant-select-single.ng-star-inserted {
     border: 1px solid #f1f1f1 !important;
-}
+} */
 
 nz-select.request-dropdown .ant-select-selector {
     height: 35px !important;
@@ -537,7 +561,7 @@ nz-select.request-dropdown .ant-select-selector {
     color: var(--tb-secondary-color) !important;
 }
 .onboarding-date input[type="text"] {
-    width: 680px;
+    width: 515px;
     border-radius: 0px 10px 10px 0px;
     border: 0px solid #f2f2f2;
     height: 45px !important;
@@ -549,6 +573,15 @@ nz-select.request-dropdown .ant-select-selector {
 .onboarding-date input::placeholder{
     font-size: 13px;
     color: #777;
+}
+.leave-request{
+    min-width: 200px;
+    display: block !important;
+    text-align: end;
+}
+.leave-request svg{
+    position: relative;
+    top: -1px;
 }
 .white-space {
     white-space: normal;
@@ -698,6 +731,28 @@ nz-select.request-dropdown .ant-select-selector {
     line-height: 20.854px;
     letter-spacing: 0.102px;
 }
+
+.calendar-back-btn{
+    width: 40px;
+    height: 30px;
+}
+
+.calendar-separator{
+    border-left: 1px solid #DCDCE4;
+    height: 27px;
+}
+.week-data .btn{
+    min-width: 77px;
+}
+
+.week-data .btn-outline-secondary {
+    color: #8d93a1;
+    border-color: #DCDCE4;
+}
+.week-data .btn-outline-secondary:hover{
+    color: #fff !important;
+}
+
 @media screen and (max-width: 1280px) {
     .font-15 {
         font-size: 13px !important;
