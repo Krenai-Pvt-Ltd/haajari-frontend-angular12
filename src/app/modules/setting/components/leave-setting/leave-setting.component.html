@@ -90,6 +90,9 @@
           <div *ngIf="leaveTemplates.length > 0 && !isLoading" class="form-roe-data">
             <h5>Leave Settings</h5>
             <p>This will be displayed on your profile.</p>
+
+            <!-- <button class="btn btn-primary" (click)="getExpenseType()" data-bs-toggle="modal" data-bs-target="#createExpense">Create Expense</button> -->
+
           </div>
         </div>
         <div class="col-md-7">
@@ -1415,3 +1418,218 @@
     </div>
   </div>
 </div>
+
+
+
+
+
+<!-- Create expense modal start -->
+<div class="modal fade" id="createExpense" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Apply for expense</h5>
+            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                        width="24" height="24">
+                        <rect width="24" height="24" fill="#D9D9D9" />
+                    </mask>
+                    <g mask="url(#mask0_5037_2014)">
+                        <path
+                            d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+                            fill="black" />
+                    </g>
+                </svg>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="assets-request-form">
+                <form #createForm="ngForm" ngNativeValidate (ngSubmit)="createExpense()">
+                    <div class="row register-form-box">
+                        <!-- <div class="col-md-12 mb-3">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="employeeTypeId" class="mb-2">Pick a starting date</label>
+                                              
+                                            <nz-date-picker nzPlaceHolder="dd/mm/yyyy" name="startDate"  required>
+                                            </nz-date-picker>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="employeeTypeId" class="mb-2">Pick a ending date</label>
+                                        <nz-date-picker nzPlaceHolder="dd/mm/yyyy" name="startDate" required>
+                                        </nz-date-picker>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div> -->
+                        <div class="col-md-12 mb-3">
+                            <div class="form-group">
+                                <label for="expenseType" class="mb-2">Expense type</label>
+                                <!-- <nz-form-control>
+                                    <nz-select class="form-control" style="width: 100%" nzSize="large"
+                                        nzPlaceHolder="Select the leave type" (ngModelChange)="getExpenseId($event)" required>
+                                        <nz-option *ngFor="let expenseType of expenseTypeList" [nzValue]="expenseType.id"
+                                            [nzLabel]="expenseType.name"></nz-option>
+                                    </nz-select>
+                                </nz-form-control> -->
+
+                                <nz-select  style="width: 100%" nzSize="large" nzPlaceHolder="Select Expense type"
+                                  [(ngModel)]="expenseTypeId" (ngModelChange)="getExpenseId($event)" required name="expTypeId" #expTypeId="ngModel"
+                                   class="form-control">
+                                    <nz-option *ngFor=" let expenseType of expenseTypeList" 
+                                      [nzValue]="expenseType.id" [nzLabel]="expenseType.name">
+                                    </nz-option>
+                                </nz-select>
+
+
+                          <div *ngIf="expTypeId?.invalid && expTypeId?.touched" class="error-message">
+                            Expense type is required.
+                          </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 mb-3">
+                          <div class="form-group">
+                              <label for="expenseAmount" class="mb-2"> Amount</label>
+                              <input type="text"  required min="1"  id="amount" name="amount" placeholder="Enter Amount"
+                              class="form-control" [(ngModel)]="expenseTypeReq.amount" />
+                          </div>
+                      </div>
+                       
+                        <div class="col-md-12 mb-3">
+                            <div class="form-group">
+                                <label for="templateName" class="mb-2"> Note</label>
+                                <textarea class="form-control nots-section" required placeholder="write the note" id="notes"
+                                    rows="3" name="notes" [(ngModel)]="expenseTypeReq.notes"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12 ">
+                            <div class="form-group ">
+                                <label for="templateName" class="mb-2"> Proof document <span class="text-primary font-12">(optional)</span></label>
+                                <div class="d-flex align-items-center justify-content-between  requesting-half-leave p-2" >
+                                    <p class="mb-0 font-13 " style="font-weight: 400;" >Select proof document</p>
+                                   
+                                   <button type="button" (click)="fileInput.click()" class="btn p-0 text-primary font-13"><i class="bi bi-plus-lg"></i> Add File</button>
+                                   <input
+                                        type="file"
+                                        #fileInput
+                                        (change)="onFileSelected($event)"
+                                        accept=".png, .jpg, .jpeg"
+                                        style="display: none;"
+                                      />
+
+                                </div>
+
+
+                                <div *ngIf="expenseTypeReq.url != ''" class="hr-policy-file d-flex justify-content-between align-items-center p-3 mt-3">
+                                    <div  class="d-flex align-items-center gap-2">
+                                        <div  class="d-flex align-items-center gap-2">
+                                          <!-- <svg 
+                                                xmlns="http://www.w3.org/2000/svg" width="31" height="37" viewBox="0 0 31 37" fill="none">
+                                                <path 
+                                                    d="M25.5734 0.836118C26.0952 0.833246 26.6124 0.933548 27.0954 1.13126C27.5783 1.32897 28.0174 1.62019 28.3874 1.98817C28.7574 2.35616 29.0511 2.79365 29.2514 3.2755C29.4518 3.75734 29.5549 4.27404 29.5549 4.79588V31.7514C29.5549 32.2732 29.4518 32.7899 29.2514 33.2717C29.0511 33.7536 28.7574 34.1911 28.3874 34.5591C28.0174 34.927 27.5783 35.2183 27.0954 35.416C26.6124 35.6137 26.0952 35.714 25.5734 35.7111H5.41125C4.36105 35.7111 3.35387 35.2939 2.61127 34.5513C1.86867 33.8087 1.45148 32.8015 1.45148 31.7514V9.47495C1.44273 9.00483 1.62035 8.55034 1.94554 8.21073L8.79703 1.35924C8.96541 1.19034 9.16602 1.057 9.38693 0.967138C9.60785 0.877273 9.84457 0.832718 10.083 0.836118H25.5734Z"
+                                                    fill="#F1F4F9"></path>
+                                                <path 
+                                                    d="M8.82579 1.35992C8.97656 1.20982 9.15396 1.0891 9.34891 1.00391V4.97094C9.34892 5.65594 9.21364 6.33419 8.95084 6.96678C8.68805 7.59936 8.30291 8.17381 7.81753 8.65717C7.33215 9.14052 6.75609 9.52326 6.12241 9.78341C5.48874 10.0436 4.80992 10.176 4.12493 10.1731H1.45118V9.44656C1.45005 8.98647 1.62712 8.5438 1.94524 8.21141L8.82579 1.35992Z"
+                                                    fill="#DCDFE2"></path>
+                                                <path 
+                                                    d="M1.61816 8.73453C1.70335 8.53958 1.82408 8.36219 1.97418 8.21141L8.82566 1.35992C8.97644 1.20982 9.15384 1.0891 9.34879 1.00391V4.77477C9.34879 5.29538 9.24613 5.81089 9.04668 6.29178C8.84723 6.77268 8.5549 7.20952 8.18643 7.57732C7.81797 7.94511 7.38059 8.23663 6.89933 8.4352C6.41807 8.63377 5.90237 8.73549 5.38176 8.73453H1.61816Z"
+                                                    fill="#6666F2"></path>
+                                                <path 
+                                                    d="M12.7194 19.7995C12.7409 20.1645 12.6876 20.53 12.5626 20.8737C12.4377 21.2173 12.2438 21.5317 11.9928 21.7976C11.7233 22.0475 11.4062 22.2407 11.0604 22.3655C10.7146 22.4903 10.3473 22.5443 9.98023 22.5241H8.31641V17.3147H10.111C10.8118 17.2674 11.5031 17.497 12.0364 17.9541C12.2751 18.1953 12.4595 18.4847 12.5773 18.803C12.695 19.1213 12.7435 19.461 12.7194 19.7995ZM11.2662 19.8504C11.2957 19.4748 11.1957 19.1005 10.9829 18.7896C10.8753 18.6714 10.7421 18.5792 10.5936 18.52C10.4451 18.4608 10.285 18.4363 10.1255 18.4481H9.71867V21.3544H10.0311C10.2053 21.3685 10.3804 21.3425 10.5429 21.2782C10.7054 21.214 10.851 21.1133 10.9684 20.9838C11.1907 20.6495 11.2955 20.2508 11.2662 19.8504Z"
+                                                    fill="#6666F2"></path>
+                                                <path 
+                                                    d="M18.3215 19.9018C18.3738 20.6276 18.1448 21.3456 17.6822 21.9071C17.433 22.1453 17.137 22.3289 16.8131 22.4465C16.4891 22.5641 16.1442 22.613 15.8004 22.5901C15.4544 22.6072 15.1088 22.5513 14.7858 22.4261C14.4629 22.301 14.1699 22.1093 13.9258 21.8635C13.4573 21.3106 13.2251 20.5955 13.2792 19.8728C13.2258 19.1545 13.4582 18.4443 13.9258 17.8965C14.1737 17.6565 14.4694 17.4716 14.7937 17.3539C15.118 17.2362 15.4636 17.1884 15.8076 17.2136C16.1499 17.1898 16.4933 17.2377 16.816 17.354C17.1388 17.4704 17.4338 17.6526 17.6822 17.8893C18.1507 18.4504 18.3803 19.1731 18.3215 19.9018ZM14.7541 19.9018C14.7541 20.9045 15.1029 21.4058 15.8004 21.4058C15.9512 21.4166 16.1023 21.3889 16.2396 21.3254C16.3768 21.2619 16.4957 21.1645 16.5851 21.0425C16.7846 20.6971 16.8757 20.2997 16.8466 19.9018C16.8758 19.5017 16.7847 19.1019 16.5851 18.7539C16.4972 18.6316 16.3798 18.5335 16.2439 18.4688C16.108 18.404 15.9579 18.3746 15.8076 18.3833C15.1029 18.3833 14.7541 18.8919 14.7541 19.9018Z"
+                                                    fill="#6666F2"></path>
+                                                <path 
+                                                    d="M21.3881 18.3893C21.2335 18.3847 21.0802 18.4196 20.9429 18.4908C20.8056 18.562 20.6887 18.6671 20.6034 18.7961C20.3999 19.1377 20.3037 19.5326 20.3273 19.9296C20.3273 20.925 20.7051 21.4263 21.4608 21.4263C21.6868 21.425 21.9116 21.3932 22.1292 21.3318C22.3472 21.2665 22.5651 21.1865 22.7831 21.0993V22.2836C22.3238 22.4793 21.8292 22.5783 21.33 22.5743C20.997 22.5999 20.6624 22.5534 20.3489 22.438C20.0355 22.3227 19.7506 22.1412 19.5136 21.9058C19.0591 21.3543 18.8329 20.6498 18.8815 19.9368C18.8652 19.435 18.9699 18.9366 19.1866 18.4837C19.3769 18.0911 19.6806 17.7646 20.0585 17.5465C20.47 17.3211 20.9336 17.2083 21.4026 17.2195C21.9582 17.2196 22.5068 17.3438 23.0083 17.5828L22.5797 18.709C22.3943 18.6195 22.2024 18.5442 22.0057 18.4837C21.8063 18.4188 21.5977 18.3869 21.3881 18.3893Z"
+                                                    fill="#6666F2"></path>
+                                            </svg> -->
+                                            <img src="{{expenseTypeReq.url}}" alt="" width="31" height="37">
+                                            <h5  class="mb-0 font-14 mx-2 mt-2">{{fileName}}</h5>
+                                        </div>
+                                        <!-- <span  class="separator"></span> -->
+                                        <!-- <p  class="mb-0 font-13"> {{lastModifiedDate}} </p> -->
+                                    </div>
+                                    <div  class="d-flex align-items-center gap-2 action-icon-btn">
+                                      <span>
+                                        <svg  xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+                                                viewBox="0 0 22 22" fill="none">
+                                                <mask  id="mask0_4339_1635" maskUnits="userSpaceOnUse" x="0" y="0" width="22"
+                                                    height="22" style="mask-type: alpha;">
+                                                    <rect  width="21.8342" height="21.8342" fill="#D9D9D9"></rect>
+                                                </mask>
+                                                <g  mask="url(#mask0_4339_1635)">
+                                                    <path 
+                                                        d="M10.9189 14.1711C11.9498 14.1711 12.8254 13.8103 13.5456 13.0888C14.2658 12.3672 14.6259 11.4909 14.6259 10.46C14.6259 9.4291 14.2651 8.55354 13.5435 7.83331C12.822 7.11308 11.9457 6.75297 10.9148 6.75297C9.88389 6.75297 9.00833 7.11377 8.2881 7.83536C7.56788 8.55695 7.20776 9.4332 7.20776 10.4641C7.20776 11.495 7.56856 12.3706 8.29015 13.0908C9.01174 13.811 9.88799 14.1711 10.9189 14.1711ZM10.9168 12.9184C10.2345 12.9184 9.65456 12.6796 9.17694 12.202C8.69931 11.7243 8.4605 11.1444 8.4605 10.4621C8.4605 9.77974 8.69931 9.19977 9.17694 8.72214C9.65456 8.24452 10.2345 8.00571 10.9168 8.00571C11.5992 8.00571 12.1791 8.24452 12.6568 8.72214C13.1344 9.19977 13.3732 9.77974 13.3732 10.4621C13.3732 11.1444 13.1344 11.7243 12.6568 12.202C12.1791 12.6796 11.5992 12.9184 10.9168 12.9184ZM10.918 16.8304C8.826 16.8304 6.91983 16.2533 5.19947 15.0991C3.47912 13.9451 2.21243 12.3994 1.39941 10.4621C2.21243 8.52473 3.47867 6.97905 5.19811 5.82502C6.9177 4.67084 8.82357 4.09375 10.9157 4.09375C13.0077 4.09375 14.9139 4.67084 16.6342 5.82502C18.3546 6.97905 19.6213 8.52473 20.4343 10.4621C19.6213 12.3994 18.355 13.9451 16.6356 15.0991C14.916 16.2533 13.0101 16.8304 10.918 16.8304ZM10.9168 15.4657C12.6302 15.4657 14.2033 15.0146 15.6362 14.1125C17.0691 13.2103 18.1646 11.9935 18.9227 10.4621C18.1646 8.93063 17.0691 7.71383 15.6362 6.81165C14.2033 5.90948 12.6302 5.45839 10.9168 5.45839C9.20347 5.45839 7.63035 5.90948 6.19748 6.81165C4.76461 7.71383 3.66911 8.93063 2.91098 10.4621C3.66911 11.9935 4.76461 13.2103 6.19748 14.1125C7.63035 15.0146 9.20347 15.4657 10.9168 15.4657Z"
+                                                        fill="#1C1B1F"></path>
+                                                </g>
+                                            </svg>
+                                            
+                                        </span>
+                                        <input  id="hrpolicies" type="file" name="hrpolicies"
+                                            accept="application/pdf" class="input" style="display: none;">
+                                            <span >
+
+                                            </span>
+                                            <!-- <span  class="ng-star-inserted"><svg 
+                                                xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
+                                                <mask  id="mask0_4339_1623" maskUnits="userSpaceOnUse" x="0" y="0" width="23"
+                                                    height="22" style="mask-type: alpha;">
+                                                    <rect  x="0.267578" width="21.8342" height="21.8342" fill="#444444"></rect>
+                                                </mask>
+                                                <g  mask="url(#mask0_4339_1623)">
+                                                    <path 
+                                                        d="M4.81581 17.2927H5.96347L15.2762 7.97992L14.1285 6.83226L4.81581 16.145V17.2927ZM3.45117 18.6573V15.5782L15.4513 3.58328C15.5889 3.45834 15.7407 3.36183 15.9069 3.29375C16.0732 3.22552 16.2476 3.19141 16.43 3.19141C16.6124 3.19141 16.7891 3.22378 16.9599 3.28852C17.131 3.35327 17.2824 3.45622 17.4141 3.59739L18.5252 4.7223C18.6663 4.85406 18.7669 5.00569 18.827 5.17718C18.887 5.34867 18.9171 5.52016 18.9171 5.69165C18.9171 5.87466 18.8858 6.04926 18.8234 6.21544C18.7609 6.38178 18.6615 6.53371 18.5252 6.67123L6.53025 18.6573H3.45117ZM14.6924 7.4161L14.1285 6.83226L15.2762 7.97992L14.6924 7.4161Z"
+                                                        fill="#444444"></path>
+                                                </g>
+                                            </svg>
+                                        </span> -->
+                                            <span >
+                                              <svg (click)="deleteImage()" xmlns="http://www.w3.org/2000/svg" width="23" height="22"
+                                                viewBox="0 0 23 22" fill="none">
+                                                <mask  id="mask0_4339_1620" maskUnits="userSpaceOnUse" x="0" y="0" width="23"
+                                                    height="22" style="mask-type: alpha;">
+                                                    <rect  x="0.535156" width="21.8342" height="21.8342" fill="#D9D9D9"></rect>
+                                                </mask>
+                                                <g  mask="url(#mask0_4339_1620)">
+                                                    <path 
+                                                        d="M7.18328 18.6577C6.72961 18.6577 6.34206 18.497 6.02061 18.1757C5.69931 17.8543 5.53866 17.4667 5.53866 17.0131V5.46619H4.62891V4.10156H8.72282V3.29688H14.1814V4.10156H18.2753V5.46619H17.3655V17.0131C17.3655 17.4726 17.2063 17.8616 16.8879 18.1801C16.5695 18.4985 16.1805 18.6577 15.7209 18.6577H7.18328ZM16.0009 5.46619H6.9033V17.0131C6.9033 17.0948 6.92953 17.1619 6.982 17.2144C7.03446 17.2668 7.10155 17.293 7.18328 17.293H15.7209C15.791 17.293 15.8551 17.2639 15.9133 17.2055C15.9717 17.1473 16.0009 17.0831 16.0009 17.0131V5.46619ZM9.09036 15.4735H10.4548V7.28571H9.09036V15.4735ZM12.4494 15.4735H13.8138V7.28571H12.4494V15.4735Z"
+                                                        fill="#FF0000"></path>
+                                                </g>
+                                            </svg>
+                                          </span>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="modal-footer">
+                          <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
+                          <button type="submit" class="btn submitActionBtn" [disabled]="expenseTypeReq.expenseTypeId == 0" >Submit</button>
+                      </div> -->
+
+                    </div>
+
+                    <div class="modal-footer">
+                      <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
+                      <button type="submit" class="btn submitActionBtn" [disabled]="expenseTypeReq.expenseTypeId == 0" >Submit</button>
+                  </div>
+
+                </form>
+            </div>
+        </div>
+        <!-- <div class="modal-footer">
+            <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn submitActionBtn" (click)="createExpense()" >Submit</button>
+        </div> -->
+    </div>
+</div>
+</div>
+<!-- Create expense modal end -->

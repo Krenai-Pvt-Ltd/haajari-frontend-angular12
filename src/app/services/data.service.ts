@@ -78,6 +78,7 @@ import { LeaveTemplateRequest } from '../models/leave-template-request';
 import { OrganizationRegistrationFormRequest } from '../models/organization-registration-form-request';
 import { rootCertificates } from 'tls';
 import { OnboardingModule } from '../models/OnboardingModule';
+import { ExpenseType } from '../models/expenseType';
 
 
 @Injectable({
@@ -4215,6 +4216,14 @@ getHolidayForOrganization(date: string): Observable<any>{
   }
   getOrganizationName(){
     return this.httpClient.get<any>(`${this.baseUrl}/organization/name`);
+  }
+
+  getExpenseType(){
+    return this.httpClient.get<any>(`${this.baseUrl}/company-expense-type`);
+  }
+
+  createExpenseType(expenseTypeReq: ExpenseType){
+    return this.httpClient.post<any>(`${this.baseUrl}/company-expense`, expenseTypeReq);
   }
 
 }
