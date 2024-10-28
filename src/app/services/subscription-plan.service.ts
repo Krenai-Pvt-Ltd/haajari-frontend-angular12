@@ -22,7 +22,7 @@ export class SubscriptionPlanService {
   LoadAsync = async () => {
     await this.isSubscriptionPlanExpired();
     await this._helperService.getRestrictedModules();
-    this.getOrganizationSubsPlanDetail();
+    await this.getOrganizationSubsPlanDetail();
  };
 
 

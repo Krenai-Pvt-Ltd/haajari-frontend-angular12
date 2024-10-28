@@ -220,7 +220,7 @@ export class SubscriptionComponent implements OnInit {
         this.monthlyAmount = this.employeeCount * plan.amount;
       }
       if(plan.isYearly == 1){
-        this.annualAmount =  this.employeeCount * plan.amount * 12; 
+        this.annualAmount =  this.employeeCount * plan.amount; 
       }
     }) 
   }
@@ -327,10 +327,17 @@ export class SubscriptionComponent implements OnInit {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+verifyGstInputField():boolean{
+  if(!this.gstLoading && this.gstNumber.length==15){
+    return true;
+  }else{
+    return false;
+  }
+}
 
 gstNumber:string='';
 checkGst(){
-  if(this.gstNumber.length == 15){
+  if(this.gstNumber.length == 15 && !this.gstLoading){
     this.verifyGst();
   }
 }
