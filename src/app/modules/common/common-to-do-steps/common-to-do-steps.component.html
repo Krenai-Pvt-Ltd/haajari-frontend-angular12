@@ -7,12 +7,7 @@
     (showToDo || !isToDoStep)
   "
 >
-  <!-- {{isToDoStep}} -->
 
-  <!-- *ngIf="((showToDo && isToDoStepsCompletedFlag == 0) || !isToDoStep ) && ROLE == 'ADMIN'" -->
-  <!-- {{isToDoStepsCompletedFlag}}----{{showToDo}}----{{isToDoStep}}----{{ ROLE == 'ADMIN'}}---{{ ROLE}} -->
-  <!-- {{isToDoStep}} -->
-  <!-- {{count}} -->
   <div class="d-flex align-items-center justify-content-between">
     <h5 class="mb-0">Onboarding Steps</h5>
     <h4 class="mb-0">
@@ -20,7 +15,7 @@
     </h4>
   </div>
   <div class="progress mt-3">
-    <!-- {{ROLE}} -->
+   
     <div
       class="progress-bar"
       role="progressbar"
@@ -30,6 +25,10 @@
       aria-valuemax="100"
     ></div>
   </div>
+
+  <span class="onboarding-steps-close-icon">
+    <i class="bi bi-x-lg"></i>
+  </span>
 </div>
 
 <div

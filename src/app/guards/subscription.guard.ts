@@ -17,10 +17,16 @@ export class SubscriptionGuard implements CanActivate {
 
     }
 
-    canActivate(
+    async canActivate(
       route: ActivatedRouteSnapshot,
-      state: RouterStateSnapshot):boolean  {
+      state: RouterStateSnapshot):Promise<boolean>  {
 
+        // console.log("=====isSubscription======",this._subscriptionService.isSubscription)
+        if(this._subscriptionService.isSubscription==undefined){
+         await this._subscriptionService.isSubscriptionPlanExpired();
+        }
+
+        // console.log("=====isSubscription======",this._subscriptionService.isSubscription)
         if(this._subscriptionService.isSubscription!=undefined && this._rbacService.getRoles()=='ADMIN'){
           if(this._subscriptionService.isSubscription){
             if(this._subscriptionService.isPlanExpired){

@@ -387,7 +387,9 @@ span.lat {
 }
 
 .break-notifaction {
-    background-color: #FFF8F2;
+    /* background-color: #FFF8F2; */
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .break-notifaction p {

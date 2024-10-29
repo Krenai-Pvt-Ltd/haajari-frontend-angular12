@@ -51,8 +51,10 @@ export class SubscriptionComponent implements OnInit {
 
   selectedSubscriptionPlan:SubscriptionPlan = new SubscriptionPlan();
   subscriptionPlans:SubscriptionPlan[] = new Array();
-  typeBySubscriptionPlans:SubscriptionPlan[] = new Array();
-  getPlans(){
+  typeBySubscriptionPlans: SubscriptionPlan[] = new Array();
+  isShimmerForSubscriptionPlan : boolean = false;
+  getPlans() {
+    this.isShimmerForSubscriptionPlan = true;
     this._subscriptionPlanService.getPlans().subscribe((response) => {
       if(response.status){
         this.subscriptionPlans = response.object;
@@ -62,8 +64,9 @@ export class SubscriptionComponent implements OnInit {
       }else{
         this.subscriptionPlans = new Array();
       }
-    },(error)=>{
-
+      this.isShimmerForSubscriptionPlan = false;
+    }, (error) => {
+      this.isShimmerForSubscriptionPlan = false;
     });
 
     
@@ -217,7 +220,7 @@ export class SubscriptionComponent implements OnInit {
         this.monthlyAmount = this.employeeCount * plan.amount;
       }
       if(plan.isYearly == 1){
-        this.annualAmount =  this.employeeCount * plan.amount * 12; 
+        this.annualAmount =  this.employeeCount * plan.amount; 
       }
     }) 
   }
@@ -324,23 +327,41 @@ export class SubscriptionComponent implements OnInit {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+verifyGstInputField():boolean{
+  if(!this.gstLoading && this.gstNumber.length==15){
+    return true;
+  }else{
+    return false;
+  }
+}
 
 gstNumber:string='';
 checkGst(){
-  if(this.gstNumber.length == 15){
+  if(this.gstNumber.length == 15 && !this.gstLoading){
     this.verifyGst();
   }
 }
 
-gstResponse:GstResponse = new GstResponse();
-  verifyGst(){
+  gstResponse: GstResponse = new GstResponse();
+  gstLoading: boolean = false;
+  verifyGst() {
+    this.gstLoading = true;
     this._subscriptionPlanService.verifyGstNumber(this.gstNumber).subscribe((response) => {
+      this.gstLoading = false;
       if (response.status) {
-        this.isVerified =true;
+     
         this.gstResponse = response.object;
+        if (this.gstResponse == null) {
+             this.isVerified =false;
+        } else {
+             this.isVerified =true;
+        }
       }else{
         this.isVerified =false;
-      }
+      }   
+    }, (error) => {
+      this.gstLoading = false;
+       this.isVerified =false;
     });
   }
 
