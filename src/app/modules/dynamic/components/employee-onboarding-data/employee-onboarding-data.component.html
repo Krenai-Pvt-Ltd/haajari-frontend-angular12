@@ -1824,7 +1824,7 @@
                               #joiningDate="ngModel"
                               [(ngModel)]="data[(currentPage - 1) * pageSize + i][j]"
                               required
-                              (ngModelChange)="onDateChange($event, (currentPage - 1) * pageSize + i + 1, j)"
+                              (ngModelChange)="onDateChange($event, (currentPage - 1) * pageSize + i , j)"
                               [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
                               [nzAllowClear]="false"
                               nzPlaceHolder="Select Joining Date">
@@ -1862,7 +1862,7 @@
                               id="gender"
                               name="gender"
                               [(ngModel)]="row[j]"
-                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i + 1][j]}"
+                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
                               (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)"
                               nzPlaceHolder="Select Gender">
                               <nz-option *ngFor="let gender of genders" [nzValue]="gender" [nzLabel]="gender"></nz-option>
