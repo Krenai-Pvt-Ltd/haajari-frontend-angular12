@@ -62,6 +62,7 @@ export class AttendanceModeComponent implements OnInit {
       this.saveAttendaceFlexibleModeInfo('flexible');
     } else {
       this.updateAttendanceModeMethodCall(attendanceModeId);
+      this.scrollToView();
       // this.getFlexibleAttendanceMode();
       // this.updateMasterAttendanceModeMethodCall(1, 3);
       // this.attendanceWithLocationButton.nativeElement.click();
@@ -712,6 +713,7 @@ export class AttendanceModeComponent implements OnInit {
   saveAttendaceFlexibleModeInfo(locationType: string) {
     this.dataService.saveFlexibleAttendanceMode(locationType).subscribe((response) => {
       if (locationType == 'fixed') {
+        this.scrollToView();
         this.updateMasterAttendanceModeMethodCall(1, 3);
         this.offFinishSetup = true;
       } else {
@@ -746,4 +748,9 @@ export class AttendanceModeComponent implements OnInit {
     })
   }
 
+    @ViewChild('scrollToBottom') scrollToBottom!: ElementRef;
+  scrollToView() {
+    this.scrollToBottom.nativeElement.scrollTop =
+      this.scrollToBottom.nativeElement.scrollHeight;
+  }
 }

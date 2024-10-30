@@ -210,19 +210,22 @@
                 </div>
 
                 <div class="rules-regulation-box pt-4" *ngIf="RulesRegulation">
-                  <div class="d-flex align-items-center gap-2">
-                    <span
+                  <div class="d-flex align-items-start justify-content-between">
+                    <!-- <span
                       class="rules-regulatio-back d-flex align-items-center justify-content-center pointer"
                       (click)="switchRulesRegulation()"
                     >
                       <i class="bi bi-chevron-left"></i>
-                    </span>
+                    </span> -->
                     <div>
-                      <h5 class="font-18 mb-1">Rules & Regulation</h5>
+                      <h5 class="font-20 mb-1">Rules & Regulation</h5>
                       <p class="mb-0 font-14">
                         Guidelines and Policies to Follow
                       </p>
                     </div>
+                    <span (click)="switchRulesRegulation()">
+                        <i class="bi bi-x-lg"></i>
+                    </span>
                   </div>
 
                   <div class="mt-3">
@@ -477,165 +480,449 @@
                   </div>
                   <div class="mt-3">
                     <div class="tab-content" >
-                     
+
+                      <ng-container *ngIf="isShimmerForSubscriptionPlan; else subscriptionPlansDataCondition">
                         <div class="row">
-                          <div class="col-md-4"  [ngClass]="{'d-none':showYearlyPlans==plan.isMonthly}" *ngFor="let plan of subscriptionPlans; let i=index;">
-                            <div class="plan-detail-box p-3 pt-4 pb-4">
-                              <h5 class="mb-0 font-20">{{plan.name}}</h5>
-                              <p class="mb-0 font-13 mt-2">
-                                {{plan.description}}
-                              </p>
-
-                              <div
-                                class="d-flex align-items-center gap-2 mt-4 mb-3"
-                              >
-                                <h3 class="mb-0">₹{{plan.amount}}</h3>
-
-                                <div>
-                                  <h4 class="mb-0" *ngIf="plan.isYearly==1">₹{{plan.amount + plan.discountAmount}}</h4>
-                                  <h6 class="mb-0 font-14">
-                                    month/per employee
-                                  </h6>
-                                </div>
+                          <div class="col-md-4" *ngFor="let item of [].constructor(3)">
+                            <div class="bg-white p-3 pt-4 pb-4">
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'50%'" [height]="'15px'">
+                                </ngx-shimmer-loading>
                               </div>
-
-                              <p class="mb-0 font-14" *ngIf="plan.isYearly==1">
-                                <span class="plan-year-off" > 30% off </span>
-                                with annual contract
-                              </p>
-                              <span class="saperater-border mt-4 mb-4"></span>
-
-                              <button
-                                class="btn current-plan w-100 mb-4"
-                                *ngIf="plan.isPurchased==0"
-                                (click)="selectPlan(plan)"
-                              >
-                                Purchase plan
-                              </button>
-                    
-                              <button
-                              class="btn current-plan w-100 mb-4"                          
-                              *ngIf="plan.isPurchased==1"
-                              (click)="selectPlan(plan)"
-                            >
-                              Current plan
-                            </button>
-
-                              <ul class="plan-pints pl-0" *ngIf="plan.planType=='BASIC'">
-                                <li>
-                                  <i class="bi bi-check2"></i> Onboarding &
-                                  Documents - Employee
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Shift-based
-                                  attendance management
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Slack & WhatsApp
-                                  Integration
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Salary Structure
-                                  & Compliance
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Leave Request &
-                                  Approval Management
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Automation rule
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> User Roles &
-                                  Privileges
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Reminders &
-                                  Alerts - Notifications
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Report - Basic
-                                </li>
-                              </ul>
-
-                              <ul class="plan-pints pl-0" *ngIf="plan.planType=='PREMIUM'">
-                                <div class="mt-2 font-14" style="color: #01be4f">
-                                  All Basic Features +
-                                </div>
-                                <li>
-                                  <i class="bi bi-check2"></i> Payroll and
-                                  Salary Slip Automation
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Employee Tax
-                                  Management
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Advance
-                                  Automation Rules
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Custom Roles &
-                                  Privileges
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Employee Exit -
-                                  Documentation
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Assets
-                                  Allocation/ Management
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Report - Advance
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                         
-                          <div class="col-md-4">
-                            <div class="plan-detail-box p-3 pt-4">
-                              <h5 class="mb-0 font-20">Custom</h5>
-                              <p class="mb-0 font-13 mt-2">
-                                Ideal for small businesses looking to start
-                                digital attendance management.
-                              </p>
-
-                              <h1 class="requestQuote mb-0 mt-2">
-                                Request a quote
-                              </h1>
-
-                              <span class="saperater-border mt-4 mb-4"></span>
-
-                              <button class="btn change-plan w-100 mb-4">
-                              Request
-                              </button>
-
-                              <ul class="plan-pints pl-0">
-                                <li>
-                                  <i class="bi bi-check2"></i> Custom workflows
-                                  and HR processes
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Dedicated
-                                  deployment & onboarding support
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Integrations with
-                                  your existing systems
-                                </li>
-                                <li>
-                                  <i class="bi bi-check2"></i> Scalable
-                                  solutions for future growth
-                                </li>
-                              </ul>
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'90%'" [height]="'10px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                        
+                              <div class="feat-product-img mt-5 mb-2">
+                                <ngx-shimmer-loading [width]="'40%'" [height]="'25px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'70%'" [height]="'10px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                              <div class="feat-product-img mt-3 mb-3">
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'25px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                        
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'70%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                        
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'80%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'60%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                        
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'70%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                        
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'50%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                        
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'30%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'70%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                        
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'80%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'60%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                        
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'70%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                        
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'50%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                        
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'30%'" [height]="'8px'">
+                                </ngx-shimmer-loading>
+                              </div>
                             </div>
                           </div>
                         </div>
-                     
-                        
+                      </ng-container>
+                      <ng-template #subscriptionPlansDataCondition>
+                      <div class="row">
+                        <div class="col-md-4" [ngClass]="{'d-none':showYearlyPlans==plan.isMonthly}"
+                          *ngFor="let plan of subscriptionPlans; let i=index;">
+                          <div class="plan-detail-box p-3 pt-4 pb-4">
+                            <h5 class="mb-0 font-20">{{plan.name}}</h5>
+                            <p class="mb-0 font-13 mt-2">
+                              {{plan.description}}
+                            </p>
+                      
+                            <div class="d-flex align-items-center gap-2 mt-4 mb-3" [ngClass]="{'yearlyHeight':showYearlyPlans==0}">
+                              <h3 class="mb-0">₹{{plan.amount}}</h3>
+                      
+                              <div>
+                                <h4 class="mb-0" *ngIf="plan.isYearly==1">₹{{plan.amount + plan.discountAmount}}</h4>
+                                <h6 class="mb-0 font-14">
+                                  month/per employee
+                                </h6>
+                              </div>
+                            </div>
+                      
+                            <p class="mb-0 font-14" *ngIf="plan.isYearly==1">
+                              <span class="plan-year-off"> 30% off </span>
+                              with annual contract
+                            </p>
+                            <span class="saperater-border mt-4 mb-4"></span>
+                      
+                            <button class="btn current-plan w-100 mb-4" *ngIf="plan.isPurchased==0" (click)="selectPlan(plan)">
+                              Purchase plan
+                            </button>
+                      
+                            <button class="btn current-plan w-100 mb-4" *ngIf="plan.isPurchased==1" (click)="selectPlan(plan)">
+                              Current plan
+                            </button>
+                      
+                            <ul class="plan-pints pl-0" *ngIf="plan.planType=='BASIC'">
+                              <li>
+                                <i class="bi bi-check2"></i> Onboarding &
+                                Documents - Employee
+                              </li>
+                              <li>
+                                <i class="bi bi-check2"></i> Shift-based
+                                attendance management
+                              </li>
+                              <li>
+                                <i class="bi bi-check2"></i> Slack & WhatsApp
+                                Integration
+                              </li>
+                              <li>
+                                <i class="bi bi-check2"></i> Salary Structure
+                                & Compliance
+                              </li>
+                              <li>
+                                <i class="bi bi-check2"></i> Leave Request &
+                                Approval Management
+                              </li>
+                              <li>
+                                <i class="bi bi-check2"></i> Automation rule
+                              </li>
+                              <li>
+                                <i class="bi bi-check2"></i> User Roles &
+                                Privileges
+                              </li>
+                              <li>
+                                <i class="bi bi-check2"></i> Reminders &
+                                Alerts - Notifications
+                              </li>
+                              <li>
+                                <i class="bi bi-check2"></i> Report - Basic
+                              </li>
+                            </ul>
+                      
+                            <ul class="plan-pints pl-0" *ngIf="plan.planType=='PREMIUM'">
+                              <div class="mt-2 font-14" style="color: #01be4f">
+                                All Basic Features +
+                              </div>
+                              <li>
+                                <i class="bi bi-check2"></i> Payroll and
+                                Salary Slip Automation
+                              </li>
+                              <li>
+                                <i class="bi bi-check2"></i> Employee Tax
+                                Management
+                              </li>
+                              <li>
+                                <i class="bi bi-check2"></i> Advance
+                                Automation Rules
+                              </li>
+                              <li>
+                                <i class="bi bi-check2"></i> Custom Roles &
+                                Privileges
+                              </li>
+                              <li>
+                                <i class="bi bi-check2"></i> Employee Exit -
+                                Documentation
+                              </li>
+                              <li>
+                                <i class="bi bi-check2"></i> Assets
+                                Allocation/ Management
+                              </li>
+                              <li>
+                                <i class="bi bi-check2"></i> Report - Advance
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      
+                        <div class="col-md-4">
+                          <div class="plan-detail-box p-3 pt-4">
+                            <h5 class="mb-0 font-20">Custom</h5>
+                            <p class="mb-0 font-13 mt-2">
+                              Ideal for small businesses looking to start
+                              digital attendance management.
+                            </p>
+                      
+                            <h1 class="requestQuote mb-0 mt-2">
+                              Request a quote
+                            </h1>
+                      
+                            <span class="saperater-border mt-4 mb-4"></span>
+                      
+                            <button class="btn change-plan w-100 mb-4">
+                              Request
+                            </button>
+                      
+                            <ul class="plan-pints pl-0">
+                              <li>
+                                <i class="bi bi-check2"></i> Custom workflows
+                                and HR processes
+                              </li>
+                              <li>
+                                <i class="bi bi-check2"></i> Dedicated
+                                deployment & onboarding support
+                              </li>
+                              <li>
+                                <i class="bi bi-check2"></i> Integrations with
+                                your existing systems
+                              </li>
+                              <li>
+                                <i class="bi bi-check2"></i> Scalable
+                                solutions for future growth
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                      </ng-template>  
                     </div>
                   </div>
+
+
+                  <div class="mt-4 mb-4 d-flex align-items-center justify-content-between footer-rule"
+                  *ngIf="!_subscriptionPlanService.isSubscription || _subscriptionPlanService.isTrialPlan">
+                    <div>
+                      <h5 class="mb-1">Rules & Regulation</h5>
+                      <p class="mb-b font-14">Guidelines and Policies to Follow
+                         <a class="text-primary" (click)="RulesRegulation = !RulesRegulation;">Know More
+                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
+                          <mask id="mask0_3851_4565" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="19" height="19">
+                            <rect width="19" height="19" fill="#6666F2" />
+                          </mask>
+                          <g mask="url(#mask0_3851_4565)">
+                            <path
+                              d="M4.27484 15.834L3.1665 14.7257L12.3498 5.54232H7.12484V3.95898H15.0415V11.8757H13.4582V6.65065L4.27484 15.834Z"
+                              fill="#6666F2" />
+                          </g>
+                        </svg>
+                      </a></p>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-2">
+                      <span class="subscription-help d-flex align-items-center justify-content-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                          <mask id="mask0_3851_4855" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                            <rect x="0.262207" y="0.261719" width="23.4908" height="23.4908" fill="#D9D9D9" />
+                          </mask>
+                          <g mask="url(#mask0_3851_4855)">
+                            <path
+                              d="M4.17827 19.8383C3.63994 19.8383 3.1791 19.6466 2.79574 19.2633C2.41238 18.8799 2.2207 18.4191 2.2207 17.8807V6.1353C2.2207 5.59697 2.41238 5.13613 2.79574 4.75277C3.1791 4.36941 3.63994 4.17773 4.17827 4.17773H19.8388C20.3772 4.17773 20.838 4.36941 21.2214 4.75277C21.6047 5.13613 21.7964 5.59697 21.7964 6.1353V17.8807C21.7964 18.4191 21.6047 18.8799 21.2214 19.2633C20.838 19.6466 20.3772 19.8383 19.8388 19.8383H4.17827ZM12.0086 12.9868L4.17827 8.09287V17.8807H19.8388V8.09287L12.0086 12.9868ZM12.0086 11.0292L19.8388 6.1353H4.17827L12.0086 11.0292ZM4.17827 8.09287V6.1353V17.8807V8.09287Z"
+                              fill="#1C1B1F" />
+                          </g>
+                        </svg>
+                      </span>
+                      <span class="subscription-help d-flex align-items-center justify-content-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                          <mask id="mask0_3851_4859" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                            <rect x="0.262207" y="0.261719" width="23.4908" height="23.4908" fill="#D9D9D9" />
+                          </mask>
+                          <g mask="url(#mask0_3851_4859)">
+                            <path
+                              d="M15.9229 11.0275V8.09119H12.9866V6.13362H15.9229V3.19727H17.8805V6.13362H20.8169V8.09119H17.8805V11.0275H15.9229ZM19.7891 20.8154C17.75 20.8154 15.7353 20.3709 13.7451 19.4818C11.7549 18.5927 9.94419 17.3326 8.31288 15.7012C6.68157 14.0699 5.42139 12.2592 4.53233 10.269C3.64326 8.27879 3.19873 6.26413 3.19873 4.22499C3.19873 3.93135 3.29661 3.68666 3.49237 3.4909C3.68812 3.29514 3.93282 3.19727 4.22645 3.19727H8.19053C8.41892 3.19727 8.62283 3.27475 8.80227 3.42973C8.98172 3.5847 9.08775 3.76822 9.12038 3.98029L9.75659 7.40604C9.78922 7.66705 9.78106 7.88728 9.73212 8.06672C9.68318 8.24616 9.59346 8.40114 9.46295 8.53164L7.0894 10.9297C7.41566 11.5333 7.8031 12.1164 8.25171 12.6792C8.70032 13.242 9.19379 13.7845 9.73212 14.3065C10.2378 14.8122 10.768 15.2812 11.3226 15.7135C11.8773 16.1458 12.4646 16.5414 13.0845 16.9003L15.3846 14.6001C15.5314 14.4533 15.7231 14.3432 15.9596 14.2698C16.1962 14.1964 16.4286 14.176 16.657 14.2086L20.0338 14.8937C20.2622 14.959 20.4498 15.0773 20.5966 15.2486C20.7435 15.4198 20.8169 15.6115 20.8169 15.8236V19.7877C20.8169 20.0813 20.719 20.326 20.5232 20.5218C20.3275 20.7175 20.0828 20.8154 19.7891 20.8154ZM6.15956 9.06998L7.77455 7.45498L7.35857 5.15484H5.18077C5.26234 5.82367 5.37653 6.48435 5.52334 7.13688C5.67016 7.7894 5.88223 8.43377 6.15956 9.06998ZM14.9197 17.8301C15.5559 18.1074 16.2043 18.3277 16.865 18.4908C17.5257 18.6539 18.1905 18.7599 18.8593 18.8089V16.6556L16.5591 16.1906L14.9197 17.8301Z"
+                              fill="#1C1B1F" />
+                          </g>
+                        </svg>
+                      </span>
+                    </div>
+                     
+                  </div>
+                <div class="row" *ngIf="RulesRegulation && (!_subscriptionPlanService.isSubscription || _subscriptionPlanService.isTrialPlan)">
+                    <div class="rules-regulation p-3 showOnboardingStepHover ">
+                      <div class="d-flex align-items-start justify-content-between">
+                     
+                        <div>
+                          <h5 class="font-20 mb-1">Rules & Regulation</h5>
+                          <p class="mb-0 font-14">
+                            Guidelines and Policies to Follow
+                          </p>
+                        </div>
+                        <span (click)="RulesRegulation = !RulesRegulation">
+                          <i class="bi bi-x-lg"></i>
+                        </span>
+                      </div>
+                    
+                      <div class="mt-3">
+                        <div class="d-flex align-items-start gap-2 mb-3">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 19 19" fill="none"
+                            >
+                            <g clip-path="url(#clip0_3746_4210)">
+                              <path
+                                d="M18.4574 2.59314C18.1779 2.31314 17.7244 2.31266 17.4448 2.59195L8.85429 11.1598L5.75484 7.79353C5.48702 7.50282 5.03421 7.48396 4.74301 7.75175C4.45204 8.01956 4.43341 8.4726 4.70123 8.76357L8.30552 12.6779C8.43751 12.8214 8.62224 12.9047 8.81703 12.9087C8.82226 12.9089 8.82731 12.9089 8.83232 12.9089C9.02161 12.9089 9.20371 12.8338 9.33786 12.7001L18.456 3.60589C18.7362 3.32664 18.7367 2.87313 18.4574 2.59314Z"
+                                fill="#6666F2" />
+                              <path
+                                d="M18.2839 8.78781C17.8884 8.78781 17.5678 9.10836 17.5678 9.50391C17.5678 13.9527 13.9488 17.5717 9.5 17.5717C5.05148 17.5717 1.43216 13.9527 1.43216 9.50391C1.43216 5.05538 5.05148 1.43607 9.5 1.43607C9.89551 1.43607 10.2161 1.11552 10.2161 0.720006C10.2161 0.324457 9.89551 0.00390625 9.5 0.00390625C4.26164 0.00390625 0 4.26555 0 9.50391C0 14.742 4.26164 19.0039 9.5 19.0039C14.7381 19.0039 19 14.742 19 9.50391C19 9.10839 18.6794 8.78781 18.2839 8.78781Z"
+                                fill="#6666F2" />
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_3746_4210">
+                                <rect width="19" height="19" fill="white" />
+                              </clipPath>
+                            </defs>
+                          </svg>
+                          <p class="mb-0 font-16">
+                            <b>Refer a friend</b> Invite your friends to join Remote
+                            using your referral link
+                          </p>
+                        </div>
+                        <div class="d-flex align-items-start gap-2 mb-3">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 19 19" fill="none"
+                           >
+                            <g clip-path="url(#clip0_3746_4210)">
+                              <path
+                                d="M18.4574 2.59314C18.1779 2.31314 17.7244 2.31266 17.4448 2.59195L8.85429 11.1598L5.75484 7.79353C5.48702 7.50282 5.03421 7.48396 4.74301 7.75175C4.45204 8.01956 4.43341 8.4726 4.70123 8.76357L8.30552 12.6779C8.43751 12.8214 8.62224 12.9047 8.81703 12.9087C8.82226 12.9089 8.82731 12.9089 8.83232 12.9089C9.02161 12.9089 9.20371 12.8338 9.33786 12.7001L18.456 3.60589C18.7362 3.32664 18.7367 2.87313 18.4574 2.59314Z"
+                                fill="#6666F2" />
+                              <path
+                                d="M18.2839 8.78781C17.8884 8.78781 17.5678 9.10836 17.5678 9.50391C17.5678 13.9527 13.9488 17.5717 9.5 17.5717C5.05148 17.5717 1.43216 13.9527 1.43216 9.50391C1.43216 5.05538 5.05148 1.43607 9.5 1.43607C9.89551 1.43607 10.2161 1.11552 10.2161 0.720006C10.2161 0.324457 9.89551 0.00390625 9.5 0.00390625C4.26164 0.00390625 0 4.26555 0 9.50391C0 14.742 4.26164 19.0039 9.5 19.0039C14.7381 19.0039 19 14.742 19 9.50391C19 9.10839 18.6794 8.78781 18.2839 8.78781Z"
+                                fill="#6666F2" />
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_3746_4210">
+                                <rect width="19" height="19" fill="white" />
+                              </clipPath>
+                            </defs>
+                          </svg>
+                          <p class="mb-0 font-16">
+                            <b>Earn your reward</b> Earn up to $300 after your
+                            friend signs up and runs two successful payrolls
+                          </p>
+                        </div>
+                        <div class="d-flex align-items-start gap-2 mb-3">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 19 19" fill="none">
+                            <g clip-path="url(#clip0_3746_4210)">
+                              <path
+                                d="M18.4574 2.59314C18.1779 2.31314 17.7244 2.31266 17.4448 2.59195L8.85429 11.1598L5.75484 7.79353C5.48702 7.50282 5.03421 7.48396 4.74301 7.75175C4.45204 8.01956 4.43341 8.4726 4.70123 8.76357L8.30552 12.6779C8.43751 12.8214 8.62224 12.9047 8.81703 12.9087C8.82226 12.9089 8.82731 12.9089 8.83232 12.9089C9.02161 12.9089 9.20371 12.8338 9.33786 12.7001L18.456 3.60589C18.7362 3.32664 18.7367 2.87313 18.4574 2.59314Z"
+                                fill="#6666F2" />
+                              <path
+                                d="M18.2839 8.78781C17.8884 8.78781 17.5678 9.10836 17.5678 9.50391C17.5678 13.9527 13.9488 17.5717 9.5 17.5717C5.05148 17.5717 1.43216 13.9527 1.43216 9.50391C1.43216 5.05538 5.05148 1.43607 9.5 1.43607C9.89551 1.43607 10.2161 1.11552 10.2161 0.720006C10.2161 0.324457 9.89551 0.00390625 9.5 0.00390625C4.26164 0.00390625 0 4.26555 0 9.50391C0 14.742 4.26164 19.0039 9.5 19.0039C14.7381 19.0039 19 14.742 19 9.50391C19 9.10839 18.6794 8.78781 18.2839 8.78781Z"
+                                fill="#6666F2" />
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_3746_4210">
+                                <rect width="19" height="19" fill="white" />
+                              </clipPath>
+                            </defs>
+                          </svg>
+                          <p class="mb-0 font-16">
+                            <b>Claim your reward</b> We will let you know once your
+                            reward is ready. To claim your reward sign into your
+                            referral account
+                          </p>
+                        </div>
+                        <div class="d-flex align-items-start gap-2 mb-3">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 19 19" fill="none">
+                            <g clip-path="url(#clip0_3746_4210)">
+                              <path
+                                d="M18.4574 2.59314C18.1779 2.31314 17.7244 2.31266 17.4448 2.59195L8.85429 11.1598L5.75484 7.79353C5.48702 7.50282 5.03421 7.48396 4.74301 7.75175C4.45204 8.01956 4.43341 8.4726 4.70123 8.76357L8.30552 12.6779C8.43751 12.8214 8.62224 12.9047 8.81703 12.9087C8.82226 12.9089 8.82731 12.9089 8.83232 12.9089C9.02161 12.9089 9.20371 12.8338 9.33786 12.7001L18.456 3.60589C18.7362 3.32664 18.7367 2.87313 18.4574 2.59314Z"
+                                fill="#6666F2" />
+                              <path
+                                d="M18.2839 8.78781C17.8884 8.78781 17.5678 9.10836 17.5678 9.50391C17.5678 13.9527 13.9488 17.5717 9.5 17.5717C5.05148 17.5717 1.43216 13.9527 1.43216 9.50391C1.43216 5.05538 5.05148 1.43607 9.5 1.43607C9.89551 1.43607 10.2161 1.11552 10.2161 0.720006C10.2161 0.324457 9.89551 0.00390625 9.5 0.00390625C4.26164 0.00390625 0 4.26555 0 9.50391C0 14.742 4.26164 19.0039 9.5 19.0039C14.7381 19.0039 19 14.742 19 9.50391C19 9.10839 18.6794 8.78781 18.2839 8.78781Z"
+                                fill="#6666F2" />
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_3746_4210">
+                                <rect width="19" height="19" fill="white" />
+                              </clipPath>
+                            </defs>
+                          </svg>
+                          <p class="mb-0 font-16">
+                            <b>Claim your reward</b> We will let you know once your
+                            reward is ready. To claim your reward sign into your
+                            referral account
+                          </p>
+                        </div>
+                        <div class="d-flex align-items-start gap-2 mb-3">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 19 19" fill="none">
+                            <g clip-path="url(#clip0_3746_4210)">
+                              <path
+                                d="M18.4574 2.59314C18.1779 2.31314 17.7244 2.31266 17.4448 2.59195L8.85429 11.1598L5.75484 7.79353C5.48702 7.50282 5.03421 7.48396 4.74301 7.75175C4.45204 8.01956 4.43341 8.4726 4.70123 8.76357L8.30552 12.6779C8.43751 12.8214 8.62224 12.9047 8.81703 12.9087C8.82226 12.9089 8.82731 12.9089 8.83232 12.9089C9.02161 12.9089 9.20371 12.8338 9.33786 12.7001L18.456 3.60589C18.7362 3.32664 18.7367 2.87313 18.4574 2.59314Z"
+                                fill="#6666F2" />
+                              <path
+                                d="M18.2839 8.78781C17.8884 8.78781 17.5678 9.10836 17.5678 9.50391C17.5678 13.9527 13.9488 17.5717 9.5 17.5717C5.05148 17.5717 1.43216 13.9527 1.43216 9.50391C1.43216 5.05538 5.05148 1.43607 9.5 1.43607C9.89551 1.43607 10.2161 1.11552 10.2161 0.720006C10.2161 0.324457 9.89551 0.00390625 9.5 0.00390625C4.26164 0.00390625 0 4.26555 0 9.50391C0 14.742 4.26164 19.0039 9.5 19.0039C14.7381 19.0039 19 14.742 19 9.50391C19 9.10839 18.6794 8.78781 18.2839 8.78781Z"
+                                fill="#6666F2" />
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_3746_4210">
+                                <rect width="19" height="19" fill="white" />
+                              </clipPath>
+                            </defs>
+                          </svg>
+                          <p class="mb-0 font-16">
+                            <b>Claim your reward</b> We will let you know once your
+                            reward is ready. To claim your reward sign into your
+                            referral account
+                          </p>
+                        </div>
+                        <div class="d-flex align-items-start gap-2 mb-3">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 19 19" fill="none">
+                            <g clip-path="url(#clip0_3746_4210)">
+                              <path
+                                d="M18.4574 2.59314C18.1779 2.31314 17.7244 2.31266 17.4448 2.59195L8.85429 11.1598L5.75484 7.79353C5.48702 7.50282 5.03421 7.48396 4.74301 7.75175C4.45204 8.01956 4.43341 8.4726 4.70123 8.76357L8.30552 12.6779C8.43751 12.8214 8.62224 12.9047 8.81703 12.9087C8.82226 12.9089 8.82731 12.9089 8.83232 12.9089C9.02161 12.9089 9.20371 12.8338 9.33786 12.7001L18.456 3.60589C18.7362 3.32664 18.7367 2.87313 18.4574 2.59314Z"
+                                fill="#6666F2" />
+                              <path
+                                d="M18.2839 8.78781C17.8884 8.78781 17.5678 9.10836 17.5678 9.50391C17.5678 13.9527 13.9488 17.5717 9.5 17.5717C5.05148 17.5717 1.43216 13.9527 1.43216 9.50391C1.43216 5.05538 5.05148 1.43607 9.5 1.43607C9.89551 1.43607 10.2161 1.11552 10.2161 0.720006C10.2161 0.324457 9.89551 0.00390625 9.5 0.00390625C4.26164 0.00390625 0 4.26555 0 9.50391C0 14.742 4.26164 19.0039 9.5 19.0039C14.7381 19.0039 19 14.742 19 9.50391C19 9.10839 18.6794 8.78781 18.2839 8.78781Z"
+                                fill="#6666F2" />
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_3746_4210">
+                                <rect width="19" height="19" fill="white" />
+                              </clipPath>
+                            </defs>
+                          </svg>
+                          <p class="mb-0 font-16">
+                            <b>Claim your reward</b> We will let you know once your
+                            reward is ready. To claim your reward sign into your
+                            referral account
+                          </p>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+
+
+
                 </div>
               </div>
             </div>
@@ -673,6 +960,7 @@
                     aria-controls="due-payment"
                     aria-selected="false"
                     tabindex="-1"
+                    *ngIf="dueInvoices.length>0"
                   >
                     Due payment
 
@@ -734,7 +1022,66 @@
                           </th>
                         </tr>
                       </thead>
-                      <tbody class="">
+
+                      <tbody *ngIf="invoiceLoading">
+                        <tr *ngFor="let item of [].constructor(6)">
+                          <td class="stickyColTd"> 
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                          </td>
+                          <td>
+                              <div class="feat-product-img">
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                                </ngx-shimmer-loading>
+                              </div>
+                          </td>
+                          <td>
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+
+                          </td>
+                          <td>
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+
+                          </td>
+                          <td>
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+
+                          </td>
+                          <td>
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+
+                          </td>
+                          <td>
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+
+                          </td>
+                          <td class="stickyColTdend">
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+                            
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tbody *ngIf="!invoiceLoading">
                         <tr class="" *ngFor="let invoice of invoices;">
                           <td class="stickyColTd text-center">
                             <span class="teme-maneger mb-0 table-font-weight">
@@ -824,46 +1171,9 @@
                   class="tab-pane fade"
                   id="due-payment"
                   aria-labelledby="due-payment-tab"
+                  
                 >
-                  <div
-                    class="due-payment-notifaction p-3 mt-3 d-flex align-items-center justify-content-between"
-                    style="background-image: url(../assets/images/vector-3.svg)"
-                  >
-                    <div class="d-flex align-items-center gap-3">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="43"
-                        height="40"
-                        viewBox="0 0 43 40"
-                        fill="none"
-                      >
-                        <path
-                          d="M41.1459 30.7012L26.3026 3.41549C23.9178 -0.599372 18.1043 -0.604706 15.7163 3.41549L0.873772 30.7012C-1.56415 34.8037 1.38744 39.9988 6.1657 39.9988H35.8528C40.627 39.9988 43.5839 34.8079 41.1459 30.7012ZM21.0095 35.0747C19.6522 35.0747 18.5474 33.9699 18.5474 32.6127C18.5474 31.2554 19.6522 30.1506 21.0095 30.1506C22.3667 30.1506 23.4715 31.2554 23.4715 32.6127C23.4715 33.9699 22.3667 35.0747 21.0095 35.0747ZM23.4715 25.2265C23.4715 26.5838 22.3667 27.6886 21.0095 27.6886C19.6522 27.6886 18.5474 26.5838 18.5474 25.2265V12.9163C18.5474 11.559 19.6522 10.4542 21.0095 10.4542C22.3667 10.4542 23.4715 11.559 23.4715 12.9163V25.2265Z"
-                          fill="#FF2F2F"
-                        />
-                      </svg>
-
-                      <div>
-                        <h5 class="alert-heading text-danger font-18 mb-1">
-                          You have 1 payment(s) past due
-                        </h5>
-                        <p class="mb-0 font-14">
-                          To avoid suspension of your AwS account, pay the full
-                          amount immediately, If you made a payment recently, it
-                          will appear in the Payments page in 5 to 7
-                          <br />business days. For any questions, contact
-                        </p>
-                      </div>
-                    </div>
-
-                    <button
-                      class="p-0 btn text-danger font-18"
-                      style="font-weight: 500"
-                    >
-                      Customer Support
-                    </button>
-                  </div>
-
+                 
                   <div
                     class="mt-3 payment-summary p-3 d-flex align-items-center justify-content-between"
                   >
@@ -950,6 +1260,55 @@
                         </tr>
                       </thead>
 
+                      <tbody *ngIf="invoiceLoading">
+                        <tr *ngFor="let item of [].constructor(6)">
+                          <td class="stickyColTd">
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+                      
+                          </td>
+                          <td>
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+                      
+                          </td>
+                          <td>
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+                      
+                          </td>
+                          <td>
+                            <div class="feat-product-img">
+                              <ngx-shimmer-loading [width]="'100%'" [height]="'10px'">
+                              </ngx-shimmer-loading>
+                            </div>
+                      
+                          </td>
+                         
+                        </tr>
+                      </tbody>
+
+
+                     
+
                       <tbody class="">
                         <tr class="" *ngFor="let dueInvoice of dueInvoices">
                           <td class="stickyColTd text-center">
@@ -1006,9 +1365,7 @@
         <div class="mt-4 row">
           <div class="col-md-7">
             <div class="subscription-plan-box">
-              <div
-                class="d-flex align-items-center justify-content-between TotalEmployee pb-3 mb-3"
-              >
+              <div class="d-flex align-items-center justify-content-between TotalEmployee pb-3 mb-3">
                 <div>
                   <h5 class="mb-1 font-16">Total Employee</h5>
                   <p class="mb-0">
@@ -1016,13 +1373,12 @@
                   </p>
                 </div>
 
-               
-               
 
-                <div>
+                <div class="">
+                  <div class="gradient-border">
                   <input
                     type="text"
-                    class="form-control employee-count-form"
+                    class="form-control employee-count-form "
                     placeholder="Enter Employee Count"
                     name="employee-count"
                     pattern="^[1-9][0-9]{0,5}$"
@@ -1033,12 +1389,17 @@
                     oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/^0+/, '').slice(0, 6);"
                     required
                   />
+                  <p class="mb-0 text-danger" *ngIf="!isValidEmployeeCount">
+                    You have {{totalEmployee}} active members, so the employee count must be at least {{totalEmployee}}.
+                  </p>
                 </div>
               </div>
+              </div>
+
               <div class="TotalEmployee" style="border: none">
                 <div>
                   <h5 class="mb-1 font-16">Subscription Plan</h5>
-                  <p class="mb-0">
+                  <p class="mb-0 ">
                     Lorem ipsum dolor sit amet consectetur adipisc
                   </p>
                 </div>
@@ -1079,28 +1440,31 @@
                   >
                     <div class="col-md-9">
                       <h1 class="mb-3">{{selectedSubscriptionPlan.name}} Plan</h1>
-                      <p class="mb-0 text-black font-16">
+                      <!-- <p class="mb-0 text-black font-16">
                         Perfect for growing businesses that need <br />
                         advanced workforce management
+                      </p> -->
+                      <p *ngIf="selectedSubscriptionPlan.isYearly==1" class="mb-0 text-black font-16">
+                        <span><b>30% off</b></span> with annual contract
                       </p>
                     </div>
 
                     <div class="d-flex align-items-center gap-3 col-md-3">
                       <div>
-                        <h3 class="mb-0" *ngIf="selectedSubscriptionPlan.isYearly==1">₹{{selectedSubscriptionPlan.amount + selectedSubscriptionPlan.discountAmount}}</h3>
-                        <h2 class="mt-2">₹{{selectedSubscriptionPlan.amount}}</h2>
-                        <h5 class="font-14">month/per employee</h5>
+                      <div class="d-flex align-items-center gap-3">
+                            <h3 class="mb-0" *ngIf="selectedSubscriptionPlan.isYearly==1">₹{{selectedSubscriptionPlan.amount + selectedSubscriptionPlan.discountAmount}}</h3>
+                            <h2 class="mt-2">₹{{selectedSubscriptionPlan.amount}}</h2>
+                        </div>
+                        <h5 class="font-14">Month/Per Employee</h5>
 
-                        <p *ngIf="selectedSubscriptionPlan.isYearly==1">
-                          <span><b>30% off</b></span> with annual contract
-                        </p>
+                       
                       </div>
                     </div>
                   </div>
 
                   <label class="mt-3 d-flex align-items-center justify-content-between p-3 annual-plan"
                     *ngFor="let typeByPlan of typeBySubscriptionPlans; let i=index;">
-                    <div class="d-flex align-items-center col-md-8 gap-3">
+                    <div class="d-flex align-items-center gap-3">
                       <div class="form-check">
                         <input
                           class="form-check-input"
@@ -1157,11 +1521,13 @@
                       </div>
                     </div>
 
-                    <div class="d-flex align-items-center gap-3 col-md-4">
+                    <div class="d-flex align-items-center gap-3 ">
                       <div class="d-flex align-items-center gap-2">
                         <div class="planPriceList mb-0">
-                          <h4 class="actual-price font-22 text-muted" *ngIf="typeByPlan.isYearly==1">₹{{typeByPlan.amount + typeByPlan.discountAmount}} </h4>
-                          <h4 class="text-black font-22">₹{{typeByPlan.amount}}</h4>
+                          <div class="d-flex align-items-center gap-2">
+                          <h4 class="actual-price font-22 text-muted mb-0" *ngIf="typeByPlan.isYearly==1">₹{{typeByPlan.amount + typeByPlan.discountAmount}} </h4>
+                          <h4 class="text-black font-22 mb-0">₹{{typeByPlan.amount}}</h4>
+                          </div>
                         </div>
                         <p class="text-muted mb-0">
                           Month Per<br />
@@ -1170,8 +1536,8 @@
                       </div>
                       <span class="separator"></span>
                       <h4 class="mb-0">
-                        <span class="text-primary" *ngIf="typeByPlan.isYearly==1">₹{{annualAmount}}</span>
-                        <span class="text-primary" *ngIf="typeByPlan.isMonthly==1">₹{{monthlyAmount}}</span>
+                        <h4 class="text-primary font-20 mb-0" *ngIf="typeByPlan.isYearly==1">₹{{annualAmount}}</h4>
+                        <h4 class="text-primary font-20 mb-0" *ngIf="typeByPlan.isMonthly==1">₹{{monthlyAmount}}</h4>
                       </h4>
                     </div>
                   </label>
@@ -1203,9 +1569,19 @@
                           </p>
                         </div>
                         <div>
-                          <input type="text" class="form-control employee-count-form text-center" id="gst" name="gst" minlength="15" 
-                          [ngClass]="{'verified-gst':isVerified}" maxlength="15"  placeholder="Enter GST Number" [(ngModel)]="gstNumber" #gstnumber="ngModel"
-                          oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/g,'').replace(/(\..*)\./g, '$1');" (keyup)="checkGst()">
+                          <!-- -->
+                          <div class="position-relative" [ngClass]="{'verified-gst':isVerified && verifyGstInputField() , 'incorrect-gst': !isVerified && verifyGstInputField()}">
+
+                            <input type="text" class="form-control employee-gst-form text-center" id="gst" name="gst" 
+                            
+                            minlength="15" maxlength="15"  placeholder="Enter GST Number" [(ngModel)]="gstNumber" #gstnumber="ngModel"
+                            oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/g,'').replace(/(\..*)\./g, '$1');" (keyup)="checkGst()">
+                          </div>
+                         
+                            <div class="loader-line"  *ngIf="gstLoading"></div>
+                            <div class="text-end mt-2" *ngIf="!isVerified && verifyGstInputField()">
+                              <p class="font-13 text-danger" style="font-weight: 400;">Incorrect GST Number</p>
+                            </div>
                         </div>
                       </div>
   
@@ -1272,46 +1648,53 @@
                 class="d-flex align-items-center justify-content-between p-3 border-bottom"
               >
                 <h5 class="mb-0 font-20">Order Recap</h5>
-                <button class="btn contactActionBtn bg-white" *ngIf="!isCouponVerified && !Constant.EMPTY_STRINGS.includes(employeeCount+'')" (click)="showCoupon=true;">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 21 21"
-                    fill="none"
-                  >
-                    <mask
-                      id="mask0_3881_6095"
-                      style="mask-type: alpha"
-                      maskUnits="userSpaceOnUse"
-                      x="0"
-                      y="0"
-                      width="21"
-                      height="21"
+                <button class="btn contactActionBtn bg-white d-flex align-items-center gap-2" *ngIf="!isCouponVerified && !Constant.EMPTY_STRINGS.includes(employeeCount+'')" >
+                  <span (click)="showCoupon=true;">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 21 21"
+                      fill="none"
                     >
-                      <rect
-                        x="0.5"
-                        y="0.765625"
-                        width="20"
-                        height="20"
-                        fill="#D9D9D9"
-                      />
-                    </mask>
-                    <g mask="url(#mask0_3881_6095)">
-                      <path
-                        d="M18.3332 12.6419L12.3748 18.6003C12.2082 18.7669 12.0207 18.8919 11.8123 18.9753C11.604 19.0586 11.3957 19.1003 11.1873 19.1003C10.979 19.1003 10.7707 19.0586 10.5623 18.9753C10.354 18.8919 10.1665 18.7669 9.99984 18.6003L2.64567 11.2461C2.49289 11.0933 2.37484 10.9162 2.2915 10.7148C2.20817 10.5135 2.1665 10.3016 2.1665 10.0794V4.10026C2.1665 3.64193 2.3297 3.24957 2.65609 2.92318C2.98248 2.59679 3.37484 2.43359 3.83317 2.43359H9.81234C10.0346 2.43359 10.2498 2.47873 10.4582 2.56901C10.6665 2.65929 10.8471 2.78082 10.9998 2.93359L18.3332 10.2878C18.4998 10.4544 18.6214 10.6419 18.6978 10.8503C18.7741 11.0586 18.8123 11.2669 18.8123 11.4753C18.8123 11.6836 18.7741 11.8885 18.6978 12.0898C18.6214 12.2912 18.4998 12.4753 18.3332 12.6419ZM11.1873 17.4336L17.1457 11.4753L9.7915 4.10026H3.83317V10.0586L11.1873 17.4336ZM5.9165 7.43359C6.26373 7.43359 6.55887 7.31207 6.80192 7.06901C7.04498 6.82595 7.1665 6.53082 7.1665 6.18359C7.1665 5.83637 7.04498 5.54123 6.80192 5.29818C6.55887 5.05512 6.26373 4.93359 5.9165 4.93359C5.56928 4.93359 5.27414 5.05512 5.03109 5.29818C4.78803 5.54123 4.6665 5.83637 4.6665 6.18359C4.6665 6.53082 4.78803 6.82595 5.03109 7.06901C5.27414 7.31207 5.56928 7.43359 5.9165 7.43359Z"
-                        fill="#1C1B1F"
-                      />
-                    </g>
-                  </svg>
-                  Apply Coupons
+                      <mask
+                        id="mask0_3881_6095"
+                        style="mask-type: alpha"
+                        maskUnits="userSpaceOnUse"
+                        x="0"
+                        y="0"
+                        width="21"
+                        height="21"
+                      >
+                        <rect
+                          x="0.5"
+                          y="0.765625"
+                          width="20"
+                          height="20"
+                          fill="#D9D9D9"
+                        />
+                      </mask>
+                      <g mask="url(#mask0_3881_6095)">
+                        <path
+                          d="M18.3332 12.6419L12.3748 18.6003C12.2082 18.7669 12.0207 18.8919 11.8123 18.9753C11.604 19.0586 11.3957 19.1003 11.1873 19.1003C10.979 19.1003 10.7707 19.0586 10.5623 18.9753C10.354 18.8919 10.1665 18.7669 9.99984 18.6003L2.64567 11.2461C2.49289 11.0933 2.37484 10.9162 2.2915 10.7148C2.20817 10.5135 2.1665 10.3016 2.1665 10.0794V4.10026C2.1665 3.64193 2.3297 3.24957 2.65609 2.92318C2.98248 2.59679 3.37484 2.43359 3.83317 2.43359H9.81234C10.0346 2.43359 10.2498 2.47873 10.4582 2.56901C10.6665 2.65929 10.8471 2.78082 10.9998 2.93359L18.3332 10.2878C18.4998 10.4544 18.6214 10.6419 18.6978 10.8503C18.7741 11.0586 18.8123 11.2669 18.8123 11.4753C18.8123 11.6836 18.7741 11.8885 18.6978 12.0898C18.6214 12.2912 18.4998 12.4753 18.3332 12.6419ZM11.1873 17.4336L17.1457 11.4753L9.7915 4.10026H3.83317V10.0586L11.1873 17.4336ZM5.9165 7.43359C6.26373 7.43359 6.55887 7.31207 6.80192 7.06901C7.04498 6.82595 7.1665 6.53082 7.1665 6.18359C7.1665 5.83637 7.04498 5.54123 6.80192 5.29818C6.55887 5.05512 6.26373 4.93359 5.9165 4.93359C5.56928 4.93359 5.27414 5.05512 5.03109 5.29818C4.78803 5.54123 4.6665 5.83637 4.6665 6.18359C4.6665 6.53082 4.78803 6.82595 5.03109 7.06901C5.27414 7.31207 5.56928 7.43359 5.9165 7.43359Z"
+                          fill="#1C1B1F"
+                        />
+                      </g>
+                    </svg>
+                    Apply Coupon
+                  </span>
+               
+                  <span class="" *ngIf="showCoupon" (click)="showCoupon=false; couponErrorMessage=''; couponCode='';">
+                    <span class="separator" ></span>
+                    <i class="bi bi-x-lg" style="padding-left: 10px;" ></i>
+                  </span>
                 </button>
-                <button class="btn contactActionBtn bg-white" *ngIf="isCouponVerified" >
+                <button class="btn contactActionBtn bg-white d-flex align-items-center gap-2" *ngIf="isCouponVerified">
+
                   {{couponCode}}
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16" (click)="removeCoupon()">
-                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
-                  </svg>
+
+
+                  <i class="bi bi-x-lg" *ngIf="showCoupon" (click)="showCoupon=false; couponCode=''; isCouponVerified = false" ></i>
              
                 </button>
               </div>
@@ -1328,8 +1711,9 @@
                   />
                   <button class="btn btn-outline-krenai" [disabled]="couponCode.length==0" (click)="applyCoupon()">Apply</button>
                 </div>
-                <div *ngIf="couponErrorMessage.length>0">
-                  <span>{{couponErrorMessage}}</span>
+                <div class="p-1">
+                <div *ngIf="couponErrorMessage.length>0" class="mb-2">
+                  <p class="font-14 mb-0 text-danger"> <i class="bi bi-exclamation-circle"></i> {{couponErrorMessage}}</p>
                 </div>
                 <div
                   class="d-flex align-items-center justify-content-between pt-2 pb-2"
@@ -1350,12 +1734,6 @@
                   <h5 class="font-16">Coupon Discount</h5>
                   <h5 class="font-16">- ₹{{couponDiscount}}</h5>
                 </div>
-                <!-- <div
-                class="d-flex align-items-center justify-content-between pt-2 pb-2"
-              >
-                <h5 class="font-16">Tax</h5>
-                <h5 class="font-16">18%</h5>
-              </div> -->
                 <div
                   class="d-flex align-items-center justify-content-between pt-2 pb-2"
                 >
@@ -1368,10 +1746,12 @@
                   <h5 class="text-primary font-16">Total Amount</h5>
                   <h5 class="text-primary font-16">₹{{payableAmount | number : '1.2-2'}}</h5>
                 </div>
+                </div>
               </div>
             </div>
             <button
-              class="btn w-100 text-white proceed-payment mt-3" [disabled]="payableAmount == undefined || payableAmount == null || payableAmount == 0 || isUnderProcess"
+              class="btn w-100 text-white proceed-payment mt-3" 
+              [disabled]="payableAmount == 0 || isUnderProcess || !isValidEmployeeCount"
             (click)="activatePlan()">
               Proceed To Payment <span *ngIf="isUnderProcess" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             </button>
@@ -1724,7 +2104,14 @@ Dues Paid Loader
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Numquam omnis possimus placeat vitae aspernatur dolores at voluptate sit, adipisci quas fugit dolor dicta reprehenderit earum excepturi, rem, recusandae aliquam delectus!
+        <div class="modal-body p-0" *ngIf="isUnderProcess"> 
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
+        Numquam omnis possimus placeat vitae aspernatur dolores at voluptate sit,
+         adipisci quas fugit dolor dicta reprehenderit earum excepturi, rem, recusandae aliquam delectus!
       </div>
       
     </div>

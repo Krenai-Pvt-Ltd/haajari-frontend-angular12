@@ -413,7 +413,6 @@ a.fetch-location {
 .custom-radio {
   display: flex;
   flex-direction: column;
-  margin-right: 20px;
 }
 
 .custom-radio input[type="radio"] {
@@ -434,3 +433,13 @@ a.fetch-location {
   font-size: 0.875rem;
 }
 
+.fixedLocation{
+  border: 1px solid #e6e6e6;
+  padding: 10px 15px;
+  min-width: 250px;
+  height: 45px;
+}
+
+.fixedLocation input{
+  accent-color: var(--primary-color);
+}
