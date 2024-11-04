@@ -91,7 +91,7 @@
             <h5>Leave Settings</h5>
             <p>This will be displayed on your profile.</p>
 
-            <!-- <button class="btn btn-primary" (click)="getExpenseType()" data-bs-toggle="modal" data-bs-target="#createExpense">Create Expense</button> -->
+            <button class="btn btn-primary" (click)="getExpenseType()" data-bs-toggle="modal" data-bs-target="#createExpense">Create Expense</button>
 
           </div>
         </div>
@@ -1430,7 +1430,7 @@ aria-hidden="true">
     <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Apply for expense</h5>
-            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
+            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeExpenseButton>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                     <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                         width="24" height="24">
@@ -1446,7 +1446,9 @@ aria-hidden="true">
         </div>
         <div class="modal-body">
             <div class="assets-request-form">
-                <form #createForm="ngForm" ngNativeValidate (ngSubmit)="createExpense()">
+                <!-- <form #createForm="ngForm" ngNativeValidate (ngSubmit)="createExpense()"> -->
+                <form #createForm="ngForm" (ngSubmit)="checkExpensePolicy(createForm)">
+                <!-- <form #createForm="ngForm" ngNativeValidate (ngSubmit)="validatePolicyToggle ? checkExpensePolicy() : createExpense()"> -->
                     <div class="row register-form-box">
                         <!-- <div class="col-md-12 mb-3">
                                 <div class="row">
@@ -1494,6 +1496,21 @@ aria-hidden="true">
                             </div>
                         </div>
 
+                        <!-- [disabled]="!isCustomDateRange || updateToggle"  -->
+                        <div class="col-md-12 mb-3" nz-form-item>
+                          <label for="expenseDate" class="pb-2 font-12">Expense Date
+                          </label>
+                          <!-- <nz-form-control nzErrorTip="Please select valid date"> -->
+                            <div class="d-flex justify-content-between align-items-center">
+                              <nz-date-picker  [(ngModel)]="expenseTypeReq.expenseDate" nzPlaceHolder="Select Expense Date"
+                                (ngModelChange)="selectExpenseDate($event)" name="expDate" #expDate="ngModel" required class="form-control">
+                              </nz-date-picker>
+                            </div>
+                          <!-- </nz-form-control> -->
+                            <div *ngIf="expDate?.touched && expDate?.invalid" style="color: red;">Expense Date is required</div>
+                            <!-- <div *ngIf="isExpenseDateSelected && expDate?.touched && expDate?.invalid" style="color: red;">Expense Date is required</div> -->
+                        </div>
+
                         <div class="col-md-12 mb-3">
                           <div class="form-group">
                               <label for="expenseAmount" class="mb-2"> Amount</label>
@@ -1515,14 +1532,17 @@ aria-hidden="true">
                                 <div class="d-flex align-items-center justify-content-between  requesting-half-leave p-2" >
                                     <p class="mb-0 font-13 " style="font-weight: 400;" >Select proof document</p>
                                    
-                                   <button type="button" (click)="fileInput.click()" class="btn p-0 text-primary font-13"><i class="bi bi-plus-lg"></i> Add File</button>
-                                   <input
-                                        type="file"
-                                        #fileInput
+                                   <button *ngIf="!isUploading && expenseTypeReq.url == ''" type="button" (click)="fileInput.click()" class="btn p-0 text-primary font-13">
+                                    <i class="bi bi-plus-lg"></i> Add File
+                                  </button>
+
+                                  <div *ngIf="isUploading" class="spinner-border spinner-border-sm text-primary m-2" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                  </div>
+
+                                   <input type="file" #fileInput
                                         (change)="onFileSelected($event)"
-                                        accept=".png, .jpg, .jpeg"
-                                        style="display: none;"
-                                      />
+                                        accept=".png, .jpg, .jpeg" style="display: none;"/>
 
                                 </div>
 
@@ -1608,7 +1628,17 @@ aria-hidden="true">
                                         </div>
                                 </div>
                             </div>
+                        </div> <!-- proof end -->
+
+                        <div *ngIf="validatePolicyToggle" class="alert bg-soft-warning border">
+                          This Expense is valid for amount: {{limitAmount}}
+                          <div>
+                            <span>Do you continue</span>
+                            <button (click)="createExpense(createForm)">Continue</button>
+                            <button (click)="setValidateToggle()">No</button>
+                          </div>
                         </div>
+
 
                         <!-- <div class="modal-footer">
                           <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
@@ -1617,9 +1647,11 @@ aria-hidden="true">
 
                     </div>
 
-                    <div class="modal-footer">
+                    <div *ngIf="!validatePolicyToggle" class="modal-footer">
                       <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
-                      <button type="submit" class="btn submitActionBtn" [disabled]="expenseTypeReq.expenseTypeId == 0" >Submit</button>
+                      <!-- <button type="submit" class="btn submitActionBtn" [disabled]="expenseTypeReq.expenseTypeId == 0" >Submit</button> -->
+                      <button type="submit" class="btn submitActionBtn" 
+                      [disabled]="expenseTypeReq.expenseTypeId == 0 || expenseTypeReq.expenseDate == undefined || expenseTypeReq.notes == '' || expenseTypeReq.amount == 0" >Submit</button>
                   </div>
 
                 </form>

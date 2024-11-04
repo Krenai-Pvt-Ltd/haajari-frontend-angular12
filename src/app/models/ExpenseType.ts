@@ -6,4 +6,5 @@ export class ExpenseType{
     amount: any
     notes: string = '';
     url: string = '';
+    expenseDate: any;
 }

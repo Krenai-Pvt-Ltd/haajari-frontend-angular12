@@ -2390,6 +2390,7 @@ setUnusedLeaveAction(index: number, value: any): void {
 
 
 /** Expense start **/
+
 expenseTypeList: any[] = new Array();
 expenseTypeReq: ExpenseType = new ExpenseType();
 expenseTypeId: number =0;
@@ -2412,14 +2413,59 @@ getExpenseType(){
   })
 }
 
-createExpense(){
-  console.log('createExpense Req: ',this.expenseTypeReq)
-  this.dataService.createExpenseType(this.expenseTypeReq).subscribe((res: any) => {
-    if(res.status){
-      this.expenseTypeReq = new ExpenseType();
-      console.log('Created Successfully')
+  // Watch for changes in the start date for the custom date range
+  isExpenseDateSelected: boolean = true;
+  selectExpenseDate(startDate: Date) {
+    if (this.isCustomDateRange && startDate) {
+      this.expenseTypeReq.expenseDate = startDate;
+
+      this.expenseTypeReq.expenseDate = this.helperService.formatDateToYYYYMMDD(startDate);
+      // this.leaveTemplateRequest.endDate = this.helperService.formatDateToYYYYMMDD(this.dateRange[1]);
+      console.log("exp date: ",this.expenseTypeReq.expenseDate)
     }
-  })
+  }
+
+  validatePolicyToggle: boolean = false;
+  limitAmount: any;
+  checkExpensePolicy(form: NgForm){
+    this.dataService.checkExpensePolicy(this.expenseTypeReq.expenseTypeId, this.expenseTypeReq.amount).subscribe((res: any) =>{
+      this.limitAmount = res.object;
+
+      if(this.limitAmount > 0){
+        this.validatePolicyToggle = true;
+      }else{
+        this.createExpense(form);
+      }
+    })
+  }
+
+  setValidateToggle(){
+    this.validatePolicyToggle = false;
+  }
+
+@ViewChild('closeExpenseButton') closeExpenseButton!: ElementRef
+createExpense(form: NgForm){
+  console.log('createExpense Req: ',this.expenseTypeReq)
+  // this.dataService.createExpenseType(this.expenseTypeReq).subscribe((res: any) => {
+  //   if(res.status){
+  //     this.expenseTypeReq = new ExpenseType();
+  //     this.closeExpenseModal.nativeElement.click()
+  //     console.log('Created Successfully')
+  //   }
+  // })
+
+      this.expenseTypeReq = new ExpenseType();
+
+      this.expenseTypeId = 0;
+      this.validatePolicyToggle = false;
+      form.resetForm();
+
+      this.closeExpenseButton.nativeElement.click()
+      console.log('Created Successfully')
+}
+
+clearExpenseForm(){
+  this.expenseTypeId = 0;
 
 }
 
@@ -2497,7 +2543,8 @@ getImageUrl(e: any) {
 
 uploadFile(file: File): void {
   debugger;
-  const filePath = `uploads/${new Date().getTime()}_${file.name}`;
+  // const filePath = `uploads/${new Date().getTime()}_${file.name}`;
+  const filePath = `expense/${new Date().getTime()}_${file.name}`;
   const fileRef = this.afStorage.ref(filePath);
   const task = this.afStorage.upload(filePath, file);
 
