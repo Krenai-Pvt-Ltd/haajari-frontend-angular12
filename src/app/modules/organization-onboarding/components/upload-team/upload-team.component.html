@@ -161,7 +161,7 @@
                           <div class="">
                             <button
                               class="btn excelUploadBtn"
-                              onclick="document.getElementById('fileSelect').click();"
+                              (click)="openUploadToogle()"
                             >
                               <!-- <div
                             *ngIf="isProgressToggle"
@@ -1251,8 +1251,8 @@
             <div class="p-3 bg-white" *ngIf="showUserList">
               <div class="manualemployList">
                 <div class="d-flex align-items-center justify-content-between"
-              > 
-               
+              >
+
               <div class="d-flex align-items-center gap-3">
                 <div>
                   <span class="userName">{{
@@ -1271,7 +1271,7 @@
                     <p class="mb-0 font-11">{{ adminUser.phoneNumber || "N/A"}}</p>
                   </div>
                 </div>
-               </div> 
+               </div>
                 <div>
                   <span class="admin pointer">Admin</span>
                 </div>
@@ -1279,7 +1279,7 @@
                 <div
                   class="d-flex align-items-center justify-content-between persnol-details userList p-0 pt-3 pb-1"
                   *ngFor="let user of userList | slice : 0 : -1; let i = index"
-                > 
+                >
                  <!-- {{ i }}  entry ii  -->
                 <!-- <div class="d-flex align-items-center gap-3" *ngIf="i== 0">
                   <div>
@@ -1423,7 +1423,7 @@
                     >
                       <i class="bi bi-exclamation-circle"></i> Phone number already exists.
                     </p>
-                
+
                     <!-- Showing other validation errors only if the phone doesn't already exist -->
                     <div *ngIf="(phone?.dirty || isFormInvalid) && !userList[i].isPhoneExist">
                       <p
@@ -1441,7 +1441,7 @@
                     </div>
                   </div>
                 </div>
-                
+
                 <div class="col-md-12">
                   <div class="mb-3">
                     <label class="mb-2"
@@ -1540,6 +1540,555 @@
     </div>
   </div>
 </div>
+
+
+<!-- Trigger Button for Modal -->
+<button
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#sampleFileModal"
+  id="uploadMembersModal"
+  #sampleFileModalButton
+>
+  Open Sample File Modal
+</button>
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="sampleFileModal"
+  tabindex="-1"
+  aria-labelledby="sampleFileModalLabel"
+  aria-hidden="true"
+  #sampleFileModal
+>
+  <div class="modal-dialog modal-xl" style="max-width: 1400px !important;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="sampleFileModalLabel">Sample Excel File</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          #closeButtonExcelModal
+        ></button>
+      </div>
+      <div class="modal-body">
+        <ng-container
+          *ngIf="
+            !isShimmer &&
+            onboardUserList.length == 0 &&
+            !networkConnectionErrorPlaceholder
+          "
+        >
+          <div class="col-md-12">
+            <div class="card-body mt-0 p-0">
+              <div class="alert alert-light mb-0" role="alert">
+                <h4 class="alert-heading font-18">
+                  Download the Sample Excel File!
+                </h4>
+                <p>
+                  Look for the sample file titled "Sample_Data.xlsx" and click
+                  on the download button to save it to your computer.
+                </p>
+                <p>
+                  Take a moment to review the existing data in the Excel file.
+                  This will help you understand the structure and content of the
+                  data before making any updates.
+                </p>
+                <p>
+                  <span class="text-primary">
+                    <u
+                      ><a class="text-primary" href="{{ sampleFileUrl }}"
+                        >Download a sample Excel file</a
+                      ></u
+                    >
+                  </span>
+                  , update its data, and upload it back with the updated content
+                  on our platform
+                </p>
+              </div>
+            </div>
+            <div class="card-body mt-3 p-0">
+              <div
+                class="alert alert-light mb-0 excel-uplode-file-box text-center"
+                style="border: 2px dashed #dddd"
+              >
+                <input
+                  id="fileSelect"
+                  type="file"
+                  name="img[]"
+                  accept=".xlsx"
+                  class="input"
+                  (change)="selectFile($event)"
+                />
+                <img
+                  src="assets/images/excel.svg"
+                  style="width: 50px"
+                  class="pb-3"
+                />
+                <p>
+                  Drag file here to upload or,
+                  <u><a class="text-primary" href="#!">Choose file</a></u>
+                </p>
+                <div
+                  *ngIf="isProgressToggle"
+                  class="spinner-border text-success"
+                  role="status"
+                ></div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="alert alert-light mb-0 mt-4 bg-soft-warning create-password-warning text-start"
+            role="alert"
+            *ngIf="
+              alreadyUsedPhoneNumberArray.length > 0 ||
+              alreadyUsedEmailArray.length > 0 ||
+              this.mismatches.length > 0 ||
+              isErrorToggle
+            "
+          >
+            <h4 class="alert-heading font-18">Attention!!</h4>
+            <p *ngIf="this.mismatches.length > 0">
+
+              {{ this.mismatches }}
+            </p>
+            <p *ngIf="alreadyUsedPhoneNumberArray.length > 0">
+              Phone Numbers:
+              {{ formatAsCommaSeparated(alreadyUsedPhoneNumberArray) }}
+            </p>
+            <p *ngIf="alreadyUsedEmailArray.length > 0">
+              Emails: {{ formatAsCommaSeparated(alreadyUsedEmailArray) }}
+            </p>
+            <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p>
+            <!-- <div *ngFor="let pn of alreadyUsedPhoneNumberArray">
+                  {{ pn }}
+                </div>
+                <div *ngFor="let ea of alreadyUsedEmailArray">
+                  {{ ea }}
+                </div> -->
+            <p *ngIf="!isErrorToggle">
+              These credentials are already registered with us!
+            </p>
+          </div>
+          <div
+            class="alert alert-light mb-0 mt-4 bg-soft-warning create-password-warning text-start"
+            role="alert"
+            *ngIf="
+              data.length > 0
+              && isinvalid
+            "
+          >
+            <h4 class="alert-heading font-18">Attention</h4>
+            <p *ngIf="isExcel.length > 0">
+              {{ isExcel }}
+            </p>
+            <div *ngIf="data.length > 0">
+              <h3>Uploaded Data</h3>
+              <div class="table-responsive">
+                <table border="1">
+                  <thead>
+                    <tr>
+                      <th *ngFor="let col of fileColumnName">{{ col }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- Skip the first row for pagination purposes -->
+                    <tr *ngFor="let row of paginatedData; let i = index">
+                      <td *ngFor="let cell of fileColumnName; let j = index">
+                        <ng-container *ngIf="fileColumnName[j] === 'shift*' && (currentPage - 1) * pageSize + i  !== 0; else leaveColumns">
+                          <nz-select
+                            [(ngModel)]="row[j]"
+                            [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i ][j]}"
+                            (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i , j)"
+                            nzPlaceHolder="Select Shift">
+                            <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label" [nzLabel]="shift.label"></nz-option>
+                          </nz-select>
+                        </ng-container>
+
+                        <ng-template #leaveColumns>
+                          <ng-container *ngIf="this.fileColumnName[j] === 'leavenames' && (currentPage - 1) * pageSize + i  !== 0; else otherColumns">
+                            <nz-select
+                              class="whatapp-login-input"
+                              nzMode="multiple"
+                              nzPlaceHolder="Select leave"
+                              nzAllowClear
+                              nzShowSearch
+                              nzServerSearch
+                              [(ngModel)]="row[j]"
+                              [ngModelOptions]="{ standalone: true }"
+                              (ngModelChange)="onMultiSelectChange($event, (currentPage - 1) * pageSize + i, j)"
+                              (nzOnSearch)="onSearchLeave($event)"
+                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}">
+                              <ng-container *ngFor="let o of originalLeaveNameList">
+                                <nz-option *ngIf="!isLoadingLeave" [nzValue]="o.label" [nzLabel]="o.label"></nz-option>
+                              </ng-container>
+                              <nz-option *ngIf="isLoadingLeave" nzDisabled nzCustomContent>
+                                <span nz-icon nzType="loading" class="loading-icon"></span>
+                                Loading Data...
+                              </nz-option>
+                            </nz-select>
+                          </ng-container>
+                        </ng-template>
+
+                        <ng-template #otherColumns>
+                          <ng-container *ngIf="this.fileColumnName[j] === 'joiningdate*' && (currentPage - 1) * pageSize + i  !== 0; else teamColumns">
+                            <nz-date-picker
+                              id="joiningDate"
+                              name="joiningDate"
+                              #joiningDate="ngModel"
+                              [(ngModel)]="data[(currentPage - 1) * pageSize + i][j]"
+                              required
+                              (ngModelChange)="onDateChange($event, (currentPage - 1) * pageSize + i , j)"
+                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
+                              [nzAllowClear]="false"
+                              nzPlaceHolder="Select Joining Date">
+                            </nz-date-picker>
+                          </ng-container>
+                        </ng-template>
+
+                        <ng-template #teamColumns>
+                          <ng-container *ngIf="this.fileColumnName[j] === 'team' && (currentPage - 1) * pageSize + i  !== 0; else genderColumns">
+                            <nz-select
+                              nzAllowClear
+                              nzShowSearch
+                              nzServerSearch
+                              nzMode="multiple"
+                              nzPlaceHolder="Select teams"
+                              [(ngModel)]="row[j]"
+                              [ngModelOptions]="{ standalone: true }"
+                              (ngModelChange)="onTeamSelectionChanges($event, (currentPage - 1) * pageSize + i, j)"
+                              (nzOnSearch)="onSearch($event)"
+                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}">
+                              <ng-container *ngFor="let o of originalTeamNameList">
+                                <nz-option *ngIf="!isLoadingTeams" [nzValue]="o.label" [nzLabel]="o.label"></nz-option>
+                              </ng-container>
+                              <nz-option *ngIf="isLoadingTeams" nzDisabled nzCustomContent>
+                                <span nz-icon nzType="loading" class="loading-icon"></span>
+                                Loading Data...
+                              </nz-option>
+                            </nz-select>
+                          </ng-container>
+                        </ng-template>
+
+                        <ng-template #genderColumns>
+                          <ng-container *ngIf="this.fileColumnName[j] === 'gender*' && (currentPage - 1) * pageSize + i  !== 0; else defaultInput">
+                            <nz-select
+                              id="gender"
+                              name="gender"
+                              [(ngModel)]="row[j]"
+                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
+                              (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)"
+                              nzPlaceHolder="Select Gender">
+                              <nz-option *ngFor="let gender of genders" [nzValue]="gender" [nzLabel]="gender"></nz-option>
+                            </nz-select>
+                          </ng-container>
+                        </ng-template>
+
+                        <!-- Default input for other columns -->
+                        <ng-template #defaultInput>
+                          <input
+                            [(ngModel)]="row[j]"
+                            [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
+                            (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)" />
+                        </ng-template>
+
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <ngb-pagination
+                  [rotate]="true"
+                  [maxSize]="4"
+                  [collectionSize]="data.length - 1"
+                  [pageSize]="pageSize"
+                  [(page)]="currentPage"
+                  (pageChange)="onPageChange($event)">
+                </ngb-pagination>
+
+                <button (click)="saveFile()">Save Changes</button>
+              </div>
+            </div>
+
+            <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p>
+            <p *ngIf="!isErrorToggle">
+            </p>
+          </div>
+        </ng-container>
+        <ng-container
+          *ngIf="
+            isShimmer &&
+              onboardUserList.length == 0 &&
+              !networkConnectionErrorPlaceholder;
+            else onboardUserListCondition
+          "
+        >
+          <div class="">
+            <div class="text-end">
+              <ngx-shimmer-loading
+                [width]="'30%'"
+                [height]="'40px'"
+                style="border-radius: 50%"
+              ></ngx-shimmer-loading>
+            </div>
+          </div>
+          <div
+            class="mt-3 mb-2"
+            style="border: 1px solid #f5f5f5; padding: 5px; border-radius: 6px"
+            *ngFor="let number of [1, 2, 3, 4, 5]"
+          >
+            <div class="row mt-3">
+              <div class="col-md-2">
+                <div class="">
+                  <ngx-shimmer-loading
+                    [width]="'100%'"
+                    [height]="'30px'"
+                    style="border-radius: 50%"
+                  ></ngx-shimmer-loading>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="">
+                  <ngx-shimmer-loading
+                    [width]="'100%'"
+                    [height]="'30px'"
+                    style="border-radius: 50%"
+                  ></ngx-shimmer-loading>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="">
+                  <ngx-shimmer-loading
+                    [width]="'100%'"
+                    [height]="'30px'"
+                    style="border-radius: 50%"
+                  ></ngx-shimmer-loading>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="">
+                  <ngx-shimmer-loading
+                    [width]="'100%'"
+                    [height]="'30px'"
+                    style="border-radius: 50%"
+                  ></ngx-shimmer-loading>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="">
+                  <ngx-shimmer-loading
+                    [width]="'100%'"
+                    [height]="'30px'"
+                    style="border-radius: 50%"
+                  ></ngx-shimmer-loading>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-template #onboardUserListCondition>
+          <ng-container
+            *ngIf="
+              !isShimmer &&
+                onboardUserList.length != 0 &&
+                !networkConnectionErrorPlaceholder;
+              else errorInOnboardUserListCondition
+            "
+          >
+            <div class="row mt-0">
+              <div
+                class="d-flex align-items-center justify-content-end mb-2 p-0"
+              >
+                <input
+                  #fileInput
+                  id="fileSelect"
+                  type="file"
+                  name="img[]"
+                  accept=".xlsx"
+                  class="input"
+                  style="display: none"
+                  (change)="selectFile($event)"
+                />
+                <button
+                  type="button"
+                  class="btn add-excel"
+                  (click)="fileInput.click()"
+                >
+                  <i
+                    *ngIf="!isProgressToggle"
+                    class="bi bi-file-earmark-excel"
+                    style="position: relative; top: -1px; padding-right: 6px"
+                  ></i>
+                  <div
+                    *ngIf="isProgressToggle"
+                    class="spinner-border text-primary excel-spinner"
+                    role="status"
+                  ></div>
+                  Excel Upload
+                </button>
+                <!-- <p
+                      style="color: #d7d7d7; margin-bottom: 0px"
+                      class="ng-star-inserted"
+                    >
+                      |
+                    </p>
+                    <button
+                      type="button"
+                      class="btn add-excel"
+                      data-bs-toggle="modal"
+                      data-bs-target="#munal-upload"
+                      (click)="selectMethod('mannual')"
+                    >
+                      <i class="bi bi-journal-check"></i> Manual Upload
+                    </button> -->
+              </div>
+              <div
+                class="alert alert-light mb-0 mt-4 bg-soft-warning create-password-warning text-start"
+                role="alert"
+                *ngIf="
+                  alreadyUsedPhoneNumberArray.length > 0 ||
+                  alreadyUsedEmailArray.length > 0 ||
+                  isErrorToggle
+                "
+              >
+                <h4 class="alert-heading font-18">Attention!</h4>
+                <!-- <div *ngFor="let pn of alreadyUsedPhoneNumberArray">
+                      {{ pn }}
+                    </div>
+                    <div *ngFor="let ea of alreadyUsedEmailArray">
+                      {{ ea }}
+                    </div> -->
+                <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p>
+                <p *ngIf="alreadyUsedPhoneNumberArray.length > 0">
+                  Phone Numbers:
+                  {{ formatAsCommaSeparated(alreadyUsedPhoneNumberArray) }}
+                </p>
+                <p *ngIf="alreadyUsedEmailArray.length > 0">
+                  Emails: {{ formatAsCommaSeparated(alreadyUsedEmailArray) }}
+                </p>
+                <p *ngIf="!isErrorToggle">
+                  These credentials are already registered with us!
+                </p>
+              </div>
+              <table class="table">
+                <!-- <thead class="thead-light table-design"> -->
+                <thead class="thead-light">
+                  <tr>
+                    <th style="width: 5%" class="text-center">#</th>
+                    <th style="width: 25%" class="text-left">Name</th>
+                    <th style="width: 20%" class="text-left">Phone</th>
+                    <th style="width: 25%" class="text-left">Email</th>
+                    <th style="width: 20%" class="text-center">Action</th>
+                  </tr>
+                </thead>
+                <!-- <tbody class="table-design"> -->
+                <tbody>
+                  <tr
+                    *ngFor="let onboardUser of onboardUserList; let i = index"
+                  >
+                    <td>
+                      <p class="tableinfo mb-0 text-left">
+                        <b>{{ i + 1 }}</b>
+                      </p>
+                    </td>
+                    <td>
+                      <p class="tableinfo mb-0 text-left">
+                        <b>{{ onboardUser.name }}</b>
+                      </p>
+                    </td>
+                    <td>
+                      <p class="tableinfo mb-0 text-left">
+                        <b>{{ onboardUser.phone }}</b>
+                      </p>
+                    </td>
+                    <td>
+                      <p class="tableinfo mb-0 text-left">
+                        <b>{{
+                          onboardUser.email ? onboardUser.email : "N/A"
+                        }}</b>
+                      </p>
+                    </td>
+                    <td>
+                      <div class="d-flex justify-content-center gap-3">
+                        <!-- <p
+                              class="tableinfo mb-0 pointer text-center"
+                              style="color: darkblue"
+
+                              (click)="openUserEditModal(onboardUser)"
+                            >
+                              <i class="bi bi-pencil-square"></i>
+                            </p> -->
+                        <p
+                          class="tableinfo mb-0 pointer text-center text-danger mb-2"
+                          (click)="deleteNewUser(onboardUser.id)"
+                        >
+                          <i class="bi bi-trash text-danger"></i>
+                        </p>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="d-flex justify-content-end mt-3">
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  (click)="sendEmailToUsers(true)"
+                >
+                  <span *ngIf="!sendMailExcelUserFlag"> Send Email </span>
+                  <div class="dot-opacity-loader" *ngIf="sendMailExcelUserFlag">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </button>
+
+
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  style="background-color: white; color: black;"
+                  (click)="sendEmailToUsers(false)"
+                >
+                  <span *ngIf="!sendMailExcelUserFlag"> Cancel</span>
+                  <div class="dot-opacity-loader" *ngIf="sendMailExcelUserFlag">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </button>
+              </div>
+
+
+
+            </div>
+          </ng-container>
+        </ng-template>
+
+        <ng-template #errorInOnboardUserListCondition>
+          <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceholder">
+            <div class="errorboxinner text-center">
+              <div class="errorboxplaceholder mb-2">
+                <img src="assets/images/signal.svg" style="width: 80px" />
+              </div>
+
+              <h4>Something went wrong!</h4>
+
+              <p>An error occurred while processing your request!</p>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 
 <button
   class="d-none"
