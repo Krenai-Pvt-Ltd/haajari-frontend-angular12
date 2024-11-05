@@ -33,6 +33,7 @@ import { SubscriptionGuard } from 'src/app/guards/subscription.guard';
 import { PreviewFormComponent } from '../employee-onboarding/preview-form/preview-form.component';
 import { ReferFriendComponent } from './components/refer-friend/refer-friend.component';
 import { NewEmployeeProfileComponent } from './components/new-employee-profile/new-employee-profile.component';
+import { CreateExpenseComponent } from './components/create-expense/create-expense.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -181,6 +182,10 @@ const routes: Routes = [
       {
         path: 'new-employee-profile',
         component: NewEmployeeProfileComponent,
+      },
+      {
+        path: 'expense',
+        component: CreateExpenseComponent,
       },
     ],
   },

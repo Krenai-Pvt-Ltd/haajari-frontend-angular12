@@ -71,6 +71,7 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { ReferFriendComponent } from './components/refer-friend/refer-friend.component';
 import { NewEmployeeProfileComponent } from './components/new-employee-profile/new-employee-profile.component';
+import { CreateExpenseComponent } from './components/create-expense/create-expense.component';
 
 @NgModule({
   declarations: [
@@ -115,6 +116,7 @@ import { NewEmployeeProfileComponent } from './components/new-employee-profile/n
     SubscriptionComponent,
     ReferFriendComponent,
     NewEmployeeProfileComponent,
+    CreateExpenseComponent,
   ],
   imports: [
     CommonModule,

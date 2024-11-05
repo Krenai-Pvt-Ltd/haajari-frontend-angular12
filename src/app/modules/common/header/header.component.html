@@ -473,22 +473,24 @@
                 >
               </a>
             </li>
+
             <li
-              [class.active]="2 === activeIndex"
-              (mouseover)="updateSliderStyle4(2)"
-              (mouseout)="resetHoverIndex4()"
-              (click)="setActive4(2);checkRestriction('/setting/leave-setting');"
-              class="pointer"
-              routerLinkActive="sidebar-menu-active"
-              routerLink="/setting/leave-setting"
-              *ngIf="this.rbacService.shouldDisplay('leave setting')"
-            >
-              <a class="sidebar-menu-link">
-                <span class=" ">
-                  <i class="bi bi-briefcase menu-icon"></i> Leave Settings
-                </span>
-              </a>
-            </li>
+            [class.active]="2 === activeIndex"
+            (mouseover)="updateSliderStyle4(2)"
+            (mouseout)="resetHoverIndex4()"
+            (click)="setActive4(2);checkRestriction('/setting/leave-setting');"
+            class="pointer"
+            routerLinkActive="sidebar-menu-active"
+            routerLink="/setting/leave-setting"
+            *ngIf="this.rbacService.shouldDisplay('leave setting')"
+          >
+            <a class="sidebar-menu-link">
+              <span class=" ">
+                <i class="bi bi-briefcase menu-icon"></i> Leave Settings
+              </span>
+            </a>
+          </li>
+
             <li
               [class.active]="3 === activeIndex"
               (mouseover)="updateSliderStyle4(3)"
@@ -524,6 +526,24 @@
                 >
               </a>
             </li>
+
+            <li
+            [class.active]="5 === activeIndex"
+            (mouseover)="updateSliderStyle4(5)"
+            (mouseout)="resetHoverIndex4()"
+            (click)="setActive4(5);checkRestriction('/expense');"
+            class="pointer"
+            routerLinkActive="sidebar-menu-active"
+            routerLink="/expense"
+            *ngIf="this.rbacService.shouldDisplay('Expense Management')"
+          >
+            <a class="sidebar-menu-link">
+              <span class=" ">
+                <i class="bi bi-briefcase menu-icon"></i> Expense
+              </span>
+            </a>
+          </li>
+
           </ul>
         </div>
 

@@ -4229,8 +4229,26 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/company-expense-policy`, {params});
   }
 
-  createExpenseType(expenseTypeReq: ExpenseType){
+  createExpense(expenseTypeReq: ExpenseType){
     return this.httpClient.post<any>(`${this.baseUrl}/company-expense`, expenseTypeReq);
+  }
+
+  deleteExpense(id: number): Observable<any> {
+    const params = new HttpParams().set('expenseId', id);
+    return this.httpClient.delete(`${this.baseUrl}/company-expense`, {
+      params,
+    });
+  }
+
+  getAllExpense(role: string, pageNumber: number, itemPerPage: number){
+    const params = new HttpParams()
+    .set('currentPage', pageNumber)
+    .set('itemPerPage', itemPerPage)
+    .set('sortBy', 'createdDate')
+    .set('sortOrder', 'desc')
+    .set('role', role)
+  
+    return this.httpClient.get<any>(`${this.baseUrl}/company-expense`, {params});
   }
 
 }
