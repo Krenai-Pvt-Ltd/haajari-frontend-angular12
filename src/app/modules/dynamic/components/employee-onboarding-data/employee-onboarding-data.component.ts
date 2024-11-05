@@ -19,6 +19,9 @@ import { OrganizationOnboardingService } from 'src/app/services/organization-onb
 import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
 import { DatePipe } from '@angular/common';
 import * as moment from 'moment';
+import { LeaveSettingComponent } from 'src/app/modules/setting/components/leave-setting/leave-setting.component';
+import { AttendanceSettingComponent } from 'src/app/modules/setting/components/attendance-setting/attendance-setting.component';
+import { TeamComponent } from '../team/team.component';
 export interface Team {
   label: string;
   value: string;
@@ -705,7 +708,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
 
   expectedColumns: string[] = ['Name*', 'Phone*', 'Email*', 'Shift*', 'JoiningDate*', 'Gender*'];
-  correctColumnName: string[] = ['S. NO.*', 'Name*', 'Phone*', 'Email*', 'Shift*', 'JoiningDate*', 'Gender*', 'leavenames', 'branch', 'department', 'position', 'grade', 'team', 'dob', 'fathername', 'maritalstatus', 'address', 'city', 'state', 'country', 'pincode', 'panno', 'aadharno', 'drivinglicence', 'emergencyname', 'emergencyphone', 'emergencyrelation', 'accountholdername', 'bankname', 'accountnumber', 'ifsccode'];
+  correctColumnName: string[] = ['S. NO.*', 'Name*', 'Phone*', 'Email*', 'Shift*', 'JoiningDate*', 'Gender*', 'leavenames', 'ctc', 'emptype', 'empId', 'branch', 'department', 'position', 'grade', 'team', 'dob', 'fathername', 'maritalstatus', 'address', 'city', 'state', 'country', 'pincode', 'panno', 'aadharno', 'drivinglicence', 'emergencyname', 'emergencyphone', 'emergencyrelation', 'accountholdername', 'bankname', 'accountnumber', 'ifsccode'];
   fileColumnName:string[] = [];
   genders: string[] = ['Male', 'Female'];
   isExcel: string = '';
@@ -1044,6 +1047,63 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   onTeamSelectionChanges(selectedTeams: any[], rowIndex: number, columnIndex: number) {
     this.data[rowIndex][columnIndex] = selectedTeams;
   }
+
+  openAddLeaveModal(): void {
+    const modalRef = this.modalService.open(LeaveSettingComponent, {
+      size: 'xl',
+      backdrop: true,
+      windowClass: 'custom-modal-width'
+    });
+
+    // Optional: Handle modal close result
+    modalRef.result.then(
+      (result) => {
+        console.log('Modal closed with:', result);
+        // Refresh the list or handle result
+      },
+      (reason) => {
+        console.log('Modal dismissed with reason:', reason);
+      }
+    );
+  }
+
+  openAddShiftModal(): void {
+    const modalRef = this.modalService.open(AttendanceSettingComponent, {
+      size: 'xl', // Adjust size as needed
+      backdrop: true, // Allows closing the modal on outside click
+      keyboard: true // Allows closing the modal with the Esc key
+    });
+
+    modalRef.result.then(
+      (result) => {
+        console.log('Modal closed with:', result);
+        // Refresh the shift list or handle result
+      },
+      (reason) => {
+        console.log('Modal dismissed with reason:', reason);
+      }
+    );
+  }
+  openAddTeamModal(): void {
+    const modalRef = this.modalService.open(TeamComponent, {
+      size: 'xl', // Adjust size as needed
+      backdrop: true, // Allows closing the modal on outside click
+      keyboard: true // Allows closing the modal with the Esc key
+    });
+
+    modalRef.result.then(
+      (result) => {
+        console.log('Modal closed with:', result);
+        // Refresh the team list or handle result
+      },
+      (reason) => {
+        console.log('Modal dismissed with reason:', reason);
+      }
+    );
+  }
+
+
+
 
 
 

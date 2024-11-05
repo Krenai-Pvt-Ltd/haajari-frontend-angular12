@@ -1783,12 +1783,21 @@
                       <td *ngFor="let cell of fileColumnName; let j = index">
                         <ng-container *ngIf="fileColumnName[j] === 'shift*' && (currentPage - 1) * pageSize + i  !== 0; else leaveColumns">
                           <nz-select
-                            [(ngModel)]="row[j]"
-                            [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i ][j]}"
-                            (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i , j)"
-                            nzPlaceHolder="Select Shift">
-                            <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label" [nzLabel]="shift.label"></nz-option>
+                              [(ngModel)]="row[j]"
+                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
+                              (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)"
+                              nzPlaceHolder="Select Shift"
+                              [nzDropdownRender]="customDropdownShift">
+
+                              <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label" [nzLabel]="shift.label"></nz-option>
+
                           </nz-select>
+
+                          <ng-template #customDropdownShift>
+                            <div class="custom-dropdown-footer">
+                              <button nz-button nzType="link" (click)="openAddShiftModal()">Add Shift</button>
+                            </div>
+                          </ng-template>
                         </ng-container>
 
                         <ng-template #leaveColumns>
@@ -1804,15 +1813,22 @@
                               [ngModelOptions]="{ standalone: true }"
                               (ngModelChange)="onMultiSelectChange($event, (currentPage - 1) * pageSize + i, j)"
                               (nzOnSearch)="onSearchLeave($event)"
+                              [nzDropdownRender]="customDropdown"
                               [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}">
                               <ng-container *ngFor="let o of originalLeaveNameList">
                                 <nz-option *ngIf="!isLoadingLeave" [nzValue]="o.label" [nzLabel]="o.label"></nz-option>
                               </ng-container>
+
                               <nz-option *ngIf="isLoadingLeave" nzDisabled nzCustomContent>
                                 <span nz-icon nzType="loading" class="loading-icon"></span>
                                 Loading Data...
                               </nz-option>
                             </nz-select>
+                            <ng-template #customDropdown>
+                              <div class="custom-dropdown-footer">
+                                <button nz-button nzType="link" (click)="openAddLeaveModal()">Add Leave</button>
+                              </div>
+                            </ng-template>
                           </ng-container>
                         </ng-template>
 
@@ -1844,7 +1860,8 @@
                               [ngModelOptions]="{ standalone: true }"
                               (ngModelChange)="onTeamSelectionChanges($event, (currentPage - 1) * pageSize + i, j)"
                               (nzOnSearch)="onSearch($event)"
-                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}">
+                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
+                              [nzDropdownRender]="customDropdownTeam">
                               <ng-container *ngFor="let o of originalTeamNameList">
                                 <nz-option *ngIf="!isLoadingTeams" [nzValue]="o.label" [nzLabel]="o.label"></nz-option>
                               </ng-container>
@@ -1853,6 +1870,11 @@
                                 Loading Data...
                               </nz-option>
                             </nz-select>
+                            <ng-template #customDropdownTeam>
+                              <div class="custom-dropdown-footer">
+                                <button nz-button nzType="link" (click)="openAddTeamModal()">Add Team</button>
+                              </div>
+                            </ng-template>
                           </ng-container>
                         </ng-template>
 

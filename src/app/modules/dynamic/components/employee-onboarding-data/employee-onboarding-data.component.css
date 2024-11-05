@@ -18,6 +18,11 @@
   /* Optionally, you can also change the background color or other styles */
   background-color: #010101 !important; /* Light red background */
 }
+.custom-modal-width .modal-dialog {
+  max-width: 300%; /* Adjust percentage as needed */
+  width: 300%; /* Ensures consistent behavior */
+}
+
 
 .orderpcardleft {
   width: 80%;
