@@ -22,6 +22,7 @@ import * as moment from 'moment';
 import { LeaveSettingComponent } from 'src/app/modules/setting/components/leave-setting/leave-setting.component';
 import { AttendanceSettingComponent } from 'src/app/modules/setting/components/attendance-setting/attendance-setting.component';
 import { TeamComponent } from '../team/team.component';
+import { findLast } from 'lodash';
 export interface Team {
   label: string;
   value: string;
@@ -818,8 +819,12 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       reader.readAsArrayBuffer(file);
     }
   }
-
+  firstUpload:boolean=true;
   areAllFalse(): boolean {
+    if(this.firstUpload===true){
+      this.firstUpload=false;
+      return false;
+    }
     return this.invalidCells
       .reduce((acc, row, rowIndex) => {
         return acc.concat(row.filter((_, colIndex) => this.expectedColumns[colIndex] !== "LeaveNames"));
@@ -866,6 +871,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
     // Step 4: Check if there are extra or incorrect columns in actual column names
     for (const actualColumn of normalizedColumnNames) {
+      console.log(actualColumn);
       if (!normalizedExpectedColumns.includes(actualColumn) && !normalizedCorrectColumns.includes(actualColumn)) {
           console.error(`Unexpected or incorrect column: "${actualColumn}"`);
           this.mismatches.push(`Unexpected or incorrect column: "${actualColumn}"`);
@@ -1180,10 +1186,30 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     const targetData = this.selectAllPages ? this.data : this.paginatedData;
 
     targetData.forEach(row => {
-      if (row.selected) {
+      debugger
+      if (row.selected && row[1].toLowerCase()!=this.fileColumnName[1].toLowerCase()) {
         const columnIndex = this.fileColumnName.findIndex(col => col.includes(type));
         if (columnIndex !== -1) {
-          row[columnIndex] = value;
+          if (type === "leave" || type === "team") {
+            debugger
+            if (!Array.isArray(row[columnIndex])) {
+              row[columnIndex] = row[columnIndex] ? [row[columnIndex]] : [];
+            }
+            let temp = new Set<any>();
+            row[columnIndex].forEach((item:any) => temp.add(item))
+            value.forEach((item:any) => temp.add(item))
+
+            row[columnIndex]=[];
+            row[columnIndex]=Array.from(temp)
+            // value.forEach((item: any) => {
+            //   if (!row[columnIndex].includes(item)) {
+            //     row[columnIndex].push(item);
+            //     row[columnIndex]=row[columnIndex];
+            //   }
+            // });
+          } else {
+            row[columnIndex] = value;
+          }
         }
       }
     });
