@@ -1396,7 +1396,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
     // this.isDocumentsShimmer=true;
     this.dataService.getEmployeeDocumentAsList(this.userId).subscribe(
       (data) => {
-        this.documentsEmployee = data;
+        this.documentsEmployee = data.listOfObject;
         this.mapDocumentUrls();
         // if (data.userDocuments != null) {
         //   this.highSchoolCertificate = data.userDocuments.secondarySchoolCertificate;

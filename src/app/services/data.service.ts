@@ -1249,9 +1249,8 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   }
 
   getEmployeeDocumentAsList(userUuid: string): Observable<any> {
-    debugger;
     const params = new HttpParams().set('userUuid', userUuid);
-    const url = `${this.baseUrl}/user-documents-details/get/user-documents-as-List`;
+    const url = `${this.baseUrl}/user-documents-details/get/user-document-list`;
     return this.httpClient.get(url, { params });
   }
 
@@ -1261,11 +1260,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   ): Observable<any> {
     const params = new HttpParams().set('userUuid', userUuid);
     return this.httpClient
-      .put<any>(
-        `${this.baseUrl}/user-experiences/save/experience`,
-        experiences,
-        { params }
-      )
+      .put<any>(`${this.baseUrl}/user-experiences/save/experience`, experiences, { params })
       .pipe(
         catchError((error: HttpErrorResponse) => {
           console.error('Error in setEmployeeExperienceDetails:', error);
@@ -3461,11 +3456,12 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   }
 
 
-  sendEmails(userEmails:any): Observable<any> {
+  sendEmails(userEmails:any, sendMail:boolean): Observable<any> {
     const url = `${this.baseUrl}/users/send-email-to-all-users`;
 
     const params = new HttpParams()
-      .set('emails', userEmails);
+      .set('emails', userEmails)
+      .set('sendMail', sendMail);
 
     return this.httpClient.post<any>(url,{},{ params });
   }

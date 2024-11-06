@@ -84,8 +84,12 @@ export class AuthGuard implements CanActivate {
     this.currentRoute = state.url;
     if (this.currentRoute != null) {  
         this.currentRoute = this.currentRoute.split("?")[0];
-        // console.log("======this.currentRoute==========",this.currentRoute)
-      if (this._helperService.restrictedModules!=null && this._helperService.restrictedModules.length > 0) {
+        // console.log("======this.currentRoute==========",this.currentRoute,"=============restrict========",this._helperService.restrictedModules)
+      if(this._helperService.restrictedModules == undefined){
+        await this._helperService.getRestrictedModules();
+      }
+
+      if (this._helperService.restrictedModules != undefined &&  this._helperService.restrictedModules.length > 0) {
         var index = this._helperService.restrictedModules.findIndex(module => module.route == this.currentRoute.trim())
         if (index > -1) {
           return false;

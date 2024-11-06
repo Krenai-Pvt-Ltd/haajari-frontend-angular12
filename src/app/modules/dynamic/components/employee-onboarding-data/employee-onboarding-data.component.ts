@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {  NgForm } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -17,7 +17,8 @@ import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
-
+import { DatePipe } from '@angular/common';
+import * as moment from 'moment';
 export interface Team {
   label: string;
   value: string;
@@ -44,7 +45,9 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     private helperService: HelperService,
     private modalService: NgbModal,
     private http: HttpClient,
-    private _subscriptionService:SubscriptionPlanService
+    private _subscriptionService:SubscriptionPlanService,
+    private datePipe: DatePipe,
+    private cdr: ChangeDetectorRef
   ) {}
   users: EmployeeOnboardingDataDto[] = [];
   filteredUsers: Users[] = [];
@@ -55,6 +58,21 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   sampleFileUrl: string = '';
   databaseHelper: DatabaseHelper = new DatabaseHelper();
   userList: UserReq[] = new Array();
+
+  currentPage: number = 1;
+  pageSize: number = 10; // Adjust based on your requirements
+  totalPage: number = 0;
+
+  onPageChange(page: number) {
+    debugger
+    this.currentPage = page;
+  }
+  get paginatedData() {
+    console.log(this.currentPage);
+    const start = (this.currentPage - 1) * this.pageSize;
+    console.log(start);
+    return this.data.slice(start, start + this.pageSize);
+  }
 
   pendingResponse = 'PENDING';
   approvedResponse = 'APPROVED';
@@ -404,6 +422,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   toggle = false;
   setEmployeePersonalDetailsMethodCall() {
     // Reset the flag
+    debugger
     this.emailAlreadyExists = false;
 
     this.toggle = true;
@@ -689,12 +708,17 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   currentFileUpload: any;
 
 
-  expectedColumns: string[] = ['S. NO.*', 'Name*', 'Phone*', 'Email*', 'Shift*', 'LeaveNames'];
+  expectedColumns: string[] = ['Name*', 'Phone*', 'Email*', 'Shift*', 'JoiningDate*', 'Gender*'];
+  correctColumnName: string[] = ['S. NO.*', 'Name*', 'Phone*', 'Email*', 'Shift*', 'JoiningDate*', 'Gender*', 'leavenames', 'branch', 'department', 'position', 'grade', 'team', 'dob', 'fathername', 'maritalstatus', 'address', 'city', 'state', 'country', 'pincode', 'panno', 'aadharno', 'drivinglicence', 'emergencyname', 'emergencyphone', 'emergencyrelation', 'accountholdername', 'bankname', 'accountnumber', 'ifsccode'];
+  fileColumnName:string[] = [];
+  genders: string[] = ['Male', 'Female'];
   isExcel: string = '';
   data: any[] = [];
   mismatches: string[] = [];
   invalidRows: boolean[] = []; // Track invalid rows
   invalidCells: boolean[][] = []; // Track invalid cells
+  isinvalid: boolean=false;
+  jsonData:any[]=[];
 
   selectFile(event: any) {
     debugger
@@ -714,25 +738,74 @@ export class EmployeeOnboardingDataComponent implements OnInit {
         const binaryStr = this.arrayBufferToString(arrayBuffer);
         const workbook = XLSX.read(binaryStr, { type: 'binary' });
         const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-        const jsonData: any[] = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+        this.jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
         // Reset data and error tracking
         this.data = [];
         this.invalidRows = [];
         this.invalidCells = [];
 
-        const columnNames: string[] = jsonData[0] as string[];
+        const columnNames: string[] = this.jsonData[0] as string[];
 
         if (this.validateColumns(columnNames)) {
-          // Always process the rows, regardless of validity
-          this.data = jsonData.filter((row: any[]) =>
-            row.some((cell: any) => cell !== undefined && cell !== null && cell.toString().trim() !== '')
-          );
+              this.data = this.jsonData.map((row: any[]) => {
+                // Ensure the 5th column is an array of strings, other columns are treated as strings
+                return row.map((cell: any, index: number) => {
+                  if( this.data.length==0){
+                    return cell ? cell.toString().trim() : '';
+                  }else{
+                  if (this.fileColumnName[index] === 'leavenames') {
+                    return cell ? cell.toString().split(',').map((str: string) => str.trim()) : [];
+                  }else if (this.fileColumnName[index] === 'joiningdate*' && cell !== 'joiningdate*') {
+                    // Use regex to check if cell matches exact MM-DD-YYYY format (reject formats like MM/DD/YYYY)
+                    const isExactFormat = /^\d{2}-\d{2}-\d{4}$/.test(cell);
+                    if (cell.includes('/')) {
+                      return undefined;
+                    }
+                    console.log(cell);
+                    cell=cell.replace(/\//g, '-');
+                    console.log(cell);
+
+                    if (isExactFormat) {
+                        // Parse with strict format checking
+                        const formattedDate = moment(cell, 'MM-DD-YYYY', true);
+
+                        // Check if the date is valid and within the next year
+                        if (formattedDate.isValid()) {
+                            const oneYearFromNow = moment().add(1, 'year');
+
+                            // Ensure date is within the next year
+                            if (formattedDate.isBefore(oneYearFromNow)) {
+                                return formattedDate.format('MM-DD-YYYY');
+                            }
+                        }
+                    }
+                    // Return empty string if the format, validity, or date range check fails
+                    return "";
+                  }
+                   else {
+                    // Convert other cells to string and trim whitespace
+                    return cell ? cell.toString().trim() : '';
+                  }
+                }
+
+                });
+              }).filter((row: any[]) =>
+                        // Filter out empty rows
+                  row.some((cell: any) => cell !== '')
+                );
+
+
+
 
           // Validate all rows and keep track of invalid entries
           this.validateRows(this.data);
+          this.totalPage = Math.ceil(this.data.length / this.pageSize);
           if(this.areAllFalse()){
+            this.isinvalid=false;
             this.uploadUserFile(file, this.fileName);
+          }else{
+            this.isinvalid=true;
           }
 
 
@@ -745,7 +818,11 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   }
 
   areAllFalse(): boolean {
-    return this.invalidCells.reduce((acc, row) => acc.concat(row), []).every(value => value === false);
+    return this.invalidCells
+      .reduce((acc, row, rowIndex) => {
+        return acc.concat(row.filter((_, colIndex) => this.expectedColumns[colIndex] !== "LeaveNames"));
+      }, [])
+      .every(value => value === false);
   }
 
   arrayBufferToString(buffer: ArrayBuffer): string {
@@ -770,24 +847,36 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
   validateColumns(columnNames: string[]): boolean {
     this.mismatches = []; // Reset mismatches
-    if (columnNames.length !== this.expectedColumns.length) {
-      console.error(`Column length mismatch: expected ${this.expectedColumns.length}, but got ${columnNames.length}`);
-    }
 
-    for (let i = 0; i < Math.max(this.expectedColumns.length, columnNames.length); i++) {
-      const expectedColumn = this.expectedColumns[i]?.trim() || 'undefined';
-      const actualColumn = columnNames[i]?.trim() || 'undefined';
+    // Step 2: Normalize both expected and actual column names for comparison
+    const normalizedColumnNames = columnNames.map(col => col.trim().toLowerCase());
+    this.fileColumnName=normalizedColumnNames;
+    const normalizedExpectedColumns = this.expectedColumns.map(col => col.trim().toLowerCase());
+    const normalizedCorrectColumns = this.correctColumnName.map(col => col.trim().toLowerCase());
 
-      if (actualColumn !== expectedColumn) {
-        this.mismatches.push(`Column ${i + 1}: expected "${expectedColumn}", but got "${actualColumn}"`);
+    // Step 3: Check that every expected column is present in actual column names
+    for (const expectedColumn of normalizedExpectedColumns) {
+      if (!normalizedColumnNames.includes(expectedColumn)) {
+        console.error(`Missing column: "${expectedColumn}"`);
+        this.mismatches.push(`Missing column: "${expectedColumn}"`);
       }
     }
 
+    // Step 4: Check if there are extra or incorrect columns in actual column names
+    for (const actualColumn of normalizedColumnNames) {
+      if (!normalizedExpectedColumns.includes(actualColumn) && !normalizedCorrectColumns.includes(actualColumn)) {
+          console.error(`Unexpected or incorrect column: "${actualColumn}"`);
+          this.mismatches.push(`Unexpected or incorrect column: "${actualColumn}"`);
+      }
+  }
+
+    // Step 4: Log and return false if there are any mismatches
     if (this.mismatches.length > 0) {
       console.error('Column mismatches found:');
       this.mismatches.forEach(mismatch => console.error(mismatch));
       return false;
     }
+
     return true;
   }
 
@@ -799,20 +888,121 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       const row = rows[i];
       let rowIsValid = true;
 
-      for (let j = 1; j < this.expectedColumns.length-1; j++) {
+      for (let j = 1; j < this.fileColumnName.length; j++) {
+
         const cellValue = row[j];
         if (cellValue === undefined || cellValue === null || cellValue.toString().trim() === '') {
           rowIsValid = false;
           this.invalidRows[i] = true; // Mark the row as invalid
           this.invalidCells[i][j] = true; // Mark the cell as invalid
         }
+        if (this.fileColumnName[j] === 'phone*' && cellValue) {
+          debugger
+          const phoneNumber = cellValue.toString().trim();
+          if (!/^\d{10}$/.test(phoneNumber)) {
+            rowIsValid = false;
+            this.invalidRows[i] = true; // Mark the row as invalid
+            this.invalidCells[i][j] = true; // Mark the cell as invalid
+          }
+        }
+
+        if (this.fileColumnName[j] === 'shift*' && cellValue) {
+          const shiftName = cellValue.toString().trim();
+          const shiftExists = this.shiftList.some(shift => shift.label === shiftName);
+
+          if (!shiftExists) {
+              rowIsValid = false;
+              this.invalidRows[i] = true;
+              this.invalidCells[i][j] = true;
+              this.data[i][j] = '';
+          }
+      }
+      // if (this.fileColumnName[j] === 'team' ) {
+      //   // Split cellValue by commas and trim any whitespace
+      //   if(cellValue===undefined || cellValue===""){
+      //     this.data[i][j]=[];
+      //   }
+      //   else{
+      //   const selectedTeams: string[] = cellValue.split(',').map((team: string) => team.trim());
+      //   this.data[i][j]=selectedTeams;
+      //   console.log("this.data[i][j] ",this.data[i][j])
+      //   }
+
+      // }
+
+    if (this.fileColumnName[j] === 'leavenames' || this.fileColumnName[j] === 'team') {
+      if(cellValue===undefined || cellValue===""){
+        this.data[i][j]=[];
+      }
+      else{
+        const selectedData: string[] = cellValue.split(',').map((team: string) => team.trim());
+        this.data[i][j]=selectedData;
+      }
+    }
+
+
+
+
+
+      if (this.fileColumnName[j] === 'joiningdate*' && cellValue) {
+        debugger;
+
+        // Replace slashes with hyphens
+        const normalizedCell = cellValue.toString().trim().replace(/\//g, '-');
+
+        // Check if the normalized cell matches the exact MM-DD-YYYY format
+        const isExactFormat = /^\d{2}-\d{2}-\d{4}$/.test(normalizedCell);
+
+        if (isExactFormat) {
+            // Parse with strict format checking
+            const formattedDate = moment(normalizedCell, 'MM-DD-YYYY', true);
+
+            // Check if the date is valid
+            if (formattedDate.isValid()) {
+                const oneYearFromNow = moment().add(1, 'year');
+
+                // Ensure the date is in the past or less than one year from today
+                if (formattedDate.isAfter(oneYearFromNow)) {
+                    this.data[i][j] = undefined;
+                    rowIsValid = false;
+                    this.invalidRows[i] = true; // Mark the row as invalid
+                    this.invalidCells[i][j] = true; // Mark the cell as invalid
+                }
+            } else {
+                // If the date is not valid
+                this.data[i][j] = undefined;
+                rowIsValid = false;
+                this.invalidRows[i] = true; // Mark the row as invalid
+                this.invalidCells[i][j] = true; // Mark the cell as invalid
+            }
+        } else {
+            // If the format is not exactly MM-DD-YYYY
+            this.data[i][j] = undefined;
+            rowIsValid = false;
+            this.invalidRows[i] = true; // Mark the row as invalid
+            this.invalidCells[i][j] = true; // Mark the cell as invalid
+          }
+        }
+
+
+
+        if (!this.expectedColumns.some(expectedColumn => expectedColumn.toLowerCase() === this.fileColumnName[j].toLowerCase())) {
+          this.invalidCells[i][j] = false;
+        }
       }
     }
   }
 
-  onMultiSelectChange(event: any, rowIndex: number, colIndex: number) {
-    const selectedOptions = Array.from(event.target.selectedOptions, (option: any) => option.value);
-    this.data[rowIndex][colIndex] = selectedOptions.join(', ');
+  getSelectedTeams(teamsString: string): string[] {
+    // Split the comma-separated string into an array
+    return teamsString ? teamsString.split(',').map(team => team.trim()) : [];
+  }
+
+  onMultiSelectChange(selectedOptions: any[], rowIndex: number, colIndex: number) {
+    debugger
+
+    this.data[rowIndex][colIndex] = selectedOptions;
+    this.onValueChange(rowIndex,colIndex);
   }
 
   saveFile() {
@@ -836,6 +1026,27 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   const event = new Event('change');
   Object.defineProperty(event, 'target', { writable: false, value: { files: dataTransfer.files } });
   this.selectFile(event);
+  }
+
+  onValueChange(i: number, j: number) {
+    if (this.invalidCells[i][j]) {
+      this.invalidCells[i][j] = false;
+    }
+  }
+
+  onDateChange(event: Date, rowIndex: number, columnIndex: number) {
+    // Format the selected date to 'MMM dd yyyy'
+    const formattedDate =moment(event).format('MM-DD-YYYY');
+
+    //  this.datePipe.transform(event, 'MMM dd yyyy');
+
+    // Assign the formatted date back to your data array
+    this.data[rowIndex][columnIndex] = formattedDate;
+    this.onValueChange(rowIndex,columnIndex);
+  }
+
+  onTeamSelectionChanges(selectedTeams: any[], rowIndex: number, columnIndex: number) {
+    this.data[rowIndex][columnIndex] = selectedTeams;
   }
 
 
@@ -1024,23 +1235,21 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   emails: string[] = [];
   sendMailExcelUserFlag:boolean = false;
   @ViewChild("closeButtonExcelModal") closeButtonExcelModal!:ElementRef;
-  sendEmailToUsers() {
+  sendEmailToUsers(sendMail:boolean) {
     this.sendMailExcelUserFlag = true;
     this.emails = this.onboardUserList.map(user => user.email).filter(email => email);
     // console.log(this.emails);
 
     this.dataService
-        .sendEmails(this.emails)
+        .sendEmails(this.emails,sendMail)
         .subscribe((response: any) => {
           console.log("Mail sent successfully");
           this.sendMailExcelUserFlag = false;
           this.closeButtonExcelModal.nativeElement.click();
           this.getUsersByFiltersFunction();
           this.getUser();
-          this.helperService.showToast(
-            'Mail sent Successfully.',
-            Key.TOAST_STATUS_SUCCESS
-          );
+          const toastMessage = sendMail ? 'Mail sent Successfully.' : 'Operation completed without sending mail.';
+          this.helperService.showToast(toastMessage, Key.TOAST_STATUS_SUCCESS);
         },
         (error) => {
           this.sendMailExcelUserFlag = false;

@@ -600,7 +600,7 @@
                 <div
                   class="row justify-content-between align-items-center mx-0"
                 >
-                  <div class="col-lg-7 col-md-7 col-sm-12 ps-0">
+                  <div class="col-lg-6 col-md-6 col-sm-12 ps-0">
                     <div
                       class="d-flex justify-content-start align-items-center"
                     >
@@ -724,7 +724,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-lg-5 col-md-5 col-sm-12 pe-0">
+                  <div class="col-lg-6 col-md-6 col-sm-12 pe-0">
                     <div *ngIf="!errorToggleTop">
                       <div
                         class="add-filtter d-flex justify-content-end align-items-center gap-1"
@@ -1324,6 +1324,8 @@
                       >Select Shift <span class="text-optional">* </span></label
                     >
                     <nz-select
+                    id="shift"
+                    name="shift"
                       class="whatapp-login-input"
                       nzPlaceHolder="Select a shift"
                       nzAllowClear
@@ -1377,6 +1379,52 @@
                     </div>
                   </div>
                 </div>
+
+                <div class="col-md-12">
+                  <div class="mb-3">
+                    <label for="gender" class="pb-2">Select Gender <span class="text-optional">*</span></label>
+                    <nz-select
+                      id="gender"
+                      name="gender"
+                      [(ngModel)]="userPersonalInformationRequest.gender"
+                      required
+                      class="form-control whatapp-login-input"
+                      #genderField="ngModel"
+                      nzPlaceHolder="Select Gender"
+                    >
+                      <nz-option *ngFor="let gender of genders" [nzValue]="gender" [nzLabel]="gender"></nz-option>
+                    </nz-select>
+
+
+
+                    <!-- Error if no gender selected -->
+                    <div *ngIf="genderField.invalid && genderField.touched" class="errortxt mt-2 mb-0" style="color: red">
+                      <i class="bi bi-exclamation-circle"></i> Please select a gender.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="mb-3">
+                    <label for="joiningDate" class="pb-2">Joining Date <span class="text-optional">*</span></label>
+                    <nz-date-picker
+                      id="joiningDate"
+                      name="joiningDate"
+                      #joiningDateField="ngModel"
+                      [(ngModel)]="userPersonalInformationRequest.joiningDate"
+                      required
+                      nzPlaceHolder="Select Joining Date">
+                    </nz-date-picker>
+
+                    <!-- Error message for joining date if required -->
+                    <!-- <div *ngIf="isJoiningDateInvalid && joiningDateField.touched" class="errortxt mt-2 mb-0" style="color: red">
+                      <i class="bi bi-exclamation-circle"></i> Joining Date is required.
+                    </div> -->
+                  </div>
+                </div>
+
+
+
                 <div class="col-md-12">
                   <div class="mb-3">
                     <label for="teamNames" class="pb-2"
@@ -1597,7 +1645,7 @@
   aria-hidden="true"
   #sampleFileModal
 >
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-xl" style="max-width: 1400px !important;">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="sampleFileModalLabel">Sample Excel File</h5>
@@ -1681,10 +1729,15 @@
             *ngIf="
               alreadyUsedPhoneNumberArray.length > 0 ||
               alreadyUsedEmailArray.length > 0 ||
+              this.mismatches.length > 0 ||
               isErrorToggle
             "
           >
             <h4 class="alert-heading font-18">Attention!!</h4>
+            <p *ngIf="this.mismatches.length > 0">
+
+              {{ this.mismatches }}
+            </p>
             <p *ngIf="alreadyUsedPhoneNumberArray.length > 0">
               Phone Numbers:
               {{ formatAsCommaSeparated(alreadyUsedPhoneNumberArray) }}
@@ -1708,7 +1761,7 @@
             role="alert"
             *ngIf="
               data.length > 0
-              && !this.areAllFalse()
+              && isinvalid
             "
           >
             <h4 class="alert-heading font-18">Attention</h4>
@@ -1717,39 +1770,132 @@
             </p>
             <div *ngIf="data.length > 0">
               <h3>Uploaded Data</h3>
-              <table border="1">
-                <tr>
-                  <th *ngFor="let col of expectedColumns">{{ col }}</th>
-                </tr>
-                <tr *ngFor="let row of data; let i = index">
-                  <td *ngFor="let cell of expectedColumns; let j = index">
-                    <ng-container *ngIf="j === 4 && i!==0; else otherColumns">
-                      <!-- Dropdown for column 4 -->
-                      <select [(ngModel)]="data[i][j]" [ngClass]="{'invalid-input': invalidCells[i][j]}">
-                        <option *ngFor="let shift of shiftList" [value]="shift.label">{{ shift.label }}</option>
-                      </select>
-                    </ng-container>
+              <div class="table-responsive">
+                <table border="1">
+                  <thead>
+                    <tr>
+                      <th *ngFor="let col of fileColumnName">{{ col }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- Skip the first row for pagination purposes -->
+                    <tr *ngFor="let row of paginatedData; let i = index">
+                      <td *ngFor="let cell of fileColumnName; let j = index">
+                        <ng-container *ngIf="fileColumnName[j] === 'shift*' && (currentPage - 1) * pageSize + i  !== 0; else leaveColumns">
+                          <nz-select
+                            [(ngModel)]="row[j]"
+                            [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i ][j]}"
+                            (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i , j)"
+                            nzPlaceHolder="Select Shift">
+                            <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label" [nzLabel]="shift.label"></nz-option>
+                          </nz-select>
+                        </ng-container>
 
-                    <ng-template #otherColumns>
-                      <ng-container *ngIf="j === 5 && i!==0; else defaultInput">
-                        <select multiple (change)="onMultiSelectChange($event, i, j)" [(ngModel)]="data[i][j]" [ngClass]="{'invalid-input': invalidCells[i][j]}">
-                          <option *ngFor="let leave of originalLeaveNameList" [value]="leave.label">{{ leave.label }}</option>
-                        </select>
-                      </ng-container>
-                    </ng-template>
+                        <ng-template #leaveColumns>
+                          <ng-container *ngIf="this.fileColumnName[j] === 'leavenames' && (currentPage - 1) * pageSize + i  !== 0; else otherColumns">
+                            <nz-select
+                              class="whatapp-login-input"
+                              nzMode="multiple"
+                              nzPlaceHolder="Select leave"
+                              nzAllowClear
+                              nzShowSearch
+                              nzServerSearch
+                              [(ngModel)]="row[j]"
+                              [ngModelOptions]="{ standalone: true }"
+                              (ngModelChange)="onMultiSelectChange($event, (currentPage - 1) * pageSize + i, j)"
+                              (nzOnSearch)="onSearchLeave($event)"
+                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}">
+                              <ng-container *ngFor="let o of originalLeaveNameList">
+                                <nz-option *ngIf="!isLoadingLeave" [nzValue]="o.label" [nzLabel]="o.label"></nz-option>
+                              </ng-container>
+                              <nz-option *ngIf="isLoadingLeave" nzDisabled nzCustomContent>
+                                <span nz-icon nzType="loading" class="loading-icon"></span>
+                                Loading Data...
+                              </nz-option>
+                            </nz-select>
+                          </ng-container>
+                        </ng-template>
 
+                        <ng-template #otherColumns>
+                          <ng-container *ngIf="this.fileColumnName[j] === 'joiningdate*' && (currentPage - 1) * pageSize + i  !== 0; else teamColumns">
+                            <nz-date-picker
+                              id="joiningDate"
+                              name="joiningDate"
+                              #joiningDate="ngModel"
+                              [(ngModel)]="data[(currentPage - 1) * pageSize + i][j]"
+                              required
+                              (ngModelChange)="onDateChange($event, (currentPage - 1) * pageSize + i , j)"
+                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
+                              [nzAllowClear]="false"
+                              nzPlaceHolder="Select Joining Date">
+                            </nz-date-picker>
+                          </ng-container>
+                        </ng-template>
 
-                    <!-- Default input for other columns -->
-                    <ng-template #defaultInput>
-                      <input
-                        [(ngModel)]="data[i][j]"
-                        [ngClass]="{'invalid-input': invalidCells[i][j]}" />
-                    </ng-template>
-                  </td>
-                </tr>
-              </table>
-              <button (click)="saveFile()">Save Changes</button>
+                        <ng-template #teamColumns>
+                          <ng-container *ngIf="this.fileColumnName[j] === 'team' && (currentPage - 1) * pageSize + i  !== 0; else genderColumns">
+                            <nz-select
+                              nzAllowClear
+                              nzShowSearch
+                              nzServerSearch
+                              nzMode="multiple"
+                              nzPlaceHolder="Select teams"
+                              [(ngModel)]="row[j]"
+                              [ngModelOptions]="{ standalone: true }"
+                              (ngModelChange)="onTeamSelectionChanges($event, (currentPage - 1) * pageSize + i, j)"
+                              (nzOnSearch)="onSearch($event)"
+                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}">
+                              <ng-container *ngFor="let o of originalTeamNameList">
+                                <nz-option *ngIf="!isLoadingTeams" [nzValue]="o.label" [nzLabel]="o.label"></nz-option>
+                              </ng-container>
+                              <nz-option *ngIf="isLoadingTeams" nzDisabled nzCustomContent>
+                                <span nz-icon nzType="loading" class="loading-icon"></span>
+                                Loading Data...
+                              </nz-option>
+                            </nz-select>
+                          </ng-container>
+                        </ng-template>
+
+                        <ng-template #genderColumns>
+                          <ng-container *ngIf="this.fileColumnName[j] === 'gender*' && (currentPage - 1) * pageSize + i  !== 0; else defaultInput">
+                            <nz-select
+                              id="gender"
+                              name="gender"
+                              [(ngModel)]="row[j]"
+                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
+                              (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)"
+                              nzPlaceHolder="Select Gender">
+                              <nz-option *ngFor="let gender of genders" [nzValue]="gender" [nzLabel]="gender"></nz-option>
+                            </nz-select>
+                          </ng-container>
+                        </ng-template>
+
+                        <!-- Default input for other columns -->
+                        <ng-template #defaultInput>
+                          <input
+                            [(ngModel)]="row[j]"
+                            [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
+                            (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)" />
+                        </ng-template>
+
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <ngb-pagination
+                  [rotate]="true"
+                  [maxSize]="4"
+                  [collectionSize]="data.length - 1"
+                  [pageSize]="pageSize"
+                  [(page)]="currentPage"
+                  (pageChange)="onPageChange($event)">
+                </ngb-pagination>
+
+                <button (click)="saveFile()">Save Changes</button>
+              </div>
             </div>
+
             <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p>
             <p *ngIf="!isErrorToggle">
             </p>
@@ -1974,7 +2120,7 @@
                 <button
                   type="button"
                   class="btn btn-primary"
-                  (click)="sendEmailToUsers()"
+                  (click)="sendEmailToUsers(true)"
                 >
                   <span *ngIf="!sendMailExcelUserFlag"> Send Email </span>
                   <div class="dot-opacity-loader" *ngIf="sendMailExcelUserFlag">
@@ -1983,7 +2129,25 @@
                     <span></span>
                   </div>
                 </button>
+
+
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  style="background-color: white; color: black;"
+                  (click)="sendEmailToUsers(false)"
+                >
+                  <span *ngIf="!sendMailExcelUserFlag"> Cancel</span>
+                  <div class="dot-opacity-loader" *ngIf="sendMailExcelUserFlag">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </button>
               </div>
+
+
+
             </div>
           </ng-container>
         </ng-template>
