@@ -1772,6 +1772,31 @@
               <h3>Uploaded Data</h3>
               <div class="table-responsive">
                 <table border="1">
+                  <div>
+                    <label>
+                      <input type="checkbox" [(ngModel)]="selectAllCurrentPage" (change)="toggleSelectAllCurrentPage()" /> Select All on Current Page
+                    </label>
+                    <label>
+                      <input type="checkbox" [(ngModel)]="selectAllPages" (change)="toggleSelectAllPage()" /> Select All Page
+                    </label>
+                  </div>
+
+                  <!-- Bulk Operation Dropdowns -->
+                  <div>
+                    <nz-select [(ngModel)]="bulkShift" (ngModelChange)="applyBulkChange('shift', $event)" nzPlaceHolder="Select Shift">
+                      <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label" [nzLabel]="shift.label"></nz-option>
+                    </nz-select>
+
+                    <nz-select [(ngModel)]="bulkLeave" (ngModelChange)="applyBulkChange('leave', $event)" nzPlaceHolder="Select Leave" nzMode="multiple">
+                      <nz-option *ngFor="let leave of originalLeaveNameList" [nzValue]="leave.label" [nzLabel]="leave.label"></nz-option>
+                    </nz-select>
+
+                    <nz-select [(ngModel)]="bulkTeam" (ngModelChange)="applyBulkChange('team', $event)" nzPlaceHolder="Select Team" nzMode="multiple">
+                      <nz-option *ngFor="let team of originalTeamNameList" [nzValue]="team.label" [nzLabel]="team.label"></nz-option>
+                    </nz-select>
+                  </div>
+
+                  <!-- Dropdowns for applying to selected rows -->
                   <thead>
                     <tr>
                       <th *ngFor="let col of fileColumnName">{{ col }}</th>
@@ -1780,6 +1805,10 @@
                   <tbody>
                     <!-- Skip the first row for pagination purposes -->
                     <tr *ngFor="let row of paginatedData; let i = index">
+                      <td>
+                        <input *ngIf="i + currentPage -1!=0" type="checkbox" [(ngModel)]="row.selected" />
+                      </td>
+
                       <td *ngFor="let cell of fileColumnName; let j = index">
                         <ng-container *ngIf="fileColumnName[j] === 'shift*' && (currentPage - 1) * pageSize + i  !== 0; else leaveColumns">
                           <nz-select

@@ -67,7 +67,10 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   totalPage: number = 0;
 
   onPageChange(page: number) {
-    debugger
+    this.bulkShift=null;
+    this.bulkLeave=[];
+    this.bulkTeam=[];
+    this.selectAllCurrentPage=false;
     this.currentPage = page;
   }
   get paginatedData() {
@@ -1103,6 +1106,89 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   }
 
 
+
+
+  selectAllCurrentPage = false;
+  selectAllPages = false;
+
+  allData: any[] = []; // Data across all pages
+
+  bulkShift: string | null = null;
+  bulkLeave: string[] = [];
+  bulkTeam: string[] = [];
+
+  // Mock data for demonstration
+
+  toggleSelectAllCurrentPage() {
+
+     this.paginatedData.forEach((row, index) => {
+      if (index + this.currentPage-1 !== 0 ) {
+        row.selected = this.selectAllCurrentPage;
+      }
+    });
+    this.updateAllDataForCurrentPage();
+  }
+  toggleSelectAllPage() {
+    this.data.forEach(row => row.selected = this.selectAllPages);
+    this.updateAllDataForAllPages();
+  }
+
+
+  toggleSelectAllPages() {
+    this.selectAllPages = !this.selectAllPages;
+    this.allData.forEach(row => row.selected = this.selectAllPages);
+    this.syncPaginatedDataSelection();
+  }
+
+  updateAllDataForCurrentPage() {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    this.paginatedData.forEach((row, index) => {
+      this.allData[startIndex + index].selected = row.selected;
+    });
+  }
+
+  updateAllDataForAllPages() {
+    // Loop through all pages
+    for (let page = 1; page <= this.totalPage; page++) {
+      const startIndex = (page - 1) * this.pageSize;
+
+      // Get the paginated data for the current page
+      const currentPageData = this.paginatedDataForPage(page);
+
+      // Update the selected property for each row on the current page
+      currentPageData.forEach((row, index) => {
+        this.allData[startIndex + index].selected = row.selected;
+      });
+    }
+  }
+
+  // Helper function to get the paginated data for a specific page
+  paginatedDataForPage(page: number) {
+    const startIndex = (page - 1) * this.pageSize;
+    return this.paginatedData.slice(startIndex, startIndex + this.pageSize);
+  }
+
+  syncPaginatedDataSelection() {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+  this.paginatedData.forEach((row, index) => {
+    row.selected = this.allData[startIndex + index]?.selected ?? false;
+  });
+  }
+
+
+  applyBulkChange(type: string, value: any) {
+    const targetData = this.selectAllPages ? this.data : this.paginatedData;
+
+    targetData.forEach(row => {
+      if (row.selected) {
+        const columnIndex = this.fileColumnName.findIndex(col => col.includes(type));
+        if (columnIndex !== -1) {
+          row[columnIndex] = value;
+        }
+      }
+    });
+
+  }
 
 
 
