@@ -212,6 +212,9 @@ export class CreateExpenseComponent implements OnInit {
 
   /** Expense end **/
 
+  /**
+   * Create Expense Policy Start
+   */
 
   /** switch tab start */
 
@@ -233,18 +236,6 @@ export class CreateExpenseComponent implements OnInit {
   @ViewChild('staffActiveTabInShiftTiming')
   staffActiveTabInShiftTiming!: ElementRef;
   staffActiveTabInShiftTimingMethod() {
-    // if (this.isValidForm()) {
-    //   this.activeTab = 'staffselection';
-    //   if (this.isWeekOffFlag) {
-    //     this.weekOffActiveTab.nativeElement.click();
-    //     this.isStaffSelectionFlag = true;
-    //     this.isWeekOffFlag = false;
-    //   }
-    // } else {
-    //   if (this.isStaffSelectionFlag) {
-    //     this.staffActiveTabInShiftTiming.nativeElement.click();
-    //   }
-    // }
     this.getUserByFiltersMethodCall();
     this.getTeamNames();
 
@@ -365,7 +356,6 @@ export class CreateExpenseComponent implements OnInit {
     this.getUserByFiltersMethodCall();
   }
 
-  // #####################################################
   isAllUsersSelected: boolean = false;
   allselected: boolean = false;
   selectedStaffIds: number[] = [];
@@ -577,6 +567,9 @@ export class CreateExpenseComponent implements OnInit {
   }
 
 
+  /**
+   * Image upload start on Firebase
+   */
 
   /** Image Upload on the Firebase Start */
 
@@ -671,7 +664,10 @@ export class CreateExpenseComponent implements OnInit {
 
   /** Image Upload on Firebase End */
 
-  // create
+  /**
+   * Create Expense Policy
+   * we can edit/delete from expesenList by index
+   */
 
   expensePolicyReqList: ExpensePolicy[] = [];
   expensePolicyReq: ExpensePolicy = new ExpensePolicy();
