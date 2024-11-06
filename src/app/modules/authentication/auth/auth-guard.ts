@@ -98,7 +98,7 @@ export class AuthGuard implements CanActivate {
 
 
       if (this.ROLE != 'ADMIN' && this.currentRoute == '/dashboard') {
-        this.router.navigate(['/employee-profile'], {
+        this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], {
           queryParams: {
             userId: await this.rbacService.getUUID(),
             dashboardActive: 'true',

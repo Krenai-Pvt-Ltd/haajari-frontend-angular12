@@ -230,7 +230,10 @@ export class HelperService {
     let navExtra: NavigationExtras = {
       queryParams: { userId: uuid },
     };
-    this.router.navigate(['/employee-profile'], navExtra);
+    // this.router.navigate(['/employee-profile'], navExtra);
+    const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
+    window.open(url, '_blank');
+    return;
   }
 
   extractMonthNameFromDate(dateString : string){

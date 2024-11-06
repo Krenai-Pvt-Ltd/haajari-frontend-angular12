@@ -88,7 +88,11 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     let navExtra: NavigationExtras = {
       queryParams: { userId: uuid },
     };
-    this.router.navigate(['/employee-profile'], navExtra);
+    // this.router.navigate(['/employee-profile'], navExtra);
+    // this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], navExtra);
+    const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
+    window.open(url, '_blank');
+    return;
   }
 
   randomUserUrl = 'http://localhost:8080/api/v2/users/fetch-team-list-user';

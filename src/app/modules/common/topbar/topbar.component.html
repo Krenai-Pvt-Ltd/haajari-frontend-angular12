@@ -92,7 +92,8 @@
           </div>
         </li>
         <li class="nav-item" *ngIf="this.rbacService.shouldDisplay('dashboard')">
-          <a class="nav-link nav-icon" href="employee-profile?userId={{UUID}}" role="button" aria-expanded="false" data-bs-toggle="tooltip" data-bs-placement="bottom" title="My Profile">
+          <!-- employee-profile?userId={{UUID}} -->
+          <a class="nav-link nav-icon" [href]="employeeProfileRoute" target="_blank" role="button" aria-expanded="false" data-bs-toggle="tooltip" data-bs-placement="bottom" title="My Profile">
             <i class="ti ti-user"></i>
           </a>
         </li>
