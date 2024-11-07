@@ -158,8 +158,6 @@ export class TopbarComponent implements OnInit {
   UUID: any;
   orgUuid: any;
   async getUuids() {
-    console.log('---', JSON.stringify(this.rbacService.userInfo));
-
     this.UUID = await this.rbacService.getUUID();
     this.orgUuid = await this.rbacService.getOrgRefUUID();
     this.getFirebase(this.orgUuid, this.UUID);
@@ -349,5 +347,18 @@ export class TopbarComponent implements OnInit {
     this.rbacService.clearRbacService();
     this.helperService.clearHelperService();
     this.router.navigate(['/login']);
+  }
+  routeToAccountPage(tabName: string) {
+    // this.dataService.activeTab = tabName !== 'account';
+    this.router.navigate(['/setting/account-settings'], {
+      queryParams: { setting: tabName },
+    });
+  }
+
+  routeToEmployeeProfilePage() {
+    // this.router.navigate(["/employee-profile"], { queryParams: {"userId":  this.UUID} });
+    this.router.navigate(['/employee-profile'], {
+      queryParams: { userId: this.UUID, dashboardActive: 'true' },
+    });
   }
 }
