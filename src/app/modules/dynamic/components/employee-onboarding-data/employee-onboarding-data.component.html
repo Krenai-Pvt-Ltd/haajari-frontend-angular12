@@ -1768,45 +1768,66 @@
             </p>
             <div *ngIf="data.length > 0">
               <h3 class="font-20 mb-3">Uploaded Data</h3>
-              <div class="table-responsive">
-                <div class="single-row">
-                  <label>
-                    <input type="checkbox" [(ngModel)]="selectAllCurrentPage" (change)="toggleSelectAllCurrentPage()" />
-                  </label>
-                  <div class="select-all-page">Select All on Current Page</div>
-
-                  <nz-select [(ngModel)]="bulkShift" (ngModelChange)="applyBulkChange('shift', $event)" nzPlaceHolder="Select Shift" [nzDropdownRender]="customDropdownShift">
-                    <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label" [nzLabel]="shift.label"></nz-option>
-                  </nz-select>
-                  <ng-template #customDropdownShift>
-                    <div class="custom-dropdown-footer">
-                      <button nz-button nzType="link" (click)="openAddShiftModal()">Add Shift</button>
+              <div class="empuploadHeader row excelUploadTable">
+                <div class="col-lg-7 col-md-7">
+                  <div class="row">
+                    <div class="col-lg-4 col-md-3">
+                      <div>
+                        <nz-select [(ngModel)]="bulkShift" (ngModelChange)="applyBulkChange('shift', $event)" nzPlaceHolder="Select Shift" [nzDropdownRender]="customDropdownShift">
+                          <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label" [nzLabel]="shift.label"></nz-option>
+                        </nz-select>
+                        <ng-template #customDropdownShift>
+                          <div class="custom-dropdown-footer">
+                            <button nz-button nzType="link" (click)="openAddShiftModal()">Add Shift</button>
+                          </div>
+                        </ng-template>
+                      </div>
                     </div>
-                  </ng-template>
-
-                  <nz-select [(ngModel)]="bulkLeave" (ngModelChange)="applyBulkChange('leave', $event)" nzPlaceHolder="Select Leave" nzMode="multiple" [nzDropdownRender]="customDropdown">
-                    <nz-option *ngFor="let leave of originalLeaveNameList" [nzValue]="leave.label" [nzLabel]="leave.label"></nz-option>
-                  </nz-select>
-                  <ng-template #customDropdown>
-                    <div class="custom-dropdown-footer">
-                      <button nz-button nzType="link" (click)="openAddLeaveModal()">Add Leave</button>
+                    <div class="col-lg-4 col-md-3">
+                      <div>
+                        <nz-select [(ngModel)]="bulkLeave" (ngModelChange)="applyBulkChange('leave', $event)" nzPlaceHolder="Select Leave" nzMode="multiple" [nzDropdownRender]="customDropdown">
+                          <nz-option *ngFor="let leave of originalLeaveNameList" [nzValue]="leave.label" [nzLabel]="leave.label"></nz-option>
+                        </nz-select>
+                        <ng-template #customDropdown>
+                          <div class="custom-dropdown-footer">
+                            <button nz-button nzType="link" (click)="openAddLeaveModal()">Add Leave</button>
+                          </div>
+                        </ng-template>
+                      </div>
                     </div>
-                  </ng-template>
-
-                  <nz-select [(ngModel)]="bulkTeam" (ngModelChange)="applyBulkChange('team', $event)" nzPlaceHolder="Select Team" nzMode="multiple" [nzDropdownRender]="customDropdownTeam">
-                    <nz-option *ngFor="let team of originalTeamNameList" [nzValue]="team.label" [nzLabel]="team.label"></nz-option>
-                  </nz-select>
-                  <ng-template #customDropdownTeam>
-                    <div class="custom-dropdown-footer">
-                      <button nz-button nzType="link" (click)="openAddTeamModal()">Add Team</button>
+                    <div class="col-lg-4 col-md-3">
+                      <nz-select [(ngModel)]="bulkTeam" (ngModelChange)="applyBulkChange('team', $event)" nzPlaceHolder="Select Team" nzMode="multiple" [nzDropdownRender]="customDropdownTeam">
+                        <nz-option *ngFor="let team of originalTeamNameList" [nzValue]="team.label" [nzLabel]="team.label"></nz-option>
+                      </nz-select>
+                      <ng-template #customDropdownTeam>
+                        <div class="custom-dropdown-footer">
+                          <button nz-button nzType="link" (click)="openAddTeamModal()">Add Team</button>
+                        </div>
+                      </ng-template>
                     </div>
-                  </ng-template>
-                  <label>
-                    <input type="checkbox" [(ngModel)]="selectAllPages" (change)="toggleSelectAllPage()" />
-                  </label>
-                  <div class="select-all-page">Select All Page</div>
+                  </div>
                 </div>
-                <table border="1">
+                
+                <div class="col-lg-4 col-md-3">
+                  <div class="align-items-center d-flex gap-3 justify-content-end" >
+                    <div class="align-items-center d-flex gap-1">
+                      <label>
+                        <input type="checkbox" [(ngModel)]="selectAllCurrentPage" (change)="toggleSelectAllCurrentPage()" />
+                      </label>
+                      <div class="select-all-page">Select all on current page</div>
+                    </div>
+                    <div class="align-items-center d-flex gap-1">
+                      <label>
+                        <input type="checkbox" [(ngModel)]="selectAllPages" (change)="toggleSelectAllPage()" />
+                      </label>
+                      <div class="select-all-page">Select All Page</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="table-responsive">
+                
+                <table class="table excelUploadTable">
 
                   <!-- Dropdowns for applying to selected rows -->
                   <thead>
