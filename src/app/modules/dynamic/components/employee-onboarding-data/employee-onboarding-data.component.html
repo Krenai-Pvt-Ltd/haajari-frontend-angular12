@@ -1883,14 +1883,14 @@
                 
               </div>
               <div class="text-end">
-                <ngb-pagination
+                <div class="d-flex justify-content-between align-items-center">
+                  <p class="m-0"> Showing 1 - 12 of 20 Members </p>
+                  <ngb-pagination
                   [rotate]="true"
-                  [maxSize]="4"
-                  [collectionSize]="data.length - 1"
-                  [pageSize]="pageSize"
-                  [(page)]="currentPage"
+                  [maxSize]="4" [collectionSize]="data.length - 1" [pageSize]="pageSize" [(page)]="currentPage"
                   (pageChange)="onPageChange($event)">
                 </ngb-pagination>
+                </div>
 
                 <button type="button" class="btn btn-primary btn-sm" (click)="saveFile()">Save Changes</button>
               </div>

@@ -14,9 +14,8 @@
   letter-spacing: 0.1px;
 }
 .invalid-input {
-  border-color: red !important; /* Change the border color to red */
-  /* Optionally, you can also change the background color or other styles */
-  background-color: #010101 !important; /* Light red background */
+  border-color: #f1f1f1 !important;
+  background-color: #f4f4f4ee !important;
 }
 
 .orderpcardleft {
