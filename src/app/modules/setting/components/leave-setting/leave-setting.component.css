@@ -1711,7 +1711,8 @@ i.bi.bi-plus {
 
 @media screen and (max-width: 2600px) {
   .employ-list-height {
-    max-height: 40vh;
+    /* max-height: 40vh; */
+    max-height: 50vh;
     overflow: scroll;
   }
     .leave-name {

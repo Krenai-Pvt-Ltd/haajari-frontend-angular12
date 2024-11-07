@@ -11,6 +11,7 @@ import * as _ from 'lodash';
 import * as moment from 'moment';
 import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
+import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { Employeetype } from 'src/app/models/EmployeeType';
 import { ExpenseType } from 'src/app/models/expenseType';
 import { FullLeaveSettingRequest } from 'src/app/models/Full-Leave-Setting-Request';
@@ -377,18 +378,8 @@ export class LeaveSettingComponent implements OnInit {
     this.debounceTimer = setTimeout(() => {
       this.selectedStaffIds = [];
 
-      this.dataService
-        .getUsersByFilterForLeaveSetting(
-          this.itemPerPage,
-          this.pageNumber,
-          'asc',
-          'id',
-          this.searchText,
-          '',
-          leaveSettingId,
-          this.selectedTeamId,
-          this.selectedUserIds
-        )
+      // this.dataService.getUsersByFilterForLeaveSetting(this.itemPerPage, this.pageNumber, 'asc', 'id', this.searchText, '', leaveSettingId, this.selectedTeamId, this.selectedUserIds)
+      this.dataService.getUsersByFilterForLeaveSetting(this.databaseHelper.itemPerPage, this.databaseHelper.currentPage, 'asc', 'id', this.searchText, '', leaveSettingId, this.selectedTeamId, this.selectedUserIds)
         .subscribe(
           (response) => {
 
@@ -584,6 +575,17 @@ export class LeaveSettingComponent implements OnInit {
     this.staffs.forEach((staff) => (staff.selected = false));
     this.selectedStaffIds = [];
   }
+
+  //ngb-pagination
+ databaseHelper: DatabaseHelper = new DatabaseHelper();
+ totalItems: number = 0;
+ pageChanged(page: any) {
+   if (page != this.databaseHelper.currentPage) {
+     this.databaseHelper.currentPage = page;
+     this.getUserByFiltersMethodCall(this.idOfLeaveSetting);
+   }
+ }
+
 
   // ##### Pagination ############
   changePage(page: number | string) {
