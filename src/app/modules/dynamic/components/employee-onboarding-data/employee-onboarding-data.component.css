@@ -30,11 +30,10 @@
   align-items: center;
   gap: 10px; /* Space between elements */
 }
-.select-all-page {
-  color: #007bff !important; /* Replace with your desired color */
-  font-weight: bold; /* Optional: makes the text bold */
-}
-
+/* .select-all-page {
+  color: #007bff !important;
+  font-weight: bold; 
+} */
 
 .orderpcardleft {
   width: 80%;
@@ -933,9 +932,16 @@ Remove
   color: #1f1f1f !important;
   height: 35px;
 }
-.next-btn{
+.next-btn {
   text-align: center;
   font-size: 15px;
   font-weight: 500;
+}
+.custom-dropdown-footer .ant-btn-link {
+  color: #6666f4;
+}
+.custom-dropdown-footer {
+  background-color: #ffffff;
+  margin-bottom: -4px;
 }
 /* Excel Upload Modal */
