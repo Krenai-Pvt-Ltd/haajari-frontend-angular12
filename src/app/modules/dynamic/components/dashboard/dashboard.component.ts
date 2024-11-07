@@ -60,7 +60,7 @@ export class DashboardComponent implements OnInit {
     private roleBasedAccessControlService: RoleBasedAccessControlService
   ) {
     
-    console.log(this.roleBasedAccessControlService.isUserInfoInitialized,"--9999-----");
+    // console.log(this.roleBasedAccessControlService.isUserInfoInitialized,"--9999-----");
     
     const currentDate = moment();
     this.startDateStr = currentDate.startOf('month').format('YYYY-MM-DD');
@@ -127,12 +127,20 @@ export class DashboardComponent implements OnInit {
   endDate: string = '';
   startDateAndEndDate : StartDateAndEndDate = new StartDateAndEndDate();
 
+
+  
+  onError(event: Event) {
+    const target = event.target as HTMLImageElement;
+    target.src = './assets/images/broken-image-icon.jpg';
+  }
+  
+
   onMonthChange(month: Date): void {
-    console.log('Month is getting selected');
+    // console.log('Month is getting selected');
     this.selectedDate = month;
     this.getFirstAndLastDateOfMonth(this.selectedDate);
     this.isAllCollapsed = true;
-    console.log(this.startDate, this.endDate);
+    // console.log(this.startDate, this.endDate);
     this.getAttendanceReportByDateDurationMethodCall();
   }
 
@@ -196,11 +204,11 @@ export class DashboardComponent implements OnInit {
     this.orgUuid = this.roleBasedAccessControlService.getOrgRefUUID();
     this.getActiveUserCount();
     this.selecrPlanType('annual');
-this.getAdminPersonalDetailMethodCall();
+    this.getAdminPersonalDetailMethodCall();
     this.getTeamNames();
     window.scroll(0, 0);
     this.getOrganizationRegistrationDateMethodCall();
-    
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
     // this.checkAccessToken();
 
     // const today = dayjs();
@@ -237,7 +245,7 @@ this.getAdminPersonalDetailMethodCall();
     this.getLateUsers();
     // this.getAttendanceDetailsReportByDateMethodCall();
     this.getHolidayForOrganization();
-    this.getAllSubscription();
+    // this.getAllSubscription();
     this.getPurchasedStatus();
   }
 
@@ -344,7 +352,7 @@ this.getAdminPersonalDetailMethodCall();
               this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
 
               debugger;
-              console.log(this.myAttendanceData);
+              // console.log(this.myAttendanceData);
               this.isAttendanceShimer = false;
 
               // Additional processing if needed
@@ -542,13 +550,13 @@ this.getAdminPersonalDetailMethodCall();
     this.dataService.checkingUserRole().subscribe(
       (data) => {
         this.flag = data;
-        console.log(data);
+        // console.log(data);
       },
       (error) => {
         console.log(error);
       }
     );
-    console.log(this.flag);
+    // console.log(this.flag);
 
     return this.flag;
   }
@@ -605,7 +613,7 @@ this.getAdminPersonalDetailMethodCall();
           // if(data.attendanceLatePerformers){
           //   this.isLateShimmer=false;
           // }
-          console.log(this.responseDto);
+          // console.log(this.responseDto);
         },
         (error) => {
           // console.error(error);
@@ -622,13 +630,13 @@ this.getAdminPersonalDetailMethodCall();
       .getAttendanceLatePerformers('2023-12-04', '2023-12-04')
       .subscribe(
         (data) => {
-          console.log(data);
+          // console.log(data);
           this.responseData = data;
 
           if (data.attendanceLatePerformers) {
             this.isLateShimmer = false;
           }
-          console.log(this.responseDto);
+          // console.log(this.responseDto);
         },
         (error) => {
           this.isLateShimmer = false;
@@ -721,6 +729,7 @@ this.getAdminPersonalDetailMethodCall();
   attendanceReportResponseList: AttendanceReportResponse[] = [];
   debounceTimer: any;
   getAttendanceReportByDateDurationMethodCall(debounceTime: number = 300) {
+    debugger
     return new Promise((resolve, reject) => {
       if (this.debounceTimer) {
         clearTimeout(this.debounceTimer);
@@ -781,10 +790,11 @@ this.getAdminPersonalDetailMethodCall();
       .downloadAttendanceDataInExcelFormat(this.startDate, this.endDate)
       .subscribe(
         (response) => {
-          console.log(response);
+          // console.log(response);
 
           const downloadLink = document.createElement('a');
-          downloadLink.href = response.message;
+          // downloadLink.href = response.message;
+          downloadLink.href = response.object;
           downloadLink.download = 'attendance.xlsx';
           downloadLink.click();
           this.downloadingFlag = false;
@@ -862,7 +872,7 @@ this.getAdminPersonalDetailMethodCall();
       // } else {
       //   this.monthlyPlaceholderFlag = false;
       // }
-      console.log('length' + data.length);
+      // console.log('length' + data.length);
       this.monthlyChartData = data.map((item) => ({
         name: this.sliceWord(item.monthName),
         series: [
@@ -925,8 +935,16 @@ this.getAdminPersonalDetailMethodCall();
   filterCriteria: string = 'PRESENT';
   lastPageNumberNew: number = 1;
 
+  resetPresentModal() {
+    this.search = '';
+    this.attendanceDetailsResponseList = [];
+  }
+
+  hideSearchBar: boolean = false;
+  isLoaderLoading: boolean = false;
   getAttendanceDetailsReportByDateMethodCall(filterCriteria: string) {
     this.filterCriteria = filterCriteria;
+    this.isLoaderLoading = true;
     this.dataService
       .getAttendanceDetailsReportByDateForDashboard(
         this.helperService.formatDateToYYYYMMDD(this.selectedDate),
@@ -940,21 +958,28 @@ this.getAdminPersonalDetailMethodCall();
       )
       .subscribe(
         (response) => {
-          debugger;
+          // debugger;
+          this.isLoaderLoading = false;
           this.attendanceDetailsResponseList = response.listOfObject;
-          console.log(this.attendanceDetailsResponseList);
+          // console.log(this.attendanceDetailsResponseList);
           this.totalItems = response.totalItems;
           this.lastPageNumberNew = Math.ceil(this.totalItems / this.itemPerPage);
           // console.log("lastPageNumberNew" + this.lastPageNumberNew );
-
+         
           if (
-            this.attendanceDetailsResponseList === undefined ||
+           (this.attendanceDetailsResponseList === undefined ||
             this.attendanceDetailsResponseList === null ||
-            this.attendanceDetailsResponseList.length === 0
+            this.attendanceDetailsResponseList.length === 0 ) && this.search ==''
           ) {
+              this.hideSearchBar = true;
+          }else {
+            this.hideSearchBar = false;
           }
+          
+         
         },
         (error) => {
+          this.isLoaderLoading = false;
           console.log(error);
         }
       );
@@ -980,13 +1005,49 @@ this.getAdminPersonalDetailMethodCall();
     return endIndex > this.totalItems ? this.totalItems : endIndex;
   }
 
-  getPagesNew(): number[] {
-    const pages = [];
-    for (let i = 1; i <= this.lastPageNumberNew; i++) {
+  // getPagesNew(): number[] {
+  //   const pages = [];
+  //   for (let i = 1; i <= this.lastPageNumberNew; i++) {
+  //     pages.push(i);
+  //   }
+  //   return pages;
+  // }
+
+ // Generate page numbers, with '...' for skipped pages
+getPagesNew(): (number | string)[] {
+  const pages: (number | string)[] = [];
+  const totalPages = this.lastPageNumberNew;
+
+  if (totalPages <= 2) {
+    for (let i = 1; i <= totalPages; i++) {
       pages.push(i);
     }
-    return pages;
+  } else {
+    const startPage = Math.max(1, this.pageNumberNew - 2);
+    const endPage = Math.min(totalPages, this.pageNumberNew + 2);
+
+    if (startPage > 1) {
+      pages.push(1);
+      if (startPage > 2) {
+        pages.push('...');
+      }
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+
+    if (endPage < totalPages) {
+      if (endPage < totalPages - 1) {
+        pages.push('...');
+      }
+      pages.push(totalPages);
+    }
   }
+
+  return pages;
+}
+  
 
   // onSearchChange(): void {
   //   this.pageNumberNew = 1;
@@ -1028,18 +1089,29 @@ this.getAdminPersonalDetailMethodCall();
   itemsPerPageBreak: number = 10;
   currentPageBreak: number = 1;
   totalPagesBreak: number = 0;
-
+  hideSearchBreak: boolean = false;
+  isBreakLoaderLoading: boolean = false;
 
   getBreakUsers(): void {
+    this.isBreakLoaderLoading = true;
      this.dataService
       .getBreakUsers(this.searchTermBreak, this.pageNumberBreak, this.itemsPerPageBreak)
       .subscribe(
         (response) => {
+          this.isBreakLoaderLoading = false;
         this.breakUsers = response.listOfObject;
+
+        if(this.searchTermBreak == '' && this.breakUsers.length == 0) {
+          this.hideSearchBreak = true;
+        }else {
+          this.hideSearchBreak = false;
+        }
         this.totalCountBreak = response.totalItems;
         this.calculatePagination();
+
         },
         (error) => {
+          this.isBreakLoaderLoading = false;
           console.log(error);
         }
      );
@@ -1049,6 +1121,9 @@ this.getAdminPersonalDetailMethodCall();
   getAbsentAndNotMarkedUsers(searchTerm : string, count: number){
     if(count == 0){
       this.attendanceDetailsResponseList = [];
+      this.hideSearchBar = true;
+      this.absentFlag = false;
+      this.filterCriteria = searchTerm;
       // return;
     } else{
       this.getAttendanceDetailsReportByDateMethodCall(searchTerm);
@@ -1095,13 +1170,49 @@ this.getAdminPersonalDetailMethodCall();
     return Math.min(this.pageNumberBreak * this.itemsPerPageBreak, this.totalCountBreak);
   }
 
-  get pagesBreak(): number[] {
-    const pages: number[] = [];
-    for (let i = 1; i <= this.totalPagesBreak; i++) {
-      pages.push(i);
+  // get pagesBreak(): number[] {
+  //   const pages: number[] = [];
+  //   for (let i = 1; i <= this.totalPagesBreak; i++) {
+  //     pages.push(i);
+  //   }
+  //   return pages;
+  // }
+
+  get pagesBreak(): (number | string)[] {
+    const pages: (number | string)[] = [];
+    const totalPages = this.totalPagesBreak;
+    
+    if (totalPages <= 2) {
+      
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      const startPage = Math.max(1, this.pageNumberBreak - 2);
+      const endPage = Math.min(totalPages, this.pageNumberBreak + 2);
+  
+      if (startPage > 1) {
+        pages.push(1);
+        if (startPage > 2) {
+          pages.push('...');
+        }
+      }
+  
+      for (let i = startPage; i <= endPage; i++) {
+        pages.push(i);
+      }
+  
+      if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+          pages.push('...');
+        }
+        pages.push(totalPages);
+      }
     }
+  
     return pages;
   }
+  
 
   //  late empl 
 
@@ -1113,16 +1224,26 @@ this.getAdminPersonalDetailMethodCall();
   itemsPerPageLate: number = 10;
   currentPageLate: number = 1;
   totalPagesLate: number = 0;
-
+  hideSearchLate: boolean = false;
+  isLateLoaderLoading: boolean = false;
 
   getLateUsers(): void {
+    this.isLateLoaderLoading = true;
     this.dataService.getLateEmployeeDashboardDetails(this.getCurrentDate(), this.viewAll, this.searchTermLate, this.pageNumberLate, this.itemsPerPageLate).subscribe(
       response => {
+        this.isLateLoaderLoading = false;
         this.lateUsers = response.listOfObject;
+
+        if(this.searchTermLate == '' && this.lateUsers.length == 0) {
+          this.hideSearchLate = true;
+        }else {
+          this.hideSearchLate = false;
+        }
         this.totalCountLate = response.totalItems;
         this.calculatePaginationLate();
       },
       error => {
+        this.isLateLoaderLoading = false;
         console.error('Error fetching late users:', error);
       }
     );
@@ -1165,13 +1286,50 @@ this.getAdminPersonalDetailMethodCall();
     return Math.min(this.pageNumberLate * this.itemsPerPageLate, this.totalCountLate);
   }
 
-  get pagesLate(): number[] {
-    const pages: number[] = [];
-    for (let i = 1; i <= this.totalPagesLate; i++) {
-      pages.push(i);
+  // get pagesLate(): number[] {
+  //   const pages: number[] = [];
+  //   for (let i = 1; i <= this.totalPagesLate; i++) {
+  //     pages.push(i);
+  //   }
+  //   return pages;
+  // }
+
+  getPagesLate(): (number | string)[] {
+    const pages: (number | string)[] = [];
+    const totalPages = this.totalPagesLate;
+  
+    if (totalPages <= 2) {
+      
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      const startPage = Math.max(1, this.currentPageLate - 2);
+      const endPage = Math.min(totalPages, this.currentPageLate + 2);
+  
+      if (startPage > 1) {
+        pages.push(1);
+        if (startPage > 2) {
+          pages.push('...');
+        }
+      }
+  
+      for (let i = startPage; i <= endPage; i++) {
+        pages.push(i);
+      }
+  
+      if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+          pages.push('...');
+        }
+        pages.push(totalPages);
+      }
     }
+  
     return pages;
   }
+  
+
 
   //  leave users 
 
@@ -1182,18 +1340,27 @@ this.getAdminPersonalDetailMethodCall();
   itemsPerPageLeave: number = 8;
   currentPageLeave: number = 1;
   totalPagesLeave: number = 0;
-
+  hideSearchLeave: boolean = false;
+  isLeaveLoaderLoading: boolean = false;
 
   getLeaveUsers(): void {
+    this.isLeaveLoaderLoading = true;
      this.dataService
       .getLeaveUsers(this.searchTermLeave, this.pageNumberLeave, this.itemsPerPageLeave)
       .subscribe(
         (response) => {
+          this.isLeaveLoaderLoading = false;
         this.leaveUsers = response.listOfObject;
+        if(this.searchTermLeave == '' && this.leaveUsers.length == 0) {
+          this.hideSearchLeave = true;
+        }else {
+          this.hideSearchLeave = false;
+        }
         this.totalCountLeave = response.totalItems;
         this.calculatePaginationLeave();
         },
         (error) => {
+          this.isLeaveLoaderLoading = false;
           console.log(error);
         }
      );
@@ -1240,13 +1407,49 @@ this.getAdminPersonalDetailMethodCall();
     return Math.min(this.pageNumberLeave * this.itemsPerPageLeave, this.totalCountLeave);
   }
 
-  get pagesLeave(): number[] {
-    const pages: number[] = [];
-    for (let i = 1; i <= this.totalPagesLeave; i++) {
-      pages.push(i);
+  // get pagesLeave(): number[] {
+  //   const pages: number[] = [];
+  //   for (let i = 1; i <= this.totalPagesLeave; i++) {
+  //     pages.push(i);
+  //   }
+  //   return pages;
+  // }
+
+  getPagesLeave(): (number | string)[] {
+    const pages: (number | string)[] = [];
+    const totalPages = this.totalPagesLeave;
+  
+    if (totalPages <= 2) {
+
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      const startPage = Math.max(1, this.currentPageLeave - 2);
+      const endPage = Math.min(totalPages, this.currentPageLeave + 2);
+  
+      if (startPage > 1) {
+        pages.push(1);
+        if (startPage > 2) {
+          pages.push('...');
+        }
+      }
+  
+      for (let i = startPage; i <= endPage; i++) {
+        pages.push(i);
+      }
+  
+      if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+          pages.push('...');
+        }
+        pages.push(totalPages);
+      }
     }
+  
     return pages;
   }
+  
 
 
   // tooltip attendance data
@@ -1255,15 +1458,24 @@ this.getAdminPersonalDetailMethodCall();
 
   // @ViewChild("openEventsModal") openEventsModal!:ElementRef;
   loadingFlag:boolean = false;
+  currentDateString : string = '';
   fetchAttendanceDetails(userEmail: string, dateString:string) {
+    debugger
     this.loadingFlag = true;
+    this.currentDateString = dateString;
+    this.userAttendanceDetailDateWise = [];
     this.dataService.getAttendanceDetailsForUserByDate(userEmail, dateString)
       .subscribe(
         (response) => {
-          this.userAttendanceDetailDateWise = response.object;
-          console.log('Attendance Details:', response.object);
+          if(this.currentDateString == dateString) {
+           this.userAttendanceDetailDateWise = response.object;
+           this.loadingFlag = false;
+          }else {
+             this.loadingFlag = false;
+          }
+          // console.log('Attendance Details:', response.object);
           // this.openEventsModal.nativeElement.click();
-          this.loadingFlag = false;
+         
          
         },
         (error) => {
@@ -1277,6 +1489,7 @@ this.getAdminPersonalDetailMethodCall();
   absentFlag:boolean = false;
   getAbsentFlag(str: string, count:number) {
 
+    // hideSearchBar
       if((str === 'ABSENT') ) {
         this.absentFlag = true;
       }else  if((str === 'Not Marked')) {
@@ -1289,19 +1502,19 @@ this.getAdminPersonalDetailMethodCall();
 
   subscriptionList: any[] = new Array();
   loading: boolean = false;
-  getAllSubscription() {
-    debugger;
-    this.loading = true;
-    this._subscriptionPlanService
-      .getAllSubscriptionPlan()
-      .subscribe((response) => {
-        if (response.status) {
-          this.subscriptionList = response.object;
-          this.loading = false;
-        }
-        this.loading = false;
-      });
-  }
+  // getAllSubscription() {
+  //   debugger;
+  //   this.loading = true;
+  //   this._subscriptionPlanService
+  //     .getAllSubscriptionPlan()
+  //     .subscribe((response) => {
+  //       if (response.status) {
+  //         this.subscriptionList = response.object;
+  //         this.loading = false;
+  //       }
+  //       this.loading = false;
+  //     });
+  // }
 
   selectSubscription(subscriptionId: number) {
     this.selectedSubscriptionId = subscriptionId;
@@ -1311,8 +1524,8 @@ this.getAdminPersonalDetailMethodCall();
   @ViewChild('billingModal') billingModal!: ElementRef;
   getPurchasedStatus() {
     debugger
-    this._subscriptionPlanService.getPurchasedStatus().subscribe((response) => {
-      this.isPurchased = response;
+    // this._subscriptionPlanService.getPurchasedStatus().subscribe((response) => {
+    //   this.isPurchased = response;
       // this.router.navigate(['/to-do-step-dashboard']);
       // if(this.isPurchased) {
       //   this.router.navigate(['/to-do-step-dashboard']);
@@ -1332,7 +1545,7 @@ this.getAdminPersonalDetailMethodCall();
         
        
       // }
-    });
+    // });
   }
 
   isToDoStepsCompleted: number = 0;
@@ -1342,11 +1555,11 @@ this.getAdminPersonalDetailMethodCall();
       (response) => {
         this.isToDoStepsCompleted = response.object;
         
-        if(this.isToDoStepsCompleted == 0 && isOrgOnboardToday == 1) {
-          this.router.navigate(['/to-do-step-dashboard']);
-        }else {
-          this.router.navigate(['/dashboard']);
-        }
+        // if(this.isToDoStepsCompleted == 0 && isOrgOnboardToday == 1) {
+        //   this.router.navigate(['/to-do-step-dashboard']);
+        // }else {
+        //   this.router.navigate(['/dashboard']);
+        // }
         console.log("isToDoStepsCompletedFlag :", this.isToDoStepsCompleted);
         
       },
@@ -1369,8 +1582,25 @@ this.getAdminPersonalDetailMethodCall();
         //   this.router.navigate(['/dashboard']);
         // }
         this.isToDoStepsCompletedData(this.isOrgOnboardToday);
+        if(this.isOrgOnboardToday == 0) {
+            this.hideOrganizationInitialToDoStepBar();
+        }
         console.log("isToDoStepsCompletedFlag :", this.isToDoStepsCompleted);
         
+      },
+      (error) => {
+        console.log('error');
+      }
+    );
+  }
+
+  hideOrganizationInitialToDoStepBar() {
+    debugger
+    this.dataService.hideOrganizationInitialToDoStepBar().subscribe(
+      (response) => {
+        console.log("hide");  
+        // this.getOrganizationInitialToDoStepBar();
+        // location.reload();
       },
       (error) => {
         console.log('error');
@@ -1382,7 +1612,7 @@ this.getAdminPersonalDetailMethodCall();
 
   routeToBillingPaymentPage(plandId : any) {
 this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = false
-this.getSubscriptionPlanDetails(plandId);
+// this.getSubscriptionPlanDetails(plandId);
   }
 
 
@@ -1490,23 +1720,13 @@ this.getSubscriptionPlanDetails(plandId);
 
   isPaymentDone: boolean = false;
   checkout(value: any) {
-    console.log('transaction id', value);
+    // console.log('transaction id', value);
     // this.isPaymentDone = true;
     window.location.reload();
   }
 
   isPlanPurchased: boolean = false;
-  getPlanPurchasedStatus() {
-    let id = this._activeRouter.snapshot.queryParamMap.get('id')!;
-    this._subscriptionPlanService
-      .getPlanPurchasedStatus(id)
-      .subscribe((response) => {
-        this.isPlanPurchased = response;
-        if (this.isPlanPurchased) {
-          this.router.navigate(['/setting/success']);
-        }
-      });
-  }
+ 
 
   paymentMethod: string = '';
   selectPaymentMethod(value: any) {
@@ -1531,8 +1751,8 @@ this.getSubscriptionPlanDetails(plandId);
     .subscribe(
       (response) => {
         this.checkHoliday = response.object;
-        console.log(response);
-        console.error("Response", response.object);
+        // console.log(response);
+        // console.error("Response", response.object);
 
         if (this.checkHoliday == true) {
           this.showPlaceholder = true; 
@@ -1551,7 +1771,12 @@ this.getSubscriptionPlanDetails(plandId);
     let navExtra: NavigationExtras = {
       queryParams: { userId: uuid },
     };
-    this.router.navigate(['/employee-profile'], navExtra);
+    
+    // this.router.navigate(['/employee-profile'], navExtra);
+    // this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], navExtra);
+    const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
+    window.open(url, '_blank');
+    return;
   }
 
   couponCode: string = '';
@@ -1574,7 +1799,7 @@ this.getSubscriptionPlanDetails(plandId);
 
   applyCoupon() {
       this._subscriptionPlanService
-          .verifyCoupon(this.couponCode, this.originalAmount, this.sbscriptionPlanReq.planType)
+          .verifyCoupon(this.couponCode, this.originalAmount)
           .subscribe((response) => {
               if (response.status) {
                 this.message = '';
@@ -1613,20 +1838,27 @@ this.getSubscriptionPlanDetails(plandId);
       this.totalAmount = this.sbscriptionPlanReq.amount + this.taxAmount;
   }
   
-  getSubscriptionPlanDetails(id: any) {
+  // getSubscriptionPlanDetails(id: any) {
       
-      this._subscriptionPlanService
-          .getSubscriptionPlan(id)
-          .subscribe((response) => {
-              if (response.status) {
-                  this.subscriptionPlan = response.object;
-                  this.originalAmount = this.sbscriptionPlanReq.noOfEmployee *
-                      this.subscriptionPlan.amount * 12 - (this.sbscriptionPlanReq.noOfEmployee *
-                      this.subscriptionPlan.amount * 20 * 12) / 100;
-                  this.sbscriptionPlanReq.amount = this.originalAmount;
-                  this.calculateTotalAmount();
-              }
-          });
+  //     this._subscriptionPlanService
+  //         .getSubscriptionPlan(id)
+  //         .subscribe((response) => {
+  //             if (response.status) {
+  //                 this.subscriptionPlan = response.object;
+  //                 this.originalAmount = this.sbscriptionPlanReq.noOfEmployee *
+  //                     this.subscriptionPlan.amount * 12 - (this.sbscriptionPlanReq.noOfEmployee *
+  //                     this.subscriptionPlan.amount * 20 * 12) / 100;
+  //                 this.sbscriptionPlanReq.amount = this.originalAmount;
+  //                 this.calculateTotalAmount();
+  //             }
+  //         });
+  // }
+
+  @ViewChild('presentModal') presentModal!: ElementRef; 
+  routeToAttendanceSetting() {
+   
+    this.presentModal.nativeElement.click();
+    this.router.navigate(['/setting/attendance-setting']);
   }
 }
 

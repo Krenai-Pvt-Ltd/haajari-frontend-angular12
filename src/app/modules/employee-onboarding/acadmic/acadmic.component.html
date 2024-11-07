@@ -16,19 +16,19 @@
                     <div class="persnol-info mt-4">
                         <div class="row">
 
-                           
+
                             <div class="col-md-6">
                                 <div class="mb-3">
                                   <label for="highestQualificationDropdown" class="pb-2">Highest Qualification <span class="text-optional">*</span></label>
                                   <input type="hidden"  name="highestQualification" id="highestQualification"  [(ngModel)]="userAcademicsDetailRequest.highestEducationalLevel" required #highestQualification="ngModel">
                                   <div nz-dropdown style="width: 100%;">
-                                   
+
 
                                     <button nz-button nz-dropdown [nzDropdownMenu]="menu1" class="hover-dropdown" type="button" id="highestQualificationDropdown">
                                       {{ selectedQualification || 'Select highest qualification' }}
                                       <span nz-icon nzType="down" class="icon-right"></span>
                                     </button>
-                                    
+
                                     <nz-dropdown-menu  #menu1="nzDropdownMenu">
                                       <ul nz-menu class="hover-dropdown-height">
                                         <li nz-menu-item *ngFor="let qualification of qualifications" (click)="selectQualification(qualification)">
@@ -42,15 +42,15 @@
                                         </p>
                                       </div>
                                   </div>
-                                 
+
                                 </div>
-                                
-                                  
+
+
                               </div>
-                              
-                            
-                            
-                            
+
+
+
+
                               <div class="col-md-6">
                                 <!-- Degree/Diploma Obtained Dropdown -->
                                 <div class="mb-3">
@@ -76,10 +76,10 @@
                                   </div>
                                 </div>
                               </div>
-                              
-                              
-                              
-                            
+
+
+
+
 
 
                             <div class="col-md-6">
@@ -98,7 +98,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
 
                             <div class="col-md-6">
                                 <div class="mb-3">
@@ -116,11 +116,11 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
 
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    
+
                                   <label for="grade" class="pb-2">Grade/CGPA <span class="text-optional">*</span></label>
                                   <input type="hidden" name="gradeType" id="gradeType" [(ngModel)]="userAcademicsDetailRequest.gradeType" required #gradeType="ngModel">
                                   <input type="hidden" name="grade" id="grade" [(ngModel)]="userAcademicsDetailRequest.grade" required #grade="ngModel">
@@ -130,7 +130,7 @@
                                       {{ userAcademicsDetailRequest.gradeType || 'Select Type' }}
                                       <span nz-icon nzType="down" class="icon-grade-right"></span>
                                     </button>
-                                    
+
                                     <div *ngIf="userAcademicsDetailRequest.gradeType === 'Grade'">
                                         <button type="button" nz-button nz-dropdown class="grade-dropdown" [nzDropdownMenu]="menu6">
                                           {{ userAcademicsDetailRequest.grade || 'Select Grade' }}
@@ -139,31 +139,31 @@
                                       </div>
 
                                       <!-- <input type="number" *ngIf=" userAcademicsDetailRequest.gradeType == 'CGPA'" [max]="10" (keydown)="preventLeadingWhitespace($event)"class="form-control" id="cgpa" name="cgpa" placeholder=" Enter CGPA" [(ngModel)]="userAcademicsDetailRequest.grade" required #cgpa="ngModel"> -->
-                                    
-                                        <nz-input-number *ngIf="userAcademicsDetailRequest.gradeType === 'CGPA'" id="cgpa" name="cgpa" 
+
+                                        <nz-input-number *ngIf="userAcademicsDetailRequest.gradeType === 'CGPA'" id="cgpa" name="cgpa"
                                                         [(ngModel)]="userAcademicsDetailRequest.grade"
                                                         [ngModelOptions]="{standalone: true}"
                                                         [nzMin]="1"
                                                         [nzMax]="10"
                                                         [nzStep]="0.1"
-                                                        
-                                                        
+
+
                                                         nzPlaceHolder="Enter CGPA">
                                         </nz-input-number>
 
-                                        <nz-input-number id="percentage" name="percentage" *ngIf=" userAcademicsDetailRequest.gradeType == 'Percentage'" 
+                                        <nz-input-number id="percentage" name="percentage" *ngIf=" userAcademicsDetailRequest.gradeType == 'Percentage'"
                                         [(ngModel)]="userAcademicsDetailRequest.grade"
                                         [nzMin]="1"
                                         [nzMax]="100"
                                         [nzStep]="1"
-                                        
+
                                         [nzFormatter]="formatterPercent"
                                         [nzParser]="parserPercent"
                                         >
-                                         </nz-input-number> 
-                                    
+                                         </nz-input-number>
+
                                   </div>
-                                  
+
                                   <nz-dropdown-menu #menu5="nzDropdownMenu">
                                     <ul nz-menu>
                                       <li nz-menu-item (click)="selectType('Grade')">Grade</li>
@@ -171,8 +171,8 @@
                                       <li nz-menu-item (click)="selectType('Percentage')">Percentage</li>
                                     </ul>
                                   </nz-dropdown-menu>
-                              
-                                
+
+
                                     <nz-dropdown-menu #menu6="nzDropdownMenu">
                                       <ul nz-menu>
                                         <li nz-menu-item *ngFor="let grade of grades" (click)="selectGrade(grade)">
@@ -180,68 +180,68 @@
                                         </li>
                                       </ul>
                                     </nz-dropdown-menu>
-                                 
-                                    
-                                  
-                                  
+
+
+
+
                                         <!-- Conditionally rendered number input -->
-                                        <!-- <nz-input-number id="cgpa" *ngIf=" userAcademicsDetailRequest.gradeType == 'CGPA'" 
+                                        <!-- <nz-input-number id="cgpa" *ngIf=" userAcademicsDetailRequest.gradeType == 'CGPA'"
                                                         [(ngModel)]="temporaryValue"
                                                         nzMin="1"
                                                         nzMax="10"
                                                         nzStep="0.1"
                                                         nzPlaceHolder="Enter CGPA">
                                         </nz-input-number>
-                                        
-                                        <nz-input-number id="percentage" *ngIf=" userAcademicsDetailRequest.gradeType == 'Percentage'" 
+
+                                        <nz-input-number id="percentage" *ngIf=" userAcademicsDetailRequest.gradeType == 'Percentage'"
                                                         [(ngModel)]="userAcademicsDetailRequest.grade"
                                                         nzMin="1"
                                                         nzMax="100"
                                                         nzStep="1"
                                                         >
                                         </nz-input-number> -->
-  
-                                
-                              
+
+
+
                                   <!-- Error Message for Grade/CGPA (if needed) -->
                                   <div *ngIf="gradeType.dirty  || isFormInvalid">
                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="gradeType.errors?.required">
                                         <i class="bi bi-exclamation-circle"></i>
                                         Grade Type is required.
                                     </p>
-                    
+
                                 </div>
                                 <div *ngIf="grade.dirty  || isFormInvalid && userAcademicsDetailRequest.gradeType == 'Grade' " >
                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="grade.errors?.required">
                                         <i class="bi bi-exclamation-circle"></i>
                                         Grade is required.
                                     </p>
-                    
+
                                 </div>
                                 <div *ngIf="grade.dirty  || isFormInvalid && userAcademicsDetailRequest.gradeType == 'CGPA' " >
                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="grade.errors?.required">
                                         <i class="bi bi-exclamation-circle"></i>
                                         CGPA is required.
                                     </p>
-                    
+
                                 </div>
                                 <div *ngIf="grade.dirty  || isFormInvalid && userAcademicsDetailRequest.gradeType == 'Percentage' " >
                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="grade.errors?.required">
                                         <i class="bi bi-exclamation-circle"></i>
                                         Percentage is required.
                                     </p>
-                    
+
                                 </div>
                                 </div>
                               </div>
-                            
+
 
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="greaduationYear" class="pb-2">Graduating Year <span class="text-optional">*</span></label>
                                     <!-- <input type="text" class="form-control" id="greaduationYear" name="greaduationYear" placeholder="Please Enter Passing Year" [(ngModel)]="userAcademicsDetailRequest.graduationYear" required #greaduationYear="ngModel"> -->
                                     <br />
-                                     <nz-date-picker id="greaduationYear" name="greaduationYear" mask="0000" (keydown)="preventLeadingWhitespace($event)" [(ngModel)]="userAcademicsDetailRequest.graduationYear" nzMode="year" [nzDisabledDate]="disabledFutureDates" required #greaduationYear="ngModel"></nz-date-picker>     
+                                     <nz-date-picker id="greaduationYear" name="greaduationYear" mask="0000" (keydown)="preventLeadingWhitespace($event)" [(ngModel)]="userAcademicsDetailRequest.graduationYear" nzMode="year" [nzDisabledDate]="disabledFutureDates" required #greaduationYear="ngModel"></nz-date-picker>
                                     <!-- Error Message for Graduating Year -->
                                     <div *ngIf="greaduationYear.touched  || isFormInvalid">
                                         <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="greaduationYear.errors?.required">
@@ -251,8 +251,8 @@
                                     </div>
                                 </div>
                             </div>
-                            
-                            
+
+
 
                             <div class="col-md-12 d-flex justify-content-between mt-3">
                                 <div class="info-btn d-flex justify-content-start">
@@ -292,7 +292,7 @@
                                       </span>
                                   </button>
                                   <!-- Original Next Button, shown only when updateRequest is not true -->
-                                  <button *ngIf="!this.userAcademicsDetailRequest.updateRequest" (click)="selectButtonType('next')" class="btn btn-primary save-button" type="button" [disabled]="toggle" aria-label="Next Step">
+                                  <button *ngIf="!this.userAcademicsDetailRequest.updateRequest && !this.dataService.isLastRoute('/acadmic')" (click)="selectButtonType('next')" class="btn btn-primary save-button" type="button" [disabled]="toggle" aria-label="Next Step">
                                       <div *ngIf="toggle" class="dot-opacity-loader">
                                           <span></span>
                                           <span></span>
@@ -305,8 +305,19 @@
                                           Save & Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
                                       </span>
                                   </button>
+                                  <button *ngIf="this.dataService.isLastRoute('/acadmic')" (click)="selectButtonType('preview')" class="btn btn-primary save-button" type="button" [disabled]="toggle"  aria-label="Next Step">
+                                    <div *ngIf="toggle" class="dot-opacity-loader">
+                                      <span></span>
+                                      <span></span>
+                                      <span></span>
+                                    </div>
+                                    <span>
+                                      Preview Form <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                                  </span>
+                                  </button>
+
                               </div>
-                              
+
                                 <button type="submit" style="display: none;" id="formSubmitButton"  #formSubmitButton></button>
                             </div>
                         </div>
@@ -329,7 +340,7 @@
          <div class="modal-body text-center">
              <i class="bi bi-check-circle" *ngIf="employeeOnboardingFormStatus != 'REJECTED'" style="font-size: 48px; color: green;"></i>
              <i class="bi bi-exclamation-triangle-fill" *ngIf="employeeOnboardingFormStatus == 'REJECTED'" style="font-size: 48px; color: red;"></i>
-             
+
              <!-- Conditional Messages -->
              <p class="mt-2" *ngIf="employeeOnboardingFormStatus == 'PENDING'">
                  Your registration is successful. Pending for verification.

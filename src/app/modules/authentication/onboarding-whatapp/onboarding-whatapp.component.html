@@ -4,7 +4,18 @@
     style="background-image: url(assets/images/onbording-right-img.svg)"
   >
     <div class="container">
-      <div style="padding-top: 32px">
+      <div style="padding-top: 32px" class="d-flex align-items-center justify-content-start gap-4"> 
+        <span class="back-btn d-flex align-items-center justify-content-center pointer" (click)="routeToSignup()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <mask id="mask0_4022_409" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="22" height="22">
+              <rect x="0.199219" y="0.200195" width="21.6" height="21.6" fill="#D9D9D9" />
+            </mask>
+            <g mask="url(#mask0_4022_409)">
+              <path d="M14.5977 20L5.59766 11L14.5977 2L16.1952 3.5975L8.79266 11L16.1952 18.4025L14.5977 20Z" fill="#6666F2" />
+            </g>
+          </svg>
+        
+        </span>
         <img src="assets/images/HAjiRi.svg" style="width: 120px" />
       </div>
       <div
@@ -34,10 +45,13 @@
           class="text-center whatsApp-number-box"
           *ngIf="isWhatsappLogin && !showOtpInput"
         >
+        <div class="d-flex align-items-start">
+         
           <h5>
             Enter Your <br />
             WhatsApp Number
           </h5>
+          </div>
           <p>Please provide a registered WhatsApp number.</p>
         </div>
 
@@ -53,7 +67,7 @@
             We’ve sent a 6-digit OTP on
             <span class="text-primary"
               ><b>{{ whatsappOtp ? phoneNumber : email }}</b></span
-            >
+            >.
             This code expires <br />
             shortly, so please enter it soon.
           </p>
@@ -81,7 +95,7 @@
                 id="examplePhoneNumber1"
                 name="examplePhoneNumber1"
                 aria-describedby="phoneHelp"
-                placeholder="Enter Number"
+                placeholder="7678******"
                 #phoneNumberOtp="ngModel"
                 [(ngModel)]="phoneNumber"
                 (ngModelChange)="onPhoneNumberChange()"

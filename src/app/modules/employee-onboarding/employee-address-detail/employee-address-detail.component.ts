@@ -9,6 +9,8 @@ import { UserAddressDetailsRequest } from 'src/app/models/user-address-details-r
 import { UserAddressRequest } from 'src/app/models/user-address-request';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { PreviewFormComponent } from '../preview-form/preview-form.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-employee-address-detail',
@@ -20,7 +22,10 @@ export class EmployeeAddressDetailComponent implements OnInit {
   userAddressRequest: UserAddressRequest[] = [new UserAddressRequest(), new UserAddressRequest()];
   userAddressDetailsRequest: UserAddressDetailsRequest = new UserAddressDetailsRequest();
 
-  constructor(private dataService: DataService, private router : Router, private activateRoute : ActivatedRoute, private helperService : HelperService) { 
+  constructor(public dataService: DataService, private router : Router,
+    private activateRoute : ActivatedRoute,
+    private helperService : HelperService,
+    private modalService: NgbModal) {
 
     if (this.activateRoute.snapshot.queryParamMap.has('userUuid')) {
       this.userUuid = this.activateRoute.snapshot.queryParamMap.get('userUuid');
@@ -33,15 +38,15 @@ export class EmployeeAddressDetailComponent implements OnInit {
   backRedirectUrl() {
     // Retrieve userUuid from the URL query parameters
     const userUuid = new URLSearchParams(window.location.search).get('userUuid');
-    
+
     // Initialize an empty object for queryParams
     let queryParams: any = {};
-    
+
     // Add userUuid to queryParams if it exists
     if (userUuid) {
       queryParams['userUuid'] = userUuid;
     }
-    
+
     // Conditionally add adminUuid to queryParams if updateRequest is true
     if (this.userAddressDetailsRequest.updateRequest) {
       const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
@@ -49,25 +54,50 @@ export class EmployeeAddressDetailComponent implements OnInit {
         queryParams['adminUuid'] = adminUuid;
       }
     }
-  
+
     // Create NavigationExtras object with the queryParams
     let navExtra: NavigationExtras = { queryParams };
-  
+
     // Navigate to the specified route with the query parameters
     this.router.navigate(['/employee-onboarding/employee-onboarding-form'], navExtra);
   }
-  
-  
+
+
 
   routeToUserDetails() {
     let navExtra: NavigationExtras = {
       queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
     };
-    this.router.navigate(['/employee-onboarding/employee-document'], navExtra);
+    if(this.dataService.isRoutePresent('/employee-document')){
+      this.router.navigate(
+        ['/employee-onboarding/employee-document'],
+        navExtra
+      );
+    }else if(this.dataService.isRoutePresent('/acadmic')){
+      this.router.navigate(
+        ['/employee-onboarding/acadmic'],
+        navExtra
+      );
+    }else if(this.dataService.isRoutePresent('/employee-experience')){
+      this.router.navigate(
+        ['/employee-onboarding/employee-experience'],
+        navExtra
+      );
+    }else if(this.dataService.isRoutePresent('/bank-details')){
+      this.router.navigate(
+        ['/employee-onboarding/bank-details'],
+        navExtra
+      );
+    }else if(this.dataService.isRoutePresent('/emergency-contact')){
+      this.router.navigate(
+        ['/employee-onboarding/emergency-contact'],
+        navExtra
+      );
+    }
   }
   userUuid:any;
 
-  
+
   userAddressDetailsStatus = "";
   toggle = false;
   toggleSave = false;
@@ -97,16 +127,16 @@ setEmployeeAddressDetailsMethodCall() {
     return;
   }
 
-  
+
 
   this.dataService.setEmployeeAddressDetails(this.userAddressDetailsRequest, userUuid)
     .subscribe(
       (response: UserAddressDetailsRequest) => {
-        console.log('Response:', response);
+        // console.log('Response:', response);
         this.dataService.markStepAsCompleted(response.statusId);
         this.toggle = false;
         this.employeeOnboardingFormStatus = response.employeeOnboardingStatus;
-       
+
         if(this.buttonType=='next'){
           this.routeToUserDetails();
         } else if (this.buttonType=='save'){
@@ -114,13 +144,13 @@ setEmployeeAddressDetailsMethodCall() {
             this.handleOnboardingStatus(response.employeeOnboardingStatus);
             this.successMessageModalButton.nativeElement.click();
           }
-          
+
           setTimeout(() => {
-            
-            this.routeToFormPreview();  
+
+            this.routeToFormPreview();
           }, 2000);
-          
-          
+
+
         } else if (this.buttonType=='update'){
           this.helperService.showToast("Information Updated Successfully", Key.TOAST_STATUS_SUCCESS);
 
@@ -157,9 +187,9 @@ async getNewUserAddressDetailsMethodCall(): Promise<boolean> {
                       if(adminUuid){
                         await this.getAdminVerifiedForOnboardingUpdateMethodCall(); // This will now work
                       }
-                      
-                     
-                      
+
+
+
                       if(response.employeeOnboardingFormStatus=='USER_REGISTRATION_SUCCESSFUL' && this.employeeOnboardingFormStatus != 'REJECTED' && !this.userAddressDetailsRequest.updateRequest){
                           this.successMessageModalButton.nativeElement.click();
                       }
@@ -167,13 +197,13 @@ async getNewUserAddressDetailsMethodCall(): Promise<boolean> {
                           this.isNewUser = false;
                       }
                       this.handleOnboardingStatus(response.employeeOnboardingStatus);
-  
+
                       if(response.sameAddress==false){
                           this.isPermanent=false;
                       }else{
                           this.isPermanent=true;
                       }
-                      
+
                   } else {
                       // Properly initialize the object with default values
                       this.userAddressDetailsRequest = new UserAddressDetailsRequest();
@@ -196,8 +226,8 @@ async getNewUserAddressDetailsMethodCall(): Promise<boolean> {
   })
 }
 
-  
-  
+
+
 //   isPermanent: boolean = true;
 
 // showPermanent() {
@@ -218,22 +248,22 @@ isPermanent:boolean=false;
 
 
   // registerForm = new FormGroup({
-  
+
   //   currentAddress: new FormControl('', [Validators.required]),
   //   currentPincode: new FormControl('', [Validators.required, Validators.pattern("[0-9]*"), Validators.minLength(6), Validators.maxLength(6)]),
   //   currentCity: new FormControl('', [Validators.required]),
   //   currentState: new FormControl('', [Validators.required]),
   //   currentCountry: new FormControl('', [Validators.required]),
-  //   sameAddress: new FormControl("true"),  
+  //   sameAddress: new FormControl("true"),
   //   permanentAddress: new FormControl(''),
   //   permanentPincode: new FormControl('', [Validators.pattern("[0-9]*"), Validators.minLength(6), Validators.maxLength(6)]),
   //   permanentCity: new FormControl(''),
   //   permanentState: new FormControl(''),
   //   permanentCountry: new FormControl('')
   // });
-  
-  
-  
+
+
+
   // ... similarly for the other fields ...
   @ViewChild("formSubmitButton") formSubmitButton!:ElementRef;
 
@@ -242,6 +272,12 @@ selectButtonType(type:string){
   this.buttonType=type;
   this.userAddressDetailsRequest.directSave = false;
   this.formSubmitButton.nativeElement.click();
+  if(type === 'preview'){
+    const modalRef = this.modalService.open(PreviewFormComponent, {
+      centered: true,
+      size: 'lg', backdrop: 'static'
+    });
+    }
 }
 
 directSave: boolean = false;
@@ -276,19 +312,19 @@ routeToFormPreview() {
   this.dismissSuccessModalButton.nativeElement.click();
   setTimeout(x=>{
   let navExtra: NavigationExtras = {
-    
+
     queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
   };
   this.router.navigate(['/employee-onboarding/employee-onboarding-preview'], navExtra);
 },2000)
 }
-  
+
 displayModal = false;
   allowEdit = false;
 handleOnboardingStatus(response: string) {
   this.displayModal = true;
   switch (response) {
-    
+
     case 'REJECTED':
       this.allowEdit = true;
       break;
@@ -312,8 +348,8 @@ handleOnboardingStatus(response: string) {
     this.userAddressRequest[0].id=id;
     this.userAddressRequest[0].addressLine1=e.formatted_address.toString() ;
     e?.address_components?.forEach((entry: any) => {
-      console.log(entry);
-      
+      // console.log(entry);
+
       // if (entry.types?.[0] === "route") {
       //   this.userAddressRequest[0].addressLine2 = entry.long_name + ",";
       // }
@@ -348,8 +384,8 @@ handleOnboardingStatus(response: string) {
     this.userAddressRequest[1].id=id;
     this.userAddressRequest[1].addressLine1=e.formatted_address.toString() ;
     e?.address_components?.forEach((entry: any) => {
-      console.log(entry);
-      
+      // console.log(entry);
+
       // if (entry.types?.[0] == "route") {
       //   this.userAddressRequest[1].addressLine2 = entry.long_name + ",";
       // }
@@ -376,7 +412,7 @@ handleOnboardingStatus(response: string) {
 
   preventLeadingWhitespace(event: KeyboardEvent): void {
     const inputElement = event.target as HTMLInputElement;
-  
+
     // Prevent space if it's the first character
     if (event.key === ' ' && inputElement.selectionStart === 0) {
       event.preventDefault();
@@ -384,20 +420,20 @@ handleOnboardingStatus(response: string) {
     if (!isNaN(Number(event.key)) && event.key !== ' ') {
       event.preventDefault();
     }
-    
+
   }
 
   preventWhitespace(event: KeyboardEvent): void {
     const inputElement = event.target as HTMLInputElement;
-  
+
     // Prevent space if it's the first character
     if (event.key === ' ' && inputElement.selectionStart === 0) {
       event.preventDefault();
     }
-   
+
   }
-  
-  
+
+
   isFormInvalid: boolean = false;
   @ViewChild ('addressInformationForm') addressInformationForm !: NgForm
 checkFormValidation(){
@@ -425,7 +461,7 @@ async getAdminVerifiedForOnboardingUpdateMethodCall(): Promise<boolean> {
       (isAdminPresent: boolean) => {
         this.userAddressDetailsRequest.updateRequest = isAdminPresent;
         if (isAdminPresent) {
-          console.log('Admin verification successful.');
+          // console.log('Admin verification successful.');
           this.userAddressDetailsRequest.updateRequest = true;
           resolve(true); // Resolve the promise with true if admin is present
         } else {
@@ -447,8 +483,11 @@ goBackToProfile() {
   let navExtra: NavigationExtras = {
     queryParams: { userId: new URLSearchParams(window.location.search).get('userUuid') },
   };
-  this.router.navigate(['/employee-profile'], navExtra);
+  // this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], navExtra);
+  const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
+    window.open(url, '_blank');
+    return;
 }
 
- 
+
 }

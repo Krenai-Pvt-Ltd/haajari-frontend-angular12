@@ -1,9 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router, RouterLink, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Subscription, of, timer } from 'rxjs';
 import { catchError, switchMap, take, tap } from 'rxjs/operators';
+import { constant } from 'src/app/constant/constant';
+import { Key } from 'src/app/constant/key';
 import { UserReq } from 'src/app/models/userReq';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -23,12 +25,15 @@ export class SignUpComponent implements OnInit {
   countDown: Subscription;
   counter: number = 10;
   tick = 1000;
+  promotionalOffer:string='';
+  readonly Constant = constant;
 
   constructor(
     private dataService: DataService,
     private router: Router,
     private rbacService: RoleBasedAccessControlService,
     private helperService: HelperService,
+    private _routeParams: ActivatedRoute,
     private _onboardingService: OrganizationOnboardingService
   ) {
     this.countDown = timer(0, this.tick)
@@ -39,6 +44,12 @@ export class SignUpComponent implements OnInit {
           this.countDown.unsubscribe();
         }
       });
+
+
+      if (this._routeParams.snapshot.queryParamMap.has('offer') && !this.Constant.EMPTY_STRINGS.includes(this._routeParams.snapshot.queryParamMap.get('offer'))) {
+        this.promotionalOffer = String(this._routeParams.snapshot.queryParamMap.get('offer'));
+        this.setCookie("promotionalOffer", this.promotionalOffer, 7);
+      }
   }
 
   ngOnInit(): void {
@@ -102,7 +113,7 @@ export class SignUpComponent implements OnInit {
       .loginUser(this.email, this.password)
       .pipe(
         tap((response) => {
-          console.log(response);
+          // console.log(response);
           this.helperService.subModuleResponseList =
             response.subModuleResponseList;
           localStorage.setItem('token', response.tokenResponse.access_token);
@@ -120,7 +131,7 @@ export class SignUpComponent implements OnInit {
           this.UUID = UUID;
 
           if (this.ROLE === 'USER') {
-            this.router.navigate(['/employee-profile'], {
+            this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], {
               queryParams: { userId: this.UUID, dashboardActive: 'true' },
             });
           } else {
@@ -194,13 +205,13 @@ export class SignUpComponent implements OnInit {
   }
 
   onOtpInputChange(index: number) {
-    console.log(`Input ${index} changed`);
+    // console.log(`Input ${index} changed`);
   }
 
   private debounceTimer: any;
   onOtpChange(event: any) {
     this.otp = event;
-    console.log(this.otp);
+    // console.log(this.otp);
 
     if (this.debounceTimer) {
       clearTimeout(this.debounceTimer);
@@ -252,7 +263,7 @@ export class SignUpComponent implements OnInit {
       (response) => {
         this.registerPassLoader = false;
         this.showOtpInput = false;
-        console.log('Password Created successfully:', response);
+        // console.log('Password Created successfully:', response);
         this.password = '';
         this.confirmPassword = '';
         this.createPasswordFlag = false;
@@ -293,7 +304,7 @@ export class SignUpComponent implements OnInit {
             this.verifyOtpButtonFlag = true;
             this.errorMessage = '';
           }
-          console.log('response :', response);
+          // console.log('response :', response);
         },
         (error) => {
           this.loginButtonLoader = false;
@@ -329,7 +340,7 @@ export class SignUpComponent implements OnInit {
       (response) => {
         this.registerPassLoader = false;
         this.showOtpInput = false;
-        console.log('Password Created successfully:', response);
+        // console.log('Password Created successfully:', response);
         this.password = '';
         this.confirmPassword = '';
         this.createPasswordFlag = false;
@@ -404,7 +415,7 @@ export class SignUpComponent implements OnInit {
   verifyOtpByWhatsappMethodCall() {
     this.loading = true;
     this.dataService
-      .verifyOtpByWhatsappNew(this.phoneNumber, this.otp)
+      .verifyOtpByWhatsappNew(this.phoneNumber, this.otp,"")
       .subscribe(
         async (response: any) => {
           if (response.status) {
@@ -531,7 +542,7 @@ export class SignUpComponent implements OnInit {
     this.dataService.getSlackAuthUrl().subscribe(
       (response: any) => {
         this.authUrl = response.message;
-        console.log('authUrl: ' + this.authUrl);
+        // console.log('authUrl: ' + this.authUrl);
 
         // // Traverse up the DOM to find the closest anchor element
         // const target = event.target as HTMLElement;
@@ -566,8 +577,20 @@ export class SignUpComponent implements OnInit {
   extractWorkspaceName(url: string): string {
     const regex = /https:\/\/([^.]+)\.slack\.com/;
     const matches = url.match(regex);
-    console.log('URL:', url);
-    console.log('Matches:', matches);
+    // console.log('URL:', url);
+    // console.log('Matches:', matches);
     return matches ? matches[1] : '';
   }
+
+
+  setCookie(name:string, value:string, days:number) {
+    let expires = "";
+    if (days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); // convert days to milliseconds
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+  }
+  
 }

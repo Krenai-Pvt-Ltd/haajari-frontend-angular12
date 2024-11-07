@@ -68,6 +68,7 @@ export class TeamComponent implements OnInit {
     this.logInUserUuid = await this.rbacService.getUUID();
     this.getTeamsByFiltersFunction();
     this.getUsersRoleFromLocalStorage();
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
     // const localStorageFlag = localStorage.getItem(this.localStorageKey);
     const localStorageUniqueUuid = localStorage.getItem('uniqueId');
     if (localStorageUniqueUuid) {
@@ -276,8 +277,8 @@ export class TeamComponent implements OnInit {
       this.registerTeamRequest.teamLocationRequest = new TeamLocation();
     }
 
-    console.log('Testing' + this.registerTeamRequest.userUuids);
-    console.log('Testing' + this.registerTeamRequest.teamLocationRequest);
+    // console.log('Testing' + this.registerTeamRequest.userUuids);
+    // console.log('Testing' + this.registerTeamRequest.teamLocationRequest);
 
     this.dataService
       .registerTeam(
@@ -850,7 +851,10 @@ export class TeamComponent implements OnInit {
     let navExtra: NavigationExtras = {
       queryParams: { userId: uuid },
     };
-    this.router.navigate(['/employee-profile'], navExtra);
+    // this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], navExtra);
+    const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
+    window.open(url, '_blank');
+    return;
   }
 
   // new code
@@ -864,8 +868,8 @@ export class TeamComponent implements OnInit {
     this.teamLocationRequest.longitude = e.geometry.location.lng();
     this.teamLocationRequest.latitude = e.geometry.location.lat();
 
-    console.log(e.geometry.location.lat());
-    console.log(e.geometry.location.lng());
+    // console.log(e.geometry.location.lat());
+    // console.log(e.geometry.location.lng());
     this.teamLocationRequest.addressLine1 = e.name + ', ' + e.vicinity;
 
     e?.address_components?.forEach((entry: any) => {
@@ -905,7 +909,7 @@ export class TeamComponent implements OnInit {
 
   modal2toggle: boolean = false;
   reopenCreateTeamModal() {
-    console.log('Checking team location request:', this.teamLocationRequest);
+    // console.log('Checking team location request:', this.teamLocationRequest);
 
     // Check that required properties are not empty
     if (
@@ -916,7 +920,7 @@ export class TeamComponent implements OnInit {
       this.teamLocationRequest.country &&
       this.teamLocationRequest.pincode
     ) {
-      console.log('Valid team location request found, closing the modal.');
+      // console.log('Valid team location request found, closing the modal.');
 
       // Reset location toggle switch
       this.locationEnabled = true;

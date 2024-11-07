@@ -46,7 +46,7 @@
 }
 
 .members-icon {
-  background-color: #eea2cc;
+  background-color: #a69ff3;
   width: 40px;
   height: 40px;
   display: flex;
@@ -55,6 +55,7 @@
   border-radius: 50%;
   font-size: 18px;
   text-transform: uppercase;
+  color: #fff;
 }
 
 span.members-name {
@@ -142,6 +143,7 @@ span.members-namess {
 .user-item img {
   width: 30px;
   border-radius: 50%;
+  height: 30px;
 }
 #members {
   width: 100%;
@@ -157,6 +159,13 @@ span.members-namess {
   align-items: center;
   line-height: 45px;
   cursor: pointer;
+}
+
+#manager-list-details{
+  display: flex;
+    align-items: center;
+    line-height: 45px;
+    cursor: pointer;
 }
 
 .team-name {
@@ -1120,4 +1129,84 @@ button.btn.close-btn {
 .Regular-data:hover {
   color: #6666f3 !important;
   text-decoration: underline;
+}
+
+.leave-management-settings {
+  background-color: #f5f6ff;
+}
+
+.add-leave-btn {
+  background-color: var(--primary-background-color);
+  color: #fff;
+  font-size: 14px;
+  height: 40px;
+  min-width: 160px;
+  border-radius: 2px;
+  font-weight: 400;
+}
+.add-leave-btn i {
+  padding-right: 5px;
+}
+
+.excel-upload-members {
+  background-color: #fff;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-background-color);
+  font-size: 14px;
+  height: 40px;
+  min-width: 160px;
+  border-radius: 2px;
+  font-weight: 400;
+}
+.excel-upload-members i {
+  padding-right: 5px;
+}
+
+.excel-upload-members:hover {
+  color: #fff;
+  background-color: var(--primary-background-color);
+}
+
+.leave-management-detail h3 {
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 40px;
+}
+.leave-management-detail p {
+  font-weight: 300;
+  color: #444;
+}
+
+.leave-management-detail svg {
+  width: 15px;
+  position: relative;
+  top: -1px;
+}
+.leave-management-detail a {
+  color: var(--primary-color) !important;
+}
+.leave-management-detail a:hover {
+  text-decoration: underline;
+  color: var(--primary-color) !important;
+}
+.empty-detail {
+  color: #6b7280;
+  line-height: 20px;
+}
+
+::ng-deep.ant-empty-image img {
+  width: 90px;
+}
+.user-dropdown{
+  max-height: 200px;
+  overflow: scroll;
+}
+
+.create-team{
+  height: 45px;
+  border-radius: 2px;
+  color: #fff !important;
+}
+.create-team:hover{
+  color: #fff !important;
 }

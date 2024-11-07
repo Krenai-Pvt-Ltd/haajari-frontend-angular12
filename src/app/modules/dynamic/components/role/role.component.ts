@@ -40,7 +40,7 @@ export class RoleComponent implements OnInit {
     this.getUserAndControlRolesByFilterMethodCall();
     this.getUsersByFilterMethodCall();
     this.getAllRolesMethodCall();
-
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
     debugger;
     // if(!this.helperService.getRoleSectionTab()){
 
@@ -163,7 +163,7 @@ export class RoleComponent implements OnInit {
           this.roles = data.object;
           for (let i = 0; i < this.roles.length; i++) {
             await this.getTotalCountOfUsers(this.roles[i].id).then((data) => {
-              console.log(data);
+              // console.log(data);
             });
             this.roles[i].count = this.num;
           }
@@ -227,7 +227,7 @@ export class RoleComponent implements OnInit {
   }
 
   getSubModuleByRoleMethodCall() {
-    console.log(this.roleRequest.id);
+    // console.log(this.roleRequest.id);
     this.dataService.getSubModuleByRole(this.roleRequest.id).subscribe(
       (data) => {
         this.moduleResponse = data;
@@ -356,7 +356,7 @@ export class RoleComponent implements OnInit {
         );
       },
       (error) => {
-        this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+        this.helperService.showToast('Deletion of all the admins is restricted .One user must always be an admin.', Key.TOAST_STATUS_ERROR);
         console.log(error);
       }
     );
@@ -385,7 +385,7 @@ export class RoleComponent implements OnInit {
         this.users = data.users;
         // this.total = data.count;
 
-        console.log(this.users, this.total);
+        // console.log(this.users, this.total);
       });
   }
 
@@ -414,12 +414,8 @@ export class RoleComponent implements OnInit {
           );
         },
         (error) => {
+          this.helperService.showToast('Edit of all the admins is restricted .One user must always be an admin.', Key.TOAST_STATUS_ERROR);
           console.log(error);
-          // this.getUserAndControlRolesByFilterMethodCall();
-          // this.assignroleModalClose.nativeElement.click();
-          // this.emptyAssignRoleToUserInUserAndControlMethodCall();
-          // this.buttonLoaderToAssignRole = false;
-          this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
         }
       );
   }
@@ -433,12 +429,14 @@ export class RoleComponent implements OnInit {
 
   userAndControlRoles: UserAndControl[] = [];
   userAndControlRolesTotalCount: number = 0;
+
+  isPlaceholder: boolean = false;
   debounceTimer: any;
   getUserAndControlRolesByFilterMethodCall(debounceTime: number = 300) {
     if (this.debounceTimer) {
       clearTimeout(this.debounceTimer);
     }
-
+    debugger
     this.debounceTimer = setTimeout(() => {
       this.preRuleForShimmersAndErrorPlaceholdersMethodCall();
       this.dataService
@@ -455,6 +453,13 @@ export class RoleComponent implements OnInit {
             this.userAndControlRoles = data.object;
             this.total = data.totalItems;
 
+            if(data === undefined ||
+              data === null ||
+              this.userAndControlRoles.length === 0 && this.searchText == '') {
+                this.isPlaceholder = true;
+            }else {
+              this.isPlaceholder = false;
+            }
             if (
               data === undefined ||
               data === null ||
@@ -542,6 +547,9 @@ export class RoleComponent implements OnInit {
     let navExtra: NavigationExtras = {
       queryParams: { userId: uuid },
     };
-    this.router.navigate(['/employee-profile'], navExtra);
+    // this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], navExtra);
+    const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
+    window.open(url, '_blank');
+    return;
   }
 }

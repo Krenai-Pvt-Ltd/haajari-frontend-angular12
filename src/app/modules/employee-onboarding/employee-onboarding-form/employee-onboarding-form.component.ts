@@ -1,10 +1,12 @@
 import {
   Component,
+  ComponentFactoryResolver,
   ElementRef,
   OnInit,
   QueryList,
   ViewChild,
   ViewChildren,
+  ViewContainerRef,
 } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import {
@@ -18,7 +20,7 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { url } from 'inspector';
 import { UserPersonalInformationRequest } from 'src/app/models/user-personal-information-request';
 import { DataService } from 'src/app/services/data.service';
-import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subject } from 'rxjs';
 import {
   debounceTime,
@@ -30,6 +32,7 @@ import { debug } from 'console';
 import { DomSanitizer } from '@angular/platform-browser';
 import { HelperService } from 'src/app/services/helper.service';
 import { Key } from 'src/app/constant/key';
+import { PreviewFormComponent } from '../preview-form/preview-form.component';
 
 @Component({
   selector: 'app-employee-onboarding-form',
@@ -42,12 +45,13 @@ export class EmployeeOnboardingFormComponent implements OnInit {
   maxDob: string;
   // minJoiningDate: string;
   constructor(
-    private dataService: DataService,
+    public dataService: DataService,
     private router: Router,
     private activateRoute: ActivatedRoute,
     private afStorage: AngularFireStorage,
     private domSanitizer: DomSanitizer,
-    private helperService: HelperService
+    private helperService: HelperService,
+    private modalService: NgbModal
   ) {
     // DOB Date logic
     const today = new Date();
@@ -68,11 +72,60 @@ export class EmployeeOnboardingFormComponent implements OnInit {
   @ViewChild('closeModel') closeModel!: ElementRef;
   @ViewChild('imageGallerButton') imageGallerButton!: ElementRef;
   @ViewChildren('checkboxes') checkboxes!: QueryList<ElementRef>;
-  ngOnInit(): void {
+  async ngOnInit() {
+    await this.dataService.loadOnboardingRoute(new URLSearchParams(window.location.search).get('userUuid'));
+    this.isPagePresent();
     this.userPersonalInformationRequest.dateOfBirth = this.getInitialDate();
-    console.log();
+    // console.log();
     this.getNewUserPersonalInformationMethodCall();
+
   }
+  isPagePresent() {
+    debugger;
+    let navExtra: NavigationExtras = {
+      queryParams: {
+        userUuid: new URLSearchParams(window.location.search).get('userUuid'),
+      },
+    };
+    console.log(" personal info ",this.dataService.isRoutePresent('/employee-onboarding-form'))
+    console.log(" address info ",this.dataService.isRoutePresent('/employee-address-detail'))
+    if(this.dataService.isRoutePresent('/employee-onboarding-form')){
+
+      return;
+    }
+    else if(this.dataService.isRoutePresent('/employee-address-detail')){
+      this.router.navigate(
+        ['/employee-onboarding/employee-address-detail'],
+        navExtra
+      );
+    }else if(this.dataService.isRoutePresent('/employee-document')){
+      this.router.navigate(
+        ['/employee-onboarding/employee-document'],
+        navExtra
+      );
+    }else if(this.dataService.isRoutePresent('/acadmic')){
+      this.router.navigate(
+        ['/employee-onboarding/acadmic'],
+        navExtra
+      );
+    }else if(this.dataService.isRoutePresent('/employee-experience')){
+      this.router.navigate(
+        ['/employee-onboarding/employee-experience'],
+        navExtra
+      );
+    }else if(this.dataService.isRoutePresent('/bank-details')){
+      this.router.navigate(
+        ['/employee-onboarding/bank-details'],
+        navExtra
+      );
+    }else if(this.dataService.isRoutePresent('/emergency-contact')){
+      this.router.navigate(
+        ['/employee-onboarding/emergency-contact'],
+        navExtra
+      );
+    }
+  }
+
 
   routeToUserDetails() {
     let navExtra: NavigationExtras = {
@@ -80,10 +133,37 @@ export class EmployeeOnboardingFormComponent implements OnInit {
         userUuid: new URLSearchParams(window.location.search).get('userUuid'),
       },
     };
-    this.router.navigate(
-      ['/employee-onboarding/employee-address-detail'],
-      navExtra
-    );
+    if(this.dataService.isRoutePresent('/employee-address-detail')){
+      this.router.navigate(
+        ['/employee-onboarding/employee-address-detail'],
+        navExtra
+      );
+    }else if(this.dataService.isRoutePresent('/employee-document')){
+      this.router.navigate(
+        ['/employee-onboarding/employee-document'],
+        navExtra
+      );
+    }else if(this.dataService.isRoutePresent('/acadmic')){
+      this.router.navigate(
+        ['/employee-onboarding/acadmic'],
+        navExtra
+      );
+    }else if(this.dataService.isRoutePresent('/employee-experience')){
+      this.router.navigate(
+        ['/employee-onboarding/employee-experience'],
+        navExtra
+      );
+    }else if(this.dataService.isRoutePresent('/bank-details')){
+      this.router.navigate(
+        ['/employee-onboarding/bank-details'],
+        navExtra
+      );
+    }else if(this.dataService.isRoutePresent('/emergency-contact')){
+      this.router.navigate(
+        ['/employee-onboarding/emergency-contact'],
+        navExtra
+      );
+    }
   }
   routeToLastSavedStep(lastSavedStep: number) {
     // Extract userUuid from URL
@@ -164,13 +244,13 @@ export class EmployeeOnboardingFormComponent implements OnInit {
       this.isInvalidFileType = false;
       return true;
     }
-    console.log(this.isInvalidFileType);
+    // console.log(this.isInvalidFileType);
     this.isInvalidFileType = true;
     return false;
   }
 
   getImageUrl(e: any) {
-    console.log(e);
+    // console.log(e);
     if (e != null && e.length > 0) {
     }
   }
@@ -185,12 +265,12 @@ export class EmployeeOnboardingFormComponent implements OnInit {
       .snapshotChanges()
       .toPromise()
       .then(() => {
-        console.log('Upload completed');
+        // console.log('Upload completed');
         fileRef
           .getDownloadURL()
           .toPromise()
           .then((url) => {
-            console.log('File URL:', url);
+            // console.log('File URL:', url);
             this.isUploading = false;
             this.userPersonalInformationRequest.image = url;
           })
@@ -238,7 +318,7 @@ export class EmployeeOnboardingFormComponent implements OnInit {
       )
       .subscribe(
         (response: UserPersonalInformationRequest) => {
-          console.log(response);
+          // console.log(response);
           this.employeeOnboardingFormStatus =
             response.employeeOnboardingFormStatus.toString();
           this.handleOnboardingStatus(this.employeeOnboardingFormStatus);
@@ -249,7 +329,8 @@ export class EmployeeOnboardingFormComponent implements OnInit {
               this.userPersonalInformationRequest,
               userUuid,
               [],
-              0
+              0,
+              [],
             );
             // this.userPersonalDetailsStatus = response.statusResponse;
             // localStorage.setItem('statusResponse', JSON.stringify(this.userPersonalDetailsStatus));
@@ -311,10 +392,10 @@ export class EmployeeOnboardingFormComponent implements OnInit {
             this.isLoading = false;
             this.employeeOnboardingFormStatus =
               response.employeeOnboardingStatus.response;
-            // if(response.employeeOnboardingFormStatus.id && this.employeeOnboardingFormStatus != 'REJECTED' ){
-            //   this.lastSavedStep = response.employeeOnboardingFormStatus.id;
-            //   this.routeToLastSavedStep(this.lastSavedStep);
-            // }
+            if(response.employeeOnboardingFormStatus.id && this.helperService.isFirstTime ){
+              this.lastSavedStep = response.employeeOnboardingFormStatus.id;
+              this.routeToLastSavedStep(this.lastSavedStep);
+            }
             if (adminUuid) {
               await this.getAdminVerifiedForOnboardingUpdateMethodCall();
             }
@@ -337,7 +418,7 @@ export class EmployeeOnboardingFormComponent implements OnInit {
             this.handleOnboardingStatus(
               response.employeeOnboardingStatus.response
             );
-            console.log(response);
+            // console.log(response);
             if (response.dateOfBirth) {
               this.dataService.markStepAsCompleted(response.statusId);
             }
@@ -836,12 +917,23 @@ export class EmployeeOnboardingFormComponent implements OnInit {
   }
 
   @ViewChild('formSubmitButton') formSubmitButton!: ElementRef;
-
   buttonType: string = 'next';
   selectButtonType(type: string) {
+    try {
+
+
     this.buttonType = type;
     this.userPersonalInformationRequest.directSave = false;
     this.formSubmitButton.nativeElement.click();
+    if(type === 'preview'){
+    const modalRef = this.modalService.open(PreviewFormComponent, {
+      centered: true,
+      size: 'lg', backdrop: 'static'
+    });
+    }
+  } catch (error) {
+      console.log(error)
+  }
   }
 
   directSave: boolean = false;
@@ -995,7 +1087,7 @@ export class EmployeeOnboardingFormComponent implements OnInit {
             (isAdminPresent: boolean) => {
               this.userPersonalInformationRequest.updateRequest =
                 isAdminPresent;
-              console.log('Admin verification successful.');
+              // console.log('Admin verification successful.');
               resolve(isAdminPresent); // Resolve the promise with the result
             },
             (error: any) => {
@@ -1016,7 +1108,10 @@ export class EmployeeOnboardingFormComponent implements OnInit {
         userId: new URLSearchParams(window.location.search).get('userUuid'),
       },
     };
-    this.router.navigate(['/employee-profile'], navExtra);
+    // this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], navExtra);
+    const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
+    window.open(url, '_blank');
+    return;
   }
 }
 function finalize(

@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { NgForm } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
 import { EmployeeAdditionalDocument } from 'src/app/models/employee-additional-document';
@@ -10,6 +11,7 @@ import { UserDocumentsRequest } from 'src/app/models/user-documents-request';
 import { UserGuarantorRequest } from 'src/app/models/user-guarantor-request';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { PreviewFormComponent } from '../preview-form/preview-form.component';
 
 @Component({
   selector: 'app-employee-document',
@@ -21,7 +23,10 @@ export class EmployeeDocumentComponent implements OnInit {
 
   userDocumentsDetailsRequest: UserDocumentsDetailsRequest = new UserDocumentsDetailsRequest();
 selectedHighSchoolCertificateFileName: any;
-  constructor(private router : Router, private dataService : DataService, private afStorage: AngularFireStorage, private helperService: HelperService) { }
+  constructor(private router : Router, public dataService : DataService,
+    private afStorage: AngularFireStorage,
+    private helperService: HelperService,
+    private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.getEmployeeDocumentsDetailsMethodCall();
@@ -33,20 +38,20 @@ selectedHighSchoolCertificateFileName: any;
       new UserGuarantorRequest()  // Placeholder for the second guarantor
     ];
   }
-  
+
 
   backRedirectUrl() {
     // Retrieve userUuid from the URL query parameters
     const userUuid = new URLSearchParams(window.location.search).get('userUuid');
-    
+
     // Initialize an empty object for queryParams
     let queryParams: any = {};
-    
+
     // Add userUuid to queryParams if it exists
     if (userUuid) {
       queryParams['userUuid'] = userUuid;
     }
-    
+
     // Conditionally add adminUuid to queryParams if updateRequest is true
     if (this.userDocumentsDetailsRequest.updateRequest) {
       const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
@@ -54,14 +59,25 @@ selectedHighSchoolCertificateFileName: any;
         queryParams['adminUuid'] = adminUuid;
       }
     }
-  
+
     // Create NavigationExtras object with the queryParams
     let navExtra: NavigationExtras = { queryParams };
-  
-    // Navigate to the specified route with the query parameters
-    this.router.navigate(['/employee-onboarding/employee-address-detail'], navExtra);
-  }
 
+    // Navigate to the specified route with the query parameters
+
+  if(this.dataService.isRoutePresent('/employee-address-detail')){
+        this.router.navigate(
+          ['/employee-onboarding/employee-address-detail'],
+          navExtra
+        );
+  }else {
+    this.router.navigate(
+      ['/employee-onboarding/employee-onboarding-form'],
+      navExtra
+    );
+
+  }
+}
   userDocumentsStatus = "";
 
 
@@ -69,7 +85,27 @@ selectedHighSchoolCertificateFileName: any;
     let navExtra: NavigationExtras = {
       queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
     };
-    this.router.navigate(['/employee-onboarding/acadmic'], navExtra);
+    if(this.dataService.isRoutePresent('/acadmic')){
+      this.router.navigate(
+        ['/employee-onboarding/acadmic'],
+        navExtra
+      );
+    }else if(this.dataService.isRoutePresent('/employee-experience')){
+      this.router.navigate(
+        ['/employee-onboarding/employee-experience'],
+        navExtra
+      );
+    }else if(this.dataService.isRoutePresent('/bank-details')){
+      this.router.navigate(
+        ['/employee-onboarding/bank-details'],
+        navExtra
+      );
+    }else if(this.dataService.isRoutePresent('/emergency-contact')){
+      this.router.navigate(
+        ['/employee-onboarding/emergency-contact'],
+        navExtra
+      );
+    }
   }
 
   // onFileSelected(event: any, documentType: string): void {
@@ -79,7 +115,7 @@ selectedHighSchoolCertificateFileName: any;
   //   }
   // }
 
-  isInvalidFileType = false; 
+  isInvalidFileType = false;
 isValidFileType(file: File): boolean {
   const validExtensions = ['pdf', 'jpg', 'jpeg', 'png'];
   const fileType = file.type.split('/').pop(); // Get the file extension from the MIME type
@@ -129,12 +165,12 @@ isValidFileType(file: File): boolean {
         }
         // Use FileReader to read the file if it's an image for preview
         const reader = new FileReader();
-    
+
         reader.onload = (e: any) => {
           const imagePreview: HTMLImageElement = document.getElementById('imagePreview') as HTMLImageElement;
           imagePreview.src = e.target.result;
         };
-    
+
         reader.readAsDataURL(file);
 
         // Now upload the file since it's a valid type
@@ -146,7 +182,7 @@ isValidFileType(file: File): boolean {
       }
     }
   }
-  
+
   isUploadingAadhaarCard: boolean = false;
   isUploadingPancard: boolean = false;
   isUploadingHighestQualificationDegree: boolean = false;
@@ -175,7 +211,7 @@ isValidFileType(file: File): boolean {
     const filePath = `documents/${new Date().getTime()}_${file.name}`;
     const fileRef = this.afStorage.ref(filePath);
     const task = this.afStorage.upload(filePath, file);
-  
+
     task.snapshotChanges().pipe(
       finalize(() => {
         fileRef.getDownloadURL().subscribe(url => {
@@ -197,13 +233,13 @@ isValidFileType(file: File): boolean {
               break;
           }
           this.assignDocumentUrl(documentType, url);
-          
+
           // this.setEmployeeDocumentsDetailsMethodCall();
         });
       })
     ).subscribe();
   }
-  
+
   assignDocumentUrl(documentType: string, url: string): void {
     if (!this.userDocumentsDetailsRequest.userDocuments) {
       this.userDocumentsDetailsRequest.userDocuments = new UserDocumentsRequest();
@@ -237,7 +273,7 @@ isValidFileType(file: File): boolean {
   toggleSave =  false;
   setEmployeeDocumentsDetailsMethodCall(): void {
     debugger
-   
+
     if(this.userDocumentsDetailsRequest.employeeAdditionalDocument==null){
       this.userDocumentsDetailsRequest.employeeAdditionalDocument = [];
     }
@@ -254,20 +290,20 @@ isValidFileType(file: File): boolean {
     }
     const userUuid = new URLSearchParams(window.location.search).get('userUuid') || '';
     if(this.selectedFile) {
-     
+
       this.uploadFile(this.selectedFile, 'string');
   }
-  console.log(this.userDocumentsDetailsRequest);
+  // console.log(this.userDocumentsDetailsRequest);
   this.dataService.setEmployeeDocumentsDetails(this.userDocumentsDetailsRequest, userUuid)
-    
+
   .subscribe(
     (response: UserDocumentsDetailsRequest) => {
-      console.log('Response:', response);
-      console.log(this.userDocumentsDetailsRequest);
+      // console.log('Response:', response);
+      // console.log(this.userDocumentsDetailsRequest);
       this.toggle = false
-      this.employeeOnboardingFormStatus = response.employeeOnboardingStatus; 
+      this.employeeOnboardingFormStatus = response.employeeOnboardingStatus;
       this.handleOnboardingStatus(response.employeeOnboardingStatus);
-      
+
       // Perform further actions like navigation or state updates
       if(this.buttonType=='next'){
         this.routeToUserDetails();
@@ -277,8 +313,8 @@ isValidFileType(file: File): boolean {
           this.successMessageModalButton.nativeElement.click();
         }
           setTimeout(() => {
-            
-            this.routeToFormPreview();  
+
+            this.routeToFormPreview();
           }, 2000);
       } else if (this.buttonType=='update'){
         this.helperService.showToast("Information Updated Successfully", Key.TOAST_STATUS_SUCCESS);
@@ -289,21 +325,21 @@ isValidFileType(file: File): boolean {
       console.error('Error occurred:', error);
       this.toggle = false
     }
-    
+
   );
 
     if (!userUuid) {
       console.error('User UUID is missing.');
       return;
     }
-  
-    
-    
-  
-    
-    
+
+
+
+
+
+
   }
-  
+
 
   // Properties to hold filenames extracted from URLs
 secondarySchoolCertificateFileName: string = '';
@@ -350,11 +386,11 @@ async getEmployeeDocumentsDetailsMethodCall(): Promise<boolean> {
         }
           this.isLoading = false;
         if(response!=null){
-          
+
         }
-        
+
         if (response.userDocuments) {
-          
+
           this.secondarySchoolCertificateFileName = this.getFilenameFromUrl(response.userDocuments.secondarySchoolCertificate);
           // this.isSecondarySchoolCertificateRequired = !response.userDocuments.secondarySchoolCertificate;
 
@@ -394,19 +430,19 @@ async getEmployeeDocumentsDetailsMethodCall(): Promise<boolean> {
 
   getFilenameFromUrl(url: string): string {
     if (!url) return '';
-    
+
     const decodedUrl = decodeURIComponent(url);
-   
+
     const parts = decodedUrl.split('/');
-    
+
     const filenameWithQuery = parts.pop() || '';
-    
+
     const filename = filenameWithQuery.split('?')[0];
-   
+
     const cleanFilename = filename.replace(/^\d+_/,'');
     return cleanFilename;
   }
-  
+
   @ViewChild("formSubmitButton") formSubmitButton!:ElementRef;
 
 buttonType:string="next"
@@ -414,6 +450,12 @@ selectButtonType(type:string){
   this.buttonType=type;
   this.userDocumentsDetailsRequest.directSave = false;
   this.formSubmitButton.nativeElement.click();
+  if(type === 'preview'){
+    const modalRef = this.modalService.open(PreviewFormComponent, {
+      centered: true,
+      size: 'lg', backdrop: 'static'
+    });
+    }
 }
 
 directSave: boolean = false;
@@ -423,7 +465,7 @@ submit(){
 
   if(this.isFormInvalid==true){
     return
-  } else{ 
+  } else{
 switch(this.buttonType){
   case "next" :{
     this.setEmployeeDocumentsDetailsMethodCall();
@@ -437,7 +479,7 @@ switch(this.buttonType){
   }
   case "update" :{
     debugger
-    
+
     this.setEmployeeDocumentsDetailsMethodCall();
     break;
   }
@@ -460,20 +502,20 @@ routeToFormPreview() {
   this.dismissSuccessModalButton.nativeElement.click();
   setTimeout(x=>{
   let navExtra: NavigationExtras = {
-    
+
     queryParams: { userUuid: new URLSearchParams(window.location.search).get('userUuid') },
   };
   this.router.navigate(['/employee-onboarding/employee-onboarding-preview'], navExtra);
 },2000)
 }
-  
+
   displayModal = false;
   allowEdit = false;
 
   handleOnboardingStatus(response: string) {
     this.displayModal = true;
     switch (response) {
-      
+
       case 'REJECTED':
         this.allowEdit = true;
         break;
@@ -590,12 +632,12 @@ preventLeadingWhitespace(event: KeyboardEvent): void {
 
 clearFile(event: MouseEvent, documentType: string): void {
   event.preventDefault();
-  
+
   if (documentType === 'secondarySchoolCertificate') {
     this.userDocumentsDetailsRequest.userDocuments.secondarySchoolCertificate = "";
     this.selectedSecondarySchoolFileName = "";
     this.secondarySchoolCertificateFileName = "";
-    
+
   } else if (documentType === 'highSchoolCertificate') {
     this.userDocumentsDetailsRequest.userDocuments.highSchoolCertificate = "";
     this.selectedHighSchoolCertificateFileName = "";
@@ -629,7 +671,7 @@ getAdminVerifiedForOnboardingUpdateMethodCall(): Promise<boolean> {
       this.dataService.getAdminVerifiedForOnboardingUpdate(userUuid, adminUuid).subscribe(
         (isAdminPresent: boolean) => {
           this.userDocumentsDetailsRequest.updateRequest = isAdminPresent;
-          console.log('Admin verification successful.');
+          // console.log('Admin verification successful.');
           resolve(isAdminPresent); // Resolve the promise with the result
         },
         (error: any) => {
@@ -649,7 +691,10 @@ goBackToProfile() {
   let navExtra: NavigationExtras = {
     queryParams: { userId: new URLSearchParams(window.location.search).get('userUuid') },
   };
-  this.router.navigate(['/employee-profile'], navExtra);
+  // this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], navExtra);
+  const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
+    window.open(url, '_blank');
+    return;
 }
 
 

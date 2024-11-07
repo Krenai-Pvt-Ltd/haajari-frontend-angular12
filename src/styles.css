@@ -375,7 +375,7 @@ label {
   background-color: rgba(236, 236, 236, 0.21) !important;
   border: none !important;
   border-radius: 0px !important;
-  min-height: 44px !important;
+  min-height: 45px !important;
   font-weight: 400 !important;
   font-size: 12px !important;
   line-height: 18px !important;
@@ -518,7 +518,7 @@ label {
 actionMenuList .dropdown-item i {
   margin-right: 5px !important;
 }
-.table .table-light th {
+/* .table .table-light th {
   line-height: 21px !important;
   background-color: #f5f5f5 !important;
   color: #383838 !important;
@@ -527,7 +527,7 @@ actionMenuList .dropdown-item i {
   letter-spacing: 0.1px !important;
   border: 1px solid #f5f5f5 !important;
   border-radius: 0 !important;
-}
+} */
 .stickyColTh,
 .stickyColTd {
   min-width: 200px;
@@ -617,4 +617,15 @@ actionMenuList .dropdown-item i {
 
 .navbar-custom.employeeLoginHead > ul:not(class) {
   padding-left: 15px;
+}
+
+
+::ng-deep.ant-select-selector{
+  background-color: #fff !important;
+}
+
+.ant-select-single.ant-select-lg:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-item,
+.ant-select-single.ant-select-lg:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-placeholder,
+.ant-select-single.ant-select-lg:not(.ant-select-customize-input) .ant-select-selector::after {
+  line-height: 45px;
 }

@@ -6,10 +6,12 @@ import {
   ViewChild,
 } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
-import { NavigationEnd, Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { Key } from 'src/app/constant/key';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { Notification } from 'src/app/models/Notification';
 import { DataService } from 'src/app/services/data.service';
+import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { UserNotificationService } from 'src/app/services/user-notification.service';
 
@@ -20,15 +22,18 @@ import { UserNotificationService } from 'src/app/services/user-notification.serv
 })
 export class TopbarComponent implements OnInit {
   databaseHelper: DatabaseHelper = new DatabaseHelper();
-
+  employeeProfileRoute : string = '';
   constructor(
     public dataService: DataService,
     private router: Router,
     public rbacService: RoleBasedAccessControlService,
     private _notificationService: UserNotificationService,
+    private helperService:HelperService,
     private _router: Router,
     private db: AngularFireDatabase
-  ) {}
+  ) {
+    // this.employeeProfileRoute = Key.EMPLOYEE_PROFILE_ROUTE;
+  }
 
   topbarValue: string | undefined;
 
@@ -110,6 +115,9 @@ export class TopbarComponent implements OnInit {
     if (routeValue.includes('setting/subscription')) {
       routeValue = 'Billing & Subscription';
     }
+    if (routeValue.includes('setting/onboarding-setting')) {
+      routeValue = 'Onboarding Setting';
+    }
 
     if (routeValue.includes('payroll-dashboard/leave-summary')) {
       routeValue = 'Attendance, Leave & Present Days';
@@ -156,6 +164,8 @@ export class TopbarComponent implements OnInit {
     console.log('---', JSON.stringify(this.rbacService.userInfo));
 
     this.UUID = await this.rbacService.getUUID();
+    this.employeeProfileRoute = `${Key.EMPLOYEE_PROFILE_ROUTE}?userId=${this.UUID}`;
+    // this.employeeProfileRoute = Key.EMPLOYEE_PROFILE_ROUTE +'?userId={{UUID}}';
     this.orgUuid = await this.rbacService.getOrgRefUUID();
     this.getFirebase(this.orgUuid, this.UUID);
   }
@@ -337,5 +347,12 @@ export class TopbarComponent implements OnInit {
           this.newNotiication = res?.flag == 1 ? true : false;
         }
       });
+  }
+
+  logout(){
+    localStorage.clear();
+    this.rbacService.clearRbacService();
+    this.helperService.clearHelperService();
+    this.router.navigate(['/login']);
   }
 }

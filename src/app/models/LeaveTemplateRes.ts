@@ -1,3 +1,4 @@
+import { Employeetype } from "./EmployeeType";
 import { LeaveTemplateCategoryRes } from "./LeaveTemplateCategoryRes";
 
 export class LeaveTemplateRes{
@@ -8,7 +9,11 @@ export class LeaveTemplateRes{
     templateName!: string;
     employeeTypeId!: number;
     gender!: string;
+    totalEmployees!: number;
+    leaveAppliedUserCount!: number;
 
     leaveTemplateCategoryRes: LeaveTemplateCategoryRes[] = [];
-
+    
+    employeeType: Employeetype = new Employeetype();
+    name: string ='';
 }

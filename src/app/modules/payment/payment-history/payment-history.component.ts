@@ -63,6 +63,7 @@ export class PaymentHistoryComponent implements OnInit {
   endDateStr: string = '';
   month: string = '';
   inputDate: string = '';
+  mainPlaceholderFlag : boolean = false;
 
   employeeMonthWiseSalaryDataList: EmployeeMonthWiseSalaryData[] = [];
   getOrganizationMonthWiseSalaryDataMethodCall() {
@@ -86,6 +87,11 @@ export class PaymentHistoryComponent implements OnInit {
             response.listOfObject.length == 0
           ) {
             this.dataNotFoundPlaceholder = true;
+            if(this.search == '') {
+              this.mainPlaceholderFlag = true;
+            }else {
+              this.mainPlaceholderFlag = false;
+            }
           } else {
             this.employeeMonthWiseSalaryDataList = response.listOfObject;
             this.total = response.totalItems;
@@ -122,7 +128,7 @@ export class PaymentHistoryComponent implements OnInit {
     } else {
       // Use the data from the selectedEmployeesData
       salaryResponses = this.selectedEmployeesData;
-      console.log(salaryResponses);
+      // console.log(salaryResponses);
     }
   
     if (salaryResponses.length === 0) {
@@ -189,11 +195,11 @@ setPayslipMonth(date: string) {
   startDateAndEndDate : StartDateAndEndDate = new StartDateAndEndDate();
 
   onMonthChange(month: Date): void {
-    console.log('Month is getting selected');
+    // console.log('Month is getting selected');
     this.selectedDate = month;
     this.getFirstAndLastDateOfMonth(this.selectedDate);
 
-    console.log(this.startDate, this.endDate);
+    // console.log(this.startDate, this.endDate);
     // this.getEmployeeMonthWiseSalaryDataMethodCall();
   }
 
@@ -373,7 +379,7 @@ this.getOrganizationMonthWiseSalaryDataMethodCall();
         this.isAllUsersSelected = true;
         this.selectedEmployeeIds = response.listOfObject.map((employee: EmployeeMonthWiseSalaryData) => employee.uuid);
         this.selectedEmployeesData = response.listOfObject;
-        console.log(this.selectedEmployeeIds);
+        // console.log(this.selectedEmployeeIds);
       },
       (error) => {
         console.log(error);

@@ -46,6 +46,7 @@ export class AssetsComponent implements OnInit {
     this.getAssetUserListData();
     this.getCategoryCounts();
     this.getAssetDataById();
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
   }
 
   assetCategoryData: AssetCategoryResponse[] = [];
@@ -221,7 +222,7 @@ updateCategory(): void {
   this.dataService.updateAssetCategory(this.categoryId, this.newCategory)
     .subscribe(
       response => {
-        console.log('Asset category updated successfully:', response);
+        // console.log('Asset category updated successfully:', response);
         this.getAssetCategoryData();
         document.getElementById('createCategoryModal')?.click();
         this.newCategory = { categoryName: '', categoryImage: '' };
@@ -242,7 +243,7 @@ saveCategory(): void {
   this.dataService.createAssetCategory(this.newCategory)
     .subscribe(
       response => {
-        console.log('Asset category created successfully:', response);
+        // console.log('Asset category created successfully:', response);
         this.getAssetCategoryData();
         document.getElementById('createCategoryModal')?.click();
         this.newCategory = { categoryName: '', categoryImage: '' };
@@ -290,12 +291,12 @@ uploadFile(file: File): void {
     .snapshotChanges()
     .toPromise()
     .then(() => {
-      console.log('Upload completed');
+      // console.log('Upload completed');
       fileRef
         .getDownloadURL()
         .toPromise()
         .then((url) => {
-          console.log('File URL:', url);
+          // console.log('File URL:', url);
           this.fileToUpload = url;
           this.isFileUploaded = false;
         })
@@ -357,6 +358,8 @@ updateOrSaveAsset() {
   }
 }
 
+@ViewChild('closeCreateAssetModal') closeCreateAssetModal!:ElementRef;
+
 updateAsset(): void {
   this.dataService.editAsset(this.assetIdToUpdate, this.assetForm.value)
     .subscribe(
@@ -367,6 +370,7 @@ updateAsset(): void {
         this.getTotalAssetData();
         this.getCategoryCounts();
         document.getElementById('createAssetModal')?.click();
+        this.closeCreateAssetModal.nativeElement.click();
         this.helperService.showToast('Asset updated successfully.', Key.TOAST_STATUS_SUCCESS);
       },
       error => {
@@ -398,6 +402,7 @@ saveAsset(): void {
         this.getAssetCategoryData();
         this.getTotalAssetData();
         this.getCategoryCounts();
+        this.closeCreateAssetModal.nativeElement.click();
         document.getElementById('createAssetModal')?.click();
         this.helperService.showToast('Asset created successfully.', Key.TOAST_STATUS_SUCCESS);
      
@@ -512,6 +517,11 @@ totalAssetsStatusWiseData: StatusWiseTotalAssetsResponse[] = [];
       this.modalSelectUserString = 'Select User To Assign Asset';
       this.modalDateString = 'Assign Date';
       this.stringToSaveData = 'ASSIGNEDTO';
+    } else if (statusString == 'UNAVAILABLE') {
+      this.modalHeadString = 'Assign Asset';
+      this.modalSelectUserString = 'Select User To Assign Asset';
+      this.modalDateString = 'Assign Date';
+      this.stringToSaveData = 'ASSIGNEDTO';
     }
   }
 
@@ -568,7 +578,7 @@ colorScheme: Color = {
   group: ScaleType.Ordinal, 
   domain: ['#80CBC4', '#FFE082', '#80CBC4', '#FFCCBC', '#9575CD', '#4FC3F7', '#AED581', '#FFD54F', '#FF7043']
 };
-view: [number, number] = [700, 340];
+view: [number, number] = [600, 340];
 
 getCategoryCounts(): void {
   debugger

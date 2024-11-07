@@ -1,5 +1,5 @@
 .fixheigt-section {
-  height: 302px;
+  height: 310px;
 }
 
 .fixheigt-section img {
@@ -91,22 +91,23 @@ span.todo-task {
   background-color: #f9fafb !important;
 }
 
-.day-deta th {
+.day-data th {
   background-color: #f9fafb;
   border: 1px solid #ccc;
-  padding: 6px;
-  font-size: 10px;
+  padding: 6px !important;
+  font-size: 10px !important;
 }
 
-.day-deta td {
+.day-data td {
   border: 1px solid #ececec;
-  padding: 6px;
+  padding: 6px !important;
+  font-size: 10px !important;
 }
 
-.month-deta {
+/* .month-deta {
   padding-bottom: 10px;
   padding-top: 10px;
-}
+} */
 
 .table th {
   color: #8997bd;
@@ -510,13 +511,14 @@ span.total-holiday {
   border-right: 1px solid #f1f1f1;
   border-radius: 0px;
   height: 50px !important;
+  background-color: transparent !important;
 }
 
 .deshboard-search-box {
   padding: 10px 40px;
   border: none;
   border-right: 1px solid #f1f1f1;
-  border-radius: 0px;
+  border-radius: 0px !important;
   height: 50px !important;
 }
 
@@ -579,6 +581,7 @@ span.members-name-new {
 
 .Regular-data {
   cursor: pointer;
+  font-size: 14px !important;
 }
 
 .Regular-data:hover {
@@ -899,9 +902,8 @@ button.btn.add-card-btn {
 
 .modal-body {
   overflow-y: auto;
-  height: calc(
-    80vh - 100px
-  ); /* Adjust this value based on your modal header/footer height */
+  height: calc(85vh - 100px);
+  /* Adjust this value based on your modal header/footer height */
 }
 
 .bill-detail {
@@ -960,4 +962,154 @@ button.btn.add-card-btn {
   40% {
     opacity: 1;
   }
+}
+.empty-detail {
+  color: #6b7280;
+  line-height: 20px;
+}
+
+::ng-deep.ant-empty-image img {
+  width: 90px;
+}
+::ng-deep.ant-picker {
+  background-color: transparent !important;
+}
+.leave-list {
+  background-color: #fff6eb;
+  border-left: 5px solid #f3a73d;
+}
+.upcoming-holiday-list {
+  border-left: 5px solid var(--primary-color);
+}
+
+.leave-list h3 {
+  font-size: 20px;
+  font-weight: 500;
+  color: #f3a73d;
+  line-height: 30px;
+}
+.leave-list p {
+  font-weight: 400;
+  color: #8a8a8a;
+  line-height: 18px;
+}
+
+.leave-list h5 {
+  font-weight: 500;
+  color: #000;
+  line-height: 16px;
+}
+
+.upcoming-holiday-list h3 {
+  font-size: 18px;
+  font-weight: 500;
+  color: #555558;
+  line-height: 30px;
+}
+
+.upcoming-holiday-list p {
+  font-weight: 400;
+  color: #8a8a8a;
+  line-height: 18px;
+}
+
+.upcoming-holiday-list h5 {
+  font-weight: 500;
+  color: #000;
+  line-height: 16px;
+}
+.all-holiday-list {
+  padding-top: 20px;
+}
+.all-holiday-list p {
+  font-weight: 400;
+  color: #8a8a8a;
+  line-height: 18px;
+}
+.all-holiday-list button {
+  font-weight: 500;
+  text-decoration: underline;
+}
+.upcoming-birthday img {
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  object-fit: cover;
+}
+.today-birthday {
+  background-color: #f6f6f6;
+  border-left: 5px solid var(--primary-color);
+  background-repeat: no-repeat;
+  background-position: right top;
+  right: 10px;
+}
+
+.today-birthday p {
+  font-weight: 400;
+  color: #8a8a8a;
+  line-height: 22px;
+}
+.today-birthday h5 {
+  font-weight: 500;
+  color: #000;
+  line-height: 20px;
+}
+
+.upcoming-birthday-box p {
+  font-weight: 400;
+  color: #8a8a8a;
+  line-height: 22px;
+}
+.upcoming-birthday-box h5 {
+  font-weight: 500;
+  color: #000;
+  line-height: 20px;
+}
+/* .upcoming-birthday-box {
+  border-right: 5px solid var(--primary-color);
+} */
+
+.holiday-list-box h5 {
+  color: #f3a73d;
+}
+.leave-list:last-child {
+  border-bottom: 0px !important;
+}
+.active-leave-list {
+  background-color: #fff6eb;
+  border-left: 5px solid #f3a73d;
+  margin-bottom: 4px;
+}
+.upcoming-leave-list {
+  background-color: #fbfbfb;
+  border-left: 5px solid var(--primary-background-color);
+  margin-bottom: 4px;
+}
+.upcoming-leave-list h5 {
+  color: #444;
+}
+
+.dashnodata table td {
+  border-bottom: none !important;
+}
+.month-deta tr td {
+  border-bottom: 1px solid #e6e7e9 !important;
+}
+
+.month-deta {
+  border-bottom: 1px solid #f7f7f7 !important;
+}
+
+
+.denger-border{
+  border-left : 5px solid red !important;
+}
+.success-border{
+  border-left : 5px solid green !important;
+}
+.warning-border{
+  border-left : 5px solid orange !important;
+}
+.primiry-border{
+  border-left : 5px solid var(--primary-background-color) !important;
 }

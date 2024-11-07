@@ -1296,7 +1296,8 @@ nz-date-picker.nz-overlay-container.whatapp-login-input {
   gap: 10px; /* Space between the select count and clear button */
 }
 
-.info-button, .clear-button {
+.info-button,
+.clear-button {
   white-space: nowrap; /* Prevents text wrapping */
   display: inline-flex;
   align-items: center;
@@ -1318,14 +1319,16 @@ nz-time-picker {
   margin: 0 8px 12px 0;
 }
 
-.pre-hour-value, .post-hour-value{
+.pre-hour-value,
+.post-hour-value {
   text-align: center;
 }
 
-.pre-hour-value p, .post-hour-value p{
+.pre-hour-value p,
+.post-hour-value p {
   font-size: 12px;
   color: #6666f3;
-  background-color: #E9E9FF;
+  background-color: #e9e9ff;
   padding: 3px 7px;
   border-radius: 15px;
 }
@@ -1340,4 +1343,25 @@ a.fetch-location {
   font-size: 14px;
   text-decoration: none;
   cursor: pointer;
+}
+
+.automation-rule-duration-picker {
+  background-color: white;
+}
+
+::ng-deep .ant-picker-now-btn {
+  display: none !important; /* Hides the 'Now' button */
+}
+
+.empty-detail {
+  color: #6b7280;
+  line-height: 20px;
+}
+
+::ng-deep.ant-empty-image img {
+  width: 80px;
+}
+
+::ng-deep.ant-empty-image {
+  margin-bottom: 0px;
 }

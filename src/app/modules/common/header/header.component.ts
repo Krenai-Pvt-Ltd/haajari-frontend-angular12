@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Console } from 'console';
 import { Key } from 'src/app/constant/key';
 import { OrganizationSubscriptionPlanMonthDetail } from 'src/app/models/OrganizationSubscriptionPlanMonthDetail';
@@ -8,6 +10,7 @@ import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
+import { SubscriptionRestrictedComponent } from '../subscription-restricted/subscription-restricted.component';
 
 @Component({
   selector: 'app-header',
@@ -30,12 +33,15 @@ export class HeaderComponent implements OnInit {
     private helperService: HelperService,
     private dataService: DataService,
     public rbacService: RoleBasedAccessControlService,
-    private _subscriptionPlanService: SubscriptionPlanService
+    public _subscriptionPlanService: SubscriptionPlanService,
+    private db: AngularFireDatabase,
+    private _modalService: NgbModal
   ) {
     // if (this.route.snapshot.queryParamMap.has('userId')) {
     //     this.activeTab = 'dashboard';
     //   }
   }
+
 
   ngOnInit(): void {
     this.getUserUUID();
@@ -63,12 +69,11 @@ export class HeaderComponent implements OnInit {
     } else {
        this.showSuperCoinFlag = false;
     }
-
-    this.getOrgSubsPlanMonthDetail();
   }
 
   setActiveTabEmpty() {
     this.activeTab = '';
+    this.newNotification = false;
   }
 
   ADMIN = Key.ADMIN;
@@ -92,6 +97,7 @@ export class HeaderComponent implements OnInit {
     this.UUID = await this.rbacService.getUUID();
     this.ROLE = await this.rbacService.getRole();
     this.ORGANIZATION_UUID = await this.rbacService.getOrgRefUUID();
+    this.getFirebase(this.ORGANIZATION_UUID,this.UUID);
   }
 
   async getLoggedInUserDetails() {
@@ -141,7 +147,7 @@ export class HeaderComponent implements OnInit {
   routeToEmployeeProfilePage() {
     // this.router.navigate(["/employee-profile"], { queryParams: {"userId":  this.UUID} });
     this.activeTab = 'dashboard';
-    this.router.navigate(['/employee-profile'], {
+    this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], {
       queryParams: { userId: this.UUID, dashboardActive: 'true' },
     });
   }
@@ -220,15 +226,10 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/setting/account-settings'], navigationExtra);
   }
 
-  orgSubsPlanMonthDetail: OrganizationSubscriptionPlanMonthDetail = new OrganizationSubscriptionPlanMonthDetail();
-  getOrgSubsPlanMonthDetail() {
-    this._subscriptionPlanService
-      .getOrgSubsPlanMonthDetail()
-      .subscribe((response) => {
-        if (response.status) {
-          this.orgSubsPlanMonthDetail = response.object;
-        }
-      });
+
+
+  routeToBilling(){
+    this.router.navigate(['/setting/subscription']);
   }
 
   isCollapsed = true; // Initially collapsed
@@ -340,4 +341,49 @@ export class HeaderComponent implements OnInit {
       opacity: 1, transform: `translateY(${index * itemheight}px)`,
     };
   }
+
+  newNotification:boolean = false;
+  getFirebase(orgUuid:any,userUuid:any){
+    this.db.object("user_notification"+"/"+"organization_"+orgUuid+"/"+"user_"+userUuid).valueChanges()
+      .subscribe(async res => {
+
+        //@ts-ignore
+        if(res?.flag != undefined && res?.flag != null){
+          //@ts-ignore
+          this.newNotification = res?.flag==1?true:false; 
+        }
+      });
+  }
+
+  visibleIndex(originalIndex: number): number {
+    let index = 0;
+    const conditions = [
+      this.rbacService.shouldDisplay('attendance'),
+      this.rbacService.shouldDisplay('leave-management'),
+      this.rbacService.shouldDisplay('reports'),
+      this.rbacService.shouldDisplay('assets'),
+      this.rbacService.shouldDisplay('coins') && this.ROLE === 'ADMIN' && this.ORGANIZATION_UUID == this.KRENAI_UUID && this.showSuperCoinFlag
+    ];
+  
+    for (let i = 0; i < originalIndex; i++) {
+      if (conditions[i]) {
+        index++;
+      }
+    }
+  
+    return index;
+  }
+  
+
+  checkRestriction(route:string){
+    if (this.helperService.restrictedModules!=null && this.helperService.restrictedModules.length > 0) {
+      var index = this.helperService.restrictedModules.findIndex(module => module.route == route.trim())
+      if (index > -1) {
+        // console.log("===========restrict============")
+        const modalRef = this._modalService.open(SubscriptionRestrictedComponent);
+      }
+    }
+
+  }
+  
 }

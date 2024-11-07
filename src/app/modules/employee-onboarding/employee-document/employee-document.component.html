@@ -17,9 +17,9 @@
                           <!-- Aadhaar Card -->
                           <div class="col-md-6">
                             <div class="mb-3">
-                              <label for="aadhaarCardFile" class="pb-2">Aadhaar Card <span class="text-optional">*</span></label>
+                              <label for="aadhaarCardFile" class="pb-2">Aadhaar Card </label>
                               <div class="importfilebox">
-                                <input id="aadhaarCardFile" name="aadhaarCardFile" type="file" accept=".pdf, image/jpeg, image/jpg, image/png" class="input" (change)="onFileSelected($event, 'aadhaarCard')" #aadhaar="ngModel" [required]="isaadhaarCardRequired" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.aadhaarCard">
+                                <input id="aadhaarCardFile" name="aadhaarCardFile" type="file" accept=".pdf, image/jpeg, image/jpg, image/png" class="input" (change)="onFileSelected($event, 'aadhaarCard')" #aadhaar="ngModel" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.aadhaarCard">
                                 <label for="aadhaarCardFile">
                                   <!-- Loader for Aadhaar Card -->
                                   <div *ngIf="isUploadingAadhaarCard" class="loader d-flex align-items-center justify-content-center w-100" >
@@ -60,9 +60,13 @@
                           <!-- Pancard -->
                           <div class="col-md-6">
                             <div class="mb-3">
-                              <label for="pancardFile" class="pb-2">Pancard <span class="text-optional">*</span></label>
+                              <label for="pancardFile" class="pb-2">Pancard </label>
                               <div class="importfilebox">
-                                <input id="pancardFile" name="pancardFile" type="file" accept=".pdf, image/jpeg, image/jpg, image/png" class="input" (change)="onFileSelected($event, 'pancard')" #pancard="ngModel" [required]="ispancardRequired" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.pancard">
+                                <input id="pancardFile" name="pancardFile" type="file"
+                                accept=".pdf, image/jpeg, image/jpg, image/png" class="input"
+                                 (change)="onFileSelected($event, 'pancard')"
+                                 (input)="onFileSelected($event, 'pancard')" #pancard="ngModel"
+                                [(ngModel)]="userDocumentsDetailsRequest.userDocuments.pancard">
                                 <label for="pancardFile">
                                   <!-- Loader for Pancard -->
                                   <div *ngIf="isUploadingPancard" class="loader d-flex align-items-center justify-content-center w-100">
@@ -103,9 +107,9 @@
                           <!-- Highest Qualification Degree -->
                           <div class="col-md-6">
                             <div class="mb-3">
-                              <label for="highestQualificationDegreeFile" class="pb-2">Highest Qualification Degree <span class="text-optional">*</span></label>
+                              <label for="highestQualificationDegreeFile" class="pb-2">Highest Qualification Degree </label>
                               <div class="importfilebox">
-                                <input id="highestQualificationDegreeFile" name="highestQualificationDegreeFile" type="file" accept=".pdf, image/jpeg, image/jpg, image/png" class="input" (change)="onFileSelected($event, 'highestQualificationDegree')" #highestQualificationDegree="ngModel" [required]="isHighestQualificationDegreeRequired" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.highestQualificationDegree">
+                                <input id="highestQualificationDegreeFile" name="highestQualificationDegreeFile" type="file" accept=".pdf, image/jpeg, image/jpg, image/png" class="input" (change)="onFileSelected($event, 'highestQualificationDegree')" #highestQualificationDegree="ngModel" [(ngModel)]="userDocumentsDetailsRequest.userDocuments.highestQualificationDegree">
                                 <label for="highestQualificationDegreeFile">
                                   <!-- Loader for Highest Qualification Degree -->
                                   <div *ngIf="isUploadingHighestQualificationDegree" class="loader d-flex align-items-center justify-content-center w-100">
@@ -143,8 +147,8 @@
                             </div>
                           </div>
 
-                                      
-                                      
+
+
                                                                     <!-- 10th Marksheet -->
                                 <div class="col-md-6">
                                   <div class="mb-3">
@@ -231,7 +235,7 @@
                                   </div>
                                 </div>
 
-                                      
+
 
 
                                     <!-- <div class="col-md-6">
@@ -266,6 +270,7 @@
                                                readonly
                                                hidden>
                                         <div class="importfilebox">
+
                                           <input id="additionalDocumentFile{{i}}"
                                                  type="file"
                                                  class="input"
@@ -303,37 +308,37 @@
                                         </div>
                                       </div>
                                     </div>
-                                    
-                                    
+
+
 
                                   <div class="col-md-6 mb-3 ">
-                                    <label for="highSchoolCertificateFile" class="pb-2">Add Additional Documents </label> 
-                                    <button *ngIf="!isAddMore" (click)="addMore()" class="add-mere-new"><i class="bi bi-plus"></i> Add More </button> 
+                                    <label for="highSchoolCertificateFile" class="pb-2">Add Additional Documents </label>
+                                    <button *ngIf="!isAddMore" (click)="addMore()" class="add-mere-new"><i class="bi bi-plus"></i> Add More </button>
 
                                     <div class="d-flex align-items-center justify-content-between importfilebox-new" *ngIf="isAddMore">
                                       <input type="text" name="addMore" id="addMore" style=" border: none; height: 40px; width:250px; background-color: transparent;" [(ngModel)]="documentName"  placeholder="Enter Document Name">
-                                      <button id="saveButton" name="saveButton" (click)="addNewDocument()" class="add-more-save ">Save </button> 
+                                      <button id="saveButton" name="saveButton" (click)="addNewDocument()" class="add-more-save ">Save </button>
 
                                     </div>
                                   </div>
-                                  
-                                 
-                                  
-                                    
+
+
+
+
 
                                     </div>
 
                                     <div class="col-md-12">
-                               
+
                                         <div class="mb-3">
                                             <h4 class="" style="font-size: 16px;">Guarantors/Reference <span class="text-optional">(Optional)</span></h4>
                                             <!-- <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter garduation mark"> -->
-                                           
+
                                         </div>
                                      </div>
 
                                      <div class="row position-relative ps-lg-4">
-                                      
+
                                         <!-- <div class="counter-guarnters">
                                           <p>1.</p>
                                         </div> -->
@@ -393,7 +398,7 @@
                                             <div class="mb-3">
                                                 <label for="emailInput" class="pb-2">Email <span class="text-optional"></span> </label>
                                                 <input type="email" class="form-control" id="emailInput" name="emailInput" placeholder="Enter email" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[0].emailId" email #email1="ngModel" (keydown)="preventLeadingWhitespace($event)" maxlength="50">
-                                                
+
                                                 <!-- Error Message for Email Field -->
                                                 <div *ngIf="email1.touched">
                                                     <!-- Message for Required Field -->
@@ -412,7 +417,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                      </div>
                                      <!-- Guarantor @2 -->
                                      <!-- <div class="row position-relative" style="padding-left: 25px;">
@@ -423,7 +428,7 @@
                                             <div class="mb-3">
                                                 <label for="guarantorName2" class="pb-2">Name</label>
                                                 <input type="text" class="form-control" id="guarantorName2" name="guarantorName2" placeholder="Enter name" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[1].name" required #name2="ngModel" maxlength="30">
-                                                
+
                                                 <div *ngIf="name2.touched">
                                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="name2.errors?.required">
                                                         <i class="bi bi-exclamation-circle"></i>
@@ -438,8 +443,8 @@
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="guarantorRelation2" class="pb-2">Relation</label>
-                                                <input type="text" class="form-control" id="guarantorRelation2" name="guarantorRelation2" placeholder="Enter relation" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[1].relation" required #relation2="ngModel" maxlength="30"> 
-                                               
+                                                <input type="text" class="form-control" id="guarantorRelation2" name="guarantorRelation2" placeholder="Enter relation" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[1].relation" required #relation2="ngModel" maxlength="30">
+
                                                 <div *ngIf="relation2.touched">
                                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="relation2.errors?.required">
                                                         <i class="bi bi-exclamation-circle"></i>
@@ -455,7 +460,7 @@
                                             <div class="mb-3">
                                                 <label for="guarantorPhoneNumber2" class="pb-2">Phone Number</label>
                                                 <input type="text" mask="0000000000" class="form-control" id="guarantorPhoneNumber2" name="guarantorPhoneNumber2" placeholder="Enter phone number" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[1].phoneNumber" required minlength="10" maxlength="10" pattern="[0-9]*" #phone2="ngModel">
-                                           
+
                                                 <div *ngIf="phone2.touched">
                                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="phone2.errors?.required">
                                                         <i class="bi bi-exclamation-circle"></i>
@@ -470,15 +475,15 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
-                                        
+
+
                                         <div class="col-md-3">
                                             <div class="mb-3">
                                                 <label for="guarantorEmail2" class="pb-2">Email <span class="text-optional">(Optional)</span> </label>
                                                 <input type="email" class="form-control" id="guarantorEmail2" name="guarantorEmail2" placeholder="Enter email" [(ngModel)]="userDocumentsDetailsRequest!.guarantors[1].emailId"  email #email2="ngModel" maxlength="50">
-                                             
+
                                                 <div *ngIf="email2.touched">
-                                                   
+
                                                     <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="email2.errors?.email && !email2.errors?.required">
                                                         <i class="bi bi-exclamation-circle"></i>
                                                         Please enter a valid email address.
@@ -489,8 +494,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
-                                                                                
+
+
 
                                      </div> -->
                             <!-- Other form fields and elements -->
@@ -532,7 +537,7 @@
                                     </span>
                                   </button>
                                   <!-- Original Next Button, shown only when updateRequest is not true -->
-                                  <button *ngIf="!this.userDocumentsDetailsRequest.updateRequest" (click)="selectButtonType('next')" [disabled]="isUploading"  class="btn btn-primary save-button" type="button" [disabled]="toggle" aria-label="Next Step">
+                                  <button *ngIf="!this.userDocumentsDetailsRequest.updateRequest && !this.dataService.isLastRoute('/employee-document')" (click)="selectButtonType('next')" [disabled]="isUploading"  class="btn btn-primary save-button" type="button" [disabled]="toggle" aria-label="Next Step">
                                       <div *ngIf="toggle" class="dot-opacity-loader">
                                           <span></span>
                                           <span></span>
@@ -545,9 +550,19 @@
                                           Save & Next <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
                                       </span>
                                   </button>
+                                  <button *ngIf="this.dataService.isLastRoute('/employee-document')" (click)="selectButtonType('preview')" class="btn btn-primary save-button" type="button" [disabled]="toggle"  aria-label="Next Step">
+                                    <div *ngIf="toggle" class="dot-opacity-loader">
+                                      <span></span>
+                                      <span></span>
+                                      <span></span>
+                                    </div>
+                                    <span>
+                                      Preview Form <i class="bi bi-arrow-right" style="padding-left: 8px;"></i>
+                                  </span>
+                                  </button>
                               </div>
                               <button type="submit" style="display: none;" id="formSubmitButton" #formSubmitButton></button>
-                              
+
                             </div>
                         </div>
                         </div>
@@ -568,7 +583,7 @@
           <div class="modal-body text-center">
               <i class="bi bi-check-circle" *ngIf="employeeOnboardingFormStatus != 'REJECTED'" style="font-size: 48px; color: green;"></i>
               <i class="bi bi-exclamation-triangle-fill" *ngIf="employeeOnboardingFormStatus == 'REJECTED'" style="font-size: 48px; color: red;"></i>
-              
+
               <!-- Conditional Messages -->
               <p class="mt-2" *ngIf="employeeOnboardingFormStatus == 'PENDING'">
                   Your registration is successful. Pending for verification.

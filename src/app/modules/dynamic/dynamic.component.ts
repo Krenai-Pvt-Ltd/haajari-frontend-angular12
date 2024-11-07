@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, RouteConfigLoadStart, Router } from '@angular/router';
 import { Key } from 'src/app/constant/key';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -26,6 +26,12 @@ export class DynamicComponent implements OnInit {
   ngOnInit(): void {
     // console.log(this.roleBasedAccessControlService.isUserInfoInitialized,"-------");
     this.isToDoStepsCompletedData();
+    this._router.events.subscribe((event:any) => {
+      if(event instanceof NavigationEnd &&  document.body?.classList){
+        this._helperService.todoStepsSubject.next("close")
+      }
+    })
+    //  this.helperService.todoStepsSubject
   }
 
   
@@ -35,11 +41,11 @@ export class DynamicComponent implements OnInit {
     this.dataService.isToDoStepsCompleted().subscribe(
       (response) => {
         this.isToDoStepsCompleted = response.object;
-        console.log("success");
+        // console.log("success");
         
       },
       (error) => {
-        console.log('error');
+        // console.log('error');
       }
     );
   }

@@ -86,6 +86,11 @@ export class LeaveManagementComponent implements OnInit {
     return this.userLeaveForm.get('optNotes');
   }
 
+  onError(event: Event) {
+    const target = event.target as HTMLImageElement;
+    target.src = './assets/images/broken-image-icon.jpg';
+  }
+
   logInUserUuid: string = '';
   ROLE: string | null |any = '';
   currentNewDate: any;
@@ -95,7 +100,7 @@ export class LeaveManagementComponent implements OnInit {
     window.scroll(0, 0);
     this.logInUserUuid = await this.rbacService.getUUID();
     this.ROLE = await this.rbacService.getRole();
-
+    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
     this.getFullLeaveLogs();
     this.getPendingLeaves();
     this.getApprovedRejectedLeaveLogs();
@@ -470,7 +475,7 @@ export class LeaveManagementComponent implements OnInit {
     this.dataService
       .getRequestedUserLeaveByLeaveIdAndLeaveType(leaveId, leaveType)
       .subscribe({
-        next: (response) => (this.specificLeaveRequest = response.object[0]),
+        next: (response) => (this.specificLeaveRequest = response.object),
         error: (error) => {
           console.error('Failed to fetch pending leave:', error);
           this.helperService.showToast(
@@ -479,6 +484,15 @@ export class LeaveManagementComponent implements OnInit {
           );
         },
       });
+  }
+
+  getPendingLeave1(leaveId: number, leaveType: string) {
+    this.dataService
+      .getRequestedUserLeaveByLeaveIdAndLeaveType(leaveId, leaveType).subscribe((res: any)  => {
+        if(res.status){
+          this.specificLeaveRequest = res.object;
+        }
+      })
   }
 
   formatDateIn(newdate: any) {
@@ -561,7 +575,7 @@ export class LeaveManagementComponent implements OnInit {
       // } else {
       //   this.monthlyPlaceholderFlag = false;
       // }
-      console.log('length' + data.length);
+      // console.log('length' + data.length);
       this.monthlyChartData = data.map((item) => ({
         name: this.sliceWord(item.monthName),
         series: [
@@ -611,7 +625,7 @@ export class LeaveManagementComponent implements OnInit {
         ],
       }));
       this.dataReady = true;
-      console.log(this.consumedLeaveData);
+      // console.log(this.consumedLeaveData);
     });
   }
 
@@ -822,12 +836,12 @@ export class LeaveManagementComponent implements OnInit {
       .snapshotChanges()
       .toPromise()
       .then(() => {
-        console.log('Upload completed');
+        // console.log('Upload completed');
         fileRef
           .getDownloadURL()
           .toPromise()
           .then((url) => {
-            console.log('File URL:', url);
+            // console.log('File URL:', url);
             this.fileToUpload = url;
             // console.log('file url : ' + this.fileToUpload);
             this.isFileUploaded = false;

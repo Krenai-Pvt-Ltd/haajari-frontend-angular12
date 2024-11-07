@@ -1,4 +1,10 @@
+import { BASE_URL } from 'src/environments/environment';
 export class Key {
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  base_url = BASE_URL;
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   public static LOGGED_IN_USER = new Object();
 
   public static PRIVILEGE_VIEW = 1;
@@ -64,6 +70,8 @@ export class Key {
     '/payment/payroll-dashboard/leave-summary',
     '/to-do-step-dashboard',
     '/setting/subscription',
+    '/setting/onboarding-setting',
+    '/refer-friend',
   ];
 
   public static TOPBAR_ROUTES = [
@@ -105,6 +113,8 @@ export class Key {
     '/payment/payment-history',
     '/payment/payroll-dashboard/leave-summary',
     '/setting/subscription',
+    '/setting/onboarding-setting',
+    '/refer-friend',
     // '/to-do-step-dashboard',
   ];
 
@@ -216,31 +226,18 @@ export class Key {
   public static KRENAI_UUID = '60811bf3-ae1e-11ee-9597-784f4361d885';
   public static DEMO_ORGANIZATION_UUID = '8d3cc5c2-21a7-11ef-98b2-0a3b903b1973';
 
-  // base_url = 'http://localhost:8082/api/v2';
-
-  /* ------------------  Staging urls ----------------*/
-  base_url = 'https://staging.hajiri.work/api/v2';
-
-  /* ------------------  Production urls ----------------*/
-  // base_url = 'https://production.hajiri.work/api/v2';
-
   //subscription plan
-  get_subscription = '/subcription-plan';
-  get_active_user_count = '/users/active-user-count';
-  get_purchased_status = '/organization-subs-plan/status';
-
-  add_more_employee = '/organization-subs-plan/add-more-employee';
-
   get_invoices = '/invoices';
-  get_last_invoices = '/invoices/last-invoices';
-  get_due_invoices = '/invoices/due-invoices';
-  get_due_pending_Status = '/invoices/due-pending-status';
+  get_active_user_count = '/users/active-user-count';
+  get_restricted_modules = '/module/restriction'
 
-  get_plan_purchased_log = '/subcription-plan-log';
-  get_plan_purchased_status = '/organization-subs-plan/plan-purchased-status';
-
-  get_org_subs_plan_month_detail = '/organization-subs-plan-month-detail';
-  cancel_subscription = '/organization-subs-plan-month-detail';
+  //NEW SUBSCRIPTION PLAN API KEY
+  get_subscription_plans = '/subscription/plan';
+  get_current_subscription_plan='/subscription/current';
+  get_subscription_plan_light_detail='/subscription/plan/detail';
+  verify_gst_number='/subscription/gst';
+  get_subscription_payment_detail='/subscription/payment';
+  is_plan_expired = '/subscription/is-expired';
 
   //user notification
   get_notification = '/user-notification';
@@ -345,8 +342,8 @@ export class Key {
 
   // RazorPay Key
 
-  // public static razorKey =  'rzp_test_Wd1RYd0fng3673'; // Test
-  public static razorKey = 'rzp_live_twiokSC5krYrnQ'; // Live
+  public static razorKey = 'rzp_test_Wd1RYd0fng3673'; // Test
+  // public static razorKey = 'rzp_live_twiokSC5krYrnQ'; // Live
   //
   public static ENABLE = 1;
   public static DISABLE = 2;
@@ -355,19 +352,22 @@ export class Key {
   public static LEAVE_LOG = 1;
   public static OVERTIME_LOG = 2;
   public static LOP_REVERSAL_LOG = 3;
+  public static ATTENDANCE_UPDATE_REQUEST_LOG = 4;
 
+  // public static SLACK_WORKSPACE_URL = `https://slack.com/app_redirect?app=A07AT94EHK7&tab=home`;
+  // static GEOLOCATION = 'geolocation'
   // Tabs in Attendance Section
   public static ATTENDANCE_TAB = 1;
   public static OVERTIME_TAB = 2;
-  public static UPDATION_REQUEST_TAB = 3;
+  public static ATTENDANCE_UPDATE_REQUEST_TAB = 3;
 
   // Tabs in Overtime Section
   public static OVERTIME_PENDING_REQUEST_TAB = 1;
   public static OVERTIME_HISTORY_TAB = 2;
 
   // Tabs in Updation request section
-  public static UPDATION_REQUEST_PENDING_REQUEST_TAB = 1;
-  public static UPDATION_REQUEST_LOG_TAB = 2;
+  public static ATTENDANCE_UPDATE_PENDING_REQUEST_TAB = 1;
+  public static ATTENDANCE_UPDATE_REQUEST_HISTORY_TAB = 2;
 
   // Gender
   public static ALL = 1;
@@ -412,8 +412,17 @@ export class Key {
 
   // redirect to slack
 
-  // public static SLACK_WORKSPACE_URL= `https://slack.com/app_redirect?app=A05QD5T9EK1&tab=home`;
-  public static SLACK_WORKSPACE_URL = `https://slack.com/app_redirect?app=A07AT94EHK7&tab=home`;
+  public static SLACK_WORKSPACE_URL = `https://slack.com/app_redirect?app=A05QD5T9EK1&tab=home`;   //prod
+  // public static SLACK_WORKSPACE_URL = `https://slack.com/app_redirect?app=A07AT94EHK7&tab=home`;
 
   static GEOLOCATION = 'geolocation';
+
+  // Automation rule definition component count to apply CSS dynamically
+  public static COL_MD_4 = 3;
+  public static COL_MD_6 = 2;
+  public static COL_MD_12 = 1;
+
+  // employee profile old and new routes
+  // public static EMPLOYEE_PROFILE_ROUTE = '/employee-profile';
+  public static EMPLOYEE_PROFILE_ROUTE = '/employee';
 }

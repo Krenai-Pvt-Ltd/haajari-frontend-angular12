@@ -18,7 +18,7 @@ import {
 } from '../models/Attendance.model';
 import { RoleRequest } from '../models/role-request';
 import { UserPersonalInformationRequest } from '../models/user-personal-information-request';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { UserAddressDetailsRequest } from '../models/user-address-details-request';
 import { UserAcademicsDetailRequest } from '../models/user-academics-detail-request';
 import { UserExperience } from '../models/user-experience';
@@ -77,6 +77,7 @@ import { OvertimeRequestDTO } from '../models/overtime-request-dto';
 import { LeaveTemplateRequest } from '../models/leave-template-request';
 import { OrganizationRegistrationFormRequest } from '../models/organization-registration-form-request';
 import { rootCertificates } from 'tls';
+import { OnboardingModule } from '../models/OnboardingModule';
 
 
 @Injectable({
@@ -118,9 +119,14 @@ export class DataService {
   registerOrganizationUsingCodeParam(
     code: string,
     state: string,
-    timeZone: string
+    timeZone: string,
+    promotionCode:string
   ): Observable<any> {
-    const params = new HttpParams().set('code', code).set('state', state).set('time_zone', timeZone);
+    const params = new HttpParams()
+    .set('code', code)
+    .set('state', state)
+    .set('time_zone', timeZone)
+    .set('promotionCode', promotionCode);
     return this.httpClient.put<any>(
       `${this.baseUrl}/organization/auth/slackauth`,
       {},
@@ -151,6 +157,10 @@ export class DataService {
       `${this.baseUrl}/attendance/excel/download`,
       { params }
     );
+  }
+  downloadUserDataInExcelFormat(): Observable<any> {
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/users/excel/usersData`);
   }
   getAttendanceDetailsByDateDuration(
     startDate: any,
@@ -285,7 +295,7 @@ export class DataService {
   //Organization leave module
   registerLeave(leaveData: any): Observable<any> {
     return this.httpClient.post(
-      `${this.baseUrl}/organization-leave/register`, 
+      `${this.baseUrl}/organization-leave/register`,
       leaveData
     );
   }
@@ -296,16 +306,16 @@ export class DataService {
   }
   //Organization personal information module
   registerOrganizationPersonalInformation(
-    personalInformation: any, 
+    personalInformation: any,
     timeZone: string
   ): Observable<any> {
     return this.httpClient.put<any>(
       `${this.baseUrl}/organization-personal-information/register`,
-      personalInformation, 
-      { params: { timeZone: timeZone } } 
+      personalInformation,
+      { params: { timeZone: timeZone } }
     );
   }
-  
+
   getOrganizationDetails(): Observable<any> {
     return this.httpClient.get<any>(
       `${this.baseUrl}/organization-personal-information/get`
@@ -426,7 +436,8 @@ export class DataService {
     search: string,
     searchBy: string,
     leaveSettingId: number,
-    teamId: number
+    teamId: number,
+    selectedStaffIdsUser: any
   ): Observable<any> {
     const params = new HttpParams()
       .set('item_per_page', itemPerPage.toString())
@@ -436,7 +447,8 @@ export class DataService {
       .set('search', search)
       .set('search_by', searchBy)
       .set('leave_setting_id', leaveSettingId)
-      .set('team_id', teamId);
+      .set('team_id', teamId)
+      .set('userIds', selectedStaffIdsUser);
     return this.httpClient.get<any>(
       `${this.baseUrl}/users/get/by-filters-leave-setting`,
       { params }
@@ -877,6 +889,51 @@ export class DataService {
       .set('owner_role_id', ownerRoleId);
     return this.httpClient.get<any>(`${this.baseUrl}/role/get/all`, { params });
   }
+  getAllOnboardingModules(){
+    return this.httpClient.get<OnboardingModule[]>(`${this.baseUrl}/onboarding-setting/onboarding-module/get-all`);
+  }
+  saveSelectedModuleIds(moduleIds: number[]): Observable<any> {
+    return this.httpClient.post<any>(`${this.baseUrl}/onboarding-setting/update-permissions`, { moduleIds });
+  }
+  getEnabledModuleIds(): Observable<number[]> {
+    return this.httpClient.get<number[]>(`${this.baseUrl}/onboarding-setting/getEnabledModules`);
+  }
+  onboardingRoutes: string[] =[];
+  getRoutesByOrganization(userUuid: any): Observable<string[]> {
+  return this.httpClient.get<string[]>(`${this.baseUrl}/onboarding-setting/routes/${userUuid}`).pipe(
+    tap((routes: string[]) => {
+      // Assign the value to the local variable before returning it
+      this.onboardingRoutes = routes;
+    })
+  );
+}
+loadOnboardingRoute(userUuid: any):Promise<any> {
+  debugger
+  console.log(" in finddding route");
+  return new Promise((resolve, reject) => {
+    this.httpClient.get<string[]>(`${this.baseUrl}/onboarding-setting/routes/${userUuid}`).subscribe(
+      (routes: string[]) => {
+        this.onboardingRoutes = routes;
+        resolve(true);
+      }
+    );
+  });
+
+
+
+
+}
+  isRoutePresent(routeToCheck: string): boolean {
+    const isPresent = this.onboardingRoutes.includes(routeToCheck);
+    console.log(`Is route present: ${isPresent}`);
+    return isPresent;
+  }
+  isLastRoute(routeToCheck: string): boolean {
+    const lastRoute = this.onboardingRoutes[this.onboardingRoutes.length - 1];
+    return lastRoute === routeToCheck;
+  }
+
+
   getAttendanceLatePerformers(
     startDate: string,
     endDate: string
@@ -964,13 +1021,15 @@ export class DataService {
     userPersonalInformationRequest: UserPersonalInformationRequest,
     userUuid: string,
     selectedTeamIds: number[],
-    selectedShift: number
+    selectedShift: number,
+    selectedLeaveIds: number[]
   ): Observable<any> {
     debugger;
     let params = new HttpParams().set('userUuid', userUuid).set('selectedShiftId', selectedShift);
     const requestBody = {
       userPersonalInformationRequest,
       selectedTeamIds,
+      selectedLeaveIds
     };
     console.log('save');
     return this.httpClient
@@ -1190,9 +1249,8 @@ export class DataService {
   }
 
   getEmployeeDocumentAsList(userUuid: string): Observable<any> {
-    debugger;
     const params = new HttpParams().set('userUuid', userUuid);
-    const url = `${this.baseUrl}/user-documents-details/get/user-documents-as-List`;
+    const url = `${this.baseUrl}/user-documents-details/get/user-document-list`;
     return this.httpClient.get(url, { params });
   }
 
@@ -1202,11 +1260,7 @@ export class DataService {
   ): Observable<any> {
     const params = new HttpParams().set('userUuid', userUuid);
     return this.httpClient
-      .put<any>(
-        `${this.baseUrl}/user-experiences/save/experience`,
-        experiences,
-        { params }
-      )
+      .put<any>(`${this.baseUrl}/user-experiences/save/experience`, experiences, { params })
       .pipe(
         catchError((error: HttpErrorResponse) => {
           console.error('Error in setEmployeeExperienceDetails:', error);
@@ -1559,10 +1613,15 @@ export class DataService {
       // Add any additional headers as needed
     });
 
-    const params = { leaveSettingId: leaveSettingId.toString() };
+    // const params = { leaveSettingId: leaveSettingId.toString() };
+    const params = { leaveTemplateId: leaveSettingId.toString() };
 
+    // return this.httpClient.get<FullLeaveSettingResponse>(
+    //   `${this.baseUrl}/user-leave-rule/get/leave-rule-by-Id`,
+    //   { headers, params }
+    // ); amit
     return this.httpClient.get<FullLeaveSettingResponse>(
-      `${this.baseUrl}/user-leave-rule/get/leave-rule-by-Id`,
+      `${this.baseUrl}/user-leave-template`,
       { headers, params }
     );
   }
@@ -1655,14 +1714,14 @@ export class DataService {
 
   getOrganizationUserNameWithShiftName(selectedStaffsUuids: string[], shiftId: number): Observable<any> {
     let params = new HttpParams().set("shiftId", shiftId);
-    
+
 
     return this.httpClient.post<any>(
       `${this.baseUrl}/organization-shift-timing/get-organization-user-shift-name`,  selectedStaffsUuids, {params}
     );
   }
 
-  
+
 
 
   getBestPerformerAttendanceDetails(
@@ -2044,8 +2103,8 @@ export class DataService {
     return this.httpClient.post<any>(url, {});
   }
 
-  verifyOtpByWhatsappNew(phoneNumber: string, otp: String): Observable<any> {
-    const url = `${this.baseUrl}/user/auth/verify/otp-whatsapp-new?phoneNumber=${phoneNumber}&otp=${otp}`;
+  verifyOtpByWhatsappNew(phoneNumber: string, otp: String, promotionCode:string): Observable<any> {
+    const url = `${this.baseUrl}/user/auth/verify/otp-whatsapp-new?phoneNumber=${phoneNumber}&otp=${otp}&promotionCode=${promotionCode}`;
     return this.httpClient.post<any>(url, {});
   }
 
@@ -3045,7 +3104,7 @@ export class DataService {
     return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/register-lop-adjustment-request`, lopAdjustmentRequest, {params});
   }
 
- 
+
 
   getPayrollLeaveLogResponse(userUuid : string): Observable<any> {
     const params = new HttpParams()
@@ -3073,7 +3132,7 @@ export class DataService {
   saveOrganizationHrPolicies(policyDocString: string): Observable<any> {
      const params = new HttpParams()
        .set('policyDocString', policyDocString)
-    
+
     const url = `${this.baseUrl}/organization-personal-information/save/policy/doc`;
     return this.httpClient.put<any>(url, {}, {params});
   }
@@ -3090,7 +3149,7 @@ export class DataService {
   }
 
   getAllAddressDetailsWithStaff(): Observable<any> {
-    
+
     return this.httpClient.get(`${this.baseUrl}/user-verification/get/organization/all/multi/locations`,);
   }
 
@@ -3155,7 +3214,7 @@ export class DataService {
   }
 
   saveAppraisalRequest(appraisalRequest : AppraisalRequest){
-    
+
     return this.httpClient.post<any>(`${this.baseUrl}/salary/appraisal-request`, appraisalRequest);
   }
 
@@ -3215,7 +3274,7 @@ export class DataService {
   }
 
   registerSalaryChangeOvertimeListByOrganizationId(salaryChangeOvertimeRequestList : SalaryChangeOvertimeRequest[]): Observable<any>{
-    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/salary-change/overtime`, salaryChangeOvertimeRequestList);
+    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/salary-change/overtime`, salaryChangeOvertimeRequestList, {});
   }
 
   getEpfDetailsResponseListByOrganizationId(
@@ -3397,11 +3456,12 @@ export class DataService {
   }
 
 
-  sendEmails(userEmails:any): Observable<any> {
+  sendEmails(userEmails:any, sendMail:boolean): Observable<any> {
     const url = `${this.baseUrl}/users/send-email-to-all-users`;
 
     const params = new HttpParams()
-      .set('emails', userEmails);
+      .set('emails', userEmails)
+      .set('sendMail', sendMail);
 
     return this.httpClient.post<any>(url,{},{ params });
   }
@@ -3416,10 +3476,10 @@ export class DataService {
     return this.httpClient.get<any>(url,{ params });
   }
 
-  
+
   updatePayActionTypeFoUsers(
     payActionType: string,
-    userUuids: any 
+    userUuids: any
   ): Observable<any>{
     const params = new HttpParams()
     .set('pay_action_type', payActionType)
@@ -3431,7 +3491,7 @@ export class DataService {
   generateSalarySlip(
     startDate: string,
     endDate: string,
-    userUuids: any 
+    userUuids: any
   ): Observable<any>{
     const params = new HttpParams()
     .set('start_date', startDate)
@@ -3441,7 +3501,7 @@ export class DataService {
   }
 
   sendPayslipViaWhatsapp(
-    salaryResponse: any, payslipMonth: string 
+    salaryResponse: any, payslipMonth: string
   ): Observable<any>{
     const params = new HttpParams()
     .set('payslip_month', payslipMonth)
@@ -3449,7 +3509,7 @@ export class DataService {
   }
 
   sendPayslipViaEmail(
-    salaryResponse: any, payslipMonth: string 
+    salaryResponse: any, payslipMonth: string
   ): Observable<any>{
     const params = new HttpParams()
     .set('payslip_month', payslipMonth)
@@ -3457,7 +3517,7 @@ export class DataService {
   }
 
   sendPayslipViaSlack(
-    salaryResponse: any, payslipMonth: string 
+    salaryResponse: any, payslipMonth: string
   ): Observable<any>{
     const params = new HttpParams()
     .set('payslip_month', payslipMonth)
@@ -3475,9 +3535,9 @@ export class DataService {
       .set('item_per_page', itemsPerPage);
 
     return this.httpClient.get<any>(url,{ params });
-  //  asset 
+  //  asset
   }
-  
+
   getAssetCategory(): Observable<any> {
     const url = `${this.baseUrl}/asset/allocation/get/asset/category`;
     return this.httpClient.get<any>(url, {}).pipe(
@@ -3563,7 +3623,7 @@ export class DataService {
     );
   }
 
-  
+
 
   createAssetCategory(assetCategoryRequest: AssetCategoryRequest): Observable<any> {
     return this.httpClient.post<any>(`${this.baseUrl}/asset/allocation/create/asset/category`, assetCategoryRequest);
@@ -3647,13 +3707,13 @@ getHolidayForOrganization(date: string): Observable<any>{
   .set('date', date)
   return this.httpClient.get<any>(`${this.baseUrl}/holiday/check-holiday`,{params});
 }
-  
+
 
   registerLopReversalApplication(lopReversalApplicationRequest : LopReversalApplicationRequest): Observable<any>{
 
     return this.httpClient.post<any>(`${this.baseUrl}/lop-reversal-application/register`, lopReversalApplicationRequest, {});
   }
-  
+
   importSalaryExcel(file: File, fileName: string): Observable<any> {
     const formData: FormData = new FormData();
     formData.append('file', file);
@@ -3709,11 +3769,10 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/checktime/list`, {params});
   }
 
-  sendAttendanceTimeUpdateRequest(userId: string, attendanceTimeUpdateRequestDto: AttendanceTimeUpdateRequestDto, requestType: string, choosenDateString: string): Observable<any> {
-    const params = new HttpParams()
-    .set('userUuid', userId).set('requestType', requestType).set('choosenDateString', choosenDateString);
-    const url = `${this.baseUrl}/attendance/send/attendance/update/request`;
-    return this.httpClient.post<any>(url, attendanceTimeUpdateRequestDto, {params});
+  sendAttendanceTimeUpdateRequest(attendanceTimeUpdateRequestDto: AttendanceTimeUpdateRequestDto): Observable<any> {
+
+    const url = `${this.baseUrl}/attendance/request-update`;
+    return this.httpClient.post<any>(url, attendanceTimeUpdateRequestDto, {});
   }
 
 
@@ -3732,17 +3791,39 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/full/attendance/request/logs`, {params});
   }
 
-  getAttendanceRequests(pageNumber: number, itemPerPage: number,searchString:string ): Observable<any>{
+  getAttendanceRequests(pageNumber: number, itemPerPage: number, searchString:string, startDate: string, endDate: string): Observable<any>{
     const params = new HttpParams()
     .set('pageNumber', pageNumber)
-    .set('itemPerPage', itemPerPage).set('searchString', searchString);
+    .set('itemPerPage', itemPerPage)
+    .set('searchString', searchString)
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
     return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/attendance/requests`, {params});
+  }
+
+  getAttendanceRequestsHistory(pageNumber: number, itemPerPage: number, searchString:string, startDate: string, endDate: string): Observable<any>{
+    const params = new HttpParams()
+    .set('pageNumber', pageNumber)
+    .set('itemPerPage', itemPerPage)
+    .set('searchString', searchString)
+    .set('start_date', startDate)
+    .set('end_date', endDate);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/attendance/requests/history`, {params});
   }
 
   getAttendanceExistanceStatus(userUuid: string, selectedDate: any): Observable<any>{
     const params = new HttpParams()
     .set('userUuid', userUuid).set('selectedDate', selectedDate);
      return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/attendance/existance/status`, {params});
+  }
+
+  getAttendanceRequestCount(startDate : string, endDate : string): Observable<any>{
+    const params = new HttpParams()
+    .set('start_date', startDate).set('end_date', endDate);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/attendance/get/attendance/request/count`, {params});
   }
 
   approveOrRejectAttendanceRequest(attendanceReqId: number, requestString: string): Observable<any> {
@@ -3793,14 +3874,14 @@ getHolidayForOrganization(date: string): Observable<any>{
   }
 
   getPreHourOvertimeSettingResponse(): Observable<any>{
-    
+
     return this.httpClient.get<any>(`${this.baseUrl}/overtime/setting/pre-hour`, {});
   }
 
   getPostHourOvertimeSettingResponse(): Observable<any>{
-    
+
     return this.httpClient.get<any>(`${this.baseUrl}/overtime/setting/post-hour`, {});
-  }  
+  }
   getRoles(): Observable<any> {
     return this.httpClient.get(`${this.baseUrl}/super-coin-allocation/get/roles`);
   }
@@ -3866,8 +3947,8 @@ getHolidayForOrganization(date: string): Observable<any>{
   }
 
 
-  
-  
+
+
   // shivendra overtime code
   registerOvertimeRequest(overtimeRequestDTO : OvertimeRequestDTO): Observable<any>{
 
@@ -3954,17 +4035,17 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/emplyee-type/list`, {});
   }
 
-  
+
   registerLeaveTemplate(leaveTemplateRequest : LeaveTemplateRequest): Observable<any>{
     return this.httpClient.post<any>(`${this.baseUrl}/leave-template/register-new`, leaveTemplateRequest);
   }
-  
+
   registerOrganizationRegistrationFormInfo(request: OrganizationRegistrationFormRequest): Observable<any> {
     const url = `${this.baseUrl}/organization-registration-form/register`;
     return this.httpClient.post(url, request);
-  }  
+  }
   registerBillingAndSubscriptionTemp(subscriptionPlanId : number): Observable<any>{
-    
+
     const params = new HttpParams()
     .set('subscription_plan_id', subscriptionPlanId);
 
@@ -4014,6 +4095,24 @@ getHolidayForOrganization(date: string): Observable<any>{
     );
   }
 
+  saveOrgSecondaryToDoStepBar(hideOrUnhide : number): Observable<any> {
+    debugger
+    const params = new HttpParams().set('hideOrUnhide', hideOrUnhide);
+    return this.httpClient.put<any>(
+      `${this.baseUrl}/organization/save/secondary/to/do/step/bar`,{},{params}
+
+    );
+  }
+
+  getOrgSecondaryToDoStepBar(): Observable<any> {
+    debugger
+    // const params = new HttpParams().set('statusId', statusId).set('stepId', stepId);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/organization/get/secondary/to/do/step/bar`,
+
+    );
+  }
+
   getStepsData(): Observable<any> {
     debugger
     return this.httpClient.get<any>(
@@ -4021,6 +4120,9 @@ getHolidayForOrganization(date: string): Observable<any>{
 
     );
   }
+
+  step!: number;
+  isToDoStepCompleted !: number;
 
   isToDoStepsCompleted(): Observable<any> {
     debugger
@@ -4030,6 +4132,22 @@ getHolidayForOrganization(date: string): Observable<any>{
     );
   }
 
+  // isToDoStepCompleted: number = 0;
+  // isToDoStepsCompletedData(): Promise<any>  {
+  //   return new Promise((resolve, reject) => {
+  //     this.isToDoStepsCompleted().subscribe(
+  //       (response) => {
+  //         this.isToDoStepCompleted = response.object;
+  //         resolve(response);
+  //       },
+  //         (error: any) => {
+  //           resolve(true);
+  //         }
+  //       );
+  //   });
+  // }
+
+
   isOrgOnboarToday(): Observable<any> {
     debugger
     return this.httpClient.get<any>(
@@ -4038,7 +4156,7 @@ getHolidayForOrganization(date: string): Observable<any>{
     );
   }
 
-  
+
   getShifts(): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/organization-shift-timing/organization-shift`);
 
@@ -4056,4 +4174,53 @@ getHolidayForOrganization(date: string): Observable<any>{
 
     return this.httpClient.get<any>(`${this.baseUrl}/leave-template`, {params});
   }
+
+  saveSlackUserIdViaEmail(email : string){
+    const params = new HttpParams()
+    .set('emailId', email)
+
+    return this.httpClient.get<any>(`${this.baseUrl}/users/save-slack-user-id`, {params});
+  }
+
+  getSlackUserCount(){
+    return this.httpClient.get<any>(`${this.baseUrl}/users/get-slack-user-count`, {});
+  }
+
+  saveFlexibleAttendanceMode(requestType : string): Observable<any> {
+    const params = new HttpParams().set('requestType', requestType);
+    return this.httpClient.put<any>(
+      `${this.baseUrl}/attendance/mode/save-flexible-modes-info`,{}, {params}
+
+    );
+  }
+
+  getFlexibleAttendanceMode(): Observable<any> {
+    // const params = new HttpParams().set('requestType', requestType);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/attendance/mode/get-flexible-modes-info`,{}
+
+    );
+  }
+
+  getFlexibleAttendanceModeByUserUuid(userUuid: string): Observable<any> {
+    const params = new HttpParams().set('userUuid', userUuid);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/attendance/mode/get-flexible-modes-info-by-user-uuid`,{params}
+
+    );
+  }
+  getOrganizationName(){
+    return this.httpClient.get<any>(`${this.baseUrl}/organization/name`);
+  }
+
+  getEmployeeProfile(uuid : string){
+
+    const params = new HttpParams().set('userUuid', uuid);
+    return this.httpClient.get<any>(`${this.baseUrl}/employee-profile/profile-info`, {params});
+  }
+
+
+
 }
+
+

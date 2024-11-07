@@ -67,7 +67,7 @@ export class RoleBasedAccessControlService {
     debugger
     try {
      await this.helperService.getDecodedValueFromToken().then((res:any)=>{
-        console.log(res)
+        // console.log(res)
         this.userInfo=res;
         this.userInfo!.uuid=res.uuid;
         this.ROLE = res.role;
@@ -87,7 +87,7 @@ export class RoleBasedAccessControlService {
   }
 
   async getRole() {
-    debugger
+
     let role = null;
     // this.userInfo = await this.helperService.getDecodedValueFromToken();
     // this.userInfo= await this.helperService
@@ -150,23 +150,38 @@ export class RoleBasedAccessControlService {
     return new Promise<boolean>(async (resolve, reject) => {
       try {
         let subModules = this.helperService.subModuleResponseList;
-        if (
-          subModules == undefined ||
-          subModules == null ||
-          subModules.length == 0
-        ) {
-          subModules =
-            await this.helperService.getAccessibleSubModuleResponseMethodCall();
+
+        // if(this.helperService.subModuleResponseList == undefined 
+        //   || this.helperService.subModuleResponseList == null 
+        //   || this.helperService.subModuleResponseList.length ==0  ){
+
+        //     this.helperService.subModuleResponseList = await this.helperService.getAccessibleSubModuleResponseMethodCall(); 
+
+        // }
+
+        if (subModules == undefined || subModules == null || subModules.length == 0) {
+          this.helperService.subModuleResponseList = await this.helperService.getAccessibleSubModuleResponseMethodCall();  
+          subModules = this.helperService.subModuleResponseList; 
         }
-        for (const subModule of subModules) {
-          if (
-            subModule.description === subModuleRouteValue &&
-            subModule.isAccessible
-          ) {
-            resolve(true);
-            return;
-          }
+
+        if(subModules != undefined &&  subModules != null && subModules.length > 0){
+
+          var index = subModules.findIndex(subModule=> subModule.description == subModuleRouteValue);
+            if(index > -1){
+               resolve(true);
+               return;
+            }
         }
+
+        // for (const subModule of subModules) {
+        //   if (
+        //     subModule.description === subModuleRouteValue &&
+        //     subModule.isAccessible
+        //   ) {
+        //     resolve(true);
+        //     return;
+        //   }
+        // }
 
         resolve(false);
       } catch (error) {

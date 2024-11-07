@@ -152,10 +152,12 @@
                             <div class="row">
                               <div class="col-md-12 mt-2 mb-3">
                                 <div class="card-header p-0 pb-3 bg-white">
-                                  <h4 class="card-title-headding mb-1">
+                                  <h4
+                                    class="card-title-headding mb-1 font-16 text-black"
+                                  >
                                     Shift Timing
                                   </h4>
-                                  <p class="mb-0 font-14">
+                                  <p class="mb-0 font-12">
                                     To enhance your experience and ensure
                                     accurate shift management, please review and
                                     update the following shift details for your
@@ -435,46 +437,6 @@
                                           </span>
                                           Employees Add
                                         </p>
-                                        <!-- <span class="spreter"></span>
-                                        <p
-                                          class="mb-0 searchIcon pointer"
-                                          style="
-                                            font-weight: 500;
-                                            line-height: 22px;
-                                          "
-                                        >
-                                          <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="21"
-                                            height="22"
-                                            viewBox="0 0 21 22"
-                                            fill="none"
-                                          >
-                                            <mask
-                                              id="mask0_3408_2831"
-                                              style="mask-type: alpha"
-                                              maskUnits="userSpaceOnUse"
-                                              x="0"
-                                              y="0"
-                                              width="21"
-                                              height="22"
-                                            >
-                                              <rect
-                                                y="0.5"
-                                                width="21"
-                                                height="21"
-                                                fill="#262626"
-                                              />
-                                            </mask>
-                                            <g mask="url(#mask0_3408_2831)">
-                                              <path
-                                                d="M17.1994 19.3654L11.68 13.7686C11.2419 14.1239 10.7382 14.4053 10.1687 14.6125C9.59927 14.8198 8.99331 14.9235 8.35084 14.9235C6.75928 14.9235 5.41229 14.3645 4.30987 13.2467C3.20746 12.1288 2.65625 10.7629 2.65625 9.14901C2.65625 7.53512 3.20746 6.16923 4.30987 5.05136C5.41229 3.93348 6.75928 3.37454 8.35084 3.37454C9.94241 3.37454 11.2894 3.93348 12.3918 5.05136C13.4942 6.16923 14.0454 7.53512 14.0454 9.14901C14.0454 9.80048 13.9432 10.4149 13.7388 10.9924C13.5344 11.5698 13.257 12.0807 12.9065 12.5248L18.4259 18.1216L17.1994 19.3654ZM8.35084 13.1467C9.44596 13.1467 10.3768 12.758 11.1434 11.9807C11.91 11.2034 12.2933 10.2595 12.2933 9.14901C12.2933 8.03853 11.91 7.09463 11.1434 6.3173C10.3768 5.53997 9.44596 5.1513 8.35084 5.1513C7.25573 5.1513 6.32488 5.53997 5.5583 6.3173C4.79172 7.09463 4.40843 8.03853 4.40843 9.14901C4.40843 10.2595 4.79172 11.2034 5.5583 11.9807C6.32488 12.758 7.25573 13.1467 8.35084 13.1467Z"
-                                                fill="#262626"
-                                              />
-                                            </g>
-                                          </svg>
-                                          Search
-                                        </p> -->
                                       </div>
 
                                       <div
@@ -739,54 +701,18 @@
             <div class="row">
               <div class="col-md-4"></div>
               <div class="col-md-8">
-                <!-- <div
-                  class="shiftManagement d-flex gap-3 align-items-center"
-                  style="
-                    background-image: url(../assets/images/vector-3.svg);
-                    background-size: initial !important;
-                  "
-                  *ngIf="userNameWithShiftName?.length > 0"
-                >
-                  <div class="previous-btn">
-                    <h5 class="alert-heading text-warning font-13 mb-2">
-                      Note:
-                    </h5>
-                    <p
-                      class="mb-1 font-11"
-                      *ngFor="let list of userNameWithShiftName"
-                    >
-                      <b>Shift Name:</b> {{ list.shiftName }} <b>User Name:</b>
-                      {{ list.userName }}
-                    </p>
-                    
-                    <div class="form-check">
-                      <input
-                        type="checkbox"
-                        class="form-check-input"
-                        id="validationCheck"
-                        [(ngModel)]="isValidated"
-                        (change)="checkValidation()"
-                      />
-                      <label class="form-check-label" for="validationCheck">
-                        Validate Information
-                      </label>
-                    </div>
-                   
-                    <p class="mt-3 font-11 text-danger">
-                      {{
-                        isValidated
-                          ? "You have validated the information and are proceeding to add users to the current shift."
-                          : "These users are already registered with a different shift type!"
-                      }}
-                    </p>
-                  </div>
-                </div> -->
                 <div
                   class="shiftManagement d-flex gap-3 align-items-center"
+                  *ngIf="hideShiftNoteFlag"
                   style="
                     background-image: url(../assets/images/group-img-2.svg);
                   "
                 >
+                  <span
+                    class="guideclose-btn d-flex align-items-center justify-content-center pointer"
+                    (click)="hideShiftNote()"
+                    ><i class="bi bi-x"></i
+                  ></span>
                   <div class="previous-btn quickGuideHeading">
                     <h5
                       class="quickGuideHeading alert-heading text-warning font-14 mb-3"
@@ -860,6 +786,11 @@
                       !organizationShiftTimingRequest.endLunchDate
                     "
                     (click)="staffActiveTabInShiftTimingMethod()"
+                     [ngClass]="{'btn-border':!(shiftForm.invalid ||
+                      !organizationShiftTimingRequest.inTimeDate ||
+                      !organizationShiftTimingRequest.outTimeDate ||
+                      !organizationShiftTimingRequest.startLunchDate ||
+                      !organizationShiftTimingRequest.endLunchDate)}"
                   >
                     <span>
                       Next
@@ -930,6 +861,7 @@
                     [disabled]="
                       shiftForm.invalid || this.selectedStaffsUuids.length < 1
                     "
+                     [ngClass]="{'btn-border':!(shiftForm.invalid || this.selectedStaffsUuids.length < 1)}"
                   >
                     <span *ngIf="!loading">
                       Create Shift Time
@@ -979,6 +911,7 @@
                     [disabled]="
                       shiftForm.invalid || this.selectedStaffsUuids.length < 1
                     "
+                    [ngClass]="{'btn-border':!(shiftForm.invalid || this.selectedStaffsUuids.length < 1)}"
                     (click)="registerOrganizationShiftTimingMethodCall()"
                   >
                     <span *ngIf="!loading">
@@ -995,6 +928,7 @@
                           id="mask0_2043_143"
                           style="mask-type: alpha"
                           maskUnits="userSpaceOnUse"
+                          
                           x="0"
                           y="0"
                           width="25"
@@ -1068,7 +1002,7 @@
         </div>
         <iframe
           width="100%"
-          id="videoId"
+          id="videoIframe"
           height="500"
           src="https://www.youtube.com/embed/m1vxzFLCwCI?si=PrImOedKUTzaaTkY"
           title="YouTube video player"
@@ -1093,6 +1027,7 @@
   role="dialog"
   aria-hidden="true"
   data-bs-backdrop="false"
+  data-bs-backdrop="static"
   #usersAlreadyAssigned
 >
   <div

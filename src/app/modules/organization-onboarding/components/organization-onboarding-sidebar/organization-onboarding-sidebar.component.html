@@ -1,4 +1,4 @@
-<div class="employee-onboarding-section">
+<div class="employee-onboarding-section" *ngIf = "STEP_ID < 5">
   <div class="container-scroller">
     <div class="left-sidebar-onbording">
       <div [ngClass]="getStepClass()">
@@ -171,9 +171,8 @@
             </div>
             <h5 class="font-18 mt-3">Complete Employee Information</h5>
             <p class="font-14">
-              Ensure all required fields are accurately filled out when creating
-              employee profiles in Hajiri system. This will help us maintain
-              up-to-date records and provide better support to our employees
+              Enter the necessary employee information to streamline your setup
+              process and keep everything organized moving forward.
             </p>
 
             <svg
@@ -414,13 +413,6 @@
         >
           Log-Out
         </button>
-        <!-- <div class="dot-opacity-loader" *ngIf="disableUserLoader">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </div> -->
-        <!--end modal-footer-->
       </div>
     </div>
   </div>

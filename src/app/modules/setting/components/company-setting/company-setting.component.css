@@ -12,9 +12,9 @@
   border: 1px solid #6666f3;
 }
 .alert-light p {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 300;
-  color: #6b6b6b;
+  color: #878a9a;
 }
 .bg-soft-warning:hover {
   background-color: rgba(255, 159, 67, 0.08) !important;
@@ -32,22 +32,23 @@
 }
 .origination-logo-box img {
   width: 150px;
+  height: 70px;
+  object-fit: contain;
 }
 .origination-logo-edit-btn {
   right: 10px;
   bottom: 10px;
   background-color: #f1f4f9;
-  padding: 2px 13px;
-  border-radius: 4px;
+  padding: 5px 15px;
+  border-radius: 2px;
   font-size: 12px;
   font-weight: 500;
   cursor: pointer;
 }
-.origination-logo-edit-btn i {
-  font-size: 10px;
-  padding-right: 3px;
-  line-height: 22px;
-  top: -1px;
+.origination-logo-edit-btn svg {
+  position: relative;
+  top: -2px;
+  width: 15px;
 }
 .edit-btn i {
   font-size: 12px;
@@ -55,7 +56,6 @@
 }
 
 /*  new css  */
-
 
 .form-roe-data h5 {
   font-size: 16px;
@@ -76,11 +76,8 @@
 }
 
 .add-filtter a {
-  margin-bottom: 0px;
   color: #6666f3 !important;
-  font-size: 15px;
   font-weight: 500;
-  cursor: pointer;
 }
 
 .manual-order {
@@ -1079,7 +1076,8 @@ nz-date-picker.nz-overlay-container.whatapp-login-input {
   gap: 10px; /* Space between the select count and clear button */
 }
 
-.info-button, .clear-button {
+.info-button,
+.clear-button {
   white-space: nowrap; /* Prevents text wrapping */
   display: inline-flex;
   align-items: center;
@@ -1102,7 +1100,6 @@ nz-time-picker {
 }
 
 /*  new  */
-
 
 .loader-fetching-location {
   display: flex;
@@ -1140,7 +1137,6 @@ nz-time-picker {
   }
 }
 
-
 a.fetch-location {
   position: absolute;
   right: 0px;
@@ -1154,7 +1150,71 @@ a.fetch-location {
   cursor: pointer;
 }
 
+.excel-uplode-file-box {
+  border-radius: 2px;
+  border: 1px dashed #d9d9d9;
+  background-color: #fafafa;
+}
 
+.excel-uplode-file-box a {
+  font-weight: 400;
+  text-decoration: underline;
+}
+.excel-uplode-file-box p a:hover {
+  text-decoration: underline !important;
+}
+.edit-submit-btn p {
+  color: #878a9a;
+  font-weight: 400;
+}
+.detail-save-btn {
+  background-color: #6666f3;
+  height: 35px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 400;
+  min-width: 80px;
+}
+.empty-detail {
+  color: #6b7280;
+  line-height: 20px;
+}
 
+::ng-deep.ant-empty-image img {
+  width: 70px;
+}
+.edit-action-btn {
+  text-decoration: underline;
+  border: none;
+  color: #6666f3;
+}
 
+.edit-action-btn:hover {
+  color: #6666f3 !important;
+}
 
+.hr-policy-file {
+  border: 1px solid #eee;
+  border-radius: 2px;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+.separator {
+  border-right: 1px solid #d1d1d1;
+  height: 15px;
+}
+.hr-policy-file h5 {
+  color: #444;
+  font-weight: 400;
+  font-size: 15px;
+}
+.hr-policy-file p {
+  color: #8d93a1;
+  font-size: 14px;
+  font-size: 300;
+}
+.action-icon-btn span svg {
+  position: relative;
+  top: -1px;
+  width: 18px;
+}

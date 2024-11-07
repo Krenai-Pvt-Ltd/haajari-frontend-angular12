@@ -6,22 +6,30 @@ import { DataService } from './data.service';
 import { formatDate } from '@angular/common';
 import { NavigationExtras, Router } from '@angular/router';
 import * as saveAs from 'file-saver';
+import { Key } from '../constant/key';
+import { RestrictedSubModule } from '../models/RestrictedSuubModule';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HelperService {
 
-  constructor( private httpClient : HttpClient,
-     private dataService: DataService
-    , private router: Router) {
+  private _key: Key = new Key();
+  constructor( private _httpClient : HttpClient,
+     private dataService: DataService,
+     private router: Router) {
 
    }
+
+   isFirstTime: boolean = true;
+   markAsVisited() {
+    this.isFirstTime = false;
+  }
 
   clearHelperService(){
     this.subModuleResponseList = [];
   }
-
+  restrictedModules!:RestrictedSubModule[];
   subModuleResponseList: any[] = [];
 
   todoStepsSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
@@ -33,7 +41,7 @@ export class HelperService {
         const token = localStorage.getItem('token');
         if (token != null) {
           const decodedValue: any = await jwtDecode(token);
-          console.log("decodedValue",decodedValue)
+          // console.log("decodedValue",decodedValue)
           resolve(decodedValue);
         } else {
           reject('Token is null!');
@@ -222,7 +230,10 @@ export class HelperService {
     let navExtra: NavigationExtras = {
       queryParams: { userId: uuid },
     };
-    this.router.navigate(['/employee-profile'], navExtra);
+    // this.router.navigate(['/employee-profile'], navExtra);
+    const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
+    window.open(url, '_blank');
+    return;
   }
 
   extractMonthNameFromDate(dateString : string){
@@ -238,7 +249,7 @@ export class HelperService {
   }
 
   downloadPdf(url: string, name: string) {
-    this.httpClient.get(url, { responseType: 'blob' }).subscribe(blob => {
+    this._httpClient.get(url, { responseType: 'blob' }).subscribe(blob => {
       saveAs(blob, name+'.pdf');
     });
   }
@@ -274,16 +285,58 @@ export class HelperService {
     debugger
     this.dataService.registerOrganizationRegistratonProcessStep(statusId, stepId).subscribe(
       (response) => {
-        console.log("success");
+        // console.log("success");
         this.todoStepsSubject.next(true);
       },
       (error) => {
-        console.log('error');
+        // console.log('error');
+      }
+    );
+  }
+  
+
+  saveOrgSecondaryToDoStepBarData(value : number) {
+    debugger
+    this.dataService.saveOrgSecondaryToDoStepBar(value).subscribe(
+      (response) => {
+        // console.log("success");  
+        // this.getOrgSecondaryToDoStepBarData();
+      },
+      (error) => {
+        // console.log('error');
       }
     );
   }
 
 
+  detectOpenModalOnBack(){
+    if(document?.body?.classList?.contains('modal-open')){
+      document?.body?.classList?.remove('modal-open');
+    }
+
+  }
 
 
+  getRestrictedModules() {
+    return new Promise((resolve)=>{
+      this.getSubscriptionRestrictedModules().subscribe((response) => {
+          if (response.status){
+            this.restrictedModules = response.object;
+            if(this.restrictedModules ==null){
+              this.restrictedModules = [];
+            }
+          }else{
+            this.restrictedModules = [];
+          }
+          resolve(true);
+        },(error)=>{
+          resolve(true);
+        });
+    });
+  }
+
+
+  getSubscriptionRestrictedModules() {
+    return this._httpClient.get<any>(this._key.base_url + this._key.get_restricted_modules)
+  }
 }

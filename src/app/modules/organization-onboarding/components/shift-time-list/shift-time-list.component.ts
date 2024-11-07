@@ -137,15 +137,15 @@ export class ShiftTimeListComponent implements OnInit {
               location.reload();
             }
 
-            this.helperService.showToast(
-              'Shift timing deleted successfully.',
-              Key.TOAST_STATUS_SUCCESS
-            );
+            // this.helperService.showToast(
+            //   'Shift timing deleted successfully.',
+            //   Key.TOAST_STATUS_SUCCESS
+            // );
             resolve(true);
           },
           (error) => {
             console.log(error);
-            this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
+            // this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
             this.deleteOrganizationShiftTimingLoaderStatus[
               organizationShiftTimingId
             ] = false;
@@ -162,6 +162,7 @@ export class ShiftTimeListComponent implements OnInit {
   async getAllShiftTimingsMethodCall(): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
       this.allShiftTimingsLoader = true;
+      // this.organizationShiftTimingWithShiftTypeResponseList = [];
       this.dataService.getAllShiftTimings().subscribe(
         (response) => {
           this.organizationShiftTimingWithShiftTypeResponseList = response;
@@ -200,7 +201,7 @@ export class ShiftTimeListComponent implements OnInit {
                   shift.outTimeDate = shift.outTime;
                   shift.startLunchDate = shift.startLunch;
                   shift.endLunchDate = shift.endLunch;
-                  console.log(shift.inTime, shift.outTime);
+                  // console.log(shift.inTime, shift.outTime);
                 });
               }
             }
@@ -222,7 +223,7 @@ export class ShiftTimeListComponent implements OnInit {
   ) {
     // this.shiftTimingActiveTab.nativeElement.click();
     debugger
-    console.log('inTime ' + this.organizationShiftTimingRequest.inTime);
+    // console.log('inTime ' + this.organizationShiftTimingRequest.inTime);
     this.organizationShiftTimingRequest = organizationShiftTimingResponse;
 
     const inLocalTime = new Date(organizationShiftTimingResponse.inTime.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
@@ -266,7 +267,7 @@ export class ShiftTimeListComponent implements OnInit {
     // this.getShiftTypeMethodCall();
     // this.selectedShiftType = organizationShiftTimingResponse.shiftType;
     this.getUserByFiltersMethodCall();
-    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId);
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "");
   }
 
   clearShiftTimingModel() {
@@ -309,13 +310,16 @@ export class ShiftTimeListComponent implements OnInit {
           debugger;
           this.isEditStaffLoader = false;
           this.editShiftTimeLoader = false;
+          this.isRegisterLoad = false;
           // console.log(response);
+          if(this.closeShiftTimingModal) {
           this.closeShiftTimingModal.nativeElement.click();
+          }
           this.getAllShiftTimingsMethodCall();
-          this.helperService.showToast(
-            'Shift Timing registered successfully',
-            Key.TOAST_STATUS_SUCCESS
-          );
+          // this.helperService.showToast(
+          //   'Shift Timing registered successfully',
+          //   Key.TOAST_STATUS_SUCCESS
+          // );
          
           this.dataService.markStepAsCompleted(5);
         },
@@ -323,10 +327,10 @@ export class ShiftTimeListComponent implements OnInit {
           console.log(error);
           this.isEditStaffLoader = false;
           this.editShiftTimeLoader = false;
-          this.helperService.showToast(
-            'Error In Shift Creation',
-            Key.TOAST_STATUS_ERROR
-          );
+          // this.helperService.showToast(
+          //   'Error In Shift Creation',
+          //   Key.TOAST_STATUS_ERROR
+          // );
         }
       );
   }
@@ -335,6 +339,7 @@ export class ShiftTimeListComponent implements OnInit {
   isEditStaffLoader: boolean = false;
   editShiftStaffInfo() {
     this.isEditStaffLoader = true;
+    this.organizationShiftTimingWithShiftTypeResponseList = [];
     this.registerOrganizationShiftTimingMethodCall();
     this.closeButtonEditStaffInfo.nativeElement.click();
 
@@ -377,7 +382,7 @@ export class ShiftTimeListComponent implements OnInit {
     this.isAllUsersSelected = this.staffs.every((staff) => staff.selected);
     this.isAllSelected = this.isAllUsersSelected;
     this.updateSelectedStaffs();
-    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId);
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "");
   }
 
   updateSelectedStaffs() {
@@ -403,7 +408,7 @@ export class ShiftTimeListComponent implements OnInit {
     this.staffs.forEach((staff) => (staff.selected = false));
     this.selectedStaffsUuids = [];
     this.activeModel2 = false;
-    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId);
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "");
   }
 
   selectAll(checked: boolean) {
@@ -427,7 +432,7 @@ export class ShiftTimeListComponent implements OnInit {
         }
       });
     }
-    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId);
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "");
   }
 
   selectAllUsers(isChecked: boolean) {
@@ -442,7 +447,7 @@ export class ShiftTimeListComponent implements OnInit {
       this.activeModel2 = true;
       this.getAllUsersUuids().then((allUuids) => {
         this.selectedStaffsUuids = allUuids;
-        this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId);
+        this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "");
       });
     } else {
       this.selectedStaffsUuids = [];
@@ -730,11 +735,13 @@ calculateTimes(): void {
   }
 
   userNameWithShiftName: any;
-  getOrganizationUserNameWithShiftNameData(shiftId : number) {
+  getOrganizationUserNameWithShiftNameData(shiftId : number, type:string) {
     this.dataService.getOrganizationUserNameWithShiftName(this.selectedStaffsUuids, shiftId).subscribe(
       (response) => {
         this.userNameWithShiftName = response.listOfObject;
-        
+        if( this.userNameWithShiftName.length <1 && type == "SHIFT_USER_EDIT") {
+          this.closeButton3.nativeElement.click();
+        }
       },
       (error) => {
         console.log('error');
@@ -747,12 +754,43 @@ calculateTimes(): void {
     this.isValidated ? false : true;
   }
 
+  @ViewChild("closeButton3") closeButton3!:ElementRef;
   removeUser(uuid: string) {
-   
+   debugger
     this.selectedStaffsUuids = this.selectedStaffsUuids.filter(id => id !== uuid);
+
+    this.staffs.forEach((staff) => {
+      staff.selected = this.selectedStaffsUuids.includes(staff.uuid);
+    });
+    this.isAllSelected = false;
+    // if(this.selectedStaffsUuids.length <1) {
+      // this.unselectAllUsers();
+    // }
     // this.updateSelectedStaffs();
     this.userNameWithShiftName = [];
-    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId);
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "SHIFT_USER_EDIT");
+
+
+    
   }
 
+  @ViewChild('closeButton2') closeButton2!: ElementRef;
+  isRegisterLoad: boolean = false;
+  registerShift() {
+    debugger;
+    this.isRegisterLoad = true;
+    this.closeButton2.nativeElement.click();
+    this.editShiftStaffInfo();
+    // this.registerOrganizationShiftTimingMethodCall();
+
+    // setTimeout(() => {
+    //   this.closeButton2.nativeElement.click();
+    //   this.closeButtonEditStaffInfo.nativeElement.click();
+    // }, 300);
+  }
+
+  closeModal() {
+    this.isValidated = false;
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "");
+  }
 }

@@ -69,14 +69,14 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
           this.dataService.markStepAsCompleted(response.object.step);
           this.onboardingViaString = response.object.onboardingString;
           this.STEP_ID = response.object.step;
-          console.log(response.object.step);
+          // console.log(response.object.step);
           this.goToStep(response.object.step);
         }
       });
   }
 
   goToStep(index: string) {
-    debugger
+    debugger;
     // console.log("Index to Go :", index);
     switch (index) {
       case '1': {
@@ -113,7 +113,11 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
         break;
       }
       case '5': {
-        this.router.navigate(['/dashboard']);
+         setTimeout(() => {
+         this.router.navigate(['/dashboard']);
+          // this.router.navigate(['/to-do-step-dashboard']);
+        }, 5000);
+        // this.router.navigate(['/dashboard']);
         // console.log("Step 5 is calling");
         break;
       }
@@ -210,7 +214,10 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
   }
 
   openLogoutModal() {
-    const modalRef = this.modalService.open(LogoutConfirmationModalComponent);
+    const modalRef = this.modalService.open(LogoutConfirmationModalComponent, {
+      centered: true,
+      backdropClass: 'static',
+    });
     modalRef.result.then((result) => {
       if (result === 'logoutConfirmed') {
         // Handle the logout logic if confirmed
