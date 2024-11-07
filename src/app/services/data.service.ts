@@ -78,6 +78,7 @@ import { LeaveTemplateRequest } from '../models/leave-template-request';
 import { OrganizationRegistrationFormRequest } from '../models/organization-registration-form-request';
 import { rootCertificates } from 'tls';
 import { OnboardingModule } from '../models/OnboardingModule';
+import { ExpenseType } from '../models/expenseType';
 
 
 @Injectable({
@@ -4220,6 +4221,38 @@ getHolidayForOrganization(date: string): Observable<any>{
   }
 
 
+  getExpenseType(){
+    return this.httpClient.get<any>(`${this.baseUrl}/company-expense-type`);
+  }
+
+  checkExpensePolicy(expenseTypeId: number, amount: any): Observable<any>{
+    const params = new HttpParams()
+    .set('expenseTypeId', expenseTypeId)
+    .set('amount', amount);
+    return this.httpClient.get<any>(`${this.baseUrl}/company-expense-policy`, {params});
+  }
+
+  createExpense(expenseTypeReq: ExpenseType){
+    return this.httpClient.post<any>(`${this.baseUrl}/company-expense`, expenseTypeReq);
+  }
+
+  deleteExpense(id: number): Observable<any> {
+    const params = new HttpParams().set('expenseId', id);
+    return this.httpClient.delete(`${this.baseUrl}/company-expense`, {
+      params,
+    });
+  }
+
+  getAllExpense(role: string, pageNumber: number, itemPerPage: number){
+    const params = new HttpParams()
+    .set('currentPage', pageNumber)
+    .set('itemPerPage', itemPerPage)
+    .set('sortBy', 'createdDate')
+    .set('sortOrder', 'desc')
+    .set('role', role)
+  
+    return this.httpClient.get<any>(`${this.baseUrl}/company-expense`, {params});
+  }
 
 }
 
