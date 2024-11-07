@@ -907,7 +907,8 @@
                                   " min="1" max="400" step="1" required /> -->
 
                                 <input class="form-control input-zorro" type="number" style="width: 100%"
-                                  formControlName="leaveCount" placeholder="Day Count" id="inputLeaveCount" name="inputLeaveCount" [(ngModel)]="tempLeaveCount"
+                                  formControlName="leaveCount" placeholder="Day Count" id="inputLeaveCount"
+                                  name="inputLeaveCount" [(ngModel)]="tempLeaveCount"
                                   (ngModelChange)="validateAndAdjustLeaveCount($event, i)" min="1" max="400" required />
 
                                 <p class="errortxt mt-2 mb-0 text-danger" *ngIf="
@@ -955,7 +956,7 @@
                               </div>
 
 
-                              <div class="col-md-3 mb-2" nz-form-item>
+                              <!-- <div class="col-md-3 mb-2" nz-form-item>
                                 <label for="leaveRenewalCycle" class="pb-2">
                                   Unused Leave Action
                                 </label>
@@ -981,10 +982,57 @@
                                     generateDaysDropdown($event, i)
                                   " nzSize="large" [nzMin]="1" [nzMax]="10" [nzStep]="1"
                                   [nzDisabled]="true"></nz-input-number>
+                              </div> -->
+
+                              <div class="col-md-3 mb-2" nz-form-item>
+                                <label for="leaveRenewalCycle" class="pb-2">
+                                  Unused Leave Action
+                                </label>
+
+                                <!-- <nz-select style="width: 100%" nzSize="large" *ngIf="
+                                    categories.controls[i]!.get(
+                                      'unusedLeaveActionId'
+                                    )?.value != LAPSE
+                                  " formControlName="unusedLeaveActionCount" nzPlaceHolder="Select Days" required
+                                  class="form-control">
+                                  <ng-container *ngFor="let day of daysCountArray[i]">
+                                    <nz-option *ngIf="day > 0" [nzValue]="day" [nzLabel]="day">
+                                      {{ day }}
+                                    </nz-option>
+                                  </ng-container>
+                                </nz-select> -->
+
+                                <div *ngIf="categories.controls[i]!.get('unusedLeaveActionId')?.value != LAPSE"
+                                  style="width: 100%">
+                                  <input nz-input [nzAutocomplete]="auto" formControlName="unusedLeaveActionCount" required
+                                    placeholder="Select Days" [required]="true" nzSize="large" class="form-control input-zorro" style="font-size: 13px;" />
+
+                                    <!-- <nz-input-number nz-input [nzAutocomplete]="auto" style="width: 100%"  placeholder="Select Days" [required]="true"
+                                     formControlName="unusedLeaveActionCount"
+                                     nzSize="large" [nzMin]="1" [nzMax]="5" [nzStep]="1" >
+                                  </nz-input-number> -->
+
+                                  <nz-autocomplete #auto>
+                                    <nz-auto-option *ngFor="let day of daysCountArray[i]" [nzValue]="day">
+                                      {{ day }}
+                                    </nz-auto-option>
+                                  </nz-autocomplete>
+                                </div>
+
+
+                                <nz-input-number style="width: 100%" formControlName="unusedLeaveActionCount" *ngIf="
+                                    categories.controls[i]!.get(
+                                      'unusedLeaveActionId'
+                                    )?.value == LAPSE
+                                  " nzPlaceHolder="N/A" (ngModelChange)="
+                                    generateDaysDropdown($event, i)
+                                  " nzSize="large" [nzMin]="1" [nzMax]="10" [nzStep]="1" [nzDisabled]="true">
+                                </nz-input-number>
                               </div>
 
-                              <div class="d-flex align-items-center justify-content-end">
+                              <!-- Unused action leave count end -->
 
+                              <div class="d-flex align-items-center justify-content-end">
 
                                 <button *ngIf="editToggle" class="p-0 btn text-primary leave-category"
                                   (click)="addFormRow(i)">
