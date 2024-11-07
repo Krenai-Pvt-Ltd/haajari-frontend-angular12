@@ -1769,24 +1769,77 @@
             <div *ngIf="data.length > 0">
               <h3 class="font-20 mb-3">Uploaded Data</h3>
               <div class="table-responsive">
-                <table class="table excelUploadTable">
+                <div class="single-row">
+                  <label>
+                    <input type="checkbox" [(ngModel)]="selectAllCurrentPage" (change)="toggleSelectAllCurrentPage()" />
+                  </label>
+                  <div class="select-all-page">Select All on Current Page</div>
+
+                  <nz-select [(ngModel)]="bulkShift" (ngModelChange)="applyBulkChange('shift', $event)" nzPlaceHolder="Select Shift" [nzDropdownRender]="customDropdownShift">
+                    <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label" [nzLabel]="shift.label"></nz-option>
+                  </nz-select>
+                  <ng-template #customDropdownShift>
+                    <div class="custom-dropdown-footer">
+                      <button nz-button nzType="link" (click)="openAddShiftModal()">Add Shift</button>
+                    </div>
+                  </ng-template>
+
+                  <nz-select [(ngModel)]="bulkLeave" (ngModelChange)="applyBulkChange('leave', $event)" nzPlaceHolder="Select Leave" nzMode="multiple" [nzDropdownRender]="customDropdown">
+                    <nz-option *ngFor="let leave of originalLeaveNameList" [nzValue]="leave.label" [nzLabel]="leave.label"></nz-option>
+                  </nz-select>
+                  <ng-template #customDropdown>
+                    <div class="custom-dropdown-footer">
+                      <button nz-button nzType="link" (click)="openAddLeaveModal()">Add Leave</button>
+                    </div>
+                  </ng-template>
+
+                  <nz-select [(ngModel)]="bulkTeam" (ngModelChange)="applyBulkChange('team', $event)" nzPlaceHolder="Select Team" nzMode="multiple" [nzDropdownRender]="customDropdownTeam">
+                    <nz-option *ngFor="let team of originalTeamNameList" [nzValue]="team.label" [nzLabel]="team.label"></nz-option>
+                  </nz-select>
+                  <ng-template #customDropdownTeam>
+                    <div class="custom-dropdown-footer">
+                      <button nz-button nzType="link" (click)="openAddTeamModal()">Add Team</button>
+                    </div>
+                  </ng-template>
+                  <label>
+                    <input type="checkbox" [(ngModel)]="selectAllPages" (change)="toggleSelectAllPage()" />
+                  </label>
+                  <div class="select-all-page">Select All Page</div>
+                </div>
+                <table border="1">
+
+                  <!-- Dropdowns for applying to selected rows -->
                   <thead>
                     <tr>
-                      <th *ngFor="let col of fileColumnName">{{ col }}</th>
+                      <th>select</th>
+                      <th class="select-all-page" *ngFor="let col of fileColumnName">{{ col }}</th>
                     </tr>
                   </thead>
                   <tbody>
                     <!-- Skip the first row for pagination purposes -->
                     <tr *ngFor="let row of paginatedData; let i = index">
+                      <td>
+                        <input *ngIf="i + currentPage -1!=0" type="checkbox" [(ngModel)]="row.selected" />
+                      </td>
+
                       <td *ngFor="let cell of fileColumnName; let j = index">
                         <ng-container *ngIf="fileColumnName[j] === 'shift*' && (currentPage - 1) * pageSize + i  !== 0; else leaveColumns">
                           <nz-select
-                            [(ngModel)]="row[j]"
-                            [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i ][j]}"
-                            (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i , j)"
-                            nzPlaceHolder="Select Shift">
-                            <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label" [nzLabel]="shift.label"></nz-option>
+                              [(ngModel)]="row[j]"
+                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
+                              (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)"
+                              nzPlaceHolder="Select Shift"
+                              [nzDropdownRender]="customDropdownShift">
+
+                              <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label" [nzLabel]="shift.label"></nz-option>
+
                           </nz-select>
+
+                          <ng-template #customDropdownShift>
+                            <div class="custom-dropdown-footer">
+                              <button nz-button nzType="link" (click)="openAddShiftModal()">Add Shift</button>
+                            </div>
+                          </ng-template>
                         </ng-container>
 
                         <ng-template #leaveColumns>
@@ -1802,15 +1855,22 @@
                               [ngModelOptions]="{ standalone: true }"
                               (ngModelChange)="onMultiSelectChange($event, (currentPage - 1) * pageSize + i, j)"
                               (nzOnSearch)="onSearchLeave($event)"
+                              [nzDropdownRender]="customDropdown"
                               [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}">
                               <ng-container *ngFor="let o of originalLeaveNameList">
                                 <nz-option *ngIf="!isLoadingLeave" [nzValue]="o.label" [nzLabel]="o.label"></nz-option>
                               </ng-container>
+
                               <nz-option *ngIf="isLoadingLeave" nzDisabled nzCustomContent>
                                 <span nz-icon nzType="loading" class="loading-icon"></span>
                                 Loading Data...
                               </nz-option>
                             </nz-select>
+                            <ng-template #customDropdown>
+                              <div class="custom-dropdown-footer">
+                                <button nz-button nzType="link" (click)="openAddLeaveModal()">Add Leave</button>
+                              </div>
+                            </ng-template>
                           </ng-container>
                         </ng-template>
 
@@ -1842,7 +1902,8 @@
                               [ngModelOptions]="{ standalone: true }"
                               (ngModelChange)="onTeamSelectionChanges($event, (currentPage - 1) * pageSize + i, j)"
                               (nzOnSearch)="onSearch($event)"
-                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}">
+                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
+                              [nzDropdownRender]="customDropdownTeam">
                               <ng-container *ngFor="let o of originalTeamNameList">
                                 <nz-option *ngIf="!isLoadingTeams" [nzValue]="o.label" [nzLabel]="o.label"></nz-option>
                               </ng-container>
@@ -1851,6 +1912,11 @@
                                 Loading Data...
                               </nz-option>
                             </nz-select>
+                            <ng-template #customDropdownTeam>
+                              <div class="custom-dropdown-footer">
+                                <button nz-button nzType="link" (click)="openAddTeamModal()">Add Team</button>
+                              </div>
+                            </ng-template>
                           </ng-container>
                         </ng-template>
 

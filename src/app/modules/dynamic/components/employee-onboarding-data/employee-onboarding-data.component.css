@@ -21,6 +21,20 @@
   /* border-color: #f1f1f1 !important;
     background-color: #f4f4f4ee !important; */
 }
+.custom-modal-width .modal-dialog {
+  max-width: 300%; /* Adjust percentage as needed */
+  width: 300%; /* Ensures consistent behavior */
+}
+.single-row {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Space between elements */
+}
+.select-all-page {
+  color: #007bff !important; /* Replace with your desired color */
+  font-weight: bold; /* Optional: makes the text bold */
+}
+
 
 .orderpcardleft {
   width: 80%;
