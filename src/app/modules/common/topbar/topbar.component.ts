@@ -161,8 +161,6 @@ export class TopbarComponent implements OnInit {
   UUID: any;
   orgUuid: any;
   async getUuids() {
-    console.log('---', JSON.stringify(this.rbacService.userInfo));
-
     this.UUID = await this.rbacService.getUUID();
     this.employeeProfileRoute = `${Key.EMPLOYEE_PROFILE_ROUTE}?userId=${this.UUID}`;
     // this.employeeProfileRoute = Key.EMPLOYEE_PROFILE_ROUTE +'?userId={{UUID}}';
