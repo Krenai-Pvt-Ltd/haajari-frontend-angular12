@@ -32,7 +32,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { AgmCoreModule } from '@agm/core';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
@@ -77,6 +77,7 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
     NzFormModule,
     NzToolTipModule,
     NzEmptyModule,
+    NgbModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyB6SQE_TmOLpGLohpMLl-6FzdwJJAU9MnA',
       libraries: ['places'],
