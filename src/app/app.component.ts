@@ -26,10 +26,15 @@ export class AppComponent implements OnInit {
       if (event instanceof RouteConfigLoadStart) {
         this._helperService.detectOpenModalOnBack();
       } 
-      if(event instanceof NavigationEnd &&  document.body?.classList){
+      if(event instanceof NavigationEnd )
+      { 
+        window.scroll(0, 0);
+
+        if( document.body?.classList){
         document.body?.classList?.remove("modal-open")
         document.body.style.overflow = 'scroll';
       }
+    }
     })
     this._helperService.toastSubscription.subscribe((value) => {
       this.isShowToast = value;

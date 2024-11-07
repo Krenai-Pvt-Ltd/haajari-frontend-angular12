@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Console } from 'console';
 import { Key } from 'src/app/constant/key';
-import { OrganizationSubscriptionPlanMonthDetail } from 'src/app/models/OrganizationSubscriptionPlanMonthDetail';
 import { LoggedInUser } from 'src/app/models/logged-in-user';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -37,9 +35,6 @@ export class HeaderComponent implements OnInit {
     private db: AngularFireDatabase,
     private _modalService: NgbModal
   ) {
-    // if (this.route.snapshot.queryParamMap.has('userId')) {
-    //     this.activeTab = 'dashboard';
-    //   }
   }
 
 

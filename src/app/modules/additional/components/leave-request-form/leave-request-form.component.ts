@@ -117,12 +117,6 @@ export class LeaveRequestFormComponent implements OnInit {
     this.dataService.getUserLeaveRequests(this.userUuid).subscribe(
       (res: any) => {
           this.userLeave = res.object;
-          // if(res.status){
-          //   this.userLeave = res.object;
-          // }else if(res.status == 'false'){
-          //   this.userLeave = [];
-          // }
-
           if(this.userLeave == null){
             this.userLeave = []
           }
@@ -134,9 +128,6 @@ export class LeaveRequestFormComponent implements OnInit {
   tempLeaveType: string =''
   onLeaveTypeChange(selectedLeave: any): void {
     debugger
-      // this.userLeaveRequest.userLeaveTemplateId = selectedLeave ;
-    // console.log('userLeaveTemplate leaveType', this.userLeaveRequest)
-
     this.userLeaveForm.patchValue({
       userLeaveTemplateId: selectedLeave,
     });

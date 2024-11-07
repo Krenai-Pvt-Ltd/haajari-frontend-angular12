@@ -8,6 +8,7 @@ import { NavigationExtras, Router } from '@angular/router';
 import * as saveAs from 'file-saver';
 import { Key } from '../constant/key';
 import { RestrictedSubModule } from '../models/RestrictedSuubModule';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -339,4 +340,30 @@ export class HelperService {
   getSubscriptionRestrictedModules() {
     return this._httpClient.get<any>(this._key.base_url + this._key.get_restricted_modules)
   }
+
+
+  getTimeDiffOfDates(date1: Date, date2: Date) {
+    var tempDate1 = moment(new Date(date1)).format("HH:mm");
+    var tempDate2 = moment(new Date(date2)).format("HH:mm");
+    const totalHrs = moment.duration(moment(tempDate2, "HH:mm").diff(moment(tempDate1, "HH:mm"))).asMinutes();
+    var duration = Math.floor(totalHrs / 60) + ":" + (totalHrs % 60);
+    return duration;
+  }
+
+  getTimeDiffFromStringTime(date1: string, date2: string) {
+    const totalHrs = moment.duration(moment(date2, "HH:mm").diff(moment(date1, "HH:mm"))).asMinutes();
+    var duration = Math.floor(totalHrs / 60) + ":" + (totalHrs % 60);
+    return duration;
+  }
+
+  // getTimeDiffFromStringTime(date1: string, date2: string) {
+  //   const diffInMinutes = moment(date1, "HH:mm").diff(moment(date2, "HH:mm"), 'minutes');
+
+  //   // Convert the difference in minutes to hours and minutes
+  //   const hours = Math.floor(diffInMinutes / 60);
+  //   const minutes = diffInMinutes % 60;
+  //   var duration = Math.floor(hours / 60) + ":" + (minutes % 60);
+
+  //   return duration;
+  // }
 }
