@@ -1724,8 +1724,7 @@
             </div>
           </div>
           <div
-            class="alert alert-light mb-0 mt-4 bg-soft-warning create-password-warning text-start"
-            role="alert"
+            class="create-password-warning mb-0 mt-4 ng-star-inserted text-start"
             *ngIf="
               alreadyUsedPhoneNumberArray.length > 0 ||
               alreadyUsedEmailArray.length > 0 ||
@@ -1757,21 +1756,20 @@
             </p>
           </div>
           <div
-            class="alert alert-light mb-0 mt-4 bg-soft-warning create-password-warning text-start"
-            role="alert"
+            class="create-password-warning mb-0 mt-4 ng-star-inserted text-start"
             *ngIf="
               data.length > 0
               && isinvalid
             "
           >
-            <h4 class="alert-heading font-18">Attention</h4>
+            <h4 class="alert-heading font-16 mb-1">Attention</h4>
             <p *ngIf="isExcel.length > 0">
               {{ isExcel }}
             </p>
             <div *ngIf="data.length > 0">
-              <h3>Uploaded Data</h3>
+              <h3 class="font-22 mb-3">Uploaded Data</h3>
               <div class="table-responsive">
-                <table border="1">
+                <table class="table excelUploadTable">
                   <thead>
                     <tr>
                       <th *ngFor="let col of fileColumnName">{{ col }}</th>
@@ -1882,7 +1880,9 @@
                     </tr>
                   </tbody>
                 </table>
-
+                
+              </div>
+              <div class="text-end">
                 <ngb-pagination
                   [rotate]="true"
                   [maxSize]="4"
@@ -1892,13 +1892,12 @@
                   (pageChange)="onPageChange($event)">
                 </ngb-pagination>
 
-                <button (click)="saveFile()">Save Changes</button>
+                <button type="button" class="btn btn-primary btn-sm" (click)="saveFile()">Save Changes</button>
               </div>
             </div>
 
             <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p>
-            <p *ngIf="!isErrorToggle">
-            </p>
+            <p *ngIf="!isErrorToggle" class="m-0"></p>
           </div>
         </ng-container>
         <ng-container
