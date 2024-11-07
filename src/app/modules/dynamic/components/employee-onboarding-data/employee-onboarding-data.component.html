@@ -1756,18 +1756,18 @@
             </p>
           </div>
           <div
-            class="create-password-warning mb-0 mt-4 ng-star-inserted text-start"
+            class="card create-password-warning mb-0 mt-4 ng-star-inserted pb-3 pt-2 px-3 text-start"
             *ngIf="
               data.length > 0
               && isinvalid
             "
           >
-            <h4 class="alert-heading font-16 mb-1">Attention</h4>
+            <!-- <h4 class="alert-heading font-16 mb-1">Attention</h4> -->
             <p *ngIf="isExcel.length > 0">
               {{ isExcel }}
             </p>
             <div *ngIf="data.length > 0">
-              <h3 class="font-22 mb-3">Uploaded Data</h3>
+              <h3 class="font-20 mb-3">Uploaded Data</h3>
               <div class="table-responsive">
                 <table class="table excelUploadTable">
                   <thead>
@@ -1892,7 +1892,10 @@
                 </ngb-pagination>
                 </div>
 
-                <button type="button" class="btn btn-primary btn-sm" (click)="saveFile()">Save Changes</button>
+              </div>
+              <div class="text-end border-top pt-3">
+                <!-- <button type="button" class="btn btn-primary btn-sm" (click)="saveFile()">Save Changes</button> -->
+                <button type="button" class="btn p-0 next-btn btn-border" (click)="saveFile()">Save Changes</button>
               </div>
             </div>
 

@@ -674,3 +674,20 @@ actionMenuList .dropdown-item i {
   .ant-select-selection-placeholder {
   line-height: 35px;
 }
+
+.ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+  color: r#6666f4;
+  font-weight: 400;
+  background-color: #f1f1fd;
+}
+.anticon {
+  vertical-align: 0.175em;
+}
+.ant-select-item-option-selected:not(.ant-select-item-option-disabled)
+  .ant-select-item-option-state {
+  color: #6666f4;
+}
+
+.border-top{
+  border-top: 1px solid #f1f1f1 !important;
+}

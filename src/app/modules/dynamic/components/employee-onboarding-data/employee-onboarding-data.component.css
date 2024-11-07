@@ -14,8 +14,12 @@
   letter-spacing: 0.1px;
 }
 .invalid-input {
-  border-color: #f1f1f1 !important;
-  background-color: #f4f4f4ee !important;
+  /* border-color: red !important; 
+  background-color: #010101 !important;  */
+  border-color: #ff959b !important;
+  background-color: #ffffff !important;
+  /* border-color: #f1f1f1 !important;
+    background-color: #f4f4f4ee !important; */
 }
 
 .orderpcardleft {
@@ -902,14 +906,22 @@ Remove
   min-height: 35px !important;
 }
 .excelUploadTable .whatapp-login-input {
-  height: 35px !important;
+  /* height: 35px !important; */
+  height: fit-content !important;
   border: 1px solid #f1f1f1 !important;
   border-radius: 2px !important;
 }
-.excelUploadTable .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+.excelUploadTable
+  .ant-select:not(.ant-select-customize-input)
+  .ant-select-selector {
   border-radius: 0px !important;
   min-height: 35px !important;
   color: #1f1f1f !important;
   height: 35px;
+}
+.next-btn{
+  text-align: center;
+  font-size: 15px;
+  font-weight: 500;
 }
 /* Excel Upload Modal */
