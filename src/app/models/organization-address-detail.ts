@@ -13,7 +13,7 @@ export class OrganizationAddressDetail {
     longitude: any;
     radius: string = '';
     attendanceMode: number = 0;
-    branch: string = '';
+    // branch: string = '';
 
     // constructor(
     //     id?: number,
