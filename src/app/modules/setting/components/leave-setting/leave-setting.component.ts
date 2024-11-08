@@ -1576,15 +1576,31 @@ export class LeaveSettingComponent implements OnInit {
   }
 
 
+  // updateDaysDropdown(index: number, count: number): void {
+  //   console.log('countarray ..' + index + ' ' + count);
+  //   while (this.daysCountArray.length <= index) {
+  //     this.daysCountArray.push([]);
+  //   }
+  //   this.daysCountArray[index] = Array.from(
+  //     { length: count + 1 },
+  //     (_, i) => count - i
+  //   );
+  // }
+
   updateDaysDropdown(index: number, count: number): void {
     // console.log('countarray ..' + index + ' ' + count);
     while (this.daysCountArray.length <= index) {
       this.daysCountArray.push([]);
     }
     this.daysCountArray[index] = Array.from(
-      { length: count + 1 },
+      { length: count  },
       (_, i) => count - i
     );
+
+  //  this.daysCountArray[index] = this.daysCountArray[0].slice(0)
+
+  //  console.log('daysCountArray: ', this.daysCountArray[index])
+
   }
 
 
@@ -2501,6 +2517,14 @@ getValue(event: Event, index: number): void {
   this.validateAndAdjustLeaveCount(this.getVal, index)
 }
 
-
+validateMaxValue(index: number): void {
+  debugger
+  const control = this.categories.controls[index].get('unusedLeaveActionCount');
+  setTimeout(() =>{
+    if (control && Number(control.value) > Number(this.tempLeaveCount)) {
+      control.setValue(this.tempLeaveCount);
+    }
+  });
+}
 
 }
