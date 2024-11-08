@@ -777,7 +777,7 @@
                               data-bs-toggle="modal"
                               data-bs-target="#shifTimeDefaultAddress"
                               
-                              (click)="clearLocationModel(); getOrganizationAddressDetailMethodCall()"
+                              (click)="getOrganizationAddressDetailMethodCall()"
                             >
                               <i class="bi bi-pencil pointer"></i>
                             </a>
@@ -803,17 +803,19 @@
                             >
                               <i class="bi bi-people"></i>
                             </a>
+                            <!-- getAddressDetails(
+                              item.organizationAddress.id,
+                              item.organizationAddress.addressStatus
+                            ) -->
                             <a
                               style="cursor: pointer"
                               data-bs-toggle="modal"
                               data-bs-target="#shiftTime"
-                              (click)="
-                                getAddressDetails(
-                                  item.organizationAddress.id,
-                                  item.organizationAddress.addressStatus
-                                )
+                              (click)="openEditAddressTab(item.organizationAddress.id,
+                                  item.organizationAddress.addressStatus)
+                               
                               "
-                              (click)="clearLocationModel()"
+                              
                             >
                               <i class="bi bi-pencil pointer"></i>
                             </a>
@@ -1218,7 +1220,9 @@
               id="shiftime"
               role="tabpanel"
             >
-              <form #organizationAddressForm="ngForm" (ngSubmit)="submit()">
+            <!-- [formGroup]="organizationAddressDetailForm" -->
+            <!-- #organizationAddressForm="ngForm" -->
+              <form #organizationAddressNgForm="ngForm"  (ngSubmit)="submit()">
                 <div class="modal-content">
                   <!--end modal-header-->
                   <div class="modal-body">
@@ -1535,7 +1539,7 @@
                           </div>
                         </div>
 
-                        <div
+                        <!-- <div
                           class="col-md-6"
                           *ngIf="
                             organizationAddressDetail.longitude &&
@@ -1571,7 +1575,7 @@
                             </p>
                           </div>
                         </div>
-
+ -->
 
                         <div class="col-md-12">
                           <div class="mb-3">
@@ -2232,6 +2236,8 @@
   role="dialog"
   aria-labelledby="exampleModalDefaultLabel"
   aria-hidden="true"
+  data-bs-backdrop="static"
+  data-bs-backdrop="false"
   #shifTimeDefaultAddress
 >
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">

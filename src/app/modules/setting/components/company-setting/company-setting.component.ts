@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { NgForm } from '@angular/forms';
+import { FormGroup, NgForm } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { async } from 'rxjs';
@@ -716,8 +716,11 @@ export class CompanySettingComponent implements OnInit {
       return;
     } else {
       this.toggle = false;
-      this.selectAll(true);
+      // this.selectAll(true);
+      
+      this.getOrganizationUserNameWithBranchNameData(this.addressId, "");
       this.openStaffSelection();
+      // this.getUserByFiltersMethodCall();
     }
   }
 
@@ -807,12 +810,14 @@ export class CompanySettingComponent implements OnInit {
   getAddressDetails(addressId: number, addressString: string): void {
     this.addressId = addressId;
     debugger
+    this.selectedStaffsUuids = [];
     this.dataService.getAddressDetailsOfStaffByAddressIdAndType(addressId, addressString)
       .subscribe(response => {
         this.specificAddress = response.object;
         this.organizationAddressDetail = this.specificAddress.organizationAddress;
         if (this.specificAddress.staffListResponse.length > 0) {
           this.selectedStaffsUuids = this.specificAddress.staffListResponse.map((staff: any) => staff.uuid);
+          this.getUserByFiltersMethodCall();
         }
          if (this.specificAddress.staffListResponse.length == 1) {
           this.activeIndex = 0;
@@ -829,7 +834,13 @@ export class CompanySettingComponent implements OnInit {
     this.selectedTeamName = 'All';
     this.selectedStaffsUuids = [];
     this.pageNumber = 1;
+   
+    this.getAddressDetails(addressId, addressString);
     this.staffSelectionTab.nativeElement.click();
+  }
+
+  openEditAddressTab(addressId: number, addressString: string) {
+    this.locationSettingTab.nativeElement.click();
     this.getAddressDetails(addressId, addressString);
   }
 
@@ -844,10 +855,15 @@ export class CompanySettingComponent implements OnInit {
     }
   }
 
-
+  @ViewChild('organizationAddressNgForm') organizationAddressNgForm!: NgForm;
   clearLocationModel() {
     this.locationSettingTab.nativeElement.click();
     this.organizationAddressDetail = new OrganizationAddressDetail();
+    if (this.organizationAddressForm) {
+      this.organizationAddressNgForm.resetForm();
+    }
+    this.addressId = 0;
+    // this.organizationAddressDetailForm.reset();
     // this.selectedShiftType = new ShiftType();
     // this.addressId = 0;
     this.clearSearchText();
@@ -980,6 +996,8 @@ export class CompanySettingComponent implements OnInit {
       (response) => {
         this.userNameWithBranchName = response.listOfObject;
         if( this.userNameWithBranchName.length <1 && type == "SHIFT_USER_EDIT") {
+          this.isAllSelected = false;
+          this.isAllUsersSelected = false;
           this.closeButton.nativeElement.click();
         }
       },
