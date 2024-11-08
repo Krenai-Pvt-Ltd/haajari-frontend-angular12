@@ -5,7 +5,7 @@ import { Key } from 'src/app/constant/key';
 import { CompanyExpense } from 'src/app/models/CompanyExpense';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { ExpensePolicy } from 'src/app/models/ExpensePolicy';
-import { ExpenseType } from 'src/app/models/expenseType';
+import { ExpenseType } from 'src/app/models/ExpenseType';
 import { Staff } from 'src/app/models/staff';
 import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-reflection';
 import { DataService } from 'src/app/services/data.service';

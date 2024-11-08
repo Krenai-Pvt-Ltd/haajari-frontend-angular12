@@ -78,7 +78,7 @@ import { LeaveTemplateRequest } from '../models/leave-template-request';
 import { OrganizationRegistrationFormRequest } from '../models/organization-registration-form-request';
 import { rootCertificates } from 'tls';
 import { OnboardingModule } from '../models/OnboardingModule';
-import { ExpenseType } from '../models/expenseType';
+import { ExpenseType } from '../models/ExpenseType';
 
 
 @Injectable({
