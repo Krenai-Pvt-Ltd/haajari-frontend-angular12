@@ -627,7 +627,8 @@
               <div class="d-flex align-items-center justify-content-between">
                 <div>
                   <h3 class="mb-2">Trial Plan</h3>
-                  <p class="mb-0" >Plan Upgrade Now</p>
+                  <!-- <p class="mb-0" >Plan Upgrade Now</p> -->
+                  <p class="mb-0">Valid up to {{_subscriptionPlanService.month}} months</p>
                 </div>
                 <div>
                   <button class="btn upgradeBtn"  (click)="routeToBilling()">

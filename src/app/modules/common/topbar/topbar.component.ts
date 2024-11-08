@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { Router } from '@angular/router';
+import { Key } from 'src/app/constant/key';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { Notification } from 'src/app/models/Notification';
 import { DataService } from 'src/app/services/data.service';
@@ -21,7 +22,7 @@ import { UserNotificationService } from 'src/app/services/user-notification.serv
 })
 export class TopbarComponent implements OnInit {
   databaseHelper: DatabaseHelper = new DatabaseHelper();
-
+  employeeProfileRoute : string = '';
   constructor(
     public dataService: DataService,
     private router: Router,
@@ -30,7 +31,9 @@ export class TopbarComponent implements OnInit {
     private helperService:HelperService,
     private _router: Router,
     private db: AngularFireDatabase
-  ) {}
+  ) {
+    // this.employeeProfileRoute = Key.EMPLOYEE_PROFILE_ROUTE;
+  }
 
   topbarValue: string | undefined;
 
@@ -158,9 +161,9 @@ export class TopbarComponent implements OnInit {
   UUID: any;
   orgUuid: any;
   async getUuids() {
-    console.log('---', JSON.stringify(this.rbacService.userInfo));
-
     this.UUID = await this.rbacService.getUUID();
+    this.employeeProfileRoute = `${Key.EMPLOYEE_PROFILE_ROUTE}?userId=${this.UUID}`;
+    // this.employeeProfileRoute = Key.EMPLOYEE_PROFILE_ROUTE +'?userId={{UUID}}';
     this.orgUuid = await this.rbacService.getOrgRefUUID();
     this.getFirebase(this.orgUuid, this.UUID);
   }

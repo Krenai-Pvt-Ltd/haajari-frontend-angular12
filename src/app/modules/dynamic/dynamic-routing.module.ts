@@ -159,7 +159,7 @@ const routes: Routes = [
       { path: 'unauthorized', component: UnauthorizedComponent },
       { path: 'leave-management', 
         component: LeaveManagementComponent, 
-        // canActivate: [AuthGuard, SubscriptionGuard],
+        canActivate: [AuthGuard, SubscriptionGuard]
       },
       // {path : 'attendance-photo', component: EmployeeAttendancePhotoComponent},
       { path: 'unauthorized', component: UnauthorizedComponent },

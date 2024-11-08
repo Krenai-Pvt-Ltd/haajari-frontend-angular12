@@ -662,7 +662,10 @@ goBackToProfile() {
   let navExtra: NavigationExtras = {
     queryParams: { userId: new URLSearchParams(window.location.search).get('userUuid') },
   };
-  this.router.navigate(['/employee-profile'], navExtra);
+  // this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], navExtra);
+  const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
+    window.open(url, '_blank');
+    return;
 }
 
 

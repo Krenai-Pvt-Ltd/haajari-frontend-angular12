@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {  NgForm } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -17,7 +17,11 @@ import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
-
+import { DatePipe } from '@angular/common';
+import * as moment from 'moment';
+import { LeaveSettingComponent } from 'src/app/modules/setting/components/leave-setting/leave-setting.component';
+import { AttendanceSettingComponent } from 'src/app/modules/setting/components/attendance-setting/attendance-setting.component';
+import { TeamComponent } from '../team/team.component';
 export interface Team {
   label: string;
   value: string;
@@ -38,13 +42,11 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     @ViewChild('importModalOpen') importModalOpen!: ElementRef;
   constructor(
     private dataService: DataService,
-    private activateRoute: ActivatedRoute,
     private _onboardingService: OrganizationOnboardingService,
     private router: Router,
     private helperService: HelperService,
     private modalService: NgbModal,
-    private http: HttpClient,
-    private _subscriptionService:SubscriptionPlanService
+    private _subscriptionService:SubscriptionPlanService,
   ) {}
   users: EmployeeOnboardingDataDto[] = [];
   filteredUsers: Users[] = [];
@@ -55,6 +57,23 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   sampleFileUrl: string = '';
   databaseHelper: DatabaseHelper = new DatabaseHelper();
   userList: UserReq[] = new Array();
+
+  currentPage: number = 1;
+  pageSize: number = 10; // Adjust based on your requirements
+  totalPage: number = 0;
+
+  onPageChange(page: number) {
+    this.bulkShift=null;
+    this.bulkLeave=[];
+    this.bulkTeam=[];
+    this.selectAllCurrentPage=false;
+    this.currentPage = page;
+  }
+  get paginatedData() {
+    var start = (this.currentPage - 1) * this.pageSize;
+    start=start+1;
+    return this.data.slice(start, start + this.pageSize);
+  }
 
   pendingResponse = 'PENDING';
   approvedResponse = 'APPROVED';
@@ -73,16 +92,11 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.router.navigate(['/employee-profile'], navExtra);
   }
 
-  randomUserUrl = 'http://localhost:8080/api/v2/users/fetch-team-list-user';
+  // randomUserUrl = 'http://localhost:8080/api/v2/users/fetch-team-list-user';
   searchChange$ = new BehaviorSubject('');
   optionList: string[] = [];
   selectedUser?: string;
   isLoading = false;
-
-  // onSearch(value: string): void {
-  //   this.isLoading = true;
-  //   this.searchChange$.next(value);
-  // }
 
   ngOnInit(): void {
     window.scroll(0, 0);
@@ -107,22 +121,6 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       this.downloadingFlag = true;
       this.downloadFileFromUrl(storedDownloadUrl);
     }
-
-    // const getRandomNameList = (): Observable<string[]> =>
-    //   this.http.get<string[]>(`${this.randomUserUrl}`).pipe(
-    //     catchError(() => of([])),
-    //     map((res: string[]) => res.map((team) => team)) // Adjust the mapping here
-    //   );
-
-    // const optionList$: Observable<string[]> = this.searchChange$
-    //   .asObservable()
-    //   .pipe(debounceTime(500))
-    //   .pipe(switchMap(getRandomNameList));
-
-    // optionList$.subscribe((data) => {
-    //   this.optionList = data;
-    //   this.isLoading = false;
-    // });
     this._subscriptionService.isSubscriptionPlanExpired();
   }
 
@@ -130,9 +128,6 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   placeholder: boolean = false;
   errorToggleTop: boolean = false;
   isMainPlaceholder: boolean = false;
-  // selectSearchCriteria(option: string) {
-  //   this.searchCriteria = option;
-  // }
   debounceTimer: any;
   getUsersByFiltersFunction(debounceTime: number = 300) {
     if (this.debounceTimer) {
@@ -176,13 +171,6 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           (error) => {
             this.isUserShimer = false;
             this.errorToggleTop = true;
-            // const res = document.getElementById(
-            //   'error-page'
-            // ) as HTMLElement | null;
-
-            // if (res) {
-            //   res.style.display = 'block';
-            // }
           }
         );
     }, debounceTime);
@@ -270,30 +258,6 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     // location.reload();
   }
 
-  // searchUsers(searchString:string) {
-  //   this.crossFlag = true;
-  //   if(searchString=='A'){
-  //   this.searchText= "APPROVED"
-  //   this.searchCriteria = "employeeOnboardingStatus"
-  //   this.getUsersByFiltersFunction();
-  // }else if(searchString=='P'){
-  //   this.searchText= "PENDING"
-  //   this.searchCriteria = "employeeOnboardingStatus"
-  //   this.getUsersByFiltersFunction();
-  // }else if(searchString=='R'){
-  //   this.searchText= "REJECTED"
-  //   this.searchCriteria = "employeeOnboardingStatus"
-  //   this.getUsersByFiltersFunction();
-  // }if(searchString=='any'){
-  //   this.searchText= this.search
-  //   this.searchCriteria = '';
-  //   this.getUsersByFiltersFunction();
-  // }
-  //   // this.getUsersByFiltersFunction();
-  //   if (this.searchText == '') {
-  //     this.crossFlag = false;
-  //   }
-  // }
 
   showProjectOfOnboardingSection: boolean = false;
 
@@ -400,6 +364,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   toggle = false;
   setEmployeePersonalDetailsMethodCall() {
     // Reset the flag
+    debugger
     this.emailAlreadyExists = false;
 
     this.toggle = true;
@@ -685,12 +650,17 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   currentFileUpload: any;
 
 
-  expectedColumns: string[] = ['S. NO.*', 'Name*', 'Phone*', 'Email*', 'Shift*', 'LeaveNames'];
+  expectedColumns: string[] = ['Name*', 'Phone*', 'Email*', 'Shift*', 'JoiningDate*', 'Gender*'];
+  correctColumnName: string[] = ['S. NO.*', 'Name*', 'Phone*', 'Email*', 'Shift*', 'JoiningDate*', 'Gender*', 'leavenames', 'ctc', 'emptype', 'empId', 'branch', 'department', 'position', 'grade', 'team', 'dob', 'fathername', 'maritalstatus', 'address', 'city', 'state', 'country', 'pincode', 'panno', 'aadharno', 'drivinglicence', 'emergencyname', 'emergencyphone', 'emergencyrelation', 'accountholdername', 'bankname', 'accountnumber', 'ifsccode'];
+  fileColumnName:string[] = [];
+  genders: string[] = ['Male', 'Female'];
   isExcel: string = '';
   data: any[] = [];
   mismatches: string[] = [];
   invalidRows: boolean[] = []; // Track invalid rows
   invalidCells: boolean[][] = []; // Track invalid cells
+  isinvalid: boolean=false;
+  jsonData:any[]=[];
 
   selectFile(event: any) {
     debugger
@@ -710,25 +680,72 @@ export class EmployeeOnboardingDataComponent implements OnInit {
         const binaryStr = this.arrayBufferToString(arrayBuffer);
         const workbook = XLSX.read(binaryStr, { type: 'binary' });
         const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-        const jsonData: any[] = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+        this.jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
         // Reset data and error tracking
         this.data = [];
         this.invalidRows = [];
         this.invalidCells = [];
 
-        const columnNames: string[] = jsonData[0] as string[];
+        const columnNames: string[] = this.jsonData[0] as string[];
 
         if (this.validateColumns(columnNames)) {
-          // Always process the rows, regardless of validity
-          this.data = jsonData.filter((row: any[]) =>
-            row.some((cell: any) => cell !== undefined && cell !== null && cell.toString().trim() !== '')
-          );
+              this.data = this.jsonData.map((row: any[]) => {
+                // Ensure the 5th column is an array of strings, other columns are treated as strings
+                return row.map((cell: any, index: number) => {
+                  if( this.data.length==0){
+                    return cell ? cell.toString().trim() : '';
+                  }else{
+                  if (this.fileColumnName[index] === 'leavenames') {
+                    return cell ? cell.toString().split(',').map((str: string) => str.trim()) : [];
+                  }else if (this.fileColumnName[index] === 'joiningdate*' && cell !== 'joiningdate*') {
+                    // Use regex to check if cell matches exact MM-DD-YYYY format (reject formats like MM/DD/YYYY)
+                    const isExactFormat = /^\d{2}-\d{2}-\d{4}$/.test(cell);
+                    if (cell.includes('/')) {
+                      return undefined;
+                    }
+                    cell=cell.replace(/\//g, '-');
 
-          // Validate all rows and keep track of invalid entries
-          this.validateRows(this.data);
+                    if (isExactFormat) {
+                        // Parse with strict format checking
+                        const formattedDate = moment(cell, 'MM-DD-YYYY', true);
+
+                        // Check if the date is valid and within the next year
+                        if (formattedDate.isValid()) {
+                            const oneYearFromNow = moment().add(1, 'year');
+
+                            // Ensure date is within the next year
+                            if (formattedDate.isBefore(oneYearFromNow)) {
+                                return formattedDate.format('MM-DD-YYYY');
+                            }
+                        }
+                    }
+                    // Return empty string if the format, validity, or date range check fails
+                    return "";
+                  }
+                   else {
+                    // Convert other cells to string and trim whitespace
+                    return cell ? cell.toString().trim() : '';
+                  }
+                }
+
+                });
+              }).filter((row: any[]) =>
+                        // Filter out empty rows
+                  row.some((cell: any) => cell !== '')
+                );
+
+
+
+
+          // Validate all rows and keep track of invalid entries- send daya for validatio after emoving heder row
+          this.validateRows(this.data.slice(1));
+          this.totalPage = Math.ceil(this.data.length / this.pageSize);
           if(this.areAllFalse()){
+            this.isinvalid=false;
             this.uploadUserFile(file, this.fileName);
+          }else{
+            this.isinvalid=true;
           }
 
 
@@ -739,9 +756,17 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       reader.readAsArrayBuffer(file);
     }
   }
-
+  firstUpload:boolean=true;
   areAllFalse(): boolean {
-    return this.invalidCells.reduce((acc, row) => acc.concat(row), []).every(value => value === false);
+    if(this.firstUpload===true){
+      this.firstUpload=false;
+      return false;
+    }
+    return this.invalidCells
+      .reduce((acc, row, rowIndex) => {
+        return acc.concat(row.filter((_, colIndex) => this.expectedColumns[colIndex] !== "LeaveNames"));
+      }, [])
+      .every(value => value === false);
   }
 
   arrayBufferToString(buffer: ArrayBuffer): string {
@@ -766,49 +791,147 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
   validateColumns(columnNames: string[]): boolean {
     this.mismatches = []; // Reset mismatches
-    if (columnNames.length !== this.expectedColumns.length) {
-      console.error(`Column length mismatch: expected ${this.expectedColumns.length}, but got ${columnNames.length}`);
-    }
 
-    for (let i = 0; i < Math.max(this.expectedColumns.length, columnNames.length); i++) {
-      const expectedColumn = this.expectedColumns[i]?.trim() || 'undefined';
-      const actualColumn = columnNames[i]?.trim() || 'undefined';
+    // Step 2: Normalize both expected and actual column names for comparison
+    const normalizedColumnNames = columnNames.map(col => col.trim().toLowerCase());
+    this.fileColumnName=normalizedColumnNames;
+    const normalizedExpectedColumns = this.expectedColumns.map(col => col.trim().toLowerCase());
+    const normalizedCorrectColumns = this.correctColumnName.map(col => col.trim().toLowerCase());
 
-      if (actualColumn !== expectedColumn) {
-        this.mismatches.push(`Column ${i + 1}: expected "${expectedColumn}", but got "${actualColumn}"`);
+    // Step 3: Check that every expected column is present in actual column names
+    for (const expectedColumn of normalizedExpectedColumns) {
+      if (!normalizedColumnNames.includes(expectedColumn)) {
+        console.error(`Missing column: "${expectedColumn}"`);
+        this.mismatches.push(`Missing column: "${expectedColumn}"`);
       }
     }
 
+    // Step 4: Check if there are extra or incorrect columns in actual column names
+    for (const actualColumn of normalizedColumnNames) {
+      if (!normalizedExpectedColumns.includes(actualColumn) && !normalizedCorrectColumns.includes(actualColumn)) {
+          console.error(`Unexpected or incorrect column: "${actualColumn}"`);
+          this.mismatches.push(`Unexpected or incorrect column: "${actualColumn}"`);
+      }
+  }
+
+    // Step 4: Log and return false if there are any mismatches
     if (this.mismatches.length > 0) {
       console.error('Column mismatches found:');
       this.mismatches.forEach(mismatch => console.error(mismatch));
       return false;
     }
+
     return true;
   }
 
   validateRows(rows: any[]): void {
+    console.log("🚀 ~ EmployeeOnboardingDataComponent ~ validateRows ~ rows:", rows)
     this.invalidRows = new Array(rows.length).fill(false); // Reset invalid rows
     this.invalidCells = Array.from({ length: rows.length }, () => new Array(this.expectedColumns.length).fill(false)); // Reset invalid cells
 
-    for (let i = 1; i < rows.length; i++) {
-      const row = rows[i];
+    for (let i = 0; i < rows.length; i++) {
       let rowIsValid = true;
+      for (let j = 0; j < this.fileColumnName.length; j++) {
 
-      for (let j = 1; j < this.expectedColumns.length-1; j++) {
-        const cellValue = row[j];
-        if (cellValue === undefined || cellValue === null || cellValue.toString().trim() === '') {
+        const cellValue = rows[i][j];        
+        if (!cellValue || cellValue === null || cellValue.toString().trim() === '') {
           rowIsValid = false;
           this.invalidRows[i] = true; // Mark the row as invalid
           this.invalidCells[i][j] = true; // Mark the cell as invalid
         }
+        if (this.fileColumnName[j] === 'phone*' && cellValue) {
+          debugger
+          const phoneNumber = cellValue.toString().trim();
+          if (!/^\d{10}$/.test(phoneNumber)) {
+            rowIsValid = false;
+            this.invalidRows[i] = true; // Mark the row as invalid
+            this.invalidCells[i][j] = true; // Mark the cell as invalid
+          }
+        }
+
+        if (this.fileColumnName[j] === 'shift*' ) {
+          var shiftExists=false;
+          if(cellValue){
+            const shiftName = cellValue.toString().trim();
+            shiftExists = this.shiftList.some(shift => shift.label === shiftName);
+          }
+            if (!shiftExists || !cellValue) {
+              rowIsValid = false;
+              this.invalidRows[i] = true;
+              this.invalidCells[i][j] = true;
+              this.data[i][j] = '';
+          }
+      }
+
+    if (this.fileColumnName[j] === 'leavenames' || this.fileColumnName[j] === 'team') {
+      if(cellValue===undefined || cellValue===""){
+        this.data[i][j]=[];
+      }
+      else{
+        const selectedData: string[] = cellValue.split(',').map((team: string) => team.trim());
+        this.data[i][j]=selectedData;
       }
     }
+      if (this.fileColumnName[j] === 'joiningdate*' && cellValue) {
+        debugger;
+
+        // Replace slashes with hyphens
+        const normalizedCell = cellValue.toString().trim().replace(/\//g, '-');
+
+        // Check if the normalized cell matches the exact MM-DD-YYYY format
+        const isExactFormat = /^\d{2}-\d{2}-\d{4}$/.test(normalizedCell);
+
+        if (isExactFormat) {
+            // Parse with strict format checking
+            const formattedDate = moment(normalizedCell, 'MM-DD-YYYY', true);
+
+            // Check if the date is valid
+            if (formattedDate.isValid()) {
+                const oneYearFromNow = moment().add(1, 'year');
+
+                // Ensure the date is in the past or less than one year from today
+                if (formattedDate.isAfter(oneYearFromNow)) {
+                    this.data[i][j] = undefined;
+                    rowIsValid = false;
+                    this.invalidRows[i] = true; // Mark the row as invalid
+                    this.invalidCells[i][j] = true; // Mark the cell as invalid
+                }
+            } else {
+                // If the date is not valid
+                this.data[i][j] = undefined;
+                rowIsValid = false;
+                this.invalidRows[i] = true; // Mark the row as invalid
+                this.invalidCells[i][j] = true; // Mark the cell as invalid
+            }
+        } else {
+            // If the format is not exactly MM-DD-YYYY
+            this.data[i][j] = undefined;
+            rowIsValid = false;
+            this.invalidRows[i] = true; // Mark the row as invalid
+            this.invalidCells[i][j] = true; // Mark the cell as invalid
+          }
+        }
+
+
+
+        if (!this.expectedColumns.some(expectedColumn => expectedColumn.toLowerCase() === this.fileColumnName[j].toLowerCase())) {
+          this.invalidCells[i][j] = false;
+        }
+      }
+    }
+
   }
 
-  onMultiSelectChange(event: any, rowIndex: number, colIndex: number) {
-    const selectedOptions = Array.from(event.target.selectedOptions, (option: any) => option.value);
-    this.data[rowIndex][colIndex] = selectedOptions.join(', ');
+  getSelectedTeams(teamsString: string): string[] {
+    // Split the comma-separated string into an array
+    return teamsString ? teamsString.split(',').map(team => team.trim()) : [];
+  }
+
+  onMultiSelectChange(selectedOptions: any[], rowIndex: number, colIndex: number) {
+    debugger
+
+    this.data[rowIndex][colIndex] = selectedOptions;
+    this.onValueChange(rowIndex,colIndex);
   }
 
   saveFile() {
@@ -834,6 +957,185 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   this.selectFile(event);
   }
 
+  onValueChange(i: number, j: number) {
+    if (this.invalidCells[i][j]) {
+      this.invalidCells[i][j] = false;
+    }
+  }
+
+  onDateChange(event: Date, rowIndex: number, columnIndex: number) {
+    // Format the selected date to 'MMM dd yyyy'
+    const formattedDate =moment(event).format('MM-DD-YYYY');
+
+    //  this.datePipe.transform(event, 'MMM dd yyyy');
+
+    // Assign the formatted date back to your data array
+    this.data[rowIndex][columnIndex] = formattedDate;
+    this.onValueChange(rowIndex,columnIndex);
+  }
+
+  onTeamSelectionChanges(selectedTeams: any[], rowIndex: number, columnIndex: number) {
+    this.data[rowIndex][columnIndex] = selectedTeams;
+  }
+
+  openAddLeaveModal(): void {
+    const modalRef = this.modalService.open(LeaveSettingComponent, {
+      size: 'xl',
+      backdrop: true,
+      windowClass: 'custom-modal-width'
+    });
+
+    // Optional: Handle modal close result
+    modalRef.result.then(
+      (result) => {
+        console.log('Modal closed with:', result);
+        // Refresh the list or handle result
+      },
+      (reason) => {
+        console.log('Modal dismissed with reason:', reason);
+      }
+    );
+  }
+
+  openAddShiftModal(): void {
+    const modalRef = this.modalService.open(AttendanceSettingComponent, {
+      size: 'xl', // Adjust size as needed
+      backdrop: true, // Allows closing the modal on outside click
+      keyboard: true // Allows closing the modal with the Esc key
+    });
+
+    modalRef.result.then(
+      (result) => {
+        console.log('Modal closed with:', result);
+        // Refresh the shift list or handle result
+      },
+      (reason) => {
+        console.log('Modal dismissed with reason:', reason);
+      }
+    );
+  }
+  openAddTeamModal(): void {
+    const modalRef = this.modalService.open(TeamComponent, {
+      size: 'xl', // Adjust size as needed
+      backdrop: true, // Allows closing the modal on outside click
+      keyboard: true // Allows closing the modal with the Esc key
+    });
+
+    modalRef.result.then(
+      (result) => {
+        console.log('Modal closed with:', result);
+        // Refresh the team list or handle result
+      },
+      (reason) => {
+        console.log('Modal dismissed with reason:', reason);
+      }
+    );
+  }
+
+
+
+
+  selectAllCurrentPage = false;
+  selectAllPages = false;
+
+  // allData: any[] = []; // Data across all pages
+
+  bulkShift: string | null = null;
+  bulkLeave: string[] = [];
+  bulkTeam: string[] = [];
+
+  // Mock data for demonstration
+
+  toggleSelectAllCurrentPage() {
+
+     this.paginatedData.forEach((row, index) => {
+      // if (index + this.currentPage-1 !== 0 ) {
+        row.selected = this.selectAllCurrentPage;
+      // }
+    });
+    this.updateAllDataForCurrentPage();
+  }
+  toggleSelectAllPage() {
+    this.data.forEach(row => row.selected = this.selectAllPages);
+    this.updateAllDataForAllPages();
+  }
+
+
+  toggleSelectAllPages() {
+    this.selectAllPages = !this.selectAllPages;
+    this.data.forEach(row => row.selected = this.selectAllPages);
+    this.syncPaginatedDataSelection();
+  }
+
+  updateAllDataForCurrentPage() {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    this.paginatedData.forEach((row, index) => {
+      this.data[startIndex + index].selected = row.selected;
+    });
+  }
+
+  updateAllDataForAllPages() {
+    // Loop through all pages
+    for (let page = 1; page <= this.totalPage; page++) {
+      const startIndex = (page - 1) * this.pageSize;
+
+      // Get the paginated data for the current page
+      const currentPageData = this.paginatedDataForPage(page);
+
+      // Update the selected property for each row on the current page
+      currentPageData.forEach((row, index) => {
+        this.data[startIndex + index].selected = row.selected;
+      });
+    }
+  }
+
+  // Helper function to get the paginated data for a specific page
+  paginatedDataForPage(page: number) {
+    const startIndex = (page - 1) * this.pageSize;
+    return this.paginatedData.slice(startIndex, startIndex + this.pageSize);
+  }
+
+  syncPaginatedDataSelection() {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+  this.paginatedData.forEach((row, index) => {
+    row.selected = this.data[startIndex + index]?.selected ?? false;
+  });
+  }
+
+
+  applyBulkChange(type: string, value: any) {
+    const targetData = this.selectAllPages ? this.data.slice(1) : this.paginatedData;
+    console.log("🚀 ~ EmployeeOnboardingDataComponent ~ applyBulkChange ~ targetData:", targetData)
+    var rowIndex=0;
+    targetData.forEach(row => {
+      // && row[1].toLowerCase()!=this.fileColumnName[1].toLowerCase()
+      if (row.selected ) {
+        const columnIndex = this.fileColumnName.findIndex(col => col.includes(type));
+        if (columnIndex !== -1) {
+          if (type === "leavenames" || type === "team") {
+            debugger
+            if (!Array.isArray(row[columnIndex])) {
+              row[columnIndex] = row[columnIndex] ? [row[columnIndex]] : [];
+            }
+            let temp = new Set<any>();
+            row[columnIndex].forEach((item:any) => temp.add(item))
+            value.forEach((item:any) => temp.add(item))
+
+            row[columnIndex]=[];
+            row[columnIndex]=Array.from(temp)
+          } else {
+            row[columnIndex] = value;
+            this.invalidCells[rowIndex][columnIndex] = false;
+          }
+        }
+      }
+      rowIndex++;
+
+    });
+console.log(this.data);
+  }
+
+
 
 
   importToggle: boolean = false;
@@ -856,7 +1158,6 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           this.isProgressToggle = false;
           this.getReport();
           this.getUser();
-          // console.log(this.onboardUserList.length);
           this.alreadyUsedPhoneNumberArray = response.arrayOfString;
           this.alreadyUsedEmailArray = response.arrayOfString2;
         } else {
@@ -865,8 +1166,6 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           this.isProgressToggle = false;
           this.errorMessage = response.message;
         }
-
-        // this.importToggle = false;
       },
       (error) => {
         this.importToggle = true;
@@ -1020,23 +1319,21 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   emails: string[] = [];
   sendMailExcelUserFlag:boolean = false;
   @ViewChild("closeButtonExcelModal") closeButtonExcelModal!:ElementRef;
-  sendEmailToUsers() {
+  sendEmailToUsers(sendMail:boolean) {
     this.sendMailExcelUserFlag = true;
     this.emails = this.onboardUserList.map(user => user.email).filter(email => email);
     // console.log(this.emails);
 
     this.dataService
-        .sendEmails(this.emails)
+        .sendEmails(this.emails,sendMail)
         .subscribe((response: any) => {
           console.log("Mail sent successfully");
           this.sendMailExcelUserFlag = false;
           this.closeButtonExcelModal.nativeElement.click();
           this.getUsersByFiltersFunction();
           this.getUser();
-          this.helperService.showToast(
-            'Mail sent Successfully.',
-            Key.TOAST_STATUS_SUCCESS
-          );
+          const toastMessage = sendMail ? 'Mail sent Successfully.' : 'Operation completed without sending mail.';
+          this.helperService.showToast(toastMessage, Key.TOAST_STATUS_SUCCESS);
         },
         (error) => {
           this.sendMailExcelUserFlag = false;

@@ -4,6 +4,7 @@ import { Router, RouterLink, RouterModule } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Subscription, of, timer } from 'rxjs';
 import { catchError, switchMap, take, tap } from 'rxjs/operators';
+import { Key } from 'src/app/constant/key';
 import { UserReq } from 'src/app/models/userReq';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -85,13 +86,13 @@ export class LoginComponent implements OnInit {
 
           
          if (this.ROLE === 'USER') {
-          this.router.navigate(['/employee-profile'], {
+          this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], {
             queryParams: { userId: this.UUID, dashboardActive: 'true' },
           });
         } else if (this.ROLE == 'HR ADMIN') {
            this.router.navigate(['/employee-onboarding-data']);
         } else {
-          await this._subscriptionService.isSubscriptionPlanExpired();
+          await this._subscriptionService.LoadAsync();
           const helper = new JwtHelperService();
           const token = localStorage.getItem('token');
           if (token != null) {
@@ -99,7 +100,7 @@ export class LoginComponent implements OnInit {
               if(this.rbacService.shouldDisplay('dashboard')){
                 this.router.navigate(['/dashboard']);
             } else {
-              this.router.navigate(['/employee-profile'], {
+              this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], {
                 queryParams: { userId: this.UUID, dashboardActive: 'true' },
               });
             }

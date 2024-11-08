@@ -5,6 +5,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { Subscription, of, timer } from 'rxjs';
 import { catchError, switchMap, take, tap } from 'rxjs/operators';
 import { constant } from 'src/app/constant/constant';
+import { Key } from 'src/app/constant/key';
 import { UserReq } from 'src/app/models/userReq';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -130,7 +131,7 @@ export class SignUpComponent implements OnInit {
           this.UUID = UUID;
 
           if (this.ROLE === 'USER') {
-            this.router.navigate(['/employee-profile'], {
+            this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], {
               queryParams: { userId: this.UUID, dashboardActive: 'true' },
             });
           } else {

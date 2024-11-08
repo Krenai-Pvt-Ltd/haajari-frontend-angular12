@@ -7,6 +7,7 @@ import { formatDate } from '@angular/common';
 import { NavigationExtras, Router } from '@angular/router';
 import * as saveAs from 'file-saver';
 import { Key } from '../constant/key';
+import { RestrictedSubModule } from '../models/RestrictedSuubModule';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,7 @@ export class HelperService {
   clearHelperService(){
     this.subModuleResponseList = [];
   }
-  restrictedModules:any[] = [];
+  restrictedModules!:RestrictedSubModule[];
   subModuleResponseList: any[] = [];
 
   todoStepsSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
@@ -229,7 +230,10 @@ export class HelperService {
     let navExtra: NavigationExtras = {
       queryParams: { userId: uuid },
     };
-    this.router.navigate(['/employee-profile'], navExtra);
+    // this.router.navigate(['/employee-profile'], navExtra);
+    const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
+    window.open(url, '_blank');
+    return;
   }
 
   extractMonthNameFromDate(dateString : string){
@@ -317,8 +321,12 @@ export class HelperService {
     return new Promise((resolve)=>{
       this.getSubscriptionRestrictedModules().subscribe((response) => {
           if (response.status){
-            // console.log("===response=====",response);
             this.restrictedModules = response.object;
+            if(this.restrictedModules ==null){
+              this.restrictedModules = [];
+            }
+          }else{
+            this.restrictedModules = [];
           }
           resolve(true);
         },(error)=>{

@@ -27,19 +27,21 @@ export class AuthGuard implements CanActivate {
   ONBOARDING_STEP: any;
   PLAN_PURCHASED: any;
   currentRoute:any;
+
   async ngOnInit(): Promise<void> {
 
   }
 
-  async canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot,
-  ): Promise<boolean> {
+  async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot,): Promise<boolean> {
+
     const token = localStorage.getItem('token');
-    if (!(await this.isValidTokenFormat(token))) {
+    
+    if (!await this.isValidTokenFormat(token)) {
       this.router.navigate(['/auth/login']);
       return false;
     }
+
+    await this.rbacService.isUserInfoInitializedMethod();
 
     if(this._subscriptionService.isSubscription!=undefined){
       if(!this._subscriptionService.isSubscription || this._subscriptionService.isPlanExpired){
@@ -47,46 +49,47 @@ export class AuthGuard implements CanActivate {
       }
     }
 
-    this.UUID = await this.rbacService.getUUID();
-    this.ROLE = await this.rbacService.getRole();
-      this.ONBOARDING_STEP = await this.rbacService.getOnboardingStep();
-
-      console.log("this.dataService.step",this.dataService.step);
+ 
       if(this.dataService.step){
         this.step=this.dataService.step;
         if (this.step < 5) {
           this.router.navigate(['/organization-onboarding/personal-information']);
           return false;
         }
+      }else if (!this.step) {
+        await this.isOnboardingCompleted();
+        if (this.step < 5) {
+          this.router.navigate(['/organization-onboarding/personal-information']);
+          return false;
+        }
       }
-   else if (!this.step) {
-      await this.isOnboardingCompleted();
 
-      if (this.step < 5) {
-        this.router.navigate(['/organization-onboarding/personal-information']);
-        return false;
-      }
-    }
     if(this.dataService.isToDoStepCompleted){
       this.isToDoStepsCompleted=this.dataService.isToDoStepCompleted;
-    }
-    else  if (!this.isToDoStepsCompleted) {
+    }else  if (!this.isToDoStepsCompleted) {
       await this.isToDoStepsCompletedData();
-
     }
+
+
+      this.ROLE = await this.rbacService.getRole();
 
     if (this.ROLE == 'ADMIN' && this.isToDoStepsCompleted == 0 && route!.routeConfig!.path == 'dashboard') {
       this.router.navigate(['/to-do-step-dashboard']);
       return false;
     }
-    await this.rbacService.isUserInfoInitializedMethod();
 
+  
 
+ ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     this.currentRoute = state.url;
     if (this.currentRoute != null) {  
         this.currentRoute = this.currentRoute.split("?")[0];
-        // console.log("======this.currentRoute==========",this.currentRoute)
-      if (this._helperService.restrictedModules!=null && this._helperService.restrictedModules.length > 0) {
+        // console.log("======this.currentRoute==========",this.currentRoute,"=============restrict========",this._helperService.restrictedModules)
+      if(this._helperService.restrictedModules == undefined){
+        await this._helperService.getRestrictedModules();
+      }
+
+      if (this._helperService.restrictedModules != undefined &&  this._helperService.restrictedModules.length > 0) {
         var index = this._helperService.restrictedModules.findIndex(module => module.route == this.currentRoute.trim())
         if (index > -1) {
           return false;
@@ -94,8 +97,8 @@ export class AuthGuard implements CanActivate {
       }
 
 
-      if (!this.rbacService.shouldDisplay('dashboard') && this.currentRoute == '/dashboard') {
-        this.router.navigate(['/employee-profile'], {
+      if (this.ROLE != 'ADMIN' && this.currentRoute == '/dashboard') {
+        this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], {
           queryParams: {
             userId: await this.rbacService.getUUID(),
             dashboardActive: 'true',
@@ -105,92 +108,17 @@ export class AuthGuard implements CanActivate {
       }
 
 
-
-      if (!(await this.rbacService.hasAccessToSubmodule(this.currentRoute))) {
+      if (!await this.rbacService.hasAccessToSubmodule(this.currentRoute)) {
         this.router.navigate(['/unauthorized']);
         return false;
       }
 
-
     } 
-
-
-    // if (route !== null && route.routeConfig !== null) {
-    //   if (
-    //     !this.rbacService.shouldDisplay('dashboard') &&
-    //     route.routeConfig.path == 'dashboard'
-    //   ) {
-    //     this.router.navigate(['/employee-profile'], {
-    //       queryParams: {
-    //         userId: await this.rbacService.getUUID(),
-    //         dashboardActive: 'true',
-    //       },
-    //     });
-    //     return false;
-    //   }
-
-    //   const requiredSubmodule = '/' + route.routeConfig.path;
-    //   if (
-    //     requiredSubmodule &&
-    //     !(await this.rbacService.hasAccessToSubmodule(requiredSubmodule))
-    //   ) {
-    //     this.router.navigate(['/unauthorized']);
-    //     return false;
-    //   }
-    // }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     return true;
   }
 
-  // async canActivate(
-  //   route: ActivatedRouteSnapshot,
-  //   state: RouterStateSnapshot,
-  // ): Promise<boolean> {
-  //   const token = localStorage.getItem('token');
-  //   if (!(await this.isValidTokenFormat(token))) {
-  //     this.router.navigate(['/auth/login']);
-  //     return false;
-  //   }
-
-  //   await this.rbacService.isUserInfoInitializedMethod();
-
-  //   if (route !== null && route.routeConfig !== null) {
-  //     const role = await this.rbacService.getRole();
-
-  //     if (role === Key.ADMIN) {
-  //       // Check if the admin has purchased a plan
-  //       const planPurchased = await this.isPlanPurchased();
-  //       if (!planPurchased) {
-  //         this.router.navigate(['/billing-and-subscription']);
-  //         return false;
-  //       } else {
-  //         this.router.navigate(['/dashboard']);
-  //         return false;
-  //       }
-  //     }
-
-  //     if (role === Key.USER && route.routeConfig.path === 'dashboard') {
-  //       this.router.navigate(['/employee-profile'], {
-  //         queryParams: {
-  //           userId: await this.rbacService.getUUID(),
-  //           dashboardActive: 'true',
-  //         },
-  //       });
-  //       return false;
-  //     }
-
-  //     const requiredSubmodule = '/' + route.routeConfig.path;
-  //     if (
-  //       requiredSubmodule &&
-  //       !(await this.rbacService.hasAccessToSubmodule(requiredSubmodule))
-  //     ) {
-  //       this.router.navigate(['/unauthorized']);
-  //       return false;
-  //     }
-  //   }
-
-  //   return true;
-  // }
 
 
   async isValidTokenFormat(token: string | null): Promise<boolean> {
@@ -217,16 +145,6 @@ export class AuthGuard implements CanActivate {
     }
   }
 
-
-
-  // private async isPlanPurchased(): Promise<boolean> {
-  //   return new Promise((resolve) => {
-  //     this._subscriptionPlanService.getPurchasedStatus().subscribe((response) => {
-  //       console.log("Hi" + response)
-  //       resolve(response == true);
-  //     });
-  //   });
-  // }
 
 
   isToDoStepsCompleted !: number;

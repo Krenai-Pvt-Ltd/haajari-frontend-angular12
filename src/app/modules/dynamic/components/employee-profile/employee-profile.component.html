@@ -24,7 +24,7 @@
             'd-flex align-items-center': userRoleFlag
           }" style="gap: 20px">
           <!-- <div *ngIf="InOutLoader"><div class="dot-opacity-loader"><span></span><span></span><span></span></div></div> -->
-          <div *ngIf="status == 'out' || this.status== '' ">
+          <div *ngIf="status == 'out' || this.status== '' || this.status == null ">
             <button class="btn btn-outline-success btn-round" type="button" (click)="checkinCheckout('/in')"> Check-In
             </button>
           </div>
