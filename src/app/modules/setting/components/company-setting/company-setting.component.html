@@ -1535,6 +1535,44 @@
                           </div>
                         </div>
 
+                        <div
+                          class="col-md-6"
+                          *ngIf="
+                            organizationAddressDetail.longitude &&
+                            organizationAddressDetail.latitude
+                          "
+                        >
+                          <div class="mb-3">
+                            <label for="branch" class="pb-2">Branch</label>
+                            <input
+                              type="text"
+                              id="branch"
+                              placeholder="Branch"
+                              #branch="ngModel"
+                              required
+                              name="branch"
+                              class="form-control ng-untouched ng-pristine ng-invalid profile-input"
+                              [(ngModel)]="organizationAddressDetail.branch"
+                            />
+                          </div>
+                          <div
+                            *ngIf="
+                              (branch.touched && branch.invalid) ||
+                              isFormInvalidLocation
+                            "
+                          >
+                            <p
+                              class="errortxt mt-2 mb-0"
+                              style="color: red"
+                              *ngIf="branch.errors?.required"
+                            >
+                              <i class="bi bi-exclamation-circle"></i> Branch
+                              is required.
+                            </p>
+                          </div>
+                        </div>
+
+
                         <div class="col-md-12">
                           <div class="mb-3">
                             <label for="radius" class="pb-2">

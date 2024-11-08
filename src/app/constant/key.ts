@@ -72,6 +72,7 @@ export class Key {
     '/setting/subscription',
     '/setting/onboarding-setting',
     '/refer-friend',
+    '/expense'
   ];
 
   public static TOPBAR_ROUTES = [
@@ -115,6 +116,7 @@ export class Key {
     '/setting/subscription',
     '/setting/onboarding-setting',
     '/refer-friend',
+    '/expense'
     // '/to-do-step-dashboard',
   ];
 

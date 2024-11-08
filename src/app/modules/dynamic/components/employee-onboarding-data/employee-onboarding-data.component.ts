@@ -19,6 +19,10 @@ import { OrganizationOnboardingService } from 'src/app/services/organization-onb
 import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
 import { DatePipe } from '@angular/common';
 import * as moment from 'moment';
+import { LeaveSettingComponent } from 'src/app/modules/setting/components/leave-setting/leave-setting.component';
+import { AttendanceSettingComponent } from 'src/app/modules/setting/components/attendance-setting/attendance-setting.component';
+import { TeamComponent } from '../team/team.component';
+import { findLast } from 'lodash';
 export interface Team {
   label: string;
   value: string;
@@ -64,7 +68,10 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   totalPage: number = 0;
 
   onPageChange(page: number) {
-    debugger
+    this.bulkShift=null;
+    this.bulkLeave=[];
+    this.bulkTeam=[];
+    this.selectAllCurrentPage=false;
     this.currentPage = page;
   }
   get paginatedData() {
@@ -709,7 +716,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
 
   expectedColumns: string[] = ['Name*', 'Phone*', 'Email*', 'Shift*', 'JoiningDate*', 'Gender*'];
-  correctColumnName: string[] = ['S. NO.*', 'Name*', 'Phone*', 'Email*', 'Shift*', 'JoiningDate*', 'Gender*', 'leavenames', 'branch', 'department', 'position', 'grade', 'team', 'dob', 'fathername', 'maritalstatus', 'address', 'city', 'state', 'country', 'pincode', 'panno', 'aadharno', 'drivinglicence', 'emergencyname', 'emergencyphone', 'emergencyrelation', 'accountholdername', 'bankname', 'accountnumber', 'ifsccode'];
+  correctColumnName: string[] = ['S. NO.*', 'Name*', 'Phone*', 'Email*', 'Shift*', 'JoiningDate*', 'Gender*', 'leavenames', 'ctc', 'emptype', 'empId', 'branch', 'department', 'position', 'grade', 'team', 'dob', 'fathername', 'maritalstatus', 'address', 'city', 'state', 'country', 'pincode', 'panno', 'aadharno', 'drivinglicence', 'emergencyname', 'emergencyphone', 'emergencyrelation', 'accountholdername', 'bankname', 'accountnumber', 'ifsccode'];
   fileColumnName:string[] = [];
   genders: string[] = ['Male', 'Female'];
   isExcel: string = '';
@@ -816,8 +823,12 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       reader.readAsArrayBuffer(file);
     }
   }
-
+  firstUpload:boolean=true;
   areAllFalse(): boolean {
+    if(this.firstUpload===true){
+      this.firstUpload=false;
+      return false;
+    }
     return this.invalidCells
       .reduce((acc, row, rowIndex) => {
         return acc.concat(row.filter((_, colIndex) => this.expectedColumns[colIndex] !== "LeaveNames"));
@@ -864,6 +875,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
     // Step 4: Check if there are extra or incorrect columns in actual column names
     for (const actualColumn of normalizedColumnNames) {
+      console.log(actualColumn);
       if (!normalizedExpectedColumns.includes(actualColumn) && !normalizedCorrectColumns.includes(actualColumn)) {
           console.error(`Unexpected or incorrect column: "${actualColumn}"`);
           this.mismatches.push(`Unexpected or incorrect column: "${actualColumn}"`);
@@ -1048,6 +1060,166 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   onTeamSelectionChanges(selectedTeams: any[], rowIndex: number, columnIndex: number) {
     this.data[rowIndex][columnIndex] = selectedTeams;
   }
+
+  openAddLeaveModal(): void {
+    const modalRef = this.modalService.open(LeaveSettingComponent, {
+      size: 'xl',
+      backdrop: true,
+      windowClass: 'custom-modal-width'
+    });
+
+    // Optional: Handle modal close result
+    modalRef.result.then(
+      (result) => {
+        console.log('Modal closed with:', result);
+        // Refresh the list or handle result
+      },
+      (reason) => {
+        console.log('Modal dismissed with reason:', reason);
+      }
+    );
+  }
+
+  openAddShiftModal(): void {
+    const modalRef = this.modalService.open(AttendanceSettingComponent, {
+      size: 'xl', // Adjust size as needed
+      backdrop: true, // Allows closing the modal on outside click
+      keyboard: true // Allows closing the modal with the Esc key
+    });
+
+    modalRef.result.then(
+      (result) => {
+        console.log('Modal closed with:', result);
+        // Refresh the shift list or handle result
+      },
+      (reason) => {
+        console.log('Modal dismissed with reason:', reason);
+      }
+    );
+  }
+  openAddTeamModal(): void {
+    const modalRef = this.modalService.open(TeamComponent, {
+      size: 'xl', // Adjust size as needed
+      backdrop: true, // Allows closing the modal on outside click
+      keyboard: true // Allows closing the modal with the Esc key
+    });
+
+    modalRef.result.then(
+      (result) => {
+        console.log('Modal closed with:', result);
+        // Refresh the team list or handle result
+      },
+      (reason) => {
+        console.log('Modal dismissed with reason:', reason);
+      }
+    );
+  }
+
+
+
+
+  selectAllCurrentPage = false;
+  selectAllPages = false;
+
+  allData: any[] = []; // Data across all pages
+
+  bulkShift: string | null = null;
+  bulkLeave: string[] = [];
+  bulkTeam: string[] = [];
+
+  // Mock data for demonstration
+
+  toggleSelectAllCurrentPage() {
+
+     this.paginatedData.forEach((row, index) => {
+      if (index + this.currentPage-1 !== 0 ) {
+        row.selected = this.selectAllCurrentPage;
+      }
+    });
+    this.updateAllDataForCurrentPage();
+  }
+  toggleSelectAllPage() {
+    this.data.forEach(row => row.selected = this.selectAllPages);
+    this.updateAllDataForAllPages();
+  }
+
+
+  toggleSelectAllPages() {
+    this.selectAllPages = !this.selectAllPages;
+    this.allData.forEach(row => row.selected = this.selectAllPages);
+    this.syncPaginatedDataSelection();
+  }
+
+  updateAllDataForCurrentPage() {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    this.paginatedData.forEach((row, index) => {
+      this.allData[startIndex + index].selected = row.selected;
+    });
+  }
+
+  updateAllDataForAllPages() {
+    // Loop through all pages
+    for (let page = 1; page <= this.totalPage; page++) {
+      const startIndex = (page - 1) * this.pageSize;
+
+      // Get the paginated data for the current page
+      const currentPageData = this.paginatedDataForPage(page);
+
+      // Update the selected property for each row on the current page
+      currentPageData.forEach((row, index) => {
+        this.allData[startIndex + index].selected = row.selected;
+      });
+    }
+  }
+
+  // Helper function to get the paginated data for a specific page
+  paginatedDataForPage(page: number) {
+    const startIndex = (page - 1) * this.pageSize;
+    return this.paginatedData.slice(startIndex, startIndex + this.pageSize);
+  }
+
+  syncPaginatedDataSelection() {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+  this.paginatedData.forEach((row, index) => {
+    row.selected = this.allData[startIndex + index]?.selected ?? false;
+  });
+  }
+
+
+  applyBulkChange(type: string, value: any) {
+    const targetData = this.selectAllPages ? this.data : this.paginatedData;
+
+    targetData.forEach(row => {
+      debugger
+      if (row.selected && row[1].toLowerCase()!=this.fileColumnName[1].toLowerCase()) {
+        const columnIndex = this.fileColumnName.findIndex(col => col.includes(type));
+        if (columnIndex !== -1) {
+          if (type === "leave" || type === "team") {
+            debugger
+            if (!Array.isArray(row[columnIndex])) {
+              row[columnIndex] = row[columnIndex] ? [row[columnIndex]] : [];
+            }
+            let temp = new Set<any>();
+            row[columnIndex].forEach((item:any) => temp.add(item))
+            value.forEach((item:any) => temp.add(item))
+
+            row[columnIndex]=[];
+            row[columnIndex]=Array.from(temp)
+            // value.forEach((item: any) => {
+            //   if (!row[columnIndex].includes(item)) {
+            //     row[columnIndex].push(item);
+            //     row[columnIndex]=row[columnIndex];
+            //   }
+            // });
+          } else {
+            row[columnIndex] = value;
+          }
+        }
+      }
+    });
+
+  }
+
 
 
 

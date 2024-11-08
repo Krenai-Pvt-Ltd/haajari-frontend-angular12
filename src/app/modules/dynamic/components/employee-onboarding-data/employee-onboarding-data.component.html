@@ -1724,8 +1724,7 @@
             </div>
           </div>
           <div
-            class="alert alert-light mb-0 mt-4 bg-soft-warning create-password-warning text-start"
-            role="alert"
+            class="create-password-warning mb-0 mt-4 ng-star-inserted text-start"
             *ngIf="
               alreadyUsedPhoneNumberArray.length > 0 ||
               alreadyUsedEmailArray.length > 0 ||
@@ -1757,38 +1756,106 @@
             </p>
           </div>
           <div
-            class="alert alert-light mb-0 mt-4 bg-soft-warning create-password-warning text-start"
-            role="alert"
+            class="card create-password-warning mb-0 mt-4 ng-star-inserted pb-3 pt-2 px-3 text-start"
             *ngIf="
               data.length > 0
               && isinvalid
             "
           >
-            <h4 class="alert-heading font-18">Attention</h4>
+            <!-- <h4 class="alert-heading font-16 mb-1">Attention</h4> -->
             <p *ngIf="isExcel.length > 0">
               {{ isExcel }}
             </p>
             <div *ngIf="data.length > 0">
-              <h3>Uploaded Data</h3>
+              <h3 class="font-20 mb-2">Uploaded Data</h3>
+              <div class="align-items-center empuploadHeader excelUploadTable row mb-2">
+                <div class="col-lg-9 col-md-12">
+                  <div class="row">
+                    <div class="col-lg-4 col-md-3">
+                      <div>
+                        <nz-select [(ngModel)]="bulkShift" (ngModelChange)="applyBulkChange('shift', $event)" nzPlaceHolder="Select Shift" [nzDropdownRender]="customDropdownShift">
+                          <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label" [nzLabel]="shift.label"></nz-option>
+                        </nz-select>
+                        <ng-template #customDropdownShift>
+                          <div class="custom-dropdown-footer">
+                            <button nz-button nzType="link" (click)="openAddShiftModal()">Add Shift</button>
+                          </div>
+                        </ng-template>
+                      </div>
+                    </div>
+                    <div class="col-lg-4 col-md-3">
+                      <div>
+                        <nz-select [(ngModel)]="bulkLeave" (ngModelChange)="applyBulkChange('leave', $event)" nzPlaceHolder="Select Leave" nzMode="multiple" [nzDropdownRender]="customDropdown">
+                          <nz-option *ngFor="let leave of originalLeaveNameList" [nzValue]="leave.label" [nzLabel]="leave.label"></nz-option>
+                        </nz-select>
+                        <ng-template #customDropdown>
+                          <div class="custom-dropdown-footer">
+                            <button nz-button nzType="link" (click)="openAddLeaveModal()">Add Leave</button>
+                          </div>
+                        </ng-template>
+                      </div>
+                    </div>
+                    <div class="col-lg-4 col-md-3">
+                      <nz-select [(ngModel)]="bulkTeam" (ngModelChange)="applyBulkChange('team', $event)" nzPlaceHolder="Select Team" nzMode="multiple" [nzDropdownRender]="customDropdownTeam">
+                        <nz-option *ngFor="let team of originalTeamNameList" [nzValue]="team.label" [nzLabel]="team.label"></nz-option>
+                      </nz-select>
+                      <ng-template #customDropdownTeam>
+                        <div class="custom-dropdown-footer">
+                          <button nz-button nzType="link" (click)="openAddTeamModal()">Add Team</button>
+                        </div>
+                      </ng-template>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-12">
+                  <div class="align-items-center d-flex gap-2 justify-content-end">
+                    <p class="m-0 d-flex align-items-center gap-2 justify-content-center">
+                      <input type="checkbox" [(ngModel)]="selectAllCurrentPage" (change)="toggleSelectAllCurrentPage()" /> Select all on current page
+                    </p>
+                    <span class="btnSeprator"></span>
+                    <p class="m-0 d-flex align-items-center gap-2 justify-content-center">
+                      <input type="checkbox" [(ngModel)]="selectAllPages" (change)="toggleSelectAllPage()" /> Select All Page
+                    </p>
+                  </div>
+                </div>
+              </div>
               <div class="table-responsive">
-                <table border="1">
+                
+                <table class="table excelUploadTable">
+
+                  <!-- Dropdowns for applying to selected rows -->
                   <thead>
                     <tr>
-                      <th *ngFor="let col of fileColumnName">{{ col }}</th>
+                      <th>select</th>
+                      <th class="select-all-page" *ngFor="let col of fileColumnName">{{ col }}</th>
                     </tr>
                   </thead>
                   <tbody>
                     <!-- Skip the first row for pagination purposes -->
                     <tr *ngFor="let row of paginatedData; let i = index">
+                      <td>
+                        <input *ngIf="i + currentPage -1!=0" type="checkbox" [(ngModel)]="row.selected" />
+                      </td>
+
                       <td *ngFor="let cell of fileColumnName; let j = index">
                         <ng-container *ngIf="fileColumnName[j] === 'shift*' && (currentPage - 1) * pageSize + i  !== 0; else leaveColumns">
                           <nz-select
-                            [(ngModel)]="row[j]"
-                            [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i ][j]}"
-                            (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i , j)"
-                            nzPlaceHolder="Select Shift">
-                            <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label" [nzLabel]="shift.label"></nz-option>
+                              [(ngModel)]="row[j]"
+                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
+                              (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)"
+                              nzPlaceHolder="Select Shift"
+                              [nzDropdownRender]="customDropdownShift">
+
+                              <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label" [nzLabel]="shift.label"></nz-option>
+
                           </nz-select>
+
+                          <ng-template #customDropdownShift>
+                            <div class="custom-dropdown-footer">
+                              <button nz-button nzType="link" (click)="openAddShiftModal()">Add Shift</button>
+                            </div>
+                          </ng-template>
                         </ng-container>
 
                         <ng-template #leaveColumns>
@@ -1804,15 +1871,22 @@
                               [ngModelOptions]="{ standalone: true }"
                               (ngModelChange)="onMultiSelectChange($event, (currentPage - 1) * pageSize + i, j)"
                               (nzOnSearch)="onSearchLeave($event)"
+                              [nzDropdownRender]="customDropdown"
                               [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}">
                               <ng-container *ngFor="let o of originalLeaveNameList">
                                 <nz-option *ngIf="!isLoadingLeave" [nzValue]="o.label" [nzLabel]="o.label"></nz-option>
                               </ng-container>
+
                               <nz-option *ngIf="isLoadingLeave" nzDisabled nzCustomContent>
                                 <span nz-icon nzType="loading" class="loading-icon"></span>
                                 Loading Data...
                               </nz-option>
                             </nz-select>
+                            <ng-template #customDropdown>
+                              <div class="custom-dropdown-footer">
+                                <button nz-button nzType="link" (click)="openAddLeaveModal()">Add Leave</button>
+                              </div>
+                            </ng-template>
                           </ng-container>
                         </ng-template>
 
@@ -1844,7 +1918,8 @@
                               [ngModelOptions]="{ standalone: true }"
                               (ngModelChange)="onTeamSelectionChanges($event, (currentPage - 1) * pageSize + i, j)"
                               (nzOnSearch)="onSearch($event)"
-                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}">
+                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
+                              [nzDropdownRender]="customDropdownTeam">
                               <ng-container *ngFor="let o of originalTeamNameList">
                                 <nz-option *ngIf="!isLoadingTeams" [nzValue]="o.label" [nzLabel]="o.label"></nz-option>
                               </ng-container>
@@ -1853,6 +1928,11 @@
                                 Loading Data...
                               </nz-option>
                             </nz-select>
+                            <ng-template #customDropdownTeam>
+                              <div class="custom-dropdown-footer">
+                                <button nz-button nzType="link" (click)="openAddTeamModal()">Add Team</button>
+                              </div>
+                            </ng-template>
                           </ng-container>
                         </ng-template>
 
@@ -1882,23 +1962,27 @@
                     </tr>
                   </tbody>
                 </table>
-
-                <ngb-pagination
+                
+              </div>
+              <div class="text-end">
+                <div class="d-flex justify-content-between align-items-center">
+                  <p class="m-0"> Showing 1 - 12 of 20 Members </p>
+                  <ngb-pagination
                   [rotate]="true"
-                  [maxSize]="4"
-                  [collectionSize]="data.length - 1"
-                  [pageSize]="pageSize"
-                  [(page)]="currentPage"
+                  [maxSize]="4" [collectionSize]="data.length - 1" [pageSize]="pageSize" [(page)]="currentPage"
                   (pageChange)="onPageChange($event)">
                 </ngb-pagination>
+                </div>
 
-                <button (click)="saveFile()">Save Changes</button>
+              </div>
+              <div class="text-end border-top pt-3">
+                <!-- <button type="button" class="btn btn-primary btn-sm" (click)="saveFile()">Save Changes</button> -->
+                <button type="button" class="btn p-0 next-btn btn-border" (click)="saveFile()">Save Changes</button>
               </div>
             </div>
 
             <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p>
-            <p *ngIf="!isErrorToggle">
-            </p>
+            <p *ngIf="!isErrorToggle" class="m-0"></p>
           </div>
         </ng-container>
         <ng-container

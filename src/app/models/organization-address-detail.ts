@@ -1,6 +1,7 @@
 export class OrganizationAddressDetail {
 
     id: number = 0;
+    branch: string = '';
     addressLine1: string = '';
     addressLine2: string = '';
     landmark: string = '';

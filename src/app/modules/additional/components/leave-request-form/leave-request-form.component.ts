@@ -128,7 +128,6 @@ export class LeaveRequestFormComponent implements OnInit {
           }
 
           this.leaveLoading = false;
-          console.log('All userLeave :', this.userLeave)
       });
   }
 
