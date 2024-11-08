@@ -47,7 +47,6 @@ export class CreateExpenseComponent implements OnInit {
         this.loading = false
       }
     })
-
   }
 
 
