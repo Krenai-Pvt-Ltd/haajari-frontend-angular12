@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import {
   FormArray,
@@ -7,6 +7,7 @@ import {
   NgForm,
   Validators,
 } from '@angular/forms';
+import { isThisWeek } from 'date-fns';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { constant } from 'src/app/constant/constant';
@@ -43,7 +44,8 @@ export class LeaveSettingComponent implements OnInit {
     private fb: FormBuilder,
     private afStorage: AngularFireStorage,
     private dataService: DataService,
-    private helperService: HelperService
+    private helperService: HelperService,
+    private cdr: ChangeDetectorRef
   ) {
     this.form = this.fb.group({
       categories: this.fb.array([]),
@@ -274,6 +276,8 @@ export class LeaveSettingComponent implements OnInit {
       this.leaveTemplateForm(true);
     }
 
+    this.tempLeaveCount = ''
+    this.showErrorCount = false
   }
 
 
@@ -541,7 +545,7 @@ export class LeaveSettingComponent implements OnInit {
       });
     }
 
-    // console.log('sel all Ids: ', this.selectedStaffIds)
+    console.log('sel all Ids: ', this.selectedStaffIds)
 
   }
 
@@ -1176,6 +1180,10 @@ export class LeaveSettingComponent implements OnInit {
   // ########### Selection func....
 
   selectedStaffIdsUser: number[] = [];
+  // Define as a Set for unique IDs
+// selectedStaffIdsUser: Set<number> = new Set<number>();
+
+
   selectedStaffsUser: Staff[] = [];
   isAllSelectedUser: boolean = false;
 
@@ -2152,7 +2160,12 @@ console.log('wfhLeaveTemplates: ',this.wfhLeaveTemplates)
       this.allselected = false;
       this.selectedStaffIdsUser = [];
     }
-    // console.log('all Ids: ',this.selectedStaffIdsUser)
+    console.log('all Ids: ',this.selectedStaffIdsUser)
+
+    // Assuming selectedStaffIdsUser contains duplicates
+this.selectedStaffIdsUser = Array.from(new Set(this.selectedStaffIdsUser));
+console.log('After SET Ids: ',this.selectedStaffIdsUser)
+
   }
 
   selectSingle1(event: any, i: any) {
@@ -2189,7 +2202,7 @@ console.log('wfhLeaveTemplates: ',this.wfhLeaveTemplates)
       var index = this.selectedStaffIdsUser.indexOf(event.id);
       this.selectedStaffIdsUser.splice(index, 1);
 
-      // console.log('deSelectedStaffIdsUser: ', this.deSelectedStaffIdsUser)
+      console.log('deSelectedStaffIdsUser: ', this.deSelectedStaffIdsUser)
 
       if (this.selectedStaffIdsUser.length == 0 && this.showMappedUserToggle) {
         this.showAllUser();
@@ -2210,8 +2223,8 @@ console.log('wfhLeaveTemplates: ',this.wfhLeaveTemplates)
         this.allselected = true;
       }
 
-      // console.log('selectedIds: ', this.selectedStaffIdsUser)
-      // console.log('del: ', this.deSelectedStaffIdsUser)
+      console.log('selectedIds: ', this.selectedStaffIdsUser)
+      console.log('del: ', this.deSelectedStaffIdsUser)
     }
 
   }
@@ -2389,6 +2402,105 @@ setUnusedLeaveAction(index: number, value: any): void {
 
   }
 }
+
+showError: boolean = false;
+showErrorCount: boolean = false;
+// leaveCount: number = 1
+tempLeaveCount: string = ''
+
+// validateAndAdjustLeaveCount(value: number, index: number): void {
+validateAndAdjustLeaveCount(value: number, index: number): void {
+  debugger
+
+ if(value > 0){
+  this.showError = false;
+  this.showErrorCount = false;
+
+  const tempValue = value
+  // const tempValue = this.getVal;
+
+  // Separate the integer and decimal parts of the input value
+  const integerPart = Math.floor(value);
+  const decimalPart = value - integerPart;
+
+  let adjustedValue: number;
+
+  if (decimalPart >= 0.5) {
+    // If decimal is 0.5 or more, round to the nearest 0.5
+    adjustedValue = integerPart + 0.5;
+    this.showError = true;
+  } else {
+    // If decimal is less than 0.5, round down to the integer
+    adjustedValue = integerPart;
+  }
+
+  if(decimalPart <= 0.5){
+    this.showError = true;
+  }
+
+
+
+  // Show error if the input was adjusted
+  // if (value  !== adjustedValue) {
+    if (Number(value) !== adjustedValue) {
+    // this.showError = true;
+    // this.showErrorCount = true;
+
+    // Temporarily set leaveCount to null, then assign adjusted value to trigger UI update
+    this.tempLeaveCount = ''
+    // this.cdr.detectChanges();
+    setTimeout(() => {
+      this.tempLeaveCount = adjustedValue.toString();
+      // this.cdr.detectChanges();
+    },50);
+  } else {
+    this.tempLeaveCount = value.toString();
+    // this.showError = false;
+  }
+
+  // const hasDecimal = !Number.isInteger(tempValue);
+  console.log("tempValue ",tempValue)
+  const hasDecimal = tempValue % 1 !== 0;
+  if(hasDecimal){
+    this.showErrorCount = true;
+  }else{
+    this.showErrorCount = false;
+  }
+
+  console.log("leave count work: ",this.tempLeaveCount)
+
+  // Call generateDaysDropdown with the adjusted value
+  this.generateDaysDropdown(this.tempLeaveCount, index);
+  return;
+ }
+}
+
+getVal: any;
+getValue1(event: any, index: number){
+  debugger
+  this.getVal = event.target.value
+  console.log('getVal: ',this.getVal)
+
+  this.validateAndAdjustLeaveCount(this.getVal, index)
+}
+
+getValue(event: Event, index: number): void {
+  const input = (event.target as HTMLInputElement).value;
+
+  // Allow only valid decimal numbers (e.g., 22.6) and parse it as a number
+  if (/^\d+(\.\d{1,2})?$/.test(input)) {
+    this.tempLeaveCount = parseFloat(input).toString();
+  } else {
+    // Optional: Display an error message if input is invalid
+    console.log("Invalid decimal value.");
+  }
+
+  this.getVal = input;
+
+  console.log('getVal: ',this.getVal)
+  this.validateAndAdjustLeaveCount(this.getVal, index)
+}
+
 
 
 }
