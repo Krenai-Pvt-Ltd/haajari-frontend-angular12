@@ -393,7 +393,7 @@ export class DataService {
     searchBy: string,
     teamId: number
   ): Observable<any> {
-    const params = new HttpParams()
+    var params = new HttpParams()
       .set('item_per_page', itemPerPage.toString())
       .set('page_number', pageNumber.toString())
       .set('sort_order', sort)
@@ -401,6 +401,12 @@ export class DataService {
       .set('search', search)
       .set('search_by', searchBy)
       .set('team_id', teamId);
+
+      if(search != null && search != ''){
+        params = params.set('page_number', 0)
+        params = params.set('item_per_page', 0)
+      }
+
     return this.httpClient.get<any>(`${this.baseUrl}/users/get/by-filters`, {
       params,
     });

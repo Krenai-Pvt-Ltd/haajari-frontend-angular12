@@ -919,11 +919,9 @@
                                     Please enter a valid number.</span>
                                 </p>
 
-                                <!-- Error message div, shown only when there's an adjustment -->
-                                <!-- <div *ngIf="showError" class="text-danger mt-2" style="color: red;"> -->
-                                <div *ngIf="showErrorCount" class="text-danger mt-2" style="color: red;">
+                                <!-- <div *ngIf="showErrorCount" class="text-danger mt-2" style="color: red;">
                                   Value has been adjusted to the nearest valid step.
-                                </div>
+                                </div> -->
                               </div>
 
                               <!-- <div *ngIf="wfhTemplateToggle" class="col-md-3 mb-2" nz-form-item>
@@ -1004,13 +1002,9 @@
 
                                 <div *ngIf="categories.controls[i]!.get('unusedLeaveActionId')?.value != LAPSE"
                                   style="width: 100%">
-                                  <input nz-input [nzAutocomplete]="auto" formControlName="unusedLeaveActionCount" required
-                                    placeholder="Select Days" [required]="true" nzSize="large" class="form-control input-zorro" style="font-size: 13px;" />
-
-                                    <!-- <nz-input-number nz-input [nzAutocomplete]="auto" style="width: 100%"  placeholder="Select Days" [required]="true"
-                                     formControlName="unusedLeaveActionCount"
-                                     nzSize="large" [nzMin]="1" [nzMax]="5" [nzStep]="1" >
-                                  </nz-input-number> -->
+                                  <input nz-input  type="number" [nzAutocomplete]="auto" formControlName="unusedLeaveActionCount" required (keyup)="validateMaxValue(i)"
+                                    placeholder="Select Days" [required]="true" nzSize="large" min="1" max="400" 
+                                    class="form-control input-zorro no-spinner-specific" style="font-size: 13px;" />
 
                                   <nz-autocomplete #auto>
                                     <nz-auto-option *ngFor="let day of daysCountArray[i]" [nzValue]="day">
