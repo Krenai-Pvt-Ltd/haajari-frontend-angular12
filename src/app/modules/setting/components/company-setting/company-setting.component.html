@@ -1665,6 +1665,48 @@
                           </div> -->
                         </div>
                       </div>
+                      <div class="mb-10" *ngIf="isShowMap">
+                        <section>
+                          <div class="el-card-item">
+                            <div class="el-card-avatar el-overlay-1">
+                              <div class="map">
+                                <agm-map
+                                  style="height: 350px"
+                                  [latitude]="lat"
+                                  [longitude]="lng"
+                                  [zoom]="zoom"
+                                  [maxZoom]="20"
+                                  [zoomControl]="true"
+                                  (mapClick)="onMapClick($event)"
+                                  [disableDefaultUI]="true"
+                                  [keyboardShortcuts]="false"
+                                >
+                                  <agm-marker
+                                    *ngIf="
+                                      (organizationAddressDetail.latitude &&
+                                        organizationAddressDetail.longitude) ||
+                                      (lat && lng)
+                                    "
+                                    [latitude]="lat"
+                                    [longitude]="lng"
+                                    draggable="true"
+                                    (dragEnd)="onMarkerDragEnd($event)"
+                                  ></agm-marker>
+                                </agm-map>
+                                <div class="map-locate-me">
+                                  <button
+                                    type="button"
+                                    class="locate-btn btn btn-sm text-white"
+                                    (click)="getCurrentLocation()"
+                                  >
+                                    <i class="fa fa-crosshairs"></i> Locate Me
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </section>
+                      </div>
                     </div>
                   </div>
                   <!-- {{isFormInvalidLocation}} -->
@@ -2616,6 +2658,49 @@
                           </div>
                           
                         </div>
+                      </div>
+
+                      <div class="mb-10" *ngIf="isShowMap">
+                        <section>
+                          <div class="el-card-item">
+                            <div class="el-card-avatar el-overlay-1">
+                              <div class="map">
+                                <agm-map
+                                  style="height: 350px"
+                                  [latitude]="lat"
+                                  [longitude]="lng"
+                                  [zoom]="zoom"
+                                  [maxZoom]="20"
+                                  [zoomControl]="true"
+                                  (mapClick)="onMapClick($event)"
+                                  [disableDefaultUI]="true"
+                                  [keyboardShortcuts]="false"
+                                >
+                                  <agm-marker
+                                    *ngIf="
+                                      (organizationAddressDetail.latitude &&
+                                        organizationAddressDetail.longitude) ||
+                                      (lat && lng)
+                                    "
+                                    [latitude]="lat"
+                                    [longitude]="lng"
+                                    draggable="true"
+                                    (dragEnd)="onMarkerDragEnd($event)"
+                                  ></agm-marker>
+                                </agm-map>
+                                <div class="map-locate-me">
+                                  <button
+                                    type="button"
+                                    class="locate-btn btn btn-sm text-white"
+                                    (click)="getCurrentLocation()"
+                                  >
+                                    <i class="fa fa-crosshairs"></i> Locate Me
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </section>
                       </div>
                     </div>
                   </div>

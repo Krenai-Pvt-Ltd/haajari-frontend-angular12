@@ -662,25 +662,25 @@ export class CompanySettingComponent implements OnInit {
     // this.fetchCurrentLocationLoader = false;
   }
 
-  getCurrentLocation(): Promise<{ latitude: number; longitude: number }> {
-    return new Promise((resolve, reject) => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            resolve({
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-            });
-          },
-          (err) => {
-            reject(err);
-          }
-        );
-      } else {
-        reject('Geolocation is not supported by this browser.');
-      }
-    });
-  }
+  // getCurrentLocation(): Promise<{ latitude: number; longitude: number }> {
+  //   return new Promise((resolve, reject) => {
+  //     if (navigator.geolocation) {
+  //       navigator.geolocation.getCurrentPosition(
+  //         (position) => {
+  //           resolve({
+  //             latitude: position.coords.latitude,
+  //             longitude: position.coords.longitude,
+  //           });
+  //         },
+  //         (err) => {
+  //           reject(err);
+  //         }
+  //       );
+  //     } else {
+  //       reject('Geolocation is not supported by this browser.');
+  //     }
+  //   });
+  // }
 
   isFormInvalidLocation: boolean = false;
   isStaffSelectionDisabled: boolean = true;
@@ -815,6 +815,15 @@ export class CompanySettingComponent implements OnInit {
       .subscribe(response => {
         this.specificAddress = response.object;
         this.organizationAddressDetail = this.specificAddress.organizationAddress;
+
+        if (this.organizationAddressDetail.latitude == null) {
+          this.currentLocation();
+        } else {
+          this.lat = Number(this.organizationAddressDetail.latitude);
+          this.lng = Number(this.organizationAddressDetail.longitude);
+          this.isShowMap = true;
+        }
+
         if (this.specificAddress.staffListResponse.length > 0) {
           this.selectedStaffsUuids = this.specificAddress.staffListResponse.map((staff: any) => staff.uuid);
           this.getUserByFiltersMethodCall();
@@ -866,6 +875,7 @@ export class CompanySettingComponent implements OnInit {
     // this.organizationAddressDetailForm.reset();
     // this.selectedShiftType = new ShiftType();
     // this.addressId = 0;
+    this.isShowMap = false;
     this.clearSearchText();
     this.teamId = 0;
     this.selectedTeamId = 0;
@@ -1079,6 +1089,11 @@ export class CompanySettingComponent implements OnInit {
   }
 
   isShowMap: boolean = false;
+  lat!: number;
+  lng!: number;
+  zoom: number = 15; 
+  markerPosition: any;
+
   getOrganizationAddressDetailMethodCall() {
     debugger;
     this.dataService.getOrganizationAddressDetail().subscribe(
@@ -1087,13 +1102,13 @@ export class CompanySettingComponent implements OnInit {
           // console.log(response);
           this.organizationAddressDetail = response;
           // console.log(this.organizationAddressDetail.latitude);
-          // if (this.organizationAddressDetail.latitude == null) {
-          //   this.currentLocation();
-          // } else {
-          //   this.lat = Number(this.organizationAddressDetail.latitude);
-          //   this.lng = Number(this.organizationAddressDetail.longitude);
-          //   this.isShowMap = true;
-          // }
+          if (this.organizationAddressDetail.latitude == null) {
+            this.currentLocation();
+          } else {
+            this.lat = Number(this.organizationAddressDetail.latitude);
+            this.lng = Number(this.organizationAddressDetail.longitude);
+            this.isShowMap = true;
+          }
           
         } else {
           console.log('No address details found');
@@ -1104,6 +1119,85 @@ export class CompanySettingComponent implements OnInit {
       }
     );
   }
+
+  getCurrentLocation(): Promise<{ latitude: number; longitude: number }> {
+    return new Promise((resolve, reject) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            this.lat = position.coords.latitude;
+            this.lng = position.coords.longitude;
+            this.isShowMap = true;
+            resolve({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            });
+          },
+          (err) => {
+            reject(err);
+          },
+          {
+            enableHighAccuracy: true,  // Precise location
+          maximumAge: 0              // Prevent cached locations
+          }
+        );
+      } else {
+        reject('Geolocation is not supported by this browser.');
+      }
+    });
+  }
+
+  mapCenter: { lat: number; lng: number } = { lat: this.lat, lng: this.lng };
+
+  onMapClick(event: any) {
+    this.organizationAddressDetail.latitude = event.coords.lat;
+    this.organizationAddressDetail.longitude = event.coords.lng;
+  }
+
+  onMarkerDragEnd(event: any) {
+    this.organizationAddressDetail.latitude = event.coords.lat;
+    this.organizationAddressDetail.longitude = event.coords.lng;
+    this.mapCenter = { lat: this.lat, lng: this.lng };
+  }
+
+
+
+  public handleAddressChanges(e: any) {
+    //  console.log('ghdm',e);
+   
+    this.lat = e.geometry.location.lat();
+    this.lng = e.geometry.location.lng();
+    // this.getAddress(this.lat, this.lng);
+  }
+
+
+centerChanged(event: any) {
+  // console.log(event);
+  this.newLat=event.lat;
+  this.newLng=event.lng; 
+}
+newLat:any;
+newLng:any
+
+mapReady(map:any) {
+  // console.log("map=======",map);
+map.addListener("dragend", () => {
+  this.lat=this.newLat;
+  this.lng=this.newLng;
+  // console.log("999999",this.lat, this.lng);
+  //  this.getAddress(this.lat, this.lng);
+  });
+}
+
+
+onZoomChange(event: number) {
+  // console.log('Zoom level changed:', event);
+  this.lat=this.newLat;
+  this.lng=this.newLng;
+  // this.getAddress(this.lat, this.lng);
+}
+
+
 
 }
 
