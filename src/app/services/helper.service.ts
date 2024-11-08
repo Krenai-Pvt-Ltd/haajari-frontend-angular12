@@ -356,14 +356,158 @@ export class HelperService {
     return duration;
   }
 
-  // getTimeDiffFromStringTime(date1: string, date2: string) {
-  //   const diffInMinutes = moment(date1, "HH:mm").diff(moment(date2, "HH:mm"), 'minutes');
+   checkValidNightShiftRange(startDuration: string, endDuration: string): number {
+    // Parse startDuration and endDuration strings into Date objects
+    
+    const [startHour, startMinute] = startDuration.split(':').map(Number);
+    const [endHour, endMinute] = endDuration.split(':').map(Number);
+  
+    // Create Date objects for inTime and outTime on the same day
+    const startTime = new Date();
+    startTime.setHours(startHour, startMinute, 0, 0); // Sets start time for the shift
+  
+    const endTime = new Date(startTime); // Clone startTime to create endTime
+    endTime.setHours(endHour, endMinute, 0, 0);
+  
+    // Adjust endTime to the next day if it’s before or equal to startTime (crosses midnight)
+    if (endTime <= startTime) {
+      endTime.setDate(endTime.getDate() + 1);
+    }
+  
+   if (endTime <= startTime) {
+      return 0; // Error code 0: inTime is after outTime
+    }
+    
+    return 1; // Return 1 for a valid shift range
+  }
 
-  //   // Convert the difference in minutes to hours and minutes
-  //   const hours = Math.floor(diffInMinutes / 60);
-  //   const minutes = diffInMinutes % 60;
-  //   var duration = Math.floor(hours / 60) + ":" + (minutes % 60);
+  calculateHoursDiff(inTime: string, outTime: string): string {
+    console.log("🚀 ~ HelperService ~ calculateHoursDiff ~ outTime:", outTime)
+    console.log("🚀 ~ HelperService ~ calculateHoursDiff ~ inTime:", inTime)
+    // Parse inTime and outTime strings into hours and minutes
+    const [inHour, inMinute] = inTime.split(':').map(Number);
+    const [outHour, outMinute] = outTime.split(':').map(Number);
+  
+    // Create Date objects for inTime and outTime
+    const startTime = new Date();
+    startTime.setHours(inHour, inMinute, 0, 0);
+  
+    const endTime = new Date(startTime); // Clone startTime to set end time
+    endTime.setHours(outHour, outMinute, 0, 0);
+  
+    // If outTime is earlier than inTime (indicating next day), add one day to endTime
+    if (endTime <= startTime) {
+      endTime.setDate(endTime.getDate() + 1);
+    }
+  
+    // Calculate the difference in milliseconds and convert to hours
+    const millisecondsDifference = endTime.getTime() - startTime.getTime();
+    const totalMinutes = millisecondsDifference / (1000 * 60); // Convert ms to minutes
+  const hours = Math.floor(totalMinutes / 60); // Get the whole hours
+  const minutes = Math.round(totalMinutes % 60); // Get the remaining minutes
 
-  //   return duration;
-  // }
+  // Format the result in HH:MM format
+  const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+
+  
+    return formattedTime;
+  }
+
+  calculateHoursDiffInMins(inTime: string, outTime: string): number {
+    // Parse inTime and outTime strings into hours and minutes
+    const [inHour, inMinute] = inTime.split(':').map(Number);
+    const [outHour, outMinute] = outTime.split(':').map(Number);
+  
+    // Create Date objects for inTime and outTime
+    const startTime = new Date();
+    startTime.setHours(inHour, inMinute, 0, 0);
+  
+    const endTime = new Date(startTime); // Clone startTime to set end time
+    endTime.setHours(outHour, outMinute, 0, 0);
+  
+    // If outTime is earlier than inTime (indicating next day), add one day to endTime
+    if (endTime <= startTime) {
+      endTime.setDate(endTime.getDate() + 1);
+    }
+  
+    // Calculate the difference in milliseconds and convert to hours
+    const millisecondsDifference = endTime.getTime() - startTime.getTime();
+    const totalMinutes = millisecondsDifference / (1000 * 60); // Convert ms to minutes
+  
+    return totalMinutes;
+  }
+
+  calculateWorkingHoursMinusLunch(inTime: string, outTime: string, lunchStart: string, lunchEnd: string): string {
+    // Calculate working hours and lunch hours in minutes
+    const workingMinutes = this.calculateHoursDiffInMins(inTime, outTime);
+    const lunchMinutes = this.calculateHoursDiffInMins(lunchStart, lunchEnd);
+  
+    // Subtract lunch time from working time
+    const netWorkingMinutes = workingMinutes - lunchMinutes;
+  
+    // Convert net working minutes back to hours and minutes
+    const hours = Math.floor(netWorkingMinutes / 60);
+    const minutes = Math.round(netWorkingMinutes % 60);
+  
+    // Format the result in HH:MM format
+    const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+  
+    return formattedTime;
+  }
+  validateLunchWithinShift(inTime: string,outTime: string,lunchStartTime: string,lunchEndTime: string,
+    organizationShiftTimingValidationErrors: { [key: string]: string }): any {
+    // Parse inTime, outTime, lunchStartTime, and lunchEndTime strings into hours and minutes
+    const [inHour, inMinute] = inTime.split(':').map(Number);
+    const [outHour, outMinute] = outTime.split(':').map(Number);
+    const [lunchStartHour, lunchStartMinute] = lunchStartTime.split(':').map(Number);
+    const [lunchEndHour, lunchEndMinute] = lunchEndTime.split(':').map(Number);
+  
+    // Create Date objects for inTime and outTime on the same day
+    const startTime = new Date();
+    startTime.setHours(inHour, inMinute, 0, 0);
+  
+    const endTime = new Date(startTime);
+    endTime.setHours(outHour, outMinute, 0, 0);
+  
+    // Create Date objects for lunchStartTime and lunchEndTime
+    const lunchStart = new Date(startTime);
+    lunchStart.setHours(lunchStartHour, lunchStartMinute, 0, 0);
+  
+    const lunchEnd = new Date(startTime);
+    lunchEnd.setHours(lunchEndHour, lunchEndMinute, 0, 0);
+  
+    // Adjust endTime to the next day if it’s before or equal to startTime (shift crosses midnight)
+    if (endTime <= startTime) {
+      endTime.setDate(endTime.getDate() + 1);
+    }
+  
+    // Adjust lunchStart and lunchEnd to the next day if they are before startTime (lunch spans midnight)
+    if (lunchStart <= startTime) {
+      lunchStart.setDate(lunchStart.getDate() + 1);
+    }
+    if (lunchEnd <= startTime) {
+      lunchEnd.setDate(lunchEnd.getDate() + 1);
+    }
+  
+    // Validation conditions with specific error messages
+    if (lunchStart < startTime) {
+      organizationShiftTimingValidationErrors['startLunch']=" Lunch start time is before shift start time."
+      return organizationShiftTimingValidationErrors;
+    } else if (lunchEnd > endTime) {
+      organizationShiftTimingValidationErrors['endLunch']=" Lunch end time is after shift end time.";
+      return organizationShiftTimingValidationErrors;
+    } else if (lunchEnd < lunchStart) {
+      organizationShiftTimingValidationErrors['endLunch']=" Lunch end time is before lunch start time.";
+      return organizationShiftTimingValidationErrors;
+    } else if (lunchStart >= startTime && lunchEnd <= endTime) {
+      return "1";
+    } else {
+      // organizationShiftTimingValidationErrors['startLunch']=" Invalid lunch timing."
+      // organizationShiftTimingValidationErrors['endLunch']=" Invalid lunch timing."
+      return organizationShiftTimingValidationErrors;
+
+    }
+  }
+  
+
 }

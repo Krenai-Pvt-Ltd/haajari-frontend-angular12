@@ -1,24 +1,16 @@
 import { DatePipe } from '@angular/common';
 import {
-  Directive,
   Component,
   ElementRef,
   OnInit,
   ViewChild,
-  ANALYZE_FOR_ENTRY_COMPONENTS,
 } from '@angular/core';
 import {
-  FormArray,
-  FormBuilder,
-  FormGroup,
   NgForm,
   NgModel,
-  Validators,
 } from '@angular/forms';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { findLastKey } from 'lodash';
+import { ActivatedRoute } from '@angular/router';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
-import { filter } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { Holiday } from 'src/app/models/Holiday';
@@ -48,13 +40,11 @@ import { OvertimeSettingResponse } from 'src/app/models/overtime-setting-respons
 import { OvertimeType } from 'src/app/models/overtime-type';
 import { ShiftType } from 'src/app/models/shift-type';
 import { Staff } from 'src/app/models/staff';
-import { User } from 'src/app/models/user';
 import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-reflection';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { PlacesService } from 'src/app/services/places.service';
-declare var google: any;
-
+import * as moment from 'moment';
 @Component({
   selector: 'app-attendance-setting',
   templateUrl: './attendance-setting.component.html',
@@ -70,9 +60,6 @@ export class AttendanceSettingComponent implements OnInit {
     private dataService: DataService,
     private datePipe: DatePipe,
     public helperService: HelperService,
-    private fb: FormBuilder,
-    private router: Router,
-    private el: ElementRef,
     private placesService: PlacesService,
     private activatedRoute: ActivatedRoute
   ) {}
@@ -80,7 +67,6 @@ export class AttendanceSettingComponent implements OnInit {
   ngOnInit(): void {
     window.scroll(0, 0);
     this.getTeamNames();
-    // this.helperService.saveOrgSecondaryToDoStepBarData(0);
     this.loadHolidayCounts();
     this.loadHolidays();
     this.getOrganizationAddressDetailMethodCall();
@@ -1693,39 +1679,30 @@ if (startLunch && endLunch) {
 }
 nightShiftValidation(inTimeMinutes:any,outTimeMinutes:any,startLunchMinutes:any,endLunchMinutes:any){
   const { inTime, outTime, startLunch, endLunch } = this.organizationShiftTimingRequest;
-
+  const { inTimeFormatted, outTimeFormatted, startLunchFormatted, endLunchFormatted } 
+  = {inTimeFormatted :moment(new Date(inTime)).format("HH:mm"),outTimeFormatted :moment(new Date(outTime)).format("HH:mm"),
+  startLunchFormatted :moment(new Date(startLunch)).format("HH:mm"),endLunchFormatted : moment(new Date(endLunch)).format("HH:mm") };
   // Check for valid in and out times
   if (inTime && outTime) {
-      if (inTimeMinutes <= outTimeMinutes) {
+      if (this.helperService.checkValidNightShiftRange(inTimeFormatted,outTimeFormatted)==0) {
         this.organizationShiftTimingValidationErrors['outTime'] = 'Out time must be after in time.';
     } else {
-        const totalWorkedMinutes = Math.abs(outTimeMinutes - inTimeMinutes);
-        this.organizationShiftTimingRequest.workingHour = this.formatMinutesToTime(totalWorkedMinutes);
+        
+        this.organizationShiftTimingRequest.workingHour = String(this.helperService.calculateHoursDiff(inTimeFormatted,outTimeFormatted));
     }
 }
-
-// Check for valid lunch start time
-if (startLunch && (startLunchMinutes <= inTimeMinutes || startLunchMinutes >= outTimeMinutes)) {
-    this.organizationShiftTimingValidationErrors['startLunch'] = 'Lunch time should be within in and out times.';
+var isValidLunchTimeRes=this.helperService.validateLunchWithinShift(inTimeFormatted,outTimeFormatted, startLunchFormatted, endLunchFormatted,this.organizationShiftTimingValidationErrors);
+if(isValidLunchTimeRes!=1){
+  this.organizationShiftTimingValidationErrors=isValidLunchTimeRes;
+  return;
 }
-
-// Check for valid lunch end time
-if (endLunch && (endLunchMinutes <= inTimeMinutes || endLunchMinutes >= outTimeMinutes)) {
-    this.organizationShiftTimingValidationErrors['endLunch'] = 'Lunch time should be within in and out times.';
-}
-
 // Calculate lunch hour and adjust working hours if lunch times are valid
-if (startLunch && endLunch && startLunchMinutes < endLunchMinutes) {
-    const lunchBreakMinutes = endLunchMinutes - startLunchMinutes;
-    this.organizationShiftTimingRequest.lunchHour = this.formatMinutesToTime(lunchBreakMinutes);
+this.organizationShiftTimingRequest.lunchHour=String(this.helperService.calculateHoursDiff(startLunchFormatted,endLunchFormatted));
+if(this.organizationShiftTimingRequest.workingHour){
+  this.organizationShiftTimingRequest.workingHour=String(this.helperService.calculateWorkingHoursMinusLunch(inTimeFormatted,outTimeFormatted, startLunchFormatted, endLunchFormatted));
 
-    if (this.organizationShiftTimingRequest.workingHour) {
-        const workingHourMinutes = this.organizationShiftTimingRequest.workingHour.split(':').map(Number);
-        const totalWorkingMinutes = workingHourMinutes[0] * 60 + workingHourMinutes[1];
-        const adjustedWorkedMinutes = totalWorkingMinutes - lunchBreakMinutes;
-        this.organizationShiftTimingRequest.workingHour = this.formatMinutesToTime(adjustedWorkedMinutes);
-    }
 }
+
 }
 // Helper method to format minutes into HH:mm format
 formatMinutesToTime(minutes: number): string {
@@ -1736,16 +1713,7 @@ formatMinutesToTime(minutes: number): string {
 
 
 
-  private formatDuration(duration: number): string {
-    const hours = Math.floor(duration / 1000 / 60 / 60);
-    const minutes = Math.floor((duration / 1000 / 60) % 60);
-    return `${this.padZero(hours)}:${this.padZero(minutes)}`;
-  }
-
-  private padZero(num: number): string {
-    return num < 10 ? `0${num}` : num.toString();
-  }
-
+  
   private isValidForm(): boolean {
     return (
       Object.keys(this.organizationShiftTimingValidationErrors).length === 0
