@@ -26,6 +26,7 @@ import { ShiftCounts } from 'src/app/models/ShiftCounts';
 import { UniversalHoliday } from 'src/app/models/UniversalHoliday';
 import { WeekDay } from 'src/app/models/WeekDay';
 import { WeeklyHoliday } from 'src/app/models/WeeklyHoliday';
+import { AddressModeTypeRequest } from 'src/app/models/address-mode-type-request';
 import { AttendanceMode } from 'src/app/models/attendance-mode';
 import { AttendanceRuleDefinitionRequest } from 'src/app/models/attendance-rule-definition-request';
 import { AttendanceRuleDefinitionResponse } from 'src/app/models/attendance-rule-definition-response';
@@ -1988,6 +1989,7 @@ formatMinutesToTime(minutes: number): string {
           }
           // console.log("Second line executed after 3 seconds");
         }, 1000);
+       this.getAllAddressDetails();
       },
       (error) => {
         console.log(error);
@@ -1995,6 +1997,29 @@ formatMinutesToTime(minutes: number): string {
       }
     );
   }
+
+allAddresses: any;
+getAllAddressDetails(): void {
+  debugger
+  // this.isShimmer = true;
+  this.dataService.getAllAddressDetailsWithStaff()
+    .subscribe(response => {
+      this.allAddresses = response.listOfObject;
+      // if (this.allAddresses.length == 0) {
+      //   this.dataNotFoundPlaceholder = true;
+      // } else {
+      //   this.dataNotFoundPlaceholder = false;
+      // }
+      this.addressModes = this.allAddresses.map((item: { organizationAddress: { id: any; isFlexible: any; }; }) => ({
+        addressId: item.organizationAddress.id,
+        requestType: item.organizationAddress.isFlexible ? 'flexible' : 'fixed'
+      }));
+    }, (error) => {
+      // this.networkConnectionErrorPlaceHolder = true;
+      // this.isShimmer = false;
+    });
+}
+
 
   selectedAttendanceModeId: number = 0;
   getAttendanceModeMethodCall() {
@@ -2824,37 +2849,67 @@ formatMinutesToTime(minutes: number): string {
 
   locationType: string = 'flexible'; 
 
-onLocationTypeChange() {
-  if (this.locationType === 'fixed') {
-    this.organizationAddressDetail.addressLine1 = '';
-    this.organizationAddressDetail.radius = '';
-  }
+// onLocationTypeChange() {
+//   if (this.locationType === 'fixed') {
+//     this.organizationAddressDetail.addressLine1 = '';
+//     this.organizationAddressDetail.radius = '';
+//   }
    
-}
+// }
+addressModes: AddressModeTypeRequest[] = [];
 
-saveAttendaceFlexibleModeInfo() {
-  this.dataService.saveFlexibleAttendanceMode(this.locationType).subscribe((response) => {
-      
-  }, (error) => {
-     console.log(error);
-  })
-}
+onLocationTypeChange(addressId: number, isFlexible: boolean): void {
+  debugger
+  const requestType = isFlexible ? 'flexible' : 'Fixed';
+  const existingIndex = this.addressModes.findIndex(mode => mode.addressId === addressId);
 
-saveLocationInfo() {
-  if(this.locationType == 'flexible') {
-   this.saveAttendaceFlexibleModeInfo();
-  //  this.attendancewithlocationssButton.nativeElement.click();
-  this.getAttendanceModeMethodCall();
-          // this.toggle = false;
-          this.closeAddressModal.nativeElement.click();
-          this.helperService.showToast(
-            'Attedance Mode updated successfully',
-            Key.TOAST_STATUS_SUCCESS);
-  }else if(this.locationType == 'fixed') {
-   this.saveAttendaceFlexibleModeInfo();
-   this.setOrganizationAddressDetailMethodCall();
+  if (existingIndex === -1) {
+    this.addressModes.push({ addressId, requestType });
+  } else {
+    this.addressModes[existingIndex].requestType = requestType;
   }
 }
+
+saveFlexibleModes(): void {
+  debugger
+  this.dataService.saveFlexibleAttendanceModeForAllAddresses(this.addressModes).subscribe(
+    response => {
+      console.log('Mode saved successfully:', response);
+      this.getAttendanceModeMethodCall();
+          // this.toggle = false;
+      // this.getAttendanceModeAllMethodCall();
+      this.closeAddressModal.nativeElement.click();
+      this.getAllAddressDetails();
+    },
+    error => {
+      console.error('Error saving mode:', error);
+    }
+  );
+}
+
+// saveAttendaceFlexibleModeInfo() {
+//   this.dataService.saveFlexibleAttendanceMode(this.locationType, this.addressId).subscribe((response) => {
+      
+//   }, (error) => {
+//      console.log(error);
+//   })
+// }
+
+// saveLocationInfo() {
+//   if(this.locationType == 'flexible') {
+//    this.saveAttendaceFlexibleModeInfo();
+//   //  this.attendancewithlocationssButton.nativeElement.click();
+//   this.getAttendanceModeMethodCall();
+//           // this.toggle = false;
+//           this.closeAddressModal.nativeElement.click();
+//           this.helperService.showToast(
+//             'Attedance Mode updated successfully',
+//             Key.TOAST_STATUS_SUCCESS);
+//   }else if(this.locationType == 'fixed') {
+//    this.saveAttendaceFlexibleModeInfo();
+//    this.setOrganizationAddressDetailMethodCall();
+//   }
+// }
 
 getFlexibleAttendanceMode() {
   this.dataService.getFlexibleAttendanceMode().subscribe((response) => {
@@ -2939,5 +2994,6 @@ onSelect(event: any): void {
   const selectedValue = event.nzValue;
   this.organizationAddressDetail.radius = selectedValue;
 }
+
 
 }

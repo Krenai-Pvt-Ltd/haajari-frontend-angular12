@@ -79,6 +79,7 @@ import { OrganizationRegistrationFormRequest } from '../models/organization-regi
 import { rootCertificates } from 'tls';
 import { OnboardingModule } from '../models/OnboardingModule';
 import { ExpenseType } from '../models/expenseType';
+import { AddressModeTypeRequest } from '../models/address-mode-type-request';
 
 
 @Injectable({
@@ -4212,6 +4213,14 @@ getHolidayForOrganization(date: string): Observable<any>{
     const params = new HttpParams().set('requestType', requestType);
     return this.httpClient.put<any>(
       `${this.baseUrl}/attendance/mode/save-flexible-modes-info`,{}, {params}
+
+    );
+  }
+
+  saveFlexibleAttendanceModeForAllAddresses(addressModes: AddressModeTypeRequest[]): Observable<any> {
+    // const params = new HttpParams().set('requestType', requestType);
+    return this.httpClient.put<any>(
+      `${this.baseUrl}/attendance/mode/save-flexible-modes-info-for-all-addresses`, addressModes
 
     );
   }

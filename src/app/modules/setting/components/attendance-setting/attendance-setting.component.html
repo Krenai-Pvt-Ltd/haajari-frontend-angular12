@@ -5298,8 +5298,143 @@
     <form
       #organizationAddressForm="ngForm"
       ngNativeValidate
-      (ngSubmit)="saveLocationInfo()"
+      (ngSubmit)="saveFlexibleModes()"
     >
+   
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
+            Staff Attendance With Location
+          </h6>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            #closeAddressModal
+            aria-label="Close"
+          ></button>
+        </div>
+        <!--end modal-header-->
+
+        <!-- Radio buttons for Flexible and Fixed location -->
+        <div class="modal-body">
+          <div class="form-group">
+            
+             
+            <!-- neeww -->
+
+            <div
+                    class="shift-time p-3 m-3"
+                    *ngFor="let item of allAddresses; let i = index"
+                  >
+                    <div class="">
+                      <div
+                        class="d-flex align-items-center justify-content-between"
+                      >
+                        <div class="d-flex align-items-center gap-3">
+                          <div class="">
+                            <span
+                              class="automation-rules-icon d-flex align-items-center justify-content-center"
+                            >
+                              <img src="assets/images/rule-icon.svg" />
+                            </span>
+                          </div>
+                          <div class="">
+                            <h6 class="text-truncate mb-0" *ngIf="
+                            item.organizationAddress.addressStatus ==
+                            'Default address'
+                          ">
+                              {{ item.organizationAddress.addressStatus }}
+                            </h6>
+                            <h6 class="text-truncate mb-0" *ngIf="
+                            item.organizationAddress.addressStatus !=
+                            'Default address'
+                          ">
+                              {{ item.organizationAddress.branch || 'N/A'}}
+                            </h6>
+                            <small class="text-muted"
+                              >{{ item.organizationAddress.addressLine1 }}</small
+                            >
+                          </div>
+                           
+                        </div>
+                      </div>
+
+                      <!-- {{item.organizationAddress.isFlexible}} -->
+                      <div class="d-flex align-items-center mb-1 mt-2">
+                        <!-- Radio Buttons for Location Type -->
+                        <div class="form-check me-3">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            [name]="'locationType_' + i"
+                            id="flexibleLocation_{{ i }}"
+                            [value]="'flexible'"
+                            [checked]="item.organizationAddress.isFlexible === true"
+                            (change)="onLocationTypeChange(item.organizationAddress.id, true)"
+                          />
+                          <label class="form-check-label" for="flexibleLocation_{{ i }}">Flexible Location</label>
+                        </div>
+                        <div class="form-check">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            [name]="'locationType_' + i"
+                            id="fixedLocation_{{ i }}"  
+                            [value]="'fixed'"
+                            [checked]="item.organizationAddress.isFlexible === false"
+                            (change)="onLocationTypeChange(item.organizationAddress.id, false)"
+                          />
+                          <label class="form-check-label" for="fixedLocation_{{ i }}">Fixed Location</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            
+          </div>
+           
+        </div>
+
+        <div
+          class="modal-footer d-flex align-items-center justify-content-end"
+        >
+          <button
+            class="btn btn-primary"
+            type="submit"
+            [disabled]="toggle"
+            aria-label="Next Step"
+          >
+            <div *ngIf="toggle" class="dot-opacity-loader">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <span *ngIf="!toggle">
+              Save <i class="bi bi-arrow-right" style="padding-left: 8px"></i>
+            </span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- old default address edit code with map -->
+<div
+  class="modal fade"
+  id="attendancewithlocationss22"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="attendancewithlocation22"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg" role="document">
+    <form
+      #organizationAddressForm="ngForm"
+      ngNativeValidate
+      
+    >
+    <!-- (ngSubmit)="saveLocationInfo()" -->
     <!-- (ngSubmit)="setOrganizationAddressDetailMethodCall()" -->
       <div class="modal-content">
         <div class="modal-header">
@@ -5321,7 +5456,7 @@
           <div class="form-group">
             <div class="d-flex align-items-center mb-3">
               <label class="me-3">Location Type:</label>
-              <div class="form-check me-3">
+              <!-- <div class="form-check me-3">
                 <input
                   class="form-check-input"
                   type="radio"
@@ -5348,7 +5483,7 @@
                 <label class="form-check-label" for="fixedLocation">
                   Fixed Location
                 </label>
-              </div>
+              </div> -->
             </div>
 
             <!-- Conditional display based on location type -->
