@@ -21,11 +21,13 @@ export class CreateExpenseComponent implements OnInit {
   ROLE: any
 
   constructor(private afStorage: AngularFireStorage,
-    private dataService: DataService, private helperService: HelperService, private rbacService: RoleBasedAccessControlService) { }
+    private dataService: DataService, private helperService: HelperService, private rbacService: RoleBasedAccessControlService) { 
+
+    }
 
   ngOnInit(): void {
-
     this.getExpenses();
+    
   }
 
 
@@ -210,13 +212,13 @@ export class CreateExpenseComponent implements OnInit {
     this.closeApproveModal.nativeElement.click()
   }
 
-  /** Expense end **/
+  /** Company Expense end **/
 
   /**
    * Create Expense Policy Start
    */
 
-  /** switch tab start */
+  // switch tab start
 
   activeTab: string = 'expensePolicy';
 
@@ -391,7 +393,11 @@ export class CreateExpenseComponent implements OnInit {
       this.allselected = false;
       this.selectedStaffIdsUser = [];
     }
-    console.log('all Ids: ', this.selectedStaffIdsUser)
+    // console.log('all Ids: ', this.selectedStaffIdsUser)
+
+    this.selectedStaffIdsUser = Array.from(new Set(this.selectedStaffIdsUser));
+    // console.log('After SET Ids: ',this.selectedStaffIdsUser)
+
   }
 
   selectAll(checked: boolean) {
@@ -672,7 +678,9 @@ export class CreateExpenseComponent implements OnInit {
   expensePolicyReqList: ExpensePolicy[] = [];
   expensePolicyReq: ExpensePolicy = new ExpensePolicy();
   tempPolicyName: string = ''
-  addExpensePolicy(){
+  policyAmount: string = ''
+  isErrorShow: boolean = true;
+  addExpensePolicy(form: NgForm){
     debugger
     this.tempPolicyName = this.policyName;
 
@@ -681,6 +689,7 @@ export class CreateExpenseComponent implements OnInit {
     this.expensePolicyReq.limitAmount = this.flexibleAmount == null ? 0 : this.flexibleAmount
     this.expensePolicyReq.expenseTypeId = this.expenseTypeId
     this.expensePolicyReq.expenseTypeName = this.expenseTypeName
+    this.expensePolicyReq.amount = Number(this.policyAmount)
 
     this.expensePolicyReqList.push(this.expensePolicyReq)
 
@@ -692,19 +701,56 @@ export class CreateExpenseComponent implements OnInit {
     this.expenseTypeId = 0
     this.expenseTypeName = ''
     this.isExpenseTypeSelected = false;
+    this.policyAmount = ''
     this.paymentType = ''; // Reset payment type when a new expense type is selected
     this.flexibleAmount = null; // Reset amount for flexible payment type
     console.log('Request: ',this.expensePolicyReqList)
+    this.isErrorShow = false;
+    // form.resetForm()
+    // this.tempPolicyName = this.policyName
   }
   
   policyName: string = ''
   companyExpenseReq: CompanyExpense = new CompanyExpense();
-  registerCompanyExpense() {
+  registerToggle: boolean = false
+  @ViewChild('closeExpensePolicyModal') closeExpensePolicyModal!: ElementRef
+  registerCompanyExpense(form: NgForm) {
+    debugger
+
+    this.registerToggle = true;
     this.companyExpenseReq.policyName = this.tempPolicyName;
     this.companyExpenseReq.expensePolicyList = this.expensePolicyReqList
     this.companyExpenseReq.selectedUserIds = this.selectedStaffIdsUser;
 
     console.log('Create: ',this.companyExpenseReq)
+
+    this.dataService.createExpensePolicy(this.companyExpenseReq).subscribe((res: any) => {
+      if(res.status){
+        this.closeExpensePolicyModal.nativeElement.click()
+        form.resetForm()
+        this.clearPolicyForm();
+        this.registerToggle = false
+        this.helperService.showToast(res.message, Key.TOAST_STATUS_SUCCESS);
+      }
+    })
+
+  }
+
+  clearPolicyForm(){
+    this.companyExpenseReq = new CompanyExpense();
+    this.expensePolicyReqList = []
+    this.selectedStaffIdsUser = []
+    this.expenseTypeId = 0;
+    this.expenseTypeId = 0
+    this.expenseTypeName = ''
+    this.isExpenseTypeSelected = false;
+    this.allselected = false;
+    this.policyName = ''
+    this.tempPolicyName = ''
+    this.paymentType = ''; 
+    this.flexibleAmount = null; 
+    this.expenseTypeSelectionTab();
+
   }
 
   deleteExpensePolicy(index: number){
