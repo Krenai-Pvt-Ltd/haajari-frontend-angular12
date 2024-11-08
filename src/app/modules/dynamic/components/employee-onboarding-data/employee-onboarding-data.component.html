@@ -1833,16 +1833,18 @@
                   </thead>
                   <tbody>
                     <!-- Skip the first row for pagination purposes -->
-                    <tr *ngFor="let row of paginatedData; let i = index">
+                    <tr *ngFor="let row of paginatedData; let i = index" >
                       <td>
-                        <input *ngIf="i + currentPage -1!=0" type="checkbox" [(ngModel)]="row.selected" />
+                        <!-- *ngIf="i + currentPage -1!=0" -->
+                        <input  type="checkbox" [(ngModel)]="row.selected" />
                       </td>
 
                       <td *ngFor="let cell of fileColumnName; let j = index">
-                        <ng-container *ngIf="fileColumnName[j] === 'shift*' && (currentPage - 1) * pageSize + i  !== 0; else leaveColumns">
+                        <ng-container *ngIf="fileColumnName[j] === 'shift*' ; else leaveColumns">
+
                           <nz-select
                               [(ngModel)]="row[j]"
-                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
+                              [ngClass]="{'invalid-input': invalidCells[((currentPage - 1) * pageSize)+i][j]}"
                               (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)"
                               nzPlaceHolder="Select Shift"
                               [nzDropdownRender]="customDropdownShift">
@@ -1859,7 +1861,7 @@
                         </ng-container>
 
                         <ng-template #leaveColumns>
-                          <ng-container *ngIf="this.fileColumnName[j] === 'leavenames' && (currentPage - 1) * pageSize + i  !== 0; else otherColumns">
+                          <ng-container *ngIf="this.fileColumnName[j] === 'leavenames' ; else otherColumns">
                             <nz-select
                               class="whatapp-login-input"
                               nzMode="multiple"
@@ -1891,7 +1893,7 @@
                         </ng-template>
 
                         <ng-template #otherColumns>
-                          <ng-container *ngIf="this.fileColumnName[j] === 'joiningdate*' && (currentPage - 1) * pageSize + i  !== 0; else teamColumns">
+                          <ng-container *ngIf="this.fileColumnName[j] === 'joiningdate*' ; else teamColumns">
                             <nz-date-picker
                               id="joiningDate"
                               name="joiningDate"
@@ -1907,7 +1909,7 @@
                         </ng-template>
 
                         <ng-template #teamColumns>
-                          <ng-container *ngIf="this.fileColumnName[j] === 'team' && (currentPage - 1) * pageSize + i  !== 0; else genderColumns">
+                          <ng-container *ngIf="this.fileColumnName[j] === 'team' ; else genderColumns">
                             <nz-select
                               nzAllowClear
                               nzShowSearch
@@ -1937,7 +1939,7 @@
                         </ng-template>
 
                         <ng-template #genderColumns>
-                          <ng-container *ngIf="this.fileColumnName[j] === 'gender*' && (currentPage - 1) * pageSize + i  !== 0; else defaultInput">
+                          <ng-container *ngIf="this.fileColumnName[j] === 'gender*' ; else defaultInput">
                             <nz-select
                               id="gender"
                               name="gender"
@@ -1966,7 +1968,8 @@
               </div>
               <div class="text-end">
                 <div class="d-flex justify-content-between align-items-center">
-                  <p class="m-0"> Showing 1 - 12 of 20 Members </p>
+                  <p class="m-0" *ngIf="data.length-1>pageSize"> Showing {{(currentPage - 1) * pageSize +currentPage}} - 
+                    {{(currentPage - 1) * pageSize +(currentPage-1)+(data.length - 1)}} of {{data.length-1}}  </p>
                   <ngb-pagination
                   [rotate]="true"
                   [maxSize]="4" [collectionSize]="data.length - 1" [pageSize]="pageSize" [(page)]="currentPage"

@@ -1747,3 +1747,15 @@ i.bi.bi-plus {
        width: 230px;
      }
 }
+
+
+/* Hide the spinner only for this specific input */
+.no-spinner-specific::-webkit-outer-spin-button,
+.no-spinner-specific::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.no-spinner-specific[type="number"] {
+    -moz-appearance: textfield;
+}

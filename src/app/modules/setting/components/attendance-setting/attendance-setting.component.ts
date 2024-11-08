@@ -20,6 +20,7 @@ import { findLastKey } from 'lodash';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { filter } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
+import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { Holiday } from 'src/app/models/Holiday';
 import { ShiftCounts } from 'src/app/models/ShiftCounts';
 import { UniversalHoliday } from 'src/app/models/UniversalHoliday';
@@ -1313,8 +1314,8 @@ export class AttendanceSettingComponent implements OnInit {
     // this.staffs = [];
     this.dataService
       .getUsersByFilter(
-        this.itemPerPage,
-        this.pageNumber,
+        this.databaseHelper.itemPerPage,
+        this.databaseHelper.currentPage,
         'asc',
         'id',
         this.searchText,
@@ -1591,6 +1592,9 @@ export class AttendanceSettingComponent implements OnInit {
     this.selectedTeamName = 'All';
     this.selectedStaffsUuids = [];
     this.pageNumber = 1;
+
+    this.databaseHelper = new DatabaseHelper()
+
   }
   organizationShiftTimingRequest: OrganizationShiftTimingRequest =
     new OrganizationShiftTimingRequest();
@@ -2494,6 +2498,21 @@ formatMinutesToTime(minutes: number): string {
   toggleCollapse5(index: number): void {
     this.activeIndex5 = this.activeIndex5 === index ? -1 : index;
   }
+
+   //Pagination
+   databaseHelper: DatabaseHelper = new DatabaseHelper();
+   totalItems: number = 0;
+   pageChanged(page: any) {
+     if (page != this.databaseHelper.currentPage) {
+       this.databaseHelper.currentPage = page;
+       this.getUserByFiltersMethodCall();
+     }
+   }
+
+   clearPage(){
+    this.databaseHelper = new DatabaseHelper();
+    this.searchText = ''
+   }
 
   teamNameList: UserTeamDetailsReflection[] = [];
 

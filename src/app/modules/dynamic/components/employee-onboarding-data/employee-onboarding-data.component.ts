@@ -22,7 +22,6 @@ import * as moment from 'moment';
 import { LeaveSettingComponent } from 'src/app/modules/setting/components/leave-setting/leave-setting.component';
 import { AttendanceSettingComponent } from 'src/app/modules/setting/components/attendance-setting/attendance-setting.component';
 import { TeamComponent } from '../team/team.component';
-import { findLast } from 'lodash';
 export interface Team {
   label: string;
   value: string;
@@ -43,15 +42,11 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     @ViewChild('importModalOpen') importModalOpen!: ElementRef;
   constructor(
     private dataService: DataService,
-    private activateRoute: ActivatedRoute,
     private _onboardingService: OrganizationOnboardingService,
     private router: Router,
     private helperService: HelperService,
     private modalService: NgbModal,
-    private http: HttpClient,
     private _subscriptionService:SubscriptionPlanService,
-    private datePipe: DatePipe,
-    private cdr: ChangeDetectorRef
   ) {}
   users: EmployeeOnboardingDataDto[] = [];
   filteredUsers: Users[] = [];
@@ -75,9 +70,8 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.currentPage = page;
   }
   get paginatedData() {
-    console.log(this.currentPage);
-    const start = (this.currentPage - 1) * this.pageSize;
-    console.log(start);
+    var start = (this.currentPage - 1) * this.pageSize;
+    start=start+1;
     return this.data.slice(start, start + this.pageSize);
   }
 
@@ -95,23 +89,14 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     let navExtra: NavigationExtras = {
       queryParams: { userId: uuid },
     };
-    // this.router.navigate(['/employee-profile'], navExtra);
-    // this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], navExtra);
-    const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
-    window.open(url, '_blank');
-    return;
+    this.router.navigate(['/employee-profile'], navExtra);
   }
 
-  randomUserUrl = 'http://localhost:8080/api/v2/users/fetch-team-list-user';
+  // randomUserUrl = 'http://localhost:8080/api/v2/users/fetch-team-list-user';
   searchChange$ = new BehaviorSubject('');
   optionList: string[] = [];
   selectedUser?: string;
   isLoading = false;
-
-  // onSearch(value: string): void {
-  //   this.isLoading = true;
-  //   this.searchChange$.next(value);
-  // }
 
   ngOnInit(): void {
     window.scroll(0, 0);
@@ -136,22 +121,6 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       this.downloadingFlag = true;
       this.downloadFileFromUrl(storedDownloadUrl);
     }
-
-    // const getRandomNameList = (): Observable<string[]> =>
-    //   this.http.get<string[]>(`${this.randomUserUrl}`).pipe(
-    //     catchError(() => of([])),
-    //     map((res: string[]) => res.map((team) => team)) // Adjust the mapping here
-    //   );
-
-    // const optionList$: Observable<string[]> = this.searchChange$
-    //   .asObservable()
-    //   .pipe(debounceTime(500))
-    //   .pipe(switchMap(getRandomNameList));
-
-    // optionList$.subscribe((data) => {
-    //   this.optionList = data;
-    //   this.isLoading = false;
-    // });
     this._subscriptionService.isSubscriptionPlanExpired();
   }
 
@@ -159,9 +128,6 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   placeholder: boolean = false;
   errorToggleTop: boolean = false;
   isMainPlaceholder: boolean = false;
-  // selectSearchCriteria(option: string) {
-  //   this.searchCriteria = option;
-  // }
   debounceTimer: any;
   getUsersByFiltersFunction(debounceTime: number = 300) {
     if (this.debounceTimer) {
@@ -205,13 +171,6 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           (error) => {
             this.isUserShimer = false;
             this.errorToggleTop = true;
-            // const res = document.getElementById(
-            //   'error-page'
-            // ) as HTMLElement | null;
-
-            // if (res) {
-            //   res.style.display = 'block';
-            // }
           }
         );
     }, debounceTime);
@@ -299,30 +258,6 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     // location.reload();
   }
 
-  // searchUsers(searchString:string) {
-  //   this.crossFlag = true;
-  //   if(searchString=='A'){
-  //   this.searchText= "APPROVED"
-  //   this.searchCriteria = "employeeOnboardingStatus"
-  //   this.getUsersByFiltersFunction();
-  // }else if(searchString=='P'){
-  //   this.searchText= "PENDING"
-  //   this.searchCriteria = "employeeOnboardingStatus"
-  //   this.getUsersByFiltersFunction();
-  // }else if(searchString=='R'){
-  //   this.searchText= "REJECTED"
-  //   this.searchCriteria = "employeeOnboardingStatus"
-  //   this.getUsersByFiltersFunction();
-  // }if(searchString=='any'){
-  //   this.searchText= this.search
-  //   this.searchCriteria = '';
-  //   this.getUsersByFiltersFunction();
-  // }
-  //   // this.getUsersByFiltersFunction();
-  //   if (this.searchText == '') {
-  //     this.crossFlag = false;
-  //   }
-  // }
 
   showProjectOfOnboardingSection: boolean = false;
 
@@ -769,9 +704,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
                     if (cell.includes('/')) {
                       return undefined;
                     }
-                    console.log(cell);
                     cell=cell.replace(/\//g, '-');
-                    console.log(cell);
 
                     if (isExactFormat) {
                         // Parse with strict format checking
@@ -805,8 +738,8 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
 
 
-          // Validate all rows and keep track of invalid entries
-          this.validateRows(this.data);
+          // Validate all rows and keep track of invalid entries- send daya for validatio after emoving heder row
+          this.validateRows(this.data.slice(1));
           this.totalPage = Math.ceil(this.data.length / this.pageSize);
           if(this.areAllFalse()){
             this.isinvalid=false;
@@ -875,7 +808,6 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
     // Step 4: Check if there are extra or incorrect columns in actual column names
     for (const actualColumn of normalizedColumnNames) {
-      console.log(actualColumn);
       if (!normalizedExpectedColumns.includes(actualColumn) && !normalizedCorrectColumns.includes(actualColumn)) {
           console.error(`Unexpected or incorrect column: "${actualColumn}"`);
           this.mismatches.push(`Unexpected or incorrect column: "${actualColumn}"`);
@@ -893,17 +825,16 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   }
 
   validateRows(rows: any[]): void {
+    console.log("🚀 ~ EmployeeOnboardingDataComponent ~ validateRows ~ rows:", rows)
     this.invalidRows = new Array(rows.length).fill(false); // Reset invalid rows
     this.invalidCells = Array.from({ length: rows.length }, () => new Array(this.expectedColumns.length).fill(false)); // Reset invalid cells
 
-    for (let i = 1; i < rows.length; i++) {
-      const row = rows[i];
+    for (let i = 0; i < rows.length; i++) {
       let rowIsValid = true;
+      for (let j = 0; j < this.fileColumnName.length; j++) {
 
-      for (let j = 1; j < this.fileColumnName.length; j++) {
-
-        const cellValue = row[j];
-        if (cellValue === undefined || cellValue === null || cellValue.toString().trim() === '') {
+        const cellValue = rows[i][j];        
+        if (!cellValue || cellValue === null || cellValue.toString().trim() === '') {
           rowIsValid = false;
           this.invalidRows[i] = true; // Mark the row as invalid
           this.invalidCells[i][j] = true; // Mark the cell as invalid
@@ -918,29 +849,19 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           }
         }
 
-        if (this.fileColumnName[j] === 'shift*' && cellValue) {
-          const shiftName = cellValue.toString().trim();
-          const shiftExists = this.shiftList.some(shift => shift.label === shiftName);
-
-          if (!shiftExists) {
+        if (this.fileColumnName[j] === 'shift*' ) {
+          var shiftExists=false;
+          if(cellValue){
+            const shiftName = cellValue.toString().trim();
+            shiftExists = this.shiftList.some(shift => shift.label === shiftName);
+          }
+            if (!shiftExists || !cellValue) {
               rowIsValid = false;
               this.invalidRows[i] = true;
               this.invalidCells[i][j] = true;
               this.data[i][j] = '';
           }
       }
-      // if (this.fileColumnName[j] === 'team' ) {
-      //   // Split cellValue by commas and trim any whitespace
-      //   if(cellValue===undefined || cellValue===""){
-      //     this.data[i][j]=[];
-      //   }
-      //   else{
-      //   const selectedTeams: string[] = cellValue.split(',').map((team: string) => team.trim());
-      //   this.data[i][j]=selectedTeams;
-      //   console.log("this.data[i][j] ",this.data[i][j])
-      //   }
-
-      // }
 
     if (this.fileColumnName[j] === 'leavenames' || this.fileColumnName[j] === 'team') {
       if(cellValue===undefined || cellValue===""){
@@ -951,11 +872,6 @@ export class EmployeeOnboardingDataComponent implements OnInit {
         this.data[i][j]=selectedData;
       }
     }
-
-
-
-
-
       if (this.fileColumnName[j] === 'joiningdate*' && cellValue) {
         debugger;
 
@@ -1003,6 +919,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
         }
       }
     }
+
   }
 
   getSelectedTeams(teamsString: string): string[] {
@@ -1121,7 +1038,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   selectAllCurrentPage = false;
   selectAllPages = false;
 
-  allData: any[] = []; // Data across all pages
+  // allData: any[] = []; // Data across all pages
 
   bulkShift: string | null = null;
   bulkLeave: string[] = [];
@@ -1132,9 +1049,9 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   toggleSelectAllCurrentPage() {
 
      this.paginatedData.forEach((row, index) => {
-      if (index + this.currentPage-1 !== 0 ) {
+      // if (index + this.currentPage-1 !== 0 ) {
         row.selected = this.selectAllCurrentPage;
-      }
+      // }
     });
     this.updateAllDataForCurrentPage();
   }
@@ -1146,14 +1063,14 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
   toggleSelectAllPages() {
     this.selectAllPages = !this.selectAllPages;
-    this.allData.forEach(row => row.selected = this.selectAllPages);
+    this.data.forEach(row => row.selected = this.selectAllPages);
     this.syncPaginatedDataSelection();
   }
 
   updateAllDataForCurrentPage() {
     const startIndex = (this.currentPage - 1) * this.pageSize;
     this.paginatedData.forEach((row, index) => {
-      this.allData[startIndex + index].selected = row.selected;
+      this.data[startIndex + index].selected = row.selected;
     });
   }
 
@@ -1167,7 +1084,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
       // Update the selected property for each row on the current page
       currentPageData.forEach((row, index) => {
-        this.allData[startIndex + index].selected = row.selected;
+        this.data[startIndex + index].selected = row.selected;
       });
     }
   }
@@ -1181,20 +1098,21 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   syncPaginatedDataSelection() {
     const startIndex = (this.currentPage - 1) * this.pageSize;
   this.paginatedData.forEach((row, index) => {
-    row.selected = this.allData[startIndex + index]?.selected ?? false;
+    row.selected = this.data[startIndex + index]?.selected ?? false;
   });
   }
 
 
   applyBulkChange(type: string, value: any) {
-    const targetData = this.selectAllPages ? this.data : this.paginatedData;
-
+    const targetData = this.selectAllPages ? this.data.slice(1) : this.paginatedData;
+    console.log("🚀 ~ EmployeeOnboardingDataComponent ~ applyBulkChange ~ targetData:", targetData)
+    var rowIndex=0;
     targetData.forEach(row => {
-      debugger
-      if (row.selected && row[1].toLowerCase()!=this.fileColumnName[1].toLowerCase()) {
+      // && row[1].toLowerCase()!=this.fileColumnName[1].toLowerCase()
+      if (row.selected ) {
         const columnIndex = this.fileColumnName.findIndex(col => col.includes(type));
         if (columnIndex !== -1) {
-          if (type === "leave" || type === "team") {
+          if (type === "leavenames" || type === "team") {
             debugger
             if (!Array.isArray(row[columnIndex])) {
               row[columnIndex] = row[columnIndex] ? [row[columnIndex]] : [];
@@ -1205,19 +1123,16 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
             row[columnIndex]=[];
             row[columnIndex]=Array.from(temp)
-            // value.forEach((item: any) => {
-            //   if (!row[columnIndex].includes(item)) {
-            //     row[columnIndex].push(item);
-            //     row[columnIndex]=row[columnIndex];
-            //   }
-            // });
           } else {
             row[columnIndex] = value;
+            this.invalidCells[rowIndex][columnIndex] = false;
           }
         }
       }
-    });
+      rowIndex++;
 
+    });
+console.log(this.data);
   }
 
 
@@ -1243,7 +1158,6 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           this.isProgressToggle = false;
           this.getReport();
           this.getUser();
-          // console.log(this.onboardUserList.length);
           this.alreadyUsedPhoneNumberArray = response.arrayOfString;
           this.alreadyUsedEmailArray = response.arrayOfString2;
         } else {
@@ -1252,8 +1166,6 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           this.isProgressToggle = false;
           this.errorMessage = response.message;
         }
-
-        // this.importToggle = false;
       },
       (error) => {
         this.importToggle = true;
