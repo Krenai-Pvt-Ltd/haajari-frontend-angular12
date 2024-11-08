@@ -458,6 +458,7 @@ export class CompanySettingComponent implements OnInit {
     this.isAllUsersSelected = this.staffs.every((staff) => staff.selected);
     this.isAllSelected = this.isAllUsersSelected;
     this.updateSelectedStaffs();
+    this.getOrganizationUserNameWithBranchNameData(this.addressId, "");
   }
 
   isAllUsersSelected: boolean = false;
@@ -516,6 +517,7 @@ export class CompanySettingComponent implements OnInit {
         }
       });
     }
+    this.getOrganizationUserNameWithBranchNameData(this.addressId, "");
   }
 
   onSelectAllUsersChange(event: any) {
@@ -527,6 +529,7 @@ export class CompanySettingComponent implements OnInit {
     this.isAllSelected = false;
     this.staffs.forEach((staff) => (staff.selected = false));
     this.selectedStaffsUuids = [];
+    this.getOrganizationUserNameWithBranchNameData(this.addressId, "");
   }
 
   clearSearchText() {
@@ -696,6 +699,7 @@ export class CompanySettingComponent implements OnInit {
         this.isFormInvalidLocation = true;
       } else {
         this.isFormInvalidLocation = false;
+        // this.isStaffSelectionDisabled = false;
       }
     }
     // this.isStaffSelectionDisabled = !this.isFormInvalidLocation;
@@ -703,15 +707,25 @@ export class CompanySettingComponent implements OnInit {
 
   submit() {
     debugger;
+    this.toggle = true;
     this.checkFormValidationLocation();
 
     if (this.isFormInvalidLocation == true) {
        this.isStaffSelectionDisabled = true;
+       this.toggle = false;
       return;
     } else {
+      this.toggle = false;
+      this.selectAll(true);
       this.openStaffSelection();
     }
   }
+
+
+  openStaffSelection() {
+    this.isStaffSelectionDisabled = false;
+    this.staffSelectionTab.nativeElement.click();
+ }
 
    organizationAddressDetail: OrganizationAddressDetail =
     new OrganizationAddressDetail();
@@ -741,12 +755,12 @@ export class CompanySettingComponent implements OnInit {
   addressId: number = 0;
 
   staffAddressDetails: StaffAddressDetailsForMultiLocationRequest = new StaffAddressDetailsForMultiLocationRequest();
-
+  loading: boolean = false;
   saveStaffAddressDetails(): void {
 
     this.staffAddressDetails.organizationMultiLocationAddressDTO = this.organizationAddressDetail;
     this.staffAddressDetails.userUuidsList = this.selectedStaffsUuids;
-
+    this.loading = true;
     this.dataService.saveStaffAddressDetails(this.staffAddressDetails, this.addressId)
       .subscribe(response => {
         // console.log('Save Response:', response);
@@ -756,8 +770,14 @@ export class CompanySettingComponent implements OnInit {
               Key.TOAST_STATUS_SUCCESS
             );
           }, 1000);
+          this.loading = false;
+          this.isRegisterLoad = false;
+          this.isValidated = false;
         this.closeButtonLocation.nativeElement.click();
         this.getAllAddressDetails();
+      }, (error) => {
+        this.loading = false;
+        this.isRegisterLoad = false;
       });
   }
 
@@ -786,6 +806,7 @@ export class CompanySettingComponent implements OnInit {
 
   getAddressDetails(addressId: number, addressString: string): void {
     this.addressId = addressId;
+    debugger
     this.dataService.getAddressDetailsOfStaffByAddressIdAndType(addressId, addressString)
       .subscribe(response => {
         this.specificAddress = response.object;
@@ -828,6 +849,7 @@ export class CompanySettingComponent implements OnInit {
     this.locationSettingTab.nativeElement.click();
     this.organizationAddressDetail = new OrganizationAddressDetail();
     // this.selectedShiftType = new ShiftType();
+    // this.addressId = 0;
     this.clearSearchText();
     this.teamId = 0;
     this.selectedTeamId = 0;
@@ -840,10 +862,10 @@ export class CompanySettingComponent implements OnInit {
   @ViewChild('staffSelectionTab') staffSelectionTab!: ElementRef;
   @ViewChild('closeButtonLocation') closeButtonLocation!: ElementRef;
 
-  openStaffSelection() {
-     this.isStaffSelectionDisabled = false;
-    this.staffSelectionTab.nativeElement.click();
-  }
+  // openStaffSelection() {
+  //    this.isStaffSelectionDisabled = false;
+  //    this.staffSelectionTab.nativeElement.click();
+  // }
 
    openLocationSetting() {
     this.locationSettingTab.nativeElement.click();
@@ -875,7 +897,199 @@ export class CompanySettingComponent implements OnInit {
     const fileInput = document.getElementById('hrpolicies') as HTMLInputElement;
     fileInput.click();
   }
+
+
+
+
+  radiusOptions: number[] = [50, 100, 200, 500]; // Available radius options
+  selectedRadius: number | null = null; // Holds the selected radius or null
+  errorMessage: string | null = null; // Error message for invalid input
+  onRadiusChange(value: any) {
+    // Ensure that the value is either a number or a string that can be converted to a number
+    const radiusValue = typeof value === 'string' ? parseInt(value, 10) : value;
+
+    // Validate the radius value
+    if (isNaN(radiusValue) || radiusValue < 50) {
+      this.errorMessage = 'Radius must be greater than or equal to 50 meters.';
+      this.selectedRadius = null; // Reset selected value
+    } else {
+      this.errorMessage = null; // Clear any previous error
+      this.selectedRadius = radiusValue; // Update selected value
+    }
+  }
+
+  minRadius: boolean = false;
+  radiusFilteredOptions: { label: string, value: string }[] = [];
+  onChange(value: string): void {
+    const numericValue = Number(value);
+    if (numericValue < 50) {
+      this.minRadius = true;
+
+    } else {
+      this.minRadius = false;
+
+    }
+    this.radiusFilteredOptions = this.radius.filter((option) =>
+      option.toLowerCase().includes(value.toLowerCase())
+    ).map((option) => ({ label: `${option}-Meters`, value: option }));
+
+  }
+  radius: string[] = ["50", "100", "200", "500", "1000"];
+
+  preventLeadingWhitespace(event: KeyboardEvent): void {
+    const input = event.target as HTMLInputElement;
+    // Prevent leading spaces
+    if (event.key === ' ' && input.selectionStart === 0) {
+      event.preventDefault();
+    }
+  }
+
+  onFocus(): void {
+    this.radiusFilteredOptions = this.radius.map((option) => ({
+      label: `${option}-Meters`,
+      value: option
+    }));
+  }
+
+  allowOnlyNumbers(event: KeyboardEvent): void {
+    const input = event.target as HTMLInputElement;
+
+    // Check if the pressed key is not a digit (0-9) or is not a control key
+    if (!/[0-9]/.test(event.key) && !['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete'].includes(event.key)) {
+      event.preventDefault();
+    }
+
+    // Optionally, restrict the maximum value if it exceeds 99000
+    if (input.value.length >= 5 && event.key !== 'Backspace') {
+      event.preventDefault();
+    }
+  }
+
+  onSelect(event: any): void {
+
+    const selectedValue = event.nzValue;
+    this.organizationAddressDetail.radius = selectedValue;
+  }
+
+
+  @ViewChild("closeButton") closeButton!:ElementRef;
+
+  userNameWithBranchName: any;
+  getOrganizationUserNameWithBranchNameData(addressId : number, type:string) {
+    this.dataService.getOrganizationUserNameWithBranchName(this.selectedStaffsUuids, addressId).subscribe(
+      (response) => {
+        this.userNameWithBranchName = response.listOfObject;
+        if( this.userNameWithBranchName.length <1 && type == "SHIFT_USER_EDIT") {
+          this.closeButton.nativeElement.click();
+        }
+      },
+      (error) => {
+        console.log('error');
+      }
+    );
+  }
+
+
+  isValidated: boolean = false;
+  checkValidation() {
+    this.isValidated ? false : true;
+  }
+
+
+  removeUser(uuid: string) {
+    this.selectedStaffsUuids = this.selectedStaffsUuids.filter(
+      (id) => id !== uuid
+    );
+    this.staffs.forEach((staff) => {
+      staff.selected = this.selectedStaffsUuids.includes(staff.uuid);
+    });
+
+    this.isAllSelected = false;
+    // if(this.selectedStaffsUuids.length <1) {
+      // this.unselectAllUsers();
+    // }
+    // this.updateSelectedStaffs();
+    this.userNameWithBranchName = [];
+    this.getOrganizationUserNameWithBranchNameData(this.addressId, "SHIFT_USER_EDIT");
+    // this.getUserByFiltersMethodCall();
+    
+  }
+
+
+  closeModal() {
+    this.isValidated = false;
+    this.getOrganizationUserNameWithBranchNameData(this.addressId, "");
+  }
+
+  @ViewChild("closeButton2") closeButton2!:ElementRef;
+  isRegisterLoad : boolean = false;
+  registerAddress() {
+    debugger;
+    this.isRegisterLoad = true;
+    this.closeButton2.nativeElement.click();
+    this.saveStaffAddressDetails();
+
+    // setTimeout(() => {
+    //   this.closeButton.nativeElement.click();
+    // }, 300);
+  }
+
+  submitDefaultAddress() {
+    this.setOrganizationAddressDetailMethodCall();
+  }
+
+
+  @ViewChild("closeButtonLocationDefaultAddress") closeButtonLocationDefaultAddress!: ElementRef;
+  setOrganizationAddressDetailMethodCall() {
+    debugger
+    this.toggle = true;
+    this.dataService
+      .setOrganizationAddressDetail(this.organizationAddressDetail)
+      .subscribe(
+        (response: OrganizationAddressDetail) => {
+          this.toggle = false;
+           
+          this.getOrganizationAddressDetailMethodCall();
+          this.getAllAddressDetails();
+          this.closeButtonLocationDefaultAddress.nativeElement.click();
+          
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+  }
+
+  isShowMap: boolean = false;
+  getOrganizationAddressDetailMethodCall() {
+    debugger;
+    this.dataService.getOrganizationAddressDetail().subscribe(
+      (response: OrganizationAddressDetail) => {
+        if (response) {
+          // console.log(response);
+          this.organizationAddressDetail = response;
+          // console.log(this.organizationAddressDetail.latitude);
+          // if (this.organizationAddressDetail.latitude == null) {
+          //   this.currentLocation();
+          // } else {
+          //   this.lat = Number(this.organizationAddressDetail.latitude);
+          //   this.lng = Number(this.organizationAddressDetail.longitude);
+          //   this.isShowMap = true;
+          // }
+          
+        } else {
+          console.log('No address details found');
+        }
+      },
+      (error: any) => {
+        console.error('Error fetching address details:', error);
+      }
+    );
+  }
+
 }
+
+
 
 
 

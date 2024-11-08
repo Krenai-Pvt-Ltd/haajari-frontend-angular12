@@ -1721,6 +1721,15 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
+  getOrganizationUserNameWithBranchName(selectedStaffsUuids: string[], addressId: number): Observable<any> {
+    let params = new HttpParams().set("addressId", addressId);
+
+
+    return this.httpClient.post<any>(
+      `${this.baseUrl}/user-verification/get-organization-user-branch-name`,  selectedStaffsUuids, {params}
+    );
+  }
+
 
 
 
