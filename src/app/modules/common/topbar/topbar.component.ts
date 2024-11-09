@@ -355,9 +355,15 @@ export class TopbarComponent implements OnInit {
   }
 
   routeToAccountPage(tabName: string) {
-    // this.dataService.activeTab = tabName !== 'account';
     this.router.navigate(['/setting/account-settings'], {
       queryParams: { setting: tabName },
     });
   }
+
+  routeToEmployeeProfilePage() {
+    this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], {
+      queryParams: { userId: this.UUID, dashboardActive: 'true' },
+    });
+  }
+
 }
