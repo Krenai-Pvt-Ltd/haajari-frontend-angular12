@@ -151,7 +151,7 @@
           <p class="mb-0">Here's what's going on today.</p>
         </li>
       </ul>
-      <ul *ngIf="ROLE == 'USER'">
+      <ul *ngIf="ROLE == 'USER'" (click)="routeToEmployeeProfilePage()">
         <img
           src="assets/images/HAjiRi.svg"
           alt="logo-large"
