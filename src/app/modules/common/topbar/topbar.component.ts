@@ -353,4 +353,11 @@ export class TopbarComponent implements OnInit {
     this.helperService.clearHelperService();
     this.router.navigate(['/login']);
   }
+
+  routeToAccountPage(tabName: string) {
+    // this.dataService.activeTab = tabName !== 'account';
+    this.router.navigate(['/setting/account-settings'], {
+      queryParams: { setting: tabName },
+    });
+  }
 }
