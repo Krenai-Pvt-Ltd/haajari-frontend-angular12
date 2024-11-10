@@ -11,7 +11,6 @@ import { FormBuilder, FormGroup, FormGroupDirective, NgForm, Validators} from '@
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { AttendanceCheckTimeResponse, AttendanceTimeUpdateRequestDto, UserDto } from 'src/app/models/user-dto.model';
 import { saveAs } from 'file-saver';
-import { HttpClient } from '@angular/common/http';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AttendanceDetailsResponse } from 'src/app/models/attendance-detail-response';
 import { UserAddressDetailsRequest } from 'src/app/models/user-address-details-request';
@@ -78,8 +77,9 @@ export class EmployeeProfileComponent implements OnInit {
   adminRoleFlag: boolean = false;
   userRoleFlag: boolean = false;
   showPlaceholder: boolean = false;
-
+  currentDate:Date=new Date();
   readonly key = Key;
+  readonly Constant=constant;
 
   constructor(
     private dataService: DataService,
@@ -87,7 +87,6 @@ export class EmployeeProfileComponent implements OnInit {
     private activateRoute: ActivatedRoute,
     public helperService: HelperService,
     private fb: FormBuilder,
-    private http: HttpClient,
     private firebaseStorage: AngularFireStorage,
     private router: Router,
     private roleService: RoleBasedAccessControlService,
@@ -98,6 +97,8 @@ export class EmployeeProfileComponent implements OnInit {
   ) {
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
+    }else{
+      return;
     }
 
     {
@@ -171,7 +172,6 @@ export class EmployeeProfileComponent implements OnInit {
 
   isSalaryPlaceholderFlag: boolean = false;
   // tokenUserRoleFlag:boolean=false;
-  currentDate: Date = new Date();
   currentNewDate: any;
   async ngOnInit(): Promise<void> {
     this.activeTabs('attendance');
@@ -388,7 +388,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
 
   titleString: string = '';
   attendanceDetails: any;
-  attendances: any = [];
+  // attendances: any = [];
   eventsFlag: boolean = false;
   // isCalendarFlag:boolean=false;
 
@@ -612,11 +612,11 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
               currentDate.add(1, 'days');
             }
           } else {
-            this.attendances = attendances;
+            // this.attendances = attendances;
             this.attendanceDetailsResponse = attendances;
             this.attendanceDetailDayWise = response?.listOfObject || [];
 
-            for (let attendance of attendances) {
+            for (let attendance of this.attendanceDetailDayWise) {
               const title = this.getStatusTitle(attendance);
               const color = this.getStatusColor(attendance.status);
 
@@ -628,15 +628,18 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
 
               this.events.push({
                 title,
-                date: moment(attendance.createdDate).format('YYYY-MM-DD'),
+                date: moment(attendance.shiftDate).format('YYYY-MM-DD'),
                 color,
                 checkInTime: attendance.checkInTime,
                 checkOutTime: attendance.checkOutTime,
                 breakCount: attendance.breakCount,
-                breakDuration: attendance.totalBreakHours,
+                breakDuration: attendance.breakDuration,
                 totalWorkingHours: attendance.totalWorkingHours,
-                createdDate: attendance.createdDate,
-                status: attendance.status,
+                createdDate: attendance.shiftDate,
+                status: this.getAttendanceStatus(attendance),
+                isAbsent:attendance.isAbsent,
+                isHoliday:attendance.isHoliday,
+                isWeekend:attendance.isWeekend
               });
             }
           }
@@ -658,9 +661,21 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
       );
   }
 
+  getAttendanceStatus(attendance:AttendanceDetailDayWise):string{
+    var status="PRESENT";
+    if(attendance.isAbsent){
+      status="ABSENT";
+    }else if(attendance.isHoliday){
+      status=attendance.holidayName;
+    }else if(attendance.isWeekend && attendance.isAbsent){
+      status="Weekly Off";
+    }
 
+    return status;
+  }
   // Function to update calendar options
   updateCalendarOptions(): void {
+    console.log(this.events)
     this.calendarOptions = {
       plugins: [dayGridPlugin],
       initialView: 'dayGridMonth',
@@ -731,6 +746,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
 
   getEventForDate(date: Date): any {
     const formattedDate = this.formatDate(date);
+    console.log("🚀 ~ EmployeeProfileComponent ~ getEventForDate ~ formattedDate:", formattedDate)
     return this.events.find(event => event.date === formattedDate);
   }
 

@@ -8,6 +8,9 @@ export class AttendanceDetailsResponse {
   totalPresentDays!: number;
   breakCount!: number;
   breakDuration!: string;
+
+ 
+
 }
 
 export class UserDetailsResponse {

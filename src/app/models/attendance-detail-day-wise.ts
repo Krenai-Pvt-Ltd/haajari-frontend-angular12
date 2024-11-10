@@ -9,4 +9,9 @@ export class AttendanceDetailDayWise {
     title!: string;
     color!: string;
     date!: string;
+    shiftDate!:string;
+    isAbsent!:boolean;
+    isHoliday!:boolean;
+    isWeekend!:boolean;
+    holidayName!:string;
 }
