@@ -535,8 +535,7 @@
             class="pointer"
             routerLinkActive="sidebar-menu-active"
             routerLink="/expense"
-            *ngIf="this.rbacService.shouldDisplay('Expense Management') ||
-            ROLE === USER "
+            *ngIf="this.rbacService.shouldDisplay('Expense Management')"
           >
             <a class="sidebar-menu-link">
               <span class=" ">
