@@ -18,7 +18,9 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
   styleUrls: ['./create-expense.component.css']
 })
 export class CreateExpenseComponent implements OnInit {
+  
   ROLE: any
+  // isLoading: boolean = false;
 
   constructor(private afStorage: AngularFireStorage,
     private dataService: DataService, private helperService: HelperService, private rbacService: RoleBasedAccessControlService) { 
@@ -45,7 +47,6 @@ export class CreateExpenseComponent implements OnInit {
         this.loading = false
       }
     })
-
   }
 
 
@@ -708,6 +709,11 @@ export class CreateExpenseComponent implements OnInit {
     this.isErrorShow = false;
     // form.resetForm()
     // this.tempPolicyName = this.policyName
+  }
+
+  clearForm(form: NgForm){
+    this.clearPolicyForm();
+    form.resetForm()
   }
   
   policyName: string = ''
