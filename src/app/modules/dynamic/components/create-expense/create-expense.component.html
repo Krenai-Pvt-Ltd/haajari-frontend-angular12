@@ -560,7 +560,7 @@
                                             <td class="text-center">{{expense.status.response}}</td>
                                             <td class="text-center">
                                                 <div>
-                                                    <button type="button" class="btn" (click)="updateExpense(expense)"
+                                                    <!-- <button type="button" class="btn" (click)="updateExpense(expense)"
                                                         data-bs-toggle="modal" data-bs-target="#createExpense">
                                                         <i class="bi bi-pencil-square pointer text-primary"></i>
                                                     </button>
@@ -568,7 +568,7 @@
                                                     <button type="button" class="btn" (click)="getExpenseId(expense.id)"
                                                         data-bs-toggle="modal" data-bs-target="#delete-expense">
                                                         <i class="bi bi-trash pointer text-danger"></i>
-                                                    </button>
+                                                    </button> -->
 
                                                     <button *ngIf="expense.status.id == 13" type="button" class="btn" (click)="getExpense(expense)"
                                                         data-bs-toggle="modal" data-bs-target="#approveModal">
