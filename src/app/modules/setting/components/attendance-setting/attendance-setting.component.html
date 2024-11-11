@@ -5331,7 +5331,7 @@
                       <div
                         class="d-flex align-items-center justify-content-between"
                       >
-                        <div class="d-flex align-items-center gap-3">
+                        <div class="d-flex align-items-start gap-3">
                           <div class="">
                             <span
                               class="automation-rules-icon d-flex align-items-center justify-content-center"
@@ -5355,39 +5355,31 @@
                             <small class="text-muted"
                               >{{ item.organizationAddress.addressLine1 }}</small
                             >
+
+
+
+                            <div class="d-flex align-items-center mb-1 mt-2">
+                              <!-- Radio Buttons for Location Type -->
+                              <div class="form-check me-3 flexible-location">
+                                <input class="form-check-input" type="radio" [name]="'locationType_' + i" id="flexibleLocation_{{ i }}"
+                                  [value]="'flexible'" [checked]="item.organizationAddress.isFlexible === true"
+                                  (change)="onLocationTypeChange(item.organizationAddress.id, true)" />
+                                <label class="form-check-label" for="flexibleLocation_{{ i }}">Flexible Location</label>
+                              </div>
+                              <div class="form-check flexible-location">
+                                <input class="form-check-input" type="radio" [name]="'locationType_' + i" id="fixedLocation_{{ i }}"
+                                  [value]="'fixed'" [checked]="item.organizationAddress.isFlexible === false"
+                                  (change)="onLocationTypeChange(item.organizationAddress.id, false)" />
+                                <label class="form-check-label" for="fixedLocation_{{ i }}">Fixed Location</label>
+                              </div>
+                            </div>
                           </div>
                            
                         </div>
                       </div>
 
                       <!-- {{item.organizationAddress.isFlexible}} -->
-                      <div class="d-flex align-items-center mb-1 mt-2">
-                        <!-- Radio Buttons for Location Type -->
-                        <div class="form-check me-3">
-                          <input
-                            class="form-check-input"
-                            type="radio"
-                            [name]="'locationType_' + i"
-                            id="flexibleLocation_{{ i }}"
-                            [value]="'flexible'"
-                            [checked]="item.organizationAddress.isFlexible === true"
-                            (change)="onLocationTypeChange(item.organizationAddress.id, true)"
-                          />
-                          <label class="form-check-label" for="flexibleLocation_{{ i }}">Flexible Location</label>
-                        </div>
-                        <div class="form-check">
-                          <input
-                            class="form-check-input"
-                            type="radio"
-                            [name]="'locationType_' + i"
-                            id="fixedLocation_{{ i }}"  
-                            [value]="'fixed'"
-                            [checked]="item.organizationAddress.isFlexible === false"
-                            (change)="onLocationTypeChange(item.organizationAddress.id, false)"
-                          />
-                          <label class="form-check-label" for="fixedLocation_{{ i }}">Fixed Location</label>
-                        </div>
-                      </div>
+                     
                     </div>
                   </div>
             
