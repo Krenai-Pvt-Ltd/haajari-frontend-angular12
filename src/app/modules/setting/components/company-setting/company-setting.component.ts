@@ -573,12 +573,13 @@ export class CompanySettingComponent implements OnInit {
 
   public handleAddressChange(e: any) {
     debugger;
+    
     var id = this.organizationAddressDetail.id;
     this.organizationAddressDetail = new OrganizationAddressDetail();
     this.organizationAddressDetail.id = id;
     this.organizationAddressDetail.longitude = e.geometry.location.lng();
     this.organizationAddressDetail.latitude = e.geometry.location.lat();
-
+    this.isShowMap = true;
     // console.log(e.geometry.location.lat());
     // console.log(e.geometry.location.lng());
     this.organizationAddressDetail.addressLine1 = e.name + ', ' + e.vicinity;
@@ -812,6 +813,8 @@ export class CompanySettingComponent implements OnInit {
     this.addressId = addressId;
     debugger
     this.selectedStaffsUuids = [];
+    this.isAllUsersSelected = false;
+    this.isAllSelected = false;
     this.dataService.getAddressDetailsOfStaffByAddressIdAndType(addressId, addressString)
       .subscribe(response => {
         this.specificAddress = response.object;
@@ -831,6 +834,7 @@ export class CompanySettingComponent implements OnInit {
           this.selectedStaffsUuids = this.specificAddress.staffListResponse.map((staff: any) => staff.uuid);
           this.getUserByFiltersMethodCall();
         }
+        // this.updateSelectedStaffs();
          if (this.specificAddress.staffListResponse.length == 1) {
           this.activeIndex = 0;
         }
@@ -1210,14 +1214,22 @@ getData(event:any){
  var id = this.organizationAddressDetail.id;
  this.organizationAddressDetail = new OrganizationAddressDetail();
  this.organizationAddressDetail.id = id;
- this.organizationAddressDetail.longitude = event.organizationAddressDetail.longitude;
- this.organizationAddressDetail.latitude = event.organizationAddressDetail.latitude;
- this.organizationAddressDetail.addressLine1 = event.organizationAddressDetail.addressLine1
- this.organizationAddressDetail.addressLine2 = event.organizationAddressDetail.addressLine2;
- this.organizationAddressDetail.city = event.organizationAddressDetail.city;
- this.organizationAddressDetail.state = event.organizationAddressDetail.state;
- this.organizationAddressDetail.country = event.organizationAddressDetail.country;
- this.organizationAddressDetail.pincode = event.organizationAddressDetail.pincode;
+ this.organizationAddressDetail.longitude = event.longitude;
+ this.organizationAddressDetail.latitude = event.latitude;
+ this.organizationAddressDetail.addressLine1 = event.addressLine1
+ this.organizationAddressDetail.addressLine2 = event.addressLine2;
+ this.organizationAddressDetail.city = event.city;
+ this.organizationAddressDetail.state = event.state;
+ this.organizationAddressDetail.country = event.country;
+ this.organizationAddressDetail.pincode = event.pincode;
+//  this.organizationAddressDetail.longitude = event.organizationAddressDetail.longitude;
+//  this.organizationAddressDetail.latitude = event.organizationAddressDetail.latitude;
+//  this.organizationAddressDetail.addressLine1 = event.organizationAddressDetail.addressLine1
+//  this.organizationAddressDetail.addressLine2 = event.organizationAddressDetail.addressLine2;
+//  this.organizationAddressDetail.city = event.organizationAddressDetail.city;
+//  this.organizationAddressDetail.state = event.organizationAddressDetail.state;
+//  this.organizationAddressDetail.country = event.organizationAddressDetail.country;
+//  this.organizationAddressDetail.pincode = event.organizationAddressDetail.pincode;
 
 //  this.handleAddressChange(event);
 //  this.getAddressFromCoords(event.lat, event.lng);

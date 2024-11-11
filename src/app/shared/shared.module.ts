@@ -5,8 +5,6 @@ import { HajiriPageLoaderComponent } from '../modules/common/hajiri-page-loader/
 import { TopbarComponent } from '../modules/common/topbar/topbar.component';
 import { NotifactionTostComponent } from '../modules/sharable/notifaction-toast/notifaction-toast.component';
 import { CommonToDoStepsComponent } from '../modules/common/common-to-do-steps/common-to-do-steps.component';
-import { HeaderComponent } from '../modules/common/header/header.component';
-import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { MapComponent } from '../modules/common/map/map.component';
 import { AgmCoreModule } from '@agm/core';
 import { GooglePlaceModule } from 'ngx-google-places-autocomplete';

@@ -1293,7 +1293,7 @@
                               <p
                                 class="errortxt mt-2 mb-0"
                                 style="color: red"
-                                *ngIf="addressLine1.errors?.maxlength"
+                                *ngIf="addressLine1.errors?.maxlength "
                               >
                                 <i class="bi bi-exclamation-circle"></i> Maximum
                                 200 characters allowed.
@@ -1302,7 +1302,7 @@
                                 class="errortxt mt-2 mb-0"
                                 *ngIf="
                                   !organizationAddressDetail.longitude &&
-                                  !organizationAddressDetail.latitude
+                                  !organizationAddressDetail.latitude 
                                 "
                               >
                                 <i class="bi bi-exclamation-circle"></i> Please
@@ -1618,7 +1618,7 @@
                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="radius.errors?.maxlength">
                                     <i class="bi bi-exclamation-circle"></i> Maximum 5 characters allowed.
                                 </p>
-                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="minRadius && organizationAddressDetail.radius != ''">
+                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="minRadius ">
                                     <i class="bi bi-exclamation-circle"></i> Radius must be at least 50 meters.
                                 </p>
                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="radius.value > 99000">
@@ -2043,7 +2043,7 @@
 
                 <!-- userNameWithBranchName -->
                 <!-- class="btn btn-outline-primary btn-round" -->
-                
+                <!-- {{this.selectedStaffsUuids.length}} -->
                 <button
                   type="button"
                   class="btn btn-primary"
@@ -2172,7 +2172,7 @@
                 Users Already Assigned to Another Location
               </h5>
               <p class="mb-0 text-black">
-                Do you want to add them to the new location? Doing so <br />will
+                Do you want to add them to the new location? Doing so will
                 remove them from the current location.
               </p>
             </div>
@@ -2207,7 +2207,7 @@
                   <div class="d-flex align-items-center gap-2">
                     <p class="mb-0 font-11">{{ list.userEmail || "N/A" }}</p>
                     <span class="spreter-line"></span>
-                    <span class="shift-tag">{{ list.shiftName }}</span>
+                    <span class="shift-tag">{{ list.branchName || "N/A"}}</span>
                   </div>
                 </div>
               </div>
@@ -2256,7 +2256,7 @@
       </div>
 
       <div class="border-top p-3">
-        <div class="form-check" style="padding-left: 0px !important">
+        <div class="form-check d-flex align-items-start" style="padding-left: 0px !important">
           <input
             type="checkbox"
             id="validationCheck"
@@ -2677,7 +2677,7 @@
                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="radius.errors?.maxlength">
                                     <i class="bi bi-exclamation-circle"></i> Maximum 5 characters allowed.
                                 </p>
-                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="minRadius && organizationAddressDetail.radius != ''">
+                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="minRadius">
                                     <i class="bi bi-exclamation-circle"></i> Radius must be at least 50 meters.
                                 </p>
                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="radius.value > 99000">

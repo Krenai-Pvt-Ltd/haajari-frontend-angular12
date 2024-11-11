@@ -173,16 +173,17 @@ export class MapComponent implements OnInit {
     new OrganizationAddressDetail();
     
     public handleAddressChange(e: any) {
-      //  console.log('ghdm',e);
+       console.log('ghdm',e);
      debugger
-      this.lat = e.geometry.location.lat();
-      this.lng = e.geometry.location.lng();
+      // this.lat = e.geometry.location.lat();
+      // this.lng = e.geometry.location.lng();
 
-      this.organizationAddressDetail.longitude = e.geometry.location.lng();
-      this.organizationAddressDetail.latitude = e.geometry.location.lat();
+      
       this.organizationAddressDetail = new OrganizationAddressDetail();
+      this.organizationAddressDetail.longitude = this.newLng;
+      this.organizationAddressDetail.latitude = this.newLat;
 
-      this.organizationAddressDetail.addressLine1 = e.name + ', ' + e.vicinity;
+      this.organizationAddressDetail.addressLine1 = e.formatted_address;
 
     e?.address_components?.forEach((entry: any) => {
       // console.log(entry);
@@ -209,11 +210,12 @@ export class MapComponent implements OnInit {
     });
 
 
-      // this.setLatLng(this.organizationAddressDetail);
+      this.setLatLng(this.organizationAddressDetail);
       // this.getAddress(this.lat, this.lng);
     }
-  
+
     getAddressFromCoords(lat: number, lng: number): void {
+      debugger
       const geocoder = new google.maps.Geocoder();
       geocoder.geocode({ location: { lat, lng } }, (results, status) => {
         if (status === google.maps.GeocoderStatus.OK && results && results[0] ) {
@@ -226,10 +228,12 @@ export class MapComponent implements OnInit {
     
   
   centerChanged(event: any) {
+    debugger
     // console.log(event,"========");
     this.newLat=event.lat;
     this.newLng=event.lng; 
-    this.handleAddressChange(event);
+    // this.getAddressFromCoords(this.newLat, this.newLng);
+    // this.handleAddressChange(event);
     // this.setLatLng(this.organizationAddressDetail);
   }
   newLat:any;
@@ -240,9 +244,10 @@ export class MapComponent implements OnInit {
   map.addListener("dragend", () => {
     this.lat=this.newLat;
     this.lng=this.newLng;
+    this.getAddressFromCoords(this.newLat, this.newLng);
     // this.handleAddressChange(map);
     // console.log("999999",this.lat, this.lng);
-    this.setLatLng(this.organizationAddressDetail);
+    // this.setLatLng(this.organizationAddressDetail);
     //  this.getAddress(this.lat, this.lng);
     });
   }
@@ -253,7 +258,8 @@ export class MapComponent implements OnInit {
     // console.log('Zoom level changed:', event);
     this.lat=this.newLat;
     this.lng=this.newLng;
-    this.setLatLng(this.organizationAddressDetail);
+    this.getAddressFromCoords(this.newLat, this.newLng);
+    // this.setLatLng(this.organizationAddressDetail);
     // this.setLatLng(this.lat, this.lng);
     // this.getAddress(this.lat, this.lng);
   }
