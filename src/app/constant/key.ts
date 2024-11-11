@@ -72,6 +72,7 @@ export class Key {
     '/setting/subscription',
     '/setting/onboarding-setting',
     '/refer-friend',
+    '/expense'
   ];
 
   public static TOPBAR_ROUTES = [
@@ -115,6 +116,7 @@ export class Key {
     '/setting/subscription',
     '/setting/onboarding-setting',
     '/refer-friend',
+    '/expense'
     // '/to-do-step-dashboard',
   ];
 
@@ -412,8 +414,8 @@ export class Key {
 
   // redirect to slack
 
-  // public static SLACK_WORKSPACE_URL = `https://slack.com/app_redirect?app=A05QD5T9EK1&tab=home`;
-  public static SLACK_WORKSPACE_URL = `https://slack.com/app_redirect?app=A07AT94EHK7&tab=home`;
+  public static SLACK_WORKSPACE_URL = `https://slack.com/app_redirect?app=A05QD5T9EK1&tab=home`;   //prod
+  // public static SLACK_WORKSPACE_URL = `https://slack.com/app_redirect?app=A07AT94EHK7&tab=home`;
 
   static GEOLOCATION = 'geolocation';
 
@@ -421,4 +423,8 @@ export class Key {
   public static COL_MD_4 = 3;
   public static COL_MD_6 = 2;
   public static COL_MD_12 = 1;
+
+  // employee profile old and new routes
+  // public static EMPLOYEE_PROFILE_ROUTE = '/employee-profile';
+  public static EMPLOYEE_PROFILE_ROUTE = '/employee';
 }

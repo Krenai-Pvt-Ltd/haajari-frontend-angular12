@@ -11,6 +11,12 @@ p.tableinfo.mb-0 {
   font-weight: 500 !important;
 }
 
+.invalid-input {
+  border-color: red !important; /* Change the border color to red */
+  /* Optionally, you can also change the background color or other styles */
+  background-color: #010101 !important; /* Light red background */
+}
+
 .munal-deta-upload-modal {
   max-height: 400px;
   overflow-x: scroll;

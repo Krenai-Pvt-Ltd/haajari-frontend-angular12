@@ -481,7 +481,7 @@
                   <div class="mt-3">
                     <div class="tab-content" >
 
-                      <ng-container *ngIf="isShimmerForSubscriptionPlan && subscriptionPlans.length == 0; else subscriptionPlansDataCondition">
+                      <ng-container *ngIf="isShimmerForSubscriptionPlan; else subscriptionPlansDataCondition">
                         <div class="row">
                           <div class="col-md-4" *ngFor="let item of [].constructor(3)">
                             <div class="bg-white p-3 pt-4 pb-4">
@@ -717,22 +717,17 @@
                           </div>
                         </div>
                       </div>
-                      </ng-template>
-
-                      
-                     
-                        
-                     
-                        
+                      </ng-template>  
                     </div>
                   </div>
 
 
-                  <div class="mt-4 mb-4 d-flex align-items-center justify-content-between footer-rule">
+                  <div class="mt-4 mb-4 d-flex align-items-center justify-content-between footer-rule"
+                  *ngIf="!_subscriptionPlanService.isSubscription || _subscriptionPlanService.isTrialPlan">
                     <div>
                       <h5 class="mb-1">Rules & Regulation</h5>
                       <p class="mb-b font-14">Guidelines and Policies to Follow
-                         <a class="text-primary" (click)="RulesRegulation = !RulesRegulation">Know More
+                         <a class="text-primary" (click)="RulesRegulation = !RulesRegulation;">Know More
                         <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
                           <mask id="mask0_3851_4565" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="19" height="19">
                             <rect width="19" height="19" fill="#6666F2" />
@@ -774,12 +769,10 @@
                     </div>
                      
                   </div>
-                <div class="row" *ngIf="RulesRegulation">
+                <div class="row" *ngIf="RulesRegulation && (!_subscriptionPlanService.isSubscription || _subscriptionPlanService.isTrialPlan)">
                     <div class="rules-regulation p-3 showOnboardingStepHover ">
                       <div class="d-flex align-items-start justify-content-between">
-                        <!-- <span class="rules-regulatio-back d-flex align-items-center justify-content-center pointer" >
-                          <i class="bi bi-chevron-left"></i>
-                        </span> -->
+                     
                         <div>
                           <h5 class="font-20 mb-1">Rules & Regulation</h5>
                           <p class="mb-0 font-14">
@@ -1396,8 +1389,8 @@
                     oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/^0+/, '').slice(0, 6);"
                     required
                   />
-                  <p class="mb-0" *ngIf="!isValidEmployeeCount">
-                    Lorem ipsum dolor
+                  <p class="mb-0 text-danger" *ngIf="!isValidEmployeeCount">
+                    You have {{totalEmployee}} active members, so the employee count must be at least {{totalEmployee}}.
                   </p>
                 </div>
               </div>
@@ -1406,7 +1399,7 @@
               <div class="TotalEmployee" style="border: none">
                 <div>
                   <h5 class="mb-1 font-16">Subscription Plan</h5>
-                  <p class="mb-0">
+                  <p class="mb-0 ">
                     Lorem ipsum dolor sit amet consectetur adipisc
                   </p>
                 </div>
@@ -1577,14 +1570,18 @@
                         </div>
                         <div>
                           <!-- -->
-                          <input type="text" class="form-control employee-gst-form text-center" id="gst" name="gst" minlength="15" 
-                          [ngClass]="{'verified-gst':!gstLoading && isVerified && gstNumber.length==15, 'incorrect-gst': !gstLoading &&  !isVerified && gstNumber.length==15 }" maxlength="15"  placeholder="Enter GST Number" [(ngModel)]="gstNumber" #gstnumber="ngModel"
-                          oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/g,'').replace(/(\..*)\./g, '$1');" (keyup)="checkGst()">
+                          <div class="position-relative" [ngClass]="{'verified-gst':isVerified && verifyGstInputField() , 'incorrect-gst': !isVerified && verifyGstInputField()}">
+
+                            <input type="text" class="form-control employee-gst-form text-center" id="gst" name="gst" 
+                            
+                            minlength="15" maxlength="15"  placeholder="Enter GST Number" [(ngModel)]="gstNumber" #gstnumber="ngModel"
+                            oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/g,'').replace(/(\..*)\./g, '$1');" (keyup)="checkGst()">
+                          </div>
                          
                             <div class="loader-line"  *ngIf="gstLoading"></div>
-                            <div class="text-end mt-2" *ngIf="!isVerified && !gstLoading &&  gstNumber.length==15">
-                          <p class="font-13 text-danger" style="font-weight: 400;">Incorrect GST Number</p>
-                          </div>
+                            <div class="text-end mt-2" *ngIf="!isVerified && verifyGstInputField()">
+                              <p class="font-13 text-danger" style="font-weight: 400;">Incorrect GST Number</p>
+                            </div>
                         </div>
                       </div>
   
@@ -1651,52 +1648,53 @@
                 class="d-flex align-items-center justify-content-between p-3 border-bottom"
               >
                 <h5 class="mb-0 font-20">Order Recap</h5>
-                <button class="btn contactActionBtn bg-white d-flex align-items-center gap-2" *ngIf="!isCouponVerified && !Constant.EMPTY_STRINGS.includes(employeeCount+'')" (click)="showCoupon=true;">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 21 21"
-                    fill="none"
-                  >
-                    <mask
-                      id="mask0_3881_6095"
-                      style="mask-type: alpha"
-                      maskUnits="userSpaceOnUse"
-                      x="0"
-                      y="0"
-                      width="21"
-                      height="21"
+                <button class="btn contactActionBtn bg-white d-flex align-items-center gap-2" *ngIf="!isCouponVerified && !Constant.EMPTY_STRINGS.includes(employeeCount+'')" >
+                  <span (click)="showCoupon=true;">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 21 21"
+                      fill="none"
                     >
-                      <rect
-                        x="0.5"
-                        y="0.765625"
-                        width="20"
-                        height="20"
-                        fill="#D9D9D9"
-                      />
-                    </mask>
-                    <g mask="url(#mask0_3881_6095)">
-                      <path
-                        d="M18.3332 12.6419L12.3748 18.6003C12.2082 18.7669 12.0207 18.8919 11.8123 18.9753C11.604 19.0586 11.3957 19.1003 11.1873 19.1003C10.979 19.1003 10.7707 19.0586 10.5623 18.9753C10.354 18.8919 10.1665 18.7669 9.99984 18.6003L2.64567 11.2461C2.49289 11.0933 2.37484 10.9162 2.2915 10.7148C2.20817 10.5135 2.1665 10.3016 2.1665 10.0794V4.10026C2.1665 3.64193 2.3297 3.24957 2.65609 2.92318C2.98248 2.59679 3.37484 2.43359 3.83317 2.43359H9.81234C10.0346 2.43359 10.2498 2.47873 10.4582 2.56901C10.6665 2.65929 10.8471 2.78082 10.9998 2.93359L18.3332 10.2878C18.4998 10.4544 18.6214 10.6419 18.6978 10.8503C18.7741 11.0586 18.8123 11.2669 18.8123 11.4753C18.8123 11.6836 18.7741 11.8885 18.6978 12.0898C18.6214 12.2912 18.4998 12.4753 18.3332 12.6419ZM11.1873 17.4336L17.1457 11.4753L9.7915 4.10026H3.83317V10.0586L11.1873 17.4336ZM5.9165 7.43359C6.26373 7.43359 6.55887 7.31207 6.80192 7.06901C7.04498 6.82595 7.1665 6.53082 7.1665 6.18359C7.1665 5.83637 7.04498 5.54123 6.80192 5.29818C6.55887 5.05512 6.26373 4.93359 5.9165 4.93359C5.56928 4.93359 5.27414 5.05512 5.03109 5.29818C4.78803 5.54123 4.6665 5.83637 4.6665 6.18359C4.6665 6.53082 4.78803 6.82595 5.03109 7.06901C5.27414 7.31207 5.56928 7.43359 5.9165 7.43359Z"
-                        fill="#1C1B1F"
-                      />
-                    </g>
-                  </svg>
-                  Apply Coupons
-
-                  <div class="">
-                  <span class="separator" ></span>
-                  <i class="bi bi-x-lg" style="padding-left: 10px;" ></i>
-                  </div>
+                      <mask
+                        id="mask0_3881_6095"
+                        style="mask-type: alpha"
+                        maskUnits="userSpaceOnUse"
+                        x="0"
+                        y="0"
+                        width="21"
+                        height="21"
+                      >
+                        <rect
+                          x="0.5"
+                          y="0.765625"
+                          width="20"
+                          height="20"
+                          fill="#D9D9D9"
+                        />
+                      </mask>
+                      <g mask="url(#mask0_3881_6095)">
+                        <path
+                          d="M18.3332 12.6419L12.3748 18.6003C12.2082 18.7669 12.0207 18.8919 11.8123 18.9753C11.604 19.0586 11.3957 19.1003 11.1873 19.1003C10.979 19.1003 10.7707 19.0586 10.5623 18.9753C10.354 18.8919 10.1665 18.7669 9.99984 18.6003L2.64567 11.2461C2.49289 11.0933 2.37484 10.9162 2.2915 10.7148C2.20817 10.5135 2.1665 10.3016 2.1665 10.0794V4.10026C2.1665 3.64193 2.3297 3.24957 2.65609 2.92318C2.98248 2.59679 3.37484 2.43359 3.83317 2.43359H9.81234C10.0346 2.43359 10.2498 2.47873 10.4582 2.56901C10.6665 2.65929 10.8471 2.78082 10.9998 2.93359L18.3332 10.2878C18.4998 10.4544 18.6214 10.6419 18.6978 10.8503C18.7741 11.0586 18.8123 11.2669 18.8123 11.4753C18.8123 11.6836 18.7741 11.8885 18.6978 12.0898C18.6214 12.2912 18.4998 12.4753 18.3332 12.6419ZM11.1873 17.4336L17.1457 11.4753L9.7915 4.10026H3.83317V10.0586L11.1873 17.4336ZM5.9165 7.43359C6.26373 7.43359 6.55887 7.31207 6.80192 7.06901C7.04498 6.82595 7.1665 6.53082 7.1665 6.18359C7.1665 5.83637 7.04498 5.54123 6.80192 5.29818C6.55887 5.05512 6.26373 4.93359 5.9165 4.93359C5.56928 4.93359 5.27414 5.05512 5.03109 5.29818C4.78803 5.54123 4.6665 5.83637 4.6665 6.18359C4.6665 6.53082 4.78803 6.82595 5.03109 7.06901C5.27414 7.31207 5.56928 7.43359 5.9165 7.43359Z"
+                          fill="#1C1B1F"
+                        />
+                      </g>
+                    </svg>
+                    Apply Coupon
+                  </span>
+               
+                  <span class="" *ngIf="showCoupon" (click)="showCoupon=false; couponErrorMessage=''; couponCode='';">
+                    <span class="separator" ></span>
+                    <i class="bi bi-x-lg" style="padding-left: 10px;" ></i>
+                  </span>
                 </button>
                 <button class="btn contactActionBtn bg-white d-flex align-items-center gap-2" *ngIf="isCouponVerified">
 
                   {{couponCode}}
- 
-                  <!-- *ngIf="showCoupon" (click)="showCoupon=false; couponCode=''; isCouponVerified" -->
 
-              <i class="bi bi-x-lg" ></i>
+
+                  <i class="bi bi-x-lg" *ngIf="showCoupon" (click)="showCoupon=false; couponCode=''; isCouponVerified = false" ></i>
              
                 </button>
               </div>
@@ -1752,7 +1750,8 @@
               </div>
             </div>
             <button
-              class="btn w-100 text-white proceed-payment mt-3" [disabled]="payableAmount == undefined || payableAmount == null || payableAmount == 0 || isUnderProcess || !isValidEmployeeCount"
+              class="btn w-100 text-white proceed-payment mt-3" 
+              [disabled]="payableAmount == 0 || isUnderProcess || !isValidEmployeeCount"
             (click)="activatePlan()">
               Proceed To Payment <span *ngIf="isUnderProcess" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             </button>

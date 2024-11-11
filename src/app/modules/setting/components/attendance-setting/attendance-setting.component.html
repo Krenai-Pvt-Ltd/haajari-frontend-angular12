@@ -1920,6 +1920,7 @@
             class="btn-close"
             data-bs-dismiss="modal"
             aria-label="Close"
+            (click)="clearPage()"
             #closeShiftTimingModal
           ></button>
         </div>
@@ -2069,6 +2070,7 @@
                           (ngModelChange)="onTimeChange('inTime', $event)"
                           [ngModelOptions]="{ standalone: true }"
                         ></nz-time-picker>
+                        
                         <div
                           *ngIf="
                             organizationShiftTimingValidationErrors['inTime']
@@ -2550,15 +2552,12 @@
                   </ng-template>
                 </div>
                 <!-- *ngIf="staffs.length > 8" -->
-                <div
-                  class="pagination pl-3"
-                  *ngIf="
-                    total > itemPerPage - 1 ||
-                    (pageNumber === lastPageNumber && lastPageNumber !== 1)
-                  "
-                >
+
+                <!-- <div class="pagination pl-3"
+                  *ngIf="total > itemPerPage - 1 ||
+                    (pageNumber === lastPageNumber && lastPageNumber !== 1)">
                   <p class="mb-0" style="padding-left: 15px">
-                    Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
+                    Showing1 {{ getStartIndex() }} - {{ getEndIndex() }} of
                     {{ total }} members
                   </p>
                   <div class="row">
@@ -2607,7 +2606,24 @@
                       </nav>
                     </div>
                   </div>
+                </div> -->
+
+              <!-- staff pagination start -->
+              <div class="pagination justify-content-between pl-3" *ngIf="staffs.length > 0">
+                <p class="mb-0" style="padding-left: 15px">
+                    Showing {{ staffs.length }} of {{ total }} members
+                </p>
+                <div class="row">
+                    <div class="col-md-12">
+                        <ngb-pagination [collectionSize]="total" [rotate]="true"
+                            (pageChange)="pageChanged($event)" [pageSize]="databaseHelper.itemPerPage"
+                            [(page)]="databaseHelper.currentPage" [maxSize]="4"
+                            [boundaryLinks]="true"></ngb-pagination>
+                    </div>
                 </div>
+              </div>
+
+
                 <div id="back-and-submit">
                   <div
                     class="modal-footer d-flex align-items-center justify-content-end"
@@ -3276,7 +3292,8 @@
                   </div>
                 </div>
               </ng-template>
-              <div
+             
+              <!-- <div
                 class="pagination pl-3"
                 *ngIf="
                   total > itemPerPage - 1 ||
@@ -3333,7 +3350,24 @@
                     </nav>
                   </div>
                 </div>
-              </div>
+              </div> -->
+
+
+                <!-- staff pagination start -->
+                <div class="pagination justify-content-between pl-3" *ngIf="staffs.length > 0">
+                  <p class="mb-0" style="padding-left: 15px">
+                      Showing {{ staffs.length }} of {{ total }} members
+                  </p>
+                  <div class="row">
+                      <div class="col-md-12">
+                          <ngb-pagination [collectionSize]="total" [rotate]="true"
+                              (pageChange)="pageChanged($event)" [pageSize]="databaseHelper.itemPerPage"
+                              [(page)]="databaseHelper.currentPage" [maxSize]="4"
+                              [boundaryLinks]="true"></ngb-pagination>
+                      </div>
+                  </div>
+                </div>
+
               <div id="back-and-submit">
                 <div
                   class="modal-footer d-flex align-items-center justify-content-end"
@@ -5035,7 +5069,8 @@
                         </div>
                       </ng-template>
                     </div>
-                    <div
+                    
+                    <!-- <div
                       class="pagination pl-3"
                       *ngIf="
                         total > itemPerPage - 1 ||
@@ -5092,7 +5127,23 @@
                           </nav>
                         </div>
                       </div>
+                    </div> -->
+
+                      <!-- staff pagination start -->
+              <div class="pagination justify-content-between pl-3" *ngIf="staffs.length > 0">
+                <p class="mb-0" style="padding-left: 15px">
+                    Showing {{ staffs.length }} of {{ total }} members
+                </p>
+                <div class="row">
+                    <div class="col-md-12">
+                        <ngb-pagination [collectionSize]="total" [rotate]="true"
+                            (pageChange)="pageChanged($event)" [pageSize]="databaseHelper.itemPerPage"
+                            [(page)]="databaseHelper.currentPage" [maxSize]="4"
+                            [boundaryLinks]="true"></ngb-pagination>
                     </div>
+                </div>
+              </div>
+
                     <div id="back-and-submit">
                       <div
                         class="modal-footer d-flex align-items-center justify-content-end"
@@ -5215,6 +5266,7 @@
             type="button"
             class="btn-close"
             data-bs-dismiss="modal"
+            (click)="clearPage()"
             aria-label="Close"
           ></button>
         </div>

@@ -40,6 +40,7 @@ import { AdminPersonalDetailResponse } from 'src/app/models/admin-personal-detai
 import { SubscriptionPlan } from 'src/app/models/SubscriptionPlan';
 import { SubscriptionPlanReq } from 'src/app/models/SubscriptionPlanReq';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 declare var Razorpay: any;
 
 @Component({
@@ -435,6 +436,24 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+    //Pagination
+    databaseHelper: DatabaseHelper = new DatabaseHelper();
+    // totalItems: number = 0;
+    pageChanged(page: any) {
+      if (page != this.databaseHelper.currentPage) {
+        this.databaseHelper.currentPage = page;
+        this.getAttendanceReportByDateDurationMethodCall();
+      }
+    }
+
+    getStartIndex(): number {
+      return (this.databaseHelper.currentPage - 1) * this.databaseHelper.itemPerPage + 1;
+    }
+    getEndIndex(): number {
+      const endIndex = this.databaseHelper.currentPage * this.databaseHelper.itemPerPage;
+      return endIndex > this.total ? this.total : endIndex;
+    }
+
   getPages(): number[] {
     const totalPages = Math.ceil(this.total / this.itemPerPage);
     return Array.from({ length: totalPages }, (_, index) => index + 1);
@@ -443,13 +462,13 @@ export class DashboardComponent implements OnInit {
   get totalPages(): number {
     return Math.ceil(this.total / this.itemPerPage);
   }
-  getStartIndex(): number {
-    return (this.pageNumber - 1) * this.itemPerPage + 1;
-  }
-  getEndIndex(): number {
-    const endIndex = this.pageNumber * this.itemPerPage;
-    return endIndex > this.total ? this.total : endIndex;
-  }
+  // getStartIndex(): number {
+  //   return (this.pageNumber - 1) * this.itemPerPage + 1;
+  // }
+  // getEndIndex(): number {
+  //   const endIndex = this.pageNumber * this.itemPerPage;
+  //   return endIndex > this.total ? this.total : endIndex;
+  // }
 
   extractFirstNameFromEmail(email: string): string {
     const pattern = /^(.+)@.+/;
@@ -739,16 +758,9 @@ export class DashboardComponent implements OnInit {
         this.attendanceReportResponseList = [];
         this.preRuleForShimmersAndErrorPlaceholdersForAttendanceDataMethodCall();
 
-        this.dataService
-          .getAttendanceReportByDateDuration(
-            this.startDate,
-            this.endDate,
-            this.pageNumber,
-            this.itemPerPage,
-            this.searchText,
-            this.searchBy,
-            this.selectedTeamId
-          )
+        // this.dataService.getAttendanceReportByDateDuration(this.startDate,this.endDate,this.pageNumber,this.itemPerPage,this.searchText,this.searchBy,this.selectedTeamId)
+        this.dataService.getAttendanceReportByDateDuration(this.startDate, this.endDate, this.databaseHelper.currentPage ,this.databaseHelper.itemPerPage,
+          this.searchText, this.searchBy, this.selectedTeamId)
           .toPromise()
           .then((response) => {
             if (
@@ -1771,7 +1783,12 @@ this.BILLING_AND_SUBSCRIPTION_MODAL_TOGGLE = false
     let navExtra: NavigationExtras = {
       queryParams: { userId: uuid },
     };
-    this.router.navigate(['/employee-profile'], navExtra);
+    
+    // this.router.navigate(['/employee-profile'], navExtra);
+    // this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], navExtra);
+    const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
+    window.open(url, '_blank');
+    return;
   }
 
   couponCode: string = '';

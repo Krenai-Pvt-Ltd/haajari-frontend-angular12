@@ -63,7 +63,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
       if (PermissionStatus.state == 'granted') {
         if (Key.GEOLOCATION in navigator) {
           navigator.geolocation.getCurrentPosition((position) => {
-            
+            this.disableButton = false;
             this.lat = position.coords.latitude;
             this.lng = position.coords.longitude;
             this.getCurrentLocation();
@@ -212,11 +212,13 @@ export class EmployeeLocationValidatorComponent implements OnInit {
   //   }
   // }
 
+  disableButton: boolean = false;
   calculateDistance() {
     // console.log("calculate distance called",this.organizationAddressDetails)
     debugger
     this.enableSubmitToggle = false;
 
+    this.disableButton = true;
     const userLatLng = new google.maps.LatLng(this.lat, this.lng);
     let isWithinAnyLocation = false;
 

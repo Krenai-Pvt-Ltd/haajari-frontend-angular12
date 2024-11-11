@@ -46,6 +46,7 @@ export class EmployeeAttendancePhotoComponent implements OnInit {
   }
 
   submitButton: boolean = false;
+  disableButton : boolean = false;
   toggle = false;
   markAttendaceWithLocationMethodCall() {
     // this.getCurrentLocation();
@@ -64,6 +65,7 @@ export class EmployeeAttendancePhotoComponent implements OnInit {
       .markAttendaceWithLocation(this.employeeAttendanceLocation, userUuid)
       .subscribe(
         (response: EmployeeAttendanceLocation) => {
+          this.disableButton = true;
           // console.log(response);
           this.toggle = false;
           if (response.status == 'Already Checked In') {
@@ -110,6 +112,7 @@ export class EmployeeAttendancePhotoComponent implements OnInit {
           this.toggle = false;
         },
         (error) => {
+          this.disableButton = true;
           console.error(error);
         }
       );
@@ -223,6 +226,7 @@ export class EmployeeAttendancePhotoComponent implements OnInit {
   }
 
   clickAgain() {
+    this.disableButton = false;
     this.employeeAttendanceLocation.imageUrl = '';
     this.submitButton = false;
     this.captureImage = '';
