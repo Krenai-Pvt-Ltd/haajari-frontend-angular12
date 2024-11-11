@@ -2927,6 +2927,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
           .then((url) => {
             // console.log('File URL:', url);
             this.fileToUpload = url;
+            this.expenseTypeReq.url = url;
             // console.log('file url : ' + this.fileToUpload);
             this.isFileUploaded = false;
           })
@@ -3871,12 +3872,21 @@ closeAttendanceFunc() {
   async updateExpense(expense: any) {
     await this.getExpenseType();
 
+    setTimeout(() =>{
+      this.fetchManagerNames()
+    })
+    
+    this.getManagerId(expense.managerId)
+
     this.expenseTypeReq.id = expense.id
     this.expenseTypeReq.amount = expense.amount
     this.expenseTypeReq.expenseDate = expense.expenseDate
     this.expenseTypeReq.expenseTypeId = expense.expenseTypeId
     this.expenseTypeReq.notes = expense.notes
     this.expenseTypeId = expense.expenseTypeId
+    this.managerId = expense.managerId
+
+
   }
 
   clearExpenseForm(form: NgForm) {

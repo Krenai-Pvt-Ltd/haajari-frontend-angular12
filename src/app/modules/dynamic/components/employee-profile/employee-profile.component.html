@@ -5341,7 +5341,7 @@
                               <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select Manager"
                                   [(ngModel)]="managerId" (ngModelChange)="getManagerId($event)" required
                                   name="expTypeId" #expTypeId="ngModel" class="form-control">
-                                  <nz-option *ngFor=" let manager of managers"
+                                  <nz-option *ngFor="let manager of managers"
                                       [nzValue]="manager.id" [nzLabel]="manager.name">
                                   </nz-option>
                               </nz-select>
