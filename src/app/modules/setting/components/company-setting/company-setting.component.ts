@@ -955,13 +955,20 @@ export class CompanySettingComponent implements OnInit {
   radiusFilteredOptions: { label: string, value: string }[] = [];
   onChange(value: string): void {
     const numericValue = Number(value);
-    if (numericValue < 50) {
+    if (numericValue < 10) {
       this.minRadius = true;
 
     } else {
       this.minRadius = false;
 
     }
+    // if (numericValue < 50) {
+    //   this.minRadius = true;
+
+    // } else {
+    //   this.minRadius = false;
+
+    // }
     this.radiusFilteredOptions = this.radius.filter((option) =>
       option.toLowerCase().includes(value.toLowerCase())
     ).map((option) => ({ label: `${option}-Meters`, value: option }));
