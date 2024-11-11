@@ -664,8 +664,11 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   invalidCells: boolean[][] = []; // Track invalid cells
   isinvalid: boolean=false;
   jsonData:any[]=[];
+  validateMap: Map<string, string[]> = new Map();
+  @ViewChild('attention') elementToScroll!: ElementRef;
 
   selectFile(event: any) {
+    this.validateMap= new Map();
     debugger
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
@@ -689,6 +692,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
         this.data = [];
         this.invalidRows = [];
         this.invalidCells = [];
+        this.validateMap.clear;
 
         const columnNames: string[] = this.jsonData[0] as string[];
         debugger
@@ -743,8 +747,18 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
           // Validate all rows and keep track of invalid entries- send daya for validatio after emoving heder row
           this.validateRows(this.data.slice(1));
+          this.removeAllSingleEntries();
+          this.validateMap.forEach((values, key) => {
+            console.log(`Key: ${key}`);
+            this.mismatches.push(`Repeating values: "${key}" at row no. ${values}`);
+            if(this.elementToScroll){
+            this.elementToScroll!.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            console.log('Values:', values);
+            }
+          });
           this.totalPage = Math.ceil(this.data.length / this.pageSize);
-          if(this.areAllFalse()){
+
+          if(this.areAllFalse() && this.mismatches.length===0){
             this.isinvalid=false;
             this.uploadUserFile(file, this.fileName);
           }else{
@@ -827,6 +841,23 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     return true;
   }
   readonly constants = constant;
+  addToMap(key: string, value: string) {
+    if (this.validateMap.has(key)) {
+      console.log(key,value);
+      // If key exists, add the new value to the existing array
+      this.validateMap.get(key)?.push(value);
+    } else {
+      // If key does not exist, create a new array with the value
+      this.validateMap.set(key, [value]);
+    }
+  }
+  removeAllSingleEntries() {
+    for (const [key, valuesArray] of this.validateMap) {
+      if (valuesArray.length <= 1) {
+        this.validateMap.delete(key);
+      }
+    }
+  }
 
   validateRows(rows: any[]): void {
     console.log("🚀 ~ EmployeeOnboardingDataComponent ~ validateRows ~ rows:", rows)
@@ -844,8 +875,12 @@ export class EmployeeOnboardingDataComponent implements OnInit {
           this.invalidCells[i][j] = true; // Mark the cell as invalid
 
         }
+        if (this.fileColumnName[j] === 'email*' && cellValue) {
+          this.addToMap(cellValue.toString(),`${i+1}`);
+        }
         if (this.fileColumnName[j] === 'phone*' && cellValue) {
           const phoneNumber = cellValue.toString().trim();
+          this.addToMap(cellValue.toString(),`${i+1}`);
           if (!/^\d{10}$/.test(phoneNumber)) {
             rowIsValid = false;
             this.invalidRows[i] = true; // Mark the row as invalid
@@ -951,6 +986,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
     const blob = new Blob([wbout], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
     saveAs(blob, 'edited_file.xlsx');
+    this.validateMap.clear;
 
     const file = new File([blob], 'edited_file.xlsx', { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
 
