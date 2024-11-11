@@ -1,7 +1,7 @@
 <div class="page-wrapper">
     <div class="page-content-tab">
 
-        <ul id="myTab" role="tablist" class="nav nav-tabs">
+        <ul *ngIf="ROLE == 'ADMIN'" id="myTab" role="tablist" class="nav nav-tabs">
             <li role="presentation" class="nav-item">
                 <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#company-expense-policy" type="button"
                     role="tab" aria-controls="profile" aria-selected="false" class="nav-link active"
@@ -20,290 +20,463 @@
 
         <div class="container-fluid">
 
-            <div class="col-md-12 mt-3 mb-3" *ngIf="activeTab === 'expensePolicy'"
-                style="border: 1px solid #f5f5f5; padding: 5px;">
+            <!-- <div class="col-md-12 mt-3 mb-3" *ngIf="activeTab === 'expensePolicy'" style="border: 1px solid #f5f5f5; padding: 5px;"> -->
+            <div class="col-md-12 mt-3 mb-3" *ngIf="activeTab === 'expensePolicy'">
 
-                <!-- starting -->
-                <div class="col-md-4 mt-3 mb-3">
-                    <div class="form-roe-data">
-                        <h5>Expense Settings</h5>
-                        <p>A quick snapshot of your company.</p>
+                <div class="row mt-2">
+                    <!-- <div class="col-md-4 mt-3 mb-3" *ngIf="(!leaveSettingPlaceholder && !isLeaveErrorPlaceholder) || isLoading"> -->
+                    <div class="col-md-4 mt-3 mb-3" >
+                      <!-- <div *ngIf="leaveTemplates.length > 0 && !isLoading" class="form-roe-data"> -->
+                      <div *ngIf="!isLoading" class="form-roe-data">
+                        <h5>Company Expense</h5>
+                        <p>This will be displayed on your profile.</p>
+                      </div>
                     </div>
-                    <div class="total-shifts p-3 mt-4">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div>
-                                <h6 class="text-truncate">Total Policy</h6>
-                                <h4 class="mt-3 fw-bold">5</h4>
-                            </div>
-                            <span class="total-user-icon d-flex align-items-center justify-content-center">
-                                <img src="assets/images/total-user-icon.svg" />
-                            </span>
-                        </div>
-                        <div class="mt-3">
-                            <div class="d-flex align-items-center justify-content-between mb-3">
-                                <small class="text-muted">Day Shifts</small>
-                                <small class="text-muted">4</small>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <!-- second view -->
-
-                <div class="col-md-7 mt-3 mb-3">
-                    <!-- <ng-container *ngIf="
-                        isShimmer &&
-                          organizationShiftTimingWithShiftTypeResponseList.length ===
-                            0 &&
-                          !dataNotFoundPlaceholder &&
-                          !networkConnectionErrorPlaceHolder;
-                        else organizationShiftTimingWithShiftTypeData
-                      ">
+                    <div class="col-md-8">
+                      <div class="row mb-3"></div>
+                     
+                      <div *ngIf="isLoading">
                         <div class="">
-                            <div class="text-end">
-                                <ngx-shimmer-loading [width]="'40%'" [height]="'20px'"
-                                    style="border-radius: 50%"></ngx-shimmer-loading>
-                            </div>
+                          <div class="text-end">
+                            <ngx-shimmer-loading [width]="'40%'" [height]="'20px'" style="border-radius: 50%"></ngx-shimmer-loading>
+                          </div>
                         </div>
                         <div class="mt-3" style="
-                          border: 1px solid #f5f5f5;
-                          padding: 5px;
-                          border-radius: 6px;
-                        ">
-                            <div class="row" style="
-                            border-bottom: 1px solid #f5f5f5;
-                            padding-top: 10px;
-                            padding-bottom: 10px;
+                            border: 1px solid #f5f5f5;
+                            padding: 5px;
+                            border-radius: 6px;
                           ">
-                                <div class="col-md-4">
-                                    <div class="">
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'20px'"
-                                            style="border-radius: 50%"></ngx-shimmer-loading>
-                                    </div>
-                                </div>
+                          <div class="row" style="
+                              border-bottom: 1px solid #f5f5f5;
+                              padding-top: 10px;
+                              padding-bottom: 10px;
+                            ">
+                            <div class="col-md-6">
+                              <div class="">
+                                <ngx-shimmer-loading [width]="'60%'" [height]="'20px'"
+                                  style="border-radius: 50%"></ngx-shimmer-loading>
+                              </div>
                             </div>
-                            <div class="row mt-3">
-                                <div class="col-md-3">
-                                    <div class="">
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'20px'"
-                                            style="border-radius: 50%"></ngx-shimmer-loading>
-                                    </div>
-                                </div>
+                            <div class="col-md-6">
+                              <div class="text-end">
+                                <ngx-shimmer-loading [width]="'60%'" [height]="'20px'"
+                                  style="border-radius: 50%"></ngx-shimmer-loading>
+                              </div>
                             </div>
-                            <div class="row mt-3">
-                                <div class="col-md-4">
-                                    <div class="">
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                                            style="border-radius: 50%"></ngx-shimmer-loading>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="">
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                                            style="border-radius: 50%"></ngx-shimmer-loading>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="">
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                                            style="border-radius: 50%"></ngx-shimmer-loading>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="">
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                                            style="border-radius: 50%"></ngx-shimmer-loading>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="">
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                                            style="border-radius: 50%"></ngx-shimmer-loading>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="">
-                                        <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
-                                            style="border-radius: 50%"></ngx-shimmer-loading>
-                                    </div>
-                                </div>
+                          </div>
+                          <div class="row mt-3">
+                            <div class="col-md-3">
+                              <div class="">
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"
+                                  style="border-radius: 50%"></ngx-shimmer-loading>
+                              </div>
                             </div>
+                          </div>
+                          <div class="row mt-2" style="
+                              border-bottom: 1px solid #f5f5f5;
+                              padding-top: 10px;
+                              padding-bottom: 10px;
+                            ">
+                            <div class="col-md-4">
+                              <div class="">
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                                  style="border-radius: 50%"></ngx-shimmer-loading>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="">
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                                  style="border-radius: 50%"></ngx-shimmer-loading>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="">
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                                  style="border-radius: 50%"></ngx-shimmer-loading>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row mt-3">
+                            <div class="col-md-3">
+                              <div class="">
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"
+                                  style="border-radius: 50%"></ngx-shimmer-loading>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row mt-2" style="
+                              border-bottom: 1px solid #f5f5f5;
+                              padding-top: 10px;
+                              padding-bottom: 10px;
+                            ">
+                            <div class="col-md-4">
+                              <div class="">
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                                  style="border-radius: 50%"></ngx-shimmer-loading>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="">
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                                  style="border-radius: 50%"></ngx-shimmer-loading>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="">
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                                  style="border-radius: 50%"></ngx-shimmer-loading>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row mt-3">
+                            <div class="col-md-3">
+                              <div class="">
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"
+                                  style="border-radius: 50%"></ngx-shimmer-loading>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row mt-2" style="
+                              border-bottom: 1px solid #f5f5f5;
+                              padding-top: 10px;
+                              padding-bottom: 10px;
+                            ">
+                            <div class="col-md-4">
+                              <div class="">
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                                  style="border-radius: 50%"></ngx-shimmer-loading>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="">
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                                  style="border-radius: 50%"></ngx-shimmer-loading>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="">
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                                  style="border-radius: 50%"></ngx-shimmer-loading>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row mt-3">
+                            <div class="col-md-3">
+                              <div class="">
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"
+                                  style="border-radius: 50%"></ngx-shimmer-loading>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row mt-2" style="
+                              border-bottom: 1px solid #f5f5f5;
+                              padding-top: 10px;
+                              padding-bottom: 10px;
+                            ">
+                            <div class="col-md-4">
+                              <div class="">
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                                  style="border-radius: 50%"></ngx-shimmer-loading>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="">
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                                  style="border-radius: 50%"></ngx-shimmer-loading>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="">
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                                  style="border-radius: 50%"></ngx-shimmer-loading>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row mt-3">
+                            <div class="col-md-3">
+                              <div class="">
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"
+                                  style="border-radius: 50%"></ngx-shimmer-loading>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row mt-2">
+                            <div class="col-md-4">
+                              <div class="">
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                                  style="border-radius: 50%"></ngx-shimmer-loading>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="">
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                                  style="border-radius: 50%"></ngx-shimmer-loading>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                              <div class="">
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                                  style="border-radius: 50%"></ngx-shimmer-loading>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                    </ng-container> -->
+                      </div>
+            
+                      <!-- Create Leave Template Start -->
+                      <!-- <div class="add-shift-main-box" *ngIf="leaveTemplates.length > 0  && !leaveSettingPlaceholder && !isLeaveErrorPlaceholder && !isLoading"> -->
+                      <div class="add-shift-main-box" >
+            
+                        <div class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2">
+                          <div class="">
+                            <h6 class="text-truncate mb-0">Leave</h6>
+                          </div>
+                          <div class="" >
+            
+                            <!-- <button class="btn btn-primary" (click)="getExpenseType()" data-bs-toggle="modal"
+                        data-bs-target="#createExpense">Create Expense</button> -->
 
-                    <ng-container>
-                        <div class="add-shift-main-box">
-                            <div class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2">
-                                <div class="">
-                                    <h6 class="text-truncate mb-0">Expense Policy</h6>
+                            <a class="add-shift-time-btn" data-bs-toggle="modal" data-bs-target="#createPolicy" (click)="getExpenseType()">
+                              <i class="bi bi-plus"></i> Create expense policy
+                            </a>
+                          </div>
+                        </div>
+            
+                        <div *ngIf="companyExpensePolicyList.length == 0" class="col-md-12">
+                          <div class="d-flex justify-content-center p-4">
+                            <img src="assets/images/no-data-found-img.svg" alt="" height="20%" width="10%">
+                          </div>
+                          <div class="d-flex justify-content-center" style="margin-top: -1%; margin-left: 4%; margin-bottom: 5px;">
+                            <h6>No Policy Created Yet!!</h6>
+                          </div>
+                        </div>
+            
+                        <!-- <div *ngIf="leaveTemplates.length > 0">
+                          <div class="shift-time p-3 m-3" *ngFor="let newLeaveSetting of leaveTemplates; let i = index">
+                            <div class="">
+                              <div class="d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center gap-3">
+                                  <div class="">
+                                    <span class="automation-rules-icon d-flex align-items-center justify-content-center">
+                                      <img src="assets/images/rule-icon.svg" />
+                                    </span>
+                                  </div>
+                                  <div class="">
+                                    <h6 class="text-truncate mb-0">
+                                      {{ newLeaveSetting?.templateName }}
+                                    </h6>
+                                    <small class="text-muted">Define the leave rules for the employees</small>
+                                  </div>
                                 </div>
-                                <div class="">
-                                    <a class="add-shift-time-btn" data-bs-toggle="modal" data-bs-target="#shiftTime"
-                                        (click)="getExpenseType()">
-                                        <i class="bi bi-plus"></i> Add Expense Policy
+                                <div class="d-flex align-items-center gap-3">
+                                  <div class="d-flex align-items-center gap-3">
+            
+                                    <a href="" data-bs-toggle="modal" data-bs-target="#leavemodal">
+                                      <i class="bi bi-pencil pointer" style="color: #6666f3" (click)="
+                                        getLeaveSettingInformationById(
+                                          newLeaveSetting.id,
+                                          false
+                                        )
+                                      "></i>
                                     </a>
-                                </div>
-                            </div>
-
-                            <!-- <div class="shift-set">
-                                <div class="shift-time p-3 m-3" *ngFor="
-                            let organizationShiftTimingWithShiftTypeResponse of organizationShiftTimingWithShiftTypeResponseList;
-                            let i = index">
-                                    <div class="">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="d-flex align-items-center gap-3">
-                                                <div class="">
-                                                    <span
-                                                        class="automation-rules-icon d-flex align-items-center justify-content-center">
-                                                        <img src="assets/images/rule-icon.svg" />
-                                                    </span>
-                                                </div>
-                                                <div class="">
-                                                    <h6 class="text-truncate mb-0">
-                                                        {{
-                                                        organizationShiftTimingWithShiftTypeResponse
-                                                        .shiftType.name
-                                                        }}
-                                                    </h6>
-                                                    <small class="text-muted">Define the shift timing rules for the
-                                                        employees</small>
-                                                </div>
-                                            </div>
-                                            <div class="">
-
-                                                <span data-bs-toggle="collapse" role="button"
-                                                    class="automation-rules-toogel-btn pointer" [attr.data-bs-target]="
-                                    '#multiCollapseExample' + i
-                                  " [attr.aria-controls]="'multiCollapseExample' + i" [attr.aria-expanded]="
-                                    activeIndex == i ? 'true' : 'false'
-                                  " (click)="toggleCollapse(i)">
-                                                    <i class="bi bi-chevron-down"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="collapse multi-collapse" [id]="'multiCollapseExample' + i"
-                                            [class.show]="activeIndex === i" *ngFor="
-                                let organizationShiftTimingResponse of organizationShiftTimingWithShiftTypeResponse.organizationShiftTimingResponseList
-                              ">
-                                            <div class="d-flex align-items-center justify-content-between mt-3">
-                                                <div class="">
-                                                    <p class="mb-0">
-                                                        <i class="bi bi-arrow-right" style="padding-right: 10px"></i>
-                                                        {{ organizationShiftTimingResponse.name }}
-                                                    </p>
-                                                </div>
-                                                <div class="d-flex align-items-center gap-4">
-                                                    <a style="cursor: pointer" data-bs-toggle="modal"
-                                                        data-bs-target="#shiftTime" (click)="
-                                      updateOrganizationShiftTiming(
-                                        organizationShiftTimingResponse,
-                                        'STAFF_SELECTION'
-                                      )
-                                    ">
-                                                        <i class="bi bi-people"></i>
-                                                    </a>
-                                                    <a style="cursor: pointer" data-bs-toggle="modal"
-                                                        data-bs-target="#shiftTime" (click)="
-                                      updateOrganizationShiftTiming(
-                                        organizationShiftTimingResponse,
-                                        'SHIFT_TIME'
-                                      )
-                                    ">
-                                                        <i class="bi bi-pencil pointer"></i>
-                                                    </a>
-                                                    <a style="cursor: pointer" class="delete-rule" (click)="
-                                      deleteOrganizationShiftTimingMethodCall(
-                                        organizationShiftTimingResponse.id
-                                      )
-                                    ">
-                                                        <i class="bi bi-trash pointer text-danger"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="shift-in-out-box bg-white row mt-3 p-3 m-0">
-                                                <div class="col-md-4">
-                                                    <div class="shift-in-out-time mb-3">
-                                                        <p class="mb-0">
-                                                            In Time |
-                                                            <span style="color: #009688">{{
-                                                                organizationShiftTimingResponse.inTime
-                                                                | date : "hh:mm a"
-                                                                }}</span>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="shift-in-out-time mb-3">
-                                                        <p class="mb-0">
-                                                            Out Time |
-                                                            <span style="color: #009688">{{
-                                                                organizationShiftTimingResponse.outTime
-                                                                | date : "hh:mm a"
-                                                                }}</span>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="shift-in-out-time mb-3">
-                                                        <p class="mb-0">
-                                                            Working Hours |
-                                                            <span style="color: #009688">{{
-                                                                organizationShiftTimingResponse.workingHour
-                                                                }}</span>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="shift-in-out-time">
-                                                        <p class="mb-0">
-                                                            Break Time |
-                                                            <span style="color: #009688">{{
-                                                                organizationShiftTimingResponse.startLunch
-                                                                | date : "hh:mm a"
-                                                                }}</span>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="shift-in-out-time">
-                                                        <p class="mb-0">
-                                                            Back Time |
-                                                            <span style="color: #009688">{{
-                                                                organizationShiftTimingResponse.endLunch
-                                                                | date : "hh:mm a"
-                                                                }}</span>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="shift-in-out-time">
-                                                        <p class="mb-0">
-                                                            Total Break Hours |
-                                                            <span style="color: #009688">
-                                                                {{
-                                                                organizationShiftTimingResponse.lunchHour
-                                                                }}</span>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <a class="delete-rule" data-bs-toggle="modal" data-bs-target="#delete-leave" (click)="
+                                      getLeaveTemplateOrCategoryId(newLeaveSetting.id, true, newLeaveSetting.leaveAppliedUserCount)
+                                    " *ngIf="!deleteLeaveTemplateLoader(newLeaveSetting.id)">
+                                      <i class="bi bi-trash pointer text-danger"></i>
+                                    </a>
+            
+                                    <div class="dot-opacity-loader" *ngIf="deleteLeaveTemplateLoader(newLeaveSetting.id)">
+                                      <span></span>
+                                      <span></span>
+                                      <span></span>
                                     </div>
+                                  </div>
+            
+                                  <span class="staff-leave-setting bg-white">Staff - {{ newLeaveSetting.totalEmployees }}</span>
+                                  <span class="automation-rules-toogel-btn pointer" data-bs-toggle="collapse"
+                                    [attr.data-bs-target]="'#multiCollapseExample' + i" role="button"
+                                    [attr.aria-controls]="'multiCollapseExample' + i"
+                                    [attr.aria-expanded]="i == activeIndex ? 'true' : 'false'" (click)="toggleCollapse(i)">
+                                    <i class="bi bi-chevron-down"></i>
+                                  </span>
                                 </div>
-                            </div> -->
+                              </div>
+            
+                              <div class="collapse multi-collapse" [id]="'multiCollapseExample' + i"
+                                [class.show]="activeIndex === i">
+                                <div class="row mt-3">
+                                  <div [ngClass]="{
+                                    'col-md-4':
+                                      newLeaveSetting.leaveTemplateCategoryRes.length > 2,
+                                    'col-md-6':
+                                      newLeaveSetting.leaveTemplateCategoryRes.length == 2,
+                                    'col-md-12':
+                                      newLeaveSetting.leaveTemplateCategoryRes.length == 1
+                                  }" *ngFor="
+                                    let category of newLeaveSetting.leaveTemplateCategoryRes
+                                  ">
+                                    <div class="custom-salary">
+                                      <div class="custom-salary-hedding p-3 d-flex align-items-center justify-content-between">
+                                        <h4 class="mb-0">
+                                          {{ category?.leaveName || "N/A" }}
+                                        </h4>
+                                        <div class="d-flex align-items-center gap-3">
+            
+                                          <i *ngIf="
+                                            newLeaveSetting.leaveTemplateCategoryRes
+                                              .length > 1
+                                          " data-bs-toggle="modal" data-bs-target="#delete-leave" (click)="
+                                            getLeaveTemplateOrCategoryId(category.id, false, newLeaveSetting.leaveAppliedUserCount)
+                                          " class="bi bi-trash pointer text-danger"></i>
+                                        </div>
+                                      </div>
+                                      <div class="custom-salary-para p-3">
+                                        <div class="d-flex align-items-center justify-content-between mb-3">
+                                          <p class="mb-0">Leave Count</p>
+                                          <span style="color: #3f988f">{{
+                                            category?.leaveCount || "N/A"
+                                            }}</span>
+                                        </div>
+                                        <div class="d-flex align-items-center justify-content-between mb-3">
+                                          <p class="mb-0">Leave Rule</p>
+                                          <span style="color: #3f988f">{{
+                                            category?.unusedLeaveActionName || "N/A"
+                                            }}</span>
+                                        </div>
+                                        <div class="d-flex align-items-center justify-content-between">
+                                          <p class="mb-0">Carry Forward Limit</p>
+                                          <span style="color: #3f988f">{{
+                                            category?.unusedLeaveActionCount || "N/A"
+                                            }}</span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div> -->
+            
 
+                        <div *ngIf="companyExpensePolicyList.length > 0">
+                          <div class="shift-time p-3 m-3" *ngFor="let expensePolicy of companyExpensePolicyList; let i = index">
+                            <div class="">
+                              <div class="d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center gap-3">
+                                  <div class="">
+                                    <span class="automation-rules-icon d-flex align-items-center justify-content-center">
+                                      <img src="assets/images/rule-icon.svg" />
+                                    </span>
+                                  </div>
+                                  <div class="">
+                                    <h6 class="text-truncate mb-0">
+                                      {{ expensePolicy?.policyName }}
+                                    </h6>
+                                    <small class="text-muted">Define the leave rules for the employees</small>
+                                  </div>
+                                </div>
+                                <div class="d-flex align-items-center gap-3">
+                                  <div class="d-flex align-items-center gap-3">
+            
+                                    <a href="" data-bs-toggle="modal" data-bs-target="#leavemodal">
+                                      <i class="bi bi-pencil pointer" style="color: #6666f3" (click)="
+                                        getExpenseInformationById(expensePolicy.id, false)"></i>
+                                    </a>
+
+                                    <a class="delete-rule" data-bs-toggle="modal" data-bs-target="#delete-policy" (click)="
+                                    getExpensePolicyOrExpensePolicyTypeId(expensePolicy.id, true, 0)">
+                                      <i class="bi bi-trash pointer text-danger"></i>
+                                    </a>
+
+                                    <!-- <a class="delete-rule" data-bs-toggle="modal" data-bs-target="#delete-leave" (click)="
+                                    getExpensePolicyOrExpensePolicyTypeId(expensePolicy.id, true, 0)
+                                    " *ngIf="!deleteLeaveTemplateLoader(newLeaveSetting.id)">
+                                      <i class="bi bi-trash pointer text-danger"></i>
+                                    </a> -->
+            
+                                    <!-- <div class="dot-opacity-loader" *ngIf="deleteLeaveTemplateLoader(newLeaveSetting.id)">
+                                      <span></span>
+                                      <span></span>
+                                      <span></span>
+                                    </div> -->
+                                  </div>
+            
+                                  <span class="staff-leave-setting bg-white">Staff - {{ expensePolicy.totalEmployees }}</span>
+                                  <span class="automation-rules-toogel-btn pointer" data-bs-toggle="collapse"
+                                    [attr.data-bs-target]="'#multiCollapseExample' + i" role="button"
+                                    [attr.aria-controls]="'multiCollapseExample' + i"
+                                    [attr.aria-expanded]="i == activeIndex ? 'true' : 'false'" (click)="toggleCollapse(i)">
+                                    <i class="bi bi-chevron-down"></i>
+                                  </span>
+                                </div>
+                              </div>
+            
+                              <div class="collapse multi-collapse" [id]="'multiCollapseExample' + i"
+                                [class.show]="activeIndex === i">
+                                <div class="row mt-3">
+                                  <div [ngClass]="{
+                                    'col-md-4':
+                                    expensePolicy.companyExpensePolicyTypeRes.length > 2,
+                                    'col-md-6':
+                                    expensePolicy.companyExpensePolicyTypeRes.length == 2,
+                                    'col-md-12':
+                                    expensePolicy.companyExpensePolicyTypeRes.length == 1
+                                  }" *ngFor="let expensePolicyType of expensePolicy.companyExpensePolicyTypeRes">
+                                    <div class="custom-salary">
+                                      <div class="custom-salary-hedding p-3 d-flex align-items-center justify-content-between">
+                                        <h4 class="mb-0">
+                                          {{ expensePolicyType?.expenseTypeName || "N/A" }}
+                                        </h4>
+                                        <div class="d-flex align-items-center gap-3">
+            
+                                          <i *ngIf="
+                                          expensePolicy.companyExpensePolicyTypeRes.length > 1" data-bs-toggle="modal" data-bs-target="#delete-policy" (click)="
+                                          getExpensePolicyOrExpensePolicyTypeId(expensePolicyType.id, false, 0)" class="bi bi-trash pointer text-danger"></i>
+                                        </div>
+                                      </div>
+                                      <div class="custom-salary-para p-3">
+                                        <div class="d-flex align-items-center justify-content-between mb-3">
+                                          <p class="mb-0">Amount</p>
+                                          <span style="color: #3f988f">{{
+                                            expensePolicyType?.amount || "0"
+                                            }}</span>
+                                        </div>
+                                        <div class="d-flex align-items-center justify-content-between mb-3">
+                                          <p class="mb-0">Flexible Amount</p>
+                                          <span style="color: #3f988f">{{
+                                            expensePolicyType?.flexibleAmount || "0"
+                                            }}</span>
+                                        </div>
+                                        <!-- <div class="d-flex align-items-center justify-content-between">
+                                          <p class="mb-0">Carry Forward Limit</p>
+                                          <span style="color: #3f988f">{{
+                                            category?.unusedLeaveActionCount || "N/A"
+                                            }}</span>
+                                        </div> -->
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                    </ng-container>
 
-                </div>
-                <!-- ending -->
+                      </div>
+                      <!-- Create Leave Template End -->
+            
+                      <div class="col-md-1"></div>
+                    </div>
+                  </div>
 
 
             </div>
 
-            <div class="col-md-12 mt-3 mb-3" *ngIf="activeTab === 'allExpense'"
-                style="border: 1px solid #f5f5f5; padding: 5px;">
+            <!-- Create Company Expense start -->
+
+            <div class="col-md-12 mt-3 mb-3" *ngIf="activeTab === 'allExpense'" style="border: 1px solid #f5f5f5; padding: 5px;">
+            <!-- <div class="col-md-12 mt-3 mb-3" *ngIf="activeTab === 'allExpense'"> -->
                 <div class="pt-2 pb-3">
 
                     <button class="btn btn-primary" (click)="getExpenseType()" data-bs-toggle="modal"
@@ -323,6 +496,10 @@
                                         <th class="text-center" style="width: 10%">
                                             Amount
                                         </th>
+
+                                        <th class="text-center" style="width: 10%">
+                                          Paid Amount
+                                      </th>
 
                                         <th class="text-center" style="width: 15%">
                                             Expense Type
@@ -377,12 +554,13 @@
                                             <td class="text-center">{{expense.expenseDate}}</td>
                                             <td class="text-center">{{expense.employeeName}}</td>
                                             <td class="text-center">{{expense.amount}}</td>
+                                            <td class="text-center">{{expense.paidAmount == null ? 0 : expense.paidAmount}}</td>
                                             <td class="text-center">{{expense.expenseType}}</td>
                                             <td class="text-center">{{expense.notes}}</td>
-                                            <td class="text-center">Pending</td>
+                                            <td class="text-center">{{expense.status.response}}</td>
                                             <td class="text-center">
                                                 <div>
-                                                    <button type="button" class="btn" (click)="updateExpense(expense)"
+                                                    <!-- <button type="button" class="btn" (click)="updateExpense(expense)"
                                                         data-bs-toggle="modal" data-bs-target="#createExpense">
                                                         <i class="bi bi-pencil-square pointer text-primary"></i>
                                                     </button>
@@ -390,11 +568,15 @@
                                                     <button type="button" class="btn" (click)="getExpenseId(expense.id)"
                                                         data-bs-toggle="modal" data-bs-target="#delete-expense">
                                                         <i class="bi bi-trash pointer text-danger"></i>
-                                                    </button>
+                                                    </button> -->
 
-                                                    <button type="button" class="btn" (click)="getExpense(expense)"
+                                                    <button *ngIf="expense.status.id == 13" type="button" class="btn" (click)="getExpense(expense)"
                                                         data-bs-toggle="modal" data-bs-target="#approveModal">
                                                         View
+                                                    </button>
+
+                                                    <button *ngIf="expense.status.id != 13" type="button" class="btn" style="cursor: default;">
+                                                        - - -
                                                     </button>
 
                                                 </div>
@@ -706,9 +888,10 @@
                             <p>
                                 {{ userExpense.expenseType }}
                             </p>
-                            <p>
+                            <!-- <p>
                                 {{userExpense.createdDate | date : "dd MMM yyyy hh:mm:ss a"}}
-                            </p>
+                            </p> -->
+                            <a *ngIf="userExpense.slipUrl != null" [href]="userExpense.slipUrl" target="_blank" rel="noopener noreferrer">View slip <i class="fas fa-external-link-square-alt me-1"></i></a>
                             <!-- <p>Applied To : {{ specificLeaveRequest.managerName }}</p> -->
                         </div>
                     </div>
@@ -781,6 +964,13 @@
                                     #amountInput="ngModel" [disabled]="!isCheckboxChecked"
                                     style="height: 38px !important;" />
                             </div>
+
+                            <div>
+                              <p *ngIf="partialAmount > userExpense.amount" class="d-flex justify-content-end" style="color: red !important;" > Flexible amount should be less from expense amount</p>
+                            </div>
+
+                            <!-- <p *ngIf="partialAmount > userExpense.amount" class="text-danger"> Flexible amount should be less from expense amount</p> -->
+
                         </div>
 
 
@@ -793,9 +983,9 @@
                         <div class="d-flex align-items-center justify-content-end" style="gap: 10px">
                             <!-- Approve Button -->
                             <button class="btn approve-btn" type="button"
-                                [disabled]="isCheckboxChecked && (partialAmount == '' || partialAmount == null)"
-                                (click)="approveOrDeny(userExpense.id, 'approved')">
-                                <div *ngIf="approveToggle; else approveLabel">
+                                [disabled]="isCheckboxChecked && (partialAmount == '' || partialAmount == null || partialAmount > userExpense.amount)"
+                                (click)="approveOrDeny(userExpense.id, 14)">
+                                <div *ngIf="approveToggle && approveReq.id == 14; else approveLabel">
                                     <div class="dot-opacity-loader">
                                         <span></span>
                                         <span></span>
@@ -806,8 +996,8 @@
                             </button>
                             <!-- Reject Button -->
                             <button class="btn reject-btn" type="button"
-                                (click)="approveOrDeny(userExpense.id, 'rejected')">
-                                <div *ngIf="approveToggle; else rejectLabel">
+                                (click)="approveOrDeny(userExpense.id, 15)">
+                                <div *ngIf="approveToggle && approveReq.id == 15; else rejectLabel">
                                     <div class="dot-opacity-loader">
                                         <span></span>
                                         <span></span>
@@ -828,7 +1018,7 @@
 
 
 <!-- Add policy modal start -->
-<div class="modal fade" id="shiftTime" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
+<div class="modal fade" id="createPolicy" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -836,7 +1026,7 @@
                 <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
                     Expense Policy
                 </h6>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="clearForm(shiftForm)"
                     #closeExpensePolicyModal></button>
             </div>
             <div class="modal-body modal-height-fix">
@@ -857,7 +1047,7 @@
                                 type="button" role="tab" aria-controls="staffselection" aria-selected="false"
                                 class="nav-link" #staffActiveTabInShiftTiming
                                 [class.active]="activeTab === 'staffselection'"
-                                (click)="staffActiveTabInShiftTimingMethod()" [disabled]="shiftForm.invalid">
+                                (click)="staffActiveTabInShiftTimingMethod()" [disabled]="expensePolicyReqList.length == 0">
                                 Staff selection
                             </button>
                         </li>
@@ -865,10 +1055,10 @@
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="shiftime" role="tabpanel"
                             [class.show]="activeTab === 'expensePolicy'" [class.active]="activeTab === 'expensePolicy'">
-                            <form #shiftForm="ngForm" ngNativeValidate (ngSubmit)="submitExpensePolicy()">
+                            
+                            <!-- <form #shiftForm="ngForm" ngNativeValidate (ngSubmit)="submitExpensePolicy()">
                                 <div class="row p-3">
 
-                                    <!-- Policy Name Input -->
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="policyNameInput" class="pb-2">Policy Name</label>
@@ -877,34 +1067,6 @@
                                                 [(ngModel)]="policyName" name="policyNameInput" />
                                         </div>
                                     </div>
-
-                                    <!-- Dropdown for Expense Type -->
-                                    <!-- <div class="col-md-6">
-                                        <div class="form-fild">
-                                            <label for="exampleInputEmail1" class="pb-2">Expense Type</label>
-                                            <div class="dropdown">
-                                                <button class="btn btn-secondary dropdown-toggle new-dropdown"
-                                                    type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                                    aria-expanded="false" style="text-align: left;
-                                                                background-color: white; color: black;
-                                                                border-color: #ced4da; width: 100%;">
-                                                    {{ expenseTypeName || "Select Expense type" }}
-                                                    <i class="bi bi-chevron-down"></i>
-                                                </button>
-
-                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"
-                                                    style="width: 100%">
-                                                    <li *ngFor="let expense of expenseTypeList">
-                                                        <a class="dropdown-item" (click)="selectExpenseType(expense)">
-                                                            {{ expense.name }}
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div> -->
-
-                                    <!-- Dropdown for Expense Type -->
 
                                     <div class="col-md-6">
                                             <div class="form-field">
@@ -930,7 +1092,6 @@
 
                                             </div>
                                         
-                                            <!-- Conditional div for radio buttons -->
                                             <div *ngIf="isExpenseTypeSelected" class="mt-3">
                                             <label>Payment Type</label>
                                             <div class="form-check">
@@ -944,12 +1105,10 @@
                                                 <label class="form-check-label" for="flexible">Flexible</label>
                                             </div>
                                         
-                                            <!-- Conditional input for flexible amount -->
                                             <div *ngIf="paymentType === 'flexible'" class="mt-2">
                                                 <input type="number" class="form-control" placeholder="Enter Amount" id="amountFlex" name="amountFlex" [(ngModel)]="flexibleAmount">
                                             </div>
                                             </div>
-                                        <!-- </div> -->
 
                                         <button type="button" class="btn btn-primary mt-2" (click)="addExpensePolicy()">
                                             Add
@@ -1008,7 +1167,6 @@
                                                 </span>
                                               </td>
         
-                                              <!-- <td *ngIf="!updateToggle" class="text-center"> -->
                                               <td  class="text-center">
                                                 <div class="d-flex align-items-center gap-2">
                                                   <button (click)="editExpensePolicy(i)" type="button" class="btn btnAction p-0">
@@ -1026,7 +1184,6 @@
                                                     </svg>
                                                   </button>
         
-                                                  <!-- <button (click)="deleteCategory(i)" type="button" class="btn btnAction p-0"> -->
                                                   <button (click)="deleteExpensePolicy(i)" type="button" class="btn btnAction p-0">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19"
                                                       viewBox="0 0 19 19" fill="none">
@@ -1048,13 +1205,139 @@
                                           </tbody>
                                         </table>
                                       </div>
+                                </div>
+                            </form> -->
 
+                            <form #shiftForm="ngForm" ngNativeValidate (ngSubmit)="submitExpensePolicy()">
+                                <div class="row p-3">
+                                    <!-- Policy Name -->
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label for="policyNameInput" class="pb-2">Policy Name</label>
+                                            <input [disabled]="tempPolicyName !== ''" type="text" class="form-control whatapp-login-input"
+                                                id="policyNameInput" placeholder="Enter policy name" required
+                                                [(ngModel)]="policyName" name="policyNameInput" #policyNameInput="ngModel" />
+                                            <div *ngIf="policyNameInput.invalid && policyNameInput.touched" class="text-danger">
+                                                Policy name is required.
+                                            </div>
+                                        </div>
+                                    </div>
+                            
+                                    <!-- Expense Type Dropdown -->
+                                    <div class="col-md-6">
+                                        <div class="form-field">
+                                            <label for="expenseTypeDropdown" class="pb-2">Expense Type</label>
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button" 
+                                                        id="expenseTypeDropdown" data-bs-toggle="dropdown" aria-expanded="false" 
+                                                        style="text-align: left; background-color: white; color: black;
+                                                        border-color: #ced4da; width: 100%;">
+                                                    {{ expenseTypeName || "Select Expense type" }}
+                                                    <i class="bi bi-chevron-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="expenseTypeDropdown" style="width: 100%">
+                                                    <li *ngFor="let expense of expenseTypeList">
+                                                        <a class="dropdown-item" (click)="selectExpenseType(expense)">
+                                                            {{ expense.name }}
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div *ngIf="!isExpenseTypeSelected && shiftForm.submitted" class="text-danger">
+                                                Expense type is required.
+                                            </div>
+                                        </div>
+                                    </div>
 
+                                    <!-- Expense Type Amount -->
+                                    <div class="col-md-6">
+                                        <div class="form-field">
+                                            <label for="expenseAmount" class="pb-2">Amount</label>
+                                            <input type="number" class="form-control whatapp-login-input" min="1"
+                                                id="policyAmountInput" placeholder="Enter amount" required
+                                                [(ngModel)]="policyAmount" name="policyAmountInput" #policyAmountInput="ngModel" />
+                                            <div *ngIf="isErrorShow && policyAmountInput.invalid && policyAmountInput.touched" class="text-danger">
+                                                Amount is required.
+                                            </div>
+                                        </div>
+                                    </div>
+                            
+                                    <!-- Payment Type Radio Buttons -->
+                                    <div *ngIf="isExpenseTypeSelected" class="mt-3">
+                                        <label>Payment Type</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="paymentType" id="fixed" value="fixed" required
+                                                [(ngModel)]="paymentType" (change)="onPaymentTypeChange(0)">
+                                            <label class="form-check-label" for="fixed">Fixed</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="paymentType" id="flexible" value="flexible" required
+                                                [(ngModel)]="paymentType" (change)="onPaymentTypeChange(1)">
+                                            <label class="form-check-label" for="flexible">Flexible</label>
+                                        </div>
+                                        <div *ngIf="!paymentType && shiftForm.submitted" class="text-danger">
+                                            Payment type is required
+                                        </div>
+                            
+                                        <!-- Flexible Amount Field -->
+                                        <div *ngIf="paymentType === 'flexible'" class="mt-2">
+                                            <input type="number" class="form-control" placeholder="Enter Amount" id="amountFlex" 
+                                                   name="amountFlex" [(ngModel)]="flexibleAmount" #amountFlex="ngModel" min="1" required>
+                                            <div *ngIf="amountFlex.invalid && amountFlex.touched" class="text-danger">
+                                                Flexible amount is required
+                                            </div>
+                                        </div>
+                                    </div>
+                            
+                                    <!-- Add Button -->
+                                    <div class="d-flex justify-content-end">
+                                        <button type="button" class="btn btn-primary mt-2" (click)="addExpensePolicy(shiftForm)" 
+                                        [disabled]="shiftForm.invalid || expenseTypeId == 0 ">Add  </button>
+                                    </div>
+                                </div>
+                            
+                                <!-- Table to Show Expense Policy List -->
+                                <div class="table-responsive bg-white mt-4 leave-category-list" *ngIf="expensePolicyReqList.length > 0">
+                                    <table class="table empOnnoardtable">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th class="text-center" style="width: 5%">Sr. No</th>
+                                                <th class="text-center" style="width: 10%">Expense Type</th>
+                                                <th class="text-center" style="width: 10%">Payment Type</th>
+                                                <th class="text-center" style="width: 10%">Amount</th>
+                                                <th class="text-center" style="width: 10%">Flexible Amount</th>
+                                                <th *ngIf="!updateToggle" class="text-center" style="width: 10%">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let expensePolicy of expensePolicyReqList; let i = index">
+                                                <td class="text-center">{{ i + 1 }}.</td>
+                                                <td class="text-center">{{ expensePolicy.expenseTypeName }}</td>
+                                                <td class="text-center">
+                                                    <div class="badge rounded-pill" 
+                                                         [ngClass]="{ 'badge-soft-primary': expensePolicy.paymentType === 0, 'badge-soft-warning': expensePolicy.paymentType === 1 }">
+                                                        {{ expensePolicy.paymentType === 0 ? 'Fixed' : 'Flexible' }}
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">{{ expensePolicy.amount }}</td>
+                                                <td class="text-center">{{ expensePolicy.limitAmount }}</td>
+                                                <td class="text-center">
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <button (click)="editExpensePolicy(i)" type="button" class="btn btnAction p-0">Edit</button>
+                                                        <button (click)="deleteExpensePolicy(i)" type="button" class="btn btnAction p-0">Delete</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </form>
+                            
+
+                            
                             <div class="modal-footer d-flex align-items-center justify-content-between">
-                                <button type="submit" class="btn btn-outline-primary btn-round"
-                                    [disabled]="shiftForm.invalid" (click)="staffActiveTabInShiftTimingMethod()">
+                                <!-- <button type="submit" class="btn btn-outline-primary btn-round" [disabled]="shiftForm.invalid" (click)="staffActiveTabInShiftTimingMethod()"> -->
+                                <button type="submit" class="btn btn-outline-primary btn-round" [disabled]="expensePolicyReqList.length == 0" (click)="staffActiveTabInShiftTimingMethod()">
                                     Next
                                 </button>
                             </div>
@@ -1209,50 +1492,19 @@
                                 </div>
                             </div>
 
-                            <!-- <div class="pagination pl-3" *ngIf="total > itemPerPage - 1 || (pageNumber === lastPageNumber && lastPageNumber !== 1)">
-                                <p class="mb-0" style="padding-left: 15px">
-                                    Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
-                                    {{ total }} members
-                                </p>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <nav aria-label="Page navigation example">
-                                            <ul class="pagination justify-content-end">
-                                                <li class="page-item" [class.disabled]="pageNumber == 1">
-                                                    <a class="page-link" href="javascript:void(0);"
-                                                        aria-label="Previous" (click)="changePage('prev')">
-                                                        <span aria-hidden="true">&laquo;</span>
-                                                    </a>
-                                                </li>
-                                                <li class="page-item" *ngFor="let page of getPages()"
-                                                    [class.active]="pageNumber == page">
-                                                    <a class="page-link" href="javascript:void(0);"
-                                                        (click)="changePage(page)">{{ page }}</a>
-                                                </li>
-                                                <li class="page-item" [class.disabled]="pageNumber == totalPages">
-                                                    <a class="page-link" href="javascript:void(0);" aria-label="Next"
-                                                        (click)="changePage('next')">
-                                                        <span aria-hidden="true">&raquo;</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
-                                </div>
-                            </div> -->
-
-                            <!-- <div id="back-and-submit">
-                                <div class="modal-footer d-flex align-items-center justify-content-end"></div>
-                            </div> -->
                             <div class="modal-footer d-flex align-items-center justify-content-between">
-                                <!-- <button type="button" class="btn btn-outline-secondary btn-round"
-                                    (click)="weekOffActiveTabMethod()">
-                                    Back
-                                </button> -->
-                                <button type="button" class="btn btn-outline-primary btn-round"
-                                    (click)="registerCompanyExpense()">
+                               
+                                <button *ngIf="!registerToggle" type="button" class="btn btn-outline-primary btn-round"
+                                    (click)="registerCompanyExpense(shiftForm)" [disabled]="selectedStaffIdsUser.length == 0 || registerToggle" >
                                     Submit
                                 </button>
+
+                                <div class="dot-opacity-loader" *ngIf="registerToggle">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -1262,3 +1514,68 @@
     </div>
 </div>
 <!-- Add policy modal end -->
+
+
+<!-- delete policy modal -->
+<div class="modal fade" id="delete-policy" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
+    <div class="modal-content">
+      <div class="modal-body p-0 delete-text">
+        <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
+          <div class="delete-close-btn">
+            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButtonDeleteLeave>
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                <mask id="mask0_2031_1331" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
+                  height="30">
+                  <rect width="30" height="30" fill="#D9D9D9" />
+                </mask>
+                <g mask="url(#mask0_2031_1331)">
+                  <path
+                    d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                    fill="black" />
+                </g>
+              </svg>
+            </button>
+          </div>
+          <img src="/assets/images/delete-img.svg" style="width: 70px" />
+        </div>
+        <div class="bg-white p-4 text-center">
+
+          <div *ngIf="expenseAppliedCount == 0">
+            <h5 class="alert-heading font-18 mb-2">
+              Are you sure you want to delete <br />
+              {{ expensePolicyId > 0 ? "Expense Policy ?" : "Expense Policy Type ?" }}
+            </h5>
+            <p class="font-11">You will not be able to recover this</p>
+          </div>
+
+          <div *ngIf="expenseAppliedCount > 0">
+            <h5 class="alert-heading font-18 mb-2">
+              Are you sure ?
+            </h5>
+            <p class="font-11">There are <b class="font-13">{{expenseAppliedCount}}</b> users who have submitted expense associated with this policy. 
+              Deleting this policy will permanently remove all related data and cannot be recovered</p>
+          </div>
+
+          <div class="mt-4 d-flex align-items-center flex-column">
+            <button [disabled]="deletePolicyToggle" class="btn continue-btn" *ngIf="expensePolicyId > 0"
+              (click)="deleteExpensePolicyById()">
+              Continue
+              <i class="fa fa-spinner fa-spin" *ngIf="deletePolicyToggle"></i>
+            </button>
+
+            <button [disabled]="deletePolicyToggle" class="btn continue-btn" *ngIf="expensePolicyId == 0"
+              (click)="deleteExpensePolicyTypeById()">
+              Continue
+              <i class="fa fa-spinner fa-spin" *ngIf="deletePolicyToggle"></i>
+            </button>
+            <button class="btn cancel-btn pt-2" type="button" data-bs-dismiss="modal" aria-label="Close">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- delete policy modal end-->

@@ -849,7 +849,7 @@
                     <!-- class="stickyColTd" -->
                       <td>
                         <a
-                          
+
                           (click)="routeToUserDetails(user.uuid)"
                           class="mb-0 weekly-pro-name"
                           >{{ user.name }}</a
@@ -929,7 +929,7 @@
                       <!-- <td>Meeting</td> -->
                       <td>
                         <a
-                          
+
                           (click)="routeToUserDetails(user.uuid)"
                           class="mb-0 weekly-pro-email"
                         >
@@ -938,7 +938,7 @@
                       </td>
                       <td class="text-center">
                         <a
-                          
+
                           (click)="routeToUserDetails(user.uuid)"
                           class="mb-0 weekly-pro-email"
                         >
@@ -1017,7 +1017,7 @@
                             <li>
                               <a
                                 class="dropdown-item"
-                                
+
                                 (click)="routeToUserDetails(user.uuid)"
                                 ><i class="bi bi-eye"></i> View Profile</a
                               >
@@ -1723,7 +1723,7 @@
               </div>
             </div>
           </div>
-          <div
+          <div #attention
             class="create-password-warning mb-0 mt-4 ng-star-inserted text-start"
             *ngIf="
               alreadyUsedPhoneNumberArray.length > 0 ||
@@ -1770,7 +1770,7 @@
               <h3 class="font-20 mb-2">Uploaded Data</h3>
               <div class="align-items-center empuploadHeader excelUploadTable row mb-2">
                 <div class="col-lg-9 col-md-12">
-                  <div class="row">
+                  <div class="row" *ngIf="isAnyRowSelected()">
                     <div class="col-lg-4 col-md-3">
                       <div>
                         <nz-select [(ngModel)]="bulkShift" (ngModelChange)="applyBulkChange('shift', $event)" nzPlaceHolder="Select Shift" [nzDropdownRender]="customDropdownShift">
@@ -1807,21 +1807,33 @@
                     </div>
                   </div>
                 </div>
-                
+
                 <div class="col-lg-3 col-md-12">
                   <div class="align-items-center d-flex gap-2 justify-content-end">
                     <p class="m-0 d-flex align-items-center gap-2 justify-content-center">
-                      <input type="checkbox" [(ngModel)]="selectAllCurrentPage" (change)="toggleSelectAllCurrentPage()" /> Select all on current page
+                      <input
+                        type="checkbox"
+                        [(ngModel)]="selectAllCurrentPage"
+                        (change)="toggleSelectAllCurrentPage()"
+                        [disabled]="selectAllPages"
+                      />
+                      Select all on current page
                     </p>
                     <span class="btnSeprator"></span>
                     <p class="m-0 d-flex align-items-center gap-2 justify-content-center">
-                      <input type="checkbox" [(ngModel)]="selectAllPages" (change)="toggleSelectAllPage()" /> Select All Page
+                      <input
+                        type="checkbox"
+                        [(ngModel)]="selectAllPages"
+                        (change)="toggleSelectAllPage()"
+                        [disabled]="selectAllCurrentPage"
+                      />
+                      Select All Pages
                     </p>
                   </div>
                 </div>
               </div>
               <div class="table-responsive">
-                
+
                 <table class="table excelUploadTable">
 
                   <!-- Dropdowns for applying to selected rows -->
@@ -1833,16 +1845,18 @@
                   </thead>
                   <tbody>
                     <!-- Skip the first row for pagination purposes -->
-                    <tr *ngFor="let row of paginatedData; let i = index">
+                    <tr *ngFor="let row of paginatedData; let i = index" >
                       <td>
-                        <input *ngIf="i + currentPage -1!=0" type="checkbox" [(ngModel)]="row.selected" />
+                        <!-- *ngIf="i + currentPage -1!=0" -->
+                        <input  type="checkbox" [(ngModel)]="row.selected" />
                       </td>
 
                       <td *ngFor="let cell of fileColumnName; let j = index">
-                        <ng-container *ngIf="fileColumnName[j] === 'shift*' && (currentPage - 1) * pageSize + i  !== 0; else leaveColumns">
+                        <ng-container *ngIf="fileColumnName[j] === 'shift*' ; else leaveColumns">
+
                           <nz-select
                               [(ngModel)]="row[j]"
-                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
+                              [ngClass]="{'invalid-input': invalidCells[((currentPage - 1) * pageSize)+i][j]}"
                               (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)"
                               nzPlaceHolder="Select Shift"
                               [nzDropdownRender]="customDropdownShift">
@@ -1859,7 +1873,7 @@
                         </ng-container>
 
                         <ng-template #leaveColumns>
-                          <ng-container *ngIf="this.fileColumnName[j] === 'leavenames' && (currentPage - 1) * pageSize + i  !== 0; else otherColumns">
+                          <ng-container *ngIf="this.fileColumnName[j] === 'leavenames' ; else otherColumns">
                             <nz-select
                               class="whatapp-login-input"
                               nzMode="multiple"
@@ -1891,12 +1905,12 @@
                         </ng-template>
 
                         <ng-template #otherColumns>
-                          <ng-container *ngIf="this.fileColumnName[j] === 'joiningdate*' && (currentPage - 1) * pageSize + i  !== 0; else teamColumns">
+                          <ng-container *ngIf="this.fileColumnName[j] === 'joiningdate*' || this.fileColumnName[j] === 'dob' ; else teamColumns">
                             <nz-date-picker
                               id="joiningDate"
                               name="joiningDate"
                               #joiningDate="ngModel"
-                              [(ngModel)]="data[(currentPage - 1) * pageSize + i][j]"
+                              [(ngModel)]="row[j]"
                               required
                               (ngModelChange)="onDateChange($event, (currentPage - 1) * pageSize + i , j)"
                               [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
@@ -1907,7 +1921,7 @@
                         </ng-template>
 
                         <ng-template #teamColumns>
-                          <ng-container *ngIf="this.fileColumnName[j] === 'team' && (currentPage - 1) * pageSize + i  !== 0; else genderColumns">
+                          <ng-container *ngIf="this.fileColumnName[j] === 'team' ; else genderColumns">
                             <nz-select
                               nzAllowClear
                               nzShowSearch
@@ -1937,7 +1951,7 @@
                         </ng-template>
 
                         <ng-template #genderColumns>
-                          <ng-container *ngIf="this.fileColumnName[j] === 'gender*' && (currentPage - 1) * pageSize + i  !== 0; else defaultInput">
+                          <ng-container *ngIf="this.fileColumnName[j] === 'gender*' ; else defaultInput">
                             <nz-select
                               id="gender"
                               name="gender"
@@ -1962,11 +1976,12 @@
                     </tr>
                   </tbody>
                 </table>
-                
+
               </div>
               <div class="text-end">
                 <div class="d-flex justify-content-between align-items-center">
-                  <p class="m-0"> Showing 1 - 12 of 20 Members </p>
+                  <p class="m-0" *ngIf="data.length-1>pageSize"> Showing {{(currentPage - 1) * pageSize +currentPage}} -
+                    {{(currentPage - 1) * pageSize +(currentPage-1)+(data.length - 1)}} of {{data.length-1}}  </p>
                   <ngb-pagination
                   [rotate]="true"
                   [maxSize]="4" [collectionSize]="data.length - 1" [pageSize]="pageSize" [(page)]="currentPage"

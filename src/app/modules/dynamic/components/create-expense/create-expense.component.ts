@@ -2,10 +2,12 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { NgForm } from '@angular/forms';
 import { Key } from 'src/app/constant/key';
+import { ApproveReq } from 'src/app/models/ApproveReq';
 import { CompanyExpense } from 'src/app/models/CompanyExpense';
+import { CompanyExpensePolicyRes } from 'src/app/models/CompanyExpensePolicyRes';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { ExpensePolicy } from 'src/app/models/ExpensePolicy';
-import { ExpenseType } from 'src/app/models/expenseType';
+import { ExpenseType } from 'src/app/models/ExpenseType';
 import { Staff } from 'src/app/models/staff';
 import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-reflection';
 import { DataService } from 'src/app/services/data.service';
@@ -18,14 +20,19 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
   styleUrls: ['./create-expense.component.css']
 })
 export class CreateExpenseComponent implements OnInit {
+  
   ROLE: any
+  // isLoading: boolean = false;
 
   constructor(private afStorage: AngularFireStorage,
-    private dataService: DataService, private helperService: HelperService, private rbacService: RoleBasedAccessControlService) { }
+    private dataService: DataService, private helperService: HelperService, private rbacService: RoleBasedAccessControlService) { 
+
+    }
 
   ngOnInit(): void {
-
     this.getExpenses();
+    this.getAllCompanyExpensePolicy();
+    
   }
 
 
@@ -43,7 +50,6 @@ export class CreateExpenseComponent implements OnInit {
         this.loading = false
       }
     })
-
   }
 
 
@@ -201,22 +207,40 @@ export class CreateExpenseComponent implements OnInit {
     this.partialAmount = '';
   }
 
+  approveReq: ApproveReq = new ApproveReq();
   approveToggle: boolean = false;
   @ViewChild('closeApproveModal') closeApproveModal!: ElementRef
-  approveOrDeny(id: number, status: string) {
-    console.log(id, status)
-    this.isCheckboxChecked = false;
-    this.partialAmount = '';
-    this.closeApproveModal.nativeElement.click()
+  approveOrDeny(id: number, statusId: number) {
+
+    debugger
+    this.approveToggle = true;
+    this.approveReq.id = id;
+    this.approveReq.statusId = statusId
+    this.approveReq.amount = this.partialAmount
+    this.dataService.updateCompanyExpense(this.approveReq).subscribe((res: any) => {
+      if(res.status){
+        this.approveReq = new ApproveReq();
+        this.getExpenses();
+        this.isCheckboxChecked = false;
+        this.partialAmount = '';
+        this.closeApproveModal.nativeElement.click()
+        this.approveToggle = false
+        this.helperService.showToast(
+          res.message,
+          Key.TOAST_STATUS_SUCCESS
+        );
+      }
+    })
+
   }
 
-  /** Expense end **/
+  /** Company Expense end **/
 
   /**
    * Create Expense Policy Start
    */
 
-  /** switch tab start */
+  // switch tab start
 
   activeTab: string = 'expensePolicy';
 
@@ -391,7 +415,11 @@ export class CreateExpenseComponent implements OnInit {
       this.allselected = false;
       this.selectedStaffIdsUser = [];
     }
-    console.log('all Ids: ', this.selectedStaffIdsUser)
+    // console.log('all Ids: ', this.selectedStaffIdsUser)
+
+    this.selectedStaffIdsUser = Array.from(new Set(this.selectedStaffIdsUser));
+    // console.log('After SET Ids: ',this.selectedStaffIdsUser)
+
   }
 
   selectAll(checked: boolean) {
@@ -672,7 +700,9 @@ export class CreateExpenseComponent implements OnInit {
   expensePolicyReqList: ExpensePolicy[] = [];
   expensePolicyReq: ExpensePolicy = new ExpensePolicy();
   tempPolicyName: string = ''
-  addExpensePolicy(){
+  policyAmount: string = ''
+  isErrorShow: boolean = true;
+  addExpensePolicy(form: NgForm){
     debugger
     this.tempPolicyName = this.policyName;
 
@@ -681,6 +711,7 @@ export class CreateExpenseComponent implements OnInit {
     this.expensePolicyReq.limitAmount = this.flexibleAmount == null ? 0 : this.flexibleAmount
     this.expensePolicyReq.expenseTypeId = this.expenseTypeId
     this.expensePolicyReq.expenseTypeName = this.expenseTypeName
+    this.expensePolicyReq.amount = Number(this.policyAmount)
 
     this.expensePolicyReqList.push(this.expensePolicyReq)
 
@@ -692,19 +723,62 @@ export class CreateExpenseComponent implements OnInit {
     this.expenseTypeId = 0
     this.expenseTypeName = ''
     this.isExpenseTypeSelected = false;
+    this.policyAmount = ''
     this.paymentType = ''; // Reset payment type when a new expense type is selected
     this.flexibleAmount = null; // Reset amount for flexible payment type
     console.log('Request: ',this.expensePolicyReqList)
+    this.isErrorShow = false;
+    // form.resetForm()
+    // this.tempPolicyName = this.policyName
+  }
+
+  clearForm(form: NgForm){
+    this.clearPolicyForm();
+    form.resetForm()
   }
   
   policyName: string = ''
   companyExpenseReq: CompanyExpense = new CompanyExpense();
-  registerCompanyExpense() {
+  registerToggle: boolean = false
+  @ViewChild('closeExpensePolicyModal') closeExpensePolicyModal!: ElementRef
+  registerCompanyExpense(form: NgForm) {
+    debugger
+
+    this.registerToggle = true;
     this.companyExpenseReq.policyName = this.tempPolicyName;
     this.companyExpenseReq.expensePolicyList = this.expensePolicyReqList
     this.companyExpenseReq.selectedUserIds = this.selectedStaffIdsUser;
 
     console.log('Create: ',this.companyExpenseReq)
+
+    this.dataService.createExpensePolicy(this.companyExpenseReq).subscribe((res: any) => {
+      if(res.status){
+        this.closeExpensePolicyModal.nativeElement.click()
+        form.resetForm()
+        this.clearPolicyForm();
+        this.getAllCompanyExpensePolicy()
+        this.registerToggle = false
+        this.helperService.showToast(res.message, Key.TOAST_STATUS_SUCCESS);
+      }
+    })
+
+  }
+
+  clearPolicyForm(){
+    this.companyExpenseReq = new CompanyExpense();
+    this.expensePolicyReqList = []
+    this.selectedStaffIdsUser = []
+    this.expenseTypeId = 0;
+    this.expenseTypeId = 0
+    this.expenseTypeName = ''
+    this.isExpenseTypeSelected = false;
+    this.allselected = false;
+    this.policyName = ''
+    this.tempPolicyName = ''
+    this.paymentType = ''; 
+    this.flexibleAmount = null; 
+    this.expenseTypeSelectionTab();
+
   }
 
   deleteExpensePolicy(index: number){
@@ -721,6 +795,57 @@ export class CreateExpenseComponent implements OnInit {
     this.expensePolicyReq.limitAmount = this.flexibleAmount == null ? 0 : this.flexibleAmount
     this.expensePolicyReq.expenseTypeId = this.expenseTypeId
     this.expensePolicyReq.expenseTypeName = this.expenseTypeName
+  }
+
+  companyExpensePolicyList: CompanyExpensePolicyRes[] = [];
+  // companyExpensePolicyList: CompanyExpensePolicyRes = new CompanyExpensePolicyRes();
+  getAllCompanyExpensePolicy(){
+    // this.companyExpensePolicyList = 
+    this.isLoading = true;
+    this.databaseHelper.currentPage = 1;
+    this.databaseHelper.itemPerPage = 10;
+    this.dataService.getAllCompanyExpensePolicy(this.databaseHelper).subscribe((res: any) => {
+      if(res.status){
+        // this.companyExpensePolicyList = res.object
+        this.companyExpensePolicyList = res.object
+      }
+      this.isLoading = false;
+      console.log('lsit: ',this.companyExpensePolicyList)
+    })
+  }
+
+  activeIndex: number | null = null;
+  toggleCollapse(index: number): void {
+    this.activeIndex = this.activeIndex === index ? null : index;
+  }
+
+  expensePolicyId: number = 0;
+  expensePolicyTypeId: number = 0;
+  expenseAppliedCount: number = 0;
+  getExpensePolicyOrExpensePolicyTypeId(id: number, isExpensePolicy: boolean, expenseAppliedCount: number) {
+    // this.leaveTemplateCategoryId = id;
+    // this.leaveAppliedUserCount = leaveAppliedUserCount;
+
+    if (isExpensePolicy) {
+      this.expensePolicyTypeId = 0;
+      this.expensePolicyId = id;
+    } else {
+      this.expensePolicyId = 0;
+      this.expensePolicyTypeId = id;
+    }
+  }
+
+  deletePolicyToggle: boolean = false
+  deleteExpensePolicyById(){
+
+  }
+
+  deleteExpensePolicyTypeById(){
+
+  }
+
+  getExpenseInformationById(id: number, flag: boolean){
+
   }
 
 }

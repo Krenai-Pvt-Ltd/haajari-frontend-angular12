@@ -14,7 +14,7 @@ import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { Employeetype } from 'src/app/models/EmployeeType';
-import { ExpenseType } from 'src/app/models/expenseType';
+import { ExpenseType } from 'src/app/models/ExpenseType';
 import { FullLeaveSettingRequest } from 'src/app/models/Full-Leave-Setting-Request';
 import { FullLeaveSettingResponse } from 'src/app/models/full-leave-setting-response';
 import { LeaveCategory } from 'src/app/models/leave-category';

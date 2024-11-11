@@ -78,8 +78,11 @@ import { LeaveTemplateRequest } from '../models/leave-template-request';
 import { OrganizationRegistrationFormRequest } from '../models/organization-registration-form-request';
 import { rootCertificates } from 'tls';
 import { OnboardingModule } from '../models/OnboardingModule';
-import { ExpenseType } from '../models/expenseType';
 import { AddressModeTypeRequest } from '../models/address-mode-type-request';
+import { ExpenseType } from '../models/ExpenseType';
+import { CompanyExpense } from '../models/CompanyExpense';
+import { DatabaseHelper } from '../models/DatabaseHelper';
+import { ApproveReq } from '../models/ApproveReq';
 
 
 @Injectable({
@@ -4266,6 +4269,10 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.post<any>(`${this.baseUrl}/company-expense`, expenseTypeReq);
   }
 
+  createExpensePolicy(companyExpenseReq: CompanyExpense){
+    return this.httpClient.post<any>(`${this.baseUrl}/company-expense-policy`, companyExpenseReq);
+  }
+
   deleteExpense(id: number): Observable<any> {
     const params = new HttpParams().set('expenseId', id);
     return this.httpClient.delete(`${this.baseUrl}/company-expense`, {
@@ -4285,13 +4292,19 @@ getHolidayForOrganization(date: string): Observable<any>{
   }
 
 
+  getAllCompanyExpensePolicy(databaseHelper: DatabaseHelper){
+    const params = new HttpParams()
+    .set('page_number', databaseHelper.currentPage)
+    .set('item_per_page', databaseHelper.itemPerPage)
+    .set('sortBy', 'createdDate')
+    .set('sortOrder', 'desc')
+  
+    return this.httpClient.get<any>(`${this.baseUrl}/company-expense-policy/rule`, {params});
+  }
 
-// private apiKey ='AIzaSyB6SQE_TmOLpGLohpMLl-6FzdwJJAU9MnA';
-// private apiUrl = 'https://maps.googleapis.com/maps/api/geocode/json';
-// getAddressFromLatLng(lat: number, lng: number): Observable<any> {
-//   const url = `${this.apiUrl}?latlng=${lat},${lng}&key=${this.apiKey}`;
-//   return this.httpClient.get(url);
-// }
+  updateCompanyExpense(approveReq: ApproveReq){
+    return this.httpClient.patch<any>(`${this.baseUrl}/company-expense`, approveReq);
+  }
 
 }
 

@@ -53,6 +53,8 @@ import { OvertimeRequestLogResponse } from 'src/app/models/overtime-request-log-
 import { LopReversalApplicationResponse } from 'src/app/models/lop-reversal-application-response';
 import { NzCalendarMode } from 'ng-zorro-antd/calendar';
 import { AttendanceDetailDayWise } from 'src/app/models/attendance-detail-day-wise'
+import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
+import { ExpenseType } from 'src/app/models/ExpenseType';
 
 @Component({
   selector: 'app-employee-profile',
@@ -2550,6 +2552,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   activeDocumentsTabFlag: boolean = false;
   activeAssetsTabFlag: boolean = false;
   activeProfileTabFlag: boolean = false;
+  activeExpenseTabFlag: boolean = false;
 
   activeTabs(activeTabString: string) {
     if (activeTabString === 'home') {
@@ -2559,6 +2562,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
       this.activeDocumentsTabFlag = false;
       this.activeAssetsTabFlag = false;
       this.activeProfileTabFlag = false;
+      this.activeExpenseTabFlag = false;
     } else if (activeTabString === 'attendance') {
       this.activeHomeTabFlag = false;
       this.activeAttendanceTabFlag = true;
@@ -2566,6 +2570,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
       this.activeDocumentsTabFlag = false;
       this.activeAssetsTabFlag = false;
       this.activeProfileTabFlag = false;
+      this.activeExpenseTabFlag = false;
     } else if (activeTabString === 'finances') {
       this.activeHomeTabFlag = false;
       this.activeAttendanceTabFlag = false;
@@ -2573,6 +2578,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
       this.activeDocumentsTabFlag = false;
       this.activeAssetsTabFlag = false;
       this.activeProfileTabFlag = false;
+      this.activeExpenseTabFlag = false;
     }else if (activeTabString === 'assets') {
       this.activeHomeTabFlag = false;
       this.activeAttendanceTabFlag = false;
@@ -2580,6 +2586,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
       this.activeDocumentsTabFlag = false;
       this.activeAssetsTabFlag = true;
       this.activeProfileTabFlag = false;
+      this.activeExpenseTabFlag = false;
     } else if (activeTabString === 'documents') {
       this.activeHomeTabFlag = false;
       this.activeAttendanceTabFlag = false;
@@ -2587,13 +2594,23 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
       this.activeDocumentsTabFlag = true;
       this.activeAssetsTabFlag = false;
       this.activeProfileTabFlag = false;
+      this.activeExpenseTabFlag = false;
     } else if (activeTabString === 'profile') {
       this.activeHomeTabFlag = false;
       this.activeAttendanceTabFlag = false;
       this.activeFinancesTabFlag = false;
       this.activeDocumentsTabFlag = false;
       this.activeAssetsTabFlag = false;
+      this.activeExpenseTabFlag = false;
       this.activeProfileTabFlag = true;
+    }else if(activeTabString === 'expense'){
+      this.activeHomeTabFlag = false;
+      this.activeAttendanceTabFlag = false;
+      this.activeFinancesTabFlag = false;
+      this.activeDocumentsTabFlag = false;
+      this.activeAssetsTabFlag = false;
+      this.activeProfileTabFlag = false;
+      this.activeExpenseTabFlag = true;
     }
   }
 
@@ -2867,6 +2884,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
       this.domSanitizer.bypassSecurityTrustResourceUrl(objectUrl);
   }
 
+  fileName: any;
   onFileSelected(event: Event): void {
 
     const element = event.currentTarget as HTMLInputElement;
@@ -2875,6 +2893,10 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
     if (fileList && fileList.length > 0) {
       this.isFileUploaded = true;
       this.selectedFile = fileList[0];
+
+      const file = fileList[0];
+
+      this.fileName = file.name;
 
       if (this.isImageNew(this.selectedFile)) {
         this.setImgPreviewUrl(this.selectedFile);
@@ -2905,6 +2927,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
           .then((url) => {
             // console.log('File URL:', url);
             this.fileToUpload = url;
+            this.expenseTypeReq.url = url;
             // console.log('file url : ' + this.fileToUpload);
             this.isFileUploaded = false;
           })
@@ -3731,6 +3754,212 @@ closeAttendanceFunc() {
     // console.log("years ",years)
     return years;
   }
+
+  /** Create and View Expense start */
+
+  expenseList: any[] = new Array();
+  loading: boolean = false;
+  databaseHelper: DatabaseHelper = new DatabaseHelper();
+   getExpenses() {
+    debugger
+    this.loading = true;
+    this.expenseList = []
+    // this.ROLE = await this.rbacService.getRole();
+
+    this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage).subscribe((res: any) => {
+      if (res.status) {
+        this.expenseList = res.object
+        this.loading = false
+      }
+    })
+  }
+
+
+  /** Expense start **/
+
+  expenseTypeList: any[] = new Array();
+  expenseTypeReq: ExpenseType = new ExpenseType();
+  expenseTypeId: number = 0;
+  getExpenseTypeId(id: any) {
+    this.expenseTypeReq.expenseTypeId = id
+  }
+
+  getExpenseType() {
+
+    this.expenseTypeReq = new ExpenseType();
+    this.expenseTypeId = 0
+
+    this.expenseTypeList = []
+    this.dataService.getExpenseType().subscribe((res: any) => {
+
+      if (res.status) {
+        this.expenseTypeList = res.object;
+      }
+
+    }, error => {
+      console.log('something went wrong')
+    })
+  }
+
+  // Watch for changes in the expense date for the custom date range
+  isExpenseDateSelected: boolean = true;
+  isCustomDateRange: boolean = false;
+  selectExpenseDate(startDate: Date) {
+    if (this.isCustomDateRange && startDate) {
+      this.expenseTypeReq.expenseDate = this.helperService.formatDateToYYYYMMDD(startDate);
+    }
+  }
+
+  validatePolicyToggle: boolean = false;
+  limitAmount: any;
+  checkExpensePolicy(form: NgForm) {
+    debugger
+    this.dataService.checkExpensePolicy(this.expenseTypeReq.expenseTypeId, this.expenseTypeReq.amount).subscribe((res: any) => {
+      this.limitAmount = res.object;
+
+      if (this.limitAmount > 0) {
+        this.validatePolicyToggle = true;
+      } else {
+        this.createExpense(form);
+      }
+    })
+  }
+
+  setValidateToggle() {
+    this.validatePolicyToggle = false;
+  }
+
+  managerId: number = 0
+  getManagerId(id: any) {
+    this.expenseTypeReq.managerId = id
+  }
+
+  @ViewChild('closeExpenseButton') closeExpenseButton!: ElementRef
+  createToggle: boolean = false;
+  createExpense(form: NgForm) {
+    debugger
+    this.createToggle = true;
+   
+    this.dataService.createExpense(this.expenseTypeReq).subscribe((res: any) => {
+      if (res.status) {
+        this.expenseTypeReq = new ExpenseType();
+        this.expenseTypeId = 0;
+        this.managerId = 0
+        this.expenseTypeReq.id = 0;
+        this.validatePolicyToggle = false;
+        form.resetForm();
+        this.getExpenses();
+        this.createToggle = false;
+        this.closeExpenseButton.nativeElement.click()
+        this.helperService.showToast(res.message, Key.TOAST_STATUS_SUCCESS);
+      }
+    })
+
+    // console.log('createExpense Req: ', this.expenseTypeReq)
+    // this.expenseTypeReq = new ExpenseType();
+
+    // this.expenseTypeId = 0;
+    // this.validatePolicyToggle = false;
+    // this.managerId = 0
+    // this.createToggle = false;
+    // form.resetForm();
+    // this.getExpenses();
+
+    // this.closeExpenseButton.nativeElement.click()
+    console.log('Created Successfully')
+  }
+
+  async updateExpense(expense: any) {
+    await this.getExpenseType();
+
+    setTimeout(() =>{
+      this.fetchManagerNames()
+    })
+    
+    this.getManagerId(expense.managerId)
+
+    this.expenseTypeReq.id = expense.id
+    this.expenseTypeReq.amount = expense.amount
+    this.expenseTypeReq.expenseDate = expense.expenseDate
+    this.expenseTypeReq.expenseTypeId = expense.expenseTypeId
+    this.expenseTypeReq.notes = expense.notes
+    this.expenseTypeId = expense.expenseTypeId
+    this.managerId = expense.managerId
+
+
+  }
+
+  clearExpenseForm(form: NgForm) {
+    this.expenseTypeReq = new ExpenseType();
+    this.expenseTypeId = 0;
+    this.validatePolicyToggle = false;
+    form.resetForm();
+  }
+
+  deleteImage() {
+    this.expenseTypeReq.url = ''
+  }
+
+  expenseId: number = 0;
+  getExpenseId(id: number) {
+    this.expenseId = id;
+    console.log('id: ', this.expenseId)
+  }
+
+  deleteToggle: boolean = false
+  @ViewChild('closeButtonDeleteExpense') closeButtonDeleteExpense!: ElementRef
+  deleteExpense() {
+
+    this.dataService.deleteExpense(this.expenseId).subscribe((res: any) => {
+      if (res.status) {
+        this.closeButtonDeleteExpense.nativeElement.click()
+        this.getExpenses();
+        this.helperService.showToast(
+          'Expense deleted successfully.',
+          Key.TOAST_STATUS_SUCCESS
+        );
+      }
+    })
+  }
+
+  // Function to disable future dates
+  disableFutureDates = (current: Date): boolean => {
+    const today = new Date();
+    // Disable dates after today
+    return current && current >= today;
+  };
+
+  userExpense: any;
+  getExpense(expense: any) {
+    this.userExpense = expense
+  }
+
+  isCheckboxChecked: boolean = false
+  partialAmount: string = '';
+  onCheckboxChange(checked: boolean): void {
+    this.isCheckboxChecked = checked;
+    if (!checked) {
+      this.partialAmount = '';
+    }
+  }
+
+  clearApproveModal() {
+    this.isCheckboxChecked = false;
+    this.partialAmount = '';
+  }
+
+  approveToggle: boolean = false;
+  @ViewChild('closeApproveModal') closeApproveModal!: ElementRef
+  approveOrDeny(id: number, status: string) {
+    console.log(id, status)
+    this.isCheckboxChecked = false;
+    this.partialAmount = '';
+    this.closeApproveModal.nativeElement.click()
+  }
+
+  /** Company Expense end **/
+
+  /** Create and view expense end */
 
 }
 

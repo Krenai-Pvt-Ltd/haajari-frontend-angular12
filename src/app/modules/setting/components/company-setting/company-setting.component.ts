@@ -1212,8 +1212,12 @@ getData(event:any){
  console.log("event :" + event);
 
  var id = this.organizationAddressDetail.id;
+ var branch = this.organizationAddressDetail.branch;
+ var radius = this.organizationAddressDetail.radius;
  this.organizationAddressDetail = new OrganizationAddressDetail();
  this.organizationAddressDetail.id = id;
+ this.organizationAddressDetail.branch = branch;
+ this.organizationAddressDetail.radius = radius;
  this.organizationAddressDetail.longitude = event.longitude;
  this.organizationAddressDetail.latitude = event.latitude;
  this.organizationAddressDetail.addressLine1 = event.addressLine1

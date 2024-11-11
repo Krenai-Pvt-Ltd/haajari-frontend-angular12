@@ -11,7 +11,7 @@
 </div>
 <div
   class="container-scroller"
-  *ngIf="key.HEADER_ROUTES.includes(this._router.url.split('?')[0])"
+  *ngIf="key.HEADER_ROUTES.includes(this._router.url.split('?')[0]) &&  this.rbacService.userInfo.role != 'USER'"
 >
   <div class="horizontal-menu">
     <app-header></app-header>
