@@ -5322,6 +5322,33 @@
                             </div>
 
                             <div class="col-md-12 mb-3">
+                              <label for="username" style="padding-bottom: 6px">Select user to request the leave from</label>
+                              <!-- <div class="" style="width: 100%; position: relative">
+                                <div class="dropdown" style="width: 100%">
+
+                                  <select class="form-select" id="manager"
+                                    [(ngModel)]="expenseTypeReq.managerId">
+                                    <option [ngValue]="undefined">Select Manager</option>
+                                    <option *ngFor="let manager of managers" [ngValue]="manager.id">
+                                      {{ manager.name }}
+                                    </option>
+                                  </select>
+                                  <div class="form-text text-danger" *ngIf="
+                                      ManagerId?.errors?.['required'] &&
+                                      (ManagerId?.touched || ManagerId?.dirty)
+                                    "> Select User to Request Leave Required. </div>
+                                </div>
+                              </div> -->
+                              <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select Manager"
+                                  [(ngModel)]="managerId" (ngModelChange)="getManagerId($event)" required
+                                  name="expTypeId" #expTypeId="ngModel" class="form-control">
+                                  <nz-option *ngFor="let manager of managers"
+                                      [nzValue]="manager.id" [nzLabel]="manager.name">
+                                  </nz-option>
+                              </nz-select>
+                            </div>
+
+                            <div class="col-md-12 mb-3">
                                 <div class="form-group">
                                     <label for="templateName" class="mb-2"> Note</label>
                                     <textarea class="form-control nots-section" required placeholder="write the note"
@@ -5421,7 +5448,7 @@
                                 (click)="clearExpenseForm(createForm)">Cancel</button>
 
                             <button *ngIf="!createToggle" type="submit" class="btn submitActionBtn"
-                                [disabled]="expenseTypeReq.expenseTypeId == 0 || expenseTypeReq.expenseDate == undefined || expenseTypeReq.notes == '' || expenseTypeReq.amount == undefined || expenseTypeReq.amount <= 0">
+                                [disabled]="expenseTypeReq.expenseTypeId == 0 || expenseTypeReq.managerId == 0 || expenseTypeReq.expenseDate == undefined || expenseTypeReq.notes == '' || expenseTypeReq.amount == undefined || expenseTypeReq.amount <= 0">
                                 {{expenseTypeReq.id == 0 ? 'Submit' : 'Update'}}
                             </button>
 
