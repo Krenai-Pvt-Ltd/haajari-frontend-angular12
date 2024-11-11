@@ -209,11 +209,18 @@ export class CreateExpenseComponent implements OnInit {
 
   approveReq: ApproveReq = new ApproveReq();
   approveToggle: boolean = false;
+  rejectToggle: boolean = false;
   @ViewChild('closeApproveModal') closeApproveModal!: ElementRef
   approveOrDeny(id: number, statusId: number) {
 
     debugger
-    this.approveToggle = true;
+
+    if(statusId == 14){
+      this.approveToggle = true;
+    }else{
+      this.rejectToggle = true;
+    }
+
     this.approveReq.id = id;
     this.approveReq.statusId = statusId
     this.approveReq.amount = this.partialAmount
@@ -225,6 +232,7 @@ export class CreateExpenseComponent implements OnInit {
         this.partialAmount = '';
         this.closeApproveModal.nativeElement.click()
         this.approveToggle = false
+        this.rejectToggle = false
         this.helperService.showToast(
           res.message,
           Key.TOAST_STATUS_SUCCESS
@@ -247,6 +255,11 @@ export class CreateExpenseComponent implements OnInit {
   // Method to switch tabs
   switchTab(tabName: string) {
     this.activeTab = tabName;
+    
+    if(tabName === 'allExpense'){
+      this.getExpenses()
+    }
+
   }
 
   @ViewChild('expenseTypeTab') expenseTypeTab!: ElementRef;
