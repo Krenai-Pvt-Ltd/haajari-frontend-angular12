@@ -3,6 +3,7 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { NgForm } from '@angular/forms';
 import { Key } from 'src/app/constant/key';
 import { CompanyExpense } from 'src/app/models/CompanyExpense';
+import { CompanyExpensePolicyRes } from 'src/app/models/CompanyExpensePolicyRes';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { ExpensePolicy } from 'src/app/models/ExpensePolicy';
 import { ExpenseType } from 'src/app/models/ExpenseType';
@@ -29,6 +30,7 @@ export class CreateExpenseComponent implements OnInit {
 
   ngOnInit(): void {
     this.getExpenses();
+    this.getAllCompanyExpensePolicy();
     
   }
 
@@ -207,7 +209,7 @@ export class CreateExpenseComponent implements OnInit {
   approveToggle: boolean = false;
   @ViewChild('closeApproveModal') closeApproveModal!: ElementRef
   approveOrDeny(id: number, status: string) {
-    console.log(id, status)
+    console.log(id, status, this.partialAmount)
     this.isCheckboxChecked = false;
     this.partialAmount = '';
     this.closeApproveModal.nativeElement.click()
@@ -735,6 +737,7 @@ export class CreateExpenseComponent implements OnInit {
         this.closeExpensePolicyModal.nativeElement.click()
         form.resetForm()
         this.clearPolicyForm();
+        this.getAllCompanyExpensePolicy()
         this.registerToggle = false
         this.helperService.showToast(res.message, Key.TOAST_STATUS_SUCCESS);
       }
@@ -773,6 +776,57 @@ export class CreateExpenseComponent implements OnInit {
     this.expensePolicyReq.limitAmount = this.flexibleAmount == null ? 0 : this.flexibleAmount
     this.expensePolicyReq.expenseTypeId = this.expenseTypeId
     this.expensePolicyReq.expenseTypeName = this.expenseTypeName
+  }
+
+  companyExpensePolicyList: CompanyExpensePolicyRes[] = [];
+  // companyExpensePolicyList: CompanyExpensePolicyRes = new CompanyExpensePolicyRes();
+  getAllCompanyExpensePolicy(){
+    // this.companyExpensePolicyList = 
+    this.isLoading = true;
+    this.databaseHelper.currentPage = 1;
+    this.databaseHelper.itemPerPage = 10;
+    this.dataService.getAllCompanyExpensePolicy(this.databaseHelper).subscribe((res: any) => {
+      if(res.status){
+        // this.companyExpensePolicyList = res.object
+        this.companyExpensePolicyList = res.object
+      }
+      this.isLoading = false;
+      console.log('lsit: ',this.companyExpensePolicyList)
+    })
+  }
+
+  activeIndex: number | null = null;
+  toggleCollapse(index: number): void {
+    this.activeIndex = this.activeIndex === index ? null : index;
+  }
+
+  expensePolicyId: number = 0;
+  expensePolicyTypeId: number = 0;
+  expenseAppliedCount: number = 0;
+  getExpensePolicyOrExpensePolicyTypeId(id: number, isExpensePolicy: boolean, expenseAppliedCount: number) {
+    // this.leaveTemplateCategoryId = id;
+    // this.leaveAppliedUserCount = leaveAppliedUserCount;
+
+    if (isExpensePolicy) {
+      this.expensePolicyTypeId = 0;
+      this.expensePolicyId = id;
+    } else {
+      this.expensePolicyId = 0;
+      this.expensePolicyTypeId = id;
+    }
+  }
+
+  deletePolicyToggle: boolean = false
+  deleteExpensePolicyById(){
+
+  }
+
+  deleteExpensePolicyTypeById(){
+
+  }
+
+  getExpenseInformationById(id: number, flag: boolean){
+
   }
 
 }

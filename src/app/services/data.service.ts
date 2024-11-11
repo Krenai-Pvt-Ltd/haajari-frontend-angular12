@@ -80,6 +80,7 @@ import { rootCertificates } from 'tls';
 import { OnboardingModule } from '../models/OnboardingModule';
 import { ExpenseType } from '../models/ExpenseType';
 import { CompanyExpense } from '../models/CompanyExpense';
+import { DatabaseHelper } from '../models/DatabaseHelper';
 
 
 @Injectable({
@@ -4269,6 +4270,17 @@ getHolidayForOrganization(date: string): Observable<any>{
     .set('role', role)
   
     return this.httpClient.get<any>(`${this.baseUrl}/company-expense`, {params});
+  }
+
+
+  getAllCompanyExpensePolicy(databaseHelper: DatabaseHelper){
+    const params = new HttpParams()
+    .set('page_number', databaseHelper.currentPage)
+    .set('item_per_page', databaseHelper.itemPerPage)
+    .set('sortBy', 'createdDate')
+    .set('sortOrder', 'desc')
+  
+    return this.httpClient.get<any>(`${this.baseUrl}/company-expense-policy/rule`, {params});
   }
 
 }
