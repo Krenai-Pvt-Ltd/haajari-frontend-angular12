@@ -78,6 +78,7 @@ import { LeaveTemplateRequest } from '../models/leave-template-request';
 import { OrganizationRegistrationFormRequest } from '../models/organization-registration-form-request';
 import { rootCertificates } from 'tls';
 import { OnboardingModule } from '../models/OnboardingModule';
+import { AddressModeTypeRequest } from '../models/address-mode-type-request';
 import { ExpenseType } from '../models/ExpenseType';
 import { CompanyExpense } from '../models/CompanyExpense';
 import { DatabaseHelper } from '../models/DatabaseHelper';
@@ -1734,6 +1735,15 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
 
     return this.httpClient.post<any>(
       `${this.baseUrl}/organization-shift-timing/get-organization-user-shift-name`,  selectedStaffsUuids, {params}
+    );
+  }
+
+  getOrganizationUserNameWithBranchName(selectedStaffsUuids: string[], addressId: number): Observable<any> {
+    let params = new HttpParams().set("addressId", addressId);
+
+
+    return this.httpClient.post<any>(
+      `${this.baseUrl}/user-verification/get-organization-user-branch-name`,  selectedStaffsUuids, {params}
     );
   }
 
@@ -4206,6 +4216,14 @@ getHolidayForOrganization(date: string): Observable<any>{
     const params = new HttpParams().set('requestType', requestType);
     return this.httpClient.put<any>(
       `${this.baseUrl}/attendance/mode/save-flexible-modes-info`,{}, {params}
+
+    );
+  }
+
+  saveFlexibleAttendanceModeForAllAddresses(addressModes: AddressModeTypeRequest[]): Observable<any> {
+    // const params = new HttpParams().set('requestType', requestType);
+    return this.httpClient.put<any>(
+      `${this.baseUrl}/attendance/mode/save-flexible-modes-info-for-all-addresses`, addressModes
 
     );
   }

@@ -33,6 +33,7 @@ import { HeaderComponent } from './modules/common/header/header.component';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { SubscriptionExpiredComponent } from './modules/common/subscription-expired/subscription-expired.component';
 import { SubscriptionRestrictedComponent } from './modules/common/subscription-restricted/subscription-restricted.component';
+import { AgmCoreModule } from '@agm/core';
 
 // import { OnboardingSidebarResponse } from './models/onboarding-sidebar-response';
 
@@ -46,7 +47,7 @@ import { SubscriptionRestrictedComponent } from './modules/common/subscription-r
     ConfirmationDialogComponent,
     HeaderComponent,
     SubscriptionExpiredComponent,
-    SubscriptionRestrictedComponent
+    SubscriptionRestrictedComponent,
     // AuthenticationComponent,
   ],
   imports: [
@@ -80,6 +81,10 @@ import { SubscriptionRestrictedComponent } from './modules/common/subscription-r
     //   useFactory: adapterFactory,
     // }),
     // AngularFireModule.initializeApp(environment.firebase),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyB6SQE_TmOLpGLohpMLl-6FzdwJJAU9MnA',
+      libraries: ['places'],
+    }),
   ],
   providers: [
     {
