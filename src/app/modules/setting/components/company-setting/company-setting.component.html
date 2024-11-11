@@ -1665,8 +1665,9 @@
                           </div> -->
                         </div>
                       </div>
-                      <div class="mb-10" *ngIf="isShowMap">
-                        <section>
+                        <div class="mb-10" *ngIf="isShowMap">
+                          <app-map [lat]="this.organizationAddressDetail.latitude" [lng]="this.organizationAddressDetail.longitude" (getData)="getData($event)"></app-map>
+                        <!-- <section>
                           <div class="el-card-item">
                             <div class="el-card-avatar el-overlay-1">
                               <div class="map">
@@ -1705,8 +1706,38 @@
                               </div>
                             </div>
                           </div>
-                        </section>
+                        </section> -->
+                        <!-- <section>
+                          <div class="el-card-item">
+                            <div class="el-card-avatar el-overlay-1">
+                              <div class="map">
+                                <agm-map
+                                  style="height: 350px"
+                                  [latitude]="lat"
+                                  [longitude]="lng"
+                                  [zoom]="zoom"
+                                  [maxZoom]="20"
+                                  [minZoom]="14"
+                                  [disableDefaultUI]="true"
+                                  [keyboardShortcuts]="false"
+                                  [usePanning]="true"
+                                  (centerChange)="centerChanged($event)"
+                                  (zoomChange)="onZoomChange($event)"
+                                  (mapReady)="mapReady($event)"
+                                >
+                                </agm-map>
+                            
+                                <div class="map-center-overlay">
+                                  <img src="../assets/images/location.svg" width="70" height="70" />
+                                </div>
+                               
+                              </div>
+                            </div>
+                          </div>
+                         
+                        </section> -->
                       </div>
+            
                     </div>
                   </div>
                   <!-- {{isFormInvalidLocation}} -->
@@ -2661,7 +2692,9 @@
                       </div>
 
                       <div class="mb-10" *ngIf="isShowMap">
-                        <section>
+                      
+                         <app-map [lat]="this.organizationAddressDetail.latitude" [lng]="this.organizationAddressDetail.longitude" (getData)="getData($event)"></app-map>
+                        <!-- <section>
                           <div class="el-card-item">
                             <div class="el-card-avatar el-overlay-1">
                               <div class="map">
@@ -2700,7 +2733,7 @@
                               </div>
                             </div>
                           </div>
-                        </section>
+                        </section> -->
                       </div>
                     </div>
                   </div>

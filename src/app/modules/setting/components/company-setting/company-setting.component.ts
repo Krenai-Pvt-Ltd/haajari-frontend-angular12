@@ -789,6 +789,7 @@ export class CompanySettingComponent implements OnInit {
   dataNotFoundPlaceholder = false;
   networkConnectionErrorPlaceHolder = false;
   getAllAddressDetails(): void {
+    debugger
     this.isShimmer = true;
     this.addressId = 0;
     this.dataService.getAllAddressDetailsWithStaff()
@@ -821,6 +822,8 @@ export class CompanySettingComponent implements OnInit {
         } else {
           this.lat = Number(this.organizationAddressDetail.latitude);
           this.lng = Number(this.organizationAddressDetail.longitude);
+          this.organizationAddressDetail.latitude = Number(this.organizationAddressDetail.latitude);
+          this.organizationAddressDetail.longitude = Number(this.organizationAddressDetail.longitude);
           this.isShowMap = true;
         }
 
@@ -1107,6 +1110,8 @@ export class CompanySettingComponent implements OnInit {
           } else {
             this.lat = Number(this.organizationAddressDetail.latitude);
             this.lng = Number(this.organizationAddressDetail.longitude);
+            this.organizationAddressDetail.latitude = Number(this.organizationAddressDetail.latitude);
+            this.organizationAddressDetail.longitude = Number(this.organizationAddressDetail.longitude);
             this.isShowMap = true;
           }
           
@@ -1197,6 +1202,96 @@ onZoomChange(event: number) {
   // this.getAddress(this.lat, this.lng);
 }
 
+
+getData(event:any){
+  debugger
+ console.log("event :" + event);
+
+ var id = this.organizationAddressDetail.id;
+ this.organizationAddressDetail = new OrganizationAddressDetail();
+ this.organizationAddressDetail.id = id;
+ this.organizationAddressDetail.longitude = event.organizationAddressDetail.longitude;
+ this.organizationAddressDetail.latitude = event.organizationAddressDetail.latitude;
+ this.organizationAddressDetail.addressLine1 = event.organizationAddressDetail.addressLine1
+ this.organizationAddressDetail.addressLine2 = event.organizationAddressDetail.addressLine2;
+ this.organizationAddressDetail.city = event.organizationAddressDetail.city;
+ this.organizationAddressDetail.state = event.organizationAddressDetail.state;
+ this.organizationAddressDetail.country = event.organizationAddressDetail.country;
+ this.organizationAddressDetail.pincode = event.organizationAddressDetail.pincode;
+
+//  this.handleAddressChange(event);
+//  this.getAddressFromCoords(event.lat, event.lng);
+}
+
+// geoCoder!: google.maps.Geocoder;
+// getAddressFromCoords(lat: number, lng: number) {
+//   this.geoCoder.geocode({ location: { lat, lng } }, (results, status) => {
+//     if (status === 'OK' && results && results[0]) {
+//       const details = results[0];
+//       this.organizationAddressDetail = new OrganizationAddressDetail();
+//       this.organizationAddressDetail.latitude = lat;
+//       this.organizationAddressDetail.longitude = lng;
+//       this.organizationAddressDetail.addressLine1 = details.formatted_address;
+
+//       details.address_components.forEach((entry) => {
+//         if (entry.types.includes('locality')) {
+//           this.organizationAddressDetail.city = entry.long_name;
+//         }
+//         if (entry.types.includes('administrative_area_level_1')) {
+//           this.organizationAddressDetail.state = entry.long_name;
+//         }
+//         if (entry.types.includes('country')) {
+//           this.organizationAddressDetail.country = entry.long_name;
+//         }
+//         if (entry.types.includes('postal_code')) {
+//           this.organizationAddressDetail.pincode = entry.long_name;
+//         }
+//       });
+
+//       this.fetchCurrentLocationLoader = false;
+//       this.locationLoader = false;
+//     } else {
+//       console.error('Geocoder failed due to: ' + status);
+//       this.fetchCurrentLocationLoader = false;
+//     }
+//   });
+// }
+
+// geoCoder!: google.maps.Geocoder;
+// getAddressFromCoords(lat: number, lng: number) {
+//   debugger
+//   this.dataService.getAddressFromLatLng(lat, lng).subscribe(
+//     (response: any) => {
+//       if (response.results && response.results.length > 0) {
+//         // this.address = response.results[0].formatted_address;
+//         this.organizationAddressDetail = new OrganizationAddressDetail();
+//               this.organizationAddressDetail.latitude = lat;
+//               this.organizationAddressDetail.longitude = lng;
+//               this.organizationAddressDetail.addressLine1 = response.results[0].formatted_address;
+        
+//               response.results[0].address_components.forEach((entry: { types: string | string[]; long_name: string; }) => {
+//                 if (entry.types.includes('locality')) {
+//                   this.organizationAddressDetail.city = entry.long_name;
+//                 }
+//                 if (entry.types.includes('administrative_area_level_1')) {
+//                   this.organizationAddressDetail.state = entry.long_name;
+//                 }
+//                 if (entry.types.includes('country')) {
+//                   this.organizationAddressDetail.country = entry.long_name;
+//                 }
+//                 if (entry.types.includes('postal_code')) {
+//                   this.organizationAddressDetail.pincode = entry.long_name;
+//                 }
+//               });
+//       } else {
+//         console.log('No address found');
+//       }
+//     },
+//     (error: any) => {
+//       console.error('Error fetching address:', error);
+//     }
+//   );
+// }
 
 
 }

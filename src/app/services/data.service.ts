@@ -4284,6 +4284,15 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/company-expense`, {params});
   }
 
+
+
+// private apiKey ='AIzaSyB6SQE_TmOLpGLohpMLl-6FzdwJJAU9MnA';
+// private apiUrl = 'https://maps.googleapis.com/maps/api/geocode/json';
+// getAddressFromLatLng(lat: number, lng: number): Observable<any> {
+//   const url = `${this.apiUrl}?latlng=${lat},${lng}&key=${this.apiKey}`;
+//   return this.httpClient.get(url);
+// }
+
 }
 
 
