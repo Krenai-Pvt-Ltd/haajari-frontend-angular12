@@ -1093,6 +1093,8 @@
   role="dialog"
   aria-labelledby="exampleModalDefaultLabel"
   aria-hidden="true"
+  data-bs-backdrop="static"
+  #shiftTime
 >
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -1219,6 +1221,7 @@
               class="tab-pane fade show active"
               id="shiftime"
               role="tabpanel"
+              #shifttime
             >
             <!-- [formGroup]="organizationAddressDetailForm" -->
             <!-- #organizationAddressForm="ngForm" -->
@@ -1766,7 +1769,7 @@
                 </div>
               </form>
             </div>
-            <div class="tab-pane fade" id="staffselection" role="tabpanel">
+            <div class="tab-pane fade" id="staffselection" role="tabpanel" #staffselection>
               <div class="staf-list-box mt-3">
                 <div
                   class="row mb-1 mt-3 align-items-center"
@@ -2101,7 +2104,6 @@
   tabindex="-1"
   role="dialog"
   aria-hidden="true"
-  data-bs-backdrop="false"
   data-bs-backdrop="static"
   #usersAlreadyAssigned
 >
@@ -2310,7 +2312,6 @@
   aria-labelledby="exampleModalDefaultLabel"
   aria-hidden="true"
   data-bs-backdrop="static"
-  data-bs-backdrop="false"
   #shifTimeDefaultAddress
 >
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
@@ -2670,7 +2671,7 @@
                                 {{ option.label }}         
                               </nz-auto-option>
                             </nz-autocomplete>
-                            <div *ngIf="radius?.touched || isFormInvalid">
+                            <div *ngIf="radius?.touched || isFormInvalidLocation">
                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="radius.errors?.required ">
                                     <i class="bi bi-exclamation-circle"></i> Radius selection is required.
                                 </p>
