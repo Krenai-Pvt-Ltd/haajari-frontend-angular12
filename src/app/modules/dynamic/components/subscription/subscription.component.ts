@@ -419,14 +419,32 @@ invoiceDetail:InvoiceDetail = new InvoiceDetail();
   }
 
 
-  downloadInvoice(invoiceUrl:string){
-    if(!constant.EMPTY_STRINGS.includes(invoiceUrl)){
-      window.open(invoiceUrl, "_blank");
+  download(invoice:any){
+    if(!constant.EMPTY_STRINGS.includes(invoice.invoiceUrl)){
+      window.open(invoice.invoiceUrl, "_blank");
+    }else{
+      this.downloadInvoice(invoice.id);
     }
   }
 
 
-  // downloadInvocie(invoiceUrl: string) {
+  downloadingInvoice:boolean=false;
+  downloadInvoice(invoiceId:number){
+    this.downloadingInvoice =true;
+    this._subscriptionPlanService.downloadInvoice(invoiceId).subscribe((response) => {
+      this.downloadingInvoice =false;
+      if (response.status) {
+        if(response.object!=null){
+          window.open(response.object,"_blank");
+        }
+      }
+    },(error)=>{
+      this.downloadingInvoice =false;
+    });
+  }
+
+  // async downloadInvocie(invoiceUrl: string) {
+  //   invoiceUrl = decodeURI(invoiceUrl);
   //   var fileName = invoiceUrl
   //     .substring(invoiceUrl.lastIndexOf('/'))
   //     .split('%2F')
@@ -437,14 +455,12 @@ invoiceDetail:InvoiceDetail = new InvoiceDetail();
   //     fileName = fileName.substring(1);
   //   }
   //   fileName = fileName.substring(0, fileName.lastIndexOf('?'));
-  //   this.http
-  //     .get(invoiceUrl, { responseType: 'blob' })
-  //     .subscribe((blob: Blob) => {
-  //       const link = document.createElement('a');
-  //       link.href = window.URL.createObjectURL(blob);
-  //       link.download = fileName;
-  //       link.click();
-  //     });
+  //   const response = await fetch(invoiceUrl);
+  //   const blob = await response.blob();
+  //   const link = document.createElement("a");
+  //   link.href = window.URL.createObjectURL(blob);
+  //   link.download = fileName;
+  //   link.click();
   // }
 
   dueInvoices:Invoices[] = new Array();
