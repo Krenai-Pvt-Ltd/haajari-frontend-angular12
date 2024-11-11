@@ -753,6 +753,100 @@ nz-select.request-dropdown .ant-select-selector {
     color: #fff !important;
 }
 
+.checkin-time {
+    border-left: 3px solid #F3A73D;
+    height: 45px;
+    background-color: #fbfbfb;
+    padding-left: 15px;
+    border-radius: 2px;
+}
+.checkin-time p{
+    font-weight: 500;
+}
+.overtime-hour{
+    border-left: 3px solid #6B7280;
+    height: 45px;
+    background-color: #fbfbfb;
+    padding-left: 15px;
+    border-radius: 2px;
+}
+.overtime-hour p {
+    font-weight: 500;
+}
+.active-overtime{
+    border-left: 3px solid #6666F2 !important;
+        height: 45px;
+        background-color: #F3F3FF !important;
+        padding-left: 15px;
+        border-radius: 2px;
+}
+.updated-timing svg{
+    position: relative;
+    top: -2px;
+    width: 16px;
+}
+.updated-timing .ant-picker {
+    padding-left: 50px;
+}
+.updated-over-timing .ant-picker{
+    padding-left: 95px;
+}
+.updated-timing-input-box {
+    position: absolute;
+    top: 42px;
+    left: 20px;
+    font-size: 14px;
+    font-weight: 400;
+    border-right: 1px solid #ccc;
+    padding-right: 10px;
+}
+.updated-timing-input {
+    position: absolute;
+    top: 11px;
+    left: 20px;
+    font-size: 14px;
+    font-weight: 400;
+    border-right: 1px solid #ccc;
+    padding-right: 10px;
+}
+
+.total-time p{
+    color: #6B7280;
+    font-size: 12px;
+}
+.total-time svg{
+    position: relative;
+    top: -2px;
+}
+.update-request-date{
+    border: 1px solid #E9E9E9;
+    padding: 15px;
+    border-radius: 2px;
+}
+.update-request-date p{
+    font-size: 12px;
+    font-weight: 400;
+    color: #6B7280;
+}
+.update-request-date h5{
+    color: #1C1B1F;
+    font-size: 14px;
+    font-weight: 500;
+}
+.update-request-date svg{
+    width: 30px;
+    position: relative;
+    top: -1px;
+}
+.update-request-status{
+    background-color: #F7F6FF;
+    color: #6666F2;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 20px;
+    padding: 10px 20px;
+}
+
 @media screen and (max-width: 1280px) {
     .font-15 {
         font-size: 13px !important;

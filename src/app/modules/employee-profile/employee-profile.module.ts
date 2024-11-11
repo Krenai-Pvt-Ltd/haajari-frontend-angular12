@@ -13,6 +13,7 @@ import { EmployeeDocumentComponent } from './employee-document/employee-document
 import { AssetsComponent } from './assets/assets.component';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 
 
 
@@ -33,6 +34,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
     NzSelectModule,
     NzEmptyModule,
     NzFormModule,
+    NzTimePickerModule
   ]
 })
 export class EmployeeProfileModule { }

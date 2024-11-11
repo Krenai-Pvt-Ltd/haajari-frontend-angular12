@@ -1162,7 +1162,7 @@
 
 
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary d-none" data-toggle="modal" data-target="#applyLeave">
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#applyLeave">
     Apply for a leave
 </button>
 
@@ -1370,6 +1370,395 @@
             <div class="modal-footer">
                 <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
                 <button type="button" class="btn submitActionBtn">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#updateRequest">
+    Attendance Update request
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="updateRequest" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Attendance Update request</h5>
+                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="24" height="24">
+                            <rect width="24" height="24" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_5037_2014)">
+                            <path
+                                d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+                                fill="black" />
+                        </g>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="assets-request-form">
+                    <form>
+                        <div class="row register-form-box">
+
+                           <!-- TO-DO display only edit conditions -->
+                            <!-- <div class="col-md-12 mb-3">
+                                <div class="update-request-date">
+                                    <div class="d-flex align-items-center justify-content-between mb-3">
+                                        <div class="d-flex align-items-start gap-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 35 35" fill="none">
+                                            <g clip-path="url(#clip0_5330_2029)">
+                                                <path
+                                                    d="M8.54574 8.31993H9.04647C9.80745 8.31993 10.4243 7.70286 10.4243 6.94209V3.13984V1.71761C10.4243 0.956844 9.80745 0.339844 9.04647 0.339844H8.54574C7.78482 0.339844 7.16797 0.956844 7.16797 1.71761V3.13991V6.94209C7.16797 7.70286 7.78482 8.31993 8.54574 8.31993Z"
+                                                    fill="black" />
+                                                <path
+                                                    d="M26.2178 8.28477H26.7185C27.4794 8.28477 28.0963 7.66777 28.0963 6.90693V2.77796V1.68238C28.0963 0.921688 27.4794 0.304688 26.7185 0.304688H26.2178C25.4567 0.304688 24.8398 0.921688 24.8398 1.68238V2.77796V6.90686C24.84 7.66777 25.4568 8.28477 26.2178 8.28477Z"
+                                                    fill="black" />
+                                                <path
+                                                    d="M32.7523 3.13672H29.2162V7.26562C29.2162 8.64296 28.0957 9.40264 26.7185 9.40264H26.2178C24.8404 9.40264 23.72 8.28209 23.72 6.90476V3.13672H11.5436V6.9389C11.5436 8.31623 10.4231 9.43678 9.04576 9.43678H8.54503C7.16777 9.43678 6.04729 8.31623 6.04729 6.9389V3.13672H2.23213C0.997041 3.13672 -0.0078125 4.14157 -0.0078125 5.37673V32.4435C-0.0078125 33.6786 0.997041 34.6835 2.23213 34.6835H32.7523C33.9874 34.6835 34.9922 33.6786 34.9922 32.4435V5.37673C34.9923 4.14165 33.9874 3.13672 32.7523 3.13672ZM32.7523 32.4435H2.2322L2.23213 12.0034H32.7528L32.7539 32.4434C32.7538 32.4434 32.7533 32.4435 32.7523 32.4435Z"
+                                                    fill="black" />
+                                                <path
+                                                    d="M18.6481 18.8608H22.67C22.8294 18.8608 22.9587 18.7316 22.9587 18.5721V15.0895C22.9587 14.93 22.8294 14.8008 22.67 14.8008H18.6481C18.4886 14.8008 18.3594 14.93 18.3594 15.0895V18.5721C18.3594 18.7316 18.4886 18.8608 18.6481 18.8608Z"
+                                                    fill="black" />
+                                                <path
+                                                    d="M25.2145 18.8608H29.2364C29.3958 18.8608 29.5251 18.7316 29.5251 18.5721V15.0895C29.5251 14.93 29.3958 14.8008 29.2364 14.8008H25.2145C25.055 14.8008 24.9258 14.93 24.9258 15.0895V18.5721C24.9258 18.7316 25.055 18.8608 25.2145 18.8608Z"
+                                                    fill="black" />
+                                                <path
+                                                    d="M5.51916 24.564H9.54103C9.70046 24.564 9.82972 24.4348 9.82972 24.2753V20.7926C9.82972 20.6332 9.70046 20.5039 9.54103 20.5039H5.51916C5.35973 20.5039 5.23047 20.6332 5.23047 20.7926V24.2753C5.23047 24.4348 5.35973 24.564 5.51916 24.564Z"
+                                                    fill="black" />
+                                                <path
+                                                    d="M12.0856 24.564H16.1074C16.2669 24.564 16.3961 24.4348 16.3961 24.2753V20.7926C16.3961 20.6332 16.2669 20.5039 16.1074 20.5039H12.0856C11.9261 20.5039 11.7969 20.6332 11.7969 20.7926V24.2753C11.7969 24.4348 11.9261 24.564 12.0856 24.564Z"
+                                                    fill="black" />
+                                                <path
+                                                    d="M18.6481 24.564H22.6699C22.8294 24.564 22.9586 24.4348 22.9586 24.2753V20.7926C22.9586 20.6332 22.8294 20.5039 22.6699 20.5039H18.6481C18.4886 20.5039 18.3594 20.6332 18.3594 20.7926V24.2753C18.3594 24.4348 18.4886 24.564 18.6481 24.564Z"
+                                                    fill="black" />
+                                                <path
+                                                    d="M25.2145 24.564H29.2364C29.3958 24.564 29.5251 24.4348 29.5251 24.2753V20.7926C29.5251 20.6332 29.3958 20.5039 29.2364 20.5039H25.2145C25.055 20.5039 24.9258 20.6332 24.9258 20.7926V24.2753C24.9258 24.4348 25.055 24.564 25.2145 24.564Z"
+                                                    fill="black" />
+                                                <path
+                                                    d="M9.54486 26.2031H5.52306C5.36364 26.2031 5.23438 26.3324 5.23438 26.4918V29.9746C5.23438 30.134 5.36364 30.2632 5.52306 30.2632H9.54493C9.70436 30.2632 9.83362 30.134 9.83362 29.9746V26.4918C9.83355 26.3324 9.70429 26.2031 9.54486 26.2031Z"
+                                                    fill="black" />
+                                                <path
+                                                    d="M16.1074 26.2031H12.0856C11.9261 26.2031 11.7969 26.3324 11.7969 26.4918V29.9746C11.7969 30.134 11.9261 30.2632 12.0856 30.2632H16.1074C16.2669 30.2632 16.3961 30.134 16.3961 29.9746V26.4918C16.3961 26.3324 16.2669 26.2031 16.1074 26.2031Z"
+                                                    fill="black" />
+                                                <path
+                                                    d="M22.67 26.2031H18.6481C18.4886 26.2031 18.3594 26.3324 18.3594 26.4918V29.9746C18.3594 30.134 18.4886 30.2632 18.6481 30.2632H22.67C22.8294 30.2632 22.9587 30.134 22.9587 29.9746V26.4918C22.9587 26.3324 22.8294 26.2031 22.67 26.2031Z"
+                                                    fill="black" />
+                                                <path
+                                                    d="M29.2364 26.2031H25.2145C25.055 26.2031 24.9258 26.3324 24.9258 26.4918V29.9746C24.9258 30.134 25.055 30.2632 25.2145 30.2632H29.2364C29.3958 30.2632 29.5251 30.134 29.5251 29.9746V26.4918C29.5251 26.3324 29.3958 26.2031 29.2364 26.2031Z"
+                                                    fill="black" />
+                                            </g>
+                                            <defs>
+                                                <clipPath id="clip0_5330_2029">
+                                                    <rect width="35" height="35" fill="white" />
+                                                </clipPath>
+                                            </defs>
+                                        </svg>
+                                            <div class="">
+                                                <h5 class="mb-0">12th November, 2024</h5>
+                                                <p class="mb-0">Monday</p>
+
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <span class="update-request-status">Pending</span>
+                                        </div>
+                                    </div>
+                                        <div class="col-md-12">
+                                            <div class="d-flex align-items-center gap-2 checkin-time">
+                                                <p class="mb-0 font-13">Update Timing</p>
+                                                <span class="calendar-separator"></span>
+                                                <span class="font-13">Check-in time update</span>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div> -->
+
+                            <div class="col-md-12 mb-3">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="employeeTypeId" class="mb-2">Select Date</label>
+                                            <nz-date-picker nzPlaceHolder="Choose Date" name="selectDate" required>
+                                            </nz-date-picker>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group requesting-half-leave p-2">
+                                    <div class="d-flex align-items-center justify-content-between " style="padding-top: 2px;">
+                                        <p class="mb-0">Select What do you want to update </p>
+                            
+                                    </div>
+                                    <hr>
+                            
+                                    <div class="row mt-3 mb-2">
+                                        <div class="col-md-6">
+                                            <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"
+                                                    value="option1" checked>
+                                                <p class="form-check-label mb-0" for="exampleRadios1">
+                                                    Update Timing
+                                                </p>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"
+                                                    value="option1" checked>
+                                                <p class="form-check-label mb-0" for="exampleRadios1">
+                                                    New Request
+                                                </p>
+                                            </label>
+                                        </div>
+                                    </div>
+                            
+                                </div>
+                            </div>
+
+
+                            <!-- Update Timing -->
+                            <!-- <div class="col-md-12 mb-3">
+                                <div class="form-group">
+                                    <label for="employeeTypeId" class="mb-2">Type</label>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <nz-form-control>
+                                                <nz-select class="form-control" style="width: 100%" nzSize="large" nzPlaceHolder="Select Type" required>
+                                                    <nz-option [nzValue]="'In '" [nzLabel]="'In '"></nz-option>
+                                                    <nz-option [nzValue]="'Out'" [nzLabel]="'Out'"></nz-option>
+                                                    <nz-option [nzValue]="'Break'" [nzLabel]="'Break'"></nz-option>
+                                                    <nz-option [nzValue]="'Back'" [nzLabel]="'Back'"></nz-option>
+                                                </nz-select>
+                                            </nz-form-control>
+                                        </div>
+                                   
+                                    <div class="col-md-6">
+                                        <div class="d-flex align-items-center gap-2 checkin-time">
+                                            <p class="mb-0 font-13"> Check-in Time</p>
+                                            <span class="calendar-separator"></span>
+                                            <span class="font-12">09:40 AM</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                                </div> -->
+                              
+                                   
+
+                            <!-- <div class="col-md-12 mb-3">
+                                <div class="form-group updated-timing position-relative">
+                                    <label for="employeeTypeId" class="mb-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                            <mask id="mask0_5355_3530" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+                                                <rect width="20" height="20" fill="#D9D9D9" />
+                                            </mask>
+                                            <g mask="url(#mask0_5355_3530)">
+                                                <path
+                                                    d="M9.9987 18.3346C7.84592 18.3346 5.97786 17.6194 4.39453 16.1888C2.8112 14.7582 1.91536 12.9735 1.70703 10.8346H3.39453C3.60286 12.5152 4.3355 13.9076 5.59245 15.0117C6.84939 16.1159 8.31814 16.668 9.9987 16.668C11.8598 16.668 13.4362 16.0221 14.7279 14.7305C16.0195 13.4388 16.6654 11.8624 16.6654 10.0013C16.6654 8.14019 16.0195 6.5638 14.7279 5.27214C13.4362 3.98047 11.8598 3.33464 9.9987 3.33464C8.80425 3.33464 7.69661 3.62977 6.67578 4.22005C5.65495 4.81033 4.84592 5.6263 4.2487 6.66797H6.66537V8.33464H1.83203C2.23481 6.39019 3.20009 4.79297 4.72786 3.54297C6.25564 2.29297 8.01259 1.66797 9.9987 1.66797C11.1515 1.66797 12.2348 1.88672 13.2487 2.32422C14.2626 2.76172 15.1445 3.35547 15.8945 4.10547C16.6445 4.85547 17.2383 5.73741 17.6758 6.7513C18.1133 7.76519 18.332 8.84852 18.332 10.0013C18.332 11.1541 18.1133 12.2374 17.6758 13.2513C17.2383 14.2652 16.6445 15.1471 15.8945 15.8971C15.1445 16.6471 14.2626 17.2409 13.2487 17.6784C12.2348 18.1159 11.1515 18.3346 9.9987 18.3346ZM12.332 13.5013L9.16536 10.3346V5.83464H10.832V9.66797L13.4987 12.3346L12.332 13.5013Z"
+                                                    fill="#444444" />
+                                            </g>
+                                        </svg>
+                                        Updated Timing</label>
+                                    <nz-time-picker formControlName="updatedTime" id="updatedTime" nzFormat="HH:mm" class="w-100" nzPlaceHolder="Enter the new time" >
+                                    </nz-time-picker>
+                                    <span class="updated-timing-input-box">In</span>
+                                </div>
+                            </div> -->
+                            <!-- Update Timing end -->
+
+                         <!-- New Request -->
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group updated-timing">
+                                    <label for="employeeTypeId" class="mb-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                            <mask id="mask0_5355_3530" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20"
+                                                height="20">
+                                                <rect width="20" height="20" fill="#D9D9D9" />
+                                            </mask>
+                                            <g mask="url(#mask0_5355_3530)">
+                                                <path
+                                                    d="M9.9987 18.3346C7.84592 18.3346 5.97786 17.6194 4.39453 16.1888C2.8112 14.7582 1.91536 12.9735 1.70703 10.8346H3.39453C3.60286 12.5152 4.3355 13.9076 5.59245 15.0117C6.84939 16.1159 8.31814 16.668 9.9987 16.668C11.8598 16.668 13.4362 16.0221 14.7279 14.7305C16.0195 13.4388 16.6654 11.8624 16.6654 10.0013C16.6654 8.14019 16.0195 6.5638 14.7279 5.27214C13.4362 3.98047 11.8598 3.33464 9.9987 3.33464C8.80425 3.33464 7.69661 3.62977 6.67578 4.22005C5.65495 4.81033 4.84592 5.6263 4.2487 6.66797H6.66537V8.33464H1.83203C2.23481 6.39019 3.20009 4.79297 4.72786 3.54297C6.25564 2.29297 8.01259 1.66797 9.9987 1.66797C11.1515 1.66797 12.2348 1.88672 13.2487 2.32422C14.2626 2.76172 15.1445 3.35547 15.8945 4.10547C16.6445 4.85547 17.2383 5.73741 17.6758 6.7513C18.1133 7.76519 18.332 8.84852 18.332 10.0013C18.332 11.1541 18.1133 12.2374 17.6758 13.2513C17.2383 14.2652 16.6445 15.1471 15.8945 15.8971C15.1445 16.6471 14.2626 17.2409 13.2487 17.6784C12.2348 18.1159 11.1515 18.3346 9.9987 18.3346ZM12.332 13.5013L9.16536 10.3346V5.83464H10.832V9.66797L13.4987 12.3346L12.332 13.5013Z"
+                                                    fill="#444444" />
+                                            </g>
+                                        </svg>
+                                        Updated Timing</label>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <nz-time-picker formControlName="updatedTime" id="updatedTime" nzFormat="HH:mm" class="w-100"
+                                                    nzPlaceHolder="Enter the new time">
+                                                </nz-time-picker>
+                                                <span class="updated-timing-input">In</span>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <nz-time-picker formControlName="updatedTime" id="updatedTime" nzFormat="HH:mm" class="w-100"
+                                                    nzPlaceHolder="Enter the new time">
+                                                </nz-time-picker>
+                                                <span class="updated-timing-input">Out</span>
+                                            </div>
+                                        </div>
+                                 
+                                </div>
+                            </div>
+                            <!-- New Request end -->
+                           
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
+                                    <label for="employeeTypeId" class="mb-2">Select manager to request for</label>
+                                    <nz-form-control>
+                                        <nz-select class="form-control" style="width: 100%" nzSize="large" nzPlaceHolder="Select manager" required>
+                                            <nz-option [nzValue]="'Rohit Chaturvedi'" [nzLabel]="'Rohit Chaturvedi'"></nz-option>
+                                            <nz-option [nzValue]="'Pushpendra'" [nzLabel]="'Pushpendra'"></nz-option>
+                                            <nz-option [nzValue]="'Anchal Sharma'" [nzLabel]="'Anchal Sharma'"></nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
+                                    <label for="templateName" class="mb-2"> Reason</label>
+                                    <textarea class="form-control nots-section" placeholder="write the reason"
+                                        id="exampleFormControlTextarea1" rows="3"></textarea>
+                                </div>
+                            </div>
+                         
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer d-flex align-items-center justify-content-between">
+                <div class="total-time">
+                    <p class="mb-1">Total Woking hours <i class="bi bi-exclamation-circle"></i></p>
+                    <h3>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="21" viewBox="0 0 18 21" fill="none">
+                            <path
+                                d="M6 2V0H12V2H6ZM8 13H10V7H8V13ZM9 21C7.76667 21 6.60417 20.7625 5.5125 20.2875C4.42083 19.8125 3.46667 19.1667 2.65 18.35C1.83333 17.5333 1.1875 16.5792 0.7125 15.4875C0.2375 14.3958 0 13.2333 0 12C0 10.7667 0.2375 9.60417 0.7125 8.5125C1.1875 7.42083 1.83333 6.46667 2.65 5.65C3.46667 4.83333 4.42083 4.1875 5.5125 3.7125C6.60417 3.2375 7.76667 3 9 3C10.0333 3 11.025 3.16667 11.975 3.5C12.925 3.83333 13.8167 4.31667 14.65 4.95L16.05 3.55L17.45 4.95L16.05 6.35C16.6833 7.18333 17.1667 8.075 17.5 9.025C17.8333 9.975 18 10.9667 18 12C18 13.2333 17.7625 14.3958 17.2875 15.4875C16.8125 16.5792 16.1667 17.5333 15.35 18.35C14.5333 19.1667 13.5792 19.8125 12.4875 20.2875C11.3958 20.7625 10.2333 21 9 21ZM9 19C10.9333 19 12.5833 18.3167 13.95 16.95C15.3167 15.5833 16 13.9333 16 12C16 10.0667 15.3167 8.41667 13.95 7.05C12.5833 5.68333 10.9333 5 9 5C7.06667 5 5.41667 5.68333 4.05 7.05C2.68333 8.41667 2 10.0667 2 12C2 13.9333 2.68333 15.5833 4.05 16.95C5.41667 18.3167 7.06667 19 9 19Z"
+                                fill="#6666F2" />
+                        </svg>
+                        10:00:00</h3>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <button type="button" class="btn cancel-btn mt-0" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn submitActionBtn">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#overtimeRequest"> 
+      Overtime request
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="overtimeRequest" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Overtime request</h5>
+                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="24" height="24">
+                            <rect width="24" height="24" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_5037_2014)">
+                            <path
+                                d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+                                fill="black" />
+                        </g>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="assets-request-form">
+                    <form>
+                        <div class="row register-form-box">
+                            <!-- New Request -->
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group updated-over-timing">
+                                    <label for="employeeTypeId" class="mb-2">
+                                    Pick up the date and time:</label>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <nz-time-picker formControlName="updatedTime" id="updatedTime"
+                                                nzFormat="HH:mm" class="w-100" nzPlaceHolder="Start Date">
+                                            </nz-time-picker>
+                                            <span class="updated-timing-input">Start Date</span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <nz-time-picker formControlName="updatedTime" id="updatedTime"
+                                                nzFormat="HH:mm" class="w-100" nzPlaceHolder="End Date">
+                                            </nz-time-picker>
+                                            <span class="updated-timing-input">End Date</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- New Request end -->
+
+                            <div class="col-md-12 mb-3">
+                                <!-- TO-DO apply on active class="active-overtime" -->
+                                <div class="d-flex align-items-center gap-2 overtime-hour ">
+                                    <p class="mb-0 font-13"> Overtime Working Hour</p>
+                                    <span class="calendar-separator"></span>
+                                    <span class="font-13">00:00:00</span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
+                                    <label for="employeeTypeId" class="mb-2">Select manager to request for</label>
+                                    <nz-form-control>
+                                        <nz-select class="form-control" style="width: 100%" nzSize="large"
+                                            nzPlaceHolder="Select manager" required>
+                                            <nz-option [nzValue]="'Rohit Chaturvedi'"
+                                                [nzLabel]="'Rohit Chaturvedi'"></nz-option>
+                                            <nz-option [nzValue]="'Pushpendra'" [nzLabel]="'Pushpendra'"></nz-option>
+                                            <nz-option [nzValue]="'Anchal Sharma'"
+                                                [nzLabel]="'Anchal Sharma'"></nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
+                                    <label for="templateName" class="mb-2"> Reason</label>
+                                    <textarea class="form-control nots-section" placeholder="write the reason"
+                                        id="exampleFormControlTextarea1" rows="3"></textarea>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer d-flex align-items-center justify-content-between">
+                <div class="total-time">
+                    <p class="mb-1">Total Woking hours <i class="bi bi-exclamation-circle"></i></p>
+                    <h3>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="21" viewBox="0 0 18 21" fill="none">
+                            <path
+                                d="M6 2V0H12V2H6ZM8 13H10V7H8V13ZM9 21C7.76667 21 6.60417 20.7625 5.5125 20.2875C4.42083 19.8125 3.46667 19.1667 2.65 18.35C1.83333 17.5333 1.1875 16.5792 0.7125 15.4875C0.2375 14.3958 0 13.2333 0 12C0 10.7667 0.2375 9.60417 0.7125 8.5125C1.1875 7.42083 1.83333 6.46667 2.65 5.65C3.46667 4.83333 4.42083 4.1875 5.5125 3.7125C6.60417 3.2375 7.76667 3 9 3C10.0333 3 11.025 3.16667 11.975 3.5C12.925 3.83333 13.8167 4.31667 14.65 4.95L16.05 3.55L17.45 4.95L16.05 6.35C16.6833 7.18333 17.1667 8.075 17.5 9.025C17.8333 9.975 18 10.9667 18 12C18 13.2333 17.7625 14.3958 17.2875 15.4875C16.8125 16.5792 16.1667 17.5333 15.35 18.35C14.5333 19.1667 13.5792 19.8125 12.4875 20.2875C11.3958 20.7625 10.2333 21 9 21ZM9 19C10.9333 19 12.5833 18.3167 13.95 16.95C15.3167 15.5833 16 13.9333 16 12C16 10.0667 15.3167 8.41667 13.95 7.05C12.5833 5.68333 10.9333 5 9 5C7.06667 5 5.41667 5.68333 4.05 7.05C2.68333 8.41667 2 10.0667 2 12C2 13.9333 2.68333 15.5833 4.05 16.95C5.41667 18.3167 7.06667 19 9 19Z"
+                                fill="#6666F2" />
+                        </svg>
+                        10:00:00
+                    </h3>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <button type="button" class="btn cancel-btn mt-0" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn submitActionBtn">Submit</button>
+                </div>
             </div>
         </div>
     </div>
