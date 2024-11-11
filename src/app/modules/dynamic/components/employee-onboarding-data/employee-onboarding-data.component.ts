@@ -1,3 +1,4 @@
+import { constant } from 'src/app/constant/constant';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {  NgForm } from '@angular/forms';
@@ -72,6 +73,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   get paginatedData() {
     var start = (this.currentPage - 1) * this.pageSize;
     start=start+1;
+    // var temp=this.data.slice(1);
     return this.data.slice(start, start + this.pageSize);
   }
 
@@ -656,6 +658,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   genders: string[] = ['Male', 'Female'];
   isExcel: string = '';
   data: any[] = [];
+   dataWithoutHeader:any=[];
   mismatches: string[] = [];
   invalidRows: boolean[] = []; // Track invalid rows
   invalidCells: boolean[][] = []; // Track invalid cells
@@ -688,7 +691,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
         this.invalidCells = [];
 
         const columnNames: string[] = this.jsonData[0] as string[];
-
+        debugger
         if (this.validateColumns(columnNames)) {
               this.data = this.jsonData.map((row: any[]) => {
                 // Ensure the 5th column is an array of strings, other columns are treated as strings
@@ -823,6 +826,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
     return true;
   }
+  readonly constants = constant;
 
   validateRows(rows: any[]): void {
     console.log("🚀 ~ EmployeeOnboardingDataComponent ~ validateRows ~ rows:", rows)
@@ -833,14 +837,14 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       let rowIsValid = true;
       for (let j = 0; j < this.fileColumnName.length; j++) {
 
-        const cellValue = rows[i][j];        
+        const cellValue = rows[i][j];
         if (!cellValue || cellValue === null || cellValue.toString().trim() === '') {
           rowIsValid = false;
           this.invalidRows[i] = true; // Mark the row as invalid
           this.invalidCells[i][j] = true; // Mark the cell as invalid
+
         }
         if (this.fileColumnName[j] === 'phone*' && cellValue) {
-          debugger
           const phoneNumber = cellValue.toString().trim();
           if (!/^\d{10}$/.test(phoneNumber)) {
             rowIsValid = false;
@@ -859,21 +863,21 @@ export class EmployeeOnboardingDataComponent implements OnInit {
               rowIsValid = false;
               this.invalidRows[i] = true;
               this.invalidCells[i][j] = true;
-              this.data[i][j] = '';
+              this.data[i+1][j] = '';
           }
       }
 
     if (this.fileColumnName[j] === 'leavenames' || this.fileColumnName[j] === 'team') {
-      if(cellValue===undefined || cellValue===""){
-        this.data[i][j]=[];
+      if(this.constants.EMPTY_STRINGS.includes(cellValue)){
+        this.data[i+1][j]=[];
       }
       else{
+        console.log(cellValue)
         const selectedData: string[] = cellValue.split(',').map((team: string) => team.trim());
-        this.data[i][j]=selectedData;
+        this.data[i+1][j]=selectedData;
       }
     }
       if (this.fileColumnName[j] === 'joiningdate*' && cellValue) {
-        debugger;
 
         // Replace slashes with hyphens
         const normalizedCell = cellValue.toString().trim().replace(/\//g, '-');
@@ -891,21 +895,21 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
                 // Ensure the date is in the past or less than one year from today
                 if (formattedDate.isAfter(oneYearFromNow)) {
-                    this.data[i][j] = undefined;
+                    this.data[i+1][j] = undefined;
                     rowIsValid = false;
                     this.invalidRows[i] = true; // Mark the row as invalid
                     this.invalidCells[i][j] = true; // Mark the cell as invalid
                 }
             } else {
                 // If the date is not valid
-                this.data[i][j] = undefined;
+                this.data[i+1][j] = undefined;
                 rowIsValid = false;
                 this.invalidRows[i] = true; // Mark the row as invalid
                 this.invalidCells[i][j] = true; // Mark the cell as invalid
             }
         } else {
             // If the format is not exactly MM-DD-YYYY
-            this.data[i][j] = undefined;
+            this.data[i+1][j] = undefined;
             rowIsValid = false;
             this.invalidRows[i] = true; // Mark the row as invalid
             this.invalidCells[i][j] = true; // Mark the cell as invalid
@@ -919,6 +923,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
         }
       }
     }
+    debugger
 
   }
 
@@ -929,12 +934,13 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
   onMultiSelectChange(selectedOptions: any[], rowIndex: number, colIndex: number) {
     debugger
-
-    this.data[rowIndex][colIndex] = selectedOptions;
+    //rowIndex+1 represents data without header
+    this.data[rowIndex+1][colIndex] = selectedOptions;
     this.onValueChange(rowIndex,colIndex);
   }
 
   saveFile() {
+    debugger
     const stringifiedData = this.data.map((row: any[]) =>
       row.map(cell => cell !== null && cell !== undefined ? String(cell) : '')
     );
@@ -970,12 +976,14 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     //  this.datePipe.transform(event, 'MMM dd yyyy');
 
     // Assign the formatted date back to your data array
-    this.data[rowIndex][columnIndex] = formattedDate;
+    //rowIndex+1 represents data without header
+     this.data[rowIndex+1][columnIndex] = formattedDate;
     this.onValueChange(rowIndex,columnIndex);
   }
 
   onTeamSelectionChanges(selectedTeams: any[], rowIndex: number, columnIndex: number) {
-    this.data[rowIndex][columnIndex] = selectedTeams;
+    //rowIndex+1 represents data without header
+    this.data[rowIndex+1][columnIndex] = selectedTeams;
   }
 
   openAddLeaveModal(): void {
@@ -1112,7 +1120,9 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       if (row.selected ) {
         const columnIndex = this.fileColumnName.findIndex(col => col.includes(type));
         if (columnIndex !== -1) {
-          if (type === "leavenames" || type === "team") {
+          const cellValue = row[columnIndex]?.toString().toLowerCase();
+          if (cellValue !== "leavenames" && cellValue !== "team") {
+            if (type === "leavenames" || type === "team") {
             debugger
             if (!Array.isArray(row[columnIndex])) {
               row[columnIndex] = row[columnIndex] ? [row[columnIndex]] : [];
@@ -1123,9 +1133,10 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
             row[columnIndex]=[];
             row[columnIndex]=Array.from(temp)
-          } else {
-            row[columnIndex] = value;
-            this.invalidCells[rowIndex][columnIndex] = false;
+            } else {
+              row[columnIndex] = value;
+              this.invalidCells[rowIndex][columnIndex] = false;
+            }
           }
         }
       }
@@ -1134,7 +1145,9 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     });
 console.log(this.data);
   }
-
+  isAnyRowSelected(): boolean {
+    return this.data.some(row => row.selected === true);
+  }
 
 
 
