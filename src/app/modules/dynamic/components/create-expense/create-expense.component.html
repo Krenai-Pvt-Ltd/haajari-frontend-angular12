@@ -497,6 +497,10 @@
                                             Amount
                                         </th>
 
+                                        <th class="text-center" style="width: 10%">
+                                          Paid Amount
+                                      </th>
+
                                         <th class="text-center" style="width: 15%">
                                             Expense Type
                                         </th>
@@ -550,9 +554,10 @@
                                             <td class="text-center">{{expense.expenseDate}}</td>
                                             <td class="text-center">{{expense.employeeName}}</td>
                                             <td class="text-center">{{expense.amount}}</td>
+                                            <td class="text-center">{{expense.paidAmount == null ? 0 : expense.paidAmount}}</td>
                                             <td class="text-center">{{expense.expenseType}}</td>
                                             <td class="text-center">{{expense.notes}}</td>
-                                            <td class="text-center">Pending</td>
+                                            <td class="text-center">{{expense.status.response}}</td>
                                             <td class="text-center">
                                                 <div>
                                                     <button type="button" class="btn" (click)="updateExpense(expense)"
@@ -565,9 +570,13 @@
                                                         <i class="bi bi-trash pointer text-danger"></i>
                                                     </button>
 
-                                                    <button type="button" class="btn" (click)="getExpense(expense)"
+                                                    <button *ngIf="expense.status.id == 13" type="button" class="btn" (click)="getExpense(expense)"
                                                         data-bs-toggle="modal" data-bs-target="#approveModal">
                                                         View
+                                                    </button>
+
+                                                    <button *ngIf="expense.status.id != 13" type="button" class="btn" style="cursor: default;">
+                                                        - - -
                                                     </button>
 
                                                 </div>
@@ -975,8 +984,8 @@
                             <!-- Approve Button -->
                             <button class="btn approve-btn" type="button"
                                 [disabled]="isCheckboxChecked && (partialAmount == '' || partialAmount == null || partialAmount > userExpense.amount)"
-                                (click)="approveOrDeny(userExpense.id, 'approved')">
-                                <div *ngIf="approveToggle; else approveLabel">
+                                (click)="approveOrDeny(userExpense.id, 14)">
+                                <div *ngIf="approveToggle && approveReq.id == 14; else approveLabel">
                                     <div class="dot-opacity-loader">
                                         <span></span>
                                         <span></span>
@@ -987,8 +996,8 @@
                             </button>
                             <!-- Reject Button -->
                             <button class="btn reject-btn" type="button"
-                                (click)="approveOrDeny(userExpense.id, 'rejected')">
-                                <div *ngIf="approveToggle; else rejectLabel">
+                                (click)="approveOrDeny(userExpense.id, 15)">
+                                <div *ngIf="approveToggle && approveReq.id == 15; else rejectLabel">
                                     <div class="dot-opacity-loader">
                                         <span></span>
                                         <span></span>

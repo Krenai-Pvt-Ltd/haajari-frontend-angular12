@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { NgForm } from '@angular/forms';
 import { Key } from 'src/app/constant/key';
+import { ApproveReq } from 'src/app/models/ApproveReq';
 import { CompanyExpense } from 'src/app/models/CompanyExpense';
 import { CompanyExpensePolicyRes } from 'src/app/models/CompanyExpensePolicyRes';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
@@ -206,13 +207,31 @@ export class CreateExpenseComponent implements OnInit {
     this.partialAmount = '';
   }
 
+  approveReq: ApproveReq = new ApproveReq();
   approveToggle: boolean = false;
   @ViewChild('closeApproveModal') closeApproveModal!: ElementRef
-  approveOrDeny(id: number, status: string) {
-    console.log(id, status, this.partialAmount)
-    this.isCheckboxChecked = false;
-    this.partialAmount = '';
-    this.closeApproveModal.nativeElement.click()
+  approveOrDeny(id: number, statusId: number) {
+
+    debugger
+    this.approveToggle = true;
+    this.approveReq.id = id;
+    this.approveReq.statusId = statusId
+    this.approveReq.amount = this.partialAmount
+    this.dataService.updateCompanyExpense(this.approveReq).subscribe((res: any) => {
+      if(res.status){
+        this.approveReq = new ApproveReq();
+        this.getExpenses();
+        this.isCheckboxChecked = false;
+        this.partialAmount = '';
+        this.closeApproveModal.nativeElement.click()
+        this.approveToggle = false
+        this.helperService.showToast(
+          res.message,
+          Key.TOAST_STATUS_SUCCESS
+        );
+      }
+    })
+
   }
 
   /** Company Expense end **/
