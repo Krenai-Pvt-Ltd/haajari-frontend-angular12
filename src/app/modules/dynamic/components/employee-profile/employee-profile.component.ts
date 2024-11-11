@@ -3812,6 +3812,7 @@ closeAttendanceFunc() {
   validatePolicyToggle: boolean = false;
   limitAmount: any;
   checkExpensePolicy(form: NgForm) {
+    debugger
     this.dataService.checkExpensePolicy(this.expenseTypeReq.expenseTypeId, this.expenseTypeReq.amount).subscribe((res: any) => {
       this.limitAmount = res.object;
 
@@ -3827,15 +3828,22 @@ closeAttendanceFunc() {
     this.validatePolicyToggle = false;
   }
 
+  managerId: number = 0
+  getManagerId(id: any) {
+    this.expenseTypeReq.managerId = id
+  }
+
   @ViewChild('closeExpenseButton') closeExpenseButton!: ElementRef
   createToggle: boolean = false;
   createExpense(form: NgForm) {
+    debugger
     this.createToggle = true;
-
+   
     this.dataService.createExpense(this.expenseTypeReq).subscribe((res: any) => {
       if (res.status) {
         this.expenseTypeReq = new ExpenseType();
         this.expenseTypeId = 0;
+        this.managerId = 0
         this.expenseTypeReq.id = 0;
         this.validatePolicyToggle = false;
         form.resetForm();
@@ -3846,16 +3854,18 @@ closeAttendanceFunc() {
       }
     })
 
-    console.log('createExpense Req: ', this.expenseTypeReq)
+    // console.log('createExpense Req: ', this.expenseTypeReq)
     // this.expenseTypeReq = new ExpenseType();
 
     // this.expenseTypeId = 0;
     // this.validatePolicyToggle = false;
+    // this.managerId = 0
+    // this.createToggle = false;
     // form.resetForm();
     // this.getExpenses();
 
     // this.closeExpenseButton.nativeElement.click()
-    // console.log('Created Successfully')
+    console.log('Created Successfully')
   }
 
   async updateExpense(expense: any) {
