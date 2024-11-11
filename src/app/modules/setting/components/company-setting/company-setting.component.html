@@ -1615,14 +1615,14 @@
                               </nz-auto-option>
                             </nz-autocomplete>
                             <div *ngIf="radius?.touched || isFormInvalid">
-                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="radius.errors?.required ">
+                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="radius.errors?.required && !minRadius">
                                     <i class="bi bi-exclamation-circle"></i> Radius selection is required.
                                 </p>
                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="radius.errors?.maxlength">
                                     <i class="bi bi-exclamation-circle"></i> Maximum 5 characters allowed.
                                 </p>
-                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="minRadius ">
-                                    <i class="bi bi-exclamation-circle"></i> Radius must be at least 50 meters.
+                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="minRadius">
+                                    <i class="bi bi-exclamation-circle"></i> Radius must be at least 10 meters.
                                 </p>
                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="radius.value > 99000">
                                     <i class="bi bi-exclamation-circle"></i> Maximum radius is 99,000 meters.
@@ -2672,14 +2672,14 @@
                               </nz-auto-option>
                             </nz-autocomplete>
                             <div *ngIf="radius?.touched || isFormInvalidLocation">
-                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="radius.errors?.required ">
+                                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="radius.errors?.required && !minRadius">
                                     <i class="bi bi-exclamation-circle"></i> Radius selection is required.
                                 </p>
                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="radius.errors?.maxlength">
                                     <i class="bi bi-exclamation-circle"></i> Maximum 5 characters allowed.
                                 </p>
                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="minRadius">
-                                    <i class="bi bi-exclamation-circle"></i> Radius must be at least 50 meters.
+                                    <i class="bi bi-exclamation-circle"></i> Radius must be at least 10 meters.
                                 </p>
                                 <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="radius.value > 99000">
                                     <i class="bi bi-exclamation-circle"></i> Maximum radius is 99,000 meters.
