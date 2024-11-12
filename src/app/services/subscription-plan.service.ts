@@ -111,6 +111,12 @@ export class SubscriptionPlanService {
       .set('sortBy', "createdDate")
       .set('sortOrder', "desc")
       .set('statusIds', String(statusIds))
-    return this._httpClient.get<any>(this._key.base_url + this._key.get_invoices, {params})
+    return this._httpClient.get<any>(this._key.base_url + this._key.get_invoices, {params});
+  }
+
+  downloadInvoice(invoiceId:number){
+    const params = new HttpParams()
+    .set('invoiceId', invoiceId)
+  return this._httpClient.get<any>(this._key.base_url + this._key.download_invoice, {params});
   }
 }

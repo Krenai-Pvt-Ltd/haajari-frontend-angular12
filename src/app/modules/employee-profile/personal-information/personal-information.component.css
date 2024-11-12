@@ -1,0 +1,38 @@
+.separator-border {
+    border-left: 2px solid #b5b5b5;
+    height: 15px;
+}
+.profile-imfo span{
+    color: #787486;
+    font-size: 13px;
+    font-weight: 300;
+}
+.action-btn button svg{
+    width: 18px;
+    position: relative;
+    top: 0px;
+}
+.action-btn span{
+    height: 15px;
+    border-left: 1px solid #AEAEAE;
+}
+.profile-imformation p{
+    color: #787486;
+    font-size: 13px;
+}
+.profile-imformation .profile-email{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 155px;
+}
+.profile-imfo-hedding h5{
+  font-size: 15px;
+}
+.separator-line{
+    border-left: 1px solid #444;
+    height: 13px;
+}
+.profile-imfo-hedding span{
+    color: #787486;
+}

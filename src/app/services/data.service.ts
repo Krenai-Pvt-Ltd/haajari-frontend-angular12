@@ -78,9 +78,12 @@ import { LeaveTemplateRequest } from '../models/leave-template-request';
 import { OrganizationRegistrationFormRequest } from '../models/organization-registration-form-request';
 import { rootCertificates } from 'tls';
 import { OnboardingModule } from '../models/OnboardingModule';
+import { AddressModeTypeRequest } from '../models/address-mode-type-request';
 import { ExpenseType } from '../models/ExpenseType';
 import { CompanyExpense } from '../models/CompanyExpense';
 import { UserPositionDTO } from '../models/user-position.model';
+import { DatabaseHelper } from '../models/DatabaseHelper';
+import { ApproveReq } from '../models/ApproveReq';
 
 
 @Injectable({
@@ -1739,6 +1742,15 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
 
     return this.httpClient.post<any>(
       `${this.baseUrl}/organization-shift-timing/get-organization-user-shift-name`,  selectedStaffsUuids, {params}
+    );
+  }
+
+  getOrganizationUserNameWithBranchName(selectedStaffsUuids: string[], addressId: number): Observable<any> {
+    let params = new HttpParams().set("addressId", addressId);
+
+
+    return this.httpClient.post<any>(
+      `${this.baseUrl}/user-verification/get-organization-user-branch-name`,  selectedStaffsUuids, {params}
     );
   }
 
@@ -4215,6 +4227,14 @@ getHolidayForOrganization(date: string): Observable<any>{
     );
   }
 
+  saveFlexibleAttendanceModeForAllAddresses(addressModes: AddressModeTypeRequest[]): Observable<any> {
+    // const params = new HttpParams().set('requestType', requestType);
+    return this.httpClient.put<any>(
+      `${this.baseUrl}/attendance/mode/save-flexible-modes-info-for-all-addresses`, addressModes
+
+    );
+  }
+
   getFlexibleAttendanceMode(): Observable<any> {
     // const params = new HttpParams().set('requestType', requestType);
     return this.httpClient.get<any>(
@@ -4276,6 +4296,21 @@ getHolidayForOrganization(date: string): Observable<any>{
     .set('role', role)
 
     return this.httpClient.get<any>(`${this.baseUrl}/company-expense`, {params});
+  }
+
+
+  getAllCompanyExpensePolicy(databaseHelper: DatabaseHelper){
+    const params = new HttpParams()
+    .set('page_number', databaseHelper.currentPage)
+    .set('item_per_page', databaseHelper.itemPerPage)
+    .set('sortBy', 'createdDate')
+    .set('sortOrder', 'desc')
+
+    return this.httpClient.get<any>(`${this.baseUrl}/company-expense-policy/rule`, {params});
+  }
+
+  updateCompanyExpense(approveReq: ApproveReq){
+    return this.httpClient.patch<any>(`${this.baseUrl}/company-expense`, approveReq);
   }
 
 }

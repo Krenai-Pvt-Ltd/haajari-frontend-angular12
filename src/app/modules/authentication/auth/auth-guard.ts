@@ -33,7 +33,6 @@ export class AuthGuard implements CanActivate {
   }
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot,): Promise<boolean> {
-
     const token = localStorage.getItem('token');
     
     if (!await this.isValidTokenFormat(token)) {
@@ -42,7 +41,7 @@ export class AuthGuard implements CanActivate {
     }
 
     await this.rbacService.isUserInfoInitializedMethod();
-
+    // console.log("=====isSubscription======",this._subscriptionService.isSubscription)
     if(this._subscriptionService.isSubscription!=undefined){
       if(!this._subscriptionService.isSubscription || this._subscriptionService.isPlanExpired){
           return false;
@@ -76,12 +75,15 @@ export class AuthGuard implements CanActivate {
     if (this.ROLE == 'ADMIN' && this.isToDoStepsCompleted == 0 && route!.routeConfig!.path == 'dashboard') {
       this.router.navigate(['/to-do-step-dashboard']);
       return false;
+    }else if (this.ROLE == 'ADMIN' && this.isToDoStepsCompleted == 0 && route!.routeConfig!.path == 'to-do-step-dashboard') {
+      return true;
     }
 
   
 
  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     this.currentRoute = state.url;
+    // console.log("======this.currentRoute==========",this.currentRoute);
     if (this.currentRoute != null) {  
         this.currentRoute = this.currentRoute.split("?")[0];
         // console.log("======this.currentRoute==========",this.currentRoute,"=============restrict========",this._helperService.restrictedModules)

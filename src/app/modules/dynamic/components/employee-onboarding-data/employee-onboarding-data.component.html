@@ -1744,8 +1744,7 @@
               </div>
             </div>
           </div>
-          <div #attention
-            class="create-password-warning mb-0 mt-4 ng-star-inserted text-start"
+          <div #attention class="create-password-warning waring-box p-3 mb-0 mt-4 ng-star-inserted text-start"
             *ngIf="
               alreadyUsedPhoneNumberArray.length > 0 ||
               alreadyUsedEmailArray.length > 0 ||
@@ -1753,28 +1752,25 @@
               isErrorToggle
             "
           >
-            <h4 class="alert-heading font-18">Attention!!</h4>
-            <p *ngIf="this.mismatches.length > 0">
+            <h4 class="alert-heading font-18 text-danger">Attention!!</h4>
+            <ul style="padding-left: 15px;">
+            <li class="mb-1" *ngIf="this.mismatches.length > 0">
 
               {{ this.mismatches }}
-            </p>
-            <p *ngIf="alreadyUsedPhoneNumberArray.length > 0">
+            </li>
+            <li class="mb-1" *ngIf="alreadyUsedPhoneNumberArray.length > 0">
               Phone Numbers:
               {{ formatAsCommaSeparated(alreadyUsedPhoneNumberArray) }}
-            </p>
-            <p *ngIf="alreadyUsedEmailArray.length > 0">
+            </li>
+            <li class="mb-1" *ngIf="alreadyUsedEmailArray.length > 0">
               Emails: {{ formatAsCommaSeparated(alreadyUsedEmailArray) }}
-            </p>
-            <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p>
-            <!-- <div *ngFor="let pn of alreadyUsedPhoneNumberArray">
-                  {{ pn }}
-                </div>
-                <div *ngFor="let ea of alreadyUsedEmailArray">
-                  {{ ea }}
-                </div> -->
-            <p *ngIf="!isErrorToggle">
+            </li>
+            <li class="mb-1" *ngIf="isErrorToggle">Error: {{ errorMessage }}</li>
+         
+            <li class="mb-1" *ngIf="!isErrorToggle">
               These credentials are already registered with us!
-            </p>
+            </li>
+            </ul>
           </div>
           <div
             class="card create-password-warning mb-0 mt-4 ng-star-inserted pb-3 pt-2 px-3 text-start"

@@ -5298,8 +5298,135 @@
     <form
       #organizationAddressForm="ngForm"
       ngNativeValidate
-      (ngSubmit)="saveLocationInfo()"
+      (ngSubmit)="saveFlexibleModes()"
     >
+   
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
+            Staff Attendance With Location
+          </h6>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            #closeAddressModal
+            aria-label="Close"
+          ></button>
+        </div>
+        <!--end modal-header-->
+
+        <!-- Radio buttons for Flexible and Fixed location -->
+        <div class="modal-body">
+          <div class="form-group">
+            
+             
+            <!-- neeww -->
+
+            <div
+                    class="shift-time p-3 m-3"
+                    *ngFor="let item of allAddresses; let i = index"
+                  >
+                    <div class="">
+                      <div
+                        class="d-flex align-items-center justify-content-between"
+                      >
+                        <div class="d-flex align-items-start gap-3">
+                          <div class="">
+                            <span
+                              class="automation-rules-icon d-flex align-items-center justify-content-center"
+                            >
+                              <img src="assets/images/rule-icon.svg" />
+                            </span>
+                          </div>
+                          <div class="">
+                            <h6 class="text-truncate mb-0" *ngIf="
+                            item.organizationAddress.addressStatus ==
+                            'Default address'
+                          ">
+                              {{ item.organizationAddress.addressStatus }}
+                            </h6>
+                            <h6 class="text-truncate mb-0" *ngIf="
+                            item.organizationAddress.addressStatus !=
+                            'Default address'
+                          ">
+                              {{ item.organizationAddress.branch || 'N/A'}}
+                            </h6>
+                            <small class="text-muted"
+                              >{{ item.organizationAddress.addressLine1 }}</small
+                            >
+
+
+
+                            <div class="d-flex align-items-center mb-1 mt-2">
+                              <!-- Radio Buttons for Location Type -->
+                              <div class="form-check me-3 flexible-location">
+                                <input class="form-check-input" type="radio" [name]="'locationType_' + i" id="flexibleLocation_{{ i }}"
+                                  [value]="'flexible'" [checked]="item.organizationAddress.isFlexible === true"
+                                  (change)="onLocationTypeChange(item.organizationAddress.id, true)" />
+                                <label class="form-check-label" for="flexibleLocation_{{ i }}">Flexible Location</label>
+                              </div>
+                              <div class="form-check flexible-location">
+                                <input class="form-check-input" type="radio" [name]="'locationType_' + i" id="fixedLocation_{{ i }}"
+                                  [value]="'fixed'" [checked]="item.organizationAddress.isFlexible === false"
+                                  (change)="onLocationTypeChange(item.organizationAddress.id, false)" />
+                                <label class="form-check-label" for="fixedLocation_{{ i }}">Fixed Location</label>
+                              </div>
+                            </div>
+                          </div>
+                           
+                        </div>
+                      </div>
+
+                      <!-- {{item.organizationAddress.isFlexible}} -->
+                     
+                    </div>
+                  </div>
+            
+          </div>
+           
+        </div>
+
+        <div
+          class="modal-footer d-flex align-items-center justify-content-end"
+        >
+          <button
+            class="btn btn-primary"
+            type="submit"
+            [disabled]="toggle"
+            aria-label="Next Step"
+          >
+            <div *ngIf="modesLoader" class="dot-opacity-loader">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <span *ngIf="!modesLoader">
+              Save <i class="bi bi-arrow-right" style="padding-left: 8px"></i>
+            </span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- old default address edit code with map -->
+<div
+  class="modal fade"
+  id="attendancewithlocationss22"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="attendancewithlocation22"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg" role="document">
+    <form
+      #organizationAddressForm="ngForm"
+      ngNativeValidate
+      
+    >
+    <!-- (ngSubmit)="saveLocationInfo()" -->
     <!-- (ngSubmit)="setOrganizationAddressDetailMethodCall()" -->
       <div class="modal-content">
         <div class="modal-header">
@@ -5321,7 +5448,7 @@
           <div class="form-group">
             <div class="d-flex align-items-center mb-3">
               <label class="me-3">Location Type:</label>
-              <div class="form-check me-3">
+              <!-- <div class="form-check me-3">
                 <input
                   class="form-check-input"
                   type="radio"
@@ -5348,7 +5475,7 @@
                 <label class="form-check-label" for="fixedLocation">
                   Fixed Location
                 </label>
-              </div>
+              </div> -->
             </div>
 
             <!-- Conditional display based on location type -->
@@ -5395,7 +5522,7 @@
                   </div>
                 </div>
                 <div class="col-md-4">
-                  <div class="mb-3">
+                  <!-- <div class="mb-3">
                     <label for="radius" class="pb-2">
                       Employee Location Must be in
                     </label>
@@ -5420,6 +5547,56 @@
                       <i class="bi bi-exclamation-circle"></i> Minimum radius is
                       50 meters.
                     </p>
+                  </div> -->
+                  <div class="mb-3">
+                    <label for="radius" class="pb-2">
+                      Employee location Must be in
+                      <i class="bi bi-exclamation-circle tolltip-icon"
+                        ngbTooltip="Please enter the location range (in meters) within which your employees are allowed to mark their attendance. This ensures that attendance can only be marked when they are within the specified location range."
+                        placement="top">
+                      </i>
+                    </label>
+                        <input
+                        maxlength="5"
+                        class="form-control profile-input"
+                        id="radiusDropdown"
+                        name="radiusDropdown"
+                        placeholder="Enter radius in meters"
+                        nz-input
+                        [(ngModel)]="organizationAddressDetail.radius"
+                        (ngModelChange)="onChange($event)"
+                        [nzAutocomplete]="radiusAuto"
+                        required
+                        #radius="ngModel"
+                        (keydown)="preventLeadingWhitespace($event)"
+                        (keypress)="allowOnlyNumbers($event)"
+                        (focus)="onFocus()"
+                    />
+                    <!-- <nz-autocomplete [nzDataSource]="radiusFilteredOptions" #radiusAuto></nz-autocomplete> -->
+                    <nz-autocomplete #radiusAuto (select)="onSelect($event)">
+                      <nz-auto-option
+                        *ngFor="let option of radiusFilteredOptions"
+                        [nzValue]="option.value"  
+                        [nzLabel]="option.label"> 
+                        {{ option.label }}         
+                      </nz-auto-option>
+                    </nz-autocomplete>
+                    <div *ngIf="radius?.touched">
+                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="radius.errors?.required ">
+                            <i class="bi bi-exclamation-circle"></i> Radius selection is required.
+                        </p>
+                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="radius.errors?.maxlength">
+                            <i class="bi bi-exclamation-circle"></i> Maximum 5 characters allowed.
+                        </p>
+                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="minRadius && organizationAddressDetail.radius != ''">
+                            <i class="bi bi-exclamation-circle"></i> Radius must be at least 50 meters.
+                        </p>
+                        <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="radius.value > 99000">
+                            <i class="bi bi-exclamation-circle"></i> Maximum radius is 99,000 meters.
+                        </p>
+                    </div>
+              
+              
                   </div>
                 </div>
               </div>

@@ -1,0 +1,64 @@
+/* agm-marker {
+    position: fixed;
+    left: 50vw;
+    top: 50vh;
+    z-index: 9999;
+} */
+.map {
+    position: relative;
+  }
+.map-center-overlay {
+    margin: 0;
+    position: absolute;
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  .map-search-overlay {
+    left: 50%;
+    margin: 0;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 10%;
+    background-color: white;
+  }
+  .map-locate-me {
+    margin: 0;
+    position: absolute;
+    bottom: -5%; 
+    left: 14%;
+    transform: translate(-50%, -50%);
+  }
+  .locate-btn{
+    color: rgb(145, 42, 183)!important;
+    border-color: rgb(145, 42, 183)!important;
+    background-color: white!important;
+  }
+
+        .search-tag-remvo {
+          background-color: transparent;
+          border: none;
+          padding: 0px;
+        }
+    
+        .search-tag-remvo i {
+          font-size: 18px;
+          color: #444;
+        }
+
+                .order-search {
+                  padding: 0px 5px 0px;
+                  background: #fff;
+                  border: 1px solid #dee2e6;
+                  box-sizing: border-box;
+                  border-radius: 10px;
+                }
+
+
+
+.bg-transparent {
+     background-color: transparent !important;
+     border: transparent !important;
+    font-size: 14px;
+}
