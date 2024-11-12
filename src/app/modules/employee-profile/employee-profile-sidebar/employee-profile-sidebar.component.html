@@ -102,15 +102,21 @@
             urna. Pellentesque sit amet
             sapien.</p> -->
 
-            <!-- d-flex align-items-center  -->
-            <div class="gap-2" [ngClass]="{
+
+            <!-- classs to show data only in user case
+            
+            [ngClass]="{
                 'd-none': !userRoleFlag || ROLE == 'ADMIN',
                 'd-flex align-items-center': userRoleFlag
-              }">
+              }"
+            
+            -->
+            <!-- d-flex align-items-center  -->
+            <!-- <div class="gap-2 d-flex align-items-center" > -->
                 <!-- checkin-active -->
                 <!-- check-in-btn -->
                 <!-- [ngClass]="{'checkin-active': status == 'in', 'check-in-btn': status != 'in'}" -->
-                <button class="btn font-12 check-in-btn" [ngClass]="{'checkin-active': (status == 'in' || this.status== 'break' || this.status == 'back'), 'check-in-btn': (status == 'out' || status == null)}"  (click)="checkinCheckout('/in')">
+                <!-- <button class="btn font-12 check-in-btn" [ngClass]="{'checkin-active': (status == 'in' || this.status== 'break' || this.status == 'back'), 'check-in-btn': (status == 'out' || status == null)}"  (click)="checkinCheckout('/in')">
                     <span>
                         <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none" *ngIf="status == 'out' || status== '' || status == null ">
                             <g clip-path="url(#clip0_4859_408)">
@@ -140,7 +146,7 @@
                         </svg>
                     </span>
                     
-                    Check-In</button>
+                    Check-In</button> -->
                
                 <!-- <button class="btn font-12 " [ngClass]="{'check-in-btn': status != 'out' , 'break-btn': (status == 'out' || status == null)}">
                     <span>
@@ -190,7 +196,7 @@
                     <span *ngIf="status == 'break'" (click)="checkinCheckout('/back')">Back</span>
                 </button> -->
 
-                <button class="btn font-12 break-btn" *ngIf="status == 'in' || status == 'back' || status == null || status == 'out'" (click)="checkinCheckout('/break')">
+                <!-- <button class="btn font-12 break-btn" *ngIf="status == 'in' || status == 'back' || status == null || status == 'out'" (click)="checkinCheckout('/break')">
                     <span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="25" viewBox="0 0 26 25" fill="none">
                         <path fill-rule="evenodd" clip-rule="evenodd"
@@ -239,9 +245,9 @@
                     </svg>
                     </span>
                     Back
-                </button>
+                </button> -->
             
-                
+<!--                 
                 <button class="btn font-12 break-btn" (click)="checkinCheckout('/out')">
                     <span>
                         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="25" viewBox="0 0 26 25" fill="none"  *ngIf="status != 'out'">
@@ -282,9 +288,88 @@
                         </svg>
                     </span>
                     
-                    Check-out</button>
+                    Check-out</button> -->
 
+           
+        <div class="check-in">
+            <div class="d-flex align-items-center gap-2 check-in-info p-2">
+            <img src="assets/images/check-in-image.svg">
+            <h5 class="mb-0">Time to Check In and <br> Start Your Shift</h5>
             </div>
+            <button class="btn check-in w-100">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M7.70105 1.41406C5.60524 1.41406 3.90625 3.11305 3.90625 5.20886C3.90625 7.30468 5.60524 9.00366 7.70105 9.00366C9.79686 9.00366 11.4958 7.30468 11.4958 5.20886C11.4958 3.11305 9.79686 1.41406 7.70105 1.41406ZM4.99048 5.20886C4.99048 3.71187 6.20406 2.49829 7.70105 2.49829C9.19804 2.49829 10.4116 3.71187 10.4116 5.20886C10.4116 6.70586 9.19804 7.91943 7.70105 7.91943C6.20406 7.91943 4.99048 6.70586 4.99048 5.20886Z"
+                        fill="white" />
+                    <path
+                        d="M14.1474 10.4862C13.9269 10.6887 13.5839 10.6741 13.3814 10.4536L11.6389 8.55621C11.4485 8.34885 11.4485 8.0302 11.6389 7.82284L13.3814 5.92544C13.5839 5.7049 13.9269 5.69032 14.1474 5.89283C14.3679 6.09536 14.3825 6.43828 14.18 6.65881L13.2721 7.64741H16.9172C17.2166 7.64741 17.4593 7.89011 17.4593 8.18952C17.4593 8.48893 17.2166 8.73164 16.9172 8.73164H13.2721L14.18 9.72024C14.3825 9.94074 14.3679 10.2837 14.1474 10.4862Z"
+                        fill="white" />
+                    <path
+                        d="M5.94678 10.0859C3.32262 10.0859 1.19531 12.2132 1.19531 14.8374C1.19531 16.4049 2.46598 17.6755 4.03344 17.6755H6.3454C6.64481 17.6755 6.88751 17.4328 6.88751 17.1334C6.88751 16.834 6.64481 16.5913 6.3454 16.5913H4.03344C3.06479 16.5913 2.27954 15.8061 2.27954 14.8374C2.27954 12.812 3.92142 11.1702 5.94678 11.1702H9.45459C11.48 11.1702 13.1218 12.812 13.1218 14.8374C13.1218 15.8061 12.3366 16.5913 11.3679 16.5913H9.05597C8.75656 16.5913 8.51385 16.834 8.51385 17.1334C8.51385 17.4328 8.75656 17.6755 9.05597 17.6755H11.3679C12.9354 17.6755 14.2061 16.4049 14.2061 14.8374C14.2061 12.2132 12.0787 10.0859 9.45459 10.0859H5.94678Z"
+                        fill="white" />
+                </svg>
+                Check-In</button>
+        </div>
+        <!-- <div class="break-back">
+            <div class="d-flex align-items-center gap-2 break-info p-2">
+                <img src="assets/images/break.svg">
+                <h5 class="mb-0">Your Scheduled break is here. rejuvenate yourself</h5>
+            </div>
+            <button class="btn break-back w-100">
+            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
+                <mask id="mask0_5440_96" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="16">
+                    <rect x="0.918701" y="0.0078125" width="15.9922" height="15.9922" fill="#D9D9D9" />
+                </mask>
+                <g mask="url(#mask0_5440_96)">
+                    <path
+                        d="M4.91675 14.6676V8.57062C4.31704 8.41514 3.83394 8.09863 3.46746 7.62109C3.10097 7.14354 2.91772 6.60492 2.91772 6.00521V1.34082H4.25041V5.33887H4.91675V1.34082H6.24943V5.33887H6.91577V1.34082H8.24845V6.00521C8.24845 6.60492 8.06521 7.14354 7.69872 7.62109C7.33223 8.09863 6.84914 8.41514 6.24943 8.57062V14.6676H4.91675ZM11.5802 14.6676V8.32074C10.9805 8.12084 10.4974 7.7016 10.1309 7.06303C9.76438 6.42445 9.58114 5.6998 9.58114 4.88909C9.58114 3.90068 9.84212 3.0622 10.3641 2.37365C10.8861 1.6851 11.5135 1.34082 12.2465 1.34082C12.9795 1.34082 13.6069 1.68787 14.1289 2.38198C14.6509 3.07608 14.9119 3.91734 14.9119 4.90575C14.9119 5.71646 14.7286 6.43833 14.3621 7.07135C13.9956 7.70438 13.5125 8.12084 12.9128 8.32074V14.6676H11.5802Z"
+                        fill="white" />
+                </g>
+            </svg>
+                Break</button>
+        </div>
+        <div class="break-back">
+            <div class="d-flex align-items-center gap-2 back-info p-2">
+                <img src="assets/images/back.svg">
+                <h5 class="mb-0">You are currently on <br> break. Please come back.</h5>
+            </div>
+            <button class="btn back-btn w-100">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+                    <path
+                        d="M7.30069 14.5C11.1604 14.5 14.3005 11.3598 14.3005 7.49997C14.3005 3.64023 11.1604 0.5 7.30069 0.5C3.44094 0.5 0.300781 3.64023 0.300781 7.49997C0.300781 11.3598 3.44094 14.5 7.30069 14.5ZM7.30069 1.45824C10.6321 1.45824 13.3423 4.16854 13.3423 7.49997C13.3423 10.8314 10.6321 13.5417 7.30069 13.5418C3.96932 13.5417 1.25909 10.8314 1.25909 7.4999C1.25909 4.1686 3.96932 1.45824 7.30069 1.45824Z"
+                        fill="white" />
+                    <path
+                        d="M6.36217 10.4996C6.54928 10.6867 6.85266 10.6866 7.03971 10.4996C7.22689 10.3124 7.22689 10.0091 7.03965 9.82195L5.19854 7.98091L10.53 7.98039C10.7946 7.98033 11.0091 7.76588 11.0091 7.50115C11.009 7.23654 10.7946 7.02215 10.53 7.02215L5.19829 7.02266L7.03984 5.18124C7.22695 4.99412 7.22695 4.69068 7.03984 4.50363C6.94625 4.41011 6.82366 4.36328 6.701 4.36328C6.57841 4.36328 6.45582 4.41011 6.36223 4.50357L3.70285 7.16289C3.61297 7.2527 3.5625 7.37453 3.5625 7.50166C3.56256 7.62878 3.61303 7.75054 3.70291 7.84056L6.36217 10.4996Z"
+                        fill="white" />
+                </svg>
+                Break</button>
+        </div>
+        <div class="break-back ">
+            <div class="d-flex align-items-center gap-2 check-out-info p-2">
+                <img src="assets/images/check-out.svg">
+                <h5 class="mb-0">Time to Check Out Have a restful evening</h5>
+            </div>
+            <button class="btn check-out-btn w-100">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+                    <g clip-path="url(#clip0_5429_12044)">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M8.96484 0.9375C10.6562 0.9375 12.0273 2.30863 12.0273 4C12.0273 5.69137 10.6562 7.0625 8.96484 7.0625C7.27347 7.0625 5.90234 5.69137 5.90234 4C5.90234 2.30863 7.27347 0.9375 8.96484 0.9375ZM11.1523 4C11.1523 2.79189 10.173 1.8125 8.96484 1.8125C7.75673 1.8125 6.77734 2.79189 6.77734 4C6.77734 5.20811 7.75673 6.1875 8.96484 6.1875C10.173 6.1875 11.1523 5.20811 11.1523 4Z"
+                            fill="white" />
+                        <path
+                            d="M3.76267 8.25973C3.94064 8.42318 4.21741 8.41139 4.38083 8.23343L5.78709 6.70218C5.94076 6.53484 5.94076 6.27768 5.78709 6.11033L4.38083 4.57908C4.21741 4.40111 3.94064 4.38934 3.76267 4.55277C3.58472 4.71622 3.57292 4.99296 3.73637 5.17093L4.46906 5.96876H1.52735C1.28572 5.96876 1.08985 6.16463 1.08985 6.40626C1.08985 6.64789 1.28572 6.84376 1.52735 6.84376H4.46906L3.73637 7.64158C3.57292 7.81954 3.58472 8.0963 3.76267 8.25973Z"
+                            fill="white" />
+                        <path
+                            d="M10.3803 7.9375C12.4981 7.9375 14.2148 9.65429 14.2148 11.7721C14.2148 13.037 13.1894 14.0625 11.9244 14.0625H10.0586C9.81696 14.0625 9.62109 13.8666 9.62109 13.625C9.62109 13.3834 9.81696 13.1875 10.0586 13.1875H11.9244C12.7061 13.1875 13.3398 12.5538 13.3398 11.7721C13.3398 10.1375 12.0148 8.8125 10.3803 8.8125H7.5494C5.91488 8.8125 4.58984 10.1375 4.58984 11.7721C4.58984 12.5538 5.22356 13.1875 6.00529 13.1875H7.87109C8.11272 13.1875 8.30859 13.3834 8.30859 13.625C8.30859 13.8666 8.11272 14.0625 7.87109 14.0625H6.00529C4.7403 14.0625 3.71484 13.037 3.71484 11.7721C3.71484 9.65429 5.43164 7.9375 7.5494 7.9375H10.3803Z"
+                            fill="white" />
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_5429_12044">
+                            <rect width="14" height="14" fill="white" transform="matrix(-1 0 0 1 14.6523 0.5)" />
+                        </clipPath>
+                    </defs>
+                </svg>
+                Check-Out</button>
+        </div> -->
 
 
 
