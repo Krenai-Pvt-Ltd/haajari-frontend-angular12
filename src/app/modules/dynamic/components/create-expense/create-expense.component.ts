@@ -724,39 +724,6 @@ export class CreateExpenseComponent implements OnInit {
   tempPolicyName: string = ''
   policyAmount: string = ''
   isErrorShow: boolean = true;
-  addExpensePolicy1(form: NgForm){
-    debugger
-    this.tempPolicyName = this.policyName;
-
-    // this.expensePolicyReq.name = this.policyName
-    this.expensePolicyReq.paymentType = this.type
-    this.expensePolicyReq.limitAmount = this.flexibleAmount == null ? 0 : this.flexibleAmount
-    this.expensePolicyReq.expenseTypeId = this.expenseTypeId
-    this.expensePolicyReq.expenseTypeName = this.expenseTypeName
-    this.expensePolicyReq.amount = Number(this.policyAmount)
-
-    this.expensePolicyReqList.push(this.expensePolicyReq)
-
-    this.expensePolicyReq = new ExpensePolicy();
-
-    console.log('add Policy: ',this.expensePolicyReq)
-
-    this.expenseTypeName = this.tempPolicyName
-    this.expenseTypeId = 0
-    this.expenseTypeName = ''
-    this.isExpenseTypeSelected = false;
-    this.editIndexPolicyToggle = false;
-    this.policyAmount = ''
-    this.paymentType = ''; // Reset payment type when a new expense type is selected
-    this.flexibleAmount = null; // Reset amount for flexible payment type
-    console.log('Request: ',this.expensePolicyReqList)
-    this.isErrorShow = false;
-    this.resetThresholdOptions()
-    // form.resetForm()
-    // this.tempPolicyName = this.policyName
-  }
-
-
   addExpensePolicy(form: NgForm){
     debugger
    
@@ -766,6 +733,19 @@ export class CreateExpenseComponent implements OnInit {
       this.expensePolicyReq.expenseTypeId = this.expenseTypeId
       this.expensePolicyReq.expenseTypeName = this.expenseTypeName
       this.expensePolicyReq.amount = Number(this.policyAmount)
+
+      // this.paymentType = item.isFixed
+      // this.thresholdType = item.isPercent
+      // this.isThresholdSelected = item.isThresold
+
+      // this.expensePolicyReq.paymentType = this.paymentType
+      this.expensePolicyReq.isPercent = this.thresholdType == null ? '' : this.thresholdType
+      this.expensePolicyReq.isThresold = this.isThresholdSelected
+      this.expensePolicyReq.isFixed = this.paymentType
+      this.expensePolicyReq.isPercentage = (this.thresholdType === 'value' ? 0 : 1 )
+      this.policyAmount = this.policyAmount
+      this.flexibleAmount = this.flexibleAmount
+
     if(!this.editIndexPolicyToggle){
       this.expensePolicyReqList.push(this.expensePolicyReq)
     }else{
@@ -796,27 +776,32 @@ export class CreateExpenseComponent implements OnInit {
   companyExpenseReq: CompanyExpense = new CompanyExpense();
   registerToggle: boolean = false
   @ViewChild('closeExpensePolicyModal') closeExpensePolicyModal!: ElementRef
-  registerCompanyExpense(form: NgForm) {
+   registerCompanyExpense(form: NgForm) {
     debugger
 
     this.registerToggle = true;
     this.companyExpenseReq.policyName = this.tempPolicyName;
     this.companyExpenseReq.expensePolicyList = this.expensePolicyReqList
     this.companyExpenseReq.selectedUserIds = this.selectedStaffIdsUser;
+    this.companyExpenseReq.deSelectedUserIds = this.deSelectedStaffIdsUser;
 
     console.log('Create: ',this.companyExpenseReq)
 
-    this.dataService.createExpensePolicy(this.companyExpenseReq).subscribe((res: any) => {
-      if(res.status){
-        this.closeExpensePolicyModal.nativeElement.click()
-        form.resetForm()
-        this.clearPolicyForm();
-        this.getAllCompanyExpensePolicy()
-        this.resetThresholdOptions()
-        this.registerToggle = false
-        this.helperService.showToast(res.message, Key.TOAST_STATUS_SUCCESS);
-      }
-    })
+    // this.dataService.createExpensePolicy(this.companyExpenseReq).subscribe((res: any) => {
+    //   if(res.status){
+    //     this.closeExpensePolicyModal.nativeElement.click()
+    //     form.resetForm()
+    //     this.clearPolicyForm();
+    //     this.getAllCompanyExpensePolicy()
+    //     this.resetThresholdOptions()
+    //     this.registerToggle = false
+    //     if(this.isMappedUserModalOpen){
+    //       this.usersAlreadyAssigned?.nativeElement.click();
+    //       this.isMappedUserModalOpen = false
+    //     }
+    //     this.helperService.showToast(res.message, Key.TOAST_STATUS_SUCCESS);
+    //   }
+    // })
 
   }
 
@@ -846,16 +831,13 @@ export class CreateExpenseComponent implements OnInit {
   editIndexPolicyToggle: boolean = false;
   editIndex: number = 0
   async editExpensePolicy(index: number){
+    debugger
     this.editIndexPolicyToggle = true;
     this.editIndex = index;
     const item = this.expensePolicyReqList[index];
-    console.log('update item: ',item)
 
-    // this.expensePolicyReq.name = this.policyName
-    // this.expensePolicyReq.paymentType = this.type
-    // this.expensePolicyReq.limitAmount = this.flexibleAmount == null ? 0 : this.flexibleAmount
-    // this.expensePolicyReq.expenseTypeId = this.expenseTypeId
-    // this.expensePolicyReq.expenseTypeName = this.expenseTypeName
+    console.log('update item: ',item)
+    
     const defaultExpenseType = this.getDefaultExpenseType(item.expenseTypeId);
     
     this.selectExpenseType(defaultExpenseType)
@@ -873,9 +855,7 @@ export class CreateExpenseComponent implements OnInit {
     this.thresholdType = item.isPercent
     this.isThresholdSelected = item.isThresold
 
-    // this.policyName = expens
-
-    console.log('update data: ',this.expensePolicyReq)
+    console.log('update expensePolicyReq: ',this.expensePolicyReq)
   }
 
    getDefaultExpenseType(id: number) {
@@ -908,9 +888,6 @@ export class CreateExpenseComponent implements OnInit {
   expensePolicyTypeId: number = 0;
   expenseAppliedCount: number = 0;
   getExpensePolicyOrExpensePolicyTypeId(id: number, isExpensePolicy: boolean, expenseAppliedCount: number) {
-    // this.leaveTemplateCategoryId = id;
-    // this.leaveAppliedUserCount = leaveAppliedUserCount;
-
     if (isExpensePolicy) {
       this.expensePolicyTypeId = 0;
       this.expensePolicyId = id;
@@ -979,7 +956,97 @@ export class CreateExpenseComponent implements OnInit {
     if(!isChecked){
       this.resetThresholdOptions()
     }
+  }
+
+
+
+  /** User already mapped  */
+  closeModal(){
 
   }
+
+  userNameWithBranchName: any[] = new Array();
+  @ViewChild("closeButton") closeButton!:ElementRef;
+  // getOrganizationUserNameWithBranchNameData(addressId : number, type:string) {
+  //   this.dataService.getOrganizationUserNameWithBranchName(this.selectedStaffsUuids, addressId).subscribe(
+  //     (response) => {
+  //       this.userNameWithBranchName = response.listOfObject;
+  //       if( this.userNameWithBranchName.length <1 && type == "SHIFT_USER_EDIT") {
+  //         this.isAllSelected = false;
+  //         this.isAllUsersSelected = false;
+  //         this.closeButton.nativeElement.click();
+  //       }
+  //     },
+  //     (error) => {
+  //       console.log('error');
+  //     }
+  //   );
+  // }
+
+  @ViewChild('usersAlreadyAssigned') usersAlreadyAssigned!: ElementRef
+  tempSelectedStaffIdsUser: number[] = [];
+  isMappedUserModalOpen: boolean = false;
+  userMappedLoading: boolean = false;
+  getUserMappedWithPolicy(form: NgForm){
+    debugger
+    this.userMappedLoading = true;
+    this.userNameWithBranchName = []
+    this.dataService.getUserMappedWithPolicy(this.selectedStaffIdsUser).subscribe((response: any) => {
+
+      if(response.status){
+        this.userNameWithBranchName = response.object;
+        this.tempSelectedStaffIdsUser = this.selectedStaffIdsUser
+      }
+
+      console.log('userLen: ',this.userNameWithBranchName.length)
+        if( this.userNameWithBranchName.length != 0) {
+          this.isMappedUserModalOpen = true;
+          // console.log('Opening modal..')
+          this.closeExpensePolicyModal.nativeElement.click();
+          this.usersAlreadyAssigned.nativeElement.click();
+        }else{
+          // console.log('Going to create..')
+          this.registerCompanyExpense(form);
+        }
+
+        this.userMappedLoading = false;
+       
+      },
+      (error) => {
+        console.log('error');
+      }
+    );
+  }
+
+
+  remainingIds: number[] = [];
+  removeUser(userId: number) {
+    debugger
+    this.deSelectedStaffIdsUser = []
+
+    this.tempSelectedStaffIdsUser = this.tempSelectedStaffIdsUser.filter(
+      (id) => id != userId
+    );
+  
+    // Update the 'selected' status for each staff member based on selectedStaffIdsUser
+    this.userNameWithBranchName = this.userNameWithBranchName.filter(
+      (staff) => staff.id !== userId
+    );
+
+  // Create a new list with only the IDs of the remaining items
+   this.remainingIds = this.userNameWithBranchName.map((staff) => staff.id);
+
+    this.selectedStaffIdsUser = this.tempSelectedStaffIdsUser
+    this.deSelectedStaffIdsUser = this.remainingIds
+  }
+
+  isValidated: boolean = false;
+  checkValidation() {
+    this.isValidated ? false : true;
+  }
+
+
+  /** User already mapped end */
+
 
 }

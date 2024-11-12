@@ -4,4 +4,5 @@ export class CompanyExpense{
     policyName: string =''
     expensePolicyList: ExpensePolicy[] = []
     selectedUserIds: number[] =[]
+    deSelectedUserIds: number[] =[]
 }
