@@ -80,6 +80,7 @@ import { rootCertificates } from 'tls';
 import { OnboardingModule } from '../models/OnboardingModule';
 import { ExpenseType } from '../models/ExpenseType';
 import { CompanyExpense } from '../models/CompanyExpense';
+import { UserPositionDTO } from '../models/user-position.model';
 
 
 @Injectable({
@@ -488,6 +489,12 @@ export class DataService {
 
   getAllUserUuids(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/users/get/all/uuids`);
+  }
+  saveUserPosition(userPositionDTO: any): Observable<any> {
+    return this.httpClient.post<any>(`${this.baseUrl}/user-positions/promote`, userPositionDTO);
+  }
+  getUserPositionsByUserId(userId: string): Observable<UserPositionDTO[]> {
+    return this.httpClient.get<UserPositionDTO[]>(`${this.baseUrl}/user-positions/user-positions/${userId}`);
   }
 
   changeStatusById(presenceStatus: Boolean, userUuid: string): Observable<any> {
@@ -4267,7 +4274,7 @@ getHolidayForOrganization(date: string): Observable<any>{
     .set('sortBy', 'createdDate')
     .set('sortOrder', 'desc')
     .set('role', role)
-  
+
     return this.httpClient.get<any>(`${this.baseUrl}/company-expense`, {params});
   }
 

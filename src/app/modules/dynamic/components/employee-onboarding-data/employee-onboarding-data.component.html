@@ -1423,6 +1423,27 @@
                   </div>
                 </div>
 
+                <div class="col-md-12">
+                  <div class="mb-3">
+                      <label for="positionDropdown" class="pb-2">Position <span class="text-optional">(Optional)</span></label>
+                      <input
+                      maxlength="50"
+                      class="seach-dropdown"
+                      id="positionDropdown"
+                      name="positionDropdown"
+                      placeholder='Select Position'
+                      nz-input
+                      [(ngModel)]="this.userPersonalInformationRequest.position"
+                      (ngModelChange)="onChange($event)"
+                      [nzAutocomplete]="positionAuto"
+                      required #position="ngModel"
+                      (keydown)="preventLeadingWhitespace($event)"
+
+                  />
+                  <nz-autocomplete [nzDataSource]="positionFilteredOptions" #positionAuto></nz-autocomplete>
+                  </div>
+              </div>
+
 
 
                 <div class="col-md-12">
