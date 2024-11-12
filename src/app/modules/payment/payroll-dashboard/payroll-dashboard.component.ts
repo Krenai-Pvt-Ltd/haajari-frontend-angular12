@@ -1796,6 +1796,7 @@ extractPreviousMonthNameFromDate(dateString : string){
 
   salaryChangeBonusRequestList : SalaryChangeBonusRequest[] = [];
   registerSalaryChangeBonusListByOrganizationIdMethodCall(){
+    debugger
     this.salaryChangeBonusRequestList = [];
     
     this.salaryChangeBonusResponseList.forEach((item) => {

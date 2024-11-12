@@ -155,21 +155,18 @@ const routes: Routes = [
         canActivate: [AuthGuard, SubscriptionGuard],
         data: { requiredSubmodule: '/add-role' },
       },
-      // {path : 'location-validator', component: EmployeeLocationValidatorComponent},
-      { path: 'unauthorized', component: UnauthorizedComponent },
+      { path: 'unauthorized', 
+        component: UnauthorizedComponent 
+      },
       { path: 'leave-management', 
         component: LeaveManagementComponent, 
         canActivate: [AuthGuard, SubscriptionGuard]
       },
-      // {path : 'attendance-photo', component: EmployeeAttendancePhotoComponent},
-      { path: 'unauthorized', component: UnauthorizedComponent },
-      // {
-      //   path: 'billing-and-subscription',
-      //   component: BillingAndSubscriptionPageComponent,
-      // },
+     
       {
         path: 'to-do-step-dashboard',
         component: ToDoStepDashboardComponent,
+        canActivate: [AuthGuard, SubscriptionGuard]
       },
       {
         path: 'subscription',
@@ -178,6 +175,7 @@ const routes: Routes = [
       {
         path: 'refer-friend',
         component: ReferFriendComponent,
+        canActivate: [AuthGuard, SubscriptionGuard]
       },
       {
         path: 'new-employee-profile',
@@ -186,6 +184,7 @@ const routes: Routes = [
       {
         path: 'expense',
         component: CreateExpenseComponent,
+        canActivate: [AuthGuard, SubscriptionGuard]
       },
     ],
   },

@@ -2869,19 +2869,21 @@ onLocationTypeChange(addressId: number, isFlexible: boolean): void {
     this.addressModes[existingIndex].requestType = requestType;
   }
 }
-
+modesLoader : boolean = false;
 saveFlexibleModes(): void {
   debugger
+  this.modesLoader = true;
   this.dataService.saveFlexibleAttendanceModeForAllAddresses(this.addressModes).subscribe(
     response => {
       console.log('Mode saved successfully:', response);
       this.getAttendanceModeMethodCall();
-          // this.toggle = false;
+          this.modesLoader = false;
       // this.getAttendanceModeAllMethodCall();
       this.closeAddressModal.nativeElement.click();
       this.getAllAddressDetails();
     },
     error => {
+      this.modesLoader = false;
       console.error('Error saving mode:', error);
     }
   );

@@ -294,8 +294,8 @@ export class CompanySettingComponent implements OnInit {
   docsUploadedDate: any;
   getHrPolicy(): void {
     this.dataService.getOrganizationHrPolicies().subscribe(response => {
-      this.fileUrl = response.object.hrPolicyDoc;
-      this.docsUploadedDate = response.object.docsUploadedDate;
+      this.fileUrl = response.object?.hrPolicyDoc;
+      this.docsUploadedDate = response.object?.docsUploadedDate;
       // console.log('policy retrieved successfully', response.object);
     }, (error) => {
       console.log(error);
@@ -686,48 +686,86 @@ export class CompanySettingComponent implements OnInit {
   isFormInvalidLocation: boolean = false;
   isStaffSelectionDisabled: boolean = true;
   @ViewChild('organizationAddressForm') organizationAddressForm!: NgForm;
+
+
+  // checkFormValidationLocation() {
+  //   debugger
+  //   if (
+  //     this.organizationAddressForm.invalid ||
+  //     !this.organizationAddressDetail.longitude ||
+  //     !this.organizationAddressDetail.latitude
+  //   ) {
+  //     this.isFormInvalidLocation = true;
+  //     return;
+  //   } else {
+  //     if (!this.organizationAddressDetail.country) {
+  //       this.isFormInvalidLocation = true;
+  //     } else {
+  //       this.isFormInvalidLocation = false;
+  //       this.isStaffSelectionDisabled = false;
+  //       // this.isStaffSelectionDisabled = false;
+  //     }
+  //   }
+  //   // this.isStaffSelectionDisabled = !this.isFormInvalidLocation;
+  // }
+
+  // submit() {
+  //   debugger;
+  //   this.toggle = true;
+  //   this.checkFormValidationLocation();
+
+  //   if (this.isFormInvalidLocation == true) {
+  //      this.isStaffSelectionDisabled = true;
+  //      this.toggle = false;
+  //     return;
+  //   } else {
+  //     this.toggle = false;
+  //     // this.selectAll(true);
+      
+  //     this.getOrganizationUserNameWithBranchNameData(this.addressId, "");
+  //     this.openStaffSelection();
+  //     // this.getUserByFiltersMethodCall();
+  //   }
+  // }
+
   checkFormValidationLocation() {
-    debugger
-    if (
-      this.organizationAddressForm.invalid ||
-      !this.organizationAddressDetail.longitude ||
-      !this.organizationAddressDetail.latitude
-    ) {
+    debugger;
+    if (this.organizationAddressForm.invalid ||
+        !this.organizationAddressDetail.longitude ||
+        !this.organizationAddressDetail.latitude ||
+        !this.organizationAddressDetail.country || !this.organizationAddressDetail.branch) {
       this.isFormInvalidLocation = true;
-      return;
+      this.isStaffSelectionDisabled = true;
     } else {
-      if (!this.organizationAddressDetail.country) {
+      if(this.minRadius) {
         this.isFormInvalidLocation = true;
-      } else {
-        this.isFormInvalidLocation = false;
-        // this.isStaffSelectionDisabled = false;
+        this.isStaffSelectionDisabled = true;
+      }else {
+      this.isFormInvalidLocation = false;
+      this.isStaffSelectionDisabled = false; 
       }
     }
-    // this.isStaffSelectionDisabled = !this.isFormInvalidLocation;
   }
 
   submit() {
     debugger;
     this.toggle = true;
     this.checkFormValidationLocation();
-
-    if (this.isFormInvalidLocation == true) {
-       this.isStaffSelectionDisabled = true;
-       this.toggle = false;
-      return;
-    } else {
+  
+    if (this.isFormInvalidLocation) {
       this.toggle = false;
-      // this.selectAll(true);
-      
-      this.getOrganizationUserNameWithBranchNameData(this.addressId, "");
-      this.openStaffSelection();
-      // this.getUserByFiltersMethodCall();
-    }
+      return;
+    } 
+  
+    this.toggle = false;
+    this.getOrganizationUserNameWithBranchNameData(this.addressId, "");
+    this.openStaffSelection();
   }
 
 
   openStaffSelection() {
-    this.isStaffSelectionDisabled = false;
+    debugger
+    // this.isStaffSelectionDisabled = false;
     this.staffSelectionTab.nativeElement.click();
  }
 
@@ -833,6 +871,8 @@ export class CompanySettingComponent implements OnInit {
         if (this.specificAddress.staffListResponse.length > 0) {
           this.selectedStaffsUuids = this.specificAddress.staffListResponse.map((staff: any) => staff.uuid);
           this.getUserByFiltersMethodCall();
+        }else {
+          this.getUserByFiltersMethodCall();
         }
         // this.updateSelectedStaffs();
          if (this.specificAddress.staffListResponse.length == 1) {
@@ -879,6 +919,7 @@ export class CompanySettingComponent implements OnInit {
       this.organizationAddressNgForm.resetForm();
     }
     this.addressId = 0;
+    this.isFormInvalidLocation = false;
     // this.organizationAddressDetailForm.reset();
     // this.selectedShiftType = new ShiftType();
     // this.addressId = 0;
@@ -893,6 +934,8 @@ export class CompanySettingComponent implements OnInit {
 
   @ViewChild('locationSettingTab') locationSettingTab!: ElementRef;
   @ViewChild('staffSelectionTab') staffSelectionTab!: ElementRef;
+  // @ViewChild('staffselection') staffSelectionTab!: ElementRef;
+  
   @ViewChild('closeButtonLocation') closeButtonLocation!: ElementRef;
 
   // openStaffSelection() {
@@ -953,21 +996,52 @@ export class CompanySettingComponent implements OnInit {
 
   minRadius: boolean = false;
   radiusFilteredOptions: { label: string, value: string }[] = [];
-  onChange(value: string): void {
-    const numericValue = Number(value);
-    if (numericValue < 50) {
-      this.minRadius = true;
+  // onChange(value: string): void {
+  //   const numericValue = Number(value);
+  //   if (numericValue < 10) {
+  //     this.minRadius = true;
 
-    } else {
-      this.minRadius = false;
+  //   } else {
+  //     this.minRadius = false;
 
-    }
-    this.radiusFilteredOptions = this.radius.filter((option) =>
-      option.toLowerCase().includes(value.toLowerCase())
-    ).map((option) => ({ label: `${option}-Meters`, value: option }));
+  //   }
+  //   // if (numericValue < 50) {
+  //   //   this.minRadius = true;
 
-  }
+  //   // } else {
+  //   //   this.minRadius = false;
+
+  //   // }
+  //   this.radiusFilteredOptions = this.radius.filter((option) =>
+  //     option.toLowerCase().includes(value.toLowerCase())
+  //   ).map((option) => ({ label: `${option}-Meters`, value: option }));
+
+  // }
   radius: string[] = ["50", "100", "200", "500", "1000"];
+
+
+  onChange(value: string): void {
+    const numericValue = parseInt(value, 10);
+  
+    // Check if the value is a valid number
+    if (isNaN(numericValue) || numericValue < 10) {
+      this.minRadius = true;
+    } else {
+      this.minRadius = numericValue < 50;
+    }
+  
+    // Filter predefined options or add custom radius if not in options
+    const options = this.radiusOptions
+      .filter((option) => option.toString().includes(value))
+      .map((option) => ({ label: `${option}-Meters`, value: option.toString() }));
+  
+    // Add custom option if greater than 10 and not in predefined options
+    if (!this.radiusOptions.includes(numericValue) && numericValue > 10) {
+      options.push({ label: `${numericValue}-Meters`, value: numericValue.toString() });
+    }
+  
+    this.radiusFilteredOptions = options;
+  }
 
   preventLeadingWhitespace(event: KeyboardEvent): void {
     const input = event.target as HTMLInputElement;
@@ -1070,7 +1144,16 @@ export class CompanySettingComponent implements OnInit {
   }
 
   submitDefaultAddress() {
+    this.toggle = true;
+    this.organizationAddressDetail.branch = "Default";
+    this.checkFormValidationLocation();
+
+    if (this.isFormInvalidLocation) {
+      this.toggle = false;
+      return;
+    } else {
     this.setOrganizationAddressDetailMethodCall();
+    }
   }
 
 
@@ -1091,6 +1174,7 @@ export class CompanySettingComponent implements OnInit {
         },
         (error) => {
           console.error(error);
+          this.toggle = false;
         }
       );
   }
@@ -1117,6 +1201,12 @@ export class CompanySettingComponent implements OnInit {
             this.organizationAddressDetail.latitude = Number(this.organizationAddressDetail.latitude);
             this.organizationAddressDetail.longitude = Number(this.organizationAddressDetail.longitude);
             this.isShowMap = true;
+
+            if(+this.organizationAddressDetail.radius < 10) {
+              this.minRadius = true;
+            }else {
+              this.minRadius = false;
+            }
           }
           
         } else {

@@ -230,6 +230,7 @@ export class Key {
 
   //subscription plan
   get_invoices = '/invoices';
+  download_invoice = '/invoices/download';
   get_active_user_count = '/users/active-user-count';
   get_restricted_modules = '/module/restriction'
 
