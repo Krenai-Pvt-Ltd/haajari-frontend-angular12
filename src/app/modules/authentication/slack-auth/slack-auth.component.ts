@@ -131,8 +131,13 @@ export class SlackAuthComponent implements OnInit {
   countdown: number = 20; // Countdown duration in seconds
   countdownPercent: number = 100; // Starts at 100%
   intervalId: any;
-  formatOne = (percent: number): string => `${percent}%`;
+  formatOne = (percent: number): string => `${percent}`;
   formatTwo = (): string => `Done`;
+  maxCountdownValue = 20;
+  
+  get progress() {
+    return (this.countdown / this.maxCountdownValue) * 100;
+  }
 
   // startCountdown(): void {
   //   this.intervalId = setInterval(() => {
@@ -153,11 +158,17 @@ export class SlackAuthComponent implements OnInit {
         this.countdownPercent = (this.countdown / totalSeconds) * 100;
       } else if (this.countdown === 1) {
         
-        this.countdownPercent = 0; 
-      } else if (this.countdown === 0) {
-       
-        this.redirectNow();
-      }
+        // this.countdownPercent = 0; 
+        this.countdown = 0;
+        clearInterval(this.intervalId);
+        setTimeout(() => this.redirectNow(), 1000);
+      } 
+      // else if (this.countdown === 0) {
+      //   this.countdown = 0;
+      //   clearInterval(this.intervalId);
+      //   setTimeout(() => this.redirectNow(), 1000);
+      //   this.redirectNow();
+      // }
     }, 1000); 
   }
 
