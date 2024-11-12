@@ -2927,6 +2927,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
           .then((url) => {
             // console.log('File URL:', url);
             this.fileToUpload = url;
+            this.expenseTypeReq.url = url;
             // console.log('file url : ' + this.fileToUpload);
             this.isFileUploaded = false;
           })
@@ -3812,6 +3813,7 @@ closeAttendanceFunc() {
   validatePolicyToggle: boolean = false;
   limitAmount: any;
   checkExpensePolicy(form: NgForm) {
+    debugger
     this.dataService.checkExpensePolicy(this.expenseTypeReq.expenseTypeId, this.expenseTypeReq.amount).subscribe((res: any) => {
       this.limitAmount = res.object;
 
@@ -3827,15 +3829,22 @@ closeAttendanceFunc() {
     this.validatePolicyToggle = false;
   }
 
+  managerId: number = 0
+  getManagerId(id: any) {
+    this.expenseTypeReq.managerId = id
+  }
+
   @ViewChild('closeExpenseButton') closeExpenseButton!: ElementRef
   createToggle: boolean = false;
   createExpense(form: NgForm) {
+    debugger
     this.createToggle = true;
-
+   
     this.dataService.createExpense(this.expenseTypeReq).subscribe((res: any) => {
       if (res.status) {
         this.expenseTypeReq = new ExpenseType();
         this.expenseTypeId = 0;
+        this.managerId = 0
         this.expenseTypeReq.id = 0;
         this.validatePolicyToggle = false;
         form.resetForm();
@@ -3846,20 +3855,28 @@ closeAttendanceFunc() {
       }
     })
 
-    console.log('createExpense Req: ', this.expenseTypeReq)
+    // console.log('createExpense Req: ', this.expenseTypeReq)
     // this.expenseTypeReq = new ExpenseType();
 
     // this.expenseTypeId = 0;
     // this.validatePolicyToggle = false;
+    // this.managerId = 0
+    // this.createToggle = false;
     // form.resetForm();
     // this.getExpenses();
 
     // this.closeExpenseButton.nativeElement.click()
-    // console.log('Created Successfully')
+    console.log('Created Successfully')
   }
 
   async updateExpense(expense: any) {
     await this.getExpenseType();
+
+    setTimeout(() =>{
+      this.fetchManagerNames()
+    })
+    
+    this.getManagerId(expense.managerId)
 
     this.expenseTypeReq.id = expense.id
     this.expenseTypeReq.amount = expense.amount
@@ -3867,6 +3884,9 @@ closeAttendanceFunc() {
     this.expenseTypeReq.expenseTypeId = expense.expenseTypeId
     this.expenseTypeReq.notes = expense.notes
     this.expenseTypeId = expense.expenseTypeId
+    this.managerId = expense.managerId
+
+
   }
 
   clearExpenseForm(form: NgForm) {
