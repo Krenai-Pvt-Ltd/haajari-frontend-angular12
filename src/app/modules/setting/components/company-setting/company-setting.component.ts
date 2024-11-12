@@ -683,9 +683,7 @@ export class CompanySettingComponent implements OnInit {
   //   });
   // }
 
-  isFormInvalidLocation: boolean = false;
-  isStaffSelectionDisabled: boolean = true;
-  @ViewChild('organizationAddressForm') organizationAddressForm!: NgForm;
+  
 
 
   // checkFormValidationLocation() {
@@ -727,6 +725,10 @@ export class CompanySettingComponent implements OnInit {
   //     // this.getUserByFiltersMethodCall();
   //   }
   // }
+
+  isFormInvalidLocation: boolean = false;
+  isStaffSelectionDisabled: boolean = false;
+  @ViewChild('organizationAddressForm') organizationAddressForm!: NgForm;
 
   checkFormValidationLocation() {
     debugger;

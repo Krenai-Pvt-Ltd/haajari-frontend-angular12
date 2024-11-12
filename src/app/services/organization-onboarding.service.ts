@@ -48,6 +48,19 @@ export class OrganizationOnboardingService {
     );
   }
 
+  userImportOnboarding(file: any, fileName: string) {
+    debugger;
+    const formdata: FormData = new FormData();
+    formdata.append('file', file);
+    formdata.append('fileName', fileName);
+    return this._httpClient.post(
+      this._key.base_url + this._key.user_import_onboarding,
+      formdata,
+    );
+  }
+
+  
+
   // userImport(file: any, fileName: string, progressCallback: (progress: number) => void): Observable<any> {
   //   const formData: FormData = new FormData();
   //   formData.append('file', file);
