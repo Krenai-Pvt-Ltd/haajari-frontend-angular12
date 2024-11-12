@@ -861,4 +861,30 @@ export class CreateExpenseComponent implements OnInit {
 
   }
 
+  isThresholdSelected = false; 
+  thresholdType: string | null = null; 
+  thresholdAmount: number =0;
+
+  onThresholdTypeChange(type: string): void {
+    this.thresholdType = type;
+    this.thresholdAmount = 0; // Reset threshold amount when changing type
+  }
+
+  private resetThresholdOptions(): void {
+    this.isThresholdSelected = false;
+    this.thresholdType = null;
+    this.thresholdAmount = 0;
+  }
+
+  setThresold(){
+    // this.isThresholdSelected = !this.isThresholdSelected
+
+    if(this.isThresholdSelected){
+      this.isThresholdSelected = true
+    }else{
+      this.isThresholdSelected = false
+    }
+
+  }
+
 }

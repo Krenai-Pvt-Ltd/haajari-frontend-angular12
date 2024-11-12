@@ -1269,7 +1269,7 @@
                                     </div>
                             
                                     <!-- Payment Type Radio Buttons -->
-                                    <div *ngIf="isExpenseTypeSelected" class="mt-3">
+                                    <!-- <div *ngIf="isExpenseTypeSelected" class="mt-3">
                                         <label>Payment Type</label>
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="paymentType" id="flexible" value="flexible" required
@@ -1285,7 +1285,6 @@
                                             Payment type is required
                                         </div>
                             
-                                        <!-- Flexible Amount Field -->
                                         <div *ngIf="paymentType === 'fixed'" class="mt-2">
                                             <input type="number" class="form-control" placeholder="Enter Amount" id="amountFlex" 
                                                    name="amountFlex" [(ngModel)]="flexibleAmount" #amountFlex="ngModel" min="1" required>
@@ -1293,7 +1292,120 @@
                                                 Flexible amount is required
                                             </div>
                                         </div>
+                                    </div> -->
+
+                                    <div *ngIf="isExpenseTypeSelected" class="mt-3">
+                                      <label>Payment Type</label>
+                                    
+                                      <!-- Payment Type Radios -->
+                                      <div class="form-check">
+                                        <input
+                                          class="form-check-input"
+                                          type="radio"
+                                          name="paymentType"
+                                          id="flexible"
+                                          value="flexible"
+                                          required
+                                          [(ngModel)]="paymentType"
+                                          (change)="onPaymentTypeChange(0)"
+                                        />
+                                        <label class="form-check-label" for="flexible">Flexible</label>
+                                      </div>
+                                      <div class="form-check">
+                                        <input
+                                          class="form-check-input"
+                                          type="radio"
+                                          name="paymentType"
+                                          id="fixed"
+                                          value="fixed"
+                                          required
+                                          [(ngModel)]="paymentType"
+                                          (change)="onPaymentTypeChange(1)"
+                                        />
+                                        <label class="form-check-label" for="fixed">Fixed</label>
+                                      </div>
+                                    
+                                      <!-- Validation Message for Payment Type -->
+                                      <div *ngIf="!paymentType && shiftForm.submitted" class="text-danger">
+                                        Payment type is required
+                                      </div>
+                                    
+                                      <!-- Fixed Amount Section -->
+                                      <div *ngIf="paymentType === 'fixed'" class="mt-2">
+                                        <input
+                                          type="number"
+                                          class="form-control"
+                                          placeholder="Enter Amount"
+                                          id="amountFlex"
+                                          name="amountFlex"
+                                          [(ngModel)]="flexibleAmount"
+                                          #amountFlex="ngModel"
+                                          min="1"
+                                          required
+                                        />
+                                        <div *ngIf="amountFlex.invalid && amountFlex.touched" class="text-danger">
+                                          Flexible amount is required
+                                        </div>
+                                    
+                                        <!-- Threshold Checkbox -->
+                                        <div class="form-check mt-3">
+                                          <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            id="thresholdCheckbox"
+                                            [(ngModel)]="isThresholdSelected"
+                                            (change)="setThresold()"
+                                          />
+                                          <label class="form-check-label" for="thresholdCheckbox">
+                                            Do you want to set threshold?
+                                          </label>
+                                        </div>
+                                    
+                                        <!-- Threshold Options (Value or Percentage) -->
+                                        <div *ngIf="isThresholdSelected" class="mt-2">
+                                          <div class="form-check">
+                                            <input
+                                              class="form-check-input"
+                                              type="radio"
+                                              name="thresholdType"
+                                              id="valueType"
+                                              value="value"
+                                              [(ngModel)]="thresholdType"
+                                              (change)="onThresholdTypeChange('value')"
+                                            />
+                                            <label class="form-check-label" for="valueType">Value</label>
+                                          </div>
+                                          <div class="form-check">
+                                            <input
+                                              class="form-check-input"
+                                              type="radio"
+                                              name="thresholdType"
+                                              id="percentageType"
+                                              value="percentage"
+                                              [(ngModel)]="thresholdType"
+                                              (change)="onThresholdTypeChange('percentage')"
+                                            />
+                                            <label class="form-check-label" for="percentageType">Percentage</label>
+                                          </div>
+                                    
+                                          <!-- Single Input Field for Threshold Amount (Value or Percentage) -->
+                                          <div *ngIf="thresholdType" class="mt-2">
+                                            <input
+                                              type="number"
+                                              class="form-control"
+                                              placeholder="Enter {{ thresholdType === 'value' ? 'Value' : 'Percentage' }}"
+                                              [(ngModel)]="thresholdAmount"
+                                              min="1"
+                                              required
+                                            />
+                                            <div *ngIf="thresholdAmount <= 0 && shiftForm.submitted" class="text-danger">
+                                              {{ thresholdType === 'value' ? 'Value' : 'Percentage' }} is required
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
                                     </div>
+                                    
                             
                                     <!-- Add Button -->
                                     <div class="d-flex justify-content-end">
