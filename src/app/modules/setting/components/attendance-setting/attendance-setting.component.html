@@ -5396,12 +5396,12 @@
             [disabled]="toggle"
             aria-label="Next Step"
           >
-            <div *ngIf="toggle" class="dot-opacity-loader">
+            <div *ngIf="modesLoader" class="dot-opacity-loader">
               <span></span>
               <span></span>
               <span></span>
             </div>
-            <span *ngIf="!toggle">
+            <span *ngIf="!modesLoader">
               Save <i class="bi bi-arrow-right" style="padding-left: 8px"></i>
             </span>
           </button>
