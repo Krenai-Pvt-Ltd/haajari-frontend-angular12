@@ -445,8 +445,7 @@
                                         <div class="d-flex align-items-center justify-content-between mb-3">
                                           <p class="mb-0">Flexible Amount</p>
                                           <span style="color: #3f988f">{{
-                                            expensePolicyType?.flexibleAmount || "0"
-                                            }}</span>
+                                            expensePolicyType?.flexibleAmount || "0"}} <span *ngIf="expensePolicyType.isPercentage == 1">%</span> </span> 
                                         </div>
                                         <!-- <div class="d-flex align-items-center justify-content-between">
                                           <p class="mb-0">Carry Forward Limit</p>
@@ -1307,7 +1306,7 @@
                                           value="flexible"
                                           required
                                           [(ngModel)]="paymentType"
-                                          (change)="onPaymentTypeChange(0)"
+                                          (change)="onPaymentTypeChange(0, 'flexible')"
                                         />
                                         <label class="form-check-label" for="flexible">Flexible</label>
                                       </div>
@@ -1320,7 +1319,7 @@
                                           value="fixed"
                                           required
                                           [(ngModel)]="paymentType"
-                                          (change)="onPaymentTypeChange(1)"
+                                          (change)="onPaymentTypeChange(1, 'fixed')"
                                         />
                                         <label class="form-check-label" for="fixed">Fixed</label>
                                       </div>
@@ -1329,9 +1328,24 @@
                                       <div *ngIf="!paymentType && shiftForm.submitted" class="text-danger">
                                         Payment type is required
                                       </div>
+
+                                        <!-- Threshold Checkbox -->
+                                        <div *ngIf="paymentType === 'fixed'" class="form-check mt-3">
+                                          <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            id="thresholdCheckbox"
+                                            name="checkThresold"
+                                            [(ngModel)]="isThresholdSelected"
+                                            (ngModelChange)="setThresold($event)"
+                                          />
+                                          <label class="form-check-label" for="thresholdCheckbox">
+                                            Do you want to set threshold?
+                                          </label>
+                                        </div>
                                     
                                       <!-- Fixed Amount Section -->
-                                      <div *ngIf="paymentType === 'fixed'" class="mt-2">
+                                      <div *ngIf="isThresholdSelected && paymentType === 'fixed'" class="mt-2">
                                         <input
                                           type="number"
                                           class="form-control"
@@ -1347,19 +1361,7 @@
                                           Flexible amount is required
                                         </div>
                                     
-                                        <!-- Threshold Checkbox -->
-                                        <div class="form-check mt-3">
-                                          <input
-                                            class="form-check-input"
-                                            type="checkbox"
-                                            id="thresholdCheckbox"
-                                            [(ngModel)]="isThresholdSelected"
-                                            (change)="setThresold()"
-                                          />
-                                          <label class="form-check-label" for="thresholdCheckbox">
-                                            Do you want to set threshold?
-                                          </label>
-                                        </div>
+                                      
                                     
                                         <!-- Threshold Options (Value or Percentage) -->
                                         <div *ngIf="isThresholdSelected" class="mt-2">
@@ -1367,11 +1369,12 @@
                                             <input
                                               class="form-check-input"
                                               type="radio"
-                                              name="thresholdType"
+                                              name="thresholdTypeValue"
                                               id="valueType"
                                               value="value"
                                               [(ngModel)]="thresholdType"
-                                              (change)="onThresholdTypeChange('value')"
+                                              required
+                                              (change)="onThresholdTypeChange(0, 'value')"
                                             />
                                             <label class="form-check-label" for="valueType">Value</label>
                                           </div>
@@ -1379,39 +1382,31 @@
                                             <input
                                               class="form-check-input"
                                               type="radio"
-                                              name="thresholdType"
+                                              name="thresholdTypePercentage"
                                               id="percentageType"
                                               value="percentage"
                                               [(ngModel)]="thresholdType"
-                                              (change)="onThresholdTypeChange('percentage')"
+                                              required
+                                              (change)="onThresholdTypeChange(1, 'percentage')"
                                             />
                                             <label class="form-check-label" for="percentageType">Percentage</label>
                                           </div>
-                                    
-                                          <!-- Single Input Field for Threshold Amount (Value or Percentage) -->
-                                          <div *ngIf="thresholdType" class="mt-2">
-                                            <input
-                                              type="number"
-                                              class="form-control"
-                                              placeholder="Enter {{ thresholdType === 'value' ? 'Value' : 'Percentage' }}"
-                                              [(ngModel)]="thresholdAmount"
-                                              min="1"
-                                              required
-                                            />
-                                            <div *ngIf="thresholdAmount <= 0 && shiftForm.submitted" class="text-danger">
-                                              {{ thresholdType === 'value' ? 'Value' : 'Percentage' }} is required
-                                            </div>
-                                          </div>
                                         </div>
+
                                       </div>
                                     </div>
                                     
                             
                                     <!-- Add Button -->
-                                    <div class="d-flex justify-content-end">
+                                    <div *ngIf="!editIndexPolicyToggle" class="d-flex justify-content-end">
                                         <button type="button" class="btn btn-primary mt-2" (click)="addExpensePolicy(shiftForm)" 
                                         [disabled]="shiftForm.invalid || expenseTypeId == 0 ">Add  </button>
                                     </div>
+                                    <div *ngIf="editIndexPolicyToggle" class="d-flex justify-content-end">
+                                      <button type="button" class="btn btn-primary mt-2" (click)="addExpensePolicy(shiftForm)" 
+                                      [disabled]="shiftForm.invalid || expenseTypeId == 0 ">Update  </button>
+                                  </div>
+
                                 </div>
                             
                                 <!-- Table to Show Expense Policy List -->
@@ -1438,7 +1433,7 @@
                                                     </div>
                                                 </td>
                                                 <td class="text-center">{{ expensePolicy.amount }}</td>
-                                                <td class="text-center">{{ expensePolicy.limitAmount }}</td>
+                                                <td class="text-center">{{ expensePolicy.limitAmount }} <span *ngIf="expensePolicy.isPercentage == 1">%</span> </td>
                                                 <td class="text-center">
                                                     <div class="d-flex align-items-center gap-2">
                                                         <button (click)="editExpensePolicy(i)" type="button" class="btn btnAction p-0">Edit</button>
@@ -1641,7 +1636,7 @@
       <div class="modal-body p-0 delete-text">
         <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
           <div class="delete-close-btn">
-            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButtonDeleteLeave>
+            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButtonDeleteExpensePolicy>
               <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
                 <mask id="mask0_2031_1331" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
                   height="30">

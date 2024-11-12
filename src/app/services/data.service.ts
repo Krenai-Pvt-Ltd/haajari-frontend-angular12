@@ -4306,6 +4306,20 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.patch<any>(`${this.baseUrl}/company-expense`, approveReq);
   }
 
+  deleteCompanyExpensePolicy(id: number): Observable<any> {
+    const params = new HttpParams().set('id', id);
+    return this.httpClient.delete(`${this.baseUrl}/company-expense-policy`, {
+      params,
+    });
+  }
+
+  deleteCompanyExpenseTypePolicy(id: number): Observable<any> {
+    const params = new HttpParams().set('expenseTypeId', id);
+    return this.httpClient.delete(`${this.baseUrl}/company-expense-type`, {
+      params,
+    });
+  }
+
 }
 
 
