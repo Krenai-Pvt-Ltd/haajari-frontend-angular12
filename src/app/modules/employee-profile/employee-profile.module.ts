@@ -14,6 +14,7 @@ import { AssetsComponent } from './assets/assets.component';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
+import { PersonalInformationComponent } from './personal-information/personal-information.component';
 
 
 
@@ -24,7 +25,8 @@ import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
     EmployeeProfileTopbarComponent,
     AttendanceLeaveComponent,
     EmployeeDocumentComponent,
-    AssetsComponent
+    AssetsComponent,
+    PersonalInformationComponent
   ],
   imports: [
     CommonModule,
