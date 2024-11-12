@@ -29,7 +29,7 @@ export class SlackAuthComponent implements OnInit {
     //this.convertAccessTokenFromCode();
     this.registerOrganizationByCodeParam();
     this.continueInSlack();
-    this.getSlackUserCountData();
+    
     
   }
 
@@ -82,6 +82,7 @@ export class SlackAuthComponent implements OnInit {
 
           await this.rbacService.initializeUserInfo();
 
+          this.getSlackUserCountData();
           debugger;
           const decodedValue = this.decodeFirebaseAccessToken(
             response.object.access_token
