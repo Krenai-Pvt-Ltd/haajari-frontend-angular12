@@ -522,7 +522,7 @@
 
                                 <tbody *ngIf="loading">
                                     <tr *ngFor="let i of [1, 2, 3, 4, 5, 6]">
-                                        <td *ngFor="let i of [1, 2, 3, 4, 5, 6,7]" class="text-center">
+                                        <td *ngFor="let i of [1, 2, 3, 4, 5, 6,7,8]" class="text-center">
                                             <p class="shimmer"></p>
                                         </td>
                                     </tr>
@@ -925,6 +925,11 @@
                             </div> -->
                         </div>
 
+                        <!-- <div *ngIf="userExpense.amount > userExpense.limitAmount" class="alert bg-soft-warning border"> -->
+                        <div *ngIf="userExpense.limitAmount != null && userExpense.amount > userExpense.limitAmount" class="alert bg-soft-warning mt-3 ng-star-inserted" style="height: 41px; padding: 8px;">
+                          This Expense is valid for amount: {{userExpense.limitAmount}}
+                      </div>
+
                         <p class="mt-4 mb-4">{{ userExpense.notes }}</p>
 
 
@@ -985,7 +990,8 @@
                             <button class="btn approve-btn" type="button"
                                 [disabled]="isCheckboxChecked && (partialAmount == '' || partialAmount == null || partialAmount > userExpense.amount)"
                                 (click)="approveOrDeny(userExpense.id, 14)">
-                                <div *ngIf="approveToggle && approveReq.id == 14; else approveLabel">
+                                <!-- <div *ngIf="approveToggle ; else approveLabel"> -->
+                                <div *ngIf="approveToggle ; else approveLabel">
                                     <div class="dot-opacity-loader">
                                         <span></span>
                                         <span></span>
@@ -997,7 +1003,7 @@
                             <!-- Reject Button -->
                             <button class="btn reject-btn" type="button"
                                 (click)="approveOrDeny(userExpense.id, 15)">
-                                <div *ngIf="approveToggle && approveReq.id == 15; else rejectLabel">
+                                <div *ngIf="rejectToggle; else rejectLabel">
                                     <div class="dot-opacity-loader">
                                         <span></span>
                                         <span></span>
@@ -1266,21 +1272,21 @@
                                     <div *ngIf="isExpenseTypeSelected" class="mt-3">
                                         <label>Payment Type</label>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="paymentType" id="fixed" value="fixed" required
+                                            <input class="form-check-input" type="radio" name="paymentType" id="flexible" value="flexible" required
                                                 [(ngModel)]="paymentType" (change)="onPaymentTypeChange(0)">
-                                            <label class="form-check-label" for="fixed">Fixed</label>
+                                            <label class="form-check-label" for="flexible">Flexible</label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="paymentType" id="flexible" value="flexible" required
+                                            <input class="form-check-input" type="radio" name="paymentType" id="fixed" value="fixed" required
                                                 [(ngModel)]="paymentType" (change)="onPaymentTypeChange(1)">
-                                            <label class="form-check-label" for="flexible">Flexible</label>
+                                            <label class="form-check-label" for="fixed">Fixed</label>
                                         </div>
                                         <div *ngIf="!paymentType && shiftForm.submitted" class="text-danger">
                                             Payment type is required
                                         </div>
                             
                                         <!-- Flexible Amount Field -->
-                                        <div *ngIf="paymentType === 'flexible'" class="mt-2">
+                                        <div *ngIf="paymentType === 'fixed'" class="mt-2">
                                             <input type="number" class="form-control" placeholder="Enter Amount" id="amountFlex" 
                                                    name="amountFlex" [(ngModel)]="flexibleAmount" #amountFlex="ngModel" min="1" required>
                                             <div *ngIf="amountFlex.invalid && amountFlex.touched" class="text-danger">
@@ -1316,7 +1322,7 @@
                                                 <td class="text-center">
                                                     <div class="badge rounded-pill" 
                                                          [ngClass]="{ 'badge-soft-primary': expensePolicy.paymentType === 0, 'badge-soft-warning': expensePolicy.paymentType === 1 }">
-                                                        {{ expensePolicy.paymentType === 0 ? 'Fixed' : 'Flexible' }}
+                                                        {{ expensePolicy.paymentType === 1 ? 'Fixed' : 'Flexible' }}
                                                     </div>
                                                 </td>
                                                 <td class="text-center">{{ expensePolicy.amount }}</td>

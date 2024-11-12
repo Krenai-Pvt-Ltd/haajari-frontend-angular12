@@ -170,7 +170,11 @@ export class RoleBasedAccessControlService {
             if(index > -1){
                resolve(true);
                return;
+            }else{
+              resolve(false);
             }
+        }else{
+          resolve(false);
         }
 
         // for (const subModule of subModules) {
@@ -183,7 +187,6 @@ export class RoleBasedAccessControlService {
         //   }
         // }
 
-        resolve(false);
       } catch (error) {
         reject(error);
       }

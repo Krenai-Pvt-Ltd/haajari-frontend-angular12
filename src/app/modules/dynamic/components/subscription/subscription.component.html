@@ -1125,7 +1125,7 @@
                           
 
                           <td class="stickyColTdend text-center">
-                            <button type="button" class="btn btnAction" (click)="downloadInvoice(invoice.invoiceUrl)">
+                            <button type="button" class="btn btnAction" (click)="download(invoice)">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="12"
@@ -1804,6 +1804,7 @@
                 data-bs-dismiss="modal"
                 aria-label="Close"
                 #closeButton
+                (click)="switchSubscriptionPlan()"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -1918,7 +1919,7 @@
               <h5 class="mb-1 font-16 text-black">Download Invoice</h5>
               <div class="d-flex align-items-center gap-3">
                 <p class="mb-0 font-14">Perfect for growing businesses</p>
-                <button class="p-0 btn font-16 text-primary download-btn">
+                <button class="p-0 btn font-16 text-primary download-btn" [disabled]="downloadingInvoice" (click)="downloadInvoice(invoiceDetail.invoiceId)">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="15"

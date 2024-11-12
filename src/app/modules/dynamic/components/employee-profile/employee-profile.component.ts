@@ -3872,19 +3872,22 @@ closeAttendanceFunc() {
   async updateExpense(expense: any) {
     await this.getExpenseType();
 
-    setTimeout(() =>{
-      this.fetchManagerNames()
-    })
+    // setTimeout(() =>{
+    //   this.fetchManagerNames()
+    // })
     
-    this.getManagerId(expense.managerId)
+    // this.getManagerId(expense.managerId)
 
     this.expenseTypeReq.id = expense.id
     this.expenseTypeReq.amount = expense.amount
     this.expenseTypeReq.expenseDate = expense.expenseDate
     this.expenseTypeReq.expenseTypeId = expense.expenseTypeId
     this.expenseTypeReq.notes = expense.notes
+    this.expenseTypeReq.url = expense.slipUrl
+    this.expenseTypeReq.managerId = expense.managerId
     this.expenseTypeId = expense.expenseTypeId
     this.managerId = expense.managerId
+    
 
 
   }
