@@ -382,9 +382,10 @@
             <li>Information Architecture</li>
             <span>+5</span>
         </ul>
-
-        <button class="btn-primary" (click)="openFormModal(formContent,'Promotion')">Promotion</button>
-        <button class="btn-primary" (click)="openFormModal(formContent,'Add Journey')">Add Journey</button>
+        <div *ngIf="adminRoleFlag">
+          <button class="btn-primary" (click)="openFormModal(formContent,'Promotion')">Promotion</button>
+          <button class="btn-primary" (click)="openFormModal(formContent,'Add Journey')">Add Journey</button>
+        </div>
         <h5 class="mb-3 mt-5">Journey With us</h5>
         <div class="">
           <div class="">
@@ -539,7 +540,16 @@
 
       </div>
 
-      <button type="submit" [disabled]="isSaving" class="btn btn-primary" [disabled]="myForm.invalid">Submit</button>
+      <button type="submit" [disabled]="isSaving" class="btn btn-primary" [disabled]="myForm.invalid">
+      <ng-container *ngIf="saveButtonLoader; else loginButton">
+        <div class="dot-opacity-loader">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </ng-container>
+      <ng-template #loginButton> Submit </ng-template>
+      </button>
     </form>
   </div>
 </ng-template>

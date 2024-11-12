@@ -186,7 +186,9 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   }
 
   isSaving: boolean = false;
+  saveButtonLoader: boolean = false;
   onSubmit() {
+    this.saveButtonLoader=true;
     if (this.myForm.valid) {
       const userPositionDTO: UserPositionDTO = {
         position: this.myForm.get('position')?.value,
