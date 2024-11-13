@@ -135,6 +135,7 @@
                 </div>
               </div>
             </div>
+            <!-- {{attendanceModeStep}} -->
 
             <div
               class="mt-3 whatAppSlackBox p-3"
@@ -190,6 +191,7 @@
                 </div>
               </div>
 
+              <!-- {{attendanceModeStep}} -->
               <div class="employeeInformation mt-3 p-3">
                 <div class="d-flex align-items-center gap-3">
                   <span
@@ -742,7 +744,7 @@
                     selectedMasterAttendanceModeId == null)}"
                   [disabled]="
                     (organizationAddressForm?.invalid &&
-                      selectedMasterAttendanceModeId === 1) ||
+                      selectedMasterAttendanceModeId === 1)  || (attendanceModeStep === 1 && selectedMasterAttendanceModeId == 1) ||
                     ((attendanceModeStep === 3 &&
                       (selectedAttendanceModeId === 2 ||
                         selectedAttendanceModeId === 3)) && locationType === 'fixed' && minRadius )||

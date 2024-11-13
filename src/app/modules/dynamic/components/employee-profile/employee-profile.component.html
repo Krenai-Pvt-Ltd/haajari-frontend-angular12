@@ -1,5 +1,6 @@
+<!-- employeeLoginCard -->
 <div class="page-wrapper">
-  <div [ngClass]="ROLE == 'USER' ? 'page-content-tab employeeLoginCard' : 'page-content-tab'">
+  <div [ngClass]="ROLE == 'USER' ? 'page-content-tab' : 'page-content-tab'">
     <app-hajiri-page-loader *ngIf="count < 6">
     </app-hajiri-page-loader>
     <div class="container-fluid" *ngIf="count >= 6">

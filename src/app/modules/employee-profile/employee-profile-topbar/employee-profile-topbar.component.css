@@ -1,4 +1,4 @@
-.emplyee-profile-sidebar-main-box {
+/* .emplyee-profile-sidebar-main-box {
     border-right: 1px solid #f1f1f1;
 }
 
@@ -22,7 +22,6 @@
     font-size: 20px;
     font-weight: 600;
     line-height: 26.208px;
-    /* 100.798% */
     letter-spacing: 0.357px;
     text-transform: capitalize;
 }
@@ -213,7 +212,6 @@
 
 .employee-profile-menu ul li {
     font-size: 12px;
-    /* border: 1px solid #DCDCE4; */
     padding: 8px 13px;
     border-radius: 2px;
     line-height: 20px;
@@ -322,7 +320,6 @@
     vertical-align: middle;
     font-size: 12px !important;
     white-space: nowrap;
-    /* border: 1px solid #f1f1f1; */
     padding: 10px 15px !important
 }
 
@@ -426,4 +423,4 @@ span.lat {
 .back-btn svg{
     position: relative;
     top: -1px;
-}
+} */
