@@ -72,9 +72,12 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { ReferFriendComponent } from './components/refer-friend/refer-friend.component';
 import { NewEmployeeProfileComponent } from './components/new-employee-profile/new-employee-profile.component';
 import { CreateExpenseComponent } from './components/create-expense/create-expense.component';
+import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
+
 
 @NgModule({
   declarations: [
+
     DynamicComponent,
     DashboardComponent,
     TimetableComponent,
@@ -163,6 +166,7 @@ import { CreateExpenseComponent } from './components/create-expense/create-expen
     NzButtonModule,
     NzPopoverModule,
     NzEmptyModule,
+    NzAutocompleteModule
   ],
   exports: [DurationFormatPipe],
   providers: [

@@ -230,6 +230,7 @@ export class Key {
 
   //subscription plan
   get_invoices = '/invoices';
+  download_invoice = '/invoices/download';
   get_active_user_count = '/users/active-user-count';
   get_restricted_modules = '/module/restriction'
 
@@ -263,6 +264,8 @@ export class Key {
   edit_onboarding_user = '/whatsapp-user-onboarding/update';
 
   user_import = '/whatsapp-user-onboarding/import';
+  user_import_onboarding = '/whatsapp-user-onboarding/import/onboarding';
+  
   get_report = '/user-import';
 
   // base_url = "http://localhost:8080/api/v2";

@@ -1,3 +1,4 @@
+import { constant } from 'src/app/constant/constant';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {  NgForm } from '@angular/forms';
@@ -72,6 +73,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   get paginatedData() {
     var start = (this.currentPage - 1) * this.pageSize;
     start=start+1;
+    // var temp=this.data.slice(1);
     return this.data.slice(start, start + this.pageSize);
   }
 
@@ -407,6 +409,27 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       );
   }
 
+
+  positionFilteredOptions: string[] = [];
+  onChange(value: string): void {
+
+      this.positionFilteredOptions = this.jobTitles.filter((option) =>
+        option.toLowerCase().includes(value.toLowerCase())
+      );
+
+  }
+  preventLeadingWhitespace(event: KeyboardEvent): void {
+    const inputElement = event.target as HTMLInputElement;
+
+    // Prevent space if it's the first character
+    if (event.key === ' ' && inputElement.selectionStart === 0) {
+      event.preventDefault();
+    }
+    if (!isNaN(Number(event.key)) && event.key !== ' ') {
+      event.preventDefault();
+    }
+  }
+
   shiftList: { value: number, label: string }[] = [];
   selectedShift: number = 0;
   selectedLeave: number = 0;
@@ -656,13 +679,17 @@ export class EmployeeOnboardingDataComponent implements OnInit {
   genders: string[] = ['Male', 'Female'];
   isExcel: string = '';
   data: any[] = [];
+   dataWithoutHeader:any=[];
   mismatches: string[] = [];
   invalidRows: boolean[] = []; // Track invalid rows
   invalidCells: boolean[][] = []; // Track invalid cells
   isinvalid: boolean=false;
   jsonData:any[]=[];
+  validateMap: Map<string, string[]> = new Map();
+  @ViewChild('attention') elementToScroll!: ElementRef;
 
   selectFile(event: any) {
+    this.validateMap= new Map();
     debugger
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
@@ -686,9 +713,10 @@ export class EmployeeOnboardingDataComponent implements OnInit {
         this.data = [];
         this.invalidRows = [];
         this.invalidCells = [];
+        this.validateMap.clear;
 
         const columnNames: string[] = this.jsonData[0] as string[];
-
+        debugger
         if (this.validateColumns(columnNames)) {
               this.data = this.jsonData.map((row: any[]) => {
                 // Ensure the 5th column is an array of strings, other columns are treated as strings
@@ -740,8 +768,18 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
           // Validate all rows and keep track of invalid entries- send daya for validatio after emoving heder row
           this.validateRows(this.data.slice(1));
+          this.removeAllSingleEntries();
+          this.validateMap.forEach((values, key) => {
+            console.log(`Key: ${key}`);
+            this.mismatches.push(`Repeating values: "${key}" at row no. ${values}`);
+            if(this.elementToScroll){
+            this.elementToScroll!.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            console.log('Values:', values);
+            }
+          });
           this.totalPage = Math.ceil(this.data.length / this.pageSize);
-          if(this.areAllFalse()){
+
+          if(this.areAllFalse() && this.mismatches.length===0){
             this.isinvalid=false;
             this.uploadUserFile(file, this.fileName);
           }else{
@@ -823,6 +861,24 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
     return true;
   }
+  readonly constants = constant;
+  addToMap(key: string, value: string) {
+    if (this.validateMap.has(key)) {
+      console.log(key,value);
+      // If key exists, add the new value to the existing array
+      this.validateMap.get(key)?.push(value);
+    } else {
+      // If key does not exist, create a new array with the value
+      this.validateMap.set(key, [value]);
+    }
+  }
+  removeAllSingleEntries() {
+    for (const [key, valuesArray] of this.validateMap) {
+      if (valuesArray.length <= 1) {
+        this.validateMap.delete(key);
+      }
+    }
+  }
 
   validateRows(rows: any[]): void {
     console.log("🚀 ~ EmployeeOnboardingDataComponent ~ validateRows ~ rows:", rows)
@@ -833,15 +889,19 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       let rowIsValid = true;
       for (let j = 0; j < this.fileColumnName.length; j++) {
 
-        const cellValue = rows[i][j];        
+        const cellValue = rows[i][j];
         if (!cellValue || cellValue === null || cellValue.toString().trim() === '') {
           rowIsValid = false;
           this.invalidRows[i] = true; // Mark the row as invalid
           this.invalidCells[i][j] = true; // Mark the cell as invalid
+
+        }
+        if (this.fileColumnName[j] === 'email*' && cellValue) {
+          this.addToMap(cellValue.toString(),`${i+1}`);
         }
         if (this.fileColumnName[j] === 'phone*' && cellValue) {
-          debugger
           const phoneNumber = cellValue.toString().trim();
+          this.addToMap(cellValue.toString(),`${i+1}`);
           if (!/^\d{10}$/.test(phoneNumber)) {
             rowIsValid = false;
             this.invalidRows[i] = true; // Mark the row as invalid
@@ -859,21 +919,21 @@ export class EmployeeOnboardingDataComponent implements OnInit {
               rowIsValid = false;
               this.invalidRows[i] = true;
               this.invalidCells[i][j] = true;
-              this.data[i][j] = '';
+              this.data[i+1][j] = '';
           }
       }
 
     if (this.fileColumnName[j] === 'leavenames' || this.fileColumnName[j] === 'team') {
-      if(cellValue===undefined || cellValue===""){
-        this.data[i][j]=[];
+      if(this.constants.EMPTY_STRINGS.includes(cellValue)){
+        this.data[i+1][j]=[];
       }
       else{
+        console.log(cellValue)
         const selectedData: string[] = cellValue.split(',').map((team: string) => team.trim());
-        this.data[i][j]=selectedData;
+        this.data[i+1][j]=selectedData;
       }
     }
       if (this.fileColumnName[j] === 'joiningdate*' && cellValue) {
-        debugger;
 
         // Replace slashes with hyphens
         const normalizedCell = cellValue.toString().trim().replace(/\//g, '-');
@@ -891,21 +951,21 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
                 // Ensure the date is in the past or less than one year from today
                 if (formattedDate.isAfter(oneYearFromNow)) {
-                    this.data[i][j] = undefined;
+                    this.data[i+1][j] = undefined;
                     rowIsValid = false;
                     this.invalidRows[i] = true; // Mark the row as invalid
                     this.invalidCells[i][j] = true; // Mark the cell as invalid
                 }
             } else {
                 // If the date is not valid
-                this.data[i][j] = undefined;
+                this.data[i+1][j] = undefined;
                 rowIsValid = false;
                 this.invalidRows[i] = true; // Mark the row as invalid
                 this.invalidCells[i][j] = true; // Mark the cell as invalid
             }
         } else {
             // If the format is not exactly MM-DD-YYYY
-            this.data[i][j] = undefined;
+            this.data[i+1][j] = undefined;
             rowIsValid = false;
             this.invalidRows[i] = true; // Mark the row as invalid
             this.invalidCells[i][j] = true; // Mark the cell as invalid
@@ -919,6 +979,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
         }
       }
     }
+    debugger
 
   }
 
@@ -929,12 +990,13 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
   onMultiSelectChange(selectedOptions: any[], rowIndex: number, colIndex: number) {
     debugger
-
-    this.data[rowIndex][colIndex] = selectedOptions;
+    //rowIndex+1 represents data without header
+    this.data[rowIndex+1][colIndex] = selectedOptions;
     this.onValueChange(rowIndex,colIndex);
   }
 
   saveFile() {
+    debugger
     const stringifiedData = this.data.map((row: any[]) =>
       row.map(cell => cell !== null && cell !== undefined ? String(cell) : '')
     );
@@ -945,6 +1007,7 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
     const blob = new Blob([wbout], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
     saveAs(blob, 'edited_file.xlsx');
+    this.validateMap.clear;
 
     const file = new File([blob], 'edited_file.xlsx', { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
 
@@ -970,12 +1033,14 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     //  this.datePipe.transform(event, 'MMM dd yyyy');
 
     // Assign the formatted date back to your data array
-    this.data[rowIndex][columnIndex] = formattedDate;
+    //rowIndex+1 represents data without header
+     this.data[rowIndex+1][columnIndex] = formattedDate;
     this.onValueChange(rowIndex,columnIndex);
   }
 
   onTeamSelectionChanges(selectedTeams: any[], rowIndex: number, columnIndex: number) {
-    this.data[rowIndex][columnIndex] = selectedTeams;
+    //rowIndex+1 represents data without header
+    this.data[rowIndex+1][columnIndex] = selectedTeams;
   }
 
   openAddLeaveModal(): void {
@@ -1112,7 +1177,9 @@ export class EmployeeOnboardingDataComponent implements OnInit {
       if (row.selected ) {
         const columnIndex = this.fileColumnName.findIndex(col => col.includes(type));
         if (columnIndex !== -1) {
-          if (type === "leavenames" || type === "team") {
+          const cellValue = row[columnIndex]?.toString().toLowerCase();
+          if (cellValue !== "leavenames" && cellValue !== "team") {
+            if (type === "leavenames" || type === "team") {
             debugger
             if (!Array.isArray(row[columnIndex])) {
               row[columnIndex] = row[columnIndex] ? [row[columnIndex]] : [];
@@ -1123,9 +1190,10 @@ export class EmployeeOnboardingDataComponent implements OnInit {
 
             row[columnIndex]=[];
             row[columnIndex]=Array.from(temp)
-          } else {
-            row[columnIndex] = value;
-            this.invalidCells[rowIndex][columnIndex] = false;
+            } else {
+              row[columnIndex] = value;
+              this.invalidCells[rowIndex][columnIndex] = false;
+            }
           }
         }
       }
@@ -1134,7 +1202,9 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     });
 console.log(this.data);
   }
-
+  isAnyRowSelected(): boolean {
+    return this.data.some(row => row.selected === true);
+  }
 
 
 
@@ -1479,5 +1549,175 @@ console.log(this.data);
       }
     }
   }
+
+
+  jobTitles: string[] = [
+    'Accountant',
+    'Accounting Manager',
+    'Administrative Assistant',
+    'AI Developer (Artificial Intelligence)',
+    'Angular Developer',
+    'AR/VR Developer (Augmented Reality / Virtual Reality)',
+    'Assembly Line Worker',
+    'Automation Test Engineer',
+    'Back-End Developer',
+    'Bioinformatics Developer',
+    'Blockchain Developer',
+    'Brand Manager',
+    'Business Analyst',
+    'Business Development Executive',
+    'Business Development Manager',
+    'Buyer',
+    'Call Center Agent',
+    'Cash Manager',
+    'Chief Financial Officer (CFO)',
+    'Civil Engineer',
+    'Cloud Developer (AWS Developer, Azure Developer, etc.)',
+    'Communications Director',
+    'Communications Specialist',
+    'Compliance Analyst',
+    'Compliance Officer',
+    'Content Writer',
+    'Corporate Lawyer',
+    'Corporate Social Responsibility Manager',
+    'Corporate Trainer',
+    'Creative Director',
+    'Customer Service Manager',
+    'Customer Service Representative',
+    'Database Administrator',
+    'Database Developer',
+    'Data Warehouse Developer',
+    'Desktop Application Developer',
+    'DevOps Developer',
+    'Digital Marketing Specialist',
+    'Distribution Manager',
+    'Electrical Engineer',
+    'Embedded Systems Developer',
+    'EHS Manager',
+    'Engineering Manager',
+    'Environmental Analyst',
+    'Environmental Engineer',
+    'Event Coordinator',
+    'Executive Assistant',
+    'Facilities Manager',
+    'Finance Manager',
+    'Financial Analyst',
+    'Front-End Developer',
+    'Full Stack Developer',
+    'Game Developer',
+    'General Counsel',
+    'Go Developer',
+    'Graphic Designer',
+    'Green Program Manager',
+    'Health and Safety Officer',
+    'Help Desk Technician',
+    'Helpdesk Technician',
+    'HR Generalist',
+    'HR Manager',
+    'HTML/CSS Developer',
+    'Human Resources',
+    'Information Technology (IT)',
+    'Investment Analyst',
+    'Inventory Manager',
+    'Inventory Specialist',
+    'IT Manager',
+    'Java Developer',
+    'JavaScript Developer',
+    'Junior Software Developer',
+    'Lead Developer / Technical Lead',
+    'Learning and Development Specialist',
+    'Legal Assistant',
+    'Logistics Coordinator',
+    'Logistics Manager',
+    'Machine Learning Developer',
+    'Maintenance Manager',
+    'Maintenance Technician',
+    'Manufacturing Engineer',
+    'Market Research Analyst',
+    'Marketing Manager',
+    'Mechanical Engineer',
+    'Media Relations Coordinator',
+    'Mobile App Developer (Android Developer, iOS Developer)',
+    'Network Engineer',
+    'Node.js Developer',
+    'Office Manager',
+    'Operations Analyst',
+    'Operations Manager',
+    'Paralegal',
+    'Payroll Clerk',
+    'Payroll Specialist',
+    'PHP Developer',
+    'Plant Manager',
+    'Plumber',
+    'Product Designer',
+    'Product Developer',
+    'Product Manager',
+    'Production Manager',
+    'Production Planner',
+    'Program Manager',
+    'Project Coordinator',
+    'Project Manager',
+    'Public Relations Officer',
+    'Procurement Manager',
+    'Process Improvement Specialist',
+    'Product Development',
+    'Product Owner (in a software development context)',
+    'Project Management',
+    'Public Relations',
+    'Purchasing Agent',
+    'Python Developer',
+    'QA Developer',
+    'Quality Assurance Manager',
+    'Quality Control Inspector',
+    'Quality Control Technician',
+    'Quality Inspector',
+    'React Developer',
+    'Receptionist',
+    'Recruiter',
+    'Regulatory Affairs Manager',
+    'Research and Development (R&D)',
+    'Research and Development Engineer',
+    'Research Scientist',
+    'Risk Analyst',
+    'Risk Manager',
+    'Robotics Developer',
+    'Ruby Developer',
+    'R&D Engineer',
+    'R&D Manager',
+    'Sales Manager',
+    'Sales Representative',
+    'Scrum Master',
+    'Scala Developer',
+    'Security Developer',
+    'Senior Software Developer',
+    'SEO Specialist',
+    'Software Architect',
+    'Software Development Manager',
+    'Software Engineer',
+    'Software Test Developer',
+    'Software Tester',
+    'Software Development',
+    'Software Test Developer',
+    'Software Tester',
+    'Sourcing Manager',
+    'Supply Chain Analyst',
+    'Supply Chain Manager',
+    'Sustainability Coordinator',
+    'Sustainability Manager',
+    'Systems Administrator',
+    'Systems Software Developer',
+    'Tax Specialist',
+    'Training and Development Officer',
+    'Training Manager',
+    'Transportation Coordinator',
+    'Treasury Analyst',
+    'Treasurer',
+    'UI (User Interface) Developer',
+    'UX (User Experience) Developer',
+    'Vue.js Developer',
+    'Web Designer',
+    'Web Developer',
+    'Workplace Safety Officer',
+  ];
 
 }

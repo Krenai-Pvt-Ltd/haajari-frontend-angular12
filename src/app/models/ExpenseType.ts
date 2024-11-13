@@ -7,4 +7,5 @@ export class ExpenseType{
     notes: string = '';
     url: string = '';
     expenseDate: any;
+    managerId: number = 0
 }

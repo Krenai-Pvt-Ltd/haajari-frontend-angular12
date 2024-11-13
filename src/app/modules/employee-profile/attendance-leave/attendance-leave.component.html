@@ -1,73 +1,7 @@
 <div class="employee-detail-box">
 <div class="attendance-history m-3 mt-3">
 
-    <div class="d-flex align-items-center justify-content-between">
-        <div class="d-flex align-items-center gap-2 attendance-date">
-            <div class="dropdown deshboard-date-filter">
-                <nz-date-picker nzMode="month" nzFormat="MMM, yyyy"></nz-date-picker>
-            </div>
-            <div class="d-flex align-items-center  gap-2 ">
-                <span class="calendar-back d-flex align-items-center justify-content-center pointer">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                        <mask id="mask0_4719_1625" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
-                            height="21">
-                            <rect x="0.5" y="0.5" width="20" height="20" fill="#D9D9D9" />
-                        </mask>
-                        <g mask="url(#mask0_4719_1625)">
-                            <path
-                                d="M8.83203 15.5L3.83203 10.5L8.83203 5.5L9.9987 6.70833L7.04036 9.66667H17.1654V11.3333H7.04036L9.9987 14.2917L8.83203 15.5Z"
-                                fill="#060606" />
-                        </g>
-                    </svg>
-                </span>
-                <span class="calendar-back d-flex align-items-center justify-content-center pointer">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                        <mask id="mask0_4719_1634" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
-                            height="21">
-                            <rect x="0.5" y="0.5" width="20" height="20" fill="#D9D9D9" />
-                        </mask>
-                        <g mask="url(#mask0_4719_1634)">
-                            <path
-                                d="M4.66667 18.8346C4.20833 18.8346 3.81597 18.6714 3.48958 18.3451C3.16319 18.0187 3 17.6263 3 17.168V5.5013C3 5.04297 3.16319 4.65061 3.48958 4.32422C3.81597 3.99783 4.20833 3.83464 4.66667 3.83464H5.5V2.16797H7.16667V3.83464H13.8333V2.16797H15.5V3.83464H16.3333C16.7917 3.83464 17.184 3.99783 17.5104 4.32422C17.8368 4.65061 18 5.04297 18 5.5013V17.168C18 17.6263 17.8368 18.0187 17.5104 18.3451C17.184 18.6714 16.7917 18.8346 16.3333 18.8346H4.66667ZM4.66667 17.168H16.3333V8.83464H4.66667V17.168ZM4.66667 7.16797H16.3333V5.5013H4.66667V7.16797Z"
-                                fill="#1C1B1F" />
-                        </g>
-                    </svg>
-                </span>
-                <span class="calendar-back d-flex align-items-center justify-content-center pointer">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                        <mask id="mask0_4719_1639" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
-                            height="21">
-                            <rect width="20" height="20" transform="matrix(-1 0 0 1 20.5 0.5)" fill="#D9D9D9" />
-                        </mask>
-                        <g mask="url(#mask0_4719_1639)">
-                            <path
-                                d="M12.168 15.5L17.168 10.5L12.168 5.5L11.0013 6.70833L13.9596 9.66667H3.83464V11.3333H13.9596L11.0013 14.2917L12.168 15.5Z"
-                                fill="#060606" />
-                        </g>
-                    </svg>
-                </span>
-            </div>
-        </div>
-
-        <div class="d-flex align-items-center justify-content-end gap-3 w-50">
-
-            <button data-bs-toggle="modal" data-bs-target="#applyLeave" class="btn assets-request">
-                Leave Request
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="15" viewBox="0 0 18 15" fill="none">
-                    <path
-                        d="M10.668 8.33203H14.8346V6.66536H10.668V8.33203ZM10.668 5.83203H14.8346V4.16536H10.668V5.83203ZM3.16797 10.832H9.83463V10.3737C9.83463 9.7487 9.52908 9.25217 8.91797 8.88411C8.30686 8.51606 7.5013 8.33203 6.5013 8.33203C5.5013 8.33203 4.69575 8.51606 4.08464 8.88411C3.47352 9.25217 3.16797 9.7487 3.16797 10.3737V10.832ZM6.5013 7.4987C6.95964 7.4987 7.352 7.3355 7.67839 7.00911C8.00477 6.68273 8.16797 6.29036 8.16797 5.83203C8.16797 5.3737 8.00477 4.98134 7.67839 4.65495C7.352 4.32856 6.95964 4.16536 6.5013 4.16536C6.04297 4.16536 5.65061 4.32856 5.32422 4.65495C4.99783 4.98134 4.83464 5.3737 4.83464 5.83203C4.83464 6.29036 4.99783 6.68273 5.32422 7.00911C5.65061 7.3355 6.04297 7.4987 6.5013 7.4987ZM2.33464 14.1654C1.8763 14.1654 1.48394 14.0022 1.15755 13.6758C0.831163 13.3494 0.667969 12.957 0.667969 12.4987V2.4987C0.667969 2.04036 0.831163 1.648 1.15755 1.32161C1.48394 0.995226 1.8763 0.832031 2.33464 0.832031H15.668C16.1263 0.832031 16.5187 0.995226 16.8451 1.32161C17.1714 1.648 17.3346 2.04036 17.3346 2.4987V12.4987C17.3346 12.957 17.1714 13.3494 16.8451 13.6758C16.5187 14.0022 16.1263 14.1654 15.668 14.1654H2.33464ZM2.33464 12.4987H15.668V2.4987H2.33464V12.4987Z"
-                        fill="#1C1B1F" />
-                </svg>
-            </button> 
-
-            <nz-select class="request-dropdown" style="width: 150px !important; height: 36px !important; border-radius: 2px; border: 1px solid #f1f1f1;" nzSize="large" nzPlaceHolder="New Request" required>
-                <nz-option [nzValue]="'Attendance update'" [nzLabel]="'Attendance update'"></nz-option>
-                <nz-option [nzValue]="'Overtime'" [nzLabel]="'Overtime'"></nz-option>
-                <nz-option [nzValue]="'Lop reversal'" [nzLabel]="'Lop reversal'"></nz-option>
-            </nz-select>
-
-        </div>
-    </div>
+    
 
     <div class="mt-3">
         <ul id="pills-tab" role="tablist" class="nav nav-pills">
@@ -87,58 +21,161 @@
         <div id="pills-tabContent" class="tab-content">
             <div class="tab-pane fade active show pt-3" id="attendance" role="tabpanel"
                 aria-labelledby="attendance-tab">
-                <div class="row ">
 
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center attendance-date">
+                        <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                <mask id="mask0_4719_1625" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
+                                    height="21">
+                                    <rect x="0.5" y="0.5" width="20" height="20" fill="#D9D9D9" />
+                                </mask>
+                                <g mask="url(#mask0_4719_1625)">
+                                    <path
+                                        d="M8.83203 15.5L3.83203 10.5L8.83203 5.5L9.9987 6.70833L7.04036 9.66667H17.1654V11.3333H7.04036L9.9987 14.2917L8.83203 15.5Z"
+                                        fill="#060606" />
+                                </g>
+                            </svg>
+                        </span>
+                        <span class="calendar-separator"></span>
+                        <div class="dropdown ">
+                            <nz-date-picker nzMode="month" nzFormat="MMM, yyyy"></nz-date-picker>
+                        </div>
+                        <span class="calendar-separator"></span>
+                        <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                <mask id="mask0_4719_1639" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
+                                    height="21">
+                                    <rect width="20" height="20" transform="matrix(-1 0 0 1 20.5 0.5)" fill="#D9D9D9" />
+                                </mask>
+                                <g mask="url(#mask0_4719_1639)">
+                                    <path
+                                        d="M12.168 15.5L17.168 10.5L12.168 5.5L11.0013 6.70833L13.9596 9.66667H3.83464V11.3333H13.9596L11.0013 14.2917L12.168 15.5Z"
+                                        fill="#060606" />
+                                </g>
+                            </svg>
+                        </span>
+                    </div>
+                
+                    <div class="d-flex align-items-center justify-content-end gap-3 w-50">
+                
+                        <!-- <button data-bs-toggle="modal" data-bs-target="#applyLeave" class="btn assets-request">
+                            Leave Request
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="15" viewBox="0 0 18 15" fill="none">
+                                <path
+                                    d="M10.668 8.33203H14.8346V6.66536H10.668V8.33203ZM10.668 5.83203H14.8346V4.16536H10.668V5.83203ZM3.16797 10.832H9.83463V10.3737C9.83463 9.7487 9.52908 9.25217 8.91797 8.88411C8.30686 8.51606 7.5013 8.33203 6.5013 8.33203C5.5013 8.33203 4.69575 8.51606 4.08464 8.88411C3.47352 9.25217 3.16797 9.7487 3.16797 10.3737V10.832ZM6.5013 7.4987C6.95964 7.4987 7.352 7.3355 7.67839 7.00911C8.00477 6.68273 8.16797 6.29036 8.16797 5.83203C8.16797 5.3737 8.00477 4.98134 7.67839 4.65495C7.352 4.32856 6.95964 4.16536 6.5013 4.16536C6.04297 4.16536 5.65061 4.32856 5.32422 4.65495C4.99783 4.98134 4.83464 5.3737 4.83464 5.83203C4.83464 6.29036 4.99783 6.68273 5.32422 7.00911C5.65061 7.3355 6.04297 7.4987 6.5013 7.4987ZM2.33464 14.1654C1.8763 14.1654 1.48394 14.0022 1.15755 13.6758C0.831163 13.3494 0.667969 12.957 0.667969 12.4987V2.4987C0.667969 2.04036 0.831163 1.648 1.15755 1.32161C1.48394 0.995226 1.8763 0.832031 2.33464 0.832031H15.668C16.1263 0.832031 16.5187 0.995226 16.8451 1.32161C17.1714 1.648 17.3346 2.04036 17.3346 2.4987V12.4987C17.3346 12.957 17.1714 13.3494 16.8451 13.6758C16.5187 14.0022 16.1263 14.1654 15.668 14.1654H2.33464ZM2.33464 12.4987H15.668V2.4987H2.33464V12.4987Z"
+                                    fill="#1C1B1F" />
+                            </svg>
+                        </button> -->
+
+                    <!-- <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-outline-secondary font-13">30 DAYS</button>
+                        <button type="button" class="btn btn-outline-primary font-13">week 1</button>
+                        <button type="button" class="btn btn-outline-secondary font-13">week 2</button>
+                        <button type="button" class="btn btn-outline-secondary font-13">week 3</button>
+                        <button type="button" class="btn btn-outline-secondary font-13">week 4</button>
+                    </div> -->
+
+
+                    <div class="btn-group week-data radio-btn" role="group" aria-label="Basic radio toggle button group">
+                        <input type="radio" class="btn-check" >
+                        <label class="btn btn-outline-secondary font-12">30 DAYS</label>
+                        <input type="radio" class="btn-check" >
+                        <label class="btn btn-outline-primary btn-primary font-12" >Week 1</label>
+                        <input type="radio" class="btn-check">
+                        <label class="btn btn-outline-secondary font-12">Week 2</label>
+                        <input type="radio" class="btn-check">
+                        <label class="btn btn-outline-secondary font-12">Week 3</label>
+                        <input type="radio" class="btn-check">
+                        <label class="btn btn-outline-secondary font-12">Week 4</label>
+                    </div>
+                
+                        <nz-select class="request-dropdown"
+                            nzSize="large" nzPlaceHolder="New Request" required>
+                            <nz-option [nzValue]="'Attendance update'" [nzLabel]="'Attendance update'"></nz-option>
+                            <nz-option [nzValue]="'Overtime'" [nzLabel]="'Overtime'"></nz-option>
+                            <nz-option [nzValue]="'Lop reversal'" [nzLabel]="'Lop reversal'"></nz-option>
+                        </nz-select>
+                
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-9" >
+                       <div class="row" style="border-right: 1px solid #EDEFF5;">
+                        <div class="col-md-8 ">
+                            <div class="attendance-summery p-3 pt-2 pb-2 d-flex align-items-center justify-content-between ">
+                                <div>
+                                    <h5 class="mb-0 font-15">208 hr 30 min</h5>
+                                    <p class="mb-0 font-12">Scheduled</p>
+                                </div>
+                                <div class="text-end d-flex align-items-center gap-2">
+                                    <span class="total-worked">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="108" height="32" viewBox="0 0 108 32" fill="none">
+                                            <path d="M0 30.5039H107.75" stroke="#AFAFAF" stroke-width="1.36538" stroke-dasharray="4.1 4.1" />
+                                            <path
+                                                d="M22.4334 11.6206C18.959 15.6204 13.2953 19.3171 10.3945 20.9145V30.2017H97.2362V21.8797L88.9641 4.54834C88.0301 2.59149 85.2977 2.45136 84.1685 4.3024L75.8006 18.0186L64.9912 12.066L56.0139 19.4665L45.3877 16.2489L34.3951 18.0186L27.1188 11.156C25.804 9.91593 23.6186 10.2562 22.4334 11.6206Z"
+                                                fill="url(#paint0_linear_5195_1562)" />
+                                            <path
+                                                d="M10.3945 20.9145C13.4618 19.2254 19.6181 15.1892 23.009 10.9294C23.8532 9.86882 25.4784 9.60887 26.4645 10.5389L33.6609 17.3261C34.1238 17.7627 34.7634 17.9593 35.3916 17.8582L44.9211 16.3241C45.2282 16.2746 45.5425 16.2958 45.8401 16.3859L54.9641 19.1486C55.6199 19.3472 56.3316 19.2047 56.8604 18.7688L63.9184 12.9504C64.566 12.4165 65.4739 12.3318 66.2091 12.7367L74.0846 17.0736C75.0444 17.6022 76.2502 17.2816 76.8209 16.3462L84.8246 3.2268C85.6716 1.83852 87.7209 1.94361 88.4214 3.41125L97.2362 21.8797"
+                                                stroke="#3AB37E" stroke-width="2.04808" stroke-linecap="round" />
+                                            <defs>
+                                                <linearGradient id="paint0_linear_5195_1562" x1="53.8154" y1="7.5138" x2="53.8154" y2="30.2017"
+                                                    gradientUnits="userSpaceOnUse">
+                                                    <stop stop-color="#3AB37E" />
+                                                    <stop offset="1" stop-color="#D9D9D9" stop-opacity="0" />
+                                                </linearGradient>
+                                            </defs>
+                                        </svg>
+                                    </span>
+                                    <div>
+                                    <h5 class="mb-0 font-15">215 hr 15 min</h5>
+                                    <p class="mb-0 font-12">Worked</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="attendance-summery p-3 pt-2 pb-2">
+                                <h5 class="mb-0 font-15">+ 7 hr 30 min</h5>
+                                <p class="mb-0 font-12">Difference</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="attendance-summery p-3 pt-2 pb-2">
+                                <h5 class="mb-0 font-15">4 hr 30 min <span class="lat">(3 late in’s)</span></h5>
+                                <p class="mb-0 font-12">Total delay</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="attendance-summery p-3 pt-2 pb-2">
+                                <h5 class="mb-0 font-15">1 hr 5 min <span class="lat">(5 Early Out’s)</span></h5>
+                                <p class="mb-0 font-12">Total shortage</p>
+                            </div>
+                        </div>
+                       
+                        <div class="col-md-2">
+                            <div class="attendance-summery p-3 pt-2 pb-2">
+                                <h5 class="mb-0 font-15">1</h5>
+                                <p class="mb-0 font-12">Half Days</p>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="attendance-summery p-3 pt-2 pb-2">
+                                <h5 class="mb-0 font-15">1</h5>
+                                <p class="mb-0 font-12">Absence</p>
+                            </div>
+                        </div>
+                       </div>
+
+                    </div>
+                    <div class="col-md-3">
+                        <div class="total-detail ">
+                           <h5 class="mb-3 font-14">Overall Performance</h5>
+
+                           <img src="assets/images/overall-performance.png" style="width: 100%;">
+                        </div>
+                    </div>
                    
-                   
-                    <div class="col-md-3">
-                        <div class="attendance-summery p-3 pt-2 pb-2">
-                            <h5 class="mb-0 font-15">208 hr 30 min</h5>
-                            <p class="mb-0 font-12">Scheduled</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="attendance-summery p-3 pt-2 pb-2">
-                            <h5 class="mb-0 font-15">215 hr 15 min</h5>
-                            <p class="mb-0 font-12">Worked</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="attendance-summery p-3 pt-2 pb-2">
-                            <h5 class="mb-0 font-15">+ 7 hr 30 min</h5>
-                            <p class="mb-0 font-12">Difference</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="attendance-summery p-3 pt-2 pb-2">
-                            <h5 class="mb-0 font-15">208 hr 30 min</h5>
-                            <p class="mb-0 font-12">Scheduled</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="attendance-summery p-3 pt-2 pb-2">
-                            <h5 class="mb-0 font-15">4 hr 30 min <span class="lat">(3 late in’s)</span></h5>
-                            <p class="mb-0 font-12">Total delay</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="attendance-summery p-3 pt-2 pb-2">
-                            <h5 class="mb-0 font-15">1 hr 5 min <span class="lat">(5 Early Out’s)</span></h5>
-                            <p class="mb-0 font-12">Total shortage</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="attendance-summery p-3 pt-2 pb-2">
-                            <h5 class="mb-0 font-15">3</h5>
-                            <p class="mb-0 font-12">Half Days</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="attendance-summery p-3 pt-2 pb-2">
-                            <h5 class="mb-0 font-15">208 hr 30 min</h5>
-                            <p class="mb-0 font-12">Scheduled</p>
-                        </div>
-                    </div>
                 </div>
 
 
@@ -150,8 +187,8 @@
                                 <th class=" text-left" style="width: 10%">
                                     Date
                                 </th>
-                                <th class="text-left" style="width: 10%">Status</th>
-                                <th class="text-left" style="width: 10%">
+                                <th class="text-center" style="width: 10%">Status</th>
+                                <th class="text-center" style="width: 10%">
                                     Mode
                                 </th>
                                 <th class="text-left" style="width: 10%">Schedule</th>
@@ -161,7 +198,7 @@
                                 <th class="text-left" style="width: 10%">
                                     Check Out
                                 </th>
-                                <th class="text-left" style="width: 10%">
+                                <th class="text-center" style="width: 10%">
                                     Break
                                 </th>
                                 <th class="text-left" style="width: 10%">
@@ -182,12 +219,12 @@
                                     <span class="team-maneger mb-0 ">
                                         Monday, 1 Jun 2023</span>
                                 </td>
-                                <td class="text-left">
-                                    <div class="badge rounded-pill badge-soft-success">
-                                        <span> Present</span>
-                                    </div>
+                                <td class="text-center">
+                                    <span class="team-maneger mb-0 text-success">
+                                         Present
+                                        </span>
                                 </td>
-                                <td class="text-left">
+                                <td class="text-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                         <g clip-path="url(#clip0_4742_116)">
                                             <path
@@ -230,16 +267,16 @@
                                 </td>
                                 <td class="text-left">
                                     <span class="team-maneger mb-0 table-font-weight">
-                                        9:00 am &nbsp; <span class="badge badge-small rounded-pill badge-soft-danger"> Late In</span>
+                                        9:00 am &nbsp; <span class="text-danger font-12"> Late In</span>
                                     </span>
                                 </td>
                                 <td class="text-left">
                                     <span class="team-maneger mb-0 table-font-weight">
-                                        6:00 pm &nbsp; <span class="badge badge-small rounded-pill badge-soft-secondary">System</span>
+                                        6:00 pm &nbsp; <span class="text-primary font-12">System</span>
                                     </span>
                                 </td>
                 
-                                <td class="text-left">
+                                <td class="text-center">
                                     <span class="team-maneger mb-0 table-font-weight"> 1</span>
                                 </td>
                                 <td>
@@ -261,12 +298,10 @@
                                     <span class="team-maneger mb-0 ">
                                         Monday, 1 Jun 2023</span>
                                 </td>
-                                <td class="text-left">
-                                    <div class="badge rounded-pill badge-soft-success">
-                                        <span> Present</span>
-                                    </div>
+                                <td class="text-center">
+                                    <span class="team-maneger mb-0 text-success"> Present</span>
                                 </td>
-                                <td class="text-left">
+                                <td class="text-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
                                         <g clip-path="url(#clip0_4894_1292)">
                                             <path
@@ -300,16 +335,16 @@
                                 </td>
                                 <td class="text-left">
                                     <span class="team-maneger mb-0 table-font-weight">
-                                        9:00 am &nbsp;<span class="badge badge-small rounded-pill badge-soft-warning">Half day</span>
+                                        9:00 am &nbsp;<span class="text-warning font-12">Half day</span>
                                     </span>
                                 </td>
                                 <td class="text-left">
                                     <span class="team-maneger mb-0 table-font-weight">
-                                        6:00 pm &nbsp; <span class="badge badge-small rounded-pill badge-soft-danger">Early out</span>
+                                        6:00 pm &nbsp; <span class="text-danger font-12">Early out</span>
                                     </span>
                                 </td>
                 
-                                <td class="text-left">
+                                <td class="text-center">
                                     <span class="team-maneger mb-0 table-font-weight"> 1</span>
                                 </td>
                                 <td>
@@ -331,12 +366,12 @@
                                     <span class="team-maneger mb-0 ">
                                         Monday, 1 Jun 2023</span>
                                 </td>
-                                <td class="text-left">
-                                    <div class="badge rounded-pill badge-soft-warning">
-                                        <span> Holiday</span>
-                                    </div>
+                                <td class="text-center">
+                                    <span class="team-maneger mb-0 text-warning"> 
+                                        Holiday
+                                    </span>
                                 </td>
-                                <td class="text-left">
+                                <td class="text-center">
                 
                                 </td>
                                 <td class="text-left">
@@ -349,7 +384,7 @@
                 
                                 </td>
                 
-                                <td class="text-left">
+                                <td class="text-center">
                 
                                 </td>
                                 <td>
@@ -368,12 +403,12 @@
                                     <span class="team-maneger mb-0 ">
                                         Monday, 1 Jun 2023</span>
                                 </td>
-                                <td class="text-left">
-                                    <div class="badge rounded-pill badge-soft-weekoff">
-                                        <span> W-off</span>
-                                    </div>
+                                <td class="text-center">
+                                    <span class="team-maneger mb-0 text-black">
+                                        W-off
+                                    </span>
                                 </td>
-                                <td class="text-left">
+                                <td class="text-center">
                 
                                 </td>
                                 <td class="text-left">
@@ -386,7 +421,7 @@
                 
                                 </td>
                 
-                                <td class="text-left">
+                                <td class="text-center">
                 
                                 </td>
                                 <td>
@@ -404,16 +439,6 @@
                     </table>
                 
                 
-                </div>
-                <div class="d-flex align-items-center justify-content-end mt-2">
-                    <div class="d-flex align-items-center gap-2">
-                        <button class="btn week-summary">All</button>
-                        <button class="btn week-summary active-week">W 1</button>
-                        <button class="btn week-summary">W 2</button>
-                        <button class="btn week-summary">W 3</button>
-                        <button class="btn week-summary">W 4</button>
-                        <button class="btn week-summary">W 5</button>
-                    </div>
                 </div>
             </div>
             <div class="tab-pane fade pt-3" id="leaves" role="tabpanel" aria-labelledby="leaves-tab">
@@ -567,21 +592,35 @@
                                     <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="">
                                         <li><a class="dropdown-item">All</a></li>
                                         <li><a class="dropdown-item">Pending</a></li>
-                                        <li><a class="dropdown-item">CApproved</a></li>
+                                        <li><a class="dropdown-item">Approved</a></li>
                                         <li><a class="dropdown-item">Rejected</a></li>
                                     </ul>
                                 </div>
-                                <div class="onboarding-date d-flex align-items-center position-relative">
+                                <div class="onboarding-date d-flex align-items-center justify-content-between position-relative w-100">
                                     <form novalidate="" role="search"
-                                        class="searching ng-untouched ng-pristine ng-valid" style="width: 100%;">
+                                        class="searching d-flex align-items-center justify-content-between" style="width: 100%;">
                                         <div class="form-group" style="width: 100%; position: relative;"><input
                                                 type="text" id="searchText"
                                                 placeholder="Search by name, email and phone number ..."
                                                 class="form-control me-2 ng-pristine ng-valid ng-touched" style="padding: 10px 40px;"
                                                 ng-reflect-model="" ng-reflect-options="[object Object]"><i
                                                 class="bi bi-search search-icon ng-star-inserted"
-                                                style="margin: auto; margin-left: 15px;"></i></div>
+                                                style="margin: auto; margin-left: 15px;"></i>
+                                            </div>
                                     </form>
+                                    <button type="button" class="btn primaryBtnLink leave-request" data-bs-toggle="modal" data-bs-target="#applyLeave"> Leave Request
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                                            <mask id="mask0_5145_1779" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20"
+                                                height="21">
+                                                <rect y="0.5" width="20" height="20" fill="#D9D9D9" />
+                                            </mask>
+                                            <g mask="url(#mask0_5145_1779)">
+                                                <path
+                                                    d="M11.668 11.332H15.8346V9.66536H11.668V11.332ZM11.668 8.83203H15.8346V7.16536H11.668V8.83203ZM4.16797 13.832H10.8346V13.3737C10.8346 12.7487 10.5291 12.2522 9.91797 11.8841C9.30686 11.5161 8.5013 11.332 7.5013 11.332C6.5013 11.332 5.69575 11.5161 5.08464 11.8841C4.47352 12.2522 4.16797 12.7487 4.16797 13.3737V13.832ZM7.5013 10.4987C7.95964 10.4987 8.352 10.3355 8.67839 10.0091C9.00477 9.68273 9.16797 9.29036 9.16797 8.83203C9.16797 8.3737 9.00477 7.98134 8.67839 7.65495C8.352 7.32856 7.95964 7.16536 7.5013 7.16536C7.04297 7.16536 6.65061 7.32856 6.32422 7.65495C5.99783 7.98134 5.83464 8.3737 5.83464 8.83203C5.83464 9.29036 5.99783 9.68273 6.32422 10.0091C6.65061 10.3355 7.04297 10.4987 7.5013 10.4987ZM3.33464 17.1654C2.8763 17.1654 2.48394 17.0022 2.15755 16.6758C1.83116 16.3494 1.66797 15.957 1.66797 15.4987V5.4987C1.66797 5.04036 1.83116 4.648 2.15755 4.32161C2.48394 3.99523 2.8763 3.83203 3.33464 3.83203H16.668C17.1263 3.83203 17.5187 3.99523 17.8451 4.32161C18.1714 4.648 18.3346 5.04036 18.3346 5.4987V15.4987C18.3346 15.957 18.1714 16.3494 17.8451 16.6758C17.5187 17.0022 17.1263 17.1654 16.668 17.1654H3.33464ZM3.33464 15.4987H16.668V5.4987H3.33464V15.4987Z"
+                                                    fill="#6666F2" />
+                                            </g>
+                                        </svg>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -1123,7 +1162,7 @@
 
 
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary d-none" data-toggle="modal" data-target="#applyLeave">
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#applyLeave">
     Apply for a leave
 </button>
 
@@ -1331,6 +1370,395 @@
             <div class="modal-footer">
                 <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
                 <button type="button" class="btn submitActionBtn">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#updateRequest">
+    Attendance Update request
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="updateRequest" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Attendance Update request</h5>
+                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="24" height="24">
+                            <rect width="24" height="24" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_5037_2014)">
+                            <path
+                                d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+                                fill="black" />
+                        </g>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="assets-request-form">
+                    <form>
+                        <div class="row register-form-box">
+
+                           <!-- TO-DO display only edit conditions -->
+                            <!-- <div class="col-md-12 mb-3">
+                                <div class="update-request-date">
+                                    <div class="d-flex align-items-center justify-content-between mb-3">
+                                        <div class="d-flex align-items-start gap-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 35 35" fill="none">
+                                            <g clip-path="url(#clip0_5330_2029)">
+                                                <path
+                                                    d="M8.54574 8.31993H9.04647C9.80745 8.31993 10.4243 7.70286 10.4243 6.94209V3.13984V1.71761C10.4243 0.956844 9.80745 0.339844 9.04647 0.339844H8.54574C7.78482 0.339844 7.16797 0.956844 7.16797 1.71761V3.13991V6.94209C7.16797 7.70286 7.78482 8.31993 8.54574 8.31993Z"
+                                                    fill="black" />
+                                                <path
+                                                    d="M26.2178 8.28477H26.7185C27.4794 8.28477 28.0963 7.66777 28.0963 6.90693V2.77796V1.68238C28.0963 0.921688 27.4794 0.304688 26.7185 0.304688H26.2178C25.4567 0.304688 24.8398 0.921688 24.8398 1.68238V2.77796V6.90686C24.84 7.66777 25.4568 8.28477 26.2178 8.28477Z"
+                                                    fill="black" />
+                                                <path
+                                                    d="M32.7523 3.13672H29.2162V7.26562C29.2162 8.64296 28.0957 9.40264 26.7185 9.40264H26.2178C24.8404 9.40264 23.72 8.28209 23.72 6.90476V3.13672H11.5436V6.9389C11.5436 8.31623 10.4231 9.43678 9.04576 9.43678H8.54503C7.16777 9.43678 6.04729 8.31623 6.04729 6.9389V3.13672H2.23213C0.997041 3.13672 -0.0078125 4.14157 -0.0078125 5.37673V32.4435C-0.0078125 33.6786 0.997041 34.6835 2.23213 34.6835H32.7523C33.9874 34.6835 34.9922 33.6786 34.9922 32.4435V5.37673C34.9923 4.14165 33.9874 3.13672 32.7523 3.13672ZM32.7523 32.4435H2.2322L2.23213 12.0034H32.7528L32.7539 32.4434C32.7538 32.4434 32.7533 32.4435 32.7523 32.4435Z"
+                                                    fill="black" />
+                                                <path
+                                                    d="M18.6481 18.8608H22.67C22.8294 18.8608 22.9587 18.7316 22.9587 18.5721V15.0895C22.9587 14.93 22.8294 14.8008 22.67 14.8008H18.6481C18.4886 14.8008 18.3594 14.93 18.3594 15.0895V18.5721C18.3594 18.7316 18.4886 18.8608 18.6481 18.8608Z"
+                                                    fill="black" />
+                                                <path
+                                                    d="M25.2145 18.8608H29.2364C29.3958 18.8608 29.5251 18.7316 29.5251 18.5721V15.0895C29.5251 14.93 29.3958 14.8008 29.2364 14.8008H25.2145C25.055 14.8008 24.9258 14.93 24.9258 15.0895V18.5721C24.9258 18.7316 25.055 18.8608 25.2145 18.8608Z"
+                                                    fill="black" />
+                                                <path
+                                                    d="M5.51916 24.564H9.54103C9.70046 24.564 9.82972 24.4348 9.82972 24.2753V20.7926C9.82972 20.6332 9.70046 20.5039 9.54103 20.5039H5.51916C5.35973 20.5039 5.23047 20.6332 5.23047 20.7926V24.2753C5.23047 24.4348 5.35973 24.564 5.51916 24.564Z"
+                                                    fill="black" />
+                                                <path
+                                                    d="M12.0856 24.564H16.1074C16.2669 24.564 16.3961 24.4348 16.3961 24.2753V20.7926C16.3961 20.6332 16.2669 20.5039 16.1074 20.5039H12.0856C11.9261 20.5039 11.7969 20.6332 11.7969 20.7926V24.2753C11.7969 24.4348 11.9261 24.564 12.0856 24.564Z"
+                                                    fill="black" />
+                                                <path
+                                                    d="M18.6481 24.564H22.6699C22.8294 24.564 22.9586 24.4348 22.9586 24.2753V20.7926C22.9586 20.6332 22.8294 20.5039 22.6699 20.5039H18.6481C18.4886 20.5039 18.3594 20.6332 18.3594 20.7926V24.2753C18.3594 24.4348 18.4886 24.564 18.6481 24.564Z"
+                                                    fill="black" />
+                                                <path
+                                                    d="M25.2145 24.564H29.2364C29.3958 24.564 29.5251 24.4348 29.5251 24.2753V20.7926C29.5251 20.6332 29.3958 20.5039 29.2364 20.5039H25.2145C25.055 20.5039 24.9258 20.6332 24.9258 20.7926V24.2753C24.9258 24.4348 25.055 24.564 25.2145 24.564Z"
+                                                    fill="black" />
+                                                <path
+                                                    d="M9.54486 26.2031H5.52306C5.36364 26.2031 5.23438 26.3324 5.23438 26.4918V29.9746C5.23438 30.134 5.36364 30.2632 5.52306 30.2632H9.54493C9.70436 30.2632 9.83362 30.134 9.83362 29.9746V26.4918C9.83355 26.3324 9.70429 26.2031 9.54486 26.2031Z"
+                                                    fill="black" />
+                                                <path
+                                                    d="M16.1074 26.2031H12.0856C11.9261 26.2031 11.7969 26.3324 11.7969 26.4918V29.9746C11.7969 30.134 11.9261 30.2632 12.0856 30.2632H16.1074C16.2669 30.2632 16.3961 30.134 16.3961 29.9746V26.4918C16.3961 26.3324 16.2669 26.2031 16.1074 26.2031Z"
+                                                    fill="black" />
+                                                <path
+                                                    d="M22.67 26.2031H18.6481C18.4886 26.2031 18.3594 26.3324 18.3594 26.4918V29.9746C18.3594 30.134 18.4886 30.2632 18.6481 30.2632H22.67C22.8294 30.2632 22.9587 30.134 22.9587 29.9746V26.4918C22.9587 26.3324 22.8294 26.2031 22.67 26.2031Z"
+                                                    fill="black" />
+                                                <path
+                                                    d="M29.2364 26.2031H25.2145C25.055 26.2031 24.9258 26.3324 24.9258 26.4918V29.9746C24.9258 30.134 25.055 30.2632 25.2145 30.2632H29.2364C29.3958 30.2632 29.5251 30.134 29.5251 29.9746V26.4918C29.5251 26.3324 29.3958 26.2031 29.2364 26.2031Z"
+                                                    fill="black" />
+                                            </g>
+                                            <defs>
+                                                <clipPath id="clip0_5330_2029">
+                                                    <rect width="35" height="35" fill="white" />
+                                                </clipPath>
+                                            </defs>
+                                        </svg>
+                                            <div class="">
+                                                <h5 class="mb-0">12th November, 2024</h5>
+                                                <p class="mb-0">Monday</p>
+
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <span class="update-request-status">Pending</span>
+                                        </div>
+                                    </div>
+                                        <div class="col-md-12">
+                                            <div class="d-flex align-items-center gap-2 checkin-time">
+                                                <p class="mb-0 font-13">Update Timing</p>
+                                                <span class="calendar-separator"></span>
+                                                <span class="font-13">Check-in time update</span>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div> -->
+
+                            <div class="col-md-12 mb-3">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="employeeTypeId" class="mb-2">Select Date</label>
+                                            <nz-date-picker nzPlaceHolder="Choose Date" name="selectDate" required>
+                                            </nz-date-picker>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group requesting-half-leave p-2">
+                                    <div class="d-flex align-items-center justify-content-between " style="padding-top: 2px;">
+                                        <p class="mb-0">Select What do you want to update </p>
+                            
+                                    </div>
+                                    <hr>
+                            
+                                    <div class="row mt-3 mb-2">
+                                        <div class="col-md-6">
+                                            <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"
+                                                    value="option1" checked>
+                                                <p class="form-check-label mb-0" for="exampleRadios1">
+                                                    Update Timing
+                                                </p>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"
+                                                    value="option1" checked>
+                                                <p class="form-check-label mb-0" for="exampleRadios1">
+                                                    New Request
+                                                </p>
+                                            </label>
+                                        </div>
+                                    </div>
+                            
+                                </div>
+                            </div>
+
+
+                            <!-- Update Timing -->
+                            <!-- <div class="col-md-12 mb-3">
+                                <div class="form-group">
+                                    <label for="employeeTypeId" class="mb-2">Type</label>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <nz-form-control>
+                                                <nz-select class="form-control" style="width: 100%" nzSize="large" nzPlaceHolder="Select Type" required>
+                                                    <nz-option [nzValue]="'In '" [nzLabel]="'In '"></nz-option>
+                                                    <nz-option [nzValue]="'Out'" [nzLabel]="'Out'"></nz-option>
+                                                    <nz-option [nzValue]="'Break'" [nzLabel]="'Break'"></nz-option>
+                                                    <nz-option [nzValue]="'Back'" [nzLabel]="'Back'"></nz-option>
+                                                </nz-select>
+                                            </nz-form-control>
+                                        </div>
+                                   
+                                    <div class="col-md-6">
+                                        <div class="d-flex align-items-center gap-2 checkin-time">
+                                            <p class="mb-0 font-13"> Check-in Time</p>
+                                            <span class="calendar-separator"></span>
+                                            <span class="font-12">09:40 AM</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                                </div> -->
+                              
+                                   
+
+                            <!-- <div class="col-md-12 mb-3">
+                                <div class="form-group updated-timing position-relative">
+                                    <label for="employeeTypeId" class="mb-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                            <mask id="mask0_5355_3530" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+                                                <rect width="20" height="20" fill="#D9D9D9" />
+                                            </mask>
+                                            <g mask="url(#mask0_5355_3530)">
+                                                <path
+                                                    d="M9.9987 18.3346C7.84592 18.3346 5.97786 17.6194 4.39453 16.1888C2.8112 14.7582 1.91536 12.9735 1.70703 10.8346H3.39453C3.60286 12.5152 4.3355 13.9076 5.59245 15.0117C6.84939 16.1159 8.31814 16.668 9.9987 16.668C11.8598 16.668 13.4362 16.0221 14.7279 14.7305C16.0195 13.4388 16.6654 11.8624 16.6654 10.0013C16.6654 8.14019 16.0195 6.5638 14.7279 5.27214C13.4362 3.98047 11.8598 3.33464 9.9987 3.33464C8.80425 3.33464 7.69661 3.62977 6.67578 4.22005C5.65495 4.81033 4.84592 5.6263 4.2487 6.66797H6.66537V8.33464H1.83203C2.23481 6.39019 3.20009 4.79297 4.72786 3.54297C6.25564 2.29297 8.01259 1.66797 9.9987 1.66797C11.1515 1.66797 12.2348 1.88672 13.2487 2.32422C14.2626 2.76172 15.1445 3.35547 15.8945 4.10547C16.6445 4.85547 17.2383 5.73741 17.6758 6.7513C18.1133 7.76519 18.332 8.84852 18.332 10.0013C18.332 11.1541 18.1133 12.2374 17.6758 13.2513C17.2383 14.2652 16.6445 15.1471 15.8945 15.8971C15.1445 16.6471 14.2626 17.2409 13.2487 17.6784C12.2348 18.1159 11.1515 18.3346 9.9987 18.3346ZM12.332 13.5013L9.16536 10.3346V5.83464H10.832V9.66797L13.4987 12.3346L12.332 13.5013Z"
+                                                    fill="#444444" />
+                                            </g>
+                                        </svg>
+                                        Updated Timing</label>
+                                    <nz-time-picker formControlName="updatedTime" id="updatedTime" nzFormat="HH:mm" class="w-100" nzPlaceHolder="Enter the new time" >
+                                    </nz-time-picker>
+                                    <span class="updated-timing-input-box">In</span>
+                                </div>
+                            </div> -->
+                            <!-- Update Timing end -->
+
+                         <!-- New Request -->
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group updated-timing">
+                                    <label for="employeeTypeId" class="mb-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                            <mask id="mask0_5355_3530" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20"
+                                                height="20">
+                                                <rect width="20" height="20" fill="#D9D9D9" />
+                                            </mask>
+                                            <g mask="url(#mask0_5355_3530)">
+                                                <path
+                                                    d="M9.9987 18.3346C7.84592 18.3346 5.97786 17.6194 4.39453 16.1888C2.8112 14.7582 1.91536 12.9735 1.70703 10.8346H3.39453C3.60286 12.5152 4.3355 13.9076 5.59245 15.0117C6.84939 16.1159 8.31814 16.668 9.9987 16.668C11.8598 16.668 13.4362 16.0221 14.7279 14.7305C16.0195 13.4388 16.6654 11.8624 16.6654 10.0013C16.6654 8.14019 16.0195 6.5638 14.7279 5.27214C13.4362 3.98047 11.8598 3.33464 9.9987 3.33464C8.80425 3.33464 7.69661 3.62977 6.67578 4.22005C5.65495 4.81033 4.84592 5.6263 4.2487 6.66797H6.66537V8.33464H1.83203C2.23481 6.39019 3.20009 4.79297 4.72786 3.54297C6.25564 2.29297 8.01259 1.66797 9.9987 1.66797C11.1515 1.66797 12.2348 1.88672 13.2487 2.32422C14.2626 2.76172 15.1445 3.35547 15.8945 4.10547C16.6445 4.85547 17.2383 5.73741 17.6758 6.7513C18.1133 7.76519 18.332 8.84852 18.332 10.0013C18.332 11.1541 18.1133 12.2374 17.6758 13.2513C17.2383 14.2652 16.6445 15.1471 15.8945 15.8971C15.1445 16.6471 14.2626 17.2409 13.2487 17.6784C12.2348 18.1159 11.1515 18.3346 9.9987 18.3346ZM12.332 13.5013L9.16536 10.3346V5.83464H10.832V9.66797L13.4987 12.3346L12.332 13.5013Z"
+                                                    fill="#444444" />
+                                            </g>
+                                        </svg>
+                                        Updated Timing</label>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <nz-time-picker formControlName="updatedTime" id="updatedTime" nzFormat="HH:mm" class="w-100"
+                                                    nzPlaceHolder="Enter the new time">
+                                                </nz-time-picker>
+                                                <span class="updated-timing-input">In</span>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <nz-time-picker formControlName="updatedTime" id="updatedTime" nzFormat="HH:mm" class="w-100"
+                                                    nzPlaceHolder="Enter the new time">
+                                                </nz-time-picker>
+                                                <span class="updated-timing-input">Out</span>
+                                            </div>
+                                        </div>
+                                 
+                                </div>
+                            </div>
+                            <!-- New Request end -->
+                           
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
+                                    <label for="employeeTypeId" class="mb-2">Select manager to request for</label>
+                                    <nz-form-control>
+                                        <nz-select class="form-control" style="width: 100%" nzSize="large" nzPlaceHolder="Select manager" required>
+                                            <nz-option [nzValue]="'Rohit Chaturvedi'" [nzLabel]="'Rohit Chaturvedi'"></nz-option>
+                                            <nz-option [nzValue]="'Pushpendra'" [nzLabel]="'Pushpendra'"></nz-option>
+                                            <nz-option [nzValue]="'Anchal Sharma'" [nzLabel]="'Anchal Sharma'"></nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
+                                    <label for="templateName" class="mb-2"> Reason</label>
+                                    <textarea class="form-control nots-section" placeholder="write the reason"
+                                        id="exampleFormControlTextarea1" rows="3"></textarea>
+                                </div>
+                            </div>
+                         
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer d-flex align-items-center justify-content-between">
+                <div class="total-time">
+                    <p class="mb-1">Total Woking hours <i class="bi bi-exclamation-circle"></i></p>
+                    <h3>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="21" viewBox="0 0 18 21" fill="none">
+                            <path
+                                d="M6 2V0H12V2H6ZM8 13H10V7H8V13ZM9 21C7.76667 21 6.60417 20.7625 5.5125 20.2875C4.42083 19.8125 3.46667 19.1667 2.65 18.35C1.83333 17.5333 1.1875 16.5792 0.7125 15.4875C0.2375 14.3958 0 13.2333 0 12C0 10.7667 0.2375 9.60417 0.7125 8.5125C1.1875 7.42083 1.83333 6.46667 2.65 5.65C3.46667 4.83333 4.42083 4.1875 5.5125 3.7125C6.60417 3.2375 7.76667 3 9 3C10.0333 3 11.025 3.16667 11.975 3.5C12.925 3.83333 13.8167 4.31667 14.65 4.95L16.05 3.55L17.45 4.95L16.05 6.35C16.6833 7.18333 17.1667 8.075 17.5 9.025C17.8333 9.975 18 10.9667 18 12C18 13.2333 17.7625 14.3958 17.2875 15.4875C16.8125 16.5792 16.1667 17.5333 15.35 18.35C14.5333 19.1667 13.5792 19.8125 12.4875 20.2875C11.3958 20.7625 10.2333 21 9 21ZM9 19C10.9333 19 12.5833 18.3167 13.95 16.95C15.3167 15.5833 16 13.9333 16 12C16 10.0667 15.3167 8.41667 13.95 7.05C12.5833 5.68333 10.9333 5 9 5C7.06667 5 5.41667 5.68333 4.05 7.05C2.68333 8.41667 2 10.0667 2 12C2 13.9333 2.68333 15.5833 4.05 16.95C5.41667 18.3167 7.06667 19 9 19Z"
+                                fill="#6666F2" />
+                        </svg>
+                        10:00:00</h3>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <button type="button" class="btn cancel-btn mt-0" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn submitActionBtn">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#overtimeRequest"> 
+      Overtime request
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="overtimeRequest" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Overtime request</h5>
+                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="24" height="24">
+                            <rect width="24" height="24" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_5037_2014)">
+                            <path
+                                d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+                                fill="black" />
+                        </g>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="assets-request-form">
+                    <form>
+                        <div class="row register-form-box">
+                            <!-- New Request -->
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group updated-over-timing">
+                                    <label for="employeeTypeId" class="mb-2">
+                                    Pick up the date and time:</label>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <nz-time-picker formControlName="updatedTime" id="updatedTime"
+                                                nzFormat="HH:mm" class="w-100" nzPlaceHolder="Start Date">
+                                            </nz-time-picker>
+                                            <span class="updated-timing-input">Start Date</span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <nz-time-picker formControlName="updatedTime" id="updatedTime"
+                                                nzFormat="HH:mm" class="w-100" nzPlaceHolder="End Date">
+                                            </nz-time-picker>
+                                            <span class="updated-timing-input">End Date</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- New Request end -->
+
+                            <div class="col-md-12 mb-3">
+                                <!-- TO-DO apply on active class="active-overtime" -->
+                                <div class="d-flex align-items-center gap-2 overtime-hour ">
+                                    <p class="mb-0 font-13"> Overtime Working Hour</p>
+                                    <span class="calendar-separator"></span>
+                                    <span class="font-13">00:00:00</span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
+                                    <label for="employeeTypeId" class="mb-2">Select manager to request for</label>
+                                    <nz-form-control>
+                                        <nz-select class="form-control" style="width: 100%" nzSize="large"
+                                            nzPlaceHolder="Select manager" required>
+                                            <nz-option [nzValue]="'Rohit Chaturvedi'"
+                                                [nzLabel]="'Rohit Chaturvedi'"></nz-option>
+                                            <nz-option [nzValue]="'Pushpendra'" [nzLabel]="'Pushpendra'"></nz-option>
+                                            <nz-option [nzValue]="'Anchal Sharma'"
+                                                [nzLabel]="'Anchal Sharma'"></nz-option>
+                                        </nz-select>
+                                    </nz-form-control>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
+                                    <label for="templateName" class="mb-2"> Reason</label>
+                                    <textarea class="form-control nots-section" placeholder="write the reason"
+                                        id="exampleFormControlTextarea1" rows="3"></textarea>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer d-flex align-items-center justify-content-between">
+                <div class="total-time">
+                    <p class="mb-1">Total Woking hours <i class="bi bi-exclamation-circle"></i></p>
+                    <h3>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="21" viewBox="0 0 18 21" fill="none">
+                            <path
+                                d="M6 2V0H12V2H6ZM8 13H10V7H8V13ZM9 21C7.76667 21 6.60417 20.7625 5.5125 20.2875C4.42083 19.8125 3.46667 19.1667 2.65 18.35C1.83333 17.5333 1.1875 16.5792 0.7125 15.4875C0.2375 14.3958 0 13.2333 0 12C0 10.7667 0.2375 9.60417 0.7125 8.5125C1.1875 7.42083 1.83333 6.46667 2.65 5.65C3.46667 4.83333 4.42083 4.1875 5.5125 3.7125C6.60417 3.2375 7.76667 3 9 3C10.0333 3 11.025 3.16667 11.975 3.5C12.925 3.83333 13.8167 4.31667 14.65 4.95L16.05 3.55L17.45 4.95L16.05 6.35C16.6833 7.18333 17.1667 8.075 17.5 9.025C17.8333 9.975 18 10.9667 18 12C18 13.2333 17.7625 14.3958 17.2875 15.4875C16.8125 16.5792 16.1667 17.5333 15.35 18.35C14.5333 19.1667 13.5792 19.8125 12.4875 20.2875C11.3958 20.7625 10.2333 21 9 21ZM9 19C10.9333 19 12.5833 18.3167 13.95 16.95C15.3167 15.5833 16 13.9333 16 12C16 10.0667 15.3167 8.41667 13.95 7.05C12.5833 5.68333 10.9333 5 9 5C7.06667 5 5.41667 5.68333 4.05 7.05C2.68333 8.41667 2 10.0667 2 12C2 13.9333 2.68333 15.5833 4.05 16.95C5.41667 18.3167 7.06667 19 9 19Z"
+                                fill="#6666F2" />
+                        </svg>
+                        10:00:00
+                    </h3>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <button type="button" class="btn cancel-btn mt-0" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn submitActionBtn">Submit</button>
+                </div>
             </div>
         </div>
     </div>
