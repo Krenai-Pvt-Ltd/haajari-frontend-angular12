@@ -231,8 +231,12 @@ export class DataService {
       .set('sort_order', sort)
       .set('sort_by', sortBy)
       .set('filter_criteria', filterCriteria);
+    // return this.httpClient.get<any>(
+    //   `${this.baseUrl}/attendance/get-attendance-details-report-by-date`,
+    //   { params }
+    // );
     return this.httpClient.get<any>(
-      `${this.baseUrl}/attendance/get-attendance-details-report-by-date`,
+      `${this.baseUrl}/attendance/attendance-details-report`,
       { params }
     );
   }

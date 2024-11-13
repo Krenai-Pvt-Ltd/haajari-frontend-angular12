@@ -348,12 +348,12 @@
                             [ngClass]="{
                               'in-time-color':
                                 attendanceDetailsResponse.currentStatus ==
-                                'Working',
+                                AttendanceStatus.WORKING,
                               'break-color':
                                 attendanceDetailsResponse.currentStatus ==
-                                  'On Break' ||
+                                AttendanceStatus.ON_BREAK ||
                                 attendanceDetailsResponse.currentStatus ==
-                                  'On Leave',
+                                AttendanceStatus.ON_LEAVE,
                               'out-time-color':
                                 attendanceDetailsResponse.currentStatus ==
                                   'Checked Out' ||
@@ -514,7 +514,7 @@
                               <span>Total Hours </span><span>|</span>
                               <p class="mb-0">
                                 {{
-                                  attendanceDetailsResponse.totalBreakHours
+                                  attendanceDetailsResponse.breakDuration
                                     | durationFormat
                                 }}
                               </p>

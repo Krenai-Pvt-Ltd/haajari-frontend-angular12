@@ -1,5 +1,4 @@
 import {
-  ChangeDetectorRef,
   Component,
   ElementRef,
   OnInit,
@@ -10,9 +9,10 @@ import * as dayjs from 'dayjs';
 import { AttendenceDto } from 'src/app/models/attendence-dto';
 import { HelperService } from 'src/app/services/helper.service';
 import { AdditionalNotes } from 'src/app/models/additional-notes';
-import { AttendanceDetailsResponse } from 'src/app/models/attendance-details-response';
 import { AttendanceLogResponse } from 'src/app/models/attendance-log-response';
 import { Key } from 'src/app/constant/key';
+import { AttendanceStatus } from 'src/app/constant/AttendanceStatusNames';
+
 import { NavigationExtras, Router } from '@angular/router';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { AttendanceDetailsCountResponse } from 'src/app/models/attendance-details-count-response';
@@ -24,6 +24,7 @@ import { OvertimeRequestLogResponse } from 'src/app/models/overtime-request-log-
 import { OvertimeResponseDTO } from 'src/app/models/overtime-response-dto';
 import { AttendanceTimeUpdateResponse } from 'src/app/models/attendance-time-update-response';
 import { constant } from 'src/app/constant/constant';
+import { AttendanceDetailRes } from 'src/app/models/ AttendanceDetailRes';
 
 // import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
 
@@ -89,6 +90,7 @@ export class TimetableComponent implements OnInit {
   readonly Constant = constant;
 
   readonly key = Key;
+  readonly AttendanceStatus=AttendanceStatus;
   ROLE = this.rbacService.getRole();
 
   ADMIN = Key.ADMIN;
@@ -367,7 +369,7 @@ export class TimetableComponent implements OnInit {
     this.networkConnectionErrorForAttendanceDetailsResponse = false;
   }
 
-  attendanceDetailsResponseList: AttendanceDetailsResponse[] = [];
+  attendanceDetailsResponseList: AttendanceDetailRes[]|any[] = [];
   debounceTimer: any;
   getAttendanceDetailsReportByDateMethodCall(debounceTime: number = 300) {
     if (this.debounceTimer) {
@@ -390,6 +392,19 @@ export class TimetableComponent implements OnInit {
           (response) => {
             debugger;
             this.attendanceDetailsResponseList = response.listOfObject;
+            this.attendanceDetailsResponseList.forEach((attendance:AttendanceDetailRes)=>{
+              if(attendance.isAbsent){
+                attendance.currentStatus=AttendanceStatus.ABSENT;
+              }else if(attendance.isWorking){
+                attendance.currentStatus=AttendanceStatus.WORKING;
+              }else if(attendance.isWeekend){
+                attendance.currentStatus=AttendanceStatus.WEEKEND;
+              }else if(attendance.isHoliday){
+                attendance.currentStatus=AttendanceStatus.HOLIDAY;
+              }else if(!attendance.isAbsent){
+                attendance.currentStatus=AttendanceStatus.PRESENT;
+              }
+            })
             // console.log(this.attendanceDetailsResponseList);
             this.total = response.totalItems;
             this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
@@ -418,7 +433,7 @@ export class TimetableComponent implements OnInit {
 
   // breakTimingsList : BreakTimings[] = [];
   getAttendanceDetailsBreakTimingsReportByDateByUserMethodCall(
-    attendanceDetailsResponse: AttendanceDetailsResponse
+    attendanceDetailsResponse: AttendanceDetailRes
   ) {
     // this.toggleChevron(show);
     if (
