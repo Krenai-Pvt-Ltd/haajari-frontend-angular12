@@ -19,13 +19,10 @@
 
     <div class="container-fluid">
 
-      <!-- <div class="col-md-12 mt-3 mb-3" *ngIf="activeTab === 'expensePolicy'" style="border: 1px solid #f5f5f5; padding: 5px;"> -->
       <div class="col-md-12 mt-3 mb-3" *ngIf="activeTab === 'expensePolicy'">
 
         <div class="row mt-2">
-          <!-- <div class="col-md-4 mt-3 mb-3" *ngIf="(!leaveSettingPlaceholder && !isLeaveErrorPlaceholder) || isLoading"> -->
           <div class="col-md-4 mt-3 mb-3">
-            <!-- <div *ngIf="leaveTemplates.length > 0 && !isLoading" class="form-roe-data"> -->
             <div *ngIf="!isLoading" class="form-roe-data">
               <h5>Company Expense</h5>
               <p>This will be displayed on your profile.</p>
@@ -229,12 +226,9 @@
 
               <div class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2">
                 <div class="">
-                  <h6 class="text-truncate mb-0">Leave</h6>
+                  <h6 class="text-truncate mb-0">Expense</h6>
                 </div>
                 <div class="">
-
-                  <!-- <button class="btn btn-primary" (click)="getExpenseType()" data-bs-toggle="modal"
-                        data-bs-target="#createExpense">Create Expense</button> -->
 
                   <a class="add-shift-time-btn" data-bs-toggle="modal" data-bs-target="#createPolicy"
                     (click)="getExpenseType()">
@@ -253,114 +247,7 @@
                 </div>
               </div>
 
-              <!-- <div *ngIf="leaveTemplates.length > 0">
-                          <div class="shift-time p-3 m-3" *ngFor="let newLeaveSetting of leaveTemplates; let i = index">
-                            <div class="">
-                              <div class="d-flex align-items-center justify-content-between">
-                                <div class="d-flex align-items-center gap-3">
-                                  <div class="">
-                                    <span class="automation-rules-icon d-flex align-items-center justify-content-center">
-                                      <img src="assets/images/rule-icon.svg" />
-                                    </span>
-                                  </div>
-                                  <div class="">
-                                    <h6 class="text-truncate mb-0">
-                                      {{ newLeaveSetting?.templateName }}
-                                    </h6>
-                                    <small class="text-muted">Define the leave rules for the employees</small>
-                                  </div>
-                                </div>
-                                <div class="d-flex align-items-center gap-3">
-                                  <div class="d-flex align-items-center gap-3">
-            
-                                    <a href="" data-bs-toggle="modal" data-bs-target="#leavemodal">
-                                      <i class="bi bi-pencil pointer" style="color: #6666f3" (click)="
-                                        getLeaveSettingInformationById(
-                                          newLeaveSetting.id,
-                                          false
-                                        )
-                                      "></i>
-                                    </a>
-                                    <a class="delete-rule" data-bs-toggle="modal" data-bs-target="#delete-leave" (click)="
-                                      getLeaveTemplateOrCategoryId(newLeaveSetting.id, true, newLeaveSetting.leaveAppliedUserCount)
-                                    " *ngIf="!deleteLeaveTemplateLoader(newLeaveSetting.id)">
-                                      <i class="bi bi-trash pointer text-danger"></i>
-                                    </a>
-            
-                                    <div class="dot-opacity-loader" *ngIf="deleteLeaveTemplateLoader(newLeaveSetting.id)">
-                                      <span></span>
-                                      <span></span>
-                                      <span></span>
-                                    </div>
-                                  </div>
-            
-                                  <span class="staff-leave-setting bg-white">Staff - {{ newLeaveSetting.totalEmployees }}</span>
-                                  <span class="automation-rules-toogel-btn pointer" data-bs-toggle="collapse"
-                                    [attr.data-bs-target]="'#multiCollapseExample' + i" role="button"
-                                    [attr.aria-controls]="'multiCollapseExample' + i"
-                                    [attr.aria-expanded]="i == activeIndex ? 'true' : 'false'" (click)="toggleCollapse(i)">
-                                    <i class="bi bi-chevron-down"></i>
-                                  </span>
-                                </div>
-                              </div>
-            
-                              <div class="collapse multi-collapse" [id]="'multiCollapseExample' + i"
-                                [class.show]="activeIndex === i">
-                                <div class="row mt-3">
-                                  <div [ngClass]="{
-                                    'col-md-4':
-                                      newLeaveSetting.leaveTemplateCategoryRes.length > 2,
-                                    'col-md-6':
-                                      newLeaveSetting.leaveTemplateCategoryRes.length == 2,
-                                    'col-md-12':
-                                      newLeaveSetting.leaveTemplateCategoryRes.length == 1
-                                  }" *ngFor="
-                                    let category of newLeaveSetting.leaveTemplateCategoryRes
-                                  ">
-                                    <div class="custom-salary">
-                                      <div class="custom-salary-hedding p-3 d-flex align-items-center justify-content-between">
-                                        <h4 class="mb-0">
-                                          {{ category?.leaveName || "N/A" }}
-                                        </h4>
-                                        <div class="d-flex align-items-center gap-3">
-            
-                                          <i *ngIf="
-                                            newLeaveSetting.leaveTemplateCategoryRes
-                                              .length > 1
-                                          " data-bs-toggle="modal" data-bs-target="#delete-leave" (click)="
-                                            getLeaveTemplateOrCategoryId(category.id, false, newLeaveSetting.leaveAppliedUserCount)
-                                          " class="bi bi-trash pointer text-danger"></i>
-                                        </div>
-                                      </div>
-                                      <div class="custom-salary-para p-3">
-                                        <div class="d-flex align-items-center justify-content-between mb-3">
-                                          <p class="mb-0">Leave Count</p>
-                                          <span style="color: #3f988f">{{
-                                            category?.leaveCount || "N/A"
-                                            }}</span>
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-between mb-3">
-                                          <p class="mb-0">Leave Rule</p>
-                                          <span style="color: #3f988f">{{
-                                            category?.unusedLeaveActionName || "N/A"
-                                            }}</span>
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-between">
-                                          <p class="mb-0">Carry Forward Limit</p>
-                                          <span style="color: #3f988f">{{
-                                            category?.unusedLeaveActionCount || "N/A"
-                                            }}</span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div> -->
-
-
+              <!-- View company expense policy list -->
               <div *ngIf="companyExpensePolicyList.length > 0">
                 <div class="shift-time p-3 m-3" *ngFor="let expensePolicy of companyExpensePolicyList; let i = index">
                   <div class="">
@@ -381,9 +268,8 @@
                       <div class="d-flex align-items-center gap-3">
                         <div class="d-flex align-items-center gap-3">
 
-                          <a href="" data-bs-toggle="modal" data-bs-target="#leavemodal">
-                            <i class="bi bi-pencil pointer" style="color: #6666f3" (click)="
-                                        getExpenseInformationById(expensePolicy.id, false)"></i>
+                          <a href="" data-bs-toggle="modal" data-bs-target="#createPolicy" (click)="getExpenseType()">
+                            <i class="bi bi-pencil pointer" style="color: #6666f3" (click)="getExpenseInformationById(expensePolicy)"></i>
                           </a>
 
                           <a class="delete-rule" data-bs-toggle="modal" data-bs-target="#delete-policy" (click)="
@@ -391,17 +277,6 @@
                             <i class="bi bi-trash pointer text-danger"></i>
                           </a>
 
-                          <!-- <a class="delete-rule" data-bs-toggle="modal" data-bs-target="#delete-leave" (click)="
-                                    getExpensePolicyOrExpensePolicyTypeId(expensePolicy.id, true, 0)
-                                    " *ngIf="!deleteLeaveTemplateLoader(newLeaveSetting.id)">
-                                      <i class="bi bi-trash pointer text-danger"></i>
-                                    </a> -->
-
-                          <!-- <div class="dot-opacity-loader" *ngIf="deleteLeaveTemplateLoader(newLeaveSetting.id)">
-                                      <span></span>
-                                      <span></span>
-                                      <span></span>
-                                    </div> -->
                         </div>
 
                         <span class="staff-leave-setting bg-white">Staff - {{ expensePolicy.totalEmployees }}</span>
@@ -452,12 +327,6 @@
                                   expensePolicyType?.flexibleAmount || "0"}} <span
                                     *ngIf="expensePolicyType.isPercentage == 1">%</span> </span>
                               </div>
-                              <!-- <div class="d-flex align-items-center justify-content-between">
-                                          <p class="mb-0">Carry Forward Limit</p>
-                                          <span style="color: #3f988f">{{
-                                            category?.unusedLeaveActionCount || "N/A"
-                                            }}</span>
-                                        </div> -->
                             </div>
                           </div>
                         </div>
@@ -466,6 +335,7 @@
                   </div>
                 </div>
               </div>
+              <!-- View company expense policy list end -->
 
             </div>
             <!-- Create Leave Template End -->
@@ -477,7 +347,7 @@
 
       </div>
 
-      <!-- Create Company Expense start -->
+      <!-- Create and View Company Expense start -->
 
       <div class="col-md-12 mt-3 mb-3" *ngIf="activeTab === 'allExpense'"
         style="border: 1px solid #f5f5f5; padding: 5px;">
@@ -544,10 +414,6 @@
                               Yet!!</h6>
                           </div>
                         </div>
-                        <!-- <div class="d-flex justify-content-center"
-                                        style="margin-top: -1%; margin-left: 4%; margin-bottom: 5px;">
-                                        <h6>No Expenses Created Yet!!</h6>
-                                      </div> -->
                       </td>
                     </tr>
                   </ng-container>
@@ -596,6 +462,7 @@
         </div>
       </div>
 
+       <!-- Create and View Company Expense start -->
     </div>
   </div>
 </div>
@@ -625,9 +492,7 @@
       </div>
       <div class="modal-body">
         <div class="assets-request-form">
-          <!-- <form #createForm="ngForm" ngNativeValidate (ngSubmit)="createExpense()"> -->
           <form #createForm="ngForm" (ngSubmit)="checkExpensePolicy(createForm)">
-            <!-- <form #createForm="ngForm" ngNativeValidate (ngSubmit)="validatePolicyToggle ? checkExpensePolicy() : createExpense()"> -->
             <div class="row register-form-box">
               <div class="col-md-12 mb-3">
                 <div class="form-group">
@@ -882,12 +747,8 @@
               <p>
                 {{ userExpense.expenseType }}
               </p>
-              <!-- <p>
-                                {{userExpense.createdDate | date : "dd MMM yyyy hh:mm:ss a"}}
-                            </p> -->
               <a *ngIf="userExpense.slipUrl != null" [href]="userExpense.slipUrl" target="_blank"
                 rel="noopener noreferrer">View slip <i class="fas fa-external-link-square-alt me-1"></i></a>
-              <!-- <p>Applied To : {{ specificLeaveRequest.managerName }}</p> -->
             </div>
           </div>
           <div class="mt-4">
@@ -903,49 +764,15 @@
 
               <div class="">
                 <p class="mb-0" class="fs-5 mb-0 text-black">{{ userExpense.amount }}</p>
-                <!-- <span class="total-holiday">Approved</span> -->
               </div>
-
-              <!-- <div class="Approved">
-                                <p class="mb-0">{{ specificLeaveRequest.approved }}</p>
-                                <span class="total-holiday">Approved</span>
-                            </div>
-                            <div class="Approved pending-css">
-                                <p class="mb-0">{{ specificLeaveRequest.applied }}</p>
-                                <span class="total-holiday">Pending</span>
-                            </div>
-                            <div class="Approved remaining-css">
-                                <p class="mb-0">{{ specificLeaveRequest.remainingQuota }}</p>
-                                <span class="total-holiday">Remaining</span>
-                            </div> -->
             </div>
 
-            <!-- <div *ngIf="userExpense.amount > userExpense.limitAmount" class="alert bg-soft-warning border"> -->
             <div *ngIf="userExpense.limitAmount != null && userExpense.amount > userExpense.limitAmount"
               class="alert bg-soft-warning mt-3 ng-star-inserted" style="height: 41px; padding: 8px;">
               This Expense is valid for amount: {{userExpense.limitAmount}}
             </div>
 
             <p class="mt-4 mb-4">{{ userExpense.notes }}</p>
-
-
-            <!-- <div class="row mb-3">
-                            <div class="align-items-center col-md-4 d-flex justify-content-start">
-                              <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                <label class="form-check-label fw-normal" for="flexCheckDefault">
-                                  Partially Payment
-                                </label>
-                              </div>
-                            </div>
-                          
-                            <div class="col-md-8">
-                              <input type="number" required min="1" id="amount" name="amount"
-                                     placeholder="Enter Amount" class="form-control"
-                                     [(ngModel)]="expenseTypeReq.amount" #amountInput="ngModel" />
-                            </div>
-                          </div> -->
-
             <div class="row mb-3">
               <!-- Checkbox in Column 4 -->
               <div class="align-items-center col-md-4 d-flex justify-content-start">
@@ -970,17 +797,8 @@
                   style="color: red !important;"> Flexible amount should be less from expense amount</p>
               </div>
 
-              <!-- <p *ngIf="partialAmount > userExpense.amount" class="text-danger"> Flexible amount should be less from expense amount</p> -->
-
             </div>
 
-
-            <!-- <div class="mb-3" style="text-align: left">
-                            <a class="text-primary" *ngIf="specificLeaveRequest.docFileLink != null" (click)="downloadSingleImage(specificLeaveRequest.docFileLink)">
-                                Declaration <i class="bi bi-arrow-down"></i>
-                            </a>
-                        </div> -->
-            <!-- <div class="d-flex align-items-center justify-content-end" style="gap: 10px" *ngIf="specificLeaveRequest.managerUuid === logInUserUuid || ROLE == 'ADMIN'"> -->
             <div class="d-flex align-items-center justify-content-end" style="gap: 10px">
               <!-- Approve Button -->
               <button class="btn approve-btn" type="button"
@@ -1054,158 +872,6 @@
           <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="shiftime" role="tabpanel"
               [class.show]="activeTab === 'expensePolicy'" [class.active]="activeTab === 'expensePolicy'">
-
-              <!-- <form #shiftForm="ngForm" ngNativeValidate (ngSubmit)="submitExpensePolicy()">
-                                <div class="row p-3">
-
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="policyNameInput" class="pb-2">Policy Name</label>
-                                            <input [disabled]="tempPolicyName != ''" type="text" class="form-control whatapp-login-input"
-                                                id="policyNameInput" placeholder="Enter policy name" required
-                                                [(ngModel)]="policyName" name="policyNameInput" />
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                            <div class="form-field">
-                                            <label for="expenseTypeDropdown" class="pb-2">Expense Type</label>
-                                            <div class="dropdown">
-                                                <button class="btn btn-secondary dropdown-toggle new-dropdown"
-                                                        type="button" id="expenseTypeDropdown" data-bs-toggle="dropdown"
-                                                        aria-expanded="false" style="text-align: left; background-color: white; color: black;
-                                                                                    border-color: #ced4da; width: 100%;">
-                                                {{ expenseTypeName || "Select Expense type" }}
-                                                <i class="bi bi-chevron-down"></i>
-                                                </button>
-                                        
-                                                <ul class="dropdown-menu" aria-labelledby="expenseTypeDropdown" style="width: 100%">
-                                                <li *ngFor="let expense of expenseTypeList">
-                                                    <a class="dropdown-item" (click)="selectExpenseType(expense)">
-                                                    {{ expense.name }}
-                                                    </a>
-                                                </li>
-                                                </ul>
-                                            </div>
-                                            </div>
-
-                                            </div>
-                                        
-                                            <div *ngIf="isExpenseTypeSelected" class="mt-3">
-                                            <label>Payment Type</label>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="paymentType" id="fixed" value="fixed" 
-                                                    [(ngModel)]="paymentType" (change)="onPaymentTypeChange(0)">
-                                                <label class="form-check-label" for="fixed">Fixed</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="paymentType" id="flexible" value="flexible"
-                                                    [(ngModel)]="paymentType" (change)="onPaymentTypeChange(1)">
-                                                <label class="form-check-label" for="flexible">Flexible</label>
-                                            </div>
-                                        
-                                            <div *ngIf="paymentType === 'flexible'" class="mt-2">
-                                                <input type="number" class="form-control" placeholder="Enter Amount" id="amountFlex" name="amountFlex" [(ngModel)]="flexibleAmount">
-                                            </div>
-                                            </div>
-
-                                        <button type="button" class="btn btn-primary mt-2" (click)="addExpensePolicy()">
-                                            Add
-                                        </button>
-  
-
-                                    <div class="table-responsive bg-white mt-4 leave-category-list" *ngIf="expensePolicyReqList.length > 0">
-                                        <table class="table empOnnoardtable">
-                                          <thead class="thead-light">
-                                            <tr>
-                                              <th class="text-center" style="width: 5%">
-                                                Sr. No
-                                              </th>
-                                              <th class="text-center" style="width: 10%">
-                                                Expense Type
-                                              </th>
-                                              <th class="text-center" style="width: 10%">
-                                                Payment Type
-                                              </th>
-                                              <th class="text-center" style="width: 10%">
-                                                Amount
-                                              </th>
-                                              <th *ngIf="!updateToggle" class="text-center" style="width: 10%">
-                                                Action
-                                              </th>
-                                            </tr>
-                                          </thead>
-        
-                                          <tbody class="">
-                                            <tr class="" *ngFor="let expensePolicy of expensePolicyReqList; let i = index">
-                                              <td class="text-center">
-                                                <span class="teme-maneger mb-0 table-font-weight">
-                                                  {{ i + 1 }}.
-                                                </span>
-                                              </td>
-
-                                              <td class="text-center">
-                                                <span class="teme-maneger mb-0 table-font-weight">
-                                                  {{ expensePolicy.expenseTypeName }}
-                                                </span>
-                                              </td>
-
-                                              <td class="text-center">
-                                                <div class="badge rounded-pill" 
-                                                    [ngClass]="{
-                                                    'badge-soft-primary': expensePolicy.paymentType == 0,
-                                                    'badge-soft-warning': expensePolicy.paymentType == 1
-                                                    }">
-                                                    {{ expensePolicy.paymentType === 0 ? 'Fixed' : 'Flexible' }}
-                                                </div>
-
-                                              </td>
-                                              <td class="text-center">
-                                                <span class="teme-maneger mb-0">
-                                                  {{ expensePolicy.limitAmount }}
-                                                </span>
-                                              </td>
-        
-                                              <td  class="text-center">
-                                                <div class="d-flex align-items-center gap-2">
-                                                  <button (click)="editExpensePolicy(i)" type="button" class="btn btnAction p-0">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19"
-                                                      viewBox="0 0 19 19" fill="none">
-                                                      <mask id="mask0_4127_1895" style="mask-type: alpha"
-                                                        maskUnits="userSpaceOnUse" x="0" y="0" width="19" height="19">
-                                                        <rect width="18.8342" height="18.8342" fill="#444444" />
-                                                      </mask>
-                                                      <g mask="url(#mask0_4127_1895)">
-                                                        <path
-                                                          d="M3.92372 14.9177H4.91369L12.9469 6.88448L11.9569 5.89451L3.92372 13.9277V14.9177ZM2.74658 16.0948V13.4388L13.0979 3.09194C13.2166 2.98417 13.3476 2.90092 13.4909 2.84219C13.6344 2.78333 13.7848 2.75391 13.9421 2.75391C14.0995 2.75391 14.2519 2.78183 14.3993 2.83768C14.5468 2.89353 14.6774 2.98234 14.791 3.1041L15.7494 4.07446C15.8712 4.18812 15.958 4.31891 16.0098 4.46684C16.0616 4.61476 16.0875 4.76269 16.0875 4.91062C16.0875 5.06848 16.0605 5.21909 16.0066 5.36244C15.9528 5.50592 15.867 5.63698 15.7494 5.75561L5.4026 16.0948H2.74658ZM12.4432 6.39813L11.9569 5.89451L12.9469 6.88448L12.4432 6.39813Z"
-                                                          fill="#444444" />
-                                                      </g>
-                                                    </svg>
-                                                  </button>
-        
-                                                  <button (click)="deleteExpensePolicy(i)" type="button" class="btn btnAction p-0">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19"
-                                                      viewBox="0 0 19 19" fill="none">
-                                                      <mask id="mask0_4127_1892" style="mask-type: alpha"
-                                                        maskUnits="userSpaceOnUse" x="0" y="0" width="19" height="19">
-                                                        <rect x="0.165527" y="0.140625" width="18.8342" height="18.8342"
-                                                          fill="#D9D9D9" />
-                                                      </mask>
-                                                      <g mask="url(#mask0_4127_1892)">
-                                                        <path
-                                                          d="M5.90067 16.2346C5.50934 16.2346 5.17503 16.096 4.89775 15.8189C4.6206 15.5416 4.48202 15.2073 4.48202 14.816V4.85563H3.69727V3.67849H7.22868V2.98438H11.9372V3.67849H15.4686V4.85563H14.6839V14.816C14.6839 15.2124 14.5465 15.548 14.2719 15.8226C13.9972 16.0973 13.6617 16.2346 13.2652 16.2346H5.90067ZM13.5067 4.85563H5.65916V14.816C5.65916 14.8865 5.68179 14.9443 5.72704 14.9896C5.7723 15.0349 5.83017 15.0575 5.90067 15.0575H13.2652C13.3257 15.0575 13.381 15.0323 13.4312 14.982C13.4816 14.9317 13.5067 14.8764 13.5067 14.816V4.85563ZM7.54572 13.488H8.72266V6.42515H7.54572V13.488ZM10.4432 13.488H11.6202V6.42515H10.4432V13.488Z"
-                                                          fill="#FF0000" />
-                                                      </g>
-                                                    </svg>
-                                                  </button>
-                                                </div>
-                                              </td>
-                                            </tr>
-                                          </tbody>
-                                        </table>
-                                      </div>
-                                </div>
-                            </form> -->
 
               <form #shiftForm="ngForm" ngNativeValidate (ngSubmit)="submitExpensePolicy()">
                 <div class="row p-3">
@@ -1357,8 +1023,9 @@
                         </td>
                         <td class="text-center">{{ expensePolicy.amount }}</td>
                         <td class="text-center">{{ expensePolicy.limitAmount }} <span
-                            *ngIf="expensePolicy.isPercentage == 1 && expensePolicy.isFixed === 'fixed'">%</span> </td>
-                        <td class="text-center">
+                            *ngIf="expensePolicy.isPercentage == 1 && expensePolicy.limitAmount > 0 && expensePolicy.isFixed === 'fixed'">%</span> </td>
+
+                        <td *ngIf="!updateToggle" class="text-center">
                           <div class="d-flex align-items-center gap-2">
                             <!-- <button (click)="editExpensePolicy(i)" type="button" class="btn btnAction p-0">Edit</button> -->
                             <button (click)="editExpensePolicy(i)" type="button" class="btn btnAction p-0">
@@ -1393,6 +1060,7 @@
                             </button>
                           </div>
                         </td>
+
                       </tr>
                     </tbody>
                   </table>
@@ -1402,7 +1070,6 @@
 
 
               <div class="modal-footer d-flex align-items-center justify-content-between">
-                <!-- <button type="submit" class="btn btn-outline-primary btn-round" [disabled]="shiftForm.invalid" (click)="staffActiveTabInShiftTimingMethod()"> -->
                 <button type="submit" class="btn btn-outline-primary btn-round"
                   [disabled]="expensePolicyReqList.length == 0" (click)="staffActiveTabInShiftTimingMethod()">
                   Next
@@ -1530,20 +1197,6 @@
                   </div>
                 </div>
               </div>
-
-              <!-- old working <div class="modal-footer d-flex align-items-center justify-content-between">
-                <button *ngIf="!registerToggle" type="button" class="btn btn-outline-primary btn-round"
-                  (click)="registerCompanyExpense(shiftForm)"
-                  [disabled]="selectedStaffIdsUser.length == 0 || registerToggle">
-                  Submit
-                </button>
-
-                <div class="dot-opacity-loader" *ngIf="registerToggle">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
-              </div> -->
 
               <div class="modal-footer d-flex align-items-center justify-content-between">
                 <button *ngIf="!userMappedLoading" type="button" class="btn btn-outline-primary btn-round"
@@ -1730,21 +1383,10 @@
           </label>
         </div>
         <div class="d-flex align-items-center justify-content-end gap-3 mt-3">
-          <!-- <button class="btn submit-add-more">Cancel</button> -->
 
           <button class="btn submit-add-more d-none" data-bs-dismiss="modal" aria-label="Close" #closeButton2>
             Cancel
           </button>
-          
-          <!-- <button class="btn mannualSubmit" [disabled]="!isValidated" (click)="registerCompanyExpense(shiftForm)">
-            <span *ngIf="!registerToggle1">Add all</span>
-            <div class="dot-opacity-loader-new" *ngIf="registerToggle1">
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-          </button> -->
-
 
           <div>
             <button *ngIf="!registerToggle" type="button" class="btn mannualSubmit"

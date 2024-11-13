@@ -365,7 +365,7 @@ export class CreateExpenseComponent implements OnInit {
   isAllSelected: boolean = false;
   totalUserCount: number = 0;
   staffLoading: boolean = false;
-  getUserByFiltersMethodCall() {
+  getUserByFiltersMethodCall1() {
     debugger;
     // this.staffs = [];
     this.staffLoading = true;
@@ -391,6 +391,47 @@ export class CreateExpenseComponent implements OnInit {
           console.error(error);
         }
       );
+  }
+
+  getUserByFiltersMethodCall(){
+    debugger
+      this.selectedStaffIds = [];
+      this.staffLoading = true;
+
+      this.dataService.getUsersByFilter(this.databaseHelper.itemPerPage ,this.databaseHelper.currentPage ,'asc', 'id',this.searchText,'',this.selectedTeamId)
+        .subscribe(
+          (response) => {
+
+            this.staffs = response.users;
+
+            if (this.staffs != undefined) {
+              this.staffs.forEach((staff, index) => {
+                staff.checked = this.selectedStaffIdsUser.includes(staff.id);
+              });
+            } else {
+              this.staffs = []
+            }
+
+            this.total = response.count;
+
+            this.isAllSelected = this.staffs.every((staff) => staff.selected);
+
+            if (this.selectedTeamId == 0 && this.searchText == '') {
+              this.totalUserCount = response.count;
+            }
+            this.total = response.count;
+            this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+            this.pageNumber = Math.min(this.pageNumber, this.lastPageNumber);
+            this.isAllSelected = this.staffs.every((staff) => staff.selected);
+            this.staffLoading = false
+
+            // console.log('staffs: ', this.staffs)
+          },
+          (error) => {
+            console.error(error);
+          }
+        );
+
   }
 
   searchUsers() {
@@ -554,13 +595,15 @@ export class CreateExpenseComponent implements OnInit {
     if (event.checked) {
       this.allselected = false;
 
-      this.deSelectedStaffIdsUser.push(event.id)
+      if(this.updateToggle){
+        this.deSelectedStaffIdsUser.push(event.id)
+      }
 
       this.staffs[i].checked = false;
       var index = this.selectedStaffIdsUser.indexOf(event.id);
       this.selectedStaffIdsUser.splice(index, 1);
 
-      console.log('deSelectedStaffIdsUser: ', this.deSelectedStaffIdsUser)
+      // console.log('deSelectedStaffIdsUser: ', this.deSelectedStaffIdsUser)
 
       if (this.selectedStaffIdsUser.length == 0 && this.showMappedUserToggle) {
         this.showAllUser();
@@ -581,7 +624,7 @@ export class CreateExpenseComponent implements OnInit {
         this.allselected = true;
       }
 
-      console.log('selectedIds: ', this.selectedStaffIdsUser)
+      // console.log('selectedIds: ', this.selectedStaffIdsUser)
       // console.log('del: ', this.deSelectedStaffIdsUser)
     }
 
@@ -610,6 +653,7 @@ export class CreateExpenseComponent implements OnInit {
   databaseHelper: DatabaseHelper = new DatabaseHelper();
   totalItems: number = 0;
   pageChanged(page: any) {
+    this.allselected = false;
     if (page != this.databaseHelper.currentPage) {
       this.databaseHelper.currentPage = page;
       this.getUserByFiltersMethodCall();
@@ -813,6 +857,7 @@ export class CreateExpenseComponent implements OnInit {
     if(this.isMappedUserModalOpen){
       this.companyExpenseReq.policyName = this.tempCompanyExpenseReq.policyName;
       this.companyExpenseReq.expensePolicyList = this.tempCompanyExpenseReq.expensePolicyList
+      // this.companyExpenseReq.expensePolicyList = this.tempExpensePolicyReqList
       this.companyExpenseReq.selectedUserIds = this.tempCompanyExpenseReq.selectedUserIds;
       this.companyExpenseReq.deSelectedUserIds = this.tempCompanyExpenseReq.deSelectedUserIds;
 
@@ -823,7 +868,33 @@ export class CreateExpenseComponent implements OnInit {
       this.companyExpenseReq.deSelectedUserIds = this.deSelectedStaffIdsUser;
     }
 
+    if(this.updateToggle){
+      this.companyExpenseReq.id = this.companyExpensePolicyId
+      this.companyExpenseReq.policyName = this.pName
+    }
+
     // console.log('Create: ',this.companyExpenseReq)
+    //      this.closeExpensePolicyModal.nativeElement.click()
+    //     form.resetForm()
+    //     this.clearPolicyForm();
+    //     this.getAllCompanyExpensePolicy()
+    //     this.resetThresholdOptions()
+    //     this.registerToggle = false
+    //     this.userMappedLoading = false;
+    //     this.updateToggle = false;
+    //     this.isValidated = false;
+
+    //     this.companyExpensePolicyId = 0
+    //     this.policyName = ''
+    //     this.tempPolicyName = ''
+    //     if(this.isMappedUserModalOpen){
+    //       this.usersAlreadyAssigned?.nativeElement.click();
+    //       this.isMappedUserModalOpen = false
+    //       this.tempCompanyExpenseReq = new CompanyExpense();
+    //     }
+    //     this.helperService.showToast('created', Key.TOAST_STATUS_SUCCESS);
+
+    
     this.dataService.createExpensePolicy(this.companyExpenseReq).subscribe((res: any) => {
       if(res.status){
         this.closeExpensePolicyModal.nativeElement.click()
@@ -833,10 +904,17 @@ export class CreateExpenseComponent implements OnInit {
         this.resetThresholdOptions()
         this.registerToggle = false
         this.userMappedLoading = false;
+        this.updateToggle = false;
         this.isValidated = false;
+        this.companyExpensePolicyId = 0
+        this.companyExpenseReq.id = 0
+        this.policyName = ''
+        this.tempPolicyName = ''
+        this.pName = ''
         if(this.isMappedUserModalOpen){
           this.usersAlreadyAssigned?.nativeElement.click();
           this.isMappedUserModalOpen = false
+          this.tempCompanyExpenseReq = new CompanyExpense();
         }
         this.helperService.showToast(res.message, Key.TOAST_STATUS_SUCCESS);
       }
@@ -846,7 +924,7 @@ export class CreateExpenseComponent implements OnInit {
 
   clearPolicyForm(){
     this.companyExpenseReq = new CompanyExpense();
-    this.tempCompanyExpenseReq = new CompanyExpense();
+    // this.tempCompanyExpenseReq = new CompanyExpense();
 
     this.expensePolicyReqList = []
     this.selectedStaffIdsUser = []
@@ -860,6 +938,7 @@ export class CreateExpenseComponent implements OnInit {
     this.tempPolicyName = ''
     this.paymentType = ''; 
     this.flexibleAmount = null; 
+    // this.companyExpensePolicyId = 0
     this.expenseTypeSelectionTab();
 
   }
@@ -965,9 +1044,9 @@ export class CreateExpenseComponent implements OnInit {
     })
   }
 
-  getExpenseInformationById(id: number, flag: boolean){
+  // getExpenseInformationById(id: number, flag: boolean){
 
-  }
+  // }
 
   
   thresholdType: string | null = null; 
@@ -1009,21 +1088,6 @@ export class CreateExpenseComponent implements OnInit {
 
   userNameWithBranchName: any[] = new Array();
   @ViewChild("closeButton") closeButton!:ElementRef;
-  // getOrganizationUserNameWithBranchNameData(addressId : number, type:string) {
-  //   this.dataService.getOrganizationUserNameWithBranchName(this.selectedStaffsUuids, addressId).subscribe(
-  //     (response) => {
-  //       this.userNameWithBranchName = response.listOfObject;
-  //       if( this.userNameWithBranchName.length <1 && type == "SHIFT_USER_EDIT") {
-  //         this.isAllSelected = false;
-  //         this.isAllUsersSelected = false;
-  //         this.closeButton.nativeElement.click();
-  //       }
-  //     },
-  //     (error) => {
-  //       console.log('error');
-  //     }
-  //   );
-  // }
 
   @ViewChild('usersAlreadyAssigned') usersAlreadyAssigned!: ElementRef
   tempSelectedStaffIdsUser: number[] = [];
@@ -1031,21 +1095,23 @@ export class CreateExpenseComponent implements OnInit {
   userMappedLoading: boolean = false;
 
   tempCompanyExpenseReq: CompanyExpense = new CompanyExpense();
+  tempExpensePolicyReqList: ExpensePolicy[] = [];
+  pName: string = ''
   getUserMappedWithPolicy(form: NgForm){
     debugger
     this.userMappedLoading = true;
     this.userNameWithBranchName = []
-    this.dataService.getUserMappedWithPolicy(this.selectedStaffIdsUser).subscribe((response: any) => {
+    this.dataService.getUserMappedWithPolicy(this.selectedStaffIdsUser, this.companyExpensePolicyId).subscribe((response: any) => {
 
       if(response.status){
         this.userNameWithBranchName = response.object;
         this.tempSelectedStaffIdsUser = this.selectedStaffIdsUser
 
         // Add temp request for create expense
+        // this.tempExpensePolicyReqList = this.expensePolicyReqList
+        this.pName = this.policyName
       this.tempCompanyExpenseReq.policyName = this.tempPolicyName;
       this.tempCompanyExpenseReq.expensePolicyList = this.expensePolicyReqList
-      // this.tempCompanyExpenseReq.selectedUserIds = this.selectedStaffIdsUser;
-      // this.tempCompanyExpenseReq.deSelectedUserIds = this.deSelectedStaffIdsUser;
 
       }
 
@@ -1060,8 +1126,6 @@ export class CreateExpenseComponent implements OnInit {
           // console.log('Going to create..')
           this.registerCompanyExpense(form);
         }
-
-        // this.userMappedLoading = false;
        
       },
       (error) => {
@@ -1075,6 +1139,8 @@ export class CreateExpenseComponent implements OnInit {
   removeUser(userId: number) {
     debugger
     this.deSelectedStaffIdsUser = []
+
+    console.log('temp req: ',this.tempCompanyExpenseReq)
 
     this.tempSelectedStaffIdsUser = this.tempSelectedStaffIdsUser.filter(
       (id) => id != userId
@@ -1102,6 +1168,119 @@ export class CreateExpenseComponent implements OnInit {
 
 
   /** User already mapped end */
+
+
+  getExpenseInformationById1(companyExpense: CompanyExpensePolicyRes){
+
+      debugger
+      this.updateToggle = true;
+      this.expensePolicyReq = new ExpensePolicy()
+
+      console.log('expense obj: ',companyExpense)
+
+      // const item = this.expensePolicyReqList[index];
+  
+      // console.log('update item: ',item)
+      
+      // const defaultExpenseType = this.getDefaultExpenseType(companyExpense.companyExpensePolicyTypeRes.expenseTypeId);
+
+      // this.expensePolicyReqList = companyExpense.companyExpensePolicyTypeRes;
+
+
+      companyExpense.companyExpensePolicyTypeRes.forEach((expenseType: any) => {
+        this.expensePolicyReq.paymentType = expenseType.isFlexibleAmount
+        this.expensePolicyReq.limitAmount = expenseType.flexibleAmount == null ? 0 : expenseType.flexibleAmount
+        this.expensePolicyReq.expenseTypeId = expenseType.expenseTypeId
+        this.expensePolicyReq.expenseTypeName = expenseType.expenseTypeName
+        this.expensePolicyReq.amount = Number(expenseType.amount)
+  
+        // this.expensePolicyReq.isPercent = this.thresholdType == null ? '' : this.thresholdType
+        // this.expensePolicyReq.isThresold = this.isThresholdSelected
+        // this.expensePolicyReq.isFixed = this.paymentType
+        this.expensePolicyReq.isPercentage = expenseType.isPercentage
+        // this.expensePolicyReq.isPercentage = (this.thresholdType === 'value' ? 0 : 1 )
+
+        this.expensePolicyReqList.push(this.expensePolicyReq)
+      })
+
+      console.log('expensePolicyReqList: ',this.expensePolicyReqList)
+
+      this.staffs.forEach((staff, index) => {
+        // this.staffs[index].checked = true;
+        staff.checked = companyExpense.userIds.includes(staff.id);
+      });
+
+      companyExpense.userIds.forEach((id: number) => {
+        this.selectedStaffIdsUser.push(id)
+
+      });
+      
+      this.policyName = companyExpense.policyName
+
+      // set expense type end
+      
+      // this.selectExpenseType(defaultExpenseType)
+      // this.expensePolicyReq.paymentType = item.paymentType
+      // this.expensePolicyReq.limitAmount = item.limitAmount
+      // this.expensePolicyReq.expenseTypeId = item.expenseTypeId
+      // this.policyAmount = item.amount.toString()
+
+      // this.flexibleAmount = item.limitAmount
+  
+      // this.paymentType = item.isFixed
+      // this.thresholdType = item.isPercent
+      // this.isThresholdSelected = item.isThresold
+
+      // this.updateToggle = false;
+  
+      console.log('update expensePolicyReq: ',this.expensePolicyReq)
+  }
+
+  companyExpensePolicyId: number = 0;
+  getExpenseInformationById(companyExpense: CompanyExpensePolicyRes){
+
+    debugger
+    this.updateToggle = true;
+    this.companyExpensePolicyId = companyExpense.id
+
+    this.expensePolicyReq = new ExpensePolicy()
+    this.expensePolicyReqList = []
+
+    // console.log('expense obj: ',companyExpense)
+
+    companyExpense.companyExpensePolicyTypeRes.forEach((expenseType: any) => {
+      // Create a new instance for each `expenseType` to avoid reference issues
+      const expensePolicyReq = {
+        paymentType: expenseType.isFlexibleAmount,
+        limitAmount: expenseType.flexibleAmount == null ? 0 : expenseType.flexibleAmount,
+        expenseTypeId: expenseType.expenseTypeId,
+        expenseTypeName: expenseType.expenseTypeName,
+        amount: Number(expenseType.amount),
+        isPercentage: expenseType.isPercentage,
+        isThresold: false,
+        isFixed: (expenseType.isFlexibleAmount == 1 ? 'fixed' : ''),
+        isPercent: ''
+      };
+    
+      // Push the new object into the list
+      this.expensePolicyReqList.push(expensePolicyReq);
+    });
+
+    // console.log('type list: ',this.expensePolicyReqList)
+
+    this.staffs.forEach((staff) => {
+      staff.checked = companyExpense.userIds.includes(staff.id);
+    });
+
+    companyExpense.userIds.forEach((id: number) => {
+      this.selectedStaffIdsUser.push(id)
+
+    });
+    
+    this.policyName = companyExpense.policyName
+
+    // console.log('update expensePolicyReq: ',this.expensePolicyReq)
+}
 
 
 }

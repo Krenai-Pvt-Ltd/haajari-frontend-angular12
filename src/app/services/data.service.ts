@@ -4320,8 +4320,12 @@ getHolidayForOrganization(date: string): Observable<any>{
     });
   }
 
-  getUserMappedWithPolicy(selectedUserIds: any) {
+  getUserMappedWithPolicy(selectedUserIds: any, companeExpensePolicyId: number) {
     let params = new HttpParams().set('selectedUserIds', selectedUserIds);
+
+    if(companeExpensePolicyId > 0){
+      params = params.set('companyExpensePolicyId',companeExpensePolicyId)
+    }
 
     return this.httpClient.get<any>(
       `${this.baseUrl}/user_company_expense_type_policy_mapping`, {params}
