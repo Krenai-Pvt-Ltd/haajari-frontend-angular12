@@ -81,7 +81,6 @@ import { OnboardingModule } from '../models/OnboardingModule';
 import { AddressModeTypeRequest } from '../models/address-mode-type-request';
 import { ExpenseType } from '../models/ExpenseType';
 import { CompanyExpense } from '../models/CompanyExpense';
-import { UserPositionDTO } from '../models/user-position.model';
 import { DatabaseHelper } from '../models/DatabaseHelper';
 import { ApproveReq } from '../models/ApproveReq';
 
@@ -492,12 +491,6 @@ export class DataService {
 
   getAllUserUuids(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/users/get/all/uuids`);
-  }
-  saveUserPosition(userPositionDTO: any): Observable<any> {
-    return this.httpClient.post<any>(`${this.baseUrl}/user-positions/promote`, userPositionDTO);
-  }
-  getUserPositionsByUserId(userId: string): Observable<UserPositionDTO[]> {
-    return this.httpClient.get<UserPositionDTO[]>(`${this.baseUrl}/user-positions/user-positions/${userId}`);
   }
 
   changeStatusById(presenceStatus: Boolean, userUuid: string): Observable<any> {
@@ -2263,20 +2256,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
-  updateSalaryCalculationMode(
-    salaryCalculationModeId: number
-  ): Observable<any> {
-    const params = new HttpParams().set(
-      'salary_calculation_mode_id',
-      salaryCalculationModeId
-    );
-
-    return this.httpClient.put<any>(
-      `${this.baseUrl}/salary/calculation/mode/update`,
-      {},
-      { params }
-    );
-  }
+  
 
   getPFContributionRate(): Observable<any> {
     return this.httpClient.get<any>(
@@ -2312,9 +2292,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
-  getAllStatutories(): Observable<any> {
-    return this.httpClient.get<any>(`${this.baseUrl}/statutory/get/all`);
-  }
+  
 
   enableOrDisableStatutory(
     statutoryRequest: StatutoryRequest
@@ -4239,7 +4217,7 @@ getHolidayForOrganization(date: string): Observable<any>{
     .set('sortBy', 'createdDate')
     .set('sortOrder', 'desc')
     .set('role', role)
-
+  
     return this.httpClient.get<any>(`${this.baseUrl}/company-expense`, {params});
   }
 
@@ -4250,7 +4228,7 @@ getHolidayForOrganization(date: string): Observable<any>{
     .set('item_per_page', databaseHelper.itemPerPage)
     .set('sortBy', 'createdDate')
     .set('sortOrder', 'desc')
-
+  
     return this.httpClient.get<any>(`${this.baseUrl}/company-expense-policy/rule`, {params});
   }
 
