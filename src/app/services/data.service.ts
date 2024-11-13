@@ -499,6 +499,10 @@ export class DataService {
   getUserPositionsByUserId(userId: string): Observable<UserPositionDTO[]> {
     return this.httpClient.get<UserPositionDTO[]>(`${this.baseUrl}/user-positions/user-positions/${userId}`);
   }
+  completeProbation(uuid: string): Observable<any> {
+    const params = new HttpParams().set('uuid', uuid);
+    return this.httpClient.post(`${this.baseUrl}/user-positions/probation`, {}, { params });
+  }
 
   changeStatusById(presenceStatus: Boolean, userUuid: string): Observable<any> {
     const params = new HttpParams()

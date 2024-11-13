@@ -385,6 +385,7 @@
         <div *ngIf="adminRoleFlag">
           <button class="btn-primary" (click)="openFormModal(formContent,'Promotion')">Promotion</button>
           <button class="btn-primary" (click)="openFormModal(formContent,'Add Journey')">Add Journey</button>
+          <button *ngIf="employeeProfileResponseData?.isProbation" class="btn btn-primary" (click)="openConfirmationModal(confirmationModal)">Complete Probation</button>
         </div>
         <h5 class="mb-3 mt-5">Journey With us</h5>
         <div class="">
@@ -415,7 +416,12 @@
                           <div class="activity-info-text">
                               <div class="media align-items-center">
                                   <div class="media-body ms-2 align-self-center">
+                                    <div class="d-flex">
                                       <h5 class="mb-1 font-13">{{ position.position }}</h5>
+                                      <div *ngIf="position.isProbation" class="probation-status">
+                                        <span class=" bg-danger">Under Probation</span>
+                                      </div>
+                                    </div>
                                       <p class="text-muted font-12 mb-0">{{ position.startDate }} - {{ position.endDate || 'present' }}</p>
                                   </div>
                               </div>
@@ -540,6 +546,14 @@
 
       </div>
 
+      <div class="form-group" *ngIf="employeeProfileResponseData?.isProbation">
+        <label for="isProbation">Probation Status</label>
+        <select id="isProbation" formControlName="isProbation" class="form-control">
+          <option [ngValue]="true">Under Probation</option>
+          <option [ngValue]="false">Confirmed</option>
+        </select>
+      </div>
+
       <button type="submit" [disabled]="isSaving" class="btn btn-primary" [disabled]="myForm.invalid">
       <ng-container *ngIf="saveButtonLoader; else loginButton">
         <div class="dot-opacity-loader">
@@ -555,3 +569,18 @@
 </ng-template>
 
 
+<ng-template #confirmationModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Confirm Completion</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure you want to complete the probation?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.close(false)">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="modal.close(true)">Confirm</button>
+  </div>
+</ng-template>

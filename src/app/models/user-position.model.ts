@@ -3,4 +3,5 @@ export interface UserPositionDTO {
   startDate: string;
   endDate: string;
   userId: string;
+  isProbation: boolean;
 }

@@ -1436,13 +1436,40 @@
                       [(ngModel)]="this.userPersonalInformationRequest.position"
                       (ngModelChange)="onChange($event)"
                       [nzAutocomplete]="positionAuto"
-                      required #position="ngModel"
+                      #position="ngModel"
                       (keydown)="preventLeadingWhitespace($event)"
 
                   />
                   <nz-autocomplete [nzDataSource]="positionFilteredOptions" #positionAuto></nz-autocomplete>
                   </div>
               </div>
+
+
+              <div class="col-md-12">
+                <div class="mb-3">
+                  <label for="isProbation" class="pb-2">Probation Status <span class="text-optional">*</span></label>
+                  <nz-select
+                    id="isProbation"
+                    name="isProbation"
+                    [(ngModel)]="userPersonalInformationRequest.isProbation"
+                    required
+                    class="form-control whatapp-login-input"
+                    #isProbationField="ngModel"
+
+                  >
+                  <nz-option [nzValue]="true" [nzLabel]="'Under Probation'"></nz-option>
+                  <nz-option [nzValue]="false" [nzLabel]="'Confirmed'"></nz-option>
+                  </nz-select>
+
+
+
+                  <!-- Error if no gender selected -->
+                  <div *ngIf="genderField.invalid && genderField.touched" class="errortxt mt-2 mb-0" style="color: red">
+                    <i class="bi bi-exclamation-circle"></i> Please select a gender.
+                  </div>
+                </div>
+              </div>
+
 
 
 
@@ -1766,7 +1793,7 @@
               Emails: {{ formatAsCommaSeparated(alreadyUsedEmailArray) }}
             </li>
             <li class="mb-1" *ngIf="isErrorToggle">Error: {{ errorMessage }}</li>
-         
+
             <li class="mb-1" *ngIf="!isErrorToggle">
               These credentials are already registered with us!
             </li>
