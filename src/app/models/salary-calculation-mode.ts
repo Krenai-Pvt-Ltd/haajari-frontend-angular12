@@ -4,5 +4,6 @@ export class SalaryCalculationMode {
     name : string = '';
     example : string = '';
     description : string = '';
+    selected:boolean=false;
     
 }

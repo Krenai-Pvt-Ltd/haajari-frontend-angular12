@@ -22,21 +22,7 @@
             >
               <div class="row">
                 <div class="col-md-12">
-                  <div class="attendance-settin-list mb-3">
-                    <ngx-shimmer-loading
-                      [width]="'100%'"
-                      [height]="'60px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
-                  </div>
-                  <div class="attendance-settin-list mb-3">
-                    <ngx-shimmer-loading
-                      [width]="'100%'"
-                      [height]="'60px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
-                  </div>
-                  <div class="attendance-settin-list mb-3">
+                  <div class="attendance-settin-list mb-3" *ngFor="let item of [].constructor(3)">
                     <ngx-shimmer-loading
                       [width]="'100%'"
                       [height]="'60px'"
