@@ -57,6 +57,8 @@ export class OrganizationPersonalInformationComponent implements OnInit {
     private sanitizer: DomSanitizer
   ) {}
 
+  showSuccessComponent : boolean = true;
+
   ngOnInit(): void {
     // this._onboardingService.refreshSidebar();
     this.getOrganizationDetails();

@@ -5294,7 +5294,7 @@
   aria-labelledby="attendancewithlocation"
   aria-hidden="true"
 >
-  <div class="modal-dialog modal-lg" role="document">
+  <div class="modal-dialog modal-lg " role="document">
     <form
       #organizationAddressForm="ngForm"
       ngNativeValidate
@@ -5302,10 +5302,13 @@
     >
    
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header ">
+          <!-- <div class="d-flex align-items-center justify-content-between" style="width:95%"> -->
           <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
             Staff Attendance With Location
           </h6>
+          <!-- <button class="btn manage-location-btn p-0 text-primary">Manage Location</button> -->
+          <!-- </div> -->
           <button
             type="button"
             class="btn-close"
@@ -5316,20 +5319,25 @@
         </div>
         <!--end modal-header-->
 
-        <!-- Radio buttons for Flexible and Fixed location -->
+       
         <div class="modal-body">
+          <div class="d-flex align-items-center justify-content-end">
+              <button class="btn manage-location-btn p-0 text-primary">Manage Location</button>
+          </div>
+
+          
           <div class="form-group">
             
              
             <!-- neeww -->
 
             <div
-                    class="shift-time p-3 m-3"
+                    class="shift-time p-3 mt-3"
                     *ngFor="let item of allAddresses; let i = index"
                   >
                     <div class="">
                       <div
-                        class="d-flex align-items-center justify-content-between"
+                        class="d-flex align-items-start justify-content-between"
                       >
                         <div class="d-flex align-items-start gap-3">
                           <div class="">
@@ -5360,22 +5368,25 @@
 
                             <div class="d-flex align-items-center mb-1 mt-2">
                               <!-- Radio Buttons for Location Type -->
-                              <div class="form-check me-3 flexible-location">
+                              <label class="form-check me-3 flexible-location d-flex align-items-center gap-2">
                                 <input class="form-check-input" type="radio" [name]="'locationType_' + i" id="flexibleLocation_{{ i }}"
                                   [value]="'flexible'" [checked]="item.organizationAddress.isFlexible === true"
                                   (change)="onLocationTypeChange(item.organizationAddress.id, true)" />
-                                <label class="form-check-label" for="flexibleLocation_{{ i }}">Flexible Location</label>
-                              </div>
-                              <div class="form-check flexible-location">
+                                <p class="mb-0" >Flexible Location</p>
+                              </label>
+                              <label class="form-check flexible-location d-flex align-items-center gap-2">
                                 <input class="form-check-input" type="radio" [name]="'locationType_' + i" id="fixedLocation_{{ i }}"
                                   [value]="'fixed'" [checked]="item.organizationAddress.isFlexible === false"
                                   (change)="onLocationTypeChange(item.organizationAddress.id, false)" />
-                                <label class="form-check-label" for="fixedLocation_{{ i }}">Fixed Location</label>
-                              </div>
+                                <p class=" mb-0" >Fixed Location</p>
+                              </label>
                             </div>
                           </div>
                            
                         </div>
+                        <!-- <div>
+                            <button class="btn">Manage Location</button>
+                        </div> -->
                       </div>
 
                       <!-- {{item.organizationAddress.isFlexible}} -->

@@ -1366,8 +1366,22 @@ a.fetch-location {
   margin-bottom: 0px;
 }
 
-/* .flexible-location{
-  border: 1px solid #ccc;
+.flexible-location{
+  border: 1px solid #e6e6e6;
   padding: 10px;
   border-radius: 2px;
-} */
+  background-color: #fff;
+  min-width: 180px;
+}
+.flexible-location input{
+  margin-left: 0px;
+  position: relative;
+  top: -2px;
+}
+.flexible-location p{
+  font-weight: 500;
+}
+.manage-location-btn{
+  font-size: 14px;
+  font-weight: 500;
+}
