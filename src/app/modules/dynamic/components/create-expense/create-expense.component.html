@@ -1589,7 +1589,7 @@
                   <span></span>
                 </div>
               </div> -->
-              
+
               <div class="modal-footer d-flex align-items-center justify-content-between">
                 <button *ngIf="!userMappedLoading" type="button" class="btn btn-outline-primary btn-round"
                   (click)="getUserMappedWithPolicy(shiftForm)"
@@ -1780,14 +1780,30 @@
           <button class="btn submit-add-more d-none" data-bs-dismiss="modal" aria-label="Close" #closeButton2>
             Cancel
           </button>
-          <button class="btn mannualSubmit" [disabled]="!isValidated" (click)="registerCompanyExpense(shiftForm)">
-            <span *ngIf="!registerToggle">Add all</span>
-            <div class="dot-opacity-loader-new" *ngIf="registerToggle">
+          
+          <!-- <button class="btn mannualSubmit" [disabled]="!isValidated" (click)="registerCompanyExpense(shiftForm)">
+            <span *ngIf="!registerToggle1">Add all</span>
+            <div class="dot-opacity-loader-new" *ngIf="registerToggle1">
               <span></span>
               <span></span>
               <span></span>
             </div>
-          </button>
+          </button> -->
+
+
+          <div>
+            <button *ngIf="!registerToggle" type="button" class="btn mannualSubmit"
+            [disabled]="!isValidated" (click)="registerCompanyExpense(shiftForm)">
+              Add all
+            </button>
+
+            <div class="dot-opacity-loader" *ngIf="registerToggle">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>

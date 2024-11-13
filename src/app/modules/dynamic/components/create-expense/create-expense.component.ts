@@ -776,7 +776,7 @@ export class CreateExpenseComponent implements OnInit {
   companyExpenseReq: CompanyExpense = new CompanyExpense();
   registerToggle: boolean = false
   @ViewChild('closeExpensePolicyModal') closeExpensePolicyModal!: ElementRef
-   registerCompanyExpense(form: NgForm) {
+   registerCompanyExpense1(form: NgForm) {
     debugger
 
     this.registerToggle = true;
@@ -805,10 +805,52 @@ export class CreateExpenseComponent implements OnInit {
 
   }
 
+  registerCompanyExpense(form: NgForm) {
+    debugger
+
+    this.registerToggle = true;
+
+    if(this.isMappedUserModalOpen){
+      this.companyExpenseReq.policyName = this.tempCompanyExpenseReq.policyName;
+      this.companyExpenseReq.expensePolicyList = this.tempCompanyExpenseReq.expensePolicyList
+      this.companyExpenseReq.selectedUserIds = this.tempCompanyExpenseReq.selectedUserIds;
+      this.companyExpenseReq.deSelectedUserIds = this.tempCompanyExpenseReq.deSelectedUserIds;
+
+    }else{
+      this.companyExpenseReq.policyName = this.tempPolicyName;
+      this.companyExpenseReq.expensePolicyList = this.expensePolicyReqList
+      this.companyExpenseReq.selectedUserIds = this.selectedStaffIdsUser;
+      this.companyExpenseReq.deSelectedUserIds = this.deSelectedStaffIdsUser;
+    }
+
+    // console.log('Create: ',this.companyExpenseReq)
+    this.dataService.createExpensePolicy(this.companyExpenseReq).subscribe((res: any) => {
+      if(res.status){
+        this.closeExpensePolicyModal.nativeElement.click()
+        form.resetForm()
+        this.clearPolicyForm();
+        this.getAllCompanyExpensePolicy()
+        this.resetThresholdOptions()
+        this.registerToggle = false
+        this.userMappedLoading = false;
+        this.isValidated = false;
+        if(this.isMappedUserModalOpen){
+          this.usersAlreadyAssigned?.nativeElement.click();
+          this.isMappedUserModalOpen = false
+        }
+        this.helperService.showToast(res.message, Key.TOAST_STATUS_SUCCESS);
+      }
+    })
+
+  }
+
   clearPolicyForm(){
     this.companyExpenseReq = new CompanyExpense();
+    this.tempCompanyExpenseReq = new CompanyExpense();
+
     this.expensePolicyReqList = []
     this.selectedStaffIdsUser = []
+    this.deSelectedStaffIdsUser = []
     this.expenseTypeId = 0;
     this.expenseTypeId = 0
     this.expenseTypeName = ''
@@ -987,6 +1029,8 @@ export class CreateExpenseComponent implements OnInit {
   tempSelectedStaffIdsUser: number[] = [];
   isMappedUserModalOpen: boolean = false;
   userMappedLoading: boolean = false;
+
+  tempCompanyExpenseReq: CompanyExpense = new CompanyExpense();
   getUserMappedWithPolicy(form: NgForm){
     debugger
     this.userMappedLoading = true;
@@ -996,6 +1040,13 @@ export class CreateExpenseComponent implements OnInit {
       if(response.status){
         this.userNameWithBranchName = response.object;
         this.tempSelectedStaffIdsUser = this.selectedStaffIdsUser
+
+        // Add temp request for create expense
+      this.tempCompanyExpenseReq.policyName = this.tempPolicyName;
+      this.tempCompanyExpenseReq.expensePolicyList = this.expensePolicyReqList
+      // this.tempCompanyExpenseReq.selectedUserIds = this.selectedStaffIdsUser;
+      // this.tempCompanyExpenseReq.deSelectedUserIds = this.deSelectedStaffIdsUser;
+
       }
 
       console.log('userLen: ',this.userNameWithBranchName.length)
@@ -1004,12 +1055,13 @@ export class CreateExpenseComponent implements OnInit {
           // console.log('Opening modal..')
           this.closeExpensePolicyModal.nativeElement.click();
           this.usersAlreadyAssigned.nativeElement.click();
+          this.userMappedLoading = false;
         }else{
           // console.log('Going to create..')
           this.registerCompanyExpense(form);
         }
 
-        this.userMappedLoading = false;
+        // this.userMappedLoading = false;
        
       },
       (error) => {
@@ -1038,6 +1090,9 @@ export class CreateExpenseComponent implements OnInit {
 
     this.selectedStaffIdsUser = this.tempSelectedStaffIdsUser
     this.deSelectedStaffIdsUser = this.remainingIds
+
+    this.tempCompanyExpenseReq.selectedUserIds = this.selectedStaffIdsUser;
+    this.tempCompanyExpenseReq.deSelectedUserIds = this.deSelectedStaffIdsUser;
   }
 
   isValidated: boolean = false;
