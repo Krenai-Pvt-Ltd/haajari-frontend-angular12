@@ -43,6 +43,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
 
   ngOnInit(): void {
     debugger
+
     window.scroll(0, 0);
     this.getFlexibleAttendanceMode()
     this.checkAttendanceLocationLinkStatusMethodCall();
@@ -77,7 +78,7 @@ export class EmployeeLocationValidatorComponent implements OnInit {
           }
           );
         }
-      } else {
+      } else {  
         this.requestPermission();
       } 
     
