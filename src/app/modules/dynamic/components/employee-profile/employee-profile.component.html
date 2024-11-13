@@ -1,3 +1,4 @@
+<!-- employeeLoginCard -->
 <div class="page-wrapper">
   <div [ngClass]="ROLE == 'USER' ? 'page-content-tab employeeLoginCard' : 'page-content-tab'">
     <app-hajiri-page-loader *ngIf="count < 6">
@@ -4024,6 +4025,10 @@
                                                 <th class="text-center" style="width: 30%">
                                                     Notes
                                                 </th>
+
+                                                <th class="text-center" style="width: 10%">
+                                                  Applied To
+                                              </th>
         
                                                 <th class="text-center" style="width: 15%">
                                                     Status
@@ -4068,9 +4073,10 @@
                                                     <td class="text-center">{{expense.amount}}</td>
                                                     <td class="text-center">{{expense.expenseType}}</td>
                                                     <td class="text-center">{{expense.notes}}</td>
-                                                    <td class="text-center">Pending</td>
+                                                    <td class="text-center">{{expense.appliedTo}}</td>
+                                                    <td class="text-center">{{expense.status.response}}</td>
                                                     <td class="text-center">
-                                                        <div>
+                                                        <div *ngIf="expense.status.id == 13">
                                                             <button type="button" class="btn" (click)="updateExpense(expense)"
                                                                 data-bs-toggle="modal" data-bs-target="#createExpense">
                                                                 <i class="bi bi-pencil-square pointer text-primary"></i>
@@ -4085,8 +4091,12 @@
                                                                 data-bs-toggle="modal" data-bs-target="#approveModal">
                                                                 View
                                                             </button> -->
-        
                                                         </div>
+
+                                                        <div *ngIf="expense.status.id != 13">
+                                                          <i class="bi bi-lock fs-5 text-danger"></i>
+                                                        </div>
+
                                                     </td>
                                                 </tr>
                                             </ng-container>
@@ -5340,7 +5350,7 @@
                               </div> -->
                               <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select Manager"
                                   [(ngModel)]="managerId" (ngModelChange)="getManagerId($event)" required
-                                  name="expTypeId" #expTypeId="ngModel" class="form-control">
+                                  name="selManagerId" #selManagerId="ngModel" class="form-control">
                                   <nz-option *ngFor="let manager of managers"
                                       [nzValue]="manager.id" [nzLabel]="manager.name">
                                   </nz-option>
@@ -5395,7 +5405,7 @@
                                         <div class="d-flex align-items-center gap-2 action-icon-btn">
                                             <span>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
-                                                    viewBox="0 0 22 22" fill="none">
+                                                    viewBox="0 0 22 22" fill="none" class="pointer">
                                                     <mask id="mask0_4339_1635" maskUnits="userSpaceOnUse" x="0" y="0"
                                                         width="22" height="22" style="mask-type: alpha;">
                                                         <rect width="21.8342" height="21.8342" fill="#D9D9D9"></rect>
@@ -5413,7 +5423,7 @@
 
                                             <span>
                                                 <svg (click)="deleteImage()" xmlns="http://www.w3.org/2000/svg"
-                                                    width="23" height="22" viewBox="0 0 23 22" fill="none">
+                                                    width="23" height="22" viewBox="0 0 23 22" fill="none" class="pointer">
                                                     <mask id="mask0_4339_1620" maskUnits="userSpaceOnUse" x="0" y="0"
                                                         width="23" height="22" style="mask-type: alpha;">
                                                         <rect x="0.535156" width="21.8342" height="21.8342"
@@ -5447,7 +5457,7 @@
                                 (click)="clearExpenseForm(createForm)">Cancel</button>
 
                             <button *ngIf="!createToggle" type="submit" class="btn submitActionBtn"
-                                [disabled]="expenseTypeReq.expenseTypeId == 0 || expenseTypeReq.managerId == 0 || expenseTypeReq.expenseDate == undefined || expenseTypeReq.notes == '' || expenseTypeReq.amount == undefined || expenseTypeReq.amount <= 0">
+                                [disabled]="isFileUploaded || expenseTypeReq.expenseTypeId == 0 || expenseTypeReq.managerId == 0 || expenseTypeReq.expenseDate == undefined || expenseTypeReq.notes == '' || expenseTypeReq.amount == undefined || expenseTypeReq.amount <= 0">
                                 {{expenseTypeReq.id == 0 ? 'Submit' : 'Update'}}
                             </button>
 

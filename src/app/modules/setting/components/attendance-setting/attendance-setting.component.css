@@ -1365,3 +1365,9 @@ a.fetch-location {
 ::ng-deep.ant-empty-image {
   margin-bottom: 0px;
 }
+
+/* .flexible-location{
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 2px;
+} */

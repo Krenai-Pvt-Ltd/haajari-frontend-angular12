@@ -163,14 +163,38 @@
           </div>
         </div>
       </div>
-      <div class="footer-text">
+      <div class="footer-text d-flex align-items-center gap-2">
+
+        <div class="circle-container">
+          <svg width="40" height="40" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" class="bg-circle"></circle>
+            <circle cx="50" cy="50" r="45" 
+                    [attr.stroke-dasharray]="283" 
+                    [attr.stroke-dashoffset]="283 - (progress / 100) * 283"
+                    [ngClass]="{'progress-complete': countdown === 0, 'progress-circle': countdown > 0}"></circle>
+            <text x="50" y="55" text-anchor="middle" class="countdown-text">{{ countdown === 0 ? 'Done' : countdown }}</text>
+          </svg>
+        </div>
+        
+
         <p class="mb-0">
-          <nz-progress
-            [nzPercent]="countdownPercent"
+         
+          <!-- <nz-progres
+            [nzPercent]="countdown"
             [nzValue]="countdown"
             nzType="circle"
             [nzFormat]="countdown === 0 ? formatTwo : formatOne"
-          ></nz-progress>
+          ></nz-progress> -->
+          <!-- <circle-progress
+            [percent]="(countdown / maxCountdownValue) * 100"
+            [animation]="true"
+            [animateTitle]="true"
+            [showTitle]="true"
+            [title]="countdown.toString()"
+            [subtitle]="''">
+          </circle-progress> -->
+          
+          
           We will automatically redirect you to the onboarding flow.
         </p>
       </div>
