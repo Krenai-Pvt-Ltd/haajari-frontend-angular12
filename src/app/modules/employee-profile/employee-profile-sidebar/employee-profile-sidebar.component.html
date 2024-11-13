@@ -8,7 +8,7 @@
         <div *ngIf="employeeProfileResponseData?.profilePic; else namePlaceholder">
             <img [src]="employeeProfileResponseData?.profilePic" alt="Profile Picture">
           </div>
-          
+
           <ng-template #namePlaceholder>
             <div class="name-placeholder">
               {{ getFirstLetterOfName() }}
@@ -104,12 +104,12 @@
 
 
             <!-- classs to show data only in user case
-            
+
             [ngClass]="{
                 'd-none': !userRoleFlag || ROLE == 'ADMIN',
                 'd-flex align-items-center': userRoleFlag
               }"
-            
+
             -->
             <!-- d-flex align-items-center  -->
             <!-- <div class="gap-2 d-flex align-items-center" > -->
@@ -145,9 +145,9 @@
                                 fill="#009045" />
                         </svg>
                     </span>
-                    
+
                     Check-In</button> -->
-               
+
                 <!-- <button class="btn font-12 " [ngClass]="{'check-in-btn': status != 'out' , 'break-btn': (status == 'out' || status == null)}">
                     <span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="25" viewBox="0 0 26 25" fill="none" *ngIf="status == 'in' || status == 'back' || status == null">
@@ -191,7 +191,7 @@
                             fill="#6666F2" />
                     </svg>
                     </span>
-                    
+
                     <span *ngIf="status == 'in' || status == 'back' || status == null" (click)="checkinCheckout('/break')">Break</span>
                     <span *ngIf="status == 'break'" (click)="checkinCheckout('/back')">Back</span>
                 </button> -->
@@ -217,7 +217,7 @@
                         <path fill-rule="evenodd" clip-rule="evenodd"
                             d="M10.3851 2.47591C10.1961 2.09789 10.3494 1.63712 10.7274 1.44811C11.1064 1.25911 11.5672 1.41236 11.7562 1.79139C12.2476 2.77526 12.1414 3.95324 11.4814 4.8329L11.464 4.85742C11.1514 5.27323 11.1013 5.83004 11.3342 6.2949C11.5232 6.67292 11.37 7.13369 10.991 7.3227C10.6129 7.51171 10.1522 7.35846 9.96316 6.98044C9.47072 5.99555 9.57697 4.81757 10.238 3.93792L10.2554 3.9134C10.567 3.49758 10.6181 2.94179 10.3851 2.47591Z"
                             fill="#717171" />
-                    </svg> 
+                    </svg>
                     </span>
                     Break
                 </button>
@@ -246,8 +246,8 @@
                     </span>
                     Back
                 </button> -->
-            
-<!--                 
+
+<!--
                 <button class="btn font-12 break-btn" (click)="checkinCheckout('/out')">
                     <span>
                         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="25" viewBox="0 0 26 25" fill="none"  *ngIf="status != 'out'">
@@ -287,10 +287,10 @@
                             </defs>
                         </svg>
                     </span>
-                    
+
                     Check-out</button> -->
 
-           
+
         <div class="check-in">
             <div class="d-flex align-items-center gap-2 check-in-info p-2">
             <img src="assets/images/check-in-image.svg">
@@ -382,62 +382,50 @@
             <li>Information Architecture</li>
             <span>+5</span>
         </ul>
-
+        <div *ngIf="adminRoleFlag">
+          <button class="btn-primary" (click)="openFormModal(formContent,'Promotion')">Promotion</button>
+          <button class="btn-primary" (click)="openFormModal(formContent,'Add Journey')">Add Journey</button>
+        </div>
         <h5 class="mb-3 mt-5">Journey With us</h5>
         <div class="">
-            <div class="">
-                <div class="d-flex align-items-center gap-2">
-                    <span class="download-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
-                            <mask id="mask0_4714_1177" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                                width="24" height="25">
-                                <rect y="0.5" width="24" height="24" fill="#D9D9D9" />
-                            </mask>
-                            <g mask="url(#mask0_4714_1177)">
-                                <path
-                                    d="M9.725 14.5L12 13.125L14.275 14.5L13.675 11.9L15.675 10.175L13.05 9.95L12 7.5L10.95 9.95L8.325 10.175L10.325 11.9L9.725 14.5ZM5 21.5V5.5C5 4.95 5.19583 4.47917 5.5875 4.0875C5.97917 3.69583 6.45 3.5 7 3.5H17C17.55 3.5 18.0208 3.69583 18.4125 4.0875C18.8042 4.47917 19 4.95 19 5.5V21.5L12 18.5L5 21.5ZM7 18.45L12 16.3L17 18.45V5.5H7V18.45Z"
-                                    fill="#1C1B1F" />
-                            </g>
-                        </svg>
-                    </span>
-                    <p class="mb-0">With us: <b class="text-black">2 years 11 months</b></p>
-                </div>
+          <div class="">
+              <div class="d-flex align-items-center gap-2">
+                  <span class="download-icon">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                          <mask id="mask0_4714_1177" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                                width="24" height="24">
+                              <rect y="0.5" width="24" height="24" fill="#D9D9D9" />
+                          </mask>
+                          <g mask="url(#mask0_4714_1177)">
+                              <path
+                                  d="M9.725 14.5L12 13.125L14.275 14.5L13.675 11.9L15.675 10.175L13.05 9.95L12 7.5L10.95 9.95L8.325 10.175L10.325 11.9L9.725 14.5ZM5 21.5V5.5C5 4.95 5.19583 4.47917 5.5875 4.0875C5.97917 3.69583 6.45 3.5 7 3.5H17C17.55 3.5 18.0208 3.69583 18.4125 4.0875C18.8042 4.47917 19 4.95 19 5.5V21.5L12 18.5L5 21.5ZM7 18.45L12 16.3L17 18.45V5.5H7V18.45Z"
+                                  fill="#1C1B1F" />
+                          </g>
+                      </svg>
+                  </span>
+                  <p class="mb-0">With us: <b class="text-black">{{ duration }}</b></p>
+              </div>
 
-                <div class="selery-logs mt-3 ">
-                    <div class="activity ng-star-inserted">
-                        <div class="activity-info">
-                            <div class="icon-info-activity active-logs">
-                                <p class="mb-0"></p>
-                            </div>
-                            <div class="activity-info-text">
-                                <div class="media align-items-center">
-                                    <div class="media-body ms-2 align-self-center">
-                                        <h5 class="mb-1 font-13"> Senior UI/UX designer </h5>
-                                        <p class="text-muted font-12 mb-0"> July 2024 - present </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="activity ng-star-inserted" *ngFor="let item of [].constructor(5)">
-                        <div class="activity-info">
-                            <div class="icon-info-activity">
-                                <p class="mb-0"></p>
-                            </div>
-                            <div class="activity-info-text">
-                                <div class="media align-items-center">
-                                    <div class="media-body ms-2 align-self-center">
-                                        <h5 class="mb-1 font-13"> Junior UI/UX designer</h5>
-                                        <p class="text-muted font-12 mb-0">July 2024 - present </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+              <div class="selery-logs mt-3">
+                  <div class="activity" *ngFor="let position of userPositionDTO">
+                      <div class="activity-info">
+                          <div class="icon-info-activity active-logs">
+                              <p class="mb-0"></p>
+                          </div>
+                          <div class="activity-info-text">
+                              <div class="media align-items-center">
+                                  <div class="media-body ms-2 align-self-center">
+                                      <h5 class="mb-1 font-13">{{ position.position }}</h5>
+                                      <p class="text-muted font-12 mb-0">{{ position.startDate }} - {{ position.endDate || 'present' }}</p>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
 
-                </div>
-            </div>
-        </div>
 
 
 
@@ -507,3 +495,63 @@
     </div>
 
 </div>
+
+<ng-template #formContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Upgrade Position</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="position">Position</label>
+        <input
+          maxlength="50"
+          class="seach-dropdown"
+          id="positionDropdown"
+          name="positionDropdown"
+          placeholder="Select Position"
+          nz-input
+          formControlName="position"
+          [nzAutocomplete]="positionAuto"
+          (ngModelChange)="onChange($event)"
+          (keydown)="preventLeadingWhitespace($event)"
+          required
+        />
+        <nz-autocomplete [nzDataSource]="positionFilteredOptions" #positionAuto></nz-autocomplete>
+        <div *ngIf="myForm.get('position')?.touched && myForm.get('position')?.invalid">
+          <small class="text-danger">Position is required</small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="effectiveDate">Effective Date</label>
+        <input type="date" id="effectiveDate" formControlName="effectiveDate" class="form-control" />
+        <div *ngIf="myForm.get('effectiveDate')?.touched && myForm.get('effectiveDate')?.invalid">
+          <small class="text-danger">Effective Date is required</small>
+        </div>
+      </div>
+
+      <div class="form-group" *ngIf="isPromotion">
+        <label for="endDate">End Date</label>
+        <input type="date" id="endDate" formControlName="endDate" class="form-control" />
+
+      </div>
+
+      <button type="submit" [disabled]="isSaving" class="btn btn-primary" [disabled]="myForm.invalid">
+      <ng-container *ngIf="saveButtonLoader; else loginButton">
+        <div class="dot-opacity-loader">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </ng-container>
+      <ng-template #loginButton> Submit </ng-template>
+      </button>
+    </form>
+  </div>
+</ng-template>
+
+
