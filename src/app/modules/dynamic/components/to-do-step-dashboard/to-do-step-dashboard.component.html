@@ -190,9 +190,9 @@
               </div>
 
               <div class="onboardingStapsPoint mt-3 p-2">
-                <div
+                <div 
                   class="d-flex align-items-center justify-content-between pendingStepPoint pb-3"
-                  *ngFor="let step of organizationRegistrationProcessResponse"
+                  *ngFor="let step of organizationRegistrationProcessResponse" (click)="routeToStep(step?.route, step?.name)"
                 >
                   <div
                     class="d-flex align-items-start gap-2"
@@ -219,81 +219,7 @@
                     </span>
                   </div>
                 </div>
-                <!-- <div
-                  class="d-flex align-items-center justify-content-between pendingStepPoint pb-3"
-                >
-                  <div
-                    class="d-flex align-items-start gap-2"
-                    style="width: 90%"
-                  >
-                    <div>
-                      <span class="pendingBox"> </span>
-                    </div>
-
-                    <div>
-                      <h4>Attendance Setting</h4>
-                      <p class="mb-0">
-                        Define Your Company name, office locations, and HR
-                        policies for a streamlined setup.
-                      </p>
-                    </div>
-                  </div>
-                  <div>
-                    <span class="toStepArrow">
-                      <i class="bi bi-chevron-right"></i>
-                    </span>
-                  </div>
-                </div>
-                <div
-                  class="d-flex align-items-center justify-content-between pendingStepPoint pb-3"
-                >
-                  <div
-                    class="d-flex align-items-start gap-2"
-                    style="width: 90%"
-                  >
-                    <div>
-                      <span class="pendingBox"> </span>
-                    </div>
-
-                    <div>
-                      <h4>Leave Settings</h4>
-                      <p class="mb-0">
-                        Define Your Company name, office locations, and HR
-                        policies for a streamlined setup.
-                      </p>
-                    </div>
-                  </div>
-                  <div>
-                    <span class="toStepArrow">
-                      <i class="bi bi-chevron-right"></i>
-                    </span>
-                  </div>
-                </div>
-                <div
-                  class="d-flex align-items-center justify-content-between pendingStepPoint pb-3"
-                >
-                  <div
-                    class="d-flex align-items-start gap-2"
-                    style="width: 90%"
-                  >
-                    <div>
-                      <span class="pendingBox"> </span>
-                    </div>
-
-                    <div>
-                      <h4>Salary Setting</h4>
-                      <p class="mb-0">
-                        Define Your Company name, office locations, and HR
-                        policies for a streamlined setup.
-                      </p>
-                    </div>
-                  </div>
-                  <div>
-                    <span class="toStepArrow">
-                      <i class="bi bi-chevron-right"></i>
-                    </span>
-                  </div>
-                </div> -->
+               
               </div>
             </div>
           </div>

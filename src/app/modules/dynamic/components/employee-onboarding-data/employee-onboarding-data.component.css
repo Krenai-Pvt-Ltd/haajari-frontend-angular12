@@ -944,4 +944,9 @@ Remove
   background-color: #ffffff;
   margin-bottom: -4px;
 }
+.waring-box{
+  background-color: #fffafa;
+  border: 1px solid #ef4d56;
+  border-radius: 2px;
+}
 /* Excel Upload Modal */
