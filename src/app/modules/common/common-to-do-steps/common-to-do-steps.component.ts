@@ -23,7 +23,7 @@ export class CommonToDoStepsComponent implements OnInit {
 
     }
   }
-
+  closeFlg: boolean = false;
   @ViewChild('stepCompletionModal') stepCompletionModal!: ElementRef;
   getToDoStepViaSubject() {
     debugger;
@@ -88,6 +88,10 @@ export class CommonToDoStepsComponent implements OnInit {
     this.getOrganizationInitialToDoStepBar();
     this.getOrganizationRegistratonProcessStepData();
     this.getRoleDetails();
+  }
+
+  closeFlagFunc() {
+    this.closeFlg = true;
   }
 
   async getRoleDetails() {

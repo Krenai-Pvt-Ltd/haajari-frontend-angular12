@@ -347,6 +347,7 @@
 
       </div>
 
+
       <!-- Create and View Company Expense start -->
 
       <div class="col-md-12 mt-3 mb-3" *ngIf="activeTab === 'allExpense'"
@@ -763,6 +764,7 @@
                                         font-weight: 400;" class="total-holiday">{{ userExpense.expenseType }}</span>
               </div>
 
+
               <div class="">
                 <p class="mb-0" class="fs-5 mb-0 text-black">{{ userExpense.amount }}</p>
               </div>
@@ -824,6 +826,7 @@
                     <span></span>
                     <span></span>
                   </div>
+
                 </div>
                 <ng-template #rejectLabel>Reject</ng-template>
               </button>
@@ -1006,6 +1009,7 @@
                             id="percentageType" value="percentage" [(ngModel)]="thresholdType" required
                             (change)="onThresholdTypeChange(1, 'percentage')" />
                           <label class="form-check-label" for="percentageType">Percentage</label>
+
                         </div>
                       </div>
 

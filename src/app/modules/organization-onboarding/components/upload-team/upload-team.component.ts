@@ -163,14 +163,14 @@ export class UploadTeamComponent implements OnInit {
 
   // }
 
-  // selectFile(event: any) {
-  //   if (event.target.files && event.target.files.length > 0) {
-  //     const file = event.target.files[0];
-  //     this.currentFileUpload = file;
-  //     this.fileName = file.name;
-  //     this.uploadUserFile(file, this.fileName);
-  //   }
-  // }
+  selectFile(event: any) {
+    if (event.target.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.currentFileUpload = file;
+      this.fileName = file.name;
+      this.uploadUserFile(file, this.fileName);
+    }
+  }
 
   importToggle: boolean = false;
   isProgressToggle: boolean = false;
@@ -187,7 +187,7 @@ export class UploadTeamComponent implements OnInit {
     this.alreadyUsedPhoneNumberArray = 0;
     this.alreadyUsedEmailArray = 0;
     this.errorMessage = '';
-    this._onboardingService.userImport(file, fileName).subscribe(
+    this._onboardingService.userImportOnboarding(file, fileName).subscribe(
       (response: any) => {
         if (response.status) {
           this.importToggle = false;
@@ -287,7 +287,11 @@ export class UploadTeamComponent implements OnInit {
     // debugger
 
     const lastUser = this.userList[this.userList.length - 1];
+    if(this.onboardingViaString === 'SLACK' && !lastUser.email) {
+      return false;
+    }
     if (!lastUser.name && !lastUser.phone && this.userList.length == 1) {
+     
       return false;
     }
     if (!this.lastUsersValid()) {
@@ -303,7 +307,11 @@ export class UploadTeamComponent implements OnInit {
   lastUsersValid(): boolean {
     // debugger
     const lastUser = this.userList[this.userList.length - 1];
+    if(this.onboardingViaString === 'SLACK' && !lastUser.email) {
+      return false;
+    }
     if (!lastUser.name && !lastUser.phone) {
+     
       return true;
     }
     return this.isValidUser(lastUser);
@@ -706,7 +714,7 @@ export class UploadTeamComponent implements OnInit {
     if (this.excelLogLink) {
       const link = document.createElement('a');
       link.href = this.excelLogLink;
-      link.setAttribute('download', 'Organization_Excel_Log.xlsx'); // Set file name
+      link.setAttribute('download', 'Organization_Excel_Log.xlsx'); 
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -730,6 +738,7 @@ export class UploadTeamComponent implements OnInit {
   syncSlackUsersToDatabaseData() {
     this.isSyncFlag = true;
     this.page = 0;
+    this.onboardUserList = [];
     this.dataService.syncSlackUsersToDatabase().subscribe(
       (response) => {
         this.isSyncFlag = false;
@@ -990,102 +999,102 @@ export class UploadTeamComponent implements OnInit {
   }
 
 
-  selectFile(event: any) {
-    debugger
-    if (event.target.files && event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.currentFileUpload = file;
-      this.fileName = file.name;
+  // selectFile(event: any) {
+  //   debugger
+  //   if (event.target.files && event.target.files.length > 0) {
+  //     const file = event.target.files[0];
+  //     this.currentFileUpload = file;
+  //     this.fileName = file.name;
 
-      if (!this.isExcelFile(file)) {
-        this.isExcel = 'Invalid file type. Please upload an Excel file.';
-        return;
-      }
+  //     if (!this.isExcelFile(file)) {
+  //       this.isExcel = 'Invalid file type. Please upload an Excel file.';
+  //       return;
+  //     }
 
-      const reader = new FileReader();
-      reader.onload = (e: ProgressEvent<FileReader>) => {
-        const arrayBuffer = e.target?.result as ArrayBuffer;
-        const binaryStr = this.arrayBufferToString(arrayBuffer);
-        const workbook = XLSX.read(binaryStr, { type: 'binary' });
-        const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-        this.jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+  //     const reader = new FileReader();
+  //     reader.onload = (e: ProgressEvent<FileReader>) => {
+  //       const arrayBuffer = e.target?.result as ArrayBuffer;
+  //       const binaryStr = this.arrayBufferToString(arrayBuffer);
+  //       const workbook = XLSX.read(binaryStr, { type: 'binary' });
+  //       const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+  //       this.jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
-        // Reset data and error tracking
-        this.data = [];
-        this.invalidRows = [];
-        this.invalidCells = [];
+  //       // Reset data and error tracking
+  //       this.data = [];
+  //       this.invalidRows = [];
+  //       this.invalidCells = [];
 
-        const columnNames: string[] = this.jsonData[0] as string[];
+  //       const columnNames: string[] = this.jsonData[0] as string[];
 
-        if (this.validateColumns(columnNames)) {
-              this.data = this.jsonData.map((row: any[]) => {
-                // Ensure the 5th column is an array of strings, other columns are treated as strings
-                return row.map((cell: any, index: number) => {
-                  if( this.data.length==0){
-                    return cell ? cell.toString().trim() : '';
-                  }else{
-                  if (this.fileColumnName[index] === 'leavenames') {
-                    return cell ? cell.toString().split(',').map((str: string) => str.trim()) : [];
-                  }else if (this.fileColumnName[index] === 'joiningdate*' && cell !== 'joiningdate*') {
-                    // Use regex to check if cell matches exact MM-DD-YYYY format (reject formats like MM/DD/YYYY)
-                    const isExactFormat = /^\d{2}-\d{2}-\d{4}$/.test(cell);
-                    if (cell.includes('/')) {
-                      return undefined;
-                    }
-                    console.log(cell);
-                    cell=cell.replace(/\//g, '-');
-                    console.log(cell);
+  //       if (this.validateColumns(columnNames)) {
+  //             this.data = this.jsonData.map((row: any[]) => {
+  //               // Ensure the 5th column is an array of strings, other columns are treated as strings
+  //               return row.map((cell: any, index: number) => {
+  //                 if( this.data.length==0){
+  //                   return cell ? cell.toString().trim() : '';
+  //                 }else{
+  //                 if (this.fileColumnName[index] === 'leavenames') {
+  //                   return cell ? cell.toString().split(',').map((str: string) => str.trim()) : [];
+  //                 }else if (this.fileColumnName[index] === 'joiningdate*' && cell !== 'joiningdate*') {
+  //                   // Use regex to check if cell matches exact MM-DD-YYYY format (reject formats like MM/DD/YYYY)
+  //                   const isExactFormat = /^\d{2}-\d{2}-\d{4}$/.test(cell);
+  //                   if (cell.includes('/')) {
+  //                     return undefined;
+  //                   }
+  //                   console.log(cell);
+  //                   cell=cell.replace(/\//g, '-');
+  //                   console.log(cell);
 
-                    if (isExactFormat) {
-                        // Parse with strict format checking
-                        const formattedDate = moment(cell, 'MM-DD-YYYY', true);
+  //                   if (isExactFormat) {
+  //                       // Parse with strict format checking
+  //                       const formattedDate = moment(cell, 'MM-DD-YYYY', true);
 
-                        // Check if the date is valid and within the next year
-                        if (formattedDate.isValid()) {
-                            const oneYearFromNow = moment().add(1, 'year');
+  //                       // Check if the date is valid and within the next year
+  //                       if (formattedDate.isValid()) {
+  //                           const oneYearFromNow = moment().add(1, 'year');
 
-                            // Ensure date is within the next year
-                            if (formattedDate.isBefore(oneYearFromNow)) {
-                                return formattedDate.format('MM-DD-YYYY');
-                            }
-                        }
-                    }
-                    // Return empty string if the format, validity, or date range check fails
-                    return "";
-                  }
-                   else {
-                    // Convert other cells to string and trim whitespace
-                    return cell ? cell.toString().trim() : '';
-                  }
-                }
+  //                           // Ensure date is within the next year
+  //                           if (formattedDate.isBefore(oneYearFromNow)) {
+  //                               return formattedDate.format('MM-DD-YYYY');
+  //                           }
+  //                       }
+  //                   }
+  //                   // Return empty string if the format, validity, or date range check fails
+  //                   return "";
+  //                 }
+  //                  else {
+  //                   // Convert other cells to string and trim whitespace
+  //                   return cell ? cell.toString().trim() : '';
+  //                 }
+  //               }
 
-                });
-              }).filter((row: any[]) =>
-                        // Filter out empty rows
-                  row.some((cell: any) => cell !== '')
-                );
-
-
+  //               });
+  //             }).filter((row: any[]) =>
+  //                       // Filter out empty rows
+  //                 row.some((cell: any) => cell !== '')
+  //               );
 
 
-          // Validate all rows and keep track of invalid entries
-          this.validateRows(this.data);
-          this.totalPage = Math.ceil(this.data.length / this.pageSize);
-          if(this.areAllFalse()){
-            this.isinvalid=false;
-            this.uploadUserFile(file, this.fileName);
-          }else{
-            this.isinvalid=true;
-          }
 
 
-        } else {
-          console.error('Invalid column names');
-        }
-      };
-      reader.readAsArrayBuffer(file);
-    }
-  }
+  //         // Validate all rows and keep track of invalid entries
+  //         this.validateRows(this.data);
+  //         this.totalPage = Math.ceil(this.data.length / this.pageSize);
+  //         if(this.areAllFalse()){
+  //           this.isinvalid=false;
+  //           this.uploadUserFile(file, this.fileName);
+  //         }else{
+  //           this.isinvalid=true;
+  //         }
+
+
+  //       } else {
+  //         console.error('Invalid column names');
+  //       }
+  //     };
+  //     reader.readAsArrayBuffer(file);
+  //   }
+  // }
 
   areAllFalse(): boolean {
     return this.invalidCells
