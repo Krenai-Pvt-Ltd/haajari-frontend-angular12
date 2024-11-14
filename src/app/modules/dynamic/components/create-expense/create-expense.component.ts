@@ -943,7 +943,10 @@ export class CreateExpenseComponent implements OnInit {
           ...this.removeUserIds
         ];
       }
- 
+    }
+
+    if(this.tempExpPolicyId > 0){
+      this.companyExpenseReq.id = this.tempExpPolicyId
     }
 
     // console.log('Create: ',this.companyExpenseReq)
@@ -988,6 +991,7 @@ export class CreateExpenseComponent implements OnInit {
         this.tempSelectedStaffIdsUser = []
         this.policyName = ''
         this.tempPolicyName = ''
+        this.tempExpPolicyId = 0
         this.pName = ''
         if(this.isMappedUserModalOpen){
           this.usersAlreadyAssigned?.nativeElement.click();
@@ -1469,11 +1473,13 @@ export class CreateExpenseComponent implements OnInit {
   }
 
   companyExpensePolicyId: number = 0;
+  tempExpPolicyId: number =0;
   getExpenseInformationById(companyExpense: CompanyExpensePolicyRes){
 
     debugger
     this.updateToggle = true;
     this.companyExpensePolicyId = companyExpense.id
+    this.tempExpPolicyId = companyExpense.id;
 
     this.expensePolicyReq = new ExpensePolicy()
     this.expensePolicyReqList = []
