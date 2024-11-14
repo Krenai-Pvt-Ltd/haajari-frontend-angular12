@@ -275,28 +275,30 @@
     top: 0px;
 }
 
-.nav.nav-pills {
-    background-color: transparent;
-    border-bottom: 1px solid #edeff5;
-}
 
 .nav-pills .nav-item.show .nav-link,
 .nav-pills .nav-link.active {
-    background: transparent !important;
-    color: var(--primary-color) !important;
-    border-radius: 0;
-    border-bottom: 2px solid var(--primary-color);
+    background: #EAEAFF !important;
+    color: #060606 !important;
+    border-radius: 3px !important;
+    border: 1px solid var(--primary-color) !important;
 }
 
 .nav-link {
-    margin-right: 20px;
+    margin-right: 10px;
     display: block;
-    padding: 7px 10px;
-    color: #000;
+    padding: 5px 13px;
+    color: #060606;
     font-size: 13px;
     font-style: normal;
     font-weight: 500;
     text-align: left;
+    border: 1px solid #DCDCE4;
+    border-radius: 3px;
+}
+
+.nav-link:hover{
+    color: #060606 !important;
 }
 
 .attendance-summery {
@@ -414,18 +416,17 @@ span.lat {
 
 .nav.nav-pills {
     background-color: transparent;
-    border-bottom: 1px solid #edeff5;
 }
 
-.nav-pills .nav-item.show .nav-link,
+/* .nav-pills .nav-item.show .nav-link,
 .nav-pills .nav-link.active {
     background: transparent !important;
     color: var(--primary-color) !important;
     border-radius: 0;
     border-bottom: 2px solid var(--primary-color);
-}
+} */
 
-.nav-link {
+/* .nav-link {
     margin-right: 20px;
     display: block;
     padding: 7px 10px;
@@ -434,4 +435,10 @@ span.lat {
     font-style: normal;
     font-weight: 500;
     text-align: left;
+} */
+
+.nav-link svg{
+    width: 15px;
+    position: relative;
+    top: -2px;
 }

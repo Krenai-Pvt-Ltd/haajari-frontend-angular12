@@ -215,7 +215,9 @@ export class CreateExpenseComponent implements OnInit {
   approveReq: ApproveReq = new ApproveReq();
   approveToggle: boolean = false;
   rejectToggle: boolean = false;
+
   payrollToggle: boolean = false;
+
   @ViewChild('closeApproveModal') closeApproveModal!: ElementRef
   approveOrDeny(id: number, statusId: number) {
 
@@ -227,6 +229,7 @@ export class CreateExpenseComponent implements OnInit {
       this.rejectToggle = true;
     }else{
       this.payrollToggle = true;
+
     }
 
     this.approveReq.id = id;
@@ -241,7 +244,9 @@ export class CreateExpenseComponent implements OnInit {
         this.closeApproveModal.nativeElement.click()
         this.approveToggle = false
         this.rejectToggle = false
+
         this.payrollToggle = false
+
         this.helperService.showToast(
           res.message,
           Key.TOAST_STATUS_SUCCESS

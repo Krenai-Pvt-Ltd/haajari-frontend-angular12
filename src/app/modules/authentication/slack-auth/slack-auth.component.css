@@ -414,3 +414,45 @@ nz-progress {
   left: 50%;
   transform: translate(-50%, 0);
 }
+
+/* neww   */
+
+
+.circle-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bg-circle {
+  fill: none;
+  stroke: #e7e8ea;
+  stroke-width: 10;
+}
+
+.progress-circle {
+  fill: none;
+  stroke: #4882c2;
+  stroke-width: 10;
+  transition: stroke-dashoffset 1s linear;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+
+
+.progress-complete {
+  fill: none;
+  stroke: #35c759 !important;
+  stroke-width: 10;
+  transition: stroke-dashoffset 1s linear;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+  stroke-dashoffset: 0;
+}
+
+.countdown-text {
+  font-size: 18px;
+  font-weight: bold;
+  fill: #333;
+}
+

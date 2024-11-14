@@ -47,11 +47,12 @@
               <ng-container
                 *ngIf="!isShimmer && !networkConnectionErrorPlaceholder"
               >
+              <!-- && onboardingViaString != 'SLACK' -->
                 <div
                   class="col-md-12 mb-100"
                   *ngIf="
-                    onboardUserList.length == 0 &&
-                    onboardingViaString != 'SLACK'
+                    onboardUserList.length == 0 
+                   
                   "
                 >
                 <div class="col-md-12 mt-3" *ngIf="adminUser != null">
@@ -161,7 +162,7 @@
                           <div class="">
                             <button
                               class="btn excelUploadBtn"
-                              (click)="openUploadToogle()"
+                              onclick="document.getElementById('fileSelect').click();"
                             >
                               <!-- <div
                             *ngIf="isProgressToggle"
@@ -298,27 +299,32 @@
                       </div>
                     </div>
                   </div>
-                </div>
-                <div
-                  *ngIf="
-                    onboardUserList.length == 0 &&
-                    onboardingViaString === 'SLACK'
-                  "
-                >
-                  <div class="card-body mt-3 p-0">
+                  <div class="card-body mt-3 p-0" *ngIf="
+                  onboardUserList.length == 0 &&
+                  onboardingViaString === 'SLACK'
+                ">
                     <div class="alert alert-light mb-0 excel-uplode-file-box">
                       <div
                         class="d-flex align-items-center justify-content-between gap-3"
                       >
+                        <div style="width: 11%">
+                          <img
+                            src="assets/images/slack-placeholder.svg"
+                            style="width: 100%"
+                          />
+                        </div>
                         <div
                           class="d-flex align-items-center justify-content-between"
-                          style="width: 85%"
+                          style="width: 88%"
                         >
                           <div>
-                            <h5 class="alert-heading font-15 mb-2">
-                              No Data Found
+                            <h5 class="alert-heading font-14 mb-2">
+                             Sync Employee From Slack
                             </h5>
-                            <p class="mb-0">Please Re-sync your data!</p>
+                            <p class="mb-0 font-12">
+                              Use this feature to import and sync your Slack workspace<br> users directly into Hajiri for seamless management of employee details.
+                              <!-- Easily integrate your Slack workspace with Hajiri by<br> importing user details, enabling efficient and centralized management of your team. -->
+                            </p>
                           </div>
                           <div class="">
                             <button
@@ -373,7 +379,10 @@
                       </div>
                     </div>
                   </div>
+                 
+                
                 </div>
+                
               </ng-container>
 
               <ng-container
@@ -519,10 +528,11 @@
                       </div>
                     </div>
                   </div>
+                  <!-- *ngIf="onboardingViaString != 'SLACK'" -->
                   <div class="col-md-12 mt-3">
                     <div
                       class="d-flex align-items-center justify-content-between p-0 employee-list pb-3"
-                      *ngIf="onboardingViaString != 'SLACK'"
+                     
                     >
                       <div>
                         <h5 class="alert-heading font-14 mb-0">
@@ -750,8 +760,9 @@
                             <div
                               class="d-flex align-items-center justify-content-center gap-2 edit-delet-btn"
                             >
+                            <!-- *ngIf="onboardingViaString != 'SLACK'" -->
                               <a
-                                *ngIf="onboardingViaString != 'SLACK'"
+                                
                                 (click)="openUserEditModal(onboardUser)"
                               >
                                 <!-- <i class="las la-pen text-primary font-16"></i> -->
@@ -1446,8 +1457,10 @@
                   <div class="mb-3">
                     <label class="mb-2"
                       >Email Id
-                      <span class="text-optional">(optional)</span></label
+                      <span class="text-optional" *ngIf="onboardingViaString != 'SLACK'">(optional)</span>
+                      <span class="text-optional" *ngIf="onboardingViaString === 'SLACK'">*</span></label
                     >
+                    
                     <input
                       type="email"
                       name="userEmail{{ i }}"
@@ -1673,7 +1686,7 @@
               These credentials are already registered with us!
             </p>
           </div>
-          <div
+          <!-- <div
             class="alert alert-light mb-0 mt-4 bg-soft-warning create-password-warning text-start"
             role="alert"
             *ngIf="
@@ -1695,7 +1708,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <!-- Skip the first row for pagination purposes -->
+                    
                     <tr *ngFor="let row of paginatedData; let i = index">
                       <td *ngFor="let cell of fileColumnName; let j = index">
                         <ng-container *ngIf="fileColumnName[j] === 'shift*' && (currentPage - 1) * pageSize + i  !== 0; else leaveColumns">
@@ -1809,7 +1822,7 @@
                           </ng-container>
                         </ng-template>
 
-                        <!-- Default input for other columns -->
+                        
                         <ng-template #defaultInput>
                           <input
                             [(ngModel)]="row[j]"
@@ -1838,7 +1851,7 @@
             <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p>
             <p *ngIf="!isErrorToggle">
             </p>
-          </div>
+          </div> -->
         </ng-container>
         <ng-container
           *ngIf="
