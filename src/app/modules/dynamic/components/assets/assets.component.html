@@ -151,7 +151,7 @@
                   >
                     <tr>
                       <td colspan="5">
-                       
+
 
                         <div
                           class="empty-file"
@@ -189,7 +189,7 @@
                       <td class="text-center">
                         {{ acd.unavailableCount }}
                       </td>
-                    
+
                     </tr>
                   </tbody>
                 </table>
@@ -219,7 +219,7 @@
               <div class="card-body">
                 <div class="text-center" *ngIf="categoryCounts.length > 0">
                   <ngx-charts-bar-vertical-stacked
-                   
+
                     [scheme]="colorScheme"
                     [results]="categoryCounts"
                     [gradient]="false"
@@ -230,7 +230,7 @@
                   >
                   </ngx-charts-bar-vertical-stacked>
                 </div>
-                
+
 
                 <div
                   class="empty-file"
@@ -344,7 +344,7 @@
                   <tbody *ngIf="totalCount == 0">
                     <tr>
                       <td colspan="11">
-                       
+
 
                         <div
                           class="empty-file"
@@ -371,7 +371,7 @@
                       <td>{{ ad.assetName || "N/A" }}</td>
                       <td>{{ ad.serialNumber || "N/A" }}</td>
                       <td>{{ ad.expiryDate || "N/A" }}</td>
-                      <td>{{ ad.purchaseDate || "N/A" }}</td>
+                      <td>{{ ad.purchasedDate || "N/A" }}</td>
                       <td>{{ ad.categoryName || "N/A" }}</td>
                       <td>{{ ad.price || "N/A" }}</td>
                       <td>{{ ad.location || "N/A" }}</td>
@@ -399,7 +399,7 @@
                       </td>
 
                       <td class="stickyColThend bg-white" >
-                      
+
                         <div class="dropdown">
                           <button class="btn btnAction dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-three-dots-vertical"></i>
@@ -409,23 +409,23 @@
                               <a class="dropdown-item" ><i class="bi bi-ban"></i> Mark as unavailable</a>
                             </li>
                             <li  data-bs-toggle="modal"
-                            data-bs-target="#createAssetModal" (click)="assignAssetId(ad.assetId)" *ngIf="ad.status === 'ASSIGNED' ||ad.status === 'AVAILABLE' "> 
+                            data-bs-target="#createAssetModal" (click)="assignAssetId(ad.assetId)" *ngIf="ad.status === 'ASSIGNED' ||ad.status === 'AVAILABLE' ">
                               <a class="dropdown-item"><i class="bi bi-tools"></i> Update Assets</a>
                             </li>
                             <li data-bs-toggle="modal"
                             data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)">
                               <a class="dropdown-item"  ><i class="bi bi-trash3"></i> Delete Assets</a>
-                            </li> 
-                            
+                            </li>
+
                           </div>
                         </div>
                       </td>
                     </tr>
                     <!--end tr-->
-                   
+
                   </tbody>
-                  
-                        
+
+
                 </table>
               </div>
 

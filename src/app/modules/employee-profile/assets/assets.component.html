@@ -3,7 +3,7 @@
     <div class="employee-assets p-3">
         <div class="d-flex align-items-center justify-content-between ">
             <h5 class="font-15 ">Assigned Assets</h5>
-            <button class="btn assets-request" data-bs-toggle="modal" data-bs-target="#assetRequest">Asset Request 
+            <button class="btn assets-request" data-bs-toggle="modal" data-bs-target="#assetRequest">Asset Request
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                     <mask id="mask0_4997_6386" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
                         <rect y="0.5" width="20" height="20" fill="#D9D9D9" />
@@ -27,12 +27,12 @@
                     <a id="pills-profile-tab" data-bs-toggle="pill" href="#asset-request" role="tab" aria-controls="pills-profile"
                         aria-selected="false" class="nav-link">Asset request</a>
                 </li>
-               
+
             </ul>
 
             <div id="pills-tabContent" class="tab-content">
                 <div class="tab-pane fade active show pt-3"  id="assigned-assets" role="tabpanel" aria-labelledby="assigned-assets-tab">
-
+                  <ng-template #assetsContent>
                     <div class="obboard-employee-list">
                         <div class="onboard-add row align-items-center mx-0">
                             <div class="col-md-12 p-0">
@@ -42,6 +42,7 @@
                                         <div class="form-group" style="width: 100%; position: relative;"><input type="text"
                                                 id="searchText" placeholder="Search..."
                                                 class="form-control me-2 ng-pristine ng-valid ng-touched"
+                                                (input)="searchAssets($event)"
                                                 style="padding: 10px 40px;" ng-reflect-model=""
                                                 ng-reflect-options="[object Object]"><i
                                                 class="bi bi-search search-icon ng-star-inserted"
@@ -52,138 +53,70 @@
                         </div>
 
                         <div class="table-responsive bg-white mt-3">
-                            <table class="table empOnnoardtable">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th class=" text-left font-13" style="width: 10%">
-                                            Asset Type
-                                        </th>
-                                        <th class="text-left font-13" style="width: 10%">
-                                            Asset Name
-                                        </th>
-                                        <th class="text-left font-13" style="width: 10%">
-                                            Asset ID
-                                        </th>
-                                        <th class="text-left font-13" style="width: 10%">
-                                            Asset Category
-                                        </th>
-                                        <th class="text-left font-13" style="width: 10%">
-                                            Assigned on
-                                        </th>
-                                        <th class="text-left font-13" style="width: 10%">
-                                            Price
-                                        </th>
-                                        <th class="text-left font-13" style="width: 10%">
-                                            Status
-                                        </th>
-                                       
-                                    </tr>
-                                </thead>
-                        
-                                <tbody class="">
-                                    <tr class="">
-                                        <td class="text-left">
-                                            <span class="team-maneger mb-0 ">
-                                                Desktop</span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="team-maneger mb-0 table-font-weight">
-                                                Mac Book</span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="team-maneger mb-0 table-font-weight">
-                                            KR1234
-                                            </span>
-                                        </td>
-                        
-                                        <td class="text-left">
-                                            <span class="team-maneger mb-0 table-font-weight">
-                                                Electronics
-                                            </span>
-                                        </td>
-                        
-                                        <td class="text-left">
-                                            <span class="team-maneger mb-0 table-font-weight">
-                                            Tue, June 12 2022
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span class="team-maneger mb-0 table-font-weight">
-                                                80,000
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <div class="badge rounded-pill badge-soft-success">
-                                               Assigned
-                                            </div>
-                                        </td>
-                                       
-                        
-                                    </tr>
-                                    <tr class="" *ngFor="let item of [].constructor(2)">
-                                    <td class="text-left">
-                                        <span class="team-maneger mb-0 ">
-                                            Desktop</span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="team-maneger mb-0 table-font-weight">
-                                            Mac Book</span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="team-maneger mb-0 table-font-weight">
-                                            KR1234
-                                        </span>
-                                    </td>
-                                    
-                                    <td class="text-left">
-                                        <span class="team-maneger mb-0 table-font-weight">
-                                            Electronics
-                                        </span>
-                                    </td>
-                                    
-                                    <td class="text-left">
-                                        <span class="team-maneger mb-0 table-font-weight">
-                                            Tue, June 12 2022
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span class="team-maneger mb-0 table-font-weight">
-                                            80,000
-                                        </span>
-                                    </td>
-                                    <td>
-                                    <div class="badge rounded-pill badge-soft-secondary">
-                                        Taken
-                                    </div>
-                                    </td>
-                        
-                                    </tr>
-                                   
-                        
-                        
-                                </tbody>
-                            </table>
-                        
-                        
+                          <table class="table empOnnoardtable">
+                            <thead class="thead-light">
+                              <tr>
+
+                                <th class="text-left font-13">Asset Name</th>
+                                <th class="text-left font-13">Asset ID</th>
+                                <th class="text-left font-13">Asset Category</th>
+                                <th class="text-left font-13">Assigned On</th>
+                                <th class="text-left font-13">Price</th>
+                                <th class="text-left font-13">Status</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let asset of assets">
+
+                                <td class="text-left">{{ asset.assetName }}</td>
+                                <td class="text-left">{{ asset.serialNumber }}</td>
+                                <td class="text-left">{{ asset.categoryName }}</td>
+                                <td class="text-left">{{ asset.purchasedDate | date: 'yyyy-MM-dd' }}</td>
+                                <td class="text-left">{{ asset.price | currency }}</td>
+                                <td class="text-left">
+                                  <div [ngClass]="{
+                                    'badge rounded-pill badge-soft-success': asset.status === 'ASSIGNED',
+                                    'badge rounded-pill badge-soft-secondary': asset.status !== 'ASSIGNED'
+                                  }">
+                                    {{ asset.status }}
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
                         </div>
+
+                      <div *ngIf="totalPages()>1" class="pagination-controls">
+                        <!-- Ngb Pagination Component -->
+                        <ngb-pagination
+                          [collectionSize]="totalCount"
+                          [rotate]="true"
+                          (pageChange)="pageChanged($event)"
+                          [pageSize]="itemPerPage"
+                          [(page)]="pageNumber"
+                          [maxSize]="8"
+                          [boundaryLinks]="true">
+                        </ngb-pagination>
+                      </div>
+
                     </div>
+                  </ng-template>
+                    <div *ngIf="isAssetsArrayEmpty(); else assetsContent"  class="empty-file" style="margin-top: 13%; margin-bottom: 13%">
+                      <nz-empty nzNotFoundImage="assets/images/no-assets.svg" [nzNotFoundContent]="contentTpl">
+                          <ng-template #contentTpl>
+                              <p class="mb-1 empty-detail font-18">
+                                  No assets for now
+                              </p>
+                              <span class="empty-details"> Yur assets will be shown here once they have <br> been raised</span>
+                          </ng-template>
+                      </nz-empty>
+                    </div>
+
 
                 </div>
                 <div class="tab-pane fade pt-3" id="asset-request" role="tabpanel" aria-labelledby="asset-request-tab">
 
-                    <div class="obboard-employee-list">
-
-                     
-                        <div class="empty-file" style="margin-top: 13%; margin-bottom: 13%">
-                            <nz-empty nzNotFoundImage="assets/images/no-assets.svg" [nzNotFoundContent]="contentTpl">
-                                <ng-template #contentTpl>
-                                    <p class="mb-1 empty-detail font-18">
-                                        No assets request for now
-                                    </p>
-                                    <span class="empty-details"> Yur assets request will be shown here once they have <br> been raised</span>
-                                </ng-template>
-                            </nz-empty>
-                        </div>
+                    <div class="obboard-employee-list" *ngIf="!isAssetRequestArrayEmpty(); else noAssets">
 
 
                         <div class="onboard-add row align-items-center mx-0">
@@ -203,9 +136,12 @@
                                 <div class="onboarding-date d-flex align-items-center position-relative">
                                     <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid"
                                         style="width: 100%;">
-                                        <div class="form-group" style="width: 100%; position: relative;"><input type="text" id="searchText"
-                                                placeholder="Search..." class="form-control me-2 ng-pristine ng-valid ng-touched"
-                                                style="padding: 10px 40px;" ng-reflect-model="" ng-reflect-options="[object Object]"><i
+                                        <div class="form-group" style="width: 100%; position: relative;"><input type="text"
+                                                id="searchText" placeholder="Search..."
+                                                class="form-control me-2 ng-pristine ng-valid ng-touched"
+                                                (input)="searchAssetsRequest($event)"
+                                                style="padding: 10px 40px;" ng-reflect-model=""
+                                                ng-reflect-options="[object Object]"><i
                                                 class="bi bi-search search-icon ng-star-inserted"
                                                 style="margin: auto; margin-left: 15px;"></i></div>
                                     </form>
@@ -213,236 +149,58 @@
                                 </div>
                             </div>
                         </div>
-                    
-                        <div class="table-responsive bg-white mt-3">
-                            <table class="table empOnnoardtable">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th class=" text-left font-13" style="width: 10%">
-                                            Requested on
-                                        </th>
-                                        <th class="text-left font-13" style="width: 10%">
-                                            Asset Name
-                                        </th>
-                                        <th class="text-left font-13" style="width: 10%">
-                                            Asset Category
-                                        </th>
-                                        <th class="text-left font-13" style="width: 10%">
-                                            Requested To
-                                        </th>
-                                        <th class="text-left font-13" style="width: 10%">
-                                            Approved by
-                                        </th>
-                                        <th class="text-left font-13" style="width: 10%">
-                                            Action Taken on
-                                        </th>
-                                        <th class="text-left font-13" style="width: 10%">
-                                            Note
-                                        </th>
-                                        <th class="text-left font-13" style="width: 10%">
-                                            Status
-                                        </th>
-                    
-                                    </tr>
-                                </thead>
-                    
-                                <tbody class="">
-                                    <tr class="">
-                                        <td class="text-left">
-                                            <span class="team-maneger mb-0 table-font-weight">
-                                                Tue, June 12 2022</span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="team-maneger mb-0 ">
-                                                Desktop</span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="team-maneger mb-0 table-font-weight">
-                                                Electronics
-                                            </span>
-                                        </td>
-                    
-                                        <td class="text-left">
-                                            <span class="team-maneger mb-0 table-font-weight">
-                                                Sam Michael
-                                            </span>
-                                        </td>
-                    
-                                        <td class="text-left">
-                                            <span class="team-maneger mb-0 table-font-weight text-primary">
-                                            Pending
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span class="team-maneger mb-0 table-font-weight">
-                                                June 12 2022
-                                            </span>
-                                        </td>
-                                        <td>
-                                        <span class="team-maneger mb-0 table-font-weight white-space">
-                                            Lorem Ipsum is simply dummy text
-                                            of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the
-                                            1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                                        </span>
-                                        </td>
-                                        <td>
-                                        <div class="d-flex align-items-center gap-2">
-                                            <button class="btn p-0 Pending-btn text-black font-13"> Pending </button>
-                                            <span class="edit-action-btn">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                                    <mask id="mask0_4901_3722" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20"
-                                                        height="20">
-                                                        <rect width="20" height="20" fill="#D9D9D9" />
-                                                    </mask>
-                                                    <g mask="url(#mask0_4901_3722)">
-                                                        <path
-                                                            d="M5.83203 17.5C5.3737 17.5 4.98134 17.3368 4.65495 17.0104C4.32856 16.684 4.16536 16.2917 4.16536 15.8333V5H3.33203V3.33333H7.4987V2.5H12.4987V3.33333H16.6654V5H15.832V15.8333C15.832 16.2917 15.6688 16.684 15.3424 17.0104C15.0161 17.3368 14.6237 17.5 14.1654 17.5H5.83203ZM14.1654 5H5.83203V15.8333H14.1654V5ZM7.4987 14.1667H9.16536V6.66667H7.4987V14.1667ZM10.832 14.1667H12.4987V6.66667H10.832V14.1667Z"
-                                                            fill="#FF0404" />
-                                                    </g>
-                                                </svg>
-                                            </span>
-                                            <span class="edit-action-btn">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                                    <mask id="mask0_4901_3725" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20"
-                                                        height="20">
-                                                        <rect width="20" height="20" fill="#D9D9D9" />
-                                                    </mask>
-                                                    <g mask="url(#mask0_4901_3725)">
-                                                        <path
-                                                            d="M4.16667 15.8333H5.35417L13.5 7.6875L12.3125 6.5L4.16667 14.6458V15.8333ZM2.5 17.5V13.9583L13.5 2.97917C13.6667 2.82639 13.8507 2.70833 14.0521 2.625C14.2535 2.54167 14.4653 2.5 14.6875 2.5C14.9097 2.5 15.125 2.54167 15.3333 2.625C15.5417 2.70833 15.7222 2.83333 15.875 3L17.0208 4.16667C17.1875 4.31944 17.309 4.5 17.3854 4.70833C17.4618 4.91667 17.5 5.125 17.5 5.33333C17.5 5.55556 17.4618 5.76736 17.3854 5.96875C17.309 6.17014 17.1875 6.35417 17.0208 6.52083L6.04167 17.5H2.5ZM12.8958 7.10417L12.3125 6.5L13.5 7.6875L12.8958 7.10417Z"
-                                                            fill="black" />
-                                                    </g>
-                                                </svg>
-                                            </span>
-                                        </div>
-                                        </td>
-                    
-                    
-                                    </tr>
-                                    <tr class="" *ngFor="let item of [].constructor(2)">
-                                        <td class="text-left">
-                                            <span class="team-maneger mb-0 table-font-weight">
-                                                Tue, June 12 2022</span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="team-maneger mb-0 ">
-                                                Desktop</span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="team-maneger mb-0 table-font-weight">
-                                                Electronics
-                                            </span>
-                                        </td>
-                                        
-                                        <td class="text-left">
-                                            <span class="team-maneger mb-0 table-font-weight">
-                                                Sam Michael
-                                            </span>
-                                        </td>
-                                        
-                                        <td class="text-left">
-                                            <span class="team-maneger mb-0 table-font-weight ">
-                                                Sam Michael
-                                            </span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="team-maneger mb-0 table-font-weight ">
-                                            June 12 2022
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span class="team-maneger mb-0 table-font-weight white-space">
-                                                 Lorem Ipsum is simply dummy text
-                                                of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the
-                                                1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
-                                            </span>
-                                        </td>
-                                        
-                                        <td>
-                                            <button class="btn p-0 approved-btn text-success font-13">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
-                                                    <g clip-path="url(#clip0_4901_3358)">
-                                                        <path d="M6.92578 10.4851L13.239 4.17188L14.2734 5.20508L7.96018 11.5183" fill="#22b783" />
-                                                        <path d="M5.89231 11.5169L4.85071 12.5597L1.60471 9.3125L0.570312 10.3469L4.85071 14.6273L6.92671 12.5513"
-                                                            fill="#22b783" />
-                                                        <path
-                                                            d="M9.00306 14.6287L4.72266 10.3483L5.75706 9.31388L9.00306 12.5611L17.3923 4.17188L18.4267 5.20628L9.00306 14.6287Z"
-                                                            fill="#22b783" />
-                                                    </g>
-                                                    <defs>
-                                                        <clipPath id="clip0_4901_3358">
-                                                            <rect width="18" height="18" fill="white" transform="translate(0.5 0.398438)" />
-                                                        </clipPath>
-                                                    </defs>
-                                                </svg>
-                                                Approved</button>
-                                        </td>
-                    
-                                    </tr>
 
-                                    <tr class="" *ngFor="let item of [].constructor(2)">
-                                        <td class="text-left">
-                                            <span class="team-maneger mb-0 table-font-weight">
-                                                Tue, June 12 2022</span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="team-maneger mb-0 ">
-                                                Desktop</span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="team-maneger mb-0 table-font-weight">
-                                                Electronics
-                                            </span>
-                                        </td>
-                                    
-                                        <td class="text-left">
-                                            <span class="team-maneger mb-0 table-font-weight">
-                                                Sam Michael
-                                            </span>
-                                        </td>
-                                    
-                                        <td class="text-left">
-                                            <span class="team-maneger mb-0 table-font-weight ">
-                                                Sam Michael
-                                            </span>
-                                        </td>
-                                        <td class="text-left">
-                                            <span class="team-maneger mb-0 table-font-weight ">
-                                                June 12 2022
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span class="team-maneger mb-0 table-font-weight white-space">
-                                                Lorem Ipsum is simply dummy text
-                                                of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since
-                                                the
-                                                1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                                            </span>
-                                        </td>
-                                    
-                                        <td>
-                                            <button class="btn p-0 rejected-btn text-danger font-13">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M0.90625 12.3043L2.34413 13.7422L7.25002 8.83629L12.1559 13.7422L13.5938 12.3043L8.68787 7.39844L13.5938 2.49257L12.1559 1.05469L7.25002 5.96056L2.34415 1.05471L0.906267 2.49257L5.81213 7.39844L0.90625 12.3043Z"
-                                                        fill="#ef4d56" />
-                                                </svg>
-                                                Rejected</button>
-                                        </td>
-                                    
-                                    </tr>
-                    
-                    
-                    
-                                </tbody>
-                            </table>
-                    
-                    
+                        <div class="table-responsive bg-white mt-3">
+                          <table class="table empOnnoardtable">
+                            <thead class="thead-light">
+                              <tr>
+                                <th class="text-left font-13" style="width: 10%">Requested on</th>
+                                <th class="text-left font-13" style="width: 10%">Asset Name</th>
+                                <th class="text-left font-13" style="width: 10%">Asset Type</th>
+                                <th class="text-left font-13" style="width: 10%">Asset Category</th>
+                                <th class="text-left font-13" style="width: 10%">Requested To</th>
+                                <th class="text-left font-13" style="width: 10%">Approved by</th>
+                                <th class="text-left font-13" style="width: 10%">Action Taken on</th>
+                                <th class="text-left font-13" style="width: 10%">Note</th>
+                                <th class="text-left font-13" style="width: 10%">Status</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let asset of assetRequests">
+                                <td class="text-left">{{ asset.requestedOn | date: 'EEE, MMM d yyyy' }}</td>
+                                <td class="text-left">{{ asset.assetName }}</td>
+                                <td class="text-left">{{ asset.assetType }}</td>
+                                <td class="text-left">{{ asset.assetCategoryName }}</td>
+                                <td class="text-left">{{ asset.requestedUser  }}</td>
+                                <td class="text-left">{{ asset.approvedBy || 'Pending' }}</td>
+                                <td class="text-left">{{ asset.actionTakenOn | date: 'MMM d yyyy' }}</td>
+                                <td class="text-left">{{ asset.note }}</td>
+                                <td class="text-left">
+                                  <button class="btn p-0" [ngClass]="{ 'badge rounded-pill badge-soft-secondary': asset.status === 'Pending', 'badge rounded-pill badge-soft-success': asset.status === 'Approved', 'rejected-btn text-danger': asset.status === 'Rejected' }">
+                                    <span>{{ asset.status }}</span>
+                                  </button>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
                         </div>
+
                     </div>
+                    <ng-template #noAssets>
+                      <div class="empty-file" style="margin-top: 13%; margin-bottom: 13%">
+                        <nz-empty nzNotFoundImage="assets/images/no-assets.svg" [nzNotFoundContent]="contentTpl">
+                          <ng-template #contentTpl>
+                            <p class="mb-1 empty-detail font-18">No assets request for now</p>
+                            <span class="empty-details">
+                              Your assets request will be shown here once they have<br>been raised
+                            </span>
+                          </ng-template>
+                        </nz-empty>
+                      </div>
+                    </ng-template>
 
                 </div>
-               
+
 
 
         </div>
@@ -456,7 +214,7 @@
 </button>
 
 <!-- Modal -->
-<div class="modal fade" id="assetRequest" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="assetRequest" tabindex="-1" role="dialog" aria-hidden="true" #assetRequestModal aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -477,81 +235,76 @@
             </div>
             <div class="modal-body">
                 <div class="assets-request-form">
-                    <form>
-                        <div class="row register-form-box">
-                            <div class="col-md-12 mb-3">
-                                <div class="form-group">
-                                <label for="exampleInput" class="mb-2">What would you like to request?</label>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                                            <p class="form-check-label mb-0" for="exampleRadios1">
-                                                Asset Replacement
-                                            </p>
-                                        </label>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                                            <p class="form-check-label mb-0" for="exampleRadios1">
-                                                New Asset Allocation
-                                            </p>
-                                        </label>
-                                    </div>
-                                </div>
-                                </div>
+                  <form [formGroup]="assetRequestForm" (ngSubmit)="submitForm(assetRequestModal)">
+                    <div class="row register-form-box">
+                      <div class="col-md-12 mb-3">
+                        <div class="form-group">
+                          <label for="requestType" class="mb-2">What would you like to request?</label>
+                          <div class="row">
+                            <div class="col-md-6">
+                              <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                                <input type="radio" formControlName="requestType" value="Asset Replacement" class="form-check-input">
+                                <p class="form-check-label mb-0">Asset Replacement</p>
+                              </label>
                             </div>
-                            <div class="col-md-12 mb-3">
-                                <div class="form-group">
-                                    <label for="employeeTypeId" class="mb-2">Asset Category</label>
-                                    <nz-form-control>
-                                    <nz-select class="form-control" style="width: 100%" nzSize="large" nzPlaceHolder="Select Category" required>
-                                        <nz-option [nzValue]="'Attendance update'" [nzLabel]="'Attendance update'"></nz-option>
-                                        <nz-option [nzValue]="'Overtime'" [nzLabel]="'Overtime'"></nz-option>
-                                        <nz-option [nzValue]="'Lop reversal'" [nzLabel]="'Lop reversal'"></nz-option>
-                                    </nz-select>
-                                    </nz-form-control>
-                                </div>
+                            <div class="col-md-6">
+                              <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                                <input type="radio" formControlName="requestType" value="New Asset Allocation" class="form-check-input">
+                                <p class="form-check-label mb-0">New Asset Allocation</p>
+                              </label>
                             </div>
-                            <div class="col-md-12 mb-3">
-                                <div class="form-group">
-                                    <label for="employeeTypeId" class="mb-2">Asset Name</label>
-                                    <nz-form-control>
-                                        <nz-select class="form-control" style="width: 100%" nzSize="large" nzPlaceHolder="Select the asset" required>
-                                            <nz-option [nzValue]="'Attendance update'" [nzLabel]="'Attendance update'"></nz-option>
-                                            <nz-option [nzValue]="'Overtime'" [nzLabel]="'Overtime'"></nz-option>
-                                            <nz-option [nzValue]="'Lop reversal'" [nzLabel]="'Lop reversal'"></nz-option>
-                                        </nz-select>
-                                    </nz-form-control>
-                                </div>
-                            </div>
-                            <div class="col-md-12 mb-3">
-                                <div class="form-group">
-                                    <label for="employeeTypeId" class="mb-2">Select user to request</label>
-                                    <nz-form-control>
-                                        <nz-select class="form-control" style="width: 100%" nzSize="large" nzPlaceHolder="Select a user" required>
-                                            <nz-option [nzValue]="'Attendance update'" [nzLabel]="'Attendance update'"></nz-option>
-                                            <nz-option [nzValue]="'Overtime'" [nzLabel]="'Overtime'"></nz-option>
-                                            <nz-option [nzValue]="'Lop reversal'" [nzLabel]="'Lop reversal'"></nz-option>
-                                        </nz-select>
-                                    </nz-form-control>
-                                </div>
-                            </div>
-                            <div class="col-md-12 ">
-                            <div class="form-group">
-                                 <label for="templateName" class="mb-2">  Note</label>
-                                <textarea class="form-control nots-section" id="exampleFormControlTextarea1" rows="3"></textarea>
-                            </div>
-                            </div>
+                          </div>
                         </div>
-                        </form>
+                      </div>
+
+                      <div class="col-md-12 mb-3">
+                        <div class="form-group">
+                          <label for="assetCategory" class="mb-2">Asset Category</label>
+                          <nz-form-control>
+                            <nz-select formControlName="assetCategory" class="form-control" style="width: 100%" nzSize="large" nzPlaceHolder="Select Category">
+                              <nz-option *ngFor="let category of assetCategories" [nzValue]="category.value" [nzLabel]="category.label"></nz-option>
+                            </nz-select>
+                          </nz-form-control>
+
+                        </div>
+                      </div>
+
+                      <div class="col-md-12 mb-3">
+                        <div class="form-group">
+                          <label for="assetName" class="mb-2">Asset Name</label>
+                          <nz-form-control>
+                            <input formControlName="assetName" type="text" class="form-control" placeholder="Enter the asset name" nzSize="large" style="width: 100%" />
+                          </nz-form-control>
+                        </div>
+                      </div>
+
+                      <div class="col-md-12 mb-3">
+                        <div class="form-group">
+                          <label for="requestedUser" class="mb-2">Select user to request</label>
+                          <nz-form-control>
+                            <nz-select formControlName="requestedUser" class="form-control" style="width: 100%" nzSize="large" nzPlaceHolder="Select a user">
+                              <nz-option *ngFor="let manager of managers" [nzValue]="manager.uuid" [nzLabel]="manager.name"></nz-option>
+                            </nz-select>
+                          </nz-form-control>
+                        </div>
+                      </div>
+
+                      <div class="col-md-12 mb-3">
+                        <div class="form-group">
+                          <label for="note" class="mb-2">Note</label>
+                          <textarea formControlName="note" class="form-control nots-section" rows="3" placeholder="Enter any notes here"></textarea>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
+                      <button type="submit" class="btn btn-primary" [disabled]="assetRequestForm.invalid">Submit Request</button>
+                  </div>
+                  </form>
+
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn submitActionBtn">Submit</button>
-            </div>
+
         </div>
     </div>
 </div>

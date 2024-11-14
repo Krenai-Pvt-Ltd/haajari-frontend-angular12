@@ -84,6 +84,7 @@ import { CompanyExpense } from '../models/CompanyExpense';
 import { UserPositionDTO } from '../models/user-position.model';
 import { DatabaseHelper } from '../models/DatabaseHelper';
 import { ApproveReq } from '../models/ApproveReq';
+import { AssetRequestDTO } from '../models/AssetRequestDTO';
 
 
 @Injectable({
@@ -3668,6 +3669,25 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
 
   createAsset(assetRequest: OrganizationAssetRequest): Observable<any> {
     return this.httpClient.post<any>(`${this.baseUrl}/asset/allocation/create/asset`, assetRequest);
+  }
+  createAssetRequest(formData: any): Observable<any> {
+    return this.httpClient.post<any>(`${this.baseUrl}/asset-requests/create`, formData);
+  }
+  getAssetRequestsByUserUuid(
+    uuid: string,
+    page: number = 0,
+    size: number = 10,
+    search: string = ''
+  ): Observable<{ data: AssetRequestDTO[], currentPage: number, totalItems: number, totalPages: number }> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString())
+      .set('search', search);
+
+    return this.httpClient.get<{ data: AssetRequestDTO[], currentPage: number, totalItems: number, totalPages: number }>(
+      `${this.baseUrl}/asset-requests/user/${uuid}`,
+      { params }
+    );
   }
 
   editAsset(assetId:number, assetRequest: OrganizationAssetRequest): Observable<any> {

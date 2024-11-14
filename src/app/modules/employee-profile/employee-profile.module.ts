@@ -17,6 +17,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 import { PersonalInformationComponent } from './personal-information/personal-information.component';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -40,8 +41,8 @@ import { PersonalInformationComponent } from './personal-information/personal-in
     NzFormModule,
     ReactiveFormsModule,
     NzAutocompleteModule,
-
-    NzTimePickerModule
+    NgbPaginationModule,
+    NzTimePickerModule,
   ]
 })
 export class EmployeeProfileModule { }
