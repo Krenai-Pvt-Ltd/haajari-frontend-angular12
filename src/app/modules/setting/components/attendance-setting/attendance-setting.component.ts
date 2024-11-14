@@ -1583,9 +1583,14 @@ export class AttendanceSettingComponent implements OnInit {
       );
   }
 
+  // shiftForm = NgForm;
+  @ViewChild('shiftForm') shiftForm!: NgForm;
   clearShiftTimingModel() {
     this.shiftTimingActiveTab.nativeElement.click();
     this.organizationShiftTimingRequest = new OrganizationShiftTimingRequest();
+    if (this.shiftForm) {
+      this.shiftForm.resetForm();
+    }
     this.selectedShiftType = new ShiftType();
     this.clearSearchText();
     this.teamId = 0;
@@ -1593,8 +1598,9 @@ export class AttendanceSettingComponent implements OnInit {
     this.selectedTeamName = 'All';
     this.selectedStaffsUuids = [];
     this.pageNumber = 1;
-
-    this.databaseHelper = new DatabaseHelper()
+    this.currentShiftId = 0;
+    this.isShiftNamePresent = false;
+    this.databaseHelper = new DatabaseHelper();
 
   }
   organizationShiftTimingRequest: OrganizationShiftTimingRequest =
@@ -1893,10 +1899,12 @@ formatMinutesToTime(minutes: number): string {
     this.clearShiftTimingModel();
   }
 
+  currentShiftId : number = 0;
   updateOrganizationShiftTiming(
     organizationShiftTimingResponse: OrganizationShiftTimingResponse,
     tab: string
   ) {
+    this.isShiftNamePresent = false;
     // this.shiftTimingActiveTab.nativeElement.click();
     this.weekDay = organizationShiftTimingResponse.weekDayResponse;
 
@@ -1915,6 +1923,8 @@ formatMinutesToTime(minutes: number): string {
 
     this.organizationShiftTimingRequest.shiftTypeId =
       organizationShiftTimingResponse.shiftType.id;
+
+    this.currentShiftId = organizationShiftTimingResponse.shiftType.id;
     this.selectedStaffsUuids = organizationShiftTimingResponse.userUuids;
 
     // this.getWeekDays();
@@ -2995,6 +3005,19 @@ onSelect(event: any): void {
 
   const selectedValue = event.nzValue;
   this.organizationAddressDetail.radius = selectedValue;
+}
+
+
+isShiftNamePresent: boolean = false;
+checkShiftPresenceData(shiftName: string) {
+  this.dataService.checkShiftPresence(shiftName).subscribe(
+    (response) => {
+      this.isShiftNamePresent = response.object;
+    },
+    (error) => {
+      console.log('error');
+    }
+  );
 }
 
 

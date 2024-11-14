@@ -2053,10 +2053,41 @@
                           placeholder="Shift name"
                           required
                           [(ngModel)]="organizationShiftTimingRequest.name"
+                          (input)="
+                                    checkShiftPresenceData(
+                                      organizationShiftTimingRequest.name
+                                    )"
                           name="shiftName"
+                          minlength="3"
+                          required
+                          #shiftName="ngModel"
+                          [disabled]="currentShiftId != 0"
                         />
                       </div>
+                      <div *ngIf="isShiftNamePresent">
+                        <p class="errortxt mb-2 text-danger">
+                          <i class="bi bi-exclamation-circle"></i>
+                          Shift Name already existed.
+                        </p>
+                      </div>
+                      <div *ngIf="shiftName?.dirty && !isShiftNamePresent">
+                        <p
+                          class="errortxt mb-2 text-danger"
+                          *ngIf="shiftName.errors?.required"
+                        >
+                          <i class="bi bi-exclamation-circle"></i>
+                          Shift Name is required.
+                        </p>
+                        <p
+                          class="errortxt mb-2 text-danger"
+                          *ngIf="shiftName.errors?.minlength"
+                        >
+                          <i class="bi bi-exclamation-circle"></i>
+                          Please enter minimum three characters.
+                        </p>
+                      </div>
                     </div>
+                    
                     <!-- In Time Input -->
                     <div class="col-md-4">
                       <div class="mb-3">
@@ -2209,8 +2240,15 @@
                   <button
                     type="submit"
                     class="btn btn-outline-primary btn-round"
-                    [disabled]="shiftForm.invalid"
+                    
                     (click)="weekOffActiveTabMethod()"
+                    [disabled]="
+                      shiftForm.invalid ||
+                      !organizationShiftTimingRequest.inTimeDate ||
+                      !organizationShiftTimingRequest.outTimeDate ||
+                      !organizationShiftTimingRequest.startLunchDate ||
+                      !organizationShiftTimingRequest.endLunchDate
+                    "
                   >
                     Next
                   </button>
@@ -2340,6 +2378,7 @@
                   <button
                     type="submit"
                     class="btn btn-outline-primary btn-round"
+                    
                     [disabled]="shiftForm.invalid"
                     (click)="staffActiveTabInShiftTimingMethod()"
                   >
