@@ -231,7 +231,7 @@
                 <div class="">
 
                   <a class="add-shift-time-btn" data-bs-toggle="modal" data-bs-target="#createPolicy"
-                    (click)="getExpenseType()">
+                    (click)="getExpenseType(); clearData()">
                     <i class="bi bi-plus"></i> Create expense policy
                   </a>
                 </div>
@@ -825,6 +825,19 @@
                 </div>
                 <ng-template #rejectLabel>Reject</ng-template>
               </button>
+
+               <!-- Reject Button -->
+               <button class="btn btn-warning" type="button" (click)="approveOrDeny(userExpense.id, 40)">
+                <div *ngIf="payrollToggle; else payrollLabel">
+                  <div class="dot-opacity-loader">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </div>
+                <ng-template #payrollLabel>Add To Payroll</ng-template>
+              </button>
+
             </div>
           </div>
         </div>

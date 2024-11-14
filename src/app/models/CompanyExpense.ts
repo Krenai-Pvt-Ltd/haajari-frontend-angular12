@@ -6,4 +6,5 @@ export class CompanyExpense{
     expensePolicyList: ExpensePolicy[] = []
     selectedUserIds: number[] =[]
     deSelectedUserIds: number[] =[]
+    removeUserIds: number[] =[]
 }
