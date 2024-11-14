@@ -397,12 +397,13 @@ export class TimetableComponent implements OnInit {
                 attendance.currentStatus=AttendanceStatus.ABSENT;
               }else if(attendance.isWorking){
                 attendance.currentStatus=AttendanceStatus.WORKING;
-              }else if(attendance.isWeekend){
+              }else if(!attendance.isAbsent && !this.Constant.EMPTY_STRINGS.includes(attendance.checkInTime)){
+                attendance.currentStatus=AttendanceStatus.PRESENT;
+              }
+              else if(attendance.isWeekend){
                 attendance.currentStatus=AttendanceStatus.WEEKEND;
               }else if(attendance.isHoliday){
                 attendance.currentStatus=AttendanceStatus.HOLIDAY;
-              }else if(!attendance.isAbsent){
-                attendance.currentStatus=AttendanceStatus.PRESENT;
               }
             })
             // console.log(this.attendanceDetailsResponseList);

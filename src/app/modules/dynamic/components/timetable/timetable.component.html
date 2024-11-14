@@ -348,7 +348,9 @@
                             [ngClass]="{
                               'in-time-color':
                                 attendanceDetailsResponse.currentStatus ==
-                                AttendanceStatus.WORKING,
+                                AttendanceStatus.WORKING || attendanceDetailsResponse.currentStatus ==
+                                AttendanceStatus.PRESENT,
+                               
                               'break-color':
                                 attendanceDetailsResponse.currentStatus ==
                                 AttendanceStatus.ON_BREAK ||
@@ -361,6 +363,9 @@
                                   'Absent' ||
                                 attendanceDetailsResponse.currentStatus ==
                                   'Not Marked'
+                                  ||
+                                attendanceDetailsResponse.currentStatus ==
+                                AttendanceStatus.WEEKEND
                             }"
                           >
                             {{ attendanceDetailsResponse.currentStatus }}
