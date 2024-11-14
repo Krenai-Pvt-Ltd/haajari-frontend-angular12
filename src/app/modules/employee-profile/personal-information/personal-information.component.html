@@ -1,4 +1,4 @@
-<div class="m-3 assets-detail p-3">
+<div class="m-3 assets-detail p-3 pt-0" *ngIf="!profileEdit">
     <div class="employee-profile-information">
         <div class="d-flex align-items-center justify-content-between profile-imfo mt-2 mb-3">
             <div>
@@ -11,7 +11,7 @@
                 <span>Joining Date: 30/10/2023</span>
             </div>
             <div class="d-flex align-items-center gap-3 action-btn">
-                <button class="p-0 btn text-primary gont-14">
+                <button class="p-0 btn text-primary gont-14" (click)="profileEdit=true;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="23" viewBox="0 0 22 23" fill="none">
                         <mask id="mask0_5429_20359" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="22" height="23">
                             <rect y="0.5" width="22" height="22" fill="#D9D9D9" />
@@ -35,7 +35,7 @@
                                 fill="#6666F2" />
                         </g>
                     </svg>
-                    Request Logs</button>
+                    Request</button>
             </div>
         </div>
 
@@ -52,7 +52,7 @@
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Email Address</p>
-                                <h6 class="profile-email">sannman123@gmail.com</h6>
+                                <h6 class="profile-email">yogesh@krenai.com</h6>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -64,13 +64,13 @@
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Gender</p>
-                                <h6>Female</h6>
+                                <h6>Male</h6>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3" >
                                 <p class="mb-1">Date Of Birth</p>
-                                <h6>13/10/1999</h6>
+                                <h6>13/06/1996</h6>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -88,7 +88,7 @@
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Father’s Name</p>
-                                <h6>Bobin Mia</h6>
+                                <h6>Kamal Singh</h6>
                             </div>
                         </div>
                     </div>
@@ -350,3 +350,342 @@
         </div>
     </div>
 </div>
+
+<div class="edit-design-box m-3 p-3 pt-0" *ngIf="profileEdit">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+
+        <h5 class="mb-2"> Edit Profile </h5>
+        <div class="d-flex align-items-center gap-2">
+            <button class="btn profile-cancel-btn" (click)="profileEdit=false;">Cancel</button>
+            <button class="btn save-btn" (click)="profileEdit=false;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+                    <mask id="mask0_5535_3777" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
+                        <rect x="0.46167" y="0.5" width="24" height="24" fill="#D9D9D9" />
+                    </mask>
+                    <g mask="url(#mask0_5535_3777)">
+                        <path
+                            d="M7.16172 18.5016L1.51172 12.8516L2.93672 11.4516L8.58672 17.1016L7.16172 18.5016ZM12.8117 18.5016L7.16172 12.8516L8.56172 11.4266L12.8117 15.6766L22.0117 6.47656L23.4117 7.90156L12.8117 18.5016ZM12.8117 12.8516L11.3867 11.4516L16.3367 6.50156L17.7617 7.90156L12.8117 12.8516Z"
+                            fill="white" />
+                    </g>
+                </svg>
+                Save
+            </button>
+        </div>
+
+    </div>
+    <div class="edit-detail">
+        <div class="row border-top pt-4 pb-3">
+            <div class="col-md-3">
+                <div class="profile-imfo-hedding">
+                    <h5>Personal Information</h5>
+                </div>
+            </div>
+            <div class="col-md-9">
+               <div class="row">
+                   <div class="col-md-6 mb-3">
+                      <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                        <input type="input" class="form__field" value="Yogesh Kumar">
+                        <label class="form__label">Name </label>
+                      </div>
+                   </div>
+                   <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value="Single">
+                            <label class="form__label">Marital Status </label>
+                        </div>
+                   </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value="yogesh@krenai.com">
+                            <label class="form__label">Email Address </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field"  value="27-03-2023">
+                            <label class="form__label">Joining Date </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value="+91-9549901868">
+                            <label class="form__label">Phone Number </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field"  value="₹20,000">
+                            <label class="form__label">Current Salary </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value="Male">
+                            <label class="form__label">Gender </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value="Designer">
+                            <label class="form__label">Department </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value="13/06/1996">
+                            <label class="form__label">Date Of Birth </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value="Frontend designer">
+                            <label class="form__label">Current Position </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value="Kamal Singh">
+                            <label class="form__label">Father’s Name </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value="Indian">
+                            <label class="form__label">Nationality </label>
+                        </div>
+                    </div>
+                    
+
+               </div>
+            </div>
+        </div>
+        <div class="row border-top pt-4 pb-3">
+            <div class="col-md-3">
+                <div class="profile-imfo-hedding">
+                    <h5>Address Details</h5>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="row mb-3">
+                    
+                    <h6 class="mb-3">Current Address</h6>
+
+                    <div class="col-md-12 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value="Krishna Furniture Showroom, Badshahpur Sohna Rd Hwy, opp. Sona Devi Hospital, Badshahpur">
+                            <label class="form__label">Address </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value="122101">
+                            <label class="form__label">Pincode </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value="Gurugram">
+                            <label class="form__label">City </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value="Haryana">
+                            <label class="form__label">State </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value=" India">
+                            <label class="form__label">Country </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                
+                    <h6 class="mb-3">Permanent Address</h6>
+                
+                    <div class="col-md-12 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value="VPO-Sanoli, Tehsil-Mundawar, Dist-Alwar">
+                            <label class="form__label">Address </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value="301714">
+                            <label class="form__label">Pincode </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value="Neemrana">
+                            <label class="form__label">City </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value="Rajasthan">
+                            <label class="form__label">State </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value="India">
+                            <label class="form__label">Country </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row border-top pt-4 pb-3">
+            <div class="col-md-3">
+                <div class="profile-imfo-hedding">
+                    <h5>Reference</h5>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value="Sumit Gautam">
+                            <label class="form__label">Name </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value="Friend">
+                            <label class="form__label">Relation </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value="+91-9911909533">
+                            <label class="form__label">Phone Number </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value=" sumit@krenai.com">
+                            <label class="form__label">Email Address </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row border-top pt-4 pb-3">
+            <div class="col-md-3">
+                <div class="profile-imfo-hedding">
+                    <h5>Academic Details</h5>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value=" Bachelor's Degree">
+                            <label class="form__label">Qualification </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value=" B.A">
+                            <label class="form__label">Degree/Diploma </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value="History and Political Science">
+                            <label class="form__label">Field of Study </label>
+                        </div>
+                    </div>
+                   
+                    <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value=" 7.303">
+                            <label class="form__label">CGPA </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value="LBS jaipur">
+                            <label class="form__label">Collage Name </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value="2018">
+                            <label class="form__label">Graduating Year </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row border-top pt-4 pb-3">
+            <div class="col-md-3">
+                <div class="profile-imfo-hedding">
+                    <h5>Bank Details</h5>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value="Yogesh Kumar">
+                            <label class="form__label">Account Holder Name </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value="ICIC Bank">
+                            <label class="form__label">Bank Name </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value="007101571267">
+                            <label class="form__label">Account Number </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value="ICIC0000071">
+                            <label class="form__label">IFSC Number </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row border-top pt-4 pb-3">
+            <div class="col-md-3">
+                <div class="profile-imfo-hedding">
+                    <h5>Emergency Contact</h5>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value="Friend">
+                            <label class="form__label">Relation with Employee </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value="Sumit Gautam">
+                            <label class="form__label">Name </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                            <input type="input" class="form__field" value="9911909533">
+                            <label class="form__label">Phone Number </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

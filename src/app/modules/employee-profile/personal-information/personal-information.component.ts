@@ -7,7 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PersonalInformationComponent implements OnInit {
 
-  constructor() { }
+  profileEdit: boolean = false;
+
+  constructor() { 
+
+  }
 
   ngOnInit(): void {
   }

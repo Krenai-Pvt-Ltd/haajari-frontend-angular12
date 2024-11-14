@@ -1,4 +1,4 @@
-import { Component,  OnInit } from '@angular/core';
+import { Component,  ElementRef,  OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -61,6 +61,42 @@ checkShiftTimingExistsMethodCall() {
     (error) => {}
   );
 }
+  
+  @ViewChild('close_button') close_button!: ElementRef;
+  @ViewChild('videoIframe', { static: false }) youtubeIframe:
+    | ElementRef<HTMLIFrameElement>
+    | undefined;
+
+  // Stops or pauses the video when modal closes
+  stopVideo(): void {
+    this.close_button.nativeElement.click();
+
+    if (this.youtubeIframe) {
+      // Ensure that contentWindow is correctly typed
+      const iframeWindow = (
+        this.youtubeIframe.nativeElement as HTMLIFrameElement
+      ).contentWindow;
+
+      const iframeElement = this.youtubeIframe.nativeElement as HTMLIFrameElement;
+      iframeElement.src = '';
+    }
+    
+  }
+
+
+
+  setSrc(){
+    if (this.youtubeIframe) {
+    const iframeElement = this.youtubeIframe.nativeElement as HTMLIFrameElement;
+      iframeElement.src = 'https://www.youtube.com/embed/_P_5jBpDpsc?si=F2hd2KPHZ800QVjp';
+    }
+  }
+
+  // Call this method when modal closes to stop the video
+  onModalClose(): void {
+    this.stopVideo();
+    // this.pauseYouTubeVideo();
+  }
 
 
 

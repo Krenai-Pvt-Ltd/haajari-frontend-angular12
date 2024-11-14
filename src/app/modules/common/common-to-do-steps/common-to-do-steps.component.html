@@ -115,7 +115,7 @@
           <span class="pendingBox" *ngIf="step?.statusId == 35"> </span>
         </div>
 
-        <div>
+        <div (click)="routeToStep(step?.route, step?.name)">
           <h4>{{ step?.name }}</h4>
           <p class="mb-0">
             {{ step?.description }}
