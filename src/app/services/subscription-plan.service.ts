@@ -3,6 +3,9 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Key } from "../constant/key";
 import { DatabaseHelper } from "../models/DatabaseHelper";
 import { HelperService } from "./helper.service";
+import { ActivationEnd, Router } from "@angular/router";
+import { constant } from "../constant/constant";
+import { Routes } from "../constant/Routes";
 
 
 @Injectable({
@@ -11,11 +14,28 @@ import { HelperService } from "./helper.service";
 export class SubscriptionPlanService {
 
   private _key: Key = new Key();
-
+  currentRoute:any;
   constructor(private _httpClient: HttpClient,
-    private _helperService : HelperService
+    private _helperService : HelperService,
+    private _router: Router
   ) {
-    this.LoadAsync();
+  
+
+    if (this._router != undefined) {
+      this._router.events.subscribe(val => {
+        if (val instanceof ActivationEnd && constant.EMPTY_STRINGS.includes(this.currentRoute)) {
+          //@ts-ignore
+          this.currentRoute = val.snapshot._routerState.url.split("?")[0];
+          // console.log("route=======", this.currentRoute);
+          if (!Routes.AUTH_ROUTES.includes(String(this.currentRoute))) {
+             this.LoadAsync();
+          }
+        }
+
+      });
+
+
+    }
   }
 
 
@@ -42,7 +62,6 @@ export class SubscriptionPlanService {
       });
   }
 
-  isFullAccess:boolean=false;
   isPlanExpired!:boolean;
   isTrialPlan!:boolean;
   isSubscription!:boolean;

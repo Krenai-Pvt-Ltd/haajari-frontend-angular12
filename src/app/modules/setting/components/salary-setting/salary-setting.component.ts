@@ -10,7 +10,6 @@ import { SalaryComponent } from 'src/app/models/salary-component';
 import { SalaryTemplateComponentRequest } from 'src/app/models/salary-template-component-request';
 import { SalaryTemplateComponentResponse } from 'src/app/models/salary-template-component-response';
 import { Staff } from 'src/app/models/staff';
-import { Statutory } from 'src/app/models/statutory';
 import { StatutoryAttribute } from 'src/app/models/statutory-attribute';
 import { StatutoryAttributeResponse } from 'src/app/models/statutory-attribute-response';
 import { StatutoryRequest } from 'src/app/models/statutory-request';
@@ -19,6 +18,7 @@ import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-refl
 import { ConfirmationDialogService } from 'src/app/services/confirmation-dialog.service';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { SalaryService } from 'src/app/services/salary.service';
 
 @Component({
   selector: 'app-salary-setting',
@@ -30,14 +30,14 @@ export class SalarySettingComponent implements OnInit {
     private dataService: DataService,
     private helperService: HelperService,
     private confirmationDialogService: ConfirmationDialogService,
-    private afStorage: AngularFireStorage
+    private afStorage: AngularFireStorage,
+    private _salaryService: SalaryService
   ) {}
 
   ngOnInit(): void {
     window.scroll(0, 0);
     this.getSalaryDetailExcelMethodCall();
     this.getAllSalaryCalculationModeMethodCall();
-    this.getSalaryCalculationModeByOrganizationIdMethodCall();
     this.getPFContributionRateMethodCall();
     this.getESIContributionRateMethodCall();
     this.getAllStatutoriesMethodCall();
@@ -147,23 +147,23 @@ export class SalarySettingComponent implements OnInit {
       false;
   }
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                               SECTION  START                                                                       // 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   //Fetching all the salary calculation mode from the database
   salaryCalculationModeList: SalaryCalculationMode[] = [];
   getAllSalaryCalculationModeMethodCall() {
     this.preRuleForShimmersAndErrorPlaceholdersForSalaryCalculationModeMethodCall();
-    this.dataService.getAllSalaryCalculationMode().subscribe(
+    this._salaryService.getAllSalaryCalculationMode().subscribe(
       (response) => {
-        if (
-          response == null ||
-          response == undefined ||
-          response.listOfObject == null ||
-          response.listOfObject == undefined ||
-          response.listOfObject.length == 0
-        ) {
-          this.dataNotFoundPlaceholderForSalaryCalculationMode = true;
-          return;
+        if(response.status){
+          this.salaryCalculationModeList = response.object;
+          if(this.salaryCalculationModeList==null){
+            this.salaryCalculationModeList = [];
+          }
         }
-        this.salaryCalculationModeList = response.listOfObject;
       },
       (error) => {
         this.networkConnectionErrorPlaceHolderForSalaryCalculationMode = true;
@@ -171,49 +171,30 @@ export class SalarySettingComponent implements OnInit {
     );
   }
 
-  //Fetching the salary calculation mode by organization
-  selectedSalaryCalculationModeId: number = 0;
-  getSalaryCalculationModeByOrganizationIdMethodCall() {
-    debugger;
-    this.preRuleForShimmersAndErrorPlaceholdersForSalaryCalculationModeMethodCall();
-    this.dataService.getSalaryCalculationModeByOrganizationId().subscribe(
-      (response) => {
-        debugger;
-        this.selectedSalaryCalculationModeId = response.object.id;
-        this.getAllSalaryCalculationModeMethodCall();
-      },
-      (error) => {}
-    );
-  }
-
+  
   //Updating the salary calculation mode
-  updateSalaryCalculationModeMethodCall(salaryCalculationModeId: number) {
-    debugger;
-    this.confirmationDialogService.openConfirmDialog(
-      () => this.proceedUpdateSalaryCalculationMode(salaryCalculationModeId),
-      () => this.cancelSalaryCalculationModeUpdation()
-    );
-  }
+  @ViewChild('salaryModeClose') salaryModeClose!:ElementRef;
+  selectedSalaryModeId:number=0;
   proceedUpdateSalaryCalculationMode(salaryCalculationModeId: number) {
-    this.dataService
-      .updateSalaryCalculationMode(salaryCalculationModeId)
-      .subscribe(
-        (response) => {
-          this.getSalaryCalculationModeByOrganizationIdMethodCall();
-          this.helperService.showToast(
-            'Salary calculation mode updated successfully.',
-            Key.TOAST_STATUS_SUCCESS
-          );
+    this._salaryService.updateSalaryCalculationMode(salaryCalculationModeId).subscribe((response) => {
+        if(response.status){
+          this.salaryModeClose.nativeElement.click();
+          this.salaryCalculationModeList.forEach((salaryMode)=>{        
+              if(salaryMode.id == salaryCalculationModeId){
+                salaryMode.selected = true;
+              }else{
+                salaryMode.selected = false;
+              }
+          });
+          this.helperService.showToast(response.message,Key.TOAST_STATUS_SUCCESS);
+        }
         },
         (error) => {
-          // console.log(error);
           this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
         }
       );
   }
-  cancelSalaryCalculationModeUpdation() {
-    console.log('Cancel check!');
-  }
+
 
   //Fetching the PF contribution rates from the database
   pFContributionRateList: PFContributionRate[] = [];
@@ -242,7 +223,7 @@ export class SalarySettingComponent implements OnInit {
   statutoryResponseList: StatutoryResponse[] = [];
   getAllStatutoriesMethodCall() {
     this.preRuleForShimmersAndErrorPlaceholdersForStatutoryMethodCall();
-    this.dataService.getAllStatutories().subscribe(
+    this._salaryService.getAllStatutories().subscribe(
       (response) => {
         this.statutoryResponseList = response.listOfObject;
         this.setStatutoryVariablesToFalse();
@@ -262,6 +243,12 @@ export class SalarySettingComponent implements OnInit {
       }
     );
   }
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                             SECTION  END                                                                           // 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   // clickSwitch(statutoryResponse : StatutoryResponse): void {
   // debugger
@@ -897,6 +884,10 @@ export class SalarySettingComponent implements OnInit {
     this.pageNumber = event;
   }
 
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //                                                            SALARY UPLOAD SECTION START                                                           // 
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   fileName: any;
   currentFileUpload: any;
 
@@ -992,31 +983,20 @@ export class SalarySettingComponent implements OnInit {
   lastUploadedSalaryDoc: string = '';
   lastUploadedSalaryDocName: string = '';
   getSalaryDetailExcelMethodCall() {
-    this.dataService.getSalaryDetailExcel().subscribe(
-      (response: any) => {
+    this._salaryService.getSalaryDetailExcel().subscribe((response: any) => {
         if (response.status && response.object && response.object.url) {
           this.lastUploadedSalaryDoc = response.object.url;
-          this.lastUploadedSalaryDocName = this.extractFileName(
-            this.lastUploadedSalaryDoc
-          );
+          this.lastUploadedSalaryDocName = this.extractFileName( this.lastUploadedSalaryDoc);
         } else {
           this.lastUploadedSalaryDoc = '';
           this.lastUploadedSalaryDocName = '';
         }
       },
       (error) => {
-        console.error('Error fetching last uploaded salary document', error);
-        this.lastUploadedSalaryDoc = '';
-        this.lastUploadedSalaryDocName = '';
       }
     );
   }
 
-  extractFileName(url: string): string {
-    const decodedUrl = decodeURIComponent(url);
-    const matches = decodedUrl.match(/.*\/(.+\..+?)\?/);
-    return matches ? matches[1] : 'Unknown File';
-  }
 
   downloadDocument() {
     const link = document.createElement('a');
@@ -1024,4 +1004,44 @@ export class SalarySettingComponent implements OnInit {
     link.download = 'Salary_Detail_Doc.pdf';
     link.click();
   }
+
+
+  dowloadLoading:boolean=false;
+  getCurrentSalaryReport(){
+    this.dowloadLoading = true;
+    this._salaryService.getCurrentSalaryReport().subscribe((response) => {
+      if (response.status) {
+        if(response.object!=null){
+          this.downloadUrl(response.object);
+        } 
+      }else{
+
+      } 
+      this.dowloadLoading = false;
+    },
+    (error) => {
+      this.dowloadLoading = false;
+    });
+  }
+
+
+  extractFileName(url: string): string {
+
+    const parts = decodeURIComponent(url).split("/");
+    return parts[parts.length - 1].split("?")[0];
+  }
+
+
+  downloadUrl(url:string){
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = this.extractFileName(url); 
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
+  }
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //                                                            SALARY UPLOAD SECTION END                                                             // 
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
