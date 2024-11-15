@@ -3103,5 +3103,11 @@ closeModal() {
 }
 
 
+redirectToCompanySetting() {
+  this.attendancewithlocationssButton.nativeElement.click();
+  this.router.navigate(['/setting/company-setting']);
+
+}
+
 
 }
