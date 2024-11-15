@@ -1029,7 +1029,7 @@ export class CompanySettingComponent implements OnInit {
     if (isNaN(numericValue) || numericValue < 10) {
       this.minRadius = true;
     } else {
-      this.minRadius = numericValue < 50;
+      this.minRadius = numericValue < 10;
     }
   
     // Filter predefined options or add custom radius if not in options
