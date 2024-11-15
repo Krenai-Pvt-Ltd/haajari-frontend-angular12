@@ -4262,6 +4262,11 @@ getHolidayForOrganization(date: string): Observable<any>{
 
 
   getExpenseType(){
+    return this.httpClient.get<any>(`${this.baseUrl}/company-expense-policy/expense-type`);
+    // return this.httpClient.get<any>(`${this.baseUrl}/company-expense-type`);
+  }
+
+  getAllExpenseType(){
     return this.httpClient.get<any>(`${this.baseUrl}/company-expense-type`);
   }
 

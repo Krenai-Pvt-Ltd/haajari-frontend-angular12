@@ -57,6 +57,8 @@ export class CreateExpenseComponent implements OnInit {
   clearData(){
     debugger
     this.companyExpensePolicyId = 0
+    this.tempExpPolicyId = 0;
+    this.oldSelectedStaffIdsUser = []
     this.companyExpenseReq = new CompanyExpense();
   }
 
@@ -67,13 +69,30 @@ export class CreateExpenseComponent implements OnInit {
     this.expenseTypeReq.expenseTypeId = id
   }
 
-  getExpenseType() {
+  getExpenseType1() {
     
     this.expenseTypeReq = new ExpenseType();
     this.expenseTypeId = 0
 
     this.expenseTypeList = []
     this.dataService.getExpenseType().subscribe((res: any) => {
+
+      if (res.status) {
+        this.expenseTypeList = res.object;
+      }
+
+    }, error => {
+      console.log('something went wrong')
+    })
+  }
+
+  getExpenseType() {
+    
+    this.expenseTypeReq = new ExpenseType();
+    this.expenseTypeId = 0
+
+    this.expenseTypeList = []
+    this.dataService.getAllExpenseType().subscribe((res: any) => {
 
       if (res.status) {
         this.expenseTypeList = res.object;
@@ -217,7 +236,7 @@ export class CreateExpenseComponent implements OnInit {
   rejectToggle: boolean = false;
 
   payrollToggle: boolean = false;
-
+  expenseCancelToggle: boolean = false;
   @ViewChild('closeApproveModal') closeApproveModal!: ElementRef
   approveOrDeny(id: number, statusId: number) {
 
@@ -227,9 +246,10 @@ export class CreateExpenseComponent implements OnInit {
       this.approveToggle = true;
     }else if(statusId == 15){
       this.rejectToggle = true;
-    }else{
+    }else if(statusId == 40){
       this.payrollToggle = true;
-
+    }else{
+      this.expenseCancelToggle = true;
     }
 
     this.approveReq.id = id;
@@ -246,6 +266,7 @@ export class CreateExpenseComponent implements OnInit {
         this.rejectToggle = false
 
         this.payrollToggle = false
+        this.expenseCancelToggle = false
 
         this.helperService.showToast(
           res.message,
@@ -609,7 +630,11 @@ export class CreateExpenseComponent implements OnInit {
     if (event.checked) {
       this.allselected = false;
 
-      if(this.updateToggle){
+      // if(this.updateToggle){
+      //   this.deSelectedStaffIdsUser.push(event.id)
+      // }
+
+      if(this.updateToggle && this.oldSelectedStaffIdsUser.includes(event.id)){
         this.deSelectedStaffIdsUser.push(event.id)
       }
 
@@ -965,9 +990,11 @@ export class CreateExpenseComponent implements OnInit {
     //     this.updateToggle = false;
     //     this.isValidated = false;
     //     this.tempSelectedStaffIdsUser = []
+    //     this.oldSelectedStaffIdsUser = []
 
     //     this.companyExpensePolicyId = 0
     //     this.companyExpenseReq.id = 0
+    //     this.tempExpPolicyId = 0
     //     this.policyName = ''
     //     this.tempPolicyName = ''
     //     if(this.isMappedUserModalOpen){
@@ -994,6 +1021,7 @@ export class CreateExpenseComponent implements OnInit {
         this.companyExpensePolicyId = 0
         this.companyExpenseReq.id = 0
         this.tempSelectedStaffIdsUser = []
+        this.oldSelectedStaffIdsUser = []
         this.policyName = ''
         this.tempPolicyName = ''
         this.tempExpPolicyId = 0
@@ -1001,7 +1029,6 @@ export class CreateExpenseComponent implements OnInit {
         if(this.isMappedUserModalOpen){
           this.usersAlreadyAssigned?.nativeElement.click();
           this.isMappedUserModalOpen = false
-          // this.tempCompanyExpenseReq = new CompanyExpense();
         }
         this.companyExpenseReq = new CompanyExpense();
         this.tempCompanyExpenseReq = new CompanyExpense();
@@ -1410,7 +1437,7 @@ export class CreateExpenseComponent implements OnInit {
 
   /** User already mapped end */
 
-
+  oldSelectedStaffIdsUser: number[] = []
   getExpenseInformationById1(companyExpense: CompanyExpensePolicyRes){
 
       debugger
@@ -1488,6 +1515,7 @@ export class CreateExpenseComponent implements OnInit {
 
     this.expensePolicyReq = new ExpensePolicy()
     this.expensePolicyReqList = []
+    this.oldSelectedStaffIdsUser = []
 
     // console.log('expense obj: ',companyExpense)
 
@@ -1517,8 +1545,11 @@ export class CreateExpenseComponent implements OnInit {
 
     companyExpense.userIds.forEach((id: number) => {
       this.selectedStaffIdsUser.push(id)
-
+      this.oldSelectedStaffIdsUser.push(id)
     });
+
+    // this.oldSelectedStaffIdsUser = this.selectedStaffIdsUser
+    console.log('old sel IDS: ',this.oldSelectedStaffIdsUser)
     
     this.policyName = companyExpense.policyName
     this.updateToggle = true;
