@@ -1,6 +1,7 @@
 import { UserDTO } from "./UserDTO";
 
 export interface AssetRequestDTO {
+  id: Number;
   assetType: string;
   requestedOn: Date;
   assetName: string;
@@ -12,5 +13,5 @@ export interface AssetRequestDTO {
   approvedBy?: string;
   actionTakenOn?: Date;
   note: string;
-  status: 'Pending' | 'Approved' | 'Rejected';
+  status: string;
 }

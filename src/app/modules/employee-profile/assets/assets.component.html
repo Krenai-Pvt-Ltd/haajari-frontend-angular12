@@ -74,12 +74,13 @@
                                 <td class="text-left">{{ asset.purchasedDate | date: 'yyyy-MM-dd' }}</td>
                                 <td class="text-left">{{ asset.price | currency }}</td>
                                 <td class="text-left">
-                                  <div [ngClass]="{
-                                    'badge rounded-pill badge-soft-success': asset.status === 'ASSIGNED',
-                                    'badge rounded-pill badge-soft-secondary': asset.status !== 'ASSIGNED'
-                                  }">
+                                  <span
+                                    [ngClass]="{
+                                      'badge rounded-pill badge-soft-success': asset.status !== 'PENDING',
+                                      'badge rounded-pill badge-soft-secondary': asset.status !== 'PENDING'
+                                    }">
                                     {{ asset.status }}
-                                  </div>
+                                  </span>
                                 </td>
                               </tr>
                             </tbody>
@@ -172,17 +173,33 @@
                                 <td class="text-left">{{ asset.assetType }}</td>
                                 <td class="text-left">{{ asset.assetCategoryName }}</td>
                                 <td class="text-left">{{ asset.requestedUser  }}</td>
-                                <td class="text-left">{{ asset.approvedBy || 'Pending' }}</td>
+                                <td class="text-left">{{ asset.approvedBy }}</td>
                                 <td class="text-left">{{ asset.actionTakenOn | date: 'MMM d yyyy' }}</td>
                                 <td class="text-left">{{ asset.note }}</td>
                                 <td class="text-left">
-                                  <button class="btn p-0" [ngClass]="{ 'badge rounded-pill badge-soft-secondary': asset.status === 'Pending', 'badge rounded-pill badge-soft-success': asset.status === 'Approved', 'rejected-btn text-danger': asset.status === 'Rejected' }">
-                                    <span>{{ asset.status }}</span>
-                                  </button>
+                                  <span
+                                    [ngClass]="{
+                                      'badge rounded-pill badge-soft-success': asset.status !== 'PENDING',
+                                      'badge rounded-pill badge-soft-secondary': asset.status == 'PENDING'
+                                    }">
+                                    {{ asset.status }}
+                                  </span>
                                 </td>
                               </tr>
                             </tbody>
                           </table>
+                          <div *ngIf="this.assetRequestsTotalPage>1" class="pagination-controls">
+                            <!-- Ngb Pagination Component -->
+                            <ngb-pagination
+                              [collectionSize]="assetRequestsTotalCount"
+                              [rotate]="true"
+                              (pageChange)="pageChangedRequest($event)"
+                              [pageSize]="assetRequestsSize"
+                              [(page)]="assetRequestsPage"
+                              [maxSize]="8"
+                              [boundaryLinks]="true">
+                            </ngb-pagination>
+                          </div>
                         </div>
 
                     </div>

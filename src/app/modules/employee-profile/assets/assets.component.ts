@@ -171,6 +171,14 @@ export class AssetsComponent implements OnInit {
   assetRequestsSize: number = 10;
   assetRequestsSearch: string = '';
 
+  assetRequestsTotalPage: number=0;
+  assetRequestsTotalCount: number=0;
+
+  pageChangedRequest(page: number): void {
+    this.assetRequestsPage = page-1;  // Update current page when changed
+    this.getAssetRequests();      // Fetch data for the new page
+  }
+
   isAssetRequestArrayEmpty(): boolean {
     if(this.assetRequestsSearch?.length>0){
       return false;
@@ -183,7 +191,8 @@ export class AssetsComponent implements OnInit {
     this.dataService.getAssetRequestsByUserUuid(this.userId, this.assetRequestsPage, this.assetRequestsSize, this.assetRequestsSearch).subscribe(
       (response) => {
         this.assetRequests = response.data; // Assign only the data (array of AssetRequestDTO) from the response
-
+        this.assetRequestsTotalPage=response.totalPages;
+        this.assetRequestsTotalCount=response.totalItems;
         console.log('Asset requests:', this.isAssetRequestArrayEmpty());
         console.log('Total items:', response.totalItems);
         console.log('Current page:', response.currentPage);

@@ -3690,6 +3690,29 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
+
+  getAssetRequests(
+    page: number = 0,
+    size: number = 10,
+    search: string = ''
+  ): Observable<{ data: AssetRequestDTO[], currentPage: number, totalItems: number, totalPages: number }> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString())
+      .set('search', search);
+
+    return this.httpClient.get<{ data: AssetRequestDTO[], currentPage: number, totalItems: number, totalPages: number }>(
+      `${this.baseUrl}/asset-requests/users`,
+      { params }
+    );
+  }
+
+  changeAssetRequestStatus(id: number, status: string): Observable<any> {
+    const url = `${this.baseUrl}/asset-requests/${id}/change-status`;
+    const params = new HttpParams().set('status', status);
+    return this.httpClient.post<any>(url, null, { params });
+  }
+
   editAsset(assetId:number, assetRequest: OrganizationAssetRequest): Observable<any> {
     let params = new HttpParams()
       .set('assetId', assetId);
