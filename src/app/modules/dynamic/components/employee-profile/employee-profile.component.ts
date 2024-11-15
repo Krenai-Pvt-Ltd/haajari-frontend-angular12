@@ -597,6 +597,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
           this.events = [];
           this.totalPresent = 0;
           this.totalAbsent = 0;
+          console.log("🚀 ~ EmployeeProfileComponent ~ getUserAttendanceDataFromDate ~ attendances.length:", attendances.length)
 
           if (!attendances.length) {
             let currentDate = moment(sDate, 'YYYY-MM-DD');
