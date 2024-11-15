@@ -882,9 +882,13 @@
                                           <div>
                                             <p class="mb-0 mt-0 location-text">
                                               <span><b>Location:</b></span>
-                                              <span class="location-address">{{
-                                                attendanceLogResponse.currentAddress ||
-                                                  "N/A"
+                                              <span class="location-address" *ngIf="Constant.EMPTY_STRINGS.includes( attendanceLogResponse.currentAddress)">{{
+                                                attendanceLogResponse.currentAddress 
+                                                
+                                              }}</span>
+                                              <span class="location-address" *ngIf="Constant.EMPTY_STRINGS.includes( attendanceLogResponse.currentAddress)">{{
+                                                
+                                                getAddressFromCoords( attendanceLogResponse.latString,attendanceLogResponse.longString)
                                               }}</span>
                                             </p>
                                           </div>

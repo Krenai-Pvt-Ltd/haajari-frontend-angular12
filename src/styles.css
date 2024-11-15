@@ -262,6 +262,8 @@ nz-date-picker {
 
 .attendance-date .ant-picker {
   border: none !important;
+  background-color: transparent;
+  height: 36px !important;
 }
 
 .location-map webcam video {
@@ -372,10 +374,10 @@ label {
 .ant-select:not(.ant-select-customize-input) .ant-select-selector {
   position: relative;
   transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-  background-color: rgba(236, 236, 236, 0.21) !important;
+  background-color: rgba(236, 236, 236, 0.21) ;
   border: none !important;
   border-radius: 0px !important;
-  min-height: 44px !important;
+  min-height: 45px ;
   font-weight: 400 !important;
   font-size: 12px !important;
   line-height: 18px !important;
@@ -617,4 +619,77 @@ actionMenuList .dropdown-item i {
 
 .navbar-custom.employeeLoginHead > ul:not(class) {
   padding-left: 15px;
+}
+
+::ng-deep.ant-select-selector {
+  background-color: #fff !important;
+}
+
+.ant-select-single.ant-select-lg:not(.ant-select-customize-input)
+  .ant-select-selector
+  .ant-select-selection-item,
+.ant-select-single.ant-select-lg:not(.ant-select-customize-input)
+  .ant-select-selector
+  .ant-select-selection-placeholder,
+.ant-select-single.ant-select-lg:not(.ant-select-customize-input)
+  .ant-select-selector::after {
+  line-height: 45px;
+}
+
+.excelUploadTable thead th {
+  text-transform: capitalize;
+}
+.excelUploadTable .ant-picker {
+  border: 1px solid #f1f1f1 !important;
+  width: 100% !important;
+  height: 35px !important;
+  border-radius: 0px !important;
+  background-color: rgba(236, 236, 236, 0.21);
+  font-size: 12px;
+}
+.excelUploadTable .ant-picker-input > input {
+  color: #445059;
+}
+.excelUploadTable .ant-select {
+  background-color: #fff !important;
+  border: 1px solid #f1f1f1 !important;
+  border-radius: 2px !important;
+  height: fit-content !important;
+}
+.excelUploadTable
+  .ant-select:not(.ant-select-customize-input)
+  .ant-select-selector {
+  background-color: rgb(236 236 236 / 0%) !important;
+  border: none !important;
+  border-radius: 0px !important;
+  min-height: 35px !important;
+  height: fit-content !important;
+}
+
+.excelUploadTable
+  .ant-select-single
+  .ant-select-selector
+  .ant-select-selection-item,
+.excelUploadTable
+  .ant-select-single
+  .ant-select-selector
+  .ant-select-selection-placeholder {
+  line-height: 35px;
+}
+
+.ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+  color: r#6666f4;
+  font-weight: 400;
+  background-color: #f1f1fd;
+}
+.anticon {
+  vertical-align: 0.175em;
+}
+.ant-select-item-option-selected:not(.ant-select-item-option-disabled)
+  .ant-select-item-option-state {
+  color: #6666f4;
+}
+
+.border-top{
+  border-top: 1px solid #f1f1f1 !important;
 }

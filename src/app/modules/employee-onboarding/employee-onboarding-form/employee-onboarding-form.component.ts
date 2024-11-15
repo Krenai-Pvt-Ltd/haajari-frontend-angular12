@@ -330,7 +330,7 @@ export class EmployeeOnboardingFormComponent implements OnInit {
               userUuid,
               [],
               0,
-              []
+              [],
             );
             // this.userPersonalDetailsStatus = response.statusResponse;
             // localStorage.setItem('statusResponse', JSON.stringify(this.userPersonalDetailsStatus));
@@ -1108,7 +1108,10 @@ export class EmployeeOnboardingFormComponent implements OnInit {
         userId: new URLSearchParams(window.location.search).get('userUuid'),
       },
     };
-    this.router.navigate(['/employee-profile'], navExtra);
+    // this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], navExtra);
+    const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
+    window.open(url, '_blank');
+    return;
   }
 }
 function finalize(

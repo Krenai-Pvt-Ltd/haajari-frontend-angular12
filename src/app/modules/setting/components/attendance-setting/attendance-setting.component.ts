@@ -20,11 +20,13 @@ import { findLastKey } from 'lodash';
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 import { filter } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
+import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { Holiday } from 'src/app/models/Holiday';
 import { ShiftCounts } from 'src/app/models/ShiftCounts';
 import { UniversalHoliday } from 'src/app/models/UniversalHoliday';
 import { WeekDay } from 'src/app/models/WeekDay';
 import { WeeklyHoliday } from 'src/app/models/WeeklyHoliday';
+import { AddressModeTypeRequest } from 'src/app/models/address-mode-type-request';
 import { AttendanceMode } from 'src/app/models/attendance-mode';
 import { AttendanceRuleDefinitionRequest } from 'src/app/models/attendance-rule-definition-request';
 import { AttendanceRuleDefinitionResponse } from 'src/app/models/attendance-rule-definition-response';
@@ -1313,8 +1315,8 @@ export class AttendanceSettingComponent implements OnInit {
     // this.staffs = [];
     this.dataService
       .getUsersByFilter(
-        this.itemPerPage,
-        this.pageNumber,
+        this.databaseHelper.itemPerPage,
+        this.databaseHelper.currentPage,
         'asc',
         'id',
         this.searchText,
@@ -1347,6 +1349,7 @@ export class AttendanceSettingComponent implements OnInit {
     this.isAllUsersSelected = this.staffs.every((staff) => staff.selected);
     this.isAllSelected = this.isAllUsersSelected;
     this.updateSelectedStaffs();
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "");
   }
 
   checkAndUpdateAllSelected() {
@@ -1392,11 +1395,13 @@ export class AttendanceSettingComponent implements OnInit {
       this.activeModel2 = true;
       this.getAllUserUuidsMethodCall().then((allUuids) => {
         this.selectedStaffsUuids = allUuids;
+        this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "");
       });
     } else {
       this.selectedStaffsUuids = [];
       this.activeModel2 = false;
     }
+   
   }
 
   selectAll(checked: boolean) {
@@ -1420,6 +1425,7 @@ export class AttendanceSettingComponent implements OnInit {
         }
       });
     }
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "");
   }
 
   // Asynchronous function to get all user UUIDs
@@ -1458,6 +1464,7 @@ export class AttendanceSettingComponent implements OnInit {
     this.staffs.forEach((staff) => (staff.selected = false));
     this.selectedStaffsUuids = [];
     this.activeModel2 = false;
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "");
   }
 
   activeModel: boolean = false;
@@ -1541,10 +1548,11 @@ export class AttendanceSettingComponent implements OnInit {
   }
 
   @ViewChild('closeShiftTimingModal') closeShiftTimingModal!: ElementRef;
-
+  isEditStaffLoader = false;
   registerOrganizationShiftTimingMethodCall() {
     debugger;
     // this.submitWeeklyHolidays();
+    this.organizationShiftTimingRequest.shiftTypeId = 1;
     this.organizationShiftTimingRequest.userUuids = this.selectedStaffsUuids;
     // Prepare data for submission
     this.organizationShiftTimingRequest.weekdayInfos = this.weekDay
@@ -1556,6 +1564,7 @@ export class AttendanceSettingComponent implements OnInit {
         userUuids: this.selectedStaffsUuids,
       }));
       // console.log("InTime: " + this.organizationShiftTimingRequest.inTime);
+      this.isEditStaffLoader = true;
     this.dataService
       .registerShiftTiming(this.organizationShiftTimingRequest)
       .subscribe(
@@ -1569,10 +1578,14 @@ export class AttendanceSettingComponent implements OnInit {
             'Shift Timing registered successfully',
             Key.TOAST_STATUS_SUCCESS
           );
+          this.isEditStaffLoader = false;
+          this.isValidated = false;
           this.helperService.registerOrganizationRegistratonProcessStepData(Key.SHIFT_TIME_ID, Key.PROCESS_COMPLETED);
         },
         (error) => {
           console.log(error);
+          this.isEditStaffLoader = false;
+          this.isValidated = false;
           this.helperService.showToast(
             'Shift Timing not registered successfully',
             Key.TOAST_STATUS_ERROR
@@ -1581,9 +1594,14 @@ export class AttendanceSettingComponent implements OnInit {
       );
   }
 
+  // shiftForm = NgForm;
+  @ViewChild('shiftForm') shiftForm!: NgForm;
   clearShiftTimingModel() {
     this.shiftTimingActiveTab.nativeElement.click();
     this.organizationShiftTimingRequest = new OrganizationShiftTimingRequest();
+    if (this.shiftForm) {
+      this.shiftForm.resetForm();
+    }
     this.selectedShiftType = new ShiftType();
     this.clearSearchText();
     this.teamId = 0;
@@ -1591,6 +1609,12 @@ export class AttendanceSettingComponent implements OnInit {
     this.selectedTeamName = 'All';
     this.selectedStaffsUuids = [];
     this.pageNumber = 1;
+    this.checkForShiftId = 0;
+    this.currentShiftId = 0;
+    this.isShiftNamePresent = false;
+    this.isValidated = false;
+    this.databaseHelper = new DatabaseHelper();
+
   }
   organizationShiftTimingRequest: OrganizationShiftTimingRequest =
     new OrganizationShiftTimingRequest();
@@ -1606,71 +1630,139 @@ export class AttendanceSettingComponent implements OnInit {
 
   organizationShiftTimingValidationErrors: { [key: string]: string } = {};
 
-  calculateTimes(): void {
-    const { inTime, outTime, startLunch, endLunch } = this.organizationShiftTimingRequest;
+//   calculateTimes(): void {
+//     const { inTime, outTime, startLunch, endLunch } = this.organizationShiftTimingRequest;
 
-    // Reset errors and calculated times
-    this.organizationShiftTimingValidationErrors = {};
-    this.organizationShiftTimingRequest.lunchHour = '';
-    this.organizationShiftTimingRequest.workingHour = '';
+//     // Reset errors and calculated times
+//     this.organizationShiftTimingValidationErrors = {};
+//     this.organizationShiftTimingRequest.lunchHour = '';
+//     this.organizationShiftTimingRequest.workingHour = '';
 
-    // Helper function to convert Date object to minutes from start of the day in local time
-    const dateToLocalMinutes = (date: Date | undefined) => {
-        if (!date) return 0;
-        const localDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
-        const hours = localDate.getHours();
-        const minutes = localDate.getMinutes();
-        return hours * 60 + minutes;
-    };
+//     // Helper function to convert Date object to minutes from start of the day in local time
+//     const dateToLocalMinutes = (date: Date | undefined) => {
+//         if (!date) return 0;
+//         const localDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+//         const hours = localDate.getHours();
+//         const minutes = localDate.getMinutes();
+//         return hours * 60 + minutes;
+//     };
 
-    // Convert times to local minutes
-    const inTimeMinutes = dateToLocalMinutes(inTime);
-    const outTimeMinutes = dateToLocalMinutes(outTime);
-    const startLunchMinutes = dateToLocalMinutes(startLunch);
-    const endLunchMinutes = dateToLocalMinutes(endLunch);
+//     // Convert times to local minutes
+//     const inTimeMinutes = dateToLocalMinutes(inTime);
+//     const outTimeMinutes = dateToLocalMinutes(outTime);
+//     const startLunchMinutes = dateToLocalMinutes(startLunch);
+//     const endLunchMinutes = dateToLocalMinutes(endLunch);
 
-    // Check for valid in and out times
-    if (inTime && outTime) {
-        if (outTimeMinutes <= inTimeMinutes) {
-            this.organizationShiftTimingValidationErrors['outTime'] = 'Out time must be after in time.';
-        } else {
-            const totalWorkedMinutes = outTimeMinutes - inTimeMinutes;
-            this.organizationShiftTimingRequest.workingHour = this.formatMinutesToTime(totalWorkedMinutes);
-        }
-    }
+//     // Check for valid in and out times
+//     if (inTime && outTime) {
+//         if (outTimeMinutes <= inTimeMinutes) {
+//             this.organizationShiftTimingValidationErrors['outTime'] = 'Out time must be after in time.';
+//         } else {
+//             const totalWorkedMinutes = outTimeMinutes - inTimeMinutes;
+//             this.organizationShiftTimingRequest.workingHour = this.formatMinutesToTime(totalWorkedMinutes);
+//         }
+//     }
 
-    // Check for valid lunch start time
-    if (startLunch && (startLunchMinutes <= inTimeMinutes || startLunchMinutes >= outTimeMinutes)) {
-        this.organizationShiftTimingValidationErrors['startLunch'] = 'Lunch time should be within in and out times.';
-    }
+//     // Check for valid lunch start time
+//     if (startLunch && (startLunchMinutes <= inTimeMinutes || startLunchMinutes >= outTimeMinutes)) {
+//         this.organizationShiftTimingValidationErrors['startLunch'] = 'Lunch time should be within in and out times.';
+//     }
 
-    // Check for valid lunch end time
-    if (endLunch && (endLunchMinutes <= inTimeMinutes || endLunchMinutes >= outTimeMinutes)) {
-        this.organizationShiftTimingValidationErrors['endLunch'] = 'Lunch time should be within in and out times.';
-    }
+//     // Check for valid lunch end time
+//     if (endLunch && (endLunchMinutes <= inTimeMinutes || endLunchMinutes >= outTimeMinutes)) {
+//         this.organizationShiftTimingValidationErrors['endLunch'] = 'Lunch time should be within in and out times.';
+//     }
 
-    // Calculate lunch hour and adjust working hours if lunch times are valid
-    if (startLunch && endLunch && startLunchMinutes < endLunchMinutes) {
-        const lunchBreakMinutes = endLunchMinutes - startLunchMinutes;
-        this.organizationShiftTimingRequest.lunchHour = this.formatMinutesToTime(lunchBreakMinutes);
+//     // Calculate lunch hour and adjust working hours if lunch times are valid
+//     if (startLunch && endLunch && startLunchMinutes < endLunchMinutes) {
+//         const lunchBreakMinutes = endLunchMinutes - startLunchMinutes;
+//         this.organizationShiftTimingRequest.lunchHour = this.formatMinutesToTime(lunchBreakMinutes);
 
-        if (this.organizationShiftTimingRequest.workingHour) {
-            const workingHourMinutes = this.organizationShiftTimingRequest.workingHour.split(':').map(Number);
-            const totalWorkingMinutes = workingHourMinutes[0] * 60 + workingHourMinutes[1];
-            const adjustedWorkedMinutes = totalWorkingMinutes - lunchBreakMinutes;
-            this.organizationShiftTimingRequest.workingHour = this.formatMinutesToTime(adjustedWorkedMinutes);
-        }
-    }
+//         if (this.organizationShiftTimingRequest.workingHour) {
+//             const workingHourMinutes = this.organizationShiftTimingRequest.workingHour.split(':').map(Number);
+//             const totalWorkingMinutes = workingHourMinutes[0] * 60 + workingHourMinutes[1];
+//             const adjustedWorkedMinutes = totalWorkingMinutes - lunchBreakMinutes;
+//             this.organizationShiftTimingRequest.workingHour = this.formatMinutesToTime(adjustedWorkedMinutes);
+//         }
+//     }
 
-    // Additional validation for lunch times
-    if (startLunch && endLunch) {
-        if (endLunchMinutes <= startLunchMinutes) {
-            this.organizationShiftTimingValidationErrors['endLunch'] = 'Please enter a valid back time from lunch.';
-        }
-        if (startLunchMinutes >= endLunchMinutes) {
-            this.organizationShiftTimingValidationErrors['startLunch'] = 'Please enter a valid lunch start time.';
-        }
-    }
+//     // Additional validation for lunch times
+//     if (startLunch && endLunch) {
+//         if (endLunchMinutes <= startLunchMinutes) {
+//             this.organizationShiftTimingValidationErrors['endLunch'] = 'Please enter a valid back time from lunch.';
+//         }
+//         if (startLunchMinutes >= endLunchMinutes) {
+//             this.organizationShiftTimingValidationErrors['startLunch'] = 'Please enter a valid lunch start time.';
+//         }
+//     }
+// }
+
+calculateTimes(): void {
+  debugger
+  const { inTime, outTime, startLunch, endLunch } = this.organizationShiftTimingRequest;
+
+  // Reset errors and calculated times
+  this.organizationShiftTimingValidationErrors = {};
+  // this.organizationShiftTimingRequest.lunchHour = '';
+  // this.organizationShiftTimingRequest.workingHour = '';
+
+  // Helper function to convert Date object to minutes from start of the day in local time
+  const dateToLocalMinutes = (date: Date | undefined) => {
+      if (!date) return 0;
+      const localDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+      const hours = localDate.getHours();
+      const minutes = localDate.getMinutes();
+      return hours * 60 + minutes;
+  };
+
+  // Convert times to local minutes
+  const inTimeMinutes = dateToLocalMinutes(inTime);
+  const outTimeMinutes = dateToLocalMinutes(outTime);
+  const startLunchMinutes = dateToLocalMinutes(startLunch);
+  const endLunchMinutes = dateToLocalMinutes(endLunch);
+
+  // Check for valid in and out times
+  if (inTime && outTime) {
+      if (outTimeMinutes <= inTimeMinutes) {
+          this.organizationShiftTimingValidationErrors['outTime'] = 'Out time must be after in time.';
+      } else {
+          const totalWorkedMinutes = outTimeMinutes - inTimeMinutes;
+          this.organizationShiftTimingRequest.workingHour = this.formatMinutesToTime(totalWorkedMinutes);
+      }
+  }
+
+  // Check for valid lunch start time
+  if (startLunch && (startLunchMinutes <= inTimeMinutes || startLunchMinutes >= outTimeMinutes)) {
+      this.organizationShiftTimingValidationErrors['startLunch'] = 'Lunch time should be within in and out times.';
+  }
+
+  // Check for valid lunch end time
+  if (endLunch && (endLunchMinutes <= inTimeMinutes || endLunchMinutes >= outTimeMinutes)) {
+      this.organizationShiftTimingValidationErrors['endLunch'] = 'Lunch time should be within in and out times.';
+  }
+
+  // Calculate lunch hour and adjust working hours if lunch times are valid
+  if (startLunch && endLunch && startLunchMinutes < endLunchMinutes) {
+      const lunchBreakMinutes = endLunchMinutes - startLunchMinutes;
+      this.organizationShiftTimingRequest.lunchHour = this.formatMinutesToTime(lunchBreakMinutes);
+
+      if (this.organizationShiftTimingRequest.workingHour) {
+          const workingHourMinutes = this.organizationShiftTimingRequest.workingHour.split(':').map(Number);
+          const totalWorkingMinutes = workingHourMinutes[0] * 60 + workingHourMinutes[1];
+          const adjustedWorkedMinutes = totalWorkingMinutes - lunchBreakMinutes;
+          this.organizationShiftTimingRequest.workingHour = this.formatMinutesToTime(adjustedWorkedMinutes);
+      }
+  }
+
+  // Additional validation for lunch times
+  if (startLunch && endLunch) {
+      if (endLunchMinutes <= startLunchMinutes) {
+          this.organizationShiftTimingValidationErrors['endLunch'] = 'Please enter a valid back time from lunch.';
+      }
+      if (startLunchMinutes >= endLunchMinutes) {
+          this.organizationShiftTimingValidationErrors['startLunch'] = 'Please enter a valid lunch start time.';
+      }
+  }
 }
 
 // Helper method to format minutes into HH:mm format
@@ -1706,18 +1798,20 @@ formatMinutesToTime(minutes: number): string {
   @ViewChild('weekOffActiveTab') weekOffActiveTab!: ElementRef;
 
   staffActiveTabInShiftTimingMethod() {
-    if (this.isValidForm()) {
-      this.activeTab = 'staffselection';
-      if (this.isWeekOffFlag) {
-        this.weekOffActiveTab.nativeElement.click();
-        this.isStaffSelectionFlag = true;
-        this.isWeekOffFlag = false;
-      }
-    } else {
-      if (this.isStaffSelectionFlag) {
-        this.staffActiveTabInShiftTiming.nativeElement.click();
-      }
-    }
+    debugger
+    this.activeTab = 'staffselection';
+    // if (this.isValidForm()) {
+    //   this.activeTab = 'staffselection';
+    //   if (this.isWeekOffFlag) {
+    //     this.weekOffActiveTab.nativeElement.click();
+    //     this.isStaffSelectionFlag = true;
+    //     this.isWeekOffFlag = false;
+    //   }
+    // } else {
+    //   if (this.isStaffSelectionFlag) {
+    //     this.staffActiveTabInShiftTiming.nativeElement.click();
+    //   }
+    // }
   }
 
   @ViewChild('shiftTimingActiveTab') shiftTimingActiveTab!: ElementRef;
@@ -1729,6 +1823,7 @@ formatMinutesToTime(minutes: number): string {
     this.activeTab = 'shiftime';
   }
   weekOffActiveTabMethod() {
+    // this.isWeekOffFlag = true;
     this.activeTab = 'weeklyOff';
   }
 
@@ -1820,16 +1915,34 @@ formatMinutesToTime(minutes: number): string {
     this.clearShiftTimingModel();
   }
 
+  currentShiftId : number = 0;
+  checkForShiftId : number = 0;
   updateOrganizationShiftTiming(
     organizationShiftTimingResponse: OrganizationShiftTimingResponse,
     tab: string
   ) {
+    this.isShiftNamePresent = false;
+    this.activeTab = 'shiftime';
     // this.shiftTimingActiveTab.nativeElement.click();
     this.weekDay = organizationShiftTimingResponse.weekDayResponse;
 
     this.organizationShiftTimingRequest = organizationShiftTimingResponse;
+
+    const inLocalTime = new Date(organizationShiftTimingResponse.inTime.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+    const outLocalTime = new Date(organizationShiftTimingResponse.outTime.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+    const startLunchLocalTime = new Date(organizationShiftTimingResponse.startLunch.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+    const endLunchLocalTime = new Date(organizationShiftTimingResponse.endLunch.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+
+    this.organizationShiftTimingRequest.inTime = inLocalTime;
+    this.organizationShiftTimingRequest.outTime = outLocalTime;
+    this.organizationShiftTimingRequest.startLunch = startLunchLocalTime;
+    this.organizationShiftTimingRequest.endLunch = endLunchLocalTime;
+
+
     this.organizationShiftTimingRequest.shiftTypeId =
       organizationShiftTimingResponse.shiftType.id;
+    this.checkForShiftId = organizationShiftTimingResponse.id;
+    this.currentShiftId = organizationShiftTimingResponse.shiftType.id;
     this.selectedStaffsUuids = organizationShiftTimingResponse.userUuids;
 
     // this.getWeekDays();
@@ -1840,6 +1953,8 @@ formatMinutesToTime(minutes: number): string {
     this.selectedTeamId = 0;
     this.selectedTeamName = 'All';
     this.getUserByFiltersMethodCall();
+    // this.getUserByFiltersMethodCall();
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "");
 
     setTimeout(() => {
       if (tab == 'STAFF_SELECTION') {
@@ -1904,6 +2019,7 @@ formatMinutesToTime(minutes: number): string {
           }
           // console.log("Second line executed after 3 seconds");
         }, 1000);
+       this.getAllAddressDetails();
       },
       (error) => {
         console.log(error);
@@ -1911,6 +2027,29 @@ formatMinutesToTime(minutes: number): string {
       }
     );
   }
+
+allAddresses: any;
+getAllAddressDetails(): void {
+  debugger
+  // this.isShimmer = true;
+  this.dataService.getAllAddressDetailsWithStaff()
+    .subscribe(response => {
+      this.allAddresses = response.listOfObject;
+      // if (this.allAddresses.length == 0) {
+      //   this.dataNotFoundPlaceholder = true;
+      // } else {
+      //   this.dataNotFoundPlaceholder = false;
+      // }
+      this.addressModes = this.allAddresses.map((item: { organizationAddress: { id: any; isFlexible: any; }; }) => ({
+        addressId: item.organizationAddress.id,
+        requestType: item.organizationAddress.isFlexible ? 'flexible' : 'fixed'
+      }));
+    }, (error) => {
+      // this.networkConnectionErrorPlaceHolder = true;
+      // this.isShimmer = false;
+    });
+}
+
 
   selectedAttendanceModeId: number = 0;
   getAttendanceModeMethodCall() {
@@ -2433,6 +2572,21 @@ formatMinutesToTime(minutes: number): string {
     this.activeIndex5 = this.activeIndex5 === index ? -1 : index;
   }
 
+   //Pagination
+   databaseHelper: DatabaseHelper = new DatabaseHelper();
+   totalItems: number = 0;
+   pageChanged(page: any) {
+     if (page != this.databaseHelper.currentPage) {
+       this.databaseHelper.currentPage = page;
+       this.getUserByFiltersMethodCall();
+     }
+   }
+
+   clearPage(){
+    this.databaseHelper = new DatabaseHelper();
+    this.searchText = ''
+   }
+
   teamNameList: UserTeamDetailsReflection[] = [];
 
   teamId: number = 0;
@@ -2725,37 +2879,69 @@ formatMinutesToTime(minutes: number): string {
 
   locationType: string = 'flexible'; 
 
-onLocationTypeChange() {
-  if (this.locationType === 'fixed') {
-    this.organizationAddressDetail.addressLine1 = '';
-    this.organizationAddressDetail.radius = '';
-  }
+// onLocationTypeChange() {
+//   if (this.locationType === 'fixed') {
+//     this.organizationAddressDetail.addressLine1 = '';
+//     this.organizationAddressDetail.radius = '';
+//   }
    
-}
+// }
+addressModes: AddressModeTypeRequest[] = [];
 
-saveAttendaceFlexibleModeInfo() {
-  this.dataService.saveFlexibleAttendanceMode(this.locationType).subscribe((response) => {
-      
-  }, (error) => {
-     console.log(error);
-  })
-}
+onLocationTypeChange(addressId: number, isFlexible: boolean): void {
+  debugger
+  const requestType = isFlexible ? 'flexible' : 'Fixed';
+  const existingIndex = this.addressModes.findIndex(mode => mode.addressId === addressId);
 
-saveLocationInfo() {
-  if(this.locationType == 'flexible') {
-   this.saveAttendaceFlexibleModeInfo();
-  //  this.attendancewithlocationssButton.nativeElement.click();
-  this.getAttendanceModeMethodCall();
-          // this.toggle = false;
-          this.closeAddressModal.nativeElement.click();
-          this.helperService.showToast(
-            'Attedance Mode updated successfully',
-            Key.TOAST_STATUS_SUCCESS);
-  }else if(this.locationType == 'fixed') {
-   this.saveAttendaceFlexibleModeInfo();
-   this.setOrganizationAddressDetailMethodCall();
+  if (existingIndex === -1) {
+    this.addressModes.push({ addressId, requestType });
+  } else {
+    this.addressModes[existingIndex].requestType = requestType;
   }
 }
+modesLoader : boolean = false;
+saveFlexibleModes(): void {
+  debugger
+  this.modesLoader = true;
+  this.dataService.saveFlexibleAttendanceModeForAllAddresses(this.addressModes).subscribe(
+    response => {
+      console.log('Mode saved successfully:', response);
+      this.getAttendanceModeMethodCall();
+          this.modesLoader = false;
+      // this.getAttendanceModeAllMethodCall();
+      this.closeAddressModal.nativeElement.click();
+      this.getAllAddressDetails();
+    },
+    error => {
+      this.modesLoader = false;
+      console.error('Error saving mode:', error);
+    }
+  );
+}
+
+// saveAttendaceFlexibleModeInfo() {
+//   this.dataService.saveFlexibleAttendanceMode(this.locationType, this.addressId).subscribe((response) => {
+      
+//   }, (error) => {
+//      console.log(error);
+//   })
+// }
+
+// saveLocationInfo() {
+//   if(this.locationType == 'flexible') {
+//    this.saveAttendaceFlexibleModeInfo();
+//   //  this.attendancewithlocationssButton.nativeElement.click();
+//   this.getAttendanceModeMethodCall();
+//           // this.toggle = false;
+//           this.closeAddressModal.nativeElement.click();
+//           this.helperService.showToast(
+//             'Attedance Mode updated successfully',
+//             Key.TOAST_STATUS_SUCCESS);
+//   }else if(this.locationType == 'fixed') {
+//    this.saveAttendaceFlexibleModeInfo();
+//    this.setOrganizationAddressDetailMethodCall();
+//   }
+// }
 
 getFlexibleAttendanceMode() {
   this.dataService.getFlexibleAttendanceMode().subscribe((response) => {
@@ -2768,4 +2954,160 @@ getFlexibleAttendanceMode() {
      console.log(error);
   })
 }
+
+
+
+radiusOptions: number[] = [50, 100, 200, 500]; // Available radius options
+selectedRadius: number | null = null; // Holds the selected radius or null
+errorMessage: string | null = null; // Error message for invalid input
+onRadiusChange(value: any) {
+  // Ensure that the value is either a number or a string that can be converted to a number
+  const radiusValue = typeof value === 'string' ? parseInt(value, 10) : value;
+
+  // Validate the radius value
+  if (isNaN(radiusValue) || radiusValue < 50) {
+    this.errorMessage = 'Radius must be greater than or equal to 50 meters.';
+    this.selectedRadius = null; // Reset selected value
+  } else {
+    this.errorMessage = null; // Clear any previous error
+    this.selectedRadius = radiusValue; // Update selected value
+  }
+}
+
+minRadius: boolean = false;
+radiusFilteredOptions: { label: string, value: string }[] = [];
+onChange(value: string): void {
+  const numericValue = Number(value);
+  if (numericValue < 50) {
+    this.minRadius = true;
+
+  } else {
+    this.minRadius = false;
+
+  }
+  this.radiusFilteredOptions = this.radius.filter((option) =>
+    option.toLowerCase().includes(value.toLowerCase())
+  ).map((option) => ({ label: `${option}-Meters`, value: option }));
+
+}
+radius: string[] = ["50", "100", "200", "500", "1000"];
+
+preventLeadingWhitespace(event: KeyboardEvent): void {
+  const input = event.target as HTMLInputElement;
+  // Prevent leading spaces
+  if (event.key === ' ' && input.selectionStart === 0) {
+    event.preventDefault();
+  }
+}
+
+onFocus(): void {
+  this.radiusFilteredOptions = this.radius.map((option) => ({
+    label: `${option}-Meters`,
+    value: option
+  }));
+}
+
+allowOnlyNumbers(event: KeyboardEvent): void {
+  const input = event.target as HTMLInputElement;
+
+  // Check if the pressed key is not a digit (0-9) or is not a control key
+  if (!/[0-9]/.test(event.key) && !['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete'].includes(event.key)) {
+    event.preventDefault();
+  }
+
+  // Optionally, restrict the maximum value if it exceeds 99000
+  if (input.value.length >= 5 && event.key !== 'Backspace') {
+    event.preventDefault();
+  }
+}
+
+onSelect(event: any): void {
+
+  const selectedValue = event.nzValue;
+  this.organizationAddressDetail.radius = selectedValue;
+}
+
+
+isShiftNamePresent: boolean = false;
+checkShiftPresenceData(shiftName: string) {
+  this.dataService.checkShiftPresence(shiftName).subscribe(
+    (response) => {
+      this.isShiftNamePresent = response.object;
+    },
+    (error) => {
+      console.log('error');
+    }
+  );
+}
+
+
+
+userNameWithShiftName: any;
+getOrganizationUserNameWithShiftNameData(shiftId : number, type:string) {
+  this.dataService.getOrganizationUserNameWithShiftName(this.selectedStaffsUuids, shiftId).subscribe(
+    (response) => {
+      this.userNameWithShiftName = response.listOfObject;
+      if( this.userNameWithShiftName.length <1 && type == "SHIFT_USER_EDIT") {
+        this.closeButton3.nativeElement.click();
+      }
+    },
+    (error) => {
+      console.log('error');
+    }
+  );
+}
+
+isValidated:boolean = false;
+checkValidation() {
+  this.isValidated ? false : true;
+}
+
+@ViewChild("closeButton3") closeButton3!:ElementRef;
+removeUser(uuid: string) {
+ debugger
+  this.selectedStaffsUuids = this.selectedStaffsUuids.filter(id => id !== uuid);
+
+  this.staffs.forEach((staff) => {
+    staff.selected = this.selectedStaffsUuids.includes(staff.uuid);
+  });
+  this.isAllSelected = false;
+  // if(this.selectedStaffsUuids.length <1) {
+    // this.unselectAllUsers();
+  // }
+  // this.updateSelectedStaffs();
+  this.userNameWithShiftName = [];
+  this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "SHIFT_USER_EDIT");
+
+
+  
+}
+
+@ViewChild('closeButton2') closeButton2!: ElementRef;
+isRegisterLoad: boolean = false;
+registerShift() {
+  debugger;
+  this.isRegisterLoad = true;
+  this.closeButton2.nativeElement.click();
+  this.registerOrganizationShiftTimingMethodCall();
+  // this.registerOrganizationShiftTimingMethodCall();
+
+  // setTimeout(() => {
+  //   this.closeButton2.nativeElement.click();
+  //   this.closeButtonEditStaffInfo.nativeElement.click();
+  // }, 300);
+}
+
+closeModal() {
+  this.isValidated = false;
+  this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "");
+}
+
+
+redirectToCompanySetting() {
+  this.attendancewithlocationssButton.nativeElement.click();
+  this.router.navigate(['/setting/company-setting']);
+
+}
+
+
 }

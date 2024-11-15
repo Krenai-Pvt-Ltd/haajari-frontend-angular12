@@ -1,9 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router, RouterLink, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Subscription, of, timer } from 'rxjs';
 import { catchError, switchMap, take, tap } from 'rxjs/operators';
+import { constant } from 'src/app/constant/constant';
+import { Key } from 'src/app/constant/key';
 import { UserReq } from 'src/app/models/userReq';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -23,12 +25,15 @@ export class SignUpComponent implements OnInit {
   countDown: Subscription;
   counter: number = 10;
   tick = 1000;
+  promotionalOffer:string='';
+  readonly Constant = constant;
 
   constructor(
     private dataService: DataService,
     private router: Router,
     private rbacService: RoleBasedAccessControlService,
     private helperService: HelperService,
+    private _routeParams: ActivatedRoute,
     private _onboardingService: OrganizationOnboardingService
   ) {
     this.countDown = timer(0, this.tick)
@@ -39,6 +44,12 @@ export class SignUpComponent implements OnInit {
           this.countDown.unsubscribe();
         }
       });
+
+
+      if (this._routeParams.snapshot.queryParamMap.has('offer') && !this.Constant.EMPTY_STRINGS.includes(this._routeParams.snapshot.queryParamMap.get('offer'))) {
+        this.promotionalOffer = String(this._routeParams.snapshot.queryParamMap.get('offer'));
+        this.setCookie("promotionalOffer", this.promotionalOffer, 7);
+      }
   }
 
   ngOnInit(): void {
@@ -120,7 +131,7 @@ export class SignUpComponent implements OnInit {
           this.UUID = UUID;
 
           if (this.ROLE === 'USER') {
-            this.router.navigate(['/employee-profile'], {
+            this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], {
               queryParams: { userId: this.UUID, dashboardActive: 'true' },
             });
           } else {
@@ -404,7 +415,7 @@ export class SignUpComponent implements OnInit {
   verifyOtpByWhatsappMethodCall() {
     this.loading = true;
     this.dataService
-      .verifyOtpByWhatsappNew(this.phoneNumber, this.otp)
+      .verifyOtpByWhatsappNew(this.phoneNumber, this.otp,"")
       .subscribe(
         async (response: any) => {
           if (response.status) {
@@ -570,4 +581,16 @@ export class SignUpComponent implements OnInit {
     // console.log('Matches:', matches);
     return matches ? matches[1] : '';
   }
+
+
+  setCookie(name:string, value:string, days:number) {
+    let expires = "";
+    if (days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); // convert days to milliseconds
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+  }
+  
 }

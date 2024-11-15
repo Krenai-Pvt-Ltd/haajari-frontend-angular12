@@ -1,0 +1,107 @@
+.separator-border {
+    border-left: 2px solid #b5b5b5;
+    height: 15px;
+}
+.profile-imfo span{
+    color: #787486;
+    font-size: 13px;
+    font-weight: 300;
+}
+.action-btn button svg{
+    width: 18px;
+    position: relative;
+    top: 0px;
+}
+.action-btn span{
+    height: 15px;
+    border-left: 1px solid #AEAEAE;
+}
+.profile-imformation p{
+    color: #787486;
+    font-size: 13px;
+}
+.profile-imformation .profile-email{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 155px;
+}
+.profile-imfo-hedding h5{
+  font-size: 15px;
+}
+.separator-line{
+    border-left: 1px solid #444;
+    height: 13px;
+}
+.profile-imfo-hedding span{
+    color: #787486;
+}
+.profile-cancel-btn {
+    border: 1px solid #6666f2;
+    color: #6666f2;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 2px;
+    background-color: #fff;
+    min-width: 100px;
+}
+.profile-cancel-btn:hover {
+    border: 1px solid #fff;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 2px;
+    background-color: #6666f2;
+    min-width: 100px;
+    padding: 7px 20px;
+}
+.save-btn{
+    background-color: #6666f2;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 2px;
+    padding: 5px 20px;
+    min-width: 100px;
+}
+.save-btn svg{
+    width: 18px;
+    position: relative;
+    top:-1px;
+}
+
+
+.Profile-input{
+    background-color: #F8F8F8;
+    border-radius: 2px;
+    border: 1px solid #F8F8F8;
+}
+
+.Profile-input input{
+    border: none;
+    background-color: transparent;
+    color: #3F988F;
+    width: 100%;
+    padding: 0px 0px;
+}
+ .Profile-input input:focus{
+    top: 10px;
+    position: relative;
+}
+
+.form__field:focus~.form__label {
+    position: absolute;
+    top: 3px;
+    display: block;
+    transition: 0.2s;
+    font-size: 12px;
+}
+
+.form__label {
+    transition: 0.2s linear;
+    white-space: nowrap;
+}
+
+.Profile-input:has(.form__field:focus){
+    border: 1px solid #E9E9E9;
+}

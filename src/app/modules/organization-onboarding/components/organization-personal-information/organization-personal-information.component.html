@@ -1,4 +1,5 @@
-<div class="page-wrapper">
+<!-- <app-onboarding-successful *ngIf="showSuccessComponent"></app-onboarding-successful> -->
+<div class="page-wrapper" >
   <div class="page-content-tab-onbording">
     <div class="container-fluid">
       <div class="row">
@@ -89,7 +90,6 @@
                                 </svg>
 
                                 <img
-                                  style="width: 70px"
                                   src="{{
                                     organizationPersonalInformation.logo
                                   }}"
@@ -408,12 +408,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Upload Image</h5>
-          <!-- <button type="button" class="close" data-bs-dismiss="modal" (click)="closeCropperModel()" #closeModel aria-label="Close">
-                    <span aria-hidden="true">
-                        <i class="bi bi-x-lg"></i>
-                        
-                    </span>
-                </button> -->
+       
           <button
             type="button"
             class="btn-close"
@@ -421,12 +416,12 @@
             aria-label="Close"
             (click)="closeCropperModel()"
           >
-            <!-- <i class="bi bi-x-lg"></i> -->
+          
           </button>
         </div>
 
         <div class="modal-body">
-          <div class="row imgupldbg">
+          <div class="row imgupldbg d-flex align-items-center justify-content-center">
             <div class="col-lg-12 bg-wallet position-relative">
               <!-- {{ isLoading }} -->
               <div
@@ -459,18 +454,7 @@
                   class="imagecroppermain"
                   *ngIf="!base64Event && files.length != 0"
                 >
-                  <!-- <image-cropper
-                    #imageCropper
-                    [imageChangedEvent]="imageChangedEvent"
-                    [transform]="transform"
-                    [maintainAspectRatio]="true"
-                    [aspectRatio]="1"
-                    [canvasRotation]="canvasRotation"
-                    (imageLoaded)="imageLoaded($event)"
-                    (cropperReady)="cropperReady()"
-                    (loadImageFailed)="loadImageFailed()"
-                  >
-                  </image-cropper> -->
+                
                   <image-cropper
                     #imageCropper
                     [imageChangedEvent]="imageChangedEvent"
@@ -530,12 +514,8 @@
                   />
                 </div>
               </div>
+             
               <!-- <span class="helpbtn" #closeinfo (click)="addClass()">
-                            <i class="bi-info"></i>
-                            <span>help</span>
-                            <i class="bi bi-x-lg mr-2 pr-1"></i>
-                        </span> -->
-              <span class="helpbtn" #closeinfo (click)="addClass()">
                 <span>help</span>
                 <i class="bi bi-info-circle mr-2 pr-1"></i>
               </span>
@@ -558,7 +538,6 @@
                     <ul class="plan-features">
                       <li>Please use only .png, .jpg, .jpeg</li>
                       <li>Size range is below 200x200</li>
-                      <!-- <li>Logo 100 X 200 ratio is best</li> -->
                     </ul>
                   </div>
                   <div
@@ -571,7 +550,7 @@
                     </ul>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -662,34 +641,30 @@
               </button>
             </div>
 
-            <div class="col-rightdiv">
-              <!-- <button title="Rotate image anti clockwise by 90deg" type="button" class="btn m-1 btn-sm custbtn-success" (click)="rotateLeft();isResetImage = true;">
-                            <i class="bi-back-left" style="transform: scalex(-1) rotate(180deg);"></i>
-                        </button> -->
+            <div class="col-rightdiv  d-flex align-items-center gap-1">
+           
               <button
                 title="Rotate image anti-clockwise by 90deg"
                 type="button"
-                class="btn m-1"
+                class="btn m-1 btn-sm custbtn-success"
                 (click)="rotateLeft(); isResetImage = true"
               >
-                <i class="bi bi-arrow-counterclockwise custbtn-success"></i>
+                <i class="bi bi-arrow-counterclockwise "></i>
               </button>
 
-              <!-- <button title="Rotate image clockwise by 90deg" type="button" class="btn m-1 btn-sm custbtn-success" (click)="rotateRight();isResetImage = true;">
-                            <i class="bi-back-right"></i>
-                        </button> -->
+              
               <button
                 title="Rotate image clockwise by 90deg"
                 type="button"
-                class="btn m-1"
+                class="btn m-1 btn-sm custbtn-success"
                 (click)="rotateRight(); isResetImage = true"
               >
-                <i class="bi bi-arrow-clockwise custbtn-success"></i>
+                <i class="bi bi-arrow-clockwise "></i>
               </button>
             </div>
           </div>
 
-          <div class="d-flex">
+          <div class="d-flex align-items-center gap-2">
             <button
               type="button"
               (click)="resetAllImages()"
@@ -717,10 +692,10 @@
             <button
               *ngIf="organizationPersonalInformation.logo"
               type="button"
-              class="btn upldactionfootbtn mr-2"
+              class="btn upldactionfootbtn upload-delet-btn mr-2"
               (click)="onDeleteImage()"
             >
-              <i class="bi-trash"></i>
+              <!-- <i class="bi-trash"></i> -->
               <span>Delete</span>
             </button>
           </div>

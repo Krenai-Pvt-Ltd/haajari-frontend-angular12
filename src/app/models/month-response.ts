@@ -1,8 +1,6 @@
 export class MonthResponse {
-  constructor(
-    public firstDate: string,
-    public lastDate: string,
-    public status: string,
-    public disable : boolean
-  ) {}
+  firstDate: string ='';
+  lastDate: string ='';
+  status: string ='';
+  disable : boolean =false;
 }

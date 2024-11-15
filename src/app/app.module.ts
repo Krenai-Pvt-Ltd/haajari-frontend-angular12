@@ -29,9 +29,12 @@ import { ConfirmationDialogComponent } from './modules/sharable/confirmation-dia
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
-import { BillAndSubscriptionComponent } from './modules/sharable/bill-and-subscription/bill-and-subscription.component';
 import { HeaderComponent } from './modules/common/header/header.component';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { SubscriptionExpiredComponent } from './modules/common/subscription-expired/subscription-expired.component';
+import { SubscriptionRestrictedComponent } from './modules/common/subscription-restricted/subscription-restricted.component';
+import { AgmCoreModule } from '@agm/core';
+
 // import { OnboardingSidebarResponse } from './models/onboarding-sidebar-response';
 
 @NgModule({
@@ -42,8 +45,9 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
     DurationPickerComponent,
     UnauthorizedComponent,
     ConfirmationDialogComponent,
-    BillAndSubscriptionComponent,
     HeaderComponent,
+    SubscriptionExpiredComponent,
+    SubscriptionRestrictedComponent,
     // AuthenticationComponent,
   ],
   imports: [
@@ -77,6 +81,10 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
     //   useFactory: adapterFactory,
     // }),
     // AngularFireModule.initializeApp(environment.firebase),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyB6SQE_TmOLpGLohpMLl-6FzdwJJAU9MnA',
+      libraries: ['places'],
+    }),
   ],
   providers: [
     {

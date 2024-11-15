@@ -13,7 +13,6 @@ import { AdditionalNotes } from 'src/app/models/additional-notes';
 import { AttendanceDetailsResponse } from 'src/app/models/attendance-details-response';
 import { AttendanceLogResponse } from 'src/app/models/attendance-log-response';
 import { Key } from 'src/app/constant/key';
-import { BreakTimings } from 'src/app/models/break-timings';
 import { NavigationExtras, Router } from '@angular/router';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { AttendanceDetailsCountResponse } from 'src/app/models/attendance-details-count-response';
@@ -23,8 +22,8 @@ import * as saveAs from 'file-saver';
 import { DatePipe } from '@angular/common';
 import { OvertimeRequestLogResponse } from 'src/app/models/overtime-request-log-response';
 import { OvertimeResponseDTO } from 'src/app/models/overtime-response-dto';
-import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-reflection';
 import { AttendanceTimeUpdateResponse } from 'src/app/models/attendance-time-update-response';
+import { constant } from 'src/app/constant/constant';
 
 // import { ChosenDate, TimePeriod } from 'ngx-daterangepicker-material/daterangepicker.component';
 
@@ -41,7 +40,6 @@ export class TimetableComponent implements OnInit {
     public helperService: HelperService,
     private router: Router,
     private rbacService: RoleBasedAccessControlService,
-    private cdr: ChangeDetectorRef,
     private firebaseStorage: AngularFireStorage,
     private sanitizer: DomSanitizer,
     private datePipe: DatePipe,
@@ -88,6 +86,7 @@ export class TimetableComponent implements OnInit {
   UNMARKED = Key.UNMARKED;
   WEEKEND = Key.WEEKEND;
   HOLIDAY = Key.HOLIDAY;
+  readonly Constant = constant;
 
   readonly key = Key;
   ROLE = this.rbacService.getRole();
@@ -673,6 +672,7 @@ export class TimetableComponent implements OnInit {
         (response) => {
           debugger;
           this.attendanceLogResponseList = response;
+          
           // console.log(response);
           if (
             response === undefined ||
@@ -707,7 +707,10 @@ export class TimetableComponent implements OnInit {
     let navExtra: NavigationExtras = {
       queryParams: { userId: uuid },
     };
-    this.router.navigate(['/employee-profile'], navExtra);
+    // this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], navExtra);
+    const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
+    window.open(url, '_blank');
+    return;
   }
 
   @ViewChild('attendancewithlocationssButton')
@@ -1448,6 +1451,31 @@ approveOrReject(id:number, reqString: string) {
   
   attendanceUpdateRequestApproveLoader : boolean = false;
   attendanceUpdateRequestRejectLoader : boolean = false;
+  geocoder = new google.maps.Geocoder();
+  getAddressFromCoords(lat: any, lng: any): string|undefined {
+    // if(!this.Constant.EMPTY_STRINGS.includes(lat) && !this.Constant.EMPTY_STRINGS.includes(lng)){
+    //   lat=Number(lat);
+    //   lng=Number(lng)
+    //   console.log("🚀 ~ getAddressFromCoords ~ lat:", lat,lng)
+    //   // return "Click 'View Location' , to view attendace location on map";
 
+    // this.geocoder.geocode({ location: { lat, lng } }, (results, status) => {
+    //   if (status === google.maps.GeocoderStatus.OK && results && results[0] ) {
+    //     return results[0].formatted_address;
+    //   } else {
+    //     return "Click 'View Location' , to view attendace location on map";
+    //   }
+    // }).catch(error=>{
+    //   return "Click 'View Location' , to view attendace location on map";
+    // });
+    // }else{
+    //   return "Click 'View Location' , to view attendace location on map";
+
+    // }
+    return "Click 'View Location' , to view attendace location on map";
+  }
+
+  
+  
 
 }

@@ -80,7 +80,7 @@
                     
                     <!-- Alternative button template for marking attendance, shown when captureImage is true -->
                     <ng-template #markAttendance>
-                        <button type="submit" class="btn next-stap" [disabled]="!submitButton">
+                        <button type="submit" class="btn next-stap" [disabled]="!submitButton || disableButton">
                             <div *ngIf="toggle" class="dot-opacity-loader">
                                 <span></span>
                                 <span></span>

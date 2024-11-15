@@ -1,7 +1,11 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Key } from "../constant/key";
 import { DatabaseHelper } from "../models/DatabaseHelper";
+import { HelperService } from "./helper.service";
+import { ActivationEnd, Router } from "@angular/router";
+import { constant } from "../constant/constant";
+import { Routes } from "../constant/Routes";
 
 
 @Injectable({
@@ -10,82 +14,128 @@ import { DatabaseHelper } from "../models/DatabaseHelper";
 export class SubscriptionPlanService {
 
   private _key: Key = new Key();
+  currentRoute:any;
+  constructor(private _httpClient: HttpClient,
+    private _helperService : HelperService,
+    private _router: Router
+  ) {
+  
 
-  constructor(private _httpClient: HttpClient) {
+    if (this._router != undefined) {
+      this._router.events.subscribe(val => {
+        if (val instanceof ActivationEnd && constant.EMPTY_STRINGS.includes(this.currentRoute)) {
+          //@ts-ignore
+          this.currentRoute = val.snapshot._routerState.url.split("?")[0];
+          // console.log("route=======", this.currentRoute);
+          if (!Routes.AUTH_ROUTES.includes(String(this.currentRoute))) {
+             this.LoadAsync();
+          }
+        }
 
+      });
+
+
+    }
   }
 
-  getAllSubscriptionPlan() {
-    return this._httpClient.get<any>(this._key.base_url + this._key.get_subscription)
+
+  LoadAsync = async () => {
+    await this.isSubscriptionPlanExpired();
+    await this._helperService.getRestrictedModules();
+    await this.getOrganizationSubsPlanDetail();
+ };
+
+
+
+  planName:string='';
+  month:number=0;
+  getOrganizationSubsPlanDetail() {
+    this.getOrgSubsPlanDetail().subscribe((response) => {
+        if (response.status){
+  
+          this.planName = response.object.planName;
+      
+          this.month = response.object.month;
+        }
+      },(error)=>{
+
+      });
   }
 
-  getSubscriptionPlan(id: any) {
-    return this._httpClient.get<any>(this._key.base_url + this._key.get_subscription + "/" + id)
+  isPlanExpired!:boolean;
+  isTrialPlan!:boolean;
+  isSubscription!:boolean;
+  isDuesInvoice!:boolean;
+  isSubscriptionPlanExpired() {
+    return new Promise((resolve)=>{
+      this.isSubscrPlanExpired().subscribe((response) => {
+          if (response.status){
+            this.isPlanExpired = response.object.isExpired;
+            this.isTrialPlan = response.object.isTrialPlan;
+            this.isSubscription = response.object.isSubscription;
+            this.isDuesInvoice = response.object.isDuesInvoice;
+          }
+          resolve(true);
+        },(error)=>{
+          resolve(true);
+        });
+    });
   }
+
 
   getActiveUserCount() {
-    return this._httpClient.get<any>(this._key.base_url + this._key.get_active_user_count)
+    return this._httpClient.get<any>(this._key.base_url + this._key.get_active_user_count);
   }
 
-  getPurchasedStatus() {
-    return this._httpClient.get<any>(this._key.base_url + this._key.get_purchased_status)
-  }
-  getPlanPurchasedStatus(planId:any) {
-    const params = new HttpParams()
-      .set("planId", planId);
-    return this._httpClient.get<any>(this._key.base_url + this._key.get_plan_purchased_status,{params})
-  }
-  
-  addMoreEmployee(noOfEmployee: number) {
-    const params = new HttpParams()
-      .set("no_of_employee", noOfEmployee);
-    return this._httpClient.post<any>(this._key.base_url + this._key.add_more_employee, {}, { params })
-  }
 
-  getInvoices(databaseHelper:DatabaseHelper){
-    const params = new HttpParams()
-      .set('itemPerPage', databaseHelper.itemPerPage)
-      .set('currentPage', databaseHelper.currentPage)
-      .set('sortBy', "id")
-      .set('sortOrder', "desc")
-    return this._httpClient.get<any>(this._key.base_url + this._key.get_invoices, {params})
-  }
-  getLastInvoices(){
-    return this._httpClient.get<any>(this._key.base_url + this._key.get_last_invoices)
-  }
-
-  getDueInvoices(){
-    return this._httpClient.get<any>(this._key.base_url + this._key.get_due_invoices)
-  }
-
-  getDuePendingStatus(){
-    return this._httpClient.get<any>(this._key.base_url + this._key.get_due_pending_Status)
-  }
-
-  getOrgSubsPlanMonthDetail(){
-    return this._httpClient.get<any>(this._key.base_url + this._key.get_org_subs_plan_month_detail)
-  }
-
-  getPlanPurchasedLog(databaseHelper:DatabaseHelper){
-    const params = new HttpParams()
-      .set('itemPerPage', databaseHelper.itemPerPage)
-      .set('currentPage', databaseHelper.currentPage)
-      .set('sortBy', "id")
-      .set('sortOrder', "desc")
-    return this._httpClient.get<any>(this._key.base_url + this._key.get_plan_purchased_log, {params})
-  }
-
-  cancelSubscription(){
-    return this._httpClient.get<any>(this._key.base_url + this._key.cancel_subscription)
-  }
-
-  verifyCoupon(couponCode:string, amount:number, planType: any){
+  verifyCoupon(couponCode:string, amount:number){
     const params = new HttpParams()
       .set('couponCode', couponCode)
-      .set('amount', Math.round(amount) )
-      .set('planType', planType )
+      .set('amount', amount)
     return this._httpClient.get<any>(this._key.base_url + this._key.verify_coupon, {params})
   }
 
+  getPlans(){
+    return this._httpClient.get<any>(this._key.base_url + this._key.get_subscription_plans);
+  }
 
+
+  getCurrentPlan(){
+    return this._httpClient.get<any>(this._key.base_url + this._key.get_current_subscription_plan);
+  }
+
+  getOrgSubsPlanDetail(){
+    return this._httpClient.get<any>(this._key.base_url + this._key.get_subscription_plan_light_detail);
+  }
+
+  verifyGstNumber(gstNumber:string) {
+    const params = new HttpParams()
+    .set('gstNumber', gstNumber)
+    return this._httpClient.get<any>(this._key.base_url + this._key.verify_gst_number,{params});
+  }
+
+  getRecentPaidInvoiceDetail(){
+    return this._httpClient.get<any>(this._key.base_url + this._key.get_subscription_payment_detail);
+  }
+
+
+  isSubscrPlanExpired() {
+    return this._httpClient.get<any>(this._key.base_url + this._key.is_plan_expired);
+  }
+
+  getInvoices(databaseHelper:DatabaseHelper,statusIds:number[]){
+    const params = new HttpParams()
+      .set('itemPerPage', databaseHelper.itemPerPage)
+      .set('currentPage', databaseHelper.currentPage)
+      .set('sortBy', "createdDate")
+      .set('sortOrder', "desc")
+      .set('statusIds', String(statusIds))
+    return this._httpClient.get<any>(this._key.base_url + this._key.get_invoices, {params});
+  }
+
+  downloadInvoice(invoiceId:number){
+    const params = new HttpParams()
+    .set('invoiceId', invoiceId)
+  return this._httpClient.get<any>(this._key.base_url + this._key.download_invoice, {params});
+  }
 }

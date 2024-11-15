@@ -7,6 +7,10 @@ import { CommonComponent } from './common.component';
 import { TopbarComponent } from './topbar/topbar.component';
 import { HajiriPageLoaderComponent } from './hajiri-page-loader/hajiri-page-loader.component';
 import { HeaderComponent } from './header/header.component';
+import { SubscriptionRestrictedComponent } from './subscription-restricted/subscription-restricted.component';
+import { NewEmployeeProfileSidebarComponent } from './new-employee-profile-sidebar/new-employee-profile-sidebar.component';
+import { AgmCoreModule } from '@agm/core';
+
 
 @NgModule({
   declarations: [
@@ -17,9 +21,15 @@ import { HeaderComponent } from './header/header.component';
     DurationPickerComponent,
     CommonComponent,
     HeaderComponent,
+    NewEmployeeProfileSidebarComponent
     
   ],
-  imports: [CommonModule, CommonRoutingModule],
+  imports: [CommonModule, CommonRoutingModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyB6SQE_TmOLpGLohpMLl-6FzdwJJAU9MnA',
+      libraries: ['places'],
+    }),
+  ],
   exports: [],
 })
 export class CommonModule {}

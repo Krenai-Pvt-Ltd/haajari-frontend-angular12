@@ -1,0 +1,334 @@
+
+<div class="m-3 assets-detail">
+    <div class="employee-assets p-3">
+        <div class="d-flex align-items-center justify-content-between ">
+            <h5 class="font-15 ">Assigned Assets</h5>
+            <button class="btn assets-request" data-bs-toggle="modal" data-bs-target="#assetRequest">Asset Request
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                    <mask id="mask0_4997_6386" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
+                        <rect y="0.5" width="20" height="20" fill="#D9D9D9" />
+                    </mask>
+                    <g mask="url(#mask0_4997_6386)">
+                        <path
+                            d="M1.66797 17.5859V10.9193H8.33464V17.5859H1.66797ZM3.33464 15.9193H6.66797V12.5859H3.33464V15.9193ZM4.58464 8.83594L9.16797 1.33594L13.7513 8.83594H4.58464ZM7.54297 7.16927H10.793L9.16797 4.54427L7.54297 7.16927ZM17.9805 19.6276L15.7721 17.4193C15.4805 17.6137 15.1645 17.7596 14.8242 17.8568C14.4839 17.954 14.1263 18.0026 13.7513 18.0026C12.7096 18.0026 11.8242 17.638 11.0951 16.9089C10.3659 16.1797 10.0013 15.2943 10.0013 14.2526C10.0013 13.2109 10.3659 12.3255 11.0951 11.5964C11.8242 10.8672 12.7096 10.5026 13.7513 10.5026C14.793 10.5026 15.6784 10.8672 16.4076 11.5964C17.1367 12.3255 17.5013 13.2109 17.5013 14.2526C17.5013 14.6137 17.4527 14.9644 17.3555 15.3047C17.2582 15.645 17.1194 15.9609 16.9388 16.2526L19.1471 18.4609L17.9805 19.6276ZM13.7513 16.3359C14.3346 16.3359 14.8277 16.1345 15.2305 15.7318C15.6332 15.329 15.8346 14.8359 15.8346 14.2526C15.8346 13.6693 15.6332 13.1762 15.2305 12.7734C14.8277 12.3707 14.3346 12.1693 13.7513 12.1693C13.168 12.1693 12.6749 12.3707 12.2721 12.7734C11.8694 13.1762 11.668 13.6693 11.668 14.2526C11.668 14.8359 11.8694 15.329 12.2721 15.7318C12.6749 16.1345 13.168 16.3359 13.7513 16.3359Z"
+                            fill="#1C1B1F" />
+                    </g>
+                </svg>
+            </button>
+        </div>
+
+        <div class="">
+            <ul id="pills-tab" role="tablist" class="nav nav-pills">
+                <li class="nav-item">
+                    <a id="pills-home-tab" data-bs-toggle="pill" href="#assigned-assets" role="tab" aria-controls="pills-home"
+                        aria-selected="true" class="nav-link active">Assigned assets</a>
+                </li>
+                <li class="nav-item">
+                    <a id="pills-profile-tab" data-bs-toggle="pill" href="#asset-request" role="tab" aria-controls="pills-profile"
+                        aria-selected="false" class="nav-link">Asset request</a>
+                </li>
+
+            </ul>
+
+            <div id="pills-tabContent" class="tab-content">
+                <div class="tab-pane fade active show pt-3"  id="assigned-assets" role="tabpanel" aria-labelledby="assigned-assets-tab">
+                  <ng-template #assetsContent>
+                    <div class="obboard-employee-list">
+                        <div class="onboard-add row align-items-center mx-0">
+                            <div class="col-md-12 p-0">
+                                <div class="onboarding-date d-flex align-items-center position-relative">
+                                    <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid"
+                                        style="width: 100%;">
+                                        <div class="form-group" style="width: 100%; position: relative;"><input type="text"
+                                                id="searchText" placeholder="Search..."
+                                                class="form-control me-2 ng-pristine ng-valid ng-touched"
+                                                (input)="searchAssets($event)"
+                                                style="padding: 10px 40px;" ng-reflect-model=""
+                                                ng-reflect-options="[object Object]"><i
+                                                class="bi bi-search search-icon ng-star-inserted"
+                                                style="margin: auto; margin-left: 15px;"></i></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive bg-white mt-3">
+                          <table class="table empOnnoardtable">
+                            <thead class="thead-light">
+                              <tr>
+
+                                <th class="text-left font-13">Asset Name</th>
+                                <th class="text-left font-13">Asset ID</th>
+                                <th class="text-left font-13">Asset Category</th>
+                                <th class="text-left font-13">Assigned On</th>
+                                <th class="text-left font-13">Price</th>
+                                <th class="text-left font-13">Status</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let asset of assets">
+
+                                <td class="text-left">{{ asset.assetName }}</td>
+                                <td class="text-left">{{ asset.serialNumber }}</td>
+                                <td class="text-left">{{ asset.categoryName }}</td>
+                                <td class="text-left">{{ asset.purchasedDate | date: 'yyyy-MM-dd' }}</td>
+                                <td class="text-left">{{ asset.price | currency }}</td>
+                                <td class="text-left">
+                                  <span
+                                    [ngClass]="{
+                                      'badge rounded-pill badge-soft-success': asset.status !== 'PENDING',
+                                      'badge rounded-pill badge-soft-secondary': asset.status !== 'PENDING'
+                                    }">
+                                    {{ asset.status }}
+                                  </span>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+
+                      <div *ngIf="totalPages()>1" class="pagination-controls">
+                        <!-- Ngb Pagination Component -->
+                        <ngb-pagination
+                          [collectionSize]="totalCount"
+                          [rotate]="true"
+                          (pageChange)="pageChanged($event)"
+                          [pageSize]="itemPerPage"
+                          [(page)]="pageNumber"
+                          [maxSize]="8"
+                          [boundaryLinks]="true">
+                        </ngb-pagination>
+                      </div>
+
+                    </div>
+                  </ng-template>
+                    <div *ngIf="isAssetsArrayEmpty(); else assetsContent"  class="empty-file" style="margin-top: 13%; margin-bottom: 13%">
+                      <nz-empty nzNotFoundImage="assets/images/no-assets.svg" [nzNotFoundContent]="contentTpl">
+                          <ng-template #contentTpl>
+                              <p class="mb-1 empty-detail font-18">
+                                  No assets for now
+                              </p>
+                              <span class="empty-details"> Yur assets will be shown here once they have <br> been raised</span>
+                          </ng-template>
+                      </nz-empty>
+                    </div>
+
+
+                </div>
+                <div class="tab-pane fade pt-3" id="asset-request" role="tabpanel" aria-labelledby="asset-request-tab">
+
+                    <div class="obboard-employee-list" *ngIf="!isAssetRequestArrayEmpty(); else noAssets">
+
+
+                        <div class="onboard-add row align-items-center mx-0">
+                            <div class="col-md-12 p-0">
+                                <div class="d-flex justify-content-start align-items-center">
+                                  <div class="dropdown empFilerDropfilter">
+                                    <button
+                                        type="button"
+                                        id="dropdownMenuButton1"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
+                                        class="btn btn-secondary dropdown-toggle new-deopdown">
+                                        {{ statusFilter || 'Status' }} <i class="bi bi-chevron-down"></i>
+                                    </button>
+                                    <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu">
+                                        <li><a class="dropdown-item" (click)="filterStatus('')">All</a></li>
+                                        <li><a class="dropdown-item" (click)="filterStatus('Approved')">Approved</a></li>
+                                        <li><a class="dropdown-item" (click)="filterStatus('Allocated')">Allocated</a></li>
+                                        <li><a class="dropdown-item" (click)="filterStatus('Rejected')">Rejected</a></li>
+                                        <li><a class="dropdown-item" (click)="filterStatus('Pending')">Pending</a></li>
+                                    </ul>
+                                </div>
+
+                                <div class="onboarding-date d-flex align-items-center position-relative">
+                                    <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid"
+                                        style="width: 100%;">
+                                        <div class="form-group" style="width: 100%; position: relative;"><input type="text"
+                                                id="searchText" placeholder="Search..."
+                                                class="form-control me-2 ng-pristine ng-valid ng-touched"
+                                                (input)="searchAssetsRequest($event)"
+                                                style="padding: 10px 40px;" ng-reflect-model=""
+                                                ng-reflect-options="[object Object]"><i
+                                                class="bi bi-search search-icon ng-star-inserted"
+                                                style="margin: auto; margin-left: 15px;"></i></div>
+                                    </form>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive bg-white mt-3">
+                          <table class="table empOnnoardtable">
+                            <thead class="thead-light">
+                              <tr>
+                                <th class="text-left font-13" style="width: 10%">Requested on</th>
+                                <th class="text-left font-13" style="width: 10%">Asset Name</th>
+                                <th class="text-left font-13" style="width: 10%">Asset Type</th>
+                                <th class="text-left font-13" style="width: 10%">Asset Category</th>
+                                <th class="text-left font-13" style="width: 10%">Requested To</th>
+                                <th class="text-left font-13" style="width: 10%">Approved by</th>
+                                <th class="text-left font-13" style="width: 10%">Action Taken on</th>
+                                <th class="text-left font-13" style="width: 10%">Note</th>
+                                <th class="text-left font-13" style="width: 10%">Status</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let asset of assetRequests">
+                                <td class="text-left">{{ asset.requestedOn | date: 'EEE, MMM d yyyy' }}</td>
+                                <td class="text-left">{{ asset.assetName }}</td>
+                                <td class="text-left">{{ asset.assetType }}</td>
+                                <td class="text-left">{{ asset.assetCategoryName }}</td>
+                                <td class="text-left">{{ asset.requestedUser  }}</td>
+                                <td class="text-left">{{ asset.approvedBy }}</td>
+                                <td class="text-left">{{ asset.actionTakenOn | date: 'MMM d yyyy' }}</td>
+                                <td class="text-left">{{ asset.note }}</td>
+                                <td class="text-left">
+                                  <span
+                                    [ngClass]="{
+                                      'badge rounded-pill badge-soft-success': asset.status !== 'PENDING',
+                                      'badge rounded-pill badge-soft-secondary': asset.status == 'PENDING'
+                                    }">
+                                    {{ asset.status }}
+                                  </span>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <div *ngIf="this.assetRequestsTotalPage>1" class="pagination-controls">
+                            <!-- Ngb Pagination Component -->
+                            <ngb-pagination
+                              [collectionSize]="assetRequestsTotalCount"
+                              [rotate]="true"
+                              (pageChange)="pageChangedRequest($event)"
+                              [pageSize]="assetRequestsSize"
+                              [(page)]="assetRequestsPage"
+                              [maxSize]="8"
+                              [boundaryLinks]="true">
+                            </ngb-pagination>
+                          </div>
+                        </div>
+
+                    </div>
+                    <ng-template #noAssets>
+                      <div class="empty-file" style="margin-top: 13%; margin-bottom: 13%">
+                        <nz-empty nzNotFoundImage="assets/images/no-assets.svg" [nzNotFoundContent]="contentTpl">
+                          <ng-template #contentTpl>
+                            <p class="mb-1 empty-detail font-18">No assets request for now</p>
+                            <span class="empty-details">
+                              Your assets request will be shown here once they have<br>been raised
+                            </span>
+                          </ng-template>
+                        </nz-empty>
+                      </div>
+                    </ng-template>
+
+                </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary d-none" data-toggle="modal" data-target="#assetRequest">
+    Asset Request
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="assetRequest" tabindex="-1" role="dialog" aria-hidden="true" #assetRequestModal aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Asset Request</h5>
+                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton
+                    >
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                        <rect width="24" height="24" fill="#D9D9D9" />
+                    </mask>
+                    <g mask="url(#mask0_5037_2014)">
+                        <path d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+                            fill="black" />
+                    </g>
+                </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="assets-request-form">
+                  <form [formGroup]="assetRequestForm" (ngSubmit)="submitForm(assetRequestModal)">
+                    <div class="row register-form-box">
+                      <div class="col-md-12 mb-3">
+                        <div class="form-group">
+                          <label for="requestType" class="mb-2">What would you like to request?</label>
+                          <div class="row">
+                            <div class="col-md-6">
+                              <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                                <input type="radio" formControlName="requestType" value="Asset Replacement" class="form-check-input">
+                                <p class="form-check-label mb-0">Asset Replacement</p>
+                              </label>
+                            </div>
+                            <div class="col-md-6">
+                              <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                                <input type="radio" formControlName="requestType" value="New Asset Allocation" class="form-check-input">
+                                <p class="form-check-label mb-0">New Asset Allocation</p>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-12 mb-3">
+                        <div class="form-group">
+                          <label for="assetCategory" class="mb-2">Asset Category</label>
+                          <nz-form-control>
+                            <nz-select formControlName="assetCategory" class="form-control" style="width: 100%" nzSize="large" nzPlaceHolder="Select Category">
+                              <nz-option *ngFor="let category of assetCategories" [nzValue]="category.value" [nzLabel]="category.label"></nz-option>
+                            </nz-select>
+                          </nz-form-control>
+
+                        </div>
+                      </div>
+
+                      <div class="col-md-12 mb-3">
+                        <div class="form-group">
+                          <label for="assetName" class="mb-2">Asset Name</label>
+                          <nz-form-control>
+                            <input formControlName="assetName" type="text" class="form-control" placeholder="Enter the asset name" nzSize="large" style="width: 100%" />
+                          </nz-form-control>
+                        </div>
+                      </div>
+
+                      <div class="col-md-12 mb-3">
+                        <div class="form-group">
+                          <label for="requestedUser" class="mb-2">Select user to request</label>
+                          <nz-form-control>
+                            <nz-select formControlName="requestedUser" class="form-control" style="width: 100%" nzSize="large" nzPlaceHolder="Select a user">
+                              <nz-option *ngFor="let manager of managers" [nzValue]="manager.uuid" [nzLabel]="manager.name"></nz-option>
+                            </nz-select>
+                          </nz-form-control>
+                        </div>
+                      </div>
+
+                      <div class="col-md-12 mb-3">
+                        <div class="form-group">
+                          <label for="note" class="mb-2">Note</label>
+                          <textarea formControlName="note" class="form-control nots-section" rows="3" placeholder="Enter any notes here"></textarea>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
+                      <button type="submit" class="btn btn-primary" [disabled]="assetRequestForm.invalid">Submit Request</button>
+                  </div>
+                  </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

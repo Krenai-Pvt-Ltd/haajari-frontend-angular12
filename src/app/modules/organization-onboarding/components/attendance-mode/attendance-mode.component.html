@@ -4,7 +4,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <div class="persnol-details">
+          <div class="persnol-details" style="margin-bottom: 100px; overflow-y: auto;" #scrollToBottom>
             <div class="card-header p-0 pb-3 bg-white">
               <h4 class="card-title-headding mb-1">
                 Configure Attendance Method
@@ -20,7 +20,7 @@
             <!-- {{attendanceModeStep}} -->
             <!-- {{selectedMasterAttendanceModeId}}  -->
             <div
-              class="row mt-3"
+              class="row mt-3 " 
               *ngIf="attendanceModeStep == 1 || attendanceModeStep == 0"
             >
               <div
@@ -135,6 +135,7 @@
                 </div>
               </div>
             </div>
+            <!-- {{attendanceModeStep}} -->
 
             <div
               class="mt-3 whatAppSlackBox p-3"
@@ -190,6 +191,7 @@
                 </div>
               </div>
 
+              <!-- {{attendanceModeStep}} -->
               <div class="employeeInformation mt-3 p-3">
                 <div class="d-flex align-items-center gap-3">
                   <span
@@ -280,38 +282,39 @@
               </div>
             </div>
             <div
-                class="location-selection mt-4 p-3 border rounded"
+                class="location-selection mt-4 rounded"
                 *ngIf="
                   selectedMasterAttendanceModeId === 1 && 
                   (attendanceModeStep === 2 || attendanceModeStep === 3) && 
                   selectedAttendanceModeId != 1 && selectedAttendanceModeId != 0
                 "
               >
-                <h6 class="mb-3">Select Location Type :</h6>
+
+                <h4 class="mb-3 font-15">Select Location Type :</h4>
                 
                 <div class="d-flex align-items-center gap-3">
                   <div class="custom-radio">
                    
-                    <label for="flexibleLocation">
+                    <label for="flexibleLocation" class="fixedLocation">
                       <input
                       type="radio"
                       id="flexibleLocation"
                       name="locationType"
                       [(ngModel)]="locationType"
                       (ngModelChange)="saveAttendaceFlexibleModeInfo(locationType)"
-                      value="flexible"
+                      value="flexible" 
                     />
-                      <strong>Flexible Location</strong>
+                      <span>Flexible Location</span>
                       
                     </label>
-                    <span class="text-muted d-block">
+                    <!-- <span class="text-muted d-block">
                       Enable flexible location tracking.
-                    </span>
+                    </span> -->
                   </div>
 
                   <div class="custom-radio">
                     
-                    <label for="fixedLocation">
+                    <label for="fixedLocation" class="fixedLocation">
                       <input
                       type="radio"
                       id="fixedLocation"
@@ -320,72 +323,26 @@
                       (ngModelChange)="saveAttendaceFlexibleModeInfo(locationType)"
                       value="fixed"
                     />
-                      <strong>Fixed Location</strong>
+                      <span>Fixed Location</span>
                       
                     </label>
-                    <span class="text-muted d-block">
+                    <!-- <span class="text-muted d-block">
                       Restrict attendance to a specific location.
-                    </span>
+                    </span> -->
                   </div>
                 </div>
               </div>
 
 
-            <!-- {{selectedAttendanceModeId}} -->
+
             <div
-              class="mt-3 whatAppSlackBox"
+              class="mt-3 whatAppSlackBox border-top"
               style="border: none"
               *ngIf="
                 selectedMasterAttendanceModeId === 1 && attendanceModeStep === 3 && locationType === 'fixed' && selectedAttendanceModeId != 1
               "
             >
-              <!-- <div
-                class="d-flex align-items-center justify-content-between p-3 whatAppSlack"
-              >
-                <div class="d-flex align-items-center gap-3">
-                  <img src="assets/images/slack-whatapp.svg" />
-                  <div>
-                    <h5>Attendance Via What’sApp & Slack</h5>
-                    <p class="mb-0">
-                      Manage your own fleet of carriers and delivery boys <br />
-                      for Select the attendance tracking method
-                    </p>
-                  </div>
-                </div>
-                <div class="">
-                  <button
-                    class="btn p-0 text-primary add-location"
-                    (click)="updateMasterAttendanceModeMethodCall(1, 2)"
-                  >
-                    Staff Attendance With Location
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                    >
-                      <mask
-                        id="mask0_3031_9580"
-                        style="mask-type: alpha"
-                        maskUnits="userSpaceOnUse"
-                        x="0"
-                        y="0"
-                        width="24"
-                        height="24"
-                      >
-                        <rect width="24" height="24" fill="#D9D9D9" />
-                      </mask>
-                      <g mask="url(#mask0_3031_9580)">
-                        <path
-                          d="M5 19H6.425L16.2 9.225L14.775 7.8L5 17.575V19ZM3 21V16.75L16.2 3.575C16.4 3.39167 16.6208 3.25 16.8625 3.15C17.1042 3.05 17.3583 3 17.625 3C17.8917 3 18.15 3.05 18.4 3.15C18.65 3.25 18.8667 3.4 19.05 3.6L20.425 5C20.625 5.18333 20.7708 5.4 20.8625 5.65C20.9542 5.9 21 6.15 21 6.4C21 6.66667 20.9542 6.92083 20.8625 7.1625C20.7708 7.40417 20.625 7.625 20.425 7.825L7.25 21H3ZM15.475 8.525L14.775 7.8L16.2 9.225L15.475 8.525Z"
-                          fill="#6666F2"
-                        />
-                      </g>
-                    </svg>
-                  </button>
-                </div>
-              </div> -->
+             
 
               <div class="col-md-12 mt-4">
                 <div class="card-header p-0 pb-3 bg-white mb-3">
@@ -393,44 +350,9 @@
                     class="d-flex align-items-center justify-content-between"
                   >
                     <div class="d-flex align-items-center gap-3">
-                      <!-- <span
-                        class="stap-back-btn"
-                        (click)="updateMasterAttendanceModeMethodCall(1, 2)"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="22"
-                          height="22"
-                          viewBox="0 0 22 22"
-                          fill="none"
-                        >
-                          <mask
-                            id="mask0_4022_409"
-                            style="mask-type: alpha"
-                            maskUnits="userSpaceOnUse"
-                            x="0"
-                            y="0"
-                            width="22"
-                            height="22"
-                          >
-                            <rect
-                              x="0.199219"
-                              y="0.200012"
-                              width="21.6"
-                              height="21.6"
-                              fill="#D9D9D9"
-                            />
-                          </mask>
-                          <g mask="url(#mask0_4022_409)">
-                            <path
-                              d="M14.5977 20L5.59766 11L14.5977 2L16.1952 3.5975L8.79266 11L16.1952 18.4025L14.5977 20Z"
-                              fill="#6666F2"
-                            />
-                          </g>
-                        </svg>
-                      </span> -->
+                      
                       <div>
-                        <h4 class="mb-0 font-15">Office Address</h4>
+                        <h4 class="mb-1 font-15">Office Address</h4>
                         <p class="mb-0 font-13">
                           To ensure seamless delivery and accurate
                           communication, we kindly request you to review and
@@ -822,7 +744,7 @@
                     selectedMasterAttendanceModeId == null)}"
                   [disabled]="
                     (organizationAddressForm?.invalid &&
-                      selectedMasterAttendanceModeId === 1) ||
+                      selectedMasterAttendanceModeId === 1)  || (attendanceModeStep === 1 && selectedMasterAttendanceModeId == 1) ||
                     ((attendanceModeStep === 3 &&
                       (selectedAttendanceModeId === 2 ||
                         selectedAttendanceModeId === 3)) && locationType === 'fixed' && minRadius )||

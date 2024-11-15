@@ -1,4 +1,10 @@
+import { BASE_URL } from 'src/environments/environment';
 export class Key {
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  base_url = BASE_URL;
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   public static LOGGED_IN_USER = new Object();
 
   public static PRIVILEGE_VIEW = 1;
@@ -66,6 +72,7 @@ export class Key {
     '/setting/subscription',
     '/setting/onboarding-setting',
     '/refer-friend',
+    '/expense'
   ];
 
   public static TOPBAR_ROUTES = [
@@ -109,6 +116,7 @@ export class Key {
     '/setting/subscription',
     '/setting/onboarding-setting',
     '/refer-friend',
+    '/expense'
     // '/to-do-step-dashboard',
   ];
 
@@ -220,33 +228,19 @@ export class Key {
   public static KRENAI_UUID = '60811bf3-ae1e-11ee-9597-784f4361d885';
   public static DEMO_ORGANIZATION_UUID = '8d3cc5c2-21a7-11ef-98b2-0a3b903b1973';
 
-  // base_url = 'http://localhost:8080/api/v2';
-
-  // base_url = 'https://53b6-43-230-65-6.ngrok-free.app/api/v2';
-
-  /* ------------------  Staging urls ----------------*/
-  // base_url = 'https://staging.hajiri.work/api/v2'; 
-
-  /* ------------------  Production urls ----------------*/
-  base_url = 'https://production.hajiri.work/api/v2';
-
   //subscription plan
-  get_subscription = '/subcription-plan';
-  get_active_user_count = '/users/active-user-count';
-  get_purchased_status = '/organization-subs-plan/status';
-
-  add_more_employee = '/organization-subs-plan/add-more-employee';
-
   get_invoices = '/invoices';
-  get_last_invoices = '/invoices/last-invoices';
-  get_due_invoices = '/invoices/due-invoices';
-  get_due_pending_Status = '/invoices/due-pending-status';
+  download_invoice = '/invoices/download';
+  get_active_user_count = '/users/active-user-count';
+  get_restricted_modules = '/module/restriction'
 
-  get_plan_purchased_log = '/subcription-plan-log';
-  get_plan_purchased_status = '/organization-subs-plan/plan-purchased-status';
-
-  get_org_subs_plan_month_detail = '/organization-subs-plan-month-detail';
-  cancel_subscription = '/organization-subs-plan-month-detail';
+  //NEW SUBSCRIPTION PLAN API KEY
+  get_subscription_plans = '/subscription/plan';
+  get_current_subscription_plan='/subscription/current';
+  get_subscription_plan_light_detail='/subscription/plan/detail';
+  verify_gst_number='/subscription/gst';
+  get_subscription_payment_detail='/subscription/payment';
+  is_plan_expired = '/subscription/is-expired';
 
   //user notification
   get_notification = '/user-notification';
@@ -270,6 +264,8 @@ export class Key {
   edit_onboarding_user = '/whatsapp-user-onboarding/update';
 
   user_import = '/whatsapp-user-onboarding/import';
+  user_import_onboarding = '/whatsapp-user-onboarding/import/onboarding';
+  
   get_report = '/user-import';
 
   // base_url = "http://localhost:8080/api/v2";
@@ -311,7 +307,7 @@ export class Key {
   //EPF, ESI & TDS
   public static EPF = 10;
   public static ESI = 11;
-  public static TDS = 12; 
+  public static TDS = 12;
 
   //Payroll steps
   public static PAYROLL_STEP_COMPLETED = 13;
@@ -351,8 +347,8 @@ export class Key {
 
   // RazorPay Key
 
-  // public static razorKey =  'rzp_test_Wd1RYd0fng3673'; // Test
-  public static razorKey = 'rzp_live_twiokSC5krYrnQ'; // Live
+  public static razorKey = 'rzp_test_Wd1RYd0fng3673'; // Test
+  // public static razorKey = 'rzp_live_twiokSC5krYrnQ'; // Live
   //
   public static ENABLE = 1;
   public static DISABLE = 2;
@@ -421,8 +417,8 @@ export class Key {
 
   // redirect to slack
 
-  // public static SLACK_WORKSPACE_URL = `https://slack.com/app_redirect?app=A05QD5T9EK1&tab=home`;
-  public static SLACK_WORKSPACE_URL = `https://slack.com/app_redirect?app=A07AT94EHK7&tab=home`;
+  public static SLACK_WORKSPACE_URL = `https://slack.com/app_redirect?app=A05QD5T9EK1&tab=home`;   //prod
+  // public static SLACK_WORKSPACE_URL = `https://slack.com/app_redirect?app=A07AT94EHK7&tab=home`;
 
   static GEOLOCATION = 'geolocation';
 
@@ -430,4 +426,8 @@ export class Key {
   public static COL_MD_4 = 3;
   public static COL_MD_6 = 2;
   public static COL_MD_12 = 1;
+
+  // employee profile old and new routes
+  public static EMPLOYEE_PROFILE_ROUTE = '/employee-profile';
+  // public static EMPLOYEE_PROFILE_ROUTE = '/employee';
 }

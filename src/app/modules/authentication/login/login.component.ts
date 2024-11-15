@@ -4,11 +4,13 @@ import { Router, RouterLink, RouterModule } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Subscription, of, timer } from 'rxjs';
 import { catchError, switchMap, take, tap } from 'rxjs/operators';
+import { Key } from 'src/app/constant/key';
 import { UserReq } from 'src/app/models/userReq';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
 
 @Component({
   selector: 'app-login',
@@ -30,6 +32,7 @@ export class LoginComponent implements OnInit {
     private rbacService: RoleBasedAccessControlService,
     private helperService: HelperService,
     private _onboardingService: OrganizationOnboardingService,
+    private _subscriptionService: SubscriptionPlanService 
   ) {
     this.countDown = timer(0, this.tick)
       .pipe(take(this.counter))
@@ -70,29 +73,26 @@ export class LoginComponent implements OnInit {
   signIn() {
     debugger
     this.loginButtonLoader = true;
-    this.dataService
-      .loginUser(this.email, this.password)
-      .pipe(
+    this.dataService.loginUser(this.email, this.password).pipe(
         tap(async (response) => {
           // console.log(response);
-          this.helperService.subModuleResponseList =
-            response.subModuleResponseList;
+          this.helperService.subModuleResponseList = response.subModuleResponseList;
           localStorage.setItem('token', response.tokenResponse.access_token);
-          localStorage.setItem(
-            'refresh_token',
-            response.tokenResponse.refresh_token
-          );
-         await this.rbacService.initializeUserInfo();
-         this.UUID=this.rbacService.userInfo.uuid;
-         this.ROLE = this.rbacService.userInfo.role;
+          localStorage.setItem('refresh_token',response.tokenResponse.refresh_token);
+          
+          await this.rbacService.initializeUserInfo();
+          this.UUID=this.rbacService.userInfo.uuid;
+          this.ROLE = this.rbacService.userInfo.role;
 
+          
          if (this.ROLE === 'USER') {
-          this.router.navigate(['/employee-profile'], {
+          this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], {
             queryParams: { userId: this.UUID, dashboardActive: 'true' },
           });
         } else if (this.ROLE == 'HR ADMIN') {
            this.router.navigate(['/employee-onboarding-data']);
         } else {
+          await this._subscriptionService.LoadAsync();
           const helper = new JwtHelperService();
           const token = localStorage.getItem('token');
           if (token != null) {
@@ -100,7 +100,7 @@ export class LoginComponent implements OnInit {
               if(this.rbacService.shouldDisplay('dashboard')){
                 this.router.navigate(['/dashboard']);
             } else {
-              this.router.navigate(['/employee-profile'], {
+              this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], {
                 queryParams: { userId: this.UUID, dashboardActive: 'true' },
               });
             }
@@ -488,7 +488,7 @@ export class LoginComponent implements OnInit {
   verifyOtpByWhatsappMethodCall() {
     this.loading = true;
     this.dataService
-      .verifyOtpByWhatsappNew(this.phoneNumber, this.otp)
+      .verifyOtpByWhatsappNew(this.phoneNumber, this.otp,"")
       .subscribe(
         async (response: any) => {
           if (response.status) {

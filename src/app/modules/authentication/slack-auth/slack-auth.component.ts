@@ -8,6 +8,7 @@ import { jwtDecode } from 'jwt-decode';
 import { Key } from 'src/app/constant/key';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import { constant } from 'src/app/constant/constant';
 
 @Component({
   selector: 'app-slack-auth',
@@ -28,7 +29,7 @@ export class SlackAuthComponent implements OnInit {
     //this.convertAccessTokenFromCode();
     this.registerOrganizationByCodeParam();
     this.continueInSlack();
-    this.getSlackUserCountData();
+    
     
   }
 
@@ -42,6 +43,7 @@ export class SlackAuthComponent implements OnInit {
   isRouteDashboard: boolean = false;
   errorMessage: string = '';
   errorFlag: boolean = false;
+  promotionCode:string='';
   registerOrganizationByCodeParam() {
     debugger;
     const codeParam = new URLSearchParams(window.location.search).get('code');
@@ -53,16 +55,22 @@ export class SlackAuthComponent implements OnInit {
       // alert('Invalid URL: Missing code parameter');
       return;
     }
+    this.promotionCode = this.getCookie('promotionalOffer');
     this.errorFlag = false;
     this.dataService
       .registerOrganizationUsingCodeParam(
         codeParam,
         stateParam,
-        this.helperService.getTimeZone()
+        this.helperService.getTimeZone(),
+        this.promotionCode
       )
       .subscribe(
         async (response: any) => {
           // console.log(response.object);
+          if(!constant.EMPTY_STRINGS.includes(this.promotionCode) ){
+            this.promotionCode ='';
+            this.deleteAllCookies();
+          }
           this.isSuccessComponent = true;
           if(this.isSuccessComponent) {
             this.startCountdown();
@@ -74,6 +82,7 @@ export class SlackAuthComponent implements OnInit {
 
           await this.rbacService.initializeUserInfo();
 
+          this.getSlackUserCountData();
           debugger;
           const decodedValue = this.decodeFirebaseAccessToken(
             response.object.access_token
@@ -122,8 +131,13 @@ export class SlackAuthComponent implements OnInit {
   countdown: number = 20; // Countdown duration in seconds
   countdownPercent: number = 100; // Starts at 100%
   intervalId: any;
-  formatOne = (percent: number): string => `${percent}%`;
+  formatOne = (percent: number): string => `${percent}`;
   formatTwo = (): string => `Done`;
+  maxCountdownValue = 20;
+  
+  get progress() {
+    return (this.countdown / this.maxCountdownValue) * 100;
+  }
 
   // startCountdown(): void {
   //   this.intervalId = setInterval(() => {
@@ -144,11 +158,17 @@ export class SlackAuthComponent implements OnInit {
         this.countdownPercent = (this.countdown / totalSeconds) * 100;
       } else if (this.countdown === 1) {
         
-        this.countdownPercent = 0; 
-      } else if (this.countdown === 0) {
-       
-        this.redirectNow();
-      }
+        // this.countdownPercent = 0; 
+        this.countdown = 0;
+        clearInterval(this.intervalId);
+        setTimeout(() => this.redirectNow(), 1000);
+      } 
+      // else if (this.countdown === 0) {
+      //   this.countdown = 0;
+      //   clearInterval(this.intervalId);
+      //   setTimeout(() => this.redirectNow(), 1000);
+      //   this.redirectNow();
+      // }
     }, 1000); 
   }
 
@@ -257,4 +277,29 @@ export class SlackAuthComponent implements OnInit {
     }
   );
   }
+
+
+    // Get a cookie for promotionalOffer
+    getCookie(name:string) {
+      const nameEQ = name + "=";
+      const ca = document.cookie.split(';');
+      for (let i = 0; i < ca.length; i++) {
+          let c = ca[i];
+          while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+          if (c.indexOf(nameEQ) == 0) 
+          return c.substring(nameEQ.length, c.length);
+      }
+      return '';
+    }
+
+
+    deleteAllCookies() {
+      var cookies = document.cookie.split(";");
+      for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i];
+        var eqPos = cookie.indexOf("=");
+        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      }
+    }
 }

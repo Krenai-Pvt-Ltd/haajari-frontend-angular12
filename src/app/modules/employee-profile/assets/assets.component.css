@@ -1,0 +1,209 @@
+.employee-assets{
+    border: 1px solid #f1f1f1;
+}
+
+.assets-request{
+    border-radius: 2px;
+    border: 1px solid #DCDCE4;
+    min-width: 130px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #1C1B1F;
+}
+.assets-request svg{
+    width: 24px;
+    padding-left: 8px;
+}
+.nav.nav-pills {
+    background-color: transparent;
+    border-bottom: 1px solid #edeff5;
+}
+
+.nav-pills .nav-item.show .nav-link,
+.nav-pills .nav-link.active {
+    background: transparent !important;
+    color: var(--primary-color) !important;
+    border-radius: 0;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.nav-link {
+    margin-right: 20px;
+    display: block;
+    padding: 7px 10px;
+    color: #000;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
+    text-align: left;
+}
+
+.search-icon {
+    font-size: 13px !important;
+    position: absolute !important;
+    top: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    color: var(--tb-secondary-color) !important;
+}
+
+.onboarding-date input::placeholder {
+    font-size: 14px;
+    color: #777;
+}
+
+.table td {
+    font-weight: 500;
+    vertical-align: middle;
+    font-size: 12px !important;
+    white-space: nowrap;
+    padding: 15px 15px !important;
+}
+
+.table-font-weight {
+    font-weight: 400;
+}
+
+.badge {
+    line-height: 12px;
+    padding: 0.55em 10px;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.1px;
+    min-width: 80px;
+}
+
+.table tbody{
+    border: 1px solid #f1f1f1;
+}
+
+.empFilerDropfilter .new-deopdown {
+    display: block;
+    width: 120px;
+    padding: 0.4rem 0.5rem;
+    font-size: 13px !important;
+    text-align: left;
+    background-color: #fff;
+    border: none;
+    border-radius: 0px;
+    position: relative;
+    border-right: 1px solid #f2f2f2 !important;
+    color: #777 !important;
+    font-weight: 400;
+    letter-spacing: 0.1px;
+    box-shadow: unset;
+}
+
+.onboarding-date input[type="text"] {
+    width: 680px;
+    border-radius: 0px 10px 10px 0px;
+    border: 0px solid #f2f2f2;
+    height: 45px !important;
+    border-left: 0;
+    font-weight: 400 !important;
+    font-size: 14px !important;
+    color: #1f1f1f !important;
+}
+
+.onboard-add {
+    border: 1px solid #f1f1f1;
+}
+
+.white-space {
+    white-space: normal;
+    min-width: 170px;
+    max-width: 100px;
+    display: block;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.edit-action-btn svg{
+    width: 15px;
+}
+
+.approved-btn svg {
+    width: 15px;
+}
+.rejected-btn svg {
+    width: 12px;
+}
+
+.empty-detail {
+    color: #000 !important;
+    line-height: 20px;
+    font-weight: 500 !important;
+}
+
+.empty-details{
+    color: #6B7280;
+        line-height: 20px;
+        font-weight: 400 !important; 
+        font-size: 12px;
+}
+
+::ng-deep.ant-empty-image img {
+    width: 200px;
+}
+
+.close-btn svg{
+   width: 20px;
+}
+
+.submitActionBtn {
+    background-color: var(--primary-background-color);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 2px;
+    min-width: 100px;
+}
+
+.register-form-box label {
+    color: rgba(0, 0, 0, 0.85);
+    font-size: 14px !important;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20.854px;
+    letter-spacing: 0.102px;
+}
+
+.cancel-btn {
+    background-color: #fbfbfb;
+    border: 1px solid #e6e7e9;
+    border-radius: 2px;
+    color: #4a4a4a;
+    font-size: 12px;
+    font-weight: 500;
+    min-width: 100px;
+}
+
+.assets-req{
+    border: 1px solid #f1f1f1;
+    border-radius: 2px;
+    height: 47px;
+    margin-bottom: 0px;
+}
+
+.assets-req input {
+    left: 15px !important;
+    position: relative;
+    top: -2px;
+}
+
+.assets-req p{
+    padding-left: 25px;
+        font-size: 13px;
+            font-weight: 400;
+}
+
+
+.nots-section{
+    background-color: rgba(236, 236, 236, 0.21) !important;
+    width: 100%;
+    height: 100px !important;
+    border: 1px solid #e9e9e9;
+}

@@ -6,17 +6,24 @@ import { DataService } from './data.service';
 import { formatDate } from '@angular/common';
 import { NavigationExtras, Router } from '@angular/router';
 import * as saveAs from 'file-saver';
+import { Key } from '../constant/key';
+import { RestrictedSubModule } from '../models/RestrictedSuubModule';
+import { OrganizationOnboardingService } from './organization-onboarding.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HelperService {
 
-  constructor( private httpClient : HttpClient,
-     private dataService: DataService
-    , private router: Router) {
+  private _key: Key = new Key();
+  constructor( private _httpClient : HttpClient,
+     private dataService: DataService,
+     private router: Router,
+     private _onboardingService: OrganizationOnboardingService,
+    ) {
 
    }
+
    isFirstTime: boolean = true;
    markAsVisited() {
     this.isFirstTime = false;
@@ -25,8 +32,10 @@ export class HelperService {
   clearHelperService(){
     this.subModuleResponseList = [];
   }
-
+  restrictedModules!:RestrictedSubModule[];
   subModuleResponseList: any[] = [];
+
+ 
 
   todoStepsSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
@@ -226,7 +235,10 @@ export class HelperService {
     let navExtra: NavigationExtras = {
       queryParams: { userId: uuid },
     };
-    this.router.navigate(['/employee-profile'], navExtra);
+    // this.router.navigate(['/employee-profile'], navExtra);
+    const url = this.router.createUrlTree([Key.EMPLOYEE_PROFILE_ROUTE], navExtra).toString();
+    window.open(url, '_blank');
+    return;
   }
 
   extractMonthNameFromDate(dateString : string){
@@ -242,7 +254,7 @@ export class HelperService {
   }
 
   downloadPdf(url: string, name: string) {
-    this.httpClient.get(url, { responseType: 'blob' }).subscribe(blob => {
+    this._httpClient.get(url, { responseType: 'blob' }).subscribe(blob => {
       saveAs(blob, name+'.pdf');
     });
   }
@@ -309,4 +321,27 @@ export class HelperService {
 
   }
 
+
+  getRestrictedModules() {
+    return new Promise((resolve)=>{
+      this.getSubscriptionRestrictedModules().subscribe((response) => {
+          if (response.status){
+            this.restrictedModules = response.object;
+            if(this.restrictedModules ==null){
+              this.restrictedModules = [];
+            }
+          }else{
+            this.restrictedModules = [];
+          }
+          resolve(true);
+        },(error)=>{
+          resolve(true);
+        });
+    });
+  }
+
+
+  getSubscriptionRestrictedModules() {
+    return this._httpClient.get<any>(this._key.base_url + this._key.get_restricted_modules)
+  }
 }

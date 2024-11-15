@@ -1,6 +1,7 @@
 export class OrganizationAddressDetail {
 
     id: number = 0;
+    branch: string = '';
     addressLine1: string = '';
     addressLine2: string = '';
     landmark: string = '';
@@ -12,6 +13,7 @@ export class OrganizationAddressDetail {
     longitude: any;
     radius: string = '';
     attendanceMode: number = 0;
+    // branch: string = '';
 
     // constructor(
     //     id?: number,

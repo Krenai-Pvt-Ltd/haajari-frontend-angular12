@@ -10,6 +10,7 @@ import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 import { PlacesService } from 'src/app/services/places.service';
+import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
 
 interface AddressComponent {
   long_name: string;
@@ -28,8 +29,10 @@ export class AttendanceModeComponent implements OnInit {
     private router: Router,
     private onboardingService: OrganizationOnboardingService,
     private _location: Location,
-    private placesService: PlacesService
-  ) { }
+    private placesService: PlacesService,
+    private _subscriptionService: SubscriptionPlanService
+  ) {}
+
 
   ngOnInit(): void {
     const token = localStorage.getItem('token');
@@ -59,6 +62,7 @@ export class AttendanceModeComponent implements OnInit {
       this.saveAttendaceFlexibleModeInfo('flexible');
     } else {
       this.updateAttendanceModeMethodCall(attendanceModeId);
+      this.scrollToView();
       // this.getFlexibleAttendanceMode();
       // this.updateMasterAttendanceModeMethodCall(1, 3);
       // this.attendanceWithLocationButton.nativeElement.click();
@@ -196,27 +200,18 @@ export class AttendanceModeComponent implements OnInit {
   goToDashboardSection() {
     debugger;
     this.isAttendanceModeLoader = true;
-
-     // setTimeout(() => {
-    //   // this.router.navigate(['/dashboard']);
-    //   this.router.navigate(['/to-do-step-dashboard']);
-    // }, 5000);
     this.showSuccess = true;
     this.dataService.markStepAsCompleted(5);
-    // this.onboardingService.saveOrgOnboardingStep(5).subscribe();
     this.onboardingService.saveOrgOnboardingStep(5).subscribe((resp) => {
       this.onboardingService.refreshOnboarding();
     });
-    this.registerBillingAndSubscriptionTempMethodCall(this.basicSubscriptionPlanId);
-
+    
     this.dataService.sendOnboardingNotificationInWhatsapp().subscribe(
       (response) => {
         console.log('Messages Sent Successfully');
-        // this.onboardingService.refreshOnboarding();
       },
       (error) => {
-        this.isAttendanceModeLoader = false;
-        console.log(error);
+        // console.log(error);
       }
     );
     this.isAttendanceModeLoader = false;
@@ -708,6 +703,7 @@ export class AttendanceModeComponent implements OnInit {
   saveAttendaceFlexibleModeInfo(locationType: string) {
     this.dataService.saveFlexibleAttendanceMode(locationType).subscribe((response) => {
       if (locationType == 'fixed') {
+        this.scrollToView();
         this.updateMasterAttendanceModeMethodCall(1, 3);
         this.offFinishSetup = true;
       } else {
@@ -742,4 +738,9 @@ export class AttendanceModeComponent implements OnInit {
     })
   }
 
+    @ViewChild('scrollToBottom') scrollToBottom!: ElementRef;
+  scrollToView() {
+    this.scrollToBottom.nativeElement.scrollTop =
+      this.scrollToBottom.nativeElement.scrollHeight;
+  }
 }

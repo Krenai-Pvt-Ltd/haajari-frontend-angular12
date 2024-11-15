@@ -13,6 +13,28 @@
   font-weight: 500;
   letter-spacing: 0.1px;
 }
+.invalid-input {
+  /* border-color: red !important; 
+  background-color: #010101 !important;  */
+  border-color: #ff959b !important;
+  background-color: #ffffff !important;
+  /* border-color: #f1f1f1 !important;
+    background-color: #f4f4f4ee !important; */
+}
+.custom-modal-width .modal-dialog {
+  max-width: 300%; /* Adjust percentage as needed */
+  width: 300%; /* Ensures consistent behavior */
+}
+.single-row {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Space between elements */
+}
+/* .select-all-page {
+  color: #007bff !important;
+  font-weight: bold; 
+} */
+
 .orderpcardleft {
   width: 80%;
 }
@@ -261,7 +283,7 @@ tbody tr {
   padding: 5px 23px;
   border: 1px solid #6666f3;
 }
-/* 
+/*
 .errorboxmain{
     min-height: 20vh;
     background-color: #fff;
@@ -273,7 +295,7 @@ tbody tr {
     padding: 15px;
 } */
 
-/* 
+/*
 .errorboxinner{
     display: flex;
     align-items: center;
@@ -598,7 +620,7 @@ textarea {
   }
 }
 
-/* 
+/*
 .errorboxinner{
     display: flex;
     align-items: center;
@@ -879,3 +901,52 @@ Remove
 ::ng-deep.ant-picker {
   background-color: transparent !important;
 }
+
+/* Excel Upload Modal */
+.excelUploadTable tbody td > input {
+  background: #fff !important;
+  border: 1px solid #f1f1f1;
+  height: 35px;
+  font-weight: 400 !important;
+  font-size: 12px !important;
+  line-height: 18px;
+  color: #445059;
+  box-shadow: none;
+  padding: 0px 10px;
+  border-radius: 2px;
+}
+.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  min-height: 35px !important;
+}
+.excelUploadTable .whatapp-login-input {
+  /* height: 35px !important; */
+  height: fit-content !important;
+  border: 1px solid #f1f1f1 !important;
+  border-radius: 2px !important;
+}
+.excelUploadTable
+  .ant-select:not(.ant-select-customize-input)
+  .ant-select-selector {
+  border-radius: 0px !important;
+  min-height: 35px !important;
+  color: #1f1f1f !important;
+  height: 35px;
+}
+.next-btn {
+  text-align: center;
+  font-size: 15px;
+  font-weight: 500;
+}
+.custom-dropdown-footer .ant-btn-link {
+  color: #6666f4;
+}
+.custom-dropdown-footer {
+  background-color: #ffffff;
+  margin-bottom: -4px;
+}
+.waring-box{
+  background-color: #fffafa;
+  border: 1px solid #ef4d56;
+  border-radius: 2px;
+}
+/* Excel Upload Modal */
