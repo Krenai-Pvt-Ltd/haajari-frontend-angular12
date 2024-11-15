@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
 
@@ -16,7 +17,8 @@ export class CommonToDoStepsComponent implements OnInit {
     private router: Router,
     private helperService: HelperService,
     private rbacService: RoleBasedAccessControlService,
-    private _subscriptionService:SubscriptionPlanService
+    private _subscriptionService:SubscriptionPlanService,
+    private _onboardingService: OrganizationOnboardingService,
   ) {
     if(this._subscriptionService.isSubscription !=undefined && this._subscriptionService.isSubscription &&!this._subscriptionService.isPlanExpired){
       this.isToDoStepsCompletedData();
@@ -29,27 +31,41 @@ export class CommonToDoStepsComponent implements OnInit {
     debugger;
     this.helperService.todoStepsSubject.subscribe((res) => {
       if (res) {
-        // this.saveOrgSecondaryToDoStepBarData(0);
-        // this.getOrgSecondaryToDoStepBarData();
-        this.showToDoStep();
-        if (res == 'close') {
-          this.isShowSecondaryToDoSteps = false;
-        } else {
-          this.getStepsData();
-          this.getOrganizationRegistratonProcessStepData();
-          this.isToDoStepsCompletedData();
-          if (this.isToDoStepsCompletedFlag == 1) {
-            // console.log(this.isTo)
-            this.dataService.step=5;
-            this.dataService.isToDoStepCompleted=1;
-            this.stepCompletionModal.nativeElement.click();
+        
+        if(this.STEP_ID == 5) {
+          this.showToDoStep();
+          if (res == 'close') {
+            this.isShowSecondaryToDoSteps = false;
+          } else {
+            this.getStepsData();
+            this.getOrganizationRegistratonProcessStepData();
+            this.isToDoStepsCompletedData();
+            if (this.isToDoStepsCompletedFlag == 1) {
+              // console.log(this.isTo)
+              this.dataService.step=5;
+              this.dataService.isToDoStepCompleted=1;
+              this.stepCompletionModal.nativeElement.click();
+            }
           }
-        }
+      }
 
         // this.getOrganizationInitialToDoStepBar();
       }
     });
   }
+  STEP_ID : number = 0;
+  getOnboardingStep() {
+    debugger;
+    this._onboardingService
+      .getOrgOnboardingStep()
+      .subscribe((response: any) => {
+        if (response.status) {
+          this.STEP_ID = response.object.step;
+          // console.log(response.object.step);
+        }
+      });
+  }
+
 
   /***
    * Initializing to 1, so that it should not be visible by default
@@ -84,10 +100,12 @@ export class CommonToDoStepsComponent implements OnInit {
 
   ROLE: any;
   ngOnInit(): void {
+    this.getOnboardingStep();
     this.getStepsData();
     this.getOrganizationInitialToDoStepBar();
     this.getOrganizationRegistratonProcessStepData();
     this.getRoleDetails();
+  
   }
 
   closeFlagFunc() {
