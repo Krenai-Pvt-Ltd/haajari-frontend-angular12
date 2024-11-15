@@ -154,18 +154,15 @@ export class SalarySettingComponent implements OnInit {
 
   //Fetching all the salary calculation mode from the database
   salaryCalculationModeList: SalaryCalculationMode[] = [];
-  selectedSalaryCalculationModeId: number = 0;
   getAllSalaryCalculationModeMethodCall() {
     this.preRuleForShimmersAndErrorPlaceholdersForSalaryCalculationModeMethodCall();
     this._salaryService.getAllSalaryCalculationMode().subscribe(
       (response) => {
-        this.salaryCalculationModeList = response.object;
-        if(this.salaryCalculationModeList!=null){
-          this.salaryCalculationModeList.forEach((salaryMode)=>{
-            if(salaryMode.selected){
-              this.selectedSalaryCalculationModeId = salaryMode.id;
-            }
-          })
+        if(response.status){
+          this.salaryCalculationModeList = response.object;
+          if(this.salaryCalculationModeList==null){
+            this.salaryCalculationModeList = [];
+          }
         }
       },
       (error) => {
@@ -174,19 +171,14 @@ export class SalarySettingComponent implements OnInit {
     );
   }
 
- 
-
+  
   //Updating the salary calculation mode
-  updateSalaryCalculationModeMethodCall(salaryCalculationModeId: number) {
-    this.confirmationDialogService.openConfirmDialog(
-      () => this.proceedUpdateSalaryCalculationMode(salaryCalculationModeId),
-      () => this.cancelSalaryCalculationModeUpdation()
-    );
-  }
-
+  @ViewChild('salaryModeClose') salaryModeClose!:ElementRef;
+  selectedSalaryModeId:number=0;
   proceedUpdateSalaryCalculationMode(salaryCalculationModeId: number) {
     this._salaryService.updateSalaryCalculationMode(salaryCalculationModeId).subscribe((response) => {
         if(response.status){
+          this.salaryModeClose.nativeElement.click();
           this.salaryCalculationModeList.forEach((salaryMode)=>{        
               if(salaryMode.id == salaryCalculationModeId){
                 salaryMode.selected = true;
@@ -202,9 +194,7 @@ export class SalarySettingComponent implements OnInit {
         }
       );
   }
-  cancelSalaryCalculationModeUpdation() {
-    console.log('Cancel check!');
-  }
+
 
   //Fetching the PF contribution rates from the database
   pFContributionRateList: PFContributionRate[] = [];
@@ -894,6 +884,10 @@ export class SalarySettingComponent implements OnInit {
     this.pageNumber = event;
   }
 
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //                                                            SALARY UPLOAD SECTION START                                                           // 
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   fileName: any;
   currentFileUpload: any;
 
@@ -1003,11 +997,6 @@ export class SalarySettingComponent implements OnInit {
     );
   }
 
-  extractFileName(url: string): string {
-    const decodedUrl = decodeURIComponent(url);
-    const matches = decodedUrl.match(/.*\/(.+\..+?)\?/);
-    return matches ? matches[1] : 'Unknown File';
-  }
 
   downloadDocument() {
     const link = document.createElement('a');
@@ -1015,4 +1004,44 @@ export class SalarySettingComponent implements OnInit {
     link.download = 'Salary_Detail_Doc.pdf';
     link.click();
   }
+
+
+  dowloadLoading:boolean=false;
+  getCurrentSalaryReport(){
+    this.dowloadLoading = true;
+    this._salaryService.getCurrentSalaryReport().subscribe((response) => {
+      if (response.status) {
+        if(response.object!=null){
+          this.downloadUrl(response.object);
+        } 
+      }else{
+
+      } 
+      this.dowloadLoading = false;
+    },
+    (error) => {
+      this.dowloadLoading = false;
+    });
+  }
+
+
+  extractFileName(url: string): string {
+
+    const parts = decodeURIComponent(url).split("/");
+    return parts[parts.length - 1].split("?")[0];
+  }
+
+
+  downloadUrl(url:string){
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = this.extractFileName(url); 
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
+  }
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //                                                            SALARY UPLOAD SECTION END                                                             // 
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }

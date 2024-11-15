@@ -25,10 +25,14 @@ export class SalaryService {
   }
 
   getSalaryDetailExcel(): Observable<any>{
-    return this._http.get<any>(`${this._key.base_url}/salary/last-salary-detail-log`, {});
+    return this._http.get<any>(`${this._key.base_url}/salary/last-salary-detail-log`);
   }
 
   getAllStatutories(): Observable<any> {
     return this._http.get<any>(`${this._key.base_url}/statutory/get/all`);
+  }
+
+  getCurrentSalaryReport():Observable<any>{
+    return this._http.get<any>(`${this._key.base_url}/salary/current/download`);
   }
 }

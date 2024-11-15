@@ -7,4 +7,5 @@ export class CompanyExpensePolicyRes{
     policyName: string = ''
     totalEmployees: number = 0;
     companyExpensePolicyTypeRes: CompanyExpensePolicyTypeRes[] = [];
+    userIds: number[] = []
 }

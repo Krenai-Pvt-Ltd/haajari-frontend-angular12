@@ -50,17 +50,10 @@
                   >
                     <div
                       class="categryCustomizecard d-flex pointer"
-                      [ngClass]="{
-                        'attendance-active':
-                          salaryCalculationMode.id ==
-                          selectedSalaryCalculationModeId
-                      }"
+                      [ngClass]="{'attendance-active': salaryCalculationMode.selected, 'disabled-lnk':salaryCalculationMode.selected}"
                       data-bs-toggle="modal"
-                      (click)="
-                        updateSalaryCalculationModeMethodCall(
-                          salaryCalculationMode.id
-                        )
-                      "
+                      data-bs-target="#salaryMode"
+                      (click)="selectedSalaryModeId = salaryCalculationMode.id"
                     >
                       <div class="categryCustomizeinfo">
                         <label
@@ -77,11 +70,7 @@
                       </div>
                       <div
                         class="active-check ng-star-inserted"
-                        *ngIf="
-                          salaryCalculationMode.id ==
-                          selectedSalaryCalculationModeId
-                        "
-                      >
+                        *ngIf="salaryCalculationMode.selected">
                         <i class="bi bi-check2"></i>
                       </div>
                     </div>
@@ -606,6 +595,10 @@
                     >
                     Update the data
                   </p>
+                  <p class="mb-0" (click)="getCurrentSalaryReport()">    
+                    <a class="text-primary" 
+                      >Download</a>
+                  </p>
 
                   <p class="mb-0">
                     <input
@@ -703,7 +696,7 @@
                     Uploaded: 11th Jun 2024
                   </p>
                 </div>
-<!-- (click)="downloadDocument()" -->
+
                 <button
                   class="btn p-0 text-primary font-14"
                   data-bs-toggle="collapse" href="#collapseExample"
@@ -2351,3 +2344,28 @@
     <!-- <div id="cancel-and-save"><div class="modal-footer d-flex align-items-center justify-content-end"><button id="cancel" type="button" class="btn btn-outline-primary" routerLink="/role">Cancel</button></div><div class="modal-footer d-flex align-items-center justify-content-end"><button id="save" type="submit" class="btn btn-primary" [disabled]="addRoleForm.invalid"><ng-container *ngIf="buttonLoader; else saveButton"><div *ngIf="buttonLoader" class="dot-opacity-loader"><span></span><span></span><span></span></div></ng-container><ng-template #saveButton><span style="padding: 15px">Save</span></ng-template></button></div></div> -->
   </div>
 </div>
+
+
+<!-- SALARY CALCULATION MODE MODAL START -->
+  <div class="modal fade" id="salaryMode" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        
+        <div class="modal-body">
+          <div class="">
+            <span class="d-flex justify-content-center"><i class="bi bi-question-circle"></i></span>
+            <h2>Are you sure, you want to proceed?</h2>
+            <p class="d-flex justify-content-center">Note: By clicking on proceed, your changes will get reflected.</p>
+          </div>
+          <div class="d-flex justify-content-center" style="gap:25px">
+            <button type="button" class="cancel-button" data-bs-dismiss="modal" #salaryModeClose>Cancel</button>
+            <button type="button" class="proceed-button" (click)="proceedUpdateSalaryCalculationMode(selectedSalaryModeId)">
+              Proceed
+          </button>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SALARY CALCULATION MODE MODAL END -->
