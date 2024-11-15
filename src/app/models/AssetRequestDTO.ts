@@ -4,6 +4,8 @@ export interface AssetRequestDTO {
   id: Number;
   assetType: string;
   requestedOn: Date;
+  requestedBy: string;
+  userUuid: string;
   assetName: string;
   requestedType: string;
   assetCategory: string;

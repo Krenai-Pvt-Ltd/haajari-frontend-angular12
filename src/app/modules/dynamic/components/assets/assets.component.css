@@ -39,6 +39,27 @@
 .errorboxmain {
   padding: 15px;
 }
+.modal-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.card {
+  border-radius: 0.5rem;
+}
+
+.card-title {
+  font-weight: 600;
+}
+
+.text-muted {
+  font-size: 0.9rem;
+}
+
+.badge {
+  font-size: 0.85rem;
+}
+
 .search-icon {
   font-size: 12px !important;
   position: absolute !important;

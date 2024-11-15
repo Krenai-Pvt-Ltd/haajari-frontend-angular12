@@ -506,6 +506,7 @@
                         <li><a class="dropdown-item" (click)="filterStatus('Approved')">Approved</a></li>
                         <li><a class="dropdown-item" (click)="filterStatus('Allocated')">Allocated</a></li>
                         <li><a class="dropdown-item" (click)="filterStatus('Rejected')">Rejected</a></li>
+                        <li><a class="dropdown-item" (click)="filterStatus('Pending')">Pending</a></li>
                     </ul>
                 </div>
 
@@ -534,8 +535,8 @@
                 <th class="text-left font-13" style="width: 10%">Asset Name</th>
                 <th class="text-left font-13" style="width: 10%">Asset Type</th>
                 <th class="text-left font-13" style="width: 10%">Asset Category</th>
-                <th class="text-left font-13" style="width: 10%">Requested To</th>
-                <th class="text-left font-13" style="width: 10%">Approved by</th>
+                 <th class="text-left font-13" style="width: 10%">Requested By</th>
+               <!-- <th class="text-left font-13" style="width: 10%">Approved by</th> -->
                 <th class="text-left font-13" style="width: 10%">Action Taken on</th>
                 <th class="text-left font-13" style="width: 10%">Note</th>
                 <th class="text-left font-13" style="width: 10%">Status</th>
@@ -547,8 +548,17 @@
                 <td class="text-left">{{ asset.assetName }}</td>
                 <td class="text-left">{{ asset.assetType }}</td>
                 <td class="text-left">{{ asset.assetCategoryName }}</td>
-                <td class="text-left">{{ asset.requestedUser  }}</td>
-                <td class="text-left">{{ asset.approvedBy }}</td>
+                <td class="text-left">
+                  <button
+                    class="btn btn-link text-primary p-0"
+                    [routerLink]="['/employee-profile']"
+                    [queryParams]="{ userId: asset.userUuid }"
+                  >
+                    {{ asset.requestedBy }}
+                  </button>
+                </td>
+
+              <!--  <td class="text-left">{{ asset.approvedBy }}</td> -->
                 <td class="text-left">{{ asset.actionTakenOn | date: 'MMM d yyyy' }}</td>
                 <td class="text-left">{{ asset.note }}</td>
                 <td class="text-left">
@@ -1235,27 +1245,74 @@
 
 <ng-template #statusChangeModal let-modal>
   <div class="modal-header">
-    <h4 class="modal-title">Change Status</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    <h4 class="modal-title text-primary">Change Asset Status</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
   </div>
+
   <div class="modal-body">
-    <p>Select a new status for the asset:</p>
-    <nz-select
-      [(ngModel)]="newStatus"
-      nzPlaceHolder="Select Status"
-      class="w-100"
-      nzSize="large"
-    >
-      <nz-option
-        *ngFor="let status of statuses"
-        [nzValue]="status"
-        [nzLabel]="status"
-      ></nz-option>
-    </nz-select>
+    <!-- Asset Details Section -->
+    <div class="card shadow-sm border-0 mb-3">
+      <div class="card-body">
+        <h5 class="card-title text-dark">Asset Details</h5>
+        <div class="row">
+          <div class="col-md-6">
+            <p><strong>Requested Date:</strong> {{ selectedAsset.requestedOn }}</p>
+          </div>
+          <div class="col-md-6">
+            <p><strong>Asset Name:</strong> {{ selectedAsset.assetName }}</p>
+          </div>
+          <div class="col-md-6">
+            <p><strong>Requested Type:</strong> {{ selectedAsset.assetType }}</p>
+          </div>
+          <div class="col-md-6">
+            <p><strong>Category:</strong> {{ selectedAsset.assetCategoryName }}</p>
+          </div>
+          <div class="col-md-12">
+            <p><strong>Note:</strong> {{ selectedAsset.note }}</p>
+          </div>
+          <div class="col-md-12">
+            <p><strong>Current Status:</strong>
+              <span class="badge bg-info text-dark">{{ selectedAsset.status }}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Change Status Section -->
+    <div class="card shadow-sm border-0">
+      <div class="card-body">
+        <h5 class="card-title text-dark">Change Status</h5>
+        <p class="text-muted mb-2">Select a new status for the asset:</p>
+        <nz-select
+          [(ngModel)]="newStatus"
+          nzPlaceHolder="Select Status"
+          class="w-100"
+          nzSize="large"
+        >
+          <nz-option
+            *ngFor="let status of statuses"
+            [nzValue]="status"
+            [nzLabel]="status"
+          ></nz-option>
+        </nz-select>
+      </div>
+    </div>
   </div>
 
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="modal.dismiss('cancel')">Cancel</button>
+    <button
+      type="button"
+      class="btn btn-secondary"
+      (click)="modal.dismiss('cancel')"
+    >
+      Cancel
+    </button>
     <button
       type="button"
       class="btn btn-primary"
@@ -1265,5 +1322,6 @@
     </button>
   </div>
 </ng-template>
+
 
 

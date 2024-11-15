@@ -700,7 +700,7 @@ private formatDataForChart(data: any[]): any[] {
   }
 
   pageChangedRequest(page: number): void {
-    this.assetRequestsPage = page;
+    this.assetRequestsPage = page-1;
     this.getAssetRequests();
   }
   isAssetRequestArrayEmpty(): boolean {
