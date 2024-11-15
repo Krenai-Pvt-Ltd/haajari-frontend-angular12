@@ -579,7 +579,12 @@
                       <div class="card-body p-0">
                         <div class="media p-3 align-items-center">
                           <!-- <img src="" alt="user" class="rounded-circle thumb-xl"> -->
+                          <ng-container *ngIf="
+                          performer.image !== null;
+                    else imageNull
+                  ">
                           <span>
+                           
                             <img [src]="performer.image" alt="user" class="rounded-circle" style="
                                 width: 60px;
                                 border-radius: 50%;
@@ -587,10 +592,13 @@
                                 object-fit: cover;
                               " (error)="onError($event)" />
                           </span>
+                          </ng-container>
+
+                          <ng-template #imageNull>
                           <span class="members-name" *ngIf="!performer.image">
                             {{ performer.name[0] }}
                           </span>
-
+                        </ng-template>
                           <div class="media-body ms-3 align-self-center">
                             <h5 class="pro-title m-0 Regular-data" (click)="routeToUserProfile(performer.uuid)">
                               {{ performer.name }}

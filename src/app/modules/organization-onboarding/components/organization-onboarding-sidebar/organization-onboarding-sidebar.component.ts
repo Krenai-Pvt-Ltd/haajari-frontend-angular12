@@ -9,6 +9,7 @@ import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { OrganizationOnboardingService } from 'src/app/services/organization-onboarding.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
 
 @Component({
   selector: 'app-organization-onboarding-sidebar',
@@ -22,7 +23,8 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
     private router: Router,
     private helperService: HelperService,
     private rbacService: RoleBasedAccessControlService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private _subscriptionService: SubscriptionPlanService
   ) {}
 
   onboardingViaString: string = '';
@@ -75,7 +77,7 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
       });
   }
 
-  goToStep(index: string) {
+  async goToStep(index: string) {
     debugger;
     // console.log("Index to Go :", index);
     switch (index) {
@@ -113,6 +115,7 @@ export class OrganizationOnboardingSidebarComponent implements OnInit {
         break;
       }
       case '5': {
+         await this._subscriptionService.LoadAsync();
          setTimeout(() => {
          this.router.navigate(['/dashboard']);
           // this.router.navigate(['/to-do-step-dashboard']);

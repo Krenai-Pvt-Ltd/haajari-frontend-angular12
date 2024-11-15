@@ -200,28 +200,18 @@ export class AttendanceModeComponent implements OnInit {
   goToDashboardSection() {
     debugger;
     this.isAttendanceModeLoader = true;
-
-     // setTimeout(() => {
-    //   // this.router.navigate(['/dashboard']);
-    //   this.router.navigate(['/to-do-step-dashboard']);
-    // }, 5000);
     this.showSuccess = true;
     this.dataService.markStepAsCompleted(5);
-    // this.onboardingService.saveOrgOnboardingStep(5).subscribe();
     this.onboardingService.saveOrgOnboardingStep(5).subscribe((resp) => {
       this.onboardingService.refreshOnboarding();
     });
-    // this._subscriptionService.getPlanAfterOnboarding();
-    //  this.registerBillingAndSubscriptionTempMethodCall(this.basicSubscriptionPlanId);
-
+    
     this.dataService.sendOnboardingNotificationInWhatsapp().subscribe(
       (response) => {
         console.log('Messages Sent Successfully');
-        // this.onboardingService.refreshOnboarding();
       },
       (error) => {
-        this.isAttendanceModeLoader = false;
-        console.log(error);
+        // console.log(error);
       }
     );
     this.isAttendanceModeLoader = false;

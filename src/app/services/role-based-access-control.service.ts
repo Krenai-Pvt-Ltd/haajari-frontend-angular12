@@ -169,7 +169,7 @@ export class RoleBasedAccessControlService {
           var index = subModules.findIndex(subModule=> subModule.description == subModuleRouteValue);
             if(index > -1){
                resolve(true);
-               return;
+              //  return;
             }else{
               resolve(false);
             }

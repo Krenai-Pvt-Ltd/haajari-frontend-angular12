@@ -46,15 +46,6 @@ export class CompanySettingComponent implements OnInit {
     // this.helperService.saveOrgSecondaryToDoStepBarData(0);
     this.getAllRolesMethodCall();
     this.fetchOnboardingModules();
-    this.dataService.getEnabledModuleIds()
-      .subscribe((enabledIds: number[]) => {
-        // Update the isFlag property of the modules based on the fetched enabled IDs
-        this.onboardingModules.forEach(module => {
-          module.isFlag = enabledIds.includes(module.id);
-        });
-      }, error => {
-        console.error('Error fetching enabled modules:', error);
-      });
   }
 
   getAllRolesMethodCall() {
@@ -82,6 +73,15 @@ export class CompanySettingComponent implements OnInit {
     this.dataService.getAllOnboardingModules().subscribe(
       (data) => {
         this.onboardingModules = data;
+        this.dataService.getEnabledModuleIds()
+      .subscribe((enabledIds: number[]) => {
+        // Update the isFlag property of the modules based on the fetched enabled IDs
+        this.onboardingModules.forEach(module => {
+          module.isFlag = enabledIds.includes(module.id);
+        });
+      }, error => {
+        console.error('Error fetching enabled modules:', error);
+      });
       },
       (error) => {
         console.error('Error fetching onboarding modules:', error);
@@ -573,7 +573,7 @@ export class CompanySettingComponent implements OnInit {
 
   public handleAddressChange(e: any) {
     debugger;
-    
+
     var id = this.organizationAddressDetail.id;
     this.organizationAddressDetail = new OrganizationAddressDetail();
     this.organizationAddressDetail.id = id;
@@ -683,7 +683,7 @@ export class CompanySettingComponent implements OnInit {
   //   });
   // }
 
-  
+
 
 
   // checkFormValidationLocation() {
@@ -719,7 +719,7 @@ export class CompanySettingComponent implements OnInit {
   //   } else {
   //     this.toggle = false;
   //     // this.selectAll(true);
-      
+
   //     this.getOrganizationUserNameWithBranchNameData(this.addressId, "");
   //     this.openStaffSelection();
   //     // this.getUserByFiltersMethodCall();
@@ -744,7 +744,7 @@ export class CompanySettingComponent implements OnInit {
         this.isStaffSelectionDisabled = true;
       }else {
       this.isFormInvalidLocation = false;
-      this.isStaffSelectionDisabled = false; 
+      this.isStaffSelectionDisabled = false;
       }
     }
   }
@@ -753,12 +753,12 @@ export class CompanySettingComponent implements OnInit {
     debugger;
     this.toggle = true;
     this.checkFormValidationLocation();
-  
+
     if (this.isFormInvalidLocation) {
       this.toggle = false;
       return;
-    } 
-  
+    }
+
     this.toggle = false;
     this.getOrganizationUserNameWithBranchNameData(this.addressId, "");
     this.openStaffSelection();
@@ -892,7 +892,7 @@ export class CompanySettingComponent implements OnInit {
     this.selectedTeamName = 'All';
     this.selectedStaffsUuids = [];
     this.pageNumber = 1;
-   
+
     this.getAddressDetails(addressId, addressString);
     this.staffSelectionTab.nativeElement.click();
   }
@@ -937,7 +937,7 @@ export class CompanySettingComponent implements OnInit {
   @ViewChild('locationSettingTab') locationSettingTab!: ElementRef;
   @ViewChild('staffSelectionTab') staffSelectionTab!: ElementRef;
   // @ViewChild('staffselection') staffSelectionTab!: ElementRef;
-  
+
   @ViewChild('closeButtonLocation') closeButtonLocation!: ElementRef;
 
   // openStaffSelection() {
@@ -1024,24 +1024,24 @@ export class CompanySettingComponent implements OnInit {
 
   onChange(value: string): void {
     const numericValue = parseInt(value, 10);
-  
+
     // Check if the value is a valid number
     if (isNaN(numericValue) || numericValue < 10) {
       this.minRadius = true;
     } else {
       this.minRadius = numericValue < 10;
     }
-  
+
     // Filter predefined options or add custom radius if not in options
     const options = this.radiusOptions
       .filter((option) => option.toString().includes(value))
       .map((option) => ({ label: `${option}-Meters`, value: option.toString() }));
-  
+
     // Add custom option if greater than 10 and not in predefined options
     if (!this.radiusOptions.includes(numericValue) && numericValue > 10) {
       options.push({ label: `${numericValue}-Meters`, value: numericValue.toString() });
     }
-  
+
     this.radiusFilteredOptions = options;
   }
 
@@ -1123,7 +1123,7 @@ export class CompanySettingComponent implements OnInit {
     this.userNameWithBranchName = [];
     this.getOrganizationUserNameWithBranchNameData(this.addressId, "SHIFT_USER_EDIT");
     // this.getUserByFiltersMethodCall();
-    
+
   }
 
 
@@ -1168,11 +1168,11 @@ export class CompanySettingComponent implements OnInit {
       .subscribe(
         (response: OrganizationAddressDetail) => {
           this.toggle = false;
-           
+
           this.getOrganizationAddressDetailMethodCall();
           this.getAllAddressDetails();
           this.closeButtonLocationDefaultAddress.nativeElement.click();
-          
+
         },
         (error) => {
           console.error(error);
@@ -1184,7 +1184,7 @@ export class CompanySettingComponent implements OnInit {
   isShowMap: boolean = false;
   lat!: number;
   lng!: number;
-  zoom: number = 15; 
+  zoom: number = 15;
   markerPosition: any;
 
   getOrganizationAddressDetailMethodCall() {
@@ -1210,7 +1210,7 @@ export class CompanySettingComponent implements OnInit {
               this.minRadius = false;
             }
           }
-          
+
         } else {
           console.log('No address details found');
         }
@@ -1265,7 +1265,7 @@ export class CompanySettingComponent implements OnInit {
 
   public handleAddressChanges(e: any) {
     //  console.log('ghdm',e);
-   
+
     this.lat = e.geometry.location.lat();
     this.lng = e.geometry.location.lng();
     // this.getAddress(this.lat, this.lng);
@@ -1275,7 +1275,7 @@ export class CompanySettingComponent implements OnInit {
 centerChanged(event: any) {
   // console.log(event);
   this.newLat=event.lat;
-  this.newLng=event.lng; 
+  this.newLng=event.lng;
 }
 newLat:any;
 newLng:any
@@ -1376,7 +1376,7 @@ getData(event:any){
 //               this.organizationAddressDetail.latitude = lat;
 //               this.organizationAddressDetail.longitude = lng;
 //               this.organizationAddressDetail.addressLine1 = response.results[0].formatted_address;
-        
+
 //               response.results[0].address_components.forEach((entry: { types: string | string[]; long_name: string; }) => {
 //                 if (entry.types.includes('locality')) {
 //                   this.organizationAddressDetail.city = entry.long_name;
