@@ -5,7 +5,9 @@
       <div class="row">
         <div class="col-md-9"></div>
         <div class="dropdown col-md-3 mt-3">
-          <nz-date-picker nzMode="year" [nzSize]="size" [(ngModel)]="selectedDate" (ngModelChange)="onYearChange($event)" [nzDisabledDate]="disableYears"></nz-date-picker>
+          <nz-date-picker nzMode="year" [nzSize]="size" [(ngModel)]="selectedDate" 
+          (ngModelChange)="onYearChange($event)" [nzDisabledDate]="disableYears">
+        </nz-date-picker>
         </div>
         <div class="col-md-12 mt-3">
           <div class="file-box-content d-flex">
@@ -14,7 +16,7 @@
                   monthResponse.firstDate == startDate &&
                   monthResponse.lastDate == endDate
               }">
-              <div class="text-center" (click)="getOrganizationIndividualMonthSalaryDataMethodCall(monthResponse); getOrganizationPreviousMonthSalaryDataMethodCall(monthResponse); getPayrollLogs(); getPayrollProcessStepByOrganizationIdAndStartDateAndEndDateMethodCall();">
+              <div class="text-center" (click)="selectMonth(monthResponse)">
                 <h6 class="text-truncate">
                   {{ monthResponse.firstDate | date: 'MMM' }} - {{ monthResponse.firstDate | date: 'yyyy' }}
                 </h6>
@@ -380,7 +382,9 @@
             </div>
             <div class="card-body">
               <div class="text-center">
-                <ngx-charts-pie-chart [view]="view" [scheme]="colorScheme" [results]="single" [legend]="showLegend" [explodeSlices]="explodeSlices" [labels]="showLabels" [doughnut]="doughnut" [gradient]="gradient" (select)="onSelect($event)"></ngx-charts-pie-chart>
+                <ngx-charts-pie-chart [view]="view" [scheme]="colorScheme" [results]="single" [legend]="showLegend" 
+                [explodeSlices]="explodeSlices" [labels]="showLabels" [doughnut]="doughnut" [gradient]="gradient">
+              </ngx-charts-pie-chart>
               </div>
             </div>
           </div>

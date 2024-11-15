@@ -81,9 +81,9 @@ import { OnboardingModule } from '../models/OnboardingModule';
 import { AddressModeTypeRequest } from '../models/address-mode-type-request';
 import { ExpenseType } from '../models/ExpenseType';
 import { CompanyExpense } from '../models/CompanyExpense';
-import { UserPositionDTO } from '../models/user-position.model';
 import { DatabaseHelper } from '../models/DatabaseHelper';
 import { ApproveReq } from '../models/ApproveReq';
+import { UserPositionDTO } from '../models/user-position.model';
 
 
 @Injectable({
@@ -2255,11 +2255,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   }
 
   //Salary module
-  getAllSalaryCalculationMode(): Observable<any> {
-    return this.httpClient.get<any>(
-      `${this.baseUrl}/salary/calculation/mode/get/all`
-    );
-  }
+  
 
   getSalaryCalculationModeByOrganizationId(): Observable<any> {
     return this.httpClient.get<any>(
@@ -2267,20 +2263,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
-  updateSalaryCalculationMode(
-    salaryCalculationModeId: number
-  ): Observable<any> {
-    const params = new HttpParams().set(
-      'salary_calculation_mode_id',
-      salaryCalculationModeId
-    );
-
-    return this.httpClient.put<any>(
-      `${this.baseUrl}/salary/calculation/mode/update`,
-      {},
-      { params }
-    );
-  }
+  
 
   getPFContributionRate(): Observable<any> {
     return this.httpClient.get<any>(
@@ -2316,9 +2299,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
-  getAllStatutories(): Observable<any> {
-    return this.httpClient.get<any>(`${this.baseUrl}/statutory/get/all`);
-  }
+  
 
   enableOrDisableStatutory(
     statutoryRequest: StatutoryRequest
@@ -2708,32 +2689,6 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
-  getOrganizationIndividualMonthSalaryData(
-    startDate: string,
-    endDate: string
-  ): Observable<any> {
-    const params = new HttpParams()
-      .set('start_date', startDate)
-      .set('end_date', endDate);
-    return this.httpClient.get<any>(
-      `${this.baseUrl}/salary/organization-individual-month-data`,
-      { params }
-    );
-  }
-
-
-  getOrganizationPreviousMonthSalaryData(
-    startDate: string,
-    endDate: string
-  ): Observable<any> {
-    const params = new HttpParams()
-      .set('start_date', startDate)
-      .set('end_date', endDate);
-    return this.httpClient.get<any>(
-      `${this.baseUrl}/salary/organization-previous-month-data`,
-      { params }
-    );
-  }
 
   getOrganizationMonthWiseSalaryData(
     itemPerPage: number,
@@ -2788,19 +2743,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
-  countPayrollDashboardEmployeeByOrganizationId(
-    startDate: string,
-    endDate: string
-  ): Observable<any> {
-    const params = new HttpParams()
-      .set('start_date', startDate)
-      .set('end_date', endDate);
-
-    return this.httpClient.get<any>(
-      `${this.baseUrl}/salary/payroll/dashboard/employee/count`,
-      { params }
-    );
-  }
+  
 
   getNewJoineeByOrganizationId(
     itemPerPage: number,
@@ -3763,9 +3706,7 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.put(url,{}, { params });
   }
 
-  getSalaryDetailExcel(): Observable<any>{
-    return this.httpClient.get<any>(`${this.baseUrl}/salary/last-salary-detail-log`, {});
-  }
+  
 
   getAssetForUser(userUuid:string, search: string, pageNumber: number, itemPerPage: number): Observable<any> {
     const url = `${this.baseUrl}/asset/allocation/get/asset/allocation/user/entries`;
@@ -3867,13 +3808,7 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.put<any>(url, {}, {params});
   }
 
-  getPayrollProcessStepByOrganizationIdAndStartDateAndEndDate(startDate: string , endDate: string):Observable<any>{
-    const params = new HttpParams()
-    .set('start_date', startDate)
-    .set('end_date', endDate);
-
-    return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/step`, {params});
-  }
+ 
 
   registerPayrollProcessStepByOrganizationIdAndStartDateAndEndDate(startDate: string, endDate: string, payrollProcessStepId: number):Observable<any>{
     const params = new HttpParams()
@@ -3889,12 +3824,7 @@ getHolidayForOrganization(date: string): Observable<any>{
   }
 
 
-  getMonthResponseListByYear(date: string): Observable<any>{
-    const params = new HttpParams()
-    .set('date', date);
-
-    return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/month-response-list`, {params});
-  }
+  
 
   enableOrDisablePreHourOvertimeSetting(overtimeSettingRequest : OvertimeSettingRequest): Observable<any>{
 
@@ -4299,7 +4229,7 @@ getHolidayForOrganization(date: string): Observable<any>{
     .set('sortBy', 'createdDate')
     .set('sortOrder', 'desc')
     .set('role', role)
-
+  
     return this.httpClient.get<any>(`${this.baseUrl}/company-expense`, {params});
   }
 
@@ -4310,7 +4240,7 @@ getHolidayForOrganization(date: string): Observable<any>{
     .set('item_per_page', databaseHelper.itemPerPage)
     .set('sortBy', 'createdDate')
     .set('sortOrder', 'desc')
-
+  
     return this.httpClient.get<any>(`${this.baseUrl}/company-expense-policy/rule`, {params});
   }
 
