@@ -222,7 +222,7 @@
 
             <!-- Create Leave Template Start -->
             <!-- <div class="add-shift-main-box" *ngIf="leaveTemplates.length > 0  && !leaveSettingPlaceholder && !isLeaveErrorPlaceholder && !isLoading"> -->
-            <div class="add-shift-main-box">
+            <div class="add-shift-main-box" *ngIf="!isLoading">
 
               <div class="add-shift-box d-flex align-items-center justify-content-between p-3 pt-2 pb-2">
                 <div class="">
@@ -355,7 +355,7 @@
         <!-- <div class="col-md-12 mt-3 mb-3" *ngIf="activeTab === 'allExpense'"> -->
         <div class="pt-2 pb-3">
 
-          <button class="btn btn-primary" (click)="getExpenseType()" data-bs-toggle="modal"
+          <button class="btn btn-primary d-none" (click)="getExpenseType()" data-bs-toggle="modal"
             data-bs-target="#createExpense">Create Expense</button>
 
           <div class="row mt-3">
@@ -440,14 +440,15 @@
                                                         <i class="bi bi-trash pointer text-danger"></i>
                                                     </button> -->
 
-                          <button *ngIf="expense.status.id == 13" type="button" class="btn"
+                          <!-- <button *ngIf="expense.status.id == 13" type="button" class="btn" -->
+                          <button type="button" class="btn"
                             (click)="getExpense(expense)" data-bs-toggle="modal" data-bs-target="#approveModal">
                             View
                           </button>
 
-                          <button *ngIf="expense.status.id != 13" type="button" class="btn" style="cursor: default;">
+                          <!-- <button *ngIf="expense.status.id != 13" type="button" class="btn" style="cursor: default;">
                             - - -
-                          </button>
+                          </button> -->
 
                         </div>
                       </td>
@@ -801,10 +802,11 @@
 
             </div>
 
-            <div class="d-flex align-items-center justify-content-end" style="gap: 10px">
+            <!-- *ngIf="userExpense.status.id == 13 || userExpense.status.id == 15" -->
+            <div  class="d-flex align-items-center justify-content-end" style="gap: 10px">
               <!-- Approve Button -->
               <button class="btn approve-btn" type="button"
-                [disabled]="isCheckboxChecked && (partialAmount == '' || partialAmount == null || partialAmount > userExpense.amount)"
+                [disabled]="(userExpense.status.id != 13 && userExpense.status.id != 15) || (isCheckboxChecked && (partialAmount == '' || partialAmount == null || partialAmount > userExpense.amount))"
                 (click)="approveOrDeny(userExpense.id, 14)">
                 <!-- <div *ngIf="approveToggle ; else approveLabel"> -->
                 <div *ngIf="approveToggle ; else approveLabel">
@@ -817,7 +819,7 @@
                 <ng-template #approveLabel>Approve</ng-template>
               </button>
               <!-- Reject Button -->
-              <button class="btn reject-btn" type="button" (click)="approveOrDeny(userExpense.id, 15)">
+              <button [disabled]="userExpense.status.id == 14 || userExpense.status.id == 40 || userExpense.status.id == 41" class="btn reject-btn" type="button" (click)="approveOrDeny(userExpense.id, 15)">
                 <div *ngIf="rejectToggle; else rejectLabel">
                   <div class="dot-opacity-loader">
                     <span></span>
@@ -830,7 +832,7 @@
               </button>
 
                <!-- Reject Button -->
-               <button class="btn btn-warning" type="button" (click)="approveOrDeny(userExpense.id, 40)">
+               <button [disabled]="userExpense.status.id == 14 || userExpense.status.id == 40 || userExpense.status.id == 41" class="btn btn-warning" type="button" (click)="approveOrDeny(userExpense.id, 40)">
                 <div *ngIf="payrollToggle; else payrollLabel">
                   <div class="dot-opacity-loader">
                     <span></span>
@@ -840,6 +842,18 @@
                 </div>
                 <ng-template #payrollLabel>Add To Payroll</ng-template>
               </button>
+
+                <!-- Reject Button -->
+                <button [disabled]="userExpense.status.id == 14 || userExpense.status.id == 40 || userExpense.status.id == 41" class="btn btn-danger" type="button" (click)="approveOrDeny(userExpense.id, 41)">
+                  <div *ngIf="expenseCancelToggle; else cancelLabel">
+                    <div class="dot-opacity-loader">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                  </div>
+                  <ng-template #cancelLabel>Cancel</ng-template>
+                </button>
 
             </div>
           </div>
@@ -988,7 +1002,7 @@
                           <input class="form-check-input" type="radio" name="thresholdTypeValue" id="valueType"
                             value="value" [(ngModel)]="thresholdType" required
                             (change)="onThresholdTypeChange(0, 'value')" />
-                          <label class="form-check-label" for="valueType">Value</label>
+                          <label class="form-check-label" for="valueType">Amount</label>
                         </div>
                         <div class="form-check">
                           <input class="form-check-input" type="radio" name="thresholdTypePercentage"
