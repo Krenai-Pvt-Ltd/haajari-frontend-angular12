@@ -492,17 +492,23 @@
         <div class="onboard-add row align-items-center mx-0">
             <div class="col-md-12 p-0">
                 <div class="d-flex justify-content-start align-items-center">
-                <div class="dropdown empFilerDropfilter"><button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                        aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown"> Leave Type <i
-                            class="bi bi-chevron-down"></i></button>
-                    <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu" style="">
-                        <li><a class="dropdown-item">All</a></li>
-                        <li><a class="dropdown-item">Earned Leave</a></li>
-                        <li><a class="dropdown-item">Casual Leave</a></li>
-                        <li><a class="dropdown-item">Sick leave</a></li>
-                        <li><a class="dropdown-item">Leave without Pay</a></li>
+                  <div class="dropdown empFilerDropfilter">
+                    <button
+                        type="button"
+                        id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        class="btn btn-secondary dropdown-toggle new-deopdown">
+                        {{ statusFilter || 'Status' }} <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu">
+                        <li><a class="dropdown-item" (click)="filterStatus('')">All</a></li>
+                        <li><a class="dropdown-item" (click)="filterStatus('Approved')">Approved</a></li>
+                        <li><a class="dropdown-item" (click)="filterStatus('Allocated')">Allocated</a></li>
+                        <li><a class="dropdown-item" (click)="filterStatus('Rejected')">Rejected</a></li>
                     </ul>
                 </div>
+
                 <div class="onboarding-date d-flex align-items-center position-relative">
                     <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid"
                         style="width: 100%;">

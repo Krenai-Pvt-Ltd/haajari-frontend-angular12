@@ -3677,11 +3677,13 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     uuid: string,
     page: number = 0,
     size: number = 10,
-    search: string = ''
+    search: string = '',
+    status: string = ''
   ): Observable<{ data: AssetRequestDTO[], currentPage: number, totalItems: number, totalPages: number }> {
     const params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString())
+      .set('status',status.toString())
       .set('search', search);
 
     return this.httpClient.get<{ data: AssetRequestDTO[], currentPage: number, totalItems: number, totalPages: number }>(
@@ -3694,11 +3696,13 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   getAssetRequests(
     page: number = 0,
     size: number = 10,
-    search: string = ''
-  ): Observable<{ data: AssetRequestDTO[], currentPage: number, totalItems: number, totalPages: number }> {
+    search: string = '',
+    status: string=''
+  ): Observable<{ data: AssetRequestDTO[], currentPage: number, totalItems: number, totalPages: number}> {
     const params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString())
+      .set('status',status.toString())
       .set('search', search);
 
     return this.httpClient.get<{ data: AssetRequestDTO[], currentPage: number, totalItems: number, totalPages: number }>(

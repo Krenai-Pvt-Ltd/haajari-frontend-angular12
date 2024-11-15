@@ -74,6 +74,7 @@ export class AssetsComponent implements OnInit {
       this.closeButton.nativeElement.click();
       this.dataService.createAssetRequest(formData).subscribe(
         response => {
+          this.assetRequestsPage=0;
           this.getAssetRequests();
           console.log('Asset request submitted successfully:', response);
         },
@@ -173,22 +174,28 @@ export class AssetsComponent implements OnInit {
 
   assetRequestsTotalPage: number=0;
   assetRequestsTotalCount: number=0;
+  statusFilter: string='';
 
+  filterStatus(status: string): void {
+    this.statusFilter = status;
+    this.assetRequestsPage=0;
+    this.getAssetRequests();
+  }
   pageChangedRequest(page: number): void {
     this.assetRequestsPage = page-1;  // Update current page when changed
     this.getAssetRequests();      // Fetch data for the new page
   }
 
   isAssetRequestArrayEmpty(): boolean {
-    if(this.assetRequestsSearch?.length>0){
+    if(this.assetRequestsSearch?.length>0 || this.statusFilter.length>0){
       return false;
     }
     return !this.assetRequests || this.assetRequests.length === 0;
   }
 
   getAssetRequests(): void {
-
-    this.dataService.getAssetRequestsByUserUuid(this.userId, this.assetRequestsPage, this.assetRequestsSize, this.assetRequestsSearch).subscribe(
+    debugger;
+    this.dataService.getAssetRequestsByUserUuid(this.userId, this.assetRequestsPage, this.assetRequestsSize, this.assetRequestsSearch, this.statusFilter).subscribe(
       (response) => {
         this.assetRequests = response.data; // Assign only the data (array of AssetRequestDTO) from the response
         this.assetRequestsTotalPage=response.totalPages;

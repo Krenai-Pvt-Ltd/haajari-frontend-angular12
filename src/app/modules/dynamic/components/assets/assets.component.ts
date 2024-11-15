@@ -691,12 +691,20 @@ private formatDataForChart(data: any[]): any[] {
 
   assetRequestsTotalPage: number=0;
   assetRequestsTotalCount: number=0;
+  statusFilter: string='';
+
+  filterStatus(status: string): void {
+    this.statusFilter = status;
+    this.assetRequestsPage=0;
+    this.getAssetRequests();
+  }
+
   pageChangedRequest(page: number): void {
     this.assetRequestsPage = page;
     this.getAssetRequests();
   }
   isAssetRequestArrayEmpty(): boolean {
-    if(this.assetRequestsSearch?.length>0){
+    if(this.assetRequestsSearch?.length>0 || this.statusFilter.length>0){
       return false;
     }
     return !this.assetRequests || this.assetRequests.length === 0;
@@ -704,7 +712,7 @@ private formatDataForChart(data: any[]): any[] {
 
   getAssetRequests(): void {
 
-    this.dataService.getAssetRequests(this.assetRequestsPage, this.assetRequestsSize, this.assetRequestsSearch).subscribe(
+    this.dataService.getAssetRequests(this.assetRequestsPage, this.assetRequestsSize, this.assetRequestsSearch, this.statusFilter).subscribe(
       (response) => {
         this.assetRequests = response.data; // Assign only the data (array of AssetRequestDTO) from the response
         this.assetRequestsTotalPage=response.totalPages;
