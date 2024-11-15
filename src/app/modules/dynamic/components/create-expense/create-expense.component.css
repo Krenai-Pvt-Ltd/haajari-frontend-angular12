@@ -1801,7 +1801,7 @@ i.bi.bi-plus {
   bottom: 0px;
 }
 
-.register-form-box input {
+.whatapp-login-input {
   border-radius: 2px !important;
   border: 1.021px solid #e9e9e9 !important;
   background: rgba(236, 236, 236, 0.21) !important;
@@ -2047,4 +2047,189 @@ i.bi.bi-plus {
        white-space: nowrap;
        width: 230px;
      }
+}
+
+
+
+
+/* user mapped alread */
+
+
+.map {
+  position: relative;
+}
+.map-center-overlay {
+  margin: 0;
+  position: absolute;
+  top: 50%; 
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.map-search-overlay {
+  left: 50%;
+  margin: 0;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 10%;
+  background-color: white;
+}
+.map-locate-me {
+  margin: 0;
+  position: absolute;
+  bottom: -5%; 
+  left: 14%;
+  transform: translate(-50%, -50%);
+}
+.locate-btn{
+  color: rgb(145, 42, 183)!important;
+  border-color: rgb(145, 42, 183)!important;
+  background-color: white!important;
+}
+
+      .search-tag-remvo {
+        background-color: transparent;
+        border: none;
+        padding: 0px;
+      }
+  
+      .search-tag-remvo i {
+        font-size: 18px;
+        color: #444;
+      }
+
+              .order-search {
+                padding: 0px 5px 0px;
+                background: #fff;
+                border: 1px solid #dee2e6;
+                box-sizing: border-box;
+                border-radius: 10px;
+              }
+
+
+
+.bg-transparent {
+   background-color: transparent !important;
+   border: transparent !important;
+  font-size: 14px;
+}
+
+.close-icon-btn {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+}
+.quickGuideHeading h5 {
+  color: #e27a17;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 20px;
+}
+.quickGuideHeading p {
+  color: #2f2e41;
+font-size: 12px !important;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0.15px;
+}
+
+.side-img {
+  height: 100px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.employee-list h4 {
+  color: #2f2e41;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 28.906px;
+  letter-spacing: 0.141px;
+}
+.manualemployList {
+  max-height: 275px;
+  overflow: scroll;
+}
+.userName {
+  background-color: #f2f2f2;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 15px;
+  color: #e27a17;
+  line-height: 22px;
+}
+.spreter-line {
+  height: 15px;
+  border-right: 1px solid #2f2e41;
+}
+
+.shift-tag {
+  background-color: #f0f0f0;
+  padding: 3px 14px;
+  color: #2f2e41;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 15px;
+  letter-spacing: 0.141px;
+  border-radius: 2px;
+}
+.addUserRemvo {
+  color: #ff0404;
+  font-size: 14px;
+  font-weight: 500px;
+}
+.iHaveRead{
+  color: #71737b;
+  font-size: 12px !important;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 15px;
+  letter-spacing: 0.152px;
+  padding-left: 10px;
+}
+
+.assets-req {
+  border: 1px solid #e9e9e9;
+  border-radius: 2px;
+  height: 45px;
+  margin-bottom: 0px;
+  background-color: #fff;
+}
+
+.assets-req input {
+  left: 15px !important;
+  position: relative;
+  top: -2px;
+}
+
+.assets-req p {
+  padding-left: 25px;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+}
+
+.requesting-half-leave {
+  background-color: rgba(236, 236, 236, 0.21) !important;
+  min-height: 45px;
+  border: 1px solid #e9e9e9;
+  border-radius: 2px;
+}
+.add-update-btn button{
+  font-size: 15px;
+  font-weight: 500;
+}
+.add-update-btn button i{
+  position: relative;
+  top: -2px;
+}
+.next-tab-btn{
+  min-width: 90px;
 }

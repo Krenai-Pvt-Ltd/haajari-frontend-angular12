@@ -1349,6 +1349,7 @@ export class AttendanceSettingComponent implements OnInit {
     this.isAllUsersSelected = this.staffs.every((staff) => staff.selected);
     this.isAllSelected = this.isAllUsersSelected;
     this.updateSelectedStaffs();
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "");
   }
 
   checkAndUpdateAllSelected() {
@@ -1394,11 +1395,13 @@ export class AttendanceSettingComponent implements OnInit {
       this.activeModel2 = true;
       this.getAllUserUuidsMethodCall().then((allUuids) => {
         this.selectedStaffsUuids = allUuids;
+        this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "");
       });
     } else {
       this.selectedStaffsUuids = [];
       this.activeModel2 = false;
     }
+   
   }
 
   selectAll(checked: boolean) {
@@ -1422,6 +1425,7 @@ export class AttendanceSettingComponent implements OnInit {
         }
       });
     }
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "");
   }
 
   // Asynchronous function to get all user UUIDs
@@ -1460,6 +1464,7 @@ export class AttendanceSettingComponent implements OnInit {
     this.staffs.forEach((staff) => (staff.selected = false));
     this.selectedStaffsUuids = [];
     this.activeModel2 = false;
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "");
   }
 
   activeModel: boolean = false;
@@ -1543,10 +1548,11 @@ export class AttendanceSettingComponent implements OnInit {
   }
 
   @ViewChild('closeShiftTimingModal') closeShiftTimingModal!: ElementRef;
-
+  isEditStaffLoader = false;
   registerOrganizationShiftTimingMethodCall() {
     debugger;
     // this.submitWeeklyHolidays();
+    this.organizationShiftTimingRequest.shiftTypeId = 1;
     this.organizationShiftTimingRequest.userUuids = this.selectedStaffsUuids;
     // Prepare data for submission
     this.organizationShiftTimingRequest.weekdayInfos = this.weekDay
@@ -1558,6 +1564,7 @@ export class AttendanceSettingComponent implements OnInit {
         userUuids: this.selectedStaffsUuids,
       }));
       // console.log("InTime: " + this.organizationShiftTimingRequest.inTime);
+      this.isEditStaffLoader = true;
     this.dataService
       .registerShiftTiming(this.organizationShiftTimingRequest)
       .subscribe(
@@ -1571,10 +1578,14 @@ export class AttendanceSettingComponent implements OnInit {
             'Shift Timing registered successfully',
             Key.TOAST_STATUS_SUCCESS
           );
+          this.isEditStaffLoader = false;
+          this.isValidated = false;
           this.helperService.registerOrganizationRegistratonProcessStepData(Key.SHIFT_TIME_ID, Key.PROCESS_COMPLETED);
         },
         (error) => {
           console.log(error);
+          this.isEditStaffLoader = false;
+          this.isValidated = false;
           this.helperService.showToast(
             'Shift Timing not registered successfully',
             Key.TOAST_STATUS_ERROR
@@ -1583,9 +1594,14 @@ export class AttendanceSettingComponent implements OnInit {
       );
   }
 
+  // shiftForm = NgForm;
+  @ViewChild('shiftForm') shiftForm!: NgForm;
   clearShiftTimingModel() {
     this.shiftTimingActiveTab.nativeElement.click();
     this.organizationShiftTimingRequest = new OrganizationShiftTimingRequest();
+    if (this.shiftForm) {
+      this.shiftForm.resetForm();
+    }
     this.selectedShiftType = new ShiftType();
     this.clearSearchText();
     this.teamId = 0;
@@ -1593,8 +1609,11 @@ export class AttendanceSettingComponent implements OnInit {
     this.selectedTeamName = 'All';
     this.selectedStaffsUuids = [];
     this.pageNumber = 1;
-
-    this.databaseHelper = new DatabaseHelper()
+    this.checkForShiftId = 0;
+    this.currentShiftId = 0;
+    this.isShiftNamePresent = false;
+    this.isValidated = false;
+    this.databaseHelper = new DatabaseHelper();
 
   }
   organizationShiftTimingRequest: OrganizationShiftTimingRequest =
@@ -1779,18 +1798,20 @@ formatMinutesToTime(minutes: number): string {
   @ViewChild('weekOffActiveTab') weekOffActiveTab!: ElementRef;
 
   staffActiveTabInShiftTimingMethod() {
-    if (this.isValidForm()) {
-      this.activeTab = 'staffselection';
-      if (this.isWeekOffFlag) {
-        this.weekOffActiveTab.nativeElement.click();
-        this.isStaffSelectionFlag = true;
-        this.isWeekOffFlag = false;
-      }
-    } else {
-      if (this.isStaffSelectionFlag) {
-        this.staffActiveTabInShiftTiming.nativeElement.click();
-      }
-    }
+    debugger
+    this.activeTab = 'staffselection';
+    // if (this.isValidForm()) {
+    //   this.activeTab = 'staffselection';
+    //   if (this.isWeekOffFlag) {
+    //     this.weekOffActiveTab.nativeElement.click();
+    //     this.isStaffSelectionFlag = true;
+    //     this.isWeekOffFlag = false;
+    //   }
+    // } else {
+    //   if (this.isStaffSelectionFlag) {
+    //     this.staffActiveTabInShiftTiming.nativeElement.click();
+    //   }
+    // }
   }
 
   @ViewChild('shiftTimingActiveTab') shiftTimingActiveTab!: ElementRef;
@@ -1802,6 +1823,7 @@ formatMinutesToTime(minutes: number): string {
     this.activeTab = 'shiftime';
   }
   weekOffActiveTabMethod() {
+    // this.isWeekOffFlag = true;
     this.activeTab = 'weeklyOff';
   }
 
@@ -1893,10 +1915,14 @@ formatMinutesToTime(minutes: number): string {
     this.clearShiftTimingModel();
   }
 
+  currentShiftId : number = 0;
+  checkForShiftId : number = 0;
   updateOrganizationShiftTiming(
     organizationShiftTimingResponse: OrganizationShiftTimingResponse,
     tab: string
   ) {
+    this.isShiftNamePresent = false;
+    this.activeTab = 'shiftime';
     // this.shiftTimingActiveTab.nativeElement.click();
     this.weekDay = organizationShiftTimingResponse.weekDayResponse;
 
@@ -1915,6 +1941,8 @@ formatMinutesToTime(minutes: number): string {
 
     this.organizationShiftTimingRequest.shiftTypeId =
       organizationShiftTimingResponse.shiftType.id;
+    this.checkForShiftId = organizationShiftTimingResponse.id;
+    this.currentShiftId = organizationShiftTimingResponse.shiftType.id;
     this.selectedStaffsUuids = organizationShiftTimingResponse.userUuids;
 
     // this.getWeekDays();
@@ -1925,6 +1953,8 @@ formatMinutesToTime(minutes: number): string {
     this.selectedTeamId = 0;
     this.selectedTeamName = 'All';
     this.getUserByFiltersMethodCall();
+    // this.getUserByFiltersMethodCall();
+    this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "");
 
     setTimeout(() => {
       if (tab == 'STAFF_SELECTION') {
@@ -2996,6 +3026,82 @@ onSelect(event: any): void {
   const selectedValue = event.nzValue;
   this.organizationAddressDetail.radius = selectedValue;
 }
+
+
+isShiftNamePresent: boolean = false;
+checkShiftPresenceData(shiftName: string) {
+  this.dataService.checkShiftPresence(shiftName).subscribe(
+    (response) => {
+      this.isShiftNamePresent = response.object;
+    },
+    (error) => {
+      console.log('error');
+    }
+  );
+}
+
+
+
+userNameWithShiftName: any;
+getOrganizationUserNameWithShiftNameData(shiftId : number, type:string) {
+  this.dataService.getOrganizationUserNameWithShiftName(this.selectedStaffsUuids, shiftId).subscribe(
+    (response) => {
+      this.userNameWithShiftName = response.listOfObject;
+      if( this.userNameWithShiftName.length <1 && type == "SHIFT_USER_EDIT") {
+        this.closeButton3.nativeElement.click();
+      }
+    },
+    (error) => {
+      console.log('error');
+    }
+  );
+}
+
+isValidated:boolean = false;
+checkValidation() {
+  this.isValidated ? false : true;
+}
+
+@ViewChild("closeButton3") closeButton3!:ElementRef;
+removeUser(uuid: string) {
+ debugger
+  this.selectedStaffsUuids = this.selectedStaffsUuids.filter(id => id !== uuid);
+
+  this.staffs.forEach((staff) => {
+    staff.selected = this.selectedStaffsUuids.includes(staff.uuid);
+  });
+  this.isAllSelected = false;
+  // if(this.selectedStaffsUuids.length <1) {
+    // this.unselectAllUsers();
+  // }
+  // this.updateSelectedStaffs();
+  this.userNameWithShiftName = [];
+  this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "SHIFT_USER_EDIT");
+
+
+  
+}
+
+@ViewChild('closeButton2') closeButton2!: ElementRef;
+isRegisterLoad: boolean = false;
+registerShift() {
+  debugger;
+  this.isRegisterLoad = true;
+  this.closeButton2.nativeElement.click();
+  this.registerOrganizationShiftTimingMethodCall();
+  // this.registerOrganizationShiftTimingMethodCall();
+
+  // setTimeout(() => {
+  //   this.closeButton2.nativeElement.click();
+  //   this.closeButtonEditStaffInfo.nativeElement.click();
+  // }, 300);
+}
+
+closeModal() {
+  this.isValidated = false;
+  this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "");
+}
+
 
 
 }
