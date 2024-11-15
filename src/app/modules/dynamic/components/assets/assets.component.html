@@ -1,6 +1,20 @@
 <div class="page-wrapper">
   <!-- Page Content-->
+
   <div class="page-content-tab">
+    <div class="">
+      <ul id="pills-tab" role="tablist" class="nav nav-pills">
+          <li class="nav-item">
+              <a id="pills-home-tab" data-bs-toggle="pill" href="#assigned-assets" role="tab" aria-controls="pills-home"
+                  aria-selected="true" class="nav-link active">Assigned assets</a>
+          </li>
+          <li class="nav-item">
+              <a id="pills-profile-tab" data-bs-toggle="pill" href="#asset-request" role="tab" aria-controls="pills-profile"
+                  aria-selected="false" class="nav-link">Asset request</a>
+          </li>
+
+      </ul>
+    <div class="tab-pane fade active show pt-3"  id="assigned-assets" role="tabpanel" aria-labelledby="assigned-assets-tab">
     <div class="container-fluid">
       <div class="row mt-3">
         <div class="row">
@@ -151,7 +165,7 @@
                   >
                     <tr>
                       <td colspan="5">
-                       
+
 
                         <div
                           class="empty-file"
@@ -189,7 +203,7 @@
                       <td class="text-center">
                         {{ acd.unavailableCount }}
                       </td>
-                    
+
                     </tr>
                   </tbody>
                 </table>
@@ -219,7 +233,7 @@
               <div class="card-body">
                 <div class="text-center" *ngIf="categoryCounts.length > 0">
                   <ngx-charts-bar-vertical-stacked
-                   
+
                     [scheme]="colorScheme"
                     [results]="categoryCounts"
                     [gradient]="false"
@@ -230,7 +244,7 @@
                   >
                   </ngx-charts-bar-vertical-stacked>
                 </div>
-                
+
 
                 <div
                   class="empty-file"
@@ -344,7 +358,7 @@
                   <tbody *ngIf="totalCount == 0">
                     <tr>
                       <td colspan="11">
-                       
+
 
                         <div
                           class="empty-file"
@@ -371,7 +385,7 @@
                       <td>{{ ad.assetName || "N/A" }}</td>
                       <td>{{ ad.serialNumber || "N/A" }}</td>
                       <td>{{ ad.expiryDate || "N/A" }}</td>
-                      <td>{{ ad.purchaseDate || "N/A" }}</td>
+                      <td>{{ ad.purchasedDate || "N/A" }}</td>
                       <td>{{ ad.categoryName || "N/A" }}</td>
                       <td>{{ ad.price || "N/A" }}</td>
                       <td>{{ ad.location || "N/A" }}</td>
@@ -399,7 +413,7 @@
                       </td>
 
                       <td class="stickyColThend bg-white" >
-                      
+
                         <div class="dropdown">
                           <button class="btn btnAction dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-three-dots-vertical"></i>
@@ -409,23 +423,23 @@
                               <a class="dropdown-item" ><i class="bi bi-ban"></i> Mark as unavailable</a>
                             </li>
                             <li  data-bs-toggle="modal"
-                            data-bs-target="#createAssetModal" (click)="assignAssetId(ad.assetId)" *ngIf="ad.status === 'ASSIGNED' ||ad.status === 'AVAILABLE' "> 
+                            data-bs-target="#createAssetModal" (click)="assignAssetId(ad.assetId)" *ngIf="ad.status === 'ASSIGNED' ||ad.status === 'AVAILABLE' ">
                               <a class="dropdown-item"><i class="bi bi-tools"></i> Update Assets</a>
                             </li>
                             <li data-bs-toggle="modal"
                             data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)">
                               <a class="dropdown-item"  ><i class="bi bi-trash3"></i> Delete Assets</a>
-                            </li> 
-                            
+                            </li>
+
                           </div>
                         </div>
                       </td>
                     </tr>
                     <!--end tr-->
-                   
+
                   </tbody>
-                  
-                        
+
+
                 </table>
               </div>
 
@@ -466,8 +480,138 @@
           </div>
         </div>
       </div>
+
+      </div>
     </div>
-  </div>
+
+  <div class="tab-pane fade pt-3" id="asset-request" role="tabpanel" aria-labelledby="asset-request-tab">
+
+    <div class="obboard-employee-list" *ngIf="!isAssetRequestArrayEmpty(); else noAssets">
+
+
+        <div class="onboard-add row align-items-center mx-0">
+            <div class="col-md-12 p-0">
+                <div class="d-flex justify-content-start align-items-center">
+                  <div class="dropdown empFilerDropfilter">
+                    <button
+                        type="button"
+                        id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        class="btn btn-secondary dropdown-toggle new-deopdown">
+                        {{ statusFilter || 'Status' }} <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu">
+                        <li><a class="dropdown-item" (click)="filterStatus('')">All</a></li>
+                        <li><a class="dropdown-item" (click)="filterStatus('Approved')">Approved</a></li>
+                        <li><a class="dropdown-item" (click)="filterStatus('Allocated')">Allocated</a></li>
+                        <li><a class="dropdown-item" (click)="filterStatus('Rejected')">Rejected</a></li>
+                        <li><a class="dropdown-item" (click)="filterStatus('Pending')">Pending</a></li>
+                    </ul>
+                </div>
+
+                <div class="onboarding-date d-flex align-items-center position-relative">
+                    <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid"
+                        style="width: 100%;">
+                        <div class="form-group" style="width: 100%; position: relative;"><input type="text"
+                                id="searchText" placeholder="Search..."
+                                class="form-control me-2 ng-pristine ng-valid ng-touched"
+                                (input)="searchAssetsRequest($event)"
+                                style="padding: 10px 40px;" ng-reflect-model=""
+                                ng-reflect-options="[object Object]"><i
+                                class="bi bi-search search-icon ng-star-inserted"
+                                style="margin: auto; margin-left: 15px;"></i></div>
+                    </form>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-responsive bg-white mt-3">
+          <table class="table empOnnoardtable">
+            <thead class="thead-light">
+              <tr>
+                <th class="text-left font-13" style="width: 10%">Requested on</th>
+                <th class="text-left font-13" style="width: 10%">Asset Name</th>
+                <th class="text-left font-13" style="width: 10%">Asset Type</th>
+                <th class="text-left font-13" style="width: 10%">Asset Category</th>
+                 <th class="text-left font-13" style="width: 10%">Requested By</th>
+               <!-- <th class="text-left font-13" style="width: 10%">Approved by</th> -->
+                <th class="text-left font-13" style="width: 10%">Action Taken on</th>
+                <th class="text-left font-13" style="width: 10%">Note</th>
+                <th class="text-left font-13" style="width: 10%">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let asset of assetRequests">
+                <td class="text-left">{{ asset.requestedOn | date: 'EEE, MMM d yyyy' }}</td>
+                <td class="text-left">{{ asset.assetName }}</td>
+                <td class="text-left">{{ asset.assetType }}</td>
+                <td class="text-left">{{ asset.assetCategoryName }}</td>
+                <td class="text-left">
+                  <button
+                    class="btn btn-link text-primary p-0"
+                    [routerLink]="['/employee-profile']"
+                    [queryParams]="{ userId: asset.userUuid }"
+                  >
+                    {{ asset.requestedBy }}
+                  </button>
+                </td>
+
+              <!--  <td class="text-left">{{ asset.approvedBy }}</td> -->
+                <td class="text-left">{{ asset.actionTakenOn | date: 'MMM d yyyy' }}</td>
+                <td class="text-left">{{ asset.note }}</td>
+                <td class="text-left">
+                  <button
+                    type="button"
+                    class="btn"
+                    [ngClass]="{
+                      'badge rounded-pill badge-soft-success': asset.status === 'PENDING',
+                      'badge rounded-pill badge-soft-secondary': asset.status !== 'PENDING'
+                    }"
+                    (click)="openStatusChangeModal(asset, statusChangeModal)"
+                  >
+                    {{ asset.status }}
+                  </button>
+                </td>
+
+              </tr>
+            </tbody>
+          </table>
+          <div *ngIf="this.assetRequestsTotalPage>1" class="pagination-controls">
+            <!-- Ngb Pagination Component -->
+            <ngb-pagination
+              [collectionSize]="assetRequestsTotalCount"
+              [rotate]="true"
+              (pageChange)="pageChangedRequest($event)"
+              [pageSize]="assetRequestsSize"
+              [(page)]="assetRequestsPage"
+              [maxSize]="8"
+              [boundaryLinks]="true">
+            </ngb-pagination>
+          </div>
+        </div>
+
+    </div>
+    <ng-template #noAssets>
+      <div class="empty-file" style="margin-top: 13%; margin-bottom: 13%">
+        <nz-empty nzNotFoundImage="assets/images/no-assets.svg" [nzNotFoundContent]="contentTpl">
+          <ng-template #contentTpl>
+            <p class="mb-1 empty-detail font-18">No assets request for now</p>
+            <span class="empty-details">
+              Your assets request will be shown here once they have<br>been raised
+            </span>
+          </ng-template>
+        </nz-empty>
+      </div>
+    </ng-template>
+
+</div>
+</div>
+
+</div>
+
+
 </div>
 
 <!-- Modal -->
@@ -1098,3 +1242,86 @@
     </div>
   </div>
 </div>
+
+<ng-template #statusChangeModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-primary">Change Asset Status</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+
+  <div class="modal-body">
+    <!-- Asset Details Section -->
+    <div class="card shadow-sm border-0 mb-3">
+      <div class="card-body">
+        <h5 class="card-title text-dark">Asset Details</h5>
+        <div class="row">
+          <div class="col-md-6">
+            <p><strong>Requested Date:</strong> {{ selectedAsset.requestedOn }}</p>
+          </div>
+          <div class="col-md-6">
+            <p><strong>Asset Name:</strong> {{ selectedAsset.assetName }}</p>
+          </div>
+          <div class="col-md-6">
+            <p><strong>Requested Type:</strong> {{ selectedAsset.assetType }}</p>
+          </div>
+          <div class="col-md-6">
+            <p><strong>Category:</strong> {{ selectedAsset.assetCategoryName }}</p>
+          </div>
+          <div class="col-md-12">
+            <p><strong>Note:</strong> {{ selectedAsset.note }}</p>
+          </div>
+          <div class="col-md-12">
+            <p><strong>Current Status:</strong>
+              <span class="badge bg-info text-dark">{{ selectedAsset.status }}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Change Status Section -->
+    <div class="card shadow-sm border-0">
+      <div class="card-body">
+        <h5 class="card-title text-dark">Change Status</h5>
+        <p class="text-muted mb-2">Select a new status for the asset:</p>
+        <nz-select
+          [(ngModel)]="newStatus"
+          nzPlaceHolder="Select Status"
+          class="w-100"
+          nzSize="large"
+        >
+          <nz-option
+            *ngFor="let status of statuses"
+            [nzValue]="status"
+            [nzLabel]="status"
+          ></nz-option>
+        </nz-select>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-secondary"
+      (click)="modal.dismiss('cancel')"
+    >
+      Cancel
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="changeStatus(selectedAsset); modal.close()"
+    >
+      Save
+    </button>
+  </div>
+</ng-template>
+
+
+

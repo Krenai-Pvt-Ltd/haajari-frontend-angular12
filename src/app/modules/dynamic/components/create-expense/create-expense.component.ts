@@ -20,19 +20,19 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
   styleUrls: ['./create-expense.component.css']
 })
 export class CreateExpenseComponent implements OnInit {
-  
+
   ROLE: any
   // isLoading: boolean = false;
 
   constructor(private afStorage: AngularFireStorage,
-    private dataService: DataService, private helperService: HelperService, private rbacService: RoleBasedAccessControlService) { 
+    private dataService: DataService, private helperService: HelperService, private rbacService: RoleBasedAccessControlService) {
 
     }
 
   ngOnInit(): void {
     this.getExpenses();
     this.getAllCompanyExpensePolicy();
-    
+
   }
 
 
@@ -70,7 +70,7 @@ export class CreateExpenseComponent implements OnInit {
   }
 
   getExpenseType1() {
-    
+
     this.expenseTypeReq = new ExpenseType();
     this.expenseTypeId = 0
 
@@ -87,7 +87,7 @@ export class CreateExpenseComponent implements OnInit {
   }
 
   getExpenseType() {
-    
+
     this.expenseTypeReq = new ExpenseType();
     this.expenseTypeId = 0
 
@@ -290,7 +290,7 @@ export class CreateExpenseComponent implements OnInit {
   // Method to switch tabs
   switchTab(tabName: string) {
     this.activeTab = tabName;
-    
+
     if(tabName === 'allExpense'){
       this.getExpenses()
     }
@@ -326,13 +326,13 @@ export class CreateExpenseComponent implements OnInit {
     this.expenseTypeId = expense.id
 
     // this.isExpenseTypeSelected = true;
-    // this.paymentType = ''; 
-    // this.flexibleAmount = null; 
+    // this.paymentType = '';
+    // this.flexibleAmount = null;
     this.isExpenseTypeSelected = true;
     if(!this.editIndexPolicyToggle){
        this.isExpenseTypeSelected = true;
-    this.paymentType = ''; 
-    this.flexibleAmount = null; 
+    this.paymentType = '';
+    this.flexibleAmount = null;
     }
 
   }
@@ -856,7 +856,7 @@ export class CreateExpenseComponent implements OnInit {
   isErrorShow: boolean = true;
   addExpensePolicy(form: NgForm){
     debugger
-   
+
     this.tempPolicyName = this.policyName;
       this.expensePolicyReq.paymentType = this.type
       this.expensePolicyReq.limitAmount = this.flexibleAmount == null ? 0 : this.flexibleAmount
@@ -889,10 +889,10 @@ export class CreateExpenseComponent implements OnInit {
     this.isExpenseTypeSelected = false;
     this.editIndexPolicyToggle = false;
     this.policyAmount = ''
-    this.paymentType = ''; 
-    this.flexibleAmount = null; 
+    this.paymentType = '';
+    this.flexibleAmount = null;
     this.editIndex = 0
-    
+
     this.isErrorShow = false;
     this.resetThresholdOptions()
   }
@@ -905,7 +905,7 @@ export class CreateExpenseComponent implements OnInit {
     this.clearPolicyForm();
     form.resetForm()
   }
-  
+
   policyName: string = ''
   companyExpenseReq: CompanyExpense = new CompanyExpense();
   registerToggle: boolean = false
@@ -1006,7 +1006,7 @@ export class CreateExpenseComponent implements OnInit {
     //     this.tempCompanyExpenseReq = new CompanyExpense();
     //     this.helperService.showToast('created', Key.TOAST_STATUS_SUCCESS);
 
-    
+
     this.dataService.createExpensePolicy(this.companyExpenseReq).subscribe((res: any) => {
       if(res.status){
         this.closeExpensePolicyModal.nativeElement.click()
@@ -1074,7 +1074,7 @@ export class CreateExpenseComponent implements OnInit {
           ...this.removeUserIds
         ];
       }
- 
+
     }
 
     console.log('Create: ',this.companyExpenseReq)
@@ -1101,7 +1101,7 @@ export class CreateExpenseComponent implements OnInit {
         this.tempCompanyExpenseReq = new CompanyExpense();
         this.helperService.showToast('created', Key.TOAST_STATUS_SUCCESS);
 
-    
+
     // this.dataService.createExpensePolicy(this.companyExpenseReq).subscribe((res: any) => {
     //   if(res.status){
     //     this.closeExpensePolicyModal.nativeElement.click()
@@ -1149,8 +1149,8 @@ export class CreateExpenseComponent implements OnInit {
     this.allselected = false;
     this.policyName = ''
     this.tempPolicyName = ''
-    this.paymentType = ''; 
-    this.flexibleAmount = null; 
+    this.paymentType = '';
+    this.flexibleAmount = null;
     // this.companyExpensePolicyId = 0
     this.expenseTypeSelectionTab();
 
@@ -1171,9 +1171,9 @@ export class CreateExpenseComponent implements OnInit {
     const item = this.expensePolicyReqList[index];
 
     console.log('update item: ',item)
-    
+
     const defaultExpenseType = this.getDefaultExpenseType(item.expenseTypeId);
-    
+
     this.selectExpenseType(defaultExpenseType)
     this.expensePolicyReq.paymentType = item.paymentType
     this.expensePolicyReq.limitAmount = item.limitAmount
@@ -1199,7 +1199,7 @@ export class CreateExpenseComponent implements OnInit {
   companyExpensePolicyList: CompanyExpensePolicyRes[] = [];
   // companyExpensePolicyList: CompanyExpensePolicyRes = new CompanyExpensePolicyRes();
   getAllCompanyExpensePolicy(){
-    // this.companyExpensePolicyList = 
+    // this.companyExpensePolicyList =
     this.isLoading = true;
     this.databaseHelper.currentPage = 1;
     this.databaseHelper.itemPerPage = 10;
@@ -1261,14 +1261,14 @@ export class CreateExpenseComponent implements OnInit {
 
   // }
 
-  
-  thresholdType: string | null = null; 
+
+  thresholdType: string | null = null;
   thresholdAmount: number =0;
   onThresholdTypeChange(isPercentagFlag: number, type: string): void {
     this.thresholdType = type;
     this.expensePolicyReq.isPercentage = isPercentagFlag
     this.expensePolicyReq.isPercent = type
-    
+
     this.thresholdAmount = 0; // Reset threshold amount when changing type
     console.log('thresold Type: ',this.expensePolicyReq.isPercentage)
   }
@@ -1342,9 +1342,9 @@ export class CreateExpenseComponent implements OnInit {
           // console.log('Going to create..')
           this.registerCompanyExpense(form);
         }
-       
+
       },
-      (error) => {
+      (error:any) => {
         console.log('error');
       }
     );
@@ -1355,7 +1355,7 @@ export class CreateExpenseComponent implements OnInit {
   removeUserIds: number[] = [];
   removeUser(userId: number) {
     debugger
-    
+
     // if(!this.updateToggle){
     //   this.deSelectedStaffIdsUser = []
     // }
@@ -1365,7 +1365,7 @@ export class CreateExpenseComponent implements OnInit {
     this.tempSelectedStaffIdsUser = this.tempSelectedStaffIdsUser.filter(
       (id) => id != userId
     );
-  
+
     // Update the 'selected' status for each staff member based on selectedStaffIdsUser
     this.userNameWithBranchName = this.userNameWithBranchName.filter(
       (staff) => staff.id !== userId
@@ -1375,7 +1375,7 @@ export class CreateExpenseComponent implements OnInit {
    this.remainingIds = this.userNameWithBranchName.map((staff) => staff.id);
 
     this.selectedStaffIdsUser = this.tempSelectedStaffIdsUser
-    
+
 
     if(this.updateToggle){
       this.removeUserIds = this.remainingIds;
@@ -1409,7 +1409,7 @@ export class CreateExpenseComponent implements OnInit {
     this.tempSelectedStaffIdsUser = this.tempSelectedStaffIdsUser.filter(
       (id) => id != userId
     );
-  
+
     // Update the 'selected' status for each staff member based on selectedStaffIdsUser
     this.userNameWithBranchName = this.userNameWithBranchName.filter(
       (staff) => staff.id !== userId
@@ -1447,9 +1447,9 @@ export class CreateExpenseComponent implements OnInit {
       console.log('expense obj: ',companyExpense)
 
       // const item = this.expensePolicyReqList[index];
-  
+
       // console.log('update item: ',item)
-      
+
       // const defaultExpenseType = this.getDefaultExpenseType(companyExpense.companyExpensePolicyTypeRes.expenseTypeId);
 
       // this.expensePolicyReqList = companyExpense.companyExpensePolicyTypeRes;
@@ -1461,7 +1461,7 @@ export class CreateExpenseComponent implements OnInit {
         this.expensePolicyReq.expenseTypeId = expenseType.expenseTypeId
         this.expensePolicyReq.expenseTypeName = expenseType.expenseTypeName
         this.expensePolicyReq.amount = Number(expenseType.amount)
-  
+
         // this.expensePolicyReq.isPercent = this.thresholdType == null ? '' : this.thresholdType
         // this.expensePolicyReq.isThresold = this.isThresholdSelected
         // this.expensePolicyReq.isFixed = this.paymentType
@@ -1482,11 +1482,11 @@ export class CreateExpenseComponent implements OnInit {
         this.selectedStaffIdsUser.push(id)
 
       });
-      
+
       this.policyName = companyExpense.policyName
 
       // set expense type end
-      
+
       // this.selectExpenseType(defaultExpenseType)
       // this.expensePolicyReq.paymentType = item.paymentType
       // this.expensePolicyReq.limitAmount = item.limitAmount
@@ -1494,13 +1494,13 @@ export class CreateExpenseComponent implements OnInit {
       // this.policyAmount = item.amount.toString()
 
       // this.flexibleAmount = item.limitAmount
-  
+
       // this.paymentType = item.isFixed
       // this.thresholdType = item.isPercent
       // this.isThresholdSelected = item.isThresold
 
       // this.updateToggle = false;
-  
+
       console.log('update expensePolicyReq: ',this.expensePolicyReq)
   }
 
@@ -1532,7 +1532,7 @@ export class CreateExpenseComponent implements OnInit {
         isFixed: (expenseType.isFlexibleAmount == 1 ? 'fixed' : ''),
         isPercent: ''
       };
-    
+
       // Push the new object into the list
       this.expensePolicyReqList.push(expensePolicyReq);
     });
@@ -1550,7 +1550,7 @@ export class CreateExpenseComponent implements OnInit {
 
     // this.oldSelectedStaffIdsUser = this.selectedStaffIdsUser
     console.log('old sel IDS: ',this.oldSelectedStaffIdsUser)
-    
+
     this.policyName = companyExpense.policyName
     this.updateToggle = true;
 

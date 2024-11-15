@@ -1,11 +1,13 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Color, LegendPosition, ScaleType } from '@swimlane/ngx-charts';
 import * as moment from 'moment';
 import { Key } from 'src/app/constant/key';
 import { AssetCategoryRequest, AssetCategoryResponse, OrganizationAssetRequest, OrganizationAssetResponse, StatusWiseTotalAssetsResponse } from 'src/app/models/asset-category-respose';
+import { AssetRequestDTO } from 'src/app/models/AssetRequestDTO';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 
@@ -18,7 +20,10 @@ export class AssetsComponent implements OnInit {
 
   assetForm: FormGroup;
   assignRejectForm: FormGroup;
-  constructor(private cdr: ChangeDetectorRef, private fb: FormBuilder, private dataService : DataService, private afStorage: AngularFireStorage, private domSanitizer: DomSanitizer, private helperService : HelperService) { 
+  constructor(private cdr: ChangeDetectorRef, private fb: FormBuilder,
+     private dataService : DataService, private afStorage: AngularFireStorage,
+      private domSanitizer: DomSanitizer, private modalService: NgbModal,
+     private helperService : HelperService) {
     this.assetForm = this.fb.group({
       assetName: ['', Validators.required],
       serialNumber: ['', Validators.required],
@@ -46,6 +51,7 @@ export class AssetsComponent implements OnInit {
     this.getAssetUserListData();
     this.getCategoryCounts();
     this.getAssetDataById();
+    this.getAssetRequests();
     // this.helperService.saveOrgSecondaryToDoStepBarData(0);
   }
 
@@ -72,7 +78,7 @@ export class AssetsComponent implements OnInit {
               categoryName: categoryData.categoryName,
               categoryImage: categoryData.categoryImage
             };
-            this.imagePreviewUrl = categoryData.categoryImage; 
+            this.imagePreviewUrl = categoryData.categoryImage;
             this.cdr.detectChanges();
           }
         },
@@ -81,7 +87,7 @@ export class AssetsComponent implements OnInit {
         }
       );
   }
-  
+
   totalAssetData: any;
   getTotalAssetData(): void {
     this.dataService.getTotalAsset()
@@ -124,7 +130,7 @@ export class AssetsComponent implements OnInit {
           this.assetForm.patchValue({
             assetName: assetData.assetName,
             serialNumber: assetData.serialNumber,
-            purchasedDate: new Date(assetData.purchasedDate), 
+            purchasedDate: new Date(assetData.purchasedDate),
             expiryDate: assetData.expiryDate ? new Date(assetData.expiryDate) : null,
             price: assetData.price,
             location: assetData.location,
@@ -133,7 +139,7 @@ export class AssetsComponent implements OnInit {
             assignedDate: assetData.assignedDate ? new Date(assetData.assignedDate) : null,
             categoryId: assetData.categoryId
           });
-  
+
           this.cdr.detectChanges();
         },
         (error) => {
@@ -185,14 +191,14 @@ export class AssetsComponent implements OnInit {
     return Array.from({ length: totalPages }, (_, index) => index + 1);
   }
 
-//  save category 
+//  save category
 
 newCategory: AssetCategoryRequest = {
   categoryName: '',
-  categoryImage: '' 
+  categoryImage: ''
 };
 
-imagePreviewUrl: string | ArrayBuffer | null = null; 
+imagePreviewUrl: string | ArrayBuffer | null = null;
 isFileUploaded: boolean = false;
 selectedFile: File | null = null;
 fileToUpload: string = '';
@@ -238,7 +244,7 @@ updateCategory(): void {
 // @ViewChild("closeCreateCategoryModal") closeCreateCategoryModal!:ElementRef;
 saveCategory(): void {
   if (this.fileToUpload) {
-    this.newCategory.categoryImage = this.fileToUpload; 
+    this.newCategory.categoryImage = this.fileToUpload;
   }
   this.dataService.createAssetCategory(this.newCategory)
     .subscribe(
@@ -275,7 +281,7 @@ onFileSelected(event: Event): void {
 
     if (this.selectedFile) {
       this.setImgPreviewUrl(this.selectedFile);
-      this.uploadFile(this.selectedFile); 
+      this.uploadFile(this.selectedFile);
     }
   } else {
     this.isFileUploaded = false;
@@ -310,8 +316,8 @@ uploadFile(file: File): void {
       console.error('Error in upload snapshotChanges:', error);
     });
 }
-  
-//  create asset 
+
+//  create asset
 
 allAssetCategoryData: any;
 getAllAssetCategoryData(): void {
@@ -395,7 +401,7 @@ saveAsset(): void {
 
   this.dataService.createAsset(newAsset).subscribe(
     (response) => {
-     
+
         // console.log('Asset created successfully.');
         this.assetForm.reset();
         this.getAssetData();
@@ -405,7 +411,7 @@ saveAsset(): void {
         this.closeCreateAssetModal.nativeElement.click();
         document.getElementById('createAssetModal')?.click();
         this.helperService.showToast('Asset created successfully.', Key.TOAST_STATUS_SUCCESS);
-     
+
     },
     (error) => {
       // console.error('Error creating asset:', error);
@@ -423,19 +429,19 @@ disabledDate = (current: Date): boolean => {
   return moment(current).isAfter(moment(), 'day');
 }
 
-// status wise assets 
+// status wise assets
 
 totalAssetsStatusWiseData: StatusWiseTotalAssetsResponse[] = [];
   totalCountSystem: number = 0;
   searchTermSystem: string = '';
   filterString: string = '';
-  pageNumberSystem: number = 1; 
-  itemPerPageSystem: number = 10; 
-  totalPagesSystem: number = 0; 
-  startIndexSystem: number = 0; 
-  endIndexSystem: number = 0; 
+  pageNumberSystem: number = 1;
+  itemPerPageSystem: number = 10;
+  totalPagesSystem: number = 0;
+  startIndexSystem: number = 0;
+  endIndexSystem: number = 0;
   currentPageSystem: number = 1;
-  pagesSystem: number[] = []; 
+  pagesSystem: number[] = [];
   systemModalString: string = 'Total Assets';
 
   getTotalAssetsStatusWiseData(filString: string): void {
@@ -490,7 +496,7 @@ totalAssetsStatusWiseData: StatusWiseTotalAssetsResponse[] = [];
   }
 
   searchSystem(): void {
-    this.getTotalAssetsStatusWiseData( this.filterString); 
+    this.getTotalAssetsStatusWiseData( this.filterString);
   }
 
   reloadPageSystem(): void {
@@ -498,7 +504,7 @@ totalAssetsStatusWiseData: StatusWiseTotalAssetsResponse[] = [];
     this.getTotalAssetsStatusWiseData( this.filterString);
   }
 
-  //  assignOrReturn 
+  //  assignOrReturn
 
   modalHeadString : string = '';
   modalSelectUserString : string = '';
@@ -534,7 +540,7 @@ totalAssetsStatusWiseData: StatusWiseTotalAssetsResponse[] = [];
           this.getAssetCategoryData();
           this.getTotalAssetData();
           this.helperService.showToast('Operation Executed Successfully.', Key.TOAST_STATUS_SUCCESS);
-      
+
       },
       (error) => {
         this.helperService.showToast('Failed', Key.TOAST_STATUS_ERROR);
@@ -553,19 +559,19 @@ totalAssetsStatusWiseData: StatusWiseTotalAssetsResponse[] = [];
             this.getTotalAssetData();
             document.getElementById('assignRejectModal')?.click();
             this.helperService.showToast('Operation Executed Successfully.', Key.TOAST_STATUS_SUCCESS);
-        
+
         },
         (error) => {
           this.helperService.showToast('Failed', Key.TOAST_STATUS_ERROR);
         }
       );
-          
+
     } else {
       this.assignRejectForm.markAllAsTouched();
     }
   }
 
-  //  chart 
+  //  chart
 
 categoryCounts: any[] = [];
 // colorScheme: any = {
@@ -575,7 +581,7 @@ categoryCounts: any[] = [];
 colorScheme: Color = {
   name: 'custom',
   selectable: true,
-  group: ScaleType.Ordinal, 
+  group: ScaleType.Ordinal,
   domain: ['#80CBC4', '#FFE082', '#80CBC4', '#FFCCBC', '#9575CD', '#4FC3F7', '#AED581', '#FFD54F', '#FF7043']
 };
 view: [number, number] = [600, 340];
@@ -595,10 +601,10 @@ getCategoryCounts(): void {
 
 private formatDataForChart(data: any[]): any[] {
   return data.map((item) => ({
-    name: item.category_name, 
+    name: item.category_name,
     series: [{
       name: 'Count',
-      value: item.category_count 
+      value: item.category_count
     }]
   }));
 }
@@ -608,10 +614,10 @@ private formatDataForChart(data: any[]): any[] {
   // colorScheme: any = {
   //   domain: ['#FFE082', '#80CBC4', '#FFCCBC', '#9575CD', '#4FC3F7', '#AED581', '#FFD54F', '#FF7043']
   // };
-  // // legendPosition: LegendPosition = LegendPosition.Below; 
-  // view: [number, number] = [600, 340]; 
+  // // legendPosition: LegendPosition = LegendPosition.Below;
+  // view: [number, number] = [600, 340];
   // getCategoryCounts(): void {
-  //   this.dataService.getCategoryCounts() 
+  //   this.dataService.getCategoryCounts()
   //     .subscribe(
   //       (response: any) => {
   //         this.categoryCounts = this.formatDataForChart(response.listOfObject);
@@ -629,28 +635,28 @@ private formatDataForChart(data: any[]): any[] {
   //   ];
   //   return monthNames[parseInt(monthNumber, 10) - 1];
   // }
-  
+
 
   // private formatDataForChart(data: any[]): any[] {
   //   return data.map((item) => {
-      
+
   //     const [year, monthNumber] = item.month.split('-');
   //     const monthName = this.getMonthName(monthNumber);
-  
+
   //     const series = item.category_array.map((category: any) => ({
   //       name: category.category_name,
   //       value: category.category_count
   //     }));
-  
+
   //     return {
-  //       name: `${monthName}`, 
+  //       name: `${monthName}`,
   //       series: series
   //     };
   //   });
   // }
-  
 
-  //  delete asset 
+
+  //  delete asset
  assetId : number = 0;
  disableLoader : boolean = false;
  @ViewChild("closeUserDeleteModal") closeUserDeleteModal!:ElementRef;
@@ -660,7 +666,7 @@ private formatDataForChart(data: any[]): any[] {
 
   deleteAssetData(): void {
     this.disableLoader = true;
-    this.dataService.deleteAsset(this.assetId) 
+    this.dataService.deleteAsset(this.assetId)
       .subscribe(
         (response: any) => {
           this.helperService.showToast('Asset Deleted Successfully.', Key.TOAST_STATUS_SUCCESS);
@@ -678,7 +684,79 @@ private formatDataForChart(data: any[]): any[] {
   }
 
 
-  
+  assetRequests: AssetRequestDTO[] = [];
+  assetRequestsPage: number = 0;
+  assetRequestsSize: number = 10;
+  assetRequestsSearch: string = '';
 
-  
+  assetRequestsTotalPage: number=0;
+  assetRequestsTotalCount: number=0;
+  statusFilter: string='';
+
+  filterStatus(status: string): void {
+    this.statusFilter = status;
+    this.assetRequestsPage=0;
+    this.getAssetRequests();
+  }
+
+  pageChangedRequest(page: number): void {
+    this.assetRequestsPage = page-1;
+    this.getAssetRequests();
+  }
+  isAssetRequestArrayEmpty(): boolean {
+    if(this.assetRequestsSearch?.length>0 || this.statusFilter.length>0){
+      return false;
+    }
+    return !this.assetRequests || this.assetRequests.length === 0;
+  }
+
+  getAssetRequests(): void {
+
+    this.dataService.getAssetRequests(this.assetRequestsPage, this.assetRequestsSize, this.assetRequestsSearch, this.statusFilter).subscribe(
+      (response) => {
+        this.assetRequests = response.data; // Assign only the data (array of AssetRequestDTO) from the response
+        this.assetRequestsTotalPage=response.totalPages;
+        this.assetRequestsTotalCount=response.totalItems;
+        console.log('Asset requests:', this.isAssetRequestArrayEmpty());
+        console.log('Total items:', response.totalItems);
+        console.log('Current page:', response.currentPage);
+        console.log('Total pages:', response.totalPages);
+      },
+      (error) => {
+        console.error('Error fetching asset requests:', error);
+      }
+    );
+  }
+  searchAssetsRequest(event: Event): void {
+    this.assetRequestsSearch = (event.target as HTMLInputElement).value;
+    this.getAssetRequests();
+
+  }
+  newStatus: string = 'Pending';
+  selectedAsset: any;
+  statuses: string[] = ['Approved', 'Rejected'];
+  openStatusChangeModal(asset: any, statusChangeModal: TemplateRef<any>) {
+    this.selectedAsset = asset;
+    this.newStatus = asset.status; // initialize with current status
+    this.modalService.open(statusChangeModal);
+  }
+
+  changeStatus(asset: any) {
+    asset.status = this.newStatus;
+    this.dataService.changeAssetRequestStatus(asset.id, this.newStatus)
+    .subscribe(
+      (response) => {
+        console.log('Status updated successfully:', response);
+        // Handle successful response, e.g., show a success message or update UI
+      },
+      (error) => {
+        console.error('Error updating status:', error);
+        // Handle error response, e.g., show an error message
+      }
+    );
+  }
+
+
+
+
 }

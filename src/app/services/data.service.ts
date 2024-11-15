@@ -3,11 +3,10 @@ import {
   HttpErrorResponse,
   HttpHeaders,
   HttpParams,
-  HttpRequest,
 } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
-import { Organization, Users } from '../models/users';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { Organization } from '../models/users';
 import { Savel } from '../models/savel';
 import { DailyQuestionsCheckout } from '../models/daily-questions-check-out';
 import { DailyQuestionsCheckIn } from '../models/daily-questions-check-in';
@@ -38,14 +37,10 @@ import { OrganizationAddressDetail } from '../models/organization-address-detail
 import { EmployeeAttendanceLocation } from '../models/employee-attendance-location';
 import { OnboardingSidebarResponse } from '../models/onboarding-sidebar-response';
 import { ReasonOfRejectionProfile } from '../models/reason-of-rejection-profile';
-import { HelperService } from './helper.service';
-import { RoleBasedAccessControlService } from './role-based-access-control.service';
-import { keys } from 'lodash';
 import { UserPasswordRequest } from '../models/user-password-request';
 import { UserLeaveDetailsWrapper } from '../models/UserLeaveDetailsWrapper';
 import { TotalRequestedLeavesReflection } from '../models/totalRequestedLeaveReflection';
 import { StatutoryRequest } from '../models/statutory-request';
-import { StatutoryAttribute } from '../models/statutory-attribute';
 import { NotificationVia } from '../models/notification-via';
 import { SalaryTemplateComponentRequest } from '../models/salary-template-component-request';
 import { WeeklyHoliday } from '../models/WeeklyHoliday';
@@ -54,11 +49,9 @@ import { Key } from '../constant/key';
 import { ResponseEntityObject } from '../models/response-entity-object.model';
 import { OrganizationWeekoffInformation } from '../models/organization-weekoff-information';
 import { NewJoineeAndUserExitRequest } from '../models/new-joinee-and-user-exit-request';
-import { TeamLocation } from '../models/team-location';
 import { RegisterTeamRequest } from '../modules/dynamic/components/team/team.component';
 import { OnboardingFormPreviewResponse } from '../models/onboarding-form-preview-response';
 import { Temp } from '../models/temp';
-import { StartDateAndEndDate } from '../models/start-date-and-end-date';
 import { LopAdjustmentRequest } from '../models/lop-adjustment-request';
 import { LopSummaryRequest } from '../models/lop-summary-request';
 import { LopReversalRequest } from '../models/lop-reversal-request';
@@ -76,7 +69,6 @@ import { OvertimeSettingRequest } from '../models/overtime-setting-request';
 import { OvertimeRequestDTO } from '../models/overtime-request-dto';
 import { LeaveTemplateRequest } from '../models/leave-template-request';
 import { OrganizationRegistrationFormRequest } from '../models/organization-registration-form-request';
-import { rootCertificates } from 'tls';
 import { OnboardingModule } from '../models/OnboardingModule';
 import { AddressModeTypeRequest } from '../models/address-mode-type-request';
 import { ExpenseType } from '../models/ExpenseType';
@@ -84,6 +76,7 @@ import { CompanyExpense } from '../models/CompanyExpense';
 import { DatabaseHelper } from '../models/DatabaseHelper';
 import { ApproveReq } from '../models/ApproveReq';
 import { UserPositionDTO } from '../models/user-position.model';
+import { AssetRequestDTO } from '../models/AssetRequestDTO';
 
 
 @Injectable({
@@ -498,6 +491,10 @@ export class DataService {
   }
   getUserPositionsByUserId(userId: string): Observable<UserPositionDTO[]> {
     return this.httpClient.get<UserPositionDTO[]>(`${this.baseUrl}/user-positions/user-positions/${userId}`);
+  }
+  completeProbation(uuid: string): Observable<any> {
+    const params = new HttpParams().set('uuid', uuid);
+    return this.httpClient.post(`${this.baseUrl}/user-positions/probation`, {}, { params });
   }
 
   changeStatusById(presenceStatus: Boolean, userUuid: string): Observable<any> {
@@ -3607,6 +3604,52 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
 
   createAsset(assetRequest: OrganizationAssetRequest): Observable<any> {
     return this.httpClient.post<any>(`${this.baseUrl}/asset/allocation/create/asset`, assetRequest);
+  }
+  createAssetRequest(formData: any): Observable<any> {
+    return this.httpClient.post<any>(`${this.baseUrl}/asset-requests/create`, formData);
+  }
+  getAssetRequestsByUserUuid(
+    uuid: string,
+    page: number = 0,
+    size: number = 10,
+    search: string = '',
+    status: string = ''
+  ): Observable<{ data: AssetRequestDTO[], currentPage: number, totalItems: number, totalPages: number }> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString())
+      .set('status',status.toString())
+      .set('search', search);
+
+    return this.httpClient.get<{ data: AssetRequestDTO[], currentPage: number, totalItems: number, totalPages: number }>(
+      `${this.baseUrl}/asset-requests/user/${uuid}`,
+      { params }
+    );
+  }
+
+
+  getAssetRequests(
+    page: number = 0,
+    size: number = 10,
+    search: string = '',
+    status: string=''
+  ): Observable<{ data: AssetRequestDTO[], currentPage: number, totalItems: number, totalPages: number}> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString())
+      .set('status',status.toString())
+      .set('search', search);
+
+    return this.httpClient.get<{ data: AssetRequestDTO[], currentPage: number, totalItems: number, totalPages: number }>(
+      `${this.baseUrl}/asset-requests/users`,
+      { params }
+    );
+  }
+
+  changeAssetRequestStatus(id: number, status: string): Observable<any> {
+    const url = `${this.baseUrl}/asset-requests/${id}/change-status`;
+    const params = new HttpParams().set('status', status);
+    return this.httpClient.post<any>(url, null, { params });
   }
 
   editAsset(assetId:number, assetRequest: OrganizationAssetRequest): Observable<any> {

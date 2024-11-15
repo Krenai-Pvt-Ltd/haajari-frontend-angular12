@@ -33,6 +33,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
       this.myForm = this.fb.group({
         position: ['', Validators.required],  // Make Position field required
         effectiveDate: ['', Validators.required],
+        isProbation: [false],
         endDate: ['']
       });
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
@@ -73,12 +74,14 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   getEmployeeProfileData() {
     debugger
     this.dataService.getEmployeeProfile(this.userId).subscribe((response) => {
+      console.log(response.object);
       this.employeeProfileResponseData = response.object;
       this.teamString = this.employeeProfileResponseData?.teams;
       this.splitTeams();
     }, (error) => {
          console.log(error);
     })
+    console.log("employee profile", this.employeeProfileResponseData);
   }
 
   fetchUserPositions(): void {
@@ -175,6 +178,30 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     this.cdr.detectChanges();
     this.modalService.open(content);
   }
+
+  openConfirmationModal(content: any) {
+    this.modalService.open(content).result.then(
+      (result) => {
+        if (result) {
+          this.dataService.completeProbation(this.userId).subscribe(
+            response => {
+              this.cdr.detectChanges();
+              this.helperService.showToast("Probation completed successfully.", Key.TOAST_STATUS_SUCCESS);
+            },
+            error => {
+
+            }
+          );
+        }
+      },
+      (reason) => {
+        // Handle dismiss, if needed
+      }
+    );
+  }
+
+
+
   filteredPositions: string[] = [];
 
   searchPosition(event: Event): void {
@@ -188,6 +215,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   isSaving: boolean = false;
   saveButtonLoader: boolean = false;
   onSubmit() {
+    debugger
     this.saveButtonLoader=true;
     if (this.myForm.valid) {
       const userPositionDTO: UserPositionDTO = {
@@ -195,6 +223,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
         startDate: this.myForm.get('effectiveDate')?.value,
         endDate: this.myForm.get('endDate')?.value,
         userId: this.userId,
+        isProbation: this.myForm.get('isProbation')?.value
       };
       this.isSaving = true;
 
@@ -229,6 +258,11 @@ export class EmployeeProfileSidebarComponent implements OnInit {
 
     this.duration = `${years} years ${months} months`;
   }
+
+
+
+
+
   jobTitles: string[] = [
     'Accountant',
     'Accounting Manager',
