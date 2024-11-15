@@ -322,6 +322,33 @@ export class CreateExpenseComponent implements OnInit {
   flexibleAmount: number | null = null; // Holds the amount for flexible payment type
   selectExpenseType(expense: any) {
     console.log('expense: ', expense)
+    // this.expenseTypeName = expense.name
+    this.expenseTypeId = expense
+
+//     const selectedExpense = this.expenseTypeList.find(expense => expense.id === expense);
+// console.log('selectedExpense', selectedExpense);
+const selectedExpense = this.getDefaultExpenseType(expense);
+console.log('selectedExpense', selectedExpense);
+this.expenseTypeName = selectedExpense.name
+    
+
+    // this.isExpenseTypeSelected = true;
+    // this.paymentType = ''; 
+    // this.flexibleAmount = null; 
+    this.isExpenseTypeSelected = true;
+    if(!this.editIndexPolicyToggle){
+       this.isExpenseTypeSelected = true;
+    this.paymentType = ''; 
+    this.flexibleAmount = null; 
+    }
+
+    // console.log('typeId expenseTypeName: ',this.expenseTypeName)
+
+  }
+
+
+  selectExpenseType1(expense: any) {
+    console.log('expense: ', expense)
     this.expenseTypeName = expense.name
     this.expenseTypeId = expense.id
 
@@ -334,6 +361,9 @@ export class CreateExpenseComponent implements OnInit {
     this.paymentType = ''; 
     this.flexibleAmount = null; 
     }
+
+    console.log('typeId: ',this.expenseTypeId)
+    console.log('typeId expenseTypeName: ',this.expenseTypeName)
 
   }
 
