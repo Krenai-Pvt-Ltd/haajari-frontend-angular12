@@ -3975,7 +3975,7 @@
                   <div class="col-md-12 mt-3 mb-3"  >
                         <div class="pt-2 pb-3">
         
-                            <button class="btn btn-primary" (click)="getExpenseType()" data-bs-toggle="modal"
+                            <button *ngIf="expenseTypeList.length > 0" class="btn btn-primary" (click)="getExpenseType()" data-bs-toggle="modal"
                                 data-bs-target="#createExpense">Create Expense</button>
         
                             <div class="row mt-3">
@@ -4051,7 +4051,7 @@
                                                     <td class="text-center">{{expense.appliedTo}}</td>
                                                     <td class="text-center">{{expense.status.response}}</td>
                                                     <td class="text-center">
-                                                        <div *ngIf="expense.status.id == 13">
+                                                        <div *ngIf="expense.status.id == 13 || expense.status.id == 15">
                                                             <button type="button" class="btn" (click)="updateExpense(expense)"
                                                                 data-bs-toggle="modal" data-bs-target="#createExpense">
                                                                 <i class="bi bi-pencil-square pointer text-primary"></i>
@@ -4068,7 +4068,7 @@
                                                             </button> -->
                                                         </div>
 
-                                                        <div *ngIf="expense.status.id != 13">
+                                                        <div *ngIf="expense.status.id != 13 && expense.status.id != 15">
                                                           <i class="bi bi-lock fs-5 text-danger"></i>
                                                         </div>
 
@@ -5353,7 +5353,7 @@
                                         class="d-flex align-items-center justify-content-between  requesting-half-leave p-2">
                                         <p class="mb-0 font-13 " style="font-weight: 400;">Select proof document</p>
 
-                                        <button *ngIf="!isFileUploaded && expenseTypeReq.url == ''" type="button"
+                                        <button *ngIf="!isFileUploaded && (expenseTypeReq.url == null || expenseTypeReq.url == '')" type="button"
                                             (click)="fileInput.click()" class="btn p-0 text-primary font-13">
                                             <i class="bi bi-plus-lg"></i> Add File
                                         </button>
@@ -5369,7 +5369,7 @@
                                     </div>
 
 
-                                    <div *ngIf="expenseTypeReq.url != ''"
+                                    <div *ngIf="expenseTypeReq.url != null && expenseTypeReq.url != ''"
                                         class="hr-policy-file d-flex justify-content-between align-items-center p-3 mt-3">
                                         <div class="d-flex align-items-center gap-2">
                                             <div class="d-flex align-items-center gap-2">

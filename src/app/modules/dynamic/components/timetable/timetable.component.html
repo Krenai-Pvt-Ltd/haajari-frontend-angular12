@@ -321,6 +321,7 @@
                     else errorInFetchingAttendanceDetailsResponseData
                   "
                 >
+                {{attendanceDetailsResponseList|json}}
                   <div
                     class="monthly-section mt-3"
                     *ngFor="
@@ -441,13 +442,14 @@
                             class="col-md-4"
                             *ngIf="attendanceDetailsResponse.breakCount !== 0"
                           >
-                            <div
-                              class="in-time total-break-time-box position-relativ"
-                              (mouseover)="
+                          <!-- (mouseover)="
                                 getAttendanceDetailsBreakTimingsReportByDateByUserMethodCall(
                                   attendanceDetailsResponse
                                 )
-                              "
+                              " -->
+                            <div
+                              class="in-time total-break-time-box position-relativ"
+                              
                             >
                               <span>Break Timings</span> <span>|</span>
                               <p class="mb-0">
@@ -460,11 +462,11 @@
                               <div class="total-braek-time">
                                 <div
                                   *ngIf="
-                                    attendanceDetailsResponse.breakTimingsList !==
+                                    attendanceDetailsResponse.breakTimings !==
                                       null &&
-                                      attendanceDetailsResponse.breakTimingsList !==
+                                      attendanceDetailsResponse.breakTimings !==
                                         undefined &&
-                                      attendanceDetailsResponse.breakTimingsList
+                                      attendanceDetailsResponse.breakTimings
                                         .length !== 0;
                                     else errorInFetchingBreakTimings
                                   "
@@ -479,7 +481,7 @@
                                     <tbody>
                                       <tr
                                         *ngFor="
-                                          let breakTimings of attendanceDetailsResponse.breakTimingsList
+                                          let breakTimings of attendanceDetailsResponse.breakTimings
                                         "
                                       >
                                         <td class="text-left">

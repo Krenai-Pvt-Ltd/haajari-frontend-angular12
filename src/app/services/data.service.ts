@@ -220,7 +220,8 @@ export class DataService {
     searchBy: string,
     sort: string,
     sortBy: string,
-    filterCriteria: string
+    filterCriteria: string,
+    isFetchBreakTimings:number
   ): Observable<any> {
     const params = new HttpParams()
       .set('date', date)
@@ -230,7 +231,8 @@ export class DataService {
       .set('search_by', searchBy)
       .set('sort_order', sort)
       .set('sort_by', sortBy)
-      .set('filter_criteria', filterCriteria);
+      .set('filter_criteria', filterCriteria)
+      .set('isFetchBreakTimings', isFetchBreakTimings);
     // return this.httpClient.get<any>(
     //   `${this.baseUrl}/attendance/get-attendance-details-report-by-date`,
     //   { params }
@@ -4266,6 +4268,11 @@ getHolidayForOrganization(date: string): Observable<any>{
 
 
   getExpenseType(){
+    return this.httpClient.get<any>(`${this.baseUrl}/company-expense-policy/expense-type`);
+    // return this.httpClient.get<any>(`${this.baseUrl}/company-expense-type`);
+  }
+
+  getAllExpenseType(){
     return this.httpClient.get<any>(`${this.baseUrl}/company-expense-type`);
   }
 
@@ -4315,6 +4322,32 @@ getHolidayForOrganization(date: string): Observable<any>{
 
   updateCompanyExpense(approveReq: ApproveReq){
     return this.httpClient.patch<any>(`${this.baseUrl}/company-expense`, approveReq);
+  }
+
+  deleteCompanyExpensePolicy(id: number): Observable<any> {
+    const params = new HttpParams().set('id', id);
+    return this.httpClient.delete(`${this.baseUrl}/company-expense-policy`, {
+      params,
+    });
+  }
+
+  deleteCompanyExpenseTypePolicy(id: number): Observable<any> {
+    const params = new HttpParams().set('expenseTypeId', id);
+    return this.httpClient.delete(`${this.baseUrl}/company-expense-type`, {
+      params,
+    });
+  }
+
+  getUserMappedWithPolicy(selectedUserIds: any, companeExpensePolicyId: number) {
+    let params = new HttpParams().set('selectedUserIds', selectedUserIds);
+
+    if(companeExpensePolicyId > 0){
+      params = params.set('companyExpensePolicyId',companeExpensePolicyId)
+    }
+
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/user_company_expense_type_policy_mapping`, {params}
+    );
   }
 
 }

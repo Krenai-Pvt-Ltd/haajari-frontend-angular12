@@ -346,6 +346,7 @@ export class TimetableComponent implements OnInit {
   inputDate = '';
   filterCriteria = 'ALL';
   halfDayUsers: number = 0;
+  fetchBreakTimings:number = 1
 
   itemPerPage: number = 8;
   pageNumber: number = 1;
@@ -386,12 +387,14 @@ export class TimetableComponent implements OnInit {
           'name',
           '',
           '',
-          this.filterCriteria
+          this.filterCriteria,
+          this.fetchBreakTimings
         )
         .subscribe(
           (response) => {
             debugger;
             this.attendanceDetailsResponseList = response.listOfObject;
+            console.log("🚀 ~ this.debounceTimer=setTimeout ~ this.attendanceDetailsResponseList :", this.attendanceDetailsResponseList )
             this.attendanceDetailsResponseList.forEach((attendance:AttendanceDetailRes)=>{
               if(attendance.isAbsent){
                 attendance.currentStatus=AttendanceStatus.ABSENT;

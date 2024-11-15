@@ -178,12 +178,14 @@ export class EmployeeProfileComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.activeTabs('attendance');
     window.scroll(0, 0);
+    this.getExpenseType();
     this.getOrganizationRegistrationDateMethodCall();
     this.getOnboardingFormPreviewMethodCall();
     this.getAllTaxRegimeMethodCall();
     this.getStatutoryByOrganizationIdMethodCall();
     this.getSalaryConfigurationStepMethodCall();
     this.getSalaryTemplateComponentByUserUuidMethodCall();
+   
     // this.getEmployeeCompanyDocumentsMethodCall();
     // this.helperService.saveOrgSecondaryToDoStepBarData(0);
     this.ROLE = await this.roleService.getRole();

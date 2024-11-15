@@ -1,3 +1,5 @@
+import { BreakTimings } from "./break-timings";
+
 export class  AttendanceDetailRes{
     checkInTime!: string;
     checkOutTime!: string;
@@ -20,6 +22,6 @@ export class  AttendanceDetailRes{
 	email!: string;
 	image!: string;
     currentStatus!: string;
-    breakTimingsList!:any[];
+    breakTimingsList!: BreakTimings[];
 
 }
