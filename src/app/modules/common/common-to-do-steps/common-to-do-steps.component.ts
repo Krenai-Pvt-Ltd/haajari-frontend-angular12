@@ -24,11 +24,13 @@ export class CommonToDoStepsComponent implements OnInit {
     }
   }
   closeFlg: boolean = false;
+  isSubscriberCalled:boolean=false;
   @ViewChild('stepCompletionModal') stepCompletionModal!: ElementRef;
   getToDoStepViaSubject() {
     debugger;
     this.helperService.todoStepsSubject.subscribe((res) => {
-      if (res) {
+      if (res && !this.isSubscriberCalled) {
+        this.isSubscriberCalled=true;
         // this.saveOrgSecondaryToDoStepBarData(0);
         // this.getOrgSecondaryToDoStepBarData();
         this.showToDoStep();
