@@ -442,3 +442,11 @@ span.lat {
     position: relative;
     top: -2px;
 }
+
+.employee-profile-menu {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 999;
+    padding-bottom: 15px;
+}

@@ -3997,10 +3997,10 @@
                 <div class="p-3" id="expense" role="" *ngIf="activeExpenseTabFlag">
 
                   <!-- style="border: 1px solid #f5f5f5; padding: 5px;" -->
-                  <div class="col-md-12 mt-3 mb-3"  >
-                        <div class="pt-2 pb-3">
+                  <div class="col-md-12 mb-3"  >
+                        <div class="pb-3">
 
-                            <button class="btn btn-primary" (click)="getExpenseType()" data-bs-toggle="modal"
+                            <button *ngIf="expenseTypeList.length > 0" class="btn btn-primary" (click)="getExpenseType()" data-bs-toggle="modal"
                                 data-bs-target="#createExpense">Create Expense</button>
 
                             <div class="row mt-3">
@@ -4076,7 +4076,7 @@
                                                     <td class="text-center">{{expense.appliedTo}}</td>
                                                     <td class="text-center">{{expense.status.response}}</td>
                                                     <td class="text-center">
-                                                        <div *ngIf="expense.status.id == 13">
+                                                        <div *ngIf="expense.status.id == 13 || expense.status.id == 15">
                                                             <button type="button" class="btn" (click)="updateExpense(expense)"
                                                                 data-bs-toggle="modal" data-bs-target="#createExpense">
                                                                 <i class="bi bi-pencil-square pointer text-primary"></i>
@@ -4093,7 +4093,7 @@
                                                             </button> -->
                                                         </div>
 
-                                                        <div *ngIf="expense.status.id != 13">
+                                                        <div *ngIf="expense.status.id != 13 && expense.status.id != 15">
                                                           <i class="bi bi-lock fs-5 text-danger"></i>
                                                         </div>
 
@@ -5251,7 +5251,7 @@
 <div class="modal fade" id="createExpense" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
+        <div class="modal-content p-0">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Apply for expense</h5>
                 <button type="button" class="close-btn" data-bs-dismiss="modal" (click)="clearExpenseForm(createForm)"
@@ -5313,7 +5313,7 @@
                                 <div class="form-group">
                                     <label for="expenseAmount" class="mb-2"> Amount</label>
                                     <input type="number" required min="1" id="amount" name="amount"
-                                        placeholder="Enter Amount" class="form-control"
+                                        placeholder="Enter Amount" class="form-control whatapp-login-input"
                                         [(ngModel)]="expenseTypeReq.amount" #amountInput="ngModel" />
 
                                     <!-- Required validation message -->
@@ -5370,16 +5370,16 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-12 ">
+                            <div class="col-md-12 mb-3">
                                 <div class="form-group ">
                                     <label for="templateName" class="mb-2"> Proof document <span
                                             class="text-primary font-12">(optional)</span></label>
                                     <div
-                                        class="d-flex align-items-center justify-content-between  requesting-half-leave p-2">
+                                        class="d-flex align-items-center justify-content-between  requesting-half-leave p-2 do-you-continue">
                                         <p class="mb-0 font-13 " style="font-weight: 400;">Select proof document</p>
 
-                                        <button *ngIf="!isFileUploaded && expenseTypeReq.url == ''" type="button"
-                                            (click)="fileInput.click()" class="btn p-0 text-primary font-13">
+                                        <button *ngIf="!isFileUploaded && (expenseTypeReq.url == null || expenseTypeReq.url == '')" type="button"
+                                            (click)="fileInput.click()" class="btn p-0 text-primary font-13 add-file">
                                             <i class="bi bi-plus-lg"></i> Add File
                                         </button>
 
@@ -5394,7 +5394,7 @@
                                     </div>
 
 
-                                    <div *ngIf="expenseTypeReq.url != ''"
+                                    <div *ngIf="expenseTypeReq.url != null && expenseTypeReq.url != ''"
                                         class="hr-policy-file d-flex justify-content-between align-items-center p-3 mt-3">
                                         <div class="d-flex align-items-center gap-2">
                                             <div class="d-flex align-items-center gap-2">
@@ -5441,18 +5441,23 @@
                                 </div>
                             </div> <!-- proof end -->
 
-                            <div *ngIf="validatePolicyToggle" class="alert bg-soft-warning border">
-                                This Expense is valid for amount: {{limitAmount}}
-                                <div>
-                                    <span>Do you continue</span>
-                                    <button (click)="createExpense(createForm)">Continue</button>
-                                    <button (click)="setValidateToggle()">No</button>
-                                </div>
+                          <div *ngIf="validatePolicyToggle">
+                            <div class="">
+                               <p class="text-warning mb-0">This Expense is valid for amount: {{limitAmount}}</p>
                             </div>
 
+                              <div class="d-flex align-items-center justify-content-between pb-3 pt-2 ">
+                                <span>Do you continue</span>
+                                <div class="d-flex align-items-center gap-2">
+                                <button class="btn continue-btn" (click)="createExpense(createForm)">Continue</button>
+                                <button class="btn no-btn" (click)="setValidateToggle()">No</button>
+                                </div>
+                              </div>
+
+                        </div>
                         </div>
 
-                        <div *ngIf="!validatePolicyToggle" class="modal-footer">
+                        <div *ngIf="!validatePolicyToggle" class="modal-footer mb-0">
                             <button type="button" class="btn cancel-btn" data-bs-dismiss="modal"
                                 (click)="clearExpenseForm(createForm)">Cancel</button>
 

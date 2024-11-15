@@ -4313,6 +4313,11 @@ getHolidayForOrganization(date: string): Observable<any>{
 
 
   getExpenseType(){
+    return this.httpClient.get<any>(`${this.baseUrl}/company-expense-policy/expense-type`);
+    // return this.httpClient.get<any>(`${this.baseUrl}/company-expense-type`);
+  }
+
+  getAllExpenseType(){
     return this.httpClient.get<any>(`${this.baseUrl}/company-expense-type`);
   }
 
@@ -4362,6 +4367,32 @@ getHolidayForOrganization(date: string): Observable<any>{
 
   updateCompanyExpense(approveReq: ApproveReq){
     return this.httpClient.patch<any>(`${this.baseUrl}/company-expense`, approveReq);
+  }
+
+  deleteCompanyExpensePolicy(id: number): Observable<any> {
+    const params = new HttpParams().set('id', id);
+    return this.httpClient.delete(`${this.baseUrl}/company-expense-policy`, {
+      params,
+    });
+  }
+
+  deleteCompanyExpenseTypePolicy(id: number): Observable<any> {
+    const params = new HttpParams().set('expenseTypeId', id);
+    return this.httpClient.delete(`${this.baseUrl}/company-expense-type`, {
+      params,
+    });
+  }
+
+  getUserMappedWithPolicy(selectedUserIds: any, companeExpensePolicyId: number) {
+    let params = new HttpParams().set('selectedUserIds', selectedUserIds);
+
+    if(companeExpensePolicyId > 0){
+      params = params.set('companyExpensePolicyId',companeExpensePolicyId)
+    }
+
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/user_company_expense_type_policy_mapping`, {params}
+    );
   }
 
 }
