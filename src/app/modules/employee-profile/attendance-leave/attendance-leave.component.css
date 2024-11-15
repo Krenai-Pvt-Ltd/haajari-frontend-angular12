@@ -847,6 +847,48 @@ nz-select.request-dropdown .ant-select-selector {
     padding: 10px 20px;
 }
 
+.stickyColTh,
+.stickyColTd {
+    min-width: 125px !important;
+    position: sticky;
+    left: 0;
+    top: 0;
+    z-index: 10;
+}
+.attendance-request{
+    border-right: 1px solid #e1e1e2 !important;
+}
+.request-detail h6{
+    font-size: 14px;
+}
+
+.request-detail p {
+    font-size: 12px;
+    color: #1C1B1F;
+}
+.request-detail{
+    background-color: #F8F8F8;
+}
+.in-time{
+    border-left: 3px solid #F3A73D;
+    padding-left: 25px;
+}
+.let-intime{
+    border-left: 3px solid #FF3014 !important;
+        padding-left: 25px;
+}
+.break-time{
+    border-left: 2px solid #F3A73D;
+    padding-left: 25px;
+}
+.over-time{
+    border-left: 3px solid #388E3C;
+    padding-left: 25px;
+}
+.system-out{
+    border-left: 3px solid #000;
+        padding-left: 25px;
+}
 @media screen and (max-width: 1280px) {
     .font-15 {
         font-size: 13px !important;

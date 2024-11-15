@@ -1,10 +1,5 @@
-import { DatePipe } from '@angular/common';
-import { resolveSanitizationFn } from '@angular/compiler/src/render3/view/template';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Color, LegendPosition, ScaleType } from '@swimlane/ngx-charts';
-import { clear } from 'console';
-import { resolve } from 'dns';
-import { reject } from 'lodash';
+import { Color, ScaleType } from '@swimlane/ngx-charts';
 import { Key } from 'src/app/constant/key';
 import { EpfDetailsRequest } from 'src/app/models/epf-details-request';
 import { EpfDetailsResponse } from 'src/app/models/epf-details-response';
@@ -31,13 +26,12 @@ import { SalaryChangeBonusResponse } from 'src/app/models/salary-change-bonus-re
 import { SalaryChangeOvertimeRequest } from 'src/app/models/salary-change-overtime-request';
 import { SalaryChangeOvertimeResponse } from 'src/app/models/salary-change-overtime-response';
 import { SalaryChangeResponse } from 'src/app/models/salary-change-response';
-import { ShiftTypeResponse } from 'src/app/models/shift-type-response';
 import { TdsDetailsRequest } from 'src/app/models/tds-details-request';
 import { TdsDetailsResponse } from 'src/app/models/tds-details-response';
 import { UserExitResponse } from 'src/app/models/user-exit-response';
-import { UserInfoForPayrollReflection } from 'src/app/models/user-info-for-payroll-reflection';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { PayrollService } from 'src/app/services/payroll.service';
 
 @Component({
   selector: 'app-payroll-dashboard',
@@ -438,49 +432,84 @@ export class PayrollDashboardComponent implements OnInit {
     this.networkConnectionErrorPlaceHolderForTdsDetailsResponse = false;
   }
 
+  startDate: string = '';
+  endDate: string = '';
+
   constructor(
     private dataService: DataService,
     private helperService: HelperService,
-    private datePipe: DatePipe
+    private _payrollService : PayrollService
   ) {}
 
   ngOnInit(): void {
     window.scroll(0, 0);
-    this.currentMonthResponse = new MonthResponse(
-      this.helperService.formatDateToYYYYMMDD(new Date(new Date().getFullYear(), new Date().getMonth(), 1)),
-      this.helperService.formatDateToYYYYMMDD(new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0)),
-      'Current',
-      false
-    );
-
-
-
-    // this.getUserLeaveReq();
-
-
-
-    this.getFirstAndLastDateOfMonth(new Date());
-    this.countPayrollDashboardEmployeeByOrganizationIdMethodCall();
-    this.getPayActionTypeListMethodCall();
-    this.getPayrollProcessStepByOrganizationIdAndStartDateAndEndDateMethodCall();
-
-
+    this.getFirstAndLastDateOfMonth(); 
     this.getOrganizationRegistrationDateMethodCall();
-    this.getMonthResponseListByYearMethodCall(this.selectedDate);
-    this.getOrganizationIndividualMonthSalaryDataMethodCall(this.currentMonthResponse);
-    this.getOrganizationPreviousMonthSalaryDataMethodCall(this.currentMonthResponse);
-    this.payrollChartMehthodCall();
-
+    this.getMonthResponseListByYearMethodCall(this.selectedDate); 
+    this.callPayrollDashboardMethod();
+    this.getPayActionTypeListMethodCall();
   }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                              DASHBOARD SECTION  START                                                              // 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  //GET START DATE OF MONTH AND END DATE OF MONTH FROM CURRENT DATE
+  getFirstAndLastDateOfMonth() {
+    let currentDate = new Date();
+    this.startDate = this.helperService.formatDateToYYYYMMDD(
+      new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)
+    );
+    this.endDate = this.helperService.formatDateToYYYYMMDD(
+      new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0)
+    );
+  }
+
+
+  ///COMMON METHOD 
+  callPayrollDashboardMethod(){
+    this.countPayrollDashboardEmployeeByOrganizationIdMethodCall();
+    this.getOrganizationIndividualMonthSalaryDataMethodCall(); 
+    this.getOrganizationPreviousMonthSalaryDataMethodCall(); 
+    this.getPayrollProcessStepByOrganizationIdAndStartDateAndEndDateMethodCall();
+  }
+
+
+  // Getting month list
+  monthResponseList: MonthResponse[] = new Array();
+  async getMonthResponseListByYearMethodCall(date: Date){
+    return new Promise((resolve, reject) => {
+      this.monthResponseList = [];
+      this._payrollService.getMonthResponseListByYear(this.helperService.formatDateToYYYYMMDD(date)).subscribe((response) => {
+        if(response.status){
+          this.monthResponseList = response.object;
+        }
+        resolve(true);
+      }, ((error) => {
+        resolve(true);
+      }))
+    })
+  }
+
+  
+
+
+  selectMonth(monthResponse:MonthResponse){
+    this.startDate = monthResponse.firstDate;
+    this.endDate = monthResponse.lastDate;
+    this.callPayrollDashboardMethod();
+    this.getPayrollLogs(); 
+  }
+
+
+  
+  
   // Year calendar
   size: 'large' | 'small' | 'default' = 'small';
   selectedDate: Date = new Date();
-  startDate: string = '';
-  endDate: string = '';
 
-  async onYearChange(year: Date) {
-    debugger;
+
+  async onYearChange(year: any) {
     this.selectedDate = year;
     await this.getMonthResponseListByYearMethodCall(this.selectedDate);
 
@@ -505,66 +534,29 @@ export class PayrollDashboardComponent implements OnInit {
     }
 
     if (enabledMonthResponse) {
-      this.getOrganizationIndividualMonthSalaryDataMethodCall(enabledMonthResponse);
-      this.getOrganizationPreviousMonthSalaryDataMethodCall(enabledMonthResponse);
-      this.getPayrollProcessStepByOrganizationIdAndStartDateAndEndDateMethodCall();
+      this.startDate = enabledMonthResponse.firstDate;
+      this.endDate = enabledMonthResponse.lastDate;
+      this.callPayrollDashboardMethod();
+    }else{
+      this.resetDashboardData();
     }
-  }
-
-  // async onYearChange(year: Date): Promise<void> {
-  //   console.log('Month is getting selected!');
-  //   this.selectedDate = year;
-
-  //   // Fetching the month responses
-  //   const monthResponses = await this.getMonthResponseList(this.selectedDate);
-  //   console.log(monthResponses);
-
-  //   // Find the first monthResponse with disable as false
-  //   const enabledMonthResponse = monthResponses.find(monthResponse => !monthResponse.disable);
-
-  //   if (enabledMonthResponse) {
-  //       // Call the method with the found monthResponse
-  //       this.getOrganizationIndividualMonthSalaryDataMethodCall(enabledMonthResponse);
-  //   }
-  // }
-
-  getFirstAndLastDateOfMonth(selectedDate: Date) {
-    this.startDate = this.helperService.formatDateToYYYYMMDD(
-      new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1)
-    );
-    this.endDate = this.helperService.formatDateToYYYYMMDD(
-      new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0)
-    );
   }
 
   disableYears = (date: Date): boolean => {
     const currentYear = new Date().getFullYear();
-    const currentMonth = new Date().getMonth();
     const dateYear = date.getFullYear();
-    const dateMonth = date.getMonth();
-    const organizationRegistrationYear = new Date(
-      this.organizationRegistrationDate
-    ).getFullYear();
-    const organizationRegistrationMonth = new Date(
-      this.organizationRegistrationDate
-    ).getMonth();
-
+    const organizationRegistrationYear = new Date(this.organizationRegistrationDate).getFullYear();
     // Disable if the year is before the organization registration year or if the year is after the organization registration year.
     if (dateYear < organizationRegistrationYear || dateYear > currentYear) {
       return true;
     }
-
     return false;
   };
 
-  disableMonths = (): boolean => {
-    return true;
-  };
-
+ 
   // Fetching organization registration date.
   organizationRegistrationDate: string = '';
   getOrganizationRegistrationDateMethodCall() {
-    debugger;
     this.dataService.getOrganizationRegistrationDate().subscribe(
       (response) => {
         this.organizationRegistrationDate = response;
@@ -574,190 +566,159 @@ export class PayrollDashboardComponent implements OnInit {
     );
   }
 
-  // Getting month list
-  monthResponseList: MonthResponse[] = [];
-  async getMonthResponseListByYearMethodCall(date: Date){
-    return new Promise((resolve, reject) => {
-      this.monthResponseList = [];
-      this.dataService.getMonthResponseListByYear(this.helperService.formatDateToYYYYMMDD(date)).subscribe((response) => {
-        if(this.helperService.isListOfObjectNullOrUndefined(response)){
-  
-        } else{
-          this.monthResponseList = response.listOfObject;
-        }
-        resolve(true);
-      }, ((error) => {
-        reject(error);
-      }))
-    })
-  }
-  // async getMonthResponseList(date: Date) {
-  //   this.monthResponseList = [];
-  //   const currentMonth = new Date().getMonth();
-  //   const currentYear = new Date().getFullYear();
 
-  //   const organizationRegistrationYear = new Date(
-  //     this.organizationRegistrationDate
-  //   ).getFullYear();
-  //   const organizationRegistrationMonth = new Date(
-  //     this.organizationRegistrationDate
-  //   ).getMonth();
-
-  //   for (let i = 0; i < 12; i++) {
-  //     // Create a new Date object for each month.
-  //     const monthDate = new Date(date.getFullYear(), i);
-
-  //     const monthName = monthDate.toLocaleString('default', { month: 'short' });
-  //     const status =
-  //       monthDate.getFullYear() < organizationRegistrationYear ||
-  //       (monthDate.getFullYear() === organizationRegistrationYear && i < organizationRegistrationMonth) 
-  //       ? '-' 
-  //       : monthDate.getFullYear() < currentYear || (monthDate.getFullYear() === currentYear && i < currentMonth)
-  //       ? 'Completed'
-  //       : monthDate.getFullYear() === currentYear && i === currentMonth
-  //       ? 'Current'
-  //       : 'Upcoming';
-
-  //     // Disabling the future months and the months before organization registration.
-  //     const disable =
-  //       monthDate.getFullYear() < organizationRegistrationYear ||
-  //       (monthDate.getFullYear() === organizationRegistrationYear &&
-  //         i < organizationRegistrationMonth) ||
-  //       monthDate.getFullYear() > currentYear ||
-  //       (monthDate.getFullYear() === currentYear && i > currentMonth);
-
-  //     // Format the first day of the month as "DD MMM".
-  //     const firstDate = new Date(
-  //       monthDate.getFullYear(),
-  //       monthDate.getMonth(),
-  //       1
-  //     );
-
-  //     // Format the last day of the month as "DD MMM".
-  //     const lastDate = new Date(
-  //       monthDate.getFullYear(),
-  //       monthDate.getMonth() + 1,
-  //       0
-  //     );
-
-  //     this.monthResponseList.push(
-  //       new MonthResponse(
-  //         i + 1,
-  //         firstDate,
-  //         lastDate,
-  //         monthName,
-  //         monthDate.getFullYear(),
-  //         status,
-  //         disable
-  //       )
-  //     );
-  //   }
-  // }
-
-  //   async getMonthResponseList(date: Date): Promise<MonthResponse[]> {
-  //     let monthResponseList: MonthResponse[] = [];
-  //     const currentMonth = new Date().getMonth();
-  //     const currentYear = new Date().getFullYear();
-  //     const organizationRegistrationYear = new Date(this.organizationRegistrationDate).getFullYear();
-  //     const organizationRegistrationMonth = new Date(this.organizationRegistrationDate).getMonth();
-
-  //     for (let i = 0; i < 12; i++) {
-  //         // Create a new Date object for each month.
-  //         const monthDate = new Date(date.getFullYear(), i);
-  //         const monthName = monthDate.toLocaleString('default', { month: 'short' });
-  //         const status = (monthDate.getFullYear() < organizationRegistrationYear || (monthDate.getFullYear() === organizationRegistrationYear && i < organizationRegistrationMonth)) ? '-' : monthDate.getFullYear() < currentYear || (monthDate.getFullYear() === currentYear && i < currentMonth) ? 'Completed' : (monthDate.getFullYear() === currentYear && i === currentMonth) ? 'Current' : 'Upcoming';
-  //         const disable = (monthDate.getFullYear() < organizationRegistrationYear || (monthDate.getFullYear() === organizationRegistrationYear && i < organizationRegistrationMonth)) || (monthDate.getFullYear() > currentYear || (monthDate.getFullYear() === currentYear && i > currentMonth));
-  //         const firstDate = new Date(monthDate.getFullYear(), monthDate.getMonth(), 1);
-  //         const lastDate = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0);
-
-  //         monthResponseList.push(new MonthResponse(i + 1, firstDate, lastDate, monthName, monthDate.getFullYear(), status, disable));
-  //     }
-
-  //     return monthResponseList;
-  // }
-
-  // This is current month response, default value to fetch the data.
-  currentMonthResponse: MonthResponse = new MonthResponse(
-    this.helperService.formatDateToYYYYMMDD(new Date(new Date().getFullYear(), new Date().getMonth(), 1)),
-    this.helperService.formatDateToYYYYMMDD(new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0)),
-    '',
-    false
-  );
-
-
-  // selectedFirstDate: string = '';
-  // selectedLastDate: string = '';
-  // Fetching organization individual month salary data.
-  organizationMonthWiseSalaryData: OrganizationMonthWiseSalaryData = new OrganizationMonthWiseSalaryData();
-  getOrganizationIndividualMonthSalaryDataMethodCall(monthResponse: MonthResponse) {
-    this.currentMonthResponse = monthResponse;
-
-    this.startDate = monthResponse.firstDate;
-    this.endDate = monthResponse.lastDate;
-
-    this.dataService
-      .getOrganizationIndividualMonthSalaryData(
-        monthResponse.firstDate,
-        monthResponse.lastDate
-      )
-      .subscribe(
-        (response) => {
-          if (
-            response == undefined ||
-            response == null ||
-            response.object == undefined ||
-            response.object == null ||
-            response.id == 0
-          ) {
-            this.dataNotFoundPlaceholder = true;
-          } else {
-            this.organizationMonthWiseSalaryData = response.object;
-            this.countPayrollDashboardEmployeeByOrganizationIdMethodCall();
-            this.payrollChartMehthodCall();
+  //Fetching the employees count with new joinee count and user exit count
+  payrollDashboardEmployeeCountResponse: PayrollDashboardEmployeeCountResponse = new PayrollDashboardEmployeeCountResponse();
+  countPayrollDashboardEmployeeByOrganizationIdMethodCall() {
+    this._payrollService.countPayrollDashboardEmployee(this.startDate,this.endDate).subscribe( (response) => {
+          this.payrollDashboardEmployeeCountResponse = response.object;
+          if(this.payrollDashboardEmployeeCountResponse == null){
+            this.payrollDashboardEmployeeCountResponse = new PayrollDashboardEmployeeCountResponse();
           }
-          this.isShimmer = false;
         },
         (error) => {
+
+        }
+      );
+  }
+
+
+  // Fetching organization individual month salary data.
+  organizationMonthWiseSalaryData: OrganizationMonthWiseSalaryData = new OrganizationMonthWiseSalaryData();
+  getOrganizationIndividualMonthSalaryDataMethodCall() {
+    this._payrollService.getOrganizationIndividualMonthSalaryData(this.startDate,this.endDate).subscribe((response) => {
+
+        if(response.object!=null){
+          this.organizationMonthWiseSalaryData = response.object;
+          this.payrollChartMehthodCall();
+        }else{
+          this.dataNotFoundPlaceholder = true;
+        }
+          this.isShimmer = false;
+      },(error) => {
           this.isShimmer = false;
           this.networkConnectionErrorPlaceHolder = true;
         }
       );
   }
 
-
+// Fetching organization previous month salarry data of selected month.
   organizationPreviousMonthSalaryData: OrganizationMonthWiseSalaryData = new OrganizationMonthWiseSalaryData();
-  getOrganizationPreviousMonthSalaryDataMethodCall(monthResponse: MonthResponse) {
-    this.dataService.getOrganizationPreviousMonthSalaryData(
-        monthResponse.firstDate,
-        monthResponse.lastDate
-      ).subscribe((response) => {
-          if(!this.helperService.isObjectNullOrUndefined(response)){
+  getOrganizationPreviousMonthSalaryDataMethodCall() {
+    this._payrollService.getOrganizationPreviousMonthSalaryData(this.startDate,this.endDate).subscribe((response) => {
+          if(response.object!=null){
             this.organizationPreviousMonthSalaryData = response.object;
           }
-        },
-        (error) => {
+        },(error) => {
           
         }
       );
   }
 
-  //Fetching the employees count with new joinee count and user exit count
-  payrollDashboardEmployeeCountResponse: PayrollDashboardEmployeeCountResponse =
-    new PayrollDashboardEmployeeCountResponse();
-  countPayrollDashboardEmployeeByOrganizationIdMethodCall() {
-    this.dataService
-      .countPayrollDashboardEmployeeByOrganizationId(
-        this.startDate,
-        this.endDate
-      )
-      .subscribe(
-        (response) => {
-          this.payrollDashboardEmployeeCountResponse = response.object;
-        },
-        (error) => {}
-      );
+  
+  PAYROLL_PROCESS_STEP : number = 0;
+  // get process step of payroll
+  getPayrollProcessStepByOrganizationIdAndStartDateAndEndDateMethodCall(){
+    this._payrollService.getPayrollProcessStep(this.startDate, this.endDate).subscribe((response) => {
+      if(response.status){
+        if(response.object!=null){
+          this.PAYROLL_PROCESS_STEP = response.object;
+        }
+      }
+    }, (error) => {
+
+    })
   }
 
+
+  view: [number, number] = [400, 270]; // explicitly define as tuple
+  // options
+  showLegend: boolean = false;
+  showLabels: boolean = true;
+  explodeSlices: boolean = false;
+  doughnut: boolean = true;
+  gradient: boolean = true;
+  // legendPosition: LegendPosition = 'above' as LegendPosition;
+
+  colorScheme: Color = {
+    name: 'custom',
+    selectable: true,
+    group: ScaleType.Ordinal,
+    domain: ['#6666f3', '#FFA500', '#F8D7D7', '#EB5050', '#E9E9FF', '#02E59C', '#888']
+  };
+
+  // chart data
+  single = [
+    {
+      name: 'Total',
+      value: 0
+    },
+    {
+      name: 'EPF',
+      value: 0
+    },
+    {
+      name: 'ESI',
+      value: 0
+    },
+    {
+      name: 'TDS',
+      value: 0
+    },
+    {
+      name: 'Net Pay',
+      value: 0
+    },
+    {
+      name: 'Gross Pay',
+      value: 0
+    },
+    {
+      name: 'Not Found',
+      value: 0.1
+    }
+  ];
+
+
+  payrollChartMehthodCall(){
+    this.single = [
+      {
+        name: 'Total',
+        value: this.organizationMonthWiseSalaryData.totalAmount
+      },
+      {
+        name: 'EPF',
+        value: this.organizationMonthWiseSalaryData.epfAmount
+      },
+      {
+        name: 'ESI',
+        value: this.organizationMonthWiseSalaryData.esiAmount
+      },
+      {
+        name: 'TDS',
+        value: this.organizationMonthWiseSalaryData.tdsAmount
+      },
+      {
+        name: 'Net Pay',
+        value: this.organizationMonthWiseSalaryData.netPay
+      },
+      {
+        name: 'Gross Pay',
+        value: this.organizationMonthWiseSalaryData.grossPay
+      }
+    ];
+  }
+
+
+  resetDashboardData(){
+    this.organizationMonthWiseSalaryData = new OrganizationMonthWiseSalaryData();
+    this.organizationPreviousMonthSalaryData = new OrganizationMonthWiseSalaryData();
+    this.payrollDashboardEmployeeCountResponse = new PayrollDashboardEmployeeCountResponse();
+  }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                              DASHBOARD SECTION  END                                                                // 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
   //Routing to the user profile section
@@ -837,16 +798,11 @@ export class PayrollDashboardComponent implements OnInit {
   }
 
   //Fetching the pay action type list
-  payActionTypeList : PayActionType[] = [];
+  payActionTypeList : PayActionType[] = new Array();
   getPayActionTypeListMethodCall(){
-    debugger
     this.dataService.getPayActionTypeList().subscribe((response) => {
-      // console.log(response);
-      if(this.helperService.isListOfObjectNullOrUndefined(response)){
-
-      } else{
+      if(response.status){
         this.payActionTypeList = response.listOfObject;
-        // console.log(this.payActionTypeList);
       }
     }, (error) => {
 
@@ -2172,7 +2128,7 @@ extractPreviousMonthNameFromDate(dateString : string){
     this.RUN_PAYROLL_LOADER = true;
     this.dataService.generateSalaryReport(this.startDate, this.endDate).subscribe({
       next: (response) => {
-        this.getOrganizationIndividualMonthSalaryDataMethodCall(this.currentMonthResponse);
+        this.getOrganizationIndividualMonthSalaryDataMethodCall();
         const downloadLink = document.createElement('a');
         downloadLink.href = response.object.reportExcelLink;
         downloadLink.download = 'Report_JULY_1720181370937.xlsx';
@@ -2241,132 +2197,47 @@ extractPreviousMonthNameFromDate(dateString : string){
       );
   }
   
-  view: [number, number] = [400, 270]; // explicitly define as tuple
-  // options
-  showLegend: boolean = false;
-  showLabels: boolean = true;
-  explodeSlices: boolean = false;
-  doughnut: boolean = true;
-  gradient: boolean = true;
-  // legendPosition: LegendPosition = 'above' as LegendPosition;
+  
 
-  colorScheme: Color = {
-    name: 'custom',
-    selectable: true,
-    group: ScaleType.Ordinal,
-    domain: ['#6666f3', '#FFA500', '#F8D7D7', '#EB5050', '#E9E9FF', '#02E59C', '#888']
-  };
-
-  // chart data
-  single = [
-    {
-      name: 'Total',
-      value: 0
-    },
-    {
-      name: 'EPF',
-      value: 0
-    },
-    {
-      name: 'ESI',
-      value: 0
-    },
-    {
-      name: 'TDS',
-      value: 0
-    },
-    {
-      name: 'Net Pay',
-      value: 0
-    },
-    {
-      name: 'Gross Pay',
-      value: 0
-    },
-    {
-      name: 'Not Found',
-      value: 0.1
-    }
-  ];
-
-  onSelect(event: any) {
-    // console.log(event);
-  }
-
-  payrollChartMehthodCall(){
-    this.single = [
-      {
-        name: 'Total',
-        value: this.organizationMonthWiseSalaryData.totalAmount
-      },
-      {
-        name: 'EPF',
-        value: this.organizationMonthWiseSalaryData.epfAmount
-      },
-      {
-        name: 'ESI',
-        value: this.organizationMonthWiseSalaryData.esiAmount
-      },
-      {
-        name: 'TDS',
-        value: this.organizationMonthWiseSalaryData.tdsAmount
-      },
-      {
-        name: 'Net Pay',
-        value: this.organizationMonthWiseSalaryData.netPay
-      },
-      {
-        name: 'Gross Pay',
-        value: this.organizationMonthWiseSalaryData.grossPay
-      }
-    ];
-  }
-
-  payrollChartDataNotFoundMehthodCall(){
-    this.single = [
-      {
-        name: 'Total',
-        value: 0
-      },
-      {
-        name: 'Gross Pay',
-        value: 0
-      },
-      {
-        name: 'Net Pay',
-        value: 0
-      },
-      {
-        name: 'EPF',
-        value: 0
-      },
-      {
-        name: 'ESI',
-        value: 0
-      },
-      {
-        name: 'TDS',
-        value: 0
-      },
-      {
-        name: 'No data found!',
-        value: 0.1
-      }
-    ];
-  }
+  // payrollChartDataNotFoundMehthodCall(){
+  //   this.single = [
+  //     {
+  //       name: 'Total',
+  //       value: 0
+  //     },
+  //     {
+  //       name: 'Gross Pay',
+  //       value: 0
+  //     },
+  //     {
+  //       name: 'Net Pay',
+  //       value: 0
+  //     },
+  //     {
+  //       name: 'EPF',
+  //       value: 0
+  //     },
+  //     {
+  //       name: 'ESI',
+  //       value: 0
+  //     },
+  //     {
+  //       name: 'TDS',
+  //       value: 0
+  //     },
+  //     {
+  //       name: 'No data found!',
+  //       value: 0.1
+  //     }
+  //   ];
+  // }
     
 
   // ########################--Validation--##############################
-  PAYROLL_PROCESS_STEP : number = 0;
-  getPayrollProcessStepByOrganizationIdAndStartDateAndEndDateMethodCall(){
-    this.dataService.getPayrollProcessStepByOrganizationIdAndStartDateAndEndDate(this.startDate, this.endDate).subscribe((response) => {
-      if(response != null){
-        this.PAYROLL_PROCESS_STEP = response.count;
-      }
-    }, (error) => {
+ 
 
-    })
-  }
+
+
 
 
 }
