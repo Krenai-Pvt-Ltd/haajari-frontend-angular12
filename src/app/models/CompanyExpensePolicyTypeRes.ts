@@ -6,4 +6,5 @@ export class CompanyExpensePolicyTypeRes{
     amount: any;
     flexibleAmount: any;
     isFlexibleAmount: number = 0;
+    isPercentage: number = 0;
 }
