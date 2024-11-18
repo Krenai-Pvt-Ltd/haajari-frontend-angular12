@@ -39,7 +39,6 @@ export class AssetsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAssetData();
-    this.getAssetRequests();
     this.fetchManagerNames();
     this.loadAssetCategories();
 
@@ -168,21 +167,23 @@ export class AssetsComponent implements OnInit {
   }
 
   assetRequests: AssetRequestDTO[] = [];
-  assetRequestsPage: number = 0;
+  assetRequestsPage: number = 1;
   assetRequestsSize: number = 10;
   assetRequestsSearch: string = '';
 
   assetRequestsTotalPage: number=0;
   assetRequestsTotalCount: number=0;
   statusFilter: string='';
+  Math = Math;
+  isLoading = true;
 
   filterStatus(status: string): void {
     this.statusFilter = status;
-    this.assetRequestsPage=0;
+    this.assetRequestsPage=1;
     this.getAssetRequests();
   }
   pageChangedRequest(page: number): void {
-    this.assetRequestsPage = page-1;  // Update current page when changed
+    this.assetRequestsPage = page;  // Update current page when changed
     this.getAssetRequests();      // Fetch data for the new page
   }
 
@@ -194,16 +195,13 @@ export class AssetsComponent implements OnInit {
   }
 
   getAssetRequests(): void {
-    debugger;
+    this.isLoading=true;
     this.dataService.getAssetRequestsByUserUuid(this.userId, this.assetRequestsPage, this.assetRequestsSize, this.assetRequestsSearch, this.statusFilter).subscribe(
       (response) => {
         this.assetRequests = response.data; // Assign only the data (array of AssetRequestDTO) from the response
         this.assetRequestsTotalPage=response.totalPages;
         this.assetRequestsTotalCount=response.totalItems;
-        console.log('Asset requests:', this.isAssetRequestArrayEmpty());
-        console.log('Total items:', response.totalItems);
-        console.log('Current page:', response.currentPage);
-        console.log('Total pages:', response.totalPages);
+        this.isLoading=false;
       },
       (error) => {
         console.error('Error fetching asset requests:', error);
@@ -212,9 +210,6 @@ export class AssetsComponent implements OnInit {
   }
   searchAssetsRequest(event: Event): void {
     this.assetRequestsSearch = (event.target as HTMLInputElement).value;
-
-      this.assetRequestsPage--;
-
     this.getAssetRequests();
 
   }
