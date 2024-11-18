@@ -50,26 +50,22 @@ const routes: Routes = [
       {
         path: 'timetable',
         component: TimetableComponent,
-        canActivate: [AuthGuard,SubscriptionGuard],
-        data: { requiredSubmodule: '/timetable' },
+        canActivate: [AuthGuard,SubscriptionGuard]
       },
       {
         path: 'project',
         component: ProjectComponent,
-        canActivate: [AuthGuard,SubscriptionGuard],
-        data: { requiredSubmodule: '/project' },
+        canActivate: [AuthGuard,SubscriptionGuard]
       },
       {
         path: 'team',
         component: TeamComponent,
-        canActivate: [AuthGuard,SubscriptionGuard],
-        data: { requiredSubmodule: '/team' },
+        canActivate: [AuthGuard,SubscriptionGuard]
       },
       {
         path: 'task-manager',
         component: TaskManagerComponent,
-        canActivate: [AuthGuard,SubscriptionGuard],
-        data: { requiredSubmodule: '/task-manager' },
+        canActivate: [AuthGuard,SubscriptionGuard]
       },
       {
         path: 'onboarding',
@@ -85,8 +81,7 @@ const routes: Routes = [
       {
         path: 'team-detail',
         component: TeamDetailComponent,
-        canActivate: [AuthGuard,,SubscriptionGuard],
-        data: { requiredSubmodule: '/team-detail' },
+        canActivate: [AuthGuard,SubscriptionGuard]
       },
       {
         path: 'user-profile',

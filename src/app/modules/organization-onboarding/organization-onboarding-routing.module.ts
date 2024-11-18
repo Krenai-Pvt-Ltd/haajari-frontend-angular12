@@ -20,10 +20,7 @@ const routes: Routes = [
     path: '',
     component: OrganizationOnboardingComponent,
     children: [
-      {
-        path: 'personal-information',
-        component: OrganizationPersonalInformationComponent,
-      },
+      { path: 'personal-information',component: OrganizationPersonalInformationComponent},
       { path: 'leave-rule-setup', component: LeaveRuleSetupComponent },
       { path: 'holiday-rule-setup', component: HolidayRuleSetupComponent },
       { path: 'automation-rules', component: AutomationRulesComponent },

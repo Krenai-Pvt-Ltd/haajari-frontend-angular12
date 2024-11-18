@@ -5,8 +5,6 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { TeamResponse } from 'src/app/models/team';
 import { Users } from 'src/app/models/users';
 import { DataService } from 'src/app/services/data.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TeamDetailComponent } from '../team-detail/team-detail.component';
 import { ModalService } from 'src/app/modal.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
@@ -410,7 +408,7 @@ export class TeamComponent implements OnInit {
   // }
 
   routeToTeamDetails(uuid: string, managerId: string) {
-    // console.log("managerId" + managerId);
+    console.log("managerId" + managerId);
     if (managerId !== 'noManager') {
       let navExtra: NavigationExtras = {
         queryParams: { teamId: uuid, Id: managerId },

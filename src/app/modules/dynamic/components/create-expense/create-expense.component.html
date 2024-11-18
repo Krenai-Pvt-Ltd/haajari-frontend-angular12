@@ -868,7 +868,7 @@
 
 <!-- Add policy modal start -->
 <div class="modal fade" id="createPolicy" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
-  aria-hidden="true">
+data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -922,7 +922,8 @@
                   <div class="col-md-6 mb-3">
                     <div class="form-field">
                       <label for="expenseTypeDropdown" class="pb-2">Expense Type</label>
-                      <div class="dropdown">
+                    
+                      <!-- <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button"
                           id="expenseTypeDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="text-align: left; background-color: white; color: black;
                                                         border-color: #ced4da; width: 100%;">
@@ -939,17 +940,22 @@
                       </div>
                       <div *ngIf="!isExpenseTypeSelected && shiftForm.submitted" class="text-danger">
                         Expense type is required.
-                      </div>
-                      <!-- <nz-form-control>
-                        <nz-select class="form-control" style="width: 100%" nzSize="large" nzPlaceHolder="Select manager" required>
-                          <nz-option [nzValue]="'Travel'" [nzLabel]="'Travel'"></nz-option>
-                          <nz-option [nzValue]="'Meal'" [nzLabel]="'Meal'"></nz-option>
-                          <nz-option [nzValue]="'Office Supplies'" [nzLabel]="'Office Supplies'"></nz-option>
-                          <nz-option [nzValue]="'Entertainment'" [nzLabel]="'Entertainment'"></nz-option>
-                          <nz-option [nzValue]="'Training'" [nzLabel]="'Training'"></nz-option>
-                          <nz-option [nzValue]="'Medical'" [nzLabel]="'Medical'"></nz-option>
-                        </nz-select>
-                      </nz-form-control> -->
+                      </div> -->
+
+                      <nz-form-control>
+                        <!-- <nz-select class="form-control" style="width: 100%" nzSize="large" (nzOnChange)="selectExpenseType($event)" nzPlaceHolder="Select expense type" required>
+                          <nz-option [nzValue]="expense.id" [nzLabel]="expense.name" *ngFor="let expense of expenseTypeList"></nz-option>
+                        </nz-select> -->
+
+                        <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select Expense type"
+                        [(ngModel)]="expenseTypeId" (ngModelChange)="selectExpenseType($event)" required 
+                        id="seleType" name="seleExpType" #seleExpType="ngModel" class="form-control">
+                    <nz-option *ngFor=" let expenseType of expenseTypeList" [nzValue]="expenseType.id"
+                      [nzLabel]="expenseType.name">
+                    </nz-option>
+                  </nz-select>
+                      </nz-form-control>
+
                     </div>
                     
                   </div>
@@ -992,7 +998,7 @@
                             <input class="form-check-input" type="radio" name="paymentType" id="fixed" value="fixed" required
                                 [(ngModel)]="paymentType" (change)="onPaymentTypeChange(1, 'fixed')" >
                             <p class="form-check-label mb-0" for="exampleRadios1">
-                            Flexible
+                            Fixed
                             </p>
                           </label>
                         </div>
