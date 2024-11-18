@@ -212,6 +212,9 @@ export class AssetsComponent implements OnInit {
   }
   searchAssetsRequest(event: Event): void {
     this.assetRequestsSearch = (event.target as HTMLInputElement).value;
+
+      this.assetRequestsPage--;
+
     this.getAssetRequests();
 
   }

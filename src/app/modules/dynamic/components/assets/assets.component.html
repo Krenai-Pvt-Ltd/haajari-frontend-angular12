@@ -566,8 +566,7 @@
                     type="button"
                     class="btn"
                     [ngClass]="{
-                      'badge rounded-pill badge-soft-success': asset.status === 'PENDING',
-                      'badge rounded-pill badge-soft-secondary': asset.status !== 'PENDING'
+                      'badge rounded-pill badge-soft-secondary': asset.status !== ''
                     }"
                     (click)="openStatusChangeModal(asset, statusChangeModal)"
                   >

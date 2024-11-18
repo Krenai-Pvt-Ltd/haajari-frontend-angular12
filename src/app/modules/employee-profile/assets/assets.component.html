@@ -186,8 +186,7 @@
                                 <td class="text-left">
                                   <span
                                     [ngClass]="{
-                                      'badge rounded-pill badge-soft-success': asset.status !== 'PENDING',
-                                      'badge rounded-pill badge-soft-secondary': asset.status == 'PENDING'
+                                      'badge rounded-pill badge-soft-success': asset.status !== ''
                                     }">
                                     {{ asset.status }}
                                   </span>

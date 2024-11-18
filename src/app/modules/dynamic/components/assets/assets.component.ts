@@ -729,6 +729,7 @@ private formatDataForChart(data: any[]): any[] {
   }
   searchAssetsRequest(event: Event): void {
     this.assetRequestsSearch = (event.target as HTMLInputElement).value;
+    this.assetRequestsPage--;
     this.getAssetRequests();
 
   }
