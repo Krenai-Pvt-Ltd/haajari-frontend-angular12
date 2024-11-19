@@ -2591,11 +2591,13 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
 
   approveOrRejectLeaveOfUser(
     requestedLeaveId: number,
-    appRejString: string
+    appRejString: string,
+    rejectionReason: string
   ): Observable<any> {
     const params = new HttpParams()
       .set('requestedLeaveId', requestedLeaveId)
-      .set('appRejString', appRejString);
+      .set('appRejString', appRejString)
+      .set('rejectionReason', rejectionReason);
     return this.httpClient.post<any>(
       `${this.baseUrl}/central-leave-management/approve-reject-leaves`,
       {},
