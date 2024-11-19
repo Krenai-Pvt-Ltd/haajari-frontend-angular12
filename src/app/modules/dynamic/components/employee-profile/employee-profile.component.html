@@ -1493,7 +1493,8 @@
                                         </span>
                                       </h6>
                                     </div>
-                                    <p class="text-muted mb-0">{{ leaves.optNotes }}</p>
+                                    <p class="text-muted mb-0">{{ leaves.optNotes }} </p>
+                                    <p class="text-muted mb-0" *ngIf="leaves.rejectionReason != null && leaves.rejectionReason != ''">Reason: {{ leaves.rejectionReason }} </p>
                                   </div>
                                   <div class="mt-3">
                                     <a class="text-primary" *ngIf="leaves.docFileLink != null"

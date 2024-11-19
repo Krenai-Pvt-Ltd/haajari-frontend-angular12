@@ -419,6 +419,7 @@
                         </h6>
                       </div>
                       <p class="text-muted mb-0">{{ fullLogList.notes }}</p>
+                      <p class="text-danger mb-0" *ngIf="fullLogList.rejectionReason != null && fullLogList.rejectionReason != ''">Reason: {{ fullLogList.rejectionReason }} </p>
                     </div>
                     <!-- <a class="text-primary" *ngIf="fullLogList.docFileLink != null"
                       (click)="downloadSingleImage(fullLogList.docFileLink)">
@@ -455,16 +456,19 @@
       </div>
     </div>
   </div>
+
   <!-- Modal for Viewing Leave Details -->
   <div class="modal fade" id="leave-appervo" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
     aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered" style="max-width: 570px" role="document">
       <div class="modal-content">
-        <div class="modal-body p-5">
-          <button type="button" class="leave-request-modat-close-btn" data-bs-dismiss="modal" aria-label="Close"
+        <div class="modal-body p-4">
+          <button type="button" class="leave-request-modat-close-btn" (click)="rejectLeaveModalClose()" data-bs-dismiss="modal" aria-label="Close"
             #closeModal>
             <i class="bi bi-x" style="line-height: 20px"></i>
           </button>
+         
+         <div *ngIf="!rejectLeaveToggle">
           <div class="text-center leave-appervo-modal" *ngIf="specificLeaveRequest">
             <div class="d-flex align-items-start justify-content-between">
               <div class="d-flex align-items-center profile-details" style="gap: 15px">
@@ -473,55 +477,6 @@
                       specificLeaveRequest.image || 'assets/images/user.png'
                     " style="width: 50px; height: 50px; object-fit: cover" />
                 </div>
-                <!-- <div>
-                  <h4 style="cursor: pointer" (click)="routeToUserProfileAfterClosePending(specificLeaveRequest.uuid)">
-                    {{ specificLeaveRequest.name }}
-                  </h4>
-                  <p>{{ specificLeaveRequest.email }}</p>
-                </div>
-              </div>
-              <div class="total-holidey-live">
-                <h5>
-                  {{ specificLeaveRequest.startDate
-                      | date : "dd MMM yyyy" || "N/A"
-                  }} - {{ specificLeaveRequest.endDate | date : "dd MMM yyyy" || "N/A"
-                  }}
-                </h5>
-                <p>
-                  {{ specificLeaveRequest.leaveType }} ( {{ specificLeaveRequest.totalDays }} Days )
-                </p>
-                <p>
-                  {{ specificLeaveRequest.leaveDate
-                      | date : "dd MMM yyyy hh:mm:ss a"
-                  }}
-                </p>
-                <p>Applied To : {{ specificLeaveRequest.managerName }}</p>
-              </div>
-            </div>
-            <div class="mt-4">
-              <div class="d-flex align-items-center">
-                <div class="Approved rejected-css">
-                  <p class="mb-0" style="color: black"></p>
-                  <span style="
-                      color: #9196a4 !important;
-                      text-align: left;
-                      font-size: 14px;
-                      font-weight: 400;
-                    " class="total-holiday">{{ specificLeaveRequest.leaveType }}</span>
-                </div>
-                <div class="Approved">
-                  <p class="mb-0">{{ specificLeaveRequest.approvedLeaves }}</p>
-                  <span class="total-holiday">Approved</span>
-                </div>
-                <div class="Approved pending-css">
-                  <p class="mb-0">{{ specificLeaveRequest.pendingLeaves }}</p>
-                  <span class="total-holiday">Pending</span>
-                </div>
-                <div class="Approved remaining-css">
-                  <p class="mb-0">{{ specificLeaveRequest.remainingLeaves }}</p>
-                  <span class="total-holiday">Remaining</span>
-                </div>
-              </div> -->
 
                 <div>
                   <h4 style="cursor: pointer" (click)="
@@ -590,13 +545,9 @@
               </div>
 
               <p class="mt-4 mb-4">{{ specificLeaveRequest.notes }}</p>
-              <!-- <div class="d-flex align-items-center justify-content-end" style="gap:10px"><button class="btn approve-btn" type="button">Approve</button><button class="btn reject-btn" type="button">Reject</button></div> -->
               <div class="mb-3" style="text-align: left">
-                <!-- <a class="text-primary" *ngIf="specificLeaveRequest.docFileLink != null" (click)="
-                    downloadSingleImage(specificLeaveRequest.docFileLink)">
-                  Declaration <i class="bi bi-arrow-down"></i>
-                </a> -->
-                <a *ngIf="specificLeaveRequest.docFileLink != null" [href]="specificLeaveRequest.docFileLink" target="_blank" rel="noopener noreferrer">
+                <a *ngIf="specificLeaveRequest.docFileLink != null" [href]="specificLeaveRequest.docFileLink"
+                  target="_blank" rel="noopener noreferrer">
                   Declaration <i class="bi bi-arrow-down"></i>
                 </a>
 
@@ -605,7 +556,6 @@
                   specificLeaveRequest.managerUuid === logInUserUuid ||
                   ROLE == 'ADMIN'
                 ">
-                <!-- <button class="btn approve-btn" type="button" (click)="approveOrDeny(specificLeaveRequest.id, 'approved')">Approve</button><button class="btn reject-btn" type="button" (click)="approveOrDeny(specificLeaveRequest.id, 'rejected')">Reject</button> -->
                 <!-- Approve Button -->
                 <button class="btn approve-btn" type="button"
                   (click)="approveOrDeny(specificLeaveRequest.id, 'approved')">
@@ -619,7 +569,7 @@
                   <ng-template #approveLabel>Approve</ng-template>
                 </button>
                 <!-- Reject Button -->
-                <button class="btn reject-btn" type="button"
+                <!-- <button class="btn reject-btn" type="button"
                   (click)="approveOrDeny(specificLeaveRequest.id, 'rejected')">
                   <div *ngIf="rejecetdLoader; else rejectLabel">
                     <div class="dot-opacity-loader">
@@ -629,10 +579,52 @@
                     </div>
                   </div>
                   <ng-template #rejectLabel>Reject</ng-template>
+                </button> -->
+
+                <button class="btn reject-btn" type="button"
+                  (click)="rejectLeave()">
+                  <div *ngIf="rejecetdLoader; else rejectLabel">
+                    <div class="dot-opacity-loader">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                  </div>
+                  <ng-template #rejectLabel>Reject</ng-template>
                 </button>
+
               </div>
             </div>
           </div>
+         </div>
+
+         <div *ngIf="rejectLeaveToggle">
+          <div>
+            <label for="" class="mb-3">Rejection Reason</label>
+           <textarea class="nots-section" name="inputReason" id="reason" [(ngModel)]="rejectionReason"></textarea>
+          </div>
+
+           <div class="d-flex align-items-center justify-content-end gap-2 mt-3">
+
+            <button type="button" class="btn btn-warning" (click)="rejectLeave()" aria-label="Close">Close</button>
+
+            <button class="btn reject-btn" type="button" [disabled]="rejectionReason == ''"
+            (click)="approveOrDeny(specificLeaveRequest.id, 'rejected')">
+            <div *ngIf="rejecetdLoader; else rejectLabel">
+              <div class="dot-opacity-loader">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+            <ng-template #rejectLabel>Submit</ng-template>
+          </button>
+
+          </div>
+        </div>
+
+    <!-- </div> -->
+
         </div>
       </div>
     </div>
