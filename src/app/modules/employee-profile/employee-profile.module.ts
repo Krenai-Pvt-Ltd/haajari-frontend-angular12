@@ -18,6 +18,8 @@ import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 import { PersonalInformationComponent } from './personal-information/personal-information.component';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { AnnouncementNotificationComponent } from './announcement-notification/announcement-notification.component';
+import { EmployeeExitComponent } from './employee-exit/employee-exit.component';
 
 
 
@@ -29,7 +31,9 @@ import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
     AttendanceLeaveComponent,
     EmployeeDocumentComponent,
     AssetsComponent,
-    PersonalInformationComponent
+    PersonalInformationComponent,
+    AnnouncementNotificationComponent,
+    EmployeeExitComponent
   ],
   imports: [
     CommonModule,

@@ -26,11 +26,15 @@ export class CommonToDoStepsComponent implements OnInit {
     }
   }
   closeFlg: boolean = false;
+  isSubscriberCalled:boolean=false;
   @ViewChild('stepCompletionModal') stepCompletionModal!: ElementRef;
   getToDoStepViaSubject() {
     debugger;
     this.helperService.todoStepsSubject.subscribe((res) => {
-      if (res) {
+      if (res  && !this.isSubscriberCalled) {
+        this.isSubscriberCalled=true;
+        console.log("🚀 ~ CommonToDoStepsComponent ~ this.helperService.todoStepsSubject.subscribe ~ res:", res)
+        // this.isSubscriberCalled=true;
         
         if(this.STEP_ID == 5) {
           this.showToDoStep();

@@ -369,6 +369,18 @@ export class LeaveManagementComponent implements OnInit {
   approvedLoader: boolean = false;
   rejecetdLoader: boolean = false;
 
+  rejectLeaveModalClose(){
+    this.rejectLeaveToggle = false;
+    this.rejectionReason = ''
+  }
+
+  rejectLeaveToggle: boolean = false;
+  rejectLeave(){
+    this.rejectLeaveToggle = !this.rejectLeaveToggle;
+
+  }
+
+  rejectionReason: string =''
   approveOrDeny(requestId: number, requestedString: string) {
     if (requestedString === 'approved') {
       this.approvedLoader = true;
@@ -390,12 +402,14 @@ export class LeaveManagementComponent implements OnInit {
     // this.weeklyChartData = [];
 
     this.dataService
-      .approveOrRejectLeaveOfUser(requestId, requestedString)
+      .approveOrRejectLeaveOfUser(requestId, requestedString, this.rejectionReason)
       .subscribe({
         next: (logs) => {
           // Turn off loaders
           this.approvedLoader = false;
           this.rejecetdLoader = false;
+          this.rejectLeaveToggle = false;
+          this.rejectionReason = ''
 
           // Fetch all necessary updated data
           this.fetchAllData();
