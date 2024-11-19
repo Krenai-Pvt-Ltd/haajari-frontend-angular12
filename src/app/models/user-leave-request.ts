@@ -12,5 +12,12 @@ export class UserLeaveRequest {
     managerId!: number;
     optNotes!: string;
     userLeaveTemplateId!: number;
+
+    date!: string;
+    type!: string;
+    requestedTo!: string;
+    approvedBy!: string;
+    actionTakenOn!: string;
+    leaveNote!: string;
+    cancelReason!: string;
   }
-  
