@@ -1,0 +1,138 @@
+.nav.nav-pills {
+    background-color: transparent;
+    border-bottom: 1px solid #edeff5;
+}
+
+.nav-pills .nav-item.show .nav-link,
+.nav-pills .nav-link.active {
+    background: transparent !important;
+    color: var(--primary-color) !important;
+    border-radius: 0;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.nav-link {
+    margin-right: 20px;
+    display: block;
+    padding: 7px 10px;
+    color: #000;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
+    text-align: left;
+}
+.assets-request {
+    border-radius: 2px;
+    border: 1px solid #DCDCE4;
+    font-size: 13px;
+    font-weight: 500;
+    color: #1C1B1F;
+    padding: 5px 12px;
+}
+.assets-request svg {
+    width: 18px;
+    /* padding-right: 8px; */
+    position: relative;
+    top: -1px;
+}
+.notification-message h6{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 110px;
+}
+.notification-message p{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 600px;
+    color: #6B7280;
+}
+.notification-message p .new-message{
+    color: #000;
+    font-weight: 500;
+}
+.notification-message p .read-message {
+    color: #000;
+    font-weight: 400;
+}
+.notification-message span{
+    font-size: 12px;
+    font-weight: 500;
+}
+.unread-mssage{
+    background-color: #F9FAFC;
+}
+.new-notification{
+    width: 5px;
+    height: 5px;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+}
+.empty-detail {
+    color: #000 !important;
+    line-height: 20px;
+    font-weight: 500 !important;
+}
+.empty-details {
+    color: #6B7280;
+    line-height: 20px;
+    font-weight: 400 !important;
+    font-size: 12px;
+}
+::ng-deep.ant-empty-image img {
+    width: 200px;
+}
+.created-announcement{
+    font-size: 12px;
+    color: #787774;
+    font-weight: 400;
+}
+
+.notification-heading h6 {
+    color: #37352F;
+    font-size: 13px;
+}
+.notification-detail {
+    height: 400px;
+    overflow: scroll;
+}
+.notification-detail::-webkit-scrollbar{
+    display: none;
+}
+.read-notification{
+    position: absolute;
+    right: 15px;
+    bottom: -15px !important;
+}
+.notification-detail p{
+     line-height: 24px;
+     font-size: 13px;
+     color: #000;
+}
+.notification-detail h5 {
+    font-size: 16px;
+}
+
+.register-form-box label {
+    color: rgba(0, 0, 0, 0.85);
+    font-size: 14px !important;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20.854px;
+    letter-spacing: 0.102px;
+}
+.register-form-box input {
+    border-radius: 2px !important;
+    border: 1.021px solid #e9e9e9 !important;
+    background: rgba(236, 236, 236, 0.21) !important;
+    height: 45px !important;
+    font-size: 12px !important;
+    font-weight: 400 !important;
+}
+.nots-section {
+    background-color: rgba(236, 236, 236, 0.21) !important;
+    width: 100%;
+    height: 80px !important;
+    border: 1px solid #e9e9e9;
+}
