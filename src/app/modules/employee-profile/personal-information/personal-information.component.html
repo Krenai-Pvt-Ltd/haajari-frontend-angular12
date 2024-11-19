@@ -271,25 +271,25 @@
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Account Holder Name</p>
-                                <h6 class="profile-email">Yogesh Kumar</h6>
+                                <h6 class="profile-email">{{ bankDetailsEmployee.accountHolderName }}</h6>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Bank Name</p>
-                                <h6>ICIC Bank</h6>
+                                <h6>{{ bankDetailsEmployee.bankName }}</h6>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Account Number</p>
-                                <h6>098765432234</h6>
+                                <h6>{{ bankDetailsEmployee.accountNumber }}</h6>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">IFSC Number</p>
-                                <h6>ICICOF12345</h6>
+                                <h6>{{ bankDetailsEmployee.ifsc }}</h6>
                             </div>
                         </div>
                     </div>
@@ -304,37 +304,21 @@
                 </div>
                 <div class="col-md-9">
                     <div class="row">
-                        <div class="col-md-12 ">
+                        <div *ngFor="let emergencyContact of emergencyContacts" class="col-md-12 ">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1"> Name</p>
                                 <div class="d-flex align-items-center gap-2">
-                                    <h6 class="mb-1">Leslie Alexander</h6>
+                                    <h6 class="mb-1">{{ emergencyContact.contactName }}</h6>
                                 </div>
 
-                                <p class="mb-0">Relation with Employee: <span class="text-primary">Father</span></p>
+                                <p class="mb-0">Relation with Employee: <span class="text-primary">{{ emergencyContact.relationWithEmployee }}</span></p>
 
                                 <div class="d-flex align-items-center gap-2">
-                                    <span class="font-13">Phone Numbers: <b>9876543217</b></span>
+                                    <span class="font-13">Phone Numbers: <b>{{ emergencyContact.contactNumber }}</b></span>
                                 </div>
 
                             </div>
                         </div>
-                        <div class="col-md-12 ">
-                            <div class="profile-imformation mb-3">
-                                <p class="mb-1"> Name</p>
-                                <div class="d-flex align-items-center gap-2">
-                                    <h6 class="mb-1">Leslie Alexander</h6>
-                                </div>
-
-                                <p class="mb-0">Relation with Employee: <span class="text-primary">Mother</span></p>
-
-                                <div class="d-flex align-items-center gap-2">
-                                    <span class="font-13">Phone Numbers: <b>9876543217</b></span>
-                                </div>
-
-                            </div>
-                        </div>
-
                     </div>
                 </div>
             </div>

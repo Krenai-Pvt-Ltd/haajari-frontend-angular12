@@ -104,12 +104,12 @@ export class PersonalInformationComponent implements OnInit {
     );
   }
 
-  contactsEmployee: any;
+  emergencyContacts: any;
   isContactPlaceholder: boolean = false;
   getEmergencyContactsDetailsByUuid() {
     this.dataService.getEmployeeContactsDetails(this.userId).subscribe(
       (data) => {
-        this.contactsEmployee = data;
+        this.emergencyContacts = data;
         if (data == null || data.length == 0) {
           this.isContactPlaceholder = true;
         }
