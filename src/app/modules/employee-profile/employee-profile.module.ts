@@ -13,7 +13,7 @@ import { EmployeeDocumentComponent } from './employee-document/employee-document
 import { AssetsComponent } from './assets/assets.component';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzFormModule } from 'ng-zorro-antd/form';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 import { PersonalInformationComponent } from './personal-information/personal-information.component';
@@ -37,7 +37,10 @@ import { EmployeeExitComponent } from './employee-exit/employee-exit.component';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     EmployeeProfileRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
     NzDatePickerModule,
     NzDropDownModule,
     NzSelectModule,
@@ -47,6 +50,7 @@ import { EmployeeExitComponent } from './employee-exit/employee-exit.component';
     NzAutocompleteModule,
     NgbPaginationModule,
     NzTimePickerModule,
+    NzDatePickerModule,
   ]
 })
 export class EmployeeProfileModule { }
