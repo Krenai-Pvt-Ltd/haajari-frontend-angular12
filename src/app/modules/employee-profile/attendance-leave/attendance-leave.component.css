@@ -26,6 +26,27 @@
   }
 }
 
+/* Remove background, borders, and padding from icon buttons */
+.icon-button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+/* Align the icons properly */
+.icon-button svg {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Optional: Add hover effects */
+.icon-button:hover {
+  opacity: 0.8;
+}
+
+
 .company-logo {
     background-color: #F2F2FF;
     height: 133px;

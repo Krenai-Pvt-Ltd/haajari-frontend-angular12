@@ -241,7 +241,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     }
   }
 
-  duration: string = '2 year 11 months';
+  duration: string = '0 year 0 months';
   setWithUsDuration() {
     debugger
     const dates = this.userPositionDTO.map(position => ({

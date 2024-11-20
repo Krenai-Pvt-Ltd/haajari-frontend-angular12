@@ -65,6 +65,9 @@
                               </tr>
                             </thead>
                             <tbody>
+                              <tr *ngIf="assets?.length === 0">
+                                <td colspan="9" class="text-center">No data found</td>
+                              </tr>
                               <tr *ngFor="let asset of assets">
 
                                 <td class="text-left">{{ asset.assetName }}</td>

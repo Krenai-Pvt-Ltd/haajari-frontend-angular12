@@ -1412,6 +1412,10 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/user-leave-logs/leave-log-filter`, { params });
   }
 
+  deleteUserLog(id: number): Observable<void> {
+    return this.httpClient.delete<void>(`${this.baseUrl}/user-leave-logs/${id}`);
+  }
+
   getUserLeaveLogByStatus(userUuid: string, status?: string): Observable<any> {
     let params = new HttpParams().set('userUuid', userUuid);
     if (status) {

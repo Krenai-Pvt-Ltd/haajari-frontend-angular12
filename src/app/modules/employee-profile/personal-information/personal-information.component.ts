@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { constant } from 'src/app/constant/constant';
+import { OnboardingFormPreviewResponse } from 'src/app/models/onboarding-form-preview-response';
 import { UserAddressDetailsRequest } from 'src/app/models/user-address-details-request';
 import { UserExperienceDetailRequest } from 'src/app/models/user-experience-detail-request';
 import { DataService } from 'src/app/services/data.service';
@@ -22,12 +23,7 @@ export class PersonalInformationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getUserByUuid();
-    this.getEmployeeAdressDetailsByUuid();
-    this.getEmployeeAcademicDetailsByUuid();
-    this.getEmployeeExperiencesDetailsByUuid();
-    this.getEmergencyContactsDetailsByUuid();
-    this.getEmployeeBankDetailsByUuid();
+    this.getOnboardingFormPreviewMethodCall();
 
   }
 
@@ -134,6 +130,38 @@ export class PersonalInformationComponent implements OnInit {
         this.isBankShimmer = false;
       }
     );
+  }
+
+  refrences: any;
+
+  onboardingPreviewData: OnboardingFormPreviewResponse =
+  new OnboardingFormPreviewResponse();
+
+  getOnboardingFormPreviewMethodCall() {
+    const userUuid = new URLSearchParams(window.location.search).get('userId') || '';
+    if (userUuid) {
+      this.dataService.getOnboardingFormPreview(userUuid).subscribe(
+        (preview) => {
+          // console.log(preview);
+          this.onboardingPreviewData = preview;
+          this.refrences = this.onboardingPreviewData.userGuarantorInformation;
+          this.user = this.onboardingPreviewData.user;
+          this.addressEmployee = this.onboardingPreviewData.userAddress;
+          this.academicEmployee = this.onboardingPreviewData.userAcademics;
+          this.experienceEmployee = this.onboardingPreviewData.userExperience;
+          this.emergencyContacts = this.onboardingPreviewData.userEmergencyContacts;
+          this.bankDetailsEmployee = this.onboardingPreviewData.userBankDetails;
+
+        },
+        (error: any) => {
+          console.error('Error fetching user details:', error);
+          this.emergencyContacts = [];
+        }
+      );
+    } else {
+      console.error('User UUID not found');
+      this.emergencyContacts = [];
+    }
   }
 
 
