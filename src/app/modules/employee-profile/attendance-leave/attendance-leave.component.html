@@ -1051,101 +1051,135 @@
                     <form [formGroup]="userLeaveForm" #formDirective="ngForm">
                         <div class="row register-form-box">
                             <div class="col-md-12 mb-3">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="employeeTypeId" class="mb-2">Pick a starting date</label>
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="startDate" class="mb-2">Pick a starting date</label>
+                                    <nz-date-picker
+                                      formControlName="startDate"
+                                      nzPlaceHolder="dd/mm/yyyy"
+                                      required>
+                                    </nz-date-picker>
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="endDate" class="mb-2">Pick an ending date</label>
+                                    <nz-date-picker
+                                      formControlName="endDate"
+                                      nzPlaceHolder="dd/mm/yyyy"
+                                      required>
+                                    </nz-date-picker>
+                                  </div>
+                                </div>
+                              </div>
 
-                                                <nz-date-picker nzPlaceHolder="dd/mm/yyyy" name="startDate"  required>
-                                                </nz-date-picker>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="employeeTypeId" class="mb-2">Pick a ending date</label>
-                                            <nz-date-picker nzPlaceHolder="dd/mm/yyyy" name="startDate" required>
-                                            </nz-date-picker>
-                                            </div>
-                                        </div>
-                                    </div>
                             </div>
                             <div class="col-md-12 mb-3">
-                                <div class="form-group">
-                                    <label for="employeeTypeId" class="mb-2">Leave type</label>
-                                    <nz-form-control>
-                                        <nz-select class="form-control" style="width: 100%" nzSize="large"
-                                            nzPlaceHolder="Select the leave type" required>
-                                            <nz-option [nzValue]="'Attendance update'"
-                                                [nzLabel]="'Attendance update'"></nz-option>
-                                            <nz-option [nzValue]="'Overtime'" [nzLabel]="'Overtime'"></nz-option>
-                                            <nz-option [nzValue]="'Lop reversal'"
-                                                [nzLabel]="'Lop reversal'"></nz-option>
-                                        </nz-select>
-                                    </nz-form-control>
-                                </div>
+                              <div class="form-group">
+                                <label for="leaveType" class="mb-2">Leave type</label>
+                                <nz-form-control>
+                                  <nz-select
+                                    class="form-control"
+                                    style="width: 100%"
+                                    nzSize="large"
+                                    nzPlaceHolder="Select the leave type"
+                                    [(ngModel)]="selectedLeaveType1"
+                                    (ngModelChange)="onLeaveTypeChange($event)"
+                                    required>
+                                    <nz-option
+                                      *ngFor="let ul of userLeave"
+                                      [nzValue]="ul.userLeaveTemplateId"
+                                      [nzLabel]="ul.leaveType">
+                                    </nz-option>
+                                  </nz-select>
+                                </nz-form-control>
+                              </div>
                             </div>
-                            <div class="col-md-12 mb-3">
-                                <div class="form-group requesting-half-leave p-2">
-                                    <div class="d-flex align-items-center justify-content-between " style="padding-top: 2px;">
-                                        <p class="mb-0">Select if you are requesting Half Leave <span class="font-12 text-primary">(optional)</span></p>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                        </div>
-                                    </div>
-                                    <hr>
 
-                                    <div class="row mt-3 mb-2">
-                                        <div class="col-md-6">
-                                            <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1"
-                                                    checked>
-                                                <p class="form-check-label mb-0" for="exampleRadios1">
-                                                    First half
-                                                </p>
-                                            </label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1"
-                                                    checked>
-                                                <p class="form-check-label mb-0" for="exampleRadios1">
-                                                    Second Half
-                                                </p>
-                                            </label>
-                                        </div>
-                                    </div>
+                            <div class="col-md-12 mb-3">
+                              <div class="form-group requesting-half-leave p-2">
+                                <div class="d-flex align-items-center justify-content-between" style="padding-top: 2px;">
+                                  <p class="mb-0">Select if you are requesting Half Leave <span class="font-12 text-primary">(optional)</span></p>
+                                  <div class="form-check">
+                                    <input
+                                      class="form-check-input"
+                                      type="checkbox"
+                                      id="defaultCheck1"
+                                      (change)="toggleHalfLeaveSelection($event)"
+                                    />
+                                  </div>
+                                </div>
 
+                                <div class="row mt-3 mb-2" *ngIf="isHalfLeaveSelected">
+                                  <hr>
+                                  <div class="col-md-6">
+                                    <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                                      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" />
+                                      <p class="form-check-label mb-0" for="exampleRadios1">First half</p>
+                                    </label>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                                      <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2" />
+                                      <p class="form-check-label mb-0" for="exampleRadios2">Second Half</p>
+                                    </label>
+                                  </div>
                                 </div>
+                              </div>
+
                             </div>
                             <div class="col-md-12 mb-3">
-                                <div class="form-group">
-                                    <label for="employeeTypeId" class="mb-2">Select user to request the leave from</label>
-                                    <nz-form-control>
-                                        <nz-select class="form-control" style="width: 100%" nzSize="large"
-                                            nzPlaceHolder="Select the leave type" required>
-                                            <nz-option [nzValue]="'Attendance update'"
-                                                [nzLabel]="'Attendance update'"></nz-option>
-                                            <nz-option [nzValue]="'Overtime'" [nzLabel]="'Overtime'"></nz-option>
-                                            <nz-option [nzValue]="'Lop reversal'"
-                                                [nzLabel]="'Lop reversal'"></nz-option>
-                                        </nz-select>
-                                    </nz-form-control>
-                                </div>
+                              <div class="form-group">
+                                <label for="selectUser" class="mb-2">Select user to request the leave from</label>
+                                <nz-form-control>
+                                  <nz-select
+                                    class="form-control"
+                                    style="width: 100%"
+                                    nzSize="large"
+                                    nzPlaceHolder="Select a user"
+                                    [ngModel]="selectedUser"
+                                    (ngModelChange)="onUserChange($event)"
+                                    required>
+                                    <nz-option
+                                      *ngFor="let manager of managers"
+                                      [nzValue]="manager.id"
+                                      [nzLabel]="manager.name">
+                                    </nz-option>
+                                  </nz-select>
+                                </nz-form-control>
+                              </div>
                             </div>
+
                             <div class="col-md-12 mb-3">
-                                <div class="form-group">
-                                    <label for="templateName" class="mb-2"> Note</label>
-                                    <textarea class="form-control nots-section" placeholder="write the reason" id="exampleFormControlTextarea1"
-                                        rows="3"></textarea>
-                                </div>
+                              <div class="form-group">
+                                <label for="templateName" class="mb-2">Note</label>
+                                <textarea
+                                  class="form-control nots-section"
+                                  placeholder="Write the reason"
+                                  id="exampleFormControlTextarea1"
+                                  rows="3"
+                                  [(ngModel)]="note">
+                                </textarea>
+                              </div>
                             </div>
+
                             <div class="col-md-12 ">
                                 <div class="form-group ">
                                     <label for="templateName" class="mb-2"> Proof document <span class="text-primary font-12">(optional)</span></label>
                                     <div class="d-flex align-items-center justify-content-between  requesting-half-leave p-2" >
-                                        <p class="mb-0 font-13 " style="font-weight: 400;" >Select proof document</p>
+                                      <p class="mb-0 font-13 " style="font-weight: 400;" >Select proof document</p>
 
-                                       <button class="btn p-0 text-primary font-13"><i class="bi bi-plus-lg"></i> Add File</button>
+                                      <button class="btn p-0 text-primary font-13" (click)="fileInput.click()">
+                                          <i class="bi bi-plus-lg"></i> Add File
+                                      </button>
+                                      <input
+                                          type="file"
+                                          #fileInput
+                                          (change)="onFileSelected($event)"
+                                          accept="application/pdf"
+                                          style="display: none;"
+                                      />
                                     </div>
 
 
@@ -1172,12 +1206,14 @@
                                                         d="M21.3881 18.3893C21.2335 18.3847 21.0802 18.4196 20.9429 18.4908C20.8056 18.562 20.6887 18.6671 20.6034 18.7961C20.3999 19.1377 20.3037 19.5326 20.3273 19.9296C20.3273 20.925 20.7051 21.4263 21.4608 21.4263C21.6868 21.425 21.9116 21.3932 22.1292 21.3318C22.3472 21.2665 22.5651 21.1865 22.7831 21.0993V22.2836C22.3238 22.4793 21.8292 22.5783 21.33 22.5743C20.997 22.5999 20.6624 22.5534 20.3489 22.438C20.0355 22.3227 19.7506 22.1412 19.5136 21.9058C19.0591 21.3543 18.8329 20.6498 18.8815 19.9368C18.8652 19.435 18.9699 18.9366 19.1866 18.4837C19.3769 18.0911 19.6806 17.7646 20.0585 17.5465C20.47 17.3211 20.9336 17.2083 21.4026 17.2195C21.9582 17.2196 22.5068 17.3438 23.0083 17.5828L22.5797 18.709C22.3943 18.6195 22.2024 18.5442 22.0057 18.4837C21.8063 18.4188 21.5977 18.3869 21.3881 18.3893Z"
                                                         fill="#6666F2"></path>
                                                 </svg>
-                                                <h5  class="mb-0 font-14">HR Policy File</h5>
+                                                <h5  class="mb-0 font-14">{{ uploadedFile?.name }}</h5>
                                             </div><span  class="separator"></span>
                                             <p  class="mb-0 font-13"> Uploaded Aug 5, 2024 </p>
                                         </div>
-                                        <div  class="d-flex align-items-center gap-2 action-icon-btn"><span
-                                                ><svg  xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+                                        <div  class="d-flex align-items-center gap-2 action-icon-btn">
+                                          <span>
+                                            <button class="btn text-danger" (click)="uploadedFile ? viewFile(uploadedFile) : null">
+                                                <svg  xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                                                     viewBox="0 0 22 22" fill="none">
                                                     <mask  id="mask0_4339_1635" maskUnits="userSpaceOnUse" x="0" y="0" width="22"
                                                         height="22" style="mask-type: alpha;">
@@ -1189,12 +1225,15 @@
                                                             fill="#1C1B1F"></path>
                                                     </g>
                                                 </svg>
-                                            </span>
+                                              </button>
+                                          </span>
                                             <input  id="hrpolicies" type="file" name="hrpolicies"
                                                 accept="application/pdf" class="input" style="display: none;"><span >
 
                                                 </span>
-                                                <span  class="ng-star-inserted"><svg
+                                                <!-- <span  class="ng-star-inserted">
+                                                  <button class="btn text-danger" (click)="removeFile()">
+                                                  <svg
                                                     xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
                                                     <mask  id="mask0_4339_1623" maskUnits="userSpaceOnUse" x="0" y="0" width="23"
                                                         height="22" style="mask-type: alpha;">
@@ -1206,8 +1245,11 @@
                                                             fill="#444444"></path>
                                                     </g>
                                                 </svg>
-                                            </span>
-                                                <span ><svg  xmlns="http://www.w3.org/2000/svg" width="23" height="22"
+                                              </button>
+                                            </span> -->
+                                                <span >
+                                                  <button class="btn text-danger" (click)="removeFile()">
+                                                  <svg  xmlns="http://www.w3.org/2000/svg" width="23" height="22"
                                                     viewBox="0 0 23 22" fill="none">
                                                     <mask  id="mask0_4339_1620" maskUnits="userSpaceOnUse" x="0" y="0" width="23"
                                                         height="22" style="mask-type: alpha;">
@@ -1218,7 +1260,9 @@
                                                             d="M7.18328 18.6577C6.72961 18.6577 6.34206 18.497 6.02061 18.1757C5.69931 17.8543 5.53866 17.4667 5.53866 17.0131V5.46619H4.62891V4.10156H8.72282V3.29688H14.1814V4.10156H18.2753V5.46619H17.3655V17.0131C17.3655 17.4726 17.2063 17.8616 16.8879 18.1801C16.5695 18.4985 16.1805 18.6577 15.7209 18.6577H7.18328ZM16.0009 5.46619H6.9033V17.0131C6.9033 17.0948 6.92953 17.1619 6.982 17.2144C7.03446 17.2668 7.10155 17.293 7.18328 17.293H15.7209C15.791 17.293 15.8551 17.2639 15.9133 17.2055C15.9717 17.1473 16.0009 17.0831 16.0009 17.0131V5.46619ZM9.09036 15.4735H10.4548V7.28571H9.09036V15.4735ZM12.4494 15.4735H13.8138V7.28571H12.4494V15.4735Z"
                                                             fill="#FF0000"></path>
                                                     </g>
-                                                </svg></span></div>
+                                                  </svg>
+                                                  </button>
+                                              </span></div>
                                     </div>
                                 </div>
                             </div>

@@ -34,8 +34,8 @@ export class AttendanceLeaveComponent implements OnInit {
 
   ngOnInit(): void {
     this.userLeaveForm = this.fb.group({
-      startDate: ['', Validators.required],
-      endDate: [''],
+      startDate: [null],
+      endDate: [null],
       leaveType: ['', Validators.required],
       managerId: ['', Validators.required],
       optNotes: ['', Validators.required],
@@ -47,6 +47,61 @@ export class AttendanceLeaveComponent implements OnInit {
     this.getUserLeaveReq();
     this.loadLeaveLogs();
   }
+
+
+  isHalfLeaveSelected: boolean = false;
+
+  toggleHalfLeaveSelection(event: Event): void {
+    const checkbox = event.target as HTMLInputElement;
+    this.isHalfLeaveSelected = checkbox.checked;
+  }
+
+  startDate: Date | null = null;
+  endDate: Date | null = null;
+
+  onStartDateChange(date: Date): void {
+    this.startDate = date;
+    console.log('Start Date:', this.startDate);
+  }
+
+  onEndDateChange(date: Date): void {
+    this.endDate = date;
+    console.log('End Date:', this.endDate);
+  }
+
+  leaveTypes1: { value: string; label: string }[] = [
+    { value: 'Attendance update', label: 'Attendance update' },
+    { value: 'Overtime', label: 'Overtime' },
+    { value: 'Lop reversal', label: 'Lop reversal' },
+  ];
+  selectedLeaveType1: string | null = null;
+
+  onLeaveTypeChange1(value: string): void {
+    this.selectedLeaveType1 = value;
+    console.log('Selected Leave Type:', this.selectedLeaveType1);
+  }
+
+  selectedUser: string | null = null;
+  onUserChange(value: string): void {
+    this.selectedUser = value;
+    console.log('Selected User:', this.selectedUser);
+  }
+  note: string = '';
+
+  uploadedFile: File | null = null;
+
+
+removeFile(): void {
+    this.uploadedFile = null;
+}
+
+viewFile(file: File): void {
+    const fileURL = URL.createObjectURL(file);
+    window.open(fileURL, '_blank');
+}
+
+
+
   userLeave: any = [];
   leaveCountPlaceholderFlag: boolean = false;
   getUserLeaveReq1() {
@@ -291,6 +346,9 @@ export class AttendanceLeaveComponent implements OnInit {
   onFileSelected(event: Event): void {
 
     const element = event.currentTarget as HTMLInputElement;
+    if (element.files && element.files.length) {
+      this.uploadedFile = element.files[0];
+    }
     const fileList: FileList | null = element.files;
 
     if (fileList && fileList.length > 0) {
