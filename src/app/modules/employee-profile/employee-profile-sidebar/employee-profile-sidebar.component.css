@@ -522,14 +522,14 @@ span.lat {
    .break-back {
        background-color: #F3A73D !important;
        color: #fff;
-       font-size: 13px;
+       font-size: 14px;
        font-weight: 400;
        border-radius: 2px;
        border-radius: 0px 0px 2px 2px;
    }
 
    .break-back svg {
-       width: 15px;
+       width: 18px;
        position: relative;
        top: -1px;
    }
@@ -550,14 +550,14 @@ span.lat {
          .check-out-btn {
              background-color: #6666F2 !important;
              color: #fff;
-             font-size: 13px;
+             font-size: 14px;
              font-weight: 400;
              border-radius: 2px;
              border-radius: 0px 0px 2px 2px;
          }
     
          .check-out-btn svg {
-             width: 15px;
+             width: 18px;
              position: relative;
              top: -2px;
          }
@@ -636,6 +636,23 @@ span.lat {
 
         .check-out-info img {
             width: 60px;
+        }
+
+        .check-out-btn {
+            background-color: #6666F2 !important;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 400;
+            border-radius: 2px;
+            border-radius: 0px 0px 2px 2px;
+        }
+        .break-back {
+        background-color: #F3A73D !important;
+        color: #fff;
+        font-size: 11px;
+        font-weight: 400;
+        border-radius: 2px;
+        border-radius: 0px 0px 2px 2px;
         }
 }
                 
@@ -857,6 +874,10 @@ span.lat {
     border-right: 1px solid #d1d1d1;
     height: 15px;
 } */
+
+.w-90{
+    width: 90%;
+}
 
 .hr-policy-file p {
     color: #8d93a1;
