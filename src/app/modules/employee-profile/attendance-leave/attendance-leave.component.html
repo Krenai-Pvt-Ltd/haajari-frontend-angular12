@@ -709,67 +709,7 @@
             </div>
             <div class="tab-pane fade pt-3" id="viewrequests" role="tabpanel" aria-labelledby="viewrequests-tab">
 
-                <div class="d-flex align-items-center justify-content-between">
-                    <div class="d-flex align-items-center attendance-date">
-                        <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                <mask id="mask0_4719_1625" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
-                                    height="21">
-                                    <rect x="0.5" y="0.5" width="20" height="20" fill="#D9D9D9" />
-                                </mask>
-                                <g mask="url(#mask0_4719_1625)">
-                                    <path
-                                        d="M8.83203 15.5L3.83203 10.5L8.83203 5.5L9.9987 6.70833L7.04036 9.66667H17.1654V11.3333H7.04036L9.9987 14.2917L8.83203 15.5Z"
-                                        fill="#060606" />
-                                </g>
-                            </svg>
-                        </span>
-                        <span class="calendar-separator"></span>
-                        <div class="dropdown ">
-                            <nz-date-picker nzMode="month" nzFormat="MMM, yyyy"></nz-date-picker>
-                        </div>
-                        <span class="calendar-separator"></span>
-                        <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                <mask id="mask0_4719_1639" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
-                                    height="21">
-                                    <rect width="20" height="20" transform="matrix(-1 0 0 1 20.5 0.5)" fill="#D9D9D9" />
-                                </mask>
-                                <g mask="url(#mask0_4719_1639)">
-                                    <path
-                                        d="M12.168 15.5L17.168 10.5L12.168 5.5L11.0013 6.70833L13.9596 9.66667H3.83464V11.3333H13.9596L11.0013 14.2917L12.168 15.5Z"
-                                        fill="#060606" />
-                                </g>
-                            </svg>
-                        </span>
-                    </div>
-
-                    <div class="d-flex align-items-center justify-content-end gap-3 w-50">
-
-
-
-
-                        <div class="btn-group week-data radio-btn" role="group" aria-label="Basic radio toggle button group">
-                            <input type="radio" class="btn-check">
-                            <label class="btn btn-outline-secondary font-12">30 DAYS</label>
-                            <input type="radio" class="btn-check">
-                            <label class="btn btn-outline-primary btn-primary font-12">Week 1</label>
-                            <input type="radio" class="btn-check">
-                            <label class="btn btn-outline-secondary font-12">Week 2</label>
-                            <input type="radio" class="btn-check">
-                            <label class="btn btn-outline-secondary font-12">Week 3</label>
-                            <input type="radio" class="btn-check">
-                            <label class="btn btn-outline-secondary font-12">Week 4</label>
-                        </div>
-
-                        <nz-select class="request-dropdown" nzSize="large" nzPlaceHolder="New Request" required>
-                            <nz-option [nzValue]="'Attendance update'" [nzLabel]="'Attendance update'"></nz-option>
-                            <nz-option [nzValue]="'Overtime'" [nzLabel]="'Overtime'"></nz-option>
-                            <nz-option [nzValue]="'Lop reversal'" [nzLabel]="'Lop reversal'"></nz-option>
-                        </nz-select>
-
-                    </div>
-                </div> -->
+                
 
                 <div class="d-flex align-items-center justify-content-between">
                     <div class="d-flex align-items-center attendance-date">
@@ -1236,7 +1176,7 @@
 
 
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateRequest">
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#updateRequest">
     Attendance Update request
 </button>
 
