@@ -1,6 +1,6 @@
-import { ChangeDetectorRef, Component, OnInit, TemplateRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -11,6 +11,7 @@ import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { differenceInMonths, format, parseISO } from 'date-fns';
+import { UserResignation } from 'src/app/models/UserResignation';
 
 @Component({
   selector: 'app-employee-profile-sidebar',
@@ -51,6 +52,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
    MANAGER = Key.MANAGER;
    USER = Key.USER;
   async ngOnInit(): Promise<void> {
+    // this.calculateLasWorkingDay();
     this.getEmployeeProfileData();
     this.getUserAttendanceStatus();
     this.fetchUserPositions();
@@ -258,6 +260,105 @@ export class EmployeeProfileSidebarComponent implements OnInit {
 
     this.duration = `${years} years ${months} months`;
   }
+
+
+
+
+  // User Resignation start
+
+  @ViewChild('closeResignationButton') closeResignationButton!: ElementRef
+  userResignationReq: UserResignation = new UserResignation();
+  resignationToggle: boolean = false;
+  submitResignation(form: NgForm){
+
+    this.resignationToggle = true;
+    this.userResignationReq.createdBy = 'USER'
+    this.userResignationReq.uuid = this.userId
+    console.log('request form : ',this.userResignationReq)
+
+    // this.dataService.submitResignation(this.userResignationReq).subscribe((res: any) => {
+    //     if(res.status){
+    //       this.resignationToggle =false
+    //       this.closeResignationButton.nativeElement.click()
+    //       this.clearForm();
+    //       form.resetForm();
+    //     }
+    // })
+
+
+    this.resignationToggle =false
+          this.closeResignationButton.nativeElement.click()
+          // this.clearForm();
+
+  }
+  
+  clearForm(){
+    this.recommendDay = ''
+    this.discussionType = ''
+    this.userResignationReq.uuid =''
+    this.userResignationReq.reason = ''
+    this.userResignationReq.comment = ''
+    this.userResignationReq.isManagerDiscussion = 0
+    this.userResignationReq.isRecommendLastDay = 0
+    this.userResignationReq.createdBy = ''
+    this.userResignationReq.url = ''
+    this.userResignationReq = new UserResignation();
+  }
+
+  discussionType: string = ''; // Default selected value
+  selectManagerDiscussion(value: string): void {
+    
+    this.userResignationReq.isManagerDiscussion = value == 'Yes' ? 1 : 0
+  }
+
+  recommendDay: string = ''; // Default selected value
+  selectRecommendDay(value: string): void {
+
+    this.userResignationReq.lastWorkingDay = ''
+    
+    this.userResignationReq.isRecommendLastDay = value == 'Other' ? 1 : 0
+
+    if(this.userResignationReq.isRecommendLastDay == 0){
+      this.userResignationReq.lastWorkingDay = ''
+      this.calculateLasWorkingDay();
+    }
+
+  }
+
+  // Function to disable future dates
+  disableFutureDates = (current: Date): boolean => {
+    const today = new Date();
+    // const maxDate = new Date();
+    const maxDate = new Date();
+    maxDate.setDate(today.getDate() + 7); // Add 45 days to today's date
+  
+    // this.lastWorkingDay = maxDate;
+    // console.log("Max Date: ", this.lastWorkingDay);
+    // Disable dates from today to maxDate (inclusive)
+    return current < today || current > maxDate;
+  };
+
+  calculateLasWorkingDay(){
+    const today = new Date();
+    // const maxDate = new Date();
+    const maxDate = new Date();
+    maxDate.setDate(today.getDate() + 7); // Add 45 days to today's date
+  
+    // this.lastWorkingDay = maxDate;
+    // this.userResignationReq.lastWorkingDay = maxDate
+    this.userResignationReq.lastWorkingDay = this.helperService.formatDateToYYYYMMDD(maxDate);
+    // console.log("Max Date: ", this.lastWorkingDay);
+  }
+
+  selectLastWorkingDay(startDate: Date) {
+    debugger
+    if (this.userResignationReq.isRecommendLastDay == 0 && startDate) {
+      this.userResignationReq.lastWorkingDay = this.helperService.formatDateToYYYYMMDD(startDate);
+    }
+  }
+
+  // User Resignation end
+
 
 
 
