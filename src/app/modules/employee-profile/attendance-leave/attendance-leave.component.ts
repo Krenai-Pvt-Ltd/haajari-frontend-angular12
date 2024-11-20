@@ -380,4 +380,21 @@ export class AttendanceLeaveComponent implements OnInit {
       }
     );
   }
+
+  onDelete(id:number) {
+    this.dataService.deleteUserLog(id).subscribe({
+      next: () => {
+        alert('User log deleted successfully.');
+        this.loadLeaveLogs();
+      },
+      error: (err) => console.error('Error deleting log:', err)
+    });
+  }
+
+  // Handle edit action
+  onEdit() {
+    console.log('Edit button clicked');
+    // Add logic to open a modal
+    // Example: this.modalService.open(EditModalComponent);
+  }
 }
