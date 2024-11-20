@@ -868,7 +868,7 @@
 
 <!-- Add policy modal start -->
 <div class="modal fade" id="createPolicy" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
-  aria-hidden="true">
+data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -883,7 +883,7 @@
           <ul id="myTab" role="tablist" class="nav nav-tabs">
             <li role="presentation" class="nav-item">
               <button id="home-tab" data-bs-toggle="tab" data-bs-target="#shiftime" type="button" role="tab"
-                aria-controls="expensePolicy" aria-selected="true" class="nav-link active"
+                aria-controls="expensePolicy" aria-selected="true" class="nav-link active pt-0"
                 [class.active]="activeTab === 'expensePolicy'" (click)="expenseTypeSelectionTab()" #expenseTypeTab>
                 Select Expense
               </button>
@@ -892,7 +892,7 @@
             <li role="presentation" class="nav-item">
               <button id="profile-tab" data-bs-toggle="tab" [attr.aria-selected]="!shiftForm.invalid"
                 [attr.tabindex]="shiftForm.invalid ? -1 : null" data-bs-target="#staffselection" type="button"
-                role="tab" aria-controls="staffselection" aria-selected="false" class="nav-link"
+                role="tab" aria-controls="staffselection" aria-selected="false" class="nav-link pt-0"
                 #staffActiveTabInShiftTiming [class.active]="activeTab === 'staffselection'"
                 (click)="staffActiveTabInShiftTimingMethod()" [disabled]="expensePolicyReqList.length == 0">
                 Staff selection
@@ -904,7 +904,7 @@
               [class.show]="activeTab === 'expensePolicy'" [class.active]="activeTab === 'expensePolicy'">
 
               <form #shiftForm="ngForm" ngNativeValidate (ngSubmit)="submitExpensePolicy()">
-                <div class="row p-3">
+                <div class="row pt-3 pb-3 ">
                   <!-- Policy Name -->
                   <div class="col-md-12">
                     <div class="mb-3">
@@ -919,10 +919,11 @@
                   </div>
 
                   <!-- Expense Type Dropdown -->
-                  <div class="col-md-6">
+                  <div class="col-md-6 mb-3">
                     <div class="form-field">
                       <label for="expenseTypeDropdown" class="pb-2">Expense Type</label>
-                      <div class="dropdown">
+                    
+                      <!-- <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle new-dropdown" type="button"
                           id="expenseTypeDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="text-align: left; background-color: white; color: black;
                                                         border-color: #ced4da; width: 100%;">
@@ -939,12 +940,30 @@
                       </div>
                       <div *ngIf="!isExpenseTypeSelected && shiftForm.submitted" class="text-danger">
                         Expense type is required.
-                      </div>
+                      </div> -->
+
+                      <nz-form-control>
+                        <!-- <nz-select class="form-control" style="width: 100%" nzSize="large" (nzOnChange)="selectExpenseType($event)" nzPlaceHolder="Select expense type" required>
+                          <nz-option [nzValue]="expense.id" [nzLabel]="expense.name" *ngFor="let expense of expenseTypeList"></nz-option>
+                        </nz-select> -->
+
+                        <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select Expense type"
+                        [(ngModel)]="expenseTypeId" (ngModelChange)="selectExpenseType($event)" required 
+                        id="seleType" name="seleExpType" #seleExpType="ngModel" class="form-control">
+                    <nz-option *ngFor=" let expenseType of expenseTypeList" [nzValue]="expenseType.id"
+                      [nzLabel]="expenseType.name">
+                    </nz-option>
+                  </nz-select>
+                      </nz-form-control>
+
                     </div>
+                    
                   </div>
 
+                  
+
                   <!-- Expense Type Amount -->
-                  <div class="col-md-6">
+                  <div class="col-md-6 mb-3">
                     <div class="form-field">
                       <label for="expenseAmount" class="pb-2">Amount</label>
                       <input type="number" class="form-control whatapp-login-input" min="1" id="policyAmountInput"
@@ -957,10 +976,88 @@
                     </div>
                   </div>
 
-                  <div *ngIf="isExpenseTypeSelected" class="mt-3">
+                  <div class="col-md-12 mb-3 mt-1" *ngIf="isExpenseTypeSelected" >
+                    <div class="form-group requesting-half-leave p-2">
+                      <div class="d-flex align-items-center justify-content-between " style="padding-top: 2px;">
+                        <p class="mb-0">Select Your Payment Structure </p>
+                      </div>
+                      <hr>
+                  
+                      <div class="row mt-3 mb-2">
+                        <div class="col-md-6">
+                          <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                            <input class="form-check-input" type="radio" name="paymentType" id="flexible" value="flexible"
+                               required [(ngModel)]="paymentType" (change)="onPaymentTypeChange(0, 'flexible')">
+                            <p class="form-check-label mb-0" for="exampleRadios1">
+                            Flexible
+                            </p>
+                          </label>
+                        </div>
+                        <div class="col-md-6">
+                          <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                            <input class="form-check-input" type="radio" name="paymentType" id="fixed" value="fixed" required
+                                [(ngModel)]="paymentType" (change)="onPaymentTypeChange(1, 'fixed')" >
+                            <p class="form-check-label mb-0" for="exampleRadios1">
+                            Fixed
+                            </p>
+                          </label>
+                        </div>
+                        <div *ngIf="!paymentType && shiftForm.submitted" class="text-danger mt-2">
+                          Payment type is required
+                        </div>
+                      </div>
+                  
+                    </div>
+                  </div>
+                  <div class="form-check form-check-inline mb-3" *ngIf="paymentType === 'fixed'" style="padding-left: 30px;">
+                    <input class="form-check-input" type="checkbox" id="thresholdCheckbox" name="checkThresold"
+                        [(ngModel)]="isThresholdSelected" (ngModelChange)="setThresold($event)">
+                    <label class="form-check-label" for="thresholdCheckbox">Do you want to set threshold?</label>
+                  </div>
+
+                  <div class="row mb-3" *ngIf="isThresholdSelected && paymentType === 'fixed'" >
+                    <div class="col-md-4">
+                      <div class="form-field">
+                        <label for="expenseAmount" class="pb-2">Threshold Amount</label>
+                        <input type="number" class="form-control" placeholder="Enter Amount" id="amountFlex"
+                        name="amountFlex" [(ngModel)]="flexibleAmount" #amountFlex="ngModel" min="1" required />
+                        <div *ngIf="amountFlex.invalid && amountFlex.touched" class="text-danger mt-2">
+                          Flexible amount is required
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4" *ngIf="isThresholdSelected">
+                      <div class="form-field">
+                      <label for="expenseAmount" class="pb-2">Threshold Type</label>
+                      <label class="form-check assets-req d-flex align-items-center justify-content-start" style="background-color: #ececec36;">
+                        <input class="form-check-input" type="radio" name="thresholdTypeValue" id="valueType"
+                            value="value" [(ngModel)]="thresholdType" required
+                            (change)="onThresholdTypeChange(0, 'value')">
+                        <p class="form-check-label mb-0" for="valueType">
+                          Amount
+                        </p>
+                      </label>
+                      </div>
+                    </div>
+                    <div class="col-md-4" *ngIf="isThresholdSelected">
+                      <div class="form-field">
+                      <label for="expenseAmount" class="pb-2">Threshold Type</label>
+                      <label class="form-check assets-req d-flex align-items-center justify-content-start" style="background-color: #ececec36;">
+                        <input  class="form-check-input" type="radio" name="thresholdTypePercentage"
+                            id="percentageType" value="percentage" [(ngModel)]="thresholdType" required
+                            (change)="onThresholdTypeChange(1, 'percentage')">
+                        <p class="form-check-label mb-0" for="percentageType">
+                          Percentage
+                        </p>
+                      </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- <div *ngIf="isExpenseTypeSelected" class="mt-3">
                     <label>Payment Type</label>
 
-                    <!-- Payment Type Radios -->
+                
                     <div class="form-check">
                       <input class="form-check-input" type="radio" name="paymentType" id="flexible" value="flexible"
                         required [(ngModel)]="paymentType" (change)="onPaymentTypeChange(0, 'flexible')" />
@@ -972,12 +1069,12 @@
                       <label class="form-check-label" for="fixed">Fixed</label>
                     </div>
 
-                    <!-- Validation Message for Payment Type -->
+                   
                     <div *ngIf="!paymentType && shiftForm.submitted" class="text-danger">
                       Payment type is required
                     </div>
 
-                    <!-- Threshold Checkbox -->
+                
                     <div *ngIf="paymentType === 'fixed'" class="form-check mt-3">
                       <input class="form-check-input" type="checkbox" id="thresholdCheckbox" name="checkThresold"
                         [(ngModel)]="isThresholdSelected" (ngModelChange)="setThresold($event)" />
@@ -986,7 +1083,7 @@
                       </label>
                     </div>
 
-                    <!-- Fixed Amount Section -->
+              
                     <div *ngIf="isThresholdSelected && paymentType === 'fixed'" class="mt-2">
                       <input type="number" class="form-control" placeholder="Enter Amount" id="amountFlex"
                         name="amountFlex" [(ngModel)]="flexibleAmount" #amountFlex="ngModel" min="1" required />
@@ -996,7 +1093,7 @@
 
 
 
-                      <!-- Threshold Options (Value or Percentage) -->
+
                       <div *ngIf="isThresholdSelected" class="mt-2">
                         <div class="form-check">
                           <input class="form-check-input" type="radio" name="thresholdTypeValue" id="valueType"
@@ -1014,23 +1111,25 @@
                       </div>
 
                     </div>
-                  </div>
+                  </div> -->
 
 
-                  <!-- Add Button -->
-                  <div *ngIf="!editIndexPolicyToggle" class="d-flex justify-content-end">
-                    <button type="button" class="btn btn-primary mt-2" (click)="addExpensePolicy(shiftForm)"
-                      [disabled]="shiftForm.invalid || expenseTypeId == 0 ">Add </button>
+                 
+                  <div *ngIf="!editIndexPolicyToggle" class="d-flex justify-content-end add-update-btn">
+                    <button type="button" class="btn p-0 mt-2 text-primary" (click)="addExpensePolicy(shiftForm)"
+                     [disabled]="shiftForm.invalid || expenseTypeId == 0 "><i class="bi bi-plus-lg"></i> Add </button>
+                    
                   </div>
                   <div *ngIf="editIndexPolicyToggle" class="d-flex justify-content-end">
-                    <button type="button" class="btn btn-primary mt-2" (click)="addExpensePolicy(shiftForm)"
-                      [disabled]="shiftForm.invalid || expenseTypeId == 0 ">Update </button>
+                    <button type="button" class="btn p-0 mt-2 text-primary" (click)="addExpensePolicy(shiftForm)"
+                    [disabled]="shiftForm.invalid || expenseTypeId == 0 " >Update </button>
+                    
                   </div>
 
                 </div>
 
                 <!-- Table to Show Expense Policy List -->
-                <div class="table-responsive bg-white mt-4 leave-category-list" *ngIf="expensePolicyReqList.length > 0">
+                <div class="table-responsive bg-white mt-2 leave-category-list" *ngIf="expensePolicyReqList.length > 0">
                   <table class="table empOnnoardtable">
                     <thead class="thead-light">
                       <tr>
@@ -1100,9 +1199,9 @@
 
 
 
-              <div class="modal-footer d-flex align-items-center justify-content-between">
-                <button type="submit" class="btn btn-outline-primary btn-round"
-                  [disabled]="expensePolicyReqList.length == 0" (click)="staffActiveTabInShiftTimingMethod()">
+              <div class="modal-footer d-flex align-items-center justify-content-end pb-0">
+                <button type="submit" class="btn btn-primary next-tab-btn" [disabled]="expensePolicyReqList.length == 0"
+                  (click)="staffActiveTabInShiftTimingMethod()">
                   Next
                 </button>
               </div>

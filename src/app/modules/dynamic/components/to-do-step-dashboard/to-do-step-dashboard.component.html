@@ -44,18 +44,9 @@
                     (click)="setSrc()"
                   >
                     <img
-                      src="assets/images/to-stap-video-img.svg"
+                      src="assets/images/to-stap-video-img.webp"
                       style="width: 70%"
                     />
-
-                    <!-- <span
-                      class="playBtn pointer"
-                      type="button"
-                      data-bs-toggle="modal"
-                      data-bs-target="#video-modal"
-                    >
-                      <img src="assets/images/play-btn.svg" />
-                    </span> -->
                   </div>
                 </div>
               </div>
@@ -206,7 +197,7 @@
                       </span>
                     </div>
 
-                    <div>
+                    <div (click)="routeToStep(step?.route, step?.name)">
                       <h4>{{ step?.name }}</h4>
                       <p class="mb-0">
                         {{ step?.description }}
