@@ -39,6 +39,30 @@
 .errorboxmain {
   padding: 15px;
 }
+.shimmer-wrapper {
+  height: 300px; /* Adjust height as needed */
+  background: #f6f7f8;
+  background-image: linear-gradient(
+    to right,
+    #f6f7f8 0%,
+    #e9ecef 20%,
+    #f6f7f8 40%,
+    #f6f7f8 100%
+  );
+  background-repeat: no-repeat;
+  background-size: 1000px 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
 .modal-header {
   background-color: #f8f9fa;
   border-bottom: 1px solid #dee2e6;

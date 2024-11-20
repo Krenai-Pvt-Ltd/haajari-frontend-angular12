@@ -19,6 +19,7 @@ import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 import { PersonalInformationComponent } from './personal-information/personal-information.component';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { AnnouncementNotificationComponent } from './announcement-notification/announcement-notification.component';
+import { EmployeeExitComponent } from './employee-exit/employee-exit.component';
 
 
 
@@ -31,7 +32,8 @@ import { AnnouncementNotificationComponent } from './announcement-notification/a
     EmployeeDocumentComponent,
     AssetsComponent,
     PersonalInformationComponent,
-    AnnouncementNotificationComponent
+    AnnouncementNotificationComponent,
+    EmployeeExitComponent
   ],
   imports: [
     CommonModule,

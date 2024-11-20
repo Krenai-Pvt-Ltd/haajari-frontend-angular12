@@ -25,7 +25,7 @@
                 </li>
                 <li class="nav-item">
                     <a id="pills-profile-tab" data-bs-toggle="pill" href="#asset-request" role="tab" aria-controls="pills-profile"
-                        aria-selected="false" class="nav-link">Asset request</a>
+                        aria-selected="false" (click)="this.getAssetRequests()" class="nav-link">Asset request</a>
                 </li>
             </ul>
 
@@ -158,7 +158,10 @@
                         </div>
 
                         <div class="table-responsive bg-white mt-3">
-                          <table class="table empOnnoardtable">
+                          <div *ngIf="isLoading" class="shimmer-wrapper">
+                            <div class="shimmer"></div>
+                          </div>
+                          <table *ngIf="!isLoading" class="table empOnnoardtable">
                             <thead class="thead-light">
                               <tr>
                                 <th class="text-left font-13" style="width: 10%">Requested on</th>
@@ -173,6 +176,9 @@
                               </tr>
                             </thead>
                             <tbody>
+                              <tr *ngIf="assetRequests?.length === 0">
+                                <td colspan="9" class="text-center">No data found</td>
+                              </tr>
                               <tr *ngFor="let asset of assetRequests">
                                 <td class="text-left">{{ asset.requestedOn | date: 'EEE, MMM d yyyy' }}</td>
                                 <td class="text-left">{{ asset.assetName }}</td>
@@ -185,8 +191,7 @@
                                 <td class="text-left">
                                   <span
                                     [ngClass]="{
-                                      'badge rounded-pill badge-soft-success': asset.status !== 'PENDING',
-                                      'badge rounded-pill badge-soft-secondary': asset.status == 'PENDING'
+                                      'badge rounded-pill badge-soft-success': asset.status !== ''
                                     }">
                                     {{ asset.status }}
                                   </span>
@@ -205,6 +210,14 @@
                               [maxSize]="8"
                               [boundaryLinks]="true">
                             </ngb-pagination>
+
+
+                            <div class="showing-items-message text-right font-13">
+                              Showing items
+                              {{ (assetRequestsPage - 1) * assetRequestsSize + 1 }} –
+                              {{ Math.min(assetRequestsPage * assetRequestsSize, assetRequestsTotalCount) }}
+                              of {{ assetRequestsTotalCount }} records
+                            </div>
                           </div>
                         </div>
 
