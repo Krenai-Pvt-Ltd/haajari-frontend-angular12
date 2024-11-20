@@ -1,23 +1,141 @@
 <div class="page-wrapper">
   <div class="page-content-tab">
 
-    <ul *ngIf="ROLE == 'ADMIN'" id="myTab" role="tablist" class="nav nav-tabs">
+    <ul *ngIf="ROLE == 'ADMIN'" id="myTab" role="tablist" class="nav nav-tabs mt-2">
+
+        <li role="presentation" class="nav-item">
+          <button id="home-tab" data-bs-toggle="tab" data-bs-target="#company-expense" type="button" role="tab"
+            aria-controls="home" aria-selected="false" class="nav-link" [ngClass]="{'active':activeTab === 'allExpense'}" (click)="switchTab('allExpense')">
+            All Expense
+          </button>
+        </li>
+     
       <li role="presentation" class="nav-item">
         <button id="profile-tab" data-bs-toggle="tab" data-bs-target="#company-expense-policy" type="button" role="tab"
-          aria-controls="profile" aria-selected="false" class="nav-link active" (click)="switchTab('expensePolicy')">
+          aria-controls="profile" aria-selected="false" class="nav-link " [ngClass]="{'active':activeTab === 'expensePolicy'}" (click)="switchTab('expensePolicy')">
           Company Expense Policy
         </button>
       </li>
-      <li role="presentation" class="nav-item">
-        <button id="home-tab" data-bs-toggle="tab" data-bs-target="#company-expense" type="button" role="tab"
-          aria-controls="home" aria-selected="true" class="nav-link" (click)="switchTab('allExpense')">
-          All Expense
-        </button>
-      </li>
+
+    
+      
     </ul>
 
 
     <div class="container-fluid">
+
+        <!-- Create and View Company Expense start -->
+        <div class="col-md-12 mt-3 mb-3" *ngIf="activeTab === 'allExpense'">
+          <!-- <div class="col-md-12 mt-3 mb-3" *ngIf="activeTab === 'allExpense'"> -->
+          <div class="">
+        
+            <!-- <button class="btn btn-primary d-none" (click)="getExpenseType()" data-bs-toggle="modal"
+              data-bs-target="#createExpense">Create Expense</button> -->
+        
+            <div class="row">
+              <div class="table-responsive bg-white">
+                <table class="table empOnnoardtable">
+                  <thead class="thead-light">
+                    <tr>
+                      <th class="text-left" style="width: 10%">
+                        Date
+                      </th>
+                      <th class="text-left" style="width: 10%">
+                        Employee Name
+                      </th>
+                      <th class="text-left" style="width: 10%">
+                        Amount
+                      </th>
+        
+                      <th class="text-left" style="width: 10%">
+                        Paid Amount
+                      </th>
+        
+                      <th class="text-left" style="width: 15%">
+                        Expense Type
+                      </th>
+        
+                      <th class="text-left" style="width: 30%">
+                        Notes
+                      </th>
+        
+                      <th class="text-left" style="width: 15%">
+                        Status
+                      </th>
+        
+                      <th class="text-left" style="width: 10%">
+                        Action
+                      </th>
+        
+                    </tr>
+                  </thead>
+        
+                  <tbody *ngIf="loading">
+                    <tr *ngFor="let i of [1, 2, 3, 4, 5, 6]">
+                      <td *ngFor="let i of [1, 2, 3, 4, 5, 6,7,8]" class="text-center">
+                        <p class="shimmer"></p>
+                      </td>
+                    </tr>
+                  </tbody>
+        
+                  <tbody *ngIf="!loading">
+                    <ng-container *ngIf="expenseList.length == 0">
+                      <tr>
+                        <td colspan="9">
+                          <div class="d-flex justify-content-center align-items-center" style="height: 50vh;">
+                            <div>
+                              <img src="assets/images/no-data-found-img.svg" alt="" height="50%" width="50%">
+                              <h6 class="p-2" style="margin-left: -40px;">No Expenses Created
+                                Yet!!</h6>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </ng-container>
+        
+                    <ng-container *ngIf="expenseList.length > 0">
+                      <tr *ngFor="let expense of expenseList; let i= index">
+                        <td class="text-left">
+                          <span class="table-font-weight">{{expense.expenseDate}}</span></td>
+                        <td class="text-left">
+                          <span class="table-font-weight">{{expense.employeeName}}</span>
+                        </td>
+                        <td class="text-left">
+                          <span class="table-font-weight">{{expense.amount}}</span>
+                          </td>
+                        <td class="text-left">
+                          <span class="table-font-weight">{{expense.paidAmount == null ? 0 : expense.paidAmount}}</span>
+                          </td>
+                        <td class="text-left">
+                          <span class="table-font-weight">{{expense.expenseType}}</span>
+                          </td>
+                        <td class="text-left">
+                          <span class="table-font-weight white-space">{{expense.notes}}</span>
+                          </td>
+                        <td class="text-left">
+                              <div [ngClass]="{ 'badge-soft-warning': expense.status.response == 'PENDING','badge-soft-success':expense.status.response =='APPROVED',
+                               'badge-soft-info':expense.status.response =='SETTLED WITH PAYROLL', 'badge-soft-danger': expense.status.response=='EXPENSE CANCELLED'}"
+                                class="badge rounded-pill">{{expense.status.response}}</div>
+                        </td>
+                        <td class="text-left">
+                          <div>
+                            <button type="button" class="btn p-0 text-primary View-btn" (click)="getExpense(expense)" data-bs-toggle="modal" data-bs-target="#approveModal">
+                             <i class="bi bi-eye"></i> View
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </ng-container>
+        
+                  </tbody>
+        
+                </table>
+              </div>
+            </div>
+        
+          </div>
+        </div>
+        <!-- Create and View Company Expense start -->
 
       <div class="col-md-12 mt-3 mb-3" *ngIf="activeTab === 'expensePolicy'">
 
@@ -348,123 +466,7 @@
       </div>
 
 
-      <!-- Create and View Company Expense start -->
-
-      <div class="col-md-12 mt-3 mb-3" *ngIf="activeTab === 'allExpense'"
-        style="border: 1px solid #f5f5f5; padding: 5px;">
-        <!-- <div class="col-md-12 mt-3 mb-3" *ngIf="activeTab === 'allExpense'"> -->
-        <div class="pt-2 pb-3">
-
-          <button class="btn btn-primary d-none" (click)="getExpenseType()" data-bs-toggle="modal"
-            data-bs-target="#createExpense">Create Expense</button>
-
-          <div class="row mt-3">
-            <div class="table-responsive bg-white">
-              <table class="table empOnnoardtable">
-                <thead class="thead-light">
-                  <tr>
-                    <th class="text-center" style="width: 10%">
-                      Date
-                    </th>
-                    <th class="text-center" style="width: 10%">
-                      Employee Name
-                    </th>
-                    <th class="text-center" style="width: 10%">
-                      Amount
-                    </th>
-
-                    <th class="text-center" style="width: 10%">
-                      Paid Amount
-                    </th>
-
-                    <th class="text-center" style="width: 15%">
-                      Expense Type
-                    </th>
-
-                    <th class="text-center" style="width: 30%">
-                      Notes
-                    </th>
-
-                    <th class="text-center" style="width: 15%">
-                      Status
-                    </th>
-
-                    <th class="text-center" style="width: 10%">
-                      Action
-                    </th>
-
-                  </tr>
-                </thead>
-
-                <tbody *ngIf="loading">
-                  <tr *ngFor="let i of [1, 2, 3, 4, 5, 6]">
-                    <td *ngFor="let i of [1, 2, 3, 4, 5, 6,7,8]" class="text-center">
-                      <p class="shimmer"></p>
-                    </td>
-                  </tr>
-                </tbody>
-
-                <tbody *ngIf="!loading">
-                  <ng-container *ngIf="expenseList.length == 0">
-                    <tr>
-                      <td colspan="9">
-                        <div class="d-flex justify-content-center align-items-center" style="height: 50vh;">
-                          <div>
-                            <img src="assets/images/no-data-found-img.svg" alt="" height="50%" width="50%">
-                            <h6 class="p-2" style="margin-left: -40px;">No Expenses Created
-                              Yet!!</h6>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  </ng-container>
-
-                  <ng-container *ngIf="expenseList.length > 0">
-                    <tr *ngFor="let expense of expenseList; let i= index">
-                      <td class="text-center">{{expense.expenseDate}}</td>
-                      <td class="text-center">{{expense.employeeName}}</td>
-                      <td class="text-center">{{expense.amount}}</td>
-                      <td class="text-center">{{expense.paidAmount == null ? 0 : expense.paidAmount}}</td>
-                      <td class="text-center">{{expense.expenseType}}</td>
-                      <td class="text-center">{{expense.notes}}</td>
-                      <td class="text-center">{{expense.status.response}}</td>
-                      <td class="text-center">
-                        <div>
-                          <!-- <button type="button" class="btn" (click)="updateExpense(expense)"
-                                                        data-bs-toggle="modal" data-bs-target="#createExpense">
-                                                        <i class="bi bi-pencil-square pointer text-primary"></i>
-                                                    </button>
-
-                                                    <button type="button" class="btn" (click)="getExpenseId(expense.id)"
-                                                        data-bs-toggle="modal" data-bs-target="#delete-expense">
-                                                        <i class="bi bi-trash pointer text-danger"></i>
-                                                    </button> -->
-
-                          <!-- <button *ngIf="expense.status.id == 13" type="button" class="btn" -->
-                          <button type="button" class="btn"
-                            (click)="getExpense(expense)" data-bs-toggle="modal" data-bs-target="#approveModal">
-                            View
-                          </button>
-
-                          <!-- <button *ngIf="expense.status.id != 13" type="button" class="btn" style="cursor: default;">
-                            - - -
-                          </button> -->
-
-                        </div>
-                      </td>
-                    </tr>
-                  </ng-container>
-
-                </tbody>
-
-              </table>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-       <!-- Create and View Company Expense start -->
+   
     </div>
   </div>
 </div>
