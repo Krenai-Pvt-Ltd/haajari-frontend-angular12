@@ -934,6 +934,46 @@ nz-select.request-dropdown .ant-select-selector {
     border-left: 3px solid #000;
         padding-left: 25px;
 }
+.Pending-btn{
+    text-decoration: underline;
+}
+
+.request-loge{
+    position: absolute;
+    top: -25px;
+    left: -294px;
+    width: 250px;
+    background-color: #fff;
+    border-radius: 2px;
+    filter: drop-shadow(0px 11.4px 13.7px rgba(71, 71, 71, 0.33));
+    display: none;
+}
+
+
+.request-loge::before {
+    content: "";
+    position: absolute;
+    right: -16px;
+    width: 42px;
+    top: 22px;
+    height: 30px;
+    border-top: solid 40px #fff;
+    border-left: solid 24px transparent;
+    border-right: solid 24px transparent;
+    z-index: -1;
+    rotate: 30deg;
+}
+.request-btn:hover .request-loge{
+    display: block;
+}
+.request-loge svg{
+    position: relative;
+    top: -3px;
+}
+
+.request-detail-log p{
+    color: #444;
+}
 @media screen and (max-width: 1280px) {
     .font-15 {
         font-size: 13px !important;
