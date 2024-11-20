@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs/operators';
+import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
 import { ESIContributionRate } from 'src/app/models/e-si-contribution-rate';
 import { PFContributionRate } from 'src/app/models/p-f-contribution-rate';
@@ -29,8 +30,7 @@ export class SalarySettingComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private helperService: HelperService,
-    private confirmationDialogService: ConfirmationDialogService,
-    private afStorage: AngularFireStorage,
+    private _afStorage: AngularFireStorage,
     private _salaryService: SalaryService
   ) {}
 
@@ -885,112 +885,14 @@ export class SalarySettingComponent implements OnInit {
   }
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  //                                                            SALARY UPLOAD SECTION START                                                           // 
+  //                                                            SALARY UPLOAD / DOWNLOAD SECTION START                                                // 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  fileName: any;
-  currentFileUpload: any;
-
-  importToggle: boolean = false;
-  isProgressToggle: boolean = false;
-  isErrorToggle: boolean = false;
-  errorMessage: string = '';
-
-  importLoading: boolean = false;
-  importReport: any[] = new Array();
-  totalItems: number = 0;
-  uploadDate: Date = new Date();
-
-  selectFile(event: any) {
-    debugger;
-    if (event.target.files && event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.currentFileUpload = file;
-      this.fileName = file.name;
-      this.uploadUserFile(file, this.fileName);
-    }
-  }
-
-  uploadUserFile(file: File, fileName: string) {
-    this.importToggle = true;
-    this.isProgressToggle = true;
-    this.isErrorToggle = false;
-    this.errorMessage = '';
-
-    this.dataService.importSalaryExcel(file, fileName).subscribe(
-      (response: any) => {
-        if (response.status) {
-          this.uploadToFirebase(file);
-        } else {
-          this.handleError(response.message);
-        }
-      },
-      (error: HttpErrorResponse) => {
-        this.handleError(
-          error.error.message || 'An error occurred during file upload.'
-        );
-      }
-    );
-  }
-
-  uploadToFirebase(file: File) {
-    const filePath = `uploads/${file.name}`;
-    const fileRef = this.afStorage.ref(filePath);
-    const task = this.afStorage.upload(filePath, file);
-
-    task
-      .snapshotChanges()
-      .pipe(
-        finalize(() => {
-          fileRef.getDownloadURL().subscribe((url) => {
-            // console.log('File uploaded successfully! Download URL:', url);
-            this.saveEventLog(url);
-            this.importToggle = false;
-            this.isProgressToggle = false;
-          });
-        })
-      )
-      .subscribe();
-  }
-
-  private saveEventLog(url: string) {
-    this.dataService.saveSalaryExcelLog(url).subscribe(
-      (response) => {
-        this.helperService.showToast(
-          'Salary Detail saved successfully',
-          Key.TOAST_STATUS_SUCCESS
-        );
-        // console.log('Event log saved successfully:', response);
-        this.getSalaryDetailExcelMethodCall();
-      },
-      (error) => {
-        this.helperService.showToast(
-          'Error saving salary detail',
-          Key.TOAST_STATUS_ERROR
-        );
-        console.error('Error saving event log:', error);
-      }
-    );
-  }
-
-  private handleError(message: string) {
-    this.importToggle = true;
-    this.isErrorToggle = true;
-    this.isProgressToggle = false;
-    this.errorMessage = message;
-  }
 
   lastUploadedSalaryDoc: string = '';
   lastUploadedSalaryDocName: string = '';
   getSalaryDetailExcelMethodCall() {
     this._salaryService.getSalaryDetailExcel().subscribe((response: any) => {
-        if (response.status && response.object && response.object.url) {
-          this.lastUploadedSalaryDoc = response.object.url;
-          this.lastUploadedSalaryDocName = this.extractFileName( this.lastUploadedSalaryDoc);
-        } else {
-          this.lastUploadedSalaryDoc = '';
-          this.lastUploadedSalaryDocName = '';
-        }
+  
       },
       (error) => {
       }
@@ -998,13 +900,56 @@ export class SalarySettingComponent implements OnInit {
   }
 
 
-  downloadDocument() {
-    const link = document.createElement('a');
-    link.href = this.lastUploadedSalaryDoc;
-    link.download = 'Salary_Detail_Doc.pdf';
-    link.click();
+  selectFile(event: any) {
+    debugger
+    let file: File;
+    if(event!=undefined){
+      if(event.target.files.length > 0){
+        file = event.target.files[0];   
+        if(constant.ALLOWED_BULK_UPLOAD_FORMATS.includes(file.type)){
+          this.uploadToFirebase(file); 
+        }else{
+          this.helperService.showToast('upload only .xlsx file',Key.TOAST_STATUS_ERROR);
+          return;   
+        } 
+      }
+    }    
   }
 
+  currentUpload:any;
+  uploadToFirebase(file:any){
+      let fileName = file.name.split(" ").join("");;
+      let extension = fileName.substring(fileName.lastIndexOf("."), fileName.length);
+      fileName = fileName.replace(extension, "").replace(/[^0-9a-zA-Z]/gi, "_")+ new Date().getTime() + extension;
+      // console.log("fileName======================",fileName);
+      var firebasePath = "salary/upload/"+fileName;
+      const fileRef = this._afStorage.ref(firebasePath);
+      this._afStorage.upload(firebasePath,file).snapshotChanges().pipe(
+        finalize(async () => {
+          fileRef.getDownloadURL().subscribe((url: any) => {
+            this.processToServer(fileName,url);     
+          })
+        })
+      ).subscribe((res: any) => {
+        
+
+      })
+    }
+
+
+    processToServer(fileName:string,url:string) {
+      this._salaryService.updateUserSalaryDetail(url,fileName).subscribe((response) => {
+         if(response.status){
+          this.helperService.showToast('uploaded Successfully',Key.TOAST_STATUS_SUCCESS);
+         }else{
+          this.helperService.showToast('Failed to upload',Key.TOAST_STATUS_ERROR);
+         }
+        },(error) => {
+        }
+      );
+    }
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   dowloadLoading:boolean=false;
   getCurrentSalaryReport(){
@@ -1026,7 +971,6 @@ export class SalarySettingComponent implements OnInit {
 
 
   extractFileName(url: string): string {
-
     const parts = decodeURIComponent(url).split("/");
     return parts[parts.length - 1].split("?")[0];
   }
@@ -1042,6 +986,6 @@ export class SalarySettingComponent implements OnInit {
   }
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  //                                                            SALARY UPLOAD SECTION END                                                             // 
+  //                                                            SALARY UPLOAD/DOWNLOAD SECTION END                                                    // 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }

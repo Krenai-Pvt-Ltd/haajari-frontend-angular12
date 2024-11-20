@@ -33,6 +33,13 @@ export class SalaryService {
   }
 
   getCurrentSalaryReport():Observable<any>{
-    return this._http.get<any>(`${this._key.base_url}/salary/current/download`);
+    return this._http.get<any>(`${this._key.base_url}/salary/download`);
+  }
+
+  updateUserSalaryDetail(url:string, fileName:string,): Observable<any>{
+    const params = new HttpParams()
+    .set('url',url)
+    .set('fileName',fileName);
+    return this._http.put<any>(`${this._key.base_url}/salary/import`, {},{params});
   }
 }
