@@ -688,14 +688,14 @@
     Initiate Exit
 </button>
 
-<!-- Modal -->
+<!-- Initiate Exit (UserResignation) Modal Start -->
 <div class="modal fade" id="initiateExit" tabindex="-1" role="dialog" #assetRequestModal aria-hidden="true"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Initiate Exit</h5>
-                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
+                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeResignationButton>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                         <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                             width="24" height="24">
@@ -710,7 +710,8 @@
                 </button>
             </div>
             <div class="modal-body p-0">
-                <form>
+                <form #resignationForm="ngForm" (ngSubmit)="submitResignation(resignationForm)">
+                <!-- <form> -->
                     <div class="row register-form-box">
                         <div class="col-md-12">
                             <div class="hr-notes p-3">
@@ -725,8 +726,12 @@
                             <label for="templateName" class="pb-2">
                             What is the reason for initiating the exit?
                             </label>
-                            <input class="form-control input-zorro" placeholder="Enter the reason"
-                                nzSize="large" minlength="3" maxlength="50" name="tempNamed" required />
+                            <input class="form-control input-zorro" placeholder="Enter the reason" [(ngModel)]="userResignationReq.reason"
+                                nzSize="large" minlength="3" maxlength="50" id="reason" name="inputReason" #inputReason="ngModel" required />
+                               
+                                <div *ngIf="inputReason.invalid && inputReason.touched" class="text-danger">
+                                    {{userResignationReq.reason.length == 0 ? 'Reason is required' : 'Reason must be between 3 and 50 characters'}}
+                                </div>
                         </div>
 
                         <!-- <div class="col-md-12 mb-3">
@@ -777,25 +782,36 @@
                             </label>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                                        <input type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked="" class="form-check-input">
-                                        <p for="exampleRadios1" class="form-check-label mb-0"> Yes </p>
-                                    </label></div>
+                                  <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                                    <input class="form-check-input" type="radio" name="managerDiscussionInput" id="yes" value="Yes"
+                                       required [(ngModel)]="discussionType" (change)="selectManagerDiscussion('Yes')">
+                                    <p class="form-check-label mb-0" for="exampleRadios1">
+                                    Yes
+                                    </p>
+                                  </label>
+                                </div>
                                 <div class="col-md-6">
-                                    <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                                        <input type="radio" name="exampleRadios" id="exampleRadios2" value="option2" class="form-check-input">
-                                        <p for="exampleRadios2" class="form-check-label mb-0"> No </p>
-                                    </label></div>
-                            </div>
+                                  <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                                    <input class="form-check-input" type="radio" name="managerDiscussionInput" id="no" value="No" required
+                                        [(ngModel)]="discussionType" (change)="selectManagerDiscussion('No')" >
+                                    <p class="form-check-label mb-0" for="exampleRadios1">
+                                    No
+                                    </p>
+                                  </label>
+                                </div>
+                                <!-- <div *ngIf="discussionType == ''" class="text-danger mt-2">
+                                  Discussion type is required
+                                </div> -->
+                              </div>
                         </div>
 
-                        <div class="col-md-12 mb-3">
+                        <!-- <div class="col-md-12 mb-3">
                             <div class="form-group">
                                 <label for="employeeTypeId" class="mb-2">Select your notice period duration?</label>
                                 <nz-date-picker nzPlaceHolder="dd/mm/yyyy" name="startDate" required>
                                 </nz-date-picker>
                             </div>
-                        </div>
+                        </div> -->
 
                        
 
@@ -806,38 +822,62 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                                        <input type="radio" name="exampleRadios" id="exampleRadios3" value="option3" checked=""
-                                            class="form-check-input">
-                                        <p for="exampleRadios3" class="form-check-label mb-0"> Complete notice periodes </p>
+                                        <input type="radio" name="recommendDay" id="complete" value="Complete" 
+                                        [(ngModel)]="recommendDay" (change)="selectRecommendDay('Complete')" class="form-check-input">
+                                        <p for="exampleRadios3" class="form-check-label mb-0" required> Complete notice periodes </p>
                                     </label>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                                        <input type="radio" name="exampleRadios" id="exampleRadios4" value="option4" class="form-check-input">
+                                        <input type="radio" name="recommendDay" id="other" value="Other" required
+                                        [(ngModel)]="recommendDay" (change)="selectRecommendDay('Other')" class="form-check-input">
                                         <p for="exampleRadios4" class="form-check-label mb-0"> Other Date </p>
                                     </label>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- <div class="col-md-12 mb-3">
+
+                        <div *ngIf="recommendDay == 'Other'" class="col-md-12 mb-3">
+                            <div class="form-group">
+                                <label for="employeeTypeId" class="mb-2">Select your notice period duration?</label>
+                                <!-- <nz-date-picker nzPlaceHolder="dd/mm/yyyy" id="selectDate" name="otherDate" [(ngModel)]="userResignationReq.lastWorkingDay" required> -->
+                               
+                                <nz-date-picker *ngIf="userResignationReq.isRecommendLastDay == 1" [(ngModel)]="userResignationReq.lastWorkingDay"
+                                    nzPlaceHolder="dd/mm/yyyy" [nzDisabledDate]="disableFutureDates" id="selLastDate"
+                                    (ngModelChange)="selectLastWorkingDay($event)" name="lastDate" #lastDate="ngModel"
+                                    required class="form-control"> 
+                                </nz-date-picker>
+
+                                <nz-date-picker *ngIf="userResignationReq.isRecommendLastDay == 0" [(ngModel)]="userResignationReq.lastWorkingDay"
+                                    nzPlaceHolder="dd/mm/yyyy"  id="selLastDate"
+                                    (ngModelChange)="selectLastWorkingDay($event)" name="lastDate" #lastDate="ngModel"
+                                    required class="form-control">   
+                                </nz-date-picker>
+                                
+                                <!-- </nz-date-picker> nzPlaceHolder="dd/mm/yyyy" [nzDisabledDate]="disableFutureDates" id="selLastDate"-->
+                            </div>
+                        </div> 
+
+                        <div *ngIf="recommendDay == 'Complete'" class="col-md-12 mb-3">
                             <div class="d-flex align-items-center gap-3 p-3 notice-period-date">
                                 <p class="mb-0">Notice period</p>
                                 <span class="calendar-separator"></span>
-                                <h6 class="mb-0">12th May, 2024</h6>
+                                <h6 class="mb-0">{{userResignationReq.lastWorkingDay | date: 'dd MMM yyyy'}}</h6>
+                                <!-- <h6 class="mb-0">{{lastWorkingDay | date: 'dd MMM yyyy'}}</h6> -->
                             </div>
                         </div>
-                        <div class="col-md-12 mb-3 ">
+                        
+                        <div *ngIf="recommendDay == 'Other' && (userResignationReq.lastWorkingDay != null && userResignationReq.lastWorkingDay != '')" class="col-md-12 mb-3 ">
                             <div class="notice-period-error p-3">
                             <div class="d-flex align-items-center gap-3 mb-2">
                                 <p class="mb-0">Notice period</p>
                                 <span class="calendar-separator"></span>
-                                <h6 class="mb-0">12th May, 2024</h6>
+                                <h6 class="mb-0">{{userResignationReq.lastWorkingDay | date: 'dd MMM yyyy'}}</h6>
                             </div>
-                            <p class="mb-0 font-13">Lorem ipsum dolor sit amet c Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et.onsectetur adipiscing elit Ut
-                            et.</p>
+                            <p class="mb-0 font-13">Your last working day may change based on Manager/HR's decision.</p>
                             </div>
-                        </div> -->
+                        </div>
 
                         <div class="col-md-12 mb-3">
                             <div class="form-group ">
@@ -927,17 +967,30 @@
                             <label for="templateName" class="pb-2">
                                 Comment
                             </label>
-                            <textarea class="form-control nots-section" id="exampleFormControlTextarea1"
-                                placeholder="Write description" rows="3"></textarea>
+                            <textarea class="form-control nots-section" id="comment" name="inputComment"
+                                placeholder="Write description" rows="3"  [(ngModel)]="userResignationReq.comment"></textarea>
                         </div>
                      </div>
                     </div>
+
+                    <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
+                        <button class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close" #closeResignationButton>Cancel</button>
+                        
+                        <button *ngIf="!resignationToggle" type="submit" [disabled]="resignationForm.invalid || resignationToggle" class="btn submitActionBtn">Submit</button>
+                        <div class="dot-opacity-loader" *ngIf="resignationToggle">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                          </div>
+                    </div>
+
                 </form>
             </div>
-            <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
+            <!-- <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
                 <button class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>Cancel</button>
-                <button class="btn submitActionBtn">Submit</button>
-            </div>
+                <button class="btn submitActionBtn" (click)="submitResignation()">Submit</button>
+            </div> -->
         </div>
     </div>
 </div>
+<!-- Initiate Exit (UserResignation) Modal End -->

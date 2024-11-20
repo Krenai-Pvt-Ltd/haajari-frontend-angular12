@@ -78,6 +78,7 @@ import { ApproveReq } from '../models/ApproveReq';
 import { UserPositionDTO } from '../models/user-position.model';
 import { AssetRequestDTO } from '../models/AssetRequestDTO';
 import { ExitPolicy } from '../models/ExitPolicy';
+import { UserResignation } from '../models/UserResignation';
 
 
 @Injectable({
@@ -4360,6 +4361,10 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(
       `${this.baseUrl}/user_exit_policy_mapping`, {params}
     );
+  }
+
+  submitResignation(userResignationReq: UserResignation){
+    return this.httpClient.post<any>(`${this.baseUrl}/user-resignation`, userResignationReq);
   }
 
 }
