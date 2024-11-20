@@ -2,13 +2,13 @@
     <div class="employee-profile-information">
         <div class="d-flex align-items-center justify-content-between profile-imfo mt-2 mb-3">
             <div>
-                <h5 class="mb-2">Yogesh Kumar</h5>
+                <h5 class="mb-2">{{ user.name }}</h5>
                 <div class="d-flex align-items-center gap-2 mb-0">
-                    <p class="mb-0 text-primary font-14">UI/ UX designer</p>
+                    <p class="mb-0 text-primary font-14">{{ user.position }}</p>
                     <span class="separator-border"></span>
-                    <p class="mb-0 font-13">Department: Design</p>
+                    <p class="mb-0 font-13">Department: {{ user.department}}</p>
                 </div>
-                <span>Joining Date: 30/10/2023</span>
+                <span>Joining Date: {{ user.joiningDate}}</span>
             </div>
             <div class="d-flex align-items-center gap-3 action-btn">
                 <button class="p-0 btn text-primary gont-14" (click)="profileEdit=true;">
@@ -24,7 +24,7 @@
                     </svg>
                     Edit It</button>
                     <span></span>
-                <button class="p-0 btn text-primary gont-14">
+                <button class="p-0 btn text-primary gont-14" data-bs-toggle="modal" data-bs-target="#profileRequest">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="23" viewBox="0 0 22 23" fill="none">
                         <mask id="mask0_5429_20366" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="22" height="23">
                             <rect y="0.5" width="22" height="22" fill="#D9D9D9" />
@@ -52,43 +52,43 @@
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Email Address</p>
-                                <h6 class="profile-email">yogesh@krenai.com</h6>
+                                <h6 class="profile-email">{{ user.email}}</h6>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Phone Number</p>
-                                <h6>9549901868</h6>
+                                <h6>{{ user.phoneNumber }}</h6>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Gender</p>
-                                <h6>Male</h6>
+                                <h6>{{ user.gender }}</h6>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3" >
                                 <p class="mb-1">Date Of Birth</p>
-                                <h6>13/06/1996</h6>
+                                <h6>{{ user.dateOfBirth }}</h6>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Marital Status</p>
-                                <h6>Single</h6>
+                                <h6>{{ user.maritalStatus }}</h6>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Nationality</p>
-                                <h6>Indian</h6>
+                                <h6>{{ user.nationality }}</h6>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Father’s Name</p>
-                                <h6>Kamal Singh</h6>
+                                <h6>{{ user.fatherName }}</h6>
                             </div>
                         </div>
                     </div>
@@ -99,34 +99,34 @@
                     <div class="profile-imfo-hedding">
                         <h5>Address Details</h5>
                     </div>
-            
+
                 </div>
                 <div class="col-md-9">
                     <div class="row">
                         <div class="col-md-12 ">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Current Address</p>
-                                <h6 class="mb-1">s4517 Washington Ave. Manchester, Kentucky - 39495</h6>
+                                <h6 class="mb-1">{{ addressEmployee[0].addressLine1}} {{ addressEmployee[0].addressLine2}} {{ addressEmployee[0].city}} - {{ addressEmployee[0].pincode}}</h6>
                                 <div class="d-flex align-items-center gap-2">
-                                    <span class="font-13">State: <b>New Delhi</b></span>
+                                    <span class="font-13">State: <b>{{ addressEmployee[0].state }}</b></span>
                                     <span class="separator-line"></span>
-                                    <span class="font-13">Country: <b>India</b></span>
+                                    <span class="font-13">Country: <b>{{ addressEmployee[0].country }}</b></span>
                                 </div>
-                                
+
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Permanent Address</p>
-                                <h6 class="mb-1">2464 Royal Ln. Mesa, New Jersey 45463</h6>
+                                <h6 class="mb-1">{{ addressEmployee[1].addressLine1}} {{ addressEmployee[1].addressLine2}} {{ addressEmployee[1].city}} - {{ addressEmployee[1].pincode}}</h6>
                                 <div class="d-flex align-items-center gap-2">
-                                    <span class="font-13">State: <b>New Delhi</b></span>
+                                    <span class="font-13">State: <b>{{ addressEmployee[1].state }}</b></span>
                                     <span class="separator-line"></span>
-                                    <span class="font-13">Country: <b>India</b></span>
+                                    <span class="font-13">Country: <b>{{ addressEmployee[1].country }}</b></span>
                                 </div>
                             </div>
                         </div>
-                      
+
                     </div>
                 </div>
             </div>
@@ -135,27 +135,27 @@
                     <div class="profile-imfo-hedding">
                         <h5>Reference <span class="font-12">(optional)</span></h5>
                     </div>
-            
+
                 </div>
                 <div class="col-md-9">
                     <div class="row">
-                        <div class="col-md-12 ">
+                        <div *ngFor="let refrence of refrences" class="col-md-12 ">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Name</p>
                                 <div class="d-flex align-items-center gap-2">
-                                   <h6 class="mb-1">Leslie Alexander</h6>
-                                   <span class="text-primary font-12 mb-1">(Relation: Friend)</span>
+                                   <h6 class="mb-1">{{ refrence.name }}</h6>
+                                   <span class="text-primary font-12 mb-1">(Relation: {{ refrence.relation }})</span>
                                 </div>
-                                
+
                                 <div class="d-flex align-items-center gap-2">
-                                    <span class="font-13">Phone Numbers: <b>9876543217</b></span>
+                                    <span class="font-13">Phone Numbers: <b>{{ refrence.phoneNumber }}</b></span>
                                     <span class="separator-line"></span>
-                                    <span class="font-13">Email: <b>wesr123@gmail.com</b></span>
+                                    <span class="font-13">Email: <b>{{ refrence.emailId }}</b></span>
                                 </div>
-            
+
                             </div>
                         </div>
-            
+
                     </div>
                 </div>
             </div>
@@ -164,44 +164,44 @@
                     <div class="profile-imfo-hedding">
                         <h5>Academic Details</h5>
                     </div>
-            
+
                 </div>
                 <div class="col-md-9">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Higher Qualification</p>
-                                <h6 class="profile-email">Bachelor's Degree</h6>
+                                <h6 class="profile-email">{{ academicEmployee.highestEducationalLevel }}</h6>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Degree/Diploma</p>
-                                <h6>B.A</h6>
+                                <h6>{{ academicEmployee.degreeObtained }}</h6>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Field of Study</p>
-                                <h6>History and Political Science</h6>
+                                <h6>{{ academicEmployee.fieldOfStudy }}</h6>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Institution Name</p>
-                                <h6>Jesus and Mary College, <br>University of Delhi</h6>
+                                <h6>{{ academicEmployee.institutionName }}</h6>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">CGPA</p>
-                                <h6>7.303</h6>
+                                <h6>{{ academicEmployee.grade }}</h6>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Graduating Year</p>
-                                <h6>2022</h6>
+                                <h6>{{ academicEmployee.graduationYear }}</h6>
                             </div>
                         </div>
                     </div>
@@ -212,59 +212,50 @@
                     <div class="profile-imfo-hedding">
                         <h5>Experience</h5>
                     </div>
-            
+
                 </div>
                 <div class="col-md-9">
                     <div class="row">
-                        <div class="col-md-12 ">
-                            <div class="profile-imformation mb-3">
-                                <p class="mb-1">Company Name</p>
-                                <div class="d-flex align-items-center gap-2">
-                                    <h6 class="mb-1">Weblieu Technologies Pvt. Ltd.</h6>
-                                    <span class="text-primary font-12 mb-1">(3 months)</span>
-                                </div>
+                        <div *ngFor="let job of experienceEmployee" class="col-md-12 ">
+                          <div class="profile-information mb-3">
+                            <p class="mb-1">Company Name</p>
+                            <div class="d-flex align-items-center gap-2">
+                              <h6 class="mb-1">{{ job.companyName }}</h6>
+                              <span class="text-primary font-12 mb-1">
+                                ({{ job.employementDuration ? job.employementDuration : 'Duration not available' }})
+                              </span>
+                            </div>
 
-                                <p class="mb-0">Duration: 01/12/2021 - 28/02/2022</p>
-            
-                                <div class="d-flex align-items-center gap-2">
-                                    <span class="font-13">Position: <b>Full Stack Developer</b></span>
-                                    <span class="separator-line"></span>
-                                    <span class="font-13">Salary: <b>₹20,000</b></span>
-                                </div>
-                                <div class="d-flex align-items-center gap-2">
-                                    <span class="font-13">Department: <b>Information Technology (IT)</b></span>
-                                </div>
-                                <div class="d-flex align-items-center gap-2">
-                                    <span class="font-13">Responsibilities: <b>Full Stack Developer</b></span>
-                                </div>
-            
+                            <p class="mb-0">
+                              Duration:
+                              {{ job.startDate ? (job.startDate | date:'dd/MM/yyyy') : 'N/A' }} -
+                              {{ job.endDate ? (job.endDate | date:'dd/MM/yyyy') : 'N/A' }}
+                            </p>
+
+                            <div class="d-flex align-items-center gap-2">
+                              <span class="font-13">
+                                Position: <b>{{ job.lastJobPosition ? job.lastJobPosition.trim() : 'N/A' }}</b>
+                              </span>
+                              <span class="separator-line"></span>
+                              <span class="font-13">
+                                Salary: <b>₹{{ job.lastSalary ? job.lastSalary : 'N/A' }}</b>
+                              </span>
                             </div>
-                        </div>
-                        <div class="col-md-12 ">
-                            <div class="profile-imformation mb-3">
-                                <p class="mb-1">Company Name</p>
-                                <div class="d-flex align-items-center gap-2">
-                                    <h6 class="mb-1">WSRHBJN</h6>
-                                    <span class="text-primary font-12 mb-1">(3 months)</span>
-                                </div>
-                        
-                                <p class="mb-0">Duration: 01/12/2021 - 28/02/2022</p>
-                        
-                                <div class="d-flex align-items-center gap-2">
-                                    <span class="font-13">Position: <b>Full Stack Developer</b></span>
-                                    <span class="separator-line"></span>
-                                    <span class="font-13">Salary: <b>₹20,000</b></span>
-                                </div>
-                                <div class="d-flex align-items-center gap-2">
-                                    <span class="font-13">Department: <b>Information Technology (IT)</b></span>
-                                </div>
-                                <div class="d-flex align-items-center gap-2">
-                                    <span class="font-13">Responsibilities: <b>Full Stack Developer</b></span>
-                                </div>
-                        
+
+                            <div class="d-flex align-items-center gap-2">
+                              <span class="font-13">
+                                Department: <b>{{ job.lastJobDepartment ? job.lastJobDepartment : 'N/A' }}</b>
+                              </span>
                             </div>
+
+                            <div class="d-flex align-items-center gap-2">
+                              <span class="font-13">
+                                Responsibilities: <b>{{ job.jobResponisibilities ? job.jobResponisibilities : 'N/A' }}</b>
+                              </span>
+                            </div>
+                          </div>
+
                         </div>
-            
                     </div>
                 </div>
             </div>
@@ -273,32 +264,32 @@
                     <div class="profile-imfo-hedding">
                         <h5>Bank Details</h5>
                     </div>
-            
+
                 </div>
                 <div class="col-md-9">
                     <div class="row">
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Account Holder Name</p>
-                                <h6 class="profile-email">Yogesh Kumar</h6>
+                                <h6 class="profile-email">{{ bankDetailsEmployee.accountHolderName }}</h6>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Bank Name</p>
-                                <h6>ICIC Bank</h6>
+                                <h6>{{ bankDetailsEmployee.bankName }}</h6>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Account Number</p>
-                                <h6>098765432234</h6>
+                                <h6>{{ bankDetailsEmployee.accountNumber }}</h6>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">IFSC Number</p>
-                                <h6>ICICOF12345</h6>
+                                <h6>{{ bankDetailsEmployee.ifsc }}</h6>
                             </div>
                         </div>
                     </div>
@@ -309,41 +300,25 @@
                     <div class="profile-imfo-hedding">
                         <h5>Emergency Contact</h5>
                     </div>
-            
+
                 </div>
                 <div class="col-md-9">
                     <div class="row">
-                        <div class="col-md-12 ">
+                        <div *ngFor="let emergencyContact of emergencyContacts" class="col-md-12 ">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1"> Name</p>
                                 <div class="d-flex align-items-center gap-2">
-                                    <h6 class="mb-1">Leslie Alexander</h6>
+                                    <h6 class="mb-1">{{ emergencyContact.contactName }}</h6>
                                 </div>
-            
-                                <p class="mb-0">Relation with Employee: <span class="text-primary">Father</span></p>
-            
+
+                                <p class="mb-0">Relation with Employee: <span class="text-primary">{{ emergencyContact.relationWithEmployee }}</span></p>
+
                                 <div class="d-flex align-items-center gap-2">
-                                    <span class="font-13">Phone Numbers: <b>9876543217</b></span>
+                                    <span class="font-13">Phone Numbers: <b>{{ emergencyContact.contactNumber }}</b></span>
                                 </div>
-            
+
                             </div>
                         </div>
-                        <div class="col-md-12 ">
-                            <div class="profile-imformation mb-3">
-                                <p class="mb-1"> Name</p>
-                                <div class="d-flex align-items-center gap-2">
-                                    <h6 class="mb-1">Leslie Alexander</h6>
-                                </div>
-                        
-                                <p class="mb-0">Relation with Employee: <span class="text-primary">Mother</span></p>
-                        
-                                <div class="d-flex align-items-center gap-2">
-                                    <span class="font-13">Phone Numbers: <b>9876543217</b></span>
-                                </div>
-                        
-                            </div>
-                        </div>
-            
                     </div>
                 </div>
             </div>
@@ -454,7 +429,7 @@
                             <label class="form__label">Nationality </label>
                         </div>
                     </div>
-                    
+
 
                </div>
             </div>
@@ -467,7 +442,7 @@
             </div>
             <div class="col-md-9">
                 <div class="row mb-3">
-                    
+
                     <h6 class="mb-3">Current Address</h6>
 
                     <div class="col-md-12 mb-3">
@@ -502,9 +477,9 @@
                     </div>
                 </div>
                 <div class="row">
-                
+
                     <h6 class="mb-3">Permanent Address</h6>
-                
+
                     <div class="col-md-12 mb-3">
                         <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                             <input type="input" class="form__field" value="VPO-Sanoli, Tehsil-Mundawar, Dist-Alwar">
@@ -599,7 +574,7 @@
                             <label class="form__label">Field of Study </label>
                         </div>
                     </div>
-                   
+
                     <div class="col-md-6 mb-3">
                         <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                             <input type="input" class="form__field" value=" 7.303">
@@ -689,3 +664,44 @@
 </div>
 
 
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#profileRequest">
+    Profile Update Request
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="profileRequest" tabindex="-1" role="dialog" #profileRequestModal aria-hidden="true"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 470px;">
+        <div class="modal-content">
+           
+            <div class="modal-body p-0">
+               <div class="profile-update-request d-flex align-items-center justify-content-center">
+
+                <img src="assets/images/profile-request.svg" style="width:160px">
+
+
+                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
+                            height="24">
+                            <rect width="24" height="24" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_5037_2014)">
+                            <path d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+                                fill="black" />
+                        </g>
+                    </svg>
+                </button>
+
+               </div>
+               <div class="p-3">
+                  <h5>Profile Update Request</h5>
+                  <p class="font-13">ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo, non suscipit
+                ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo, non suscipit </p>
+                <button class="w-100 btn submitActionBtn mt-2 mb-2">Request now</button>
+               </div>
+            </div>
+           
+        </div>
+    </div>
+</div>

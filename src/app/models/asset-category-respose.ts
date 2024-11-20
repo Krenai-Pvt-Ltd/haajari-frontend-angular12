@@ -12,7 +12,7 @@ export interface OrganizationAssetResponse {
     assetName: string;
     serialNumber: string;
     createdDate: Date;
-    purchasedDate: Date;
+    purchasedDate: any;
     expiryDate: Date;
     price: string;
     location: string;
@@ -22,6 +22,7 @@ export interface OrganizationAssetResponse {
     userImage: string;
     categoryName: string;
     categoryImage: string;
+    
 }
 
 export interface AssetCategoryRequest {

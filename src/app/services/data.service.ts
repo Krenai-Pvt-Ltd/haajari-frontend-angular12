@@ -1391,6 +1391,30 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
+  getUserLeaveLogFilter(
+    userUuid: string,
+    page: number,
+    size: number,
+    leaveType?: string,
+    status?: string,
+    search?: string
+  ): Observable<any> {
+    let params = new HttpParams()
+      .set('userUuid', userUuid)
+      .set('page', page)
+      .set('size', size);
+
+    if (leaveType) params = params.set('leaveType', leaveType);
+    if (status) params = params.set('status', status);
+    if (search) params = params.set('search', search);
+
+    return this.httpClient.get<any>(`${this.baseUrl}/user-leave-logs/leave-log-filter`, { params });
+  }
+
+  deleteUserLog(id: number): Observable<void> {
+    return this.httpClient.delete<void>(`${this.baseUrl}/user-leave-logs/${id}`);
+  }
+
   getUserLeaveLogByStatus(userUuid: string, status?: string): Observable<any> {
     let params = new HttpParams().set('userUuid', userUuid);
     if (status) {
@@ -2252,7 +2276,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   }
 
   //Salary module
-  
+
 
   getSalaryCalculationModeByOrganizationId(): Observable<any> {
     return this.httpClient.get<any>(
@@ -2260,7 +2284,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
-  
+
 
   getPFContributionRate(): Observable<any> {
     return this.httpClient.get<any>(
@@ -2296,7 +2320,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
-  
+
 
   enableOrDisableStatutory(
     statutoryRequest: StatutoryRequest
@@ -2591,11 +2615,13 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
 
   approveOrRejectLeaveOfUser(
     requestedLeaveId: number,
-    appRejString: string
+    appRejString: string,
+    rejectionReason: string
   ): Observable<any> {
     const params = new HttpParams()
       .set('requestedLeaveId', requestedLeaveId)
-      .set('appRejString', appRejString);
+      .set('appRejString', appRejString)
+      .set('rejectionReason', rejectionReason);
     return this.httpClient.post<any>(
       `${this.baseUrl}/central-leave-management/approve-reject-leaves`,
       {},
@@ -2740,7 +2766,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
-  
+
 
   getNewJoineeByOrganizationId(
     itemPerPage: number,
@@ -3749,7 +3775,7 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.put(url,{}, { params });
   }
 
-  
+
 
   getAssetForUser(userUuid:string, search: string, pageNumber: number, itemPerPage: number): Observable<any> {
     const url = `${this.baseUrl}/asset/allocation/get/asset/allocation/user/entries`;
@@ -3851,7 +3877,7 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.put<any>(url, {}, {params});
   }
 
- 
+
 
   registerPayrollProcessStepByOrganizationIdAndStartDateAndEndDate(startDate: string, endDate: string, payrollProcessStepId: number):Observable<any>{
     const params = new HttpParams()
@@ -3867,7 +3893,7 @@ getHolidayForOrganization(date: string): Observable<any>{
   }
 
 
-  
+
 
   enableOrDisablePreHourOvertimeSetting(overtimeSettingRequest : OvertimeSettingRequest): Observable<any>{
 
@@ -4272,7 +4298,7 @@ getHolidayForOrganization(date: string): Observable<any>{
     .set('sortBy', 'createdDate')
     .set('sortOrder', 'desc')
     .set('role', role)
-  
+
     return this.httpClient.get<any>(`${this.baseUrl}/company-expense`, {params});
   }
 
@@ -4283,7 +4309,7 @@ getHolidayForOrganization(date: string): Observable<any>{
     .set('item_per_page', databaseHelper.itemPerPage)
     .set('sortBy', 'createdDate')
     .set('sortOrder', 'desc')
-  
+
     return this.httpClient.get<any>(`${this.baseUrl}/company-expense-policy/rule`, {params});
   }
 

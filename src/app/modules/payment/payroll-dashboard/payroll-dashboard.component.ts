@@ -2097,9 +2097,10 @@ extractPreviousMonthNameFromDate(dateString : string){
     })
   }
 
+  rejectionReason: string =''
   approveOrDeny(requestId: number, requestedString: string) {
     this.dataService
-      .approveOrRejectLeaveOfUser(requestId, requestedString)
+      .approveOrRejectLeaveOfUser(requestId, requestedString, this.rejectionReason)
       .subscribe({
         next: (logs) => {
         this.getPayrollLeaveLogResponseMethodCall(this.userUuid);
