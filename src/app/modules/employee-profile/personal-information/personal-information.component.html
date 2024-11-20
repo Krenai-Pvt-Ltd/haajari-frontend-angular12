@@ -70,7 +70,7 @@
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3" >
                                 <p class="mb-1">Date Of Birth</p>
-                                <h6>{{ user.dob }}</h6>
+                                <h6>{{ user.dateOfBirth }}</h6>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -139,18 +139,18 @@
                 </div>
                 <div class="col-md-9">
                     <div class="row">
-                        <div class="col-md-12 ">
+                        <div *ngFor="let refrence of refrences" class="col-md-12 ">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Name</p>
                                 <div class="d-flex align-items-center gap-2">
-                                   <h6 class="mb-1">Leslie Alexander</h6>
-                                   <span class="text-primary font-12 mb-1">(Relation: Friend)</span>
+                                   <h6 class="mb-1">{{ refrence.name }}</h6>
+                                   <span class="text-primary font-12 mb-1">(Relation: {{ refrence.relation }})</span>
                                 </div>
 
                                 <div class="d-flex align-items-center gap-2">
-                                    <span class="font-13">Phone Numbers: <b>9876543217</b></span>
+                                    <span class="font-13">Phone Numbers: <b>{{ refrence.phoneNumber }}</b></span>
                                     <span class="separator-line"></span>
-                                    <span class="font-13">Email: <b>wesr123@gmail.com</b></span>
+                                    <span class="font-13">Email: <b>{{ refrence.emailId }}</b></span>
                                 </div>
 
                             </div>
