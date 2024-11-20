@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
+import { ExitPolicy } from 'src/app/models/ExitPolicy';
 import { Staff } from 'src/app/models/staff';
 import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-reflection';
 import { DataService } from 'src/app/services/data.service';
@@ -270,7 +271,145 @@ export class ExistPolicyComponent implements OnInit {
     this.getUserByFiltersMethodCall();
   }
 
+  noticePeriodDuration: number = 0;
+  userNameWithBranchName: any[] = new Array();
+  @ViewChild("closeButton") closeButton!:ElementRef;
+  @ViewChild("closeExitPolicyModal") closeExitPolicyModal!:ElementRef;
+
+  @ViewChild('usersAlreadyAssigned') usersAlreadyAssigned!: ElementRef
+  tempSelectedStaffIdsUser: number[] = [];
+  isMappedUserModalOpen: boolean = false;
+
+  exitPolicyReq: ExitPolicy = new ExitPolicy();
+
+  // tempCompanyExpenseReq: CompanyExpense = new CompanyExpense();
+  // tempExpensePolicyReqList: ExpensePolicy[] = [];
+  pName: string = ''
   getUserMappedWithPolicy(form: NgForm){
+    debugger
+    this.userMappedLoading = true;
+    this.userNameWithBranchName = []
+    this.dataService.getUserMappedWithExitPolicy(this.selectedStaffIdsUser, this.exitPolicyId).subscribe((response: any) => {
+
+      if(response.status){
+        this.userNameWithBranchName = response.object;
+        this.tempSelectedStaffIdsUser = this.selectedStaffIdsUser
+
+        // Add temp request for create expense
+        // this.pName = this.policyName
+      // this.tempCompanyExpenseReq.policyName = this.tempPolicyName;
+      // this.tempCompanyExpenseReq.expensePolicyList = this.expensePolicyReqList
+      // this.tempCompanyExpenseReq.selectedUserIds = this.selectedStaffIdsUser
+
+      // this.tempCompanyExpenseReq.deSelectedUserIds = this.userNameWithBranchName.map(item => item.id);
+
+
+      this.exitPolicyReq.name = this.policyName
+      this.exitPolicyReq.noticePeriod = this.noticePeriodDuration
+      this.exitPolicyReq.selectedUserIds = this.selectedStaffIdsUser
+
+      }
+
+      console.log('userLen: ',this.userNameWithBranchName.length)
+        if( this.userNameWithBranchName.length != 0) {
+          this.isMappedUserModalOpen = true;
+          // console.log('Opening modal..')
+          this.closeExitPolicyModal.nativeElement.click();
+          this.usersAlreadyAssigned.nativeElement.click();
+          this.userMappedLoading = false;
+        }else{
+          // console.log('Going to create..')
+          this.registerExitPolicy(form);
+        }
+
+      },
+      (error:any) => {
+        console.log('error');
+      }
+    );
+  }
+
+  isValidated: boolean = false;
+  checkValidation() {
+    this.isValidated ? false : true;
+  }
+
+  closeModal(){
+
+  }
+
+
+  remainingIds: number[] = [];
+  removeUserIds: number[] = [];
+  removeUser(userId: number) {
+    debugger
+    // console.log('temp req: ',this.tempCompanyExpenseReq)
+
+    this.tempSelectedStaffIdsUser = this.tempSelectedStaffIdsUser.filter(
+      (id) => id != userId
+    );
+
+    // Update the 'selected' status for each staff member based on selectedStaffIdsUser
+    this.userNameWithBranchName = this.userNameWithBranchName.filter(
+      (staff) => staff.id !== userId
+    );
+
+  // Create a new list with only the IDs of the remaining items
+   this.remainingIds = this.userNameWithBranchName.map((staff) => staff.id);
+
+    this.selectedStaffIdsUser = this.tempSelectedStaffIdsUser
+
+
+    if(this.updateToggle){
+      this.removeUserIds = this.remainingIds;
+      this.exitPolicyReq.removeUserIds = this.removeUserIds;
+    }else{
+      this.deSelectedStaffIdsUser = this.remainingIds
+      this.exitPolicyReq.deSelectedUserIds = this.deSelectedStaffIdsUser;
+    }
+
+    this.exitPolicyReq.selectedUserIds = this.selectedStaffIdsUser;
+  }
+
+
+
+  exitPolicyId: number = 0;
+  tempExpPolicyId: number =0;
+  // getExpenseInformationById(companyExpense: CompanyExpensePolicyRes){
+  getExpenseInformationById(companyExpense: ExitPolicy){
+
+  }
+
+  registerToggle: boolean = false;
+  registerExitPolicy(form: NgForm){
+    console.log('create req: ',this.exitPolicyReq)
+    this.registerToggle = true;
+    this.dataService.createExitPolicy(this.exitPolicyReq).subscribe((res: any) => {
+      if(res.status){
+        this.registerToggle = false;
+        this.closeExitPolicyModal.nativeElement.click()
+
+        this.exitPolicyReq = new ExitPolicy();
+
+        form.resetForm()
+
+      }
+    });
+  }
+
+  clearPolicyForm(){
+    this.exitPolicyReq = new ExitPolicy();
+    // this.tempCompanyExpenseReq = new CompanyExpense();
+
+    this.selectedStaffIdsUser = []
+    this.deSelectedStaffIdsUser = []
+    // this.expenseTypeId = 0
+    this.allselected = false;
+    this.policyName = ''
+    this.tempPolicyName = ''
+    this.noticePeriodDuration = 0;
+    // this.companyExpensePolicyId = 0
+    this.exitPolicySelectionTab();
 
   }
 

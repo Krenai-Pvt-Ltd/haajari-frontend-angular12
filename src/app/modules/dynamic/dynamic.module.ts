@@ -73,6 +73,7 @@ import { ReferFriendComponent } from './components/refer-friend/refer-friend.com
 import { NewEmployeeProfileComponent } from './components/new-employee-profile/new-employee-profile.component';
 import { CreateExpenseComponent } from './components/create-expense/create-expense.component';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
+import { ExistPolicyComponent } from './components/exist-policy/exist-policy.component';
 
 
 @NgModule({
@@ -120,6 +121,7 @@ import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
     ReferFriendComponent,
     NewEmployeeProfileComponent,
     CreateExpenseComponent,
+    ExistPolicyComponent,
   ],
   imports: [
     CommonModule,

@@ -77,6 +77,7 @@ import { DatabaseHelper } from '../models/DatabaseHelper';
 import { ApproveReq } from '../models/ApproveReq';
 import { UserPositionDTO } from '../models/user-position.model';
 import { AssetRequestDTO } from '../models/AssetRequestDTO';
+import { ExitPolicy } from '../models/ExitPolicy';
 
 
 @Injectable({
@@ -4336,6 +4337,24 @@ getHolidayForOrganization(date: string): Observable<any>{
 
     return this.httpClient.get<any>(
       `${this.baseUrl}/user_company_expense_type_policy_mapping`, {params}
+    );
+  }
+
+  /** Exit policy */
+
+  createExitPolicy(exitPolicyReq: ExitPolicy){
+    return this.httpClient.post<any>(`${this.baseUrl}/exit-policy`, exitPolicyReq);
+  }
+
+  getUserMappedWithExitPolicy(selectedUserIds: any, exitPolicyId: number) {
+    let params = new HttpParams().set('selectedUserIds', selectedUserIds);
+
+    if(exitPolicyId > 0){
+      params = params.set('exitPolicyId',exitPolicyId)
+    }
+
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/user_exit_policy_mapping`, {params}
     );
   }
 
