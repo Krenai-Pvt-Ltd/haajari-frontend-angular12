@@ -1,0 +1,17 @@
+.employee-exit{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.employee-exit h5{
+    color: #2F2E41;
+    font-weight: 400;
+}
+
+.employee-exit p {
+    color: #444;
+    font-weight: 400;
+}
