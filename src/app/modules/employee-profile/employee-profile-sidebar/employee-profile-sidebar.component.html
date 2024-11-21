@@ -295,7 +295,7 @@
                     Check-out</button> -->
 
 
-        <!-- <div class="check-in">
+        <div class="check-in">
             <div class="d-flex align-items-center gap-2 check-in-info p-2">
             <img src="assets/images/check-in-image.svg">
             <h5 class="mb-0">Time to Check In and <br> Start Your Shift</h5>
@@ -313,8 +313,8 @@
                         fill="white" />
                 </svg>
                 Check-In</button>
-        </div> -->
-        <div class="d-flex align-items-center gap-2">
+        </div>
+        <!-- <div class="d-flex align-items-center gap-2">
             
                 <button class="btn break-back w-90">
                         <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
@@ -350,7 +350,7 @@
                     </svg>
                     Check-Out
                 </button>
-        </div>
+        </div> -->
         <!-- <div class="break-back">
             <div class="d-flex align-items-center gap-2 back-info p-2">
                 <img src="assets/images/back.svg">
@@ -406,8 +406,11 @@
             <span>+5</span>
         </ul>
         <div *ngIf="adminRoleFlag">
-          <button class="btn-primary" (click)="openFormModal(formContent,'Promotion')">Promotion</button>
-          <button class="btn-primary" (click)="openFormModal(formContent,'Add Journey')">Add Journey</button>
+            <!-- (click)="openFormModal(formContent,'Promotion')" -->
+            <!-- (click)="openFormModal(formContent,'Add Journey')" -->
+
+          <button class="btn-primary" data-bs-target="#upgradePosition" data-bs-toggle="modal" (click)="openFormModal('Promotion')">Promotion</button>
+          <button class="btn-primary"  data-bs-target="#upgradePosition" data-bs-toggle="modal" (click)="openFormModal('Journey')">Add Journey</button>
           <button *ngIf="employeeProfileResponseData?.isProbation" class="btn btn-primary" (click)="openConfirmationModal(confirmationModal)">Complete Probation</button>
         </div>
         <h5 class="mb-3 mt-5">Journey With us</h5>
@@ -599,7 +602,110 @@
     </div>
 </div>
 
-<ng-template #formContent let-modal>
+
+
+<!-- <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#upgradePosition">
+    Upgrade Position
+</button> -->
+
+
+<div class="modal fade" id="upgradePosition" tabindex="-1" role="dialog" #upgradepositionModal aria-hidden="true"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Upgrade Position</h5>
+                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="24" height="24">
+                            <rect width="24" height="24" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_5037_2014)">
+                            <path
+                                d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+                                fill="black" />
+                        </g>
+                    </svg>
+                </button>
+            </div>
+            <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+            <div class="modal-body">
+               
+                    <div class="col-md-12 mb-3">
+                        <label for="position" class="pb-2">Position</label>
+                        <input maxlength="50" class="seach-dropdown input-zorro" id="positionDropdown" name="positionDropdown"
+                            placeholder="Select Position" nz-input formControlName="position" [nzAutocomplete]="positionAuto"
+                            (ngModelChange)="onChange($event)" (keydown)="preventLeadingWhitespace($event)" required />
+                        <nz-autocomplete [nzDataSource]="positionFilteredOptions" #positionAuto></nz-autocomplete>
+
+                        <div *ngIf="myForm.get('position')?.touched && myForm.get('position')?.invalid">
+                            <p class="text-danger">Position is required</p>
+                        </div>
+                    </div>
+                
+                    <div class="col-md-12 mb-3">
+                        <label for="effectiveDate" class="pb-2">Effective Date</label>
+
+                        <input type="date" id="effectiveDate" formControlName="effectiveDate" class="form-control" />
+
+                        <!-- <nz-date-picker id="effectiveDate" nzPlaceHolder="dd/mm/yyyy" name="effectiveDate" required>
+                        </nz-date-picker> -->
+
+
+                        <div *ngIf="myForm.get('effectiveDate')?.touched && myForm.get('effectiveDate')?.invalid">
+                            <p class="text-danger">Effective Date is required</p>
+                        </div>
+                    </div>
+                 
+                    <div class="col-md-12 mb-3" *ngIf="isPromotion">
+                        <label for="endDate" class="pb-2">End Date</label>
+
+                        <!-- <nz-date-picker id="effectiveDate" nzPlaceHolder="dd/mm/yyyy" name="effectiveDate" required>
+                        </nz-date-picker> -->
+
+                        <input type="date" id="endDate" formControlName="endDate" class="form-control" />
+                
+                    </div>
+                
+                    <div class="col-md-12 mb-3" *ngIf="employeeProfileResponseData?.isProbation">
+                        <label for="isProbation" class="pb-2">Probation Status</label>
+                        <select id="isProbation" formControlName="isProbation" class="form-control">
+                            <option [ngValue]="true">Under Probation</option>
+                            <option [ngValue]="false">Confirmed</option>
+                        </select>
+
+
+                        <!-- <nz-form-control>
+                            <nz-select class="form-control" style="width: 100%" nzSize="large" nzPlaceHolder="Select termination reason"
+                                required>
+                                <nz-option [nzValue]="'Announcement'" [nzLabel]="'Announcement'"></nz-option>
+                                <nz-option [nzValue]="'Post'" [nzLabel]="'Post'"></nz-option>
+                                <nz-option [nzValue]="'Poll'" [nzLabel]="'Poll'"></nz-option>
+                            </nz-select>
+                        </nz-form-control> -->
+                    </div>
+                
+                   
+            </div>
+            <div class="modal-footer">
+                <button type="submit" [disabled]="isSaving" class="btn btn-primary" [disabled]="myForm.invalid">
+                    <ng-container *ngIf="saveButtonLoader; else loginButton">
+                        <div class="dot-opacity-loader">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </ng-container>
+                    <ng-template #loginButton> Submit </ng-template>
+                </button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- <ng-template #formContent let-modal>
   <div class="modal-header">
     <h4 class="modal-title">Upgrade Position</h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
@@ -663,7 +769,7 @@
       </button>
     </form>
   </div>
-</ng-template>
+</ng-template> -->
 
 
 <ng-template #confirmationModal let-modal>

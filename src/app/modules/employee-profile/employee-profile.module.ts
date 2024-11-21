@@ -39,6 +39,8 @@ import { EmployeeExitComponent } from './employee-exit/employee-exit.component';
     CommonModule,
     FormsModule,
     EmployeeProfileRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
     NzDatePickerModule,
     NzDropDownModule,
     NzSelectModule,
@@ -48,6 +50,7 @@ import { EmployeeExitComponent } from './employee-exit/employee-exit.component';
     NzAutocompleteModule,
     NgbPaginationModule,
     NzTimePickerModule,
+    NzDatePickerModule,
   ]
 })
 export class EmployeeProfileModule { }

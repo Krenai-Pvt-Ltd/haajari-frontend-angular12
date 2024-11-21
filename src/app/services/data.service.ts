@@ -2289,11 +2289,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
 
 
 
-  getPFContributionRate(): Observable<any> {
-    return this.httpClient.get<any>(
-      `${this.baseUrl}/statutory/pf-contribution-rate`
-    );
-  }
+ 
 
   // generateNewAttendanceLink(userUuid: string): Observable<any> {
   //   let params = new HttpParams().set('userUuid', userUuid);
@@ -2317,11 +2313,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   //   return this.httpClient.get<any>(`${this.baseUrl}/account-setting/get/subscription-plan-id`);
   // }
 
-  getESIContributionRate(): Observable<any> {
-    return this.httpClient.get<any>(
-      `${this.baseUrl}/statutory/esi-contribution-rate`
-    );
-  }
+
 
 
 
@@ -2492,9 +2484,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
 
   // ###############
 
-  getAllSalaryComponents(): Observable<any> {
-    return this.httpClient.get<any>(`${this.baseUrl}/salary/component/get/all`);
-  }
+
 
   getSalaryTemplateComponentById(salaryTemplateId: number): Observable<any> {
     const params = new HttpParams().set('salary_template_id', salaryTemplateId);
@@ -2505,11 +2495,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
-  getAllSalaryTemplateComponentByOrganizationId(): Observable<any> {
-    return this.httpClient.get<any>(
-      `${this.baseUrl}/salary/template/component/get/all`
-    );
-  }
+  
 
   getSalaryTemplateComponentByUserUuid(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/salary/template/component/get-by-user-uuid`);
