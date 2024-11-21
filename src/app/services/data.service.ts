@@ -1384,6 +1384,10 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     });
   }
 
+  saveOnboardingData( onboardingPreviewData: OnboardingFormPreviewResponse ): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/get/onboarding/save-onboarding-data`,onboardingPreviewData)
+  }
+
   getUserLeaveLog(userUuid: string): Observable<any> {
     const params = new HttpParams().set('userUuid', userUuid);
 
@@ -1410,8 +1414,9 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     if (status) params = params.set('status', status);
     if (search) params = params.set('search', search);
 
-    return this.httpClient.get<any>(`${this.baseUrl}/user-leave-logs/leave-log-filter`, { params });
+    return this.httpClient.get<any>(`${this.baseUrl}/user-leave/leave-log-filter`, { params });
   }
+  
 
   deleteUserLog(id: number): Observable<void> {
     return this.httpClient.delete<void>(`${this.baseUrl}/user-leave-logs/${id}`);
@@ -4331,6 +4336,13 @@ getHolidayForOrganization(date: string): Observable<any>{
 
     return this.httpClient.get<any>(
       `${this.baseUrl}/user_exit_policy_mapping`, {params}
+    );
+  }
+
+  getNoticePeriodDuration(uuid: string) {
+    let params = new HttpParams().set('uuid', uuid);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/user_exit_policy_mapping/notice-period`, {params}
     );
   }
 
