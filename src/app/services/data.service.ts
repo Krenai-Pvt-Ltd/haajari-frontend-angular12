@@ -1382,6 +1382,10 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     });
   }
 
+  saveOnboardingData( onboardingPreviewData: OnboardingFormPreviewResponse ): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/get/onboarding/save-onboarding-data`,onboardingPreviewData)
+  }
+
   getUserLeaveLog(userUuid: string): Observable<any> {
     const params = new HttpParams().set('userUuid', userUuid);
 
