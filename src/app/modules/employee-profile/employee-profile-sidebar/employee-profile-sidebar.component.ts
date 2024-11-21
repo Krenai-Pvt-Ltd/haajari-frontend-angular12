@@ -172,13 +172,13 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   }
 
   isPromotion: boolean=false;
-  openFormModal(content: TemplateRef<any>,validate: String) {
-    this.isPromotion=true;
+  openFormModal(validate: String) {
     if(validate==='Promotion'){
       this.isPromotion=false;
+    } else {
+        this.isPromotion=true;
     }
-    this.cdr.detectChanges();
-    this.modalService.open(content);
+ 
   }
 
   openConfirmationModal(content: any) {
@@ -233,6 +233,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
       this.dataService.saveUserPosition(userPositionDTO).subscribe(
         (response) => {
           console.log('Position saved successfully', response);
+          /// get only sidebar component data
           window.location.reload();
         },
         (error) => {
