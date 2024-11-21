@@ -1044,6 +1044,23 @@
                                 ><i class="bi bi-trash3"></i> Delete Account</a
                               >
                             </li>
+
+                            <li>
+                              <a
+                                class="dropdown-item initiate-btn"
+                                data-bs-toggle="modal"
+                                data-bs-target="#initiateExit"
+                                (click)="getUserUuid(user.uuid)"
+                                > 
+                                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
+                                  <path
+                                    d="M8.99998 13.5C9.63748 13.5 10.25 13.4031 10.8375 13.2094C11.425 13.0156 11.975 12.7375 12.4875 12.375C11.975 12.0125 11.425 11.7344 10.8375 11.5406C10.25 11.3469 9.63748 11.25 8.99998 11.25C8.36248 11.25 7.74998 11.3469 7.16248 11.5406C6.57498 11.7344 6.02498 12.0125 5.51248 12.375C6.02498 12.7375 6.57498 13.0156 7.16248 13.2094C7.74998 13.4031 8.36248 13.5 8.99998 13.5ZM10.9875 7.35L9.91873 6.28125C9.98123 6.18125 10.0312 6.075 10.0687 5.9625C10.1062 5.85 10.125 5.7375 10.125 5.625C10.125 5.3125 10.0156 5.04688 9.79685 4.82813C9.5781 4.60938 9.31248 4.5 8.99998 4.5C8.88748 4.5 8.77498 4.51875 8.66248 4.55625C8.54998 4.59375 8.44373 4.64375 8.34373 4.70625L7.27498 3.6375C7.51248 3.425 7.7781 3.26563 8.07185 3.15938C8.3656 3.05313 8.67498 3 8.99998 3C9.72498 3 10.3437 3.25625 10.8562 3.76875C11.3687 4.28125 11.625 4.9 11.625 5.625C11.625 5.95 11.5719 6.25938 11.4656 6.55313C11.3594 6.84688 11.2 7.1125 10.9875 7.35ZM15.2625 11.625L14.175 10.5375C14.45 10.075 14.6562 9.5875 14.7937 9.075C14.9312 8.5625 15 8.0375 15 7.5C15 5.825 14.4187 4.40625 13.2562 3.24375C12.0937 2.08125 10.675 1.5 8.99998 1.5C8.46248 1.5 7.93748 1.56875 7.42498 1.70625C6.91248 1.84375 6.42498 2.05 5.96248 2.325L4.87498 1.2375C5.48748 0.8375 6.14373 0.53125 6.84373 0.31875C7.54373 0.10625 8.26248 0 8.99998 0C10.0375 0 11.0125 0.196875 11.925 0.590625C12.8375 0.984375 13.6312 1.51875 14.3062 2.19375C14.9812 2.86875 15.5156 3.6625 15.9094 4.575C16.3031 5.4875 16.5 6.4625 16.5 7.5C16.5 8.2375 16.3937 8.95625 16.1812 9.65625C15.9687 10.3563 15.6625 11.0125 15.2625 11.625ZM8.99998 15C7.96248 15 6.98748 14.8031 6.07498 14.4094C5.16248 14.0156 4.36873 13.4813 3.69373 12.8063C3.01873 12.1313 2.48435 11.3375 2.0906 10.425C1.69685 9.5125 1.49998 8.5375 1.49998 7.5C1.49998 6.7625 1.6031 6.04375 1.80935 5.34375C2.0156 4.64375 2.31873 3.98125 2.71873 3.35625L0.506226 1.125L1.57498 0.05625L16.425 14.9063L15.3562 15.975L3.82498 4.4625C3.54998 4.925 3.34373 5.4125 3.20623 5.925C3.06873 6.4375 2.99998 6.9625 2.99998 7.5C2.99998 8.2125 3.11873 8.89375 3.35623 9.54375C3.59373 10.1938 3.93748 10.7875 4.38748 11.325C5.06248 10.8125 5.7906 10.4219 6.57185 10.1531C7.3531 9.88438 8.16248 9.75 8.99998 9.75C9.47498 9.75 9.94998 9.8 10.425 9.9C10.9 10 11.3625 10.1375 11.8125 10.3125L14.3062 12.8063C13.5937 13.5188 12.7812 14.0625 11.8687 14.4375C10.9562 14.8125 9.99998 15 8.99998 15Z"
+                                    fill="#575757" />
+                                </svg>
+                                Initiate Exit</a
+                              >
+                            </li>
+
                             <!-- <li><a class="dropdown-item" *ngIf="onboardingVia === 'SLACK' && user.slackUserId === null " (click)="saveSlackUserIdViaEmailData(user.email)"><i class="bi bi-arrow-repeat"></i> Fetch Slack UserId</a></li> -->
                           </div>
                         </div>
@@ -2333,3 +2350,150 @@
     </div>
   </div>
 </div>
+
+
+<!-- Initiate Exit (UserResignation) Modal Start -->
+<div class="modal fade" id="initiateExit" tabindex="-1" role="dialog" #assetRequestModal aria-hidden="true"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Initiate Exit</h5>
+                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeResignationButton>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="24" height="24">
+                            <rect width="24" height="24" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_5037_2014)">
+                            <path
+                                d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+                                fill="black" />
+                        </g>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body p-0">
+                <form #resignationForm="ngForm" (ngSubmit)="submitResignation(resignationForm)">
+                <!-- <form> -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="hr-notes p-3">
+                              <p class="mb-0 font-13"> <span class="text-primary"> Note:</span> HR will take the final action on the exit request</p>
+                            </div>
+                        </div>
+
+
+                        <div class="p-4">
+
+                        <div class="col-md-12 mb-3">
+                            <label for="templateName" class="pb-2">
+                            What is the reason for initiating the exit?
+                            </label>
+                            <input class="form-control input-zorro" placeholder="Enter the reason" [(ngModel)]="userResignationReq.reason"
+                                nzSize="large" minlength="3" maxlength="50" id="reason" name="inputReason" #inputReason="ngModel" required />
+                               
+                                <div *ngIf="inputReason.invalid && inputReason.touched" class="text-danger">
+                                    {{userResignationReq.reason.length == 0 ? 'Reason is required' : 'Reason must be between 3 and 50 characters'}}
+                                </div>
+                        </div>
+
+                      
+
+                       
+
+                        <div class="col-md-12 mb-3">
+                            <label for="templateName" class="pb-2">
+                              Do you want them to complete their notice period?
+                            </label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                                        <input type="radio" name="recommendDay" id="complete" value="Complete" 
+                                        [(ngModel)]="recommendDay" (change)="selectRecommendDay('Complete')" class="form-check-input">
+                                        <p for="exampleRadios3" class="form-check-label mb-0" required> Complete notice periodes </p>
+                                    </label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                                        <input type="radio" name="recommendDay" id="other" value="Other" required
+                                        [(ngModel)]="recommendDay" (change)="selectRecommendDay('Other')" class="form-check-input">
+                                        <p for="exampleRadios4" class="form-check-label mb-0"> Immediate Termination </p>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div *ngIf="recommendDay == 'Other'" class="col-md-12 mb-3">
+                            <div class="form-group">
+                                <label for="employeeTypeId" class="mb-2">Specify the termination notice date</label>
+                              
+                            <ng-container *ngIf="noticePeriodDuration == 0">
+                                <nz-date-picker *ngIf="userResignationReq.isRecommendLastDay == 1" [(ngModel)]="userResignationReq.lastWorkingDay"
+                                nzPlaceHolder="dd/mm/yyyy"  id="selLastDate"
+                                (ngModelChange)="selectLastWorkingDay($event)" name="lastDate" #lastDate="ngModel"
+                                required class="form-control">   
+                            </nz-date-picker>
+                            </ng-container>
+
+                            <ng-container *ngIf="noticePeriodDuration > 0">
+                                <nz-date-picker *ngIf="userResignationReq.isRecommendLastDay == 1" [(ngModel)]="userResignationReq.lastWorkingDay"
+                                nzPlaceHolder="dd/mm/yyyy" [nzDisabledDate]="disableFutureDates"  id="selLastDate"
+                                (ngModelChange)="selectLastWorkingDay($event)" name="lastDate" #lastDate="ngModel"
+                                required class="form-control">   
+                            </nz-date-picker>
+                            </ng-container>
+                                
+                            </div>
+                        </div> 
+
+                        <div *ngIf="recommendDay == 'Complete'" class="col-md-12 mb-3">
+                            <div class="d-flex align-items-center gap-3 p-3 notice-period-date">
+                                <p class="mb-0">Notice period</p>
+                                <span class="calendar-separator"></span>
+                                <h6 class="mb-0">{{userResignationReq.lastWorkingDay | date: 'dd MMM yyyy'}}</h6>
+                            </div>
+                        </div>
+                        
+                        <div *ngIf="recommendDay == 'Other' && (userResignationReq.lastWorkingDay != null && userResignationReq.lastWorkingDay != '')" class="col-md-12 mb-3 ">
+                            <div class="notice-period-error p-3">
+                            <div class="d-flex align-items-center gap-3 mb-2">
+                                <p class="mb-0">Notice period</p>
+                                <span class="calendar-separator"></span>
+                                <h6 class="mb-0">{{userResignationReq.lastWorkingDay | date: 'dd MMM yyyy'}}</h6>
+                            </div>
+                            <!-- <p class="mb-0 font-13">Your last working day may change based on Manager/HR's decision.</p> -->
+                            </div>
+                        </div>
+
+                       
+
+                        <div class="col-md-12 mb-3">
+                            <label for="templateName" class="pb-2">
+                                Comment
+                            </label>
+                            <textarea class="form-control nots-section" id="comment" name="inputComment"
+                                placeholder="Write description" rows="3"  [(ngModel)]="userResignationReq.comment"></textarea>
+                        </div>
+                     </div>
+                    </div>
+
+                    <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
+                        <button class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close" #closeResignationButton>Cancel</button>
+                        
+                        <button *ngIf="!resignationToggle" type="submit" [disabled]="resignationForm.invalid || resignationToggle" class="btn submitActionBtn">Submit</button>
+                        <div class="dot-opacity-loader" *ngIf="resignationToggle">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                          </div>
+                    </div>
+
+                </form>
+            </div>
+          
+        </div>
+    </div>
+</div>
+<!-- Initiate Exit (UserResignation) Modal End -->

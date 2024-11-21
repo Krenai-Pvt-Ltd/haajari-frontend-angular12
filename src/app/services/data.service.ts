@@ -4349,6 +4349,13 @@ getHolidayForOrganization(date: string): Observable<any>{
     );
   }
 
+  getNoticePeriodDuration(uuid: string) {
+    let params = new HttpParams().set('uuid', uuid);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/user_exit_policy_mapping/notice-period`, {params}
+    );
+  }
+
   submitResignation(userResignationReq: UserResignation){
     return this.httpClient.post<any>(`${this.baseUrl}/user-resignation`, userResignationReq);
   }

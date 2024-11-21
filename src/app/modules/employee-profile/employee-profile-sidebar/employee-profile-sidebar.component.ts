@@ -68,6 +68,8 @@ export class EmployeeProfileSidebarComponent implements OnInit {
       this.userRoleFlag = true;
     }
 
+    this.getNoticePeriodDuration()
+
   }
 
 
@@ -273,23 +275,18 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   submitResignation(form: NgForm){
 
     this.resignationToggle = true;
-    this.userResignationReq.createdBy = 'USER'
+    this.userResignationReq.createdBy = this.ROLE
     this.userResignationReq.uuid = this.userId
-    console.log('request form : ',this.userResignationReq)
+    // console.log('request form : ',this.userResignationReq)
 
-    // this.dataService.submitResignation(this.userResignationReq).subscribe((res: any) => {
-    //     if(res.status){
-    //       this.resignationToggle =false
-    //       this.closeResignationButton.nativeElement.click()
-    //       this.clearForm();
-    //       form.resetForm();
-    //     }
-    // })
-
-
-    this.resignationToggle =false
+    this.dataService.submitResignation(this.userResignationReq).subscribe((res: any) => {
+        if(res.status){
+          this.resignationToggle =false
           this.closeResignationButton.nativeElement.click()
-          // this.clearForm();
+          this.clearForm();
+          form.resetForm();
+        }
+    })
 
   }
   
@@ -331,7 +328,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     const today = new Date();
     // const maxDate = new Date();
     const maxDate = new Date();
-    maxDate.setDate(today.getDate() + 7); // Add 45 days to today's date
+    maxDate.setDate(today.getDate() + this.noticePeriodDuration); // Add 45 days to today's date
   
     // this.lastWorkingDay = maxDate;
     // console.log("Max Date: ", this.lastWorkingDay);
@@ -343,7 +340,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     const today = new Date();
     // const maxDate = new Date();
     const maxDate = new Date();
-    maxDate.setDate(today.getDate() + 7); // Add 45 days to today's date
+    maxDate.setDate(today.getDate() + this.noticePeriodDuration); // Add 45 days to today's date
   
     // this.lastWorkingDay = maxDate;
     // this.userResignationReq.lastWorkingDay = maxDate
@@ -358,7 +355,122 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     }
   }
 
+  noticePeriodDuration: number = 0;
+  getNoticePeriodDuration(){
+    this.dataService.getNoticePeriodDuration(this.userId).subscribe((res: any) => {
+      if(res.status){
+        this.noticePeriodDuration = res.object
+        console.log('Duration: ',this.noticePeriodDuration)
+      }
+    })
+  }
+
   // User Resignation end
+
+
+
+  /**
+   * Image upload start on Firebase
+   */
+
+  /** Image Upload on the Firebase Start */
+
+  isFileSelected = false;
+  imagePreviewUrl: any = null;
+  selectedFile: any;
+  isUploading: boolean = false;
+  fileName: any;
+  currentDate: any
+  onFileSelected(event: Event): void {
+    debugger;
+    const element = event.currentTarget as HTMLInputElement;
+    const fileList: FileList | null = element.files;
+
+    if (fileList && fileList.length > 0) {
+      const file = fileList[0];
+
+      this.fileName = file.name;
+      this.currentDate = new Date()
+      // Check if the file type is valid
+      if (this.isValidFileType(file)) {
+        this.selectedFile = file;
+        this.isUploading = true;
+
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          // Set the loaded image as the preview
+          this.imagePreviewUrl = e.target.result;
+        };
+        reader.readAsDataURL(file);
+
+        this.uploadFile(file);
+
+        console.log('url is', this.userResignationReq.url)
+
+      } else {
+        element.value = '';
+        this.userResignationReq.url = '';
+        // Handle invalid file type here (e.g., show an error message)
+        console.error(
+          'Invalid file type. Please select a jpg, jpeg, or png file.'
+        );
+      }
+    } else {
+      this.isFileSelected = false;
+    }
+  }
+
+  // Helper function to check if the file type is valid
+  isInvalidFileType = false;
+  isValidFileType(file: File): boolean {
+    const validExtensions = ['jpg', 'jpeg', 'png'];
+    const fileType = file.type.split('/').pop(); // Get the file extension from the MIME type
+
+    if (fileType && validExtensions.includes(fileType.toLowerCase())) {
+      this.isInvalidFileType = false;
+      return true;
+    }
+    // console.log(this.isInvalidFileType);
+    this.isInvalidFileType = true;
+    return false;
+  }
+
+
+  uploadFile(file: File): void {
+    debugger;
+    const filePath = `resignation/${new Date().getTime()}_${file.name}`;
+    const fileRef = this.afStorage.ref(filePath);
+    const task = this.afStorage.upload(filePath, file);
+
+    task
+      .snapshotChanges()
+      .toPromise()
+      .then(() => {
+        // console.log('Upload completed');
+        fileRef
+          .getDownloadURL()
+          .toPromise()
+          .then((url) => {
+            console.log('File URL:', url);
+            this.isUploading = false;
+            this.userResignationReq.url = url;
+          })
+          .catch((error) => {
+            console.error('Failed to get download URL', error);
+          });
+      })
+      .catch((error) => {
+        console.error('Error in upload snapshotChanges:', error);
+      });
+
+    console.log('upload url is: ', this.userResignationReq.url)
+  }
+
+  deleteImage() {
+    this.userResignationReq.url = ''
+  }
+
+  /** Image Upload on Firebase End */
 
 
 
