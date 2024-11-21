@@ -37,6 +37,7 @@ import { EmployeeExitComponent } from './employee-exit/employee-exit.component';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     EmployeeProfileRoutingModule,
     FormsModule,
     ReactiveFormsModule,

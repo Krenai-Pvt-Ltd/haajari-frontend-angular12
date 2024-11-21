@@ -2,624 +2,509 @@
   <!-- Page Content-->
 
   <div class="page-content-tab">
-    <div class="">
-      <ul id="pills-tab" role="tablist" class="nav nav-pills">
-          <li class="nav-item">
-              <a id="pills-home-tab" data-bs-toggle="pill" href="#assigned-assets" role="tab" aria-controls="pills-home"
-                  aria-selected="true" class="nav-link active">Assigned assets</a>
-          </li>
-          <li class="nav-item">
-              <a id="pills-profile-tab" data-bs-toggle="pill" href="#asset-request" role="tab" aria-controls="pills-profile"
-                  aria-selected="false" (click)="this.getAssetRequests()" class="nav-link">Asset request</a>
-          </li>
-
-      </ul>
-      <div class="tab-pane fade active show pt-3"  id="assigned-assets" role="tabpanel" aria-labelledby="assigned-assets-tab">
-
-    <div class="container-fluid">
-      <div class="row mt-3">
-        <div class="row">
-          <div class="col-lg-2">
+  <div class="mt-3">
+    <ul id="pills-tab" role="tablist" class="nav nav-pills">
+      <li class="nav-item">
+        <a id="pills-home-tab" data-bs-toggle="pill" href="#assigned-assets" role="tab" aria-controls="pills-home"
+          aria-selected="true" class="nav-link active">Assigned assets</a>
+      </li>
+      <li class="nav-item">
+        <a id="pills-profile-tab" data-bs-toggle="pill" href="#asset-request" role="tab" aria-controls="pills-profile"
+          aria-selected="false" (click)="this.getAssetRequests()" class="nav-link">Asset request</a>
+      </li>
+    </ul>
+    <div id="pills-tabContent" class="tab-content">
+      <div class="tab-pane active show pt-3" id="assigned-assets" role="tabpanel" aria-labelledby="assigned-assets-tab">
+        <div class="container-fluid">
+          <div class="row mt-3">
             <div class="row">
-              <div class="col-lg-12">
-                <div class="card">
-                  <div class="card-body py-4">
-                    <div class="row align-items-center">
-                      <!-- style="cursor: pointer;" data-bs-toggle="modal"
-                        data-bs-target="#systemEntriesModal" (click)="getTotalAssetsStatusWiseData('ALL')" -->
-                      <div class="col text-center">
-                        <span class="h5 fw-bold">{{
-                          totalAssetData?.totalAsset || 0
-                        }}</span>
-                        <h6 class="text-uppercase text-muted mt-2 m-0 font-11">
-                          Total Assets
-                        </h6>
+              <div class="col-lg-2">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="card">
+                      <div class="card-body py-4">
+                        <div class="row align-items-center">
+                          <!-- style="cursor: pointer;" data-bs-toggle="modal"
+                                         data-bs-target="#systemEntriesModal" (click)="getTotalAssetsStatusWiseData('ALL')" -->
+                          <div class="col text-center">
+                            <span class="h5 fw-bold">{{
+                              totalAssetData?.totalAsset || 0
+                              }}</span>
+                            <h6 class="text-uppercase text-muted mt-2 m-0 font-11">
+                              Total Assets
+                            </h6>
+                          </div>
+                          <!--end col-->
+                        </div>
+                        <!-- end row -->
                       </div>
-                      <!--end col-->
+                      <!--end card-body-->
                     </div>
-                    <!-- end row -->
+                    <!--end card-body-->
                   </div>
-                  <!--end card-body-->
-                </div>
-                <!--end card-body-->
-              </div>
-              <!--end col-->
-              <div class="col-lg-12">
-                <div class="card">
-                  <div class="card-body py-4">
-                    <div class="row align-items-center">
-                      <!-- style="cursor: pointer;" data-bs-toggle="modal"
-                        data-bs-target="#systemEntriesModal" (click)="getTotalAssetsStatusWiseData('AVAILABLE')" -->
-                      <div class="col text-center">
-                        <span class="h5 fw-bold">{{
-                          totalAssetData?.totalAvailableAsset || 0
-                        }}</span>
-                        <h6 class="text-uppercase text-muted mt-2 m-0 font-11">
-                          Available Assets
-                        </h6>
+                  <!--end col-->
+                  <div class="col-lg-12">
+                    <div class="card">
+                      <div class="card-body py-4">
+                        <div class="row align-items-center">
+                          <!-- style="cursor: pointer;" data-bs-toggle="modal"
+                                         data-bs-target="#systemEntriesModal" (click)="getTotalAssetsStatusWiseData('AVAILABLE')" -->
+                          <div class="col text-center">
+                            <span class="h5 fw-bold">{{
+                              totalAssetData?.totalAvailableAsset || 0
+                              }}</span>
+                            <h6 class="text-uppercase text-muted mt-2 m-0 font-11">
+                              Available Assets
+                            </h6>
+                          </div>
+                          <!--end col-->
+                        </div>
+                        <!-- end row -->
                       </div>
-                      <!--end col-->
+                      <!--end card-body-->
                     </div>
-                    <!-- end row -->
+                    <!--end card-body-->
                   </div>
-                  <!--end card-body-->
-                </div>
-                <!--end card-body-->
-              </div>
-              <!--end col-->
-              <div class="col-lg-12">
-                <div class="card">
-                  <div class="card-body py-4">
-                    <div class="row align-items-center">
-                      <!-- style="cursor: pointer;" data-bs-toggle="modal"
-                        data-bs-target="#systemEntriesModal" (click)="getTotalAssetsStatusWiseData('ASSIGNED')" -->
-                      <div class="col text-center">
-                        <span class="h5 fw-bold">{{
-                          totalAssetData?.totalAssignedAsset || 0
-                        }}</span>
-                        <h6 class="text-uppercase text-muted mt-2 m-0 font-11">
-                          Assigned Assets
-                        </h6>
+                  <!--end col-->
+                  <div class="col-lg-12">
+                    <div class="card">
+                      <div class="card-body py-4">
+                        <div class="row align-items-center">
+                          <!-- style="cursor: pointer;" data-bs-toggle="modal"
+                                         data-bs-target="#systemEntriesModal" (click)="getTotalAssetsStatusWiseData('ASSIGNED')" -->
+                          <div class="col text-center">
+                            <span class="h5 fw-bold">{{
+                              totalAssetData?.totalAssignedAsset || 0
+                              }}</span>
+                            <h6 class="text-uppercase text-muted mt-2 m-0 font-11">
+                              Assigned Assets
+                            </h6>
+                          </div>
+                          <!--end col-->
+                        </div>
+                        <!-- end row -->
                       </div>
-                      <!--end col-->
+                      <!--end card-body-->
                     </div>
-                    <!-- end row -->
+                    <!--end card-body-->
                   </div>
-                  <!--end card-body-->
+                  <!--end col-->
+                  <div class="col-lg-12">
+                    <div class="card">
+                      <div class="card-body py-4">
+                        <div class="row align-items-center">
+                          <!-- style="cursor: pointer;" data-bs-toggle="modal"
+                                         data-bs-target="#systemEntriesModal" (click)="getTotalAssetsStatusWiseData('UNAVAILABLE')" -->
+                          <div class="col text-center">
+                            <span class="h5 fw-bold">{{
+                              totalAssetData?.totalUnavailableAsset || 0
+                              }}</span>
+                            <h6 class="text-uppercase text-muted mt-2 m-0 font-11">
+                              Unavailable Assets
+                            </h6>
+                          </div>
+                          <!--end col-->
+                        </div>
+                        <!-- end row -->
+                      </div>
+                      <!--end card-body-->
+                    </div>
+                    <!--end card-->
+                  </div>
+                  <!--end col-->
                 </div>
-                <!--end card-body-->
               </div>
-              <!--end col-->
-              <div class="col-lg-12">
-                <div class="card">
-                  <div class="card-body py-4">
+              <div class="col-lg-4">
+                <div class="card" style="border:none;">
+                  <div class="card-header" style="border: 1px solid #f1f1f1; border-radius: 0px;">
                     <div class="row align-items-center">
-                      <!-- style="cursor: pointer;" data-bs-toggle="modal"
-                        data-bs-target="#systemEntriesModal" (click)="getTotalAssetsStatusWiseData('UNAVAILABLE')" -->
-                      <div class="col text-center">
-                        <span class="h5 fw-bold">{{
-                          totalAssetData?.totalUnavailableAsset || 0
-                        }}</span>
-                        <h6 class="text-uppercase text-muted mt-2 m-0 font-11">
-                          Unavailable Assets
-                        </h6>
+                      <div class="col">
+                        <h4 class="card-title">Categories</h4>
+                      </div>
+                      <!--end col-->
+                      <div class="col-auto">
+                        <a type="button" data-bs-toggle="modal" data-bs-target="#createCategoryModal"
+                          (click)="assignCategoryId(0)" class="text-primary">
+                          <i class="bi bi-plus" style="font-size: 18px"></i> Create
+                          Category
+                        </a>
                       </div>
                       <!--end col-->
                     </div>
-                    <!-- end row -->
+                    <!--end row-->
+                  </div>
+                  <!--end card-header-->
+                  <div class="table-responsive category" style="border-bottom: 1px solid #f1f1f1;"
+                    [ngClass]="{ 'scrollable-table': assetCategoryData.length > 0 }">
+                    <table class="table mb-0">
+                      <thead>
+                        <tr>
+                          <th style="width: 5%;" class="pointer">#</th>
+                          <th class="text-center pointer">
+                            <div ngbTooltip="Assigned">As</div>
+                          </th>
+                          <th class="text-center pointer">
+                            <div ngbTooltip="Available">Ab</div>
+                          </th>
+                          <th class="text-center pointer">
+                            <div ngbTooltip="Unavailable">Un</div>
+                          </th>
+                          <!-- <th class="text-end">Action</th> -->
+                        </tr>
+                      </thead>
+                      <tbody *ngIf="assetCategoryData.length == 0" style="height: 40px">
+                        <tr>
+                          <td colspan="5">
+                            <div class="empty-file" style="margin-top: 28%; margin-bottom: 28%">
+                              <nz-empty nzNotFoundImage="assets/images/assets-categories-img.svg"
+                                [nzNotFoundContent]="contentTpl">
+                                <ng-template #contentTpl>
+                                  <p class="mb-1 empty-detail font-16">
+                                    No data for now
+                                  </p>
+                                </ng-template>
+                              </nz-empty>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tbody *ngIf="assetCategoryData.length > 0">
+                        <tr *ngFor="let acd of assetCategoryData">
+                          <td>
+                            <div class="d-flex align-items-center gap-2 edit-btn pointer">
+                              <p class="mb-0"> {{ acd.categoryName }}</p>
+                              <i class="bi bi-pencil" data-bs-toggle="modal" data-bs-target="#createCategoryModal"
+                                (click)="assignCategoryId(acd.categoryId)"></i>
+                            </div>
+                          </td>
+                          <td class="text-center">
+                            {{ acd.assignedCount }}
+                          </td>
+                          <td class="text-center">
+                            {{ acd.availableCount }}
+                          </td>
+                          <td class="text-center">
+                            {{ acd.unavailableCount }}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <!--end /table-->
+                  </div>
+                  <!--end /div-->
+                </div>
+                <!--end card-->
+                <!--end row-->
+              </div>
+              <!-- end col-->
+              <div class="col-lg-6">
+                <div class="card">
+                  <div class="card-header">
+                    <div class="row align-items-center">
+                      <div class="col">
+                        <h4 class="card-title">Assets Allocation By Condition</h4>
+                      </div>
+                      <!--end col-->
+                      <!--end col-->
+                    </div>
+                    <!--end row-->
+                  </div>
+                  <!--end card-header-->
+                  <!-- [view]="view" -->
+                  <div class="card-body">
+                    <div class="text-center" *ngIf="categoryCounts.length > 0">
+                      <ngx-charts-bar-vertical-stacked [scheme]="colorScheme" [results]="categoryCounts"
+                        [gradient]="false" [xAxis]="true" [yAxis]="true" [legend]="false" [animations]="true">
+                      </ngx-charts-bar-vertical-stacked>
+                    </div>
+                    <div class="empty-file" style="margin-top: 23%; margin-bottom: 23%"
+                      *ngIf="categoryCounts.length == 0">
+                      <nz-empty nzNotFoundImage="assets/images/assets-allocation-img.svg"
+                        [nzNotFoundContent]="contentTpl">
+                        <ng-template #contentTpl>
+                          <p class="mb-1 empty-detail font-16">No data for now</p>
+                        </ng-template>
+                      </nz-empty>
+                    </div>
                   </div>
                   <!--end card-body-->
                 </div>
                 <!--end card-->
               </div>
-              <!--end col-->
-            </div>
-          </div>
-          <div class="col-lg-4">
-            <div class="card" style="border:none;">
-              <div class="card-header" style="border: 1px solid #f1f1f1; border-radius: 0px;">
-                <div class="row align-items-center">
-                  <div class="col">
-                    <h4 class="card-title">Categories</h4>
-                  </div>
-                  <!--end col-->
-                  <div class="col-auto">
-                    <a
-                      type="button"
-                      data-bs-toggle="modal"
-                      data-bs-target="#createCategoryModal"
-                      (click)="assignCategoryId(0)"
-                      class="text-primary"
-                    >
-                      <i class="bi bi-plus" style="font-size: 18px"></i> Create
-                      Category
-                    </a>
-                  </div>
-                  <!--end col-->
-                </div>
-                <!--end row-->
-              </div>
-              <!--end card-header-->
-              <div
-                class="table-responsive category" style="border-bottom: 1px solid #f1f1f1;"
-                [ngClass]="{ 'scrollable-table': assetCategoryData.length > 0 }"
-              >
-                <table class="table mb-0">
-                  <thead>
-                    <tr>
-                      <th style="width: 5%;" class="pointer">#</th>
-                      <th class="text-center pointer" >
-                        <div ngbTooltip="Assigned">As</div>
-                      </th>
-                      <th class="text-center pointer" >
-                        <div ngbTooltip="Available">Ab</div>
-                      </th>
-                      <th class="text-center pointer" >
-                        <div ngbTooltip="Unavailable">Un</div>
-                      </th>
-                      <!-- <th class="text-end">Action</th> -->
-                    </tr>
-                  </thead>
-                  <tbody
-                    *ngIf="assetCategoryData.length == 0"
-                    style="height: 40px"
-                  >
-                    <tr>
-                      <td colspan="5">
-
-
-                        <div
-                          class="empty-file"
-                          style="margin-top: 28%; margin-bottom: 28%"
-                        >
-                          <nz-empty
-                            nzNotFoundImage="assets/images/assets-categories-img.svg"
-                            [nzNotFoundContent]="contentTpl"
-                          >
-                            <ng-template #contentTpl>
-                              <p class="mb-1 empty-detail font-16">
-                                No data for now
-                              </p>
-                            </ng-template>
-                          </nz-empty>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                  <tbody *ngIf="assetCategoryData.length > 0">
-                    <tr *ngFor="let acd of assetCategoryData">
-                      <td>
-                        <div class="d-flex align-items-center gap-2 edit-btn pointer">
-                        <p class="mb-0"> {{ acd.categoryName }}</p>
-                          <i class="bi bi-pencil" data-bs-toggle="modal" data-bs-target="#createCategoryModal"
-                            (click)="assignCategoryId(acd.categoryId)"></i>
-                        </div>
-                      </td>
-                      <td class="text-center">
-                        {{ acd.assignedCount }}
-                      </td>
-                      <td class="text-center">
-                        {{ acd.availableCount }}
-                      </td>
-                      <td class="text-center">
-                        {{ acd.unavailableCount }}
-                      </td>
-
-                    </tr>
-                  </tbody>
-                </table>
-                <!--end /table-->
-              </div>
-              <!--end /div-->
-            </div>
-            <!--end card-->
-            <!--end row-->
-          </div>
-          <!-- end col-->
-          <div class="col-lg-6">
-            <div class="card">
-              <div class="card-header">
-                <div class="row align-items-center">
-                  <div class="col">
-                    <h4 class="card-title">Assets Allocation By Condition</h4>
-                  </div>
-                  <!--end col-->
-
-                  <!--end col-->
-                </div>
-                <!--end row-->
-              </div>
-              <!--end card-header-->
-              <!-- [view]="view" -->
-              <div class="card-body">
-                <div class="text-center" *ngIf="categoryCounts.length > 0">
-                  <ngx-charts-bar-vertical-stacked
-
-                    [scheme]="colorScheme"
-                    [results]="categoryCounts"
-                    [gradient]="false"
-                    [xAxis]="true"
-                    [yAxis]="true"
-                    [legend]="false"
-                    [animations]="true"
-                  >
-                  </ngx-charts-bar-vertical-stacked>
-                </div>
-
-
-                <div
-                  class="empty-file"
-                  style="margin-top: 23%; margin-bottom: 23%"
-                  *ngIf="categoryCounts.length == 0"
-                >
-                  <nz-empty
-                    nzNotFoundImage="assets/images/assets-allocation-img.svg"
-                    [nzNotFoundContent]="contentTpl"
-                  >
-                    <ng-template #contentTpl>
-                      <p class="mb-1 empty-detail font-16">No data for now</p>
-                    </ng-template>
-                  </nz-empty>
-                </div>
-              </div>
-
-              <!--end card-body-->
-            </div>
-            <!--end card-->
-          </div>
-
-          <!-- end col-->
-          <div class="col-md-12">
-            <div class="card" style="border: none;">
-              <div
-                class="card-header"
-                style="padding: 0%; padding-right: 20px; height: 50px; border: 1px solid #f1f1f1; border-radius: 0px;"
-              >
-                <div class="row align-items-center">
-                  <div class="col">
-                    <!-- <h4 class="card-title">Assets</h4>-->
-                    <form
-                      role="search"
-                      class="searching mb-0"
-                      style="width: 100%"
-                    >
-                      <div
-                        class="form-group mb-0"
-                        style="width: 100%; position: relative"
-                      >
-                        <input
-                          type="text"
-                          id="searchText"
-                          placeholder="Search by name or serial number..."
-                          class="form-control mb-0"
-                          (keyup)="searchAssets()"
-                          [(ngModel)]="search"
-                          [ngModelOptions]="{ standalone: true }"
-                          style="padding: 10px 40px; border: none"
-                        />
-                        <i
-                          class="bi bi-search search-icon"
-                          style="
-                            position: absolute;
-                            top: 50%;
-                            transform: translateY(-50%);
-                            left: 10px;
-                          "
-                          *ngIf="!crossFlag"
-                        ></i>
-                        <i
-                          class="bi bi-x search-icon"
-                          style="
-                            position: absolute;
-                            top: 50%;
-                            transform: translateY(-50%);
-                            left: 10px;
-                          "
-                          *ngIf="crossFlag"
-                          (click)="clearSearch()"
-                        ></i>
-                      </div>
-                    </form>
-                  </div>
-                  <!--end col-->
-                  <div class="col-auto">
-                    <a
-                      type="button"
-                      data-bs-toggle="modal"
-                      data-bs-target="#createAssetModal"
-                      (click)="assignAssetId(0)"
-                      class="text-primary"
-                    >
-                      <i class="bi bi-plus" style="font-size: 18px"></i> Create
-                      Asset
-                    </a>
-                  </div>
-                </div>
-                <!--end row-->
-              </div>
-              <!--end card-header-->
-              <div class="table-responsive mt-3">
-                <table class="table mb-0">
-                  <thead class="table-light">
-                    <tr>
-                      <!-- <th>Assets_ID</th> -->
-                      <th style="min-width: 100px">Assets Name</th>
-                      <th>Sr Number</th>
-                      <th>Expire Date</th>
-                      <th>Purchased</th>
-                      <th>Category</th>
-                      <th>Price</th>
-                      <th>Location</th>
-                      <th>Vendor Name</th>
-                      <th>Status</th>
-                      <th class="stickyColThend bg-white">Action</th>
-                    </tr>
-                    <!--end tr-->
-                  </thead>
-                  <tbody *ngIf="totalCount == 0">
-                    <tr>
-                      <td colspan="11">
-
-
-                        <div
-                          class="empty-file"
-                          style="margin-top: 5%; margin-bottom: 5%"
-                        >
-                          <nz-empty
-                            nzNotFoundImage="assets/images/no-data-found-img.svg"
-                            [nzNotFoundContent]="contentTpl"
-                          >
-                            <ng-template #contentTpl>
-                              <p class="mb-1 empty-detail font-16">
-                                No data for now
-                              </p>
-                            </ng-template>
-                          </nz-empty>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                  <tbody *ngIf="totalCount > 0" class="table-design">
-                    <tr *ngFor="let ad of assetData; let i = index">
-                      <!-- <td>#{{ad.assetId || 'N/A'}}</td> -->
-                      <!-- <td>#{{ i + 1 + (pageNumber - 1) * itemPerPage }}</td> -->
-                      <td>{{ ad.assetName || "N/A" }}</td>
-                      <td>{{ ad.serialNumber || "N/A" }}</td>
-                      <td>{{ ad.expiryDate || "N/A" }}</td>
-                      <td>{{ ad.purchasedDate || "N/A" }}</td>
-                      <td>{{ ad.categoryName || "N/A" }}</td>
-                      <td>{{ ad.price || "N/A" }}</td>
-                      <td>{{ ad.location || "N/A" }}</td>
-                      <td>{{ ad.vendorName || "N/A" }}</td>
-                      <td>
-                        <span
-                          [ngClass]="{
-                            'badge-outline-success': ad.status === 'ASSIGNED',
-                            'badge-outline-danger': ad.status === 'UNAVAILABLE',
-                            'badge-outline-warning': ad.status === 'AVAILABLE'
-                          }"
-                          class="badge rounded-pill"
-                          data-bs-toggle="modal"
-                          data-bs-target="#assignRejectModal"
-                          (click)="
-                            assignOrRejectModalStrings(ad.status, ad.assetId)
-                          "
-                          >{{ ad.status }} <i class="ti ti-edit-circle"></i
-                        ></span>
-                        <br /><span
-                          class="badge bg-light text-dark"
-                          *ngIf="ad.status === 'ASSIGNED'"
-                          >{{ ad.userName }}</span
-                        >
-                      </td>
-
-                      <td class="stickyColThend bg-white" >
-
-                        <div class="dropdown">
-                          <button class="btn btnAction dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-three-dots-vertical"></i>
-                          </button>
-                          <div class="dropdown-menu actionMenuList">
-                             <li   (click)="makeAssetUnavailable('UNAVAILABLE', ad.assetId)"  *ngIf="ad.status === 'ASSIGNED' ||ad.status === 'AVAILABLE' ">
-                              <a class="dropdown-item" ><i class="bi bi-ban"></i> Mark as unavailable</a>
-                            </li>
-                            <li  data-bs-toggle="modal"
-                            data-bs-target="#createAssetModal" (click)="assignAssetId(ad.assetId)" *ngIf="ad.status === 'ASSIGNED' ||ad.status === 'AVAILABLE' ">
-                              <a class="dropdown-item"><i class="bi bi-tools"></i> Update Assets</a>
-                            </li>
-                            <li data-bs-toggle="modal"
-                            data-bs-target="#deleteConfirmationModal" (click)="openDeleteAssetModal(ad.assetId)">
-                              <a class="dropdown-item"  ><i class="bi bi-trash3"></i> Delete Assets</a>
-                            </li>
-
+              <!-- end col-->
+              <div class="col-md-12">
+                <div class="card" style="border: none;">
+                  <div class="card-header"
+                    style="padding: 0%; padding-right: 20px; height: 50px; border: 1px solid #f1f1f1; border-radius: 0px;">
+                    <div class="row align-items-center">
+                      <div class="col">
+                        <!-- <h4 class="card-title">Assets</h4>-->
+                        <form role="search" class="searching mb-0" style="width: 100%">
+                          <div class="form-group mb-0" style="width: 100%; position: relative">
+                            <input type="text" id="searchText" placeholder="Search by name or serial number..."
+                              class="form-control mb-0" (keyup)="searchAssets()" [(ngModel)]="search"
+                              [ngModelOptions]="{ standalone: true }" style="padding: 10px 40px; border: none" />
+                            <i class="bi bi-search search-icon" style="
+                                            position: absolute;
+                                            top: 50%;
+                                            transform: translateY(-50%);
+                                            left: 10px;
+                                            " *ngIf="!crossFlag"></i>
+                            <i class="bi bi-x search-icon" style="
+                                         position: absolute;
+                                         top: 50%;
+                                         transform: translateY(-50%);
+                                         left: 10px;
+                                         " *ngIf="crossFlag" (click)="clearSearch()"></i>
                           </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <!--end tr-->
-
-                  </tbody>
-
-
-                </table>
-              </div>
-
-
-              <div class="pagination pl-3 mt-3 d-flex align-items-center justify-content-between" *ngIf="totalCount > itemPerPage">
-                <p class="mb-0">
-                  Showing {{ startIndex }} - {{ endIndex }} of
-                  {{ totalCount }} items
-                </p>
-                <div class="row">
-                  <div class="col-md-12">
-                    <nav aria-label="Page navigation example">
-                      <ul class="pagination justify-content-end">
-                        <li class="page-item" [class.disabled]="pageNumber === 1">
-                          <a class="page-link" (click)="changePage('prev')">
-                            <span aria-hidden="true">&laquo;</span>
-                          </a>
-                        </li>
-                        <li class="page-item" *ngFor="let page of pages" [class.active]="pageNumber === page">
-                          <a class="page-link" (click)="changePage(page)">
-                            {{ page }}
-                          </a>
-                        </li>
-                        <li class="page-item" [class.disabled]="
-                                                                        pageNumber === totalPages()
-                                                                      ">
-                          <a class="page-link" (click)="changePage('next')">
-                            <span aria-hidden="true">&raquo;</span>
-                          </a>
-                        </li>
-                      </ul>
-                    </nav>
+                        </form>
+                      </div>
+                      <!--end col-->
+                      <div class="col-auto">
+                        <a type="button" data-bs-toggle="modal" data-bs-target="#createAssetModal"
+                          (click)="assignAssetId(0)" class="text-primary">
+                          <i class="bi bi-plus" style="font-size: 18px"></i> Create
+                          Asset
+                        </a>
+                      </div>
+                    </div>
+                    <!--end row-->
                   </div>
+                  <!--end card-header-->
+                  <div class="table-responsive mt-3">
+                    <table class="table mb-0">
+                      <thead class="table-light">
+                        <tr>
+                          <!-- <th>Assets_ID</th> -->
+                          <th style="min-width: 100px">Assets Name</th>
+                          <th>Sr Number</th>
+                          <th>Expire Date</th>
+                          <th>Purchased</th>
+                          <th>Category</th>
+                          <th>Price</th>
+                          <th>Location</th>
+                          <th>Vendor Name</th>
+                          <th>Status</th>
+                          <th class="stickyColThend bg-white">Action</th>
+                        </tr>
+                        <!--end tr-->
+                      </thead>
+                      <tbody *ngIf="totalCount == 0">
+                        <tr>
+                          <td colspan="11">
+                            <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%">
+                              <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                [nzNotFoundContent]="contentTpl">
+                                <ng-template #contentTpl>
+                                  <p class="mb-1 empty-detail font-16">
+                                    No data for now
+                                  </p>
+                                </ng-template>
+                              </nz-empty>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tbody *ngIf="totalCount > 0" class="table-design">
+                        <tr *ngFor="let ad of assetData; let i = index">
+                          <!-- <td>#{{ad.assetId || 'N/A'}}</td> -->
+                          <!-- <td>#{{ i + 1 + (pageNumber - 1) * itemPerPage }}</td> -->
+                          <td>{{ ad.assetName || "N/A" }}</td>
+                          <td>{{ ad.serialNumber || "N/A" }}</td>
+                          <td>{{ ad.expiryDate || "N/A" }}</td>
+                          <td>{{ ad.purchasedDate || "N/A" }}</td>
+                          <td>{{ ad.categoryName || "N/A" }}</td>
+                          <td>{{ ad.price || "N/A" }}</td>
+                          <td>{{ ad.location || "N/A" }}</td>
+                          <td>{{ ad.vendorName || "N/A" }}</td>
+                          <td>
+                            <span [ngClass]="{
+                                         'badge-outline-success': ad.status === 'ASSIGNED',
+                                         'badge-outline-danger': ad.status === 'UNAVAILABLE',
+                                         'badge-outline-warning': ad.status === 'AVAILABLE'
+                                         }" class="badge rounded-pill" data-bs-toggle="modal"
+                              data-bs-target="#assignRejectModal" (click)="
+                                         assignOrRejectModalStrings(ad.status, ad.assetId)
+                                         ">{{ ad.status }} <i class="ti ti-edit-circle"></i></span>
+                            <br /><span class="badge bg-light text-dark" *ngIf="ad.status === 'ASSIGNED'">{{ ad.userName
+                              }}</span>
+                          </td>
+                          <td class="stickyColThend bg-white">
+                            <div class="dropdown">
+                              <button class="btn btnAction dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                <i class="bi bi-three-dots-vertical"></i>
+                              </button>
+                              <div class="dropdown-menu actionMenuList">
+                                <li (click)="makeAssetUnavailable('UNAVAILABLE', ad.assetId)"
+                                  *ngIf="ad.status === 'ASSIGNED' ||ad.status === 'AVAILABLE' ">
+                                  <a class="dropdown-item"><i class="bi bi-ban"></i> Mark as unavailable</a>
+                                </li>
+                                <li data-bs-toggle="modal" data-bs-target="#createAssetModal"
+                                  (click)="assignAssetId(ad.assetId)"
+                                  *ngIf="ad.status === 'ASSIGNED' ||ad.status === 'AVAILABLE' ">
+                                  <a class="dropdown-item"><i class="bi bi-tools"></i> Update Assets</a>
+                                </li>
+                                <li data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"
+                                  (click)="openDeleteAssetModal(ad.assetId)">
+                                  <a class="dropdown-item"><i class="bi bi-trash3"></i> Delete Assets</a>
+                                </li>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                        <!--end tr-->
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="pagination pl-3 mt-3 d-flex align-items-center justify-content-between"
+                    *ngIf="totalCount > itemPerPage">
+                    <p class="mb-0">
+                      Showing {{ startIndex }} - {{ endIndex }} of
+                      {{ totalCount }} items
+                    </p>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <nav aria-label="Page navigation example">
+                          <ul class="pagination justify-content-end">
+                            <li class="page-item" [class.disabled]="pageNumber === 1">
+                              <a class="page-link" (click)="changePage('prev')">
+                                <span aria-hidden="true">&laquo;</span>
+                              </a>
+                            </li>
+                            <li class="page-item" *ngFor="let page of pages" [class.active]="pageNumber === page">
+                              <a class="page-link" (click)="changePage(page)">
+                                {{ page }}
+                              </a>
+                            </li>
+                            <li class="page-item" [class.disabled]="
+                                            pageNumber === totalPages()
+                                            ">
+                              <a class="page-link" (click)="changePage('next')">
+                                <span aria-hidden="true">&raquo;</span>
+                              </a>
+                            </li>
+                          </ul>
+                        </nav>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Pagination -->
                 </div>
               </div>
-              <!-- Pagination -->
             </div>
           </div>
         </div>
       </div>
+      <div class="tab-pane fade pt-3" id="asset-request" role="tabpanel" aria-labelledby="assigned-assets-tab">
+        <div class="obboard-employee-list" *ngIf="!isAssetRequestArrayEmpty(); else noAssets">
 
-      </div>
-</div>
-
-<div class="tab-pane fade active show pt-3"  id="asset-request" role="tabpanel" aria-labelledby="assigned-assets-tab">
-    <div class="obboard-employee-list" *ngIf="!isAssetRequestArrayEmpty(); else noAssets">
-
-
-        <div class="onboard-add row align-items-center mx-0">
+          
+          <div class="onboard-add row align-items-center mx-0">
             <div class="col-md-12 p-0">
-                <div class="d-flex justify-content-start align-items-center">
-                  <div class="dropdown empFilerDropfilter">
-                    <button
-                        type="button"
-                        id="dropdownMenuButton1"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                        class="btn btn-secondary dropdown-toggle new-deopdown">
-                        {{ statusFilter || 'Status' }} <i class="bi bi-chevron-down"></i>
-                    </button>
-                    <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu">
-                        <li><a class="dropdown-item" (click)="filterStatus('')">All</a></li>
-                        <li><a class="dropdown-item" (click)="filterStatus('Approved')">Approved</a></li>
-                        <li><a class="dropdown-item" (click)="filterStatus('Allocated')">Allocated</a></li>
-                        <li><a class="dropdown-item" (click)="filterStatus('Rejected')">Rejected</a></li>
-                        <li><a class="dropdown-item" (click)="filterStatus('Pending')">Pending</a></li>
-                    </ul>
+              <div class="d-flex justify-content-start align-items-center">
+                <div class="dropdown empFilerDropfilter">
+                  <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
+                    class="btn btn-secondary dropdown-toggle new-deopdown">
+                    {{ statusFilter || 'Status' }} <i class="bi bi-chevron-down"></i>
+                  </button>
+                  <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu">
+                    <li><a class="dropdown-item" (click)="filterStatus('')">All</a></li>
+                    <li><a class="dropdown-item" (click)="filterStatus('Approved')">Approved</a></li>
+                    <li><a class="dropdown-item" (click)="filterStatus('Allocated')">Allocated</a></li>
+                    <li><a class="dropdown-item" (click)="filterStatus('Rejected')">Rejected</a></li>
+                    <li><a class="dropdown-item" (click)="filterStatus('Pending')">Pending</a></li>
+                  </ul>
                 </div>
-
                 <div class="onboarding-date d-flex align-items-center position-relative">
-                    <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid"
-                        style="width: 100%;">
-                        <div class="form-group" style="width: 100%; position: relative;"><input type="text"
-                                id="searchText" placeholder="Search..."
-                                class="form-control me-2 ng-pristine ng-valid ng-touched"
-                                (input)="searchAssetsRequest($event)"
-                                style="padding: 10px 40px;" ng-reflect-model=""
-                                ng-reflect-options="[object Object]"><i
-                                class="bi bi-search search-icon ng-star-inserted"
-                                style="margin: auto; margin-left: 15px;"></i></div>
-                    </form>
+                  <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid"
+                    style="width: 100%;">
+                    <div class="form-group" style="width: 100%; position: relative;">
+                      <input type="text" id="searchText" placeholder="Search..." class="form-control mb-0 ng-pristine ng-valid ng-touched"
+                        (input)="searchAssetsRequest($event)" style="padding: 10px 40px;" ng-reflect-model="" ng-reflect-options="[object Object]">
+                        <i class="bi bi-search search-icon ng-star-inserted" style="margin: auto; margin-left: 15px;"></i>
+                    </div>
+                  </form>
                 </div>
-                </div>
+              </div>
             </div>
-        </div>
-
-        <div class="table-responsive bg-white mt-3">
-          <div *ngIf="isLoading" class="shimmer-wrapper">
-            <div class="shimmer"></div>
           </div>
-          <table *ngIf="!isLoading" class="table empOnnoardtable">
-            <thead class="thead-light">
-              <tr>
-                <th class="text-left font-13" style="width: 10%">Requested on</th>
-                <th class="text-left font-13" style="width: 10%">Asset Name</th>
-                <th class="text-left font-13" style="width: 10%">Asset Type</th>
-                <th class="text-left font-13" style="width: 10%">Asset Category</th>
-                 <th class="text-left font-13" style="width: 10%">Requested By</th>
-               <!-- <th class="text-left font-13" style="width: 10%">Approved by</th> -->
-                <th class="text-left font-13" style="width: 10%">Action Taken on</th>
-                <th class="text-left font-13" style="width: 10%">Note</th>
-                <th class="text-left font-13" style="width: 10%">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngIf="assetRequests?.length === 0">
-                <td colspan="9" class="text-center">No data found</td>
-              </tr>
-              <tr *ngFor="let asset of assetRequests">
-                <td class="text-left">{{ asset.requestedOn | date: 'EEE, MMM d yyyy' }}</td>
-                <td class="text-left">{{ asset.assetName }}</td>
-                <td class="text-left">{{ asset.assetType }}</td>
-                <td class="text-left">{{ asset.assetCategoryName }}</td>
-                <td class="text-left">
-                  <button
-                    class="btn btn-link text-primary p-0"
-                    [routerLink]="['/employee-profile']"
-                    [queryParams]="{ userId: asset.userUuid }"
-                  >
-                    {{ asset.requestedBy }}
-                  </button>
-                </td>
-
-              <!--  <td class="text-left">{{ asset.approvedBy }}</td> -->
-                <td class="text-left">{{ asset.actionTakenOn | date: 'MMM d yyyy' }}</td>
-                <td class="text-left">{{ asset.note }}</td>
-                <td class="text-left">
-                  <button
-                    type="button"
-                    class="btn"
-                    [ngClass]="{
-                      'badge rounded-pill badge-soft-secondary': asset.status !== ''
-                    }"
-                    (click)="openStatusChangeModal(asset, statusChangeModal)"
-                  >
-                    {{ asset.status }}
-                  </button>
-                </td>
-
-              </tr>
-            </tbody>
-          </table>
-          <div *ngIf="this.assetRequestsTotalPage>1" class="pagination-controls">
-            <!-- Ngb Pagination Component -->
-            <ngb-pagination
-              [collectionSize]="assetRequestsTotalCount"
-              [rotate]="true"
-              (pageChange)="pageChangedRequest($event)"
-              [pageSize]="assetRequestsSize"
-              [(page)]="assetRequestsPage"
-              [maxSize]="8"
-              [boundaryLinks]="true">
-            </ngb-pagination>
-            <div class="showing-items-message text-right font-13">
-              Showing items
-              {{ (assetRequestsPage - 1) * assetRequestsSize + 1 }} –
-              {{ Math.min(assetRequestsPage * assetRequestsSize, assetRequestsTotalCount) }}
-              of {{ assetRequestsTotalCount }} records
+          <div class="table-responsive bg-white mt-3">
+            <div *ngIf="isLoading" class="shimmer-wrapper">
+              <div class="shimmer"></div>
             </div>
-
-
+            <table *ngIf="!isLoading" class="table empOnnoardtable">
+              <thead class="thead-light">
+                <tr>
+                  <th class="text-left font-13" style="width: 10%">Requested on</th>
+                  <th class="text-left font-13" style="width: 10%">Asset Name</th>
+                  <th class="text-left font-13" style="width: 10%">Asset Type</th>
+                  <th class="text-left font-13" style="width: 10%">Asset Category</th>
+                  <th class="text-left font-13" style="width: 10%">Requested By</th>
+                  <!-- <th class="text-left font-13" style="width: 10%">Approved by</th> -->
+                  <th class="text-left font-13" style="width: 10%">Action Taken on</th>
+                  <th class="text-left font-13" style="width: 10%">Note</th>
+                  <th class="text-left font-13" style="width: 10%">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngIf="assetRequests?.length === 0">
+                  <td colspan="9" class="text-center">No data found</td>
+                </tr>
+                <tr *ngFor="let asset of assetRequests">
+                  <td class="text-left">{{ asset.requestedOn | date: 'EEE, MMM d yyyy' }}</td>
+                  <td class="text-left">{{ asset.assetName }}</td>
+                  <td class="text-left">{{ asset.assetType }}</td>
+                  <td class="text-left">{{ asset.assetCategoryName }}</td>
+                  <td class="text-left">
+                    <button class="btn btn-link text-primary p-0" [routerLink]="['/employee-profile']"
+                      [queryParams]="{ userId: asset.userUuid }">
+                      {{ asset.requestedBy }}
+                    </button>
+                  </td>
+                  <!--  <td class="text-left">{{ asset.approvedBy }}</td> -->
+                  <td class="text-left">{{ asset.actionTakenOn | date: 'MMM d yyyy' }}</td>
+                  <td class="text-left">{{ asset.note }}</td>
+                  <td class="text-left">
+                    <button type="button" class="btn" [ngClass]="{
+                             'badge rounded-pill badge-soft-secondary': asset.status !== ''
+                             }" (click)="openStatusChangeModal(asset, statusChangeModal)">
+                      {{ asset.status }}
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div *ngIf="this.assetRequestsTotalPage>1" class="pagination-controls d-flex align-items-center justify-content-between">
+              <!-- Ngb Pagination Component -->
+              
+              <div class="showing-items-message text-right font-13">
+                Showing items
+                {{ (assetRequestsPage - 1) * assetRequestsSize + 1 }} –
+                {{ Math.min(assetRequestsPage * assetRequestsSize, assetRequestsTotalCount) }}
+                of {{ assetRequestsTotalCount }} records
+              </div>
+              <ngb-pagination class="pagination-box" [collectionSize]="assetRequestsTotalCount" [rotate]="true" (pageChange)="pageChangedRequest($event)"
+                [pageSize]="assetRequestsSize" [(page)]="assetRequestsPage" [maxSize]="8" [boundaryLinks]="true">
+              </ngb-pagination>
+            </div>
           </div>
         </div>
-
-    </div>
-    <ng-template #noAssets>
-      <div class="empty-file" style="margin-top: 13%; margin-bottom: 13%">
-        <nz-empty nzNotFoundImage="assets/images/no-assets.svg" [nzNotFoundContent]="contentTpl">
-          <ng-template #contentTpl>
-            <p class="mb-1 empty-detail font-18">No assets request for now</p>
-            <span class="empty-details">
-              Your assets request will be shown here once they have<br>been raised
-            </span>
-          </ng-template>
-        </nz-empty>
+        <ng-template #noAssets>
+          <div class="empty-file" style="margin-top: 13%; margin-bottom: 13%">
+            <nz-empty nzNotFoundImage="assets/images/no-assets.svg" [nzNotFoundContent]="contentTpl">
+              <ng-template #contentTpl>
+                <p class="mb-1 empty-detail font-18">No assets request for now</p>
+                <span class="empty-details">
+                  Your assets request will be shown here once they have<br>been raised
+                </span>
+              </ng-template>
+            </nz-empty>
+          </div>
+        </ng-template>
       </div>
-    </ng-template>
-</div>
-</div>
+    </div>
+  </div>
 
 </div>
 

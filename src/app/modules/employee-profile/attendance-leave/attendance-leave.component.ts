@@ -133,6 +133,21 @@ dayShiftToggleFun(shift: string) {
   currentPage = 1;
   totalPages=0;
   isLoading=true;
+  loadLeaveLogsOld(): void {
+    const leaveType = this.selectedLeaveType === 'All' ? undefined : this.selectedLeaveType;
+    const status = this.selectedStatus === 'All' ? undefined : this.selectedStatus;
+
+    this.isLoading=true;
+    this.dataService
+      .getUserLeaveLogFilter(this.userId, this.currentPage, this.pageSize, leaveType, status, this.searchQuery)
+      .subscribe((response) => {
+        this.userLeaveLog = response.content;
+        this.totalItems = response.totalElements;
+        this.totalPages = response.totalPages;
+        this.isLoading=false;
+      });  
+  }
+
   loadLeaveLogs(): void {
     const leaveType = this.selectedLeaveType === 'All' ? undefined : this.selectedLeaveType;
     const status = this.selectedStatus === 'All' ? undefined : this.selectedStatus;
@@ -145,8 +160,10 @@ dayShiftToggleFun(shift: string) {
         this.totalItems = response.totalElements;
         this.totalPages = response.totalPages;
         this.isLoading=false;
-      });
+      });  
   }
+
+
   updateLeaveType(type: string): void {
     this.selectedLeaveType = type;
     this.currentPage = 1;

@@ -77,6 +77,8 @@ import { DatabaseHelper } from '../models/DatabaseHelper';
 import { ApproveReq } from '../models/ApproveReq';
 import { UserPositionDTO } from '../models/user-position.model';
 import { AssetRequestDTO } from '../models/AssetRequestDTO';
+import { ExitPolicy } from '../models/ExitPolicy';
+import { UserResignation } from '../models/UserResignation';
 
 
 @Injectable({
@@ -1412,8 +1414,9 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     if (status) params = params.set('status', status);
     if (search) params = params.set('search', search);
 
-    return this.httpClient.get<any>(`${this.baseUrl}/user-leave-logs/leave-log-filter`, { params });
+    return this.httpClient.get<any>(`${this.baseUrl}/user-leave/leave-log-filter`, { params });
   }
+  
 
   deleteUserLog(id: number): Observable<void> {
     return this.httpClient.delete<void>(`${this.baseUrl}/user-leave-logs/${id}`);
@@ -2290,11 +2293,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
 
 
 
-  getPFContributionRate(): Observable<any> {
-    return this.httpClient.get<any>(
-      `${this.baseUrl}/statutory/pf-contribution-rate`
-    );
-  }
+ 
 
   // generateNewAttendanceLink(userUuid: string): Observable<any> {
   //   let params = new HttpParams().set('userUuid', userUuid);
@@ -2318,11 +2317,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   //   return this.httpClient.get<any>(`${this.baseUrl}/account-setting/get/subscription-plan-id`);
   // }
 
-  getESIContributionRate(): Observable<any> {
-    return this.httpClient.get<any>(
-      `${this.baseUrl}/statutory/esi-contribution-rate`
-    );
-  }
+
 
 
 
@@ -2493,9 +2488,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
 
   // ###############
 
-  getAllSalaryComponents(): Observable<any> {
-    return this.httpClient.get<any>(`${this.baseUrl}/salary/component/get/all`);
-  }
+
 
   getSalaryTemplateComponentById(salaryTemplateId: number): Observable<any> {
     const params = new HttpParams().set('salary_template_id', salaryTemplateId);
@@ -2506,11 +2499,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
-  getAllSalaryTemplateComponentByOrganizationId(): Observable<any> {
-    return this.httpClient.get<any>(
-      `${this.baseUrl}/salary/template/component/get/all`
-    );
-  }
+  
 
   getSalaryTemplateComponentByUserUuid(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/salary/template/component/get-by-user-uuid`);
@@ -4345,6 +4334,35 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(
       `${this.baseUrl}/user_company_expense_type_policy_mapping`, {params}
     );
+  }
+
+  /** Exit policy */
+
+  createExitPolicy(exitPolicyReq: ExitPolicy){
+    return this.httpClient.post<any>(`${this.baseUrl}/exit-policy`, exitPolicyReq);
+  }
+
+  getUserMappedWithExitPolicy(selectedUserIds: any, exitPolicyId: number) {
+    let params = new HttpParams().set('selectedUserIds', selectedUserIds);
+
+    if(exitPolicyId > 0){
+      params = params.set('exitPolicyId',exitPolicyId)
+    }
+
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/user_exit_policy_mapping`, {params}
+    );
+  }
+
+  getNoticePeriodDuration(uuid: string) {
+    let params = new HttpParams().set('uuid', uuid);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/user_exit_policy_mapping/notice-period`, {params}
+    );
+  }
+
+  submitResignation(userResignationReq: UserResignation){
+    return this.httpClient.post<any>(`${this.baseUrl}/user-resignation`, userResignationReq);
   }
 
 }

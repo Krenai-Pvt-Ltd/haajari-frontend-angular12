@@ -106,11 +106,12 @@
                         <div *ngIf="addressEmployee[0]" class="col-md-12 ">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Current Address</p>
-                                <h6 class="mb-1">{{ addressEmployee[0].addressLine1}} {{ addressEmployee[0].addressLine2}} {{ addressEmployee[0].city}} - {{ addressEmployee[0].pincode}}</h6>
+                                <!-- <h6 class="mb-1">{{ addressEmployee[0].addressLine1}} {{ addressEmployee[0].addressLine2}} {{ addressEmployee[0].city}} - {{ addressEmployee[0].pincode}}</h6> -->
+                                <h6 class="mb-1">{{ addressEmployee?.[0]?.addressLine1}} {{ addressEmployee?.[0]?.addressLine2}} {{ addressEmployee?.[0]?.city}} - {{ addressEmployee?.[0]?.pincode}}</h6>
                                 <div class="d-flex align-items-center gap-2">
-                                    <span class="font-13">State: <b>{{ addressEmployee[0].state }}</b></span>
+                                    <span class="font-13">State: <b>{{ addressEmployee?.[0]?.state }}</b></span>
                                     <span class="separator-line"></span>
-                                    <span class="font-13">Country: <b>{{ addressEmployee[0].country }}</b></span>
+                                    <span class="font-13">Country: <b>{{ addressEmployee?.[0]?.country }}</b></span>
                                 </div>
 
                             </div>
@@ -118,11 +119,11 @@
                         <div *ngIf="addressEmployee[1]" class="col-md-12">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Permanent Address</p>
-                                <h6 class="mb-1">{{ addressEmployee[1].addressLine1}} {{ addressEmployee[1].addressLine2}} {{ addressEmployee[1].city}} - {{ addressEmployee[1].pincode}}</h6>
+                                <h6 class="mb-1">{{ addressEmployee?.[1]?.addressLine1}} {{ addressEmployee?.[1]?.addressLine2}} {{ addressEmployee?.[1]?.city}} - {{ addressEmployee?.[1]?.pincode}}</h6>
                                 <div class="d-flex align-items-center gap-2">
-                                    <span class="font-13">State: <b>{{ addressEmployee[1].state }}</b></span>
+                                    <span class="font-13">State: <b>{{ addressEmployee?.[1]?.state }}</b></span>
                                     <span class="separator-line"></span>
-                                    <span class="font-13">Country: <b>{{ addressEmployee[1].country }}</b></span>
+                                    <span class="font-13">Country: <b>{{ addressEmployee?.[1]?.country }}</b></span>
                                 </div>
                             </div>
                         </div>
@@ -271,25 +272,25 @@
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Account Holder Name</p>
-                                <h6 class="profile-email">{{ bankDetailsEmployee.accountHolderName }}</h6>
+                                <h6 class="profile-email">{{ bankDetailsEmployee?.accountHolderName }}</h6>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Bank Name</p>
-                                <h6>{{ bankDetailsEmployee.bankName }}</h6>
+                                <h6>{{ bankDetailsEmployee?.bankName }}</h6>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Account Number</p>
-                                <h6>{{ bankDetailsEmployee.accountNumber }}</h6>
+                                <h6>{{ bankDetailsEmployee?.accountNumber }}</h6>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">IFSC Number</p>
-                                <h6>{{ bankDetailsEmployee.ifsc }}</h6>
+                                <h6>{{ bankDetailsEmployee?.ifsc }}</h6>
                             </div>
                         </div>
                     </div>
