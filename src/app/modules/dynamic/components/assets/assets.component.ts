@@ -51,7 +51,6 @@ export class AssetsComponent implements OnInit {
     this.getAssetUserListData();
     this.getCategoryCounts();
     this.getAssetDataById();
-    this.getAssetRequests();
     // this.helperService.saveOrgSecondaryToDoStepBarData(0);
   }
 
@@ -685,22 +684,24 @@ private formatDataForChart(data: any[]): any[] {
 
 
   assetRequests: AssetRequestDTO[] = [];
-  assetRequestsPage: number = 0;
+  assetRequestsPage: number = 1;
   assetRequestsSize: number = 10;
   assetRequestsSearch: string = '';
 
   assetRequestsTotalPage: number=0;
   assetRequestsTotalCount: number=0;
   statusFilter: string='';
+  Math = Math;
+  isLoading = true;
 
   filterStatus(status: string): void {
     this.statusFilter = status;
-    this.assetRequestsPage=0;
+    this.assetRequestsPage=1;
     this.getAssetRequests();
   }
 
   pageChangedRequest(page: number): void {
-    this.assetRequestsPage = page-1;
+    this.assetRequestsPage = page;
     this.getAssetRequests();
   }
   isAssetRequestArrayEmpty(): boolean {
@@ -711,12 +712,13 @@ private formatDataForChart(data: any[]): any[] {
   }
 
   getAssetRequests(): void {
-
+    this.isLoading = true;
     this.dataService.getAssetRequests(this.assetRequestsPage, this.assetRequestsSize, this.assetRequestsSearch, this.statusFilter).subscribe(
       (response) => {
         this.assetRequests = response.data; // Assign only the data (array of AssetRequestDTO) from the response
         this.assetRequestsTotalPage=response.totalPages;
         this.assetRequestsTotalCount=response.totalItems;
+        this.isLoading = false;
         console.log('Asset requests:', this.isAssetRequestArrayEmpty());
         console.log('Total items:', response.totalItems);
         console.log('Current page:', response.currentPage);

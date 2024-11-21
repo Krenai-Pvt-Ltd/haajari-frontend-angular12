@@ -14,4 +14,6 @@ export class EmployeeProfileComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  isEmployeeExit: boolean = false;
+
 }

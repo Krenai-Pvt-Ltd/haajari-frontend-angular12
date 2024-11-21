@@ -105,3 +105,22 @@
 .Profile-input:has(.form__field:focus){
     border: 1px solid #E9E9E9;
 }
+
+.profile-update-request{
+    background-color: #E0DFFF;
+    height: 200px;
+}
+
+button.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+.submitActionBtn {
+    background-color: var(--primary-background-color);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 2px;
+    min-width: 100px;
+}
