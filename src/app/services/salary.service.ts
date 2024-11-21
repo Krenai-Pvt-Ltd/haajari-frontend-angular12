@@ -49,8 +49,8 @@ export class SalaryService {
     return this._http.get<any>(`${this._key.base_url}/statutory`);
   }
 
-  getCurrentSalaryReport():Observable<any>{
-    return this._http.get<any>(`${this._key.base_url}/salary/download`);
+  exportCurrentSalaryReport():Observable<any>{
+    return this._http.get<any>(`${this._key.base_url}/salary/export`);
   }
 
   updateUserSalaryDetail(url:string, fileName:string,): Observable<any>{
@@ -77,6 +77,22 @@ export class SalaryService {
     const params = new HttpParams()
     .set('bulkId',bulkId)
     return this._http.get<any>(`${this._key.base_url}/salary/bulk-updated`,{params});
+  }
+
+
+  getStatutoryAttributeByStatutoryId(statutoryId: number): Observable<any> {
+    const params = new HttpParams()
+    .set('statutoryId', statutoryId);
+
+    return this._http.get<any>(`${this._key.base_url}/statutory/attribute`, {params});
+  }
+
+  getStatutoryByOrganizationId(): Observable<any> {
+    return this._http.get<any>(`${this._key.base_url}/statutory/employee/get/all`);
+  }
+
+  getAllTaxRegime(): Observable<any> {
+    return this._http.get<any>(`${this._key.base_url}/statutory/tax-regime/get/all`);
   }
 
 

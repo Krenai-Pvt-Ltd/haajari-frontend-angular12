@@ -1956,26 +1956,26 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   updateTaxRegimeByUserIdMethodCall(taxRegimeId: number) {
     this.dataService.updateTaxRegimeByUserId(taxRegimeId).subscribe(
       (response) => {
-        this.helperService.showToast(
-          response.message,
-          Key.TOAST_STATUS_SUCCESS
-        );
-        this.getAllTaxRegimeMethodCall();
+        if(response.status){
+          this.getAllTaxRegimeMethodCall();
+          this.helperService.showToast(response.message,Key.TOAST_STATUS_SUCCESS);
+        }
       },
       (error) => {
-        this.helperService.showToast(
-          'Error in updating tax regime!',
-          Key.TOAST_STATUS_ERROR
-        );
+        this.helperService.showToast('Error in updating tax regime!',Key.TOAST_STATUS_ERROR);
       }
     );
   }
 
   taxRegimeList: TaxRegime[] = [];
   getAllTaxRegimeMethodCall() {
-    this.dataService.getAllTaxRegime().subscribe(
-      (response) => {
-        this.taxRegimeList = response.listOfObject;
+    this._salaryService.getAllTaxRegime().subscribe((response) => {
+        if(response.status){
+          this.taxRegimeList = response.object;
+          if(this.taxRegimeList == null){
+            this.taxRegimeList =  [];
+          }
+        }
       },
       (error) => {}
     );
@@ -1984,12 +1984,14 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   statutoryResponseList: StatutoryResponse[] = [];
   getStatutoryByOrganizationIdMethodCall() {
 
-    this.dataService.getStatutoryByOrganizationId().subscribe(
-      (response) => {
-        this.statutoryResponseList = response.listOfObject;
-        this.setStatutoryVariablesToFalse();
-        // console.log(this.statutoryResponseList);
-        this.clearInputValues();
+    this._salaryService.getStatutoryByOrganizationId().subscribe((response) => {
+        if(response.status){
+
+          this.statutoryResponseList = response.object;
+          this.setStatutoryVariablesToFalse();
+          // console.log(this.statutoryResponseList);
+          this.clearInputValues();
+        }
       },
       (error) => {}
     );
@@ -1999,11 +2001,11 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   statutoryAttributeResponseList: StatutoryAttributeResponse[] = [];
   getStatutoryAttributeByStatutoryIdMethodCall(statutoryId: number) {
     return new Promise((resolve, reject) => {
-      this.dataService
+      this._salaryService
         .getStatutoryAttributeByStatutoryId(statutoryId)
         .subscribe(
           (response) => {
-            this.statutoryAttributeResponseList = response.listOfObject;
+            this.statutoryAttributeResponseList = response.object;
             // console.log(response);
             resolve(response);
           },

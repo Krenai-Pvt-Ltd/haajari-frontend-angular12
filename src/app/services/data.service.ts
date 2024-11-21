@@ -2326,13 +2326,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
-  getStatutoryAttributeByStatutoryId(statutoryId: number): Observable<any> {
-    const params = new HttpParams().set('statutory_id', statutoryId);
 
-    return this.httpClient.get<any>(`${this.baseUrl}/statutory/attribute/get`, {
-      params,
-    });
-  }
 
   updateTaxRegimeByUserId(taxRegimeId: number): Observable<any> {
     const params = new HttpParams().set('tax_regime_id', taxRegimeId);
@@ -2344,18 +2338,9 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
-  getAllTaxRegime(): Observable<any> {
-    return this.httpClient.get<any>(
-      `${this.baseUrl}/statutory/tax-regime/get/all`
-    );
-  }
+ 
 
-  getStatutoryByOrganizationId(): Observable<any> {
-    debugger;
-    return this.httpClient.get<any>(
-      `${this.baseUrl}/statutory/employee/get/all`
-    );
-  }
+ 
 
   getSalaryConfigurationStep(): Observable<any> {
     return this.httpClient.get<any>(
