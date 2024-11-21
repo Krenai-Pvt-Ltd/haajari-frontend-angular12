@@ -481,7 +481,7 @@ span.members-name {
   display: none;
 }
 
-input,
+/* input,
 textarea {
   background: #fff !important;
   border: none;
@@ -492,7 +492,7 @@ textarea {
   line-height: 18px;
   color: #445059;
   box-shadow: none;
-}
+} */
 
 .whatapp-login-input {
   background-color: #fff !important;
@@ -898,9 +898,9 @@ Remove
 ::ng-deep.ant-empty-image img {
   width: 90px;
 }
-::ng-deep.ant-picker {
+/* ::ng-deep.ant-picker {
   background-color: transparent !important;
-}
+} */
 
 /* Excel Upload Modal */
 .excelUploadTable tbody td > input {
@@ -1300,3 +1300,10 @@ span.members-namess {
 }
 
 /** Dot opacity end */
+
+.initiate-btn svg{
+  position: relative;
+  top: -2px;
+  margin-right: 4px;
+}
+
