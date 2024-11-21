@@ -10,31 +10,31 @@ import { UserGuarantorRequest } from "./user-guarantor-request";
 import { UserPersonalInformationRequest } from "./user-personal-information-request";
 
 export class OnboardingFormPreviewResponse {
-    user: UserPersonalInformationRequest;
-    userAddress: UserAddressRequest[];
-    userDocuments: UserDocumentsRequest;
-    userGuarantorInformation: UserGuarantorRequest[];
-    userAcademics: UserAcademicsDetailRequest
-    userExperience: UserExperience[];
-    userBankDetails: UserBankDetailRequest;
-    userEmergencyContacts: UserEmergencyContactDetailsRequest[];
-    employeeAdditionalDocuments: EmployeeAdditionalDocument[];
-    employeeCompanyDocuments: EmployeeCompanyDocumentsRequest[];
+    user: UserPersonalInformationRequest = new UserPersonalInformationRequest();;
+    userAddress: UserAddressRequest[] = [];
+    userDocuments: UserDocumentsRequest = new UserDocumentsRequest();
+    userGuarantorInformation: UserGuarantorRequest[] = [];
+    userAcademics: UserAcademicsDetailRequest = new UserAcademicsDetailRequest();
+    userExperience: UserExperience[] = [];
+    userBankDetails: UserBankDetailRequest = new UserBankDetailRequest();
+    userEmergencyContacts: UserEmergencyContactDetailsRequest[] = [];
+    employeeAdditionalDocuments: EmployeeAdditionalDocument[]= [];
+    employeeCompanyDocuments: EmployeeCompanyDocumentsRequest[]= [];
     companyLogo: string = '';
     fresher: boolean = false;
     reasonOfRejection: string = '';
-    
+
 
     constructor() {
-        this.user = new UserPersonalInformationRequest();
-        this.userAddress = [];
-        this.userDocuments = new UserDocumentsRequest();
-        this.userGuarantorInformation = [];
-        this.userExperience = [];
-        this.userBankDetails = new UserBankDetailRequest();
-        this.userAcademics = new UserAcademicsDetailRequest;
-        this.userEmergencyContacts = [];
-        this.employeeAdditionalDocuments = [];
+        // this.user = new UserPersonalInformationRequest();
+        // this.userAddress = [];
+        // this.userDocuments = new UserDocumentsRequest();
+        // this.userGuarantorInformation = [];
+        // this.userExperience = [];
+        // this.userBankDetails = new UserBankDetailRequest();
+        // this.userAcademics = new UserAcademicsDetailRequest();
+        // this.userEmergencyContacts = [];
+        // this.employeeAdditionalDocuments = [];
         this.companyLogo = '';
         this.fresher = false;
         this.reasonOfRejection = '';
