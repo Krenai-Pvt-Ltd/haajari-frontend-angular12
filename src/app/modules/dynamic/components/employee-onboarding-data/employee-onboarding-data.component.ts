@@ -1563,17 +1563,44 @@ console.log(this.data);
     this.resignationToggle = true;
     this.userResignationReq.createdBy = 'ADMIN'
     this.userResignationReq.uuid = this.userUuid
+    this.userResignationReq.userExitTypeId = this.userExitTypeId
     // console.log('request form : ',this.userResignationReq)
 
     this.dataService.submitResignation(this.userResignationReq).subscribe((res: any) => {
         if(res.status){
           this.resignationToggle =false
+          this.userResignationReq.userExitTypeId = 0
+          this.userExitTypeId = 0
+          this.getUsersByFiltersFunction();
           this.closeResignationButton.nativeElement.click()
           this.clearResignationForm();
           form.resetForm();
         }
     })
 
+  }
+
+  userExitTypeList: any[] = []
+  userExitTypeId: number = 0
+  getUserExitType() {
+    this.userExitTypeList = []
+    this.dataService.getUserExitPolicyType().subscribe((res: any) => {
+
+      if (res.status) {
+        this.userExitTypeList = res.object;
+      }
+
+    }, error => {
+      console.log('something went wrong')
+    })
+  }
+
+
+  selectUserExitType(expense: any) {
+    console.log('expense: ', expense)
+    // this.expenseTypeName = expense.name
+    this.userExitTypeId = expense
+    console.log('jhgf',this.userExitTypeId)
   }
   
   clearResignationForm(){
@@ -1586,6 +1613,11 @@ console.log(this.data);
     this.userResignationReq.createdBy = ''
     this.userResignationReq.url = ''
     this.userResignationReq = new UserResignation();
+  }
+
+  closeResignationModal(form: NgForm){
+    form.resetForm();
+    this.clearResignationForm();
   }
 
   recommendDay: string = ''; // Default selected value
@@ -1645,10 +1677,15 @@ console.log(this.data);
   }
 
   userUuid: string = ''
+  
   getUserUuid(uuid: string){
-
+    this.userResignationReq = new UserResignation();
+    this.userResignationReq.userExitTypeId = 0
+    this.userExitTypeId = 0
+   
     this.userUuid = uuid;
 
+    this.getUserExitType()
     this.getNoticePeriodDuration();
   }
 
