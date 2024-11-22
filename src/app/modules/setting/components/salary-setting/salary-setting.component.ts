@@ -595,9 +595,9 @@ export class SalarySettingComponent implements OnInit {
  
   tempStatutoryResp: StatutoryResponse = new StatutoryResponse();
   async toggleStatutory(statutoryResponse: StatutoryResponse) {
-    this.tempStatutoryResp = statutoryResponse;
-    await this.getStatutoryAttributeByStatutoryIdMethodCall(statutoryResponse.id);
+    this.tempStatutoryResp = statutoryResponse;  
     if (!statutoryResponse.switchValue) {   
+      await this.getStatutoryAttributeByStatutoryIdMethodCall(statutoryResponse.id);
       if (statutoryResponse.id == this.EPF_ID) {
         this.statutoryPFButton.nativeElement.click();
       } else if (statutoryResponse.id == this.ESI_ID) {
