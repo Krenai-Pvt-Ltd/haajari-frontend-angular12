@@ -23,6 +23,7 @@ import * as moment from 'moment';
 import { LeaveSettingComponent } from 'src/app/modules/setting/components/leave-setting/leave-setting.component';
 import { AttendanceSettingComponent } from 'src/app/modules/setting/components/attendance-setting/attendance-setting.component';
 import { TeamComponent } from '../team/team.component';
+import { UserResignation } from 'src/app/models/UserResignation';
 export interface Team {
   label: string;
   value: string;
@@ -1549,6 +1550,109 @@ console.log(this.data);
       }
     }
   }
+
+
+
+  // User Resignation start
+
+  @ViewChild('closeResignationButton') closeResignationButton!: ElementRef
+  userResignationReq: UserResignation = new UserResignation();
+  resignationToggle: boolean = false;
+  submitResignation(form: NgForm){
+
+    this.resignationToggle = true;
+    this.userResignationReq.createdBy = 'ADMIN'
+    this.userResignationReq.uuid = this.userUuid
+    // console.log('request form : ',this.userResignationReq)
+
+    this.dataService.submitResignation(this.userResignationReq).subscribe((res: any) => {
+        if(res.status){
+          this.resignationToggle =false
+          this.closeResignationButton.nativeElement.click()
+          this.clearResignationForm();
+          form.resetForm();
+        }
+    })
+
+  }
+  
+  clearResignationForm(){
+    this.recommendDay = ''
+    this.userResignationReq.uuid =''
+    this.userResignationReq.reason = ''
+    this.userResignationReq.comment = ''
+    this.userResignationReq.isManagerDiscussion = 0
+    this.userResignationReq.isRecommendLastDay = 0
+    this.userResignationReq.createdBy = ''
+    this.userResignationReq.url = ''
+    this.userResignationReq = new UserResignation();
+  }
+
+  recommendDay: string = ''; // Default selected value
+  selectRecommendDay(value: string): void {
+
+    this.userResignationReq.lastWorkingDay = ''
+    
+    this.userResignationReq.isRecommendLastDay = value == 'Other' ? 1 : 0
+
+    if(this.userResignationReq.isRecommendLastDay == 0){
+      this.userResignationReq.lastWorkingDay = ''
+      this.calculateLasWorkingDay();
+    }
+
+  }
+
+   // Function to disable future dates
+   disableFutureDates = (current: Date): boolean => {
+    const today = new Date();
+    // const maxDate = new Date();
+    const maxDate = new Date();
+    maxDate.setDate(today.getDate() + this.noticePeriodDuration); // Add 45 days to today's date
+  
+    // this.lastWorkingDay = maxDate;
+    // console.log("Max Date: ", this.lastWorkingDay);
+    // Disable dates from today to maxDate (inclusive)
+    return current < today || current > maxDate;
+  };
+  
+  calculateLasWorkingDay(){
+    const today = new Date();
+    // const maxDate = new Date();
+    const maxDate = new Date();
+    maxDate.setDate(today.getDate() + this.noticePeriodDuration); // Add 45 days to today's date
+  
+    // this.lastWorkingDay = maxDate;
+    // this.userResignationReq.lastWorkingDay = maxDate
+    this.userResignationReq.lastWorkingDay = this.helperService.formatDateToYYYYMMDD(maxDate);
+    // console.log("Max Date: ", this.lastWorkingDay);
+  }
+
+  selectLastWorkingDay(startDate: Date) {
+    debugger
+    if (this.userResignationReq.isRecommendLastDay == 0 && startDate) {
+      this.userResignationReq.lastWorkingDay = this.helperService.formatDateToYYYYMMDD(startDate);
+    }
+  }
+
+  noticePeriodDuration: number = 0;
+  getNoticePeriodDuration(){
+    this.dataService.getNoticePeriodDuration(this.userUuid).subscribe((res: any) => {
+      if(res.status){
+        this.noticePeriodDuration = res.object
+        console.log('Duration: ',this.noticePeriodDuration)
+      }
+    })
+  }
+
+  userUuid: string = ''
+  getUserUuid(uuid: string){
+
+    this.userUuid = uuid;
+
+    this.getNoticePeriodDuration();
+  }
+
+  // User Resignation end
 
 
   jobTitles: string[] = [

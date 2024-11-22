@@ -1,10 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { constant } from 'src/app/constant/constant';
+import { Key } from 'src/app/constant/key';
 import { OnboardingFormPreviewResponse } from 'src/app/models/onboarding-form-preview-response';
+import { UserAcademicsDetailRequest } from 'src/app/models/user-academics-detail-request';
 import { UserAddressDetailsRequest } from 'src/app/models/user-address-details-request';
+import { UserAddressRequest } from 'src/app/models/user-address-request';
+import { UserEmergencyContactDetailsRequest } from 'src/app/models/user-emergency-contact-details-request';
+import { UserExperience } from 'src/app/models/user-experience';
 import { UserExperienceDetailRequest } from 'src/app/models/user-experience-detail-request';
+import { UserGuarantorRequest } from 'src/app/models/user-guarantor-request';
 import { DataService } from 'src/app/services/data.service';
+import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-personal-information',
@@ -16,7 +23,7 @@ export class PersonalInformationComponent implements OnInit {
   profileEdit: boolean = false;
   userId: any;
 
-  constructor(private dataService: DataService,private activateRoute: ActivatedRoute,) {
+  constructor(private dataService: DataService,private activateRoute: ActivatedRoute, private helperService : HelperService) {
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
     }
@@ -24,6 +31,7 @@ export class PersonalInformationComponent implements OnInit {
 
   ngOnInit(): void {
     this.getOnboardingFormPreviewMethodCall();
+    this.loadRoutes();
 
   }
 
@@ -137,6 +145,10 @@ export class PersonalInformationComponent implements OnInit {
   onboardingPreviewData: OnboardingFormPreviewResponse =
   new OnboardingFormPreviewResponse();
 
+  onboardingPreviewDataCopy: OnboardingFormPreviewResponse =
+  new OnboardingFormPreviewResponse();
+
+
   getOnboardingFormPreviewMethodCall() {
     const userUuid = new URLSearchParams(window.location.search).get('userId') || '';
     if (userUuid) {
@@ -151,7 +163,22 @@ export class PersonalInformationComponent implements OnInit {
           this.experienceEmployee = this.onboardingPreviewData.userExperience;
           this.emergencyContacts = this.onboardingPreviewData.userEmergencyContacts;
           this.bankDetailsEmployee = this.onboardingPreviewData.userBankDetails;
-
+          this.editProfile();
+          // this.onboardingPreviewDataCopy = JSON.parse(JSON.stringify(preview));
+          // if(this.onboardingPreviewDataCopy.userAddress.length<2){
+          //   while(this.onboardingPreviewDataCopy.userAddress.length!=2){
+          //     this.onboardingPreviewDataCopy.userAddress.push(new UserAddressRequest());
+          //   }
+          // }
+          // if(this.onboardingPreviewDataCopy.userGuarantorInformation.length==0){
+          //   this.onboardingPreviewDataCopy.userGuarantorInformation.push(new UserGuarantorRequest());
+          // }
+          // if(!this.onboardingPreviewDataCopy.userAcademics){
+          //   this.onboardingPreviewDataCopy.userAcademics=new UserAcademicsDetailRequest();
+          // }
+          // if(this.onboardingPreviewDataCopy.userEmergencyContacts.length==0){
+          //   this.onboardingPreviewDataCopy.userEmergencyContacts.push(new UserEmergencyContactDetailsRequest());
+          // }
         },
         (error: any) => {
           console.error('Error fetching user details:', error);
@@ -163,7 +190,61 @@ export class PersonalInformationComponent implements OnInit {
       this.emergencyContacts = [];
     }
   }
+  routes: string[] =[];
+  loadRoutes(): void {
+    this.dataService.getRoutesByOrganization(this.userId).subscribe(
+      (routes: string[]) => {
+        this.routes = routes;
+        this.dataService.onboardingRoutes=routes;
+        console.log('Loaded routes:', this.routes);
+      },
+      error => {
+        console.error('Error fetching routes', error);
+      }
+    );
+  }
 
+  saveOnboardingData() {
+    this.dataService.saveOnboardingData(this.onboardingPreviewDataCopy).subscribe({
+      next: (response) => {
+        this.profileEdit=false;
+        this.helperService.showToast('Data Save successfully.', Key.TOAST_STATUS_SUCCESS);
+        this.getOnboardingFormPreviewMethodCall();
+      },
+      error: (error) => {
+        console.error('Error saving data:', error);
+        this.helperService.showToast(error, Key.TOAST_STATUS_ERROR);
+      }
+    });
+  }
+
+  editProfile(){
+    this.onboardingPreviewDataCopy = JSON.parse(JSON.stringify(this.onboardingPreviewData));
+    if(this.onboardingPreviewDataCopy.userAddress == null){
+      this.onboardingPreviewDataCopy.userAddress = [];
+    }
+    if(this.onboardingPreviewDataCopy.userAddress.length<2){
+      while(this.onboardingPreviewDataCopy.userAddress.length!=2){
+        this.onboardingPreviewDataCopy.userAddress.push(new UserAddressRequest());
+      }
+    }
+    if(this.onboardingPreviewDataCopy.userGuarantorInformation == null || this.onboardingPreviewDataCopy.userGuarantorInformation.length==0){
+      this.onboardingPreviewDataCopy.userGuarantorInformation= [];
+      this.onboardingPreviewDataCopy.userGuarantorInformation.push(new UserGuarantorRequest());
+    }
+    if(!this.onboardingPreviewDataCopy.userAcademics){
+      this.onboardingPreviewDataCopy.userAcademics=new UserAcademicsDetailRequest();
+    }
+    if(this.onboardingPreviewDataCopy.userEmergencyContacts == null || this.onboardingPreviewDataCopy.userEmergencyContacts.length==0){
+      this.onboardingPreviewDataCopy.userEmergencyContacts = [];
+      this.onboardingPreviewDataCopy.userEmergencyContacts.push(new UserEmergencyContactDetailsRequest());
+    }
+    if(this.onboardingPreviewDataCopy.userExperience == null || this.onboardingPreviewDataCopy.userExperience.length == 0){
+      // this.onboardingPreviewDataCopy.userExperience.push(new UserExperience());
+      this.onboardingPreviewDataCopy.userExperience = new Array();
+      this.onboardingPreviewDataCopy.userExperience.push(new UserExperience());
+    }
+  }
 
 
 }
