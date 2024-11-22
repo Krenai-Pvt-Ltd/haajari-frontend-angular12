@@ -4338,8 +4338,29 @@ getHolidayForOrganization(date: string): Observable<any>{
 
   /** Exit policy */
 
+  getUserExitPolicyType(){
+    return this.httpClient.get<any>(`${this.baseUrl}/user-exit-type`);
+  }
+
+
   createExitPolicy(exitPolicyReq: ExitPolicy){
     return this.httpClient.post<any>(`${this.baseUrl}/exit-policy`, exitPolicyReq);
+  }
+
+  deleteExitPolicy(id: number){
+    const params = new HttpParams()
+    .set('exitPolicyId', id)
+    return this.httpClient.delete<void>(`${this.baseUrl}/exit-policy`, {params});
+  }
+
+  getAllExitPolicy(databaseHelper: DatabaseHelper){
+    const params = new HttpParams()
+    .set('page_number', databaseHelper.currentPage)
+    .set('item_per_page', databaseHelper.itemPerPage)
+    .set('sortBy', 'createdDate')
+    .set('sortOrder', 'desc')
+
+    return this.httpClient.get<any>(`${this.baseUrl}/exit-policy/rule`, {params});
   }
 
   getUserMappedWithExitPolicy(selectedUserIds: any, exitPolicyId: number) {

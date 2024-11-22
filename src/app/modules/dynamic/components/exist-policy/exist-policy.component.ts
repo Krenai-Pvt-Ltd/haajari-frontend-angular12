@@ -24,7 +24,19 @@ export class ExistPolicyComponent implements OnInit {
   isLoading: boolean = false;
   exitPolicyList: any[] = []
   getExitPolicy(){
-    this.exitPolicyList = []
+    this.isLoading = true;
+    this.exitPolicyList = [];
+    this.databaseHelper = new DatabaseHelper();
+    this.dataService.getAllExitPolicy(this.databaseHelper).subscribe((res: any) => {
+      if(res.status){
+        this.exitPolicyList = res.object;
+        this.isLoading = false;
+        // console.log('list: ',this.exitPolicyList)
+      }else{
+        this.exitPolicyList = [];
+        this.isLoading = false;
+      }
+    })
   }
 
   tempPolicyName: string = ''
@@ -33,15 +45,47 @@ export class ExistPolicyComponent implements OnInit {
 
   }
 
+  clearData(){
+    debugger
+    // this.exitPolicy.nativeElement.click();
+    // this.isStaffSelectionFlag = false;
+    // this.activeTab = 'exitPolicy';
+
+    this.exitPolicyReq = new ExitPolicy();
+    this.policyName = ''
+    this.noticePeriodDuration = ''
+    this.exitPolicyId = 0
+    this.tempExpPolicyId = 0
+    this.selectedStaffIdsUser = []
+    this.allselected = false;
+    this.updateToggle = false;
+
+    // this.activeTab = 'exitPolicy'
+  }
+
   clearForm(form: NgForm){
+  // clearForm(){
+    // debugger
+    // this.exitPolicyReq = new ExitPolicy();
+    // this.policyName = ''
+    // this.noticePeriodDuration = 0
+    // this.exitPolicyId = 0
+    // this.tempExpPolicyId = 0
+    // this.selectedStaffIdsUser = []
+
+    // this.staffActiveTabInShiftTiming.nativeElement.click();
+    this.exitPolicySelectionTab();
+
     form.resetForm()
   }
 
   @ViewChild('exitPolicy') exitPolicy!: ElementRef;
+  @ViewChild('exitPolicyTab') exitPolicyTab!: ElementRef;
   isStaffSelectionFlag: boolean = false;
   activeTab: string = 'exitPolicy';
   exitPolicySelectionTab() {
-    this.exitPolicy.nativeElement.click();
+    debugger
+    this.exitPolicyTab.nativeElement.click();
     this.isStaffSelectionFlag = false;
     this.activeTab = 'exitPolicy';
   }
@@ -271,7 +315,8 @@ export class ExistPolicyComponent implements OnInit {
     this.getUserByFiltersMethodCall();
   }
 
-  noticePeriodDuration: number = 0;
+  // noticePeriodDuration: number = 0;
+  noticePeriodDuration: string = '';
   userNameWithBranchName: any[] = new Array();
   @ViewChild("closeButton") closeButton!:ElementRef;
   @ViewChild("closeExitPolicyModal") closeExitPolicyModal!:ElementRef;
@@ -289,7 +334,7 @@ export class ExistPolicyComponent implements OnInit {
     debugger
     this.userMappedLoading = true;
     this.userNameWithBranchName = []
-    this.dataService.getUserMappedWithExitPolicy(this.selectedStaffIdsUser, this.exitPolicyId).subscribe((response: any) => {
+    this.dataService.getUserMappedWithExitPolicy(this.selectedStaffIdsUser, this.exitPolicyReq.id).subscribe((response: any) => {
 
       if(response.status){
         this.userNameWithBranchName = response.object;
@@ -305,7 +350,7 @@ export class ExistPolicyComponent implements OnInit {
 
 
       this.exitPolicyReq.name = this.policyName
-      this.exitPolicyReq.noticePeriod = this.noticePeriodDuration
+      this.exitPolicyReq.noticePeriod = Number(this.noticePeriodDuration)
       this.exitPolicyReq.selectedUserIds = this.selectedStaffIdsUser
 
       }
@@ -335,7 +380,9 @@ export class ExistPolicyComponent implements OnInit {
   }
 
   closeModal(){
-
+    debugger
+    this.exitPolicySelectionTab();
+   
   }
 
 
@@ -376,21 +423,83 @@ export class ExistPolicyComponent implements OnInit {
   exitPolicyId: number = 0;
   tempExpPolicyId: number =0;
   // getExpenseInformationById(companyExpense: CompanyExpensePolicyRes){
-  getExpenseInformationById(companyExpense: ExitPolicy){
+    getExitPolicyInformationById(exitPolicy: ExitPolicy){
+      debugger
+      this.updateToggle = true;
+      this.allselected = false;
+      this.exitPolicyReq.id = exitPolicy.id
+      // this.tempExpPolicyId = exitPolicy.id;
+      this.policyName = exitPolicy.policyName;
+      // this.noticePeriodDuration = exitPolicy.noticePeriodDuration;
+      this.noticePeriodDuration = exitPolicy.noticePeriodDuration.toString();
+      this.selectedStaffIdsUser = []
+  
+      // this.expensePolicyReq = new ExpensePolicy()
+      // this.expensePolicyReqList = []
+      this.oldSelectedStaffIdsUser = []
+  
+      // console.log('type list: ',this.expensePolicyReqList)
+  
+      this.staffs.forEach((staff) => {
+        staff.checked = exitPolicy.userIds.includes(staff.id);
+      });
+  
+      exitPolicy.userIds.forEach((id: number) => {
+        this.selectedStaffIdsUser.push(id)
+        this.oldSelectedStaffIdsUser.push(id)
+      });
+  
+      // this.oldSelectedStaffIdsUser = this.selectedStaffIdsUser
+      console.log('old sel IDS: ',this.oldSelectedStaffIdsUser)
+  
+      // this.policyName = companyExpense.policyName
+      // this.updateToggle = true;
+  }
 
+  getExitPolicyId(id: number){
+    this.exitPolicyId = id
+  }
+
+  activeIndex: number | null = null;
+  toggleCollapse(index: number): void {
+    this.activeIndex = this.activeIndex === index ? null : index;
   }
 
   registerToggle: boolean = false;
   registerExitPolicy(form: NgForm){
-    console.log('create req: ',this.exitPolicyReq)
+    // console.log('create req: ',this.exitPolicyReq)
     this.registerToggle = true;
+
+    // if(this.updateToggle){
+    //   if (this.removeUserIds && this.removeUserIds.length > 0) {
+    //     this.exitPolicyReq.deSelectedUserIds = [
+    //       ...this.exitPolicyReq.deSelectedUserIds,
+    //       ...this.removeUserIds
+    //     ];
+    //   }
+    // }
+
     this.dataService.createExitPolicy(this.exitPolicyReq).subscribe((res: any) => {
       if(res.status){
         this.registerToggle = false;
-        this.closeExitPolicyModal.nativeElement.click()
-
+        this.getExitPolicy();
+  
         this.exitPolicyReq = new ExitPolicy();
+        if(this.isMappedUserModalOpen){
+          this.usersAlreadyAssigned.nativeElement.click();
+          this.isMappedUserModalOpen = false;
+          this.isValidated = false;
+        }
 
+
+        if(this.updateToggle){
+          this.updateToggle = false;
+        }
+        this.userMappedLoading = false;
+        this.exitPolicyReq.id = 0
+
+        this.closeExitPolicyModal.nativeElement.click()
+        this.clearPolicyForm();
         form.resetForm()
 
       }
@@ -407,10 +516,23 @@ export class ExistPolicyComponent implements OnInit {
     this.allselected = false;
     this.policyName = ''
     this.tempPolicyName = ''
-    this.noticePeriodDuration = 0;
+    this.noticePeriodDuration = '';
     // this.companyExpensePolicyId = 0
     this.exitPolicySelectionTab();
+  }
 
+  @ViewChild('closeButtonDeleteExpensePolicy') closeButtonDeleteExpensePolicy!: ElementRef
+  deletePolicyToggle: boolean =false
+  deleteExitPolicy(){
+    this.deletePolicyToggle = true;
+    this.dataService.deleteExitPolicy(this.exitPolicyId).subscribe((res: any) =>{
+      if(res.status){
+        this.exitPolicyId = 0
+        this.deletePolicyToggle = false;
+        this.closeButtonDeleteExpensePolicy.nativeElement.click()
+        this.getExitPolicy();
+      }
+    })
   }
 
 }
