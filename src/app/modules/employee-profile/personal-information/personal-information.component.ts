@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Status } from './../../../models/status';
+import { saveAs } from 'file-saver';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
@@ -12,6 +14,7 @@ import { UserExperienceDetailRequest } from 'src/app/models/user-experience-deta
 import { UserGuarantorRequest } from 'src/app/models/user-guarantor-request';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
   selector: 'app-personal-information',
@@ -23,7 +26,9 @@ export class PersonalInformationComponent implements OnInit {
   profileEdit: boolean = false;
   userId: any;
 
-  constructor(private dataService: DataService,private activateRoute: ActivatedRoute, private helperService : HelperService) {
+  constructor(private dataService: DataService,private activateRoute: ActivatedRoute, private helperService : HelperService,
+    public rbacService: RoleBasedAccessControlService,
+  ) {
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
     }
@@ -32,113 +37,114 @@ export class PersonalInformationComponent implements OnInit {
   ngOnInit(): void {
     this.getOnboardingFormPreviewMethodCall();
     this.loadRoutes();
+    this.getPendingRequest();
 
   }
 
   user: any = {};
   isImage: boolean = false;
 
-  getUserByUuid() {
-    this.dataService.getUserByUuid(this.userId).subscribe(
-      (data) => {
-        this.user = data;
+  // getUserByUuid() {
+  //   this.dataService.getUserByUuid(this.userId).subscribe(
+  //     (data) => {
+  //       this.user = data;
 
-        if (constant.EMPTY_STRINGS.includes(this.user.image)) {
-          this.isImage = false;
-        } else {
-          this.isImage = true;
-        }
-      },
-      (error) => {
-        this.isImage = false;
-      }
-    );
-  }
+  //       if (constant.EMPTY_STRINGS.includes(this.user.image)) {
+  //         this.isImage = false;
+  //       } else {
+  //         this.isImage = true;
+  //       }
+  //     },
+  //     (error) => {
+  //       this.isImage = false;
+  //     }
+  //   );
+  // }
 
   addressEmployee: any[] = [];
-  getEmployeeAdressDetailsByUuid() {
-    // this.isAddressShimmer=true;
-    this.dataService.getNewUserAddressDetails(this.userId).subscribe(
-      (data: UserAddressDetailsRequest) => {
-          this.addressEmployee = data.userAddressRequest;
-      },
-      (error) => {
+  // getEmployeeAdressDetailsByUuid() {
+  //   // this.isAddressShimmer=true;
+  //   this.dataService.getNewUserAddressDetails(this.userId).subscribe(
+  //     (data: UserAddressDetailsRequest) => {
+  //         this.addressEmployee = data.userAddressRequest;
+  //     },
+  //     (error) => {
 
-      }
-    );
-  }
+  //     }
+  //   );
+  // }
 
   academicEmployee: any;
   isAcademicPlaceholder: boolean = false;
 
-  getEmployeeAcademicDetailsByUuid() {
-    this.dataService.getEmployeeAcademicDetails(this.userId).subscribe(
-      (data) => {
-        if (data != null || data != undefined) {
-          this.academicEmployee = data;
-        } else {
-          this.isAcademicPlaceholder = true;
-        }
-      },
-      (error) => {
-        this.isAcademicPlaceholder = true;
-      }
-    );
-  }
+  // getEmployeeAcademicDetailsByUuid() {
+  //   this.dataService.getEmployeeAcademicDetails(this.userId).subscribe(
+  //     (data) => {
+  //       if (data != null || data != undefined) {
+  //         this.academicEmployee = data;
+  //       } else {
+  //         this.isAcademicPlaceholder = true;
+  //       }
+  //     },
+  //     (error) => {
+  //       this.isAcademicPlaceholder = true;
+  //     }
+  //   );
+  // }
 
   isFresher: boolean = false;
   experienceEmployee: any;
   isCompanyPlaceholder: boolean = false;
-  getEmployeeExperiencesDetailsByUuid() {
-    this.dataService.getEmployeeExperiencesDetails(this.userId).subscribe(
-      (data: UserExperienceDetailRequest) => {
-        this.experienceEmployee = data;
+  // getEmployeeExperiencesDetailsByUuid() {
+  //   this.dataService.getEmployeeExperiencesDetails(this.userId).subscribe(
+  //     (data: UserExperienceDetailRequest) => {
+  //       this.experienceEmployee = data;
 
-        if (this.experienceEmployee[0].fresher == true) {
-          this.isFresher = this.experienceEmployee[0].fresher;
-        }
-        // console.log('experience length' + this.experienceEmployee.length);
-        if (data == undefined || data == null || data.experiences?.length == 0) {
-          this.isCompanyPlaceholder = true;
-        }
-      },
-      (error) => {
-        this.isCompanyPlaceholder = true;
-      }
-    );
-  }
+  //       if (this.experienceEmployee[0].fresher == true) {
+  //         this.isFresher = this.experienceEmployee[0].fresher;
+  //       }
+  //       // console.log('experience length' + this.experienceEmployee.length);
+  //       if (data == undefined || data == null || data.experiences?.length == 0) {
+  //         this.isCompanyPlaceholder = true;
+  //       }
+  //     },
+  //     (error) => {
+  //       this.isCompanyPlaceholder = true;
+  //     }
+  //   );
+  // }
 
   emergencyContacts: any;
   isContactPlaceholder: boolean = false;
-  getEmergencyContactsDetailsByUuid() {
-    this.dataService.getEmployeeContactsDetails(this.userId).subscribe(
-      (data) => {
-        this.emergencyContacts = data;
-        if (data == null || data.length == 0) {
-          this.isContactPlaceholder = true;
-        }
-      },
-      (error) => {
-        this.isContactPlaceholder = true;
-      }
-    );
-  }
+  // getEmergencyContactsDetailsByUuid() {
+  //   this.dataService.getEmployeeContactsDetails(this.userId).subscribe(
+  //     (data) => {
+  //       this.emergencyContacts = data;
+  //       if (data == null || data.length == 0) {
+  //         this.isContactPlaceholder = true;
+  //       }
+  //     },
+  //     (error) => {
+  //       this.isContactPlaceholder = true;
+  //     }
+  //   );
+  // }
 
   bankDetailsEmployee: any;
   isBankShimmer: boolean = false;
-  getEmployeeBankDetailsByUuid() {
-    this.isBankShimmer = true;
-    this.dataService.getEmployeeBankDetails(this.userId).subscribe(
-      (data) => {
-        this.bankDetailsEmployee = data;
+  // getEmployeeBankDetailsByUuid() {
+  //   this.isBankShimmer = true;
+  //   this.dataService.getEmployeeBankDetails(this.userId).subscribe(
+  //     (data) => {
+  //       this.bankDetailsEmployee = data;
 
-        this.isBankShimmer = false;
-      },
-      (error) => {
-        this.isBankShimmer = false;
-      }
-    );
-  }
+  //       this.isBankShimmer = false;
+  //     },
+  //     (error) => {
+  //       this.isBankShimmer = false;
+  //     }
+  //   );
+  // }
 
   refrences: any;
 
@@ -164,21 +170,6 @@ export class PersonalInformationComponent implements OnInit {
           this.emergencyContacts = this.onboardingPreviewData.userEmergencyContacts;
           this.bankDetailsEmployee = this.onboardingPreviewData.userBankDetails;
           this.editProfile();
-          // this.onboardingPreviewDataCopy = JSON.parse(JSON.stringify(preview));
-          // if(this.onboardingPreviewDataCopy.userAddress.length<2){
-          //   while(this.onboardingPreviewDataCopy.userAddress.length!=2){
-          //     this.onboardingPreviewDataCopy.userAddress.push(new UserAddressRequest());
-          //   }
-          // }
-          // if(this.onboardingPreviewDataCopy.userGuarantorInformation.length==0){
-          //   this.onboardingPreviewDataCopy.userGuarantorInformation.push(new UserGuarantorRequest());
-          // }
-          // if(!this.onboardingPreviewDataCopy.userAcademics){
-          //   this.onboardingPreviewDataCopy.userAcademics=new UserAcademicsDetailRequest();
-          // }
-          // if(this.onboardingPreviewDataCopy.userEmergencyContacts.length==0){
-          //   this.onboardingPreviewDataCopy.userEmergencyContacts.push(new UserEmergencyContactDetailsRequest());
-          // }
         },
         (error: any) => {
           console.error('Error fetching user details:', error);
@@ -210,6 +201,7 @@ export class PersonalInformationComponent implements OnInit {
         this.profileEdit=false;
         this.helperService.showToast('Data Save successfully.', Key.TOAST_STATUS_SUCCESS);
         this.getOnboardingFormPreviewMethodCall();
+        this.getPendingRequest();
       },
       error: (error) => {
         console.error('Error saving data:', error);
@@ -245,6 +237,58 @@ export class PersonalInformationComponent implements OnInit {
       this.onboardingPreviewDataCopy.userExperience.push(new UserExperience());
     }
   }
+
+
+  profileEditRequest: any = null;
+  statusMessage: string = '';
+  isRequestable: boolean=false;
+  editStatus:string='';
+  createProfileEditRequest() {
+
+    this.dataService.createRequest(this.userId).subscribe(
+      (response) => {
+          this.editStatus = 'PENDING';
+      },
+      (error) => {
+        console.error('Error creating request:', error);
+      }
+    );
+  }
+
+  // Get pending request for user
+  getPendingRequest() {
+    this.dataService.getPendingRequestForUser(this.userId).subscribe(
+      (response) => {
+          this.editStatus = response.status;
+          if(this.editStatus == 'EDITED' && this.rbacService.userInfo.role == 'USER'){
+            this.editStatus = '';
+          }
+
+      },
+      (error) => {
+        console.error('Error getting pending request:', error);
+      }
+    );
+  }
+
+  // Set status to pending
+  changeStatus(status:String) {
+    this.dataService.profileEditStatus(status,this.userId).subscribe(
+      (response) => {
+
+        this.editStatus = 'APPROVED';
+
+      },
+      (error) => {
+        console.error('Error updating status:', error);
+      }
+    );
+  }
+
+  @ViewChild('profileRequestModal') profileRequestModal!:ElementRef;
+
+
+
 
 
 }

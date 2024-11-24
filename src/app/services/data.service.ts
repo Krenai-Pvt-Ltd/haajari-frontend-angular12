@@ -1388,6 +1388,21 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     return this.httpClient.post(`${this.baseUrl}/get/onboarding/save-onboarding-data`,onboardingPreviewData)
   }
 
+  createRequest(userId: string): Observable<any> {
+    const params = new HttpParams().set('userId', userId);
+    return this.httpClient.post<any>(`${this.baseUrl}/profile-edit-requests`, params);
+  }
+
+  // Get Pending Request for User by UUID (returns any type)
+  getPendingRequestForUser(uuid: string): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/profile-edit-requests/get/${uuid}`);
+  }
+
+  profileEditStatus(status: String, userId: string): Observable<any> {
+    const params = new HttpParams().set('userId', userId);
+    return this.httpClient.put<any>(`${this.baseUrl}/profile-edit-requests/status/${status}`, params);
+  }
+
   getUserLeaveLog(userUuid: string): Observable<any> {
     const params = new HttpParams().set('userUuid', userUuid);
 
@@ -1416,7 +1431,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
 
     return this.httpClient.get<any>(`${this.baseUrl}/user-leave/leave-log-filter`, { params });
   }
-  
+
 
   deleteUserLog(id: number): Observable<void> {
     return this.httpClient.delete<void>(`${this.baseUrl}/user-leave-logs/${id}`);
@@ -2293,7 +2308,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
 
 
 
- 
+
 
   // generateNewAttendanceLink(userUuid: string): Observable<any> {
   //   let params = new HttpParams().set('userUuid', userUuid);
@@ -2499,7 +2514,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
-  
+
 
   getSalaryTemplateComponentByUserUuid(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/salary/template/component/get-by-user-uuid`);
@@ -4338,8 +4353,29 @@ getHolidayForOrganization(date: string): Observable<any>{
 
   /** Exit policy */
 
+  getUserExitPolicyType(){
+    return this.httpClient.get<any>(`${this.baseUrl}/user-exit-type`);
+  }
+
+
   createExitPolicy(exitPolicyReq: ExitPolicy){
     return this.httpClient.post<any>(`${this.baseUrl}/exit-policy`, exitPolicyReq);
+  }
+
+  deleteExitPolicy(id: number){
+    const params = new HttpParams()
+    .set('exitPolicyId', id)
+    return this.httpClient.delete<void>(`${this.baseUrl}/exit-policy`, {params});
+  }
+
+  getAllExitPolicy(databaseHelper: DatabaseHelper){
+    const params = new HttpParams()
+    .set('page_number', databaseHelper.currentPage)
+    .set('item_per_page', databaseHelper.itemPerPage)
+    .set('sortBy', 'createdDate')
+    .set('sortOrder', 'desc')
+
+    return this.httpClient.get<any>(`${this.baseUrl}/exit-policy/rule`, {params});
   }
 
   getUserMappedWithExitPolicy(selectedUserIds: any, exitPolicyId: number) {

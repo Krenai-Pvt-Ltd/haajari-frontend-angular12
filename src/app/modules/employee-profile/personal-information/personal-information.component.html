@@ -11,7 +11,15 @@
                 <span>Joining Date: {{ user.joiningDate}}</span>
             </div>
             <div class="d-flex align-items-center gap-3 action-btn">
-                <button class="p-0 btn text-primary gont-14" (click)="profileEdit=true; editProfile()">
+                <div *ngIf="editStatus=='PENDING'  && rbacService.userInfo.role != 'USER'">
+                <button class="p-0 btn text-primary gont-14" (click)="changeStatus('approve')">
+                  Approved</button>
+                <span></span>
+                <button class="p-0 btn text-primary gont-14" (click)="changeStatus('reject')">
+                  Rejected</button>
+                  <span></span>
+                </div>
+                <button *ngIf="editStatus=='APPROVED' && rbacService.userInfo.role == 'USER'" class="p-0 btn text-primary gont-14" (click)="profileEdit=true; editProfile()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="23" viewBox="0 0 22 23" fill="none">
                         <mask id="mask0_5429_20359" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="22" height="23">
                             <rect y="0.5" width="22" height="22" fill="#D9D9D9" />
@@ -24,7 +32,7 @@
                     </svg>
                     Edit It</button>
                     <span></span>
-                <button class="p-0 btn text-primary gont-14" data-bs-toggle="modal" data-bs-target="#profileRequest">
+                <button  *ngIf="(editStatus =='' || editStatus=='REJECTED' || editStatus=='EDITED') && rbacService.userInfo.role == 'USER'"  class="p-0 btn text-primary gont-14" data-bs-toggle="modal" data-bs-target="#profileRequest">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="23" viewBox="0 0 22 23" fill="none">
                         <mask id="mask0_5429_20366" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="22" height="23">
                             <rect y="0.5" width="22" height="22" fill="#D9D9D9" />
@@ -782,7 +790,7 @@
                 <img src="assets/images/profile-request.svg" style="width:160px">
 
 
-                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
+                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                         <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
                             height="24">
@@ -800,7 +808,8 @@
                   <h5>Profile Update Request</h5>
                   <p class="font-13">ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo, non suscipit
                 ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo, non suscipit </p>
-                <button class="w-100 btn submitActionBtn mt-2 mb-2">Request now</button>
+                <button type="button" class="w-100 btn submitActionBtn mt-2 mb-2" data-bs-dismiss="modal"
+                (click)="createProfileEditRequest()" >Request now</button>
                </div>
             </div>
 
