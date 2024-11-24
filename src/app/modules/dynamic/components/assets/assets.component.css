@@ -264,3 +264,63 @@ nz-select {
 .edit-btn:hover i {
   display: block;
 }
+
+
+.nav.nav-pills {
+  background-color: transparent;
+  border-bottom: 1px solid #edeff5;
+}
+
+.nav-pills .nav-item.show .nav-link,
+.nav-pills .nav-link.active {
+  background: transparent !important;
+  color: var(--primary-color) !important;
+  border-radius: 0;
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.nav-link {
+  margin-right: 20px;
+  display: block;
+  padding: 7px 10px;
+  color: #000;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  text-align: left;
+}
+
+.onboarding-date input[type="text"]{
+  width: 700px;
+  border-radius: 0px 10px 10px 0px;
+  border: 0px solid #f2f2f2;
+  height: 45px !important;
+  border-left: 0;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  color: #1f1f1f !important;
+}
+
+.empFilerDropfilter .new-deopdown {
+  display: block;
+  width: 120px;
+  padding: 0.4rem 0.5rem;
+  font-size: 13px !important;
+  text-align: left;
+  background-color: #fff;
+  border: none;
+  border-radius: 0px;
+  position: relative;
+  border-right: 1px solid #f2f2f2 !important;
+  color: #777 !important;
+  font-weight: 400;
+  letter-spacing: 0.1px;
+  box-shadow: unset;
+}
+
+.onboard-add {
+  border: 1px solid #f1f1f1;
+}
+:ng-deep.pagination-box .pagination{
+  margin-bottom: 0px;
+}

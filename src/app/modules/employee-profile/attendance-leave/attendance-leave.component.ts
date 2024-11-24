@@ -34,42 +34,66 @@ export class AttendanceLeaveComponent implements OnInit {
 
   ngOnInit(): void {
     this.userLeaveForm = this.fb.group({
-      startDate: ['', Validators.required],
-      endDate: [''],
-      leaveType: ['', Validators.required],
-      managerId: ['', Validators.required],
-      optNotes: ['', Validators.required],
-      halfDayLeave: [false],
-      dayShift: [false],
-      eveningShift: [false],
+      startDate: [null, Validators.required],
+      endDate: [null, Validators.required],
+      leaveType: [null, Validators.required],
+      selectedUser: [null, Validators.required],
+      note: [null, Validators.required],
     });
     this.fetchManagerNames();
     this.getUserLeaveReq();
     this.loadLeaveLogs();
   }
+  get canSubmit() {
+    return this.userLeaveForm.valid;
+  }
+
+  isHalfLeaveSelected: boolean = false;
+  isFirstHalfSelected: boolean = false;
+  isSecondHalfSelected: boolean = false;
+
+  toggleHalfLeaveSelection(event: Event): void {
+    const checkbox = event.target as HTMLInputElement;
+    this.isHalfLeaveSelected = checkbox.checked;
+  }
+
+
+  selectedLeaveType1: string | null = null;
+
+  selectedUser: number | null = null;
+  onUserChange(value: number): void {
+    this.userLeaveRequest.managerId=value;
+    this.selectedUser = value;
+    console.log('Selected User:', this.selectedUser);
+  }
+  note: string= '';
+
+  uploadedFiles: File[] = [];
+
+
+removeFile(): void {
+    this.uploadedFiles = [];
+}
+
+viewFile(file: File): void {
+    const fileURL = URL.createObjectURL(file);
+    window.open(fileURL, '_blank');
+}
+dayShiftToggleFun(shift: string) {
+  debugger
+  if (shift == 'day') {
+    this.userLeaveRequest.dayShift = true;
+    this.userLeaveRequest.eveningShift = false;
+  } else if (shift == 'evening') {
+    this.userLeaveRequest.dayShift = false;
+    this.userLeaveRequest.eveningShift = true;
+  }
+}
+
+
+
   userLeave: any = [];
   leaveCountPlaceholderFlag: boolean = false;
-  getUserLeaveReq1() {
-    this.leaveCountPlaceholderFlag = false;
-    this.dataService.getUserLeaveRequests(this.userId).subscribe(
-      (data) => {
-        if (
-          data.body != undefined ||
-          data.body != null ||
-          data.body.length != 0
-        ) {
-          this.userLeave = data.body;
-        } else {
-          this.leaveCountPlaceholderFlag = true;
-          return;
-        }
-        this.count++;
-      },
-      (error) => {
-        this.count++;
-      }
-    );
-  }
 
 
   userLeaveLog: any;
@@ -109,6 +133,21 @@ export class AttendanceLeaveComponent implements OnInit {
   currentPage = 1;
   totalPages=0;
   isLoading=true;
+  loadLeaveLogsOld(): void {
+    const leaveType = this.selectedLeaveType === 'All' ? undefined : this.selectedLeaveType;
+    const status = this.selectedStatus === 'All' ? undefined : this.selectedStatus;
+
+    this.isLoading=true;
+    this.dataService
+      .getUserLeaveLogFilter(this.userId, this.currentPage, this.pageSize, leaveType, status, this.searchQuery)
+      .subscribe((response) => {
+        this.userLeaveLog = response.content;
+        this.totalItems = response.totalElements;
+        this.totalPages = response.totalPages;
+        this.isLoading=false;
+      });  
+  }
+
   loadLeaveLogs(): void {
     const leaveType = this.selectedLeaveType === 'All' ? undefined : this.selectedLeaveType;
     const status = this.selectedStatus === 'All' ? undefined : this.selectedStatus;
@@ -121,8 +160,10 @@ export class AttendanceLeaveComponent implements OnInit {
         this.totalItems = response.totalElements;
         this.totalPages = response.totalPages;
         this.isLoading=false;
-      });
+      });  
   }
+
+
   updateLeaveType(type: string): void {
     this.selectedLeaveType = type;
     this.currentPage = 1;
@@ -150,44 +191,21 @@ export class AttendanceLeaveComponent implements OnInit {
 
 
 
-  get StartDate() {
-    return this.userLeaveForm.get('startDate');
-  }
-  get EndDate() {
-    return this.userLeaveForm.get('endDate');
-  }
-  get LeaveType() {
-    return this.userLeaveForm.get('leaveType');
-  }
-  get ManagerId() {
-    return this.userLeaveForm.get('managerId');
-  }
-  get OptNotes() {
-    return this.userLeaveForm.get('optNotes');
-  }
+
 
 
 
   managers: UserDto[] = [];
   selectedManagerId!: number;
   isFileUploaded = false;
-  dayShiftToggle: boolean = false;
-  eveningShiftToggle: boolean = false;
   submitLeaveLoader: boolean = false;
   fileToUpload: string = '';
   @ViewChild('fileInput') fileInput!: ElementRef;
   @ViewChild(FormGroupDirective) formGroupDirective!: FormGroupDirective;
-  @ViewChild('requestLeaveCloseModel') requestLeaveCloseModel!: ElementRef;
+  @ViewChild('cancelBtn') cancelBtn!: ElementRef;
   saveLeaveRequestUser() {
-
-    if (this.userLeaveForm.invalid || this.isFileUploaded) {
-      return;
-    }
-
-    this.userLeaveRequest.managerId = this.selectedManagerId;
-    this.userLeaveRequest.dayShift = this.dayShiftToggle;
-    this.userLeaveRequest.eveningShift = this.eveningShiftToggle;
-    this.submitLeaveLoader = true;
+    debugger
+    this.userLeaveRequest.halfDayLeave = this.isHalfLeaveSelected;
     // this.userLeaveRequest.halfDayLeave = false;
     this.dataService
       .saveLeaveRequest(this.userId, this.userLeaveRequest, this.fileToUpload)
@@ -212,8 +230,9 @@ export class AttendanceLeaveComponent implements OnInit {
           this.resetUserLeave();
           this.formGroupDirective.resetForm();
           this.getUserLeaveLogByUuid();
+          this.uploadedFiles=[];
 
-          this.requestLeaveCloseModel.nativeElement.click();
+          this.cancelBtn.nativeElement.click();
           // location.reload();
           } else{
             this.submitLeaveLoader = false;
@@ -231,8 +250,8 @@ export class AttendanceLeaveComponent implements OnInit {
       );
   }
   resetUserLeave() {
-    this.userLeaveRequest.startDate = new Date();
-    this.userLeaveRequest.endDate = new Date();
+    this.userLeaveRequest.startDate ='';
+    this.userLeaveRequest.endDate = '';
     this.userLeaveRequest.halfDayLeave = false;
     this.userLeaveRequest.dayShift = false;
     this.userLeaveRequest.eveningShift = false;
@@ -240,14 +259,9 @@ export class AttendanceLeaveComponent implements OnInit {
     this.userLeaveRequest.managerId = 0;
     this.userLeaveRequest.optNotes = '';
     this.selectedManagerId = 0;
+    this.uploadedFiles=[];
   }
 
-  onLeaveTypeChange(selectedLeave: any): void {
-    debugger
-    // if(selectedLeave == undefined){
-      this.userLeaveRequest.userLeaveTemplateId = selectedLeave ;
-    // console.log('userLeaveTemplate leaveType', this.userLeaveRequest)
-  }
 
   getUserLeaveReq(){
     this.leaveCountPlaceholderFlag = false;
@@ -263,16 +277,7 @@ export class AttendanceLeaveComponent implements OnInit {
       });
   }
 
-  dayShiftToggleFun(shift: string) {
-    if (shift == 'day') {
-      this.dayShiftToggle = true;
-      this.eveningShiftToggle = false;
-    } else if (shift == 'evening') {
-      this.eveningShiftToggle = true;
-      this.dayShiftToggle == false;
-    }
-    // console.log("day" + this.dayShiftToggle + "evening" + this.eveningShiftToggle);
-  }
+
 
 
   halfDayLeaveShiftToggle: boolean = false;
@@ -291,6 +296,9 @@ export class AttendanceLeaveComponent implements OnInit {
   onFileSelected(event: Event): void {
 
     const element = event.currentTarget as HTMLInputElement;
+    if (element.files && element.files.length) {
+      this.uploadedFiles = Array.from(element.files);
+    }
     const fileList: FileList | null = element.files;
 
     if (fileList && fileList.length > 0) {
@@ -379,5 +387,36 @@ export class AttendanceLeaveComponent implements OnInit {
         this.count++;
       }
     );
+  }
+
+  onDelete(id:number) {
+    this.dataService.deleteUserLog(id).subscribe({
+      next: () => {
+        alert('User log deleted successfully.');
+        this.loadLeaveLogs();
+      },
+      error: (err) => console.error('Error deleting log:', err)
+    });
+  }
+
+  // Handle edit action
+  @ViewChild('leaveApplyButton') leaveApplyButton!:ElementRef;
+  onEdit(item: any): void {
+    // Populate form with selected item data
+    this.userLeaveForm.patchValue({
+      startDate: item.startDate,
+      endDate: item.endDate,
+      leaveType: item.leaveType,
+      selectedUser: item.managerId,
+      approvedBy: item.approvedBy,
+      note: item.optNotes
+    });
+    this.userLeaveRequest.halfDayLeave = item.halfLeave;
+    this.leaveApplyButton.nativeElement.click();
+  }
+
+  applyNewLeaveReq(){
+    this.resetUserLeave();
+    this.leaveApplyButton.nativeElement.click();
   }
 }

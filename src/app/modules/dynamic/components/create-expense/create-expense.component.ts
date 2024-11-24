@@ -32,7 +32,7 @@ export class CreateExpenseComponent implements OnInit {
   ngOnInit(): void {
     this.getExpenses();
     this.getAllCompanyExpensePolicy();
-
+    this.switchTab('allExpense');
   }
 
 

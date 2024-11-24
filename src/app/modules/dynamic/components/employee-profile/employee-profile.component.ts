@@ -55,6 +55,7 @@ import { NzCalendarMode } from 'ng-zorro-antd/calendar';
 import { AttendanceDetailDayWise } from 'src/app/models/attendance-detail-day-wise'
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { ExpenseType } from 'src/app/models/ExpenseType';
+import { SalaryService } from 'src/app/services/salary.service';
 
 @Component({
   selector: 'app-employee-profile',
@@ -97,6 +98,7 @@ export class EmployeeProfileComponent implements OnInit {
     public domSanitizer: DomSanitizer,
     private afStorage: AngularFireStorage,
     private sanitizer: DomSanitizer,
+    private _salaryService : SalaryService
   ) {
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
@@ -1920,23 +1922,33 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
     );
   }
 
-  //Fetching the PF contribution rates from the database
-  pFContributionRateList: PFContributionRate[] = [];
+  //Fetching the PF contribution rates
+  pFContributionRateList: PFContributionRate[] = [];                       
   getPFContributionRateMethodCall() {
-    this.dataService.getPFContributionRate().subscribe(
+    this._salaryService.getPFContributionRate().subscribe(
       (response) => {
-        this.pFContributionRateList = response.listOfObject;
-        // console.log(response.listOfObject);
+        if(response.status){
+          this.pFContributionRateList = response.object;
+          if(this.pFContributionRateList == null){
+            this.pFContributionRateList = [];
+          }
+        }
       },
       (error) => {}
     );
   }
 
-  eSIContributionRateList: ESIContributionRate[] = [];
+   //Fetching the ESI contribution rates
+  eSIContributionRateList: ESIContributionRate[] = [];                     
   getESIContributionRateMethodCall() {
-    this.dataService.getESIContributionRate().subscribe(
+    this._salaryService.getESIContributionRate().subscribe(
       (response) => {
-        this.eSIContributionRateList = response.listOfObject;
+        if(response.status){
+          this.eSIContributionRateList = response.object;
+          if(this.eSIContributionRateList == null){
+            this.eSIContributionRateList = [];
+          }
+        }
       },
       (error) => {}
     );

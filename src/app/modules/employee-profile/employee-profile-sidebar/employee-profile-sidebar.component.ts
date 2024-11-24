@@ -1,6 +1,6 @@
-import { ChangeDetectorRef, Component, OnInit, TemplateRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -11,6 +11,7 @@ import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { differenceInMonths, format, parseISO } from 'date-fns';
+import { UserResignation } from 'src/app/models/UserResignation';
 
 @Component({
   selector: 'app-employee-profile-sidebar',
@@ -51,6 +52,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
    MANAGER = Key.MANAGER;
    USER = Key.USER;
   async ngOnInit(): Promise<void> {
+    // this.calculateLasWorkingDay();
     this.getEmployeeProfileData();
     this.getUserAttendanceStatus();
     this.fetchUserPositions();
@@ -65,6 +67,8 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     if (this.userId == this.UUID) {
       this.userRoleFlag = true;
     }
+
+    this.getNoticePeriodDuration()
 
   }
 
@@ -170,13 +174,13 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   }
 
   isPromotion: boolean=false;
-  openFormModal(content: TemplateRef<any>,validate: String) {
-    this.isPromotion=true;
+  openFormModal(validate: String) {
     if(validate==='Promotion'){
       this.isPromotion=false;
+    } else {
+        this.isPromotion=true;
     }
-    this.cdr.detectChanges();
-    this.modalService.open(content);
+ 
   }
 
   openConfirmationModal(content: any) {
@@ -231,6 +235,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
       this.dataService.saveUserPosition(userPositionDTO).subscribe(
         (response) => {
           console.log('Position saved successfully', response);
+          /// get only sidebar component data
           window.location.reload();
         },
         (error) => {
@@ -241,7 +246,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     }
   }
 
-  duration: string = '2 year 11 months';
+  duration: string = '0 year 0 months';
   setWithUsDuration() {
     debugger
     const dates = this.userPositionDTO.map(position => ({
@@ -258,6 +263,215 @@ export class EmployeeProfileSidebarComponent implements OnInit {
 
     this.duration = `${years} years ${months} months`;
   }
+
+
+
+
+  // User Resignation start
+
+  @ViewChild('closeResignationButton') closeResignationButton!: ElementRef
+  userResignationReq: UserResignation = new UserResignation();
+  resignationToggle: boolean = false;
+  submitResignation(form: NgForm){
+
+    this.resignationToggle = true;
+    this.userResignationReq.createdBy = this.ROLE
+    this.userResignationReq.uuid = this.userId
+    // console.log('request form : ',this.userResignationReq)
+
+    this.dataService.submitResignation(this.userResignationReq).subscribe((res: any) => {
+        if(res.status){
+          this.resignationToggle =false
+          this.closeResignationButton.nativeElement.click()
+          this.clearForm();
+          form.resetForm();
+        }
+    })
+
+  }
+  
+  clearForm(){
+    this.recommendDay = ''
+    this.discussionType = ''
+    this.userResignationReq.uuid =''
+    this.userResignationReq.reason = ''
+    this.userResignationReq.comment = ''
+    this.userResignationReq.isManagerDiscussion = 0
+    this.userResignationReq.isRecommendLastDay = 0
+    this.userResignationReq.createdBy = ''
+    this.userResignationReq.url = ''
+    this.userResignationReq = new UserResignation();
+  }
+
+  discussionType: string = ''; // Default selected value
+  selectManagerDiscussion(value: string): void {
+    
+    this.userResignationReq.isManagerDiscussion = value == 'Yes' ? 1 : 0
+  }
+
+  recommendDay: string = ''; // Default selected value
+  selectRecommendDay(value: string): void {
+
+    this.userResignationReq.lastWorkingDay = ''
+    
+    this.userResignationReq.isRecommendLastDay = value == 'Other' ? 1 : 0
+
+    if(this.userResignationReq.isRecommendLastDay == 0){
+      this.userResignationReq.lastWorkingDay = ''
+      this.calculateLasWorkingDay();
+    }
+
+  }
+
+  // Function to disable future dates
+  disableFutureDates = (current: Date): boolean => {
+    const today = new Date();
+    // const maxDate = new Date();
+    const maxDate = new Date();
+    maxDate.setDate(today.getDate() + this.noticePeriodDuration); // Add 45 days to today's date
+  
+    // this.lastWorkingDay = maxDate;
+    // console.log("Max Date: ", this.lastWorkingDay);
+    // Disable dates from today to maxDate (inclusive)
+    return current < today || current > maxDate;
+  };
+
+  calculateLasWorkingDay(){
+    const today = new Date();
+    // const maxDate = new Date();
+    const maxDate = new Date();
+    maxDate.setDate(today.getDate() + this.noticePeriodDuration); // Add 45 days to today's date
+  
+    // this.lastWorkingDay = maxDate;
+    // this.userResignationReq.lastWorkingDay = maxDate
+    this.userResignationReq.lastWorkingDay = this.helperService.formatDateToYYYYMMDD(maxDate);
+    // console.log("Max Date: ", this.lastWorkingDay);
+  }
+
+  selectLastWorkingDay(startDate: Date) {
+    debugger
+    if (this.userResignationReq.isRecommendLastDay == 0 && startDate) {
+      this.userResignationReq.lastWorkingDay = this.helperService.formatDateToYYYYMMDD(startDate);
+    }
+  }
+
+  noticePeriodDuration: number = 0;
+  getNoticePeriodDuration(){
+    this.dataService.getNoticePeriodDuration(this.userId).subscribe((res: any) => {
+      if(res.status){
+        this.noticePeriodDuration = res.object
+        console.log('Duration: ',this.noticePeriodDuration)
+      }
+    })
+  }
+
+  // User Resignation end
+
+
+
+  /**
+   * Image upload start on Firebase
+   */
+
+  /** Image Upload on the Firebase Start */
+
+  isFileSelected = false;
+  imagePreviewUrl: any = null;
+  selectedFile: any;
+  isUploading: boolean = false;
+  fileName: any;
+  currentDate: any
+  onFileSelected(event: Event): void {
+    debugger;
+    const element = event.currentTarget as HTMLInputElement;
+    const fileList: FileList | null = element.files;
+
+    if (fileList && fileList.length > 0) {
+      const file = fileList[0];
+
+      this.fileName = file.name;
+      this.currentDate = new Date()
+      // Check if the file type is valid
+      if (this.isValidFileType(file)) {
+        this.selectedFile = file;
+        this.isUploading = true;
+
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          // Set the loaded image as the preview
+          this.imagePreviewUrl = e.target.result;
+        };
+        reader.readAsDataURL(file);
+
+        this.uploadFile(file);
+
+        console.log('url is', this.userResignationReq.url)
+
+      } else {
+        element.value = '';
+        this.userResignationReq.url = '';
+        // Handle invalid file type here (e.g., show an error message)
+        console.error(
+          'Invalid file type. Please select a jpg, jpeg, or png file.'
+        );
+      }
+    } else {
+      this.isFileSelected = false;
+    }
+  }
+
+  // Helper function to check if the file type is valid
+  isInvalidFileType = false;
+  isValidFileType(file: File): boolean {
+    const validExtensions = ['jpg', 'jpeg', 'png'];
+    const fileType = file.type.split('/').pop(); // Get the file extension from the MIME type
+
+    if (fileType && validExtensions.includes(fileType.toLowerCase())) {
+      this.isInvalidFileType = false;
+      return true;
+    }
+    // console.log(this.isInvalidFileType);
+    this.isInvalidFileType = true;
+    return false;
+  }
+
+
+  uploadFile(file: File): void {
+    debugger;
+    const filePath = `resignation/${new Date().getTime()}_${file.name}`;
+    const fileRef = this.afStorage.ref(filePath);
+    const task = this.afStorage.upload(filePath, file);
+
+    task
+      .snapshotChanges()
+      .toPromise()
+      .then(() => {
+        // console.log('Upload completed');
+        fileRef
+          .getDownloadURL()
+          .toPromise()
+          .then((url) => {
+            console.log('File URL:', url);
+            this.isUploading = false;
+            this.userResignationReq.url = url;
+          })
+          .catch((error) => {
+            console.error('Failed to get download URL', error);
+          });
+      })
+      .catch((error) => {
+        console.error('Error in upload snapshotChanges:', error);
+      });
+
+    console.log('upload url is: ', this.userResignationReq.url)
+  }
+
+  deleteImage() {
+    this.userResignationReq.url = ''
+  }
+
+  /** Image Upload on Firebase End */
+
 
 
 
