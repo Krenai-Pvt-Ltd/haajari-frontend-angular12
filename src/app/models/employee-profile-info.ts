@@ -7,4 +7,5 @@ export class EmployeeProfileResponse {
     currentRole !: string;
     teams !: string[];
     isProbation!: boolean;
+    status: number = 0;
 }

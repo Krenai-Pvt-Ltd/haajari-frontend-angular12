@@ -34,6 +34,7 @@ import { PreviewFormComponent } from '../employee-onboarding/preview-form/previe
 import { ReferFriendComponent } from './components/refer-friend/refer-friend.component';
 import { NewEmployeeProfileComponent } from './components/new-employee-profile/new-employee-profile.component';
 import { CreateExpenseComponent } from './components/create-expense/create-expense.component';
+import { ExistPolicyComponent } from './components/exist-policy/exist-policy.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -179,6 +180,11 @@ const routes: Routes = [
       {
         path: 'expense',
         component: CreateExpenseComponent,
+        canActivate: [AuthGuard, SubscriptionGuard]
+      },
+      {
+        path: 'exit-policy',
+        component: ExistPolicyComponent,
         canActivate: [AuthGuard, SubscriptionGuard]
       },
     ],

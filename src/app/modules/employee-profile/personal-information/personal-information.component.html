@@ -11,7 +11,15 @@
                 <span>Joining Date: {{ user.joiningDate}}</span>
             </div>
             <div class="d-flex align-items-center gap-3 action-btn">
-                <button class="p-0 btn text-primary gont-14" (click)="profileEdit=true;">
+                <div *ngIf="editStatus=='PENDING'  && rbacService.userInfo.role != 'USER'">
+                <button class="p-0 btn text-primary gont-14" (click)="changeStatus('approve')">
+                  Approved</button>
+                <span></span>
+                <button class="p-0 btn text-primary gont-14" (click)="changeStatus('reject')">
+                  Rejected</button>
+                  <span></span>
+                </div>
+                <button *ngIf="editStatus=='APPROVED' && rbacService.userInfo.role == 'USER'" class="p-0 btn text-primary gont-14" (click)="profileEdit=true; editProfile()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="23" viewBox="0 0 22 23" fill="none">
                         <mask id="mask0_5429_20359" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="22" height="23">
                             <rect y="0.5" width="22" height="22" fill="#D9D9D9" />
@@ -24,7 +32,7 @@
                     </svg>
                     Edit It</button>
                     <span></span>
-                <button class="p-0 btn text-primary gont-14" data-bs-toggle="modal" data-bs-target="#profileRequest">
+                <button  *ngIf="(editStatus =='' || editStatus=='REJECTED' || editStatus=='EDITED') && rbacService.userInfo.role == 'USER'"  class="p-0 btn text-primary gont-14" data-bs-toggle="modal" data-bs-target="#profileRequest">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="23" viewBox="0 0 22 23" fill="none">
                         <mask id="mask0_5429_20366" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="22" height="23">
                             <rect y="0.5" width="22" height="22" fill="#D9D9D9" />
@@ -40,7 +48,7 @@
         </div>
 
         <div class="profile-imfo-detail">
-            <div class="row border-top pt-4 pb-3">
+            <div *ngIf="routes.includes('/employee-onboarding-form')" class="row border-top pt-4 pb-3">
                   <div class="col-md-3">
                     <div class="profile-imfo-hedding">
                         <h5>Personal Information</h5>
@@ -94,7 +102,7 @@
                     </div>
                   </div>
             </div>
-            <div class="row border-top pt-4 pb-3">
+            <div *ngIf="routes.includes('/employee-address-detail')" class="row border-top pt-4 pb-3">
                 <div class="col-md-3">
                     <div class="profile-imfo-hedding">
                         <h5>Address Details</h5>
@@ -103,26 +111,27 @@
                 </div>
                 <div class="col-md-9">
                     <div class="row">
-                        <div class="col-md-12 ">
+                        <div *ngIf="addressEmployee[0]" class="col-md-12 ">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Current Address</p>
-                                <h6 class="mb-1">{{ addressEmployee[0].addressLine1}} {{ addressEmployee[0].addressLine2}} {{ addressEmployee[0].city}} - {{ addressEmployee[0].pincode}}</h6>
+                                <!-- <h6 class="mb-1">{{ addressEmployee[0].addressLine1}} {{ addressEmployee[0].addressLine2}} {{ addressEmployee[0].city}} - {{ addressEmployee[0].pincode}}</h6> -->
+                                <h6 class="mb-1">{{ addressEmployee?.[0]?.addressLine1}} {{ addressEmployee?.[0]?.addressLine2}} {{ addressEmployee?.[0]?.city}} - {{ addressEmployee?.[0]?.pincode}}</h6>
                                 <div class="d-flex align-items-center gap-2">
-                                    <span class="font-13">State: <b>{{ addressEmployee[0].state }}</b></span>
+                                    <span class="font-13">State: <b>{{ addressEmployee?.[0]?.state }}</b></span>
                                     <span class="separator-line"></span>
-                                    <span class="font-13">Country: <b>{{ addressEmployee[0].country }}</b></span>
+                                    <span class="font-13">Country: <b>{{ addressEmployee?.[0]?.country }}</b></span>
                                 </div>
 
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div *ngIf="addressEmployee[1]" class="col-md-12">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Permanent Address</p>
-                                <h6 class="mb-1">{{ addressEmployee[1].addressLine1}} {{ addressEmployee[1].addressLine2}} {{ addressEmployee[1].city}} - {{ addressEmployee[1].pincode}}</h6>
+                                <h6 class="mb-1">{{ addressEmployee?.[1]?.addressLine1}} {{ addressEmployee?.[1]?.addressLine2}} {{ addressEmployee?.[1]?.city}} - {{ addressEmployee?.[1]?.pincode}}</h6>
                                 <div class="d-flex align-items-center gap-2">
-                                    <span class="font-13">State: <b>{{ addressEmployee[1].state }}</b></span>
+                                    <span class="font-13">State: <b>{{ addressEmployee?.[1]?.state }}</b></span>
                                     <span class="separator-line"></span>
-                                    <span class="font-13">Country: <b>{{ addressEmployee[1].country }}</b></span>
+                                    <span class="font-13">Country: <b>{{ addressEmployee?.[1]?.country }}</b></span>
                                 </div>
                             </div>
                         </div>
@@ -130,7 +139,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row border-top pt-4 pb-3">
+            <div *ngIf="routes.includes('/employee-onboarding-form')" class="row border-top pt-4 pb-3">
                 <div class="col-md-3">
                     <div class="profile-imfo-hedding">
                         <h5>Reference <span class="font-12">(optional)</span></h5>
@@ -159,7 +168,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row border-top pt-4 pb-3">
+            <div *ngIf="routes.includes('/acadmic')" class="row border-top pt-4 pb-3">
                 <div class="col-md-3">
                     <div class="profile-imfo-hedding">
                         <h5>Academic Details</h5>
@@ -167,47 +176,47 @@
 
                 </div>
                 <div class="col-md-9">
-                    <div class="row">
+                    <div *ngIf="academicEmployee" class="row">
                         <div class="col-md-4">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Higher Qualification</p>
-                                <h6 class="profile-email">{{ academicEmployee.highestEducationalLevel }}</h6>
+                                <h6 class="profile-email">{{ academicEmployee.highestEducationalLevel || 'N/A'}}</h6>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Degree/Diploma</p>
-                                <h6>{{ academicEmployee.degreeObtained }}</h6>
+                                <h6>{{ academicEmployee.degreeObtained || 'N/A'}}</h6>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Field of Study</p>
-                                <h6>{{ academicEmployee.fieldOfStudy }}</h6>
+                                <h6>{{ academicEmployee.fieldOfStudy || 'N/A'}}</h6>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Institution Name</p>
-                                <h6>{{ academicEmployee.institutionName }}</h6>
+                                <h6>{{ academicEmployee.institutionName || 'N/A'}}</h6>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">CGPA</p>
-                                <h6>{{ academicEmployee.grade }}</h6>
+                                <h6>{{ academicEmployee.grade || 'N/A'}}</h6>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Graduating Year</p>
-                                <h6>{{ academicEmployee.graduationYear }}</h6>
+                                <h6>{{ academicEmployee.graduationYear || 'N/A'}}</h6>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row border-top pt-4 pb-3">
+            <div *ngIf="routes.includes('/employee-experience')" class="row border-top pt-4 pb-3">
                 <div class="col-md-3">
                     <div class="profile-imfo-hedding">
                         <h5>Experience</h5>
@@ -259,7 +268,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row border-top pt-4 pb-3">
+            <div *ngIf="routes.includes('/bank-details')" class="row border-top pt-4 pb-3">
                 <div class="col-md-3">
                     <div class="profile-imfo-hedding">
                         <h5>Bank Details</h5>
@@ -267,35 +276,35 @@
 
                 </div>
                 <div class="col-md-9">
-                    <div class="row">
+                    <div *ngIf="bankDetailsEmployee" class="row">
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Account Holder Name</p>
-                                <h6 class="profile-email">{{ bankDetailsEmployee.accountHolderName }}</h6>
+                                <h6 class="profile-email">{{ bankDetailsEmployee?.accountHolderName }}</h6>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Bank Name</p>
-                                <h6>{{ bankDetailsEmployee.bankName }}</h6>
+                                <h6>{{ bankDetailsEmployee?.bankName }}</h6>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Account Number</p>
-                                <h6>{{ bankDetailsEmployee.accountNumber }}</h6>
+                                <h6>{{ bankDetailsEmployee?.accountNumber }}</h6>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">IFSC Number</p>
-                                <h6>{{ bankDetailsEmployee.ifsc }}</h6>
+                                <h6>{{ bankDetailsEmployee?.ifsc }}</h6>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row border-top pt-4 pb-3">
+            <div *ngIf="routes.includes('/emergency-contact')" class="row border-top pt-4 pb-3">
                 <div class="col-md-3">
                     <div class="profile-imfo-hedding">
                         <h5>Emergency Contact</h5>
@@ -332,7 +341,7 @@
         <h5 class="mb-2"> Edit Profile </h5>
         <div class="d-flex align-items-center gap-2">
             <button class="btn profile-cancel-btn" (click)="profileEdit=false;">Cancel</button>
-            <button class="btn save-btn" (click)="profileEdit=false;">
+            <button class="btn save-btn" (click)="saveOnboardingData()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
                     <mask id="mask0_5535_3777" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
                         <rect x="0.46167" y="0.5" width="24" height="24" fill="#D9D9D9" />
@@ -349,317 +358,418 @@
 
     </div>
     <div class="edit-detail">
-        <div class="row border-top pt-4 pb-3">
-            <div class="col-md-3">
-                <div class="profile-imfo-hedding">
-                    <h5>Personal Information</h5>
-                </div>
-            </div>
-            <div class="col-md-9">
-               <div class="row">
-                   <div class="col-md-6 mb-3">
-                      <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                        <input type="input" class="form__field" value="Yogesh Kumar">
-                        <label class="form__label">Name </label>
-                      </div>
-                   </div>
-                   <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value="Single">
-                            <label class="form__label">Marital Status </label>
-                        </div>
-                   </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value="yogesh@krenai.com">
-                            <label class="form__label">Email Address </label>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field"  value="27-03-2023">
-                            <label class="form__label">Joining Date </label>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value="+91-9549901868">
-                            <label class="form__label">Phone Number </label>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field"  value="₹20,000">
-                            <label class="form__label">Current Salary </label>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value="Male">
-                            <label class="form__label">Gender </label>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value="Designer">
-                            <label class="form__label">Department </label>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value="13/06/1996">
-                            <label class="form__label">Date Of Birth </label>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value="Frontend designer">
-                            <label class="form__label">Current Position </label>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value="Kamal Singh">
-                            <label class="form__label">Father’s Name </label>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value="Indian">
-                            <label class="form__label">Nationality </label>
-                        </div>
-                    </div>
-
-
-               </div>
-            </div>
+      <div *ngIf="routes.includes('/employee-onboarding-form')" class="row border-top pt-4 pb-3">
+        <div class="col-md-3">
+          <div class="profile-imfo-hedding">
+            <h5>Personal Information</h5>
+          </div>
         </div>
-        <div class="row border-top pt-4 pb-3">
-            <div class="col-md-3">
-                <div class="profile-imfo-hedding">
-                    <h5>Address Details</h5>
-                </div>
+        <div class="col-md-9">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.name" />
+                <label class="form__label">Name</label>
+              </div>
             </div>
-            <div class="col-md-9">
-                <div class="row mb-3">
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.maritalStatus" />
+                <label class="form__label">Marital Status</label>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.email" />
+                <label class="form__label">Email Address</label>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <nz-date-picker
+                  class="form__field custom-date-picker"
+                  [(ngModel)]="this.onboardingPreviewDataCopy.user.joiningDate"
+                  [nzFormat]="'dd/MM/yyyy'"
+                  nzPlaceHolder="Select Joining Date"
+                ></nz-date-picker>
+                <label class="form__label">Joining Date</label>
+              </div>
+            </div>
 
-                    <h6 class="mb-3">Current Address</h6>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.phoneNumber" />
+                <label class="form__label">Phone Number</label>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.currentSalary" />
+                <label class="form__label">Current Salary</label>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.gender" />
+                <label class="form__label">Gender</label>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.department" />
+                <label class="form__label">Department</label>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <nz-date-picker
+                  class="form__field custom-date-picker"
+                  [(ngModel)]="this.onboardingPreviewDataCopy.user.dateOfBirth"
+                  [nzFormat]="'dd/MM/yyyy'"
+                  nzPlaceHolder="Select Date of Birth"
+                ></nz-date-picker>
+                <label class="form__label">Date of Birth</label>
+              </div>
+            </div>
 
-                    <div class="col-md-12 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value="Krishna Furniture Showroom, Badshahpur Sohna Rd Hwy, opp. Sona Devi Hospital, Badshahpur">
-                            <label class="form__label">Address </label>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value="122101">
-                            <label class="form__label">Pincode </label>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value="Gurugram">
-                            <label class="form__label">City </label>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value="Haryana">
-                            <label class="form__label">State </label>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value=" India">
-                            <label class="form__label">Country </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.position" />
+                <label class="form__label">Current Position</label>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.fatherName" />
+                <label class="form__label">Father’s Name</label>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.nationality" />
+                <label class="form__label">Nationality</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-                    <h6 class="mb-3">Permanent Address</h6>
+      <div *ngIf="routes.includes('/employee-address-detail')" class="row border-top pt-4 pb-3">
+        <div class="col-md-3">
+          <div class="profile-imfo-hedding">
+            <h5>Address Details</h5>
+          </div>
+        </div>
+        <div class="col-md-9">
+          <div class="row mb-3">
 
-                    <div class="col-md-12 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value="VPO-Sanoli, Tehsil-Mundawar, Dist-Alwar">
-                            <label class="form__label">Address </label>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value="301714">
-                            <label class="form__label">Pincode </label>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value="Neemrana">
-                            <label class="form__label">City </label>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value="Rajasthan">
-                            <label class="form__label">State </label>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value="India">
-                            <label class="form__label">Country </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row border-top pt-4 pb-3">
-            <div class="col-md-3">
-                <div class="profile-imfo-hedding">
-                    <h5>Reference</h5>
-                </div>
-            </div>
-            <div class="col-md-9">
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value="Sumit Gautam">
-                            <label class="form__label">Name </label>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value="Friend">
-                            <label class="form__label">Relation </label>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value="+91-9911909533">
-                            <label class="form__label">Phone Number </label>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value=" sumit@krenai.com">
-                            <label class="form__label">Email Address </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row border-top pt-4 pb-3">
-            <div class="col-md-3">
-                <div class="profile-imfo-hedding">
-                    <h5>Academic Details</h5>
-                </div>
-            </div>
-            <div class="col-md-9">
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value=" Bachelor's Degree">
-                            <label class="form__label">Qualification </label>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value=" B.A">
-                            <label class="form__label">Degree/Diploma </label>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value="History and Political Science">
-                            <label class="form__label">Field of Study </label>
-                        </div>
-                    </div>
+            <h6 class="mb-3">Current Address</h6>
 
-                    <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value=" 7.303">
-                            <label class="form__label">CGPA </label>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value="LBS jaipur">
-                            <label class="form__label">Collage Name </label>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value="2018">
-                            <label class="form__label">Graduating Year </label>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-md-12 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].addressLine1" />
+                <label class="form__label">Address</label>
+              </div>
             </div>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].pincode" />
+                <label class="form__label">Pincode</label>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].city" />
+                <label class="form__label">City</label>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].state" />
+                <label class="form__label">State</label>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].country" />
+                <label class="form__label">Country</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+
+            <h6 class="mb-3">Permanent Address</h6>
+
+            <div class="col-md-12 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].addressLine1" />
+                <label class="form__label">Address</label>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].pincode" />
+                <label class="form__label">Pincode</label>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].city" />
+                <label class="form__label">City</label>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].state" />
+                <label class="form__label">State</label>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].country" />
+                <label class="form__label">Country</label>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="row border-top pt-4 pb-3">
-            <div class="col-md-3">
-                <div class="profile-imfo-hedding">
-                    <h5>Bank Details</h5>
-                </div>
-            </div>
-            <div class="col-md-9">
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value="Yogesh Kumar">
-                            <label class="form__label">Account Holder Name </label>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value="ICIC Bank">
-                            <label class="form__label">Bank Name </label>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value="007101571267">
-                            <label class="form__label">Account Number </label>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value="ICIC0000071">
-                            <label class="form__label">IFSC Number </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      </div>
+
+      <div *ngIf="routes.includes('/employee-onboarding-form')" class="row border-top pt-4 pb-3">
+        <div class="col-md-3">
+          <div class="profile-imfo-hedding">
+            <h5>Reference</h5>
+          </div>
         </div>
-        <div class="row border-top pt-4 pb-3">
-            <div class="col-md-3">
-                <div class="profile-imfo-hedding">
-                    <h5>Emergency Contact</h5>
-                </div>
+        <div class="col-md-9">
+          <div class="row" *ngFor="let reference of this.onboardingPreviewDataCopy.userGuarantorInformation">
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="reference.name" />
+                <label class="form__label">Name</label>
+              </div>
             </div>
-            <div class="col-md-9">
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value="Friend">
-                            <label class="form__label">Relation with Employee </label>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value="Sumit Gautam">
-                            <label class="form__label">Name </label>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                            <input type="input" class="form__field" value="9911909533">
-                            <label class="form__label">Phone Number </label>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="reference.relation" />
+                <label class="form__label">Relation</label>
+              </div>
             </div>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="reference.phoneNumber" />
+                <label class="form__label">Phone Number</label>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="reference.emailId" />
+                <label class="form__label">Email Address</label>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
+
+      <div *ngIf="routes.includes('/acadmic')" class="row border-top pt-4 pb-3">
+        <div class="col-md-3">
+          <div class="profile-imfo-hedding">
+            <h5>Academic Details</h5>
+          </div>
+        </div>
+        <div class="col-md-9">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAcademics.highestEducationalLevel" />
+                <label class="form__label">Qualification</label>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAcademics.degreeObtained" />
+                <label class="form__label">Degree/Diploma</label>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAcademics.fieldOfStudy" />
+                <label class="form__label">Field of Study</label>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAcademics.grade" />
+                <label class="form__label">CGPA</label>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAcademics.institutionName" />
+                <label class="form__label">College Name</label>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAcademics.graduationYear" />
+                <label class="form__label">Graduating Year</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="routes.includes('/employee-experience')" class="row border-top pt-4 pb-3">
+        <div class="col-md-3">
+          <div class="profile-imfo-hedding">
+            <h5>Experience Details</h5>
+          </div>
+        </div>
+        <div class="col-md-9">
+          <div *ngFor="let job of onboardingPreviewDataCopy.userExperience; let i = index" class="row">
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input
+                  type="text"
+                  class="form__field"
+                  [(ngModel)]="job.companyName"
+                />
+                <label class="form__label">Company Name</label>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <nz-date-picker
+                  class="form__field"
+                  [(ngModel)]="job.startDate"
+                  [nzFormat]="'dd/MM/yyyy'"
+                ></nz-date-picker>
+                <label class="form__label">Start Date</label>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <nz-date-picker
+                  class="form__field"
+                  [(ngModel)]="job.endDate"
+                  [nzFormat]="'dd/MM/yyyy'"
+                ></nz-date-picker>
+                <label class="form__label">End Date</label>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input
+                  type="text"
+                  class="form__field"
+                  [(ngModel)]="job.lastJobPosition"
+                />
+                <label class="form__label">Position</label>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input
+                  type="number"
+                  class="form__field"
+                  [(ngModel)]="job.lastSalary"
+                />
+                <label class="form__label">Salary</label>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input
+                  type="text"
+                  class="form__field"
+                  [(ngModel)]="job.lastJobDepartment"
+                />
+                <label class="form__label">Department</label>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input
+                  class="form__field"
+                  rows="2"
+                  [(ngModel)]="job.jobResponisibilities"
+                />
+                <label class="form__label">Responsibilities</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+      <div *ngIf="routes.includes('/bank-details')" class="row border-top pt-4 pb-3">
+        <div class="col-md-3">
+          <div class="profile-imfo-hedding">
+            <h5>Bank Details</h5>
+          </div>
+        </div>
+        <div class="col-md-9">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userBankDetails.accountHolderName" />
+                <label class="form__label">Account Holder Name</label>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userBankDetails.bankName" />
+                <label class="form__label">Bank Name</label>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userBankDetails.accountNumber" />
+                <label class="form__label">Account Number</label>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userBankDetails.ifsc" />
+                <label class="form__label">IFSC Number</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="routes.includes('/emergency-contact')" class="row border-top pt-4 pb-3">
+        <div class="col-md-3">
+          <div class="profile-imfo-hedding">
+            <h5>Emergency Contact</h5>
+          </div>
+        </div>
+        <div class="col-md-9">
+          <div class="row" *ngFor="let emergencyContact of this.onboardingPreviewDataCopy.userEmergencyContacts">
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="emergencyContact.relationWithEmployee" />
+                <label class="form__label">Relation with Employee</label>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="emergencyContact.contactName" />
+                <label class="form__label">Name</label>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input type="text" class="form__field" [(ngModel)]="emergencyContact.contactNumber" />
+                <label class="form__label">Phone Number</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
 </div>
 
@@ -673,14 +783,14 @@
     aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 470px;">
         <div class="modal-content">
-           
+
             <div class="modal-body p-0">
                <div class="profile-update-request d-flex align-items-center justify-content-center">
 
                 <img src="assets/images/profile-request.svg" style="width:160px">
 
 
-                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
+                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                         <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
                             height="24">
@@ -698,10 +808,11 @@
                   <h5>Profile Update Request</h5>
                   <p class="font-13">ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo, non suscipit
                 ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo, non suscipit </p>
-                <button class="w-100 btn submitActionBtn mt-2 mb-2">Request now</button>
+                <button type="button" class="w-100 btn submitActionBtn mt-2 mb-2" data-bs-dismiss="modal"
+                (click)="createProfileEditRequest()" >Request now</button>
                </div>
             </div>
-           
+
         </div>
     </div>
 </div>

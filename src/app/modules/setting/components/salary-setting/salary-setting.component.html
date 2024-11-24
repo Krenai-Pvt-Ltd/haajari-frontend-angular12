@@ -589,15 +589,16 @@
                 <div
                   class="upload-salary-detail-box p-3 d-flex align-items-center justify-content-between"
                 >
-                  <p class="mb-0">
+                  <!-- <p class="mb-0">
                     <a class="text-primary" href="{{ sampleExcelFile }}"
                       >Download a sample excel file.</a
                     >
                     Update the data
-                  </p>
+                  </p> -->
                   <p class="mb-0" (click)="getCurrentSalaryReport()">    
                     <a class="text-primary" 
-                      >Download</a>
+                      >Download a excel file.</a>   
+                      Update the data
                   </p>
 
                   <p class="mb-0">
@@ -622,7 +623,7 @@
             <div>
               <div
                 class="mt-3 upload-date p-2 d-flex align-items-center justify-content-between"
-                *ngIf="lastUploadedSalaryDoc"
+               *ngIf="salaryBulkAction!=null && salaryBulkAction.length>0"
               >
                 <div class="d-flex align-items-center gap-2">
                   <div class="d-flex align-items-center gap-2">
@@ -686,14 +687,14 @@
                       </defs>
                     </svg>
                     <h5 class="mb-0 font-14 selery-file-name">
-                      {{ lastUploadedSalaryDocName }}
+                     {{lastUploadedFileName}}
                     </h5>
                   </div>
 
                   <span class="separator"></span>
 
                   <p class="mb-0 font-13" style="color: #8d93a1">
-                    Uploaded: 11th Jun 2024
+                    Uploaded : {{ lastUploadedDate | date : 'longDate'}}
                   </p>
                 </div>
 
@@ -701,10 +702,7 @@
                   class="btn p-0 text-primary font-14"
                   data-bs-toggle="collapse" href="#collapseExample"
                   role="button" aria-expanded="false"
-                   aria-controls="collapseExample"
-                   *ngIf="viewlogsToggel"
-                   (click)="viewlogsToggel=!viewlogsToggel"
-                  >
+                   aria-controls="collapseExample" *ngIf="!isViewMore" (click)="isViewMore = true">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="17"
@@ -730,11 +728,10 @@
                       />
                     </g>
                   </svg>
-                  View logs
+                  View Logs
                 </button>
-                <button class="btn p-0 text-primary font-14" data-bs-toggle="collapse" href="#collapseExample" role="button"
-                *ngIf="!viewlogsToggel"  (click)="viewlogsToggel=!viewlogsToggel"
-                  aria-expanded="false" aria-controls="collapseExample">
+                <button class="btn p-0 text-primary font-14" data-bs-toggle="collapse" href="#collapseExample" role="button"       
+                  aria-expanded="false" aria-controls="collapseExample" *ngIf="isViewMore" (click)="isViewMore = false">
                  <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
                   <mask id="mask0_4700_378" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="17" height="17">
                     <rect width="17" height="17" fill="#D9D9D9" />
@@ -750,37 +747,25 @@
             
               <div class="collapse" id="collapseExample">
                   <div class="selery-logs p-3 ">
-                    <div class="activity ng-star-inserted">
+                    <div class="activity ng-star-inserted" *ngFor="let bulkAction of salaryBulkAction; let i= index;">
                       <div class="activity-info">
                         <div class="icon-info-activity active-logs">
-                         <p class="mb-0">30</p>
+                         <p class="mb-0">{{salaryBulkAction.length - i}}</p>
                         </div>
                         <div class="activity-info-text">
                             <div class="media align-items-center">
                               <div class="media-body ms-2 align-self-center">
-                                <h5 class="mb-1 font-14"> Updated to : On 22nd September, 2024 | 9:30 pm </h5>
-                                <p class="text-muted font-12 mb-0"> File name:HR.files.doc </p>
+                                <h5 class="mb-1 font-14"> Updated to : {{ bulkAction.createdDate | date : 'mediumDate'}} {{ bulkAction.createdDate | date : 'shortTime'}}</h5>
+                                <p class="text-muted font-12 mb-0"> File name: {{ bulkAction.fileName}} </p>
                               </div>
                             </div>
                         </div>
-                      </div>
-                    </div>
-                    <div class="activity ng-star-inserted" *ngFor="let item of [].constructor(5)">
-                      <div class="activity-info">
-                        <div class="icon-info-activity">
-                            <p class="mb-0">28</p>
-                            </div>
-                        <div class="activity-info-text">
-                            <div class="media align-items-center">
-                              <div class="media-body ms-2 align-self-center">
-                                <h5 class="mb-1 font-14"> Updated to : On 22nd September, 2024 | 9:30 pm</h5>
-                                <p class="text-muted font-12 mb-0"> File name:HR.files.doc </p>
-                              </div>
-                            </div>
+                        <div >
+                          <span class="badge bg-success" *ngIf="bulkAction.status == 'IMPORTED'" (click)="getBulkUpdatedUser(bulkAction.id)">success</span>
+                          <span class="badge bg-danger" *ngIf="bulkAction.status == 'FAILED'">failed</span>
                         </div>
                       </div>
-                    </div>
-                    
+                    </div>       
                   </div>
               </div>
             </div>
@@ -844,16 +829,12 @@
                 "
               >
                 <div class="row mb-3">
-                  <div
-                    class="attendance-settin-list"
-                    *ngFor="
-                      let statutoryResponse of statutoryResponseList;
-                      let i = index
-                    "
+                  <div class="attendance-settin-list"
+                    *ngFor="let statutoryResponse of statutoryResponseList;let i = index;"
                   >
                     <div class="categryCustomizecard d-flex pointer">
                       <div class="categryCustomizeinfo">
-                        <label for="customizecategory{{ i }}" class="mb-0">
+                        <label for="customizecategory{{i}}" class="mb-0">
                           <h3>{{ statutoryResponse.name }}</h3>
                           <p>{{ statutoryResponse.description }}</p>
                         </label>
@@ -912,15 +893,10 @@
               </div>
             </ng-template>
           </div>
-          <!-- <div class="col-md-7 mt-3 mb-3"><div class="row"><div class="col-md-6"><div class="vertion"><label for="exampleInputEmail1" class="pb-2"> Provident Fund (PF) </label><div class="dropdown" style="width: 100%;"><button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                Variable (12%) <i class="bi bi-chevron-down"></i></button><ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%;"><li><a class="dropdown-item">Variable (14%) </a></li><li><a class="dropdown-item">Variable (16%) </a></li></ul></div></div></div><div class="col-md-6"><div class="vertion"><label for="exampleInputEmail1" class="pb-2">Employee State Insurance (ESI)</label><div class="dropdown" style="width: 100%;"><button class="btn btn-secondary dropdown-toggle new-deopdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                Variable (12%) <i class="bi bi-chevron-down"></i></button><ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 100%;"><li><a class="dropdown-item">Variable (14%) </a></li><li><a class="dropdown-item">Variable (16%) </a></li></ul></div></div></div><div class="col-md-12 mt-3"><div class="vertion"><label for="exampleInputEmail1" class="pb-2">
-                        Professional Tax (PT)
-                        </label><div class="vertion"><p class="mb-0" style="color: #8d93a1;">Added | ₹ 0 (As Per Current Month's Calculation)</p></div></div></div><div class="col-md-12 mt-3"><div class="vertion"><label for="exampleInputEmail1" class="pb-2">if_monthly_payable_salery_is</label><div><input type="number" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Amount" class="form-control"></div></div></div></div></div> -->
+          
           <div class="col-md-12">
             <div class="border-box"></div>
           </div>
-          <!-- <div class="col-md-1"></div><div class="col-md-10 mt-4 "><div class="d-flex align-items-center justify-content-end" style="gap:10px;"><button type="button" class="btn btn-primary company-save-btn">Save</button></div></div> -->
         </div>
         <!--end row-->
       </div>
@@ -2359,7 +2335,7 @@
           </div>
           <div class="d-flex justify-content-center" style="gap:25px">
             <button type="button" class="cancel-button" data-bs-dismiss="modal" #salaryModeClose>Cancel</button>
-            <button type="button" class="proceed-button" (click)="proceedUpdateSalaryCalculationMode(selectedSalaryModeId)">
+            <button type="button" class="proceed-button" (click)="updateSalaryCalculationMode(selectedSalaryModeId)">
               Proceed
           </button>
         </div>

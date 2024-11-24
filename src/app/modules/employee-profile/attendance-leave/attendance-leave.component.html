@@ -59,21 +59,18 @@
 
                     <div class="d-flex align-items-center justify-content-end gap-3 w-50">
 
-
-
-
-                    <div class="btn-group week-data radio-btn" role="group" aria-label="Basic radio toggle button group">
-                        <input type="radio" class="btn-check" >
-                        <label class="btn btn-outline-secondary font-12">30 DAYS</label>
-                        <input type="radio" class="btn-check" >
-                        <label class="btn btn-outline-primary btn-primary font-12" >Week 1</label>
-                        <input type="radio" class="btn-check">
-                        <label class="btn btn-outline-secondary font-12">Week 2</label>
-                        <input type="radio" class="btn-check">
-                        <label class="btn btn-outline-secondary font-12">Week 3</label>
-                        <input type="radio" class="btn-check">
-                        <label class="btn btn-outline-secondary font-12">Week 4</label>
-                    </div>
+                        <div class="btn-group week-data radio-btn" role="group" aria-label="Basic radio toggle button group">
+                            <input type="radio" class="btn-check" >
+                            <label class="btn btn-outline-secondary font-12">30 DAYS</label>
+                            <input type="radio" class="btn-check" >
+                            <label class="btn btn-outline-primary btn-primary font-12" >Week 1</label>
+                            <input type="radio" class="btn-check">
+                            <label class="btn btn-outline-secondary font-12">Week 2</label>
+                            <input type="radio" class="btn-check">
+                            <label class="btn btn-outline-secondary font-12">Week 3</label>
+                            <input type="radio" class="btn-check">
+                            <label class="btn btn-outline-secondary font-12">Week 4</label>
+                        </div>
 
                         <nz-select class="request-dropdown"
                             nzSize="large" nzPlaceHolder="New Request" required>
@@ -547,7 +544,7 @@
                                   <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px;"></i>
                                 </div>
                               </form>
-                              <button type="button" class="btn primaryBtnLink leave-request" data-bs-toggle="modal" data-bs-target="#applyLeave"> Leave Request
+                              <button type="button" class="btn primaryBtnLink leave-request" (click)="applyNewLeaveReq()"> Leave Request
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                     <mask id="mask0_5145_1779" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20"
                                         height="21">
@@ -583,7 +580,7 @@
                         <th class="text-left font-13" style="width: 10%">Action Taken on</th>
                         <th class="text-left font-13" style="width: 20%">Leave Note</th>
                         <th class="text-left font-13" style="width: 10%">Reject/ cancellation reason</th>
-                        <th class="text-left font-13" style="width: 10%">Status</th>
+                        <th class="text-center font-13" style="width: 10%">Status</th>
                       </tr>
                     </thead>
 
@@ -600,19 +597,22 @@
                           <span class="team-maneger mb-0">{{ item.leaveType }}</span>
                         </td>
                         <td class="text-left">
-                          <span class="team-maneger mb-0 table-font-weight">{{ item.manager || 'N/A' }}</span>
+                          <span class="team-maneger mb-0 table-font-weight">{{ item.requestedTo || 'N/A' }}</span>
                         </td>
                         <td class="text-left">
                           <span class="team-maneger mb-0 table-font-weight" [class.text-warning]="item.status === 'Pending'">{{ item.approvedBy || 'N/A' }}</span>
                         </td>
                         <td class="text-left">
-                          <span class="team-maneger mb-0 table-font-weight">{{ item.actionTakenOn | date: 'd MMM yyyy' }}</span>
+                            <span class="team-manager mb-0 table-font-weight">
+                                {{ item.updatedDate ? (item.updatedDate | date: 'd MMM yyyy') : 'N/A' }}
+                              </span>
+                              
                         </td>
                         <td>
-                          <span class="team-maneger mb-0 table-font-weight white-space">{{ item.optNotes }}</span>
+                          <span class="team-maneger mb-0 table-font-weight white-space">{{ item.optNotes || 'N/A'}}</span>
                         </td>
                         <td>
-                          <span class="team-maneger mb-0 table-font-weight white-space">{{ item.optNotes || 'N/A' }}</span>
+                          <span class="team-maneger mb-0 table-font-weight white-space">{{ item.rejectionReason || 'N/A' }}</span>
                         </td>
                         <td>
                           <div class="d-flex align-items-center gap-2">
@@ -637,7 +637,7 @@
                                 </button>
 
                                 <!-- Edit Button -->
-                                <button class="icon-button" (click)="onEdit()">
+                                <button class="icon-button" (click)="onEdit(item)">
                                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                     <mask id="mask0_4901_3725" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
                                       <rect width="20" height="20" fill="#D9D9D9" />
@@ -709,67 +709,7 @@
             </div>
             <div class="tab-pane fade pt-3" id="viewrequests" role="tabpanel" aria-labelledby="viewrequests-tab">
 
-                <div class="d-flex align-items-center justify-content-between">
-                    <div class="d-flex align-items-center attendance-date">
-                        <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                <mask id="mask0_4719_1625" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
-                                    height="21">
-                                    <rect x="0.5" y="0.5" width="20" height="20" fill="#D9D9D9" />
-                                </mask>
-                                <g mask="url(#mask0_4719_1625)">
-                                    <path
-                                        d="M8.83203 15.5L3.83203 10.5L8.83203 5.5L9.9987 6.70833L7.04036 9.66667H17.1654V11.3333H7.04036L9.9987 14.2917L8.83203 15.5Z"
-                                        fill="#060606" />
-                                </g>
-                            </svg>
-                        </span>
-                        <span class="calendar-separator"></span>
-                        <div class="dropdown ">
-                            <nz-date-picker nzMode="month" nzFormat="MMM, yyyy"></nz-date-picker>
-                        </div>
-                        <span class="calendar-separator"></span>
-                        <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                <mask id="mask0_4719_1639" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
-                                    height="21">
-                                    <rect width="20" height="20" transform="matrix(-1 0 0 1 20.5 0.5)" fill="#D9D9D9" />
-                                </mask>
-                                <g mask="url(#mask0_4719_1639)">
-                                    <path
-                                        d="M12.168 15.5L17.168 10.5L12.168 5.5L11.0013 6.70833L13.9596 9.66667H3.83464V11.3333H13.9596L11.0013 14.2917L12.168 15.5Z"
-                                        fill="#060606" />
-                                </g>
-                            </svg>
-                        </span>
-                    </div>
 
-                    <div class="d-flex align-items-center justify-content-end gap-3 w-50">
-
-
-
-
-                        <div class="btn-group week-data radio-btn" role="group" aria-label="Basic radio toggle button group">
-                            <input type="radio" class="btn-check">
-                            <label class="btn btn-outline-secondary font-12">30 DAYS</label>
-                            <input type="radio" class="btn-check">
-                            <label class="btn btn-outline-primary btn-primary font-12">Week 1</label>
-                            <input type="radio" class="btn-check">
-                            <label class="btn btn-outline-secondary font-12">Week 2</label>
-                            <input type="radio" class="btn-check">
-                            <label class="btn btn-outline-secondary font-12">Week 3</label>
-                            <input type="radio" class="btn-check">
-                            <label class="btn btn-outline-secondary font-12">Week 4</label>
-                        </div>
-
-                        <nz-select class="request-dropdown" nzSize="large" nzPlaceHolder="New Request" required>
-                            <nz-option [nzValue]="'Attendance update'" [nzLabel]="'Attendance update'"></nz-option>
-                            <nz-option [nzValue]="'Overtime'" [nzLabel]="'Overtime'"></nz-option>
-                            <nz-option [nzValue]="'Lop reversal'" [nzLabel]="'Lop reversal'"></nz-option>
-                        </nz-select>
-
-                    </div>
-                </div> -->
 
                 <div class="d-flex align-items-center justify-content-between">
                     <div class="d-flex align-items-center attendance-date">
@@ -901,18 +841,76 @@
 
                                     </div>
                                 </td>
-                                <td class="text-left stickyColThend">
-                                <div class="d-flex align-items-center gap-2">
-                                    <button class="btn p-0 Pending-btn text-primary font-13"> 1 Request </button>
-                                    <span class="edit-action-btn">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="15" viewBox="0 0 22 15" fill="none">
-                                        <path
-                                            d="M11 12C12.25 12 13.3125 11.5625 14.1875 10.6875C15.0625 9.8125 15.5 8.75 15.5 7.5C15.5 6.25 15.0625 5.1875 14.1875 4.3125C13.3125 3.4375 12.25 3 11 3C9.75 3 8.6875 3.4375 7.8125 4.3125C6.9375 5.1875 6.5 6.25 6.5 7.5C6.5 8.75 6.9375 9.8125 7.8125 10.6875C8.6875 11.5625 9.75 12 11 12ZM11 10.2C10.25 10.2 9.6125 9.9375 9.0875 9.4125C8.5625 8.8875 8.3 8.25 8.3 7.5C8.3 6.75 8.5625 6.1125 9.0875 5.5875C9.6125 5.0625 10.25 4.8 11 4.8C11.75 4.8 12.3875 5.0625 12.9125 5.5875C13.4375 6.1125 13.7 6.75 13.7 7.5C13.7 8.25 13.4375 8.8875 12.9125 9.4125C12.3875 9.9375 11.75 10.2 11 10.2ZM11 15C8.56667 15 6.35 14.3208 4.35 12.9625C2.35 11.6042 0.9 9.78333 0 7.5C0.9 5.21667 2.35 3.39583 4.35 2.0375C6.35 0.679167 8.56667 0 11 0C13.4333 0 15.65 0.679167 17.65 2.0375C19.65 3.39583 21.1 5.21667 22 7.5C21.1 9.78333 19.65 11.6042 17.65 12.9625C15.65 14.3208 13.4333 15 11 15ZM11 13C12.8833 13 14.6125 12.5042 16.1875 11.5125C17.7625 10.5208 18.9667 9.18333 19.8 7.5C18.9667 5.81667 17.7625 4.47917 16.1875 3.4875C14.6125 2.49583 12.8833 2 11 2C9.11667 2 7.3875 2.49583 5.8125 3.4875C4.2375 4.47917 3.03333 5.81667 2.2 7.5C3.03333 9.18333 4.2375 10.5208 5.8125 11.5125C7.3875 12.5042 9.11667 13 11 13Z"
-                                            fill="#1C1B1F" />
-                                    </svg>
+                            <td class="text-left stickyColThend">
+                                <div class="position-relative request-btn">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <button class="btn p-0 Pending-btn text-primary font-13 "> 1 Request </button>
+                            
+                                        <span class="edit-action-btn">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="15" viewBox="0 0 22 15" fill="none">
+                                                <path
+                                                    d="M11 12C12.25 12 13.3125 11.5625 14.1875 10.6875C15.0625 9.8125 15.5 8.75 15.5 7.5C15.5 6.25 15.0625 5.1875 14.1875 4.3125C13.3125 3.4375 12.25 3 11 3C9.75 3 8.6875 3.4375 7.8125 4.3125C6.9375 5.1875 6.5 6.25 6.5 7.5C6.5 8.75 6.9375 9.8125 7.8125 10.6875C8.6875 11.5625 9.75 12 11 12ZM11 10.2C10.25 10.2 9.6125 9.9375 9.0875 9.4125C8.5625 8.8875 8.3 8.25 8.3 7.5C8.3 6.75 8.5625 6.1125 9.0875 5.5875C9.6125 5.0625 10.25 4.8 11 4.8C11.75 4.8 12.3875 5.0625 12.9125 5.5875C13.4375 6.1125 13.7 6.75 13.7 7.5C13.7 8.25 13.4375 8.8875 12.9125 9.4125C12.3875 9.9375 11.75 10.2 11 10.2ZM11 15C8.56667 15 6.35 14.3208 4.35 12.9625C2.35 11.6042 0.9 9.78333 0 7.5C0.9 5.21667 2.35 3.39583 4.35 2.0375C6.35 0.679167 8.56667 0 11 0C13.4333 0 15.65 0.679167 17.65 2.0375C19.65 3.39583 21.1 5.21667 22 7.5C21.1 9.78333 19.65 11.6042 17.65 12.9625C15.65 14.3208 13.4333 15 11 15ZM11 13C12.8833 13 14.6125 12.5042 16.1875 11.5125C17.7625 10.5208 18.9667 9.18333 19.8 7.5C18.9667 5.81667 17.7625 4.47917 16.1875 3.4875C14.6125 2.49583 12.8833 2 11 2C9.11667 2 7.3875 2.49583 5.8125 3.4875C4.2375 4.47917 3.03333 5.81667 2.2 7.5C3.03333 9.18333 4.2375 10.5208 5.8125 11.5125C7.3875 12.5042 9.11667 13 11 13Z"
+                                                    fill="#1C1B1F" />
+                                            </svg>
+                                        </span>
+                                    </div>
+                            
+                            
+                                    <span class="request-loge p-3">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <h5>Request</h5>
+                            
+                                            <div>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                    <mask id="mask0_5429_4311" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                                                        width="24" height="24">
+                                                        <rect width="24" height="24" fill="#D9D9D9" />
+                                                    </mask>
+                                                    <g mask="url(#mask0_5429_4311)">
+                                                        <path
+                                                            d="M8.4 17.0004L7 15.6004L10.6 12.0004L7 8.42539L8.4 7.02539L12 10.6254L15.575 7.02539L16.975 8.42539L13.375 12.0004L16.975 15.6004L15.575 17.0004L12 13.4004L8.4 17.0004Z"
+                                                            fill="#1C1B1F" />
+                                                    </g>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <div class="request-detail-log">
+                                            <div class=" mt-2 d-flex align-items-center justify-content-between">
+                                                <div>
+                                                    <div class="d-flex align-items-center gap-2">
+                            
+                                                        <div>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"
+                                                                fill="none">
+                                                                <mask id="mask0_5429_4330" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
+                                                                    y="0" width="14" height="14">
+                                                                    <rect width="14" height="14" fill="#D9D9D9" />
+                                                                </mask>
+                                                                <g mask="url(#mask0_5429_4330)">
+                                                                    <path
+                                                                        d="M3.49984 8.16602H8.1665V6.99935H3.49984V8.16602ZM3.49984 6.41602H10.4998V5.24935H3.49984V6.41602ZM3.49984 4.66602H10.4998V3.49935H3.49984V4.66602ZM1.1665 12.8327V2.33268C1.1665 2.01185 1.28074 1.7372 1.50921 1.50872C1.73768 1.28025 2.01234 1.16602 2.33317 1.16602H11.6665C11.9873 1.16602 12.262 1.28025 12.4905 1.50872C12.7189 1.7372 12.8332 2.01185 12.8332 2.33268V9.33268C12.8332 9.65352 12.7189 9.92817 12.4905 10.1566C12.262 10.3851 11.9873 10.4993 11.6665 10.4993H3.49984L1.1665 12.8327ZM3.004 9.33268H11.6665V2.33268H2.33317V9.98893L3.004 9.33268Z"
+                                                                        fill="#F3A73D" />
+                                                                </g>
+                                                            </svg>
+                                                        </div>
+                                                        <h6 class="font-13">Request</h6>
+                            
+                                                    </div>
+                                                    <h5 class="mb-2 mt-1 font-16">Attendance Update</h5>
+                                                    <p class="mb-0 font-13">12/10/24</p>
+                                                </div>
+                            
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="15" viewBox="0 0 22 15" fill="none">
+                                                    <path
+                                                        d="M11 12C12.25 12 13.3125 11.5625 14.1875 10.6875C15.0625 9.8125 15.5 8.75 15.5 7.5C15.5 6.25 15.0625 5.1875 14.1875 4.3125C13.3125 3.4375 12.25 3 11 3C9.75 3 8.6875 3.4375 7.8125 4.3125C6.9375 5.1875 6.5 6.25 6.5 7.5C6.5 8.75 6.9375 9.8125 7.8125 10.6875C8.6875 11.5625 9.75 12 11 12ZM11 10.2C10.25 10.2 9.6125 9.9375 9.0875 9.4125C8.5625 8.8875 8.3 8.25 8.3 7.5C8.3 6.75 8.5625 6.1125 9.0875 5.5875C9.6125 5.0625 10.25 4.8 11 4.8C11.75 4.8 12.3875 5.0625 12.9125 5.5875C13.4375 6.1125 13.7 6.75 13.7 7.5C13.7 8.25 13.4375 8.8875 12.9125 9.4125C12.3875 9.9375 11.75 10.2 11 10.2ZM11 15C8.56667 15 6.35 14.3208 4.35 12.9625C2.35 11.6042 0.9 9.78333 0 7.5C0.9 5.21667 2.35 3.39583 4.35 2.0375C6.35 0.679167 8.56667 0 11 0C13.4333 0 15.65 0.679167 17.65 2.0375C19.65 3.39583 21.1 5.21667 22 7.5C21.1 9.78333 19.65 11.6042 17.65 12.9625C15.65 14.3208 13.4333 15 11 15ZM11 13C12.8833 13 14.6125 12.5042 16.1875 11.5125C17.7625 10.5208 18.9667 9.18333 19.8 7.5C18.9667 5.81667 17.7625 4.47917 16.1875 3.4875C14.6125 2.49583 12.8833 2 11 2C9.11667 2 7.3875 2.49583 5.8125 3.4875C4.2375 4.47917 3.03333 5.81667 2.2 7.5C3.03333 9.18333 4.2375 10.5208 5.8125 11.5125C7.3875 12.5042 9.11667 13 11 13Z"
+                                                        fill="#1C1B1F" />
+                                                </svg>
+                                            </div>
+                                        </div>
                                     </span>
+                            
                                 </div>
-                                </td>
+                            </td>
 
                             </tr>
                             <tr class="">
@@ -986,8 +984,9 @@
                                     </div>
                                 </td>
                                 <td class="text-left stickyColThend">
-                                    <div class="d-flex align-items-center gap-2">
-                                        <button class="btn p-0 Pending-btn text-primary font-13"> 1 Request </button>
+                                    <div class="d-flex align-items-center gap-2 position-relative">
+                                        <button class="btn p-0 Pending-btn text-primary font-13 request-btn"> 1 Request </button>
+                                       
                                         <span class="edit-action-btn">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="15" viewBox="0 0 22 15" fill="none">
                                                 <path
@@ -995,9 +994,198 @@
                                                     fill="#1C1B1F" />
                                             </svg>
                                         </span>
+
+
+                                       
                                     </div>
                                 </td>
 
+                            </tr>
+                            <tr class="">
+                                <td class="text-left stickyColTh">
+                                    <span class="team-maneger mb-0 ">
+                                        Mon, 1st Jun</span>
+                                </td>
+                                <td colspan="9">
+                                    <div class="d-flex align-items-center justify-content-between request-detail">
+                                        <div class="in-time let-intime p-2">
+                                            <h6 class="mb-0">10:20 AM</h6>
+                                            <p class="mb-0">Work: 9hr</p>
+                                        </div>
+                                        <div class="break-time p-2">
+                                            <h6 class="mb-0">Break</h6>
+                                            <p class="mb-0">Hour: 30 min</p>
+                                        </div>
+                                        <!-- <div class="text-end out-time p-2">
+                                                                                                <h6 class="mb-0">07:00 PM</h6>
+                                                                                                <p class="mb-0">Meal break: 1hr</p>
+                                                                                            </div> -->
+                                        <div class="system-out p-2">
+                                            <h6 class="mb-0">System Out</h6>
+                                            <p class="mb-0">08:00 PM</p>
+                                        </div>
+                            
+                                    </div>
+                                </td>
+                                <td class="text-left stickyColThend">
+                                    <div class="d-flex align-items-center gap-2 position-relative">
+                                        <button class="btn p-0 Pending-btn text-primary font-13 request-btn"> 1 Request </button>
+                            
+                                        <span class="edit-action-btn">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="15" viewBox="0 0 22 15" fill="none">
+                                                <path
+                                                    d="M11 12C12.25 12 13.3125 11.5625 14.1875 10.6875C15.0625 9.8125 15.5 8.75 15.5 7.5C15.5 6.25 15.0625 5.1875 14.1875 4.3125C13.3125 3.4375 12.25 3 11 3C9.75 3 8.6875 3.4375 7.8125 4.3125C6.9375 5.1875 6.5 6.25 6.5 7.5C6.5 8.75 6.9375 9.8125 7.8125 10.6875C8.6875 11.5625 9.75 12 11 12ZM11 10.2C10.25 10.2 9.6125 9.9375 9.0875 9.4125C8.5625 8.8875 8.3 8.25 8.3 7.5C8.3 6.75 8.5625 6.1125 9.0875 5.5875C9.6125 5.0625 10.25 4.8 11 4.8C11.75 4.8 12.3875 5.0625 12.9125 5.5875C13.4375 6.1125 13.7 6.75 13.7 7.5C13.7 8.25 13.4375 8.8875 12.9125 9.4125C12.3875 9.9375 11.75 10.2 11 10.2ZM11 15C8.56667 15 6.35 14.3208 4.35 12.9625C2.35 11.6042 0.9 9.78333 0 7.5C0.9 5.21667 2.35 3.39583 4.35 2.0375C6.35 0.679167 8.56667 0 11 0C13.4333 0 15.65 0.679167 17.65 2.0375C19.65 3.39583 21.1 5.21667 22 7.5C21.1 9.78333 19.65 11.6042 17.65 12.9625C15.65 14.3208 13.4333 15 11 15ZM11 13C12.8833 13 14.6125 12.5042 16.1875 11.5125C17.7625 10.5208 18.9667 9.18333 19.8 7.5C18.9667 5.81667 17.7625 4.47917 16.1875 3.4875C14.6125 2.49583 12.8833 2 11 2C9.11667 2 7.3875 2.49583 5.8125 3.4875C4.2375 4.47917 3.03333 5.81667 2.2 7.5C3.03333 9.18333 4.2375 10.5208 5.8125 11.5125C7.3875 12.5042 9.11667 13 11 13Z"
+                                                    fill="#1C1B1F" />
+                                            </svg>
+                                        </span>
+                            
+                            
+                                        
+                                    </div>
+                                </td>
+                            
+                            </tr>
+                            <tr class="">
+                                <td class="text-left stickyColTh">
+                                    <span class="team-maneger mb-0 ">
+                                        Mon, 1st Jun</span>
+                                </td>
+                                <td colspan="9">
+                                    <div class="d-flex align-items-center justify-content-between request-detail">
+                                        <div class="in-time let-intime p-2">
+                                            <h6 class="mb-0">10:20 AM</h6>
+                                            <p class="mb-0">Work: 9hr</p>
+                                        </div>
+                                        <div class="break-time p-2">
+                                            <h6 class="mb-0">Break</h6>
+                                            <p class="mb-0">Hour: 30 min</p>
+                                        </div>
+                                        <!-- <div class="text-end out-time p-2">
+                                                                                                <h6 class="mb-0">07:00 PM</h6>
+                                                                                                <p class="mb-0">Meal break: 1hr</p>
+                                                                                            </div> -->
+                                        <div class="system-out p-2">
+                                            <h6 class="mb-0">System Out</h6>
+                                            <p class="mb-0">08:00 PM</p>
+                                        </div>
+                            
+                                    </div>
+                                </td>
+                                <td class="text-left stickyColThend">
+                                    <div class="position-relative request-btn">
+                                        <div class="d-flex align-items-center gap-2">                                      
+                                         <button class="btn p-0 Pending-btn text-primary font-13 "> 1 Request </button>
+                            
+                                        <span class="edit-action-btn">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="15" viewBox="0 0 22 15" fill="none">
+                                                <path
+                                                    d="M11 12C12.25 12 13.3125 11.5625 14.1875 10.6875C15.0625 9.8125 15.5 8.75 15.5 7.5C15.5 6.25 15.0625 5.1875 14.1875 4.3125C13.3125 3.4375 12.25 3 11 3C9.75 3 8.6875 3.4375 7.8125 4.3125C6.9375 5.1875 6.5 6.25 6.5 7.5C6.5 8.75 6.9375 9.8125 7.8125 10.6875C8.6875 11.5625 9.75 12 11 12ZM11 10.2C10.25 10.2 9.6125 9.9375 9.0875 9.4125C8.5625 8.8875 8.3 8.25 8.3 7.5C8.3 6.75 8.5625 6.1125 9.0875 5.5875C9.6125 5.0625 10.25 4.8 11 4.8C11.75 4.8 12.3875 5.0625 12.9125 5.5875C13.4375 6.1125 13.7 6.75 13.7 7.5C13.7 8.25 13.4375 8.8875 12.9125 9.4125C12.3875 9.9375 11.75 10.2 11 10.2ZM11 15C8.56667 15 6.35 14.3208 4.35 12.9625C2.35 11.6042 0.9 9.78333 0 7.5C0.9 5.21667 2.35 3.39583 4.35 2.0375C6.35 0.679167 8.56667 0 11 0C13.4333 0 15.65 0.679167 17.65 2.0375C19.65 3.39583 21.1 5.21667 22 7.5C21.1 9.78333 19.65 11.6042 17.65 12.9625C15.65 14.3208 13.4333 15 11 15ZM11 13C12.8833 13 14.6125 12.5042 16.1875 11.5125C17.7625 10.5208 18.9667 9.18333 19.8 7.5C18.9667 5.81667 17.7625 4.47917 16.1875 3.4875C14.6125 2.49583 12.8833 2 11 2C9.11667 2 7.3875 2.49583 5.8125 3.4875C4.2375 4.47917 3.03333 5.81667 2.2 7.5C3.03333 9.18333 4.2375 10.5208 5.8125 11.5125C7.3875 12.5042 9.11667 13 11 13Z"
+                                                    fill="#1C1B1F" />
+                                            </svg>
+                                        </span>
+                                        </div>
+                            
+                            
+                                        <span class="request-loge p-3">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <h5>Request</h5>
+                            
+                                                <div>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                        <mask id="mask0_5429_4311" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                                                            width="24" height="24">
+                                                            <rect width="24" height="24" fill="#D9D9D9" />
+                                                        </mask>
+                                                        <g mask="url(#mask0_5429_4311)">
+                                                            <path
+                                                                d="M8.4 17.0004L7 15.6004L10.6 12.0004L7 8.42539L8.4 7.02539L12 10.6254L15.575 7.02539L16.975 8.42539L13.375 12.0004L16.975 15.6004L15.575 17.0004L12 13.4004L8.4 17.0004Z"
+                                                                fill="#1C1B1F" />
+                                                        </g>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                           <div class="request-detail-log">
+                                            <div class=" mt-2 d-flex align-items-center justify-content-between">
+                                                <div>
+                                                <div class="d-flex align-items-center gap-2">
+                            
+                                                    <div>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"
+                                                            fill="none">
+                                                            <mask id="mask0_5429_4330" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
+                                                                y="0" width="14" height="14">
+                                                                <rect width="14" height="14" fill="#D9D9D9" />
+                                                            </mask>
+                                                            <g mask="url(#mask0_5429_4330)">
+                                                                <path
+                                                                    d="M3.49984 8.16602H8.1665V6.99935H3.49984V8.16602ZM3.49984 6.41602H10.4998V5.24935H3.49984V6.41602ZM3.49984 4.66602H10.4998V3.49935H3.49984V4.66602ZM1.1665 12.8327V2.33268C1.1665 2.01185 1.28074 1.7372 1.50921 1.50872C1.73768 1.28025 2.01234 1.16602 2.33317 1.16602H11.6665C11.9873 1.16602 12.262 1.28025 12.4905 1.50872C12.7189 1.7372 12.8332 2.01185 12.8332 2.33268V9.33268C12.8332 9.65352 12.7189 9.92817 12.4905 10.1566C12.262 10.3851 11.9873 10.4993 11.6665 10.4993H3.49984L1.1665 12.8327ZM3.004 9.33268H11.6665V2.33268H2.33317V9.98893L3.004 9.33268Z"
+                                                                    fill="#F3A73D" />
+                                                            </g>
+                                                        </svg>
+                                                    </div>
+                                                    <h6 class="font-13">Request</h6>
+                            
+                                                </div>
+                                                <h5 class="mb-2 mt-1 font-16">Attendance Update</h5>
+                                                <p class="mb-0 font-13">12/10/24</p>
+                                                </div>
+
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="15" viewBox="0 0 22 15" fill="none">
+                                                    <path
+                                                        d="M11 12C12.25 12 13.3125 11.5625 14.1875 10.6875C15.0625 9.8125 15.5 8.75 15.5 7.5C15.5 6.25 15.0625 5.1875 14.1875 4.3125C13.3125 3.4375 12.25 3 11 3C9.75 3 8.6875 3.4375 7.8125 4.3125C6.9375 5.1875 6.5 6.25 6.5 7.5C6.5 8.75 6.9375 9.8125 7.8125 10.6875C8.6875 11.5625 9.75 12 11 12ZM11 10.2C10.25 10.2 9.6125 9.9375 9.0875 9.4125C8.5625 8.8875 8.3 8.25 8.3 7.5C8.3 6.75 8.5625 6.1125 9.0875 5.5875C9.6125 5.0625 10.25 4.8 11 4.8C11.75 4.8 12.3875 5.0625 12.9125 5.5875C13.4375 6.1125 13.7 6.75 13.7 7.5C13.7 8.25 13.4375 8.8875 12.9125 9.4125C12.3875 9.9375 11.75 10.2 11 10.2ZM11 15C8.56667 15 6.35 14.3208 4.35 12.9625C2.35 11.6042 0.9 9.78333 0 7.5C0.9 5.21667 2.35 3.39583 4.35 2.0375C6.35 0.679167 8.56667 0 11 0C13.4333 0 15.65 0.679167 17.65 2.0375C19.65 3.39583 21.1 5.21667 22 7.5C21.1 9.78333 19.65 11.6042 17.65 12.9625C15.65 14.3208 13.4333 15 11 15ZM11 13C12.8833 13 14.6125 12.5042 16.1875 11.5125C17.7625 10.5208 18.9667 9.18333 19.8 7.5C18.9667 5.81667 17.7625 4.47917 16.1875 3.4875C14.6125 2.49583 12.8833 2 11 2C9.11667 2 7.3875 2.49583 5.8125 3.4875C4.2375 4.47917 3.03333 5.81667 2.2 7.5C3.03333 9.18333 4.2375 10.5208 5.8125 11.5125C7.3875 12.5042 9.11667 13 11 13Z"
+                                                        fill="#1C1B1F" />
+                                                </svg>
+                                            </div>
+                                            </div>
+                                        </span>
+                                      
+                                    </div>
+                                </td>
+                            
+                            </tr>
+                            <tr class="">
+                                <td class="text-left stickyColTh">
+                                    <span class="team-maneger mb-0 ">
+                                        Mon, 1st Jun</span>
+                                </td>
+                                <td colspan="9">
+                                    <div class="d-flex align-items-center justify-content-between request-detail">
+                                        <div class="in-time let-intime p-2">
+                                            <h6 class="mb-0">10:20 AM</h6>
+                                            <p class="mb-0">Work: 9hr</p>
+                                        </div>
+                                        <div class="break-time p-2">
+                                            <h6 class="mb-0">Break</h6>
+                                            <p class="mb-0">Hour: 30 min</p>
+                                        </div>
+                                        <!-- <div class="text-end out-time p-2">
+                                                                                                <h6 class="mb-0">07:00 PM</h6>
+                                                                                                <p class="mb-0">Meal break: 1hr</p>
+                                                                                            </div> -->
+                                        <div class="system-out p-2">
+                                            <h6 class="mb-0">System Out</h6>
+                                            <p class="mb-0">08:00 PM</p>
+                                        </div>
+                            
+                                    </div>
+                                </td>
+                                <td class="text-left stickyColThend">
+                                    <div class="d-flex align-items-center gap-2 position-relative">
+                                        <button class="btn p-0 Pending-btn text-primary font-13 request-btn"> 1 Request </button>
+                            
+                                        <span class="edit-action-btn">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="15" viewBox="0 0 22 15" fill="none">
+                                                <path
+                                                    d="M11 12C12.25 12 13.3125 11.5625 14.1875 10.6875C15.0625 9.8125 15.5 8.75 15.5 7.5C15.5 6.25 15.0625 5.1875 14.1875 4.3125C13.3125 3.4375 12.25 3 11 3C9.75 3 8.6875 3.4375 7.8125 4.3125C6.9375 5.1875 6.5 6.25 6.5 7.5C6.5 8.75 6.9375 9.8125 7.8125 10.6875C8.6875 11.5625 9.75 12 11 12ZM11 10.2C10.25 10.2 9.6125 9.9375 9.0875 9.4125C8.5625 8.8875 8.3 8.25 8.3 7.5C8.3 6.75 8.5625 6.1125 9.0875 5.5875C9.6125 5.0625 10.25 4.8 11 4.8C11.75 4.8 12.3875 5.0625 12.9125 5.5875C13.4375 6.1125 13.7 6.75 13.7 7.5C13.7 8.25 13.4375 8.8875 12.9125 9.4125C12.3875 9.9375 11.75 10.2 11 10.2ZM11 15C8.56667 15 6.35 14.3208 4.35 12.9625C2.35 11.6042 0.9 9.78333 0 7.5C0.9 5.21667 2.35 3.39583 4.35 2.0375C6.35 0.679167 8.56667 0 11 0C13.4333 0 15.65 0.679167 17.65 2.0375C19.65 3.39583 21.1 5.21667 22 7.5C21.1 9.78333 19.65 11.6042 17.65 12.9625C15.65 14.3208 13.4333 15 11 15ZM11 13C12.8833 13 14.6125 12.5042 16.1875 11.5125C17.7625 10.5208 18.9667 9.18333 19.8 7.5C18.9667 5.81667 17.7625 4.47917 16.1875 3.4875C14.6125 2.49583 12.8833 2 11 2C9.11667 2 7.3875 2.49583 5.8125 3.4875C4.2375 4.47917 3.03333 5.81667 2.2 7.5C3.03333 9.18333 4.2375 10.5208 5.8125 11.5125C7.3875 12.5042 9.11667 13 11 13Z"
+                                                    fill="#1C1B1F" />
+                                            </svg>
+                                        </span>
+                            
+                            
+                                       
+                                    </div>
+                                </td>
+                            
                             </tr>
 
 
@@ -1021,7 +1209,7 @@
 
 
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#applyLeave">
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#applyLeave" #leaveApplyButton>
     Apply for a leave
 </button>
 
@@ -1048,108 +1236,151 @@
             </div>
             <div class="modal-body">
                 <div class="assets-request-form">
-                    <form [formGroup]="userLeaveForm" #formDirective="ngForm">
+                    <form [formGroup]="userLeaveForm" #formDirective="ngForm" >
                         <div class="row register-form-box">
                             <div class="col-md-12 mb-3">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="employeeTypeId" class="mb-2">Pick a starting date</label>
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="startDate" class="mb-2">Pick a starting date</label>
+                                    <nz-date-picker
+                                      formControlName="startDate"
+                                      nzPlaceHolder="dd/mm/yyyy"
+                                      [(ngModel)]="userLeaveRequest.startDate"
+                                      required>
+                                    </nz-date-picker>
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="endDate" class="mb-2">Pick an ending date</label>
+                                    <nz-date-picker
+                                      [(ngModel)]="userLeaveRequest.endDate"
+                                      formControlName="endDate"
+                                      nzPlaceHolder="dd/mm/yyyy"
+                                      required>
+                                    </nz-date-picker>
+                                  </div>
+                                </div>
+                              </div>
 
-                                                <nz-date-picker nzPlaceHolder="dd/mm/yyyy" name="startDate"  required>
-                                                </nz-date-picker>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="employeeTypeId" class="mb-2">Pick a ending date</label>
-                                            <nz-date-picker nzPlaceHolder="dd/mm/yyyy" name="startDate" required>
-                                            </nz-date-picker>
-                                            </div>
-                                        </div>
-                                    </div>
                             </div>
                             <div class="col-md-12 mb-3">
-                                <div class="form-group">
-                                    <label for="employeeTypeId" class="mb-2">Leave type</label>
-                                    <nz-form-control>
-                                        <nz-select class="form-control" style="width: 100%" nzSize="large"
-                                            nzPlaceHolder="Select the leave type" required>
-                                            <nz-option [nzValue]="'Attendance update'"
-                                                [nzLabel]="'Attendance update'"></nz-option>
-                                            <nz-option [nzValue]="'Overtime'" [nzLabel]="'Overtime'"></nz-option>
-                                            <nz-option [nzValue]="'Lop reversal'"
-                                                [nzLabel]="'Lop reversal'"></nz-option>
-                                        </nz-select>
-                                    </nz-form-control>
-                                </div>
+                              <div class="form-group">
+                                <label for="leaveType" class="mb-2">Leave type</label>
+                                <nz-form-control>
+                                  <nz-select
+                                    class="form-control"
+                                    style="width: 100%"
+                                    nzSize="large"
+                                    nzPlaceHolder="Select the leave type"
+                                    formControlName="leaveType"
+                                    [(ngModel)]="userLeaveRequest.userLeaveTemplateId">
+                                    required>
+                                    <nz-option
+                                      *ngFor="let ul of userLeave"
+                                      [nzValue]="ul.userLeaveTemplateId"
+                                      [nzLabel]="ul.leaveType">
+                                    </nz-option>
+                                  </nz-select>
+                                </nz-form-control>
+                              </div>
                             </div>
-                            <div class="col-md-12 mb-3">
-                                <div class="form-group requesting-half-leave p-2">
-                                    <div class="d-flex align-items-center justify-content-between " style="padding-top: 2px;">
-                                        <p class="mb-0">Select if you are requesting Half Leave <span class="font-12 text-primary">(optional)</span></p>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                                        </div>
-                                    </div>
-                                    <hr>
 
-                                    <div class="row mt-3 mb-2">
-                                        <div class="col-md-6">
-                                            <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1"
-                                                    checked>
-                                                <p class="form-check-label mb-0" for="exampleRadios1">
-                                                    First half
-                                                </p>
-                                            </label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1"
-                                                    checked>
-                                                <p class="form-check-label mb-0" for="exampleRadios1">
-                                                    Second Half
-                                                </p>
-                                            </label>
-                                        </div>
-                                    </div>
+                            <div class="col-md-12 mb-3">
+                              <div class="form-group requesting-half-leave p-2">
+                                <div class="d-flex align-items-center justify-content-between" style="padding-top: 2px;">
+                                  <p class="mb-0">Select if you are requesting Half Leave <span class="font-12 text-primary">(optional)</span></p>
+                                  <div class="form-check">
+                                    <input
+                                      class="form-check-input"
+                                      type="checkbox"
+                                      id="defaultCheck1"
+                                      [(ngModel)]="userLeaveRequest.halfDayLeave"
+                                      (change)="toggleHalfLeaveSelection($event)"
+                                    />
+                                  </div>
+                                </div>
 
-                                </div>
+                                <div class="row mt-3 mb-2" *ngIf="isHalfLeaveSelected">
+                                  <hr>
+                                  <div class="col-md-6">
+                                      <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                                          <input formControlName="dayShift" (change)="dayShiftToggleFun('day')" class="form-check-input" type="radio" name="halfLeave" value="firstHalf" [(ngModel)]="userLeaveRequest.dayShift" />
+                                          <p class="form-check-label mb-0">First half</p>
+                                      </label>
+                                  </div>
+                                  <div class="col-md-6">
+                                      <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                                          <input formControlName="eveningShift" (change)="dayShiftToggleFun('evening')" class="form-check-input" type="radio" name="halfLeave" value="secondHalf" [(ngModel)]="userLeaveRequest.eveningShift" />
+                                          <p class="form-check-label mb-0">Second Half</p>
+                                      </label>
+                                  </div>
+                              </div>
+
+
+                              </div>
+
                             </div>
                             <div class="col-md-12 mb-3">
-                                <div class="form-group">
-                                    <label for="employeeTypeId" class="mb-2">Select user to request the leave from</label>
-                                    <nz-form-control>
-                                        <nz-select class="form-control" style="width: 100%" nzSize="large"
-                                            nzPlaceHolder="Select the leave type" required>
-                                            <nz-option [nzValue]="'Attendance update'"
-                                                [nzLabel]="'Attendance update'"></nz-option>
-                                            <nz-option [nzValue]="'Overtime'" [nzLabel]="'Overtime'"></nz-option>
-                                            <nz-option [nzValue]="'Lop reversal'"
-                                                [nzLabel]="'Lop reversal'"></nz-option>
-                                        </nz-select>
-                                    </nz-form-control>
-                                </div>
+                              <div class="form-group">
+                                <label for="selectUser" class="mb-2">Select user to request the leave from</label>
+                                <nz-form-control>
+                                  <nz-select
+                                    class="form-control"
+                                    style="width: 100%"
+                                    nzSize="large"
+                                    nzPlaceHolder="Select a user"
+                                    formControlName="selectedUser"
+                                    [ngModel]="selectedUser"
+                                    (ngModelChange)="onUserChange($event)"
+                                    required>
+                                    <nz-option
+                                      *ngFor="let manager of managers"
+                                      [nzValue]="manager.id"
+                                      [nzLabel]="manager.name">
+                                    </nz-option>
+                                  </nz-select>
+                                </nz-form-control>
+                              </div>
                             </div>
+
                             <div class="col-md-12 mb-3">
-                                <div class="form-group">
-                                    <label for="templateName" class="mb-2"> Note</label>
-                                    <textarea class="form-control nots-section" placeholder="write the reason" id="exampleFormControlTextarea1"
-                                        rows="3"></textarea>
-                                </div>
+                              <div class="form-group">
+                                <label for="templateName" class="mb-2">Note</label>
+                                <textarea
+                                  formControlName="note"
+                                  class="form-control nots-section"
+                                  placeholder="Write the reason"
+                                  id="exampleFormControlTextarea1"
+                                  rows="3"
+                                  name="note"
+                                  [(ngModel)]="userLeaveRequest.optNotes">
+                                </textarea>
+                              </div>
                             </div>
+
                             <div class="col-md-12 ">
                                 <div class="form-group ">
                                     <label for="templateName" class="mb-2"> Proof document <span class="text-primary font-12">(optional)</span></label>
                                     <div class="d-flex align-items-center justify-content-between  requesting-half-leave p-2" >
-                                        <p class="mb-0 font-13 " style="font-weight: 400;" >Select proof document</p>
+                                      <p class="mb-0 font-13 " style="font-weight: 400;" >Select proof document</p>
 
-                                       <button class="btn p-0 text-primary font-13"><i class="bi bi-plus-lg"></i> Add File</button>
+                                      <button class="btn p-0 text-primary font-13" (click)="fileInput.click()">
+                                          <i class="bi bi-plus-lg"></i> Add File
+                                      </button>
+                                      <input
+                                          type="file"
+                                          multiple
+                                          #fileInput
+                                          (change)="onFileSelected($event)"
+                                          accept="application/pdf"
+                                          style="display: none;"
+                                      />
                                     </div>
 
-
-                                    <div  class="hr-policy-file d-flex justify-content-between align-items-center p-3 mt-3">
+                                    <div *ngIf="uploadedFiles.length > 0">
+                                      <div *ngFor="let uploadedFile of uploadedFiles"  class="hr-policy-file d-flex justify-content-between align-items-center p-3 mt-3">
                                         <div  class="d-flex align-items-center gap-2">
                                             <div  class="d-flex align-items-center gap-2"><svg
                                                     xmlns="http://www.w3.org/2000/svg" width="31" height="37" viewBox="0 0 31 37" fill="none">
@@ -1172,12 +1403,14 @@
                                                         d="M21.3881 18.3893C21.2335 18.3847 21.0802 18.4196 20.9429 18.4908C20.8056 18.562 20.6887 18.6671 20.6034 18.7961C20.3999 19.1377 20.3037 19.5326 20.3273 19.9296C20.3273 20.925 20.7051 21.4263 21.4608 21.4263C21.6868 21.425 21.9116 21.3932 22.1292 21.3318C22.3472 21.2665 22.5651 21.1865 22.7831 21.0993V22.2836C22.3238 22.4793 21.8292 22.5783 21.33 22.5743C20.997 22.5999 20.6624 22.5534 20.3489 22.438C20.0355 22.3227 19.7506 22.1412 19.5136 21.9058C19.0591 21.3543 18.8329 20.6498 18.8815 19.9368C18.8652 19.435 18.9699 18.9366 19.1866 18.4837C19.3769 18.0911 19.6806 17.7646 20.0585 17.5465C20.47 17.3211 20.9336 17.2083 21.4026 17.2195C21.9582 17.2196 22.5068 17.3438 23.0083 17.5828L22.5797 18.709C22.3943 18.6195 22.2024 18.5442 22.0057 18.4837C21.8063 18.4188 21.5977 18.3869 21.3881 18.3893Z"
                                                         fill="#6666F2"></path>
                                                 </svg>
-                                                <h5  class="mb-0 font-14">HR Policy File</h5>
+                                                <h5  class="mb-0 font-14">{{ uploadedFile?.name }}</h5>
                                             </div><span  class="separator"></span>
                                             <p  class="mb-0 font-13"> Uploaded Aug 5, 2024 </p>
                                         </div>
-                                        <div  class="d-flex align-items-center gap-2 action-icon-btn"><span
-                                                ><svg  xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+                                        <div  class="d-flex align-items-center gap-2 action-icon-btn">
+                                          <span>
+                                            <button class="btn text-danger" (click)="uploadedFile ? viewFile(uploadedFile) : null">
+                                                <svg  xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                                                     viewBox="0 0 22 22" fill="none">
                                                     <mask  id="mask0_4339_1635" maskUnits="userSpaceOnUse" x="0" y="0" width="22"
                                                         height="22" style="mask-type: alpha;">
@@ -1189,12 +1422,15 @@
                                                             fill="#1C1B1F"></path>
                                                     </g>
                                                 </svg>
-                                            </span>
+                                              </button>
+                                          </span>
                                             <input  id="hrpolicies" type="file" name="hrpolicies"
                                                 accept="application/pdf" class="input" style="display: none;"><span >
 
                                                 </span>
-                                                <span  class="ng-star-inserted"><svg
+                                                <!-- <span  class="ng-star-inserted">
+                                                  <button class="btn text-danger" (click)="removeFile()">
+                                                  <svg
                                                     xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
                                                     <mask  id="mask0_4339_1623" maskUnits="userSpaceOnUse" x="0" y="0" width="23"
                                                         height="22" style="mask-type: alpha;">
@@ -1206,8 +1442,11 @@
                                                             fill="#444444"></path>
                                                     </g>
                                                 </svg>
-                                            </span>
-                                                <span ><svg  xmlns="http://www.w3.org/2000/svg" width="23" height="22"
+                                              </button>
+                                            </span> -->
+                                                <span >
+                                                  <button class="btn text-danger" (click)="removeFile()">
+                                                  <svg  xmlns="http://www.w3.org/2000/svg" width="23" height="22"
                                                     viewBox="0 0 23 22" fill="none">
                                                     <mask  id="mask0_4339_1620" maskUnits="userSpaceOnUse" x="0" y="0" width="23"
                                                         height="22" style="mask-type: alpha;">
@@ -1218,7 +1457,10 @@
                                                             d="M7.18328 18.6577C6.72961 18.6577 6.34206 18.497 6.02061 18.1757C5.69931 17.8543 5.53866 17.4667 5.53866 17.0131V5.46619H4.62891V4.10156H8.72282V3.29688H14.1814V4.10156H18.2753V5.46619H17.3655V17.0131C17.3655 17.4726 17.2063 17.8616 16.8879 18.1801C16.5695 18.4985 16.1805 18.6577 15.7209 18.6577H7.18328ZM16.0009 5.46619H6.9033V17.0131C6.9033 17.0948 6.92953 17.1619 6.982 17.2144C7.03446 17.2668 7.10155 17.293 7.18328 17.293H15.7209C15.791 17.293 15.8551 17.2639 15.9133 17.2055C15.9717 17.1473 16.0009 17.0831 16.0009 17.0131V5.46619ZM9.09036 15.4735H10.4548V7.28571H9.09036V15.4735ZM12.4494 15.4735H13.8138V7.28571H12.4494V15.4735Z"
                                                             fill="#FF0000"></path>
                                                     </g>
-                                                </svg></span></div>
+                                                  </svg>
+                                                  </button>
+                                              </span></div>
+                                      </div>
                                     </div>
                                 </div>
                             </div>
@@ -1227,8 +1469,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn submitActionBtn">Submit</button>
+                <button #cancelBtn type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" (click)="saveLeaveRequestUser()" [disabled]="!canSubmit" class="btn submitActionBtn">Submit</button>
             </div>
         </div>
     </div>
@@ -1236,7 +1478,7 @@
 
 
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateRequest">
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#updateRequest">
     Attendance Update request
 </button>
 
