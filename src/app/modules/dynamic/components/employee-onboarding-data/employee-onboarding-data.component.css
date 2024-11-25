@@ -744,7 +744,8 @@ Remove
 .btn.add-excel {
   font-size: 14px !important;
   font-weight: 500;
-  color: #6666f4 !important;
+  color: #fff !important;
+  background-color: var(--primary-background-color);
 }
 .mt-130 {
   margin-top: 130px;
@@ -1316,8 +1317,8 @@ span.members-namess {
   font-weight: 400 !important;
 }
 
-::ng-deep .ant-select-selection-placeholder {
+/* ::ng-deep .ant-select-selection-placeholder {
   padding: 0;
   line-height: 44px !important;
   transition: all .3s;
-}
+} */

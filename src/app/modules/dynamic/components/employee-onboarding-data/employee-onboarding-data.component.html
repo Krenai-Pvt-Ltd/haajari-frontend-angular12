@@ -1093,7 +1093,7 @@
 <!-- Modal -->
 <div class="modal fade" id="sampleFileModal" tabindex="-1" aria-labelledby="sampleFileModalLabel" aria-hidden="true"
   #sampleFileModal>
-  <div class="modal-dialog modal-xl" style="max-width: 1400px !important;">
+  <div class="modal-dialog modal-xl modal-dialog-centered" style="max-width: 1400px !important;">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="sampleFileModalLabel">Sample Excel File</h5>
@@ -1147,8 +1147,7 @@
               alreadyUsedPhoneNumberArray.length > 0 ||
               alreadyUsedEmailArray.length > 0 ||
               this.mismatches.length > 0 ||
-              isErrorToggle
-            ">
+              isErrorToggle">
             <h4 class="alert-heading font-18 text-danger">Attention!!</h4>
             <ul style="padding-left: 15px;">
               <li class="mb-1" *ngIf="this.mismatches.length > 0">
@@ -1167,23 +1166,20 @@
 
             </ul>
           </div>
-          <div class="card create-password-warning mb-0 mt-4 ng-star-inserted pb-3 pt-2 px-3 text-start" *ngIf="
-              data.length > 0
-              && isinvalid
-            ">
+          <div class="create-password-warning mb-0 mt-4 text-start" *ngIf="data.length > 0 && isinvalid ">
             <!-- <h4 class="alert-heading font-16 mb-1">Attention</h4> -->
             <p *ngIf="isExcel.length > 0">
               {{ isExcel }}
             </p>
             <div *ngIf="data.length > 0">
-              <h3 class="font-20 mb-2">Uploaded Data</h3>
-              <div class="align-items-center empuploadHeader excelUploadTable row mb-2">
-                <div class="col-lg-9 col-md-12">
+              <h3 class="font-18 mb-2">Uploaded Data</h3>
+              <div class="align-items-center empuploadHeader excelUploadTable row mb-3">
+                <div class="col-lg-8 col-md-12">
                   <div class="row" *ngIf="isAnyRowSelected()">
                     <div class="col-lg-4 col-md-3">
                       <div>
                         <nz-select [(ngModel)]="bulkShift" (ngModelChange)="applyBulkChange('shift', $event)"
-                          nzPlaceHolder="Select Shift" [nzDropdownRender]="customDropdownShift">
+                          nzPlaceHolder="Select Shift" [nzDropdownRender]="customDropdownShift" class="whatapp-login-input">
                           <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label"
                             [nzLabel]="shift.label"></nz-option>
                         </nz-select>
@@ -1197,7 +1193,7 @@
                     <div class="col-lg-4 col-md-3">
                       <div>
                         <nz-select [(ngModel)]="bulkLeave" (ngModelChange)="applyBulkChange('leave', $event)"
-                          nzPlaceHolder="Select Leave" nzMode="multiple" [nzDropdownRender]="customDropdown">
+                          nzPlaceHolder="Select Leave" nzMode="multiple" [nzDropdownRender]="customDropdown" class="whatapp-login-input">
                           <nz-option *ngFor="let leave of originalLeaveNameList" [nzValue]="leave.label"
                             [nzLabel]="leave.label"></nz-option>
                         </nz-select>
@@ -1210,7 +1206,7 @@
                     </div>
                     <div class="col-lg-4 col-md-3">
                       <nz-select [(ngModel)]="bulkTeam" (ngModelChange)="applyBulkChange('team', $event)"
-                        nzPlaceHolder="Select Team" nzMode="multiple" [nzDropdownRender]="customDropdownTeam">
+                        nzPlaceHolder="Select Team" nzMode="multiple" [nzDropdownRender]="customDropdownTeam" class="whatapp-login-input">
                         <nz-option *ngFor="let team of originalTeamNameList" [nzValue]="team.label"
                           [nzLabel]="team.label"></nz-option>
                       </nz-select>
@@ -1223,19 +1219,19 @@
                   </div>
                 </div>
 
-                <div class="col-lg-3 col-md-12">
+                <div class="col-lg-4 col-md-12">
                   <div class="align-items-center d-flex gap-2 justify-content-end">
-                    <p class="m-0 d-flex align-items-center gap-2 justify-content-center">
+                    <label class="m-0 d-flex align-items-center gap-2 justify-content-center">
                       <input type="checkbox" [(ngModel)]="selectAllCurrentPage" (change)="toggleSelectAllCurrentPage()"
                         [disabled]="selectAllPages" />
                       Select all on current page
-                    </p>
+                    </label>
                     <span class="btnSeprator"></span>
-                    <p class="m-0 d-flex align-items-center gap-2 justify-content-center">
+                    <label class="m-0 d-flex align-items-center gap-2 justify-content-center">
                       <input type="checkbox" [(ngModel)]="selectAllPages" (change)="toggleSelectAllPage()"
                         [disabled]="selectAllCurrentPage" />
                       Select All Pages
-                    </p>
+                    </label>
                   </div>
                 </div>
               </div>
@@ -1253,7 +1249,7 @@
                   <tbody>
                     <!-- Skip the first row for pagination purposes -->
                     <tr *ngFor="let row of paginatedData; let i = index">
-                      <td>
+                      <td class="text-center">
                         <!-- *ngIf="i + currentPage -1!=0" -->
                         <input type="checkbox" [(ngModel)]="row.selected" />
                       </td>
@@ -1364,16 +1360,13 @@
                 </table>
 
               </div>
-              <div class="text-end">
-                <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex justify-content-end align-items-center">
                   <p class="m-0" *ngIf="data.length-1>pageSize"> Showing {{(currentPage - 1) * pageSize +currentPage}} -
                     {{(currentPage - 1) * pageSize +(currentPage-1)+(data.length - 1)}} of {{data.length-1}} </p>
                   <ngb-pagination [rotate]="true" [maxSize]="4" [collectionSize]="data.length - 1" [pageSize]="pageSize"
                     [(page)]="currentPage" (pageChange)="onPageChange($event)">
                   </ngb-pagination>
                 </div>
-
-              </div>
               <div class="text-end border-top pt-3">
                 <!-- <button type="button" class="btn btn-primary btn-sm" (click)="saveFile()">Save Changes</button> -->
                 <button type="button" class="btn p-0 next-btn btn-border" (click)="saveFile()">Save Changes</button>
@@ -1439,8 +1432,8 @@
                 !networkConnectionErrorPlaceholder;
               else errorInOnboardUserListCondition
             ">
-            <div class="row mt-0">
-              <div class="d-flex align-items-center justify-content-end mb-2 p-0">
+            <div class="mt-0">
+              <div class="d-flex align-items-center justify-content-end mb-3 p-0">
                 <input #fileInput id="fileSelect" type="file" name="img[]" accept=".xlsx" class="input"
                   style="display: none" (change)="selectFile($event)" />
                 <button type="button" class="btn add-excel" (click)="fileInput.click()">
@@ -1449,46 +1442,23 @@
                   <div *ngIf="isProgressToggle" class="spinner-border text-primary excel-spinner" role="status"></div>
                   Excel Upload
                 </button>
-                <!-- <p
-                      style="color: #d7d7d7; margin-bottom: 0px"
-                      class="ng-star-inserted"
-                    >
-                      |
-                    </p>
-                    <button
-                      type="button"
-                      class="btn add-excel"
-                      data-bs-toggle="modal"
-                      data-bs-target="#munal-upload"
-                      (click)="selectMethod('mannual')"
-                    >
-                      <i class="bi bi-journal-check"></i> Manual Upload
-                    </button> -->
+             
               </div>
-              <div class="alert alert-light mb-0 mt-4 bg-soft-warning create-password-warning text-start" role="alert"
+              <div class="create-password-warning waring-box p-3 mt-3 mb-3 text-start" role="alert"
                 *ngIf="
                   alreadyUsedPhoneNumberArray.length > 0 ||
                   alreadyUsedEmailArray.length > 0 ||
                   isErrorToggle
                 ">
-                <h4 class="alert-heading font-18">Attention!</h4>
-                <!-- <div *ngFor="let pn of alreadyUsedPhoneNumberArray">
-                      {{ pn }}
-                    </div>
-                    <div *ngFor="let ea of alreadyUsedEmailArray">
-                      {{ ea }}
-                    </div> -->
-                <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p>
-                <p *ngIf="alreadyUsedPhoneNumberArray.length > 0">
-                  Phone Numbers:
-                  {{ formatAsCommaSeparated(alreadyUsedPhoneNumberArray) }}
-                </p>
-                <p *ngIf="alreadyUsedEmailArray.length > 0">
-                  Emails: {{ formatAsCommaSeparated(alreadyUsedEmailArray) }}
-                </p>
-                <p *ngIf="!isErrorToggle">
-                  These credentials are already registered with us!
-                </p>
+                    <h4 class="alert-heading font-18">Attention!</h4>
+
+                    <ul style="padding-left:20px;">
+                      <li *ngIf="isErrorToggle">Error: {{ errorMessage }}</li>
+                      <li *ngIf="alreadyUsedEmailArray.length > 0">Phone Numbers: {{ formatAsCommaSeparated(alreadyUsedPhoneNumberArray) }}</li>
+                      <li *ngIf="!isErrorToggle">These credentials are already registered with us!</li>
+                    </ul>
+                  
+                
               </div>
               <table class="table">
                 <!-- <thead class="thead-light table-design"> -->
@@ -1545,7 +1515,7 @@
                   </tr>
                 </tbody>
               </table>
-              <div class="d-flex justify-content-end mt-3">
+              <div class="d-flex justify-content-end gap-3 mt-3">
                 <button type="button" class="btn btn-primary" (click)="sendEmailToUsers(true)">
                   <span *ngIf="!sendMailExcelUserFlag"> Send Email </span>
                   <div class="dot-opacity-loader" *ngIf="sendMailExcelUserFlag">
