@@ -358,7 +358,8 @@
 
     </div>
     <div class="edit-detail">
-      <div *ngIf="routes.includes('/employee-onboarding-form')" class="row border-top pt-4 pb-3">
+      <form [formGroup]="onboardingForm">
+      <div  *ngIf="routes.includes('/employee-onboarding-form')" class="row border-top pt-4 pb-3" formGroupName="user">
         <div class="col-md-3">
           <div class="profile-imfo-hedding">
             <h5>Personal Information</h5>
@@ -368,19 +369,19 @@
           <div class="row">
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.name" />
+                <input formControlName="name" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.name" />
                 <label class="form__label">Name</label>
               </div>
             </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.maritalStatus" />
+                <input formControlName="maritalStatus" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.maritalStatus" />
                 <label class="form__label">Marital Status</label>
               </div>
             </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.email" />
+                <input formControlName="email" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.email" />
                 <label class="form__label">Email Address</label>
               </div>
             </div>
@@ -388,6 +389,7 @@
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <nz-date-picker
                   class="form__field custom-date-picker"
+                  formControlName="joiningDate"
                   [(ngModel)]="this.onboardingPreviewDataCopy.user.joiningDate"
                   [nzFormat]="'dd/MM/yyyy'"
                   nzPlaceHolder="Select Joining Date"
@@ -398,31 +400,32 @@
 
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.phoneNumber" />
+                <input formControlName="phoneNumber" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.phoneNumber" />
                 <label class="form__label">Phone Number</label>
               </div>
             </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.currentSalary" />
+                <input formControlName="currentSalary" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.currentSalary" />
                 <label class="form__label">Current Salary</label>
               </div>
             </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.gender" />
+                <input formControlName="gender" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.gender" />
                 <label class="form__label">Gender</label>
               </div>
             </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.department" />
+                <input formControlName="department" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.department" />
                 <label class="form__label">Department</label>
               </div>
             </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <nz-date-picker
+                  formControlName="dateOfBirth"
                   class="form__field custom-date-picker"
                   [(ngModel)]="this.onboardingPreviewDataCopy.user.dateOfBirth"
                   [nzFormat]="'dd/MM/yyyy'"
@@ -434,19 +437,19 @@
 
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.position" />
+                <input formControlName="position" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.position" />
                 <label class="form__label">Current Position</label>
               </div>
             </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.fatherName" />
+                <input formControlName="fatherName" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.fatherName" />
                 <label class="form__label">Father’s Name</label>
               </div>
             </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.nationality" />
+                <input formControlName="nationality" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.nationality" />
                 <label class="form__label">Nationality</label>
               </div>
             </div>
@@ -461,73 +464,73 @@
           </div>
         </div>
         <div class="col-md-9">
-          <div class="row mb-3">
+          <div class="row mb-3" formGroupName="currentAddress">
 
             <h6 class="mb-3">Current Address</h6>
 
             <div class="col-md-12 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].addressLine1" />
+                <input formControlName="addressLine1" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].addressLine1" />
                 <label class="form__label">Address</label>
               </div>
             </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].pincode" />
+                <input formControlName="pincode" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].pincode" />
                 <label class="form__label">Pincode</label>
               </div>
             </div>
             <div class="col-md-6 mb-3">
-              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].city" />
+              <div  class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input formControlName="city" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].city" />
                 <label class="form__label">City</label>
               </div>
             </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].state" />
+                <input formControlName="state" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].state" />
                 <label class="form__label">State</label>
               </div>
             </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].country" />
+                <input formControlName="country" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].country" />
                 <label class="form__label">Country</label>
               </div>
             </div>
           </div>
 
-          <div class="row">
+          <div class="row" formGroupName="permanentAddress">
 
             <h6 class="mb-3">Permanent Address</h6>
 
             <div class="col-md-12 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].addressLine1" />
+                <input formControlName="addressLine1" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].addressLine1" />
                 <label class="form__label">Address</label>
               </div>
             </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].pincode" />
+                <input formControlName="pincode" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].pincode" />
                 <label class="form__label">Pincode</label>
               </div>
             </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].city" />
+                <input formControlName="city" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].city" />
                 <label class="form__label">City</label>
               </div>
             </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].state" />
+                <input formControlName="state" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].state" />
                 <label class="form__label">State</label>
               </div>
             </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].country" />
+                <input formControlName="country" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].country" />
                 <label class="form__label">Country</label>
               </div>
             </div>
@@ -571,7 +574,7 @@
         </div>
       </div>
 
-      <div *ngIf="routes.includes('/acadmic')" class="row border-top pt-4 pb-3">
+      <div *ngIf="routes.includes('/acadmic')" class="row border-top pt-4 pb-3" formGroupName="academicDetails">
         <div class="col-md-3">
           <div class="profile-imfo-hedding">
             <h5>Academic Details</h5>
@@ -581,36 +584,36 @@
           <div class="row">
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAcademics.highestEducationalLevel" />
+                <input formControlName="highestEducationalLevel" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAcademics.highestEducationalLevel" />
                 <label class="form__label">Qualification</label>
               </div>
             </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAcademics.degreeObtained" />
+                <input formControlName="degreeObtained" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAcademics.degreeObtained" />
                 <label class="form__label">Degree/Diploma</label>
               </div>
             </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAcademics.fieldOfStudy" />
+                <input formControlName="fieldOfStudy" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAcademics.fieldOfStudy" />
                 <label class="form__label">Field of Study</label>
               </div>
             </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAcademics.grade" />
+                <input formControlName="grade" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAcademics.grade" />
                 <label class="form__label">CGPA</label>
               </div>
             </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAcademics.institutionName" />
+                <input formControlName="institutionName" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAcademics.institutionName" />
                 <label class="form__label">College Name</label>
               </div>
             </div>
             <div class="col-md-6 mb-3">
-              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+              <div formControlName="graduationYear" class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAcademics.graduationYear" />
                 <label class="form__label">Graduating Year</label>
               </div>
@@ -701,10 +704,7 @@
         </div>
       </div>
 
-
-
-
-      <div *ngIf="routes.includes('/bank-details')" class="row border-top pt-4 pb-3">
+      <div *ngIf="routes.includes('/bank-details')" class="row border-top pt-4 pb-3" formGroupName="bankDetails">
         <div class="col-md-3">
           <div class="profile-imfo-hedding">
             <h5>Bank Details</h5>
@@ -770,7 +770,8 @@
         </div>
       </div>
 
-    </div>
+    </form>
+  </div>
 </div>
 
 
