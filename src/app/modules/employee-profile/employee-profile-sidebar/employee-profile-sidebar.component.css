@@ -673,12 +673,12 @@ span.lat {
 
 
   .log-out-btn-box {
-      position: absolute;
-      bottom: 0px;
-      width: 100%;
-      left: 0px;
-      right: 0px;
-      z-index: 999;
+    position: fixed;
+    bottom: 0px;
+    width: 21.7%;
+    left: 0px;
+    /* right: 0px; */
+    z-index: 999;
   }
   .login-user-detail {
       padding: 10px;

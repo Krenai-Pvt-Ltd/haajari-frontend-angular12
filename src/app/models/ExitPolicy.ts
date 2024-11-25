@@ -7,4 +7,8 @@ export class ExitPolicy{
     selectedUserIds: number[] =[]
     deSelectedUserIds: number[] =[]
     removeUserIds: number[] =[]
+
+    policyName: string ='';
+    noticePeriodDuration: number = 0;
+    userIds: number[] = []
 }
