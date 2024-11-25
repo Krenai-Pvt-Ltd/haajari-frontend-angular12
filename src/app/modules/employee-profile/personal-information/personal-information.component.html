@@ -545,32 +545,33 @@
           </div>
         </div>
         <div class="col-md-9">
-          <div class="row" *ngFor="let reference of this.onboardingPreviewDataCopy.userGuarantorInformation">
+          <div class="row" *ngFor="let reference of this.onboardingPreviewDataCopy.userGuarantorInformation; let i=index">
+            <div [formGroupName]="i">
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="reference.name" />
+                <input type="text" formControlName="name" class="form__field" [(ngModel)]="reference.name" />
                 <label class="form__label">Name</label>
               </div>
             </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="reference.relation" />
+                <input type="text" formControlName="relation" class="form__field" [(ngModel)]="reference.relation" />
                 <label class="form__label">Relation</label>
               </div>
             </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="reference.phoneNumber" />
+                <input type="text" formControlName="phone" class="form__field" [(ngModel)]="reference.phoneNumber" />
                 <label class="form__label">Phone Number</label>
               </div>
             </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="reference.emailId" />
+                <input type="text" formControlName="email" class="form__field" [(ngModel)]="reference.emailId" />
                 <label class="form__label">Email Address</label>
               </div>
             </div>
-          </div>
+          </div></div>
         </div>
       </div>
 
@@ -622,7 +623,7 @@
         </div>
       </div>
 
-      <div *ngIf="routes.includes('/employee-experience')" class="row border-top pt-4 pb-3">
+      <div *ngIf="routes.includes('/employee-experience')" class="row border-top pt-4 pb-3" >
         <div class="col-md-3">
           <div class="profile-imfo-hedding">
             <h5>Experience Details</h5>

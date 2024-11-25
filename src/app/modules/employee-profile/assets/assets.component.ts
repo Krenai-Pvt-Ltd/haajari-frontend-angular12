@@ -6,6 +6,8 @@ import { AssetRequestDTO } from 'src/app/models/AssetRequestDTO';
 import { UserDTO } from 'src/app/models/UserDTO';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 interface AssetCategory {
   value: string;
@@ -27,7 +29,8 @@ export class AssetsComponent implements OnInit {
   assetCategories: { value: number, label: string }[] = [];
   assetNames: AssetCategory[] = [];
   users: User[] = [];
-
+  private searchSubject: Subject<string> = new Subject<string>();
+  private assetSearchSubject: Subject<string> = new Subject<string>();
   userId : any;
   constructor(private activateRoute: ActivatedRoute, private dataService: DataService,
     private fb: FormBuilder,private modalService: NgbModal)
@@ -35,6 +38,20 @@ export class AssetsComponent implements OnInit {
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
     }
+    this.searchSubject.pipe(
+      debounceTime(1000)
+    ).subscribe((searchText) => {
+      this.assetRequestsSearch = searchText;
+      this.getAssetRequests();
+    });
+    this.assetSearchSubject.pipe(
+      debounceTime(1000)
+    ).subscribe((searchText) => {
+      this.search = searchText;
+      this.crossFlag = this.search.length > 0;
+      this.pageNumber = 1;
+      this.getAssetData();
+    });
   }
 
   ngOnInit(): void {
@@ -66,15 +83,29 @@ export class AssetsComponent implements OnInit {
     });
   }
 
+  isLoadingForm: boolean = false;
   @ViewChild('closeButton') closeButton: any;
   submitForm(modal: any): void {
+    if (this.isLoadingForm) {
+      return;
+    }
+    this.isLoadingForm = true;
+
     if (this.assetRequestForm.valid) {
       const formData = {...this.assetRequestForm.value,userId: this.userId};
-      this.closeButton.nativeElement.click();
+      // this.closeButton.nativeElement.click();
       this.dataService.createAssetRequest(formData).subscribe(
         response => {
-          this.assetRequestsPage=0;
+          this.assetRequestsPage=1;
           this.getAssetRequests();
+          this.assetRequestForm.reset({
+            requestType: 'Asset Replacement',
+            assetCategory: null,
+            assetName: null,
+            requestedUser: null,
+            note: ''
+          });
+          this.isLoadingForm = false;
           console.log('Asset request submitted successfully:', response);
         },
         error => {
@@ -128,10 +159,7 @@ export class AssetsComponent implements OnInit {
     return !this.assets || this.assets.length === 0;
   }
   searchAssets(event: Event): void {
-    this.search = (event.target as HTMLInputElement).value;  // Extract value from the input field
-    this.crossFlag = this.search.length > 0;
-    this.pageNumber = 1;
-    this.getAssetData();
+    this.assetSearchSubject.next((event.target as HTMLInputElement).value);
   }
   pageChanged(page: number): void {
     this.pageNumber = page;  // Update current page when changed
@@ -208,11 +236,12 @@ export class AssetsComponent implements OnInit {
       }
     );
   }
-  searchAssetsRequest(event: Event): void {
-    this.assetRequestsSearch = (event.target as HTMLInputElement).value;
-    this.getAssetRequests();
 
+  onSearchInput(event: Event): void {
+    const inputValue = (event.target as HTMLInputElement).value;
+    this.searchSubject.next(inputValue);
   }
+
 
 
 }

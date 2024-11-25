@@ -1,8 +1,6 @@
-import { Status } from './../../../models/status';
-import { saveAs } from 'file-saver';
+
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
 import { OnboardingFormPreviewResponse } from 'src/app/models/onboarding-form-preview-response';
 import { UserAcademicsDetailRequest } from 'src/app/models/user-academics-detail-request';
@@ -70,6 +68,14 @@ export class PersonalInformationComponent implements OnInit {
         country: ['', Validators.required],
         pincode: ['', [Validators.required, Validators.pattern('^[0-9]{6}$')]],
       }),
+      refrences: this.fb.array([
+        this.fb.group({
+          name: ['', Validators.required],
+          relation: ['', Validators.required],
+          phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+          emailId: ['', [Validators.required, Validators.email]],
+        })
+      ]),
 
       academicDetails: this.fb.group({
         highestEducationalLevel: ['', Validators.required],
