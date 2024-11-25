@@ -25,6 +25,10 @@
     /* 100.798% */
     letter-spacing: 0.357px;
     text-transform: capitalize;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 100px;
 }
 
 .employee-detail p {
@@ -939,7 +943,7 @@ span.lat {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background-color: white; /* Change to your preferred color */
+    background-color: white;
     margin: 0 4px;
     animation: dotOpacity 1.4s infinite ease-in-out both;
   }
@@ -978,7 +982,7 @@ span.lat {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background-color: #6666f3; /* Change to your preferred color */
+    background-color: #6666f3;
     margin: 0 4px;
     animation: dotOpacity 1.4s infinite ease-in-out both;
   }

@@ -793,7 +793,7 @@
       <div #inviteModal class="modal fade" id="add-employee" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalDefaultLabel" aria-hidden="true" data-bs-backdrop="static"
         data-bs-keyboard="false">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
               <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
@@ -802,7 +802,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <div class="row">
+              <div class="row register-form-box">
                 <div class="col-md-12">
                   <div class="mb-3">
                     <label for="name" class="pb-2">Name <span class="text-optional">*</span></label>
@@ -957,7 +957,7 @@
                     <label for="isProbation" class="pb-2">Probation Status <span class="text-optional">*</span></label>
                     <nz-select id="isProbation" name="isProbation"
                       [(ngModel)]="userPersonalInformationRequest.isProbation" required
-                      class="form-control whatapp-login-input" #isProbationField="ngModel">
+                      class="form-control whatapp-login-input" #isProbationField="ngModel" nzPlaceHolder="Probation Status">
                       <nz-option [nzValue]="true" [nzLabel]="'Under Probation'"></nz-option>
                       <nz-option [nzValue]="false" [nzLabel]="'Confirmed'"></nz-option>
                     </nz-select>
