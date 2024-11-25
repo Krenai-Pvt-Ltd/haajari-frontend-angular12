@@ -512,6 +512,16 @@ nz-select.request-dropdown .ant-select-selector {
     height: 55px;
 }
 
+.week-absent {
+    background-color: #eecdce;
+    height: 55px;
+}
+
+.week-leave {
+    background-color: #F0FFF0;
+    height: 55px;
+}
+
 .deshboard-date-filter{
     width: 150px !important;
 }

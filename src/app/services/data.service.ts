@@ -4401,6 +4401,19 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.post<any>(`${this.baseUrl}/user-resignation`, userResignationReq);
   }
 
+  getEmployeeProfileAttendanceDetails(userUuid : string, startDate: string, endDate : string) {
+
+    const params = new HttpParams()
+      .set('userUuid', userUuid)
+      .set('startDate', startDate.toString())
+      .set('endDate', endDate.toString());
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/employee-profile/attendance`,
+      { params }
+    );
+
+  }
+
 }
 
 
