@@ -1759,3 +1759,11 @@ i.bi.bi-plus {
 .no-spinner-specific[type="number"] {
     -moz-appearance: textfield;
 }
+
+
+.new-leave-tamplate-name{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 250px;
+}
