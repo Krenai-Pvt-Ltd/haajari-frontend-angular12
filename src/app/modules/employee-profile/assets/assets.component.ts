@@ -8,6 +8,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { Key } from 'src/app/constant/key';
+import { HelperService } from 'src/app/services/helper.service';
 
 interface AssetCategory {
   value: string;
@@ -33,7 +35,7 @@ export class AssetsComponent implements OnInit {
   private assetSearchSubject: Subject<string> = new Subject<string>();
   userId : any;
   constructor(private activateRoute: ActivatedRoute, private dataService: DataService,
-    private fb: FormBuilder,private modalService: NgbModal)
+    private fb: FormBuilder,private modalService: NgbModal, private helper: HelperService)
   {
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
@@ -64,7 +66,7 @@ export class AssetsComponent implements OnInit {
       assetCategory: [null, Validators.required],
       assetName: [null, Validators.required],
       requestedUser: [null, Validators.required],
-      note: ['']
+      note: ['', [Validators.maxLength(200)]]
     });
 
 
@@ -106,7 +108,11 @@ export class AssetsComponent implements OnInit {
             note: ''
           });
           this.isLoadingForm = false;
-          console.log('Asset request submitted successfully:', response);
+          this.closeButton.nativeElement.click();
+          this.helper.showToast(
+            "Asset request submitted successfully",
+            Key.TOAST_STATUS_SUCCESS
+          );
         },
         error => {
           console.error('Error submitting asset request:', error);
@@ -140,15 +146,19 @@ export class AssetsComponent implements OnInit {
   assetData: OrganizationAssetResponse[] = [];
   totalCount: number = 0;
   crossFlag: boolean = false;
+  isLoadingAsset: boolean = false;
   getAssetData(): void {
+    this.isLoadingAsset=true;
     this.dataService.getAssetForUser(this.userId, this.search, this.pageNumber, this.itemPerPage)
       .subscribe(
         (response) => {
           this.assets = response.object;
           this.totalCount = response.totalItems;
+          this.isLoadingAsset=false;
         },
         (error) => {
           console.error('Error fetching asset data:', error);
+          this.isLoadingAsset=false;
         }
       );
   }
