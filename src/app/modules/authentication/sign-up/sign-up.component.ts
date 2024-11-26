@@ -592,5 +592,43 @@ export class SignUpComponent implements OnInit {
     }
     document.cookie = name + "=" + (value || "") + expires + "; path=/";
   }
+
   
+@ViewChild('close_button') close_button!: ElementRef;
+  @ViewChild('videoIframe', { static: false }) youtubeIframe:
+    | ElementRef<HTMLIFrameElement>
+    | undefined;
+
+  // Stops or pauses the video when modal closes
+  stopVideo(): void {
+    this.close_button.nativeElement.click();
+
+    if (this.youtubeIframe) {
+      // Ensure that contentWindow is correctly typed
+      const iframeWindow = (
+        this.youtubeIframe.nativeElement as HTMLIFrameElement
+      ).contentWindow;
+
+      const iframeElement = this.youtubeIframe.nativeElement as HTMLIFrameElement;
+      iframeElement.src = '';
+    }
+    
+  }
+
+
+
+  setSrc(){
+    if (this.youtubeIframe) {
+    const iframeElement = this.youtubeIframe.nativeElement as HTMLIFrameElement;
+      iframeElement.src = 'https://www.youtube.com/embed/jh7-qF48ANk?si=WJvojNbQucaWaknY';
+    }
+  }
+
+  // Call this method when modal closes to stop the video
+  onModalClose(): void {
+    this.stopVideo();
+    // this.pauseYouTubeVideo();
+  }
 }
+
+
