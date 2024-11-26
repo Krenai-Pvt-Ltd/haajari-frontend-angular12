@@ -18,16 +18,10 @@
             <!-- <button class="btn add-leave-btn mt-4 mb-2">Add New Members</button> -->
 
             <div class="d-flex align-items-center gap-3">
-              <button
-                class="btn add-leave-btn mt-4 mb-2"
-                type="button"
-                (click)="validateDuesInvoice('add')">
+              <button class="btn add-leave-btn mt-4 mb-2" type="button" (click)="validateDuesInvoice('add')">
                 <i class="bi bi-plus-lg"></i> Add New Members
               </button>
-              <button
-                class="btn excel-upload-members mt-4 mb-2"
-                type="button"
-                (click)="validateDuesInvoice('sample')">
+              <button class="btn excel-upload-members mt-4 mb-2" type="button" (click)="validateDuesInvoice('sample')">
                 <i class="bi bi-upload"></i> Upload Members
               </button>
             </div>
@@ -36,29 +30,15 @@
               By signing, you are creating
               <a href="#!">
                 Learn more about it
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="21"
-                  viewBox="0 0 20 21"
-                  fill="none"
-                >
-                  <mask
-                    id="mask0_4244_1588"
-                    style="mask-type: alpha"
-                    maskUnits="userSpaceOnUse"
-                    x="0"
-                    y="0"
-                    width="20"
-                    height="21"
-                  >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                  <mask id="mask0_4244_1588" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20"
+                    height="21">
                     <rect y="0.546875" width="20" height="20" fill="#6666F2" />
                   </mask>
                   <g mask="url(#mask0_4244_1588)">
                     <path
                       d="M4.50016 17.2148L3.3335 16.0482L13.0002 6.38151H7.50016V4.71484H15.8335V13.0482H14.1668V7.54818L4.50016 17.2148Z"
-                      fill="#6666F2"
-                    />
+                      fill="#6666F2" />
                   </g>
                 </svg>
               </a>
@@ -74,15 +54,9 @@
 
       <div class="row mt-4" *ngIf="!isMainPlaceholder">
         <div class="col-md-3">
-          <div
-            class="employe-onbording"
-            [ngClass]="{ empSelected: selectedStatus == 'APPROVED' }"
-          >
-            <div
-              class="orderpcardinfo d-flex justify-content-between"
-              style="cursor: pointer"
-              (click)="selectStatus('APPROVED')"
-            >
+          <div class="employe-onbording" [ngClass]="{ empSelected: selectedStatus == 'APPROVED' }">
+            <div class="orderpcardinfo d-flex justify-content-between" style="cursor: pointer"
+              (click)="selectStatus('APPROVED')">
               <div class="orderpcardleft">
                 <h6>Verified</h6>
                 <h5>{{ verificationCount.approvedEmployees || 0 }}</h5>
@@ -96,15 +70,9 @@
           </div>
         </div>
         <div class="col-md-3">
-          <div
-            class="employe-onbording"
-            [ngClass]="{ empSelected: selectedStatus == 'PENDING' }"
-          >
-            <div
-              class="orderpcardinfo d-flex justify-content-between"
-              style="cursor: pointer"
-              (click)="selectStatus('PENDING')"
-            >
+          <div class="employe-onbording" [ngClass]="{ empSelected: selectedStatus == 'PENDING' }">
+            <div class="orderpcardinfo d-flex justify-content-between" style="cursor: pointer"
+              (click)="selectStatus('PENDING')">
               <div class="orderpcardleft">
                 <h6>Pending Verification</h6>
                 <h5>{{ verificationCount.pendingEmployees || 0 }}</h5>
@@ -119,15 +87,9 @@
         </div>
 
         <div class="col-md-3">
-          <div
-            class="employe-onbording"
-            [ngClass]="{ empSelected: selectedStatus == 'REJECTED' }"
-          >
-            <div
-              class="orderpcardinfo d-flex justify-content-between"
-              style="cursor: pointer"
-              (click)="selectStatus('REJECTED')"
-            >
+          <div class="employe-onbording" [ngClass]="{ empSelected: selectedStatus == 'REJECTED' }">
+            <div class="orderpcardinfo d-flex justify-content-between" style="cursor: pointer"
+              (click)="selectStatus('REJECTED')">
               <div class="orderpcardleft">
                 <h6>Rejected</h6>
                 <h5>{{ verificationCount.rejectedEmployees || 0 }}</h5>
@@ -141,15 +103,9 @@
           </div>
         </div>
         <div class="col-md-3">
-          <div
-            class="employe-onbording"
-            [ngClass]="{ empSelected: selectedStatus == 'REQUESTED' }"
-          >
-            <div
-              class="orderpcardinfo d-flex justify-content-between"
-              style="cursor: pointer"
-              (click)="selectStatus('REQUESTED')"
-            >
+          <div class="employe-onbording" [ngClass]="{ empSelected: selectedStatus == 'REQUESTED' }">
+            <div class="orderpcardinfo d-flex justify-content-between" style="cursor: pointer"
+              (click)="selectStatus('REQUESTED')">
               <div class="orderpcardleft">
                 <h6>Requested</h6>
                 <h5>{{ verificationCount.requestedCount || 0 }}</h5>
@@ -167,104 +123,63 @@
         <div class="col-md-7">
           <div class="on-leave-section">
             <h5>Latest Joining - Pending Verification</h5>
-            <ng-container
-              *ngIf="
+            <ng-container *ngIf="
                 isPendingShimmer &&
                   !networkConnectionErrorPlaceHolder &&
                   !dataNotFoundPlaceHolderForLast3PendingUsers;
                 else last3PendingUserData
-              "
-            >
+              ">
               <div class="row mt-4">
                 <div class="col-md-4">
                   <div class="row">
                     <div class="col-md-4">
-                      <ngx-shimmer-loading
-                        [width]="'100%'"
-                        [height]="'40px'"
-                      ></ngx-shimmer-loading>
+                      <ngx-shimmer-loading [width]="'100%'" [height]="'40px'"></ngx-shimmer-loading>
                     </div>
                     <div class="col-md-6">
-                      <ngx-shimmer-loading
-                        [width]="'80%'"
-                        [height]="'15px'"
-                      ></ngx-shimmer-loading>
-                      <ngx-shimmer-loading
-                        [width]="'100%'"
-                        [height]="'10px'"
-                      ></ngx-shimmer-loading>
+                      <ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading>
+                      <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="row">
                     <div class="col-md-4">
-                      <ngx-shimmer-loading
-                        [width]="'100%'"
-                        [height]="'40px'"
-                      ></ngx-shimmer-loading>
+                      <ngx-shimmer-loading [width]="'100%'" [height]="'40px'"></ngx-shimmer-loading>
                     </div>
                     <div class="col-md-6">
-                      <ngx-shimmer-loading
-                        [width]="'80%'"
-                        [height]="'15px'"
-                      ></ngx-shimmer-loading>
-                      <ngx-shimmer-loading
-                        [width]="'100%'"
-                        [height]="'10px'"
-                      ></ngx-shimmer-loading>
+                      <ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading>
+                      <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="row">
                     <div class="col-md-4">
-                      <ngx-shimmer-loading
-                        [width]="'100%'"
-                        [height]="'40px'"
-                      ></ngx-shimmer-loading>
+                      <ngx-shimmer-loading [width]="'100%'" [height]="'40px'"></ngx-shimmer-loading>
                     </div>
                     <div class="col-md-6">
-                      <ngx-shimmer-loading
-                        [width]="'80%'"
-                        [height]="'15px'"
-                      ></ngx-shimmer-loading>
-                      <ngx-shimmer-loading
-                        [width]="'100%'"
-                        [height]="'10px'"
-                      ></ngx-shimmer-loading>
+                      <ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading>
+                      <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
                     </div>
                   </div>
                 </div>
               </div>
             </ng-container>
             <ng-template #last3PendingUserData>
-              <ng-container
-                *ngIf="
+              <ng-container *ngIf="
                   employeeStatus!.last3PendingUsers !== null &&
                     !networkConnectionErrorPlaceHolder &&
                     !dataNotFoundPlaceHolderForLast3PendingUsers;
                   else errorInFetchinglast3PendingUserData
-                "
-              >
+                ">
                 <div class="d-flex align-items-center mt-4" style="gap: 10px">
-                  <div
-                    class="on-leave"
-                    *ngFor="let statusUsers of employeeStatus.last3PendingUsers"
-                  >
+                  <div class="on-leave" *ngFor="let statusUsers of employeeStatus.last3PendingUsers">
                     <div class="d-flex align-items-center" style="gap: 10px">
                       <div class="">
                         <span *ngIf="statusUsers?.image !== null">
-                          <img
-                            src="{{ statusUsers?.image }}"
-                            class="rounded-circle thumb-xl"
-                          />
+                          <img src="{{ statusUsers?.image }}" class="rounded-circle thumb-xl" />
                         </span>
-                        <span
-                          class="members-name"
-                          *ngIf="statusUsers?.image == null"
-                          >{{ statusUsers?.name[0] }}</span
-                        >
+                        <span class="members-name" *ngIf="statusUsers?.image == null">{{ statusUsers?.name[0] }}</span>
                         <!-- <img src="assets/images/users/user-8.jpg" class="rounded-circle thumb-xl"> -->
                       </div>
                       <div class="">
@@ -279,15 +194,9 @@
               </ng-container>
             </ng-template>
             <ng-template #errorInFetchinglast3PendingUserData>
-              <div
-                class="errorboxmaintop"
-                style="box-shadow: none; padding: 5px; padding-left: 0px"
-                *ngIf="networkConnectionErrorPlaceHolder"
-              >
-                <div
-                  class="errorboxinner"
-                  style="display: flex; align-items: center; gap: 10px"
-                >
+              <div class="errorboxmaintop" style="box-shadow: none; padding: 5px; padding-left: 0px"
+                *ngIf="networkConnectionErrorPlaceHolder">
+                <div class="errorboxinner" style="display: flex; align-items: center; gap: 10px">
                   <div class="errorboxplaceholder mb-2">
                     <img src="assets/images/signal.svg" style="width: 50px" />
                   </div>
@@ -299,20 +208,11 @@
                   </div>
                 </div>
               </div>
-              <div
-                class="errorboxmaintop"
-                style="box-shadow: none; padding: 5px; padding-left: 0px"
-                *ngIf="dataNotFoundPlaceHolderForLast3PendingUsers"
-              >
-                <div
-                  class="errorboxinner"
-                  style="display: flex; align-items: center; gap: 10px"
-                >
+              <div class="errorboxmaintop" style="box-shadow: none; padding: 5px; padding-left: 0px"
+                *ngIf="dataNotFoundPlaceHolderForLast3PendingUsers">
+                <div class="errorboxinner" style="display: flex; align-items: center; gap: 10px">
                   <div class="errorboxplaceholder">
-                    <img
-                      src="assets/images/empty-box.svg"
-                      style="width: 50px"
-                    />
+                    <img src="assets/images/empty-box.svg" style="width: 50px" />
                   </div>
                   <div class="">
                     <h6 style="font-size: 13px; margin-bottom: 0px">
@@ -330,70 +230,46 @@
             <div class="d-flex align-items-center justify-content-between">
               <div class="last-client">
                 <h5>Last Approved</h5>
-                <ng-container
-                  *ngIf="
+                <ng-container *ngIf="
                     isPendingShimmer &&
                       !networkConnectionErrorPlaceHolder &&
                       !dataNotFoundPlaceHolderForLastApproved;
                     else lastApprovedUserData
-                  "
-                >
+                  ">
                   <div class="row mt-4">
                     <div class="col-md-12">
                       <div class="row">
                         <div class="col-md-4">
-                          <ngx-shimmer-loading
-                            [width]="'100%'"
-                            [height]="'40px'"
-                          ></ngx-shimmer-loading>
+                          <ngx-shimmer-loading [width]="'100%'" [height]="'40px'"></ngx-shimmer-loading>
                         </div>
                         <div class="col-md-6">
-                          <ngx-shimmer-loading
-                            [width]="'80%'"
-                            [height]="'15px'"
-                          ></ngx-shimmer-loading>
-                          <ngx-shimmer-loading
-                            [width]="'100%'"
-                            [height]="'10px'"
-                          ></ngx-shimmer-loading>
+                          <ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading>
+                          <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
                         </div>
                       </div>
                     </div>
                   </div>
                 </ng-container>
                 <ng-template #lastApprovedUserData>
-                  <ng-container
-                    *ngIf="
+                  <ng-container *ngIf="
                       employeeStatus!.lastApprovedUser !== null &&
                         !networkConnectionErrorPlaceHolder &&
                         !dataNotFoundPlaceHolderForLastApproved;
                       else errorInFetchingLastApprovedUserData
-                    "
-                  >
+                    ">
                     <div class="on-leaves mt-4">
-                      <div
-                        class="d-flex align-items-center j"
-                        style="gap: 10px"
-                      >
+                      <div class="d-flex align-items-center j" style="gap: 10px">
                         <div class="">
-                          <span
-                            *ngIf="
+                          <span *ngIf="
                               employeeStatus!.lastApprovedUser?.image !== null
-                            "
-                          >
-                            <img
-                              src="{{
+                            ">
+                            <img src="{{
                                 employeeStatus!.lastApprovedUser?.image
-                              }}"
-                              class="rounded-circle thumb-xl"
-                            />
+                              }}" class="rounded-circle thumb-xl" />
                           </span>
-                          <span
-                            class="members-name"
-                            *ngIf="
+                          <span class="members-name" *ngIf="
                               employeeStatus!.lastApprovedUser?.image == null
-                            "
-                          >
+                            ">
                             {{ employeeStatus!.lastApprovedUser?.name[0] }}
                           </span>
                         </div>
@@ -410,20 +286,11 @@
                   </ng-container>
                 </ng-template>
                 <ng-template #errorInFetchingLastApprovedUserData>
-                  <div
-                    class="errorboxmaintop"
-                    style="box-shadow: none; padding: 5px; padding-left: 0px"
-                    *ngIf="networkConnectionErrorPlaceHolder"
-                  >
-                    <div
-                      class="errorboxinner"
-                      style="display: flex; align-items: center; gap: 10px"
-                    >
+                  <div class="errorboxmaintop" style="box-shadow: none; padding: 5px; padding-left: 0px"
+                    *ngIf="networkConnectionErrorPlaceHolder">
+                    <div class="errorboxinner" style="display: flex; align-items: center; gap: 10px">
                       <div class="errorboxplaceholder mb-2">
-                        <img
-                          src="assets/images/signal.svg"
-                          style="width: 50px"
-                        />
+                        <img src="assets/images/signal.svg" style="width: 50px" />
                       </div>
                       <div class="">
                         <h6 style="font-size: 13px; margin-bottom: 0px">
@@ -433,20 +300,11 @@
                       </div>
                     </div>
                   </div>
-                  <div
-                    class="errorboxmaintop"
-                    style="box-shadow: none; padding: 5px; padding-left: 0px"
-                    *ngIf="dataNotFoundPlaceHolderForLastApproved"
-                  >
-                    <div
-                      class="errorboxinner"
-                      style="display: flex; align-items: center; gap: 10px"
-                    >
+                  <div class="errorboxmaintop" style="box-shadow: none; padding: 5px; padding-left: 0px"
+                    *ngIf="dataNotFoundPlaceHolderForLastApproved">
+                    <div class="errorboxinner" style="display: flex; align-items: center; gap: 10px">
                       <div class="errorboxplaceholder">
-                        <img
-                          src="assets/images/empty-box.svg"
-                          style="width: 50px"
-                        />
+                        <img src="assets/images/empty-box.svg" style="width: 50px" />
                       </div>
                       <div class="">
                         <h6 style="font-size: 13px; margin-bottom: 0px">
@@ -460,67 +318,46 @@
               </div>
               <div class="">
                 <h5>Last Rejected</h5>
-                <ng-container
-                  *ngIf="
+                <ng-container *ngIf="
                     isPendingShimmer &&
                       !networkConnectionErrorPlaceHolder &&
                       !dataNotFoundPlaceHolderForLastRejected;
                     else lastRejectedUserData
-                  "
-                >
+                  ">
                   <div class="row mt-4">
                     <div class="col-md-12">
                       <div class="row">
                         <div class="col-md-4">
-                          <ngx-shimmer-loading
-                            [width]="'100%'"
-                            [height]="'40px'"
-                          ></ngx-shimmer-loading>
+                          <ngx-shimmer-loading [width]="'100%'" [height]="'40px'"></ngx-shimmer-loading>
                         </div>
                         <div class="col-md-6">
-                          <ngx-shimmer-loading
-                            [width]="'80%'"
-                            [height]="'15px'"
-                          ></ngx-shimmer-loading>
-                          <ngx-shimmer-loading
-                            [width]="'100%'"
-                            [height]="'10px'"
-                          ></ngx-shimmer-loading>
+                          <ngx-shimmer-loading [width]="'80%'" [height]="'15px'"></ngx-shimmer-loading>
+                          <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
                         </div>
                       </div>
                     </div>
                   </div>
                 </ng-container>
                 <ng-template #lastRejectedUserData>
-                  <ng-container
-                    *ngIf="
+                  <ng-container *ngIf="
                       employeeStatus!.lastRejectedUser !== null &&
                         !networkConnectionErrorPlaceHolder &&
                         !dataNotFoundPlaceHolderForLastRejected;
                       else errorInFetchingLastRejectedUserData
-                    "
-                  >
+                    ">
                     <div class="on-leaves mt-4">
                       <div class="d-flex align-items-center" style="gap: 10px">
                         <div class="">
-                          <span
-                            *ngIf="
+                          <span *ngIf="
                               employeeStatus!.lastRejectedUser?.image !== null
-                            "
-                          >
-                            <img
-                              src="{{
+                            ">
+                            <img src="{{
                                 employeeStatus!.lastRejectedUser?.image
-                              }}"
-                              class="rounded-circle thumb-xl"
-                            />
+                              }}" class="rounded-circle thumb-xl" />
                           </span>
-                          <span
-                            class="members-name"
-                            *ngIf="
+                          <span class="members-name" *ngIf="
                               employeeStatus!.lastRejectedUser?.image == null
-                            "
-                          >
+                            ">
                             {{ employeeStatus!.lastRejectedUser?.name[0] }}
                           </span>
                         </div>
@@ -537,20 +374,11 @@
                   </ng-container>
                 </ng-template>
                 <ng-template #errorInFetchingLastRejectedUserData>
-                  <div
-                    class="errorboxmaintop"
-                    style="box-shadow: none; padding: 5px; padding-left: 0px"
-                    *ngIf="networkConnectionErrorPlaceHolder"
-                  >
-                    <div
-                      class="errorboxinner"
-                      style="display: flex; align-items: center; gap: 10px"
-                    >
+                  <div class="errorboxmaintop" style="box-shadow: none; padding: 5px; padding-left: 0px"
+                    *ngIf="networkConnectionErrorPlaceHolder">
+                    <div class="errorboxinner" style="display: flex; align-items: center; gap: 10px">
                       <div class="errorboxplaceholder mb-2">
-                        <img
-                          src="assets/images/signal.svg"
-                          style="width: 50px"
-                        />
+                        <img src="assets/images/signal.svg" style="width: 50px" />
                       </div>
                       <div class="">
                         <h6 style="font-size: 13px; margin-bottom: 0px">
@@ -560,20 +388,11 @@
                       </div>
                     </div>
                   </div>
-                  <div
-                    class="errorboxmaintop"
-                    style="box-shadow: none; padding: 5px; padding-left: 0px"
-                    *ngIf="dataNotFoundPlaceHolderForLastRejected"
-                  >
-                    <div
-                      class="errorboxinner"
-                      style="display: flex; align-items: center; gap: 10px"
-                    >
+                  <div class="errorboxmaintop" style="box-shadow: none; padding: 5px; padding-left: 0px"
+                    *ngIf="dataNotFoundPlaceHolderForLastRejected">
+                    <div class="errorboxinner" style="display: flex; align-items: center; gap: 10px">
                       <div class="errorboxplaceholder">
-                        <img
-                          src="assets/images/empty-box.svg"
-                          style="width: 50px"
-                        />
+                        <img src="assets/images/empty-box.svg" style="width: 50px" />
                       </div>
                       <div class="">
                         <h6 style="font-size: 13px; margin-bottom: 0px">
@@ -597,34 +416,18 @@
               <!-- <div *ngIf="users.length!=0"> -->
               <!-- || (searchUserPlaceholderFlag) -->
               <div class="col-md-12" *ngIf="!errorToggleTop">
-                <div
-                  class="row justify-content-between align-items-center mx-0"
-                >
+                <div class="row justify-content-between align-items-center mx-0">
                   <div class="col-lg-6 col-md-6 col-sm-12 ps-0">
-                    <div
-                      class="d-flex justify-content-start align-items-center"
-                    >
+                    <div class="d-flex justify-content-start align-items-center">
                       <div class="dropdown empFilerDropfilter">
-                        <button
-                          type="button"
-                          id="dropdownMenuButton1"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                          class="btn btn-secondary dropdown-toggle new-deopdown"
-                        >
+                        <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
+                          class="btn btn-secondary dropdown-toggle new-deopdown">
                           {{ selectedStatus || "All" }}
                           <i class="bi bi-chevron-down"></i>
                         </button>
-                        <ul
-                          aria-labelledby="dropdownMenuButton1"
-                          class="dropdown-menu"
-                        >
+                        <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu">
                           <li>
-                            <a
-                              class="dropdown-item"
-                              (click)="selectStatus('ALL')"
-                              >All</a
-                            >
+                            <a class="dropdown-item" (click)="selectStatus('ALL')">All</a>
                           </li>
 
                           <li class="dropdown-header" aria-disabled="true">
@@ -632,74 +435,34 @@
                           </li>
 
                           <li>
-                            <a
-                              class="dropdown-item"
-                              (click)="selectStatus('APPROVED')"
-                              >Approved</a
-                            >
+                            <a class="dropdown-item" (click)="selectStatus('APPROVED')">Approved</a>
                           </li>
                           <li>
-                            <a
-                              class="dropdown-item"
-                              (click)="selectStatus('PENDING')"
-                              >Pending</a
-                            >
+                            <a class="dropdown-item" (click)="selectStatus('PENDING')">Pending</a>
                           </li>
                           <li>
-                            <a
-                              class="dropdown-item"
-                              (click)="selectStatus('REQUESTED')"
-                              >Requested</a
-                            >
+                            <a class="dropdown-item" (click)="selectStatus('REQUESTED')">Requested</a>
                           </li>
                           <li>
-                            <a
-                              class="dropdown-item"
-                              (click)="selectStatus('REJECTED')"
-                              >Rejected</a
-                            >
+                            <a class="dropdown-item" (click)="selectStatus('REJECTED')">Rejected</a>
                           </li>
                           <li class="dropdown-header" aria-disabled="true">
                             Accessibility Wise
                           </li>
                           <li>
-                            <a
-                              class="dropdown-item"
-                              (click)="selectStatus('ACTIVE')"
-                              >Active</a
-                            >
+                            <a class="dropdown-item" (click)="selectStatus('ACTIVE')">Active</a>
                           </li>
                           <li>
-                            <a
-                              class="dropdown-item"
-                              (click)="selectStatus('INACTIVE')"
-                              >Inactive</a
-                            >
+                            <a class="dropdown-item" (click)="selectStatus('INACTIVE')">Inactive</a>
                           </li>
                         </ul>
                       </div>
-                      <div
-                        class="onboarding-date d-flex align-items-center position-relative"
-                      >
-                        <form
-                          role="search"
-                          class="searching"
-                          style="width: 100%"
-                        >
-                          <div
-                            class="form-group"
-                            style="width: 100%; position: relative"
-                          >
-                            <input
-                              type="text"
-                              id="searchText"
-                              placeholder="Search by name, email and phone number ..."
-                              class="form-control me-2"
-                              (keyup)="searchUsers('any')"
-                              [(ngModel)]="search"
-                              [ngModelOptions]="{ standalone: true }"
-                              style="padding: 10px 40px"
-                            />
+                      <div class="onboarding-date d-flex align-items-center position-relative">
+                        <form role="search" class="searching" style="width: 100%">
+                          <div class="form-group" style="width: 100%; position: relative">
+                            <input type="text" id="searchText" placeholder="Search by name, email and phone number ..."
+                              class="form-control me-2" (keyup)="searchUsers('any')" [(ngModel)]="search"
+                              [ngModelOptions]="{ standalone: true }" style="padding: 10px 40px" />
                             <!-- <button
                               type="button"
                               class="btn close-btn"
@@ -708,17 +471,10 @@
                             >
                               <i class="bi bi-x mt-auto mb-auto pl-3"></i>
                             </button> -->
-                            <i
-                              class="bi bi-search search-icon"
-                              style="margin: auto; margin-left: 15px"
-                              *ngIf="search==''"
-                            ></i>
-                            <i
-                              class="bi bi-x search-icon"
-                              style="margin: auto; margin-left: 15px"
-                              *ngIf="search!=''"
-                              (click)="reloadPage()"
-                            ></i>
+                            <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px"
+                              *ngIf="search==''"></i>
+                            <i class="bi bi-x search-icon" style="margin: auto; margin-left: 15px" *ngIf="search!=''"
+                              (click)="reloadPage()"></i>
                           </div>
                         </form>
                       </div>
@@ -726,35 +482,23 @@
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 pe-0">
                     <div *ngIf="!errorToggleTop">
-                      <div
-                        class="add-filtter d-flex justify-content-end align-items-center gap-1"
-                      >
-                      <button
-                      class="btn primaryBtnLink"
-                      data-bs-toggle="modal"
-                      (click)="downloadUserDataInExcelFormatMethodCall()"
-                      type="button"
-                    >
-                      <i class="bi bi-download"></i>
-                      <span *ngIf="!downloadingFlag">Download</span>
-                      <div class="dot-opacity-loader" *ngIf="downloadingFlag">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                      </div>
-                    </button>
-                    <span class="btnSeprator"></span>
-                        <button
-                          class="btn primaryBtnLink"
-                          type="button"
-                          (click)="validateDuesInvoice('add')">
+                      <div class="add-filtter d-flex justify-content-end align-items-center gap-1">
+                        <button class="btn primaryBtnLink" data-bs-toggle="modal"
+                          (click)="downloadUserDataInExcelFormatMethodCall()" type="button">
+                          <i class="bi bi-download"></i>
+                          <span *ngIf="!downloadingFlag">Download</span>
+                          <div class="dot-opacity-loader" *ngIf="downloadingFlag">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                          </div>
+                        </button>
+                        <span class="btnSeprator"></span>
+                        <button class="btn primaryBtnLink" type="button" (click)="validateDuesInvoice('add')">
                           <i class="bi bi-plus-lg"></i> Add New Members
                         </button>
                         <span class="btnSeprator"></span>
-                        <button
-                          class="btn primaryBtnLink"
-                          type="button"
-                          (click)="validateDuesInvoice('sample')">
+                        <button class="btn primaryBtnLink" type="button" (click)="validateDuesInvoice('sample')">
                           <i class="bi bi-upload"></i> Upload Members
                         </button>
                       </div>
@@ -773,7 +517,7 @@
                     <tr>
                       <!-- <th style="width: 10%;">Date</th> -->
                       <!-- class="stickyColTh" -->
-                      <th style="width: 15%" >
+                      <th style="width: 15%">
                         Employee Name
                       </th>
                       <!-- <th style="width: 5%">Employee ID</th> -->
@@ -792,49 +536,30 @@
                   <tbody *ngIf="isUserShimer">
                     <tr *ngFor="let item of [].constructor(6)">
                       <td>
-                        <ngx-shimmer-loading
-                          [width]="'70%'"
-                          [height]="'10px'"
-                        ></ngx-shimmer-loading>
+                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
                       </td>
                       <td>
-                        <ngx-shimmer-loading
-                          [width]="'70%'"
-                          [height]="'10px'"
-                        ></ngx-shimmer-loading>
+                        <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
                       </td>
                       <td>
-                        <ngx-shimmer-loading
-                          [width]="'100%'"
-                          [height]="'10px'"
-                        ></ngx-shimmer-loading>
+                        <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
                       </td>
                       <td>
-                        <ngx-shimmer-loading
-                          [width]="'70%'"
-                          [height]="'30px'"
-                        ></ngx-shimmer-loading>
+                        <ngx-shimmer-loading [width]="'70%'" [height]="'30px'"></ngx-shimmer-loading>
                       </td>
                       <td>
-                        <ngx-shimmer-loading
-                          [width]="'70%'"
-                          [height]="'30px'"
-                        ></ngx-shimmer-loading>
+                        <ngx-shimmer-loading [width]="'70%'" [height]="'30px'"></ngx-shimmer-loading>
                       </td>
                       <!-- <td><ngx-shimmer-loading [width]="'30%'" [height]="'10px'"></ngx-shimmer-loading></td> -->
                       <td>
-                        <ngx-shimmer-loading
-                          [width]="'50%'"
-                          [height]="'10px'"
-                        ></ngx-shimmer-loading>
+                        <ngx-shimmer-loading [width]="'50%'" [height]="'10px'"></ngx-shimmer-loading>
                       </td>
                     </tr>
                   </tbody>
                   <!--
                                       <tbody class="table-design"><tr><td colspan="8"><div class="mt-3 dashnodata" ><div class="errorboxmain"><div class="errorboxinner text-center"><div class="errorboxplaceholder mb-2"><img src="assets/images/addnewproduct.svg" style="width:80px;" /></div><h4>No Data Found</h4><p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p></div></div></div></td></tr></tbody> -->
                   <tbody *ngIf="users.length > 0 && !isUserShimer">
-                    <tr
-                      *ngFor="
+                    <tr *ngFor="
                         let i = index;
                         let user;
                         of: users
@@ -844,27 +569,15 @@
                                 currentPage: pageNumber,
                                 totalItems: total
                               }
-                      "
-                    >
-                    <!-- class="stickyColTd" -->
+                      ">
+                      <!-- class="stickyColTd" -->
                       <td>
-                        <a
-
-                          (click)="routeToUserDetails(user.uuid)"
-                          class="mb-0 weekly-pro-name"
-                          >{{ user.name }}</a
-                        >
-                        <button
-                          class="text-danger"
-                          nz-button
-                          nzType="text"
-                          nz-popover
-                          [nzPopoverContent]="contentTemplate"
-                          *ngIf="
+                        <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-name">{{ user.name }}</a>
+                        <button class="text-danger" nz-button nzType="text" nz-popover
+                          [nzPopoverContent]="contentTemplate" *ngIf="
                             onboardingVia === 'SLACK' &&
                             user.slackUserId === null
-                          "
-                        >
+                          ">
                           <i class="bi bi-exclamation-triangle"></i>
                         </button>
 
@@ -875,16 +588,10 @@
                             Hajiri.
                           </p>
                           <div class="d-flex justify-content-end">
-                            <button
-                              type="button"
-                              class="btn btn-primary"
-                              (click)="saveSlackUserIdViaEmailData(user.email)"
-                            >
+                            <button type="button" class="btn btn-primary"
+                              (click)="saveSlackUserIdViaEmailData(user.email)">
                               <span *ngIf="!isSlackUserFlag">Sync</span>
-                              <div
-                                class="dot-opacity-loader"
-                                *ngIf="isSlackUserFlag"
-                              >
+                              <div class="dot-opacity-loader" *ngIf="isSlackUserFlag">
                                 <span></span>
                                 <span></span>
                                 <span></span>
@@ -899,28 +606,13 @@
                         </p>
                       </td> -->
                       <td>
-                        <span
-                          class="mb-0 weekly-pro-email"
-                          *ngIf="user.teamNames.length == 0"
-                        >
-                          {{ "N/A" }}</span
-                        >
-                        <span
-                          class="teme-maneger mb-0"
-                          *ngIf="user.teamNames.length > 2"
-                        >
-                          {{ user.teamNames[0] }}...<a
-                            class="user-avatar"
-                            ngbTooltip="{{ user.teamNames }}"
-                            placement="top"
-                            ><i class="bi bi-plus"></i
-                            >{{ user.teamNames.length - 1 }}</a
-                          >
+                        <span class="mb-0 weekly-pro-email" *ngIf="user.teamNames.length == 0">
+                          {{ "N/A" }}</span>
+                        <span class="teme-maneger mb-0" *ngIf="user.teamNames.length > 2">
+                          {{ user.teamNames[0] }}...<a class="user-avatar" ngbTooltip="{{ user.teamNames }}"
+                            placement="top"><i class="bi bi-plus"></i>{{ user.teamNames.length - 1 }}</a>
                         </span>
-                        <span
-                          class="teme-maneger mb-0"
-                          *ngIf="user.teamNames.length < 3"
-                        >
+                        <span class="teme-maneger mb-0" *ngIf="user.teamNames.length < 3">
                           {{ user.teamNames }}
                         </span>
                         <!-- <span class="mb-0 weekly-pro-team">{{ user.teamNames.join(", ") || "N/A" }}</span> -->
@@ -928,76 +620,50 @@
                       </td>
                       <!-- <td>Meeting</td> -->
                       <td>
-                        <a
-
-                          (click)="routeToUserDetails(user.uuid)"
-                          class="mb-0 weekly-pro-email"
-                        >
+                        <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email">
                           {{ user.email ? user.email : "N/A" }}
                         </a>
                       </td>
                       <td class="text-center">
-                        <a
-
-                          (click)="routeToUserDetails(user.uuid)"
-                          class="mb-0 weekly-pro-email"
-                        >
+                        <a (click)="routeToUserDetails(user.uuid)" class="mb-0 weekly-pro-email">
                           {{ user.phoneNumber ? user.phoneNumber : "N/A" }}
                         </a>
                       </td>
                       <td class="text-center">
                         <div class="material-switch">
-                          <input
-                            type="checkbox"
-                            id="switch{{ user.uuid }}"
-                            [(ngModel)]="user.presenceStatus"
-                            (change)="
+                          <input type="checkbox" id="switch{{ user.uuid }}" [(ngModel)]="user.presenceStatus" (change)="
                               changeStatus(user.presenceStatus, user.uuid)
-                            "
-                          />
-                          <label
-                            for="switch{{ user.uuid }}"
-                            class="label-success"
-                          ></label>
+                            " />
+                          <label for="switch{{ user.uuid }}" class="label-success"></label>
                         </div>
                       </td>
                       <!-- <td class="text-center">13</td>  -->
-                      <td
-                        class="text-center"
-                        *ngIf="user.onboardingStatus == pendingResponse"
-                      >
+                      <td class="text-center" *ngIf="user.onboardingStatus == pendingResponse">
                         <div class="badge rounded-pill badge-soft-warning">
                           <span class="">{{ user.onboardingStatus }}</span>
                         </div>
                       </td>
-                      <td
-                        class="text-center"
-                        *ngIf="user.onboardingStatus == approvedResponse"
-                      >
+                      <td class="text-center" *ngIf="user.onboardingStatus == approvedResponse">
                         <div class="badge rounded-pill badge-soft-success">
                           <span class="">{{ user.onboardingStatus }}</span>
                         </div>
                       </td>
-                      <td
-                        class="text-center"
-                        *ngIf="user.onboardingStatus == rejectedResponse"
-                      >
+                      <td class="text-center" *ngIf="user.onboardingStatus == rejectedResponse">
                         <div class="badge rounded-pill badge-soft-danger">
                           <span class="">{{ user.onboardingStatus }}</span>
                         </div>
                       </td>
-                      <td
-                        class="text-center"
-                        *ngIf="user.onboardingStatus == requestedResponse"
-                      >
+                      <td class="text-center" *ngIf="user.onboardingStatus == requestedResponse">
                         <div class="badge rounded-pill badge-soft-secondary">
                           <span class="">{{ user.onboardingStatus }}</span>
                         </div>
                       </td>
-                      <td
-                        class="text-center"
-                        *ngIf="user.onboardingStatus == newUserResponse"
-                      >
+                      <td class="text-center" *ngIf="user.onboardingStatus == 'NOTICE PERIOD'">
+                        <div class="badge rounded-pill badge-soft-blue">
+                          <span class="">{{ user.onboardingStatus }}</span>
+                        </div>
+                      </td>
+                      <td class="text-center" *ngIf="user.onboardingStatus == newUserResponse">
                         <div class="badge rounded-pill badge-soft-info">
                           <span class="">NEW!</span>
                         </div>
@@ -1005,60 +671,39 @@
                       <td class="stickyColTdend text-end">
 
                         <div class="dropdown">
-                          <button
-                            class="btn btnAction dropdown-toggle"
-                            type="button"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                          >
+                          <button class="btn btnAction dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
                             <i class="bi bi-three-dots-vertical"></i>
                           </button>
                           <div class="dropdown-menu actionMenuList">
                             <li>
-                              <a
-                                class="dropdown-item"
-
-                                (click)="routeToUserDetails(user.uuid)"
-                                ><i class="bi bi-eye"></i> View Profile</a
-                              >
+                              <a class="dropdown-item" (click)="routeToUserDetails(user.uuid)"><i class="bi bi-eye"></i>
+                                View Profile</a>
                             </li>
                             <li>
-                              <a
-                                class="dropdown-item"
-                                (click)="sendMailToEmployees(user)"
-                                *ngIf="
+                              <a class="dropdown-item" (click)="sendMailToEmployees(user)" *ngIf="
                                   !sendingMailLoaderForUser(user) &&
                                   user.onboardingStatus != approvedResponse &&
                                   user.onboardingStatus != pendingResponse
-                                "
-                                ><i class="bi bi-file-earmark-text"></i> Request
-                                Again</a
-                              >
+                                "><i class="bi bi-file-earmark-text"></i> Request
+                                Again</a>
                             </li>
                             <li>
-                              <a
-                                class="dropdown-item"
-                                data-bs-toggle="modal"
-                                data-bs-target="#deleteConfirmationModal"
-                                (click)="openDeleteConfirmationModal(user.id)"
-                                ><i class="bi bi-trash3"></i> Delete Account</a
-                              >
+                              <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"
+                                (click)="openDeleteConfirmationModal(user.id)"><i class="bi bi-trash3"></i> Delete
+                                Account</a>
                             </li>
 
                             <li>
-                              <a
-                                class="dropdown-item initiate-btn"
-                                data-bs-toggle="modal"
-                                data-bs-target="#initiateExit"
-                                (click)="getUserUuid(user.uuid)"
-                                > 
-                                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
+                              <a class="dropdown-item initiate-btn" data-bs-toggle="modal"
+                                data-bs-target="#initiateExit" (click)="getUserUuid(user.uuid);">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16"
+                                  fill="none">
                                   <path
                                     d="M8.99998 13.5C9.63748 13.5 10.25 13.4031 10.8375 13.2094C11.425 13.0156 11.975 12.7375 12.4875 12.375C11.975 12.0125 11.425 11.7344 10.8375 11.5406C10.25 11.3469 9.63748 11.25 8.99998 11.25C8.36248 11.25 7.74998 11.3469 7.16248 11.5406C6.57498 11.7344 6.02498 12.0125 5.51248 12.375C6.02498 12.7375 6.57498 13.0156 7.16248 13.2094C7.74998 13.4031 8.36248 13.5 8.99998 13.5ZM10.9875 7.35L9.91873 6.28125C9.98123 6.18125 10.0312 6.075 10.0687 5.9625C10.1062 5.85 10.125 5.7375 10.125 5.625C10.125 5.3125 10.0156 5.04688 9.79685 4.82813C9.5781 4.60938 9.31248 4.5 8.99998 4.5C8.88748 4.5 8.77498 4.51875 8.66248 4.55625C8.54998 4.59375 8.44373 4.64375 8.34373 4.70625L7.27498 3.6375C7.51248 3.425 7.7781 3.26563 8.07185 3.15938C8.3656 3.05313 8.67498 3 8.99998 3C9.72498 3 10.3437 3.25625 10.8562 3.76875C11.3687 4.28125 11.625 4.9 11.625 5.625C11.625 5.95 11.5719 6.25938 11.4656 6.55313C11.3594 6.84688 11.2 7.1125 10.9875 7.35ZM15.2625 11.625L14.175 10.5375C14.45 10.075 14.6562 9.5875 14.7937 9.075C14.9312 8.5625 15 8.0375 15 7.5C15 5.825 14.4187 4.40625 13.2562 3.24375C12.0937 2.08125 10.675 1.5 8.99998 1.5C8.46248 1.5 7.93748 1.56875 7.42498 1.70625C6.91248 1.84375 6.42498 2.05 5.96248 2.325L4.87498 1.2375C5.48748 0.8375 6.14373 0.53125 6.84373 0.31875C7.54373 0.10625 8.26248 0 8.99998 0C10.0375 0 11.0125 0.196875 11.925 0.590625C12.8375 0.984375 13.6312 1.51875 14.3062 2.19375C14.9812 2.86875 15.5156 3.6625 15.9094 4.575C16.3031 5.4875 16.5 6.4625 16.5 7.5C16.5 8.2375 16.3937 8.95625 16.1812 9.65625C15.9687 10.3563 15.6625 11.0125 15.2625 11.625ZM8.99998 15C7.96248 15 6.98748 14.8031 6.07498 14.4094C5.16248 14.0156 4.36873 13.4813 3.69373 12.8063C3.01873 12.1313 2.48435 11.3375 2.0906 10.425C1.69685 9.5125 1.49998 8.5375 1.49998 7.5C1.49998 6.7625 1.6031 6.04375 1.80935 5.34375C2.0156 4.64375 2.31873 3.98125 2.71873 3.35625L0.506226 1.125L1.57498 0.05625L16.425 14.9063L15.3562 15.975L3.82498 4.4625C3.54998 4.925 3.34373 5.4125 3.20623 5.925C3.06873 6.4375 2.99998 6.9625 2.99998 7.5C2.99998 8.2125 3.11873 8.89375 3.35623 9.54375C3.59373 10.1938 3.93748 10.7875 4.38748 11.325C5.06248 10.8125 5.7906 10.4219 6.57185 10.1531C7.3531 9.88438 8.16248 9.75 8.99998 9.75C9.47498 9.75 9.94998 9.8 10.425 9.9C10.9 10 11.3625 10.1375 11.8125 10.3125L14.3062 12.8063C13.5937 13.5188 12.7812 14.0625 11.8687 14.4375C10.9562 14.8125 9.99998 15 8.99998 15Z"
                                     fill="#575757" />
                                 </svg>
-                                Initiate Exit</a
-                              >
+                                Initiate Exit</a>
                             </li>
 
                             <!-- <li><a class="dropdown-item" *ngIf="onboardingVia === 'SLACK' && user.slackUserId === null " (click)="saveSlackUserIdViaEmailData(user.email)"><i class="bi bi-arrow-repeat"></i> Fetch Slack UserId</a></li> -->
@@ -1072,14 +717,9 @@
                     <tr>
                       <td colspan="8">
                         <div class="mt-3 dashnodata">
-                          <div
-                            class="empty-file"
-                            style="margin-top: 5%; margin-bottom: 5%"
-                          >
-                            <nz-empty
-                              nzNotFoundImage="assets/images/no-data-found-img-2.svg"
-                              [nzNotFoundContent]="contentTpl"
-                            >
+                          <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%">
+                            <nz-empty nzNotFoundImage="assets/images/no-data-found-img-2.svg"
+                              [nzNotFoundContent]="contentTpl">
                               <ng-template #contentTpl>
                                 <p class="mb-1 empty-detail font-16">
                                   Something went wrong
@@ -1088,15 +728,10 @@
                             </nz-empty>
                           </div>
 
-                          <div
-                            class="empty-file"
-                            style="margin-top: 5%; margin-bottom: 5%"
-                            *ngIf="placeholder && total == 0 && !isUserShimer"
-                          >
-                            <nz-empty
-                              nzNotFoundImage="assets/images/nodate-found-3.svg"
-                              [nzNotFoundContent]="contentTpl"
-                            >
+                          <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%"
+                            *ngIf="placeholder && total == 0 && !isUserShimer">
+                            <nz-empty nzNotFoundImage="assets/images/nodate-found-3.svg"
+                              [nzNotFoundContent]="contentTpl">
                               <ng-template #contentTpl>
                                 <p class="mb-1 empty-detail font-16">
                                   No data for now
@@ -1110,10 +745,7 @@
                   </tbody>
                 </table>
               </div>
-              <div
-                class="pagination pl-3"
-                *ngIf="!isUserShimer && users.length > 0 && total > 12"
-              >
+              <div class="pagination pl-3" *ngIf="!isUserShimer && users.length > 0 && total > 12">
                 <p class="mb-0" style="padding-left: 15px">
                   Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
                   {{ total }} users
@@ -1122,41 +754,18 @@
                   <div class="col-md-12">
                     <nav aria-label="Page navigation example">
                       <ul class="pagination justify-content-end">
-                        <li
-                          class="page-item"
-                          [class.disabled]="pageNumber == 1"
-                        >
-                          <a
-                            class="page-link"
-                            href="javascript:void(0);"
-                            aria-label="Previous"
-                            (click)="changePage('prev')"
-                          >
+                        <li class="page-item" [class.disabled]="pageNumber == 1">
+                          <a class="page-link" href="javascript:void(0);" aria-label="Previous"
+                            (click)="changePage('prev')">
                             <span aria-hidden="true">&laquo;</span>
                           </a>
                         </li>
-                        <li
-                          class="page-item"
-                          *ngFor="let page of getPages()"
-                          [class.active]="pageNumber == page"
-                        >
-                          <a
-                            class="page-link"
-                            href="javascript:void(0);"
-                            (click)="changePage(page)"
-                            >{{ page }}</a
-                          >
+                        <li class="page-item" *ngFor="let page of getPages()" [class.active]="pageNumber == page">
+                          <a class="page-link" href="javascript:void(0);" (click)="changePage(page)">{{ page }}</a>
                         </li>
-                        <li
-                          class="page-item"
-                          [class.disabled]="pageNumber == totalPages"
-                        >
-                          <a
-                            class="page-link"
-                            href="javascript:void(0);"
-                            aria-label="Next"
-                            (click)="changePage('next')"
-                          >
+                        <li class="page-item" [class.disabled]="pageNumber == totalPages">
+                          <a class="page-link" href="javascript:void(0);" aria-label="Next"
+                            (click)="changePage('next')">
                             <span aria-hidden="true">&raquo;</span>
                           </a>
                         </li>
@@ -1174,56 +783,31 @@
   </div>
 
 
-  <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#add-employee" #addEmployeeModalButton>
-   Add Employee
+  <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#add-employee"
+    #addEmployeeModalButton>
+    Add Employee
   </button>
-  <form
-    #personalInformationForm="ngForm"
-    (ngSubmit)="setEmployeePersonalDetailsMethodCall()"
-    (shown.bs.modal)="resetForm()"
-  >
+  <form #personalInformationForm="ngForm" (ngSubmit)="setEmployeePersonalDetailsMethodCall()"
+    (shown.bs.modal)="resetForm()">
     <div class="form-group">
-      <div
-        #inviteModal
-        class="modal fade"
-        id="add-employee"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="exampleModalDefaultLabel"
-        aria-hidden="true"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-      >
-        <div class="modal-dialog" role="document">
+      <div #inviteModal class="modal fade" id="add-employee" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalDefaultLabel" aria-hidden="true" data-bs-backdrop="static"
+        data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
               <h6 class="modal-title m-0" id="exampleModalDefaultLabel">
                 Add Employee
               </h6>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <div class="row">
+              <div class="row register-form-box">
                 <div class="col-md-12">
                   <div class="mb-3">
-                    <label for="name" class="pb-2"
-                      >Name <span class="text-optional">*</span></label
-                    >
-                    <input
-                      type="text"
-                      class="form-control whatapp-login-input"
-                      id="name"
-                      name="name"
-                      placeholder="Name"
-                      [(ngModel)]="userPersonalInformationRequest.name"
-                      required
-                      #nameField="ngModel"
-                    />
+                    <label for="name" class="pb-2">Name <span class="text-optional">*</span></label>
+                    <input type="text" class="form-control whatapp-login-input" id="name" name="name" placeholder="Name"
+                      [(ngModel)]="userPersonalInformationRequest.name" required #nameField="ngModel" />
                     <!-- Error Message for Name -->
                     <div *ngIf="nameField.invalid && nameField.touched">
                       <p class="errortxt mt-2 mb-0" style="color: red">
@@ -1237,54 +821,29 @@
                   <div class="mb-3">
                     <label for="phoneNumber" class="pb-2">
                       Phone Number <span class="text-optional">*</span>
-                      <i
-                        class="bi bi-exclamation-circle tolltip-icon"
-                        ngbTooltip="Please provide your personal phone number!"
-                        placement="top"
-                      ></i>
+                      <i class="bi bi-exclamation-circle tolltip-icon"
+                        ngbTooltip="Please provide your personal phone number!" placement="top"></i>
                     </label>
-                    <input
-                      type="text"
-                      mask="0000000000"
-                      class="form-control whatapp-login-input"
-                      id="phoneNumber"
-                      name="phoneNumber"
-                      placeholder="Phone number"
-                      [(ngModel)]="userPersonalInformationRequest.phoneNumber"
-                      minlength="10"
-                      maxlength="10"
-                      pattern="[0-9]*"
-                      (input)="restrictToDigits($event)"
-                      (keyup)="
+                    <input type="text" mask="0000000000" class="form-control whatapp-login-input" id="phoneNumber"
+                      name="phoneNumber" placeholder="Phone number"
+                      [(ngModel)]="userPersonalInformationRequest.phoneNumber" minlength="10" maxlength="10"
+                      pattern="[0-9]*" (input)="restrictToDigits($event)" (keyup)="
                         checkPhoneExistance(
                           userPersonalInformationRequest.phoneNumber
                         )
-                      "
-                      #phoneNumberField="ngModel"
-                      required
-                    />
+                      " #phoneNumberField="ngModel" required />
                     <!-- Error Message for Phone Number -->
-                    <div
-                      *ngIf="
+                    <div *ngIf="
                         phoneNumberField.invalid && phoneNumberField.touched
-                      "
-                    >
-                      <p
-                        class="errortxt mt-2 mb-0"
-                        class="errortxt mt-2 mb-0"
-                        style="color: red"
-                      >
+                      ">
+                      <p class="errortxt mt-2 mb-0" class="errortxt mt-2 mb-0" style="color: red">
                         <i class="bi bi-exclamation-circle"></i> Enter a valid
                         10-digit phone number.
                       </p>
                     </div>
 
                     <!-- Error message for phone number existence -->
-                    <div
-                      *ngIf="isNumberExist"
-                      class="errortxt mt-2 mb-0"
-                      style="color: red"
-                    >
+                    <div *ngIf="isNumberExist" class="errortxt mt-2 mb-0" style="color: red">
                       <i class="bi bi-exclamation-circle"></i> Phone number
                       already registered with us.
                     </div>
@@ -1293,41 +852,22 @@
 
                 <div class="col-md-12">
                   <div class="mb-3">
-                    <label for="email" class="pb-2"
-                      >Email Id <span class="text-optional">*</span></label
-                    >
-                    <input
-                      type="email"
-                      class="form-control whatapp-login-input"
-                      id="email"
-                      name="email"
-                      placeholder="Email id"
-                      [(ngModel)]="userPersonalInformationRequest.email"
-                      (keyup)="
+                    <label for="email" class="pb-2">Email Id <span class="text-optional">*</span></label>
+                    <input type="email" class="form-control whatapp-login-input" id="email" name="email"
+                      placeholder="Email id" [(ngModel)]="userPersonalInformationRequest.email" (keyup)="
                         checkEmailExistanceBefore(
                           userPersonalInformationRequest.email
                         )
-                      "
-                      required
-                      #emailField="ngModel"
-                    />
+                      " required #emailField="ngModel" />
                     <!-- Error Message for Email Already Exists -->
-                    <div
-                      *ngIf="isEmailExist"
-                      class="errortxt mt-2 mb-0"
-                      style="color: red"
-                    >
+                    <div *ngIf="isEmailExist" class="errortxt mt-2 mb-0" style="color: red">
                       <i class="bi bi-exclamation-circle"></i> Employee with
                       this email already registered
                     </div>
 
                     <!-- Error Message for Invalid Email -->
                     <div *ngIf="emailField.invalid && emailField.touched">
-                      <p
-                        class="errortxt mt-2 mb-0"
-                        class="errortxt mt-2 mb-0"
-                        style="color: red"
-                      >
+                      <p class="errortxt mt-2 mb-0" class="errortxt mt-2 mb-0" style="color: red">
                         <i class="bi bi-exclamation-circle"></i> Please enter a
                         valid email address.
                       </p>
@@ -1337,59 +877,28 @@
 
                 <div class="col-md-12">
                   <div class="mb-3">
-                    <label for="shiftNames" class="pb-2"
-                      >Select Shift <span class="text-optional">* </span></label
-                    >
-                    <nz-select
-                    id="shift"
-                    name="shift"
-                      class="whatapp-login-input"
-                      nzPlaceHolder="Select a shift"
-                      nzAllowClear
-                      nzShowSearch
-                      nzServerSearch
-                      [(ngModel)]="selectedShift"
-                      [ngModelOptions]="{ standalone: true }"
-                      required
-                      #shiftField="ngModel"
-                    >
+                    <label for="shiftNames" class="pb-2">Select Shift <span class="text-optional">* </span></label>
+                    <nz-select id="shift" name="shift" class="whatapp-login-input" nzPlaceHolder="Select a shift"
+                      nzAllowClear nzShowSearch nzServerSearch [(ngModel)]="selectedShift"
+                      [ngModelOptions]="{ standalone: true }" required #shiftField="ngModel">
                       <ng-container *ngFor="let shift of shiftList">
-                        <nz-option
-                          *ngIf="!isLoadingShifts"
-                          [nzValue]="shift.value"
-                          [nzLabel]="shift.label"
-                        ></nz-option>
+                        <nz-option *ngIf="!isLoadingShifts" [nzValue]="shift.value" [nzLabel]="shift.label"></nz-option>
                       </ng-container>
-                      <nz-option
-                        *ngIf="isLoadingShifts"
-                        nzDisabled
-                        nzCustomContent
-                      >
-                        <span
-                          nz-icon
-                          nzType="loading"
-                          class="loading-icon"
-                        ></span>
+                      <nz-option *ngIf="isLoadingShifts" nzDisabled nzCustomContent>
+                        <span nz-icon nzType="loading" class="loading-icon"></span>
                         Loading Shifts...
                       </nz-option>
                     </nz-select>
 
                     <!-- Error if no shift selected -->
-                    <div
-                      *ngIf="shiftField.invalid && shiftField.touched"
-                      class="errortxt mt-2 mb-0"
-                      style="color: red"
-                    >
+                    <div *ngIf="shiftField.invalid && shiftField.touched" class="errortxt mt-2 mb-0" style="color: red">
                       <i class="bi bi-exclamation-circle"></i> Please select a
                       shift.
                     </div>
 
                     <!-- Custom message if no shifts are available -->
-                    <div
-                      *ngIf="shiftList.length === 0 && !isLoadingShifts"
-                      class="errortxt mt-2 mb-0"
-                      style="color: red"
-                    >
+                    <div *ngIf="shiftList.length === 0 && !isLoadingShifts" class="errortxt mt-2 mb-0"
+                      style="color: red">
                       <i class="bi bi-exclamation-circle"></i> No shifts
                       available. Please add shifts from the Attendance Setting
                       section.
@@ -1400,22 +909,16 @@
                 <div class="col-md-12">
                   <div class="mb-3">
                     <label for="gender" class="pb-2">Select Gender <span class="text-optional">*</span></label>
-                    <nz-select
-                      id="gender"
-                      name="gender"
-                      [(ngModel)]="userPersonalInformationRequest.gender"
-                      required
-                      class="form-control whatapp-login-input"
-                      #genderField="ngModel"
-                      nzPlaceHolder="Select Gender"
-                    >
+                    <nz-select id="gender" name="gender" [(ngModel)]="userPersonalInformationRequest.gender" required
+                      class="form-control whatapp-login-input" #genderField="ngModel" nzPlaceHolder="Select Gender">
                       <nz-option *ngFor="let gender of genders" [nzValue]="gender" [nzLabel]="gender"></nz-option>
                     </nz-select>
 
 
 
                     <!-- Error if no gender selected -->
-                    <div *ngIf="genderField.invalid && genderField.touched" class="errortxt mt-2 mb-0" style="color: red">
+                    <div *ngIf="genderField.invalid && genderField.touched" class="errortxt mt-2 mb-0"
+                      style="color: red">
                       <i class="bi bi-exclamation-circle"></i> Please select a gender.
                     </div>
                   </div>
@@ -1424,12 +927,8 @@
                 <div class="col-md-12">
                   <div class="mb-3">
                     <label for="joiningDate" class="pb-2">Joining Date <span class="text-optional">*</span></label>
-                    <nz-date-picker
-                      id="joiningDate"
-                      name="joiningDate"
-                      #joiningDateField="ngModel"
-                      [(ngModel)]="userPersonalInformationRequest.joiningDate"
-                      required
+                    <nz-date-picker id="joiningDate" name="joiningDate" #joiningDateField="ngModel"
+                      [(ngModel)]="userPersonalInformationRequest.joiningDate" required
                       nzPlaceHolder="Select Joining Date">
                     </nz-date-picker>
 
@@ -1442,90 +941,52 @@
 
                 <div class="col-md-12">
                   <div class="mb-3">
-                      <label for="positionDropdown" class="pb-2">Position <span class="text-optional">(Optional)</span></label>
-                      <input
-                      maxlength="50"
-                      class="seach-dropdown"
-                      id="positionDropdown"
-                      name="positionDropdown"
-                      placeholder='Select Position'
-                      nz-input
-                      [(ngModel)]="this.userPersonalInformationRequest.position"
-                      (ngModelChange)="onChange($event)"
-                      [nzAutocomplete]="positionAuto"
-                      #position="ngModel"
-                      (keydown)="preventLeadingWhitespace($event)"
-
-                  />
-                  <nz-autocomplete [nzDataSource]="positionFilteredOptions" #positionAuto></nz-autocomplete>
-                  </div>
-              </div>
-
-
-              <div class="col-md-12">
-                <div class="mb-3">
-                  <label for="isProbation" class="pb-2">Probation Status <span class="text-optional">*</span></label>
-                  <nz-select
-                    id="isProbation"
-                    name="isProbation"
-                    [(ngModel)]="userPersonalInformationRequest.isProbation"
-                    required
-                    class="form-control whatapp-login-input"
-                    #isProbationField="ngModel"
-
-                  >
-                  <nz-option [nzValue]="true" [nzLabel]="'Under Probation'"></nz-option>
-                  <nz-option [nzValue]="false" [nzLabel]="'Confirmed'"></nz-option>
-                  </nz-select>
-
-
-
-                  <!-- Error if no gender selected -->
-                  <div *ngIf="genderField.invalid && genderField.touched" class="errortxt mt-2 mb-0" style="color: red">
-                    <i class="bi bi-exclamation-circle"></i> Please select a gender.
+                    <label for="positionDropdown" class="pb-2">Position <span
+                        class="text-optional">(Optional)</span></label>
+                    <input maxlength="50" class="seach-dropdown" id="positionDropdown" name="positionDropdown"
+                      placeholder='Select Position' nz-input [(ngModel)]="this.userPersonalInformationRequest.position"
+                      (ngModelChange)="onChange($event)" [nzAutocomplete]="positionAuto" #position="ngModel"
+                      (keydown)="preventLeadingWhitespace($event)" />
+                    <nz-autocomplete [nzDataSource]="positionFilteredOptions" #positionAuto></nz-autocomplete>
                   </div>
                 </div>
-              </div>
+
+
+                <div class="col-md-12">
+                  <div class="mb-3">
+                    <label for="isProbation" class="pb-2">Probation Status <span class="text-optional">*</span></label>
+                    <nz-select id="isProbation" name="isProbation"
+                      [(ngModel)]="userPersonalInformationRequest.isProbation" required
+                      class="form-control whatapp-login-input" #isProbationField="ngModel" nzPlaceHolder="Probation Status">
+                      <nz-option [nzValue]="true" [nzLabel]="'Under Probation'"></nz-option>
+                      <nz-option [nzValue]="false" [nzLabel]="'Confirmed'"></nz-option>
+                    </nz-select>
+
+
+
+                    <!-- Error if no gender selected -->
+                    <div *ngIf="genderField.invalid && genderField.touched" class="errortxt mt-2 mb-0"
+                      style="color: red">
+                      <i class="bi bi-exclamation-circle"></i> Please select a gender.
+                    </div>
+                  </div>
+                </div>
 
 
 
 
                 <div class="col-md-12">
                   <div class="mb-3">
-                    <label for="teamNames" class="pb-2"
-                      >Select Team<span class="text-optional">
-                        (Optional)</span
-                      ></label
-                    >
-                    <nz-select
-                      class="whatapp-login-input"
-                      nzMode="multiple"
-                      nzPlaceHolder="Select teams"
-                      nzAllowClear
-                      nzShowSearch
-                      nzServerSearch
-                      [(ngModel)]="selectedTeams"
-                      [ngModelOptions]="{ standalone: true }"
-                      (ngModelChange)="onTeamSelectionChange($event)"
-                      (nzOnSearch)="onSearch($event)"
-                    >
+                    <label for="teamNames" class="pb-2">Select Team<span class="text-optional">
+                        (Optional)</span></label>
+                    <nz-select class="whatapp-login-input" nzMode="multiple" nzPlaceHolder="Select teams" nzAllowClear
+                      nzShowSearch nzServerSearch [(ngModel)]="selectedTeams" [ngModelOptions]="{ standalone: true }"
+                      (ngModelChange)="onTeamSelectionChange($event)" (nzOnSearch)="onSearch($event)">
                       <ng-container *ngFor="let o of teamNameList">
-                        <nz-option
-                          *ngIf="!isLoadingTeams"
-                          [nzValue]="o.value"
-                          [nzLabel]="o.label"
-                        ></nz-option>
+                        <nz-option *ngIf="!isLoadingTeams" [nzValue]="o.value" [nzLabel]="o.label"></nz-option>
                       </ng-container>
-                      <nz-option
-                        *ngIf="isLoadingTeams"
-                        nzDisabled
-                        nzCustomContent
-                      >
-                        <span
-                          nz-icon
-                          nzType="loading"
-                          class="loading-icon"
-                        ></span>
+                      <nz-option *ngIf="isLoadingTeams" nzDisabled nzCustomContent>
+                        <span nz-icon nzType="loading" class="loading-icon"></span>
                         Loading Data...
                       </nz-option>
                     </nz-select>
@@ -1533,40 +994,16 @@
                 </div>
                 <div class="col-md-12">
                   <div class="mb-3">
-                    <label for="teamNames" class="pb-2"
-                      >Select Leave <span class="text-optional">
-                        (Optional)</span
-                      ></label
-                    >
-                    <nz-select
-                      class="whatapp-login-input"
-                      nzMode="multiple"
-                      nzPlaceHolder="Select leave"
-                      nzAllowClear
-                      nzShowSearch
-                      nzServerSearch
-                      [(ngModel)]="selectedLeaves"
-                      [ngModelOptions]="{ standalone: true }"
-                      (ngModelChange)="onLeaveSelectionChange($event)"
-                      (nzOnSearch)="onSearchLeave($event)"
-                    >
+                    <label for="teamNames" class="pb-2">Select Leave <span class="text-optional">
+                        (Optional)</span></label>
+                    <nz-select class="whatapp-login-input" nzMode="multiple" nzPlaceHolder="Select leave" nzAllowClear
+                      nzShowSearch nzServerSearch [(ngModel)]="selectedLeaves" [ngModelOptions]="{ standalone: true }"
+                      (ngModelChange)="onLeaveSelectionChange($event)" (nzOnSearch)="onSearchLeave($event)">
                       <ng-container *ngFor="let o of leaveNameList">
-                        <nz-option
-                          *ngIf="!isLoadingLeave"
-                          [nzValue]="o.value"
-                          [nzLabel]="o.label"
-                        ></nz-option>
+                        <nz-option *ngIf="!isLoadingLeave" [nzValue]="o.value" [nzLabel]="o.label"></nz-option>
                       </ng-container>
-                      <nz-option
-                        *ngIf="isLoadingLeave"
-                        nzDisabled
-                        nzCustomContent
-                      >
-                        <span
-                          nz-icon
-                          nzType="loading"
-                          class="loading-icon"
-                        ></span>
+                      <nz-option *ngIf="isLoadingLeave" nzDisabled nzCustomContent>
+                        <span nz-icon nzType="loading" class="loading-icon"></span>
                         Loading Data...
                       </nz-option>
                     </nz-select>
@@ -1574,37 +1011,23 @@
                 </div>
               </div>
             </div>
-            <div
-              class="modal-footer d-flex align-items-center justify-content-end"
-            >
-              <button
-                type="button"
-                class="btn btn-de-secondary"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-                #closeInviteModal
-              >
+            <div class="modal-footer d-flex align-items-center justify-content-end">
+              <button type="button" class="btn btn-de-secondary" data-bs-dismiss="modal" aria-label="Close"
+                #closeInviteModal>
                 Cancel
               </button>
-              <button
-                class="btn btn-primary"
-                type="submit"
-                [disabled]="
+              <button class="btn btn-primary" type="submit" [disabled]="
                   personalInformationForm.invalid ||
                   isNumberExist ||
                   isEmailExist
-                "
-                aria-label="Next Step"
-              >
+                " aria-label="Next Step">
                 <div *ngIf="toggle" class="dot-opacity-loader1">
                   <span></span>
                   <span></span>
                   <span></span>
                 </div>
-                <span *ngIf="!toggle"
-                  >Invite
-                  <i class="bi bi-arrow-right" style="padding-left: 8px"></i
-                ></span>
+                <span *ngIf="!toggle">Invite
+                  <i class="bi bi-arrow-right" style="padding-left: 8px"></i></span>
               </button>
             </div>
           </div>
@@ -1614,37 +1037,21 @@
   </form>
 
   <!-- <button type="button" class="d-none" data-bs-toggle="modal" data-bs-target="#confirmationModal" #confirmationModalButton id="confirmationModalButton"></button> -->
-  <div
-    class="modal fade"
-    id="deleteConfirmationModal"
-    #deleteConfirmationModal
-    tabindex="-1"
-    aria-labelledby="confirmationModalLabel"
-    aria-hidden="true"
-    data-bs-backdrop="false"
-  >
-    <div
-      class="modal-dialog modal-dialog-centered mx-auto mx-auto"
-      style="max-width: 600px !important"
-    >
+  <div class="modal fade" id="deleteConfirmationModal" #deleteConfirmationModal tabindex="-1"
+    aria-labelledby="confirmationModalLabel" aria-hidden="true" data-bs-backdrop="false">
+    <div class="modal-dialog modal-dialog-centered mx-auto mx-auto" style="max-width: 600px !important">
       <div class="modal-content">
         <!--end modal-header-->
         <div class="modal-body">
           <form #confirmationForm="ngForm">
             <div class="row">
               <div class="col-lg-3 text-center align-self-center">
-                <img
-                  src="assets/images/recycle-bin.svg"
-                  alt=""
-                  class="img-fluid"
-                />
+                <img src="assets/images/recycle-bin.svg" alt="" class="img-fluid" />
               </div>
               <!--end col-->
               <div class="col-lg-9">
                 <h5>Delete Account</h5>
-                <span class="badge bg-warning font-14"
-                  >Are you sure want to delete this account?</span
-                >
+                <span class="badge bg-warning font-14">Are you sure want to delete this account?</span>
                 <ul class="mt-3 mb-0">
                   <li>
                     This action will permanently remove your attendance logs,
@@ -1659,23 +1066,11 @@
           </form>
         </div>
         <!--end modal-body-->
-        <div
-          class="modal-footer d-flex align-items-center justify-content-between"
-        >
-          <button
-            type="button"
-            class="btn btn-de-secondary btn-sm"
-            data-bs-dismiss="modal"
-            #closeUserDeleteModal
-          >
+        <div class="modal-footer d-flex align-items-center justify-content-between">
+          <button type="button" class="btn btn-de-secondary btn-sm" data-bs-dismiss="modal" #closeUserDeleteModal>
             Close
           </button>
-          <button
-            type="button"
-            class="btn btn-danger btn-sm"
-            (click)="deleteUser()"
-            *ngIf="!disableUserLoader"
-          >
+          <button type="button" class="btn btn-danger btn-sm" (click)="deleteUser()" *ngIf="!disableUserLoader">
             Delete Account
           </button>
           <div class="dot-opacity-loader" *ngIf="disableUserLoader">
@@ -1691,45 +1086,26 @@
 </div>
 
 <!-- Trigger Button for Modal -->
-<button
-  type="button"
-  class="btn btn-primary"
-  data-bs-toggle="modal"
-  data-bs-target="#sampleFileModal"
-  id="uploadMembersModal"
-  #sampleFileModalButton
->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sampleFileModal"
+  id="uploadMembersModal" #sampleFileModalButton>
   Open Sample File Modal
 </button>
 <!-- Modal -->
-<div
-  class="modal fade"
-  id="sampleFileModal"
-  tabindex="-1"
-  aria-labelledby="sampleFileModalLabel"
-  aria-hidden="true"
-  #sampleFileModal
->
-  <div class="modal-dialog modal-xl" style="max-width: 1400px !important;">
+<div class="modal fade" id="sampleFileModal" tabindex="-1" aria-labelledby="sampleFileModalLabel" aria-hidden="true"
+  #sampleFileModal>
+  <div class="modal-dialog modal-xl modal-dialog-centered" style="max-width: 1400px !important;">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="sampleFileModalLabel">Sample Excel File</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-          #closeButtonExcelModal
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          #closeButtonExcelModal></button>
       </div>
       <div class="modal-body">
-        <ng-container
-          *ngIf="
+        <ng-container *ngIf="
             !isShimmer &&
             onboardUserList.length == 0 &&
             !networkConnectionErrorPlaceholder
-          "
-        >
+          ">
           <div class="col-md-12">
             <div class="card-body mt-0 p-0">
               <div class="alert alert-light mb-0" role="alert">
@@ -1747,11 +1123,7 @@
                 </p>
                 <p>
                   <span class="text-primary">
-                    <u
-                      ><a class="text-primary" href="{{ sampleFileUrl }}"
-                        >Download a sample Excel file</a
-                      ></u
-                    >
+                    <u><a class="text-primary" href="{{ sampleFileUrl }}">Download a sample Excel file</a></u>
                   </span>
                   , update its data, and upload it back with the updated content
                   on our platform
@@ -1759,81 +1131,57 @@
               </div>
             </div>
             <div class="card-body mt-3 p-0">
-              <div
-                class="alert alert-light mb-0 excel-uplode-file-box text-center"
-                style="border: 2px dashed #dddd"
-              >
-                <input
-                  id="fileSelect"
-                  type="file"
-                  name="img[]"
-                  accept=".xlsx"
-                  class="input"
-                  (change)="selectFile($event)"
-                />
-                <img
-                  src="assets/images/excel.svg"
-                  style="width: 50px"
-                  class="pb-3"
-                />
+              <div class="alert alert-light mb-0 excel-uplode-file-box text-center" style="border: 2px dashed #dddd">
+                <input id="fileSelect" type="file" name="img[]" accept=".xlsx" class="input"
+                  (change)="selectFile($event)" />
+                <img src="assets/images/excel.svg" style="width: 50px" class="pb-3" />
                 <p>
                   Drag file here to upload or,
                   <u><a class="text-primary" href="#!">Choose file</a></u>
                 </p>
-                <div
-                  *ngIf="isProgressToggle"
-                  class="spinner-border text-success"
-                  role="status"
-                ></div>
+                <div *ngIf="isProgressToggle" class="spinner-border text-success" role="status"></div>
               </div>
             </div>
           </div>
-          <div #attention class="create-password-warning waring-box p-3 mb-0 mt-4 ng-star-inserted text-start"
-            *ngIf="
+          <div #attention class="create-password-warning waring-box p-3 mb-0 mt-4 ng-star-inserted text-start" *ngIf="
               alreadyUsedPhoneNumberArray.length > 0 ||
               alreadyUsedEmailArray.length > 0 ||
               this.mismatches.length > 0 ||
-              isErrorToggle
-            "
-          >
+              isErrorToggle">
             <h4 class="alert-heading font-18 text-danger">Attention!!</h4>
             <ul style="padding-left: 15px;">
-            <li class="mb-1" *ngIf="this.mismatches.length > 0">
+              <li class="mb-1" *ngIf="this.mismatches.length > 0">
 
-              {{ this.mismatches }}
-            </li>
-            <li class="mb-1" *ngIf="alreadyUsedPhoneNumberArray.length > 0">
-              Phone Numbers:
-              {{ formatAsCommaSeparated(alreadyUsedPhoneNumberArray) }}
-            </li>
-            <li class="mb-1" *ngIf="alreadyUsedEmailArray.length > 0">
-              Emails: {{ formatAsCommaSeparated(alreadyUsedEmailArray) }}
-            </li>
-            <li class="mb-1" *ngIf="isErrorToggle">Error: {{ errorMessage }}</li>
+                {{ this.mismatches }}
+              </li>
+              <li class="mb-1" *ngIf="alreadyUsedPhoneNumberArray.length > 0">
+                Phone Numbers:
+                {{ formatAsCommaSeparated(alreadyUsedPhoneNumberArray) }}
+              </li>
+              <li class="mb-1" *ngIf="alreadyUsedEmailArray.length > 0">
+                Emails: {{ formatAsCommaSeparated(alreadyUsedEmailArray) }}
+              </li>
+              <li class="mb-1" *ngIf="isErrorToggle">Error: {{ errorMessage }}</li>
 
 
             </ul>
           </div>
-          <div
-            class="card create-password-warning mb-0 mt-4 ng-star-inserted pb-3 pt-2 px-3 text-start"
-            *ngIf="
-              data.length > 0
-              && isinvalid
-            "
-          >
+          <div class="create-password-warning mb-0 mt-4 text-start" *ngIf="data.length > 0 && isinvalid ">
             <!-- <h4 class="alert-heading font-16 mb-1">Attention</h4> -->
             <p *ngIf="isExcel.length > 0">
               {{ isExcel }}
             </p>
             <div *ngIf="data.length > 0">
-              <h3 class="font-20 mb-2">Uploaded Data</h3>
-              <div class="align-items-center empuploadHeader excelUploadTable row mb-2">
-                <div class="col-lg-9 col-md-12">
+              <h3 class="font-18 mb-2">Uploaded Data</h3>
+              <div class="align-items-center empuploadHeader excelUploadTable row mb-3">
+                <div class="col-lg-8 col-md-12">
                   <div class="row" *ngIf="isAnyRowSelected()">
                     <div class="col-lg-4 col-md-3">
                       <div>
-                        <nz-select [(ngModel)]="bulkShift" (ngModelChange)="applyBulkChange('shift', $event)" nzPlaceHolder="Select Shift" [nzDropdownRender]="customDropdownShift">
-                          <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label" [nzLabel]="shift.label"></nz-option>
+                        <nz-select [(ngModel)]="bulkShift" (ngModelChange)="applyBulkChange('shift', $event)"
+                          nzPlaceHolder="Select Shift" [nzDropdownRender]="customDropdownShift" class="whatapp-login-input">
+                          <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label"
+                            [nzLabel]="shift.label"></nz-option>
                         </nz-select>
                         <ng-template #customDropdownShift>
                           <div class="custom-dropdown-footer">
@@ -1844,8 +1192,10 @@
                     </div>
                     <div class="col-lg-4 col-md-3">
                       <div>
-                        <nz-select [(ngModel)]="bulkLeave" (ngModelChange)="applyBulkChange('leave', $event)" nzPlaceHolder="Select Leave" nzMode="multiple" [nzDropdownRender]="customDropdown">
-                          <nz-option *ngFor="let leave of originalLeaveNameList" [nzValue]="leave.label" [nzLabel]="leave.label"></nz-option>
+                        <nz-select [(ngModel)]="bulkLeave" (ngModelChange)="applyBulkChange('leave', $event)"
+                          nzPlaceHolder="Select Leave" nzMode="multiple" [nzDropdownRender]="customDropdown" class="whatapp-login-input">
+                          <nz-option *ngFor="let leave of originalLeaveNameList" [nzValue]="leave.label"
+                            [nzLabel]="leave.label"></nz-option>
                         </nz-select>
                         <ng-template #customDropdown>
                           <div class="custom-dropdown-footer">
@@ -1855,8 +1205,10 @@
                       </div>
                     </div>
                     <div class="col-lg-4 col-md-3">
-                      <nz-select [(ngModel)]="bulkTeam" (ngModelChange)="applyBulkChange('team', $event)" nzPlaceHolder="Select Team" nzMode="multiple" [nzDropdownRender]="customDropdownTeam">
-                        <nz-option *ngFor="let team of originalTeamNameList" [nzValue]="team.label" [nzLabel]="team.label"></nz-option>
+                      <nz-select [(ngModel)]="bulkTeam" (ngModelChange)="applyBulkChange('team', $event)"
+                        nzPlaceHolder="Select Team" nzMode="multiple" [nzDropdownRender]="customDropdownTeam" class="whatapp-login-input">
+                        <nz-option *ngFor="let team of originalTeamNameList" [nzValue]="team.label"
+                          [nzLabel]="team.label"></nz-option>
                       </nz-select>
                       <ng-template #customDropdownTeam>
                         <div class="custom-dropdown-footer">
@@ -1867,27 +1219,19 @@
                   </div>
                 </div>
 
-                <div class="col-lg-3 col-md-12">
+                <div class="col-lg-4 col-md-12">
                   <div class="align-items-center d-flex gap-2 justify-content-end">
-                    <p class="m-0 d-flex align-items-center gap-2 justify-content-center">
-                      <input
-                        type="checkbox"
-                        [(ngModel)]="selectAllCurrentPage"
-                        (change)="toggleSelectAllCurrentPage()"
-                        [disabled]="selectAllPages"
-                      />
+                    <label class="m-0 d-flex align-items-center gap-2 justify-content-center">
+                      <input type="checkbox" [(ngModel)]="selectAllCurrentPage" (change)="toggleSelectAllCurrentPage()"
+                        [disabled]="selectAllPages" />
                       Select all on current page
-                    </p>
+                    </label>
                     <span class="btnSeprator"></span>
-                    <p class="m-0 d-flex align-items-center gap-2 justify-content-center">
-                      <input
-                        type="checkbox"
-                        [(ngModel)]="selectAllPages"
-                        (change)="toggleSelectAllPage()"
-                        [disabled]="selectAllCurrentPage"
-                      />
+                    <label class="m-0 d-flex align-items-center gap-2 justify-content-center">
+                      <input type="checkbox" [(ngModel)]="selectAllPages" (change)="toggleSelectAllPage()"
+                        [disabled]="selectAllCurrentPage" />
                       Select All Pages
-                    </p>
+                    </label>
                   </div>
                 </div>
               </div>
@@ -1904,23 +1248,22 @@
                   </thead>
                   <tbody>
                     <!-- Skip the first row for pagination purposes -->
-                    <tr *ngFor="let row of paginatedData; let i = index" >
-                      <td>
+                    <tr *ngFor="let row of paginatedData; let i = index">
+                      <td class="text-center">
                         <!-- *ngIf="i + currentPage -1!=0" -->
-                        <input  type="checkbox" [(ngModel)]="row.selected" />
+                        <input type="checkbox" [(ngModel)]="row.selected" />
                       </td>
 
                       <td *ngFor="let cell of fileColumnName; let j = index">
                         <ng-container *ngIf="fileColumnName[j] === 'shift*' ; else leaveColumns">
 
-                          <nz-select
-                              [(ngModel)]="row[j]"
-                              [ngClass]="{'invalid-input': invalidCells[((currentPage - 1) * pageSize)+i][j]}"
-                              (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)"
-                              nzPlaceHolder="Select Shift"
-                              [nzDropdownRender]="customDropdownShift">
+                          <nz-select [(ngModel)]="row[j]"
+                            [ngClass]="{'invalid-input': invalidCells[((currentPage - 1) * pageSize)+i][j]}"
+                            (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)"
+                            nzPlaceHolder="Select Shift" [nzDropdownRender]="customDropdownShift">
 
-                              <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label" [nzLabel]="shift.label"></nz-option>
+                            <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label"
+                              [nzLabel]="shift.label"></nz-option>
 
                           </nz-select>
 
@@ -1933,18 +1276,11 @@
 
                         <ng-template #leaveColumns>
                           <ng-container *ngIf="this.fileColumnName[j] === 'leavenames' ; else otherColumns">
-                            <nz-select
-                              class="whatapp-login-input"
-                              nzMode="multiple"
-                              nzPlaceHolder="Select leave"
-                              nzAllowClear
-                              nzShowSearch
-                              nzServerSearch
-                              [(ngModel)]="row[j]"
+                            <nz-select class="whatapp-login-input" nzMode="multiple" nzPlaceHolder="Select leave"
+                              nzAllowClear nzShowSearch nzServerSearch [(ngModel)]="row[j]"
                               [ngModelOptions]="{ standalone: true }"
                               (ngModelChange)="onMultiSelectChange($event, (currentPage - 1) * pageSize + i, j)"
-                              (nzOnSearch)="onSearchLeave($event)"
-                              [nzDropdownRender]="customDropdown"
+                              (nzOnSearch)="onSearchLeave($event)" [nzDropdownRender]="customDropdown"
                               [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}">
                               <ng-container *ngFor="let o of originalLeaveNameList">
                                 <nz-option *ngIf="!isLoadingLeave" [nzValue]="o.label" [nzLabel]="o.label"></nz-option>
@@ -1964,31 +1300,21 @@
                         </ng-template>
 
                         <ng-template #otherColumns>
-                          <ng-container *ngIf="this.fileColumnName[j] === 'joiningdate*' || this.fileColumnName[j] === 'dob' ; else teamColumns">
-                            <nz-date-picker
-                              id="joiningDate"
-                              name="joiningDate"
-                              #joiningDate="ngModel"
-                              [(ngModel)]="row[j]"
-                              required
+                          <ng-container
+                            *ngIf="this.fileColumnName[j] === 'joiningdate*' || this.fileColumnName[j] === 'dob' ; else teamColumns">
+                            <nz-date-picker id="joiningDate" name="joiningDate" #joiningDate="ngModel"
+                              [(ngModel)]="row[j]" required
                               (ngModelChange)="onDateChange($event, (currentPage - 1) * pageSize + i , j)"
                               [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
-                              [nzAllowClear]="false"
-                              nzPlaceHolder="Select Joining Date">
+                              [nzAllowClear]="false" nzPlaceHolder="Select Joining Date">
                             </nz-date-picker>
                           </ng-container>
                         </ng-template>
 
                         <ng-template #teamColumns>
                           <ng-container *ngIf="this.fileColumnName[j] === 'team' ; else genderColumns">
-                            <nz-select
-                              nzAllowClear
-                              nzShowSearch
-                              nzServerSearch
-                              nzMode="multiple"
-                              nzPlaceHolder="Select teams"
-                              [(ngModel)]="row[j]"
-                              [ngModelOptions]="{ standalone: true }"
+                            <nz-select nzAllowClear nzShowSearch nzServerSearch nzMode="multiple"
+                              nzPlaceHolder="Select teams" [(ngModel)]="row[j]" [ngModelOptions]="{ standalone: true }"
                               (ngModelChange)="onTeamSelectionChanges($event, (currentPage - 1) * pageSize + i, j)"
                               (nzOnSearch)="onSearch($event)"
                               [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
@@ -2011,22 +1337,19 @@
 
                         <ng-template #genderColumns>
                           <ng-container *ngIf="this.fileColumnName[j] === 'gender*' ; else defaultInput">
-                            <nz-select
-                              id="gender"
-                              name="gender"
-                              [(ngModel)]="row[j]"
+                            <nz-select id="gender" name="gender" [(ngModel)]="row[j]"
                               [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
                               (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)"
                               nzPlaceHolder="Select Gender">
-                              <nz-option *ngFor="let gender of genders" [nzValue]="gender" [nzLabel]="gender"></nz-option>
+                              <nz-option *ngFor="let gender of genders" [nzValue]="gender"
+                                [nzLabel]="gender"></nz-option>
                             </nz-select>
                           </ng-container>
                         </ng-template>
 
                         <!-- Default input for other columns -->
                         <ng-template #defaultInput>
-                          <input
-                            [(ngModel)]="row[j]"
+                          <input [(ngModel)]="row[j]"
                             [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
                             (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)" />
                         </ng-template>
@@ -2037,18 +1360,13 @@
                 </table>
 
               </div>
-              <div class="text-end">
-                <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex justify-content-end align-items-center">
                   <p class="m-0" *ngIf="data.length-1>pageSize"> Showing {{(currentPage - 1) * pageSize +currentPage}} -
-                    {{(currentPage - 1) * pageSize +(currentPage-1)+(data.length - 1)}} of {{data.length-1}}  </p>
-                  <ngb-pagination
-                  [rotate]="true"
-                  [maxSize]="4" [collectionSize]="data.length - 1" [pageSize]="pageSize" [(page)]="currentPage"
-                  (pageChange)="onPageChange($event)">
-                </ngb-pagination>
+                    {{(currentPage - 1) * pageSize +(currentPage-1)+(data.length - 1)}} of {{data.length-1}} </p>
+                  <ngb-pagination [rotate]="true" [maxSize]="4" [collectionSize]="data.length - 1" [pageSize]="pageSize"
+                    [(page)]="currentPage" (pageChange)="onPageChange($event)">
+                  </ngb-pagination>
                 </div>
-
-              </div>
               <div class="text-end border-top pt-3">
                 <!-- <button type="button" class="btn btn-primary btn-sm" (click)="saveFile()">Save Changes</button> -->
                 <button type="button" class="btn p-0 next-btn btn-border" (click)="saveFile()">Save Changes</button>
@@ -2059,72 +1377,48 @@
             <p *ngIf="!isErrorToggle" class="m-0"></p>
           </div>
         </ng-container>
-        <ng-container
-          *ngIf="
+        <ng-container *ngIf="
             isShimmer &&
               onboardUserList.length == 0 &&
               !networkConnectionErrorPlaceholder;
             else onboardUserListCondition
-          "
-        >
+          ">
           <div class="">
             <div class="text-end">
-              <ngx-shimmer-loading
-                [width]="'30%'"
-                [height]="'40px'"
-                style="border-radius: 50%"
-              ></ngx-shimmer-loading>
+              <ngx-shimmer-loading [width]="'30%'" [height]="'40px'" style="border-radius: 50%"></ngx-shimmer-loading>
             </div>
           </div>
-          <div
-            class="mt-3 mb-2"
-            style="border: 1px solid #f5f5f5; padding: 5px; border-radius: 6px"
-            *ngFor="let number of [1, 2, 3, 4, 5]"
-          >
+          <div class="mt-3 mb-2" style="border: 1px solid #f5f5f5; padding: 5px; border-radius: 6px"
+            *ngFor="let number of [1, 2, 3, 4, 5]">
             <div class="row mt-3">
               <div class="col-md-2">
                 <div class="">
-                  <ngx-shimmer-loading
-                    [width]="'100%'"
-                    [height]="'30px'"
-                    style="border-radius: 50%"
-                  ></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                    style="border-radius: 50%"></ngx-shimmer-loading>
                 </div>
               </div>
               <div class="col-md-2">
                 <div class="">
-                  <ngx-shimmer-loading
-                    [width]="'100%'"
-                    [height]="'30px'"
-                    style="border-radius: 50%"
-                  ></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                    style="border-radius: 50%"></ngx-shimmer-loading>
                 </div>
               </div>
               <div class="col-md-3">
                 <div class="">
-                  <ngx-shimmer-loading
-                    [width]="'100%'"
-                    [height]="'30px'"
-                    style="border-radius: 50%"
-                  ></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                    style="border-radius: 50%"></ngx-shimmer-loading>
                 </div>
               </div>
               <div class="col-md-3">
                 <div class="">
-                  <ngx-shimmer-loading
-                    [width]="'100%'"
-                    [height]="'30px'"
-                    style="border-radius: 50%"
-                  ></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                    style="border-radius: 50%"></ngx-shimmer-loading>
                 </div>
               </div>
               <div class="col-md-2">
                 <div class="">
-                  <ngx-shimmer-loading
-                    [width]="'100%'"
-                    [height]="'30px'"
-                    style="border-radius: 50%"
-                  ></ngx-shimmer-loading>
+                  <ngx-shimmer-loading [width]="'100%'" [height]="'30px'"
+                    style="border-radius: 50%"></ngx-shimmer-loading>
                 </div>
               </div>
             </div>
@@ -2132,88 +1426,39 @@
         </ng-container>
 
         <ng-template #onboardUserListCondition>
-          <ng-container
-            *ngIf="
+          <ng-container *ngIf="
               !isShimmer &&
                 onboardUserList.length != 0 &&
                 !networkConnectionErrorPlaceholder;
               else errorInOnboardUserListCondition
-            "
-          >
-            <div class="row mt-0">
-              <div
-                class="d-flex align-items-center justify-content-end mb-2 p-0"
-              >
-                <input
-                  #fileInput
-                  id="fileSelect"
-                  type="file"
-                  name="img[]"
-                  accept=".xlsx"
-                  class="input"
-                  style="display: none"
-                  (change)="selectFile($event)"
-                />
-                <button
-                  type="button"
-                  class="btn add-excel"
-                  (click)="fileInput.click()"
-                >
-                  <i
-                    *ngIf="!isProgressToggle"
-                    class="bi bi-file-earmark-excel"
-                    style="position: relative; top: -1px; padding-right: 6px"
-                  ></i>
-                  <div
-                    *ngIf="isProgressToggle"
-                    class="spinner-border text-primary excel-spinner"
-                    role="status"
-                  ></div>
+            ">
+            <div class="mt-0">
+              <div class="d-flex align-items-center justify-content-end mb-3 p-0">
+                <input #fileInput id="fileSelect" type="file" name="img[]" accept=".xlsx" class="input"
+                  style="display: none" (change)="selectFile($event)" />
+                <button type="button" class="btn add-excel" (click)="fileInput.click()">
+                  <i *ngIf="!isProgressToggle" class="bi bi-file-earmark-excel"
+                    style="position: relative; top: -1px; padding-right: 6px"></i>
+                  <div *ngIf="isProgressToggle" class="spinner-border text-primary excel-spinner" role="status"></div>
                   Excel Upload
                 </button>
-                <!-- <p
-                      style="color: #d7d7d7; margin-bottom: 0px"
-                      class="ng-star-inserted"
-                    >
-                      |
-                    </p>
-                    <button
-                      type="button"
-                      class="btn add-excel"
-                      data-bs-toggle="modal"
-                      data-bs-target="#munal-upload"
-                      (click)="selectMethod('mannual')"
-                    >
-                      <i class="bi bi-journal-check"></i> Manual Upload
-                    </button> -->
+             
               </div>
-              <div
-                class="alert alert-light mb-0 mt-4 bg-soft-warning create-password-warning text-start"
-                role="alert"
+              <div class="create-password-warning waring-box p-3 mt-3 mb-3 text-start" role="alert"
                 *ngIf="
                   alreadyUsedPhoneNumberArray.length > 0 ||
                   alreadyUsedEmailArray.length > 0 ||
                   isErrorToggle
-                "
-              >
-                <h4 class="alert-heading font-18">Attention!</h4>
-                <!-- <div *ngFor="let pn of alreadyUsedPhoneNumberArray">
-                      {{ pn }}
-                    </div>
-                    <div *ngFor="let ea of alreadyUsedEmailArray">
-                      {{ ea }}
-                    </div> -->
-                <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p>
-                <p *ngIf="alreadyUsedPhoneNumberArray.length > 0">
-                  Phone Numbers:
-                  {{ formatAsCommaSeparated(alreadyUsedPhoneNumberArray) }}
-                </p>
-                <p *ngIf="alreadyUsedEmailArray.length > 0">
-                  Emails: {{ formatAsCommaSeparated(alreadyUsedEmailArray) }}
-                </p>
-                <p *ngIf="!isErrorToggle">
-                  These credentials are already registered with us!
-                </p>
+                ">
+                    <h4 class="alert-heading font-18">Attention!</h4>
+
+                    <ul style="padding-left:20px;">
+                      <li *ngIf="isErrorToggle">Error: {{ errorMessage }}</li>
+                      <li *ngIf="alreadyUsedEmailArray.length > 0">Phone Numbers: {{ formatAsCommaSeparated(alreadyUsedPhoneNumberArray) }}</li>
+                      <li *ngIf="!isErrorToggle">These credentials are already registered with us!</li>
+                    </ul>
+                  
+                
               </div>
               <table class="table">
                 <!-- <thead class="thead-light table-design"> -->
@@ -2228,9 +1473,7 @@
                 </thead>
                 <!-- <tbody class="table-design"> -->
                 <tbody>
-                  <tr
-                    *ngFor="let onboardUser of onboardUserList; let i = index"
-                  >
+                  <tr *ngFor="let onboardUser of onboardUserList; let i = index">
                     <td>
                       <p class="tableinfo mb-0 text-left">
                         <b>{{ i + 1 }}</b>
@@ -2250,7 +1493,7 @@
                       <p class="tableinfo mb-0 text-left">
                         <b>{{
                           onboardUser.email ? onboardUser.email : "N/A"
-                        }}</b>
+                          }}</b>
                       </p>
                     </td>
                     <td>
@@ -2263,10 +1506,8 @@
                             >
                               <i class="bi bi-pencil-square"></i>
                             </p> -->
-                        <p
-                          class="tableinfo mb-0 pointer text-center text-danger mb-2"
-                          (click)="deleteNewUser(onboardUser.id)"
-                        >
+                        <p class="tableinfo mb-0 pointer text-center text-danger mb-2"
+                          (click)="deleteNewUser(onboardUser.id)">
                           <i class="bi bi-trash text-danger"></i>
                         </p>
                       </div>
@@ -2274,12 +1515,8 @@
                   </tr>
                 </tbody>
               </table>
-              <div class="d-flex justify-content-end mt-3">
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  (click)="sendEmailToUsers(true)"
-                >
+              <div class="d-flex justify-content-end gap-3 mt-3">
+                <button type="button" class="btn btn-primary" (click)="sendEmailToUsers(true)">
                   <span *ngIf="!sendMailExcelUserFlag"> Send Email </span>
                   <div class="dot-opacity-loader" *ngIf="sendMailExcelUserFlag">
                     <span></span>
@@ -2289,12 +1526,8 @@
                 </button>
 
 
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  style="background-color: white; color: black;"
-                  (click)="sendEmailToUsers(false)"
-                >
+                <button type="button" class="btn btn-primary" style="background-color: white; color: black;"
+                  (click)="sendEmailToUsers(false)">
                   <span *ngIf="!sendMailExcelUserFlag"> Cancel</span>
                   <div class="dot-opacity-loader" *ngIf="sendMailExcelUserFlag">
                     <span></span>
@@ -2330,12 +1563,14 @@
 
 
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#duesWarningModal" #duesWarningModalButton>
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#duesWarningModal"
+  #duesWarningModalButton>
   Dues Warning Modal
 </button>
 
 <!-- Modal -->
-<div class="modal fade" id="duesWarningModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="duesWarningModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
@@ -2343,9 +1578,9 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-          <p> Lorem ipsum dolor sit amet consectetur adipisicing elit.
-             Dignissimos magni ratione quae reiciendis ullam pariatur necessitatibus! Amet,
-              earum quae natus dolorum eligendi consectetur iure, cumque asperiores modi nemo culpa nostrum!</p>
+        <p> Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          Dignissimos magni ratione quae reiciendis ullam pariatur necessitatibus! Amet,
+          earum quae natus dolorum eligendi consectetur iure, cumque asperiores modi nemo culpa nostrum!</p>
       </div>
     </div>
   </div>
@@ -2354,146 +1589,163 @@
 
 <!-- Initiate Exit (UserResignation) Modal Start -->
 <div class="modal fade" id="initiateExit" tabindex="-1" role="dialog" #assetRequestModal aria-hidden="true"
-    aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Initiate Exit</h5>
-                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeResignationButton>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                            width="24" height="24">
-                            <rect width="24" height="24" fill="#D9D9D9" />
-                        </mask>
-                        <g mask="url(#mask0_5037_2014)">
-                            <path
-                                d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
-                                fill="black" />
-                        </g>
-                    </svg>
-                </button>
+  aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Initiate Exit</h5>
+        <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close"
+          (click)="closeResignationModal(resignationForm)" #closeResignationButton>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
+              height="24">
+              <rect width="24" height="24" fill="#D9D9D9" />
+            </mask>
+            <g mask="url(#mask0_5037_2014)">
+              <path d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+                fill="black" />
+            </g>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body p-0">
+        <form #resignationForm="ngForm" (ngSubmit)="submitResignation(resignationForm)">
+          <!-- <form> -->
+          <div class="row">
+            <div class="col-md-12">
+              <div class="hr-notes p-3">
+                <p class="mb-0 font-13"> <span class="text-primary"> Note:</span> HR will take the final action on the
+                  exit request</p>
+              </div>
             </div>
-            <div class="modal-body p-0">
-                <form #resignationForm="ngForm" (ngSubmit)="submitResignation(resignationForm)">
-                <!-- <form> -->
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="hr-notes p-3">
-                              <p class="mb-0 font-13"> <span class="text-primary"> Note:</span> HR will take the final action on the exit request</p>
-                            </div>
-                        </div>
 
 
-                        <div class="p-4">
+            <div class="p-4">
 
-                        <div class="col-md-12 mb-3">
-                            <label for="templateName" class="pb-2">
-                            What is the reason for initiating the exit?
-                            </label>
-                            <input class="form-control input-zorro" placeholder="Enter the reason" [(ngModel)]="userResignationReq.reason"
-                                nzSize="large" minlength="3" maxlength="50" id="reason" name="inputReason" #inputReason="ngModel" required />
-                               
-                                <div *ngIf="inputReason.invalid && inputReason.touched" class="text-danger">
-                                    {{userResignationReq.reason.length == 0 ? 'Reason is required' : 'Reason must be between 3 and 50 characters'}}
-                                </div>
-                        </div>
+            
 
-                      
+              <div class="col-md-12 mb-3">
+                <label for="templateName" class="pb-2">
+                  What is the reason for initiating the exit?
+                </label>
+                <!-- <input class="form-control input-zorro" placeholder="Enter the reason"
+                  [(ngModel)]="userResignationReq.reason" nzSize="large" minlength="3" maxlength="50" id="reason"
+                  name="inputReason" #inputReason="ngModel" required />
 
-                       
-
-                        <div class="col-md-12 mb-3">
-                            <label for="templateName" class="pb-2">
-                              Do you want them to complete their notice period?
-                            </label>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                                        <input type="radio" name="recommendDay" id="complete" value="Complete" 
-                                        [(ngModel)]="recommendDay" (change)="selectRecommendDay('Complete')" class="form-check-input">
-                                        <p for="exampleRadios3" class="form-check-label mb-0" required> Complete notice periodes </p>
-                                    </label>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-check assets-req d-flex align-items-center justify-content-start">
-                                        <input type="radio" name="recommendDay" id="other" value="Other" required
-                                        [(ngModel)]="recommendDay" (change)="selectRecommendDay('Other')" class="form-check-input">
-                                        <p for="exampleRadios4" class="form-check-label mb-0"> Immediate Termination </p>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
+                <div *ngIf="inputReason.invalid && inputReason.touched" class="text-danger">
+                  {{userResignationReq.reason.length == 0 ? 'Reason is required' : 'Reason must be between 3 and 50
+                  characters'}}
+                </div> -->
+                <nz-form-control>
+                  <nz-select style="width: 100%" nzSize="large" nzPlaceHolder="Select exit type"
+                    [(ngModel)]="userExitTypeId" (ngModelChange)="selectUserExitType($event)" required id="seleType"
+                    name="seleExpType" #seleExpType="ngModel" class="form-control">
+                    <nz-option *ngFor=" let exitType of userExitTypeList" [nzValue]="exitType.id"
+                      [nzLabel]="exitType.name">
+                    </nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </div>
 
 
-                        <div *ngIf="recommendDay == 'Other'" class="col-md-12 mb-3">
-                            <div class="form-group">
-                                <label for="employeeTypeId" class="mb-2">Specify the termination notice date</label>
-                              
-                            <ng-container *ngIf="noticePeriodDuration == 0">
-                                <nz-date-picker *ngIf="userResignationReq.isRecommendLastDay == 1" [(ngModel)]="userResignationReq.lastWorkingDay"
-                                nzPlaceHolder="dd/mm/yyyy"  id="selLastDate"
-                                (ngModelChange)="selectLastWorkingDay($event)" name="lastDate" #lastDate="ngModel"
-                                required class="form-control">   
-                            </nz-date-picker>
-                            </ng-container>
+              <div class="col-md-12 mb-3">
+                <label for="templateName" class="pb-2">
+                  Do you want them to complete their notice period?
+                </label>
+                <div class="row">
+                  <div class="col-md-6">
+                    <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                      <input type="radio" name="recommendDay" id="complete" value="Complete" [(ngModel)]="recommendDay"
+                        (change)="selectRecommendDay('Complete')" class="form-check-input">
+                      <p for="exampleRadios3" class="form-check-label mb-0" required> Complete notice periodes </p>
+                    </label>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                      <input type="radio" name="recommendDay" id="other" value="Other" required
+                        [(ngModel)]="recommendDay" (change)="selectRecommendDay('Other')" class="form-check-input">
+                      <p for="exampleRadios4" class="form-check-label mb-0"> Immediate Termination </p>
+                    </label>
+                  </div>
+                </div>
+              </div>
 
-                            <ng-container *ngIf="noticePeriodDuration > 0">
-                                <nz-date-picker *ngIf="userResignationReq.isRecommendLastDay == 1" [(ngModel)]="userResignationReq.lastWorkingDay"
-                                nzPlaceHolder="dd/mm/yyyy" [nzDisabledDate]="disableFutureDates"  id="selLastDate"
-                                (ngModelChange)="selectLastWorkingDay($event)" name="lastDate" #lastDate="ngModel"
-                                required class="form-control">   
-                            </nz-date-picker>
-                            </ng-container>
-                                
-                            </div>
-                        </div> 
 
-                        <div *ngIf="recommendDay == 'Complete'" class="col-md-12 mb-3">
-                            <div class="d-flex align-items-center gap-3 p-3 notice-period-date">
-                                <p class="mb-0">Notice period</p>
-                                <span class="calendar-separator"></span>
-                                <h6 class="mb-0">{{userResignationReq.lastWorkingDay | date: 'dd MMM yyyy'}}</h6>
-                            </div>
-                        </div>
-                        
-                        <div *ngIf="recommendDay == 'Other' && (userResignationReq.lastWorkingDay != null && userResignationReq.lastWorkingDay != '')" class="col-md-12 mb-3 ">
-                            <div class="notice-period-error p-3">
-                            <div class="d-flex align-items-center gap-3 mb-2">
-                                <p class="mb-0">Notice period</p>
-                                <span class="calendar-separator"></span>
-                                <h6 class="mb-0">{{userResignationReq.lastWorkingDay | date: 'dd MMM yyyy'}}</h6>
-                            </div>
-                            <!-- <p class="mb-0 font-13">Your last working day may change based on Manager/HR's decision.</p> -->
-                            </div>
-                        </div>
+              <div *ngIf="recommendDay == 'Other'" class="col-md-12 mb-3">
+                <div class="form-group">
+                  <label for="employeeTypeId" class="mb-2">Specify the termination notice date</label>
 
-                       
+                  <ng-container *ngIf="noticePeriodDuration == 0">
+                    <nz-date-picker *ngIf="userResignationReq.isRecommendLastDay == 1"
+                      [(ngModel)]="userResignationReq.lastWorkingDay" nzPlaceHolder="dd/mm/yyyy" id="selLastDate"
+                      (ngModelChange)="selectLastWorkingDay($event)" name="lastDate" #lastDate="ngModel" required
+                      class="form-control">
+                    </nz-date-picker>
+                  </ng-container>
 
-                        <div class="col-md-12 mb-3">
-                            <label for="templateName" class="pb-2">
-                                Comment
-                            </label>
-                            <textarea class="form-control nots-section" id="comment" name="inputComment"
-                                placeholder="Write description" rows="3"  [(ngModel)]="userResignationReq.comment"></textarea>
-                        </div>
-                     </div>
-                    </div>
+                  <ng-container *ngIf="noticePeriodDuration > 0">
+                    <nz-date-picker *ngIf="userResignationReq.isRecommendLastDay == 1"
+                      [(ngModel)]="userResignationReq.lastWorkingDay" nzPlaceHolder="dd/mm/yyyy"
+                      [nzDisabledDate]="disableFutureDates" id="selLastDate"
+                      (ngModelChange)="selectLastWorkingDay($event)" name="lastDate" #lastDate="ngModel" required
+                      class="form-control">
+                    </nz-date-picker>
+                  </ng-container>
 
-                    <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
-                        <button class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close" #closeResignationButton>Cancel</button>
-                        
-                        <button *ngIf="!resignationToggle" type="submit" [disabled]="resignationForm.invalid || resignationToggle" class="btn submitActionBtn">Submit</button>
-                        <div class="dot-opacity-loader" *ngIf="resignationToggle">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                          </div>
-                    </div>
+                </div>
+              </div>
 
-                </form>
+              <div *ngIf="recommendDay == 'Complete'" class="col-md-12 mb-3">
+                <div class="d-flex align-items-center gap-3 p-3 notice-period-date">
+                  <p class="mb-0">Notice period</p>
+                  <span class="calendar-separator"></span>
+                  <h6 class="mb-0">{{userResignationReq.lastWorkingDay | date: 'dd MMM yyyy'}}</h6>
+                </div>
+              </div>
+
+              <div
+                *ngIf="recommendDay == 'Other' && (userResignationReq.lastWorkingDay != null && userResignationReq.lastWorkingDay != '')"
+                class="col-md-12 mb-3 ">
+                <div class="notice-period-error p-3">
+                  <div class="d-flex align-items-center gap-3 mb-2">
+                    <p class="mb-0">Notice period</p>
+                    <span class="calendar-separator"></span>
+                    <h6 class="mb-0">{{userResignationReq.lastWorkingDay | date: 'dd MMM yyyy'}}</h6>
+                  </div>
+                  <!-- <p class="mb-0 font-13">Your last working day may change based on Manager/HR's decision.</p> -->
+                  <p class="mb-0 font-13">This is the user last working day.</p>
+                </div>
+              </div>
+
+
+
+              <div class="col-md-12 mb-3">
+                <label for="templateName" class="pb-2">
+                  Comment
+                </label>
+                <textarea class="form-control nots-section" id="comment" name="inputComment"
+                  placeholder="Write description" rows="3" [(ngModel)]="userResignationReq.comment"></textarea>
+              </div>
             </div>
-          
-        </div>
+          </div>
+
+          <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
+            <button class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close"
+              (click)="closeResignationModal(resignationForm)" #closeResignationButton>Cancel</button>
+
+            <button *ngIf="!resignationToggle" type="submit" [disabled]="resignationForm.invalid || userExitTypeId == 0 || resignationToggle"
+              class="btn submitActionBtn">Submit</button>
+            <div class="dot-opacity-loader" *ngIf="resignationToggle">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+
+        </form>
+      </div>
+
     </div>
+  </div>
 </div>
 <!-- Initiate Exit (UserResignation) Modal End -->

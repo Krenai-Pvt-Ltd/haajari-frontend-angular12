@@ -214,7 +214,7 @@
                   <div class="">
   
                     <!-- <a class="add-shift-time-btn" data-bs-toggle="modal" data-bs-target="#createPolicy" (click)="getExpenseType(); clearData()"> -->
-                    <a class="add-shift-time-btn" data-bs-toggle="modal" data-bs-target="#createPolicy" >
+                    <a class="add-shift-time-btn" (click)="clearData()" data-bs-toggle="modal" data-bs-target="#createPolicy" >
                       <i class="bi bi-plus"></i> Create exit policy
                     </a>
                   </div>
@@ -231,8 +231,8 @@
                 </div>
   
                 <!-- View company expense policy list -->
-                <!-- <div *ngIf="companyExpensePolicyList.length > 0">
-                  <div class="shift-time p-3 m-3" *ngFor="let expensePolicy of companyExpensePolicyList; let i = index">
+                <div *ngIf="exitPolicyList.length > 0">
+                  <div class="shift-time p-3 m-3" *ngFor="let exitPolicy of exitPolicyList; let i = index">
                     <div class="">
                       <div class="d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center gap-3">
@@ -243,36 +243,42 @@
                           </div>
                           <div class="">
                             <h6 class="text-truncate mb-0">
-                              {{ expensePolicy?.policyName }}
+                              {{ exitPolicy?.policyName }}
                             </h6>
+
+                            <p class="text-truncate mb-0">Notice Period Duration: {{exitPolicy.noticePeriodDuration}}</p>
+
                             <small class="text-muted">Define the leave rules for the employees</small>
                           </div>
                         </div>
                         <div class="d-flex align-items-center gap-3">
                           <div class="d-flex align-items-center gap-3">
   
-                            <a href="" data-bs-toggle="modal" data-bs-target="#createPolicy" (click)="getExpenseType()">
-                              <i class="bi bi-pencil pointer" style="color: #6666f3" (click)="getExpenseInformationById(expensePolicy)"></i>
+                            <!-- <a href="" data-bs-toggle="modal" data-bs-target="#createPolicy" (click)="getExpenseType()"> -->
+                            <a href="" data-bs-toggle="modal" data-bs-target="#createPolicy" >
+                              <i class="bi bi-pencil pointer" style="color: #6666f3" (click)="getExitPolicyInformationById(exitPolicy)"></i>
                             </a>
   
                             <a class="delete-rule" data-bs-toggle="modal" data-bs-target="#delete-policy" (click)="
-                                      getExpensePolicyOrExpensePolicyTypeId(expensePolicy.id, true, 0)">
+                                      getExitPolicyId(exitPolicy.id)">
                               <i class="bi bi-trash pointer text-danger"></i>
                             </a>
   
                           </div>
   
-                          <span class="staff-leave-setting bg-white">Staff - {{ expensePolicy.totalEmployees }}</span>
-                          <span class="automation-rules-toogel-btn pointer" data-bs-toggle="collapse"
+                          <span class="staff-leave-setting bg-white">Staff - {{ exitPolicy.totalEmployees }}</span>
+                          
+                          <!-- <span class="automation-rules-toogel-btn pointer" data-bs-toggle="collapse"
                             [attr.data-bs-target]="'#multiCollapseExample' + i" role="button"
                             [attr.aria-controls]="'multiCollapseExample' + i"
                             [attr.aria-expanded]="i == activeIndex ? 'true' : 'false'" (click)="toggleCollapse(i)">
                             <i class="bi bi-chevron-down"></i>
-                          </span>
+                          </span> -->
+
                         </div>
                       </div>
   
-                      <div class="collapse multi-collapse" [id]="'multiCollapseExample' + i"
+                      <!-- <div class="collapse multi-collapse" [id]="'multiCollapseExample' + i"
                         [class.show]="activeIndex === i">
                         <div class="row mt-3">
                           <div [ngClass]="{
@@ -314,10 +320,11 @@
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </div> -->
+
                     </div>
                   </div>
-                </div> -->
+                </div>
                 <!-- View company expense policy list end -->
   
               </div>
@@ -346,7 +353,8 @@ data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
           Exit Policy
         </h6>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-          (click)="clearForm(exitForm)" #closeExitPolicyModal></button>
+        (click)="clearForm(exitForm)" #closeExitPolicyModal></button>
+          <!-- (click)="clearForm(exitForm)" #closeExitPolicyModal></button> -->
       </div>
       <div class="modal-body modal-height-fix">
         <div class="">
@@ -354,7 +362,7 @@ data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
             <li role="presentation" class="nav-item">
               <button id="home-tab" data-bs-toggle="tab" data-bs-target="#shiftime" type="button" role="tab"
                 aria-controls="expensePolicy" aria-selected="true" class="nav-link active pt-0"
-                [class.active]="activeTab === 'exitPolicy'" (click)="exitPolicySelectionTab()" #expenseTypeTab>
+                [class.active]="activeTab === 'exitPolicy'" (click)="exitPolicySelectionTab()" #exitPolicyTab>
                 Policy
               </button>
             </li>
@@ -364,7 +372,7 @@ data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
                 [attr.tabindex]="exitForm.invalid ? -1 : null" data-bs-target="#staffselection" type="button"
                 role="tab" aria-controls="staffselection" aria-selected="false" class="nav-link pt-0"
                 #staffActiveTabInShiftTiming [class.active]="activeTab === 'staffselection'"
-                (click)="staffActiveTabInShiftTimingMethod()" >
+                (click)="staffActiveTabInShiftTimingMethod()" [disabled]="policyName == '' || noticePeriodDuration == ''" >
                 <!-- (click)="staffActiveTabInShiftTimingMethod()" [disabled]="expensePolicyReqList.length == 0"> -->
                 Staff selection
               </button>
@@ -396,8 +404,8 @@ data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
                     <div class="col-md-12">
                       <div class="mb-3">
                         <label for="noticePeriodInput" class="pb-2">Notice Period</label>
-                        <input type="text" class="form-control whatapp-login-input"
-                          id="noticePeriod" placeholder="Enter notice period" required [(ngModel)]="noticePeriodDuration"
+                        <input type="number" class="form-control whatapp-login-input" min="1" 
+                          id="noticePeriod" placeholder="Enter notice period" required [(ngModel)]="noticePeriodDuration" 
                           name="noticePeriodInput" #noticePeriodInput="ngModel" />
                         <div *ngIf="noticePeriodInput.invalid && noticePeriodInput.touched" class="text-danger">
                             Notice Period is required.
@@ -410,7 +418,7 @@ data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
 
               <div class="modal-footer d-flex align-items-center justify-content-end pb-0">
                 <!-- <button type="submit" class="btn btn-primary next-tab-btn" [disabled]="expensePolicyReqList.length == 0" -->
-                <button type="submit" class="btn btn-primary next-tab-btn" 
+                <button type="submit" [disabled]="policyName == '' || noticePeriodDuration == '' || exitForm.invalid" class="btn btn-primary next-tab-btn" 
                   (click)="staffActiveTabInShiftTimingMethod()">
                   Next
                 </button>
@@ -542,7 +550,7 @@ data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
                 <button *ngIf="!userMappedLoading" type="button" class="btn btn-outline-primary btn-round"
                   (click)="getUserMappedWithPolicy(exitForm)"
                   [disabled]="selectedStaffIdsUser.length == 0 || userMappedLoading">
-                  Submit
+                  {{this.exitPolicyReq.id == 0 ? 'Submit' : 'Update'}}
                 </button>
 
                 <div class="dot-opacity-loader" *ngIf="userMappedLoading">
@@ -560,6 +568,74 @@ data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
   </div>
 </div>
 <!-- Add policy modal end -->
+
+
+<!-- delete policy modal -->
+<div class="modal fade" id="delete-policy" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
+    <div class="modal-content">
+      <div class="modal-body p-0 delete-text">
+        <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
+          <div class="delete-close-btn">
+            <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close"
+              #closeButtonDeleteExpensePolicy>
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+                <mask id="mask0_2031_1331" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
+                  height="30">
+                  <rect width="30" height="30" fill="#D9D9D9" />
+                </mask>
+                <g mask="url(#mask0_2031_1331)">
+                  <path
+                    d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                    fill="black" />
+                </g>
+              </svg>
+            </button>
+          </div>
+          <img src="/assets/images/delete-img.svg" style="width: 70px" />
+        </div>
+        <div class="bg-white p-4 text-center">
+
+          <!-- <div *ngIf="expenseAppliedCount == 0"> -->
+          <div >
+            <h5 class="alert-heading font-18 mb-2">
+              Are you sure you want to delete <br />
+              Exit Policy ?
+            </h5>
+            <p class="font-11">You will not be able to recover this</p>
+          </div>
+
+          <!-- <div *ngIf="expenseAppliedCount > 0">
+            <h5 class="alert-heading font-18 mb-2">
+              Are you sure ?
+            </h5>
+            <p class="font-11">There are <b class="font-13">{{expenseAppliedCount}}</b> users who have submitted expense
+              associated with this policy.
+              Deleting this policy will permanently remove all related data and cannot be recovered</p>
+          </div> -->
+
+          <div class="mt-4 d-flex align-items-center flex-column">
+            <!-- <button [disabled]="deletePolicyToggle" class="btn continue-btn" *ngIf="expensePolicyId > 0"
+              (click)="deleteExpensePolicyById()">
+              Continue
+              <i class="fa fa-spinner fa-spin" *ngIf="deletePolicyToggle"></i>
+            </button> -->
+
+            <button [disabled]="deletePolicyToggle" class="btn continue-btn" 
+              (click)="deleteExitPolicy()">
+              Continue
+              <i class="fa fa-spinner fa-spin" *ngIf="deletePolicyToggle"></i>
+            </button>
+            <button class="btn cancel-btn pt-2" type="button" data-bs-dismiss="modal" aria-label="Close">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- delete policy modal end-->
 
 
 

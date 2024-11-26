@@ -8,4 +8,5 @@ export class UserResignation{
     isRecommendLastDay: number = 0
     lastWorkingDay: any
     uuid: string =''
+    userExitTypeId: number =0;
 }
