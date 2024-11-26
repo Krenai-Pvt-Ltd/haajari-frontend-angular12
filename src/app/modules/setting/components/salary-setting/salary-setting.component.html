@@ -22,7 +22,7 @@
             >
               <div class="row">
                 <div class="col-md-12">
-                  <div class="attendance-settin-list mb-3" *ngFor="let item of [].constructor(3)">
+                  <div class="attendance-settin-list mb-3" *ngFor="let item of [].constructor(2)">
                     <ngx-shimmer-loading
                       [width]="'100%'"
                       [height]="'60px'"
@@ -231,52 +231,7 @@
                         </div>
                       </div>
                       <div class="row mt-3">
-                        <div class="col-md-4">
-                          <div class="">
-                            <ngx-shimmer-loading
-                              [width]="'100%'"
-                              [height]="'30px'"
-                              style="border-radius: 50%"
-                            ></ngx-shimmer-loading>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="">
-                            <ngx-shimmer-loading
-                              [width]="'100%'"
-                              [height]="'30px'"
-                              style="border-radius: 50%"
-                            ></ngx-shimmer-loading>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="">
-                            <ngx-shimmer-loading
-                              [width]="'100%'"
-                              [height]="'30px'"
-                              style="border-radius: 50%"
-                            ></ngx-shimmer-loading>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="">
-                            <ngx-shimmer-loading
-                              [width]="'100%'"
-                              [height]="'30px'"
-                              style="border-radius: 50%"
-                            ></ngx-shimmer-loading>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="">
-                            <ngx-shimmer-loading
-                              [width]="'100%'"
-                              [height]="'30px'"
-                              style="border-radius: 50%"
-                            ></ngx-shimmer-loading>
-                          </div>
-                        </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4" *ngFor="let item of [].constructor(6)">
                           <div class="">
                             <ngx-shimmer-loading
                               [width]="'100%'"
@@ -802,21 +757,7 @@
             >
               <div class="row">
                 <div class="col-md-12">
-                  <div class="attendance-settin-list mb-3">
-                    <ngx-shimmer-loading
-                      [width]="'100%'"
-                      [height]="'60px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
-                  </div>
-                  <div class="attendance-settin-list mb-3">
-                    <ngx-shimmer-loading
-                      [width]="'100%'"
-                      [height]="'60px'"
-                      style="border-radius: 50%"
-                    ></ngx-shimmer-loading>
-                  </div>
-                  <div class="attendance-settin-list mb-3">
+                  <div class="attendance-settin-list mb-3" *ngFor="let item of [].constructor(2)">
                     <ngx-shimmer-loading
                       [width]="'100%'"
                       [height]="'60px'"
@@ -2354,7 +2295,7 @@
             <button type="button" class="proceed-button" (click)="updateSalaryCalculationMode(selectedSalaryModeId)">
               Proceed
           </button>
-        </div>
+          </div>
         </div>
       </div>
     </div>

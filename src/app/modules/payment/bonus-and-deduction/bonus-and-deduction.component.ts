@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
 import { Key } from 'src/app/constant/key';
 import { BonusAndDeductionData } from 'src/app/models/bonus-and-deduction-data';
@@ -6,6 +6,7 @@ import { EmployeeMonthWiseSalaryData } from 'src/app/models/employee-month-wise-
 import { StartDateAndEndDate } from 'src/app/models/start-date-and-end-date';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { SalaryService } from 'src/app/services/salary.service';
 
 @Component({
   selector: 'app-bonus-and-deduction',
@@ -13,15 +14,13 @@ import { HelperService } from 'src/app/services/helper.service';
   styleUrls: ['./bonus-and-deduction.component.css'],
 })
 export class BonusAndDeductionComponent implements OnInit {
-  constructor(private dataService: DataService, private helperService: HelperService) {
-    const currentDate = moment();
-    this.startDateStr = currentDate.startOf('month').format('YYYY-MM-DD');
-    this.endDateStr = currentDate.endOf('month').format('YYYY-MM-DD');
 
-    // Set the default selected month
-    this.month = currentDate.format('MMMM');
 
-    this.getFirstAndLastDateOfMonth(this.selectedDate);
+  constructor(private dataService: DataService,
+              private helperService: HelperService,
+              private _salaryService : SalaryService) {
+
+    
   }
 
   itemPerPage: number = 8;
@@ -48,9 +47,17 @@ export class BonusAndDeductionComponent implements OnInit {
 
 
   ngOnInit(): void {
-    window.scroll(0, 0);
     this.getOrganizationRegistrationDateMethodCall();
-    this.getFirstAndLastDateOfMonth(new Date());
+
+    const currentDate = moment();
+    this.startDateStr = currentDate.startOf('month').format('YYYY-MM-DD');
+    this.endDateStr = currentDate.endOf('month').format('YYYY-MM-DD');
+
+    // Set the default selected month
+    this.month = currentDate.format('MMMM');
+
+    this.getFirstAndLastDateOfMonth(this.selectedDate);
+    // this.getFirstAndLastDateOfMonth(new Date());
   }
 
   size: 'small' | 'default' | 'large' = 'default';
@@ -74,7 +81,7 @@ mainPlaceholderFlag : boolean = false;
 bonusAndDeductionDataList: BonusAndDeductionData[] = [];
   getBonusAndDeductionMethodCall() {
     this.preRuleForShimmersAndErrorPlaceholders();
-    this.dataService
+    this._salaryService
       .getBonusAndDeductionLogs(
         this.startDate,
         this.endDate,
@@ -85,19 +92,22 @@ bonusAndDeductionDataList: BonusAndDeductionData[] = [];
       )
       .subscribe(
         (response) => {
-          if (
-            this.helperService.isListOfObjectNullOrUndefined(response)
-          ) {
+          if (!response.object) {
             this.dataNotFoundPlaceholder = true;
-            if(this.search == '') {
-              this.mainPlaceholderFlag = true;
-            }else {
-              this.mainPlaceholderFlag = false;
-            }
+              
           } else {
-            this.bonusAndDeductionDataList = response.listOfObject;
+            this.bonusAndDeductionDataList = response.object;
             this.total = response.totalItems;
             this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+
+            if(this.bonusAndDeductionDataList == null){
+              if(this.search == '') {
+                this.mainPlaceholderFlag = true;
+              }else {
+                this.mainPlaceholderFlag = false;
+              }
+            }
+            
           }
           this.isShimmer = false;
         },
@@ -158,7 +168,7 @@ bonusAndDeductionDataList: BonusAndDeductionData[] = [];
   }
 
   resetCriteriaFilter() {
-    this.itemPerPage = 8;
+    this.itemPerPage = 10;
     this.pageNumber = 1;
     this.lastPageNumber = 0;
     this.total = 0;
@@ -247,6 +257,52 @@ this.getBonusAndDeductionMethodCall();
     // Enable the month if it's from January 2023 to the current month
     return false;
   };
+
+  bonusEditReq : BonusAndDeductionData = new BonusAndDeductionData();
+  @ViewChild('bonusEditButton') bonusEditButton!:ElementRef;
+  openEditModal(data: BonusAndDeductionData){
+    this.bonusEditReq =  JSON.parse(JSON.stringify(data)) ;   
+    this.bonusEditButton.nativeElement.click();
+  }
+
+
+
+  updateBonus(){
+    this._salaryService.updateBonus(this.bonusEditReq).subscribe((response) => {
+        if(response.status){
+          this.getBonusAndDeductionMethodCall();
+          this.helperService.showToast(response.message,Key.TOAST_STATUS_SUCCESS);
+        }else{
+          this.helperService.showToast(response.message,Key.TOAST_STATUS_ERROR);
+        }
+      },(error) => {
+
+      }
+    );
+  }
+
+@ViewChild('bonusDeleteButton') bonusDeleteButton!:ElementRef;
+  openDeleteModal(bonusId:number){
+    this.bonusId = bonusId;
+    this.bonusDeleteButton.nativeElement.click();
+  }
+
+  bonusId:number=0;
+  deleteBonus(){
+    this._salaryService.deleteBonus(this.bonusId).subscribe((response) => {
+        if(response.status){
+          this.getBonusAndDeductionMethodCall();
+          this.helperService.showToast(response.message,Key.TOAST_STATUS_SUCCESS);
+        }else{
+          this.helperService.showToast(response.message,Key.TOAST_STATUS_ERROR);
+        }
+
+      },(error) => {
+
+      }
+    );
+  }
+
 
 
 }

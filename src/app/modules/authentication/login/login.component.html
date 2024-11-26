@@ -267,8 +267,9 @@
             type="submit"
             [disabled]="otp == null || otp == '' || otp.length != 6"
             *ngIf="showOtpInput && verifyOtpButtonFlag"
-            (click)="verifyOtp()"
+       
           >
+          <!-- (click)="verifyOtp()" -->
             <span *ngIf="!loading">Verify</span>
             <div class="dot-opacity-loader" *ngIf="loading">
               <span></span>

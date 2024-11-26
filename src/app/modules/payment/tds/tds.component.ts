@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
 import { Key } from 'src/app/constant/key';
 import { EmployeeMonthWiseSalaryData } from 'src/app/models/employee-month-wise-salary-data';
 import { StartDateAndEndDate } from 'src/app/models/start-date-and-end-date';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { SalaryService } from 'src/app/services/salary.service';
 
 @Component({
   selector: 'app-tds',
@@ -33,7 +34,14 @@ export class TdsComponent implements OnInit {
     this.networkConnectionErrorPlaceHolder = false;
   }
 
-  constructor(private dataService: DataService, private helperService: HelperService) {
+  constructor(private dataService: DataService,
+     private helperService: HelperService,
+     private _salaryService :SalaryService) {
+   
+  }
+
+  ngOnInit(): void {
+    window.scroll(0, 0);
     const currentDate = moment();
     this.startDateStr = currentDate.startOf('month').format('YYYY-MM-DD');
     this.endDateStr = currentDate.endOf('month').format('YYYY-MM-DD');
@@ -41,13 +49,9 @@ export class TdsComponent implements OnInit {
     // Set the default selected month
     this.month = currentDate.format('MMMM');
 
-    this.getFirstAndLastDateOfMonth(this.selectedDate);
-  }
-
-  ngOnInit(): void {
-    window.scroll(0, 0);
     this.getOrganizationRegistrationDateMethodCall();
-    this.getFirstAndLastDateOfMonth(new Date());
+    this.getFirstAndLastDateOfMonth(this.selectedDate);
+  
   }
 
   startDateStr: string = '';
@@ -59,7 +63,7 @@ export class TdsComponent implements OnInit {
   employeeMonthWiseSalaryDataList: EmployeeMonthWiseSalaryData[] = [];
   getEmployeeMonthWiseSalaryDataMethodCall() {
     this.preRuleForShimmersAndErrorPlaceholders();
-    this.dataService
+    this._salaryService
       .getMonthWiseSalaryData(
         this.startDate,
         this.endDate,
@@ -72,19 +76,22 @@ export class TdsComponent implements OnInit {
       )
       .subscribe(
         (response) => {
-          if (
-            this.helperService.isListOfObjectNullOrUndefined(response)
-          ) {
+          if (!response.listOfObject) {
             this.dataNotFoundPlaceholder = true;
-            if(this.search == '') {
-              this.mainPlaceholderFlag = true;
-            }else {
-              this.mainPlaceholderFlag = false;
-            }
+              
           } else {
             this.employeeMonthWiseSalaryDataList = response.listOfObject;
             this.total = response.totalItems;
             this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
+
+            if(this.employeeMonthWiseSalaryDataList == null){
+              if(this.search == '') {
+                this.mainPlaceholderFlag = true;
+              }else {
+                this.mainPlaceholderFlag = false;
+              }
+            }
+            
           }
           this.isShimmer = false;
         },
@@ -102,7 +109,6 @@ export class TdsComponent implements OnInit {
 
   onYearChange(date: Date): void {
     this.selectedDate = date;
-    // console.log('Selected year:', date.getFullYear());
   }
 
   size: 'large' | 'small' | 'default' = 'small';
@@ -112,12 +118,8 @@ export class TdsComponent implements OnInit {
   startDateAndEndDate : StartDateAndEndDate = new StartDateAndEndDate();
 
   onMonthChange(month: Date): void {
-    // console.log('Month is getting selected');
     this.selectedDate = month;
     this.getFirstAndLastDateOfMonth(this.selectedDate);
-
-    // console.log(this.startDate, this.endDate);
-    // this.getEmployeeMonthWiseSalaryDataMethodCall();
   }
 
   disableMonths = (date: Date): boolean => {
@@ -175,10 +177,6 @@ export class TdsComponent implements OnInit {
       new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0),
     );
     this.getEmployeeMonthWiseSalaryDataMethodCall();
-    // const endDateWithoutEndHours = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
-
-    // this.startDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1, 0, 0, 0).toDateString();
-    // this.endDate = new Date(endDateWithoutEndHours.getFullYear(), endDateWithoutEndHours.getMonth() + 1, 0).toDateString() + " " + this.END_HOUR;
   }
 
   formatDateToYYYYMMDD(date: Date): string {
@@ -239,13 +237,34 @@ export class TdsComponent implements OnInit {
   searchUsers(event: Event) {
     this.helperService.ignoreKeysDuringSearch(event);
     this.resetCriteriaFilterMicro();
-this.getEmployeeMonthWiseSalaryDataMethodCall();
+    this.getEmployeeMonthWiseSalaryDataMethodCall();
   }
 
   // Clearing search text
   clearSearch() {
     this.resetCriteriaFilter();
    this.getEmployeeMonthWiseSalaryDataMethodCall();
+  }
+
+  employeeMonthWiseSalaryData: EmployeeMonthWiseSalaryData = new EmployeeMonthWiseSalaryData();
+  @ViewChild('epfTdsEditButton') epfTdsEditButton!:ElementRef;
+  openEpfModal(data: EmployeeMonthWiseSalaryData){
+    this.employeeMonthWiseSalaryData = JSON.parse(JSON.stringify(data));
+    this.epfTdsEditButton.nativeElement.click();
+  }
+
+  updateEmployeeData(){
+    this._salaryService.updateEmployeeData(this.employeeMonthWiseSalaryData).subscribe((response) => {
+        if(response.status){
+          this.getEmployeeMonthWiseSalaryDataMethodCall();
+          this.helperService.showToast(response.message,Key.TOAST_STATUS_SUCCESS);
+        }else{
+          this.helperService.showToast(response.message,Key.TOAST_STATUS_ERROR);
+        }
+      },(error) => {
+
+      }
+    );
   }
 
 }

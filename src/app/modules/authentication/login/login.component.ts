@@ -302,6 +302,7 @@ export class LoginComponent implements OnInit {
   createPasswordFlag: boolean = false;
   otpErrorMessage: string = '';
   verifyOtp() {
+    debugger
     if (this.isWhatsappLogin) {
       this.verifyOtpByWhatsappMethodCall();
     } else {
@@ -504,6 +505,7 @@ export class LoginComponent implements OnInit {
               response.object.tokenResponse.refresh_token
             );
             await this.rbacService.initializeUserInfo();
+            await this._subscriptionService.LoadAsync();
             const helper = new JwtHelperService();
             const onboardingStep = helper.decodeToken(
               response.object.tokenResponse.access_token

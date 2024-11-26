@@ -3031,15 +3031,16 @@ return
     if(this.isFormInvalid==true){
       return
     } else{
-    this.dataService.registerBonus(this.bonusRequest, this.userId).subscribe(
-      (response) => {
-        this.helperService.showToast("Bonus request submitted successfully", Key.TOAST_STATUS_SUCCESS);
-        this.bonusRequestModalButton.nativeElement.click();
+    this._salaryService.registerBonus(this.bonusRequest, this.userId).subscribe((response) => {
+        if(response.status){
+          this.helperService.showToast("Bonus applied successfully", Key.TOAST_STATUS_SUCCESS);
+          this.bonusRequestModalButton.nativeElement.click();
+        }else{
+          this.helperService.showToast("Error submitting bonus request", Key.TOAST_STATUS_ERROR);
+        }
       },
       (error) => {
-        console.error('Error submitting bonus request:', error);
-        this.helperService.showToast("Error submitting bonus request", Key.TOAST_STATUS_ERROR);
-
+      
       }
     );
   }}

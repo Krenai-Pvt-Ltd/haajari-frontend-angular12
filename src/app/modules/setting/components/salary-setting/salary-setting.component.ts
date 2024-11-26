@@ -703,7 +703,7 @@ export class SalarySettingComponent implements OnInit {
           if (statutoryId == this.EPF_ID) {
             if (this.pFContributionRateList.length > 0) {
               const defaultPFContributionRate = this.pFContributionRateList[0];
-                console.log(this.pFContributionRateList);
+                // console.log(this.pFContributionRateList);
               this.statutoryAttributeResponseList.forEach((attr) => {
                 if (
                   attr.value === undefined ||
@@ -717,7 +717,7 @@ export class SalarySettingComponent implements OnInit {
           } else if (statutoryId == this.ESI_ID) {
             this.statutoryAttributeResponseList.forEach((attr) => {
               const matchingESIRate = this.eSIContributionRateList.find((iterator) => iterator.statutoryAttribute.id === attr.id);
-              console.log(this.eSIContributionRateList);
+              // console.log(this.eSIContributionRateList);
               if (matchingESIRate) {
                 if (
                   attr.value === undefined ||

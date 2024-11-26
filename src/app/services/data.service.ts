@@ -3195,37 +3195,9 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     return this.httpClient.post<any>(`${this.baseUrl}/salary/appraisal-request`, appraisalRequest);
   }
 
-  registerBonus(bonusRequest : BonusRequest, userUuid : string): Observable<any>{
-    const params = new HttpParams()
-    .set('user_uuid', userUuid);
+ 
 
-    return this.httpClient.post<any>(`${this.baseUrl}/salary/bonus/register`, bonusRequest, {params});
-  }
-
-  getMonthWiseSalaryData(
-    startDate: any,
-    endDate: any,
-    itemPerPage: number,
-    pageNumber: number,
-    search: string,
-    searchBy: string,
-    sort: string,
-    sortBy: string
-  ): Observable<any> {
-    const params = new HttpParams()
-      .set('start_date', startDate.toString())
-      .set('end_date', endDate.toString())
-      .set('item_per_page', itemPerPage.toString())
-      .set('page_number', pageNumber.toString())
-      .set('search', search)
-      .set('search_by', searchBy)
-      .set('sort', sort)
-      .set('sort_by', sortBy);
-    return this.httpClient.get<any>(
-      `${this.baseUrl}/salary/month-wise/data`,
-      { params }
-    );
-  }
+  
 
   getSalaryChangeOvertimeResponseListByOrganizationId(
     startDate: string,
@@ -3313,24 +3285,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/statutory/tds`, {params});
   }
 
-  getBonusAndDeductionLogs(
-    startDate: any,
-    endDate: any,
-    itemPerPage: number,
-    pageNumber: number,
-    search: string,
-    searchBy: string): Observable<any> {
-
-    const params = new HttpParams()
-    .set('start_date', startDate)
-    .set('end_date', endDate)
-    .set('item_per_page', itemPerPage)
-    .set('page_number', pageNumber)
-    .set('search', search)
-    .set('search_by', searchBy)
-
-    return this.httpClient.get<any>(`${this.baseUrl}/bonus-deduction/logs`, {params});
-  }
+  
 
   getSalarySlipDataMonthwise(
     startDate: any,

@@ -150,7 +150,7 @@
             </div>
           </div>
         </div>
-        <div class="email-leftbar">
+        <!-- <div class="email-leftbar">
           <small>Teams</small>
           <ul class="list-group">
             <li
@@ -238,18 +238,17 @@
             </li>
           </ul>
 
-          <!-- end card -->
-        </div>
-        <!-- End Left sidebar -->
-        <!-- Right Sidebar -->
-        <div class="email-rightbar">
+    
+        </div> -->
+        <!-- email-rightbar -->
+        <div class="">
           <!-- end div -->
-          <div class="btn-toolbar" role="toolbar">
+          <div class="btn-toolbar" role="toolbar" *ngIf="selectedEmployeeIds.length>0">
             <div class="btn-group">
-              <button type="button" class="btn btn-de-secondary">
+              <!-- <button type="button" class="btn btn-de-secondary">
                 <i class="fas fa-cog"></i>
                 <small>&nbsp;&nbsp;RELEASE PAYROLL</small>
-              </button>
+              </button> -->
               <button
                 [disabled]="
                   !selectedEmployeeIds || selectedEmployeeIds.length === 0

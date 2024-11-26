@@ -19,7 +19,7 @@ export class HelperService {
   constructor( private _httpClient : HttpClient,
      private dataService: DataService,
      private router: Router,
-     private _onboardingService: OrganizationOnboardingService,
+  
     ) {
 
    }
@@ -343,5 +343,18 @@ export class HelperService {
 
   getSubscriptionRestrictedModules() {
     return this._httpClient.get<any>(this._key.base_url + this._key.get_restricted_modules)
+  }
+
+
+  organizationRegistrationDate: string = '';
+  getOrganizationRegistrationDateMethodCall() {
+    this.dataService.getOrganizationRegistrationDate().subscribe(
+      (response) => {
+        this.organizationRegistrationDate = response;
+      },
+      (error) => {
+
+      }
+    );
   }
 }
