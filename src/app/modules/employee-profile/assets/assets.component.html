@@ -52,7 +52,10 @@
                         </div>
 
                         <div class="table-responsive bg-white mt-3">
-                          <table class="table empOnnoardtable">
+                          <div *ngIf="isLoadingAsset" class="shimmer-wrapper">
+                            <div class="shimmer"></div>
+                          </div>
+                          <table *ngIf="!isLoadingAsset" class="table empOnnoardtable">
                             <thead class="thead-light">
                               <tr>
 
@@ -104,7 +107,7 @@
 
                     </div>
                   </ng-template>
-                    <div *ngIf="isAssetsArrayEmpty(); else assetsContent"  class="empty-file" style="margin-top: 13%; margin-bottom: 13%">
+                    <div *ngIf="isAssetsArrayEmpty() && !isLoadingAsset; else assetsContent"  class="empty-file" style="margin-top: 13%; margin-bottom: 13%">
                       <nz-empty nzNotFoundImage="assets/images/no-assets.svg" [nzNotFoundContent]="contentTpl">
                           <ng-template #contentTpl>
                               <p class="mb-1 empty-detail font-18">
@@ -119,7 +122,7 @@
                 </div>
                 <div class="tab-pane fade pt-3" id="asset-request" role="tabpanel" aria-labelledby="asset-request-tab">
 
-                    <div class="obboard-employee-list" *ngIf="!isAssetRequestArrayEmpty(); else noAssets">
+                    <div class="obboard-employee-list" *ngIf="!isAssetRequestArrayEmpty() || isLoading; else noAssets">
 
 
                         <div class="onboard-add row align-items-center mx-0">
@@ -149,7 +152,7 @@
                                         <div class="form-group" style="width: 100%; position: relative;"><input type="text"
                                                 id="searchText" placeholder="Search..."
                                                 class="form-control me-2 ng-pristine ng-valid ng-touched"
-                                                (input)="searchAssetsRequest($event)"
+                                                (input)="onSearchInput($event)"
                                                 style="padding: 10px 40px;" ng-reflect-model=""
                                                 ng-reflect-options="[object Object]"><i
                                                 class="bi bi-search search-icon ng-star-inserted"
@@ -183,14 +186,14 @@
                                 <td colspan="9" class="text-center">No data found</td>
                               </tr>
                               <tr *ngFor="let asset of assetRequests">
-                                <td class="text-left">{{ asset.requestedOn | date: 'EEE, MMM d yyyy' }}</td>
-                                <td class="text-left">{{ asset.assetName }}</td>
-                                <td class="text-left">{{ asset.assetType }}</td>
-                                <td class="text-left">{{ asset.assetCategoryName }}</td>
-                                <td class="text-left">{{ asset.requestedUser  }}</td>
-                                <td class="text-left">{{ asset.approvedBy }}</td>
-                                <td class="text-left">{{ asset.actionTakenOn | date: 'MMM d yyyy' }}</td>
-                                <td class="text-left">{{ asset.note }}</td>
+                                <td class="text-left">{{ asset.requestedOn ? (asset.requestedOn | date: 'EEE, MMM d yyyy') : 'N/A' }}</td>
+                                <td class="text-left">{{ asset.assetName || 'N/A' }}</td>
+                                <td class="text-left">{{ asset.assetType || 'N/A' }}</td>
+                                <td class="text-left">{{ asset.assetCategoryName || 'N/A' }}</td>
+                                <td class="text-left">{{ asset.requestedUser || 'N/A' }}</td>
+                                <td class="text-left">{{ asset.approvedBy || 'N/A' }}</td>
+                                <td class="text-left">{{ asset.actionTakenOn ? (asset.actionTakenOn | date: 'MMM d yyyy') : 'N/A' }}</td>
+                                <td class="text-left">{{ asset.note || 'N/A'}}</td>
                                 <td class="text-left">
                                   <span
                                     [ngClass]="{
@@ -331,13 +334,30 @@
                       <div class="col-md-12 mb-3">
                         <div class="form-group">
                           <label for="note" class="mb-2">Note</label>
-                          <textarea formControlName="note" class="form-control nots-section" rows="3" placeholder="Enter any notes here"></textarea>
+                          <textarea
+                            formControlName="note"
+                            class="form-control nots-section"
+                            rows="3"
+                            placeholder="Enter any notes here"
+                            maxlength="200">
+                          </textarea>
+                          <small *ngIf="assetRequestForm.controls['note'].hasError('maxlength') && assetRequestForm.controls['note'].touched" class="text-danger">
+                            Note cannot exceed 200 characters.
+                          </small>
                         </div>
                       </div>
+
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
-                      <button type="submit" class="btn btn-primary" [disabled]="assetRequestForm.invalid">Submit Request</button>
+                      <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" #cancelButton>Cancel</button>
+                      <button type="submit" class="btn btn-primary" [disabled]="assetRequestForm.invalid || isLoadingForm">
+                        <span  *ngIf="!isLoadingForm">Submit Request</span>
+                    <div class="dot-opacity-loader" *ngIf="isLoadingForm">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                  </button>
                   </div>
                   </form>
 
