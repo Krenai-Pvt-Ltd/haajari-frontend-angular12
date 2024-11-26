@@ -1,8 +1,6 @@
-import { Status } from './../../../models/status';
-import { saveAs } from 'file-saver';
+
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
 import { OnboardingFormPreviewResponse } from 'src/app/models/onboarding-form-preview-response';
 import { UserAcademicsDetailRequest } from 'src/app/models/user-academics-detail-request';
@@ -15,6 +13,8 @@ import { UserGuarantorRequest } from 'src/app/models/user-guarantor-request';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import { UserBankDetailRequest } from 'src/app/models/user-bank-detail-request';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-personal-information',
@@ -25,9 +25,10 @@ export class PersonalInformationComponent implements OnInit {
 
   profileEdit: boolean = false;
   userId: any;
+  onboardingForm!: FormGroup;
 
   constructor(private dataService: DataService,private activateRoute: ActivatedRoute, private helperService : HelperService,
-    public rbacService: RoleBasedAccessControlService,
+    public rbacService: RoleBasedAccessControlService, private fb: FormBuilder,
   ) {
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
@@ -35,6 +36,66 @@ export class PersonalInformationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.onboardingForm = this.fb.group({
+      user: this.fb.group({
+        name: ['', Validators.required],
+        maritalStatus: [''],
+        email: ['', [Validators.required, Validators.email]],
+        joiningDate: [null, Validators.required],
+        phoneNumber: ['', Validators.pattern(/^[0-9]{10}$/)],
+        currentSalary: [''],
+        gender: [''],
+        department: [''],
+        dateOfBirth: [null],
+        position: [''],
+        fatherName: [''],
+        nationality: [''],
+      }),
+      currentAddress: this.fb.group({
+        addressLine1: ['', Validators.required],
+        addressLine2: [''],
+        city: ['', Validators.required],
+        state: ['', Validators.required],
+        country: ['', Validators.required],
+        pincode: ['', [Validators.required, Validators.pattern('^[0-9]{6}$')]],
+      }),
+      permanentAddress: this.fb.group({
+        addressLine1: ['', Validators.required],
+        addressLine2: [''],
+        city: ['', Validators.required],
+        state: ['', Validators.required],
+        country: ['', Validators.required],
+        pincode: ['', [Validators.required, Validators.pattern('^[0-9]{6}$')]],
+      }),
+      refrences: this.fb.array([
+        this.fb.group({
+          name: ['', Validators.required],
+          relation: ['', Validators.required],
+          phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+          emailId: ['', [Validators.required, Validators.email]],
+        })
+      ]),
+
+      academicDetails: this.fb.group({
+        highestEducationalLevel: ['', Validators.required],
+        degreeObtained: ['', Validators.required],
+        fieldOfStudy: ['', Validators.required],
+        institutionName: ['', Validators.required],
+        grade: ['', Validators.required],
+        graduationYear: ['', Validators.required],
+      }),
+      bankDetails: this.fb.group({
+        accountHolderName: ['', Validators.required],
+        bankName: ['', Validators.required],
+        accountNumber: ['', [
+          Validators.required,
+          Validators.pattern('^[0-9]{10}$')
+        ]],
+        ifsc: ['', Validators.required],
+      }),
+    });
+
     this.getOnboardingFormPreviewMethodCall();
     this.loadRoutes();
     this.getPendingRequest();
@@ -212,10 +273,10 @@ export class PersonalInformationComponent implements OnInit {
 
   editProfile(){
     this.onboardingPreviewDataCopy = JSON.parse(JSON.stringify(this.onboardingPreviewData));
-    if(this.onboardingPreviewDataCopy.userAddress == null){
+    if(this.routes.includes('/employee-address-detail') && this.onboardingPreviewDataCopy.userAddress == null){
       this.onboardingPreviewDataCopy.userAddress = [];
     }
-    if(this.onboardingPreviewDataCopy.userAddress.length<2){
+    if(this.routes.includes('/employee-address-detail') && this.onboardingPreviewDataCopy.userAddress.length<2){
       while(this.onboardingPreviewDataCopy.userAddress.length!=2){
         this.onboardingPreviewDataCopy.userAddress.push(new UserAddressRequest());
       }
@@ -224,18 +285,22 @@ export class PersonalInformationComponent implements OnInit {
       this.onboardingPreviewDataCopy.userGuarantorInformation= [];
       this.onboardingPreviewDataCopy.userGuarantorInformation.push(new UserGuarantorRequest());
     }
-    if(!this.onboardingPreviewDataCopy.userAcademics){
+    if(this.routes.includes('/acadmic') && !this.onboardingPreviewDataCopy.userAcademics){
       this.onboardingPreviewDataCopy.userAcademics=new UserAcademicsDetailRequest();
     }
-    if(this.onboardingPreviewDataCopy.userEmergencyContacts == null || this.onboardingPreviewDataCopy.userEmergencyContacts.length==0){
+    if(this.routes.includes('/emergency-contact') && (this.onboardingPreviewDataCopy.userEmergencyContacts == null || this.onboardingPreviewDataCopy.userEmergencyContacts.length==0)){
       this.onboardingPreviewDataCopy.userEmergencyContacts = [];
       this.onboardingPreviewDataCopy.userEmergencyContacts.push(new UserEmergencyContactDetailsRequest());
     }
-    if(this.onboardingPreviewDataCopy.userExperience == null || this.onboardingPreviewDataCopy.userExperience.length == 0){
+    if(this.routes.includes('/employee-experience') && (this.onboardingPreviewDataCopy.userExperience == null || this.onboardingPreviewDataCopy.userExperience.length == 0)){
       // this.onboardingPreviewDataCopy.userExperience.push(new UserExperience());
       this.onboardingPreviewDataCopy.userExperience = new Array();
       this.onboardingPreviewDataCopy.userExperience.push(new UserExperience());
     }
+    if(this.routes.includes('/bank-details') && !this.onboardingPreviewDataCopy.userAcademics){
+      this.onboardingPreviewDataCopy.userBankDetails=new UserBankDetailRequest();
+    }
+
   }
 
 
@@ -285,7 +350,7 @@ export class PersonalInformationComponent implements OnInit {
     );
   }
 
-  @ViewChild('profileRequestModal') profileRequestModal!:ElementRef;
+
 
 
 

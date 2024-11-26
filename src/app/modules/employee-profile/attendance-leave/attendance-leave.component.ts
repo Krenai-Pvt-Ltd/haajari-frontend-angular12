@@ -145,7 +145,7 @@ dayShiftToggleFun(shift: string) {
         this.totalItems = response.totalElements;
         this.totalPages = response.totalPages;
         this.isLoading=false;
-      });  
+      });
   }
 
   loadLeaveLogs(): void {
@@ -160,7 +160,7 @@ dayShiftToggleFun(shift: string) {
         this.totalItems = response.totalElements;
         this.totalPages = response.totalPages;
         this.isLoading=false;
-      });  
+      });
   }
 
 
@@ -207,6 +207,7 @@ dayShiftToggleFun(shift: string) {
     debugger
     this.userLeaveRequest.halfDayLeave = this.isHalfLeaveSelected;
     // this.userLeaveRequest.halfDayLeave = false;
+    this.userLeaveRequest.leaveType=this.userLeaveRequest.userLeaveTemplateId.toString();
     this.dataService
       .saveLeaveRequest(this.userId, this.userLeaveRequest, this.fileToUpload)
       .subscribe(
