@@ -990,3 +990,14 @@ nz-select.request-dropdown .ant-select-selector {
 
 
 }
+
+
+.empty-detail {
+    color: #6b7280;
+    line-height: 20px;
+    font-size: 16px;
+}
+
+::ng-deep.ant-empty-image img {
+    width: 90px !important;
+}

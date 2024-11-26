@@ -1,7 +1,7 @@
 
 <div class="m-3 assets-detail">
-    <div class="employee-assets p-3">
-        <div class="d-flex align-items-center justify-content-between ">
+    <div>
+        <div class="d-flex align-items-center justify-content-between border-bottom pb-2">
             <h5 class="font-15 ">Assigned Assets</h5>
             <button class="btn assets-request" data-bs-toggle="modal" data-bs-target="#assetRequest">Asset Request
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
@@ -17,7 +17,7 @@
             </button>
         </div>
 
-        <div class="">
+        <div class="mt-2">
             <ul id="pills-tab" role="tablist" class="nav nav-pills">
                 <li class="nav-item">
                     <a id="pills-home-tab" data-bs-toggle="pill" href="#assigned-assets" role="tab" aria-controls="pills-home"
@@ -27,6 +27,8 @@
                     <a id="pills-profile-tab" data-bs-toggle="pill" href="#asset-request" role="tab" aria-controls="pills-profile"
                         aria-selected="false" (click)="this.getAssetRequests()" class="nav-link">Asset request</a>
                 </li>
+
+                
             </ul>
 
             <div id="pills-tabContent" class="tab-content">
@@ -67,12 +69,24 @@
                                 <th class="text-left font-13">Status</th>
                               </tr>
                             </thead>
-                            <tbody>
-                              <tr *ngIf="assets?.length === 0">
-                                <td colspan="9" class="text-center">No data found</td>
-                              </tr>
-                              <tr *ngFor="let asset of assets">
 
+                            <tbody *ngIf="assets?.length === 0">
+                              <tr>
+                                <td colspan="6">
+                                  <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%">
+                                    <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+                                      <ng-template #contentTpl>
+                                        <p class="mb-1 empty-detail">No data for now</p>
+                                      </ng-template>
+                                    </nz-empty>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+
+
+                            <tbody>
+                              <tr *ngFor="let asset of assets">
                                 <td class="text-left">{{ asset.assetName }}</td>
                                 <td class="text-left">{{ asset.serialNumber }}</td>
                                 <td class="text-left">{{ asset.categoryName }}</td>
@@ -181,19 +195,54 @@
                                 <th class="text-left font-13" style="width: 10%">Status</th>
                               </tr>
                             </thead>
-                            <tbody>
-                              <tr *ngIf="assetRequests?.length === 0">
-                                <td colspan="9" class="text-center">No data found</td>
+
+                            <tbody *ngIf="assetRequests?.length === 0">
+                              <tr>
+                                <td colspan="9">
+                                  <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
+                                    <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+                                      <ng-template #contentTpl>
+                                        <p class="mb-1 empty-filenew">No data for now</p>
+                                      </ng-template>
+                                    </nz-empty>
+                                  </div>
+                                </td>
                               </tr>
+                            </tbody>
+                            <tbody>
                               <tr *ngFor="let asset of assetRequests">
-                                <td class="text-left">{{ asset.requestedOn ? (asset.requestedOn | date: 'EEE, MMM d yyyy') : 'N/A' }}</td>
-                                <td class="text-left">{{ asset.assetName || 'N/A' }}</td>
-                                <td class="text-left">{{ asset.assetType || 'N/A' }}</td>
-                                <td class="text-left">{{ asset.assetCategoryName || 'N/A' }}</td>
-                                <td class="text-left">{{ asset.requestedUser || 'N/A' }}</td>
-                                <td class="text-left">{{ asset.approvedBy || 'N/A' }}</td>
-                                <td class="text-left">{{ asset.actionTakenOn ? (asset.actionTakenOn | date: 'MMM d yyyy') : 'N/A' }}</td>
-                                <td class="text-left">{{ asset.note || 'N/A'}}</td>
+                                <td class="text-left">
+                                  <span class="table-font-weight">{{ asset.requestedOn ? (asset.requestedOn | date: 'EEE, MMM d yyyy') : 'N/A' }}</span>
+                                </td>
+                                <td class="text-left">
+                                  <span>{{ asset.assetName || 'N/A' }} </span>
+                                  </td>
+                                <td class="text-left">
+                                  <span class="table-font-weight">{{ asset.assetType || 'N/A' }} </span>
+                                  </td>
+                                <td class="text-left">
+                                  <span class="table-font-weight"> {{ asset.assetCategoryName || 'N/A' }} </span>
+                                  </td>
+                                <td class="text-left">
+                                  <span> {{ asset.requestedUser || 'N/A' }} </span>
+                                </td>
+                                <td class="text-left">
+                                  <span class="table-font-weight">{{ asset.approvedBy || 'N/A' }} </span>
+                                  </td>
+                                <td class="text-left">
+                                  <span class="table-font-weight"> {{ asset.actionTakenOn ? (asset.actionTakenOn | date: 'MMM d yyyy') : 'N/A' }} </span>
+                                  </td>
+                                <td class="text-left">
+                                
+                                  <span class="white-space" style="width: 40px !important;" nz-popover 
+                                  nzPopoverTitle="Note" [nzPopoverContent]="contentTemplate" [nzPopoverOverlayStyle]	="{'width':'300px'}"
+                                   nzPopoverPlacement="top" > {{ asset.note || 'N/A'}} </span>
+                                  <ng-template #contentTemplate>
+                                    <div>
+                                     {{asset.note}}
+                                    </div>
+                                  </ng-template>
+                                </td>
                                 <td class="text-left">
                                   <span
                                     [ngClass]="{
