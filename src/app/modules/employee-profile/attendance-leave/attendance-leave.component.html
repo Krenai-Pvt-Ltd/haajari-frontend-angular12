@@ -124,8 +124,9 @@
                         <div class="col-md-8 ">
                             <div class="attendance-summery p-3 pt-2 pb-2 d-flex align-items-center justify-content-between ">
                                 <div>
-                                    <h5 class="mb-0 font-15">{{convertToHourMinuteFormat(totalAttendanceDetails.totalWorkedHours)}}</h5>
-                                    <p class="mb-0 font-12">Worked</p>
+                                    <h5 class="mb-0 font-15">{{convertToHourMinuteFormat(totalAttendanceDetails.totalOvertimeHours)}}<span class="lat">({{totalAttendanceDetails.totalOvertimeCount}} overtime)</span></h5>
+                                    <p class="mb-0 font-12">Overtime</p>
+                                   
                                 </div>
                                 <div class="text-end d-flex align-items-center gap-2">
                                     <span class="total-worked">
@@ -147,8 +148,8 @@
                                         </svg>
                                     </span>
                                     <div>
-                                    <h5 class="mb-0 font-15">0 mins</h5>
-                                    <p class="mb-0 font-12">Overtime</p>
+                                        <h5 class="mb-0 font-15">{{convertToHourMinuteFormat(totalAttendanceDetails.totalWorkedHours)}}</h5>
+                                        <p class="mb-0 font-12">Worked</p>
                                     </div>
                                 </div>
                             </div>
@@ -182,8 +183,8 @@
                         </div>
                         <div class="col-md-2">
                             <div class="attendance-summery p-3 pt-2 pb-2">
-                                <h5 class="mb-0 font-15">1</h5>
-                                <p class="mb-0 font-12">Absence</p>
+                                <h5 class="mb-0 font-15">{{totalAttendanceDetails.totalAbsentCount}}</h5>
+                                <p class="mb-0 font-12">Absent</p>
                             </div>
                         </div>
                        </div>

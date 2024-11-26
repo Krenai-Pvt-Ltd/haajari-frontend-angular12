@@ -27,4 +27,7 @@ export class TotalEmployeeProfileAttendanceResponse {
 	totalEarlyCheckoutHours!: string;
 	totalEarlyCheckoutCount!: string;
 	totalSystemCheckoutCount!: string;
+    totalAbsentCount!: string;
+    totalOvertimeHours!: string;
+    totalOvertimeCount!: string;
 }

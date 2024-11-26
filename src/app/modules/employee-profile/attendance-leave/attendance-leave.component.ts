@@ -490,14 +490,15 @@ dayShiftToggleFun(shift: string) {
       this.selectedDate.getMonth() === currentDate.getMonth();
   
     if (isCurrentMonth) {
-      this.thirtyDaysLabel = `${currentDate.getDate()} Days`;
+      // this.thirtyDaysLabel = `${currentDate.getDate()} Days`;
+      this.thirtyDaysLabel = `All`;
     } else {
       const totalDays = new Date(
         this.selectedDate.getFullYear(),
         this.selectedDate.getMonth() + 1,
         0
       ).getDate();
-      this.thirtyDaysLabel = `${totalDays} Days`;
+      // this.thirtyDaysLabel = `${totalDays} Days`;
       this.thirtyDaysLabel = `All`;
     }
   }
@@ -537,9 +538,12 @@ dayShiftToggleFun(shift: string) {
       this.setWeekRange(this.selectedDate, weekNumber);
     }
   }
-  
+
   setWeekRange(date: Date, weekNumber: number): void {
+    const currentDate = new Date();
     const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+    const lastDayOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+  
     const weekStart = new Date(
       startOfMonth.getFullYear(),
       startOfMonth.getMonth(),
@@ -552,12 +556,43 @@ dayShiftToggleFun(shift: string) {
     );
   
     this.startDate = this.formatDateToYYYYMMDD(weekStart);
-    this.endDate = this.formatDateToYYYYMMDD(
-      weekEnd > new Date(date.getFullYear(), date.getMonth() + 1, 0)
-        ? new Date(date.getFullYear(), date.getMonth() + 1, 0)
-        : weekEnd
+  
+    // Update end date logic
+    if (weekEnd > lastDayOfMonth) {
+      // If it's the last week of the month, adjust to the last day of the month
+      this.endDate = this.formatDateToYYYYMMDD(
+        currentDate >= weekStart && currentDate <= lastDayOfMonth
+          ? currentDate // Use current date if within the selected week's range
+          : lastDayOfMonth
       );
+    } else if (currentDate >= weekStart && currentDate <= weekEnd) {
+      // If the current week is the selected week, adjust to the current date
+      this.endDate = this.formatDateToYYYYMMDD(currentDate);
+    } else {
+      this.endDate = this.formatDateToYYYYMMDD(weekEnd);
+    }
   }
+  
+  // setWeekRange(date: Date, weekNumber: number): void {
+  //   const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+  //   const weekStart = new Date(
+  //     startOfMonth.getFullYear(),
+  //     startOfMonth.getMonth(),
+  //     (weekNumber - 1) * 7 + 1
+  //   );
+  //   const weekEnd = new Date(
+  //     weekStart.getFullYear(),
+  //     weekStart.getMonth(),
+  //     weekStart.getDate() + 6
+  //   );
+  
+  //   this.startDate = this.formatDateToYYYYMMDD(weekStart);
+  //   this.endDate = this.formatDateToYYYYMMDD(
+  //     weekEnd > new Date(date.getFullYear(), date.getMonth() + 1, 0)
+  //       ? new Date(date.getFullYear(), date.getMonth() + 1, 0)
+  //       : weekEnd
+  //     );
+  // }
   
   formatDateToYYYYMMDD(date: Date): string {
     const year = date.getFullYear();
