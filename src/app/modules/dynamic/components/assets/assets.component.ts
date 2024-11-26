@@ -739,7 +739,6 @@ private formatDataForChart(data: any[]): any[] {
   statuses: string[] = ['Approved', 'Rejected'];
   openStatusChangeModal(asset: any, statusChangeModal: TemplateRef<any>) {
     this.selectedAsset = asset;
-    this.newStatus = asset.status; // initialize with current status
     this.modalService.open(statusChangeModal);
   }
 
@@ -748,8 +747,11 @@ private formatDataForChart(data: any[]): any[] {
     this.dataService.changeAssetRequestStatus(asset.id, this.newStatus)
     .subscribe(
       (response) => {
-        console.log('Status updated successfully:', response);
-        // Handle successful response, e.g., show a success message or update UI
+        this.getAssetRequests();
+        this.helperService.showToast(
+          "Asset status change successfully",
+          Key.TOAST_STATUS_SUCCESS
+        );
       },
       (error) => {
         console.error('Error updating status:', error);
