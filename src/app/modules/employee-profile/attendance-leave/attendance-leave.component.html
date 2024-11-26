@@ -24,7 +24,8 @@
 
                 <div class="d-flex align-items-center justify-content-between">
                     <div class="d-flex align-items-center attendance-date">
-                        <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn">
+                        <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn" [class.disabled]="isPreviousDisabled()"
+                        (click)="goToPreviousMonth()">
                             <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
                                 <mask id="mask0_4719_1625" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
                                     height="21">
@@ -45,7 +46,8 @@
                             <!-- <nz-date-picker nzMode="month" nzFormat="MMM, yyyy"></nz-date-picker> -->
                         </div>
                         <span class="calendar-separator"></span>
-                        <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn">
+                        <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn" [class.disabled]="isNextDisabled()"
+                        (click)="goToNextMonth()">
                             <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
                                 <mask id="mask0_4719_1639" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
                                     height="21">
@@ -465,7 +467,7 @@
                                         {{item.createdDate | date:'fullDate'}}</span>
                                 </td>
                                 <td class="text-center">
-                                    <span class="team-maneger mb-0 text-black">
+                                    <span class="team-maneger mb-0 text-primary">
                                         W-off
                                     </span>
                                 </td>
@@ -541,7 +543,7 @@
                                         {{item.createdDate | date:'fullDate'}}</span>
                                 </td>
                                 <td class="text-center">
-                                    <span class="team-maneger mb-0 text-black">
+                                    <span class="team-maneger mb-0 text-danger">
                                        Absent
                                     </span>
                                 </td>

@@ -503,7 +503,7 @@ nz-select.request-dropdown .ant-select-selector {
 }
 
 .week-off{
-    background-color: #FAFBFF;
+    background-color: #ebebff;
     height: 55px;
 }
 
@@ -513,7 +513,7 @@ nz-select.request-dropdown .ant-select-selector {
 }
 
 .week-absent {
-    background-color: #eecdce;
+    background-color: #fff2f2;
     height: 55px;
 }
 
@@ -1000,3 +1000,9 @@ nz-select.request-dropdown .ant-select-selector {
 
 
 }
+
+.calendar-back-btn.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+  

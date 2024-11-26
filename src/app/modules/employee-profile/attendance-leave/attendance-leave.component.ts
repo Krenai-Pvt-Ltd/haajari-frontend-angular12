@@ -607,38 +607,7 @@ dayShiftToggleFun(shift: string) {
     this.getEmployeeProfileAttendanceDetailsData();
   }
 
-  disableMonths = (date: Date): boolean => {
-    const currentYear = new Date().getFullYear();
-    const currentMonth = new Date().getMonth();
-    const dateYear = date.getFullYear();
-    const dateMonth = date.getMonth();
-    const organizationRegistrationYear = new Date(
-      this.organizationRegistrationDate
-    ).getFullYear();
-    const organizationRegistrationMonth = new Date(
-      this.organizationRegistrationDate
-    ).getMonth();
-
-    // Disable if the month is before the organization registration month
-    if (
-      dateYear < organizationRegistrationYear ||
-      (dateYear === organizationRegistrationYear &&
-        dateMonth < organizationRegistrationMonth)
-    ) {
-      return true;
-    }
-
-    // Disable if the month is after the current month
-    if (
-      dateYear > currentYear ||
-      (dateYear === currentYear && dateMonth > currentMonth)
-    ) {
-      return true;
-    }
-
-    // Enable the month if it's from January 2023 to the current month
-    return false;
-  };
+  
 
   organizationRegistrationDate: string = '';
   getOrganizationRegistrationDateMethodCall() {
@@ -711,7 +680,82 @@ dayShiftToggleFun(shift: string) {
   checkTimeNegative(time: string): boolean {
     return time.startsWith('-');
   }
+
+  disableMonths = (date: Date): boolean => {
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
+    const dateYear = date.getFullYear();
+    const dateMonth = date.getMonth();
+    const organizationRegistrationYear = new Date(
+      this.organizationRegistrationDate
+    ).getFullYear();
+    const organizationRegistrationMonth = new Date(
+      this.organizationRegistrationDate
+    ).getMonth();
+
+    // Disable if the month is before the organization registration month
+    if (
+      dateYear < organizationRegistrationYear ||
+      (dateYear === organizationRegistrationYear &&
+        dateMonth < organizationRegistrationMonth)
+    ) {
+      return true;
+    }
+
+    // Disable if the month is after the current month
+    if (
+      dateYear > currentYear ||
+      (dateYear === currentYear && dateMonth > currentMonth)
+    ) {
+      return true;
+    }
+
+    // Enable the month if it's from January 2023 to the current month
+    return false;
+  };
   
+// Navigate to the previous month
+goToPreviousMonth(): void {
+  if (!this.isPreviousDisabled()) {
+    const previousMonth = new Date(
+      this.selectedDate.getFullYear(),
+      this.selectedDate.getMonth() - 1,
+      1
+    );
+    this.onMonthChange(previousMonth);
+  }
+}
+
+// Navigate to the next month
+goToNextMonth(): void {
+  if (!this.isNextDisabled()) {
+    const nextMonth = new Date(
+      this.selectedDate.getFullYear(),
+      this.selectedDate.getMonth() + 1,
+      1
+    );
+    this.onMonthChange(nextMonth);
+  }
+}
+
+// Disable previous button logic
+isPreviousDisabled(): boolean {
+  const organizationRegistrationDate = new Date(this.organizationRegistrationDate);
+  return (
+    this.selectedDate.getFullYear() === organizationRegistrationDate.getFullYear() &&
+    this.selectedDate.getMonth() === organizationRegistrationDate.getMonth()
+  );
+}
+
+// Disable next button logic
+isNextDisabled(): boolean {
+  const currentDate = new Date();
+  return (
+    this.selectedDate.getFullYear() === currentDate.getFullYear() &&
+    this.selectedDate.getMonth() === currentDate.getMonth()
+  );
+}
+
   
   
 
