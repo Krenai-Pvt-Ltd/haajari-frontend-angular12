@@ -701,30 +701,17 @@ export class SalarySettingComponent implements OnInit {
           this.statutoryAttributeResponseList = response.object;
 
           if (statutoryId == this.EPF_ID) {
-            if (this.pFContributionRateList.length > 0) {
-              const defaultPFContributionRate = this.pFContributionRateList[0];
-                // console.log(this.pFContributionRateList);
               this.statutoryAttributeResponseList.forEach((attr) => {
-                if (
-                  attr.value === undefined ||
-                  attr.value === null ||
-                  attr.value === ''
-                ) {
-                  attr.value = defaultPFContributionRate.name;
+                if (attr.value == null) {
+                  attr.value = this.pFContributionRateList[0].name;
                 }
               });
-            }
           } else if (statutoryId == this.ESI_ID) {
-            this.statutoryAttributeResponseList.forEach((attr) => {
-              const matchingESIRate = this.eSIContributionRateList.find((iterator) => iterator.statutoryAttribute.id === attr.id);
-              // console.log(this.eSIContributionRateList);
-              if (matchingESIRate) {
-                if (
-                  attr.value === undefined ||
-                  attr.value === null ||
-                  attr.value === ''
-                ) {
-                  attr.value = matchingESIRate.name;
+              this.statutoryAttributeResponseList.forEach((attr) => {
+                if (attr.value == null) {
+                  const matchingESIRate = this.eSIContributionRateList.find((esi) => esi.id == attr.id);        
+                  if (matchingESIRate) {
+                  attr.value = matchingESIRate.percentage;
                 }
               }
             });

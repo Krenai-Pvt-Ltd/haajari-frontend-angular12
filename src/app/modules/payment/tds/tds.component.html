@@ -140,7 +140,7 @@
               <th>ESI</th>
               <th>TDS</th>
               <th>STATUS</th>
-              <th>ACTIONS</th>
+              <!-- <th>ACTIONS</th> -->
             </tr>
           </thead>
           <ng-container
@@ -189,14 +189,7 @@
                     [width]="'70%'"
                     [height]="'10px'"
                   ></ngx-shimmer-loading>
-                </td>
-                <td class="text-center">
-                  <ngx-shimmer-loading
-                    [width]="'70%'"
-                    [height]="'10px'"
-                  ></ngx-shimmer-loading>
-                </td>
-                
+                </td>      
               </tr>
             </tbody>
           </ng-container>
@@ -251,7 +244,7 @@
                       {{ employee.payStatus.response }}
                     </span>
                   </td>
-                  <td>
+                  <!-- <td>
                     <div
                       class="btn-group"
                       role="group"
@@ -269,7 +262,7 @@
                         <i class="ti ti-pencil"></i>
                       </button>
                     </div>
-                  </td>
+                  </td> -->
                 </tr>
               </tbody>
             </ng-container>
@@ -377,7 +370,7 @@
 
 
 <!-- EPF Edit Modal Start -->
-<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#epfTdsEditModal" #epfTdsEditButton>
+<!-- <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#epfTdsEditModal" #epfTdsEditButton>
   EPF Edit Modal
 </button>
 <div class="modal fade" id="epfTdsEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -418,5 +411,5 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 <!-- EPF Edit Modal End -->

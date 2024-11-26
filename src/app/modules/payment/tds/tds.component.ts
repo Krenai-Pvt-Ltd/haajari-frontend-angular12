@@ -246,25 +246,26 @@ export class TdsComponent implements OnInit {
    this.getEmployeeMonthWiseSalaryDataMethodCall();
   }
 
-  employeeMonthWiseSalaryData: EmployeeMonthWiseSalaryData = new EmployeeMonthWiseSalaryData();
-  @ViewChild('epfTdsEditButton') epfTdsEditButton!:ElementRef;
-  openEpfModal(data: EmployeeMonthWiseSalaryData){
-    this.employeeMonthWiseSalaryData = JSON.parse(JSON.stringify(data));
-    this.epfTdsEditButton.nativeElement.click();
-  }
+  //COMMENT BY ABHIJEET
+  // employeeMonthWiseSalaryData: EmployeeMonthWiseSalaryData = new EmployeeMonthWiseSalaryData();
+  // @ViewChild('epfTdsEditButton') epfTdsEditButton!:ElementRef;
+  // openEpfModal(data: EmployeeMonthWiseSalaryData){
+  //   this.employeeMonthWiseSalaryData = JSON.parse(JSON.stringify(data));
+  //   this.epfTdsEditButton.nativeElement.click();
+  // }
 
-  updateEmployeeData(){
-    this._salaryService.updateEmployeeData(this.employeeMonthWiseSalaryData).subscribe((response) => {
-        if(response.status){
-          this.getEmployeeMonthWiseSalaryDataMethodCall();
-          this.helperService.showToast(response.message,Key.TOAST_STATUS_SUCCESS);
-        }else{
-          this.helperService.showToast(response.message,Key.TOAST_STATUS_ERROR);
-        }
-      },(error) => {
+  // updateEmployeeData(){
+  //   this._salaryService.updateEmployeeData(this.employeeMonthWiseSalaryData).subscribe((response) => {
+  //       if(response.status){
+  //         this.getEmployeeMonthWiseSalaryDataMethodCall();
+  //         this.helperService.showToast(response.message,Key.TOAST_STATUS_SUCCESS);
+  //       }else{
+  //         this.helperService.showToast(response.message,Key.TOAST_STATUS_ERROR);
+  //       }
+  //     },(error) => {
 
-      }
-    );
-  }
+  //     }
+  //   );
+  // }
 
 }
