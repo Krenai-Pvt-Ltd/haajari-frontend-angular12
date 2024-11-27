@@ -196,6 +196,21 @@
      padding-right: 5px;
  }
 
+ .bill-image{
+    background-color: rgba(244, 247, 255, 0.50);
+    height: 100%;
+ }
+
+ /* .bill-image svg{
+    width: 100px;
+ } */
+
+ .add-image-btn svg{
+    width: 16px;
+    position: relative;
+    top: -1px;
+ }
+
  .bill-images{
     background: rgba(0, 0, 0, 0.55);
     backdrop-filter: blur(6.800000190734863px);
