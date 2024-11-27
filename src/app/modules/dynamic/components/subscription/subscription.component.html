@@ -1023,6 +1023,21 @@
                         </tr>
                       </thead>
 
+
+                      <tbody *ngIf="!invoiceLoading && invoices.length == 0">
+                        <tr>
+                          <td colspan="8">
+                            <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%">
+                              <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+                                <ng-template #contentTpl>
+                                  <p class="mb-1 empty-detail">No data for now</p>
+                                </ng-template>
+                              </nz-empty>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+
                       <tbody *ngIf="invoiceLoading">
                         <tr *ngFor="let item of [].constructor(6)">
                           <td class="stickyColTd"> 
