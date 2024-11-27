@@ -324,6 +324,7 @@ export class SalarySettingComponent implements OnInit {
       if(event.target.files.length > 0){
         this.uploading =true;
         file = event.target.files[0];   
+        console.log("==file========",file.type)
         if(constant.ALLOWED_BULK_UPLOAD_FORMATS.includes(file.type)){
           this.uploadToFirebase(file); 
         }else{

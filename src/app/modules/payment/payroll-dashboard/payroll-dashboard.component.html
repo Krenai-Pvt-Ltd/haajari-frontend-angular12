@@ -444,7 +444,7 @@
                               <th>EMPLOYEE</th>
                               <th>EMAIL</th>
                               <th>DATE OF JOINING</th>
-                              <th>NO OF WORKING DAYS</th>
+                              <!-- <th>NO OF WORKING DAYS</th> -->
                               <th>SALARY</th>
                               <th>PAY ACTION</th>
                               <th>COMMENT(Optional)</th>
@@ -460,15 +460,6 @@
                               <tr *ngFor="let item of [].constructor(10)">
                                 <td class="text-center">
                                   <ngx-shimmer-loading [width]="'100%'" [height]="'10px'"></ngx-shimmer-loading>
-                                </td>
-                                <td class="text-center">
-                                  <ngx-shimmer-loading [width]="'%'" [height]="'10px'"></ngx-shimmer-loading>
-                                </td>
-                                <td class="text-center">
-                                  <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
-                                </td>
-                                <td class="text-center">
-                                  <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
                                 </td>
                                 <td class="text-center">
                                   <ngx-shimmer-loading [width]="'70%'" [height]="'10px'"></ngx-shimmer-loading>
@@ -514,7 +505,6 @@
                                   <td class="text-start">
                                     {{ newJoineeResponse.joiningDate | date: 'dd MMMM, yyyy' }}
                                   </td>
-                                  <td class="text-start">-</td>
                                   <td class="text-start">
                                     {{ newJoineeResponse.salary }}
                                   </td>
