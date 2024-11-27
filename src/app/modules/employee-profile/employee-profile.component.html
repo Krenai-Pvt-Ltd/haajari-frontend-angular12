@@ -50,7 +50,7 @@
                                         fill="#1C1B1F" />
                                 </g>
                             </svg>
-                            Expenses</a>
+                            Finance</a>
                     </li>
                     <li class="nav-item">
                         <a id="pills-profile-tab" data-bs-toggle="pill" href="#documents" role="tab" aria-controls="pills-profile"
@@ -97,6 +97,23 @@
                             </svg>
                             About</a>
                     </li>
+
+                    <li class="nav-item">
+                        <a id="pills-profile-tab" data-bs-toggle="pill" href="#expenses" role="tab" aria-controls="pills-profile"
+                            aria-selected="false" class="nav-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <mask id="mask0_5195_552" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20"
+                                    height="20">
+                                    <rect width="20" height="20" fill="#D9D9D9" />
+                                </mask>
+                                <g mask="url(#mask0_5195_552)">
+                                    <path
+                                        d="M11.0638 14.5846H13.0638V14.5221L9.6263 10.8763L9.64714 10.8138H9.85547C10.6055 10.8138 11.227 10.5846 11.7201 10.1263C12.2131 9.66797 12.5152 9.13325 12.6263 8.52214H13.4596V7.54297H12.6055C12.5638 7.33464 12.4909 7.13672 12.3867 6.94922C12.2826 6.76172 12.1541 6.57769 12.0013 6.39714H13.4596V5.41797H6.54297V6.60547H9.79297C10.1541 6.60547 10.4492 6.69575 10.6784 6.8763C10.9076 7.05686 11.0638 7.27908 11.1471 7.54297H6.54297V8.52214H11.168C11.0846 8.79991 10.9249 9.0395 10.6888 9.24089C10.4527 9.44227 10.1332 9.54297 9.73047 9.54297H7.64714V10.8763L11.0638 14.5846ZM10.0013 18.3346C8.84852 18.3346 7.76519 18.1159 6.7513 17.6784C5.73741 17.2409 4.85547 16.6471 4.10547 15.8971C3.35547 15.1471 2.76172 14.2652 2.32422 13.2513C1.88672 12.2374 1.66797 11.1541 1.66797 10.0013C1.66797 8.84852 1.88672 7.76519 2.32422 6.7513C2.76172 5.73741 3.35547 4.85547 4.10547 4.10547C4.85547 3.35547 5.73741 2.76172 6.7513 2.32422C7.76519 1.88672 8.84852 1.66797 10.0013 1.66797C11.1541 1.66797 12.2374 1.88672 13.2513 2.32422C14.2652 2.76172 15.1471 3.35547 15.8971 4.10547C16.6471 4.85547 17.2409 5.73741 17.6784 6.7513C18.1159 7.76519 18.3346 8.84852 18.3346 10.0013C18.3346 11.1541 18.1159 12.2374 17.6784 13.2513C17.2409 14.2652 16.6471 15.1471 15.8971 15.8971C15.1471 16.6471 14.2652 17.2409 13.2513 17.6784C12.2374 18.1159 11.1541 18.3346 10.0013 18.3346ZM10.0013 16.668C11.8624 16.668 13.4388 16.0221 14.7305 14.7305C16.0221 13.4388 16.668 11.8624 16.668 10.0013C16.668 8.14019 16.0221 6.5638 14.7305 5.27214C13.4388 3.98047 11.8624 3.33464 10.0013 3.33464C8.14019 3.33464 6.5638 3.98047 5.27214 5.27214C3.98047 6.5638 3.33464 8.14019 3.33464 10.0013C3.33464 11.8624 3.98047 13.4388 5.27214 14.7305C6.5638 16.0221 8.14019 16.668 10.0013 16.668Z"
+                                        fill="#1C1B1F" />
+                                </g>
+                            </svg>
+                            Expenses</a>
+                    </li>
                     <li class="nav-item">
                         <a id="pills-profile-tab" data-bs-toggle="pill" href="#announcement" role="tab" aria-controls="pills-profile"
                             aria-selected="false" class="nav-link">
@@ -133,6 +150,9 @@
                 </div>
                 <div class="tab-pane fade" id="information" role="tabpanel" aria-labelledby="information-tab">
                     <app-personal-information></app-personal-information>
+                </div>
+                <div class="tab-pane fade" id="expenses" role="tabpanel" aria-labelledby="expenses-tab">
+                    <app-employee-expense></app-employee-expense>
                 </div>
                 <div class="tab-pane fade" id="announcement" role="tabpanel" aria-labelledby="announcement-tab">
                    <app-announcement-notification></app-announcement-notification>
