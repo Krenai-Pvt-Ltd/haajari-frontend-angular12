@@ -406,6 +406,7 @@ span.lat {
     overflow: scroll;
     position: sticky;
     top: 0;
+    z-index: 999;
 }
 .emplyee-profile-sidebar-main-box::-webkit-scrollbar{
     display: none;

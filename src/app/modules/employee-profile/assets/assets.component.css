@@ -119,6 +119,9 @@
     letter-spacing: 0.1px;
     box-shadow: unset;
 }
+.onboarding-date{
+    border-right: 1px solid #f2f2f2 !important;
+}
 
 .onboarding-date input[type="text"] {
     width: 680px;
@@ -239,10 +242,6 @@
     font-size: 16px;
 }
 
-::ng-deep.empty-filenew .ant-empty-image img {
-    width: 90px;
-}
-
 .white-space {
     white-space: normal;
     min-width: 170px;
@@ -252,4 +251,12 @@
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+}
+.assets-request-btn svg{
+    width: 17px;
+    position: relative;
+    top: -1px;
+}
+.assets-request-btn {
+    font-weight: 500;
 }

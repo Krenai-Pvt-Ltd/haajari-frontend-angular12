@@ -15,313 +15,14 @@
 
             <div id="pills-tabContent" class="tab-content">
                 <div class="tab-pane fade active show pt-3" id="pending-expense" role="tabpanel" aria-labelledby="attendance-tab">
-            
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div class="d-flex align-items-center gap-3">
-                        <div class="d-flex align-items-center attendance-date">
-                            <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                    <mask id="mask0_4719_1625" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                                        width="21" height="21">
-                                        <rect x="0.5" y="0.5" width="20" height="20" fill="#D9D9D9" />
-                                    </mask>
-                                    <g mask="url(#mask0_4719_1625)">
-                                        <path
-                                            d="M8.83203 15.5L3.83203 10.5L8.83203 5.5L9.9987 6.70833L7.04036 9.66667H17.1654V11.3333H7.04036L9.9987 14.2917L8.83203 15.5Z"
-                                            fill="#060606" />
-                                    </g>
-                                </svg>
-                            </span>
-                            <span class="calendar-separator"></span>
-                            <div class="dropdown ">
-                                <nz-date-picker nzMode="month" nzFormat="MMM, yyyy"></nz-date-picker>
-                            </div>
-                            <span class="calendar-separator"></span>
-                            <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                    <mask id="mask0_4719_1639" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                                        width="21" height="21">
-                                        <rect width="20" height="20" transform="matrix(-1 0 0 1 20.5 0.5)" fill="#D9D9D9" />
-                                    </mask>
-                                    <g mask="url(#mask0_4719_1639)">
-                                        <path
-                                            d="M12.168 15.5L17.168 10.5L12.168 5.5L11.0013 6.70833L13.9596 9.66667H3.83464V11.3333H13.9596L11.0013 14.2917L12.168 15.5Z"
-                                            fill="#060606" />
-                                    </g>
-                                </svg>
-                            </span>
-                            
-                        </div>
-
-                        <nz-select class="request-dropdown" nzSize="large" nzPlaceHolder="Filter" required>
-                            <nz-option [nzValue]="'Attendance update'" [nzLabel]="'Attendance update'"></nz-option>
-                            <nz-option [nzValue]="'Overtime'" [nzLabel]="'Overtime'"></nz-option>
-                            <nz-option [nzValue]="'Lop reversal'" [nzLabel]="'Lop reversal'"></nz-option>
-                        </nz-select>
-
-                        </div>
-
-
-                        <div>
-                            <nz-select class="request-dropdown" nzSize="large" nzPlaceHolder="New Request" required>
-                                <nz-option [nzValue]="'Attendance update'" [nzLabel]="'Attendance update'"></nz-option>
-                                <nz-option [nzValue]="'Overtime'" [nzLabel]="'Overtime'"></nz-option>
-                                <nz-option [nzValue]="'Lop reversal'" [nzLabel]="'Lop reversal'"></nz-option>
-                            </nz-select>
-                        </div>
-                    </div>
-
-
-                    <div class="pending-expense-data row mt-3">
-                       <div class="col-md-7">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="expense-data p-3">
-                                    <p class="text-success mb-3"><span class="approved"></span> Approved</p>
-                                    <h5 class="font-18 mb-1">₹24,344</h5>
-                                    <p class="mb-0">12 Bill</p>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="expense-data p-3">
-                                    <p class="text-warning mb-3"><span class="pending"></span> Pending</p>
-                                    <h5 class="font-18 mb-1">₹4,344</h5>
-                                    <p class="mb-0">02 Bill</p>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="expense-data p-3">
-                                    <p class="text-danger mb-3"><span class="canceled"></span> Canceled</p>
-                                    <h5 class="font-18 mb-1">₹24,344</h5>
-                                    <p class="mb-0">02 Bill</p>
-                                </div>    
-                            </div>
-                        </div>
-                       </div>
-                       <div class="col-md-5">
-                        <div class="expense-data p-3 d-flex align-items-center gap-3">
-                            <div style="width:30%">
-                               <img src="assets/images/expance-chart.webp" style="width:100px">
-                            </div>
-                            <div class="" style="width:70%">
-                                <div class="d-flex align-items-center justify-content-between border-bottom pb-2 mb-2">
-                                    <p class="mb-0 font-12">Most Expense on</p>
-                                    <p class="mb-0 font-12 text-black"> <span class="food"></span> Food</p>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-between border-bottom pb-2 mb-2">
-                                    <p class="mb-0 font-12">Least Expense on</p>
-                                    <p class="mb-0 font-12 text-black"> <span class="transport"></span> Transport</p>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <p class="mb-0 font-12">Today Expense</p>
-                                    <p class="mb-0 font-12 text-black">₹47,344</p>
-                                </div>
-                            </div>
-
-                        </div>
-                       </div>
-                    </div>
-
-
-                    <div class="table-responsive bg-white mt-3">
-                        <table class="table empOnnoardtable">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th class="text-left font-13" style="width: 10%">Date</th>
-                                    <th class="text-left font-13" style="width: 10%">Employee Name</th>
-                                    <th class="text-left font-13" style="width: 10%">Expense Type</th>
-                                    <th class="text-left font-13" style="width: 10%">Amount</th>
-                                    <th class="text-left font-13" style="width: 10%">Paid Amount</th>
-                                    <th class="text-left font-13" style="width: 10%">Note</th>
-                                    <th class="text-left font-13" style="width: 10%">Status</th>
-                                    <th class="text-center font-13" style="width: 10%">Bill Snapshot</th>
-                                </tr>
-                            </thead>
-                    
-                            <!-- <tbody>
-                                <tr>
-                                    <td colspan="8">
-                                        <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
-                                            <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
-                                                [nzNotFoundContent]="contentTpl">
-                                                <ng-template #contentTpl>
-                                                    <p class="mb-1 empty-filenew">No data for now</p>
-                                                </ng-template>
-                                            </nz-empty>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody> -->
-                            <tbody>
-                                <!-- *ngFor="let item of [].constructor(7)" -->
-                                <tr>
-                                    <td class="text-left">
-                                        <span class="table-font-weight">Tue, June 12 2022</span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span> Albert Flores</span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight">Office Supplies </span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight"> ₹4,344 </span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight"> ₹0 </span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight white-space"> Lorem ipsum dolor sit amet consectetur adipiscing elit ... </span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight text-warning"> Pending </span>
-                                    </td>
-                                  
-                                    <td class="text-center">
-                                        <button class="btn p-0 text-black font-14 view-btn" data-bs-toggle="modal" data-bs-target="#bill-snapshot">View
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                                <mask id="mask0_5908_672" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
-                                                    <rect x="0.708618" y="0.601562" width="20" height="20" fill="#D9D9D9" />
-                                                </mask>
-                                                <g mask="url(#mask0_5908_672)">
-                                                    <path
-                                                        d="M10.7085 13.9297C11.7502 13.9297 12.6356 13.5651 13.3648 12.8359C14.094 12.1068 14.4585 11.2214 14.4585 10.1797C14.4585 9.13802 14.094 8.2526 13.3648 7.52344C12.6356 6.79427 11.7502 6.42969 10.7085 6.42969C9.66687 6.42969 8.78145 6.79427 8.05229 7.52344C7.32312 8.2526 6.95854 9.13802 6.95854 10.1797C6.95854 11.2214 7.32312 12.1068 8.05229 12.8359C8.78145 13.5651 9.66687 13.9297 10.7085 13.9297ZM10.7085 12.4297C10.0835 12.4297 9.55229 12.2109 9.11479 11.7734C8.67729 11.3359 8.45854 10.8047 8.45854 10.1797C8.45854 9.55469 8.67729 9.02344 9.11479 8.58594C9.55229 8.14844 10.0835 7.92969 10.7085 7.92969C11.3335 7.92969 11.8648 8.14844 12.3023 8.58594C12.7398 9.02344 12.9585 9.55469 12.9585 10.1797C12.9585 10.8047 12.7398 11.3359 12.3023 11.7734C11.8648 12.2109 11.3335 12.4297 10.7085 12.4297ZM10.7085 16.4297C8.68076 16.4297 6.83354 15.8637 5.16687 14.7318C3.5002 13.5998 2.29187 12.0825 1.54187 10.1797C2.29187 8.27691 3.5002 6.75955 5.16687 5.6276C6.83354 4.49566 8.68076 3.92969 10.7085 3.92969C12.7363 3.92969 14.5835 4.49566 16.2502 5.6276C17.9169 6.75955 19.1252 8.27691 19.8752 10.1797C19.1252 12.0825 17.9169 13.5998 16.2502 14.7318C14.5835 15.8637 12.7363 16.4297 10.7085 16.4297ZM10.7085 14.763C12.278 14.763 13.719 14.3498 15.0315 13.5234C16.344 12.697 17.3474 11.5825 18.0419 10.1797C17.3474 8.77691 16.344 7.66233 15.0315 6.83594C13.719 6.00955 12.278 5.59635 10.7085 5.59635C9.13909 5.59635 7.69812 6.00955 6.38562 6.83594C5.07312 7.66233 4.06965 8.77691 3.3752 10.1797C4.06965 11.5825 5.07312 12.697 6.38562 13.5234C7.69812 14.3498 9.13909 14.763 10.7085 14.763Z"
-                                                        fill="#1C1B1F" />
-                                                </g>
-                                            </svg>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-left">
-                                        <span class="table-font-weight">Tue, June 12 2022</span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span> Albert Flores</span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight">Office Supplies </span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight"> ₹4,344 </span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight"> ₹0 </span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight white-space"> Lorem ipsum dolor sit amet consectetur adipiscing elit ... </span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight text-success"> Approved </span>
-                                    </td>
-                                
-                                    <td class="text-center">
-                                        <button class="btn p-0 text-black font-14 view-btn" data-bs-toggle="modal" data-bs-target="#bill-snapshot">View
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                                <mask id="mask0_5908_672" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
-                                                    height="21">
-                                                    <rect x="0.708618" y="0.601562" width="20" height="20" fill="#D9D9D9" />
-                                                </mask>
-                                                <g mask="url(#mask0_5908_672)">
-                                                    <path
-                                                        d="M10.7085 13.9297C11.7502 13.9297 12.6356 13.5651 13.3648 12.8359C14.094 12.1068 14.4585 11.2214 14.4585 10.1797C14.4585 9.13802 14.094 8.2526 13.3648 7.52344C12.6356 6.79427 11.7502 6.42969 10.7085 6.42969C9.66687 6.42969 8.78145 6.79427 8.05229 7.52344C7.32312 8.2526 6.95854 9.13802 6.95854 10.1797C6.95854 11.2214 7.32312 12.1068 8.05229 12.8359C8.78145 13.5651 9.66687 13.9297 10.7085 13.9297ZM10.7085 12.4297C10.0835 12.4297 9.55229 12.2109 9.11479 11.7734C8.67729 11.3359 8.45854 10.8047 8.45854 10.1797C8.45854 9.55469 8.67729 9.02344 9.11479 8.58594C9.55229 8.14844 10.0835 7.92969 10.7085 7.92969C11.3335 7.92969 11.8648 8.14844 12.3023 8.58594C12.7398 9.02344 12.9585 9.55469 12.9585 10.1797C12.9585 10.8047 12.7398 11.3359 12.3023 11.7734C11.8648 12.2109 11.3335 12.4297 10.7085 12.4297ZM10.7085 16.4297C8.68076 16.4297 6.83354 15.8637 5.16687 14.7318C3.5002 13.5998 2.29187 12.0825 1.54187 10.1797C2.29187 8.27691 3.5002 6.75955 5.16687 5.6276C6.83354 4.49566 8.68076 3.92969 10.7085 3.92969C12.7363 3.92969 14.5835 4.49566 16.2502 5.6276C17.9169 6.75955 19.1252 8.27691 19.8752 10.1797C19.1252 12.0825 17.9169 13.5998 16.2502 14.7318C14.5835 15.8637 12.7363 16.4297 10.7085 16.4297ZM10.7085 14.763C12.278 14.763 13.719 14.3498 15.0315 13.5234C16.344 12.697 17.3474 11.5825 18.0419 10.1797C17.3474 8.77691 16.344 7.66233 15.0315 6.83594C13.719 6.00955 12.278 5.59635 10.7085 5.59635C9.13909 5.59635 7.69812 6.00955 6.38562 6.83594C5.07312 7.66233 4.06965 8.77691 3.3752 10.1797C4.06965 11.5825 5.07312 12.697 6.38562 13.5234C7.69812 14.3498 9.13909 14.763 10.7085 14.763Z"
-                                                        fill="#1C1B1F" />
-                                                </g>
-                                            </svg>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-left">
-                                        <span class="table-font-weight">Tue, June 12 2022</span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span> Albert Flores</span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight">Office Supplies </span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight"> ₹4,344 </span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight text-danger"> -₹10,344 </span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight white-space"> Lorem ipsum dolor sit amet consectetur adipiscing elit ... </span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight text-danger"> Rejected </span>
-                                    </td>
-                                
-                                    <td class="text-center">
-                                        <button class="btn p-0 text-black font-14 view-btn" data-bs-toggle="modal" data-bs-target="#bill-snapshot">View
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                                <mask id="mask0_5908_672" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
-                                                    height="21">
-                                                    <rect x="0.708618" y="0.601562" width="20" height="20" fill="#D9D9D9" />
-                                                </mask>
-                                                <g mask="url(#mask0_5908_672)">
-                                                    <path
-                                                        d="M10.7085 13.9297C11.7502 13.9297 12.6356 13.5651 13.3648 12.8359C14.094 12.1068 14.4585 11.2214 14.4585 10.1797C14.4585 9.13802 14.094 8.2526 13.3648 7.52344C12.6356 6.79427 11.7502 6.42969 10.7085 6.42969C9.66687 6.42969 8.78145 6.79427 8.05229 7.52344C7.32312 8.2526 6.95854 9.13802 6.95854 10.1797C6.95854 11.2214 7.32312 12.1068 8.05229 12.8359C8.78145 13.5651 9.66687 13.9297 10.7085 13.9297ZM10.7085 12.4297C10.0835 12.4297 9.55229 12.2109 9.11479 11.7734C8.67729 11.3359 8.45854 10.8047 8.45854 10.1797C8.45854 9.55469 8.67729 9.02344 9.11479 8.58594C9.55229 8.14844 10.0835 7.92969 10.7085 7.92969C11.3335 7.92969 11.8648 8.14844 12.3023 8.58594C12.7398 9.02344 12.9585 9.55469 12.9585 10.1797C12.9585 10.8047 12.7398 11.3359 12.3023 11.7734C11.8648 12.2109 11.3335 12.4297 10.7085 12.4297ZM10.7085 16.4297C8.68076 16.4297 6.83354 15.8637 5.16687 14.7318C3.5002 13.5998 2.29187 12.0825 1.54187 10.1797C2.29187 8.27691 3.5002 6.75955 5.16687 5.6276C6.83354 4.49566 8.68076 3.92969 10.7085 3.92969C12.7363 3.92969 14.5835 4.49566 16.2502 5.6276C17.9169 6.75955 19.1252 8.27691 19.8752 10.1797C19.1252 12.0825 17.9169 13.5998 16.2502 14.7318C14.5835 15.8637 12.7363 16.4297 10.7085 16.4297ZM10.7085 14.763C12.278 14.763 13.719 14.3498 15.0315 13.5234C16.344 12.697 17.3474 11.5825 18.0419 10.1797C17.3474 8.77691 16.344 7.66233 15.0315 6.83594C13.719 6.00955 12.278 5.59635 10.7085 5.59635C9.13909 5.59635 7.69812 6.00955 6.38562 6.83594C5.07312 7.66233 4.06965 8.77691 3.3752 10.1797C4.06965 11.5825 5.07312 12.697 6.38562 13.5234C7.69812 14.3498 9.13909 14.763 10.7085 14.763Z"
-                                                        fill="#1C1B1F" />
-                                                </g>
-                                            </svg>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-left">
-                                        <span class="table-font-weight">Tue, June 12 2022</span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span> Robert Fox</span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight">Office Compliance </span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight"> ₹4,344 </span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight"> ₹4,344 </span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight white-space"> Lorem ipsum dolor sit amet consectetur adipiscing elit ... </span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight text-primary settled-payroll"> Settled With Payroll </span>
-                                    </td>
-                                
-                                    <td class="text-center">
-                                        <button class="btn p-0 text-black font-14 view-btn " data-bs-toggle="modal" data-bs-target="#bill-snapshot">
-                                            View
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                                <mask id="mask0_5908_672" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
-                                                    height="21">
-                                                    <rect x="0.708618" y="0.601562" width="20" height="20" fill="#D9D9D9" />
-                                                </mask>
-                                                <g mask="url(#mask0_5908_672)">
-                                                    <path
-                                                        d="M10.7085 13.9297C11.7502 13.9297 12.6356 13.5651 13.3648 12.8359C14.094 12.1068 14.4585 11.2214 14.4585 10.1797C14.4585 9.13802 14.094 8.2526 13.3648 7.52344C12.6356 6.79427 11.7502 6.42969 10.7085 6.42969C9.66687 6.42969 8.78145 6.79427 8.05229 7.52344C7.32312 8.2526 6.95854 9.13802 6.95854 10.1797C6.95854 11.2214 7.32312 12.1068 8.05229 12.8359C8.78145 13.5651 9.66687 13.9297 10.7085 13.9297ZM10.7085 12.4297C10.0835 12.4297 9.55229 12.2109 9.11479 11.7734C8.67729 11.3359 8.45854 10.8047 8.45854 10.1797C8.45854 9.55469 8.67729 9.02344 9.11479 8.58594C9.55229 8.14844 10.0835 7.92969 10.7085 7.92969C11.3335 7.92969 11.8648 8.14844 12.3023 8.58594C12.7398 9.02344 12.9585 9.55469 12.9585 10.1797C12.9585 10.8047 12.7398 11.3359 12.3023 11.7734C11.8648 12.2109 11.3335 12.4297 10.7085 12.4297ZM10.7085 16.4297C8.68076 16.4297 6.83354 15.8637 5.16687 14.7318C3.5002 13.5998 2.29187 12.0825 1.54187 10.1797C2.29187 8.27691 3.5002 6.75955 5.16687 5.6276C6.83354 4.49566 8.68076 3.92969 10.7085 3.92969C12.7363 3.92969 14.5835 4.49566 16.2502 5.6276C17.9169 6.75955 19.1252 8.27691 19.8752 10.1797C19.1252 12.0825 17.9169 13.5998 16.2502 14.7318C14.5835 15.8637 12.7363 16.4297 10.7085 16.4297ZM10.7085 14.763C12.278 14.763 13.719 14.3498 15.0315 13.5234C16.344 12.697 17.3474 11.5825 18.0419 10.1797C17.3474 8.77691 16.344 7.66233 15.0315 6.83594C13.719 6.00955 12.278 5.59635 10.7085 5.59635C9.13909 5.59635 7.69812 6.00955 6.38562 6.83594C5.07312 7.66233 4.06965 8.77691 3.3752 10.1797C4.06965 11.5825 5.07312 12.697 6.38562 13.5234C7.69812 14.3498 9.13909 14.763 10.7085 14.763Z"
-                                                        fill="#1C1B1F" />
-                                                </g>
-                                            </svg>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="tab-pane fade pt-3" id="past-expense" role="tabpanel" aria-labelledby="leaves-tab">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div class="d-flex align-items-center gap-3">
+                    <div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center gap-3">
                             <div class="d-flex align-items-center attendance-date">
                                 <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                        <mask id="mask0_4719_1625" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
-                                            height="21">
+                                        <mask id="mask0_4719_1625" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                                            width="21" height="21">
                                             <rect x="0.5" y="0.5" width="20" height="20" fill="#D9D9D9" />
                                         </mask>
                                         <g mask="url(#mask0_4719_1625)">
@@ -338,8 +39,8 @@
                                 <span class="calendar-separator"></span>
                                 <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                        <mask id="mask0_4719_1639" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
-                                            height="21">
+                                        <mask id="mask0_4719_1639" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                                            width="21" height="21">
                                             <rect width="20" height="20" transform="matrix(-1 0 0 1 20.5 0.5)" fill="#D9D9D9" />
                                         </mask>
                                         <g mask="url(#mask0_4719_1639)">
@@ -349,58 +50,66 @@
                                         </g>
                                     </svg>
                                 </span>
-                    
+                                
                             </div>
-                    
+
                             <nz-select class="request-dropdown" nzSize="large" nzPlaceHolder="Filter" required>
                                 <nz-option [nzValue]="'Attendance update'" [nzLabel]="'Attendance update'"></nz-option>
                                 <nz-option [nzValue]="'Overtime'" [nzLabel]="'Overtime'"></nz-option>
                                 <nz-option [nzValue]="'Lop reversal'" [nzLabel]="'Lop reversal'"></nz-option>
                             </nz-select>
-                    
+
+                            </div>
+
+
+                            <div>
+                                <button data-bs-toggle="modal" data-bs-target="#apply-expense" class="btn new-announcement">New Request &nbsp; 
+                                    <span class="calendar-separator"></span>
+                                        <svg  xmlns="http://www.w3.org/2000/svg" width="20"
+                                        height="21" viewBox="0 0 20 21" fill="none">
+                                        <mask  id="mask0_5566_935" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21"
+                                            style="mask-type: alpha;">
+                                            <rect  y="0.5" width="20" height="20" fill="#D9D9D9"></rect>
+                                        </mask>
+                                        <g  mask="url(#mask0_5566_935)">
+                                            <path 
+                                                d="M9.16667 18V11.3333H2.5V9.66667H9.16667V3H10.8333V9.66667H17.5V11.3333H10.8333V18H9.16667Z"
+                                                fill="#6666F2"></path>
+                                        </g>
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
-                    
-                    
-                        <div>
-                            <nz-select class="request-dropdown" nzSize="large" nzPlaceHolder="New Request" required>
-                                <nz-option [nzValue]="'Attendance update'" [nzLabel]="'Attendance update'"></nz-option>
-                                <nz-option [nzValue]="'Overtime'" [nzLabel]="'Overtime'"></nz-option>
-                                <nz-option [nzValue]="'Lop reversal'" [nzLabel]="'Lop reversal'"></nz-option>
-                            </nz-select>
-                        </div>
-                    </div>
-                    
-                    
-                    <div class="pending-expense-data row mt-3">
+                        <div class="pending-expense-data row mt-3">
                         <div class="col-md-7">
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="expense-data p-3">
-                                        <p class="text-success mb-3"><span class="approved"></span> Approved</p>
+                                        <p class="text-success mb-3 font-13"><span class="approved"></span> Approved</p>
                                         <h5 class="font-18 mb-1">₹24,344</h5>
                                         <p class="mb-0">12 Bill</p>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="expense-data p-3">
-                                        <p class="text-warning mb-3"><span class="pending"></span> Pending</p>
+                                        <p class="text-warning mb-3 font-13"><span class="pending"></span> Pending</p>
                                         <h5 class="font-18 mb-1">₹4,344</h5>
                                         <p class="mb-0">02 Bill</p>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="expense-data p-3">
-                                        <p class="text-danger mb-3"><span class="canceled"></span> Canceled</p>
+                                        <p class="text-danger mb-3 font-13"><span class="canceled"></span> Canceled</p>
                                         <h5 class="font-18 mb-1">₹24,344</h5>
                                         <p class="mb-0">02 Bill</p>
-                                    </div>
+                                    </div>    
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-5">
                             <div class="expense-data p-3 d-flex align-items-center gap-3">
                                 <div style="width:30%">
-                                    <img src="assets/images/expance-chart.webp" style="width:100px">
+                                <img src="assets/images/expance-chart.webp" style="width:100px">
                                 </div>
                                 <div class="" style="width:70%">
                                     <div class="d-flex align-items-center justify-content-between border-bottom pb-2 mb-2">
@@ -416,209 +125,512 @@
                                         <p class="mb-0 font-12 text-black">₹47,344</p>
                                     </div>
                                 </div>
-                    
+
                             </div>
                         </div>
-                    </div>
-                    
-                    
-                    <div class="table-responsive bg-white mt-3">
-                        <table class="table empOnnoardtable">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th class="text-left font-13" style="width: 10%">Initiation Date</th>
-                                    <th class="text-left font-13" style="width: 10%">Settlement Date</th>
-                                    <th class="text-left font-13" style="width: 10%">Employee Name</th>
-                                    <th class="text-left font-13" style="width: 10%">Expense Type</th>
-                                    <th class="text-left font-13" style="width: 10%">Paid Amount</th>
-                                    <th class="text-left font-13" style="width: 10%">Note</th>
-                                    <th class="text-left font-13" style="width: 10%">Status</th>
-                                    <th class="text-center font-13" style="width: 10%">Bill Snapshot</th>
-                                </tr>
-                            </thead>
-                    
-                            <!-- <tbody>
-                                                    <tr>
-                                                        <td colspan="8">
-                                                            <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
-                                                                <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
-                                                                    [nzNotFoundContent]="contentTpl">
-                                                                    <ng-template #contentTpl>
-                                                                        <p class="mb-1 empty-filenew">No data for now</p>
-                                                                    </ng-template>
-                                                                </nz-empty>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </tbody> -->
-                            <tbody>
-                                <!-- *ngFor="let item of [].constructor(7)" -->
-                                <tr>
-                                    <td class="text-left">
-                                        <span class="table-font-weight">Tue, June 12 2022</span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight"> Tue, June 12 2022 </span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span> Albert Flores</span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight">Office Supplies </span>
-                                    </td>
+                        </div>
+                        <div class="table-responsive bg-white mt-3">
+                            <table class="table empOnnoardtable">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th class="text-left font-13" style="width: 10%">Date</th>
+                                        <th class="text-left font-13" style="width: 10%">Employee Name</th>
+                                        <th class="text-left font-13" style="width: 10%">Expense Type</th>
+                                        <th class="text-left font-13" style="width: 10%">Amount</th>
+                                        <th class="text-left font-13" style="width: 10%">Paid Amount</th>
+                                        <th class="text-left font-13" style="width: 10%">Note</th>
+                                        <th class="text-left font-13" style="width: 10%">Status</th>
+                                        <th class="text-center font-13" style="width: 10%">Bill Snapshot</th>
+                                    </tr>
+                                </thead>
+                        
+                                <!-- <tbody>
+                                    <tr>
+                                        <td colspan="8">
+                                            <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
+                                                <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                                    [nzNotFoundContent]="contentTpl">
+                                                    <ng-template #contentTpl>
+                                                        <p class="mb-1 empty-filenew">No data for now</p>
+                                                    </ng-template>
+                                                </nz-empty>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody> -->
+                                <tbody>
+                                    <!-- *ngFor="let item of [].constructor(7)" -->
+                                    <tr>
+                                        <td class="text-left">
+                                            <span class="table-font-weight">Tue, June 12 2022</span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span> Albert Flores</span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight">Office Supplies </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight"> ₹4,344 </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight"> ₹0 </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight white-space"> Lorem ipsum dolor sit amet consectetur adipiscing elit ... </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight text-warning"> Pending </span>
+                                        </td>
                                     
-                                    <td class="text-left">
-                                        <span class="table-font-weight"> ₹0 </span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight white-space"> Lorem ipsum dolor sit amet consectetur adipiscing elit
-                                            ... </span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight text-warning"> Pending </span>
-                                    </td>
-                    
-                                    <td class="text-center">
-                                        <button class="btn p-0 text-black font-14 view-btn" data-bs-toggle="modal" data-bs-target="#bill-snapshot">View
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                                <mask id="mask0_5908_672" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                                                    width="21" height="21">
-                                                    <rect x="0.708618" y="0.601562" width="20" height="20" fill="#D9D9D9" />
-                                                </mask>
-                                                <g mask="url(#mask0_5908_672)">
-                                                    <path
-                                                        d="M10.7085 13.9297C11.7502 13.9297 12.6356 13.5651 13.3648 12.8359C14.094 12.1068 14.4585 11.2214 14.4585 10.1797C14.4585 9.13802 14.094 8.2526 13.3648 7.52344C12.6356 6.79427 11.7502 6.42969 10.7085 6.42969C9.66687 6.42969 8.78145 6.79427 8.05229 7.52344C7.32312 8.2526 6.95854 9.13802 6.95854 10.1797C6.95854 11.2214 7.32312 12.1068 8.05229 12.8359C8.78145 13.5651 9.66687 13.9297 10.7085 13.9297ZM10.7085 12.4297C10.0835 12.4297 9.55229 12.2109 9.11479 11.7734C8.67729 11.3359 8.45854 10.8047 8.45854 10.1797C8.45854 9.55469 8.67729 9.02344 9.11479 8.58594C9.55229 8.14844 10.0835 7.92969 10.7085 7.92969C11.3335 7.92969 11.8648 8.14844 12.3023 8.58594C12.7398 9.02344 12.9585 9.55469 12.9585 10.1797C12.9585 10.8047 12.7398 11.3359 12.3023 11.7734C11.8648 12.2109 11.3335 12.4297 10.7085 12.4297ZM10.7085 16.4297C8.68076 16.4297 6.83354 15.8637 5.16687 14.7318C3.5002 13.5998 2.29187 12.0825 1.54187 10.1797C2.29187 8.27691 3.5002 6.75955 5.16687 5.6276C6.83354 4.49566 8.68076 3.92969 10.7085 3.92969C12.7363 3.92969 14.5835 4.49566 16.2502 5.6276C17.9169 6.75955 19.1252 8.27691 19.8752 10.1797C19.1252 12.0825 17.9169 13.5998 16.2502 14.7318C14.5835 15.8637 12.7363 16.4297 10.7085 16.4297ZM10.7085 14.763C12.278 14.763 13.719 14.3498 15.0315 13.5234C16.344 12.697 17.3474 11.5825 18.0419 10.1797C17.3474 8.77691 16.344 7.66233 15.0315 6.83594C13.719 6.00955 12.278 5.59635 10.7085 5.59635C9.13909 5.59635 7.69812 6.00955 6.38562 6.83594C5.07312 7.66233 4.06965 8.77691 3.3752 10.1797C4.06965 11.5825 5.07312 12.697 6.38562 13.5234C7.69812 14.3498 9.13909 14.763 10.7085 14.763Z"
-                                                        fill="#1C1B1F" />
-                                                </g>
-                                            </svg>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-left">
-                                        <span class="table-font-weight">Tue, June 12 2022</span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight"> Tue, June 12 2022 </span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span> Albert Flores</span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight">Office Supplies </span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight"> ₹0 </span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight white-space"> Lorem ipsum dolor sit amet consectetur adipiscing elit
-                                            ... </span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight text-success"> Approved </span>
-                                    </td>
-                    
-                                    <td class="text-center">
-                                        <button class="btn p-0 text-black font-14 view-btn" data-bs-toggle="modal" data-bs-target="#bill-snapshot">View
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                                <mask id="mask0_5908_672" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                                                    width="21" height="21">
-                                                    <rect x="0.708618" y="0.601562" width="20" height="20" fill="#D9D9D9" />
-                                                </mask>
-                                                <g mask="url(#mask0_5908_672)">
-                                                    <path
-                                                        d="M10.7085 13.9297C11.7502 13.9297 12.6356 13.5651 13.3648 12.8359C14.094 12.1068 14.4585 11.2214 14.4585 10.1797C14.4585 9.13802 14.094 8.2526 13.3648 7.52344C12.6356 6.79427 11.7502 6.42969 10.7085 6.42969C9.66687 6.42969 8.78145 6.79427 8.05229 7.52344C7.32312 8.2526 6.95854 9.13802 6.95854 10.1797C6.95854 11.2214 7.32312 12.1068 8.05229 12.8359C8.78145 13.5651 9.66687 13.9297 10.7085 13.9297ZM10.7085 12.4297C10.0835 12.4297 9.55229 12.2109 9.11479 11.7734C8.67729 11.3359 8.45854 10.8047 8.45854 10.1797C8.45854 9.55469 8.67729 9.02344 9.11479 8.58594C9.55229 8.14844 10.0835 7.92969 10.7085 7.92969C11.3335 7.92969 11.8648 8.14844 12.3023 8.58594C12.7398 9.02344 12.9585 9.55469 12.9585 10.1797C12.9585 10.8047 12.7398 11.3359 12.3023 11.7734C11.8648 12.2109 11.3335 12.4297 10.7085 12.4297ZM10.7085 16.4297C8.68076 16.4297 6.83354 15.8637 5.16687 14.7318C3.5002 13.5998 2.29187 12.0825 1.54187 10.1797C2.29187 8.27691 3.5002 6.75955 5.16687 5.6276C6.83354 4.49566 8.68076 3.92969 10.7085 3.92969C12.7363 3.92969 14.5835 4.49566 16.2502 5.6276C17.9169 6.75955 19.1252 8.27691 19.8752 10.1797C19.1252 12.0825 17.9169 13.5998 16.2502 14.7318C14.5835 15.8637 12.7363 16.4297 10.7085 16.4297ZM10.7085 14.763C12.278 14.763 13.719 14.3498 15.0315 13.5234C16.344 12.697 17.3474 11.5825 18.0419 10.1797C17.3474 8.77691 16.344 7.66233 15.0315 6.83594C13.719 6.00955 12.278 5.59635 10.7085 5.59635C9.13909 5.59635 7.69812 6.00955 6.38562 6.83594C5.07312 7.66233 4.06965 8.77691 3.3752 10.1797C4.06965 11.5825 5.07312 12.697 6.38562 13.5234C7.69812 14.3498 9.13909 14.763 10.7085 14.763Z"
-                                                        fill="#1C1B1F" />
-                                                </g>
-                                            </svg>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-left">
-                                        <span class="table-font-weight">Tue, June 12 2022</span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight"> Tue, June 12 2022 </span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span> Albert Flores</span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight">Office Supplies </span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight text-danger"> -₹10,344 </span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight white-space"> Lorem ipsum dolor sit amet consectetur adipiscing elit
-                                            ... </span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight text-danger"> Rejected </span>
-                                    </td>
-                    
-                                    <td class="text-center">
-                                        <button class="btn p-0 text-black font-14 view-btn" data-bs-toggle="modal" data-bs-target="#bill-snapshot">View
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                                <mask id="mask0_5908_672" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                                                    width="21" height="21">
-                                                    <rect x="0.708618" y="0.601562" width="20" height="20" fill="#D9D9D9" />
-                                                </mask>
-                                                <g mask="url(#mask0_5908_672)">
-                                                    <path
-                                                        d="M10.7085 13.9297C11.7502 13.9297 12.6356 13.5651 13.3648 12.8359C14.094 12.1068 14.4585 11.2214 14.4585 10.1797C14.4585 9.13802 14.094 8.2526 13.3648 7.52344C12.6356 6.79427 11.7502 6.42969 10.7085 6.42969C9.66687 6.42969 8.78145 6.79427 8.05229 7.52344C7.32312 8.2526 6.95854 9.13802 6.95854 10.1797C6.95854 11.2214 7.32312 12.1068 8.05229 12.8359C8.78145 13.5651 9.66687 13.9297 10.7085 13.9297ZM10.7085 12.4297C10.0835 12.4297 9.55229 12.2109 9.11479 11.7734C8.67729 11.3359 8.45854 10.8047 8.45854 10.1797C8.45854 9.55469 8.67729 9.02344 9.11479 8.58594C9.55229 8.14844 10.0835 7.92969 10.7085 7.92969C11.3335 7.92969 11.8648 8.14844 12.3023 8.58594C12.7398 9.02344 12.9585 9.55469 12.9585 10.1797C12.9585 10.8047 12.7398 11.3359 12.3023 11.7734C11.8648 12.2109 11.3335 12.4297 10.7085 12.4297ZM10.7085 16.4297C8.68076 16.4297 6.83354 15.8637 5.16687 14.7318C3.5002 13.5998 2.29187 12.0825 1.54187 10.1797C2.29187 8.27691 3.5002 6.75955 5.16687 5.6276C6.83354 4.49566 8.68076 3.92969 10.7085 3.92969C12.7363 3.92969 14.5835 4.49566 16.2502 5.6276C17.9169 6.75955 19.1252 8.27691 19.8752 10.1797C19.1252 12.0825 17.9169 13.5998 16.2502 14.7318C14.5835 15.8637 12.7363 16.4297 10.7085 16.4297ZM10.7085 14.763C12.278 14.763 13.719 14.3498 15.0315 13.5234C16.344 12.697 17.3474 11.5825 18.0419 10.1797C17.3474 8.77691 16.344 7.66233 15.0315 6.83594C13.719 6.00955 12.278 5.59635 10.7085 5.59635C9.13909 5.59635 7.69812 6.00955 6.38562 6.83594C5.07312 7.66233 4.06965 8.77691 3.3752 10.1797C4.06965 11.5825 5.07312 12.697 6.38562 13.5234C7.69812 14.3498 9.13909 14.763 10.7085 14.763Z"
-                                                        fill="#1C1B1F" />
-                                                </g>
-                                            </svg>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-left">
-                                        <span class="table-font-weight">Tue, June 12 2022</span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight"> Tue, June 12 2022 </span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span> Robert Fox</span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight">Office Compliance </span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight"> ₹4,344 </span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight white-space"> Lorem ipsum dolor sit amet consectetur adipiscing elit
-                                            ... </span>
-                                    </td>
-                                    <td class="text-left">
-                                        <span class="table-font-weight text-primary settled-payroll"> Settled With Payroll </span>
-                                    </td>
-                    
-                                    <td class="text-center">
-                                        <button class="btn p-0 text-black font-14 view-btn" data-bs-toggle="modal" data-bs-target="#bill-snapshot">
-                                            View
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-                                                <mask id="mask0_5908_672" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                                                    width="21" height="21">
-                                                    <rect x="0.708618" y="0.601562" width="20" height="20" fill="#D9D9D9" />
-                                                </mask>
-                                                <g mask="url(#mask0_5908_672)">
-                                                    <path
-                                                        d="M10.7085 13.9297C11.7502 13.9297 12.6356 13.5651 13.3648 12.8359C14.094 12.1068 14.4585 11.2214 14.4585 10.1797C14.4585 9.13802 14.094 8.2526 13.3648 7.52344C12.6356 6.79427 11.7502 6.42969 10.7085 6.42969C9.66687 6.42969 8.78145 6.79427 8.05229 7.52344C7.32312 8.2526 6.95854 9.13802 6.95854 10.1797C6.95854 11.2214 7.32312 12.1068 8.05229 12.8359C8.78145 13.5651 9.66687 13.9297 10.7085 13.9297ZM10.7085 12.4297C10.0835 12.4297 9.55229 12.2109 9.11479 11.7734C8.67729 11.3359 8.45854 10.8047 8.45854 10.1797C8.45854 9.55469 8.67729 9.02344 9.11479 8.58594C9.55229 8.14844 10.0835 7.92969 10.7085 7.92969C11.3335 7.92969 11.8648 8.14844 12.3023 8.58594C12.7398 9.02344 12.9585 9.55469 12.9585 10.1797C12.9585 10.8047 12.7398 11.3359 12.3023 11.7734C11.8648 12.2109 11.3335 12.4297 10.7085 12.4297ZM10.7085 16.4297C8.68076 16.4297 6.83354 15.8637 5.16687 14.7318C3.5002 13.5998 2.29187 12.0825 1.54187 10.1797C2.29187 8.27691 3.5002 6.75955 5.16687 5.6276C6.83354 4.49566 8.68076 3.92969 10.7085 3.92969C12.7363 3.92969 14.5835 4.49566 16.2502 5.6276C17.9169 6.75955 19.1252 8.27691 19.8752 10.1797C19.1252 12.0825 17.9169 13.5998 16.2502 14.7318C14.5835 15.8637 12.7363 16.4297 10.7085 16.4297ZM10.7085 14.763C12.278 14.763 13.719 14.3498 15.0315 13.5234C16.344 12.697 17.3474 11.5825 18.0419 10.1797C17.3474 8.77691 16.344 7.66233 15.0315 6.83594C13.719 6.00955 12.278 5.59635 10.7085 5.59635C9.13909 5.59635 7.69812 6.00955 6.38562 6.83594C5.07312 7.66233 4.06965 8.77691 3.3752 10.1797C4.06965 11.5825 5.07312 12.697 6.38562 13.5234C7.69812 14.3498 9.13909 14.763 10.7085 14.763Z"
-                                                        fill="#1C1B1F" />
-                                                </g>
-                                            </svg>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                        <td class="text-center">
+                                            <button class="btn p-0 text-black font-14 view-btn" data-bs-toggle="modal" data-bs-target="#bill-snapshot">View
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                                    <mask id="mask0_5908_672" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21" height="21">
+                                                        <rect x="0.708618" y="0.601562" width="20" height="20" fill="#D9D9D9" />
+                                                    </mask>
+                                                    <g mask="url(#mask0_5908_672)">
+                                                        <path
+                                                            d="M10.7085 13.9297C11.7502 13.9297 12.6356 13.5651 13.3648 12.8359C14.094 12.1068 14.4585 11.2214 14.4585 10.1797C14.4585 9.13802 14.094 8.2526 13.3648 7.52344C12.6356 6.79427 11.7502 6.42969 10.7085 6.42969C9.66687 6.42969 8.78145 6.79427 8.05229 7.52344C7.32312 8.2526 6.95854 9.13802 6.95854 10.1797C6.95854 11.2214 7.32312 12.1068 8.05229 12.8359C8.78145 13.5651 9.66687 13.9297 10.7085 13.9297ZM10.7085 12.4297C10.0835 12.4297 9.55229 12.2109 9.11479 11.7734C8.67729 11.3359 8.45854 10.8047 8.45854 10.1797C8.45854 9.55469 8.67729 9.02344 9.11479 8.58594C9.55229 8.14844 10.0835 7.92969 10.7085 7.92969C11.3335 7.92969 11.8648 8.14844 12.3023 8.58594C12.7398 9.02344 12.9585 9.55469 12.9585 10.1797C12.9585 10.8047 12.7398 11.3359 12.3023 11.7734C11.8648 12.2109 11.3335 12.4297 10.7085 12.4297ZM10.7085 16.4297C8.68076 16.4297 6.83354 15.8637 5.16687 14.7318C3.5002 13.5998 2.29187 12.0825 1.54187 10.1797C2.29187 8.27691 3.5002 6.75955 5.16687 5.6276C6.83354 4.49566 8.68076 3.92969 10.7085 3.92969C12.7363 3.92969 14.5835 4.49566 16.2502 5.6276C17.9169 6.75955 19.1252 8.27691 19.8752 10.1797C19.1252 12.0825 17.9169 13.5998 16.2502 14.7318C14.5835 15.8637 12.7363 16.4297 10.7085 16.4297ZM10.7085 14.763C12.278 14.763 13.719 14.3498 15.0315 13.5234C16.344 12.697 17.3474 11.5825 18.0419 10.1797C17.3474 8.77691 16.344 7.66233 15.0315 6.83594C13.719 6.00955 12.278 5.59635 10.7085 5.59635C9.13909 5.59635 7.69812 6.00955 6.38562 6.83594C5.07312 7.66233 4.06965 8.77691 3.3752 10.1797C4.06965 11.5825 5.07312 12.697 6.38562 13.5234C7.69812 14.3498 9.13909 14.763 10.7085 14.763Z"
+                                                            fill="#1C1B1F" />
+                                                    </g>
+                                                </svg>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left">
+                                            <span class="table-font-weight">Tue, June 12 2022</span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span> Albert Flores</span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight">Office Supplies </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight"> ₹4,344 </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight"> ₹0 </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight white-space"> Lorem ipsum dolor sit amet consectetur adipiscing elit ... </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight text-success"> Approved </span>
+                                        </td>
+                                    
+                                        <td class="text-center">
+                                            <button class="btn p-0 text-black font-14 view-btn" data-bs-toggle="modal" data-bs-target="#bill-snapshot">View
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                                    <mask id="mask0_5908_672" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
+                                                        height="21">
+                                                        <rect x="0.708618" y="0.601562" width="20" height="20" fill="#D9D9D9" />
+                                                    </mask>
+                                                    <g mask="url(#mask0_5908_672)">
+                                                        <path
+                                                            d="M10.7085 13.9297C11.7502 13.9297 12.6356 13.5651 13.3648 12.8359C14.094 12.1068 14.4585 11.2214 14.4585 10.1797C14.4585 9.13802 14.094 8.2526 13.3648 7.52344C12.6356 6.79427 11.7502 6.42969 10.7085 6.42969C9.66687 6.42969 8.78145 6.79427 8.05229 7.52344C7.32312 8.2526 6.95854 9.13802 6.95854 10.1797C6.95854 11.2214 7.32312 12.1068 8.05229 12.8359C8.78145 13.5651 9.66687 13.9297 10.7085 13.9297ZM10.7085 12.4297C10.0835 12.4297 9.55229 12.2109 9.11479 11.7734C8.67729 11.3359 8.45854 10.8047 8.45854 10.1797C8.45854 9.55469 8.67729 9.02344 9.11479 8.58594C9.55229 8.14844 10.0835 7.92969 10.7085 7.92969C11.3335 7.92969 11.8648 8.14844 12.3023 8.58594C12.7398 9.02344 12.9585 9.55469 12.9585 10.1797C12.9585 10.8047 12.7398 11.3359 12.3023 11.7734C11.8648 12.2109 11.3335 12.4297 10.7085 12.4297ZM10.7085 16.4297C8.68076 16.4297 6.83354 15.8637 5.16687 14.7318C3.5002 13.5998 2.29187 12.0825 1.54187 10.1797C2.29187 8.27691 3.5002 6.75955 5.16687 5.6276C6.83354 4.49566 8.68076 3.92969 10.7085 3.92969C12.7363 3.92969 14.5835 4.49566 16.2502 5.6276C17.9169 6.75955 19.1252 8.27691 19.8752 10.1797C19.1252 12.0825 17.9169 13.5998 16.2502 14.7318C14.5835 15.8637 12.7363 16.4297 10.7085 16.4297ZM10.7085 14.763C12.278 14.763 13.719 14.3498 15.0315 13.5234C16.344 12.697 17.3474 11.5825 18.0419 10.1797C17.3474 8.77691 16.344 7.66233 15.0315 6.83594C13.719 6.00955 12.278 5.59635 10.7085 5.59635C9.13909 5.59635 7.69812 6.00955 6.38562 6.83594C5.07312 7.66233 4.06965 8.77691 3.3752 10.1797C4.06965 11.5825 5.07312 12.697 6.38562 13.5234C7.69812 14.3498 9.13909 14.763 10.7085 14.763Z"
+                                                            fill="#1C1B1F" />
+                                                    </g>
+                                                </svg>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left">
+                                            <span class="table-font-weight">Tue, June 12 2022</span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span> Albert Flores</span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight">Office Supplies </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight"> ₹4,344 </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight text-danger"> -₹10,344 </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight white-space"> Lorem ipsum dolor sit amet consectetur adipiscing elit ... </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight text-danger"> Rejected </span>
+                                        </td>
+                                    
+                                        <td class="text-center">
+                                            <button class="btn p-0 text-black font-14 view-btn" data-bs-toggle="modal" data-bs-target="#bill-snapshot">View
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                                    <mask id="mask0_5908_672" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
+                                                        height="21">
+                                                        <rect x="0.708618" y="0.601562" width="20" height="20" fill="#D9D9D9" />
+                                                    </mask>
+                                                    <g mask="url(#mask0_5908_672)">
+                                                        <path
+                                                            d="M10.7085 13.9297C11.7502 13.9297 12.6356 13.5651 13.3648 12.8359C14.094 12.1068 14.4585 11.2214 14.4585 10.1797C14.4585 9.13802 14.094 8.2526 13.3648 7.52344C12.6356 6.79427 11.7502 6.42969 10.7085 6.42969C9.66687 6.42969 8.78145 6.79427 8.05229 7.52344C7.32312 8.2526 6.95854 9.13802 6.95854 10.1797C6.95854 11.2214 7.32312 12.1068 8.05229 12.8359C8.78145 13.5651 9.66687 13.9297 10.7085 13.9297ZM10.7085 12.4297C10.0835 12.4297 9.55229 12.2109 9.11479 11.7734C8.67729 11.3359 8.45854 10.8047 8.45854 10.1797C8.45854 9.55469 8.67729 9.02344 9.11479 8.58594C9.55229 8.14844 10.0835 7.92969 10.7085 7.92969C11.3335 7.92969 11.8648 8.14844 12.3023 8.58594C12.7398 9.02344 12.9585 9.55469 12.9585 10.1797C12.9585 10.8047 12.7398 11.3359 12.3023 11.7734C11.8648 12.2109 11.3335 12.4297 10.7085 12.4297ZM10.7085 16.4297C8.68076 16.4297 6.83354 15.8637 5.16687 14.7318C3.5002 13.5998 2.29187 12.0825 1.54187 10.1797C2.29187 8.27691 3.5002 6.75955 5.16687 5.6276C6.83354 4.49566 8.68076 3.92969 10.7085 3.92969C12.7363 3.92969 14.5835 4.49566 16.2502 5.6276C17.9169 6.75955 19.1252 8.27691 19.8752 10.1797C19.1252 12.0825 17.9169 13.5998 16.2502 14.7318C14.5835 15.8637 12.7363 16.4297 10.7085 16.4297ZM10.7085 14.763C12.278 14.763 13.719 14.3498 15.0315 13.5234C16.344 12.697 17.3474 11.5825 18.0419 10.1797C17.3474 8.77691 16.344 7.66233 15.0315 6.83594C13.719 6.00955 12.278 5.59635 10.7085 5.59635C9.13909 5.59635 7.69812 6.00955 6.38562 6.83594C5.07312 7.66233 4.06965 8.77691 3.3752 10.1797C4.06965 11.5825 5.07312 12.697 6.38562 13.5234C7.69812 14.3498 9.13909 14.763 10.7085 14.763Z"
+                                                            fill="#1C1B1F" />
+                                                    </g>
+                                                </svg>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left">
+                                            <span class="table-font-weight">Tue, June 12 2022</span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span> Robert Fox</span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight">Office Compliance </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight"> ₹4,344 </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight"> ₹4,344 </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight white-space"> Lorem ipsum dolor sit amet consectetur adipiscing elit ... </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight text-primary settled-payroll"> Settled With Payroll </span>
+                                        </td>
+                                    
+                                        <td class="text-center">
+                                            <button class="btn p-0 text-black font-14 view-btn " data-bs-toggle="modal" data-bs-target="#bill-snapshot">
+                                                View
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                                    <mask id="mask0_5908_672" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
+                                                        height="21">
+                                                        <rect x="0.708618" y="0.601562" width="20" height="20" fill="#D9D9D9" />
+                                                    </mask>
+                                                    <g mask="url(#mask0_5908_672)">
+                                                        <path
+                                                            d="M10.7085 13.9297C11.7502 13.9297 12.6356 13.5651 13.3648 12.8359C14.094 12.1068 14.4585 11.2214 14.4585 10.1797C14.4585 9.13802 14.094 8.2526 13.3648 7.52344C12.6356 6.79427 11.7502 6.42969 10.7085 6.42969C9.66687 6.42969 8.78145 6.79427 8.05229 7.52344C7.32312 8.2526 6.95854 9.13802 6.95854 10.1797C6.95854 11.2214 7.32312 12.1068 8.05229 12.8359C8.78145 13.5651 9.66687 13.9297 10.7085 13.9297ZM10.7085 12.4297C10.0835 12.4297 9.55229 12.2109 9.11479 11.7734C8.67729 11.3359 8.45854 10.8047 8.45854 10.1797C8.45854 9.55469 8.67729 9.02344 9.11479 8.58594C9.55229 8.14844 10.0835 7.92969 10.7085 7.92969C11.3335 7.92969 11.8648 8.14844 12.3023 8.58594C12.7398 9.02344 12.9585 9.55469 12.9585 10.1797C12.9585 10.8047 12.7398 11.3359 12.3023 11.7734C11.8648 12.2109 11.3335 12.4297 10.7085 12.4297ZM10.7085 16.4297C8.68076 16.4297 6.83354 15.8637 5.16687 14.7318C3.5002 13.5998 2.29187 12.0825 1.54187 10.1797C2.29187 8.27691 3.5002 6.75955 5.16687 5.6276C6.83354 4.49566 8.68076 3.92969 10.7085 3.92969C12.7363 3.92969 14.5835 4.49566 16.2502 5.6276C17.9169 6.75955 19.1252 8.27691 19.8752 10.1797C19.1252 12.0825 17.9169 13.5998 16.2502 14.7318C14.5835 15.8637 12.7363 16.4297 10.7085 16.4297ZM10.7085 14.763C12.278 14.763 13.719 14.3498 15.0315 13.5234C16.344 12.697 17.3474 11.5825 18.0419 10.1797C17.3474 8.77691 16.344 7.66233 15.0315 6.83594C13.719 6.00955 12.278 5.59635 10.7085 5.59635C9.13909 5.59635 7.69812 6.00955 6.38562 6.83594C5.07312 7.66233 4.06965 8.77691 3.3752 10.1797C4.06965 11.5825 5.07312 12.697 6.38562 13.5234C7.69812 14.3498 9.13909 14.763 10.7085 14.763Z"
+                                                            fill="#1C1B1F" />
+                                                    </g>
+                                                </svg>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-
+                </div>
+                <div class="tab-pane fade pt-3" id="past-expense" role="tabpanel" aria-labelledby="leaves-tab">
+                    <div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="d-flex align-items-center attendance-date">
+                                    <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                            <mask id="mask0_4719_1625" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
+                                                height="21">
+                                                <rect x="0.5" y="0.5" width="20" height="20" fill="#D9D9D9" />
+                                            </mask>
+                                            <g mask="url(#mask0_4719_1625)">
+                                                <path
+                                                    d="M8.83203 15.5L3.83203 10.5L8.83203 5.5L9.9987 6.70833L7.04036 9.66667H17.1654V11.3333H7.04036L9.9987 14.2917L8.83203 15.5Z"
+                                                    fill="#060606" />
+                                            </g>
+                                        </svg>
+                                    </span>
+                                    <span class="calendar-separator"></span>
+                                    <div class="dropdown ">
+                                        <nz-date-picker nzMode="month" nzFormat="MMM, yyyy"></nz-date-picker>
+                                    </div>
+                                    <span class="calendar-separator"></span>
+                                    <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                            <mask id="mask0_4719_1639" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
+                                                height="21">
+                                                <rect width="20" height="20" transform="matrix(-1 0 0 1 20.5 0.5)" fill="#D9D9D9" />
+                                            </mask>
+                                            <g mask="url(#mask0_4719_1639)">
+                                                <path
+                                                    d="M12.168 15.5L17.168 10.5L12.168 5.5L11.0013 6.70833L13.9596 9.66667H3.83464V11.3333H13.9596L11.0013 14.2917L12.168 15.5Z"
+                                                    fill="#060606" />
+                                            </g>
+                                        </svg>
+                                    </span>
+                        
+                                </div>
+                        
+                                <nz-select class="request-dropdown" nzSize="large" nzPlaceHolder="Filter" required>
+                                    <nz-option [nzValue]="'Attendance update'" [nzLabel]="'Attendance update'"></nz-option>
+                                    <nz-option [nzValue]="'Overtime'" [nzLabel]="'Overtime'"></nz-option>
+                                    <nz-option [nzValue]="'Lop reversal'" [nzLabel]="'Lop reversal'"></nz-option>
+                                </nz-select>
+                        
+                            </div>
+                        
+                        
+                            <div>
+                                <button data-bs-toggle="modal" data-bs-target="#apply-expense" class="btn new-announcement">New Request &nbsp;
+                                    <span class="calendar-separator"></span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                                        <mask id="mask0_5566_935" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21"
+                                            style="mask-type: alpha;">
+                                            <rect y="0.5" width="20" height="20" fill="#D9D9D9"></rect>
+                                        </mask>
+                                        <g mask="url(#mask0_5566_935)">
+                                            <path d="M9.16667 18V11.3333H2.5V9.66667H9.16667V3H10.8333V9.66667H17.5V11.3333H10.8333V18H9.16667Z"
+                                                fill="#6666F2"></path>
+                                        </g>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="pending-expense-data row mt-3">
+                            <div class="col-md-7">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="expense-data p-3">
+                                            <p class="text-success mb-3"><span class="approved"></span> Approved</p>
+                                            <h5 class="font-18 mb-1">₹24,344</h5>
+                                            <p class="mb-0">12 Bill</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="expense-data p-3">
+                                            <p class="text-warning mb-3"><span class="pending"></span> Pending</p>
+                                            <h5 class="font-18 mb-1">₹4,344</h5>
+                                            <p class="mb-0">02 Bill</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="expense-data p-3">
+                                            <p class="text-danger mb-3"><span class="canceled"></span> Canceled</p>
+                                            <h5 class="font-18 mb-1">₹24,344</h5>
+                                            <p class="mb-0">02 Bill</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="expense-data p-3 d-flex align-items-center gap-3">
+                                    <div style="width:30%">
+                                        <img src="assets/images/expance-chart.webp" style="width:100px">
+                                    </div>
+                                    <div class="" style="width:70%">
+                                        <div class="d-flex align-items-center justify-content-between border-bottom pb-2 mb-2">
+                                            <p class="mb-0 font-12">Most Expense on</p>
+                                            <p class="mb-0 font-12 text-black"> <span class="food"></span> Food</p>
+                                        </div>
+                                        <div class="d-flex align-items-center justify-content-between border-bottom pb-2 mb-2">
+                                            <p class="mb-0 font-12">Least Expense on</p>
+                                            <p class="mb-0 font-12 text-black"> <span class="transport"></span> Transport</p>
+                                        </div>
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <p class="mb-0 font-12">Today Expense</p>
+                                            <p class="mb-0 font-12 text-black">₹47,344</p>
+                                        </div>
+                                    </div>
+                        
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive bg-white mt-3">
+                            <table class="table empOnnoardtable">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th class="text-left font-13" style="width: 10%">Initiation Date</th>
+                                        <th class="text-left font-13" style="width: 10%">Settlement Date</th>
+                                        <th class="text-left font-13" style="width: 10%">Employee Name</th>
+                                        <th class="text-left font-13" style="width: 10%">Expense Type</th>
+                                        <th class="text-left font-13" style="width: 10%">Paid Amount</th>
+                                        <th class="text-left font-13" style="width: 10%">Note</th>
+                                        <th class="text-left font-13" style="width: 10%">Status</th>
+                                        <th class="text-center font-13" style="width: 10%">Bill Snapshot</th>
+                                    </tr>
+                                </thead>
+                        
+                                <!-- <tbody>
+                                                        <tr>
+                                                            <td colspan="8">
+                                                                <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
+                                                                    <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg"
+                                                                        [nzNotFoundContent]="contentTpl">
+                                                                        <ng-template #contentTpl>
+                                                                            <p class="mb-1 empty-filenew">No data for now</p>
+                                                                        </ng-template>
+                                                                    </nz-empty>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody> -->
+                                <tbody>
+                                    <!-- *ngFor="let item of [].constructor(7)" -->
+                                    <tr>
+                                        <td class="text-left">
+                                            <span class="table-font-weight">Tue, June 12 2022</span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight"> Tue, June 12 2022 </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span> Albert Flores</span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight">Office Supplies </span>
+                                        </td>
+                                        
+                                        <td class="text-left">
+                                            <span class="table-font-weight"> ₹0 </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight white-space"> Lorem ipsum dolor sit amet consectetur adipiscing elit
+                                                ... </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight text-warning"> Pending </span>
+                                        </td>
+                        
+                                        <td class="text-center">
+                                            <button class="btn p-0 text-black font-14 view-btn" data-bs-toggle="modal" data-bs-target="#bill-snapshot">View
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                                    <mask id="mask0_5908_672" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                                                        width="21" height="21">
+                                                        <rect x="0.708618" y="0.601562" width="20" height="20" fill="#D9D9D9" />
+                                                    </mask>
+                                                    <g mask="url(#mask0_5908_672)">
+                                                        <path
+                                                            d="M10.7085 13.9297C11.7502 13.9297 12.6356 13.5651 13.3648 12.8359C14.094 12.1068 14.4585 11.2214 14.4585 10.1797C14.4585 9.13802 14.094 8.2526 13.3648 7.52344C12.6356 6.79427 11.7502 6.42969 10.7085 6.42969C9.66687 6.42969 8.78145 6.79427 8.05229 7.52344C7.32312 8.2526 6.95854 9.13802 6.95854 10.1797C6.95854 11.2214 7.32312 12.1068 8.05229 12.8359C8.78145 13.5651 9.66687 13.9297 10.7085 13.9297ZM10.7085 12.4297C10.0835 12.4297 9.55229 12.2109 9.11479 11.7734C8.67729 11.3359 8.45854 10.8047 8.45854 10.1797C8.45854 9.55469 8.67729 9.02344 9.11479 8.58594C9.55229 8.14844 10.0835 7.92969 10.7085 7.92969C11.3335 7.92969 11.8648 8.14844 12.3023 8.58594C12.7398 9.02344 12.9585 9.55469 12.9585 10.1797C12.9585 10.8047 12.7398 11.3359 12.3023 11.7734C11.8648 12.2109 11.3335 12.4297 10.7085 12.4297ZM10.7085 16.4297C8.68076 16.4297 6.83354 15.8637 5.16687 14.7318C3.5002 13.5998 2.29187 12.0825 1.54187 10.1797C2.29187 8.27691 3.5002 6.75955 5.16687 5.6276C6.83354 4.49566 8.68076 3.92969 10.7085 3.92969C12.7363 3.92969 14.5835 4.49566 16.2502 5.6276C17.9169 6.75955 19.1252 8.27691 19.8752 10.1797C19.1252 12.0825 17.9169 13.5998 16.2502 14.7318C14.5835 15.8637 12.7363 16.4297 10.7085 16.4297ZM10.7085 14.763C12.278 14.763 13.719 14.3498 15.0315 13.5234C16.344 12.697 17.3474 11.5825 18.0419 10.1797C17.3474 8.77691 16.344 7.66233 15.0315 6.83594C13.719 6.00955 12.278 5.59635 10.7085 5.59635C9.13909 5.59635 7.69812 6.00955 6.38562 6.83594C5.07312 7.66233 4.06965 8.77691 3.3752 10.1797C4.06965 11.5825 5.07312 12.697 6.38562 13.5234C7.69812 14.3498 9.13909 14.763 10.7085 14.763Z"
+                                                            fill="#1C1B1F" />
+                                                    </g>
+                                                </svg>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left">
+                                            <span class="table-font-weight">Tue, June 12 2022</span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight"> Tue, June 12 2022 </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span> Albert Flores</span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight">Office Supplies </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight"> ₹0 </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight white-space"> Lorem ipsum dolor sit amet consectetur adipiscing elit
+                                                ... </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight text-success"> Approved </span>
+                                        </td>
+                        
+                                        <td class="text-center">
+                                            <button class="btn p-0 text-black font-14 view-btn" data-bs-toggle="modal" data-bs-target="#bill-snapshot">View
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                                    <mask id="mask0_5908_672" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                                                        width="21" height="21">
+                                                        <rect x="0.708618" y="0.601562" width="20" height="20" fill="#D9D9D9" />
+                                                    </mask>
+                                                    <g mask="url(#mask0_5908_672)">
+                                                        <path
+                                                            d="M10.7085 13.9297C11.7502 13.9297 12.6356 13.5651 13.3648 12.8359C14.094 12.1068 14.4585 11.2214 14.4585 10.1797C14.4585 9.13802 14.094 8.2526 13.3648 7.52344C12.6356 6.79427 11.7502 6.42969 10.7085 6.42969C9.66687 6.42969 8.78145 6.79427 8.05229 7.52344C7.32312 8.2526 6.95854 9.13802 6.95854 10.1797C6.95854 11.2214 7.32312 12.1068 8.05229 12.8359C8.78145 13.5651 9.66687 13.9297 10.7085 13.9297ZM10.7085 12.4297C10.0835 12.4297 9.55229 12.2109 9.11479 11.7734C8.67729 11.3359 8.45854 10.8047 8.45854 10.1797C8.45854 9.55469 8.67729 9.02344 9.11479 8.58594C9.55229 8.14844 10.0835 7.92969 10.7085 7.92969C11.3335 7.92969 11.8648 8.14844 12.3023 8.58594C12.7398 9.02344 12.9585 9.55469 12.9585 10.1797C12.9585 10.8047 12.7398 11.3359 12.3023 11.7734C11.8648 12.2109 11.3335 12.4297 10.7085 12.4297ZM10.7085 16.4297C8.68076 16.4297 6.83354 15.8637 5.16687 14.7318C3.5002 13.5998 2.29187 12.0825 1.54187 10.1797C2.29187 8.27691 3.5002 6.75955 5.16687 5.6276C6.83354 4.49566 8.68076 3.92969 10.7085 3.92969C12.7363 3.92969 14.5835 4.49566 16.2502 5.6276C17.9169 6.75955 19.1252 8.27691 19.8752 10.1797C19.1252 12.0825 17.9169 13.5998 16.2502 14.7318C14.5835 15.8637 12.7363 16.4297 10.7085 16.4297ZM10.7085 14.763C12.278 14.763 13.719 14.3498 15.0315 13.5234C16.344 12.697 17.3474 11.5825 18.0419 10.1797C17.3474 8.77691 16.344 7.66233 15.0315 6.83594C13.719 6.00955 12.278 5.59635 10.7085 5.59635C9.13909 5.59635 7.69812 6.00955 6.38562 6.83594C5.07312 7.66233 4.06965 8.77691 3.3752 10.1797C4.06965 11.5825 5.07312 12.697 6.38562 13.5234C7.69812 14.3498 9.13909 14.763 10.7085 14.763Z"
+                                                            fill="#1C1B1F" />
+                                                    </g>
+                                                </svg>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left">
+                                            <span class="table-font-weight">Tue, June 12 2022</span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight"> Tue, June 12 2022 </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span> Albert Flores</span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight">Office Supplies </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight"> ₹10,344 </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight white-space"> Lorem ipsum dolor sit amet consectetur adipiscing elit
+                                                ... </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight text-danger"> Rejected </span>
+                                        </td>
+                        
+                                        <td class="text-center">
+                                            <button class="btn p-0 text-black font-14 view-btn" data-bs-toggle="modal" data-bs-target="#bill-snapshot">View
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                                    <mask id="mask0_5908_672" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                                                        width="21" height="21">
+                                                        <rect x="0.708618" y="0.601562" width="20" height="20" fill="#D9D9D9" />
+                                                    </mask>
+                                                    <g mask="url(#mask0_5908_672)">
+                                                        <path
+                                                            d="M10.7085 13.9297C11.7502 13.9297 12.6356 13.5651 13.3648 12.8359C14.094 12.1068 14.4585 11.2214 14.4585 10.1797C14.4585 9.13802 14.094 8.2526 13.3648 7.52344C12.6356 6.79427 11.7502 6.42969 10.7085 6.42969C9.66687 6.42969 8.78145 6.79427 8.05229 7.52344C7.32312 8.2526 6.95854 9.13802 6.95854 10.1797C6.95854 11.2214 7.32312 12.1068 8.05229 12.8359C8.78145 13.5651 9.66687 13.9297 10.7085 13.9297ZM10.7085 12.4297C10.0835 12.4297 9.55229 12.2109 9.11479 11.7734C8.67729 11.3359 8.45854 10.8047 8.45854 10.1797C8.45854 9.55469 8.67729 9.02344 9.11479 8.58594C9.55229 8.14844 10.0835 7.92969 10.7085 7.92969C11.3335 7.92969 11.8648 8.14844 12.3023 8.58594C12.7398 9.02344 12.9585 9.55469 12.9585 10.1797C12.9585 10.8047 12.7398 11.3359 12.3023 11.7734C11.8648 12.2109 11.3335 12.4297 10.7085 12.4297ZM10.7085 16.4297C8.68076 16.4297 6.83354 15.8637 5.16687 14.7318C3.5002 13.5998 2.29187 12.0825 1.54187 10.1797C2.29187 8.27691 3.5002 6.75955 5.16687 5.6276C6.83354 4.49566 8.68076 3.92969 10.7085 3.92969C12.7363 3.92969 14.5835 4.49566 16.2502 5.6276C17.9169 6.75955 19.1252 8.27691 19.8752 10.1797C19.1252 12.0825 17.9169 13.5998 16.2502 14.7318C14.5835 15.8637 12.7363 16.4297 10.7085 16.4297ZM10.7085 14.763C12.278 14.763 13.719 14.3498 15.0315 13.5234C16.344 12.697 17.3474 11.5825 18.0419 10.1797C17.3474 8.77691 16.344 7.66233 15.0315 6.83594C13.719 6.00955 12.278 5.59635 10.7085 5.59635C9.13909 5.59635 7.69812 6.00955 6.38562 6.83594C5.07312 7.66233 4.06965 8.77691 3.3752 10.1797C4.06965 11.5825 5.07312 12.697 6.38562 13.5234C7.69812 14.3498 9.13909 14.763 10.7085 14.763Z"
+                                                            fill="#1C1B1F" />
+                                                    </g>
+                                                </svg>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left">
+                                            <span class="table-font-weight">Tue, June 12 2022</span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight"> Tue, June 12 2022 </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span> Robert Fox</span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight">Office Compliance </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight"> ₹4,344 </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight white-space"> Lorem ipsum dolor sit amet consectetur adipiscing elit
+                                                ... </span>
+                                        </td>
+                                        <td class="text-left">
+                                            <span class="table-font-weight text-primary settled-payroll"> Settled With Payroll </span>
+                                        </td>
+                        
+                                        <td class="text-center">
+                                            <button class="btn p-0 text-black font-14 view-btn" data-bs-toggle="modal" data-bs-target="#bill-snapshot">
+                                                View
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+                                                    <mask id="mask0_5908_672" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                                                        width="21" height="21">
+                                                        <rect x="0.708618" y="0.601562" width="20" height="20" fill="#D9D9D9" />
+                                                    </mask>
+                                                    <g mask="url(#mask0_5908_672)">
+                                                        <path
+                                                            d="M10.7085 13.9297C11.7502 13.9297 12.6356 13.5651 13.3648 12.8359C14.094 12.1068 14.4585 11.2214 14.4585 10.1797C14.4585 9.13802 14.094 8.2526 13.3648 7.52344C12.6356 6.79427 11.7502 6.42969 10.7085 6.42969C9.66687 6.42969 8.78145 6.79427 8.05229 7.52344C7.32312 8.2526 6.95854 9.13802 6.95854 10.1797C6.95854 11.2214 7.32312 12.1068 8.05229 12.8359C8.78145 13.5651 9.66687 13.9297 10.7085 13.9297ZM10.7085 12.4297C10.0835 12.4297 9.55229 12.2109 9.11479 11.7734C8.67729 11.3359 8.45854 10.8047 8.45854 10.1797C8.45854 9.55469 8.67729 9.02344 9.11479 8.58594C9.55229 8.14844 10.0835 7.92969 10.7085 7.92969C11.3335 7.92969 11.8648 8.14844 12.3023 8.58594C12.7398 9.02344 12.9585 9.55469 12.9585 10.1797C12.9585 10.8047 12.7398 11.3359 12.3023 11.7734C11.8648 12.2109 11.3335 12.4297 10.7085 12.4297ZM10.7085 16.4297C8.68076 16.4297 6.83354 15.8637 5.16687 14.7318C3.5002 13.5998 2.29187 12.0825 1.54187 10.1797C2.29187 8.27691 3.5002 6.75955 5.16687 5.6276C6.83354 4.49566 8.68076 3.92969 10.7085 3.92969C12.7363 3.92969 14.5835 4.49566 16.2502 5.6276C17.9169 6.75955 19.1252 8.27691 19.8752 10.1797C19.1252 12.0825 17.9169 13.5998 16.2502 14.7318C14.5835 15.8637 12.7363 16.4297 10.7085 16.4297ZM10.7085 14.763C12.278 14.763 13.719 14.3498 15.0315 13.5234C16.344 12.697 17.3474 11.5825 18.0419 10.1797C17.3474 8.77691 16.344 7.66233 15.0315 6.83594C13.719 6.00955 12.278 5.59635 10.7085 5.59635C9.13909 5.59635 7.69812 6.00955 6.38562 6.83594C5.07312 7.66233 4.06965 8.77691 3.3752 10.1797C4.06965 11.5825 5.07312 12.697 6.38562 13.5234C7.69812 14.3498 9.13909 14.763 10.7085 14.763Z"
+                                                            fill="#1C1B1F" />
+                                                    </g>
+                                                </svg>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -634,7 +646,7 @@
 <!-- Modal -->
 <div class="modal fade" id="bill-snapshot" tabindex="-1" role="dialog" #assetRequestModal aria-hidden="true"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-xl" style="max-width: 1060px;" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Bill Snapshot</h5>
@@ -652,85 +664,226 @@
                     </svg>
                 </button>
             </div>
+            <div class="modal-body p-0">
+                <div class="row">
+                    <div class="col-md-5 pr-0 mr-0">
+                        <div class="bill-image">
+                           <img src="assets/images/bill-img.svg" style="width:100%;">
+                           <span class="bill-images d-flex align-items-center gap-2 p-2">
+                                <img src="assets/images/bill-img.svg">
+                                <img src="assets/images/bill-img.svg">
+                           </span>
+                           <div class="position-relitive">
+                                <span class="prev-btn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                                        <mask id="mask0_5929_1810" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
+                                            <rect x="24" y="24.5" width="24" height="24" transform="rotate(180 24 24.5)" fill="white" />
+                                        </mask>
+                                        <g mask="url(#mask0_5929_1810)">
+                                            <path d="M8 2.5L18 12.5L8 22.5L6.225 20.725L14.45 12.5L6.225 4.275L8 2.5Z" fill="white" />
+                                        </g>
+                                    </svg>
+                                </span>
+                                <span class="next-btn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                                        <mask id="mask0_5929_1810" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
+                                            height="25">
+                                            <rect x="24" y="24.5" width="24" height="24" transform="rotate(180 24 24.5)" fill="white" />
+                                        </mask>
+                                        <g mask="url(#mask0_5929_1810)">
+                                            <path d="M8 2.5L18 12.5L8 22.5L6.225 20.725L14.45 12.5L6.225 4.275L8 2.5Z" fill="white" />
+                                        </g>
+                                    </svg>
+                                </span>
+                           </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="row p-3">
+                            <div class="col-md-12 mb-3">
+                                <label for="templateName" class="pb-2">
+                                    Expense Type
+                                </label>
+                                <nz-form-control>
+                                    <nz-select class="form-control" style="width: 100%" nzSize="large" nzPlaceHolder="Select expense type"
+                                        required>
+                                        <nz-option [nzValue]="'Food'" [nzLabel]="'Food'"></nz-option>
+                                        <nz-option [nzValue]="'Travel'" [nzLabel]="'Travel'"></nz-option>
+                                    </nz-select>
+                                </nz-form-control>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label for="employeeTypeId" class="mb-2">Expense Date</label>
+                                    <nz-date-picker nzPlaceHolder="Select date" name="startDate" required>
+                                    </nz-date-picker>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label for="employeeTypeId" class="mb-2"> Requested To </label>
+                                    <!-- <input class="form-control input-zorro text-primary" placeholder="Enter requested name" nzSize="large"
+                                        minlength="3" maxlength="50" name="tempNamed" value="@ Leslie Alexander" required /> -->
+                                        <nz-form-control>
+                                            <nz-select class="form-control" style="width: 100%" nzSize="large" nzPlaceHolder="Select requested" required>
+                                                <nz-option [nzValue]="'Anchal'" [nzLabel]="'Anchal'"></nz-option>
+                                                <nz-option [nzValue]="'Rohit Chaturvedi'" [nzLabel]="'Rohit Chaturvedi'"></nz-option>
+                                                <nz-option [nzValue]="'Pushpendra'" [nzLabel]="'Pushpendra'"></nz-option>
+                                            </nz-select>
+                                        </nz-form-control>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <label for="employeeTypeId" class="mb-2">Amount spend</label>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="form-group">
+                                            <input class="form-control input-zorro" placeholder="Enter amount spend" nzSize="large"
+                                                minlength="3" maxlength="50" name="tempNamed" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3 ">
+                                        <div class="notice-period-error p-2">
+                                            <div class="d-flex align-items-center gap-3">
+                                                <p class="mb-0">Amount Define</p>
+                                                <span class="calendar-separator"></span>
+                                                <h6 class="mb-0">₹2000</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="templateName" class="pb-2">
+                                    Expense Type
+                                </label>
+                                <textarea class="form-control nots-section" id="exampleFormControlTextarea1" placeholder="Write expense type"
+                                    rows="3"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center justify-content-between p-3">
+                            <div class="d-flex align-items-center gap-2">
+                                <p class="mb-0">Status</p>
+                                <span class="action-btn"></span>
+                                <p class="mb-0 text-warning">Pending</p>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <button class="btn cancel-btn mt-0" data-bs-dismiss="modal" aria-label="Close" #closeButton>Delete</button>
+                                <button class="btn submitActionBtn">Edit</button>
+                            </div>
+
+                            <!-- <div class="d-flex align-items-center gap-2">
+                                <h5 class="mb-0">Are you sure want to delete it</h5>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <button class="btn cancel-btn mt-0" >No</button>
+                                <button class="btn submitActionBtn bg-danger">Yes</button>
+                            </div> -->
+                            
+                        </div>
+                    
+                    </div>
+                </div>
+                    
+            </div>
+           
+        </div>
+    </div>
+</div>
+
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#apply-expense">
+    Apply for expense
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="apply-expense" tabindex="-1" role="dialog" #assetRequestModal aria-hidden="true"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Apply for expense</h5>
+                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="24" height="24">
+                            <rect width="24" height="24" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_5037_2014)">
+                            <path
+                                d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+                                fill="black" />
+                        </g>
+                    </svg>
+                </button>
+            </div>
             <div class="modal-body">
-                <form>
-                    <div class="row register-form-box">
+                    <div class="row">
                         <div class="col-md-12 mb-3">
                             <label for="templateName" class="pb-2">
-                                Expense Type
+                                Expense type
                             </label>
                             <nz-form-control>
-                                <nz-select class="form-control" style="width: 100%" nzSize="large" nzPlaceHolder="Select expense type" required>
+                                <nz-select class="form-control" style="width: 100%" nzSize="large"
+                                    nzPlaceHolder="Select expense type" required>
+                                    <nz-option [nzValue]="'Announcement'" [nzLabel]="'Announcement'"></nz-option>
                                     <nz-option [nzValue]="'Food'" [nzLabel]="'Food'"></nz-option>
-                                    <nz-option [nzValue]="'Travel'" [nzLabel]="'Travel'"></nz-option>
+                                    <nz-option [nzValue]="'Transport'" [nzLabel]="'Transport'"></nz-option>
                                 </nz-select>
                             </nz-form-control>
                         </div>
-                        <!-- <div class="col-md-12 mb-3">
-                            <label for="templateName" class="pb-2">
-                                Template Name
-                            </label>
-                            <input class="form-control input-zorro" placeholder="Enter template name here"
-                                nzSize="large" minlength="3" maxlength="50" name="tempNamed" required />
-                        </div> -->
-
-                      
-                        
-                        <div class="col-md-6 mb-3">
+                       
+                        <div class="col-md-12 mb-3">
                             <div class="form-group">
                                 <label for="employeeTypeId" class="mb-2">Expense Date</label>
                                 <nz-date-picker nzPlaceHolder="Select date" name="startDate" required>
                                 </nz-date-picker>
                             </div>
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <div class="form-group">
-                                <label for="employeeTypeId" class="mb-2"> Requested To </label>
-                                <input class="form-control input-zorro text-primary" placeholder="Enter requested name" nzSize="large" minlength="3"
-                                    maxlength="50" name="tempNamed" value="@ Leslie Alexander" required />
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="row">
-                            <label for="employeeTypeId" class="mb-2">Amount spend</label>
-                                <div class="col-md-6 mb-3">
-                                    <div class="form-group">
-                                        <input class="form-control input-zorro" placeholder="Enter amount spend" nzSize="large" minlength="3"
-                                            maxlength="50" name="tempNamed" required />
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mb-3 ">
-                                    <div class="notice-period-error p-2">
-                                        <div class="d-flex align-items-center gap-3">
-                                            <p class="mb-0">Amount Define</p>
-                                            <span class="calendar-separator"></span>
-                                            <h6 class="mb-0">₹2000</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <div class="col-md-12 mb-3">
                             <label for="templateName" class="pb-2">
-                                Expense Type
+                                Amount
+                            </label>
+                            <input class="form-control input-zorro" placeholder="Enter amount" nzSize="large" minlength="3" maxlength="50"
+                                name="tempNamed" required />
+                        </div>
+                        <div class="col-md 12 mb-3">
+                            <label for="templateName" class="pb-2">
+                            Select user to request the leave from
+                            </label>
+                            <nz-form-control>
+                                <nz-select class="form-control" style="width: 100%" nzSize="large" nzPlaceHolder="Select Manager" required>
+                                    <nz-option [nzValue]="'Rohit Chaturvedi'" [nzLabel]="'Rohit Chaturvedi'"></nz-option>
+                                    <nz-option [nzValue]="'Anchal'" [nzLabel]="'Anchal'"></nz-option>
+                                    <nz-option [nzValue]="'Pushpendra'" [nzLabel]="'Pushpendra'"></nz-option>
+                                </nz-select>
+                            </nz-form-control>
+                            </div>
+
+                        <div class="col-md-12 mb-3">
+                            <label for="templateName" class="pb-2">
+                                Note
                             </label>
                             <textarea class="form-control nots-section" id="exampleFormControlTextarea1"
-                                placeholder="Write expense type" rows="3"></textarea>
+                                placeholder="Write the note" rows="3"></textarea>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <div class="form-group">
+                                <label for="templateName" class="mb-2"> Proof document <span class="text-primary font-12">(optional)</span></label>
+                                <div class="d-flex align-items-center justify-content-between requesting-half-leave p-2 do-you-continue">
+                                    <p class="mb-0 font-13" style="font-weight: 400;">Select proof document</p>
+                                    <button type="button" class="btn p-0 text-primary font-13 add-file">
+                                        <i class="bi bi-plus-lg"></i> Add File </button>
+                                        <input type="file" accept=".png, .jpg, .jpeg" style="display: none;">
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer d-flex align-items-center justify-content-between">
-                <div class="d-flex align-items-center gap-2">
-                    <p class="mb-0">Status</p>
-                    <span class="action-btn"></span>
-                    <p class="mb-0 text-warning">Pending</p>
-                </div>
-                <div>
-                    <button class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>Delete</button>
-                    <button class="btn submitActionBtn">Edit</button>
-                </div>
+                    </div>
+            <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
+                <button class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>Cancel</button>
+                <button class="btn submitActionBtn">Submit</button>
             </div>
         </div>
     </div>
-</div>
+    </div>

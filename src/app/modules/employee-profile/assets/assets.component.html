@@ -1,22 +1,5 @@
 
 <div class="m-3 assets-detail">
-    <div>
-        <div class="d-flex align-items-center justify-content-between border-bottom pb-2">
-            <h5 class="font-15 ">Assigned Assets</h5>
-            <button class="btn assets-request" data-bs-toggle="modal" data-bs-target="#assetRequest">Asset Request
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-                    <mask id="mask0_4997_6386" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
-                        <rect y="0.5" width="20" height="20" fill="#D9D9D9" />
-                    </mask>
-                    <g mask="url(#mask0_4997_6386)">
-                        <path
-                            d="M1.66797 17.5859V10.9193H8.33464V17.5859H1.66797ZM3.33464 15.9193H6.66797V12.5859H3.33464V15.9193ZM4.58464 8.83594L9.16797 1.33594L13.7513 8.83594H4.58464ZM7.54297 7.16927H10.793L9.16797 4.54427L7.54297 7.16927ZM17.9805 19.6276L15.7721 17.4193C15.4805 17.6137 15.1645 17.7596 14.8242 17.8568C14.4839 17.954 14.1263 18.0026 13.7513 18.0026C12.7096 18.0026 11.8242 17.638 11.0951 16.9089C10.3659 16.1797 10.0013 15.2943 10.0013 14.2526C10.0013 13.2109 10.3659 12.3255 11.0951 11.5964C11.8242 10.8672 12.7096 10.5026 13.7513 10.5026C14.793 10.5026 15.6784 10.8672 16.4076 11.5964C17.1367 12.3255 17.5013 13.2109 17.5013 14.2526C17.5013 14.6137 17.4527 14.9644 17.3555 15.3047C17.2582 15.645 17.1194 15.9609 16.9388 16.2526L19.1471 18.4609L17.9805 19.6276ZM13.7513 16.3359C14.3346 16.3359 14.8277 16.1345 15.2305 15.7318C15.6332 15.329 15.8346 14.8359 15.8346 14.2526C15.8346 13.6693 15.6332 13.1762 15.2305 12.7734C14.8277 12.3707 14.3346 12.1693 13.7513 12.1693C13.168 12.1693 12.6749 12.3707 12.2721 12.7734C11.8694 13.1762 11.668 13.6693 11.668 14.2526C11.668 14.8359 11.8694 15.329 12.2721 15.7318C12.6749 16.1345 13.168 16.3359 13.7513 16.3359Z"
-                            fill="#1C1B1F" />
-                    </g>
-                </svg>
-            </button>
-        </div>
-
         <div class="mt-2">
             <ul id="pills-tab" role="tablist" class="nav nav-pills">
                 <li class="nav-item">
@@ -27,8 +10,6 @@
                     <a id="pills-profile-tab" data-bs-toggle="pill" href="#asset-request" role="tab" aria-controls="pills-profile"
                         aria-selected="false" (click)="this.getAssetRequests()" class="nav-link">Asset request</a>
                 </li>
-
-                
             </ul>
 
             <div id="pills-tabContent" class="tab-content">
@@ -49,6 +30,21 @@
                                                 class="bi bi-search search-icon ng-star-inserted"
                                                 style="margin: auto; margin-left: 15px;"></i></div>
                                     </form>
+                                </div>
+                                <div class="text-center w-100">
+                                  <button class="btn p-0 text-primary font-14 assets-request-btn" data-bs-toggle="modal" data-bs-target="#assetRequest">
+                                    Asset Request
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                                      <mask id="mask0_5429_18755" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
+                                        <rect y="0.5" width="20" height="20" fill="#D9D9D9" />
+                                      </mask>
+                                      <g mask="url(#mask0_5429_18755)">
+                                        <path
+                                          d="M1.66663 17.582V10.9154H8.33329V17.582H1.66663ZM3.33329 15.9154H6.66663V12.582H3.33329V15.9154ZM4.58329 8.83203L9.16663 1.33203L13.75 8.83203H4.58329ZM7.54163 7.16536H10.7916L9.16663 4.54036L7.54163 7.16536ZM17.9791 19.6237L15.7708 17.4154C15.4791 17.6098 15.1632 17.7556 14.8229 17.8529C14.4826 17.9501 14.125 17.9987 13.75 17.9987C12.7083 17.9987 11.8229 17.6341 11.0937 16.9049C10.3645 16.1758 9.99996 15.2904 9.99996 14.2487C9.99996 13.207 10.3645 12.3216 11.0937 11.5924C11.8229 10.8633 12.7083 10.4987 13.75 10.4987C14.7916 10.4987 15.677 10.8633 16.4062 11.5924C17.1354 12.3216 17.5 13.207 17.5 14.2487C17.5 14.6098 17.4513 14.9605 17.3541 15.3008C17.2569 15.6411 17.118 15.957 16.9375 16.2487L19.1458 18.457L17.9791 19.6237ZM13.75 16.332C14.3333 16.332 14.8263 16.1306 15.2291 15.7279C15.6319 15.3251 15.8333 14.832 15.8333 14.2487C15.8333 13.6654 15.6319 13.1723 15.2291 12.7695C14.8263 12.3668 14.3333 12.1654 13.75 12.1654C13.1666 12.1654 12.6736 12.3668 12.2708 12.7695C11.868 13.1723 11.6666 13.6654 11.6666 14.2487C11.6666 14.832 11.868 15.3251 12.2708 15.7279C12.6736 16.1306 13.1666 16.332 13.75 16.332Z"
+                                          fill="#6666F2" />
+                                      </g>
+                                    </svg>
+                                  </button>
                                 </div>
                             </div>
                         </div>
@@ -78,6 +74,7 @@
                                       <ng-template #contentTpl>
                                         <p class="mb-1 empty-detail">No data for now</p>
                                       </ng-template>
+
                                     </nz-empty>
                                   </div>
                                 </td>
@@ -128,6 +125,19 @@
                                   No assets for now
                               </p>
                               <span class="empty-details"> Yur assets will be shown here once they have <br> been raised</span>
+                              <br>
+
+                              <button class="btn p-0 text-primary mt-2 font-14 assets-request-btn" data-bs-toggle="modal" data-bs-target="#assetRequest">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                                  <mask id="mask0_5566_935" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21" style="mask-type: alpha;">
+                                    <rect y="0.5" width="20" height="20" fill="#D9D9D9"></rect>
+                                  </mask>
+                                  <g mask="url(#mask0_5566_935)">
+                                    <path d="M9.16667 18V11.3333H2.5V9.66667H9.16667V3H10.8333V9.66667H17.5V11.3333H10.8333V18H9.16667Z" fill="#6666F2">
+                                    </path>
+                                  </g>
+                                </svg>
+                                Asset Request</button>
                           </ng-template>
                       </nz-empty>
                     </div>
@@ -173,6 +183,22 @@
                                                 style="margin: auto; margin-left: 15px;"></i></div>
                                     </form>
                                 </div>
+                                <div class="text-center w-100">
+                                  <button class="btn p-0 text-primary font-14 assets-request-btn" data-bs-toggle="modal" data-bs-target="#assetRequest">
+                                    Asset Request
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                                      <mask id="mask0_5429_18755" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
+                                        <rect y="0.5" width="20" height="20" fill="#D9D9D9" />
+                                      </mask>
+                                      <g mask="url(#mask0_5429_18755)">
+                                        <path
+                                          d="M1.66663 17.582V10.9154H8.33329V17.582H1.66663ZM3.33329 15.9154H6.66663V12.582H3.33329V15.9154ZM4.58329 8.83203L9.16663 1.33203L13.75 8.83203H4.58329ZM7.54163 7.16536H10.7916L9.16663 4.54036L7.54163 7.16536ZM17.9791 19.6237L15.7708 17.4154C15.4791 17.6098 15.1632 17.7556 14.8229 17.8529C14.4826 17.9501 14.125 17.9987 13.75 17.9987C12.7083 17.9987 11.8229 17.6341 11.0937 16.9049C10.3645 16.1758 9.99996 15.2904 9.99996 14.2487C9.99996 13.207 10.3645 12.3216 11.0937 11.5924C11.8229 10.8633 12.7083 10.4987 13.75 10.4987C14.7916 10.4987 15.677 10.8633 16.4062 11.5924C17.1354 12.3216 17.5 13.207 17.5 14.2487C17.5 14.6098 17.4513 14.9605 17.3541 15.3008C17.2569 15.6411 17.118 15.957 16.9375 16.2487L19.1458 18.457L17.9791 19.6237ZM13.75 16.332C14.3333 16.332 14.8263 16.1306 15.2291 15.7279C15.6319 15.3251 15.8333 14.832 15.8333 14.2487C15.8333 13.6654 15.6319 13.1723 15.2291 12.7695C14.8263 12.3668 14.3333 12.1654 13.75 12.1654C13.1666 12.1654 12.6736 12.3668 12.2708 12.7695C11.868 13.1723 11.6666 13.6654 11.6666 14.2487C11.6666 14.832 11.868 15.3251 12.2708 15.7279C12.6736 16.1306 13.1666 16.332 13.75 16.332Z"
+                                          fill="#6666F2" />
+                                      </g>
+                                    </svg>
+                                  </button>
+                                </div>
+
                                 </div>
                             </div>
                         </div>
@@ -285,6 +311,21 @@
                             <span class="empty-details">
                               Your assets request will be shown here once they have<br>been raised
                             </span>
+                            <br>
+                            
+                            <button class="btn p-0 text-primary mt-2 font-14 assets-request-btn" data-bs-toggle="modal"
+                              data-bs-target="#assetRequest">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                                <mask id="mask0_5566_935" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21" style="mask-type: alpha;">
+                                  <rect y="0.5" width="20" height="20" fill="#D9D9D9"></rect>
+                                </mask>
+                                <g mask="url(#mask0_5566_935)">
+                                  <path d="M9.16667 18V11.3333H2.5V9.66667H9.16667V3H10.8333V9.66667H17.5V11.3333H10.8333V18H9.16667Z"
+                                    fill="#6666F2">
+                                  </path>
+                                </g>
+                              </svg>
+                              Asset Request</button>
                           </ng-template>
                         </nz-empty>
                       </div>
