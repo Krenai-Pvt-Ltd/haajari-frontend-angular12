@@ -46,11 +46,14 @@ export class AttendanceLeaveComponent implements OnInit {
     this.getUserLeaveReq();
     this.loadLeaveLogs();
     this.getOrganizationRegistrationDateMethodCall();
-    this.getEmployeeProfileAttendanceDetailsData();
-    this.getOrganizationRegistrationDateMethodCall();
+
+    this.selectedDate = new Date();
     this.updateThirtyDaysLabel();
     this.updateWeekLabels();
-    this.calculateDateRange()
+    // Set the default selected tab to the current week
+    this.setDefaultWeekTab();
+    this.calculateDateRange();
+    this.getEmployeeProfileAttendanceDetailsData();
   }
   get canSubmit() {
     return this.userLeaveForm.valid;
@@ -439,44 +442,13 @@ dayShiftToggleFun(shift: string) {
   thirtyDaysLabel: string = '';
   weekLabels: string[] = [];
 
-  // onMonthChange(month: Date): void {
-  //   console.log('Month is getting selected');
-  //   this.selectedDate = month;
-  //   this.getFirstAndLastDateOfMonth(this.selectedDate);
-  //   // console.log(this.startDate, this.endDate);
-  //   this.getEmployeeProfileAttendanceDetailsDate();
-  // }
 
-  // getFirstAndLastDateOfMonth(selectedDate: Date) {
-  //   const currentDate = new Date(); 
-  //   const isCurrentMonth =
-  //     selectedDate.getFullYear() === currentDate.getFullYear() &&
-  //     selectedDate.getMonth() === currentDate.getMonth();
-  
-  //   this.startDate = this.formatDateToYYYYMMDD(
-  //     new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1),
-  //   );
-  
-  //   // If the selected date is in the current month, use the current date as the end date
-  //   if (isCurrentMonth) {
-  //     this.endDate = this.formatDateToYYYYMMDD(currentDate);
-  //   } else {
-  //     this.endDate = this.formatDateToYYYYMMDD(
-  //       new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0),
-  //     );
-  //   }
-  // }
-
-  // formatDateToYYYYMMDD(date: Date): string {
-  //   const year = date.getFullYear();
-  //   const month = (date.getMonth() + 1).toString().padStart(2, '0');
-  //   const day = date.getDate().toString().padStart(2, '0');
-
-  //   return `${year}-${month}-${day}`;
-  // }
 
   onMonthChange(month: Date): void {
     this.selectedDate = month;
+    this.presentWeek = false;
+    // this.resetData();
+    this.isShimmer = true;
     this.updateThirtyDaysLabel();
     this.updateWeekLabels();
     this.selectedTab = 'Week 1'; // Reset to default
@@ -604,6 +576,9 @@ dayShiftToggleFun(shift: string) {
   
   onTabChange(tab: string): void {
     this.selectedTab = tab;
+    this.presentWeek = false;
+    // this.resetData();
+    this.isShimmer = true;
     this.calculateDateRange();
     this.getEmployeeProfileAttendanceDetailsData();
   }
@@ -625,18 +600,28 @@ dayShiftToggleFun(shift: string) {
 
   attendanceDetails: EmployeeProfileAttendanceResponse[] = [];
   totalAttendanceDetails: TotalEmployeeProfileAttendanceResponse = new TotalEmployeeProfileAttendanceResponse();
-
+  isShimmer : boolean = false;
   getEmployeeProfileAttendanceDetailsData() {
     debugger;
+    this.isShimmer = true;
+    this.attendanceDetails = [];
+    // this.totalAttendanceDetails = new TotalEmployeeProfileAttendanceResponse(); 
     this.dataService.getEmployeeProfileAttendanceDetails(this.userId, this.startDate, this.endDate).subscribe(
       (response) => {
+       this.isShimmer = false;
        this.attendanceDetails = response.object.employeeProfileAttendanceResponseList;
        this.totalAttendanceDetails = response.object.totalEmployeeProfileAttendanceResponse
       },
       (error) => {
+        this.isShimmer = false;
         console.log(error);
       }
     );
+  }
+
+  resetData() {
+    this.attendanceDetails = [];
+    this.totalAttendanceDetails = new TotalEmployeeProfileAttendanceResponse();
   }
 
 
@@ -756,6 +741,30 @@ isNextDisabled(): boolean {
     this.selectedDate.getMonth() === currentDate.getMonth()
   );
 }
+
+presentWeek : boolean = false;
+setDefaultWeekTab(): void {
+  const currentDate = new Date();
+  const isCurrentMonth =
+    this.selectedDate.getFullYear() === currentDate.getFullYear() &&
+    this.selectedDate.getMonth() === currentDate.getMonth();
+
+  if (isCurrentMonth) {
+    // Determine the current week of the month
+    const currentDay = currentDate.getDate();
+    const currentWeek = Math.ceil(currentDay / 7);
+
+    // Set the selectedTab to the current week
+    this.selectedTab = `Week ${currentWeek}`;
+    this.presentWeek = true;
+    // this.selectedTab = `Current Week`;
+  } else {
+    // Default to Week 1 for other months
+    this.selectedTab = 'Week 1';
+    this.presentWeek = false;
+  }
+}
+
 
   
   

@@ -34,6 +34,8 @@ export class AssetsComponent implements OnInit {
   private searchSubject: Subject<string> = new Subject<string>();
   private assetSearchSubject: Subject<string> = new Subject<string>();
   userId : any;
+
+  contentTemplate: string = "tool tip";
   constructor(private activateRoute: ActivatedRoute, private dataService: DataService,
     private fb: FormBuilder,private modalService: NgbModal, private helper: HelperService)
   {

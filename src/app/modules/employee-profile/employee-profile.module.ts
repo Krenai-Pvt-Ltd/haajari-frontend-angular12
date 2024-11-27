@@ -20,6 +20,9 @@ import { PersonalInformationComponent } from './personal-information/personal-in
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { AnnouncementNotificationComponent } from './announcement-notification/announcement-notification.component';
 import { EmployeeExitComponent } from './employee-exit/employee-exit.component';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 
 
 
@@ -51,6 +54,9 @@ import { EmployeeExitComponent } from './employee-exit/employee-exit.component';
     NgbPaginationModule,
     NzTimePickerModule,
     NzDatePickerModule,
+    NzToolTipModule,
+    NzPopoverModule,
+    NgxShimmerLoadingModule
   ]
 })
 export class EmployeeProfileModule { }

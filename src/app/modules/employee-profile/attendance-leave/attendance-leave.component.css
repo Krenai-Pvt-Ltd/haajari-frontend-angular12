@@ -1001,8 +1001,21 @@ nz-select.request-dropdown .ant-select-selector {
 
 }
 
+
 .calendar-back-btn.disabled {
     pointer-events: none;
     opacity: 0.5;
   }
   
+
+
+.empty-detail {
+    color: #6b7280;
+    line-height: 20px;
+    font-size: 16px;
+}
+
+::ng-deep.ant-empty-image img {
+    width: 90px !important;
+}
+
