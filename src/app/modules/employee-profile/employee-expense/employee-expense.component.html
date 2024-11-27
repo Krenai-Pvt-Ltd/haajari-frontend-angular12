@@ -722,8 +722,7 @@
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <label for="employeeTypeId" class="mb-2"> Requested To </label>
-                                    <!-- <input class="form-control input-zorro text-primary" placeholder="Enter requested name" nzSize="large"
-                                        minlength="3" maxlength="50" name="tempNamed" value="@ Leslie Alexander" required /> -->
+                                   
                                         <nz-form-control>
                                             <nz-select class="form-control" style="width: 100%" nzSize="large" nzPlaceHolder="Select requested" required>
                                                 <nz-option [nzValue]="'Anchal'" [nzLabel]="'Anchal'"></nz-option>
@@ -755,9 +754,9 @@
                             </div>
                             <div class="col-md-12">
                                 <label for="templateName" class="pb-2">
-                                    Expense Type
+                                    Note
                                 </label>
-                                <textarea class="form-control nots-section" id="exampleFormControlTextarea1" placeholder="Write expense type"
+                                <textarea class="form-control nots-section" id="exampleFormControlTextarea1" placeholder="Write the note"
                                     rows="3"></textarea>
                             </div>
                         </div>
@@ -817,73 +816,7 @@
                     </svg>
                 </button>
             </div>
-            <!-- <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12 mb-3">
-                            <label for="templateName" class="pb-2">
-                                Expense type
-                            </label>
-                            <nz-form-control>
-                                <nz-select class="form-control" style="width: 100%" nzSize="large"
-                                    nzPlaceHolder="Select expense type" required>
-                                    <nz-option [nzValue]="'Announcement'" [nzLabel]="'Announcement'"></nz-option>
-                                    <nz-option [nzValue]="'Food'" [nzLabel]="'Food'"></nz-option>
-                                    <nz-option [nzValue]="'Transport'" [nzLabel]="'Transport'"></nz-option>
-                                </nz-select>
-                            </nz-form-control>
-                        </div>
-                       
-                        <div class="col-md-12 mb-3">
-                            <div class="form-group">
-                                <label for="employeeTypeId" class="mb-2">Expense Date</label>
-                                <nz-date-picker nzPlaceHolder="Select date" name="startDate" required>
-                                </nz-date-picker>
-                            </div>
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <label for="templateName" class="pb-2">
-                                Amount
-                            </label>
-                            <input class="form-control input-zorro" placeholder="Enter amount" nzSize="large" minlength="3" maxlength="50"
-                                name="tempNamed" required />
-                        </div>
-                        <div class="col-md 12 mb-3">
-                            <label for="templateName" class="pb-2">
-                            Select user to request the leave from
-                            </label>
-                            <nz-form-control>
-                                <nz-select class="form-control" style="width: 100%" nzSize="large" nzPlaceHolder="Select Manager" required>
-                                    <nz-option [nzValue]="'Rohit Chaturvedi'" [nzLabel]="'Rohit Chaturvedi'"></nz-option>
-                                    <nz-option [nzValue]="'Anchal'" [nzLabel]="'Anchal'"></nz-option>
-                                    <nz-option [nzValue]="'Pushpendra'" [nzLabel]="'Pushpendra'"></nz-option>
-                                </nz-select>
-                            </nz-form-control>
-                            </div>
-
-                        <div class="col-md-12 mb-3">
-                            <label for="templateName" class="pb-2">
-                                Note
-                            </label>
-                            <textarea class="form-control nots-section" id="exampleFormControlTextarea1"
-                                placeholder="Write the note" rows="3"></textarea>
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <div class="form-group">
-                                <label for="templateName" class="mb-2"> Proof document <span class="text-primary font-12">(optional)</span></label>
-                                <div class="d-flex align-items-center justify-content-between requesting-half-leave p-2 do-you-continue">
-                                    <p class="mb-0 font-13" style="font-weight: 400;">Select proof document</p>
-                                    <button type="button" class="btn p-0 text-primary font-13 add-file">
-                                        <i class="bi bi-plus-lg"></i> Add File </button>
-                                        <input type="file" accept=".png, .jpg, .jpeg" style="display: none;">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-            <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
-                <button class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>Cancel</button>
-                <button class="btn submitActionBtn">Submit</button>
-            </div> -->
+           
 
             <div class="modal-body p-0">
                 <div class="row">
@@ -935,9 +868,8 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
-                                    <label for="employeeTypeId" class="mb-2"> Requested To </label>
-                                    <!-- <input class="form-control input-zorro text-primary" placeholder="Enter requested name" nzSize="large"
-                                                    minlength="3" maxlength="50" name="tempNamed" value="@ Leslie Alexander" required /> -->
+                                    <label for="employeeTypeId" class="mb-2"> Select user to request the expense</label>
+                                
                                     <nz-form-control>
                                         <nz-select class="form-control" style="width: 100%" nzSize="large"
                                             nzPlaceHolder="Select requested" required>
@@ -950,14 +882,14 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="row">
-                                    <label for="employeeTypeId" class="mb-2">Amount spend</label>
-                                    <div class="col-md-6 mb-3">
+                                    <label for="employeeTypeId" class="mb-2">Amount </label>
+                                    <div class="col-md-12 mb-3">
                                         <div class="form-group">
                                             <input class="form-control input-zorro" placeholder="Enter amount spend" nzSize="large"
                                                 minlength="3" maxlength="50" name="tempNamed" required />
                                         </div>
                                     </div>
-                                    <div class="col-md-6 mb-3 ">
+                                    <!-- <div class="col-md-6 mb-3 ">
                                         <div class="notice-period-error p-2">
                                             <div class="d-flex align-items-center gap-3">
                                                 <p class="mb-0">Amount Define</p>
@@ -965,15 +897,15 @@
                                                 <h6 class="mb-0">₹2000</h6>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <label for="templateName" class="pb-2">
-                                    Expense Type
+                                    Note
                                 </label>
                                 <textarea class="form-control nots-section" id="exampleFormControlTextarea1"
-                                    placeholder="Write expense type" rows="3"></textarea>
+                                    placeholder="Write the note" rows="3"></textarea>
                             </div>
                         </div>
             
