@@ -23,6 +23,7 @@ import { EmployeeExitComponent } from './employee-exit/employee-exit.component';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
+import { EmployeeExpenseComponent } from './employee-expense/employee-expense.component';
 
 
 
@@ -36,7 +37,8 @@ import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
     AssetsComponent,
     PersonalInformationComponent,
     AnnouncementNotificationComponent,
-    EmployeeExitComponent
+    EmployeeExitComponent,
+    EmployeeExpenseComponent
   ],
   imports: [
     CommonModule,
