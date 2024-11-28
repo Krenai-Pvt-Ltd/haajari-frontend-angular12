@@ -33,7 +33,6 @@
                                 </div>
                                 <div class="text-center w-100">
                                   <button class="btn p-0 text-primary font-14 assets-request-btn" data-bs-toggle="modal" data-bs-target="#assetRequest">
-                                    Asset Request
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                       <mask id="mask0_5429_18755" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
                                         <rect y="0.5" width="20" height="20" fill="#D9D9D9" />
@@ -44,6 +43,8 @@
                                           fill="#6666F2" />
                                       </g>
                                     </svg>
+                                    Asset Request
+                                    
                                   </button>
                                 </div>
                             </div>
@@ -185,7 +186,6 @@
                                 </div>
                                 <div class="text-center w-100">
                                   <button class="btn p-0 text-primary font-14 assets-request-btn" data-bs-toggle="modal" data-bs-target="#assetRequest">
-                                    Asset Request
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                       <mask id="mask0_5429_18755" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
                                         <rect y="0.5" width="20" height="20" fill="#D9D9D9" />
@@ -196,6 +196,8 @@
                                           fill="#6666F2" />
                                       </g>
                                     </svg>
+                                    Asset Request
+                                   
                                   </button>
                                 </div>
 
@@ -259,8 +261,7 @@
                                   <span class="table-font-weight"> {{ asset.actionTakenOn ? (asset.actionTakenOn | date: 'MMM d yyyy') : 'N/A' }} </span>
                                   </td>
                                 <td class="text-left">
-                                
-                                  <span class="white-space" style="width: 40px !important;" nz-popover 
+                                  <span class="white-space table-font-weight" style="width: 40px !important;" nz-popover 
                                   nzPopoverTitle="Note" [nzPopoverContent]="contentTemplate" [nzPopoverOverlayStyle]	="{'width':'300px'}"
                                    nzPopoverPlacement="top" > {{ asset.note || 'N/A'}} </span>
                                   <ng-template #contentTemplate>
