@@ -79,6 +79,7 @@ import { UserPositionDTO } from '../models/user-position.model';
 import { AssetRequestDTO } from '../models/AssetRequestDTO';
 import { ExitPolicy } from '../models/ExitPolicy';
 import { UserResignation } from '../models/UserResignation';
+import { EmployeeAdditionalDocument } from '../models/EmployeeAdditionalDocument';
 
 
 @Injectable({
@@ -4400,6 +4401,20 @@ getHolidayForOrganization(date: string): Observable<any>{
   submitResignation(userResignationReq: UserResignation){
     return this.httpClient.post<any>(`${this.baseUrl}/user-resignation`, userResignationReq);
   }
+
+  getDocumentsByUserId(uuid: string): Observable<EmployeeAdditionalDocument[]> {
+    return this.httpClient.get<EmployeeAdditionalDocument[]>(`${this.baseUrl}/user?uuid=${uuid}`);
+  }
+  saveDocumentsForUser(uuid: string, documents: EmployeeAdditionalDocument[]): Observable<any> {
+    return this.httpClient.post<any>(`${this.baseUrl}/user/${uuid}`, documents);
+  }
+  updateDocument(documentId: number, document: EmployeeAdditionalDocument): Observable<EmployeeAdditionalDocument> {
+    return this.httpClient.put<EmployeeAdditionalDocument>(`${this.baseUrl}/${documentId}`, document);
+  }
+  saveDocumentForUser(uuid: string, document: EmployeeAdditionalDocument): Observable<any> {
+    return this.httpClient.post<any>(`${this.baseUrl}/user/document?uuid=${uuid}`, document);
+  }
+
 
 }
 
