@@ -17,23 +17,29 @@
                   <ng-template #assetsContent>
                     <div class="obboard-employee-list">
                         <div class="onboard-add row align-items-center mx-0">
-                            <div class="col-md-12 p-0">
+                            <div class="col-md-12">
+                              <div class="row justify-content-between align-items-center mx-0">
+                                <div class="col-lg-12 col-md-12 col-sm-12 ps-0">
                                 <div class="onboarding-date d-flex align-items-center position-relative">
-                                    <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid"
-                                        style="width: 100%;">
-                                        <div class="form-group" style="width: 100%; position: relative;"><input type="text"
+                                    <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid w-100" style="border-right: 1px solid #f2f2f2 !important;">
+                                        <div class="form-group w-100 position-relative" >
+                                          <input type="text"
                                                 id="searchText" placeholder="Search..."
                                                 class="form-control me-2 ng-pristine ng-valid ng-touched"
                                                 (input)="searchAssets($event)"
-                                                style="padding: 10px 40px;" ng-reflect-model=""
-                                                ng-reflect-options="[object Object]"><i
-                                                class="bi bi-search search-icon ng-star-inserted"
-                                                style="margin: auto; margin-left: 15px;"></i></div>
+                                                style="padding: 10px 45px;" ng-reflect-model=""
+                                                ng-reflect-options="[object Object]">
+
+                                              <i class="bi bi-search search-icon"></i>
+                                              <!-- reset btn -->
+                                                  <!-- <i class="bi bi-x reset-icon text-primary pointer"></i> -->
+                                              <!-- reset btn -->
+                                              </div>
                                     </form>
-                                </div>
-                                <div class="text-center w-100">
+                                   
+                                    <div>
+                               
                                   <button class="btn p-0 text-primary font-14 assets-request-btn" data-bs-toggle="modal" data-bs-target="#assetRequest">
-                                    Asset Request
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                       <mask id="mask0_5429_18755" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
                                         <rect y="0.5" width="20" height="20" fill="#D9D9D9" />
@@ -44,19 +50,23 @@
                                           fill="#6666F2" />
                                       </g>
                                     </svg>
+                                    Asset Request
+                                    
                                   </button>
-                                </div>
-                            </div>
+                                  </div>
+                                  </div>
+                        </div>
+                        </div>
+                        </div>
                         </div>
 
                         <div class="table-responsive bg-white mt-3">
-                          <div *ngIf="isLoadingAsset" class="shimmer-wrapper">
+                          <!-- <div *ngIf="isLoadingAsset" class="shimmer-wrapper">
                             <div class="shimmer"></div>
-                          </div>
-                          <table *ngIf="!isLoadingAsset" class="table empOnnoardtable">
+                          </div> -->
+                          <table class="table empOnnoardtable">
                             <thead class="thead-light">
                               <tr>
-
                                 <th class="text-left font-13">Asset Name</th>
                                 <th class="text-left font-13">Asset ID</th>
                                 <th class="text-left font-13">Asset Category</th>
@@ -65,6 +75,29 @@
                                 <th class="text-left font-13">Status</th>
                               </tr>
                             </thead>
+
+                              <tbody *ngIf="isLoadingAsset">
+                              <tr *ngFor="let item of [].constructor(7)">
+                                <td>
+                                  <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                </td>
+                                <td>
+                                  <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                </td>
+                                <td>
+                                  <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                </td>
+                                <td>
+                                  <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                </td>
+                                <td>
+                                  <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                </td>
+                                <td>
+                                  <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                </td>
+                              </tr>
+                            </tbody>
 
                             <tbody *ngIf="assets?.length === 0">
                               <tr>
@@ -82,13 +115,23 @@
                             </tbody>
 
 
-                            <tbody>
+                            <tbody *ngIf="!isLoadingAsset">
                               <tr *ngFor="let asset of assets">
-                                <td class="text-left">{{ asset.assetName }}</td>
-                                <td class="text-left">{{ asset.serialNumber }}</td>
-                                <td class="text-left">{{ asset.categoryName }}</td>
-                                <td class="text-left">{{ asset.purchasedDate | date: 'yyyy-MM-dd' }}</td>
-                                <td class="text-left">{{ asset.price | currency }}</td>
+                                <td class="text-left">
+                                  <span class="table-font-weight">{{ asset.assetName }}</span>
+                                </td>
+                                <td class="text-left">
+                                  <span class="table-font-weight">{{ asset.serialNumber }}</span>
+                                  </td>
+                                <td class="text-left">
+                                  <span>{{ asset.categoryName }}</span>
+                                  </td>
+                                <td class="text-left">
+                                  <span class="table-font-weight">{{ asset.purchasedDate | date: 'yyyy-MM-dd' }}</span>
+                                </td>
+                                <td class="text-left">
+                                  <span class="table-font-weight">{{ asset.price | currency }}</span>
+                                </td>
                                 <td class="text-left">
                                   <span
                                     [ngClass]="{
@@ -151,6 +194,8 @@
 
                         <div class="onboard-add row align-items-center mx-0">
                             <div class="col-md-12 p-0">
+                              <div class="row justify-content-between align-items-center mx-0">
+                                <div class="col-lg-12 col-md-12 col-sm-12 ps-0">
                                 <div class="d-flex justify-content-start align-items-center">
                                   <div class="dropdown empFilerDropfilter">
                                     <button
@@ -170,22 +215,21 @@
                                     </ul>
                                 </div>
 
-                                <div class="onboarding-date d-flex align-items-center position-relative">
-                                    <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid"
-                                        style="width: 100%;">
-                                        <div class="form-group" style="width: 100%; position: relative;"><input type="text"
-                                                id="searchText" placeholder="Search..."
+                                <div class="onboarding-date d-flex align-items-center position-relative w-100">
+                                    <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid w-100" style="border-right: 1px solid #f2f2f2 !important;">
+                                        <div class="form-group position-relative w-100">
+                                          <input type="text" id="searchText" placeholder="Search..."
                                                 class="form-control me-2 ng-pristine ng-valid ng-touched"
-                                                (input)="onSearchInput($event)"
-                                                style="padding: 10px 40px;" ng-reflect-model=""
-                                                ng-reflect-options="[object Object]"><i
-                                                class="bi bi-search search-icon ng-star-inserted"
-                                                style="margin: auto; margin-left: 15px;"></i></div>
+                                                (input)="onSearchInput($event)" style="padding: 10px 45px;" ng-reflect-model="" ng-reflect-options="[object Object]">
+
+                                                <i class="bi bi-search search-icon "></i>
+
+                                                <!-- <i class="bi bi-x reset-icon text-primary pointer "></i> -->
+                                        </div>
                                     </form>
-                                </div>
-                                <div class="text-center w-100">
+                              
+                                <div>
                                   <button class="btn p-0 text-primary font-14 assets-request-btn" data-bs-toggle="modal" data-bs-target="#assetRequest">
-                                    Asset Request
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                       <mask id="mask0_5429_18755" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
                                         <rect y="0.5" width="20" height="20" fill="#D9D9D9" />
@@ -196,18 +240,23 @@
                                           fill="#6666F2" />
                                       </g>
                                     </svg>
+                                    Asset Request
+                                   
                                   </button>
+                                  </div>
                                 </div>
+                                </div>
+                              </div>
 
                                 </div>
                             </div>
                         </div>
 
                         <div class="table-responsive bg-white mt-3">
-                          <div *ngIf="isLoading" class="shimmer-wrapper">
+                          <!-- <div *ngIf="isLoading" class="shimmer-wrapper">
                             <div class="shimmer"></div>
-                          </div>
-                          <table *ngIf="!isLoading" class="table empOnnoardtable">
+                          </div> -->
+                          <table class="table empOnnoardtable">
                             <thead class="thead-light">
                               <tr>
                                 <th class="text-left font-13" style="width: 10%">Requested on</th>
@@ -222,6 +271,38 @@
                               </tr>
                             </thead>
 
+                            <tbody *ngIf="isLoading">
+                              <tr *ngFor="let item of [].constructor(7)">
+                                <td>
+                                  <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                </td>
+                                <td>
+                                  <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                </td>
+                                <td>
+                                  <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                </td>
+                                <td>
+                                  <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                </td>
+                                <td>
+                                  <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                </td>
+                                <td>
+                                  <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                </td>
+                                <td>
+                                  <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                </td>
+                                <td>
+                                  <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                </td>
+                                <td>
+                                  <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                </td>
+                              </tr>
+                            </tbody>
+
                             <tbody *ngIf="assetRequests?.length === 0">
                               <tr>
                                 <td colspan="9">
@@ -235,7 +316,7 @@
                                 </td>
                               </tr>
                             </tbody>
-                            <tbody>
+                            <tbody *ngIf="!isLoading" >
                               <tr *ngFor="let asset of assetRequests">
                                 <td class="text-left">
                                   <span class="table-font-weight">{{ asset.requestedOn ? (asset.requestedOn | date: 'EEE, MMM d yyyy') : 'N/A' }}</span>
@@ -259,8 +340,7 @@
                                   <span class="table-font-weight"> {{ asset.actionTakenOn ? (asset.actionTakenOn | date: 'MMM d yyyy') : 'N/A' }} </span>
                                   </td>
                                 <td class="text-left">
-                                
-                                  <span class="white-space" style="width: 40px !important;" nz-popover 
+                                  <span class="white-space table-font-weight" style="width: 40px !important;" nz-popover 
                                   nzPopoverTitle="Note" [nzPopoverContent]="contentTemplate" [nzPopoverOverlayStyle]	="{'width':'300px'}"
                                    nzPopoverPlacement="top" > {{ asset.note || 'N/A'}} </span>
                                   <ng-template #contentTemplate>

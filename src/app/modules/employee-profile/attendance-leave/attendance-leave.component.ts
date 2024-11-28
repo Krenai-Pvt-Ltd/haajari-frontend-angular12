@@ -24,6 +24,7 @@ export class AttendanceLeaveComponent implements OnInit {
   count: number = 0;
   currentUserUuid: any
   userLeaveRequest: UserLeaveRequest = new UserLeaveRequest();
+modal: any;
 
   constructor(private dataService: DataService, private activateRoute: ActivatedRoute,
     private fb: FormBuilder, public helperService: HelperService, public domSanitizer: DomSanitizer,
@@ -395,19 +396,24 @@ dayShiftToggleFun(shift: string) {
 
   @ViewChild('deleteConfirmation', { static: true }) deleteConfirmation: any;
   private itemIdToDelete: number | null = null;
-
+   @ViewChild('deletModalButton') deletModalButton!:ElementRef;
   openDeleteConfirmation(itemId: number): void {
     this.itemIdToDelete = itemId;
-    this.modalService.open(this.deleteConfirmation, { centered: true });
+    // this.modalService.open(this.deleteConfirmation, { centered: true });
+    this.deletModalButton.nativeElement.click();
   }
 
   isDeleting: boolean = false;
+  
+   @ViewChild('deleCloseButton') deleCloseButton!:ElementRef;
   confirmDelete(modal: NgbModalRef): void {
     this.isDeleting = true;
     if (this.itemIdToDelete !== null) {
       this.onDelete(this.itemIdToDelete);
     }
-    modal.close();
+     this.deleCloseButton.nativeElement.click();
+    
+    // modal.close();
   }
 
   // Handle edit action
