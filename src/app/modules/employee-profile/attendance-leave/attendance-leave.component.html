@@ -574,25 +574,31 @@
                                     (input)="updateSearch(searchInput.value)"
                                     placeholder="Search by name, email and phone number ..."
                                     class="form-control me-2"
-                                    style="padding: 10px 40px;"
+                                    style="padding: 10px 45px;"
                                   />
 
-                                  <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px;"></i>
+                                  <i class="bi bi-search search-icon"></i>
+
+                                  <!-- <i class="bi bi-x reset-icon text-primary pointer"></i> -->
                                 </div>
                               </form>
-                              <button type="button" class="btn primaryBtnLink leave-request" (click)="applyNewLeaveReq()"> Leave Request
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-                                    <mask id="mask0_5145_1779" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20"
-                                        height="21">
-                                        <rect y="0.5" width="20" height="20" fill="#D9D9D9" />
-                                    </mask>
-                                    <g mask="url(#mask0_5145_1779)">
-                                        <path
-                                            d="M11.668 11.332H15.8346V9.66536H11.668V11.332ZM11.668 8.83203H15.8346V7.16536H11.668V8.83203ZM4.16797 13.832H10.8346V13.3737C10.8346 12.7487 10.5291 12.2522 9.91797 11.8841C9.30686 11.5161 8.5013 11.332 7.5013 11.332C6.5013 11.332 5.69575 11.5161 5.08464 11.8841C4.47352 12.2522 4.16797 12.7487 4.16797 13.3737V13.832ZM7.5013 10.4987C7.95964 10.4987 8.352 10.3355 8.67839 10.0091C9.00477 9.68273 9.16797 9.29036 9.16797 8.83203C9.16797 8.3737 9.00477 7.98134 8.67839 7.65495C8.352 7.32856 7.95964 7.16536 7.5013 7.16536C7.04297 7.16536 6.65061 7.32856 6.32422 7.65495C5.99783 7.98134 5.83464 8.3737 5.83464 8.83203C5.83464 9.29036 5.99783 9.68273 6.32422 10.0091C6.65061 10.3355 7.04297 10.4987 7.5013 10.4987ZM3.33464 17.1654C2.8763 17.1654 2.48394 17.0022 2.15755 16.6758C1.83116 16.3494 1.66797 15.957 1.66797 15.4987V5.4987C1.66797 5.04036 1.83116 4.648 2.15755 4.32161C2.48394 3.99523 2.8763 3.83203 3.33464 3.83203H16.668C17.1263 3.83203 17.5187 3.99523 17.8451 4.32161C18.1714 4.648 18.3346 5.04036 18.3346 5.4987V15.4987C18.3346 15.957 18.1714 16.3494 17.8451 16.6758C17.5187 17.0022 17.1263 17.1654 16.668 17.1654H3.33464ZM3.33464 15.4987H16.668V5.4987H3.33464V15.4987Z"
-                                            fill="#6666F2" />
-                                    </g>
-                                </svg>
-                            </button>
+                             
+                            </div>
+                            <div>
+                                <button type="button" class="btn primaryBtnLink leave-request" (click)="applyNewLeaveReq()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                                        <mask id="mask0_5145_1779" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20"
+                                            height="21">
+                                            <rect y="0.5" width="20" height="20" fill="#D9D9D9" />
+                                        </mask>
+                                        <g mask="url(#mask0_5145_1779)">
+                                            <path
+                                                d="M11.668 11.332H15.8346V9.66536H11.668V11.332ZM11.668 8.83203H15.8346V7.16536H11.668V8.83203ZM4.16797 13.832H10.8346V13.3737C10.8346 12.7487 10.5291 12.2522 9.91797 11.8841C9.30686 11.5161 8.5013 11.332 7.5013 11.332C6.5013 11.332 5.69575 11.5161 5.08464 11.8841C4.47352 12.2522 4.16797 12.7487 4.16797 13.3737V13.832ZM7.5013 10.4987C7.95964 10.4987 8.352 10.3355 8.67839 10.0091C9.00477 9.68273 9.16797 9.29036 9.16797 8.83203C9.16797 8.3737 9.00477 7.98134 8.67839 7.65495C8.352 7.32856 7.95964 7.16536 7.5013 7.16536C7.04297 7.16536 6.65061 7.32856 6.32422 7.65495C5.99783 7.98134 5.83464 8.3737 5.83464 8.83203C5.83464 9.29036 5.99783 9.68273 6.32422 10.0091C6.65061 10.3355 7.04297 10.4987 7.5013 10.4987ZM3.33464 17.1654C2.8763 17.1654 2.48394 17.0022 2.15755 16.6758C1.83116 16.3494 1.66797 15.957 1.66797 15.4987V5.4987C1.66797 5.04036 1.83116 4.648 2.15755 4.32161C2.48394 3.99523 2.8763 3.83203 3.33464 3.83203H16.668C17.1263 3.83203 17.5187 3.99523 17.8451 4.32161C18.1714 4.648 18.3346 5.04036 18.3346 5.4987V15.4987C18.3346 15.957 18.1714 16.3494 17.8451 16.6758C17.5187 17.0022 17.1263 17.1654 16.668 17.1654H3.33464ZM3.33464 15.4987H16.668V5.4987H3.33464V15.4987Z"
+                                                fill="#6666F2" />
+                                        </g>
+                                    </svg>
+                                    Leave Request
+                                </button>
                             </div>
                           </div>
                         </div>
@@ -619,6 +625,35 @@
                         <th class="text-center font-13" style="width: 10%">Status</th>
                       </tr>
                     </thead>
+
+                    <!-- <tbody>
+                        <tr *ngFor="let item of [].constructor(7)">
+                            <td>
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                            </td>
+                            <td>
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                            </td>
+                            <td>
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                            </td>
+                            <td>
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                            </td>
+                            <td>
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                            </td>
+                            <td>
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                            </td>
+                            <td>
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                            </td>
+                            <td>
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                            </td>
+                        </tr>
+                    </tbody> -->
 
                     <tbody *ngIf="userLeaveLog?.length === 0">
                         <tr>
@@ -1458,7 +1493,7 @@
                                         </div>
                                         <div  class="d-flex align-items-center gap-2 action-icon-btn">
                                           <span>
-                                            <button class="btn text-danger" (click)="uploadedFile ? viewFile(uploadedFile) : null">
+                                            <button class="btn text-danger p-0" (click)="uploadedFile ? viewFile(uploadedFile) : null">
                                                 <svg  xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                                                     viewBox="0 0 22 22" fill="none">
                                                     <mask  id="mask0_4339_1635" maskUnits="userSpaceOnUse" x="0" y="0" width="22"
@@ -1477,24 +1512,9 @@
                                                 accept="application/pdf" class="input" style="display: none;"><span >
 
                                                 </span>
-                                                <!-- <span  class="ng-star-inserted">
-                                                  <button class="btn text-danger" (click)="removeFile()">
-                                                  <svg
-                                                    xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
-                                                    <mask  id="mask0_4339_1623" maskUnits="userSpaceOnUse" x="0" y="0" width="23"
-                                                        height="22" style="mask-type: alpha;">
-                                                        <rect  x="0.267578" width="21.8342" height="21.8342" fill="#444444"></rect>
-                                                    </mask>
-                                                    <g  mask="url(#mask0_4339_1623)">
-                                                        <path
-                                                            d="M4.81581 17.2927H5.96347L15.2762 7.97992L14.1285 6.83226L4.81581 16.145V17.2927ZM3.45117 18.6573V15.5782L15.4513 3.58328C15.5889 3.45834 15.7407 3.36183 15.9069 3.29375C16.0732 3.22552 16.2476 3.19141 16.43 3.19141C16.6124 3.19141 16.7891 3.22378 16.9599 3.28852C17.131 3.35327 17.2824 3.45622 17.4141 3.59739L18.5252 4.7223C18.6663 4.85406 18.7669 5.00569 18.827 5.17718C18.887 5.34867 18.9171 5.52016 18.9171 5.69165C18.9171 5.87466 18.8858 6.04926 18.8234 6.21544C18.7609 6.38178 18.6615 6.53371 18.5252 6.67123L6.53025 18.6573H3.45117ZM14.6924 7.4161L14.1285 6.83226L15.2762 7.97992L14.6924 7.4161Z"
-                                                            fill="#444444"></path>
-                                                    </g>
-                                                </svg>
-                                              </button>
-                                            </span> -->
+                                              
                                                 <span >
-                                                  <button class="btn text-danger" (click)="removeFile()">
+                                                  <button class="btn text-danger p-0" (click)="removeFile()">
                                                   <svg  xmlns="http://www.w3.org/2000/svg" width="23" height="22"
                                                     viewBox="0 0 23 22" fill="none">
                                                     <mask  id="mask0_4339_1620" maskUnits="userSpaceOnUse" x="0" y="0" width="23"

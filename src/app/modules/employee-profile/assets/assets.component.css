@@ -71,6 +71,18 @@
     display: flex;
     align-items: center;
     color: var(--tb-secondary-color) !important;
+    margin: auto;
+    margin-left: 15px;
+}
+.reset-icon{
+    font-size: 22px !important;
+    position: absolute !important;
+    top: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    margin: auto;
+    margin-left: 15px;
 }
 
 .onboarding-date input::placeholder {
@@ -119,9 +131,9 @@
     letter-spacing: 0.1px;
     box-shadow: unset;
 }
-.onboarding-date{
+/* .onboarding-date{
     border-right: 1px solid #f2f2f2 !important;
-}
+} */
 
 .onboarding-date input[type="text"] {
     width: 680px;
@@ -140,8 +152,7 @@
 
 .white-space {
     white-space: normal;
-    min-width: 170px;
-    max-width: 100px;
+    min-width: 130px;
     display: block;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -242,16 +253,6 @@
     font-size: 16px;
 }
 
-.white-space {
-    white-space: normal;
-    min-width: 170px;
-    max-width: 100px;
-    display: block;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
 .assets-request-btn svg{
     width: 17px;
     position: relative;
@@ -259,4 +260,8 @@
 }
 .assets-request-btn {
     font-weight: 500;
+}
+
+.assets-request-btn{
+    min-width: 165px;
 }
