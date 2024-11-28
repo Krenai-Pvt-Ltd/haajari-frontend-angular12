@@ -607,13 +607,25 @@ nz-select.request-dropdown .ant-select-selector {
 }
 
 .search-icon{
-    font-size: 12px !important;
+    font-size: 13px !important;
     position: absolute !important;
     top: 0;
     height: 100%;
     display: flex;
     align-items: center;
     color: var(--tb-secondary-color) !important;
+    margin: auto;
+    margin-left: 15px;
+}
+.reset-icon {
+    font-size: 22px !important;
+    position: absolute !important;
+    top: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    margin: auto;
+    margin-left: 15px;
 }
 .onboarding-date input[type="text"] {
     width: 515px;
@@ -630,9 +642,9 @@ nz-select.request-dropdown .ant-select-selector {
     color: #777;
 }
 .leave-request{
-    min-width: 200px;
+    min-width: 165px;
     display: block !important;
-    text-align: end;
+    text-align: center;
 }
 .leave-request svg{
     position: relative;
@@ -1019,3 +1031,10 @@ nz-select.request-dropdown .ant-select-selector {
     width: 90px !important;
 }
 
+.onboarding-date[_ngcontent-agv-c397] {
+    border-right: 1px solid #f2f2f2 !important;
+}
+
+.onboarding-date {
+    border-right: 1px solid #f2f2f2 !important;
+}
