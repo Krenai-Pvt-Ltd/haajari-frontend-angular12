@@ -169,52 +169,31 @@
                 >
               </a>
             </li>
-            <!-- <li class="pointer" *ngIf="ROLE === ADMIN && ORGANIZATION_UUID == KRENAI_UUID">
-              <a class="sidebar-menu-link collapsed" data-bs-toggle="collapse" href="#collapseExample" role="button"
-                aria-expanded="false" aria-controls="collapseExample">
-                <div class=""></div>
-                <div class="d-flex align-items-center justify-content-between">
-                  <span class=" "><i class="bi bi-caret-right menu-icon projectIcon collapsed" data-bs-toggle="collapse"
-                      href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"></i>
-                    Payroll</span>
-                </div>
+
+            <li [class.active]="visibleIndex(2) === activeIndex" (mouseover)="updateSliderStyle(visibleIndex(2))" (mouseout)="resetHoverIndex4()"
+              (click)="setActive(visibleIndex(2));checkRestriction('/expense');" class="pointer" routerLinkActive="sidebar-menu-active"
+              routerLink="/expense" *ngIf="this.rbacService.shouldDisplay('Expense Management')">
+              <a class="sidebar-menu-link">
+                <span class=" ">
+                  <i class="bi bi-briefcase menu-icon"></i> Expense
+                </span>
               </a>
-              <div class="collapse project-name" id="collapseExample">
-                <ul>
-                  <li>
-                    <a class="project-link" routerLink="/payment/payroll-dashboard">
-                      <i class="ti ti-apps"></i>
-                      <p class="mb-0">Dashboard</p>
-                    </a>
-                  </li>
-                  <li>
-                    <a class="project-link" routerLink="/payment/bonus-and-deduction">
-                      <i class="ti ti-gift"></i>
-                      <p class="mb-0">Bouns & Deduction</p>
-                    </a>
-                  </li>
-                  <li>
-                    <a class="project-link" routerLink="/payment/epf-esi-tds">
-                      <i class="ti ti-scissors"></i>
-                      <p class="mb-0">EPF, ESI & TDS</p>
-                    </a>
-                  </li>
-                  <li>
-                    <a class="project-link" routerLink="/payment/payment-history">
-                      <i class="bi bi-receipt-cutoff"></i>
-                      <p class="mb-0">Generate Salary Slip</p>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </li> -->
-            <!-- Reports -->
+            </li>
+
+            <li class="pointer" [class.active]="visibleIndex(3) === activeIndex" (mouseover)="updateSliderStyle(visibleIndex(3))"
+              (mouseout)="resetHoverIndex()" (click)="setActive(visibleIndex(3));checkRestriction('/assets');"
+              *ngIf="this.rbacService.shouldDisplay('assets')" routerLinkActive="sidebar-menu-active" routerLink="/assets">
+              <a class="sidebar-menu-link">
+                <span class=" "><i class="bi bi-box menu-icon"></i> Assets</span>
+              </a>
+            </li>
+          
             <li
               class="pointer"
-              [class.active]="visibleIndex(2) === activeIndex"
-              (mouseover)="updateSliderStyle(visibleIndex(2))"
+              [class.active]="visibleIndex(4) === activeIndex"
+              (mouseover)="updateSliderStyle(visibleIndex(4))"
               (mouseout)="resetHoverIndex()"
-              (click)="setActive(visibleIndex(2));checkRestriction('/reports');"
+              (click)="setActive(visibleIndex(4));checkRestriction('/reports');"
               *ngIf="this.rbacService.shouldDisplay('reports')"
               routerLinkActive="sidebar-menu-active"
               routerLink="/reports"
@@ -226,29 +205,14 @@
               </a>
             </li>
             <!-- Assets -->
-            <li
-              class="pointer"
-              [class.active]="visibleIndex(3) === activeIndex"
-              (mouseover)="updateSliderStyle(visibleIndex(3))"
-              (mouseout)="resetHoverIndex()"
-              (click)="setActive(visibleIndex(3));checkRestriction('/assets');"
-              *ngIf="this.rbacService.shouldDisplay('assets')"
-              routerLinkActive="sidebar-menu-active"
-              routerLink="/assets"
-            >
-              <a class="sidebar-menu-link">
-                <span class=" "
-                  ><i class="bi bi-box menu-icon"></i> Assets</span
-                >
-              </a>
-            </li>
+           
             <!-- Super Coins -->
             <li
               class="pointer"
-              [class.active]="visibleIndex(4) === activeIndex"
-              (mouseover)="updateSliderStyle(visibleIndex(4))"
+              [class.active]="visibleIndex(5) === activeIndex"
+              (mouseover)="updateSliderStyle(visibleIndex(5))"
               (mouseout)="resetHoverIndex()"
-              (click)="setActive(visibleIndex(4));checkRestriction('/coins');"
+              (click)="setActive(visibleIndex(5));checkRestriction('/coins');"
               *ngIf="
                 this.rbacService.shouldDisplay('coins') &&
                 ROLE === ADMIN &&
@@ -527,22 +491,7 @@
               </a>
             </li>
 
-            <li
-            [class.active]="5 === activeIndex"
-            (mouseover)="updateSliderStyle4(5)"
-            (mouseout)="resetHoverIndex4()"
-            (click)="setActive4(5);checkRestriction('/expense');"
-            class="pointer"
-            routerLinkActive="sidebar-menu-active"
-            routerLink="/expense"
-            *ngIf="this.rbacService.shouldDisplay('Expense Management')"
-          >
-            <a class="sidebar-menu-link">
-              <span class=" ">
-                <i class="bi bi-briefcase menu-icon"></i> Expense
-              </span>
-            </a>
-          </li>
+           
 
           <li
           [class.active]="6 === activeIndex"

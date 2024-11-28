@@ -25,6 +25,10 @@
     /* 100.798% */
     letter-spacing: 0.357px;
     text-transform: capitalize;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 100px;
 }
 
 .employee-detail p {
@@ -402,6 +406,7 @@ span.lat {
     overflow: scroll;
     position: sticky;
     top: 0;
+    z-index: 999;
 }
 .emplyee-profile-sidebar-main-box::-webkit-scrollbar{
     display: none;
@@ -414,13 +419,13 @@ span.lat {
     font-weight: 400;
     width: 100%;
     height: 90px;
-        font-size: 13px;
-        padding: 0px;
-        display: flex;
-        gap: 5px;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
+    font-size: 13px;
+    padding: 0px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .image-edit-btn{
@@ -673,12 +678,12 @@ span.lat {
 
 
   .log-out-btn-box {
-      position: absolute;
-      bottom: 0px;
-      width: 100%;
-      left: 0px;
-      right: 0px;
-      z-index: 999;
+    position: fixed;
+    bottom: 0px;
+    width: 21.7%;
+    left: 0px;
+    /* right: 0px; */
+    z-index: 999;
   }
   .login-user-detail {
       padding: 10px;
@@ -939,7 +944,7 @@ span.lat {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background-color: white; /* Change to your preferred color */
+    background-color: white;
     margin: 0 4px;
     animation: dotOpacity 1.4s infinite ease-in-out both;
   }
@@ -978,7 +983,7 @@ span.lat {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background-color: #6666f3; /* Change to your preferred color */
+    background-color: #6666f3;
     margin: 0 4px;
     animation: dotOpacity 1.4s infinite ease-in-out both;
   }

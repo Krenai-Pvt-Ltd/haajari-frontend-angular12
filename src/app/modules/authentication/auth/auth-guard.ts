@@ -73,9 +73,11 @@ export class AuthGuard implements CanActivate {
       this.ROLE = await this.rbacService.getRole();
 
     if (this.ROLE == 'ADMIN' && this.isToDoStepsCompleted == 0 && route!.routeConfig!.path == 'dashboard') {
+      debugger
       this.router.navigate(['/to-do-step-dashboard']);
       return false;
     }else if (this.ROLE == 'ADMIN' && this.isToDoStepsCompleted == 0 && route!.routeConfig!.path == 'to-do-step-dashboard') {
+      debugger
       return true;
     }
 

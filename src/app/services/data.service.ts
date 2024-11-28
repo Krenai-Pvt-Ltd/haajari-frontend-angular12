@@ -79,6 +79,7 @@ import { UserPositionDTO } from '../models/user-position.model';
 import { AssetRequestDTO } from '../models/AssetRequestDTO';
 import { ExitPolicy } from '../models/ExitPolicy';
 import { UserResignation } from '../models/UserResignation';
+import { EmployeeAdditionalDocument } from '../models/EmployeeAdditionalDocument';
 
 
 @Injectable({
@@ -1384,6 +1385,25 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     });
   }
 
+  saveOnboardingData( onboardingPreviewData: OnboardingFormPreviewResponse ): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/get/onboarding/save-onboarding-data`,onboardingPreviewData)
+  }
+
+  createRequest(userId: string): Observable<any> {
+    const params = new HttpParams().set('userId', userId);
+    return this.httpClient.post<any>(`${this.baseUrl}/profile-edit-requests`, params);
+  }
+
+  // Get Pending Request for User by UUID (returns any type)
+  getPendingRequestForUser(uuid: string): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/profile-edit-requests/get/${uuid}`);
+  }
+
+  profileEditStatus(status: String, userId: string): Observable<any> {
+    const params = new HttpParams().set('userId', userId);
+    return this.httpClient.put<any>(`${this.baseUrl}/profile-edit-requests/status/${status}`, params);
+  }
+
   getUserLeaveLog(userUuid: string): Observable<any> {
     const params = new HttpParams().set('userUuid', userUuid);
 
@@ -1412,7 +1432,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
 
     return this.httpClient.get<any>(`${this.baseUrl}/user-leave/leave-log-filter`, { params });
   }
-  
+
 
   deleteUserLog(id: number): Observable<void> {
     return this.httpClient.delete<void>(`${this.baseUrl}/user-leave-logs/${id}`);
@@ -2289,7 +2309,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
 
 
 
- 
+
 
   // generateNewAttendanceLink(userUuid: string): Observable<any> {
   //   let params = new HttpParams().set('userUuid', userUuid);
@@ -2495,7 +2515,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
-  
+
 
   getSalaryTemplateComponentByUserUuid(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/salary/template/component/get-by-user-uuid`);
@@ -4382,6 +4402,7 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.post<any>(`${this.baseUrl}/user-resignation`, userResignationReq);
   }
 
+
   getUserResignationInfo(uuid: string) {
     let params = new HttpParams().set('uuid', uuid);
     return this.httpClient.get<any>(
@@ -4406,6 +4427,20 @@ getHolidayForOrganization(date: string): Observable<any>{
   updateResignation2(id: number) {
     return this.httpClient.get<any>(`${this.baseUrl}/user-resignation/update/${id}`); // Empty body if no data is needed
   }
+
+  getDocumentsByUserId(uuid: string): Observable<EmployeeAdditionalDocument[]> {
+    return this.httpClient.get<EmployeeAdditionalDocument[]>(`${this.baseUrl}/user?uuid=${uuid}`);
+  }
+  saveDocumentsForUser(uuid: string, documents: EmployeeAdditionalDocument[]): Observable<any> {
+    return this.httpClient.post<any>(`${this.baseUrl}/user/${uuid}`, documents);
+  }
+  updateDocument(documentId: number, document: EmployeeAdditionalDocument): Observable<EmployeeAdditionalDocument> {
+    return this.httpClient.put<EmployeeAdditionalDocument>(`${this.baseUrl}/${documentId}`, document);
+  }
+  saveDocumentForUser(uuid: string, document: EmployeeAdditionalDocument): Observable<any> {
+    return this.httpClient.post<any>(`${this.baseUrl}/user/document?uuid=${uuid}`, document);
+  }
+
 
 }
 

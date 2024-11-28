@@ -12,6 +12,7 @@ import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { differenceInMonths, format, parseISO } from 'date-fns';
 import { UserResignation } from 'src/app/models/UserResignation';
+import { LoggedInUser } from 'src/app/models/logged-in-user';
 
 @Component({
   selector: 'app-employee-profile-sidebar',
@@ -19,6 +20,7 @@ import { UserResignation } from 'src/app/models/UserResignation';
   styleUrls: ['./employee-profile-sidebar.component.css']
 })
 export class EmployeeProfileSidebarComponent implements OnInit {
+   loggedInUser: LoggedInUser = new LoggedInUser();
   userPositionDTO: UserPositionDTO[]=[];
   userId : any;
   myForm: FormGroup;
@@ -30,6 +32,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     private roleService: RoleBasedAccessControlService,
     public domSanitizer: DomSanitizer,
     private afStorage: AngularFireStorage,
+    public rbacService: RoleBasedAccessControlService,
     private sanitizer: DomSanitizer,) {
       this.myForm = this.fb.group({
         position: ['', Validators.required],  // Make Position field required
@@ -521,7 +524,19 @@ export class EmployeeProfileSidebarComponent implements OnInit {
 
 
 
+ onLogout() {
+    localStorage.clear();
+    this.rbacService.clearRbacService();
+    this.helperService.clearHelperService();
+    this.router.navigate(['/login']);
+  }
 
+  routeToAccountPage(tabName: string) {
+    // this.dataService.activeTab = tabName !== 'account';
+    this.router.navigate(['/setting/account-settings'], {
+      queryParams: { setting: tabName },
+    });
+  }
 
 
   jobTitles: string[] = [
