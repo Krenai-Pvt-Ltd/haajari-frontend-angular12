@@ -1003,3 +1003,185 @@ span.lat {
   }
   
 /** Dot opacity end */
+
+
+/** Approve Modal css **/
+
+.approve-btn {
+  background-color: #e0ffe0 !important;
+  color: #3e993e !important;
+  border: 1px solid #3e993e;
+}
+
+.reject-btn {
+  background-color: rgb(248, 215, 215);
+  color: #eb5050 !important;
+  border: 1px solid #eb5050;
+}
+
+.leave-appervo-modal h4 {
+  font-size: 18px !important;
+  color: #000;
+  font-weight: 500;
+  padding-bottom: 5px;
+}
+
+.leave-appervo-modal h5 {
+  font-size: 14px !important;
+  color: #444;
+  font-weight: 400;
+  padding-bottom: 15px;
+}
+
+.leave-appervo-modal p {
+  color: #8d93a1 !important;
+  font-weight: 400;
+  font-size: 13px;
+  padding-bottom: 0px;
+  line-height: 23px;
+  text-align: justify;
+}
+
+.leave-request-modat-close-btn {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  background-color: #fff;
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0px;
+  font-size: 25px;
+}
+
+.load-more-btn p {
+  width: 100px;
+  /* background-color: #f3f3f3; */
+  border-radius: 5px;
+  padding: 7px;
+  margin: 0 auto;
+  cursor: pointer;
+  font-size: 12px;
+  color: #444;
+  border: 1px solid #f1f1f1;
+}
+.profile-details h4 {
+  margin-bottom: 0px !important;
+}
+.profile-details p {
+  margin-bottom: 0px !important;
+  padding-bottom: 0px;
+}
+
+.profile-user-img img {
+  width: 50px;
+  border: 1px solid #6666f3;
+  border-radius: 50%;
+  padding: 1px;
+}
+
+.load-more-btn i {
+  padding-left: 5px;
+}
+
+.total-holidey-live h5 {
+  font-size: 13px !important;
+  margin-bottom: 5px;
+  padding-bottom: 0px;
+  font-weight: 500;
+}
+
+.total-holidey-live p {
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+  font-size: 12px;
+  font-weight: 400;
+  text-align: right;
+}
+
+.Approved {
+  border-right: 1px solid #f1f1f1;
+  width: 160px;
+}
+.Approved:last-child {
+  border-right: none;
+}
+.Approved:first-child {
+  border-right: none;
+  text-align: left;
+}
+
+.rejected-css p {
+  color: black !important;
+}
+
+.rejected-css span {
+  color: black !important ;
+}
+.Approved p {
+  color: #3e993e !important;
+}
+.Approved span {
+  color: #3e993e !important;
+}
+
+.pending-css p {
+  color: orange !important;
+}
+
+.pending-css span {
+  color: orange !important;
+}
+
+.remaining-css p {
+  color: #6666f3 !important;
+}
+
+.remaining-css span {
+  color: #6666f3 !important;
+}
+
+.total-holiday {
+  font-size: 11px;
+  text-align: center;
+}
+
+.Approved p {
+  text-align: center;
+}
+
+.leave-logs {
+  height: 365px;
+  overflow: scroll;
+}
+
+.leave-logs::-webkit-scrollbar {
+  display: none;
+}
+
+.leave-history-box {
+  /* max-height: 214px; */
+  max-height: 370px;
+  overflow: scroll;
+}
+
+.leave-history-box-if-pending-null {
+  max-height: 380px;
+  overflow: scroll;
+}
+
+.leave-history-box-if-pending-one {
+  max-height: 208px;
+  overflow: scroll;
+}
+
+.leave-history-box::-webkit-scrollbar {
+  display: none;
+}
+
+/** Approve Modal end */
+
+

@@ -70,6 +70,8 @@ export class EmployeeProfileSidebarComponent implements OnInit {
 
     this.getNoticePeriodDuration()
 
+    this.getUserResignationInfo()
+
   }
 
 
@@ -287,8 +289,13 @@ export class EmployeeProfileSidebarComponent implements OnInit {
           form.resetForm();
         }
     })
-
   }
+
+  clearFormData(form: NgForm){
+    this.clearForm();
+    form.resetForm();
+  }
+
   
   clearForm(){
     this.recommendDay = ''
@@ -364,6 +371,44 @@ export class EmployeeProfileSidebarComponent implements OnInit {
       }
     })
   }
+
+  userResignationInfo: any;
+  getUserResignationInfo(){
+    this.dataService.getUserResignationInfo(this.userId).subscribe((res: any) => {
+      if(res.status){
+        this.userResignationInfo = res.object[0]
+        console.log('userResignationInfo: ',this.userResignationInfo)
+      }
+    })
+  }
+
+  @ViewChild('closeApproveModal') closeApproveModal!: ElementRef
+  approveToggle: boolean = false
+  // approveOrDeny(id: number, statusId: number) {
+  approveOrDeny(id: number) {
+
+    debugger
+    this.approveToggle = true;
+    this.dataService.updateResignation(id).subscribe((res: any) => {
+      if(res.status){
+        this.closeApproveModal.nativeElement.click()
+        this.approveToggle = false
+
+        this.helperService.showToast(
+          res.message,
+          Key.TOAST_STATUS_SUCCESS
+        );
+      }else{
+        this.approveToggle = false;
+      }
+    })
+
+  }
+
+  clearApproveModal(){
+
+  }
+
 
   // User Resignation end
 
@@ -469,6 +514,8 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   deleteImage() {
     this.userResignationReq.url = ''
   }
+
+  
 
   /** Image Upload on Firebase End */
 
