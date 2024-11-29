@@ -146,7 +146,7 @@
                           </table>
                         </div>
 
-                      <div *ngIf="totalPages()>1" class="pagination-controls">
+                      <div *ngIf="totalPages()>1" class="pagination-controls d-flex align-items-end">
                         <!-- Ngb Pagination Component -->
                         <ngb-pagination
                           [collectionSize]="totalCount"
@@ -360,25 +360,18 @@
                               </tr>
                             </tbody>
                           </table>
-                          <div *ngIf="this.assetRequestsTotalPage>1" class="pagination-controls">
+                          <div *ngIf="this.assetRequestsTotalPage>1" class="pagination-controls d-flex align-items-center justify-content-between">
                             <!-- Ngb Pagination Component -->
-                            <ngb-pagination
-                              [collectionSize]="assetRequestsTotalCount"
-                              [rotate]="true"
-                              (pageChange)="pageChangedRequest($event)"
-                              [pageSize]="assetRequestsSize"
-                              [(page)]="assetRequestsPage"
-                              [maxSize]="8"
-                              [boundaryLinks]="true">
-                            </ngb-pagination>
-
-
+                           
                             <div class="showing-items-message text-right font-13">
                               Showing items
                               {{ (assetRequestsPage - 1) * assetRequestsSize + 1 }} –
                               {{ Math.min(assetRequestsPage * assetRequestsSize, assetRequestsTotalCount) }}
                               of {{ assetRequestsTotalCount }} records
                             </div>
+                            <ngb-pagination [collectionSize]="assetRequestsTotalCount" [rotate]="true" (pageChange)="pageChangedRequest($event)"
+                              [pageSize]="assetRequestsSize" [(page)]="assetRequestsPage" [maxSize]="8" [boundaryLinks]="true">
+                            </ngb-pagination>
                           </div>
                         </div>
 
