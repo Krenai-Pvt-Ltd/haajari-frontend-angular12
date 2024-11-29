@@ -9,6 +9,8 @@ import { Key } from 'src/app/constant/key';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { ExpenseType } from 'src/app/models/ExpenseType';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
   selector: 'app-attendance-leave',
@@ -20,10 +22,14 @@ export class AttendanceLeaveComponent implements OnInit {
   userLeaveForm!: FormGroup;
   userId: any;
   count: number = 0;
+  currentUserUuid: any
   userLeaveRequest: UserLeaveRequest = new UserLeaveRequest();
+modal: any;
+
   constructor(private dataService: DataService, private activateRoute: ActivatedRoute,
     private fb: FormBuilder, public helperService: HelperService, public domSanitizer: DomSanitizer,
-    private afStorage: AngularFireStorage,
+    private afStorage: AngularFireStorage, private modalService: NgbModal,
+    private rbacService: RoleBasedAccessControlService,
   ) {
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
@@ -43,6 +49,7 @@ export class AttendanceLeaveComponent implements OnInit {
     this.fetchManagerNames();
     this.getUserLeaveReq();
     this.loadLeaveLogs();
+    this.currentUserUuid = this.rbacService.getUuid();
   }
   get canSubmit() {
     return this.userLeaveForm.valid;
@@ -71,9 +78,11 @@ export class AttendanceLeaveComponent implements OnInit {
   uploadedFiles: File[] = [];
 
 
-removeFile(): void {
-    this.uploadedFiles = [];
-}
+  removeFile(index: number): void {
+    if (index >= 0 && index < this.uploadedFiles.length) {
+      this.uploadedFiles.splice(index, 1); // Removes the file at the specified index
+    }
+  }
 
 viewFile(file: File): void {
     const fileURL = URL.createObjectURL(file);
@@ -102,25 +111,6 @@ dayShiftToggleFun(shift: string) {
   selectStatusFlag: boolean = false;
   isLeaveErrorPlaceholder: boolean = false;
 
-  getUserLeaveLogByUuid() {
-    this.isLeaveShimmer = true;
-      this.dataService.getUserLeaveLog(this.userId).subscribe(
-        (data) => {
-          this.userLeaveLog = data;
-          this.isLeaveShimmer = false;
-          if (data == null || data.length == 0) {
-            this.isLeavePlaceholder = true;
-            this.selectStatusFlag = false;
-          } else {
-            this.selectStatusFlag = true;
-          }
-        },
-        (error) => {
-          this.isLeaveErrorPlaceholder = true;
-          this.isLeaveShimmer = false;
-        }
-    );
-  }
 
 
   leaveTypes: string[] = ['All', 'Earned Leave', 'Casual Leave', 'Sick Leave', 'Leave without Pay'];
@@ -145,7 +135,7 @@ dayShiftToggleFun(shift: string) {
         this.totalItems = response.totalElements;
         this.totalPages = response.totalPages;
         this.isLoading=false;
-      });  
+      });
   }
 
   loadLeaveLogs(): void {
@@ -160,7 +150,7 @@ dayShiftToggleFun(shift: string) {
         this.totalItems = response.totalElements;
         this.totalPages = response.totalPages;
         this.isLoading=false;
-      });  
+      });
   }
 
 
@@ -200,13 +190,16 @@ dayShiftToggleFun(shift: string) {
   isFileUploaded = false;
   submitLeaveLoader: boolean = false;
   fileToUpload: string = '';
+  isLoadingLeaveForm: boolean= false;
   @ViewChild('fileInput') fileInput!: ElementRef;
   @ViewChild(FormGroupDirective) formGroupDirective!: FormGroupDirective;
   @ViewChild('cancelBtn') cancelBtn!: ElementRef;
   saveLeaveRequestUser() {
     debugger
+    this.isLoadingLeaveForm=true;
     this.userLeaveRequest.halfDayLeave = this.isHalfLeaveSelected;
     // this.userLeaveRequest.halfDayLeave = false;
+    this.userLeaveRequest.leaveType=this.userLeaveRequest.userLeaveTemplateId.toString();
     this.dataService
       .saveLeaveRequest(this.userId, this.userLeaveRequest, this.fileToUpload)
       .subscribe(
@@ -229,9 +222,8 @@ dayShiftToggleFun(shift: string) {
 
           this.resetUserLeave();
           this.formGroupDirective.resetForm();
-          this.getUserLeaveLogByUuid();
           this.uploadedFiles=[];
-
+          this.loadLeaveLogs();
           this.cancelBtn.nativeElement.click();
           // location.reload();
           } else{
@@ -240,11 +232,12 @@ dayShiftToggleFun(shift: string) {
             this.isFileUploaded = false;
             this.helperService.showToast(data.message, Key.TOAST_STATUS_ERROR);
           }
-
+          this.isLoadingLeaveForm=false;
 
         },
         (error) => {
           this.submitLeaveLoader = false;
+          this.isLoadingLeaveForm=false;
           // console.log(error.body);
         }
       );
@@ -294,10 +287,10 @@ dayShiftToggleFun(shift: string) {
   pdfPreviewUrl: SafeResourceUrl | null = null;
   expenseTypeReq: ExpenseType = new ExpenseType();
   onFileSelected(event: Event): void {
-
+    debugger;
     const element = event.currentTarget as HTMLInputElement;
     if (element.files && element.files.length) {
-      this.uploadedFiles = Array.from(element.files);
+      this.uploadedFiles = [...this.uploadedFiles, ...Array.from(element.files)];
     }
     const fileList: FileList | null = element.files;
 
@@ -315,7 +308,8 @@ dayShiftToggleFun(shift: string) {
         this.setPdfPreviewUrl(this.selectedFile);
       }
 
-      this.uploadFile(this.selectedFile); // Upload file to Firebase
+      this.uploadFile(this.selectedFile);
+      this.fileInput.nativeElement.value = '';
     } else {
       this.isFileUploaded = false;
     }
@@ -392,11 +386,34 @@ dayShiftToggleFun(shift: string) {
   onDelete(id:number) {
     this.dataService.deleteUserLog(id).subscribe({
       next: () => {
-        alert('User log deleted successfully.');
+        this.isDeleting = false;
+        this.helperService.showToast('Delete Successfully', Key.TOAST_STATUS_SUCCESS);
         this.loadLeaveLogs();
       },
-      error: (err) => console.error('Error deleting log:', err)
+      error: (err) => this.isDeleting = true
     });
+  }
+
+  @ViewChild('deleteConfirmation', { static: true }) deleteConfirmation: any;
+  private itemIdToDelete: number | null = null;
+   @ViewChild('deletModalButton') deletModalButton!:ElementRef;
+  openDeleteConfirmation(itemId: number): void {
+    this.itemIdToDelete = itemId;
+    // this.modalService.open(this.deleteConfirmation, { centered: true });
+    this.deletModalButton.nativeElement.click();
+  }
+
+  isDeleting: boolean = false;
+  
+   @ViewChild('deleCloseButton') deleCloseButton!:ElementRef;
+  confirmDelete(modal: NgbModalRef): void {
+    this.isDeleting = true;
+    if (this.itemIdToDelete !== null) {
+      this.onDelete(this.itemIdToDelete);
+    }
+     this.deleCloseButton.nativeElement.click();
+    
+    // modal.close();
   }
 
   // Handle edit action

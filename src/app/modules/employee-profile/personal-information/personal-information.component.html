@@ -358,7 +358,8 @@
 
     </div>
     <div class="edit-detail">
-      <div *ngIf="routes.includes('/employee-onboarding-form')" class="row border-top pt-4 pb-3">
+      <form [formGroup]="onboardingForm">
+      <div  *ngIf="routes.includes('/employee-onboarding-form')" class="row border-top pt-4 pb-3" formGroupName="user">
         <div class="col-md-3">
           <div class="profile-imfo-hedding">
             <h5>Personal Information</h5>
@@ -368,61 +369,118 @@
           <div class="row">
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.name" />
+                <input formControlName="name" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.name" />
                 <label class="form__label">Name</label>
               </div>
+              <div *ngIf="onboardingForm.get('user.name')?.touched || isFormInvalid">
+                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="onboardingForm.get('user.name')?.hasError('required')">
+                  <i class="bi bi-exclamation-circle"></i> Name is required.
+                </p>
+              </div>
+
             </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.maritalStatus" />
+                <select formControlName="maritalStatus" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.maritalStatus">
+                  <option value="">Select Marital Status</option>
+                  <option value="Married">Married</option>
+                  <option value="Single">Single</option>
+                </select>
                 <label class="form__label">Marital Status</label>
               </div>
+              <!-- Validation message -->
+              <div *ngIf="onboardingForm.get('user.maritalStatus')?.touched || isFormInvalid">
+                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="onboardingForm.get('user.maritalStatus')?.hasError('required')">
+                  <i class="bi bi-exclamation-circle"></i> Marital Status is required.
+                </p>
+              </div>
             </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.email" />
+                <input formControlName="email" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.email" />
                 <label class="form__label">Email Address</label>
               </div>
+              <div *ngIf="onboardingForm.get('user.email')?.touched || isFormInvalid">
+                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="onboardingForm.get('user.email')?.hasError('required')">
+                  <i class="bi bi-exclamation-circle"></i> Email Id is required.
+                </p>
+                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="onboardingForm.get('user.email')?.hasError('email')">
+                  <i class="bi bi-exclamation-circle"></i> Please enter a valid email address.
+                </p>
+              </div>
+
             </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <nz-date-picker
                   class="form__field custom-date-picker"
+                  formControlName="joiningDate"
                   [(ngModel)]="this.onboardingPreviewDataCopy.user.joiningDate"
                   [nzFormat]="'dd/MM/yyyy'"
                   nzPlaceHolder="Select Joining Date"
                 ></nz-date-picker>
                 <label class="form__label">Joining Date</label>
               </div>
+              <div *ngIf="onboardingForm.get('user.joiningDate')?.touched || isFormInvalid">
+                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="onboardingForm.get('user.joiningDate')?.hasError('required')">
+                  <i class="bi bi-exclamation-circle"></i> DOB is required.
+                </p>
+              </div>
             </div>
 
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.phoneNumber" />
+                <input formControlName="phoneNumber" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.phoneNumber" />
                 <label class="form__label">Phone Number</label>
               </div>
+              <div *ngIf="onboardingForm.get('user.phoneNumber')?.touched || isFormInvalid">
+                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="onboardingForm.get('user.phoneNumber')?.hasError('required')">
+                  <i class="bi bi-exclamation-circle"></i> Phone number is required.
+                </p>
+                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="onboardingForm.get('user.phoneNumber')?.hasError('pattern')">
+                  <i class="bi bi-exclamation-circle"></i> Only numeric values are allowed exactly 10 digits.
+                </p>
+              </div>
+
             </div>
-            <div class="col-md-6 mb-3">
+            <!-- <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.currentSalary" />
+                <input formControlName="currentSalary" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.currentSalary" />
                 <label class="form__label">Current Salary</label>
               </div>
-            </div>
+            </div> -->
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.gender" />
+                <select formControlName="gender" [(ngModel)]="onboardingPreviewDataCopy.user.gender" class="form__field">
+                  <option value="">Select Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
                 <label class="form__label">Gender</label>
               </div>
+              <div *ngIf="onboardingForm.get('user.gender')?.touched || isFormInvalid">
+                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="onboardingForm.get('user.gender')?.hasError('required')">
+                  <i class="bi bi-exclamation-circle"></i> Gender is required.
+                </p>
+              </div>
             </div>
+
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.department" />
+                <input formControlName="department" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.department" />
                 <label class="form__label">Department</label>
+              </div>
+              <div *ngIf="onboardingForm.get('user.department')?.touched || isFormInvalid">
+                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="onboardingForm.get('user.department')?.hasError('required')">
+                  <i class="bi bi-exclamation-circle"></i> Department is required.
+                </p>
               </div>
             </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <nz-date-picker
+                  formControlName="dateOfBirth"
                   class="form__field custom-date-picker"
                   [(ngModel)]="this.onboardingPreviewDataCopy.user.dateOfBirth"
                   [nzFormat]="'dd/MM/yyyy'"
@@ -430,26 +488,59 @@
                 ></nz-date-picker>
                 <label class="form__label">Date of Birth</label>
               </div>
+              <div *ngIf="onboardingForm.get('user.dateOfBirth')?.touched || isFormInvalid">
+                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="onboardingForm.get('user.dateOfBirth')?.hasError('required')">
+                  <i class="bi bi-exclamation-circle"></i> DOB is required.
+                </p>
+              </div>
+
             </div>
 
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.position" />
+                <input formControlName="position" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.position" />
                 <label class="form__label">Current Position</label>
               </div>
+              <div *ngIf="onboardingForm.get('user.position')?.touched || isFormInvalid">
+                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="onboardingForm.get('user.position')?.hasError('required')">
+                  <i class="bi bi-exclamation-circle"></i> Current Position is required.
+                </p>
+                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="onboardingForm.get('user.position')?.hasError('minlength')">
+                  <i class="bi bi-exclamation-circle"></i> Position must be at least 3 characters.
+                </p>
+              </div>
             </div>
+
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.fatherName" />
+                <input formControlName="fatherName" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.fatherName" />
                 <label class="form__label">Father’s Name</label>
               </div>
-            </div>
-            <div class="col-md-6 mb-3">
-              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.nationality" />
-                <label class="form__label">Nationality</label>
+              <div *ngIf="onboardingForm.get('user.fatherName')?.touched || isFormInvalid">
+                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="onboardingForm.get('user.fatherName')?.hasError('required')">
+                  <i class="bi bi-exclamation-circle"></i> Father’s Name is required.
+                </p>
+                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="onboardingForm.get('user.fatherName')?.hasError('minlength')">
+                  <i class="bi bi-exclamation-circle"></i> Father’s Name must be at least 3 characters.
+                </p>
               </div>
             </div>
+
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input formControlName="nationality" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.nationality" />
+                <label class="form__label">Nationality</label>
+              </div>
+              <div *ngIf="onboardingForm.get('user.nationality')?.touched || isFormInvalid">
+                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="onboardingForm.get('user.nationality')?.hasError('required')">
+                  <i class="bi bi-exclamation-circle"></i> Nationality is required.
+                </p>
+                <p class="errortxt mt-2 mb-0" style="color:red" *ngIf="onboardingForm.get('user.nationality')?.hasError('minlength')">
+                  <i class="bi bi-exclamation-circle"></i> Nationality must be at least 3 characters.
+                </p>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -461,79 +552,142 @@
           </div>
         </div>
         <div class="col-md-9">
-          <div class="row mb-3">
-
+          <div class="row mb-3" formGroupName="currentAddress">
             <h6 class="mb-3">Current Address</h6>
 
             <div class="col-md-12 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].addressLine1" />
+                <input formControlName="addressLine1" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].addressLine1" />
                 <label class="form__label">Address</label>
               </div>
+              <div *ngIf="onboardingForm.get('currentAddress.addressLine1')?.touched || isFormInvalid">
+                <p *ngIf="onboardingForm.get('currentAddress.addressLine1')?.hasError('required')" class="errortxt mt-2 mb-0" style="color:red">
+                  <i class="bi bi-exclamation-circle"></i> Address is required.
+                </p>
+              </div>
             </div>
+
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].pincode" />
+                <input formControlName="pincode" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].pincode" />
                 <label class="form__label">Pincode</label>
               </div>
+              <div *ngIf="onboardingForm.get('currentAddress.pincode')?.touched || isFormInvalid">
+                <p *ngIf="onboardingForm.get('currentAddress.pincode')?.hasError('required')" class="errortxt mt-2 mb-0" style="color:red">
+                  <i class="bi bi-exclamation-circle"></i> Pincode is required.
+                </p>
+                <p *ngIf="onboardingForm.get('currentAddress.pincode')?.hasError('pattern')" class="errortxt mt-2 mb-0" style="color:red">
+                  <i class="bi bi-exclamation-circle"></i> Pincode must be exactly 6 digits.
+                </p>
+              </div>
             </div>
+
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].city" />
+                <input formControlName="city" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].city" />
                 <label class="form__label">City</label>
               </div>
-            </div>
-            <div class="col-md-6 mb-3">
-              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].state" />
-                <label class="form__label">State</label>
+              <div *ngIf="onboardingForm.get('currentAddress.city')?.touched || isFormInvalid">
+                <p *ngIf="onboardingForm.get('currentAddress.city')?.hasError('required')" class="errortxt mt-2 mb-0" style="color:red">
+                  <i class="bi bi-exclamation-circle"></i> City is required.
+                </p>
               </div>
             </div>
+
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].country" />
+                <input formControlName="state" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].state" />
+                <label class="form__label">State</label>
+              </div>
+              <div *ngIf="onboardingForm.get('currentAddress.state')?.touched || isFormInvalid">
+                <p *ngIf="onboardingForm.get('currentAddress.state')?.hasError('required')" class="errortxt mt-2 mb-0" style="color:red">
+                  <i class="bi bi-exclamation-circle"></i> State is required.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input formControlName="country" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[0].country" />
                 <label class="form__label">Country</label>
+              </div>
+              <div *ngIf="onboardingForm.get('currentAddress.country')?.touched || isFormInvalid">
+                <p *ngIf="onboardingForm.get('currentAddress.country')?.hasError('required')" class="errortxt mt-2 mb-0" style="color:red">
+                  <i class="bi bi-exclamation-circle"></i> Country is required.
+                </p>
               </div>
             </div>
           </div>
 
-          <div class="row">
-
+          <div class="row" formGroupName="permanentAddress">
             <h6 class="mb-3">Permanent Address</h6>
 
             <div class="col-md-12 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].addressLine1" />
+                <input formControlName="addressLine1" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].addressLine1" />
                 <label class="form__label">Address</label>
               </div>
+              <div *ngIf="onboardingForm.get('permanentAddress.addressLine1')?.touched || isFormInvalid">
+                <p *ngIf="onboardingForm.get('permanentAddress.addressLine1')?.hasError('required')" class="errortxt mt-2 mb-0" style="color:red">
+                  <i class="bi bi-exclamation-circle"></i> Address is required.
+                </p>
+              </div>
             </div>
+
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].pincode" />
+                <input formControlName="pincode" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].pincode" />
                 <label class="form__label">Pincode</label>
               </div>
+              <div *ngIf="onboardingForm.get('permanentAddress.pincode')?.touched || isFormInvalid">
+                <p *ngIf="onboardingForm.get('permanentAddress.pincode')?.hasError('required')" class="errortxt mt-2 mb-0" style="color:red">
+                  <i class="bi bi-exclamation-circle"></i> Pincode is required.
+                </p>
+                <p *ngIf="onboardingForm.get('permanentAddress.pincode')?.hasError('pattern')" class="errortxt mt-2 mb-0" style="color:red">
+                  <i class="bi bi-exclamation-circle"></i> Pincode must be exactly 6 digits.
+                </p>
+              </div>
             </div>
+
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].city" />
+                <input formControlName="city" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].city" />
                 <label class="form__label">City</label>
               </div>
-            </div>
-            <div class="col-md-6 mb-3">
-              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].state" />
-                <label class="form__label">State</label>
+              <div *ngIf="onboardingForm.get('permanentAddress.city')?.touched || isFormInvalid">
+                <p *ngIf="onboardingForm.get('permanentAddress.city')?.hasError('required')" class="errortxt mt-2 mb-0" style="color:red">
+                  <i class="bi bi-exclamation-circle"></i> City is required.
+                </p>
               </div>
             </div>
+
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].country" />
+                <input formControlName="state" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].state" />
+                <label class="form__label">State</label>
+              </div>
+              <div *ngIf="onboardingForm.get('permanentAddress.state')?.touched || isFormInvalid">
+                <p *ngIf="onboardingForm.get('permanentAddress.state')?.hasError('required')" class="errortxt mt-2 mb-0" style="color:red">
+                  <i class="bi bi-exclamation-circle"></i> State is required.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input formControlName="country" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAddress[1].country" />
                 <label class="form__label">Country</label>
+              </div>
+              <div *ngIf="onboardingForm.get('permanentAddress.country')?.touched || isFormInvalid">
+                <p *ngIf="onboardingForm.get('permanentAddress.country')?.hasError('required')" class="errortxt mt-2 mb-0" style="color:red">
+                  <i class="bi bi-exclamation-circle"></i> Country is required.
+                </p>
               </div>
             </div>
           </div>
         </div>
       </div>
+
 
       <div *ngIf="routes.includes('/employee-onboarding-form')" class="row border-top pt-4 pb-3">
         <div class="col-md-3">
@@ -541,37 +695,61 @@
             <h5>Reference</h5>
           </div>
         </div>
-        <div class="col-md-9">
-          <div class="row" *ngFor="let reference of this.onboardingPreviewDataCopy.userGuarantorInformation">
+        <div formArrayName="references" class="col-md-9">
+          <div class="row" *ngFor="let reference of references.controls; let i = index" [formGroupName]="i">
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="reference.name" />
+                <input type="text" formControlName="name" class="form__field" />
                 <label class="form__label">Name</label>
               </div>
+              <div *ngIf="reference.get('name')?.touched && reference.get('name')?.hasError('required')" class="error-text">
+                Name is required.
+              </div>
             </div>
+
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="reference.relation" />
+                <input type="text" formControlName="relation" class="form__field" />
                 <label class="form__label">Relation</label>
               </div>
+              <div *ngIf="reference.get('relation')?.touched && reference.get('relation')?.hasError('required')" class="error-text">
+                Relation is required.
+              </div>
+              <button type="button" *ngIf="references.length > 1" (click)="removeReference(i)">Remove</button>
             </div>
+
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="reference.phoneNumber" />
+                <input type="text" formControlName="phoneNumber" class="form__field" />
                 <label class="form__label">Phone Number</label>
               </div>
+              <div *ngIf="reference.get('phoneNumber')?.touched && reference.get('phoneNumber')?.hasError('required')" class="error-text">
+                Phone number is required.
+              </div>
+              <div *ngIf="reference.get('phoneNumber')?.touched && reference.get('phoneNumber')?.hasError('pattern')" class="error-text">
+                Please enter a valid phone number.
+              </div>
             </div>
+
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="reference.emailId" />
+                <input type="text" formControlName="emailId" class="form__field" />
                 <label class="form__label">Email Address</label>
+              </div>
+              <div *ngIf="reference.get('emailId')?.touched && reference.get('emailId')?.hasError('required')" class="error-text">
+                Email is required.
+              </div>
+              <div *ngIf="reference.get('emailId')?.touched && reference.get('emailId')?.hasError('email')" class="error-text">
+                Please enter a valid email address.
               </div>
             </div>
           </div>
+          <button type="button" (click)="addReference()">Add Reference</button>
         </div>
       </div>
 
-      <div *ngIf="routes.includes('/acadmic')" class="row border-top pt-4 pb-3">
+
+      <div *ngIf="routes.includes('/acadmic')" class="row border-top pt-4 pb-3" formGroupName="academicDetails">
         <div class="col-md-3">
           <div class="profile-imfo-hedding">
             <h5>Academic Details</h5>
@@ -581,43 +759,73 @@
           <div class="row">
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAcademics.highestEducationalLevel" />
+                <input formControlName="highestEducationalLevel" type="text" class="form__field" [(ngModel)]="onboardingPreviewDataCopy.userAcademics.highestEducationalLevel" />
                 <label class="form__label">Qualification</label>
               </div>
+              <div *ngIf="onboardingForm.get('academicDetails.highestEducationalLevel')?.touched && onboardingForm.get('academicDetails.highestEducationalLevel')?.hasError('required')" class="error-text">
+                Qualification is required.
+              </div>
             </div>
+
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAcademics.degreeObtained" />
+                <input formControlName="degreeObtained" type="text" class="form__field" [(ngModel)]="onboardingPreviewDataCopy.userAcademics.degreeObtained" />
                 <label class="form__label">Degree/Diploma</label>
               </div>
+              <div *ngIf="onboardingForm.get('academicDetails.degreeObtained')?.touched && onboardingForm.get('academicDetails.degreeObtained')?.hasError('required')" class="error-text">
+                Degree/Diploma is required.
+              </div>
             </div>
+
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAcademics.fieldOfStudy" />
+                <input formControlName="fieldOfStudy" type="text" class="form__field" [(ngModel)]="onboardingPreviewDataCopy.userAcademics.fieldOfStudy" />
                 <label class="form__label">Field of Study</label>
               </div>
+              <div *ngIf="onboardingForm.get('academicDetails.fieldOfStudy')?.touched && onboardingForm.get('academicDetails.fieldOfStudy')?.hasError('required')" class="error-text">
+                Field of Study is required.
+              </div>
             </div>
+
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAcademics.grade" />
+                <input formControlName="grade" type="text" class="form__field" [(ngModel)]="onboardingPreviewDataCopy.userAcademics.grade" />
                 <label class="form__label">CGPA</label>
               </div>
-            </div>
-            <div class="col-md-6 mb-3">
-              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAcademics.institutionName" />
-                <label class="form__label">College Name</label>
+              <div *ngIf="onboardingForm.get('academicDetails.grade')?.touched && onboardingForm.get('academicDetails.grade')?.hasError('required')" class="error-text">
+                CGPA is required.
+              </div>
+              <div *ngIf="onboardingForm.get('academicDetails.grade')?.touched && onboardingForm.get('academicDetails.grade')?.hasError('pattern')" class="error-text">
+                Please enter a valid CGPA.
               </div>
             </div>
+
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userAcademics.graduationYear" />
+                <input formControlName="institutionName" type="text" class="form__field" [(ngModel)]="onboardingPreviewDataCopy.userAcademics.institutionName" />
+                <label class="form__label">College Name</label>
+              </div>
+              <div *ngIf="onboardingForm.get('academicDetails.institutionName')?.touched && onboardingForm.get('academicDetails.institutionName')?.hasError('required')" class="error-text">
+                College Name is required.
+              </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input formControlName="graduationYear" type="text" class="form__field" [(ngModel)]="onboardingPreviewDataCopy.userAcademics.graduationYear" />
                 <label class="form__label">Graduating Year</label>
+              </div>
+              <div *ngIf="onboardingForm.get('academicDetails.graduationYear')?.touched && onboardingForm.get('academicDetails.graduationYear')?.hasError('required')" class="error-text">
+                Graduation Year is required.
+              </div>
+              <div *ngIf="onboardingForm.get('academicDetails.graduationYear')?.touched && onboardingForm.get('academicDetails.graduationYear')?.hasError('pattern')" class="error-text">
+                Please enter a valid graduation year (e.g., 2023).
               </div>
             </div>
           </div>
         </div>
       </div>
+
 
       <div *ngIf="routes.includes('/employee-experience')" class="row border-top pt-4 pb-3">
         <div class="col-md-3">
@@ -625,86 +833,129 @@
             <h5>Experience Details</h5>
           </div>
         </div>
-        <div class="col-md-9">
-          <div *ngFor="let job of onboardingPreviewDataCopy.userExperience; let i = index" class="row">
+
+        <div formArrayName="userExperience" class="col-md-9">
+          <div
+            *ngFor="let job of userExperience.controls; let i = index"
+            [formGroupName]="i"
+            class="row"
+          >
+            <!-- Company Name -->
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input
-                  type="text"
-                  class="form__field"
-                  [(ngModel)]="job.companyName"
-                />
+                <input type="text" class="form__field" formControlName="companyName" />
                 <label class="form__label">Company Name</label>
+                <div *ngIf="job.get('companyName')?.touched && job.get('companyName')?.hasError('required')" class="error-text">
+                  Company Name is required.
+                </div>
               </div>
             </div>
+
+            <!-- Start Date -->
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <nz-date-picker
                   class="form__field"
-                  [(ngModel)]="job.startDate"
+                  formControlName="startDate"
                   [nzFormat]="'dd/MM/yyyy'"
                 ></nz-date-picker>
                 <label class="form__label">Start Date</label>
+                <div *ngIf="job.get('startDate')?.touched && job.get('startDate')?.hasError('required')" class="error-text">
+                  Start Date is required.
+                </div>
               </div>
             </div>
+
+            <!-- End Date -->
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <nz-date-picker
                   class="form__field"
-                  [(ngModel)]="job.endDate"
+                  formControlName="endDate"
                   [nzFormat]="'dd/MM/yyyy'"
                 ></nz-date-picker>
                 <label class="form__label">End Date</label>
+                <div *ngIf="job.get('endDate')?.touched && job.get('endDate')?.hasError('required')" class="error-text">
+                  End Date is required.
+                </div>
               </div>
             </div>
+
+            <!-- Position -->
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <input
                   type="text"
                   class="form__field"
-                  [(ngModel)]="job.lastJobPosition"
+                  formControlName="lastJobPosition"
                 />
                 <label class="form__label">Position</label>
+                <div *ngIf="job.get('lastJobPosition')?.touched && job.get('lastJobPosition')?.hasError('required')" class="error-text">
+                  Position is required.
+                </div>
               </div>
             </div>
+
+            <!-- Salary -->
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <input
                   type="number"
                   class="form__field"
-                  [(ngModel)]="job.lastSalary"
+                  formControlName="lastSalary"
                 />
                 <label class="form__label">Salary</label>
+                <div *ngIf="job.get('lastSalary')?.touched && job.get('lastSalary')?.hasError('required')" class="error-text">
+                  Salary is required.
+                </div>
               </div>
             </div>
+
+            <!-- Department -->
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <input
                   type="text"
                   class="form__field"
-                  [(ngModel)]="job.lastJobDepartment"
+                  formControlName="lastJobDepartment"
                 />
                 <label class="form__label">Department</label>
+                <div *ngIf="job.get('lastJobDepartment')?.touched && job.get('lastJobDepartment')?.hasError('required')" class="error-text">
+                  Department is required.
+                </div>
               </div>
             </div>
+
+            <!-- Responsibilities -->
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <input
+                  type="text"
                   class="form__field"
-                  rows="2"
-                  [(ngModel)]="job.jobResponisibilities"
+                  formControlName="jobResponsibilities"
                 />
                 <label class="form__label">Responsibilities</label>
+                <div *ngIf="job.get('jobResponsibilities')?.touched && job.get('jobResponsibilities')?.hasError('required')" class="error-text">
+                  Responsibilities are required.
+                </div>
               </div>
             </div>
+
+            <!-- Remove Button -->
+            <div class="col-md-12">
+              <button type="button" (click)="removeJobExperience(i)">Remove</button>
+            </div>
           </div>
+        </div>
+
+        <!-- Add Job Experience Button -->
+        <div class="col-md-12">
+          <button type="button" (click)="addJobExperience()">Add Job Experience</button>
         </div>
       </div>
 
 
-
-
-      <div *ngIf="routes.includes('/bank-details')" class="row border-top pt-4 pb-3">
+      <div *ngIf="routes.includes('/bank-details')" class="row border-top pt-4 pb-3" formGroupName="bankDetails">
         <div class="col-md-3">
           <div class="profile-imfo-hedding">
             <h5>Bank Details</h5>
@@ -714,25 +965,25 @@
           <div class="row">
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userBankDetails.accountHolderName" />
+                <input formControlName="accountHolderName" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userBankDetails.accountHolderName" />
                 <label class="form__label">Account Holder Name</label>
               </div>
             </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userBankDetails.bankName" />
+                <input formControlName="bankName" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userBankDetails.bankName" />
                 <label class="form__label">Bank Name</label>
               </div>
             </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userBankDetails.accountNumber" />
+                <input formControlName="accountNumber" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userBankDetails.accountNumber" />
                 <label class="form__label">Account Number</label>
               </div>
             </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userBankDetails.ifsc" />
+                <input formControlName="ifsc" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userBankDetails.ifsc" />
                 <label class="form__label">IFSC Number</label>
               </div>
             </div>
@@ -746,31 +997,82 @@
             <h5>Emergency Contact</h5>
           </div>
         </div>
-        <div class="col-md-9">
-          <div class="row" *ngFor="let emergencyContact of this.onboardingPreviewDataCopy.userEmergencyContacts">
+
+        <div formArrayName="userEmergencyContacts" class="col-md-9">
+          <div
+            *ngFor="let emergencyContact of userEmergencyContacts.controls; let i = index"
+            [formGroupName]="i"
+            class="row"
+          >
+            <!-- Relation with Employee -->
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="emergencyContact.relationWithEmployee" />
+                <input
+                  type="text"
+                  class="form__field"
+                  formControlName="relationWithEmployee"
+                />
                 <label class="form__label">Relation with Employee</label>
               </div>
+              <div *ngIf="emergencyContact.get('relationWithEmployee')?.touched && emergencyContact.get('relationWithEmployee')?.hasError('required')" class="error-text">
+                Relation with Employee is required.
+              </div>
             </div>
+
+            <!-- Name -->
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="emergencyContact.contactName" />
+                <input
+                  type="text"
+                  class="form__field"
+                  formControlName="contactName"
+                />
                 <label class="form__label">Name</label>
               </div>
-            </div>
-            <div class="col-md-6 mb-3">
-              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input type="text" class="form__field" [(ngModel)]="emergencyContact.contactNumber" />
-                <label class="form__label">Phone Number</label>
+              <div *ngIf="emergencyContact.get('contactName')?.touched && emergencyContact.get('contactName')?.hasError('required')" class="error-text">
+                Contact Name is required.
               </div>
             </div>
+
+            <!-- Phone Number -->
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input
+                  type="text"
+                  class="form__field"
+                  formControlName="contactNumber"
+                />
+                <label class="form__label">Phone Number</label>
+              </div>
+              <div *ngIf="emergencyContact.get('contactNumber')?.touched && emergencyContact.get('contactNumber')?.hasError('required')" class="error-text">
+                Phone Number is required.
+              </div>
+              <div *ngIf="emergencyContact.get('contactNumber')?.touched && emergencyContact.get('contactNumber')?.hasError('pattern')" class="error-text">
+                Please enter a valid phone number.
+              </div>
+            </div>
+
+            <!-- Remove Button for each contact -->
+            <div class="col-md-12 mb-3">
+              <button type="button" (click)="removeEmergencyContact(i)">
+                Remove Contact
+              </button>
+            </div>
+          </div>
+
+          <!-- Add Emergency Contact Button -->
+          <div class="col-md-12">
+            <button type="button" (click)="addEmergencyContact()">
+              Add Contact
+            </button>
           </div>
         </div>
       </div>
 
-    </div>
+
+
+    </form>
+  </div>
 </div>
 
 

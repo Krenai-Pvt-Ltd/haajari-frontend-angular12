@@ -2085,7 +2085,7 @@
                           !networkConnectionErrorForAttendanceUpdatePendingRequestResponse
                         "
                       >
-                        g
+                        
                         <nz-empty
                           nzNotFoundImage="assets/images/no-data-found-img.svg"
                           [nzNotFoundContent]="contentTpl"
@@ -2275,8 +2275,7 @@
                                           <u>
                                             {{
                                               attendanceRequestHistory.outRequestTime
-                                                | date : "medium" || "N/A"
-                                            }}
+                                                | date : "medium" || "N/A" }}
                                           </u></small
                                         >
                                       </ng-container>
@@ -2360,11 +2359,11 @@
                   <h4>Logs</h4>
                 </div>
                 <hr style="margin-bottom: 10px" />
-                <div
+                <!-- <div
                   class="mb-3 d-flex align-items-center"
                   style="border: 1px solid #f1f1f1; border-radius: 2px"
                 >
-                  <!-- <div class="dropdown" style="width: 35%" *ngIf="overtimePendingRequestResponseList.length > 0">
+                   <div class="dropdown" style="width: 35%" *ngIf="overtimePendingRequestResponseList.length > 0">
                     <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
                       {{ selectedTeamName ? selectedTeamName : "All" }}
                       <i class="bi bi-chevron-down" style="color: #444; font-size: 15px"></i>
@@ -2377,13 +2376,13 @@
                         <a class="dropdown-item"> {{ tn.teamName }} </a>
                       </li>
                     </ul>
-                  </div> -->
-                  <!-- <div class="form-group pb-1" style="width: 65%; position: relative">
+                  </div> 
+                   <div class="form-group pb-1" style="width: 65%; position: relative">
                     <input type="text" id="searchText" placeholder="Search by name or email" [(ngModel)]="searchText" class="form-control me-2 ng-untouched ng-pristine ng-valid" style="padding: 10px 30px; border: none !important" (keyup)="searchOvertimeRequestLogResponse()" />
                     <i class="bi bi-search search-icon" style="margin: auto; margin-left: 10px" *ngIf="searchText == ''"></i>
                     <i class="bi bi-x search-icon" style="margin: auto; margin-left: 10px" *ngIf="searchText != ''" (click)="clearSearchUsers()"></i>
-                  </div> -->
-                </div>
+                  </div>
+                </div> -->
                 <!-- <div class="mb-3 d-flex align-items-center" style="border: 1px solid #f1f1f1; border-radius: 2px" *ngIf="ROLE != 'USER'">
                   <div class="dropdown" style="width: 35%" *ngIf="ROLE != 'USER' || fullLeaveLogs.length > 0">
                     <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-secondary dropdown-toggle new-deopdown">
@@ -2596,7 +2595,7 @@
                   #errorWhileFetchingAttendanceUpdateRequestLogResponseListCondition
                 >
                   <div
-                    class="empty-file"
+                    class="empty-file" style="margin-top: 25%"
                     *ngIf="
                       dataNotFoundForAttendanceUpdateRequestLogResponse &&
                       !networkConnectionErrorForAttendanceUpdateRequestLogResponse
