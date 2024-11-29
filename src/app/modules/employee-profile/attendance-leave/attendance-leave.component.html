@@ -744,7 +744,7 @@
                                   <!-- <i class="bi bi-x reset-icon text-primary pointer"></i> -->
                                 </div>
                               </form>
-                             
+
                             </div>
                             <div>
                                 <button type="button" class="btn primaryBtnLink leave-request" *ngIf="userId==currentUserUuid" (click)="applyNewLeaveReq()">
@@ -815,7 +815,7 @@
                                 <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
                             </td>
                         </tr>
-                    </tbody> 
+                    </tbody>
 
                     <tbody *ngIf="userLeaveLog?.length === 0">
                         <tr>
@@ -833,7 +833,7 @@
                     </tbody>
 
                     <tbody *ngIf="!isLoading">
-                      
+
                       <tr *ngFor="let item of userLeaveLog">
                         <td class="text-left">
                           <span class="team-maneger mb-0">{{ item.startDate | date: 'EEE, d MMM yyyy' }}</span>
@@ -867,7 +867,7 @@
                                 <ng-container *ngSwitchCase="'pending'">
                                     <!-- Pending Button -->
                                     Pending
-                        
+
                                     <!-- Delete Button -->
                                     <button *ngIf="userId==currentUserUuid" class="icon-button" (click)="openDeleteConfirmation(item.id)">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -882,7 +882,7 @@
                                             </g>
                                         </svg>
                                     </button>
-                        
+
                                     <!-- Edit Button -->
                                     <!-- <button *ngIf="userId==currentUserUuid" class="icon-button" (click)="onEdit(item)">
                                                           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -897,7 +897,7 @@
                                                           </svg>
                                                         </button> -->
                                 </ng-container>
-                        
+
                                 <!-- Approved Status -->
                                 <ng-container *ngSwitchCase="'approved'">
                                     <button class="btn p-0 approved-btn text-success font-13">
@@ -920,7 +920,7 @@
                                         Approved
                                     </button>
                                 </ng-container>
-                        
+
                                 <!-- Rejected Status -->
                                 <ng-container *ngSwitchCase="'rejected'">
                                     <button class="btn p-0 rejected-btn text-danger font-13">
@@ -1494,20 +1494,20 @@
                                     <nz-date-picker
                                       formControlName="startDate"
                                       nzPlaceHolder="dd/mm/yyyy"
-                                      [(ngModel)]="userLeaveRequest.startDate"
-                                      required>
-                                    </nz-date-picker>
+                                      [nzDisabledDate]="disableStartDate"
+                                      required
+                                    ></nz-date-picker>
                                   </div>
                                 </div>
                                 <div class="col-md-6">
                                   <div class="form-group">
                                     <label for="endDate" class="mb-2">Pick an ending date</label>
                                     <nz-date-picker
-                                      [(ngModel)]="userLeaveRequest.endDate"
                                       formControlName="endDate"
                                       nzPlaceHolder="dd/mm/yyyy"
-                                      required>
-                                    </nz-date-picker>
+                                      [nzDisabledDate]="disableEndDate"
+                                      required
+                                    ></nz-date-picker>
                                   </div>
                                 </div>
                               </div>
@@ -1612,7 +1612,7 @@
                             <div class="col-md-12 ">
                                 <div class="form-group ">
                                     <label for="templateName" class="mb-2"> Proof document <span class="text-primary font-12">(optional)</span></label>
-                                    <div class="d-flex align-items-center justify-content-between  requesting-half-leave p-2" >
+                                    <div *ngIf="uploadedFiles.length == 0" class="d-flex align-items-center justify-content-between  requesting-half-leave p-2" >
                                       <p class="mb-0 font-13 " style="font-weight: 400;" >Select proof document</p>
 
                                       <button class="btn p-0 text-primary font-13" (click)="fileInput.click()">
@@ -1620,7 +1620,6 @@
                                       </button>
                                       <input
                                           type="file"
-                                          multiple
                                           #fileInput
                                           (change)="onFileSelected($event)"
                                           accept="application/pdf"
@@ -1676,7 +1675,7 @@
                                                 accept="application/pdf" class="input" style="display: none;"><span >
 
                                                 </span>
-                                              
+
                                                 <span >
                                                   <button class="btn text-danger" (click)="removeFile(i)">
                                                   <svg  xmlns="http://www.w3.org/2000/svg" width="23" height="22"
