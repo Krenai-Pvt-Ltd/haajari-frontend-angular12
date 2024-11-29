@@ -196,7 +196,7 @@
                         </thead>
 
 
-                        <tbody>
+                        <!-- <tbody>
                             <tr *ngFor="let item of [].constructor(7)">
                                 <td>
                                     <ngx-shimmer-loading [width]="'100%'" [height]="'20px'"></ngx-shimmer-loading>
@@ -229,7 +229,7 @@
                                     <ngx-shimmer-loading [width]="'100%'" [height]="'20px'"></ngx-shimmer-loading>
                                 </td>
                             </tr>
-                        </tbody>
+                        </tbody> -->
 
                         <tbody class="">
                             <tr class="" *ngFor="let item of [].constructor(4)">
@@ -572,27 +572,33 @@
                                     #searchInput
                                     [value]="searchQuery"
                                     (input)="updateSearch(searchInput.value)"
-                                    placeholder="Search by name, email and phone number ..."
+                                    placeholder="Search by leave description.."
                                     class="form-control me-2"
-                                    style="padding: 10px 40px;"
+                                    style="padding: 10px 45px;"
                                   />
 
-                                  <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px;"></i>
+                                  <i class="bi bi-search search-icon"></i>
+
+                                  <!-- <i class="bi bi-x reset-icon text-primary pointer"></i> -->
                                 </div>
                               </form>
-                              <button type="button" class="btn primaryBtnLink leave-request" (click)="applyNewLeaveReq()"> Leave Request
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-                                    <mask id="mask0_5145_1779" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20"
-                                        height="21">
-                                        <rect y="0.5" width="20" height="20" fill="#D9D9D9" />
-                                    </mask>
-                                    <g mask="url(#mask0_5145_1779)">
-                                        <path
-                                            d="M11.668 11.332H15.8346V9.66536H11.668V11.332ZM11.668 8.83203H15.8346V7.16536H11.668V8.83203ZM4.16797 13.832H10.8346V13.3737C10.8346 12.7487 10.5291 12.2522 9.91797 11.8841C9.30686 11.5161 8.5013 11.332 7.5013 11.332C6.5013 11.332 5.69575 11.5161 5.08464 11.8841C4.47352 12.2522 4.16797 12.7487 4.16797 13.3737V13.832ZM7.5013 10.4987C7.95964 10.4987 8.352 10.3355 8.67839 10.0091C9.00477 9.68273 9.16797 9.29036 9.16797 8.83203C9.16797 8.3737 9.00477 7.98134 8.67839 7.65495C8.352 7.32856 7.95964 7.16536 7.5013 7.16536C7.04297 7.16536 6.65061 7.32856 6.32422 7.65495C5.99783 7.98134 5.83464 8.3737 5.83464 8.83203C5.83464 9.29036 5.99783 9.68273 6.32422 10.0091C6.65061 10.3355 7.04297 10.4987 7.5013 10.4987ZM3.33464 17.1654C2.8763 17.1654 2.48394 17.0022 2.15755 16.6758C1.83116 16.3494 1.66797 15.957 1.66797 15.4987V5.4987C1.66797 5.04036 1.83116 4.648 2.15755 4.32161C2.48394 3.99523 2.8763 3.83203 3.33464 3.83203H16.668C17.1263 3.83203 17.5187 3.99523 17.8451 4.32161C18.1714 4.648 18.3346 5.04036 18.3346 5.4987V15.4987C18.3346 15.957 18.1714 16.3494 17.8451 16.6758C17.5187 17.0022 17.1263 17.1654 16.668 17.1654H3.33464ZM3.33464 15.4987H16.668V5.4987H3.33464V15.4987Z"
-                                            fill="#6666F2" />
-                                    </g>
-                                </svg>
-                            </button>
+                             
+                            </div>
+                            <div>
+                                <button type="button" class="btn primaryBtnLink leave-request" *ngIf="userId==currentUserUuid" (click)="applyNewLeaveReq()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                                        <mask id="mask0_5145_1779" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20"
+                                            height="21">
+                                            <rect y="0.5" width="20" height="20" fill="#D9D9D9" />
+                                        </mask>
+                                        <g mask="url(#mask0_5145_1779)">
+                                            <path
+                                                d="M11.668 11.332H15.8346V9.66536H11.668V11.332ZM11.668 8.83203H15.8346V7.16536H11.668V8.83203ZM4.16797 13.832H10.8346V13.3737C10.8346 12.7487 10.5291 12.2522 9.91797 11.8841C9.30686 11.5161 8.5013 11.332 7.5013 11.332C6.5013 11.332 5.69575 11.5161 5.08464 11.8841C4.47352 12.2522 4.16797 12.7487 4.16797 13.3737V13.832ZM7.5013 10.4987C7.95964 10.4987 8.352 10.3355 8.67839 10.0091C9.00477 9.68273 9.16797 9.29036 9.16797 8.83203C9.16797 8.3737 9.00477 7.98134 8.67839 7.65495C8.352 7.32856 7.95964 7.16536 7.5013 7.16536C7.04297 7.16536 6.65061 7.32856 6.32422 7.65495C5.99783 7.98134 5.83464 8.3737 5.83464 8.83203C5.83464 9.29036 5.99783 9.68273 6.32422 10.0091C6.65061 10.3355 7.04297 10.4987 7.5013 10.4987ZM3.33464 17.1654C2.8763 17.1654 2.48394 17.0022 2.15755 16.6758C1.83116 16.3494 1.66797 15.957 1.66797 15.4987V5.4987C1.66797 5.04036 1.83116 4.648 2.15755 4.32161C2.48394 3.99523 2.8763 3.83203 3.33464 3.83203H16.668C17.1263 3.83203 17.5187 3.99523 17.8451 4.32161C18.1714 4.648 18.3346 5.04036 18.3346 5.4987V15.4987C18.3346 15.957 18.1714 16.3494 17.8451 16.6758C17.5187 17.0022 17.1263 17.1654 16.668 17.1654H3.33464ZM3.33464 15.4987H16.668V5.4987H3.33464V15.4987Z"
+                                                fill="#6666F2" />
+                                        </g>
+                                    </svg>
+                                    Leave Request
+                                </button>
                             </div>
                           </div>
                         </div>
@@ -603,10 +609,10 @@
 
 
                 <div class="table-responsive bg-white mt-3">
-                  <div *ngIf="isLoading" class="shimmer-wrapper">
+                  <!-- <div *ngIf="isLoading" class="shimmer-wrapper">
                     <div class="shimmer"></div>
-                  </div>
-                  <table *ngIf="!isLoading" class="table empOnnoardtable">
+                  </div> -->
+                  <table  class="table empOnnoardtable">
                     <thead class="thead-light">
                       <tr>
                         <th class="text-left font-13" style="width: 10%">Date</th>
@@ -619,6 +625,35 @@
                         <th class="text-center font-13" style="width: 10%">Status</th>
                       </tr>
                     </thead>
+
+                   <tbody *ngIf="isLoading">
+                        <tr *ngFor="let item of [].constructor(7)">
+                            <td>
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                            </td>
+                            <td>
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                            </td>
+                            <td>
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                            </td>
+                            <td>
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                            </td>
+                            <td>
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                            </td>
+                            <td>
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                            </td>
+                            <td>
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                            </td>
+                            <td>
+                                <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                            </td>
+                        </tr>
+                    </tbody> 
 
                     <tbody *ngIf="userLeaveLog?.length === 0">
                         <tr>
@@ -635,7 +670,7 @@
                         </tr>
                     </tbody>
 
-                    <tbody>
+                    <tbody *ngIf="!isLoading">
                       
                       <tr *ngFor="let item of userLeaveLog">
                         <td class="text-left">
@@ -664,77 +699,79 @@
                           <span class="team-maneger mb-0 table-font-weight white-space">{{ item.rejectionReason || 'N/A' }}</span>
                         </td>
                         <td>
-                          <div class="d-flex align-items-center gap-2">
+                        <div class="d-flex align-items-center gap-2">
                             <ng-container [ngSwitch]="item.status">
-                              <!-- Pending Status -->
-                              <ng-container *ngSwitchCase="'pending'">
-                                <!-- Pending Button -->
-                                <button class="btn p-0 Pending-btn text-black font-13">Pending</button>
-
-                                <!-- Delete Button -->
-                                <button class="icon-button" (click)="onDelete(item.id)">
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                    <mask id="mask0_4901_3722" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
-                                      <rect width="20" height="20" fill="#D9D9D9" />
-                                    </mask>
-                                    <g mask="url(#mask0_4901_3722)">
-                                      <path
-                                        d="M5.83203 17.5C5.3737 17.5 4.98134 17.3368 4.65495 17.0104C4.32856 16.684 4.16536 16.2917 4.16536 15.8333V5H3.33203V3.33333H7.4987V2.5H12.4987V3.33333H16.6654V5H15.832V15.8333C15.832 16.2917 15.6688 16.684 15.3424 17.0104C15.0161 17.3368 14.6237 17.5 14.1654 17.5H5.83203ZM14.1654 5H5.83203V15.8333H14.1654V5ZM7.4987 14.1667H9.16536V6.66667H7.4987V14.1667ZM10.832 14.1667H12.4987V6.66667H10.832V14.1667Z"
-                                        fill="#FF0404" />
-                                    </g>
-                                  </svg>
-                                </button>
-
-                                <!-- Edit Button -->
-                                <button class="icon-button" (click)="onEdit(item)">
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                    <mask id="mask0_4901_3725" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
-                                      <rect width="20" height="20" fill="#D9D9D9" />
-                                    </mask>
-                                    <g mask="url(#mask0_4901_3725)">
-                                      <path
-                                        d="M4.16667 15.8333H5.35417L13.5 7.6875L12.3125 6.5L4.16667 14.6458V15.8333ZM2.5 17.5V13.9583L13.5 2.97917C13.6667 2.82639 13.8507 2.70833 14.0521 2.625C14.2535 2.54167 14.4653 2.5 14.6875 2.5C14.9097 2.5 15.125 2.54167 15.3333 2.625C15.5417 2.70833 15.7222 2.83333 15.875 3L17.0208 4.16667C17.1875 4.31944 17.309 4.5 17.3854 4.70833C17.4618 4.91667 17.5 5.125 17.5 5.33333C17.5 5.55556 17.4618 5.76736 17.3854 5.96875C17.309 6.17014 17.1875 6.35417 17.0208 6.52083L6.04167 17.5H2.5ZM12.8958 7.10417L12.3125 6.5L13.5 7.6875L12.8958 7.10417Z"
-                                        fill="black" />
-                                    </g>
-                                  </svg>
-                                </button>
-                              </ng-container>
-
-                              <!-- Approved Status -->
-                              <ng-container *ngSwitchCase="'approved'">
-                                <button class="btn p-0 approved-btn text-success font-13">
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
-                                    <g clip-path="url(#clip0_4901_3358)">
-                                      <path d="M6.92578 10.4851L13.239 4.17188L14.2734 5.20508L7.96018 11.5183" fill="#22b783" />
-                                      <path d="M5.89231 11.5169L4.85071 12.5597L1.60471 9.3125L0.570312 10.3469L4.85071 14.6273L6.92671 12.5513"
-                                        fill="#22b783" />
-                                      <path
-                                        d="M9.00306 14.6287L4.72266 10.3483L5.75706 9.31388L9.00306 12.5611L17.3923 4.17188L18.4267 5.20628L9.00306 14.6287Z"
-                                        fill="#22b783" />
-                                    </g>
-                                    <defs>
-                                      <clipPath id="clip0_4901_3358">
-                                        <rect width="18" height="18" fill="white" transform="translate(0.5 0.398438)" />
-                                      </clipPath>
-                                    </defs>
-                                  </svg>
-                                  Approved
-                                </button>
-                              </ng-container>
-
-                              <!-- Rejected Status -->
-                              <ng-container *ngSwitchCase="'rejected'">
-                                <button class="btn p-0 rejected-btn text-danger font-13">
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
-                                    <path
-                                      d="M9.58796 1.10006C9.22396 0.73606 8.61896 0.73606 8.25596 1.10006L1.25496 8.10006C0.88996 8.46506 0.88996 9.07006 1.25496 9.43306C1.61896 9.79806 2.22396 9.79806 2.58796 9.43306L9.58796 2.43306L16.588 9.43306C16.952 9.79806 17.557 9.79806 17.920 9.43306C18.285 9.07006 18.285 8.46506 17.920 8.10006L10.920 1.10006C10.555 0.73606 9.95096 0.73606 9.58796 1.10006ZM9.58796 7.76606L2.58796 14.7661C2.22396 15.1301 1.61896 15.1301 1.25496 14.7661C0.88996 14.4021 0.88996 13.7971 1.25496 13.4331L8.25596 6.43306C8.61896 6.06806 9.22396 6.06806 9.58796 6.43306L16.588 13.4331C16.952 13.7971 17.557 13.7971 17.920 13.4331C18.285 13.0701 18.285 12.4651 17.920 12.1001L9.58796 7.76606Z"
-                                      fill="#FF0404" />
-                                  </svg>
-                                  Rejected
-                                </button>
-                              </ng-container>
+                                <!-- Pending Status -->
+                                <ng-container *ngSwitchCase="'pending'">
+                                    <!-- Pending Button -->
+                                    Pending
+                        
+                                    <!-- Delete Button -->
+                                    <button *ngIf="userId==currentUserUuid" class="icon-button" (click)="openDeleteConfirmation(item.id)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                            <mask id="mask0_4901_3722" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20"
+                                                height="20">
+                                                <rect width="20" height="20" fill="#D9D9D9" />
+                                            </mask>
+                                            <g mask="url(#mask0_4901_3722)">
+                                                <path
+                                                    d="M5.83203 17.5C5.3737 17.5 4.98134 17.3368 4.65495 17.0104C4.32856 16.684 4.16536 16.2917 4.16536 15.8333V5H3.33203V3.33333H7.4987V2.5H12.4987V3.33333H16.6654V5H15.832V15.8333C15.832 16.2917 15.6688 16.684 15.3424 17.0104C15.0161 17.3368 14.6237 17.5 14.1654 17.5H5.83203ZM14.1654 5H5.83203V15.8333H14.1654V5ZM7.4987 14.1667H9.16536V6.66667H7.4987V14.1667ZM10.832 14.1667H12.4987V6.66667H10.832V14.1667Z"
+                                                    fill="#FF0404" />
+                                            </g>
+                                        </svg>
+                                    </button>
+                        
+                                    <!-- Edit Button -->
+                                    <!-- <button *ngIf="userId==currentUserUuid" class="icon-button" (click)="onEdit(item)">
+                                                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                                            <mask id="mask0_4901_3725" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+                                                              <rect width="20" height="20" fill="#D9D9D9" />
+                                                            </mask>
+                                                            <g mask="url(#mask0_4901_3725)">
+                                                              <path
+                                                                d="M4.16667 15.8333H5.35417L13.5 7.6875L12.3125 6.5L4.16667 14.6458V15.8333ZM2.5 17.5V13.9583L13.5 2.97917C13.6667 2.82639 13.8507 2.70833 14.0521 2.625C14.2535 2.54167 14.4653 2.5 14.6875 2.5C14.9097 2.5 15.125 2.54167 15.3333 2.625C15.5417 2.70833 15.7222 2.83333 15.875 3L17.0208 4.16667C17.1875 4.31944 17.309 4.5 17.3854 4.70833C17.4618 4.91667 17.5 5.125 17.5 5.33333C17.5 5.55556 17.4618 5.76736 17.3854 5.96875C17.309 6.17014 17.1875 6.35417 17.0208 6.52083L6.04167 17.5H2.5ZM12.8958 7.10417L12.3125 6.5L13.5 7.6875L12.8958 7.10417Z"
+                                                                fill="black" />
+                                                            </g>
+                                                          </svg>
+                                                        </button> -->
+                                </ng-container>
+                        
+                                <!-- Approved Status -->
+                                <ng-container *ngSwitchCase="'approved'">
+                                    <button class="btn p-0 approved-btn text-success font-13">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
+                                            <g clip-path="url(#clip0_4901_3358)">
+                                                <path d="M6.92578 10.4851L13.239 4.17188L14.2734 5.20508L7.96018 11.5183" fill="#22b783" />
+                                                <path
+                                                    d="M5.89231 11.5169L4.85071 12.5597L1.60471 9.3125L0.570312 10.3469L4.85071 14.6273L6.92671 12.5513"
+                                                    fill="#22b783" />
+                                                <path
+                                                    d="M9.00306 14.6287L4.72266 10.3483L5.75706 9.31388L9.00306 12.5611L17.3923 4.17188L18.4267 5.20628L9.00306 14.6287Z"
+                                                    fill="#22b783" />
+                                            </g>
+                                            <defs>
+                                                <clipPath id="clip0_4901_3358">
+                                                    <rect width="18" height="18" fill="white" transform="translate(0.5 0.398438)" />
+                                                </clipPath>
+                                            </defs>
+                                        </svg>
+                                        Approved
+                                    </button>
+                                </ng-container>
+                        
+                                <!-- Rejected Status -->
+                                <ng-container *ngSwitchCase="'rejected'">
+                                    <button class="btn p-0 rejected-btn text-danger font-13">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
+                                            <path
+                                                d="M9.58796 1.10006C9.22396 0.73606 8.61896 0.73606 8.25596 1.10006L1.25496 8.10006C0.88996 8.46506 0.88996 9.07006 1.25496 9.43306C1.61896 9.79806 2.22396 9.79806 2.58796 9.43306L9.58796 2.43306L16.588 9.43306C16.952 9.79806 17.557 9.79806 17.920 9.43306C18.285 9.07006 18.285 8.46506 17.920 8.10006L10.920 1.10006C10.555 0.73606 9.95096 0.73606 9.58796 1.10006ZM9.58796 7.76606L2.58796 14.7661C2.22396 15.1301 1.61896 15.1301 1.25496 14.7661C0.88996 14.4021 0.88996 13.7971 1.25496 13.4331L8.25596 6.43306C8.61896 6.06806 9.22396 6.06806 9.58796 6.43306L16.588 13.4331C16.952 13.7971 17.557 13.7971 17.920 13.4331C18.285 13.0701 18.285 12.4651 17.920 12.1001L9.58796 7.76606Z"
+                                                fill="#FF0404" />
+                                        </svg>
+                                        Rejected
+                                    </button>
+                                </ng-container>
                             </ng-container>
-                          </div>
+                        </div>
                         </td>
                       </tr>
                     </tbody>
@@ -1404,7 +1441,8 @@
                                   id="exampleFormControlTextarea1"
                                   rows="3"
                                   name="note"
-                                  [(ngModel)]="userLeaveRequest.optNotes">
+                                  [(ngModel)]="userLeaveRequest.optNotes"
+                                  maxlength="200">
                                 </textarea>
                               </div>
                             </div>
@@ -1429,7 +1467,7 @@
                                     </div>
 
                                     <div *ngIf="uploadedFiles.length > 0">
-                                      <div *ngFor="let uploadedFile of uploadedFiles"  class="hr-policy-file d-flex justify-content-between align-items-center p-3 mt-3">
+                                      <div *ngFor="let uploadedFile of uploadedFiles; let i=index"  class="hr-policy-file d-flex justify-content-between align-items-center p-3 mt-3">
                                         <div  class="d-flex align-items-center gap-2">
                                             <div  class="d-flex align-items-center gap-2"><svg
                                                     xmlns="http://www.w3.org/2000/svg" width="31" height="37" viewBox="0 0 31 37" fill="none">
@@ -1453,12 +1491,11 @@
                                                         fill="#6666F2"></path>
                                                 </svg>
                                                 <h5  class="mb-0 font-14">{{ uploadedFile?.name }}</h5>
-                                            </div><span  class="separator"></span>
-                                            <p  class="mb-0 font-13"> Uploaded Aug 5, 2024 </p>
+                                            </div>
                                         </div>
                                         <div  class="d-flex align-items-center gap-2 action-icon-btn">
                                           <span>
-                                            <button class="btn text-danger" (click)="uploadedFile ? viewFile(uploadedFile) : null">
+                                            <button class="btn text-danger p-0" (click)="uploadedFile ? viewFile(uploadedFile) : null">
                                                 <svg  xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                                                     viewBox="0 0 22 22" fill="none">
                                                     <mask  id="mask0_4339_1635" maskUnits="userSpaceOnUse" x="0" y="0" width="22"
@@ -1477,24 +1514,9 @@
                                                 accept="application/pdf" class="input" style="display: none;"><span >
 
                                                 </span>
-                                                <!-- <span  class="ng-star-inserted">
-                                                  <button class="btn text-danger" (click)="removeFile()">
-                                                  <svg
-                                                    xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
-                                                    <mask  id="mask0_4339_1623" maskUnits="userSpaceOnUse" x="0" y="0" width="23"
-                                                        height="22" style="mask-type: alpha;">
-                                                        <rect  x="0.267578" width="21.8342" height="21.8342" fill="#444444"></rect>
-                                                    </mask>
-                                                    <g  mask="url(#mask0_4339_1623)">
-                                                        <path
-                                                            d="M4.81581 17.2927H5.96347L15.2762 7.97992L14.1285 6.83226L4.81581 16.145V17.2927ZM3.45117 18.6573V15.5782L15.4513 3.58328C15.5889 3.45834 15.7407 3.36183 15.9069 3.29375C16.0732 3.22552 16.2476 3.19141 16.43 3.19141C16.6124 3.19141 16.7891 3.22378 16.9599 3.28852C17.131 3.35327 17.2824 3.45622 17.4141 3.59739L18.5252 4.7223C18.6663 4.85406 18.7669 5.00569 18.827 5.17718C18.887 5.34867 18.9171 5.52016 18.9171 5.69165C18.9171 5.87466 18.8858 6.04926 18.8234 6.21544C18.7609 6.38178 18.6615 6.53371 18.5252 6.67123L6.53025 18.6573H3.45117ZM14.6924 7.4161L14.1285 6.83226L15.2762 7.97992L14.6924 7.4161Z"
-                                                            fill="#444444"></path>
-                                                    </g>
-                                                </svg>
-                                              </button>
-                                            </span> -->
+                                              
                                                 <span >
-                                                  <button class="btn text-danger" (click)="removeFile()">
+                                                  <button class="btn text-danger" (click)="removeFile(i)">
                                                   <svg  xmlns="http://www.w3.org/2000/svg" width="23" height="22"
                                                     viewBox="0 0 23 22" fill="none">
                                                     <mask  id="mask0_4339_1620" maskUnits="userSpaceOnUse" x="0" y="0" width="23"
@@ -1519,7 +1541,16 @@
             </div>
             <div class="modal-footer">
                 <button #cancelBtn type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" (click)="saveLeaveRequestUser()" [disabled]="!canSubmit" class="btn submitActionBtn">Submit</button>
+                <button type="button" (click)="saveLeaveRequestUser()" [disabled]="isLoadingLeaveForm || (!canSubmit)" class="btn submitActionBtn">
+                  <div *ngIf="isLoadingLeaveForm" class="dot-opacity-loader">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <span *ngIf="!isLoadingLeaveForm">
+                    Submit
+                  </span>
+                  </button>
             </div>
         </div>
     </div>
@@ -1908,6 +1939,80 @@
                 <div class="d-flex align-items-center gap-2">
                     <button type="button" class="btn cancel-btn mt-0" data-bs-dismiss="modal">Cancel</button>
                     <button type="button" class="btn submitActionBtn">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <ng-template #deleteConfirmation let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">Confirm Deletion</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    Are you sure you want to delete this item?
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+    <button
+    type="button"
+    class="btn btn-danger"
+    (click)="confirmDelete(modal)"
+    [disabled]="isDeleting">
+
+    <span *ngIf="isDeleting" class="dot-opacity-loader"></span>
+    <span *ngIf="!isDeleting">Delete</span>
+
+  </button>
+  </div>
+</ng-template> -->
+
+
+
+
+<button class="d-none" data-bs-toggle="modal" data-bs-target="#delete-leave" #deletModalButton></button>
+
+<div class="modal fade" id="delete-leave" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 500px" role="document">
+        <div class="modal-content">
+            <div class="modal-body p-0 delete-text">
+                <div class="delete-image d-flex align-items-center justify-content-center pt-4 pb-4">
+                    <div class="delete-close-btn">
+                        <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close"
+                           >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30"
+                                fill="none">
+                                <mask id="mask0_2031_1331" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0"
+                                    y="0" width="30" height="30">
+                                    <rect width="30" height="30" fill="#D9D9D9" />
+                                </mask>
+                                <g mask="url(#mask0_2031_1331)">
+                                    <path
+                                        d="M8 23.75L6.25 22L13.25 15L6.25 8L8 6.25L15 13.25L22 6.25L23.75 8L16.75 15L23.75 22L22 23.75L15 16.75L8 23.75Z"
+                                        fill="black" />
+                                </g>
+                            </svg>
+                        </button>
+                    </div>
+                    <img src="/assets/images/delete-img.svg" style="width: 70px" />
+                </div>
+                <div class="bg-white p-4 text-center">
+                    <div>
+                        <h5 class="alert-heading font-18 mb-2">
+                            Are you sure you want to delete
+                        </h5>
+                        <p class="font-11">You will not be able to recover this</p>
+                    </div>
+                    <div class="mt-4 d-flex align-items-center flex-column">
+                        <button class="btn continue-btn"  (click)="confirmDelete(modal)">
+                            <span *ngIf="isDeleting" class="dot-opacity-loader"></span>
+                            <span *ngIf="!isDeleting">Continue</span>
+                        </button>
+                        <button class="btn pt-2" type="button" data-bs-dismiss="modal" aria-label="Close" #deleCloseButton>
+                            Cancel
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
