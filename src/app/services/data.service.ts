@@ -4300,13 +4300,19 @@ getHolidayForOrganization(date: string): Observable<any>{
     });
   }
 
-  getAllExpense(role: string, pageNumber: number, itemPerPage: number){
-    const params = new HttpParams()
+  getAllExpense(role: string, pageNumber: number, itemPerPage: number, startDate: any, endDate: any){
+    var params = new HttpParams()
     .set('currentPage', pageNumber)
     .set('itemPerPage', itemPerPage)
     .set('sortBy', 'createdDate')
     .set('sortOrder', 'desc')
     .set('role', role)
+    
+    // if((startDate != null && startDate != '') && (endDate != '' && endDate != '')){
+    if (startDate && endDate) {
+      params = params.set('startDate', startDate)
+      params = params.set('endDate', endDate)
+    }
 
     return this.httpClient.get<any>(`${this.baseUrl}/company-expense`, {params});
   }

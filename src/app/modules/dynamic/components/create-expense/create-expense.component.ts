@@ -35,6 +35,9 @@ export class CreateExpenseComponent implements OnInit {
     this.switchTab('allExpense');
   }
 
+  selectedDate: Date = new Date();
+  startDate: string = '';
+  endDate: string = '';
 
   expenseList: any[] = new Array();
   loading: boolean = false;
@@ -44,7 +47,7 @@ export class CreateExpenseComponent implements OnInit {
     this.expenseList = []
     this.ROLE = await this.rbacService.getRole();
 
-    this.dataService.getAllExpense(this.ROLE, 1, 10).subscribe((res: any) => {
+    this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate).subscribe((res: any) => {
       if (res.status) {
         this.expenseList = res.object
         this.loading = false
