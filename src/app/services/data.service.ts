@@ -4342,6 +4342,32 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.post<any>(`${this.baseUrl}/user-resignation`, userResignationReq);
   }
 
+
+  getUserResignationInfo(uuid: string) {
+    let params = new HttpParams().set('uuid', uuid);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/user-resignation`, {params}
+    );
+  }
+
+  updateResignation1(id: number) {
+    const params = new HttpParams().set('id', id);
+    return this.httpClient.patch<any>(
+      `${this.baseUrl}/user-resignation`, 
+      {}, // Pass an empty object as the body for PATCH if not required
+      { params } // Use this to include query parameters
+    );
+  }
+
+  updateResignation(id: number){
+    const params = new HttpParams().set('id', id);
+  return this.httpClient.patch<any>(`${this.baseUrl}/user-resignation`, {}, {params});
+  }
+
+  updateResignation2(id: number) {
+    return this.httpClient.get<any>(`${this.baseUrl}/user-resignation/update/${id}`); // Empty body if no data is needed
+  }
+
   getDocumentsByUserId(uuid: string): Observable<EmployeeAdditionalDocument[]> {
     return this.httpClient.get<EmployeeAdditionalDocument[]>(`${this.baseUrl}/user?uuid=${uuid}`);
   }

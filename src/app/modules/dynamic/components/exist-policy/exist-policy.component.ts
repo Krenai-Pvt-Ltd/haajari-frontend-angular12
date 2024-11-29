@@ -234,6 +234,7 @@ export class ExistPolicyComponent implements OnInit {
   deSelectedStaffIdsUser: number[] = [];
   oldSelectedStaffIdsUser: number[] = []
   updateToggle: boolean = false;
+  tempDeSelectedStaffIdsUser: number[] = [];
   selectSingle(event: any, i: any) {
     debugger
     if (event.checked) {
@@ -252,6 +253,9 @@ export class ExistPolicyComponent implements OnInit {
       this.selectedStaffIdsUser.splice(index, 1);
 
       // console.log('deSelectedStaffIdsUser: ', this.deSelectedStaffIdsUser)
+      if(this.updateToggle){
+        this.tempDeSelectedStaffIdsUser = this.deSelectedStaffIdsUser
+      }
 
       if (this.selectedStaffIdsUser.length == 0 && this.showMappedUserToggle) {
         this.showAllUser();
@@ -430,6 +434,10 @@ export class ExistPolicyComponent implements OnInit {
       this.exitPolicyReq.id = exitPolicy.id
       // this.tempExpPolicyId = exitPolicy.id;
       this.policyName = exitPolicy.policyName;
+
+      this.databaseHelper = new DatabaseHelper();
+      this.selectTeam(0)
+
       // this.noticePeriodDuration = exitPolicy.noticePeriodDuration;
       this.noticePeriodDuration = exitPolicy.noticePeriodDuration.toString();
       this.selectedStaffIdsUser = []
@@ -467,6 +475,7 @@ export class ExistPolicyComponent implements OnInit {
 
   registerToggle: boolean = false;
   registerExitPolicy(form: NgForm){
+    debugger
     // console.log('create req: ',this.exitPolicyReq)
     this.registerToggle = true;
 
@@ -478,6 +487,22 @@ export class ExistPolicyComponent implements OnInit {
     //     ];
     //   }
     // }
+
+    // if(this.updateToggle){
+    //   this.exitPolicyReq.deSelectedUserIds = this.tempDeSelectedStaffIdsUser
+    // }
+
+
+    if(this.updateToggle){
+      if (this.removeUserIds && this.removeUserIds.length > 0) {
+        this.exitPolicyReq.deSelectedUserIds = [
+          ...this.exitPolicyReq.deSelectedUserIds,
+          ...this.removeUserIds
+        ];
+      }else if(this.tempDeSelectedStaffIdsUser && this.tempDeSelectedStaffIdsUser.length > 0){
+        this.exitPolicyReq.deSelectedUserIds = this.tempDeSelectedStaffIdsUser
+      }
+    }
 
     this.dataService.createExitPolicy(this.exitPolicyReq).subscribe((res: any) => {
       if(res.status){
@@ -497,6 +522,7 @@ export class ExistPolicyComponent implements OnInit {
         }
         this.userMappedLoading = false;
         this.exitPolicyReq.id = 0
+        this.tempDeSelectedStaffIdsUser = []
 
         this.closeExitPolicyModal.nativeElement.click()
         this.clearPolicyForm();
