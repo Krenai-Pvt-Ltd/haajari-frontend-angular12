@@ -343,3 +343,12 @@
  .filter-icon::before{
     font-weight: 600 !important;
  }
+
+ .badge {
+     line-height: 12px;
+     padding: 0.55em 10px;
+     font-size: 13px;
+     font-weight: 400;
+     letter-spacing: 0.1px;
+     min-width: 80px;
+ }

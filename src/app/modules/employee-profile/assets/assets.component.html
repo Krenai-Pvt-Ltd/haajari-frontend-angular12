@@ -350,29 +350,29 @@
                                   </ng-template>
                                 </td>
                                 <td class="text-left">
-                                  <span
-                                    [ngClass]="{
-                                      'badge rounded-pill badge-soft-success': asset.status !== ''
-                                    }">
+                                  <span class="badge rounded-pill" [ngClass]="{'badge-soft-warning': asset.status == 'PENDING', 'badge-soft-danger': asset.status == 'REJECTED', 'badge-soft-success': asset.status == 'APPROVED'}">
                                     {{ asset.status }}
                                   </span>
                                 </td>
                               </tr>
                             </tbody>
                           </table>
-                          <div *ngIf="this.assetRequestsTotalPage>1" class="pagination-controls d-flex align-items-center justify-content-between">
-                            <!-- Ngb Pagination Component -->
-                           
-                            <div class="showing-items-message text-right font-13">
-                              Showing items
-                              {{ (assetRequestsPage - 1) * assetRequestsSize + 1 }} –
-                              {{ Math.min(assetRequestsPage * assetRequestsSize, assetRequestsTotalCount) }}
-                              of {{ assetRequestsTotalCount }} records
-                            </div>
-                            <ngb-pagination [collectionSize]="assetRequestsTotalCount" [rotate]="true" (pageChange)="pageChangedRequest($event)"
-                              [pageSize]="assetRequestsSize" [(page)]="assetRequestsPage" [maxSize]="8" [boundaryLinks]="true">
-                            </ngb-pagination>
+                         
+                        </div>
+
+                        <div *ngIf="this.assetRequestsTotalPage>1"
+                          class="pagination-controls d-flex align-items-center justify-content-between">
+                          <!-- Ngb Pagination Component -->
+                        
+                          <div class="showing-items-message text-right font-13">
+                            Showing items
+                            {{ (assetRequestsPage - 1) * assetRequestsSize + 1 }} –
+                            {{ Math.min(assetRequestsPage * assetRequestsSize, assetRequestsTotalCount) }}
+                            of {{ assetRequestsTotalCount }} records
                           </div>
+                          <ngb-pagination [collectionSize]="assetRequestsTotalCount" [rotate]="true" (pageChange)="pageChangedRequest($event)"
+                            [pageSize]="assetRequestsSize" [(page)]="assetRequestsPage" [maxSize]="8" [boundaryLinks]="true">
+                          </ngb-pagination>
                         </div>
 
                     </div>
