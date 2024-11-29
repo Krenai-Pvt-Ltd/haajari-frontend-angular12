@@ -32,9 +32,9 @@
         <div class="mt-3 d-flex align-items-center gap-3">
             <h5 class="mb-0">{{employeeProfileResponseData?.userName}}</h5>
             <!-- <span class="profile-admin">Admin</span> -->
-            <span class="full-time" *ngIf="employeeProfileResponseData?.status != 42">Full Time</span>
+            <span class="full-time" *ngIf="employeeProfileResponseData?.resginationStatus == null">Full Time</span>
 
-            <h6 class="mb-0 text-primary font-13" *ngIf="employeeProfileResponseData?.status == 42">On notice period</h6>
+            <h6 class="mb-0 text-primary font-13" *ngIf="employeeProfileResponseData?.resginationStatus == 42">On notice period</h6>
             <!-- <h6 class="mb-0 text-danger font-13">EXITED</h6> -->
         </div>
 
