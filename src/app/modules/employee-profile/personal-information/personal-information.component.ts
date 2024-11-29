@@ -15,6 +15,8 @@ import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 import { UserBankDetailRequest } from 'src/app/models/user-bank-detail-request';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReasonOfRejectionProfile } from 'src/app/models/reason-of-rejection-profile';
+import { constant } from 'src/app/constant/constant';
 
 @Component({
   selector: 'app-personal-information',
@@ -82,10 +84,7 @@ isFormInvalid: boolean=true;
       bankDetails: this.fb.group({
         accountHolderName: ['', Validators.required],
         bankName: ['', Validators.required],
-        accountNumber: ['', [
-          Validators.required,
-          Validators.pattern('^[0-9]{10}$')
-        ]],
+        accountNumber: ['',  Validators.required],
         ifsc: ['', Validators.required],
       }),
       userExperience: this.fb.array([]),
@@ -98,8 +97,6 @@ isFormInvalid: boolean=true;
 
   }
 
-  user: any = {};
-  isImage: boolean = false;
 
 
   addressEmployee: any[] = [];
@@ -203,19 +200,25 @@ isFormInvalid: boolean=true;
       targetReference.phoneNumber = reference.phoneNumber;
       targetReference.emailId = reference.emailId;
     });
+    if(this.onboardingForm.valid){
+      this.dataService.saveOnboardingData(this.onboardingPreviewDataCopy).subscribe({
+        next: (response) => {
+          this.profileEdit=false;
+          this.helperService.showToast('Data Save successfully.', Key.TOAST_STATUS_SUCCESS);
+          this.getOnboardingFormPreviewMethodCall();
+          this.getPendingRequest();
+        },
+        error: (error) => {
+          console.error('Error saving data:', error);
+          this.helperService.showToast(error, Key.TOAST_STATUS_ERROR);
+        }
+      });
+    }
+    else{
+      this.isFormInvalid=true;
+    }
 
-    this.dataService.saveOnboardingData(this.onboardingPreviewDataCopy).subscribe({
-      next: (response) => {
-        this.profileEdit=false;
-        this.helperService.showToast('Data Save successfully.', Key.TOAST_STATUS_SUCCESS);
-        this.getOnboardingFormPreviewMethodCall();
-        this.getPendingRequest();
-      },
-      error: (error) => {
-        console.error('Error saving data:', error);
-        this.helperService.showToast(error, Key.TOAST_STATUS_ERROR);
-      }
-    });
+
   }
 
   editProfile(){
@@ -286,7 +289,6 @@ isFormInvalid: boolean=true;
     }
 
   }
-
   get references(): FormArray {
     return this.onboardingForm.get('references') as FormArray;
   }
@@ -294,14 +296,19 @@ isFormInvalid: boolean=true;
     if (!this.references) {
       this.onboardingForm.setControl('references', this.fb.array([]));
     }
+    if(this.onboardingPreviewData.userGuarantorInformation.length > this.references.length){
+      this.onboardingPreviewDataCopy.userGuarantorInformation.push(this.onboardingPreviewData.userGuarantorInformation[this.references.length]);
+    }
+    else{
+      this.onboardingPreviewDataCopy.userGuarantorInformation.push(new UserGuarantorRequest());
+    }
     const referenceGroup = this.fb.group({
-        name: ['', Validators.required],
-        relation: ['', Validators.required],
-        phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
-        emailId: ['', [Validators.required, Validators.email]],
+        name: [this.onboardingPreviewDataCopy.userGuarantorInformation[this.onboardingPreviewDataCopy.userGuarantorInformation.length-1].name, Validators.required],
+        relation: [this.onboardingPreviewDataCopy.userGuarantorInformation[this.onboardingPreviewDataCopy.userGuarantorInformation.length-1].relation, Validators.required],
+        phoneNumber: [this.onboardingPreviewDataCopy.userGuarantorInformation[this.onboardingPreviewDataCopy.userGuarantorInformation.length-1].phoneNumber, [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+        emailId: [this.onboardingPreviewDataCopy.userGuarantorInformation[this.onboardingPreviewDataCopy.userGuarantorInformation.length-1].emailId, [Validators.required, Validators.email]],
     });
     this.references.push(referenceGroup);
-    this.onboardingPreviewDataCopy.userGuarantorInformation.push(new UserGuarantorRequest());
   }
 
   removeReference(index: number) {
@@ -317,18 +324,23 @@ isFormInvalid: boolean=true;
     if (!this.userExperience) {
       this.onboardingForm.setControl('userExperience', this.fb.array([]));
     }
+    if(this.onboardingPreviewData.userExperience.length > this.references.length){
+      this.onboardingPreviewDataCopy.userExperience.push(this.onboardingPreviewData.userExperience[this.references.length]);
+    }
+    else{
+      this.onboardingPreviewDataCopy.userExperience.push(new UserExperience());
+    }
     this.userExperience.push(
       this.fb.group({
-        companyName: ['', Validators.required],
-        startDate: ['', Validators.required],
-        endDate: ['', Validators.required],
-        lastJobPosition: ['', Validators.required],
-        lastSalary: ['', [Validators.required, Validators.min(0)]],
-        lastJobDepartment: ['', Validators.required],
-        jobResponsibilities: ['', Validators.required],
+        companyName: [this.onboardingPreviewDataCopy.userExperience[this.onboardingPreviewDataCopy.userExperience.length-1].companyName, Validators.required],
+        startDate: [this.onboardingPreviewDataCopy.userExperience[this.onboardingPreviewDataCopy.userExperience.length-1].startDate, Validators.required],
+        endDate: [this.onboardingPreviewDataCopy.userExperience[this.onboardingPreviewDataCopy.userExperience.length-1].endDate, Validators.required],
+        lastJobPosition: [this.onboardingPreviewDataCopy.userExperience[this.onboardingPreviewDataCopy.userExperience.length-1].lastJobPosition, Validators.required],
+        lastSalary: [this.onboardingPreviewDataCopy.userExperience[this.onboardingPreviewDataCopy.userExperience.length-1].lastSalary, [Validators.required, Validators.min(0)]],
+        lastJobDepartment: [this.onboardingPreviewDataCopy.userExperience[this.onboardingPreviewDataCopy.userExperience.length-1].lastJobDepartment, Validators.required],
+        jobResponsibilities: [this.onboardingPreviewDataCopy.userExperience[this.onboardingPreviewDataCopy.userExperience.length-1].jobResponisibilities, Validators.required],
       })
     );
-    this.onboardingPreviewDataCopy.userExperience.push(new UserExperience());
   }
 
   // Remove a job experience by index
@@ -341,12 +353,20 @@ isFormInvalid: boolean=true;
     return this.onboardingForm.get('userEmergencyContacts') as FormArray;
   }
   addEmergencyContact() {
+    if (!this.userEmergencyContacts) {
+      this.onboardingForm.setControl('userEmergencyContacts', this.fb.array([]));
+    }
+    if(this.onboardingPreviewData.userEmergencyContacts.length > this.userEmergencyContacts.length){
+      this.onboardingPreviewDataCopy.userEmergencyContacts.push(this.onboardingPreviewData.userEmergencyContacts[this.userEmergencyContacts.length]);
+    }
+    else{
+      this.onboardingPreviewDataCopy.userEmergencyContacts.push(new UserEmergencyContactDetailsRequest());
+    }
     this.userEmergencyContacts.push(this.fb.group({
-      relationWithEmployee: ['', Validators.required],
-      contactName: ['', Validators.required],
-      contactNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]]
+      relationWithEmployee: [this.onboardingPreviewDataCopy.userEmergencyContacts[this.onboardingPreviewDataCopy.userEmergencyContacts.length-1].relationWithEmployee, Validators.required],
+      contactName: [this.onboardingPreviewDataCopy.userEmergencyContacts[this.onboardingPreviewDataCopy.userEmergencyContacts.length-1].contactName, Validators.required],
+      contactNumber: [this.onboardingPreviewDataCopy.userEmergencyContacts[this.onboardingPreviewDataCopy.userEmergencyContacts.length-1].contactNumber, [Validators.required, Validators.pattern('^[0-9]{10}$')]]
     }));
-    this.onboardingPreviewDataCopy.userEmergencyContacts.push(new UserEmergencyContactDetailsRequest());
   }
 
   removeEmergencyContact(index: number) {
@@ -402,6 +422,107 @@ isFormInvalid: boolean=true;
   }
 
 
+  reasonOfRejectionProfile: ReasonOfRejectionProfile =
+    new ReasonOfRejectionProfile();
+  toggle = false;
+  approvedToggle = false;
+  @ViewChild('closeRejectModalButton') closeRejectModalButton!: ElementRef;
+  updateStatusUserByUuid(type: string) {
+
+    if (type == 'REJECTED') {
+      this.toggle = true;
+      this.setReasonOfRejectionMethodCall();
+      if (this.requestForMoreDocs == true) {
+        type = 'REQUESTED';
+        this.approvedToggle = false;
+
+        // this.toggle = false;
+      }
+    } else if (type == 'APPROVED') {
+      this.approvedToggle = true;
+    }
+
+    this.dataService.updateStatusUser(this.userId, type).subscribe(
+      (data) => {
+        this.closeRejectModalButton.nativeElement.click();
+        // console.log('status updated:' + type);
+        this.sendStatusResponseMailToUser(this.userId, type);
+        this.reasonOfRejectionProfile = new ReasonOfRejectionProfile();
+        this.toggle = false;
+
+        // location.reload();
+        // location.reload();
+      },
+      (error) => {}
+    );
+  }
+
+  @ViewChild('openRejectModal') openRejectModal!: ElementRef;
+  setReasonOfRejectionMethodCall() {
+
+    this.dataService
+      .setReasonOfRejection(this.userId, this.reasonOfRejectionProfile)
+      .subscribe(
+        (response: ReasonOfRejectionProfile) => {
+          // console.log('Response:', response);
+        },
+        (error) => {
+          // console.error('Error occurred:', error);
+        }
+      );
+  }
+
+  sendStatusResponseMailToUser(userUuid: string, requestString: string) {
+    this.dataService
+      .statusResponseMailToUser(userUuid, requestString)
+      .subscribe(
+        (data) => {
+          //  console.log("mail send successfully");
+
+          this.helperService.showToast(
+            'Mail Sent Successfully',
+            Key.TOAST_STATUS_SUCCESS
+          );
+          this.getUserByUuid();
+          //  this.closeRejectModalButton.nativeElement.click();
+
+          if (requestString == 'APPROVED') {
+            this.toggle = false;
+          }
+          if (requestString == 'REJECTED') {
+            this.approvedToggle = false;
+          }
+        },
+        (error) => {
+          this.helperService.showToast(error.message, Key.TOAST_STATUS_SUCCESS);
+        }
+      );
+  }
+
+  user: any = {};
+  isImage: boolean = false;
+
+  getUserByUuid() {
+    this.dataService.getUserByUuid(this.userId).subscribe(
+      (data) => {
+        this.user = data;
+
+        if (constant.EMPTY_STRINGS.includes(this.user.image)) {
+          this.isImage = false;
+        } else {
+          this.isImage = true;
+        }
+      },
+      (error) => {
+        this.isImage = false;
+      }
+    );
+  }
+  requestForMoreDocs: boolean = false;
+  requestUserForMoreDocs() {
+    this.openRejectModal.nativeElement.click();
+    this.requestForMoreDocs = true;
+  }
 
 
 

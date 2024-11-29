@@ -102,6 +102,13 @@
     white-space: nowrap;
 }
 
+.error-text {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+
 .Profile-input:has(.form__field:focus){
     border: 1px solid #E9E9E9;
 }
