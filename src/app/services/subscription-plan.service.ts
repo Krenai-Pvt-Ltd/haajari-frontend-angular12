@@ -1,12 +1,11 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Key } from "../constant/key";
-import { DatabaseHelper } from "../models/DatabaseHelper";
 import { HelperService } from "./helper.service";
 import { ActivatedRoute, ActivationEnd, Router } from "@angular/router";
 import { constant } from "../constant/constant";
 import { Routes } from "../constant/Routes";
-import { filter } from 'rxjs/operators';
+import { DatabaseHelper } from "../models/DatabaseHelper";
 
 @Injectable({
   providedIn: "root",

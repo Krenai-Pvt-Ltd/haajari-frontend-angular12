@@ -4,8 +4,6 @@ import * as saveAs from 'file-saver';
 import * as moment from 'moment';
 import { Key } from 'src/app/constant/key';
 import { EmployeeMonthWiseSalaryData } from 'src/app/models/employee-month-wise-salary-data';
-import { OrganizationMonthWiseSalaryData } from 'src/app/models/organization-month-wise-salary-data';
-import { SalaryResponse } from 'src/app/models/salary-response';
 import { StartDateAndEndDate } from 'src/app/models/start-date-and-end-date';
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
@@ -16,6 +14,8 @@ import { HelperService } from 'src/app/services/helper.service';
   styleUrls: ['./payment-history.component.css'],
 })
 export class PaymentHistoryComponent implements OnInit {
+
+  
   itemPerPage: number = 8;
   lastPageNumber: number = 0;
   total : number = 0
@@ -41,6 +41,13 @@ export class PaymentHistoryComponent implements OnInit {
   }
 
   constructor(private dataService: DataService, private helperService: HelperService, private http: HttpClient) {
+    
+  }
+
+  ngOnInit(): void {
+    window.scroll(0, 0);
+    this.getOrganizationRegistrationDateMethodCall();
+
     const currentDate = moment();
     this.startDateStr = currentDate.startOf('month').format('YYYY-MM-DD');
     this.endDateStr = currentDate.endOf('month').format('YYYY-MM-DD');
@@ -48,12 +55,8 @@ export class PaymentHistoryComponent implements OnInit {
     // Set the default selected month
     this.month = currentDate.format('MMMM');
 
-    this.getFirstAndLastDateOfMonth(this.selectedDate);
-  }
+    // this.getFirstAndLastDateOfMonth(this.selectedDate);
 
-  ngOnInit(): void {
-    window.scroll(0, 0);
-    this.getOrganizationRegistrationDateMethodCall();
     this.getFirstAndLastDateOfMonth(new Date());
     this.setPayslipMonth(this.startDate);
   }
