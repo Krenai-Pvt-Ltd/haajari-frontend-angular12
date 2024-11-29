@@ -120,59 +120,6 @@ export class LoginComponent implements OnInit {
   }
 
 
-
-
-  signIn1() {
-    debugger
-    this.loginButtonLoader = true;
-    this.dataService.loginUser(this.email, this.password).pipe(
-        tap(async (response) => {
-          // console.log(response);
-
-          this.helperService.subModuleResponseList = response.subModuleResponseList;
-          localStorage.setItem('token', response.tokenResponse.access_token);
-          localStorage.setItem('refresh_token',response.tokenResponse.refresh_token);
-          
-          await this.rbacService.initializeUserInfo();
-          this.UUID=this.rbacService.userInfo.uuid;
-          this.ROLE = this.rbacService.userInfo.role;
- 
-         if (this.ROLE === 'USER') {
-          this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], {
-            queryParams: { userId: this.UUID, dashboardActive: 'true' },
-          });
-        } else if (this.ROLE == 'HR ADMIN') {
-           this.router.navigate(['/employee-onboarding-data']);
-        } else {
-          await this._subscriptionService.LoadAsync();
-          const helper = new JwtHelperService();
-          const token = localStorage.getItem('token');
-          if (token != null) {
-            const onboardingStep = helper.decodeToken(token).statusResponse;
-              if(this.rbacService.shouldDisplay('dashboard')){
-                this.router.navigate(['/dashboard']);
-            } else {
-              this.router.navigate([Key.EMPLOYEE_PROFILE_ROUTE], {
-                queryParams: { userId: this.UUID, dashboardActive: 'true' },
-              });
-            }
-          }
-        }
-        }),
-
-        switchMap(() => this.rbacService!.userInfo!.uuid),
-
-        catchError((error) => {
-          console.log(error);
-          // this.errorMessage = error.error.message;
-          this.loginButtonLoader = false;
-          return of(null); // handle error appropriately
-        })
-      )
-      .subscribe();
-  }
-
-
   // signIn() {
   //   debugger
   //   this.loginButtonLoader = true;
