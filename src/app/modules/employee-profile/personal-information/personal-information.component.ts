@@ -28,7 +28,7 @@ export class PersonalInformationComponent implements OnInit {
   profileEdit: boolean = false;
   userId: any;
   onboardingForm!: FormGroup;
-isFormInvalid: boolean=true;
+isFormInvalid: boolean=false;
 
   constructor(private dataService: DataService,private activateRoute: ActivatedRoute, private helperService : HelperService,
     public rbacService: RoleBasedAccessControlService, private fb: FormBuilder,
@@ -246,7 +246,7 @@ isFormInvalid: boolean=true;
       this.onboardingPreviewDataCopy.userExperience = new Array();
       // this.onboardingPreviewDataCopy.userExperience.push(new UserExperience());
     }
-    if(this.routes.includes('/bank-details') && !this.onboardingPreviewDataCopy.userAcademics){
+    if(this.routes.includes('/bank-details') && !this.onboardingPreviewDataCopy.userBankDetails){
       this.onboardingPreviewDataCopy.userBankDetails=new UserBankDetailRequest();
     }
     if (!this.references || this.references.length==0) {
@@ -296,6 +296,9 @@ isFormInvalid: boolean=true;
     if (!this.references) {
       this.onboardingForm.setControl('references', this.fb.array([]));
     }
+    if (!this.onboardingPreviewData.userGuarantorInformation) {
+      this.onboardingPreviewData.userGuarantorInformation = [];
+    }
     if(this.onboardingPreviewData.userGuarantorInformation.length > this.references.length){
       this.onboardingPreviewDataCopy.userGuarantorInformation.push(this.onboardingPreviewData.userGuarantorInformation[this.references.length]);
     }
@@ -323,6 +326,9 @@ isFormInvalid: boolean=true;
     debugger
     if (!this.userExperience) {
       this.onboardingForm.setControl('userExperience', this.fb.array([]));
+    }
+    if (!this.onboardingPreviewData.userExperience) {
+      this.onboardingPreviewData.userExperience = [];
     }
     if(this.onboardingPreviewData.userExperience.length > this.references.length){
       this.onboardingPreviewDataCopy.userExperience.push(this.onboardingPreviewData.userExperience[this.references.length]);
@@ -355,6 +361,9 @@ isFormInvalid: boolean=true;
   addEmergencyContact() {
     if (!this.userEmergencyContacts) {
       this.onboardingForm.setControl('userEmergencyContacts', this.fb.array([]));
+    }
+    if (!this.onboardingPreviewData.userEmergencyContacts) {
+      this.onboardingPreviewData.userEmergencyContacts = [];
     }
     if(this.onboardingPreviewData.userEmergencyContacts.length > this.userEmergencyContacts.length){
       this.onboardingPreviewDataCopy.userEmergencyContacts.push(this.onboardingPreviewData.userEmergencyContacts[this.userEmergencyContacts.length]);

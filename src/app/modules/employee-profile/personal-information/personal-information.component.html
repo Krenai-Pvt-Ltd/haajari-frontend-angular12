@@ -727,7 +727,7 @@
                 <input type="text" formControlName="name" class="form__field" />
                 <label class="form__label">Name</label>
               </div>
-              <div *ngIf="reference.get('name')?.touched && reference.get('name')?.hasError('required')" class="error-text">
+              <div *ngIf="(reference.get('name')?.touched || isFormInvalid) && reference.get('name')?.hasError('required')" class="error-text">
                 Name is required.
               </div>
             </div>
@@ -737,7 +737,7 @@
                 <input type="text" formControlName="relation" class="form__field" />
                 <label class="form__label">Relation</label>
               </div>
-              <div *ngIf="reference.get('relation')?.touched && reference.get('relation')?.hasError('required')" class="error-text">
+              <div *ngIf="(reference.get('relation')?.touched || isFormInvalid) && reference.get('relation')?.hasError('required')" class="error-text">
                 Relation is required.
               </div>
               <button type="button" *ngIf="references.length > 1" (click)="removeReference(i)">Remove</button>
@@ -748,10 +748,10 @@
                 <input type="text" formControlName="phoneNumber" class="form__field" />
                 <label class="form__label">Phone Number</label>
               </div>
-              <div *ngIf="reference.get('phoneNumber')?.touched && reference.get('phoneNumber')?.hasError('required')" class="error-text">
+              <div *ngIf="(reference.get('phoneNumber')?.touched || isFormInvalid) && reference.get('phoneNumber')?.hasError('required')" class="error-text">
                 Phone number is required.
               </div>
-              <div *ngIf="reference.get('phoneNumber')?.touched && reference.get('phoneNumber')?.hasError('pattern')" class="error-text">
+              <div *ngIf="(reference.get('phoneNumber')?.touched || isFormInvalid) && reference.get('phoneNumber')?.hasError('pattern')" class="error-text">
                 Please enter a valid phone number.
               </div>
             </div>
@@ -761,10 +761,10 @@
                 <input type="text" formControlName="emailId" class="form__field" />
                 <label class="form__label">Email Address</label>
               </div>
-              <div *ngIf="reference.get('emailId')?.touched && reference.get('emailId')?.hasError('required')" class="error-text">
+              <div *ngIf="(reference.get('emailId')?.touched || isFormInvalid) && reference.get('emailId')?.hasError('required')" class="error-text">
                 Email is required.
               </div>
-              <div *ngIf="reference.get('emailId')?.touched && reference.get('emailId')?.hasError('email')" class="error-text">
+              <div *ngIf="(reference.get('emailId')?.touched || isFormInvalid) && reference.get('emailId')?.hasError('email')" class="error-text">
                 Please enter a valid email address.
               </div>
             </div>
@@ -787,7 +787,7 @@
                 <input formControlName="highestEducationalLevel" type="text" class="form__field" [(ngModel)]="onboardingPreviewDataCopy.userAcademics.highestEducationalLevel" />
                 <label class="form__label">Qualification</label>
               </div>
-              <div *ngIf="onboardingForm.get('academicDetails.highestEducationalLevel')?.touched && onboardingForm.get('academicDetails.highestEducationalLevel')?.hasError('required')" class="error-text">
+              <div *ngIf="(onboardingForm.get('academicDetails.highestEducationalLevel')?.touched || isFormInvalid) && onboardingForm.get('academicDetails.highestEducationalLevel')?.hasError('required')" class="error-text">
                 Qualification is required.
               </div>
             </div>
@@ -797,7 +797,7 @@
                 <input formControlName="degreeObtained" type="text" class="form__field" [(ngModel)]="onboardingPreviewDataCopy.userAcademics.degreeObtained" />
                 <label class="form__label">Degree/Diploma</label>
               </div>
-              <div *ngIf="onboardingForm.get('academicDetails.degreeObtained')?.touched && onboardingForm.get('academicDetails.degreeObtained')?.hasError('required')" class="error-text">
+              <div *ngIf="(onboardingForm.get('academicDetails.degreeObtained')?.touched || isFormInvalid) && onboardingForm.get('academicDetails.degreeObtained')?.hasError('required')" class="error-text">
                 Degree/Diploma is required.
               </div>
             </div>
@@ -807,7 +807,7 @@
                 <input formControlName="fieldOfStudy" type="text" class="form__field" [(ngModel)]="onboardingPreviewDataCopy.userAcademics.fieldOfStudy" />
                 <label class="form__label">Field of Study</label>
               </div>
-              <div *ngIf="onboardingForm.get('academicDetails.fieldOfStudy')?.touched && onboardingForm.get('academicDetails.fieldOfStudy')?.hasError('required')" class="error-text">
+              <div *ngIf="(onboardingForm.get('academicDetails.fieldOfStudy')?.touched || isFormInvalid) && onboardingForm.get('academicDetails.fieldOfStudy')?.hasError('required')" class="error-text">
                 Field of Study is required.
               </div>
             </div>
@@ -817,10 +817,10 @@
                 <input formControlName="grade" type="text" class="form__field" [(ngModel)]="onboardingPreviewDataCopy.userAcademics.grade" />
                 <label class="form__label">CGPA</label>
               </div>
-              <div *ngIf="onboardingForm.get('academicDetails.grade')?.touched && onboardingForm.get('academicDetails.grade')?.hasError('required')" class="error-text">
+              <div *ngIf="(onboardingForm.get('academicDetails.grade')?.touched || isFormInvalid) && onboardingForm.get('academicDetails.grade')?.hasError('required')" class="error-text">
                 CGPA is required.
               </div>
-              <div *ngIf="onboardingForm.get('academicDetails.grade')?.touched && onboardingForm.get('academicDetails.grade')?.hasError('pattern')" class="error-text">
+              <div *ngIf="(onboardingForm.get('academicDetails.grade')?.touched || isFormInvalid) && onboardingForm.get('academicDetails.grade')?.hasError('pattern')" class="error-text">
                 Please enter a valid CGPA.
               </div>
             </div>
@@ -830,7 +830,7 @@
                 <input formControlName="institutionName" type="text" class="form__field" [(ngModel)]="onboardingPreviewDataCopy.userAcademics.institutionName" />
                 <label class="form__label">College Name</label>
               </div>
-              <div *ngIf="onboardingForm.get('academicDetails.institutionName')?.touched && onboardingForm.get('academicDetails.institutionName')?.hasError('required')" class="error-text">
+              <div *ngIf="(onboardingForm.get('academicDetails.institutionName')?.touched || isFormInvalid) && onboardingForm.get('academicDetails.institutionName')?.hasError('required')" class="error-text">
                 College Name is required.
               </div>
             </div>
@@ -840,10 +840,10 @@
                 <input formControlName="graduationYear" type="text" class="form__field" [(ngModel)]="onboardingPreviewDataCopy.userAcademics.graduationYear" />
                 <label class="form__label">Graduating Year</label>
               </div>
-              <div *ngIf="onboardingForm.get('academicDetails.graduationYear')?.touched && onboardingForm.get('academicDetails.graduationYear')?.hasError('required')" class="error-text">
+              <div *ngIf="(onboardingForm.get('academicDetails.graduationYear')?.touched || isFormInvalid) && onboardingForm.get('academicDetails.graduationYear')?.hasError('required')" class="error-text">
                 Graduation Year is required.
               </div>
-              <div *ngIf="onboardingForm.get('academicDetails.graduationYear')?.touched && onboardingForm.get('academicDetails.graduationYear')?.hasError('pattern')" class="error-text">
+              <div *ngIf="(onboardingForm.get('academicDetails.graduationYear')?.touched || isFormInvalid) && onboardingForm.get('academicDetails.graduationYear')?.hasError('pattern')" class="error-text">
                 Please enter a valid graduation year (e.g., 2023).
               </div>
             </div>
@@ -871,7 +871,7 @@
                 <input type="text" class="form__field" formControlName="companyName" />
                 <label class="form__label">Company Name</label>
               </div>
-              <div *ngIf="job.get('companyName')?.touched && job.get('companyName')?.hasError('required')" class="error-text">
+              <div *ngIf="(job.get('companyName')?.touched || isFormInvalid) && job.get('companyName')?.hasError('required')" class="error-text">
                 Company Name is required.
               </div>
             </div>
@@ -886,7 +886,7 @@
                 ></nz-date-picker>
                 <label class="form__label">Start Date</label>
               </div>
-              <div *ngIf="job.get('startDate')?.touched && job.get('startDate')?.hasError('required')" class="error-text">
+              <div *ngIf="(job.get('startDate')?.touched || isFormInvalid) && job.get('startDate')?.hasError('required')" class="error-text">
                 Start Date is required.
               </div>
             </div>
@@ -901,7 +901,7 @@
                 ></nz-date-picker>
                 <label class="form__label">End Date</label>
               </div>
-              <div *ngIf="job.get('endDate')?.touched && job.get('endDate')?.hasError('required')" class="error-text">
+              <div *ngIf="(job.get('endDate')?.touched || isFormInvalid) && job.get('endDate')?.hasError('required')" class="error-text">
                 End Date is required.
               </div>
             </div>
@@ -916,7 +916,7 @@
                 />
                 <label class="form__label">Position</label>
               </div>
-              <div *ngIf="job.get('lastJobPosition')?.touched && job.get('lastJobPosition')?.hasError('required')" class="error-text">
+              <div *ngIf="(job.get('lastJobPosition')?.touched || isFormInvalid) && job.get('lastJobPosition')?.hasError('required')" class="error-text">
                 Position is required.
               </div>
             </div>
@@ -931,7 +931,7 @@
                 />
                 <label class="form__label">Salary</label>
               </div>
-              <div *ngIf="job.get('lastSalary')?.touched && job.get('lastSalary')?.hasError('required')" class="error-text">
+              <div *ngIf="(job.get('lastSalary')?.touched || isFormInvalid) && job.get('lastSalary')?.hasError('required')" class="error-text">
                 Salary is required.
               </div>
             </div>
@@ -946,7 +946,7 @@
                 />
                 <label class="form__label">Department</label>
               </div>
-              <div *ngIf="job.get('lastJobDepartment')?.touched && job.get('lastJobDepartment')?.hasError('required')" class="error-text">
+              <div *ngIf="(job.get('lastJobDepartment')?.touched || isFormInvalid) && job.get('lastJobDepartment')?.hasError('required')" class="error-text">
                 Department is required.
               </div>
             </div>
@@ -961,7 +961,7 @@
                 />
                 <label class="form__label">Responsibilities</label>
               </div>
-              <div *ngIf="job.get('jobResponsibilities')?.touched && job.get('jobResponsibilities')?.hasError('required')" class="error-text">
+              <div *ngIf="(job.get('jobResponsibilities')?.touched || isFormInvalid) && job.get('jobResponsibilities')?.hasError('required')" class="error-text">
                 Responsibilities are required.
               </div>
             </div>
@@ -1000,7 +1000,7 @@
                 <label class="form__label">Account Holder Name</label>
               </div>
               <div
-                *ngIf="onboardingForm.get('bankDetails.accountHolderName')?.touched && onboardingForm.get('bankDetails.accountHolderName')?.hasError('required')"
+                *ngIf="(onboardingForm.get('bankDetails.accountHolderName')?.touched || isFormInvalid) && onboardingForm.get('bankDetails.accountHolderName')?.hasError('required')"
                 class="error-text"
               >
                 Account Holder Name is required.
@@ -1019,7 +1019,7 @@
                 <label class="form__label">Bank Name</label>
               </div>
               <div
-                *ngIf="onboardingForm.get('bankDetails.bankName')?.touched && onboardingForm.get('bankDetails.bankName')?.hasError('required')"
+                *ngIf="(onboardingForm.get('bankDetails.bankName')?.touched || isFormInvalid) && onboardingForm.get('bankDetails.bankName')?.hasError('required')"
                 class="error-text"
               >
                 Bank Name is required.
@@ -1038,13 +1038,13 @@
                 <label class="form__label">Account Number</label>
               </div>
               <div
-                *ngIf="onboardingForm.get('bankDetails.accountNumber')?.touched && onboardingForm.get('bankDetails.accountNumber')?.hasError('required')"
+                *ngIf="(onboardingForm.get('bankDetails.accountNumber')?.touched || isFormInvalid) && onboardingForm.get('bankDetails.accountNumber')?.hasError('required')"
                 class="error-text"
               >
                 Account Number is required.
               </div>
               <div
-                *ngIf="onboardingForm.get('bankDetails.accountNumber')?.touched && onboardingForm.get('bankDetails.accountNumber')?.hasError('pattern')"
+                *ngIf="(onboardingForm.get('bankDetails.accountNumber')?.touched || isFormInvalid) && onboardingForm.get('bankDetails.accountNumber')?.hasError('pattern')"
                 class="error-text"
               >
                 Please enter a valid Account Number.
@@ -1063,13 +1063,13 @@
                 <label class="form__label">IFSC Number</label>
               </div>
               <div
-                *ngIf="onboardingForm.get('bankDetails.ifsc')?.touched && onboardingForm.get('bankDetails.ifsc')?.hasError('required')"
+                *ngIf="(onboardingForm.get('bankDetails.ifsc')?.touched || isFormInvalid) && onboardingForm.get('bankDetails.ifsc')?.hasError('required')"
                 class="error-text"
               >
                 IFSC Number is required.
               </div>
               <div
-                *ngIf="onboardingForm.get('bankDetails.ifsc')?.touched && onboardingForm.get('bankDetails.ifsc')?.hasError('pattern')"
+                *ngIf="(onboardingForm.get('bankDetails.ifsc')?.touched || isFormInvalid) && onboardingForm.get('bankDetails.ifsc')?.hasError('pattern')"
                 class="error-text"
               >
                 Please enter a valid IFSC Number.
@@ -1118,7 +1118,7 @@
                 />
                 <label class="form__label">Name</label>
               </div>
-              <div *ngIf="emergencyContact.get('contactName')?.touched && emergencyContact.get('contactName')?.hasError('required')" class="error-text">
+              <div *ngIf="(emergencyContact.get('contactName')?.touched || isFormInvalid) && emergencyContact.get('contactName')?.hasError('required')" class="error-text">
                 Contact Name is required.
               </div>
             </div>
@@ -1133,10 +1133,10 @@
                 />
                 <label class="form__label">Phone Number</label>
               </div>
-              <div *ngIf="emergencyContact.get('contactNumber')?.touched && emergencyContact.get('contactNumber')?.hasError('required')" class="error-text">
+              <div *ngIf="(emergencyContact.get('contactNumber')?.touched || isFormInvalid) && emergencyContact.get('contactNumber')?.hasError('required')" class="error-text">
                 Phone Number is required.
               </div>
-              <div *ngIf="emergencyContact.get('contactNumber')?.touched && emergencyContact.get('contactNumber')?.hasError('pattern')" class="error-text">
+              <div *ngIf="(emergencyContact.get('contactNumber')?.touched || isFormInvalid) && emergencyContact.get('contactNumber')?.hasError('pattern')" class="error-text">
                 Please enter a valid phone number.
               </div>
             </div>
