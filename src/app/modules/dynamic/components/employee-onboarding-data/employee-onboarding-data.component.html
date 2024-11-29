@@ -1730,8 +1730,9 @@
           </div>
 
           <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
-            <button class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close"
-              (click)="closeResignationModal(resignationForm)" #closeResignationButton>Cancel</button>
+            <!-- <button class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close" (click)="closeResignationModal(resignationForm)" #closeResignationButton>Cancel</button> -->
+            <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close"
+            (click)="closeResignationModal(resignationForm)" #closeResignationButton>Cancel</button>
 
             <button *ngIf="!resignationToggle" type="submit" [disabled]="resignationForm.invalid || userExitTypeId == 0 || resignationToggle"
               class="btn submitActionBtn">Submit</button>
