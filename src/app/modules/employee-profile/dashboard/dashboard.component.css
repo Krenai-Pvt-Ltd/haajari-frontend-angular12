@@ -1,0 +1,44 @@
+.attendance-report{
+    border: 1px solid #f2f2f2;
+    border-radius: 2px;
+}
+.employee-dashboard{
+    background-color: #F9FAFB;
+    border-radius: 2px;
+}
+.employee-dashboard p:first-child{
+    color: #424242;
+    font-weight: 500;
+}
+.employee-dashboard p:last-child {
+    color: #787486;
+}
+.announcement{
+    border: 1px solid #f2f2f2;
+    border-radius: 2px;
+}
+.announcement button{
+    line-height: 14px !important;
+}
+.announcement-user{
+    background-color: #F2F2FF;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    color: #543AF8;
+    font-weight: 600;
+    font-size: 20px;
+}
+.announcement span:last-child{
+    color: #444;
+    font-size: 12px;
+    font-weight: 400;
+}
+.announcement p{
+    color: #787486;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-weight: 400;
+}

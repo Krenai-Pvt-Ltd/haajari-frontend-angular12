@@ -8,8 +8,25 @@
                     <span class="separator-border"></span>
                     <p class="mb-0 font-13">Department: {{ user.department}}</p>
                 </div>
-                <span>Joining Date: {{ user.joiningDate}}</span>
+                <span>Joining Date: {{ user.joiningDate | date:'dd-MM-yyyy'}}</span>
             </div>
+            <div class="d-flex align-items-center gap-3 mt-2" style="gap: 10px" *ngIf="
+            user!.employeeOnboardingStatus?.response == 'PENDING' && rbacService.userInfo.role != 'USER'
+          ">
+          <button class="btn btn-soft-success btn-round" type="button" (click)="updateStatusUserByUuid('APPROVED')">
+            <div *ngIf="!approvedToggle">
+              <i class="ti ti-checks font-16"></i> Approve
+            </div>
+            <div class="approve-button-loader" *ngIf="approvedToggle">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </button>
+          <button class="btn btn-soft-danger btn-round" type="button" data-bs-toggle="modal"
+            data-bs-target="#showRejectModal">
+            <i class="ti ti-alert-octagon font-16"></i> Reject </button>
+        </div>
             <div class="d-flex align-items-center gap-3 action-btn">
                 <div *ngIf="editStatus=='PENDING'  && rbacService.userInfo.role != 'USER'">
                 <button class="p-0 btn text-primary gont-14" (click)="changeStatus('approve')">
@@ -31,7 +48,7 @@
                         </g>
                     </svg>
                     Edit It</button>
-                    <span></span>
+                    <!-- <span></span> -->
                 <button  *ngIf="(editStatus =='' || editStatus=='REJECTED' || editStatus=='EDITED') && rbacService.userInfo.role == 'USER'"  class="p-0 btn text-primary gont-14" data-bs-toggle="modal" data-bs-target="#profileRequest">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="23" viewBox="0 0 22 23" fill="none">
                         <mask id="mask0_5429_20366" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="22" height="23">
@@ -78,7 +95,7 @@
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3" >
                                 <p class="mb-1">Date Of Birth</p>
-                                <h6>{{ user.dateOfBirth }}</h6>
+                                <h6>{{ user.dateOfBirth | date:'dd-MM-yyyy' }}</h6>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -381,11 +398,15 @@
             </div>
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <select formControlName="maritalStatus" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.user.maritalStatus">
-                  <option value="">Select Marital Status</option>
-                  <option value="Married">Married</option>
-                  <option value="Single">Single</option>
-                </select>
+                <nz-select
+                  formControlName="maritalStatus"
+                  [(ngModel)]="onboardingPreviewDataCopy.user.maritalStatus"
+                  class="form__field"
+                  nzPlaceHolder="Select Marital Status">
+                  <nz-option nzValue="Married" nzLabel="Married"></nz-option>
+                  <nz-option nzValue="Single" nzLabel="Single"></nz-option>
+                </nz-select>
+
                 <label class="form__label">Marital Status</label>
               </div>
               <!-- Validation message -->
@@ -451,12 +472,16 @@
             </div> -->
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <select formControlName="gender" [(ngModel)]="onboardingPreviewDataCopy.user.gender" class="form__field">
-                  <option value="">Select Gender</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
-                </select>
+                <nz-select
+                  formControlName="gender"
+                  [(ngModel)]="onboardingPreviewDataCopy.user.gender"
+                  class="form__field"
+                  nzPlaceHolder="Select Gender">
+                  <nz-option nzValue="Male" nzLabel="Male"></nz-option>
+                  <nz-option nzValue="Female" nzLabel="Female"></nz-option>
+                  <nz-option nzValue="Other" nzLabel="Other"></nz-option>
+                </nz-select>
+
                 <label class="form__label">Gender</label>
               </div>
               <div *ngIf="onboardingForm.get('user.gender')?.touched || isFormInvalid">
@@ -702,7 +727,7 @@
                 <input type="text" formControlName="name" class="form__field" />
                 <label class="form__label">Name</label>
               </div>
-              <div *ngIf="reference.get('name')?.touched && reference.get('name')?.hasError('required')" class="error-text">
+              <div *ngIf="(reference.get('name')?.touched || isFormInvalid) && reference.get('name')?.hasError('required')" class="error-text">
                 Name is required.
               </div>
             </div>
@@ -712,7 +737,7 @@
                 <input type="text" formControlName="relation" class="form__field" />
                 <label class="form__label">Relation</label>
               </div>
-              <div *ngIf="reference.get('relation')?.touched && reference.get('relation')?.hasError('required')" class="error-text">
+              <div *ngIf="(reference.get('relation')?.touched || isFormInvalid) && reference.get('relation')?.hasError('required')" class="error-text">
                 Relation is required.
               </div>
               <button type="button" *ngIf="references.length > 1" (click)="removeReference(i)">Remove</button>
@@ -723,10 +748,10 @@
                 <input type="text" formControlName="phoneNumber" class="form__field" />
                 <label class="form__label">Phone Number</label>
               </div>
-              <div *ngIf="reference.get('phoneNumber')?.touched && reference.get('phoneNumber')?.hasError('required')" class="error-text">
+              <div *ngIf="(reference.get('phoneNumber')?.touched || isFormInvalid) && reference.get('phoneNumber')?.hasError('required')" class="error-text">
                 Phone number is required.
               </div>
-              <div *ngIf="reference.get('phoneNumber')?.touched && reference.get('phoneNumber')?.hasError('pattern')" class="error-text">
+              <div *ngIf="(reference.get('phoneNumber')?.touched || isFormInvalid) && reference.get('phoneNumber')?.hasError('pattern')" class="error-text">
                 Please enter a valid phone number.
               </div>
             </div>
@@ -736,10 +761,10 @@
                 <input type="text" formControlName="emailId" class="form__field" />
                 <label class="form__label">Email Address</label>
               </div>
-              <div *ngIf="reference.get('emailId')?.touched && reference.get('emailId')?.hasError('required')" class="error-text">
+              <div *ngIf="(reference.get('emailId')?.touched || isFormInvalid) && reference.get('emailId')?.hasError('required')" class="error-text">
                 Email is required.
               </div>
-              <div *ngIf="reference.get('emailId')?.touched && reference.get('emailId')?.hasError('email')" class="error-text">
+              <div *ngIf="(reference.get('emailId')?.touched || isFormInvalid) && reference.get('emailId')?.hasError('email')" class="error-text">
                 Please enter a valid email address.
               </div>
             </div>
@@ -762,7 +787,7 @@
                 <input formControlName="highestEducationalLevel" type="text" class="form__field" [(ngModel)]="onboardingPreviewDataCopy.userAcademics.highestEducationalLevel" />
                 <label class="form__label">Qualification</label>
               </div>
-              <div *ngIf="onboardingForm.get('academicDetails.highestEducationalLevel')?.touched && onboardingForm.get('academicDetails.highestEducationalLevel')?.hasError('required')" class="error-text">
+              <div *ngIf="(onboardingForm.get('academicDetails.highestEducationalLevel')?.touched || isFormInvalid) && onboardingForm.get('academicDetails.highestEducationalLevel')?.hasError('required')" class="error-text">
                 Qualification is required.
               </div>
             </div>
@@ -772,7 +797,7 @@
                 <input formControlName="degreeObtained" type="text" class="form__field" [(ngModel)]="onboardingPreviewDataCopy.userAcademics.degreeObtained" />
                 <label class="form__label">Degree/Diploma</label>
               </div>
-              <div *ngIf="onboardingForm.get('academicDetails.degreeObtained')?.touched && onboardingForm.get('academicDetails.degreeObtained')?.hasError('required')" class="error-text">
+              <div *ngIf="(onboardingForm.get('academicDetails.degreeObtained')?.touched || isFormInvalid) && onboardingForm.get('academicDetails.degreeObtained')?.hasError('required')" class="error-text">
                 Degree/Diploma is required.
               </div>
             </div>
@@ -782,7 +807,7 @@
                 <input formControlName="fieldOfStudy" type="text" class="form__field" [(ngModel)]="onboardingPreviewDataCopy.userAcademics.fieldOfStudy" />
                 <label class="form__label">Field of Study</label>
               </div>
-              <div *ngIf="onboardingForm.get('academicDetails.fieldOfStudy')?.touched && onboardingForm.get('academicDetails.fieldOfStudy')?.hasError('required')" class="error-text">
+              <div *ngIf="(onboardingForm.get('academicDetails.fieldOfStudy')?.touched || isFormInvalid) && onboardingForm.get('academicDetails.fieldOfStudy')?.hasError('required')" class="error-text">
                 Field of Study is required.
               </div>
             </div>
@@ -792,10 +817,10 @@
                 <input formControlName="grade" type="text" class="form__field" [(ngModel)]="onboardingPreviewDataCopy.userAcademics.grade" />
                 <label class="form__label">CGPA</label>
               </div>
-              <div *ngIf="onboardingForm.get('academicDetails.grade')?.touched && onboardingForm.get('academicDetails.grade')?.hasError('required')" class="error-text">
+              <div *ngIf="(onboardingForm.get('academicDetails.grade')?.touched || isFormInvalid) && onboardingForm.get('academicDetails.grade')?.hasError('required')" class="error-text">
                 CGPA is required.
               </div>
-              <div *ngIf="onboardingForm.get('academicDetails.grade')?.touched && onboardingForm.get('academicDetails.grade')?.hasError('pattern')" class="error-text">
+              <div *ngIf="(onboardingForm.get('academicDetails.grade')?.touched || isFormInvalid) && onboardingForm.get('academicDetails.grade')?.hasError('pattern')" class="error-text">
                 Please enter a valid CGPA.
               </div>
             </div>
@@ -805,7 +830,7 @@
                 <input formControlName="institutionName" type="text" class="form__field" [(ngModel)]="onboardingPreviewDataCopy.userAcademics.institutionName" />
                 <label class="form__label">College Name</label>
               </div>
-              <div *ngIf="onboardingForm.get('academicDetails.institutionName')?.touched && onboardingForm.get('academicDetails.institutionName')?.hasError('required')" class="error-text">
+              <div *ngIf="(onboardingForm.get('academicDetails.institutionName')?.touched || isFormInvalid) && onboardingForm.get('academicDetails.institutionName')?.hasError('required')" class="error-text">
                 College Name is required.
               </div>
             </div>
@@ -815,10 +840,10 @@
                 <input formControlName="graduationYear" type="text" class="form__field" [(ngModel)]="onboardingPreviewDataCopy.userAcademics.graduationYear" />
                 <label class="form__label">Graduating Year</label>
               </div>
-              <div *ngIf="onboardingForm.get('academicDetails.graduationYear')?.touched && onboardingForm.get('academicDetails.graduationYear')?.hasError('required')" class="error-text">
+              <div *ngIf="(onboardingForm.get('academicDetails.graduationYear')?.touched || isFormInvalid) && onboardingForm.get('academicDetails.graduationYear')?.hasError('required')" class="error-text">
                 Graduation Year is required.
               </div>
-              <div *ngIf="onboardingForm.get('academicDetails.graduationYear')?.touched && onboardingForm.get('academicDetails.graduationYear')?.hasError('pattern')" class="error-text">
+              <div *ngIf="(onboardingForm.get('academicDetails.graduationYear')?.touched || isFormInvalid) && onboardingForm.get('academicDetails.graduationYear')?.hasError('pattern')" class="error-text">
                 Please enter a valid graduation year (e.g., 2023).
               </div>
             </div>
@@ -845,9 +870,9 @@
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <input type="text" class="form__field" formControlName="companyName" />
                 <label class="form__label">Company Name</label>
-                <div *ngIf="job.get('companyName')?.touched && job.get('companyName')?.hasError('required')" class="error-text">
-                  Company Name is required.
-                </div>
+              </div>
+              <div *ngIf="(job.get('companyName')?.touched || isFormInvalid) && job.get('companyName')?.hasError('required')" class="error-text">
+                Company Name is required.
               </div>
             </div>
 
@@ -860,9 +885,9 @@
                   [nzFormat]="'dd/MM/yyyy'"
                 ></nz-date-picker>
                 <label class="form__label">Start Date</label>
-                <div *ngIf="job.get('startDate')?.touched && job.get('startDate')?.hasError('required')" class="error-text">
-                  Start Date is required.
-                </div>
+              </div>
+              <div *ngIf="(job.get('startDate')?.touched || isFormInvalid) && job.get('startDate')?.hasError('required')" class="error-text">
+                Start Date is required.
               </div>
             </div>
 
@@ -875,9 +900,9 @@
                   [nzFormat]="'dd/MM/yyyy'"
                 ></nz-date-picker>
                 <label class="form__label">End Date</label>
-                <div *ngIf="job.get('endDate')?.touched && job.get('endDate')?.hasError('required')" class="error-text">
-                  End Date is required.
-                </div>
+              </div>
+              <div *ngIf="(job.get('endDate')?.touched || isFormInvalid) && job.get('endDate')?.hasError('required')" class="error-text">
+                End Date is required.
               </div>
             </div>
 
@@ -890,9 +915,9 @@
                   formControlName="lastJobPosition"
                 />
                 <label class="form__label">Position</label>
-                <div *ngIf="job.get('lastJobPosition')?.touched && job.get('lastJobPosition')?.hasError('required')" class="error-text">
-                  Position is required.
-                </div>
+              </div>
+              <div *ngIf="(job.get('lastJobPosition')?.touched || isFormInvalid) && job.get('lastJobPosition')?.hasError('required')" class="error-text">
+                Position is required.
               </div>
             </div>
 
@@ -905,9 +930,9 @@
                   formControlName="lastSalary"
                 />
                 <label class="form__label">Salary</label>
-                <div *ngIf="job.get('lastSalary')?.touched && job.get('lastSalary')?.hasError('required')" class="error-text">
-                  Salary is required.
-                </div>
+              </div>
+              <div *ngIf="(job.get('lastSalary')?.touched || isFormInvalid) && job.get('lastSalary')?.hasError('required')" class="error-text">
+                Salary is required.
               </div>
             </div>
 
@@ -920,9 +945,9 @@
                   formControlName="lastJobDepartment"
                 />
                 <label class="form__label">Department</label>
-                <div *ngIf="job.get('lastJobDepartment')?.touched && job.get('lastJobDepartment')?.hasError('required')" class="error-text">
-                  Department is required.
-                </div>
+              </div>
+              <div *ngIf="(job.get('lastJobDepartment')?.touched || isFormInvalid) && job.get('lastJobDepartment')?.hasError('required')" class="error-text">
+                Department is required.
               </div>
             </div>
 
@@ -935,9 +960,9 @@
                   formControlName="jobResponsibilities"
                 />
                 <label class="form__label">Responsibilities</label>
-                <div *ngIf="job.get('jobResponsibilities')?.touched && job.get('jobResponsibilities')?.hasError('required')" class="error-text">
-                  Responsibilities are required.
-                </div>
+              </div>
+              <div *ngIf="(job.get('jobResponsibilities')?.touched || isFormInvalid) && job.get('jobResponsibilities')?.hasError('required')" class="error-text">
+                Responsibilities are required.
               </div>
             </div>
 
@@ -963,33 +988,97 @@
         </div>
         <div class="col-md-9">
           <div class="row">
+            <!-- Account Holder Name -->
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input formControlName="accountHolderName" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userBankDetails.accountHolderName" />
+                <input
+                  formControlName="accountHolderName"
+                  type="text"
+                  class="form__field"
+                  [(ngModel)]="this.onboardingPreviewDataCopy.userBankDetails.accountHolderName"
+                />
                 <label class="form__label">Account Holder Name</label>
               </div>
+              <div
+                *ngIf="(onboardingForm.get('bankDetails.accountHolderName')?.touched || isFormInvalid) && onboardingForm.get('bankDetails.accountHolderName')?.hasError('required')"
+                class="error-text"
+              >
+                Account Holder Name is required.
+              </div>
             </div>
+
+            <!-- Bank Name -->
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input formControlName="bankName" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userBankDetails.bankName" />
+                <input
+                  formControlName="bankName"
+                  type="text"
+                  class="form__field"
+                  [(ngModel)]="this.onboardingPreviewDataCopy.userBankDetails.bankName"
+                />
                 <label class="form__label">Bank Name</label>
               </div>
-            </div>
-            <div class="col-md-6 mb-3">
-              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input formControlName="accountNumber" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userBankDetails.accountNumber" />
-                <label class="form__label">Account Number</label>
+              <div
+                *ngIf="(onboardingForm.get('bankDetails.bankName')?.touched || isFormInvalid) && onboardingForm.get('bankDetails.bankName')?.hasError('required')"
+                class="error-text"
+              >
+                Bank Name is required.
               </div>
             </div>
+
+            <!-- Account Number -->
             <div class="col-md-6 mb-3">
               <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
-                <input formControlName="ifsc" type="text" class="form__field" [(ngModel)]="this.onboardingPreviewDataCopy.userBankDetails.ifsc" />
+                <input
+                  formControlName="accountNumber"
+                  type="text"
+                  class="form__field"
+                  [(ngModel)]="this.onboardingPreviewDataCopy.userBankDetails.accountNumber"
+                />
+                <label class="form__label">Account Number</label>
+              </div>
+              <div
+                *ngIf="(onboardingForm.get('bankDetails.accountNumber')?.touched || isFormInvalid) && onboardingForm.get('bankDetails.accountNumber')?.hasError('required')"
+                class="error-text"
+              >
+                Account Number is required.
+              </div>
+              <div
+                *ngIf="(onboardingForm.get('bankDetails.accountNumber')?.touched || isFormInvalid) && onboardingForm.get('bankDetails.accountNumber')?.hasError('pattern')"
+                class="error-text"
+              >
+                Please enter a valid Account Number.
+              </div>
+            </div>
+
+            <!-- IFSC Number -->
+            <div class="col-md-6 mb-3">
+              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+                <input
+                  formControlName="ifsc"
+                  type="text"
+                  class="form__field"
+                  [(ngModel)]="this.onboardingPreviewDataCopy.userBankDetails.ifsc"
+                />
                 <label class="form__label">IFSC Number</label>
+              </div>
+              <div
+                *ngIf="(onboardingForm.get('bankDetails.ifsc')?.touched || isFormInvalid) && onboardingForm.get('bankDetails.ifsc')?.hasError('required')"
+                class="error-text"
+              >
+                IFSC Number is required.
+              </div>
+              <div
+                *ngIf="(onboardingForm.get('bankDetails.ifsc')?.touched || isFormInvalid) && onboardingForm.get('bankDetails.ifsc')?.hasError('pattern')"
+                class="error-text"
+              >
+                Please enter a valid IFSC Number.
               </div>
             </div>
           </div>
         </div>
       </div>
+
 
       <div *ngIf="routes.includes('/emergency-contact')" class="row border-top pt-4 pb-3">
         <div class="col-md-3">
@@ -1029,7 +1118,7 @@
                 />
                 <label class="form__label">Name</label>
               </div>
-              <div *ngIf="emergencyContact.get('contactName')?.touched && emergencyContact.get('contactName')?.hasError('required')" class="error-text">
+              <div *ngIf="(emergencyContact.get('contactName')?.touched || isFormInvalid) && emergencyContact.get('contactName')?.hasError('required')" class="error-text">
                 Contact Name is required.
               </div>
             </div>
@@ -1044,10 +1133,10 @@
                 />
                 <label class="form__label">Phone Number</label>
               </div>
-              <div *ngIf="emergencyContact.get('contactNumber')?.touched && emergencyContact.get('contactNumber')?.hasError('required')" class="error-text">
+              <div *ngIf="(emergencyContact.get('contactNumber')?.touched || isFormInvalid) && emergencyContact.get('contactNumber')?.hasError('required')" class="error-text">
                 Phone Number is required.
               </div>
-              <div *ngIf="emergencyContact.get('contactNumber')?.touched && emergencyContact.get('contactNumber')?.hasError('pattern')" class="error-text">
+              <div *ngIf="(emergencyContact.get('contactNumber')?.touched || isFormInvalid) && emergencyContact.get('contactNumber')?.hasError('pattern')" class="error-text">
                 Please enter a valid phone number.
               </div>
             </div>
@@ -1118,3 +1207,44 @@
         </div>
     </div>
 </div>
+
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#showRejectModal"
+        #openRejectModal id="openRejectModal"></button>
+      <div class="modal" id="showRejectModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+        aria-labelledby="shareModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" *ngIf="requestForMoreDocs; else rejectionReason"> Reason for Request </h5>
+              <ng-template #rejectionReason>
+                <h5 class="modal-title">Reason for Rejection</h5>
+              </ng-template>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <ng-container *ngIf="requestForMoreDocs; else provideRejectionReason">
+                <p>Please specify the list of documents needed:</p>
+                <textarea class="form-control" id="rejectionReason" required
+                  [(ngModel)]="reasonOfRejectionProfile.reason" rows="3" style="height: 100px !important"></textarea>
+              </ng-container>
+              <ng-template #provideRejectionReason>
+                <p>Please provide a reason for rejection:</p>
+                <textarea class="form-control" id="rejectionReason" required
+                  [(ngModel)]="reasonOfRejectionProfile.reason" rows="3" style="height: 100px !important"></textarea>
+              </ng-template>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" #closeRejectModalButton> Cancel
+              </button>
+              <button type="button" (click)="updateStatusUserByUuid('REJECTED')" class="btn btn-primary">
+                <div *ngIf="toggle" class="dot-loader">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <span *ngIf="!toggle"> Save Changes </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
