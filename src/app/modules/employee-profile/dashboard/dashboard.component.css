@@ -81,14 +81,37 @@
     border-radius: 2px;
     border: 0.5px solid #FCE6C2;
     background: linear-gradient(180deg, rgba(252, 230, 194, 0.30) 0%, rgba(248, 238, 224, 0.30) 100%);
+    padding-left: 20px;
+}
+.birthday-box h5{
+    font-family: "Kanit", sans-serif;
 }
 .birthday-img{
-    fill: linear-gradient(180deg, #FCE6C2 0%, #FFF4E8 100%);
-    stroke-width: 0.63px;
-    stroke: #FFF;
+    z-index: 9;
 }
 .birthday-img img{
-   width: 80px;
-   height: 80px;
+   width: 90px;
+   height: 90px;
    border-radius: 50%;
+   border: 5px solid #FCE6C2;
+   z-index: 999;
+}
+.birthday-box span{
+    position: absolute;
+    top: 0px;
+    right: 35px;
+}
+.today-birthday img{
+    position: absolute !important;
+    right: 42px !important;
+    bottom: -91px;
+    z-index: 9;
+}
+
+.birthday-section{
+    max-height: 350px;
+    overflow: scroll;
+}
+.birthday-section::-webkit-scrollbar{
+    display: none;
 }
