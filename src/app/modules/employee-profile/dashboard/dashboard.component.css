@@ -219,3 +219,9 @@
     border-bottom-right-radius: 2px;
     border-top-right-radius: 2px;
 }
+
+.icon-button svg{
+   width: 18px;
+   position: relative;
+   top: -2px;
+}
