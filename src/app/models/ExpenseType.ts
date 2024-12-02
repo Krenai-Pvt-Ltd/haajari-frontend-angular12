@@ -6,6 +6,7 @@ export class ExpenseType{
     amount: any;
     notes: string = '';
     url: string = '';
+    urls: string[] = new Array()
     expenseDate: any;
     managerId: number = 0
 }

@@ -3793,6 +3793,9 @@ closeAttendanceFunc() {
       if (res.status) {
         this.expenseList = res.object
         this.loading = false
+      }else{
+        this.expenseList = []
+        this.loading = false
       }
     })
   }

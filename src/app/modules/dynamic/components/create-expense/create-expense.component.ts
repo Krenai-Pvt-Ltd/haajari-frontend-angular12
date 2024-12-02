@@ -51,6 +51,9 @@ export class CreateExpenseComponent implements OnInit {
       if (res.status) {
         this.expenseList = res.object
         this.loading = false
+      }else{
+        this.expenseList = []
+        this.loading = false
       }
     })
   }
