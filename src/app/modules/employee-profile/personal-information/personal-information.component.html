@@ -4,11 +4,11 @@
             <div>
                 <h5 class="mb-2">{{ user.name }}</h5>
                 <div class="d-flex align-items-center gap-2 mb-0">
-                    <p class="mb-0 text-primary font-14">{{ user.position }}</p>
+                    <p class="mb-0 text-primary font-14">{{ user.position || '--'}}</p>
                     <span class="separator-border"></span>
-                    <p class="mb-0 font-13">Department: {{ user.department}}</p>
+                    <p class="mb-0 font-13">Department: {{ user.department || '--'}}</p>
                 </div>
-                <span>Joining Date: {{ user.joiningDate | date:'dd-MM-yyyy'}}</span>
+                <span>Joining Date: {{ (user.joiningDate | date:'dd-MM-yyyy') || '--' }}</span>
             </div>
             <div class="d-flex align-items-center gap-3 mt-2" style="gap: 10px" *ngIf="
             user!.employeeOnboardingStatus?.response == 'PENDING' && rbacService.userInfo.role != 'USER'
@@ -77,43 +77,43 @@
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Email Address</p>
-                                <h6 class="profile-email">{{ user.email}}</h6>
+                                <h6 class="profile-email">{{ user.email || '--'}}</h6>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Phone Number</p>
-                                <h6>{{ user.phoneNumber }}</h6>
+                                <h6>{{ user.phoneNumber || '--'}}</h6>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Gender</p>
-                                <h6>{{ user.gender }}</h6>
+                                <h6>{{ user.gender || '--'}}</h6>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3" >
                                 <p class="mb-1">Date Of Birth</p>
-                                <h6>{{ user.dateOfBirth | date:'dd-MM-yyyy' }}</h6>
+                                <h6>{{ (user.dateOfBirth | date:'dd-MM-yyyy' )|| '--'}}</h6>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Marital Status</p>
-                                <h6>{{ user.maritalStatus }}</h6>
+                                <h6>{{ user.maritalStatus || '--'}}</h6>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Nationality</p>
-                                <h6>{{ user.nationality }}</h6>
+                                <h6>{{ user.nationality || '--'}}</h6>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Father’s Name</p>
-                                <h6>{{ user.fatherName }}</h6>
+                                <h6>{{ user.fatherName || '--'}}</h6>
                             </div>
                         </div>
                     </div>
@@ -132,11 +132,11 @@
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Current Address</p>
                                 <!-- <h6 class="mb-1">{{ addressEmployee[0].addressLine1}} {{ addressEmployee[0].addressLine2}} {{ addressEmployee[0].city}} - {{ addressEmployee[0].pincode}}</h6> -->
-                                <h6 class="mb-1">{{ addressEmployee?.[0]?.addressLine1}} {{ addressEmployee?.[0]?.addressLine2}} {{ addressEmployee?.[0]?.city}} - {{ addressEmployee?.[0]?.pincode}}</h6>
+                                <h6 class="mb-1">{{ addressEmployee?.[0]?.addressLine1 || '--' }} {{ addressEmployee?.[0]?.addressLine2}} {{ addressEmployee?.[0]?.city}} - {{ addressEmployee?.[0]?.pincode}}</h6>
                                 <div class="d-flex align-items-center gap-2">
-                                    <span class="font-13">State: <b>{{ addressEmployee?.[0]?.state }}</b></span>
+                                    <span class="font-13">State: <b>{{ addressEmployee?.[0]?.state || '--' }}</b></span>
                                     <span class="separator-line"></span>
-                                    <span class="font-13">Country: <b>{{ addressEmployee?.[0]?.country }}</b></span>
+                                    <span class="font-13">Country: <b>{{ addressEmployee?.[0]?.country || '--' }}</b></span>
                                 </div>
 
                             </div>
@@ -144,11 +144,11 @@
                         <div *ngIf="addressEmployee[1]" class="col-md-12">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Permanent Address</p>
-                                <h6 class="mb-1">{{ addressEmployee?.[1]?.addressLine1}} {{ addressEmployee?.[1]?.addressLine2}} {{ addressEmployee?.[1]?.city}} - {{ addressEmployee?.[1]?.pincode}}</h6>
+                                <h6 class="mb-1">{{ addressEmployee?.[1]?.addressLine1 || '--'}} {{ addressEmployee?.[1]?.addressLine2}} {{ addressEmployee?.[1]?.city}} - {{ addressEmployee?.[1]?.pincode}}</h6>
                                 <div class="d-flex align-items-center gap-2">
-                                    <span class="font-13">State: <b>{{ addressEmployee?.[1]?.state }}</b></span>
+                                    <span class="font-13">State: <b>{{ addressEmployee?.[1]?.state || '--'}}</b></span>
                                     <span class="separator-line"></span>
-                                    <span class="font-13">Country: <b>{{ addressEmployee?.[1]?.country }}</b></span>
+                                    <span class="font-13">Country: <b>{{ addressEmployee?.[1]?.country || '--'}}</b></span>
                                 </div>
                             </div>
                         </div>
@@ -170,13 +170,13 @@
                                 <p class="mb-1">Name</p>
                                 <div class="d-flex align-items-center gap-2">
                                    <h6 class="mb-1">{{ refrence.name }}</h6>
-                                   <span class="text-primary font-12 mb-1">(Relation: {{ refrence.relation }})</span>
+                                   <span class="text-primary font-12 mb-1">(Relation: {{ refrence.relation || '--' }})</span>
                                 </div>
 
                                 <div class="d-flex align-items-center gap-2">
-                                    <span class="font-13">Phone Numbers: <b>{{ refrence.phoneNumber }}</b></span>
+                                    <span class="font-13">Phone Numbers: <b>{{ refrence.phoneNumber || '--' }}</b></span>
                                     <span class="separator-line"></span>
-                                    <span class="font-13">Email: <b>{{ refrence.emailId }}</b></span>
+                                    <span class="font-13">Email: <b>{{ refrence.emailId || '--' }}</b></span>
                                 </div>
 
                             </div>
@@ -197,37 +197,37 @@
                         <div class="col-md-4">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Higher Qualification</p>
-                                <h6 class="profile-email">{{ academicEmployee.highestEducationalLevel || 'N/A'}}</h6>
+                                <h6 class="profile-email">{{ academicEmployee.highestEducationalLevel || '--'}}</h6>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Degree/Diploma</p>
-                                <h6>{{ academicEmployee.degreeObtained || 'N/A'}}</h6>
+                                <h6>{{ academicEmployee.degreeObtained || '--'}}</h6>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Field of Study</p>
-                                <h6>{{ academicEmployee.fieldOfStudy || 'N/A'}}</h6>
+                                <h6>{{ academicEmployee.fieldOfStudy || '--'}}</h6>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Institution Name</p>
-                                <h6>{{ academicEmployee.institutionName || 'N/A'}}</h6>
+                                <h6>{{ academicEmployee.institutionName || '--'}}</h6>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">CGPA</p>
-                                <h6>{{ academicEmployee.grade || 'N/A'}}</h6>
+                                <h6>{{ academicEmployee.grade || '--'}}</h6>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Graduating Year</p>
-                                <h6>{{ academicEmployee.graduationYear || 'N/A'}}</h6>
+                                <h6>{{ academicEmployee.graduationYear || '--'}}</h6>
                             </div>
                         </div>
                     </div>
@@ -241,48 +241,60 @@
 
                 </div>
                 <div class="col-md-9">
-                    <div class="row">
-                        <div *ngFor="let job of experienceEmployee" class="col-md-12 ">
-                          <div class="profile-information mb-3">
-                            <p class="mb-1">Company Name</p>
-                            <div class="d-flex align-items-center gap-2">
-                              <h6 class="mb-1">{{ job.companyName }}</h6>
-                              <span class="text-primary font-12 mb-1">
-                                ({{ job.employementDuration ? job.employementDuration : 'Duration not available' }})
-                              </span>
-                            </div>
-
-                            <p class="mb-0">
-                              Duration:
-                              {{ job.startDate ? (job.startDate | date:'dd/MM/yyyy') : 'N/A' }} -
-                              {{ job.endDate ? (job.endDate | date:'dd/MM/yyyy') : 'N/A' }}
-                            </p>
-
-                            <div class="d-flex align-items-center gap-2">
-                              <span class="font-13">
-                                Position: <b>{{ job.lastJobPosition ? job.lastJobPosition.trim() : 'N/A' }}</b>
-                              </span>
-                              <span class="separator-line"></span>
-                              <span class="font-13">
-                                Salary: <b>₹{{ job.lastSalary ? job.lastSalary : 'N/A' }}</b>
-                              </span>
-                            </div>
-
-                            <div class="d-flex align-items-center gap-2">
-                              <span class="font-13">
-                                Department: <b>{{ job.lastJobDepartment ? job.lastJobDepartment : 'N/A' }}</b>
-                              </span>
-                            </div>
-
-                            <div class="d-flex align-items-center gap-2">
-                              <span class="font-13">
-                                Responsibilities: <b>{{ job.jobResponisibilities ? job.jobResponisibilities : 'N/A' }}</b>
-                              </span>
-                            </div>
+                  <div class="row">
+                    <!-- Check if experienceEmployee has data -->
+                    <ng-container *ngIf="experienceEmployee?.length > 0; else fresherTemplate">
+                      <div *ngFor="let job of experienceEmployee" class="col-md-12">
+                        <div class="profile-information mb-3">
+                          <p class="mb-1">Company Name</p>
+                          <div class="d-flex align-items-center gap-2">
+                            <h6 class="mb-1">{{ job.companyName }}</h6>
+                            <span class="text-primary font-12 mb-1">
+                              ({{ job.employementDuration ? job.employementDuration : 'Duration not available' }})
+                            </span>
                           </div>
 
+                          <p class="mb-0">
+                            Duration:
+                            {{ job.startDate ? (job.startDate | date: 'dd/MM/yyyy') : '--' }} -
+                            {{ job.endDate ? (job.endDate | date: 'dd/MM/yyyy') : '--' }}
+                          </p>
+
+                          <div class="d-flex align-items-center gap-2">
+                            <span class="font-13">
+                              Position: <b>{{ job.lastJobPosition ? job.lastJobPosition.trim() : '--' }}</b>
+                            </span>
+                            <span class="separator-line"></span>
+                            <span class="font-13">
+                              Salary: <b>₹{{ job.lastSalary ? job.lastSalary : '--' }}</b>
+                            </span>
+                          </div>
+
+                          <div class="d-flex align-items-center gap-2">
+                            <span class="font-13">
+                              Department: <b>{{ job.lastJobDepartment ? job.lastJobDepartment : '--' }}</b>
+                            </span>
+                          </div>
+
+                          <div class="d-flex align-items-center gap-2">
+                            <span class="font-13">
+                              Responsibilities: <b>{{ job.jobResponisibilities ? job.jobResponisibilities : '--' }}</b>
+                            </span>
+                          </div>
                         </div>
-                    </div>
+                      </div>
+                    </ng-container>
+
+                    <!-- Template for "Fresher" -->
+                    <ng-template #fresherTemplate>
+                      <div class="col-md-12">
+                        <div class="profile-information mb-3">
+                          <h6>Fresher</h6>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </div>
+
                 </div>
             </div>
             <div *ngIf="routes.includes('/bank-details')" class="row border-top pt-4 pb-3">
@@ -297,25 +309,25 @@
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Account Holder Name</p>
-                                <h6 class="profile-email">{{ bankDetailsEmployee?.accountHolderName }}</h6>
+                                <h6 class="profile-email">{{ bankDetailsEmployee?.accountHolderName || '--'}}</h6>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Bank Name</p>
-                                <h6>{{ bankDetailsEmployee?.bankName }}</h6>
+                                <h6>{{ bankDetailsEmployee?.bankName || '--'}}</h6>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Account Number</p>
-                                <h6>{{ bankDetailsEmployee?.accountNumber }}</h6>
+                                <h6>{{ bankDetailsEmployee?.accountNumber || '--'}}</h6>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">IFSC Number</p>
-                                <h6>{{ bankDetailsEmployee?.ifsc }}</h6>
+                                <h6>{{ bankDetailsEmployee?.ifsc || '--'}}</h6>
                             </div>
                         </div>
                     </div>
@@ -334,13 +346,13 @@
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1"> Name</p>
                                 <div class="d-flex align-items-center gap-2">
-                                    <h6 class="mb-1">{{ emergencyContact.contactName }}</h6>
+                                    <h6 class="mb-1">{{ emergencyContact.contactName || '--'}}</h6>
                                 </div>
 
-                                <p class="mb-0">Relation with Employee: <span class="text-primary">{{ emergencyContact.relationWithEmployee }}</span></p>
+                                <p class="mb-0">Relation with Employee: <span class="text-primary">{{ emergencyContact.relationWithEmployee || '--'}}</span></p>
 
                                 <div class="d-flex align-items-center gap-2">
-                                    <span class="font-13">Phone Numbers: <b>{{ emergencyContact.contactNumber }}</b></span>
+                                    <span class="font-13">Phone Numbers: <b>{{ emergencyContact.contactNumber || '--'}}</b></span>
                                 </div>
 
                             </div>
