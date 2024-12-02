@@ -609,7 +609,7 @@
 
 
                 <div class="table-responsive bg-white mt-3">
-               
+
                   <table  class="table empOnnoardtable">
                     <thead class="thead-light">
                       <tr>
@@ -1331,6 +1331,7 @@
                                       formControlName="startDate"
                                       nzPlaceHolder="dd/mm/yyyy"
                                       [nzDisabledDate]="disableStartDate"
+                                      [(ngModel)]="userLeaveRequest.startDate"
                                       required
                                     ></nz-date-picker>
                                   </div>
@@ -1341,6 +1342,7 @@
                                     <nz-date-picker
                                       formControlName="endDate"
                                       nzPlaceHolder="dd/mm/yyyy"
+                                      [(ngModel)]="userLeaveRequest.endDate"
                                       [nzDisabledDate]="disableEndDate"
                                       required
                                     ></nz-date-picker>

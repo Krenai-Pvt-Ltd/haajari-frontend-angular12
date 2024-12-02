@@ -13,7 +13,7 @@
             <div class="d-flex align-items-center gap-3 mt-2" style="gap: 10px" *ngIf="
             user!.employeeOnboardingStatus?.response == 'PENDING' && rbacService.userInfo.role != 'USER'
           ">
-          <button class="btn btn-soft-success btn-round" type="button" (click)="updateStatusUserByUuid('APPROVED')">
+          <button [disabled]="approvedToggle" class="btn btn-soft-success btn-round" type="button" (click)="updateStatusUserByUuid('APPROVED')">
             <div *ngIf="!approvedToggle">
               <i class="ti ti-checks font-16"></i> Approve
             </div>
@@ -27,16 +27,32 @@
             data-bs-target="#showRejectModal">
             <i class="ti ti-alert-octagon font-16"></i> Reject </button>
         </div>
-            <div class=" action-btn">
-                <div class="d-flex align-items-center gap-3" *ngIf="editStatus=='PENDING'  && rbacService.userInfo.role != 'USER'">
-                <button class="p-0 btn text-primary font-14" (click)="changeStatus('approve')">
-                 
-                    Approved
-                </button>
-                <span></span>
-                <button class="p-0 btn text-danger font-14" (click)="changeStatus('reject')">
-                  Rejected</button>
-                </div>
+            <div class=" action-btn" *ngIf=" user!.employeeOnboardingStatus?.response != 'PENDING'">
+              <div
+              class="d-flex align-items-center gap-3"
+              *ngIf="editStatus === 'PENDING' && rbacService.userInfo.role !== 'USER'"
+            >
+              <button
+                class="p-0 btn text-primary font-14"
+                (click)="changeStatus('approve')"
+                [disabled]="isLoading"
+              >
+                <ng-container *ngIf="!isLoading">Approve</ng-container>
+              </button>
+              <span></span>
+              <button
+                class="p-0 btn text-danger font-14"
+                (click)="changeStatus('reject')"
+                [disabled]="isLoading"
+              >
+                <ng-container *ngIf="!isLoading">Reject</ng-container>
+                <ng-container *ngIf="isLoading">
+                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  Loading...
+                </ng-container>
+              </button>
+            </div>
+
                 <button *ngIf="editStatus=='APPROVED' && rbacService.userInfo.role == 'USER'" class="p-0 btn text-primary gont-14" (click)="profileEdit=true; editProfile()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="23" viewBox="0 0 22 23" fill="none">
                         <mask id="mask0_5429_20359" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="22" height="23">
@@ -752,7 +768,7 @@
               <div *ngIf="(reference.get('relation')?.touched || isFormInvalid) && reference.get('relation')?.hasError('required')" class="error-text">
                 Relation is required.
               </div>
-              
+
             </div>
 
             <div class="col-md-6 mb-3">
@@ -781,11 +797,11 @@
               </div>
             </div>
             <div class="d-flex" [ngClass]="{'justify-content-end': references.length == 1, 'justify-content-between': references.length >1}">
-              <button type="button" class="btn p-0 text-danger" [ngClass]="{'d-none': i ==0 && references.length==1}" (click)="removeReference(i)"><i class="bi bi-trash"></i> Remove</button>
-              <button class="btn p-0 text-primary add-reference" type="button" [ngClass]="{'d-none': references.length != i+1}" (click)="addReference()"><i class="bi bi-plus-lg"></i> Add
-                Reference</button>
+              <button type="button" class="btn p-0 text-danger" (click)="removeReference(i)"><i class="bi bi-trash"></i> Remove</button>
             </div>
           </div>
+          <button class="btn p-0 text-primary add-reference" type="button" (click)="addReference()"><i class="bi bi-plus-lg"></i> Add
+            Reference</button>
         </div>
       </div>
 
@@ -1168,7 +1184,7 @@
             </div>
           </div>
 
-         
+
         </div>
       </div>
 
@@ -1213,8 +1229,19 @@
                   <h5>Profile Update Request</h5>
                   <p class="font-13">ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo, non suscipit
                 ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo, non suscipit </p>
-                <button type="button" class="w-100 btn submitActionBtn mt-2 mb-2" data-bs-dismiss="modal"
-                (click)="createProfileEditRequest()" >Request now</button>
+                <button [disabled]="isEditReqLoading" type="button" class="w-100 btn submitActionBtn mt-2 mb-2"
+                (click)="createProfileEditRequest()" >
+                <span *ngIf="!isEditReqLoading"> Request now </span>
+                <div class="dot-opacity-loader" *ngIf="isEditReqLoading">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </button>
+
+                <button type="button" class="d-none" data-bs-dismiss="modal" id="dismissRequestModal"
+                      #dismissRequestModal
+                >Request now</button>
                </div>
             </div>
 

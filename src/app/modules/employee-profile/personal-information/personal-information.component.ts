@@ -386,16 +386,21 @@ isFormInvalid: boolean=false;
 
   profileEditRequest: any = null;
   statusMessage: string = '';
-  isRequestable: boolean=false;
+  isEditReqLoading: boolean=false;
   editStatus:string='';
-  createProfileEditRequest() {
+  @ViewChild('dismissRequestModal') dismissRequestModal!: ElementRef;
 
+  createProfileEditRequest() {
+    this.isEditReqLoading=true;
     this.dataService.createRequest(this.userId).subscribe(
       (response) => {
           this.editStatus = 'PENDING';
+          this.dismissRequestModal.nativeElement.click();
+          this.isEditReqLoading=false;
       },
       (error) => {
         console.error('Error creating request:', error);
+        this.isEditReqLoading=false;
       }
     );
   }
@@ -417,15 +422,20 @@ isFormInvalid: boolean=false;
   }
 
   // Set status to pending
+  isLoading = false;
   changeStatus(status:String) {
+    this.isLoading = true;
     this.dataService.profileEditStatus(status,this.userId).subscribe(
       (response) => {
 
         this.editStatus = 'APPROVED';
-
+        this.isLoading = false;
+        this.helperService.showToast('Status Change Successfully', Key.TOAST_STATUS_SUCCESS);
       },
       (error) => {
         console.error('Error updating status:', error);
+        this.isLoading = false;
+        this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
       }
     );
   }

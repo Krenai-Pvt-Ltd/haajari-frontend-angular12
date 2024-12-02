@@ -134,7 +134,7 @@
               <!-- Conditional rendering -->
               <div *ngIf="!doc.url; else documentUploaded"
                    class="upload-file-input bg-white p-2 mt-2 d-flex align-items-center justify-content-center flex-column">
-                <input id="fileSelect" type="file" name="img[]" accept=".xlsx" class="input" (change)="uploadFile($event, doc)">
+                <input id="fileSelect" type="file" name="img[]" accept="image/jpeg, image/png, image/jpg,  application/pdf" class="input" (change)="uploadFile($event, doc)">
                 <span>
                   <svg xmlns="http://www.w3.org/2000/svg" width="46" height="45" viewBox="0 0 46 45" fill="none">
                     <g clip-path="url(#clip0_4843_1408)">
@@ -161,7 +161,7 @@
               <ng-template #documentUploaded>
                 <div class="upload-file bg-white p-2 mt-2">
                   <img *ngIf="isImage(doc.url)" [src]="doc.url" alt="{{ doc.url }}" style="width: 100%;" (click)="openPdfModel(doc.url)">
-                  <div *ngIf="!isImage(doc.url)" (click)="openPdfModel(doc.url)">
+                  <div *ngIf="!isImage(doc.url)" class="icon-preview" (click)="openPdfModel(doc.url)">
                     <i [ngClass]="
                     getFileTypeIcon(
                       doc.url
