@@ -23,11 +23,11 @@
 .announcement-user{
     background-color: #F2F2FF;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     color: #543AF8;
     font-weight: 600;
-    font-size: 20px;
+    font-size: 18px;
 }
 .announcement span:last-child{
     color: #444;
@@ -41,4 +41,54 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     font-weight: 400;
+}
+.nav.nav-pills {
+    background-color: transparent;
+    border-bottom: 1px solid #edeff5;
+}
+
+.nav-pills .nav-item.show .nav-link,
+.nav-pills .nav-link.active {
+    background: transparent !important;
+    color: var(--primary-color) !important;
+    border-radius: 0;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.nav-link {
+    margin-right: 20px;
+    display: block;
+    padding: 7px 10px;
+    color: #000;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
+    text-align: left;
+}
+
+.table-font-weight {
+    font-weight: 400;
+}
+.table td {
+    font-weight: 500;
+    vertical-align: middle;
+    font-size: 12px !important;
+    white-space: nowrap;
+    padding: 10px 15px !important;
+}
+
+.birthday-box{
+    border-radius: 2px;
+    border: 0.5px solid #FCE6C2;
+    background: linear-gradient(180deg, rgba(252, 230, 194, 0.30) 0%, rgba(248, 238, 224, 0.30) 100%);
+}
+.birthday-img{
+    fill: linear-gradient(180deg, #FCE6C2 0%, #FFF4E8 100%);
+    stroke-width: 0.63px;
+    stroke: #FFF;
+}
+.birthday-img img{
+   width: 80px;
+   height: 80px;
+   border-radius: 50%;
 }

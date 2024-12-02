@@ -131,3 +131,21 @@ button.close-btn {
     border-radius: 2px;
     min-width: 100px;
 }
+
+.add-reference i{
+    position: relative;
+    top: 1px; 
+}
+.add-reference i::before {
+    font-weight: 600 !important;
+}
+
+.reference-remvo{
+    border:1px solid #ef4d56;
+    color: #ef4d56;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 2px;
+    padding: 5px 10px;
+    min-width: 80px;
+}
