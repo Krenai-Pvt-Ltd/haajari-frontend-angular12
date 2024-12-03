@@ -8,7 +8,7 @@
                 </li>
                 <li class="nav-item">
                     <a id="pills-profile-tab" data-bs-toggle="pill" href="#asset-request" role="tab" aria-controls="pills-profile"
-                        aria-selected="false" (click)="this.getAssetRequests()" class="nav-link">Asset request</a>
+                        aria-selected="false" #assetRequestTab (click)="this.getAssetRequests()" class="nav-link">Asset request</a>
                 </li>
             </ul>
 
@@ -30,10 +30,10 @@
                                                 style="padding: 10px 45px;" ng-reflect-model=""
                                                 ng-reflect-options="[object Object]">
 
-                                              <i class="bi bi-search search-icon"></i>
-                                              <!-- reset btn -->
-                                                  <!-- <i class="bi bi-x reset-icon text-primary pointer"></i> -->
-                                              <!-- reset btn -->
+                                              <i *ngIf="search.length==0" class="bi bi-search search-icon"></i>
+
+                                              <i *ngIf="search.length>0" (click)="resetSearch()" class="bi bi-x reset-icon text-primary pointer"></i>
+
                                               </div>
                                     </form>
 
@@ -99,7 +99,7 @@
                               </tr>
                             </tbody>
 
-                            <tbody *ngIf="assets?.length === 0">
+                            <tbody *ngIf="assets?.length === 0 && !isLoadingAsset">
                               <tr>
                                 <td colspan="6">
                                   <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%">
@@ -218,13 +218,13 @@
                                 <div class="onboarding-date d-flex align-items-center position-relative w-100">
                                     <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid w-100">
                                         <div class="form-group position-relative w-100">
-                                          <input type="text" id="searchText" placeholder="Search..."
+                                          <input type="text" id="searchText" placeholder="Search..." [(ngModel)]="assetRequestsSearch"
                                                 class="form-control me-2 ng-pristine ng-valid ng-touched"
                                                 (input)="onSearchInput($event)" style="padding: 10px 45px;" ng-reflect-model="" ng-reflect-options="[object Object]">
 
-                                                <i class="bi bi-search search-icon "></i>
+                                                <i *ngIf="assetRequestsSearch.length==0" class="bi bi-search search-icon "></i>
 
-                                                <!-- <i class="bi bi-x reset-icon text-primary pointer "></i> -->
+                                                <i *ngIf="assetRequestsSearch.length>0" (click)="resetSearch()"  class="bi bi-x reset-icon text-primary pointer "></i>
                                         </div>
                                     </form>
 
@@ -303,7 +303,7 @@
                               </tr>
                             </tbody>
 
-                            <tbody *ngIf="assetRequests?.length === 0">
+                            <tbody *ngIf="assetRequests?.length === 0 && !isLoading">
                               <tr>
                                 <td colspan="9">
                                   <div class="empty-filenew" style="margin-top: 7%; margin-bottom: 7%">
@@ -357,13 +357,13 @@
                               </tr>
                             </tbody>
                           </table>
-                         
+
                         </div>
 
                         <div *ngIf="this.assetRequestsTotalPage>1"
                           class="pagination-controls d-flex align-items-center justify-content-between">
                           <!-- Ngb Pagination Component -->
-                        
+
                           <div class="showing-items-message text-right font-13">
                             Showing items
                             {{ (assetRequestsPage - 1) * assetRequestsSize + 1 }} –
