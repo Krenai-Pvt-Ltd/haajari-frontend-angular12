@@ -4446,6 +4446,10 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.post<any>(`${this.baseUrl}/documents/user/document?uuid=${uuid}`, document);
   }
 
+  downloadAssetRequests(): Observable<Blob> {
+    const url = `${this.baseUrl}/asset-requests/exportAssetRequests`;
+    return this.httpClient.get(url, { responseType: 'blob' });
+  }
 
 }
 

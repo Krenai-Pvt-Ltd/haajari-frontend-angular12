@@ -613,6 +613,7 @@
                   <table  class="table empOnnoardtable">
                     <thead class="thead-light">
                       <tr>
+                        <th class="text-left font-13" style="width: 10%">Apply On</th>
                         <th class="text-left font-13" style="width: 10%">Date</th>
                         <th class="text-left font-13" style="width: 10%">Type</th>
                         <th class="text-left font-13" style="width: 10%">Requested To</th>
@@ -672,8 +673,15 @@
 
                       <tr *ngFor="let item of userLeaveLog">
                         <td class="text-left">
-                          <span class="team-maneger mb-0">{{ item.startDate | date: 'EEE, d MMM yyyy' }}</span>
-                          <p class="mb-0 font-10">{{ item.totalDays }} Day</p>
+                          <span class="team-maneger mb-0 table-font-weight">{{ item.createdDate | date: 'EEE, d MMM yy' }}</span>
+                        </td>
+                        <td class="text-left">
+                          <span class="team-maneger mb-0">{{ item.startDate | date: 'd MMM yy' }} - {{ item.endDate | date: 'd MMM yy' }}</span>
+                          <p class="mb-0 font-10">
+                            {{ item.totalDays }} Day
+                            <span class="text-primary" *ngIf="item.firstHalf">(1st half)</span>
+                            <span class="text-primary" *ngIf="item.secondHalf">(2nd half)</span>
+                          </p>
                         </td>
                         <td class="text-left">
                           <span class="team-maneger mb-0">{{ item.leaveType }}</span>
