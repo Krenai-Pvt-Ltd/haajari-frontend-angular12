@@ -445,6 +445,7 @@
                   <th class="text-left font-13" style="width: 10%">Action Taken on</th>
                   <th class="text-left font-13" style="width: 10%">Note</th>
                   <th class="text-left font-13" style="width: 10%">Status</th>
+                  <th class="text-left font-13" style="width: 10%">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -466,12 +467,11 @@
                   <td class="text-left">{{ asset.actionTakenOn | date: 'MMM d yyyy' }}</td>
                   <td class="text-left">{{ asset.note }}</td>
                   <td class="text-left">
-                    <button type="button" class="btn" [ngClass]="{
-                             'badge rounded-pill badge-soft-secondary': asset.status !== ''
-                             }" (click)="openStatusChangeModal(asset, statusChangeModal)">
+                    <span class="badge rounded-pill " [ngClass]="{'badge-soft-warning': asset.status == 'PENDING', 'badge-soft-danger': asset.status == 'REJECTED', 'badge-soft-success': asset.status == 'APPROVED' }" >
                       {{ asset.status }}
-                    </button>
+                    </span>
                   </td>
+                  <td (click)="openStatusChangeModal(asset, statusChangeModal)" >View</td>
                 </tr>
               </tbody>
             </table>
