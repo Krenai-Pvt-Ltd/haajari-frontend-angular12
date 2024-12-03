@@ -115,3 +115,113 @@
 .birthday-section::-webkit-scrollbar{
     display: none;
 }
+.anniversaries-section{
+    border: 0.5px solid #ECECEC;
+}
+.anniversaries-box h4{
+    font-family: "Allura", cursive;
+    font-weight: 400;
+    color: #DC9522;
+    font-size: 28px ;
+}
+.anniversaries-img::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 8px;
+    bottom: 0;
+    background-color: #F5F6FF;
+    border-top-left-radius: 75px;
+    border-bottom-left-radius: 75px;
+    width: 70%;
+    z-index: 9;
+}
+.anniversaries-img img{
+    border-radius: 50%;
+    width: 95px;
+    z-index: 9;
+    position: relative;
+    border: 5px solid #fff
+}
+.anniversaries-year{
+    z-index: 9;
+}
+.new-joinees::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0px;
+    bottom: 0;
+    border-top: 151px solid #F5F6FF;
+    border-left: 100px solid #F5F6FF;
+    border-right: 50px solid transparent;
+    width: 95%;
+}
+
+.newJoinees-img img{
+    border-radius: 50%;
+    width: 100px;
+    z-index: 9;
+    position: relative;
+    border: 5px solid #fff;
+}
+.newJoinees-img {
+    position: absolute;
+    right: 0px;
+    top: 30px;
+}
+.holidays-box{
+    background-color: #9487BE;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+
+.holidays-box h5{
+    font-family: "Kanit", sans-serif;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 138px;
+}
+.pl-3{
+    padding-left: 15px;
+}
+.pr-3{
+    padding-right: 25px;
+}
+.carousel-control-next-icon,
+.carousel-control-prev-icon {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-size: 100% 100%;
+}
+.carousel-control-next,
+.carousel-control-prev {
+    top: 25px;
+}
+.carousel-control-next {
+    right: -5px;
+}
+.carousel-control-prev {
+    left: -5px;
+}
+.holiday-date{
+    background-color: #F6F6FF;
+
+}
+.holidays-box h6{
+    margin-bottom: 20px;
+}
+.holiday-date{
+    border-bottom-right-radius: 2px;
+    border-top-right-radius: 2px;
+}
+
+.icon-button svg{
+   width: 18px;
+   position: relative;
+   top: -2px;
+}

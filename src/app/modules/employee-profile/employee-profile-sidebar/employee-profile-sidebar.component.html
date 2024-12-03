@@ -1018,10 +1018,10 @@
 
                         <div class="col-md-12 mb-3">
                             <div class="form-group ">
-                                <label for="templateName" class="mb-2"> Proof document </label>
+                                <label for="templateName" class="mb-2"> Attachment </label>
 
                                 <div *ngIf="userResignationReq.url == ''" class="d-flex align-items-center justify-content-between  requesting-half-leave p-2">
-                                    <p class="mb-0 font-13 " style="font-weight: 400;">Select proof document</p>
+                                    <p class="mb-0 font-13 " style="font-weight: 400;">Select attachment</p>
 
                                     <!-- <button class="btn p-0 text-primary font-13"><i class="bi bi-plus-lg"></i> Add File</button> -->
                                     <button *ngIf="!isUploading && userResignationReq.url === ''" type="button" (click)="fileInput.click()"

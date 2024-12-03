@@ -103,7 +103,7 @@ export class CreateExpenseComponent implements OnInit {
       if (res.status) {
         this.expenseTypeList = res.object;
       }
-
+      // console.log('typelist: ',this.expenseTypeList)
     }, error => {
       console.log('something went wrong')
     })
@@ -220,7 +220,14 @@ export class CreateExpenseComponent implements OnInit {
 
   userExpense: any;
   getExpense(expense: any) {
+
+    this.userExpense = null;
+    this.rejectDiv = false;
+
     this.userExpense = expense
+    // console.log('dataset: ',this.userExpense)
+
+    this.getExpenseType();
   }
 
   isCheckboxChecked: boolean = false
@@ -240,11 +247,67 @@ export class CreateExpenseComponent implements OnInit {
   approveReq: ApproveReq = new ApproveReq();
   approveToggle: boolean = false;
   rejectToggle: boolean = false;
+  paymentCashYesToggle: boolean = false;
+  paymentCashNoToggle: boolean = false;
 
   payrollToggle: boolean = false;
   expenseCancelToggle: boolean = false;
   @ViewChild('closeApproveModal') closeApproveModal!: ElementRef
-  approveOrDeny(id: number, statusId: number) {
+  approveOrDeny(id: number, statusId: number, isCashPayment: number) {
+
+    debugger
+
+    if(statusId == 14){
+      this.approveToggle = true;
+    }else if(statusId == 15){
+      this.rejectToggle = true;
+    }else if(statusId == 40){
+      this.payrollToggle = true;
+    }else{
+      this.expenseCancelToggle = true;
+    }
+
+    if(statusId == 41 && isCashPayment == 0){
+      this.paymentCashNoToggle = true;
+    }else if(statusId == 41 && isCashPayment == 1){
+      this.paymentCashYesToggle = true;
+    }
+
+    if(isCashPayment == 1){
+      this.approveReq.paymentMethod = 'CASH'
+    }else{
+       this.approveReq.paymentMethod = 'ONLINE'
+    }
+
+    this.approveReq.id = id;
+    this.approveReq.statusId = statusId
+    this.approveReq.amount = this.partialAmount
+    this.dataService.updateCompanyExpense(this.approveReq).subscribe((res: any) => {
+      if(res.status){
+        this.approveReq = new ApproveReq();
+        this.getExpenses();
+        this.isCheckboxChecked = false;
+        this.partialAmount = '';
+        this.closeApproveModal.nativeElement.click()
+        this.approveToggle = false
+        this.rejectToggle = false
+        this.rejectDiv = false;
+        this.paymentCashNoToggle = false;
+        this.paymentCashYesToggle = false;
+        this.payCashDiv = false;
+
+        this.payrollToggle = false
+        this.expenseCancelToggle = false
+
+        this.helperService.showToast(
+          res.message,
+          Key.TOAST_STATUS_SUCCESS
+        );
+      }
+    })
+  }
+
+  approveOrDenyOld(id: number, statusId: number) {
 
     debugger
 
@@ -284,6 +347,32 @@ export class CreateExpenseComponent implements OnInit {
   }
 
   /** Company Expense end **/
+
+  rejectDiv: boolean = false;
+  showExpenseRejectDiv(){
+    this.rejectDiv = true;
+  }
+
+  payCashDiv: boolean = false;
+  showPayCashDiv(){
+    this.payCashDiv = true;
+  }
+
+  partiallyPayment: boolean = false;
+  expensePaymentType: string = 'full'
+  onExpensePaymentTypeChange(type: number): void {
+
+    this.approveReq.isPartiallyPayment = type;
+    if (this.approveReq.isPartiallyPayment == 0) {
+      this.approveReq.amount = 0; 
+    }
+
+    if (this.approveReq.isPartiallyPayment == 1) {
+      this.expensePaymentType = 'partial'
+    }
+
+    this.partiallyPayment = !this.partiallyPayment
+  }
 
   /**
    * Create Expense Policy Start

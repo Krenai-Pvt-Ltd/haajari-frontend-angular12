@@ -4,4 +4,7 @@ export class ApproveReq{
     statusId: number = 0;
     amount: any
     message: string = ''
+    rejectionReason: string =''
+    isPartiallyPayment: number = 0;
+    paymentMethod: string = ''
 }
