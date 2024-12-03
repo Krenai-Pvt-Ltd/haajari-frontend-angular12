@@ -471,7 +471,9 @@
                       {{ asset.status }}
                     </span>
                   </td>
-                  <td (click)="openStatusChangeModal(asset, statusChangeModal)" >View</td>
+                  <td (click)="openStatusChangeModal(asset, statusChangeModal)" >
+                    <button class="btn p-0 text-primary View-btn"><i class="bi bi-eye"></i> View </button>
+                  </td>
                 </tr>
               </tbody>
             </table>
