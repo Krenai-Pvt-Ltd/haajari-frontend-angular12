@@ -785,9 +785,9 @@
   box-shadow: none !important;
   background-color: #fff;
 }
-.nav-tabs {
+/* .nav-tabs {
   border-bottom: 1px solid #edeff5;
-}
+} */
 .nav-tabs .nav-item {
   margin-bottom: -1px;
   margin-right: 1rem;
@@ -2315,6 +2315,10 @@ font-size: 12px !important;
     width: 12px;
     position: relative;
     top: -1px;
+}
+.primaryBtnLink i{
+  position: relative;
+  top: -2px;
 }
 
 .nots-section {
