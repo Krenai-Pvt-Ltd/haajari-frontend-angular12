@@ -206,7 +206,11 @@
                 <tr *ngFor="let log of bonusAndDeductionDataList">
                   <td>
                     <img
-                      src="{{ log.image }}"
+                      [src]="
+                        log.image
+                          ? log.image
+                          : 'assets/images/users/user-3.jpg'
+                      "
                       alt=""
                       class="rounded-circle thumb-xs me-1"
                     />

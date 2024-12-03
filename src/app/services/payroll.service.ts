@@ -52,4 +52,7 @@ export class PayrollService {
       .set('end_date', endDate);
     return this._http.get<any>(`${this._key.base_url}/salary/organization-previous-month-data`,{ params });
   }
+
+
+  
 }

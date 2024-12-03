@@ -17,7 +17,7 @@ export class BonusAndDeductionComponent implements OnInit {
 
 
   constructor(private dataService: DataService,
-              private helperService: HelperService,
+              private _helperService: HelperService,
               private _salaryService : SalaryService) {
 
     
@@ -47,7 +47,7 @@ export class BonusAndDeductionComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.getOrganizationRegistrationDateMethodCall();
+    // this.getOrganizationRegistrationDateMethodCall();
 
     const currentDate = moment();
     this.startDateStr = currentDate.startOf('month').format('YYYY-MM-DD');
@@ -69,7 +69,6 @@ export class BonusAndDeductionComponent implements OnInit {
 
   onYearChange(date: Date): void {
     this.selectedDate = date;
-    // console.log('Selected year:', date.getFullYear());
   }
 
   startDateStr: string = '';
@@ -186,7 +185,7 @@ bonusAndDeductionDataList: BonusAndDeductionData[] = [];
   }
 
   searchUsers(event: Event) {
-    this.helperService.ignoreKeysDuringSearch(event);
+    this._helperService.ignoreKeysDuringSearch(event);
     this.resetCriteriaFilterMicro();
 this.getBonusAndDeductionMethodCall();
   }
@@ -197,18 +196,18 @@ this.getBonusAndDeductionMethodCall();
    this.getBonusAndDeductionMethodCall();
   }
 
-  organizationRegistrationDate: string = '';
-  getOrganizationRegistrationDateMethodCall() {
-    debugger;
-    this.dataService.getOrganizationRegistrationDate().subscribe(
-      (response) => {
-        this.organizationRegistrationDate = response;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
+  // organizationRegistrationDate: string = '';
+  // getOrganizationRegistrationDateMethodCall() {
+  //   debugger;
+  //   this.dataService.getOrganizationRegistrationDate().subscribe(
+  //     (response) => {
+  //       this.organizationRegistrationDate = response;
+  //     },
+  //     (error) => {
+  //       console.log(error);
+  //     }
+  //   );
+  // }
 
   
   selectedDate: Date = new Date();
@@ -231,10 +230,10 @@ this.getBonusAndDeductionMethodCall();
     const dateYear = date.getFullYear();
     const dateMonth = date.getMonth();
     const organizationRegistrationYear = new Date(
-      this.organizationRegistrationDate
+      this._helperService.organizationRegistrationDate
     ).getFullYear();
     const organizationRegistrationMonth = new Date(
-      this.organizationRegistrationDate
+      this._helperService.organizationRegistrationDate
     ).getMonth();
 
     // Disable if the month is before the organization registration month
@@ -271,9 +270,9 @@ this.getBonusAndDeductionMethodCall();
     this._salaryService.updateBonus(this.bonusEditReq).subscribe((response) => {
         if(response.status){
           this.getBonusAndDeductionMethodCall();
-          this.helperService.showToast(response.message,Key.TOAST_STATUS_SUCCESS);
+          this._helperService.showToast(response.message,Key.TOAST_STATUS_SUCCESS);
         }else{
-          this.helperService.showToast(response.message,Key.TOAST_STATUS_ERROR);
+          this._helperService.showToast(response.message,Key.TOAST_STATUS_ERROR);
         }
       },(error) => {
 
@@ -292,9 +291,9 @@ this.getBonusAndDeductionMethodCall();
     this._salaryService.deleteBonus(this.bonusId).subscribe((response) => {
         if(response.status){
           this.getBonusAndDeductionMethodCall();
-          this.helperService.showToast(response.message,Key.TOAST_STATUS_SUCCESS);
+          this._helperService.showToast(response.message,Key.TOAST_STATUS_SUCCESS);
         }else{
-          this.helperService.showToast(response.message,Key.TOAST_STATUS_ERROR);
+          this._helperService.showToast(response.message,Key.TOAST_STATUS_ERROR);
         }
 
       },(error) => {

@@ -136,11 +136,11 @@
             <tr>
               <th>EMPLOYEE</th>
               <th>EMAIL</th>
+              <th>PHONE</th>
               <th>EPF</th>
               <th>ESI</th>
               <th>TDS</th>
               <th>STATUS</th>
-              <!-- <th>ACTIONS</th> -->
             </tr>
           </thead>
           <ng-container
@@ -218,6 +218,7 @@
                     {{ employee.name }}
                   </td>
                   <td>{{ employee.email || 'N/A'}}</td>
+                  <td>{{ employee.phone || 'N/A'}}</td>
                   <td>
                     ₹{{
                       employee.epfAmount ? (employee.epfAmount | number) : "0"

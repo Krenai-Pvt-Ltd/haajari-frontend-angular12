@@ -2,7 +2,7 @@
   <!-- Page Content-->
   <div class="page-content-tab">
     <div class="container-fluid">
-      <div class="row leave-management-settings p-3 mt-2 align-items-center" *ngIf="mainPlaceholderFlag">
+      <!-- <div class="row leave-management-settings p-3 mt-2 align-items-center" *ngIf="mainPlaceholderFlag">
         <div class="col-md-6">
           <div class="leave-management-detail pt-5 pb-5">
             <h3 class="mb-3">
@@ -14,7 +14,7 @@
               available discounts in one place.
             </p>
 
-            <!-- <button class="btn add-leave-btn mt-4 mb-2">Add New Members</button> -->
+            
 
             <hr />
             <span class="mb-0">
@@ -55,9 +55,9 @@
             <img src="assets/images/esi-epf-img.svg" style="width: 380px" />
           </div>
         </div>
-      </div>
+      </div> -->
 
-      <div class="col-12 mt-4" *ngIf="!mainPlaceholderFlag">
+      <div class="col-12 mt-4">
         <!-- Left sidebar -->
         <div
           class="d-flex align-items-center"
@@ -106,7 +106,7 @@
                     "
                   ></i>
                   <button
-                    *ngIf="search.length !== 0"
+                    *ngIf="search.length > 0"
                     type="button"
                     class="btn close-btn"
                     (click)="clearSearch()"
@@ -127,135 +127,39 @@
               style="display: flex; align-items: center; margin-left: 20px"
             >
               <!-- Display this only if there are selected staff -->
-              <a class="info-button" *ngIf="selectedEmployeeIds.length > 0">
-                {{ selectedEmployeeIds.length }} selected of {{ total }}
+              <a class="info-button" *ngIf="monthWiseIds.length > 0">
+                {{ monthWiseIds.length }} selected of {{ total }}
               </a>
               <!-- Clear button shows only if there are selected staff -->
               <span
                 class="clear-button text-danger"
-                *ngIf="selectedEmployeeIds.length > 0"
-                (click)="unselectAllUsers()"
+                (click)="unSelectAll()"
                 style="margin-left: 10px"
+                *ngIf="monthWiseIds.length>0"
               >
                 Clear all users <i class="bi bi-x"></i>
               </span>
               <label class="checkbox-label" style="margin-left: 10px">
                 <input
                   type="checkbox"
-                  [checked]="isAllUsersSelected"
-                  (change)="selectAllUsers($event)"
+                  [checked]="allChecked"
+                  (click)="selectAll()"
                 />
                 Select all
               </label>
             </div>
           </div>
         </div>
-        <!-- <div class="email-leftbar">
-          <small>Teams</small>
-          <ul class="list-group">
-            <li
-              class="list-group-item d-flex justify-content-between align-items-center"
-            >
-              <div>
-                <i
-                  class="la la-arrow-right text-secondary me-2 text-muted font-16 me-2"
-                ></i
-                >Krenai
-              </div>
-              <span class="badge badge-outline-primary badge-pill">4</span>
-            </li>
-            <li
-              class="list-group-item d-flex justify-content-between align-items-center"
-            >
-              <div>
-                <i
-                  class="la la-arrow-right text-secondary me-2 text-muted font-18 me-2"
-                ></i
-                >Credily
-              </div>
 
-              <span class="badge badge-outline-primary badge-pill">4</span>
-            </li>
-            <li
-              class="list-group-item d-flex justify-content-between align-items-center"
-            >
-              <div>
-                <i
-                  class="la la-arrow-right text-secondary me-2 text-muted font-16 me-2"
-                ></i
-                >Hajiri
-              </div>
-              <span class="badge badge-outline-primary badge-pill">4</span>
-            </li>
-            <li
-              class="list-group-item d-flex justify-content-between align-items-center"
-            >
-              <div>
-                <i
-                  class="la la-arrow-right text-secondary me-2 text-muted font-16 me-2"
-                ></i
-                >1PYQ
-              </div>
-              <span class="badge badge-outline-primary badge-pill">4</span>
-            </li>
-            <li
-              class="list-group-item d-flex justify-content-between align-items-center"
-            >
-              <div>
-                <i
-                  class="la la-arrow-right text-secondary me-2 text-muted font-16 me-2"
-                ></i
-                >Wekreta
-              </div>
-              <span class="badge badge-outline-info badge-pill">1</span>
-            </li>
-          </ul>
-          <p></p>
-          <small class="pt-4">Locations</small>
-          <ul class="list-group">
-            <li
-              class="list-group-item d-flex justify-content-between align-items-center"
-            >
-              <div>
-                <i
-                  class="la la-arrow-right text-secondary me-2 text-muted font-16 me-2"
-                ></i
-                >Sector 67
-              </div>
-              <span class="badge badge-outline-primary badge-pill">4</span>
-            </li>
-            <li
-              class="list-group-item d-flex justify-content-between align-items-center"
-            >
-              <div>
-                <i
-                  class="la la-arrow-right text-secondary me-2 text-muted font-18 me-2"
-                ></i
-                >Sector 44
-              </div>
-
-              <span class="badge badge-outline-primary badge-pill">4</span>
-            </li>
-          </ul>
-
-    
-        </div> -->
         <!-- email-rightbar -->
         <div class="">
           <!-- end div -->
-          <div class="btn-toolbar" role="toolbar" *ngIf="selectedEmployeeIds.length>0">
+          <div class="btn-toolbar" role="toolbar" *ngIf="monthWiseIds.length>0">
             <div class="btn-group">
-              <!-- <button type="button" class="btn btn-de-secondary">
-                <i class="fas fa-cog"></i>
-                <small>&nbsp;&nbsp;RELEASE PAYROLL</small>
-              </button> -->
               <button
-                [disabled]="
-                  !selectedEmployeeIds || selectedEmployeeIds.length === 0
-                "
                 type="button"
                 class="btn btn-de-secondary"
-                (click)="updatePayActionTypeFoUsersMethodCall('HOLD SALARY')"
+                (click)="updateSalarySlipStatus()"
                 style="cursor: pointer"
               >
                 <i class="fas fa-exclamation-circle"></i>
@@ -264,39 +168,26 @@
               <button
                 type="button"
                 class="btn btn-de-secondary"
-                (click)="sendPayslipPdf('email')"
+                (click)="shareSalaryPayslipVia('EMAIL')"
               >
                 <i class="fas fa-envelope-open"></i>
-                <small>&nbsp;&nbsp;Send By Mail</small>
+                <small>&nbsp;&nbsp;E-MAIL</small>
               </button>
               <button
                 type="button"
                 class="btn btn-de-secondary"
-                (click)="sendPayslipPdf('whatsapp')"
+                (click)="shareSalaryPayslipVia('WHATSAPP')"
               >
                 <i class="fab fa-whatsapp"></i>
-                <small>&nbsp;&nbsp;Send By WhatsApp</small>
+                <small>&nbsp;&nbsp;WHATSAPP</small>
               </button>
               <button
                 type="button"
                 class="btn btn-de-secondary"
-                (click)="sendPayslipPdf('slack')"
+                (click)="shareSalaryPayslipVia('SLACK')"
               >
                 <i class="fab fa-whatsapp"></i>
-                <small>&nbsp;&nbsp;Send By Slack</small>
-              </button>
-            </div>
-            <div class="btn-group ms-1">
-              <button
-                [disabled]="
-                  !selectedEmployeeIds || selectedEmployeeIds.length === 0
-                "
-                type="button"
-                class="btn btn-de-secondary"
-                (click)="generateSalarySlipMethodCall()"
-              >
-                <i class="fas fa-cogs"></i>
-                <small>&nbsp;&nbsp;Generate</small>
+                <small>&nbsp;&nbsp;SLACK</small>
               </button>
             </div>
           </div>
@@ -309,8 +200,7 @@
                     <th></th>
                     <th>NAME</th>
                     <th>EMAIL</th>
-                    <th>DEPARTMENT</th>
-                    <th>PAY ACTION</th>
+                    <th>PHONE</th>
                     <th>PAYSLIP STATUS</th>
                     <th>ACTION</th>
                   </tr>
@@ -334,12 +224,6 @@
                       </td>
                       <td class="text-center">
                         <ngx-shimmer-loading
-                          [width]="'%'"
-                          [height]="'10px'"
-                        ></ngx-shimmer-loading>
-                      </td>
-                      <td class="text-center">
-                        <ngx-shimmer-loading
                           [width]="'70%'"
                           [height]="'10px'"
                         ></ngx-shimmer-loading>
@@ -362,24 +246,7 @@
                           [height]="'10px'"
                         ></ngx-shimmer-loading>
                       </td>
-                      <td class="text-center">
-                        <ngx-shimmer-loading
-                          [width]="'70%'"
-                          [height]="'10px'"
-                        ></ngx-shimmer-loading>
-                      </td>
-                      <td class="text-center">
-                        <ngx-shimmer-loading
-                          [width]="'70%'"
-                          [height]="'10px'"
-                        ></ngx-shimmer-loading>
-                      </td>
-                      <td class="text-center">
-                        <ngx-shimmer-loading
-                          [width]="'70%'"
-                          [height]="'10px'"
-                        ></ngx-shimmer-loading>
-                      </td>
+                      
                     </tr>
                   </tbody>
                 </ng-container>
@@ -395,55 +262,31 @@
                   >
                     <tbody>
                       <tr
-                        *ngFor="let employee of employeeMonthWiseSalaryDataList"
+                        *ngFor="let employee of employeeMonthWiseSalaryDataList; let i = index;"
                       >
                         <td>
                           <input
                             type="checkbox"
-                            [checked]="
-                              selectedEmployeeIds.includes(employee.uuid)
-                            "
-                            (change)="selectUser(employee)"
+                            id="checkBox{{i}}"
+                            name = "checkBox{{i}}"
+                            [checked]="employee.checked"
+                            (click)="selectSingle(employee, i)"
                           />
                         </td>
-                        <td>{{ employee.name ? employee.name : "-" }}</td>
-                        <td>{{ employee.email ? employee.email : "-" }}</td>
-                        <td>
-                          {{ employee.department ? employee.department : "-" }}
-                        </td>
+                        <td>{{ employee.name ? employee.name : "N/A" }}</td>
+                        <td>{{ employee.email ? employee.email : "N/A" }}</td>
+                        <td>{{ employee.phone ? employee.phone : "N/A" }}</td>
                         <td>
                           <span
                             class="badge rounded-pill"
                             [ngClass]="{
                               'badge-soft-success':
-                                !employee.payActionType ||
-                                employee.payActionType === 'PROCESS AS SALARY',
-                              'badge-soft-danger':
-                                employee.payActionType === 'HOLD SALARY'
-                            }"
-                          >
-                            {{
-                              employee.payActionType
-                                ? employee.payActionType
-                                : "PROCESS AS SALARY"
-                            }}
-                          </span>
-                        </td>
-                        <td>
-                          <span
-                            class="badge rounded-pill"
-                            [ngClass]="{
-                              'badge-soft-success':
-                                employee.payStatusName === 'APPROVED',
+                                employee.isSlipHold == 0,
                               'badge-soft-warning':
-                                employee.payStatusName === 'PENDING'
+                                employee.isSlipHold == 1
                             }"
                           >
-                            {{
-                              employee.payStatusName
-                                ? employee.payStatusName
-                                : "-"
-                            }}
+                            {{employee.isSlipHold == 1 ? "HOLD" : "ACTIVE"}}
                           </span>
                         </td>
                         <td>
@@ -457,9 +300,7 @@
                               class="btn btn-light"
                               ngbTooltip="Download"
                               placement="top"
-                              (click)="downloadPdf(employee.paySlipUrl)"
-                              [disabled]="!employee.paySlipUrl"
-                            >
+                              (click)="downloadPdf(employee.paySlipUrl)">
                               <i class="ti ti-download"></i>
                             </button>
                             <button
@@ -467,9 +308,7 @@
                               class="btn btn-light"
                               ngbTooltip="View"
                               placement="top"
-                              (click)="viewPdf(employee.paySlipUrl)"
-                              [disabled]="!employee.paySlipUrl"
-                            >
+                              (click)="viewPdf(employee.paySlipUrl)">
                               <i class="ti ti-eye"></i>
                             </button>
                             <button
@@ -477,14 +316,7 @@
                               class="btn btn-light"
                               ngbTooltip="Send"
                               placement="top"
-                              (click)="
-                                sendPayslipPdf(
-                                  'email',
-                                  employeeMonthWiseSalaryDataList
-                                )
-                              "
-                              [disabled]="!employee.paySlipUrl"
-                            >
+                              (click)="shareIndividualPayslip('EMAIL',employee.id)">
                               <i class="ti ti-send"></i>
                             </button>
                           </div>

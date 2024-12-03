@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import * as moment from 'moment';
 import { Key } from 'src/app/constant/key';
 import { EmployeeMonthWiseSalaryData } from 'src/app/models/employee-month-wise-salary-data';
@@ -17,10 +17,8 @@ export class TdsComponent implements OnInit {
   lastPageNumber: number = 0;
   total : number = 0
   pageNumber: number = 1;
-  sort: string = 'asc';
-  sortBy: string = 'id';
   search: string = '';
-  searchBy: string = 'name';
+
 
   readonly PENDING = Key.PENDING;
   readonly APPROVED = Key.APPROVED;
@@ -35,7 +33,7 @@ export class TdsComponent implements OnInit {
   }
 
   constructor(private dataService: DataService,
-     private helperService: HelperService,
+     private _helperService: HelperService,
      private _salaryService :SalaryService) {
    
   }
@@ -49,7 +47,7 @@ export class TdsComponent implements OnInit {
     // Set the default selected month
     this.month = currentDate.format('MMMM');
 
-    this.getOrganizationRegistrationDateMethodCall();
+    // this.getOrganizationRegistrationDateMethodCall();
     this.getFirstAndLastDateOfMonth(this.selectedDate);
   
   }
@@ -63,24 +61,13 @@ export class TdsComponent implements OnInit {
   employeeMonthWiseSalaryDataList: EmployeeMonthWiseSalaryData[] = [];
   getEmployeeMonthWiseSalaryDataMethodCall() {
     this.preRuleForShimmersAndErrorPlaceholders();
-    this._salaryService
-      .getMonthWiseSalaryData(
-        this.startDate,
-        this.endDate,
-        this.itemPerPage,
-        this.pageNumber,
-        this.search,
-        this.searchBy,
-        this.sort,
-        this.sortBy
-      )
-      .subscribe(
-        (response) => {
-          if (!response.listOfObject) {
+    this._salaryService.getMonthWiseSalaryData(this.startDate,this.endDate,this.itemPerPage,this.pageNumber,this.search)
+      .subscribe((response) => {
+          if (!response.object) {
             this.dataNotFoundPlaceholder = true;
               
           } else {
-            this.employeeMonthWiseSalaryDataList = response.listOfObject;
+            this.employeeMonthWiseSalaryDataList = response.object;
             this.total = response.totalItems;
             this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
 
@@ -128,10 +115,10 @@ export class TdsComponent implements OnInit {
     const dateYear = date.getFullYear();
     const dateMonth = date.getMonth();
     const organizationRegistrationYear = new Date(
-      this.organizationRegistrationDate
+      this._helperService.organizationRegistrationDate
     ).getFullYear();
     const organizationRegistrationMonth = new Date(
-      this.organizationRegistrationDate
+      this._helperService.organizationRegistrationDate
     ).getMonth();
 
     // Disable if the month is before the organization registration month
@@ -155,18 +142,18 @@ export class TdsComponent implements OnInit {
     return false;
   };
 
-  organizationRegistrationDate: string = '';
-  getOrganizationRegistrationDateMethodCall() {
-    debugger;
-    this.dataService.getOrganizationRegistrationDate().subscribe(
-      (response) => {
-        this.organizationRegistrationDate = response;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
+  // organizationRegistrationDate: string = '';
+  // getOrganizationRegistrationDateMethodCall() {
+  //   debugger;
+  //   this.dataService.getOrganizationRegistrationDate().subscribe(
+  //     (response) => {
+  //       this.organizationRegistrationDate = response;
+  //     },
+  //     (error) => {
+  //       console.log(error);
+  //     }
+  //   );
+  // }
 
   getFirstAndLastDateOfMonth(selectedDate: Date) {
 
@@ -221,10 +208,7 @@ export class TdsComponent implements OnInit {
     this.pageNumber = 1;
     this.lastPageNumber = 0;
     this.total = 0;
-    this.sort = 'asc';
-    this.sortBy = 'id';
     this.search = '';
-    this.searchBy = 'name';
   }
 
   resetCriteriaFilterMicro() {
@@ -235,7 +219,7 @@ export class TdsComponent implements OnInit {
   }
 
   searchUsers(event: Event) {
-    this.helperService.ignoreKeysDuringSearch(event);
+    this._helperService.ignoreKeysDuringSearch(event);
     this.resetCriteriaFilterMicro();
     this.getEmployeeMonthWiseSalaryDataMethodCall();
   }

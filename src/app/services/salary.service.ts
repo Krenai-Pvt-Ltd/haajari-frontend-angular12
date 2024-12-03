@@ -139,25 +139,13 @@ export class SalaryService {
   }
 
 
-  getMonthWiseSalaryData(
-    startDate: any,
-    endDate: any,
-    itemPerPage: number,
-    pageNumber: number,
-    search: string,
-    searchBy: string,
-    sort: string,
-    sortBy: string
-  ): Observable<any> {
+  getMonthWiseSalaryData(startDate: any,endDate: any,itemPerPage: number,pageNumber: number,search: string): Observable<any> {
     const params = new HttpParams()
-      .set('start_date', startDate.toString())
-      .set('end_date', endDate.toString())
-      .set('item_per_page', itemPerPage.toString())
-      .set('page_number', pageNumber.toString())
+      .set('start_date', startDate)
+      .set('end_date', endDate)
+      .set('item_per_page', itemPerPage)
+      .set('page_number', pageNumber)
       .set('search', search)
-      .set('search_by', searchBy)
-      .set('sort', sort)
-      .set('sort_by', sortBy);
 
     return this._http.get<any>(`${this._key.base_url}/salary/month-wise/data`,{ params });
   }
@@ -166,6 +154,35 @@ export class SalaryService {
   updateEmployeeData(empSalaryData: EmployeeMonthWiseSalaryData): Observable<any>{
    
     return this._http.put<any>(`${this._key.base_url}/salary/month-wise/data`, empSalaryData);
+  }
+
+
+  getMonthWiseSalarySlipData(startDate: any,endDate: any,itemPerPage: number,pageNumber: number,search: string): Observable<any> {
+
+    const params = new HttpParams()
+    .set('start_date', startDate)
+    .set('end_date', endDate)
+    .set('item_per_page', itemPerPage)
+    .set('page_number', pageNumber)
+    .set('search', search)
+
+    return this._http.get<any>(`${this._key.base_url}/salary/month-wise/slip`,{ params });
+  }
+
+
+  updateSalarySlipStatus(monthWiseIds:number[]): Observable<any>{
+    const params = new HttpParams()
+    .set('month_wise_ids', String(monthWiseIds));
+
+    return this._http.put<any>(`${this._key.base_url}/salary/month-wise/slip/on-hold`,{},{ params });
+  
+  }
+
+  shareSalaryPayslipVia(monthWiseIds:number[], shareVia:string ): Observable<any>{
+    const params = new HttpParams()
+    .set('month_wise_ids', String(monthWiseIds))
+    .set('share_via', shareVia);
+    return this._http.post<any>(`${this._key.base_url}/salary-slip/share`,{}, {params});
   }
 
 

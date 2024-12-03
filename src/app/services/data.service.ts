@@ -3303,35 +3303,33 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
 
   
 
-  getSalarySlipDataMonthwise(
-    startDate: any,
-    endDate: any,
-    itemPerPage: number,
-    pageNumber: number,
-    search: string,
-    searchBy: string): Observable<any> {
+  // getSalarySlipDataMonthwise(
+  //   startDate: any,
+  //   endDate: any,
+  //   itemPerPage: number,
+  //   pageNumber: number,
+  //   search: string): Observable<any> {
 
-    const params = new HttpParams()
-    .set('start_date', startDate)
-    .set('end_date', endDate)
-    .set('item_per_page', itemPerPage)
-    .set('page_number', pageNumber)
-    .set('search', search)
-    .set('search_by', searchBy)
+  //   const params = new HttpParams()
+  //   .set('start_date', startDate)
+  //   .set('end_date', endDate)
+  //   .set('item_per_page', itemPerPage)
+  //   .set('page_number', pageNumber)
+  //   .set('search', search)
 
-    return this.httpClient.get<any>(`${this.baseUrl}/salary-slip/monthwise/data`, {params});
-  }
+  //   return this.httpClient.get<any>(`${this.baseUrl}/salary-slip/monthwise/data`, {params});
+  // }
 
-  getAllSalarySlipDataLogsMonthwise(
-    startDate: any,
-    endDate: any): Observable<any> {
+  // getAllSalarySlipDataLogsMonthwise(
+  //   startDate: any,
+  //   endDate: any): Observable<any> {
 
-    const params = new HttpParams()
-    .set('start_date', startDate)
-    .set('end_date', endDate)
+  //   const params = new HttpParams()
+  //   .set('start_date', startDate)
+  //   .set('end_date', endDate)
 
-    return this.httpClient.get<any>(`${this.baseUrl}/salary-slip/get-all`, {params});
-  }
+  //   return this.httpClient.get<any>(`${this.baseUrl}/salary-slip/get-all`, {params});
+  // }
 
   getPayrollLeaveResponse(
     startDate: any,

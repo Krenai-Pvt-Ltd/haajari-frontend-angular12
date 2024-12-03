@@ -23,7 +23,7 @@ export class HelperService {
     ) {
 
    }
-
+   organizationRegistrationDate:string='';
    isFirstTime: boolean = true;
    markAsVisited() {
     this.isFirstTime = false;
@@ -346,7 +346,6 @@ export class HelperService {
   }
 
 
-  organizationRegistrationDate: string = '';
   getOrganizationRegistrationDateMethodCall() {
     this.dataService.getOrganizationRegistrationDate().subscribe(
       (response) => {
