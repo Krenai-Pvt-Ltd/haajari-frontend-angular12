@@ -21,7 +21,7 @@
                               <div class="row justify-content-between align-items-center mx-0">
                                 <div class="col-lg-12 col-md-12 col-sm-12 ps-0">
                                 <div class="onboarding-date d-flex align-items-center position-relative">
-                                    <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid w-100" style="border-right: 1px solid #f2f2f2 !important;">
+                                    <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid w-100">
                                         <div class="form-group w-100 position-relative" >
                                           <input type="text"
                                                 id="searchText" placeholder="Search..."
@@ -36,9 +36,9 @@
                                               <!-- reset btn -->
                                               </div>
                                     </form>
-                                   
+
                                     <div>
-                               
+
                                   <button class="btn p-0 text-primary font-14 assets-request-btn" data-bs-toggle="modal" data-bs-target="#assetRequest">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                       <mask id="mask0_5429_18755" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="21">
@@ -51,7 +51,7 @@
                                       </g>
                                     </svg>
                                     Asset Request
-                                    
+
                                   </button>
                                   </div>
                                   </div>
@@ -130,7 +130,7 @@
                                   <span class="table-font-weight">{{ asset.purchasedDate | date: 'yyyy-MM-dd' }}</span>
                                 </td>
                                 <td class="text-left">
-                                  <span class="table-font-weight">{{ asset.price | currency }}</span>
+                                  <span class="table-font-weight">{{ asset.price | currency: 'INR' }}</span>
                                 </td>
                                 <td class="text-left">
                                   <span
@@ -146,7 +146,7 @@
                           </table>
                         </div>
 
-                      <div *ngIf="totalPages()>1" class="pagination-controls">
+                      <div *ngIf="totalPages()>1" class="pagination-controls d-flex align-items-end">
                         <!-- Ngb Pagination Component -->
                         <ngb-pagination
                           [collectionSize]="totalCount"
@@ -216,7 +216,7 @@
                                 </div>
 
                                 <div class="onboarding-date d-flex align-items-center position-relative w-100">
-                                    <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid w-100" style="border-right: 1px solid #f2f2f2 !important;">
+                                    <form novalidate="" role="search" class="searching ng-untouched ng-pristine ng-valid w-100">
                                         <div class="form-group position-relative w-100">
                                           <input type="text" id="searchText" placeholder="Search..."
                                                 class="form-control me-2 ng-pristine ng-valid ng-touched"
@@ -227,7 +227,7 @@
                                                 <!-- <i class="bi bi-x reset-icon text-primary pointer "></i> -->
                                         </div>
                                     </form>
-                              
+
                                 <div>
                                   <button class="btn p-0 text-primary font-14 assets-request-btn" data-bs-toggle="modal" data-bs-target="#assetRequest">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
@@ -241,7 +241,7 @@
                                       </g>
                                     </svg>
                                     Asset Request
-                                   
+
                                   </button>
                                   </div>
                                 </div>
@@ -340,7 +340,7 @@
                                   <span class="table-font-weight"> {{ asset.actionTakenOn ? (asset.actionTakenOn | date: 'MMM d yyyy') : 'N/A' }} </span>
                                   </td>
                                 <td class="text-left">
-                                  <span class="white-space table-font-weight" style="width: 40px !important;" nz-popover 
+                                  <span class="white-space table-font-weight" style="width: 40px !important;" nz-popover
                                   nzPopoverTitle="Note" [nzPopoverContent]="contentTemplate" [nzPopoverOverlayStyle]	="{'width':'300px'}"
                                    nzPopoverPlacement="top" > {{ asset.note || 'N/A'}} </span>
                                   <ng-template #contentTemplate>
@@ -350,36 +350,29 @@
                                   </ng-template>
                                 </td>
                                 <td class="text-left">
-                                  <span
-                                    [ngClass]="{
-                                      'badge rounded-pill badge-soft-success': asset.status !== ''
-                                    }">
+                                  <span class="badge rounded-pill" [ngClass]="{'badge-soft-warning': asset.status == 'PENDING', 'badge-soft-danger': asset.status == 'REJECTED', 'badge-soft-success': asset.status == 'APPROVED'}">
                                     {{ asset.status }}
                                   </span>
                                 </td>
                               </tr>
                             </tbody>
                           </table>
-                          <div *ngIf="this.assetRequestsTotalPage>1" class="pagination-controls">
-                            <!-- Ngb Pagination Component -->
-                            <ngb-pagination
-                              [collectionSize]="assetRequestsTotalCount"
-                              [rotate]="true"
-                              (pageChange)="pageChangedRequest($event)"
-                              [pageSize]="assetRequestsSize"
-                              [(page)]="assetRequestsPage"
-                              [maxSize]="8"
-                              [boundaryLinks]="true">
-                            </ngb-pagination>
+                         
+                        </div>
 
-
-                            <div class="showing-items-message text-right font-13">
-                              Showing items
-                              {{ (assetRequestsPage - 1) * assetRequestsSize + 1 }} –
-                              {{ Math.min(assetRequestsPage * assetRequestsSize, assetRequestsTotalCount) }}
-                              of {{ assetRequestsTotalCount }} records
-                            </div>
+                        <div *ngIf="this.assetRequestsTotalPage>1"
+                          class="pagination-controls d-flex align-items-center justify-content-between">
+                          <!-- Ngb Pagination Component -->
+                        
+                          <div class="showing-items-message text-right font-13">
+                            Showing items
+                            {{ (assetRequestsPage - 1) * assetRequestsSize + 1 }} –
+                            {{ Math.min(assetRequestsPage * assetRequestsSize, assetRequestsTotalCount) }}
+                            of {{ assetRequestsTotalCount }} records
                           </div>
+                          <ngb-pagination [collectionSize]="assetRequestsTotalCount" [rotate]="true" (pageChange)="pageChangedRequest($event)"
+                            [pageSize]="assetRequestsSize" [(page)]="assetRequestsPage" [maxSize]="8" [boundaryLinks]="true">
+                          </ngb-pagination>
                         </div>
 
                     </div>
@@ -392,7 +385,7 @@
                               Your assets request will be shown here once they have<br>been raised
                             </span>
                             <br>
-                            
+
                             <button class="btn p-0 text-primary mt-2 font-14 assets-request-btn" data-bs-toggle="modal"
                               data-bs-target="#assetRequest">
                               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">

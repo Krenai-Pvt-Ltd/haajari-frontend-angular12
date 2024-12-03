@@ -423,7 +423,21 @@
                       <input type="text" id="searchText" placeholder="Search..." class="form-control mb-0 ng-pristine ng-valid ng-touched"
                         (input)="searchAssetsRequest($event)" style="padding: 10px 40px;" ng-reflect-model="" ng-reflect-options="[object Object]">
                         <i class="bi bi-search search-icon ng-star-inserted" style="margin: auto; margin-left: 15px;"></i>
+
+                        <button [disabled]="downloadFlag" class="btn primaryBtnLink" data-bs-toggle="modal"
+                        (click)="downloadExcel()" type="button">
+                        <i class="bi bi-download"></i>
+                        <span *ngIf="!downloadFlag">Download</span>
+                        <div class="dot-opacity-loader" *ngIf="downloadFlag">
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                        </div>
+                        </button>
                     </div>
+
+
+
                   </form>
                 </div>
               </div>
@@ -445,6 +459,7 @@
                   <th class="text-left font-13" style="width: 10%">Action Taken on</th>
                   <th class="text-left font-13" style="width: 10%">Note</th>
                   <th class="text-left font-13" style="width: 10%">Status</th>
+                  <th class="text-left font-13" style="width: 10%">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -466,11 +481,12 @@
                   <td class="text-left">{{ asset.actionTakenOn | date: 'MMM d yyyy' }}</td>
                   <td class="text-left">{{ asset.note }}</td>
                   <td class="text-left">
-                    <button type="button" class="btn" [ngClass]="{
-                             'badge rounded-pill badge-soft-secondary': asset.status !== ''
-                             }" (click)="openStatusChangeModal(asset, statusChangeModal)">
+                    <span class="badge rounded-pill " [ngClass]="{'badge-soft-warning': asset.status == 'PENDING', 'badge-soft-danger': asset.status == 'REJECTED', 'badge-soft-success': asset.status == 'APPROVED' }" >
                       {{ asset.status }}
-                    </button>
+                    </span>
+                  </td>
+                  <td (click)="openStatusChangeModal(asset, statusChangeModal)" >
+                    <button class="btn p-0 text-primary View-btn"><i class="bi bi-eye"></i> View </button>
                   </td>
                 </tr>
               </tbody>

@@ -4,7 +4,10 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { UserDocumentsAsList } from 'src/app/models/UserDocumentsMain';
 import { DataService } from 'src/app/services/data.service';
-import { saveAs } from 'file-saver';
+import { HelperService } from 'src/app/services/helper.service';
+import { EmployeeAdditionalDocument } from 'src/app/models/EmployeeAdditionalDocument';
+import { finalize } from 'rxjs/operators';
+import { Key } from 'src/app/constant/key';
 
 @Component({
   selector: 'app-employee-document',
@@ -15,10 +18,18 @@ export class EmployeeDocumentComponent implements OnInit {
 
   uploadDoucument: boolean = false;
   userId: any;
+  docType: string= 'employee_doc';
+
+  setDocType(type: string) {
+    debugger;
+    this.docType = type;
+    console.log('dc type------'+this.docType);
+  }
 
 
   constructor(private dataService: DataService,private activateRoute: ActivatedRoute,
     public domSanitizer: DomSanitizer, private firebaseStorage: AngularFireStorage,
+    private afStorage: AngularFireStorage, private helperService : HelperService,
   ) {
     if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
@@ -37,47 +48,45 @@ export class EmployeeDocumentComponent implements OnInit {
   testimonialsString: string = '';
   aadhaarCardString: string = '';
   pancardString: string = '';
+
+  documents: EmployeeAdditionalDocument[] = [];
   getEmployeeDocumentsDetailsByUuid() {
 
-    this.dataService.getEmployeeDocumentAsList(this.userId).subscribe(
-      (data) => {
-        this.documentsEmployee = data.listOfObject;
-        this.mapDocumentUrls();
-        if (this.documentsEmployee.length == 0) {
-          this.isDocsPlaceholder = true;
-        }
+    this.dataService.getDocumentsByUserId(this.userId).subscribe({
+      next: (docs) => {
+        this.documents = docs;
+        console.log('Documents:', this.documents);
       },
-      (error) => {
-        this.isDocsPlaceholder = true;
-
-      }
-    );
+      error: (err) => {
+        console.error('Error fetching documents:', err);
+      },
+    });
   }
 
-  private mapDocumentUrls() {
-    for (let doc of this.documentsEmployee) {
-      switch (doc.documentName) {
-        case 'highSchool':
-          this.highSchoolCertificate = doc.documentUrl;
-          break;
-        case 'highestQualification':
-          this.degreeCert = doc.documentUrl;
-          break;
-        case 'secondarySchool':
-          this.intermediateCertificate = doc.documentUrl;
-          break;
-        case 'testimonial':
-          this.testimonialsString = doc.documentUrl;
-          break;
-        case 'aadhaarCard':
-          this.aadhaarCardString = doc.documentUrl;
-          break;
-        case 'pancard':
-          this.pancardString = doc.documentUrl;
-          break;
-      }
-    }
-  }
+  // private mapDocumentUrls() {
+  //   for (let doc of this.documentsEmployee) {
+  //     switch (doc.documentName) {
+  //       case 'highSchool':
+  //         this.highSchoolCertificate = doc.documentUrl;
+  //         break;
+  //       case 'highestQualification':
+  //         this.degreeCert = doc.documentUrl;
+  //         break;
+  //       case 'secondarySchool':
+  //         this.intermediateCertificate = doc.documentUrl;
+  //         break;
+  //       case 'testimonial':
+  //         this.testimonialsString = doc.documentUrl;
+  //         break;
+  //       case 'aadhaarCard':
+  //         this.aadhaarCardString = doc.documentUrl;
+  //         break;
+  //       case 'pancard':
+  //         this.pancardString = doc.documentUrl;
+  //         break;
+  //     }
+  //   }
+  // }
 
 
   previewString: SafeResourceUrl = '';
@@ -141,12 +150,19 @@ export class EmployeeDocumentComponent implements OnInit {
     console.log(`Deleting document: ${doc.documentName}`);
   }
 
-  uploadFile(event: Event, doc: any): void {
+
+  uploadFile(event: Event, doc: EmployeeAdditionalDocument): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
-      // Handle file upload logic here
-      console.log('Uploading file for document:', doc.documentName, file);
+      this.doc.name='';
+      this.doc.id=doc.id;
+      this.doc.value=doc.value;
+      this.doc.name=doc.name;
+      this.doc.documentType=doc.documentType;
+      this.doc.fileName = file.name;
+      this.uploadAdditionalFile(file);
+      console.log('Uploading file for document:', doc.name, file);
     }
   }
 
@@ -176,6 +192,60 @@ export class EmployeeDocumentComponent implements OnInit {
     const extension = `.${fileName?.split('.').pop()?.toLowerCase()}`;
 
     return this.fileTypeToIcon[extension] || 'lar la-file text-secondary';
+  }
+
+
+  isLoading: boolean=false;
+  selectedFile: File | null = null;
+  doc: EmployeeAdditionalDocument={fileName: '', name: '', url: '', value: ''};
+  @ViewChild('closeButton') closeButton!: ElementRef;
+  uploadAdditionalFile(file: File): void {
+    const filePath = `employeeCompanyDocs/${new Date().getTime()}_${file.name}`;
+    const fileRef = this.afStorage.ref(filePath);
+    const task = this.afStorage.upload(filePath, file);
+    task
+      .snapshotChanges()
+      .pipe(
+        finalize(() => {
+          fileRef.getDownloadURL().subscribe((url) => {
+            this.doc.url=url;
+            if(this.doc.documentType!='employee_doc' && this.doc.documentType!='company_doc'){
+              this.doc.documentType=this.docType;
+            }
+            this.dataService.saveDocumentForUser(this.userId, this.doc).subscribe({
+              next: (response) => {
+                console.log('Document saved successfully:', response);
+                this.helperService.showToast('Document saved successfully:',Key.TOAST_STATUS_SUCCESS);
+                this.isLoading=false;
+                this.closeButton.nativeElement.click();
+                this.getEmployeeDocumentsDetailsByUuid();
+              },
+              error: (err) => {
+                this.helperService.showToast('Some problem in saving Document:',Key.TOAST_STATUS_ERROR);
+                this.isLoading=false;
+              },
+            });
+          });
+        })
+      )
+      .subscribe();
+  }
+  onFileSelected(event: Event): void {
+    console.log(this.docType);
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+      this.doc.fileName = this.selectedFile.name; // Save file name
+    }
+  }
+
+  onSubmit(): void {
+    if (this.selectedFile) {
+      this.isLoading=true;
+      this.uploadAdditionalFile(this.selectedFile);
+    } else {
+      console.error('No file selected!');
+    }
   }
 
 }
