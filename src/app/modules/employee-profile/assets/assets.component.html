@@ -154,7 +154,7 @@
                           (pageChange)="pageChanged($event)"
                           [pageSize]="itemPerPage"
                           [(page)]="pageNumber"
-                          [maxSize]="8"
+                          [maxSize]="5"
                           [boundaryLinks]="true">
                         </ngb-pagination>
                       </div>
@@ -371,7 +371,7 @@
                             of {{ assetRequestsTotalCount }} records
                           </div>
                           <ngb-pagination [collectionSize]="assetRequestsTotalCount" [rotate]="true" (pageChange)="pageChangedRequest($event)"
-                            [pageSize]="assetRequestsSize" [(page)]="assetRequestsPage" [maxSize]="8" [boundaryLinks]="true">
+                            [pageSize]="assetRequestsSize" [(page)]="assetRequestsPage" [maxSize]="5" [boundaryLinks]="true">
                           </ngb-pagination>
                         </div>
 

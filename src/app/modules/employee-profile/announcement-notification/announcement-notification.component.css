@@ -287,3 +287,31 @@
     box-shadow: -0.785px 3.138px 2.981px 3.923px rgba(0, 0, 0, 0.04);
     width: 500px;
 }
+
+.shimmer-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.shimmer-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.shimmer {
+  background: linear-gradient(90deg, #f4f4f4 25%, #eaeaea 50%, #f4f4f4 75%);
+  background-size: 200% 100%;
+  animation: shimmer-animation 1.5s infinite;
+  border-radius: 4px;
+}
+
+@keyframes shimmer-animation {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
