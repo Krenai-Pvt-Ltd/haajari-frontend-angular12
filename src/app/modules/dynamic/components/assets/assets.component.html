@@ -474,22 +474,31 @@
                   <td colspan="9" class="text-center">No data found</td>
                 </tr>
                 <tr *ngFor="let asset of assetRequests">
-                  <td class="text-left">{{ asset.requestedOn | date: 'EEE, MMM d yyyy' }}</td>
-                  <td class="text-left">{{ asset.assetName }}</td>
-                  <td class="text-left">{{ asset.assetType }}</td>
-                  <td class="text-left">{{ asset.assetCategoryName }}</td>
+                  <td class="text-left">{{ (asset.requestedOn | date: 'EEE, MMM d yyyy') || '--' }}</td>
+                  <td class="text-left">{{ asset.assetName || '--' }}</td>
+                  <td class="text-left">{{ asset.assetType || '--' }}</td>
+                  <td class="text-left">{{ asset.assetCategoryName || '--' }}</td>
                   <td class="text-left">
                     <button class="btn btn-link text-primary p-0" [routerLink]="['/employee-profile']"
                       [queryParams]="{ userId: asset.userUuid }">
-                      {{ asset.requestedBy }}
+                      {{ asset.requestedBy || '--'}}
                     </button>
                   </td>
                   <!--  <td class="text-left">{{ asset.approvedBy }}</td> -->
-                  <td class="text-left">{{ asset.actionTakenOn | date: 'MMM d yyyy' }}</td>
-                  <td class="text-left">{{ asset.note }}</td>
+                  <td class="text-left">{{ (asset.actionTakenOn | date: 'MMM d yyyy') || '--' }}</td>
+                  <td class="text-left">
+                    <span class="white-space table-font-weight" style="width: 40px !important;" nz-popover
+                    nzPopoverTitle="Note" [nzPopoverContent]="contentTemplate" [nzPopoverOverlayStyle]	="{'width':'300px'}"
+                     nzPopoverPlacement="top" > {{ asset.note || '--'}} </span>
+                    <ng-template #contentTemplate>
+                      <div>
+                       {{asset.note}}
+                      </div>
+                    </ng-template>
+                  </td>
                   <td class="text-left">
                     <span class="badge rounded-pill " [ngClass]="{'badge-soft-warning': asset.status == 'PENDING', 'badge-soft-danger': asset.status == 'REJECTED', 'badge-soft-success': asset.status == 'APPROVED' }" >
-                      {{ asset.status }}
+                      {{ asset.status || '--' }}
                     </span>
                   </td>
                   <td (click)="openStatusChangeModal(asset, statusChangeModal)" >
@@ -508,7 +517,7 @@
                 of {{ assetRequestsTotalCount }} records
               </div>
               <ngb-pagination class="pagination-box" [collectionSize]="assetRequestsTotalCount" [rotate]="true" (pageChange)="pageChangedRequest($event)"
-                [pageSize]="assetRequestsSize" [(page)]="assetRequestsPage" [maxSize]="8" [boundaryLinks]="true">
+                [pageSize]="assetRequestsSize" [(page)]="assetRequestsPage" [maxSize]="5" [boundaryLinks]="true">
               </ngb-pagination>
             </div>
           </div>

@@ -5,4 +5,5 @@ export class Notification{
     isRead: number = 0;
     newNotificationCount:number = 0;
     createdDate: Date = new Date();
+    notificationType: String='';
 }
