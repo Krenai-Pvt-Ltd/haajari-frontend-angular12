@@ -202,7 +202,7 @@
                   <div class="card-header">
                     <div class="row align-items-center">
                       <div class="col">
-                        <h4 class="card-title">Assets Allocation By Condition</h4>
+                        <h4 class="card-title">Assets By Category</h4>
                       </div>
                       <!--end col-->
                       <!--end col-->
@@ -212,8 +212,8 @@
                   <!--end card-header-->
                   <!-- [view]="view" -->
                   <div class="card-body">
-                    <div class="text-center" *ngIf="categoryCounts.length > 0">
-                      <ngx-charts-bar-vertical-stacked [scheme]="colorScheme" [results]="categoryCounts"
+                    <div class="text-center chart-container" *ngIf="categoryCounts.length > 0">
+                      <ngx-charts-bar-vertical-stacked [scheme]="colorScheme" [results]="categoryCounts" [xAxisHeight]="2"  yAxisWidth='4'
                         [gradient]="false" [xAxis]="true" [yAxis]="true" [legend]="false" [animations]="true">
                       </ngx-charts-bar-vertical-stacked>
                     </div>
