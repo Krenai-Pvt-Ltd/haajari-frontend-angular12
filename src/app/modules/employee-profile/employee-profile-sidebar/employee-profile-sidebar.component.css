@@ -1191,7 +1191,20 @@ span.lat {
 .leave-history-box::-webkit-scrollbar {
   display: none;
 }
+.reject-status{
+    background-color: #FFF2F0;
 
+}
+.reject-status p{
+    color: #444;
+}
+.reject-status h6{
+    line-height: 22px;
+}
+.status{
+    border: 1px solid #D9D9D9;
+    height: 22px;
+}
 /** Approve Modal end */
 
 
