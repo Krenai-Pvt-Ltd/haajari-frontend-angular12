@@ -424,22 +424,26 @@
                         (input)="searchAssetsRequest($event)" style="padding: 10px 40px;" ng-reflect-model="" ng-reflect-options="[object Object]">
                         <i class="bi bi-search search-icon ng-star-inserted" style="margin: auto; margin-left: 15px;"></i>
 
-                        <button [disabled]="downloadFlag" class="btn primaryBtnLink" data-bs-toggle="modal"
-                        (click)="downloadExcel()" type="button">
-                        <i class="bi bi-download"></i>
-                        <span *ngIf="!downloadFlag">Download</span>
-                        <div class="dot-opacity-loader" *ngIf="downloadFlag">
-                          <span></span>
-                          <span></span>
-                          <span></span>
-                        </div>
-                        </button>
+                       
                     </div>
+
+
 
 
 
                   </form>
                 </div>
+
+                <button [disabled]="downloadFlag" class="btn primaryBtnLink" data-bs-toggle="modal" (click)="downloadExcel()"
+                  type="button">
+                  <i class="bi bi-download"></i>
+                  <span *ngIf="!downloadFlag">Export</span>
+                  <div class="dot-opacity-loader" *ngIf="downloadFlag">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </button>
               </div>
             </div>
           </div>
