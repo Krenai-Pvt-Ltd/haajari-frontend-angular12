@@ -693,3 +693,16 @@ actionMenuList .dropdown-item i {
 .border-top{
   border-top: 1px solid #f1f1f1 !important;
 }
+
+.custom-date-picker .ant-picker-input>input {
+  color: #3F988F !important;
+}
+
+.marital-status .ant-select-single .ant-select-selector {
+  width: 200px !important;
+  min-height: 0px !important;
+  background-color: transparent !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  color: #3F988F !important;
+}
