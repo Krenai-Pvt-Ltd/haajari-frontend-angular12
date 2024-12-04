@@ -319,30 +319,30 @@
                             <tbody *ngIf="!isLoading" >
                               <tr *ngFor="let asset of assetRequests">
                                 <td class="text-left">
-                                  <span class="table-font-weight">{{ asset.requestedOn ? (asset.requestedOn | date: 'EEE, MMM d yyyy') : 'N/A' }}</span>
+                                  <span class="table-font-weight">{{ asset.requestedOn ? (asset.requestedOn | date: 'EEE, MMM d yyyy') : '--' }}</span>
                                 </td>
                                 <td class="text-left">
-                                  <span>{{ asset.assetName || 'N/A' }} </span>
+                                  <span>{{ asset.assetName || '--' }} </span>
                                   </td>
                                 <td class="text-left">
-                                  <span class="table-font-weight">{{ asset.assetType || 'N/A' }} </span>
+                                  <span class="table-font-weight">{{ asset.assetType || '--' }} </span>
                                   </td>
                                 <td class="text-left">
-                                  <span class="table-font-weight"> {{ asset.assetCategoryName || 'N/A' }} </span>
+                                  <span class="table-font-weight"> {{ asset.assetCategoryName || '--' }} </span>
                                   </td>
                                 <td class="text-left">
-                                  <span> {{ asset.requestedUser || 'N/A' }} </span>
+                                  <span> {{ asset.requestedUser || '--' }} </span>
                                 </td>
                                 <td class="text-left">
-                                  <span class="table-font-weight">{{ asset.approvedBy || 'N/A' }} </span>
+                                  <span class="table-font-weight">{{ asset.approvedBy || '--' }} </span>
                                   </td>
                                 <td class="text-left">
-                                  <span class="table-font-weight"> {{ asset.actionTakenOn ? (asset.actionTakenOn | date: 'MMM d yyyy') : 'N/A' }} </span>
+                                  <span class="table-font-weight"> {{ asset.actionTakenOn ? (asset.actionTakenOn | date: 'MMM d yyyy') : '--' }} </span>
                                   </td>
                                 <td class="text-left">
                                   <span class="white-space table-font-weight" style="width: 40px !important;" nz-popover
                                   nzPopoverTitle="Note" [nzPopoverContent]="contentTemplate" [nzPopoverOverlayStyle]	="{'width':'300px'}"
-                                   nzPopoverPlacement="top" > {{ asset.note || 'N/A'}} </span>
+                                   nzPopoverPlacement="top" > {{ asset.note || '--'}} </span>
                                   <ng-template #contentTemplate>
                                     <div>
                                      {{asset.note}}
