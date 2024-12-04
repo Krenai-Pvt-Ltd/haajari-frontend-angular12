@@ -24,6 +24,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NgxShimmerLoadingModule } from 'ngx-shimmer-loading';
 import { EmployeeExpenseComponent } from './employee-expense/employee-expense.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 
@@ -38,7 +39,8 @@ import { EmployeeExpenseComponent } from './employee-expense/employee-expense.co
     PersonalInformationComponent,
     AnnouncementNotificationComponent,
     EmployeeExitComponent,
-    EmployeeExpenseComponent
+    EmployeeExpenseComponent,
+    DashboardComponent
   ],
   imports: [
     CommonModule,

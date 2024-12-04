@@ -659,7 +659,12 @@ dayShiftToggleFun(shift: string) {
   }
 
 
-  convertToHourMinuteFormat(time: string): string {
+  convertToHourMinuteFormat(time: string | null | undefined): string {
+
+    if (!time) {
+      return '0 mins'; // Default output if time is null or undefined
+    }
+
     const isNegative = time.startsWith('-');
     const timeWithoutSign = isNegative ? time.substring(1) : time;
     
@@ -678,7 +683,12 @@ dayShiftToggleFun(shift: string) {
     return result;
   }
 
-  convertToHourMinuteFormatNegativeCase(time: string): string {
+  convertToHourMinuteFormatNegativeCase(time: string | null | undefined): string {
+
+    if (!time) {
+      return '0 mins'; // Default output if time is null or undefined
+    }
+
     const isNegative = time.startsWith('-');
     const timeWithoutSign = isNegative ? time.substring(1) : time;
     
@@ -697,7 +707,11 @@ dayShiftToggleFun(shift: string) {
     return result;
   }
 
-  checkTimeNegative(time: string): boolean {
+  checkTimeNegative(time: string | null | undefined): boolean {
+    if (!time) {
+      return false; 
+    }
+
     return time.startsWith('-');
   }
 
