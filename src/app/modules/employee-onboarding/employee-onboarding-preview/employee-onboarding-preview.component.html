@@ -499,32 +499,13 @@
                           <table class="table table-bordered">
 
                             <tbody class="table-design">
-                                <tr>
-                                    <td colspan="3" >
-                                        Aadhaar Card :  {{ aadhaarCardFileName || 'N/A' }}</td>
-
-                                    <td colspan="3" >
-                                        Pancard : {{ pancardFileName || 'N/A' }}</td>
-                                  </tr>
-                              <tr>
-                                <td colspan="3" *ngIf="!isSchoolDocument">
-                                    10th Marksheet :  {{ secondarySchoolCertificateFileName || 'N/A' }}</td>
-
-                                <td colspan="3" *ngIf="!isHighSchoolDocument">
-                                    12th Marksheet : {{ highSchoolCertificateFileName1 || 'N/A' }}</td>
+                              <tr *ngFor="let row of employeeAdditionalDocument | slice: 0:employeeAdditionalDocument.length; let i = index">
+                                <td *ngFor="let document of employeeAdditionalDocument.slice(i * 3, (i + 1) * 3)">
+                                  {{ document.name }}: {{ document.fileName }}
+                                </td>
                               </tr>
-                              <tr>
-                                <td colspan="3">
-                                    Highest Qualification :  {{ highestQualificationDegreeFileName1 || 'N/A' }}</td>
-
-                                    <td colspan="3" *ngFor="let document of employeeAdditionalDocument; let i = index">
-                                        {{ document.name }}: {{ document.fileName }}
-                                    </td>
-                              </tr>
-
-
-
                             </tbody>
+
                           </table>
                     </div>
 

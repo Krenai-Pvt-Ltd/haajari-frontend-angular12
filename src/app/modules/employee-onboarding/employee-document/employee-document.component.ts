@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { NgForm } from '@angular/forms';
-import { NavigationExtras, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
 import { Key } from 'src/app/constant/key';
@@ -20,13 +20,18 @@ import { PreviewFormComponent } from '../preview-form/preview-form.component';
 })
 export class EmployeeDocumentComponent implements OnInit {
 
-
+  userId: any;
   userDocumentsDetailsRequest: UserDocumentsDetailsRequest = new UserDocumentsDetailsRequest();
 selectedHighSchoolCertificateFileName: any;
   constructor(private router : Router, public dataService : DataService,
+    private activateRoute: ActivatedRoute,
     private afStorage: AngularFireStorage,
     private helperService: HelperService,
-    private modalService: NgbModal) { }
+    private modalService: NgbModal) {
+      if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
+        this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
+      }
+    }
 
   ngOnInit(): void {
     this.getEmployeeDocumentsDetailsMethodCall();
@@ -40,44 +45,7 @@ selectedHighSchoolCertificateFileName: any;
   }
 
 
-  backRedirectUrl() {
-    // Retrieve userUuid from the URL query parameters
-    const userUuid = new URLSearchParams(window.location.search).get('userUuid');
 
-    // Initialize an empty object for queryParams
-    let queryParams: any = {};
-
-    // Add userUuid to queryParams if it exists
-    if (userUuid) {
-      queryParams['userUuid'] = userUuid;
-    }
-
-    // Conditionally add adminUuid to queryParams if updateRequest is true
-    if (this.userDocumentsDetailsRequest.updateRequest) {
-      const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
-      if (adminUuid) {
-        queryParams['adminUuid'] = adminUuid;
-      }
-    }
-
-    // Create NavigationExtras object with the queryParams
-    let navExtra: NavigationExtras = { queryParams };
-
-    // Navigate to the specified route with the query parameters
-
-  if(this.dataService.isRoutePresent('/employee-address-detail')){
-        this.router.navigate(
-          ['/employee-onboarding/employee-address-detail'],
-          navExtra
-        );
-  }else {
-    this.router.navigate(
-      ['/employee-onboarding/employee-onboarding-form'],
-      navExtra
-    );
-
-  }
-}
   userDocumentsStatus = "";
 
 
@@ -137,51 +105,6 @@ isValidFileType(file: File): boolean {
   selectedpancardFileName: string = '';
   isUploading: boolean = false;
 
-  onFileSelected(event: Event, documentType: string): void {
-    const element = event.currentTarget as HTMLInputElement;
-    let fileList: FileList | null = element.files;
-    if (fileList) {
-      const file = fileList[0];
-      // Check if the file type is valid before proceeding
-      if (this.isValidFileType(file)) { // Call isValidFileType method to check the file type
-        // Proceed only if the file type is valid
-        if (documentType === 'secondarySchoolCertificate') {
-          this.selectedSecondarySchoolFileName = file.name;
-        }
-        if (documentType === 'highSchoolCertificate') {
-          this.selectedHighSchoolFileName = file.name;
-        }
-        if (documentType === 'highestQualificationDegree') {
-          this.selectedHighestQualificationDegreeFileName = file.name;
-        }
-        if (documentType === 'testimonialReccomendation') {
-          this.selectedTestimonialReccomendationFileName = file.name;
-        }
-        if (documentType === 'aadhaarCard') {
-          this.selectedAadhaarCardFileName = file.name;
-        }
-        if (documentType === 'pancard') {
-          this.selectedpancardFileName = file.name;
-        }
-        // Use FileReader to read the file if it's an image for preview
-        const reader = new FileReader();
-
-        reader.onload = (e: any) => {
-          const imagePreview: HTMLImageElement = document.getElementById('imagePreview') as HTMLImageElement;
-          imagePreview.src = e.target.result;
-        };
-
-        reader.readAsDataURL(file);
-
-        // Now upload the file since it's a valid type
-        this.uploadFile(file, documentType);
-      } else {
-        element.value = '';
-        // Handle invalid file type here (optional)
-        console.error("Invalid file type.");
-      }
-    }
-  }
 
   isUploadingAadhaarCard: boolean = false;
   isUploadingPancard: boolean = false;
@@ -388,6 +311,14 @@ async getEmployeeDocumentsDetailsMethodCall(): Promise<boolean> {
         if(response!=null){
 
         }
+        if (response.employeeAdditionalDocument === undefined || response.employeeAdditionalDocument === null || response.employeeAdditionalDocument.length === 0) {
+          response.employeeAdditionalDocument = [];
+          this.employeeDocumentsName.forEach((documentName) => {
+              const newDocument = new EmployeeAdditionalDocument();
+              newDocument.name = documentName;
+              response.employeeAdditionalDocument.push(newDocument);
+          });
+      }
 
         if (response.userDocuments) {
 
@@ -445,18 +376,6 @@ async getEmployeeDocumentsDetailsMethodCall(): Promise<boolean> {
 
   @ViewChild("formSubmitButton") formSubmitButton!:ElementRef;
 
-buttonType:string="next"
-selectButtonType(type:string){
-  this.buttonType=type;
-  this.userDocumentsDetailsRequest.directSave = false;
-  this.formSubmitButton.nativeElement.click();
-  if(type === 'preview'){
-    const modalRef = this.modalService.open(PreviewFormComponent, {
-      centered: true,
-      size: 'lg', backdrop: 'static'
-    });
-    }
-}
 
 directSave: boolean = false;
 
@@ -564,41 +483,6 @@ addMore(){
   this.isAddMore = true;
 }
 
-onAdditionalFileSelected(event: Event, index: number): void {
-  const fileInput = event.target as HTMLInputElement;
-  const file = fileInput.files ? fileInput.files[0] : null;
-
-  if (file) {
-    if (this.isValidFileType(file)) {
-      this.userDocumentsDetailsRequest.employeeAdditionalDocument[index].uploading = true;
-      this.uploadAdditionalFile(file, index);
-    } else {
-      fileInput.value = '';
-      this.isInvalidFileType = true; // Set flag for invalid file type
-      console.error("Invalid file type. Please select a PDF, JPG, JPEG, or PNG file.");
-    }
-  }
-}
-
-uploadAdditionalFile(file: File, index: number): void {
-  const filePath = `documents/${new Date().getTime()}_${file.name}`;
-  const fileRef = this.afStorage.ref(filePath);
-  const task = this.afStorage.upload(filePath, file);
-
-  task.snapshotChanges().pipe(
-    finalize(() => {
-      fileRef.getDownloadURL().subscribe(url => {
-        this.userDocumentsDetailsRequest.employeeAdditionalDocument[index].uploading = false;
-        this.userDocumentsDetailsRequest.employeeAdditionalDocument[index].fileName = file.name;
-        this.userDocumentsDetailsRequest.employeeAdditionalDocument[index].url = url;
-        this.assignAdditionalDocumentUrl(index, url);
-      }, error => {
-        this.userDocumentsDetailsRequest.employeeAdditionalDocument[index].uploading = false;
-        console.error("Error retrieving download URL:", error);
-      });
-    })
-  ).subscribe();
-}
 
 assignAdditionalDocumentUrl(index: number, url: string): void {
   if (!this.userDocumentsDetailsRequest.employeeAdditionalDocument) {
@@ -619,16 +503,6 @@ deleteDocument(index: number): void {
   }
 }
 
-
-preventLeadingWhitespace(event: KeyboardEvent): void {
-  const inputElement = event.target as HTMLInputElement;
-
-  // Prevent space if it's the first character
-  if (event.key === ' ' && inputElement.selectionStart === 0) {
-    event.preventDefault();
-  }
-
-}
 
 clearFile(event: MouseEvent, documentType: string): void {
   event.preventDefault();
@@ -681,11 +555,151 @@ getAdminVerifiedForOnboardingUpdateMethodCall(): Promise<boolean> {
       );
     } else {
       console.error('User UUID or Admin UUID not found in the URL.');
-      // reject(new Error('User UUID or Admin UUID not found in the URL.')); // Reject the promise if parameters are missing
+      // reject(new Error('User UUID or Admin UUID not found in the URL.')); //Reject the promise if parameters are missing
     }
   });
 }
 
+
+
+
+
+employeeDocumentsName: string[] = ['Aadhaar Card', 'PAN Card', 'Highest Qualification Degree', '10th Marksheet', '12th Marksheet'];
+documents: EmployeeAdditionalDocument[] = [];
+
+onFileSelected(event: any, documentName: string): void {
+  const file: File = event.target.files[0];
+  if (file) {
+    if (!documentName) {
+      alert('Please provide a document name before uploading the file.');
+      return;
+    }
+
+    const filePath = `employeeCompanyDocs/${new Date().getTime()}_${file.name}`;
+    const fileRef = this.afStorage.ref(filePath);
+    const task = this.afStorage.upload(filePath, file);
+
+    task
+      .snapshotChanges()
+      .pipe(
+        finalize(() => {
+          fileRef.getDownloadURL().subscribe((url) => {
+            const newDocument: EmployeeAdditionalDocument = {
+              fileName: file.name,
+              name: documentName,
+              url: url,
+              id: 0,
+              uploading: false,
+             // value: '', // Set value if required, otherwise leave empty
+            };
+            this.documents.push(newDocument);
+            console.log('File uploaded and document saved:', this.documents);
+          });
+        })
+      )
+      .subscribe();
+  }
+}
+
+// getEmployeeDocumentsDetailsByUuid() {
+
+//   this.dataService.getDocumentsByUserId(this.userUuid).subscribe({
+//     next: (docs) => {
+//       this.documents = docs;
+//       console.log('Documents:', this.documents);
+//     },
+//     error: (err) => {
+//       console.error('Error fetching documents:', err);
+//     },
+//   });
+// }
+
+
+
+onAdditionalFileSelected(event: Event, index: number): void {
+  const fileInput = event.target as HTMLInputElement;
+  const file = fileInput.files ? fileInput.files[0] : null;
+
+  if (file) {
+    if (this.isValidFileType(file)) {
+      this.userDocumentsDetailsRequest.employeeAdditionalDocument[index].uploading = true;
+      this.uploadAdditionalFile(file, index);
+    } else {
+      fileInput.value = '';
+      this.isInvalidFileType = true; // Set flag for invalid file type
+      console.error("Invalid file type. Please select a PDF, JPG, JPEG, or PNG file.");
+    }
+  }
+}
+
+uploadAdditionalFile(file: File, index: number): void {
+  const filePath = `documents/${new Date().getTime()}_${file.name}`;
+  const fileRef = this.afStorage.ref(filePath);
+  const task = this.afStorage.upload(filePath, file);
+
+  task.snapshotChanges().pipe(
+    finalize(() => {
+      fileRef.getDownloadURL().subscribe(url => {
+        this.userDocumentsDetailsRequest.employeeAdditionalDocument[index].uploading = false;
+        this.userDocumentsDetailsRequest.employeeAdditionalDocument[index].fileName = file.name;
+        this.userDocumentsDetailsRequest.employeeAdditionalDocument[index].url = url;
+        this.assignAdditionalDocumentUrl(index, url);
+      }, error => {
+        this.userDocumentsDetailsRequest.employeeAdditionalDocument[index].uploading = false;
+        console.error("Error retrieving download URL:", error);
+      });
+    })
+  ).subscribe();
+}
+
+preventLeadingWhitespace(event: KeyboardEvent): void {
+  const inputElement = event.target as HTMLInputElement;
+
+  // Prevent space if it's the first character
+  if (event.key === ' ' && inputElement.selectionStart === 0) {
+    event.preventDefault();
+  }
+
+}
+
+backRedirectUrl() {
+  // Retrieve userUuid from the URL query parameters
+  const userUuid = new URLSearchParams(window.location.search).get('userUuid');
+
+  // Initialize an empty object for queryParams
+  let queryParams: any = {};
+
+  // Add userUuid to queryParams if it exists
+  if (userUuid) {
+    queryParams['userUuid'] = userUuid;
+  }
+
+  // Conditionally add adminUuid to queryParams if updateRequest is true
+  if (this.userDocumentsDetailsRequest.updateRequest) {
+    const adminUuid = new URLSearchParams(window.location.search).get('adminUuid');
+    if (adminUuid) {
+      queryParams['adminUuid'] = adminUuid;
+    }
+  }
+
+  // Create NavigationExtras object with the queryParams
+  let navExtra: NavigationExtras = { queryParams };
+
+  // Navigate to the specified route with the query parameters
+
+if(this.dataService.isRoutePresent('/employee-address-detail')){
+      this.router.navigate(
+        ['/employee-onboarding/employee-address-detail'],
+        navExtra
+      );
+}else {
+  this.router.navigate(
+    ['/employee-onboarding/employee-onboarding-form'],
+    navExtra
+  );
+
+}
+}
 
 goBackToProfile() {
   let navExtra: NavigationExtras = {
@@ -696,6 +710,20 @@ goBackToProfile() {
     window.open(url, '_blank');
     return;
 }
+
+buttonType:string="next"
+selectButtonType(type:string){
+  this.buttonType=type;
+  this.userDocumentsDetailsRequest.directSave = false;
+  this.formSubmitButton.nativeElement.click();
+  if(type === 'preview'){
+    const modalRef = this.modalService.open(PreviewFormComponent, {
+      centered: true,
+      size: 'lg', backdrop: 'static'
+    });
+    }
+}
+
 
 
 }
