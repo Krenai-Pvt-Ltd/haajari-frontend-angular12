@@ -1,7 +1,9 @@
 <div class="page-wrapper">
   <div class="page-content-tab">
 
-    <ul *ngIf="ROLE == 'ADMIN'" id="myTab" role="tablist" class="nav nav-tabs mt-2">
+    <div class="d-flex align-items-center justify-content-between border-bottom">
+
+    <ul *ngIf="ROLE == 'ADMIN'" id="myTab" role="tablist" class="nav nav-tabs mt-2 " style="border:none;">
         <li role="presentation" class="nav-item">
           <button id="home-tab" data-bs-toggle="tab" data-bs-target="#company-expense" type="button" role="tab"
             aria-controls="home" aria-selected="false" class="nav-link" [ngClass]="{'active':activeTab === 'allExpense'}" (click)="switchTab('allExpense')">
@@ -15,6 +17,22 @@
         </button>
       </li>
     </ul>
+
+
+      <div class="d-flex align-items-center gap-3" style="margin-right: 10px;">
+        <button class="btn p-0 primaryBtnLink d-flex align-items-center gap-2">
+          <i class="bi bi-upload"></i> 
+          <span>Import</span>
+        </button>
+        <span class="calendar-separator"></span>
+        <button class="btn p-0 primaryBtnLink d-flex align-items-center gap-2">
+          <i class="bi bi-download"></i> 
+          <span>Export</span>
+        </button>
+       
+      </div>
+
+    </div>
 
 
     <div class="container-fluid">

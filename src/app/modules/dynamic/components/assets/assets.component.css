@@ -331,3 +331,14 @@ nz-select {
 :ng-deep.pagination-box .pagination{
   margin-bottom: 0px;
 }
+
+/**
+* @Autthor Anchal Shrama
+* To change the height of chart container/ view.
+**/
+.chart-container {
+  height: 41vh; /* Adjust the height as needed */
+}
+
+
+

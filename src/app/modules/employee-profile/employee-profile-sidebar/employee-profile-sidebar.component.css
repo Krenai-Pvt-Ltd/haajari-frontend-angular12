@@ -3,8 +3,13 @@
 }
 
 .company-logo {
-    background-color: #F2F2FF;
-    height: 133px;
+    background-color: #F5F5F5;
+    height: 130px;
+}
+
+.notice-period-bar{
+    background-color: #F5F5F5;
+    height: 90px;
 }
 
 .employee-detail img {
