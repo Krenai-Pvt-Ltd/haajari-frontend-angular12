@@ -4,7 +4,12 @@
 
 .company-logo {
     background-color: #F5F5F5;
-    height: 133px;
+    height: 130px;
+}
+
+.notice-period-bar{
+    background-color: #F5F5F5;
+    height: 90px;
 }
 
 .employee-detail img {
