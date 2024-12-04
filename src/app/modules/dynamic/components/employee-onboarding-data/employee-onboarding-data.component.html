@@ -444,6 +444,9 @@
                             <a class="dropdown-item" (click)="selectStatus('REQUESTED')">Requested</a>
                           </li>
                           <li>
+                            <a class="dropdown-item" (click)="selectStatus('EDITPROFILE')">Profile Edit Requests</a>
+                          </li>
+                          <li>
                             <a class="dropdown-item" (click)="selectStatus('REJECTED')">Rejected</a>
                           </li>
                           <li class="dropdown-header" aria-disabled="true">
@@ -1460,7 +1463,7 @@
                   <div *ngIf="isProgressToggle" class="spinner-border text-primary excel-spinner" role="status"></div>
                   Excel Upload
                 </button>
-             
+
               </div>
               <div class="create-password-warning waring-box p-3 mt-3 mb-3 text-start" role="alert"
                 *ngIf="
@@ -1475,8 +1478,8 @@
                       <li *ngIf="alreadyUsedEmailArray.length > 0">Phone Numbers: {{ formatAsCommaSeparated(alreadyUsedPhoneNumberArray) }}</li>
                       <li *ngIf="!isErrorToggle">These credentials are already registered with us!</li>
                     </ul>
-                  
-                
+
+
               </div>
               <table class="table">
                 <!-- <thead class="thead-light table-design"> -->
@@ -1640,7 +1643,7 @@
 
             <div class="p-4">
 
-            
+
 
               <div class="col-md-12 mb-3">
                 <label for="templateName" class="pb-2">

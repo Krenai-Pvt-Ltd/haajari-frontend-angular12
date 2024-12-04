@@ -4300,6 +4300,23 @@ getHolidayForOrganization(date: string): Observable<any>{
     });
   }
 
+  exportExpense(){
+    return this.httpClient.get<any>(`${this.baseUrl}/company-expense/export`);
+  }
+
+  // importExpense(){
+  //   return this.httpClient.get<any>(`${this.baseUrl}/company-expense/export`);
+  // }
+  importExpense(file: any, fileName: string) {
+    debugger;
+    const formdata: FormData = new FormData();
+    formdata.append('file', file);
+    formdata.append('fileName', fileName);
+    formdata.append('role', 'ADMIN');
+    return this.httpClient.post(`${this.baseUrl}/company-expense/import`, formdata,
+    );
+  }
+
   getAllExpense(role: string, pageNumber: number, itemPerPage: number, startDate: any, endDate: any){
     var params = new HttpParams()
     .set('currentPage', pageNumber)
@@ -4419,7 +4436,7 @@ getHolidayForOrganization(date: string): Observable<any>{
   updateResignation1(id: number) {
     const params = new HttpParams().set('id', id);
     return this.httpClient.patch<any>(
-      `${this.baseUrl}/user-resignation`, 
+      `${this.baseUrl}/user-resignation`,
       {}, // Pass an empty object as the body for PATCH if not required
       { params } // Use this to include query parameters
     );
@@ -4435,18 +4452,27 @@ getHolidayForOrganization(date: string): Observable<any>{
   }
 
   getDocumentsByUserId(uuid: string): Observable<EmployeeAdditionalDocument[]> {
-    return this.httpClient.get<EmployeeAdditionalDocument[]>(`${this.baseUrl}/user?uuid=${uuid}`);
+    return this.httpClient
+      .get<EmployeeAdditionalDocument[]>(`${this.baseUrl}/documents/user?uuid=${uuid}`)
+      .pipe(
+        map((documents) => documents || []) // Process the response to ensure it's always an array
+      );
   }
+
   saveDocumentsForUser(uuid: string, documents: EmployeeAdditionalDocument[]): Observable<any> {
     return this.httpClient.post<any>(`${this.baseUrl}/user/${uuid}`, documents);
   }
   updateDocument(documentId: number, document: EmployeeAdditionalDocument): Observable<EmployeeAdditionalDocument> {
-    return this.httpClient.put<EmployeeAdditionalDocument>(`${this.baseUrl}/${documentId}`, document);
+    return this.httpClient.put<EmployeeAdditionalDocument>(`${this.baseUrl}/documents/${documentId}`, document);
   }
   saveDocumentForUser(uuid: string, document: EmployeeAdditionalDocument): Observable<any> {
-    return this.httpClient.post<any>(`${this.baseUrl}/user/document?uuid=${uuid}`, document);
+    return this.httpClient.post<any>(`${this.baseUrl}/documents/user/document?uuid=${uuid}`, document);
   }
 
+  downloadAssetRequests(): Observable<Blob> {
+    const url = `${this.baseUrl}/asset-requests/exportAssetRequests`;
+    return this.httpClient.get(url, { responseType: 'blob' });
+  }
 
 }
 

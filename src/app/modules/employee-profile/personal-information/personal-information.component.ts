@@ -156,6 +156,16 @@ isFormInvalid: boolean=false;
       (routes: string[]) => {
         this.routes = routes;
         this.dataService.onboardingRoutes=routes;
+        if(!this.routes.includes('/employee-address-detail') ){
+          this.onboardingForm.removeControl('currentAddress');
+          this.onboardingForm.removeControl('permanentAddress');
+        }
+        if(!this.routes.includes('/acadmic') ){
+          this.onboardingForm.removeControl('academicDetails');
+        }
+        if(!this.routes.includes('/bank-details') ){
+          this.onboardingForm.removeControl('bankDetails');
+        }
         console.log('Loaded routes:', this.routes);
       },
       error => {
@@ -164,6 +174,7 @@ isFormInvalid: boolean=false;
     );
   }
 
+  isSaveBtnLoading: boolean=false;
   saveOnboardingData() {
     this.userExperience.controls.forEach((control, index) => {
       const experience = control.value;
@@ -201,9 +212,11 @@ isFormInvalid: boolean=false;
       targetReference.emailId = reference.emailId;
     });
     if(this.onboardingForm.valid){
+      this.isSaveBtnLoading=true;
       this.dataService.saveOnboardingData(this.onboardingPreviewDataCopy).subscribe({
         next: (response) => {
           this.profileEdit=false;
+          this.isSaveBtnLoading=false;
           this.helperService.showToast('Data Save successfully.', Key.TOAST_STATUS_SUCCESS);
           this.getOnboardingFormPreviewMethodCall();
           this.getPendingRequest();
@@ -216,6 +229,7 @@ isFormInvalid: boolean=false;
     }
     else{
       this.isFormInvalid=true;
+      this.helperService.showToast('Some required fields are incorrect or missing. Please fix them', Key.TOAST_STATUS_ERROR);
     }
 
 
@@ -227,7 +241,7 @@ isFormInvalid: boolean=false;
       this.onboardingPreviewDataCopy.userAddress = [];
     }
     if(this.routes.includes('/employee-address-detail') && this.onboardingPreviewDataCopy.userAddress.length<2){
-      while(this.onboardingPreviewDataCopy.userAddress.length!=2){
+      while(this.onboardingPreviewDataCopy.userAddress.length!=2 && this.onboardingPreviewDataCopy.userAddress.length<3){
         this.onboardingPreviewDataCopy.userAddress.push(new UserAddressRequest());
       }
     }
@@ -238,6 +252,7 @@ isFormInvalid: boolean=false;
     if(this.routes.includes('/acadmic') && !this.onboardingPreviewDataCopy.userAcademics){
       this.onboardingPreviewDataCopy.userAcademics=new UserAcademicsDetailRequest();
     }
+
     if(this.routes.includes('/emergency-contact') && (this.onboardingPreviewDataCopy.userEmergencyContacts == null || this.onboardingPreviewDataCopy.userEmergencyContacts.length==0)){
       this.onboardingPreviewDataCopy.userEmergencyContacts = [];
       // this.onboardingPreviewDataCopy.userEmergencyContacts.push(new UserEmergencyContactDetailsRequest());
@@ -249,6 +264,7 @@ isFormInvalid: boolean=false;
     if(this.routes.includes('/bank-details') && !this.onboardingPreviewDataCopy.userBankDetails){
       this.onboardingPreviewDataCopy.userBankDetails=new UserBankDetailRequest();
     }
+
     if (!this.references || this.references.length==0) {
       this.onboardingForm.setControl('references', this.fb.array([]));
       this.onboardingPreviewDataCopy.userGuarantorInformation.forEach((reference) => {
@@ -386,16 +402,21 @@ isFormInvalid: boolean=false;
 
   profileEditRequest: any = null;
   statusMessage: string = '';
-  isRequestable: boolean=false;
+  isEditReqLoading: boolean=false;
   editStatus:string='';
-  createProfileEditRequest() {
+  @ViewChild('dismissRequestModal') dismissRequestModal!: ElementRef;
 
+  createProfileEditRequest() {
+    this.isEditReqLoading=true;
     this.dataService.createRequest(this.userId).subscribe(
       (response) => {
           this.editStatus = 'PENDING';
+          this.dismissRequestModal.nativeElement.click();
+          this.isEditReqLoading=false;
       },
       (error) => {
         console.error('Error creating request:', error);
+        this.isEditReqLoading=false;
       }
     );
   }
@@ -417,15 +438,20 @@ isFormInvalid: boolean=false;
   }
 
   // Set status to pending
+  isLoading = false;
   changeStatus(status:String) {
+    this.isLoading = true;
     this.dataService.profileEditStatus(status,this.userId).subscribe(
       (response) => {
 
         this.editStatus = 'APPROVED';
-
+        this.isLoading = false;
+        this.helperService.showToast('Status Change Successfully', Key.TOAST_STATUS_SUCCESS);
       },
       (error) => {
         console.error('Error updating status:', error);
+        this.isLoading = false;
+        this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
       }
     );
   }

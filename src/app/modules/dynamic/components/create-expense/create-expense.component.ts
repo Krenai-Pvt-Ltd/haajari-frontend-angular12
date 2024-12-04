@@ -1,6 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { NgForm } from '@angular/forms';
+import * as moment from 'moment';
+import { constant } from 'src/app/constant/constant';
 import { Key } from 'src/app/constant/key';
 import { ApproveReq } from 'src/app/models/ApproveReq';
 import { CompanyExpense } from 'src/app/models/CompanyExpense';
@@ -13,6 +15,8 @@ import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-refl
 import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-create-expense',
@@ -22,6 +26,7 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 export class CreateExpenseComponent implements OnInit {
 
   ROLE: any
+  sampleFileUrl: string =''
   // isLoading: boolean = false;
 
   constructor(private afStorage: AngularFireStorage,
@@ -30,6 +35,8 @@ export class CreateExpenseComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    this.sampleFileUrl ="assets/samples/ExpenseSettlementSample.xlsx"
+
     this.getExpenses();
     this.getAllCompanyExpensePolicy();
     this.switchTab('allExpense');
@@ -380,6 +387,28 @@ export class CreateExpenseComponent implements OnInit {
     }
 
     this.partiallyPayment = !this.partiallyPayment
+  }
+
+  exportUrl: string =''
+  exportLoading: boolean = false;
+  @ViewChild('expenseDownload') expenseDownload!: ElementRef
+  export(){
+    this.exportLoading = true;
+    this.dataService.exportExpense().subscribe((res: any) => {
+      if(res.status){
+        this.exportUrl = res.object
+        this.exportLoading = false;
+       
+        if (this.exportUrl != null) {
+          setTimeout(() => {
+            this.expenseDownload.nativeElement.click();
+          }, 500);
+        }
+      }else{
+        this.exportUrl = ''
+        this.exportLoading = false;
+      }
+    })
   }
 
   /**
@@ -1690,5 +1719,454 @@ this.expenseTypeName = selectedExpense.name
     // console.log('update expensePolicyReq: ',this.expensePolicyReq)
 }
 
+
+/** Set Excel data start */
+
+
+isShimmer: boolean = false;
+isProgressToggle: boolean = false;
+isErrorToggle: boolean = false;
+onboardUserList: any[] = new Array();
+// paginatedData: any;
+errorMessage: string ='abc'
+networkConnectionErrorPlaceholder: any;
+
+// fileName: any;
+currentFileUpload: any;
+
+
+// expectedColumns: string[] = ['Name*', 'Phone*', 'Email*', 'Shift*', 'JoiningDate*', 'Gender*'];
+// correctColumnName: string[] = ['S. NO.*', 'Name*', 'Phone*', 'Email*', 'Shift*', 'JoiningDate*', 'Gender*', 'leavenames', 'ctc', 'emptype', 'empId', 'branch', 'department', 'position', 'grade', 'team', 'dob', 'fathername', 'maritalstatus', 'address', 'city', 'state', 'country', 'pincode', 'panno', 'aadharno', 'drivinglicence', 'emergencyname', 'emergencyphone', 'emergencyrelation', 'accountholdername', 'bankname', 'accountnumber', 'ifsccode'];
+
+// expectedColumns: string[] = ['Expense Id*', 'Settled Amount*', 'Transaction Id*', 'Payment Method*', 'Lapse Remaining Amount*'];
+// correctColumnName: string[] = ['S.No.', 'Submitted Date', 'Expense Id*', 'Employee Name*', 'Expense Type*', 'Expense Date*', 'Notes*', 'Bill Snapshot', 'Expense Amount', 'Settled Amount*', 'Transaction Id*', 'Payment Method*', 'Lapse Remaining Amount*'];
+
+expectedColumns: string[] = ['Expense Id', 'Settled Amount', 'Transaction Id', 'Payment Method', 'Lapse Remaining Amount'];
+correctColumnName: string[] = ['S.No.', 'Submitted Date', 'Expense Id', 'Employee Name', 'Expense Type', 'Expense Date', 'Notes', 'Bill Snapshot', 'Expense Amount', 'Settled Amount', 'Transaction Id', 'Payment Method', 'Lapse Remaining Amount'];
+
+
+fileColumnName:string[] = [];
+isExcel: string = '';
+data: any[] = new Array();
+ dataWithoutHeader:any=[];
+mismatches: string[] = [];
+invalidRows: boolean[] = []; // Track invalid rows
+invalidCells: boolean[][] = []; // Track invalid cells
+isinvalid: boolean=false;
+jsonData:any[]=[];
+validateMap: Map<string, string[]> = new Map();
+@ViewChild('attention') elementToScroll!: ElementRef;
+
+selectFile(event: any) {
+  this.validateMap= new Map();
+  this.isinvalid = true
+  debugger
+  if (event.target.files && event.target.files.length > 0) {
+    const file = event.target.files[0];
+    this.currentFileUpload = file;
+    this.fileName = file.name;
+
+    if (!this.isExcelFile(file)) {
+      this.isExcel = 'Invalid file type. Please upload an Excel file.';
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e: ProgressEvent<FileReader>) => {
+      const arrayBuffer = e.target?.result as ArrayBuffer;
+      const binaryStr = this.arrayBufferToString(arrayBuffer);
+      const workbook = XLSX.read(binaryStr, { type: 'binary' });
+      const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+      this.jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+      console.log('Excel_Data: ',this.jsonData)
+
+      // Reset data and error tracking
+      this.data = [];
+      this.invalidRows = [];
+      this.invalidCells = [];
+      this.validateMap.clear;
+
+      const columnNames: string[] = this.jsonData[0] as string[];
+
+      console.log('columnNames: ',columnNames)
+      debugger
+      if (this.validateColumns(columnNames)) {
+        this.data = this.jsonData
+        .map((row: any[]) => {
+          // Ensure each cell is processed
+          return row.map((cell: any, index: number) => {
+            if (this.data.length === 0) {
+              // For the first row, treat all cells as strings
+              return cell ? cell.toString().trim() : '';
+            } else {
+              // Validate date format MM-DD-YYYY
+              const isExactFormat = /^\d{2}-\d{2}-\d{4}$/.test(cell);
+              
+              // Replace '/' with '-' if present
+              if (typeof cell === 'string') {
+                cell = cell.replace(/\//g, '-');
+              }
+      
+              if (isExactFormat) {
+                // Parse the date strictly in MM-DD-YYYY format
+                const formattedDate = moment(cell, 'yyyy-MM-dd', true);
+      
+                // Check if the date is valid and within the next year
+                if (formattedDate.isValid()) {
+                  const oneYearFromNow = moment().add(1, 'year');
+      
+                  if (formattedDate.isBefore(oneYearFromNow)) {
+                    return formattedDate.format('yyyy-MM-dd'); // Standard format
+                  }
+                }
+              }
+              // Convert other cells to string and trim whitespace
+              return cell ? cell.toString().trim() : '';
+            }
+          });
+        })
+        .filter((row: any[]) =>
+          // Filter out rows where all cells are empty
+          row.some((cell: any) => cell !== '')
+        );
+      
+
+        // Validate all rows and keep track of invalid entries- send daya for validatio after emoving heder row
+        
+        // this.validateRows(this.data.slice(1));
+        // this.removeAllSingleEntries();
+
+        this.validateMap.forEach((values, key) => {
+          console.log(`Key: ${key}`);
+          this.mismatches.push(`Repeating values: "${key}" at row no. ${values}`);
+          if(this.elementToScroll){
+          this.elementToScroll!.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          console.log('Values:', values);
+          }
+        });
+        // this.totalPage = Math.ceil(this.data.length / this.pageSize); 
+        this.totalPage = 10;
+
+        if(this.areAllFalse() && this.mismatches.length===0){
+          this.isinvalid=false;
+          // this.uploadUserFile(file, this.fileName); amit
+        }else{
+          this.isinvalid=true;
+        }
+
+        this.updatePaginatedData();
+
+      } else {
+        console.error('Invalid column names');
+      }
+    };
+    reader.readAsArrayBuffer(file);
+  }
+}
+
+selectAllCurrentPage = false;
+selectAllPages = false;
+// get paginatedData() {
+//   var start = (this.currentPage - 1) * this.pageSize;
+//   start=start+1;
+//   return this.data.slice(start, start + this.pageSize);
+// }
+
+paginatedData: any[] = [];
+
+updatePaginatedData() {
+
+  // Calculate the start index for pagination
+  let start = (this.currentPage - 1) * this.pageSize;
+  
+  // Adjust start to consider data indexing
+  start = start + 1;
+
+  // Slice the data based on the calculated start and page size
+  this.paginatedData = this.data.slice(start, start + this.pageSize);
+
+  console.log('paginatedData: ',this.paginatedData)
+}
+
+saveFile() {
+  debugger
+  const stringifiedData = this.data.map((row: any[]) =>
+    row.map(cell => cell !== null && cell !== undefined ? String(cell) : '')
+  );
+  const ws = XLSX.utils.aoa_to_sheet(stringifiedData);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+  const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+
+  const blob = new Blob([wbout], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+  // saveAs(blob, 'edited_file.xlsx');
+  this.validateMap.clear;
+
+  const file = new File([blob], 'edited_file.xlsx', { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+  const dataTransfer = new DataTransfer();
+  dataTransfer.items.add(file);
+
+// Create a fake event to pass to selectFile
+// const event = new Event('change');
+// Object.defineProperty(event, 'target', { writable: false, value: { files: dataTransfer.files } });
+// this.selectFile(event);
+
+this.uploadUserFile(file, 'edited_file.xlsx');
+
+}
+
+importToggle: boolean = false;
+@ViewChild('closeButtonExcelModal') closeButtonExcelModal!: ElementRef
+uploadUserFile(file: any, fileName: string) {
+  debugger;
+  this.importToggle = true;
+  this.isProgressToggle = true;
+  this.isErrorToggle = false;
+  this.errorMessage = '';
+  this.dataService.importExpense(file, fileName).subscribe(
+    (response: any) => {
+      if (response.status) {
+        this.importToggle = false;
+        this.isProgressToggle = false;
+        this.getExpenses();
+        this.closeButtonExcelModal.nativeElement.click()
+
+        this.data = []
+        this.isinvalid = false;
+        this.fileColumnName = []
+        this.paginatedData = []
+
+        // this.getReport();
+        // this.getUser();
+        // this.alreadyUsedPhoneNumberArray = response.arrayOfString;
+        // this.alreadyUsedEmailArray = response.arrayOfString2;
+      } else {
+        this.importToggle = true;
+        this.isErrorToggle = true;
+        this.isProgressToggle = false;
+        this.errorMessage = response.message;
+      }
+    },
+    (error) => {
+      this.importToggle = true;
+      this.isErrorToggle = true;
+      this.isProgressToggle = false;
+      this.errorMessage = error.error.message;
+    }
+  );
+}
+
+
+currentPage: number = 1;
+pageSize: number = 10; // Adjust based on your requirements
+totalPage: number = 0;
+
+onPageChange(page: number) {
+  // this.bulkShift=null;
+  // this.bulkLeave=[];
+  // this.bulkTeam=[];
+  // this.selectAllCurrentPage=false;
+  this.currentPage = page;
+}
+
+  firstUpload:boolean=true;
+  areAllFalse(): boolean {
+    if(this.firstUpload===true){
+      this.firstUpload=false;
+      return false;
+    }
+    return this.invalidCells
+      .reduce((acc, row, rowIndex) => {
+        return acc.concat(row.filter((_, colIndex) => this.expectedColumns[colIndex] !== "LeaveNames"));
+      }, [])
+      .every(value => value === false);
+  }
+
+  arrayBufferToString(buffer: ArrayBuffer): string {
+    const byteArray = new Uint8Array(buffer);
+    let binaryStr = '';
+    for (let i = 0; i < byteArray.length; i++) {
+      binaryStr += String.fromCharCode(byteArray[i]);
+    }
+    return binaryStr;
+  }
+
+  isExcelFile(file: File): boolean {
+    const allowedMimeTypes = [
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // .xlsx
+      'application/vnd.ms-excel'
+    ];
+
+    const allowedExtensions = ['xlsx', 'xls'];
+
+    return allowedMimeTypes.includes(file.type) && allowedExtensions.includes(file.name.split('.').pop()?.toLowerCase() || '');
+  }
+
+  validateColumns(columnNames: string[]): boolean {
+    debugger
+    this.mismatches = []; // Reset mismatches
+
+    // Step 2: Normalize both expected and actual column names for comparison
+    // const normalizedColumnNames = columnNames.map(col => col.trim().toLowerCase());
+    // this.fileColumnName=normalizedColumnNames;
+    // const normalizedExpectedColumns = this.expectedColumns.map(col => col.trim().toLowerCase());
+    // const normalizedCorrectColumns = this.correctColumnName.map(col => col.trim().toLowerCase());
+
+    const normalizedColumnNames = columnNames.map(col => col.trim());
+    this.fileColumnName=normalizedColumnNames;
+    const normalizedExpectedColumns = this.expectedColumns.map(col => col.trim());
+    const normalizedCorrectColumns = this.correctColumnName.map(col => col.trim());
+
+    // Step 3: Check that every expected column is present in actual column names
+    for (const expectedColumn of normalizedExpectedColumns) {
+      if (!normalizedColumnNames.includes(expectedColumn)) {
+        console.error(`Missing column: "${expectedColumn}"`);
+        this.mismatches.push(`Missing column: "${expectedColumn}"`);
+      }
+    }
+
+    // Step 4: Check if there are extra or incorrect columns in actual column names
+    for (const actualColumn of normalizedColumnNames) {
+      if (!normalizedExpectedColumns.includes(actualColumn) && !normalizedCorrectColumns.includes(actualColumn)) {
+          console.error(`Unexpected or incorrect column: "${actualColumn}"`);
+          this.mismatches.push(`Unexpected or incorrect column: "${actualColumn}"`);
+      }
+  }
+
+    // Step 4: Log and return false if there are any mismatches
+    if (this.mismatches.length > 0) {
+      console.error('Column mismatches found:');
+      this.mismatches.forEach(mismatch => console.error(mismatch));
+      return false;
+    }
+
+    return true;
+  }
+
+  readonly constants = constant;
+  addToMap(key: string, value: string) {
+    if (this.validateMap.has(key)) {
+      console.log(key,value);
+      // If key exists, add the new value to the existing array
+      this.validateMap.get(key)?.push(value);
+    } else {
+      // If key does not exist, create a new array with the value
+      this.validateMap.set(key, [value]);
+    }
+  }
+  removeAllSingleEntries() {
+    for (const [key, valuesArray] of this.validateMap) {
+      if (valuesArray.length <= 1) {
+        this.validateMap.delete(key);
+      }
+    }
+  }
+
+  shiftList: any[] = new Array()
+  validateRows(rows: any[]): void {
+    console.log("🚀 ~ EmployeeOnboardingDataComponent ~ validateRows ~ rows:", rows)
+    this.invalidRows = new Array(rows.length).fill(false); // Reset invalid rows
+    this.invalidCells = Array.from({ length: rows.length }, () => new Array(this.expectedColumns.length).fill(false)); // Reset invalid cells
+
+    for (let i = 0; i < rows.length; i++) {
+      let rowIsValid = true;
+      for (let j = 0; j < this.fileColumnName.length; j++) {
+
+        const cellValue = rows[i][j];
+        if (!cellValue || cellValue === null || cellValue.toString().trim() === '') {
+          rowIsValid = false;
+          this.invalidRows[i] = true; // Mark the row as invalid
+          this.invalidCells[i][j] = true; // Mark the cell as invalid
+
+        }
+        if (this.fileColumnName[j] === 'email*' && cellValue) {
+          this.addToMap(cellValue.toString(),`${i+1}`);
+        }
+        if (this.fileColumnName[j] === 'phone*' && cellValue) {
+          const phoneNumber = cellValue.toString().trim();
+          this.addToMap(cellValue.toString(),`${i+1}`);
+          if (!/^\d{10}$/.test(phoneNumber)) {
+            rowIsValid = false;
+            this.invalidRows[i] = true; // Mark the row as invalid
+            this.invalidCells[i][j] = true; // Mark the cell as invalid
+          }
+        }
+
+        if (this.fileColumnName[j] === 'shift*' ) {
+          var shiftExists=false;
+          if(cellValue){
+            const shiftName = cellValue.toString().trim();
+            shiftExists = this.shiftList.some(shift => shift.label === shiftName);
+          }
+            if (!shiftExists || !cellValue) {
+              rowIsValid = false;
+              this.invalidRows[i] = true;
+              this.invalidCells[i][j] = true;
+              this.data[i+1][j] = '';
+          }
+      }
+
+    if (this.fileColumnName[j] === 'leavenames' || this.fileColumnName[j] === 'team') {
+      if(this.constants.EMPTY_STRINGS.includes(cellValue)){
+        this.data[i+1][j]=[];
+      }
+      else{
+        console.log(cellValue)
+        const selectedData: string[] = cellValue.split(',').map((team: string) => team.trim());
+        this.data[i+1][j]=selectedData;
+      }
+    }
+      if (this.fileColumnName[j] === 'joiningdate*' && cellValue) {
+
+        // Replace slashes with hyphens
+        const normalizedCell = cellValue.toString().trim().replace(/\//g, '-');
+
+        // Check if the normalized cell matches the exact MM-DD-YYYY format
+        const isExactFormat = /^\d{2}-\d{2}-\d{4}$/.test(normalizedCell);
+
+        if (isExactFormat) {
+            // Parse with strict format checking
+            const formattedDate = moment(normalizedCell, 'MM-DD-YYYY', true);
+
+            // Check if the date is valid
+            if (formattedDate.isValid()) {
+                const oneYearFromNow = moment().add(1, 'year');
+
+                // Ensure the date is in the past or less than one year from today
+                if (formattedDate.isAfter(oneYearFromNow)) {
+                    this.data[i+1][j] = undefined;
+                    rowIsValid = false;
+                    this.invalidRows[i] = true; // Mark the row as invalid
+                    this.invalidCells[i][j] = true; // Mark the cell as invalid
+                }
+            } else {
+                // If the date is not valid
+                this.data[i+1][j] = undefined;
+                rowIsValid = false;
+                this.invalidRows[i] = true; // Mark the row as invalid
+                this.invalidCells[i][j] = true; // Mark the cell as invalid
+            }
+        } else {
+            // If the format is not exactly MM-DD-YYYY
+            this.data[i+1][j] = undefined;
+            rowIsValid = false;
+            this.invalidRows[i] = true; // Mark the row as invalid
+            this.invalidCells[i][j] = true; // Mark the cell as invalid
+          }
+        }
+
+
+
+        if (!this.expectedColumns.some(expectedColumn => expectedColumn.toLowerCase() === this.fileColumnName[j].toLowerCase())) {
+          this.invalidCells[i][j] = false;
+        }
+      }
+    }
+    debugger
+
+  }
+/** Set Excel data end */
 
 }
