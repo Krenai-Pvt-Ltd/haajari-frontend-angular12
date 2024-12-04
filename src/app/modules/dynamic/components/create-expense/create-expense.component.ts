@@ -219,6 +219,7 @@ export class CreateExpenseComponent implements OnInit {
   };
 
   userExpense: any;
+  fullPartialAmount: any;
   getExpense(expense: any) {
 
     this.userExpense = null;
@@ -226,6 +227,8 @@ export class CreateExpenseComponent implements OnInit {
 
     this.userExpense = expense
     // console.log('dataset: ',this.userExpense)
+
+    this.fullPartialAmount = this.userExpense.amount - this.userExpense.partiallyPaidAmount
 
     this.getExpenseType();
   }
@@ -296,6 +299,10 @@ export class CreateExpenseComponent implements OnInit {
         this.paymentCashYesToggle = false;
         this.payCashDiv = false;
 
+        this.fullPartialAmount = 0
+        this.expensePaymentType = 'full'
+        this.partiallyPayment = false;
+
         this.payrollToggle = false
         this.expenseCancelToggle = false
 
@@ -361,6 +368,7 @@ export class CreateExpenseComponent implements OnInit {
   partiallyPayment: boolean = false;
   expensePaymentType: string = 'full'
   onExpensePaymentTypeChange(type: number): void {
+    this.partialAmount = ''
 
     this.approveReq.isPartiallyPayment = type;
     if (this.approveReq.isPartiallyPayment == 0) {
