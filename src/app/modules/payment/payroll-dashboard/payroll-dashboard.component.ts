@@ -590,7 +590,17 @@ export class PayrollDashboardComponent implements OnInit {
 
         if(response.object!=null){
           this.organizationMonthWiseSalaryData = response.object;
+          
+          this.organizationMonthWiseSalaryData.epfAmount = this.organizationMonthWiseSalaryData.epfAmount == null ? 0 : this.organizationMonthWiseSalaryData.epfAmount;
+          this.organizationMonthWiseSalaryData.esiAmount = this.organizationMonthWiseSalaryData.esiAmount == null ? 0 : this.organizationMonthWiseSalaryData.esiAmount;
+          this.organizationMonthWiseSalaryData.tdsAmount = this.organizationMonthWiseSalaryData.tdsAmount == null ? 0 : this.organizationMonthWiseSalaryData.tdsAmount;
+          this.organizationMonthWiseSalaryData.grossPay = this.organizationMonthWiseSalaryData.grossPay == null ? 0 : this.organizationMonthWiseSalaryData.grossPay;
+          this.organizationMonthWiseSalaryData.netPay = this.organizationMonthWiseSalaryData.netPay == null ? 0 : this.organizationMonthWiseSalaryData.netPay;
           this.payrollChartMehthodCall();
+          if( this.organizationMonthWiseSalaryData.grossPay == 0){
+            this.resetPayrollChartData();
+            this.dataNotFoundPlaceholder = true;
+          }
         }else{
           this.dataNotFoundPlaceholder = true;
         }
@@ -644,15 +654,11 @@ export class PayrollDashboardComponent implements OnInit {
     name: 'custom',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ['#6666f3', '#FFA500', '#F8D7D7', '#EB5050', '#E9E9FF', '#02E59C', '#888']
+    domain: [ '#E9E9FF','#FFA500', '#F8D7D7','#EB5050','#888']
   };
 
   // chart data
   single = [
-    {
-      name: 'Total',
-      value: 0
-    },
     {
       name: 'EPF',
       value: 0
@@ -670,10 +676,6 @@ export class PayrollDashboardComponent implements OnInit {
       value: 0
     },
     {
-      name: 'Gross Pay',
-      value: 0
-    },
-    {
       name: 'Not Found',
       value: 0.1
     }
@@ -681,11 +683,7 @@ export class PayrollDashboardComponent implements OnInit {
 
 
   payrollChartMehthodCall(){
-    this.single = [
-      {
-        name: 'Total',
-        value: this.organizationMonthWiseSalaryData.totalAmount
-      },
+    this.single = [ 
       {
         name: 'EPF',
         value: this.organizationMonthWiseSalaryData.epfAmount
@@ -701,10 +699,32 @@ export class PayrollDashboardComponent implements OnInit {
       {
         name: 'Net Pay',
         value: this.organizationMonthWiseSalaryData.netPay
+      }
+    ];
+  }
+
+  resetPayrollChartData(){
+
+    this.single = [
+      {
+        name: 'EPF',
+        value: 0
       },
       {
-        name: 'Gross Pay',
-        value: this.organizationMonthWiseSalaryData.grossPay
+        name: 'ESI',
+        value: 0
+      },
+      {
+        name: 'TDS',
+        value: 0
+      },
+      {
+        name: 'Net Pay',
+        value: 0
+      },
+      {
+        name: 'Not Found',
+        value: 0.1
       }
     ];
   }
@@ -744,10 +764,7 @@ export class PayrollDashboardComponent implements OnInit {
         .getNewJoineeByOrganizationId(
           this.itemPerPage,
           this.pageNumber,
-          this.sort,
-          this.sortBy,
           this.search,
-          this.searchBy,
           this.startDate,
           this.endDate
         )
@@ -1069,7 +1086,7 @@ export class PayrollDashboardComponent implements OnInit {
   }
 
   resetCriteriaFilter() {
-    this.itemPerPage = 2;
+    this.itemPerPage = 8;
     this.pageNumber = 1;
     this.lastPageNumber = 0;
     this.total = 0;
@@ -1081,7 +1098,7 @@ export class PayrollDashboardComponent implements OnInit {
   }
 
   resetCriteriaFilterMicro() {
-    this.itemPerPage = 2;
+    this.itemPerPage = 8;
     this.pageNumber = 1;
     this.lastPageNumber = 0;
     this.total = 0;

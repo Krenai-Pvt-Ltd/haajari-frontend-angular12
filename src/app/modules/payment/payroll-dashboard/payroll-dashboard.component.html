@@ -100,9 +100,9 @@
                   <li class="list-inline-item">
                     <div class="ps-3">
                       <p class="text-muted font-12 mb-0">TOTAL PAYROLL COST</p>
-                      <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData?.totalAmount || 0 }}
+                      <h5 class="mb-0"> ₹ {{ organizationMonthWiseSalaryData?.grossPay || 0 }}
                       </h5>
-                      <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{ organizationPreviousMonthSalaryData?.totalAmount || 0 }}</small>
+                      <small class="text-success">{{organizationPreviousMonthSalaryData.month}} ₹ {{ organizationPreviousMonthSalaryData?.grossPay || 0 }}</small>
                     </div>
                   </li>
                   <li class="list-inline-item">
@@ -393,7 +393,7 @@
         <!--end col-->
       </div>
       <!--end row-->
-      <!-- Employee Management -->
+      <!-- STEP 1 START -->
       <div class="modal fade" id="createteam" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
         <div class="modal-dialog modal-fullscreen" role="document">
           <div class="modal-content">
@@ -440,12 +440,10 @@
                                 <b>{{total}}</b></span><div *ngIf="selectedStaffsUuids.length != total"><span (click)="selectAllUsers(true)" class="all-select-user">Select all {{total}} users</span></div><div *ngIf="selectedStaffsUuids.length == total"><span (click)="unselectAllUsers()" class="clear-all-user">Clear all users <i class="bi bi-x"></i></span></div><div *ngIf="selectedStaffsUuids.length != total"><span class="pointer user-close-btn" (click)="unselectAllUsers()"><i class="bi bi-x"></i></span></div></div></div> -->
                           <thead>
                             <tr>
-                              <!-- <th style="width:0%;"><input type="checkbox" style="cursor: pointer;" class="form-check-input" [(ngModel)]="isAllSelected" (change)="selectAll(isAllSelected)" [ngModelOptions]="{standalone: true}"></th> -->
                               <th>EMPLOYEE</th>
                               <th>EMAIL</th>
+                              <th>PHONE</th>
                               <th>DATE OF JOINING</th>
-                              <!-- <th>NO OF WORKING DAYS</th> -->
-                              <th>SALARY</th>
                               <th>PAY ACTION</th>
                               <th>COMMENT(Optional)</th>
                               <!-- <th>ACTION</th> -->
@@ -500,14 +498,13 @@
                                   <!-- <td style="width:0%;"><div class="d-flex form-check justify-content-around">
                                        [(ngModel)]="staff.selected"
                                        <input type="checkbox" style="cursor: pointer;" class="form-check-input" (change)="checkIndividualSelection()" [ngModelOptions]="{standalone: true}"></div></td>  -->
-                                  <td>{{ newJoineeResponse.name }}</td>
-                                  <td>{{ newJoineeResponse.email }}</td>
+                                  <td>{{ newJoineeResponse.name || 'N/A'}}</td>
+                                  <td>{{ newJoineeResponse.email || 'N/A'}}</td>
+                                  <td>{{ newJoineeResponse.phone || 'N/A' }}</td>
                                   <td class="text-start">
                                     {{ newJoineeResponse.joiningDate | date: 'dd MMMM, yyyy' }}
                                   </td>
-                                  <td class="text-start">
-                                    {{ newJoineeResponse.salary }}
-                                  </td>
+              
                                   <td class="text-">
                                     <div class="dudct-type">
                                       <div class="dropdown pay-action-type">
@@ -993,6 +990,8 @@
         </div>
         <!--end modal-->
       </div>
+      <!-- STEP 1 END -->
+      <!-- Employee Management -->
       <!-- Leave, Attendance & Daily Wages -->
       <div class="modal fade" id="leaves" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel" aria-hidden="true">
         <div class="modal-dialog modal-fullscreen" role="document">

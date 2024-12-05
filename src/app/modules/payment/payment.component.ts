@@ -24,4 +24,7 @@ export class PaymentComponent implements OnInit {
   ngOnInit(): void {
     this._helperService.getOrganizationRegistrationDateMethodCall();
   }
+
+
+  
 }

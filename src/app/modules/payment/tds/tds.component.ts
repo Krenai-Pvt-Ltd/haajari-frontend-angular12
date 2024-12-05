@@ -32,30 +32,17 @@ export class TdsComponent implements OnInit {
     this.networkConnectionErrorPlaceHolder = false;
   }
 
-  constructor(private dataService: DataService,
-     private _helperService: HelperService,
+  constructor(private _dataService: DataService,
+     public _helperService: HelperService,
      private _salaryService :SalaryService) {
    
   }
 
   ngOnInit(): void {
     window.scroll(0, 0);
-    const currentDate = moment();
-    this.startDateStr = currentDate.startOf('month').format('YYYY-MM-DD');
-    this.endDateStr = currentDate.endOf('month').format('YYYY-MM-DD');
-
-    // Set the default selected month
-    this.month = currentDate.format('MMMM');
-
-    // this.getOrganizationRegistrationDateMethodCall();
     this.getFirstAndLastDateOfMonth(this.selectedDate);
-  
   }
 
-  startDateStr: string = '';
-  endDateStr: string = '';
-  month: string = '';
-  inputDate: string = '';
 
   mainPlaceholderFlag : boolean = false;
   employeeMonthWiseSalaryDataList: EmployeeMonthWiseSalaryData[] = [];
@@ -63,22 +50,13 @@ export class TdsComponent implements OnInit {
     this.preRuleForShimmersAndErrorPlaceholders();
     this._salaryService.getMonthWiseSalaryData(this.startDate,this.endDate,this.itemPerPage,this.pageNumber,this.search)
       .subscribe((response) => {
-          if (!response.object) {
+          if (response.object == null || response.object.length ==0) {
             this.dataNotFoundPlaceholder = true;
               
           } else {
             this.employeeMonthWiseSalaryDataList = response.object;
             this.total = response.totalItems;
-            this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
-
-            if(this.employeeMonthWiseSalaryDataList == null){
-              if(this.search == '') {
-                this.mainPlaceholderFlag = true;
-              }else {
-                this.mainPlaceholderFlag = false;
-              }
-            }
-            
+            this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);            
           }
           this.isShimmer = false;
         },
@@ -90,89 +68,30 @@ export class TdsComponent implements OnInit {
   }
 
 
-  disableYears = (date: Date): boolean => {
-    return date.getFullYear() < 2024;
-  };
-
-  onYearChange(date: Date): void {
-    this.selectedDate = date;
-  }
-
   size: 'large' | 'small' | 'default' = 'small';
   selectedDate: Date = new Date();
   startDate: string = '';
   endDate: string = '';
-  startDateAndEndDate : StartDateAndEndDate = new StartDateAndEndDate();
 
   onMonthChange(month: Date): void {
     this.selectedDate = month;
     this.getFirstAndLastDateOfMonth(this.selectedDate);
   }
 
-  disableMonths = (date: Date): boolean => {
-    const currentYear = new Date().getFullYear();
-    const currentMonth = new Date().getMonth();
-    const dateYear = date.getFullYear();
-    const dateMonth = date.getMonth();
-    const organizationRegistrationYear = new Date(
-      this._helperService.organizationRegistrationDate
-    ).getFullYear();
-    const organizationRegistrationMonth = new Date(
-      this._helperService.organizationRegistrationDate
-    ).getMonth();
-
-    // Disable if the month is before the organization registration month
-    if (
-      dateYear < organizationRegistrationYear ||
-      (dateYear === organizationRegistrationYear &&
-        dateMonth < organizationRegistrationMonth)
-    ) {
-      return true;
-    }
-
-    // Disable if the month is after the current month
-    if (
-      dateYear > currentYear ||
-      (dateYear === currentYear && dateMonth > currentMonth)
-    ) {
-      return true;
-    }
-
-    // Enable the month if it's from January 2023 to the current month
-    return false;
-  };
-
-  // organizationRegistrationDate: string = '';
-  // getOrganizationRegistrationDateMethodCall() {
-  //   debugger;
-  //   this.dataService.getOrganizationRegistrationDate().subscribe(
-  //     (response) => {
-  //       this.organizationRegistrationDate = response;
-  //     },
-  //     (error) => {
-  //       console.log(error);
-  //     }
-  //   );
-  // }
+  
 
   getFirstAndLastDateOfMonth(selectedDate: Date) {
 
-    this.startDate = this.formatDateToYYYYMMDD(
+    this.startDate = this._helperService.formatDateToYYYYMMDD(
       new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1),
     );
-    this.endDate = this.formatDateToYYYYMMDD(
+    this.endDate = this._helperService.formatDateToYYYYMMDD(
       new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0),
     );
     this.getEmployeeMonthWiseSalaryDataMethodCall();
   }
 
-  formatDateToYYYYMMDD(date: Date): string {
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
 
-    return `${year}-${month}-${day}`;
-  }
 
   changePage(page: number | string) {
     if (typeof page === 'number') {

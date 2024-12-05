@@ -2,7 +2,7 @@
   <!-- Page Content-->
   <div class="page-content-tab">
     <div class="container-fluid">
-      <div class="row leave-management-settings p-3 mt-2 align-items-center" *ngIf="mainPlaceholderFlag">
+      <!-- <div class="row leave-management-settings p-3 mt-2 align-items-center" *ngIf="mainPlaceholderFlag">
         <div class="col-md-6">
           <div class="leave-management-detail pt-5 pb-5">
             <h3 class="mb-3">
@@ -14,7 +14,7 @@
               available discounts in one place.
             </p>
 
-            <!-- <button class="btn add-leave-btn mt-4 mb-2">Add New Members</button> -->
+          
 
             <hr />
             <span class="mb-0">
@@ -55,9 +55,9 @@
             <img src="assets/images/esi-epf-img.svg" style="width: 380px" />
           </div>
         </div>
-      </div>
+      </div> -->
 
-      <div *ngIf="!mainPlaceholderFlag">
+      <div >
       <div
         class="row mb-1 mt-3 align-items-center"
         style="padding-bottom: 15px"
@@ -74,7 +74,7 @@
                   [nzSize]="size"
                   [(ngModel)]="selectedDate"
                   (ngModelChange)="onMonthChange($event)"
-                  [nzDisabledDate]="disableMonths"
+                  [nzDisabledDate]="_helperService.disableMonths"
                 ></nz-date-picker>
               </div>
             </div>

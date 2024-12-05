@@ -1,4 +1,5 @@
 
+import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs/operators';
@@ -21,6 +22,7 @@ import { DataService } from 'src/app/services/data.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { SalaryService } from 'src/app/services/salary.service';
 import * as XLSX from 'xlsx';
+import * as saveAs from 'file-saver';
 @Component({
   selector: 'app-salary-setting',
   templateUrl: './salary-setting.component.html',
@@ -31,7 +33,8 @@ export class SalarySettingComponent implements OnInit {
     private dataService: DataService,
     private helperService: HelperService,
     private _afStorage: AngularFireStorage,
-    private _salaryService: SalaryService
+    private _salaryService: SalaryService,
+    private _http: HttpClient
   ) {}
 
   ngOnInit(): void {
@@ -559,6 +562,7 @@ export class SalarySettingComponent implements OnInit {
       if (response.status) {
         if(response.object!=null){
           this.downloadUrl(response.object);
+          // this.downloadExcel(response.object);
         } 
       }
       this.downloading = false; 
@@ -568,6 +572,11 @@ export class SalarySettingComponent implements OnInit {
     });
   }
 
+  // downloadExcel(url: string) {
+  //   this._http.get(url, { responseType: 'blob' }).subscribe(blob => {
+  //     saveAs(blob, 'User_Salary.xlsx');
+  //   });
+  // }
 
   extractFileName(url: string): string {
     const parts = decodeURIComponent(url).split("/");

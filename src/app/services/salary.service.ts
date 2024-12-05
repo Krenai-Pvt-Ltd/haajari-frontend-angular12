@@ -124,8 +124,7 @@ export class SalaryService {
     endDate: any,
     itemPerPage: number,
     pageNumber: number,
-    search: string,
-    searchBy: string): Observable<any> {
+    search: string): Observable<any> {
 
     const params = new HttpParams()
     .set('start_date', startDate)
@@ -133,8 +132,6 @@ export class SalaryService {
     .set('item_per_page', itemPerPage)
     .set('page_number', pageNumber)
     .set('search', search)
-    .set('search_by', searchBy)
-
     return this._http.get<any>(`${this._key.base_url}/bonus-deduction`, {params});
   }
 

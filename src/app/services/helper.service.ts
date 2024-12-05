@@ -356,4 +356,38 @@ export class HelperService {
       }
     );
   }
+
+
+  disableMonths = (date: Date): boolean => {
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
+    const dateYear = date.getFullYear();
+    const dateMonth = date.getMonth();
+    const organizationRegistrationYear = new Date(
+      this.organizationRegistrationDate
+    ).getFullYear();
+    const organizationRegistrationMonth = new Date(
+      this.organizationRegistrationDate
+    ).getMonth();
+
+    // Disable if the month is before the organization registration month
+    if (
+      dateYear < organizationRegistrationYear ||
+      (dateYear === organizationRegistrationYear &&
+        dateMonth < organizationRegistrationMonth)
+    ) {
+      return true;
+    }
+
+    // Disable if the month is after the current month
+    if (
+      dateYear > currentYear ||
+      (dateYear === currentYear && dateMonth > currentMonth)
+    ) {
+      return true;
+    }
+
+    // Enable the month if it's from January 2023 to the current month
+    return false;
+  };
 }
