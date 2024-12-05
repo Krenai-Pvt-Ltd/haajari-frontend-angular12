@@ -70,6 +70,14 @@
     display: inline-flex;
     margin-right: 5px;
 }
+.paid {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--primary-background-color);
+    display: inline-flex;
+    margin-right: 5px;
+}
 .expense-data p{
     color: #787486;
 }

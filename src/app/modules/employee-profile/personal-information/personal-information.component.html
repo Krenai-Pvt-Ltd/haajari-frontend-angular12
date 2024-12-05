@@ -33,7 +33,7 @@
               *ngIf="editStatus === 'PENDING' && rbacService.userInfo.role !== 'USER'"
             >
               <button
-                class="p-0 btn text-primary font-14"
+                class="p-0 btn text-success font-14"
                 (click)="changeStatus('approve')"
                 [disabled]="isLoading"
               >
@@ -95,6 +95,7 @@
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Email Address</p>
                                 <h6 class="profile-email">{{ user.email || '--'}}</h6>
+
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -132,6 +133,10 @@
                                 <p class="mb-1">Father’s Name</p>
                                 <h6>{{ user.fatherName || '--'}}</h6>
                             </div>
+                        </div>
+
+                        <div class="col-md-12">
+                          
                         </div>
                     </div>
                   </div>
