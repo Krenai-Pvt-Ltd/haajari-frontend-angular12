@@ -87,7 +87,7 @@
 
 .upload-file-input{
     border: 1px dashed rgba(102, 102, 242, 0.40);
-    height: 150px;
+    height: 146px;
     border-radius: 2px;
 }
 .add-file{
@@ -153,4 +153,11 @@
 }
 .add-other-file svg{
     width: 45px !important;
+}
+
+.pdf-box i{
+    font-size: 20px;
+}
+.pdf-box{
+ height: 130px;
 }

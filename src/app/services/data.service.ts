@@ -4402,19 +4402,54 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.post<any>(`${this.baseUrl}/user-resignation`, userResignationReq);
   }
 
-  getDocumentsByUserId(uuid: string): Observable<EmployeeAdditionalDocument[]> {
-    return this.httpClient.get<EmployeeAdditionalDocument[]>(`${this.baseUrl}/user?uuid=${uuid}`);
+
+  getUserResignationInfo(uuid: string) {
+    let params = new HttpParams().set('uuid', uuid);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/user-resignation`, {params}
+    );
   }
+
+  updateResignation1(id: number) {
+    const params = new HttpParams().set('id', id);
+    return this.httpClient.patch<any>(
+      `${this.baseUrl}/user-resignation`,
+      {}, // Pass an empty object as the body for PATCH if not required
+      { params } // Use this to include query parameters
+    );
+  }
+
+  updateResignation(id: number){
+    const params = new HttpParams().set('id', id);
+  return this.httpClient.patch<any>(`${this.baseUrl}/user-resignation`, {}, {params});
+  }
+
+  updateResignation2(id: number) {
+    return this.httpClient.get<any>(`${this.baseUrl}/user-resignation/update/${id}`); // Empty body if no data is needed
+  }
+
+  getDocumentsByUserId(uuid: string): Observable<EmployeeAdditionalDocument[]> {
+    return this.httpClient
+      .get<EmployeeAdditionalDocument[]>(`${this.baseUrl}/documents/user?uuid=${uuid}`)
+      .pipe(
+        map((documents) => documents || []) // Process the response to ensure it's always an array
+      );
+  }
+
   saveDocumentsForUser(uuid: string, documents: EmployeeAdditionalDocument[]): Observable<any> {
     return this.httpClient.post<any>(`${this.baseUrl}/user/${uuid}`, documents);
   }
   updateDocument(documentId: number, document: EmployeeAdditionalDocument): Observable<EmployeeAdditionalDocument> {
-    return this.httpClient.put<EmployeeAdditionalDocument>(`${this.baseUrl}/${documentId}`, document);
+    return this.httpClient.put<EmployeeAdditionalDocument>(`${this.baseUrl}/documents/${documentId}`, document);
   }
   saveDocumentForUser(uuid: string, document: EmployeeAdditionalDocument): Observable<any> {
-    return this.httpClient.post<any>(`${this.baseUrl}/user/document?uuid=${uuid}`, document);
+    return this.httpClient.post<any>(`${this.baseUrl}/documents/user/document?uuid=${uuid}`, document);
   }
 
+  downloadAssetRequests(): Observable<Blob> {
+    const url = `${this.baseUrl}/asset-requests/export`;
+    return this.httpClient.get(url, { responseType: 'blob' });
+  }
 
 }
 

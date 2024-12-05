@@ -202,7 +202,7 @@
                   <div class="card-header">
                     <div class="row align-items-center">
                       <div class="col">
-                        <h4 class="card-title">Assets Allocation By Condition</h4>
+                        <h4 class="card-title">Assets By Category</h4>
                       </div>
                       <!--end col-->
                       <!--end col-->
@@ -212,8 +212,8 @@
                   <!--end card-header-->
                   <!-- [view]="view" -->
                   <div class="card-body">
-                    <div class="text-center" *ngIf="categoryCounts.length > 0">
-                      <ngx-charts-bar-vertical-stacked [scheme]="colorScheme" [results]="categoryCounts"
+                    <div class="text-center chart-container" *ngIf="categoryCounts.length > 0">
+                      <ngx-charts-bar-vertical-stacked [scheme]="colorScheme" [results]="categoryCounts" [xAxisHeight]="2"  yAxisWidth='4'
                         [gradient]="false" [xAxis]="true" [yAxis]="true" [legend]="false" [animations]="true">
                       </ngx-charts-bar-vertical-stacked>
                     </div>
@@ -422,9 +422,22 @@
                     <div class="form-group" style="width: 100%; position: relative;">
                       <input type="text" id="searchText" placeholder="Search..." class="form-control mb-0 ng-pristine ng-valid ng-touched"
                         (input)="searchAssetsRequest($event)" style="padding: 10px 40px;" ng-reflect-model="" ng-reflect-options="[object Object]">
-                        <i class="bi bi-search search-icon ng-star-inserted" style="margin: auto; margin-left: 15px;"></i>
+                        <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px;"></i>
                     </div>
                   </form>
+                </div>
+
+                <div class="w-100 d-flex align-content-center justify-content-center">
+<!-- [disabled]="downloadFlag" -->
+                <button class="btn primaryBtnLink " data-bs-toggle="modal" (click)="downloadExcel()" type="button">
+                  <i class="bi bi-download"></i>
+                  <span *ngIf="!downloadFlag">Export</span>
+                  <div class="dot-opacity-loader" *ngIf="downloadFlag">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </button>
                 </div>
               </div>
             </div>
@@ -445,6 +458,7 @@
                   <th class="text-left font-13" style="width: 10%">Action Taken on</th>
                   <th class="text-left font-13" style="width: 10%">Note</th>
                   <th class="text-left font-13" style="width: 10%">Status</th>
+                  <th class="text-left font-13" style="width: 10%">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -452,42 +466,55 @@
                   <td colspan="9" class="text-center">No data found</td>
                 </tr>
                 <tr *ngFor="let asset of assetRequests">
-                  <td class="text-left">{{ asset.requestedOn | date: 'EEE, MMM d yyyy' }}</td>
-                  <td class="text-left">{{ asset.assetName }}</td>
-                  <td class="text-left">{{ asset.assetType }}</td>
-                  <td class="text-left">{{ asset.assetCategoryName }}</td>
+                  <td class="text-left">{{ (asset.requestedOn | date: 'EEE, MMM d yyyy') || '--' }}</td>
+                  <td class="text-left">{{ asset.assetName || '--' }}</td>
+                  <td class="text-left">{{ asset.assetType || '--' }}</td>
+                  <td class="text-left">{{ asset.assetCategoryName || '--' }}</td>
                   <td class="text-left">
                     <button class="btn btn-link text-primary p-0" [routerLink]="['/employee-profile']"
                       [queryParams]="{ userId: asset.userUuid }">
-                      {{ asset.requestedBy }}
+                      {{ asset.requestedBy || '--'}}
                     </button>
                   </td>
                   <!--  <td class="text-left">{{ asset.approvedBy }}</td> -->
-                  <td class="text-left">{{ asset.actionTakenOn | date: 'MMM d yyyy' }}</td>
-                  <td class="text-left">{{ asset.note }}</td>
+                  <td class="text-left">{{ (asset.actionTakenOn | date: 'MMM d yyyy') || '--' }}</td>
                   <td class="text-left">
-                    <button type="button" class="btn" [ngClass]="{
-                             'badge rounded-pill badge-soft-secondary': asset.status !== ''
-                             }" (click)="openStatusChangeModal(asset, statusChangeModal)">
-                      {{ asset.status }}
-                    </button>
+                    <span class="white-space table-font-weight" style="width: 40px !important;" nz-popover
+                    nzPopoverTitle="Note" [nzPopoverContent]="contentTemplate" [nzPopoverOverlayStyle]	="{'width':'300px'}"
+                     nzPopoverPlacement="top" > {{ asset.note || '--'}} </span>
+                    <ng-template #contentTemplate>
+                      <div>
+                       {{asset.note}}
+                      </div>
+                    </ng-template>
+                  </td>
+                  <td class="text-left">
+                    <span class="badge rounded-pill " [ngClass]="{'badge-soft-warning': asset.status == 'PENDING', 'badge-soft-danger': asset.status == 'REJECTED', 'badge-soft-success': asset.status == 'APPROVED' }" >
+                      {{ asset.status || '--' }}
+                    </span>
+                  </td>
+                  <td (click)="openStatusChangeModal(asset, statusChangeModal)" >
+                    <button class="btn p-0 text-primary View-btn"><i class="bi bi-eye"></i> View </button>
                   </td>
                 </tr>
               </tbody>
             </table>
             <div *ngIf="this.assetRequestsTotalPage>1" class="pagination-controls d-flex align-items-center justify-content-between">
-              <!-- Ngb Pagination Component -->
-
-              <div class="showing-items-message text-right font-13">
-                Showing items
-                {{ (assetRequestsPage - 1) * assetRequestsSize + 1 }} –
-                {{ Math.min(assetRequestsPage * assetRequestsSize, assetRequestsTotalCount) }}
-                of {{ assetRequestsTotalCount }} records
-              </div>
-              <ngb-pagination class="pagination-box" [collectionSize]="assetRequestsTotalCount" [rotate]="true" (pageChange)="pageChangedRequest($event)"
-                [pageSize]="assetRequestsSize" [(page)]="assetRequestsPage" [maxSize]="8" [boundaryLinks]="true">
-              </ngb-pagination>
-            </div>
+           
+          </div><!-- Ngb Pagination Component -->
+          <div class="d-flex align-content-center justify-content-between">
+          
+          <p class="mb-0 showing-items-message text-right font-13">
+            Showing items
+            {{ (assetRequestsPage - 1) * assetRequestsSize + 1 }} –
+            {{ Math.min(assetRequestsPage * assetRequestsSize, assetRequestsTotalCount) }}
+            of {{ assetRequestsTotalCount }} records
+          </p>
+          <ngb-pagination class="pagination-box" [collectionSize]="assetRequestsTotalCount" [rotate]="true"
+            (pageChange)="pageChangedRequest($event)" [pageSize]="assetRequestsSize" [(page)]="assetRequestsPage" [maxSize]="5"
+            [boundaryLinks]="true">
+          </ngb-pagination>
+          </div>
           </div>
         </div>
         <ng-template #noAssets>

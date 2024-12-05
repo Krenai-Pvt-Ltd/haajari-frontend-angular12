@@ -177,8 +177,26 @@ dayShiftToggleFun(shift: string) {
     this.loadLeaveLogs();
   }
 
+  disableEndDate = (endDate: Date): boolean => {
+    const startDate = this.userLeaveForm.get('startDate')?.value;
+    if (startDate) {
+      const start = new Date(startDate).setHours(0, 0, 0, 0);
+      const end = new Date(endDate).setHours(0, 0, 0, 0);
+      return end < start; // Only disable dates before the start date
+    }
+    return false;
+  };
 
-
+  // Disable dates after the end date in the start date picker
+  disableStartDate = (startDate: Date): boolean => {
+    const endDate = this.userLeaveForm.get('endDate')?.value;
+    if (endDate) {
+      const start = new Date(startDate).setHours(0, 0, 0, 0);
+      const end = new Date(endDate).setHours(0, 0, 0, 0);
+      return start > end; // Only disable dates after the end date
+    }
+    return false;
+  };
 
 
 
@@ -225,6 +243,7 @@ dayShiftToggleFun(shift: string) {
           this.uploadedFiles=[];
           this.loadLeaveLogs();
           this.cancelBtn.nativeElement.click();
+          this.helperService.showToast('Leave Requested successfully', Key.TOAST_STATUS_SUCCESS);
           // location.reload();
           } else{
             this.submitLeaveLoader = false;
@@ -248,6 +267,7 @@ dayShiftToggleFun(shift: string) {
     this.userLeaveRequest.halfDayLeave = false;
     this.userLeaveRequest.dayShift = false;
     this.userLeaveRequest.eveningShift = false;
+    this.isHalfLeaveSelected=false;
     this.userLeaveRequest.leaveType = '';
     this.userLeaveRequest.managerId = 0;
     this.userLeaveRequest.optNotes = '';
@@ -404,7 +424,7 @@ dayShiftToggleFun(shift: string) {
   }
 
   isDeleting: boolean = false;
-  
+
    @ViewChild('deleCloseButton') deleCloseButton!:ElementRef;
   confirmDelete(modal: NgbModalRef): void {
     this.isDeleting = true;
@@ -412,7 +432,7 @@ dayShiftToggleFun(shift: string) {
       this.onDelete(this.itemIdToDelete);
     }
      this.deleCloseButton.nativeElement.click();
-    
+
     // modal.close();
   }
 
