@@ -167,3 +167,7 @@ button.close-btn {
     outline: none !important;
     box-shadow: none !important;
 }
+
+.empty-file .ant-empty-image img {
+    width: 70px !important;
+}

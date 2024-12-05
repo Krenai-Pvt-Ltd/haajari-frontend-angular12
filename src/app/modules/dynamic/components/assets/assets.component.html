@@ -422,20 +422,14 @@
                     <div class="form-group" style="width: 100%; position: relative;">
                       <input type="text" id="searchText" placeholder="Search..." class="form-control mb-0 ng-pristine ng-valid ng-touched"
                         (input)="searchAssetsRequest($event)" style="padding: 10px 40px;" ng-reflect-model="" ng-reflect-options="[object Object]">
-                        <i class="bi bi-search search-icon ng-star-inserted" style="margin: auto; margin-left: 15px;"></i>
-
-                       
+                        <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px;"></i>
                     </div>
-
-
-
-
-
                   </form>
                 </div>
 
-                <button [disabled]="downloadFlag" class="btn primaryBtnLink" data-bs-toggle="modal" (click)="downloadExcel()"
-                  type="button">
+                <div class="w-100 d-flex align-content-center justify-content-center">
+<!-- [disabled]="downloadFlag" -->
+                <button class="btn primaryBtnLink " data-bs-toggle="modal" (click)="downloadExcel()" type="button">
                   <i class="bi bi-download"></i>
                   <span *ngIf="!downloadFlag">Export</span>
                   <div class="dot-opacity-loader" *ngIf="downloadFlag">
@@ -444,6 +438,7 @@
                     <span></span>
                   </div>
                 </button>
+                </div>
               </div>
             </div>
           </div>
@@ -505,18 +500,21 @@
               </tbody>
             </table>
             <div *ngIf="this.assetRequestsTotalPage>1" class="pagination-controls d-flex align-items-center justify-content-between">
-              <!-- Ngb Pagination Component -->
-
-              <div class="showing-items-message text-right font-13">
-                Showing items
-                {{ (assetRequestsPage - 1) * assetRequestsSize + 1 }} –
-                {{ Math.min(assetRequestsPage * assetRequestsSize, assetRequestsTotalCount) }}
-                of {{ assetRequestsTotalCount }} records
-              </div>
-              <ngb-pagination class="pagination-box" [collectionSize]="assetRequestsTotalCount" [rotate]="true" (pageChange)="pageChangedRequest($event)"
-                [pageSize]="assetRequestsSize" [(page)]="assetRequestsPage" [maxSize]="5" [boundaryLinks]="true">
-              </ngb-pagination>
-            </div>
+           
+          </div><!-- Ngb Pagination Component -->
+          <div class="d-flex align-content-center justify-content-between">
+          
+          <p class="mb-0 showing-items-message text-right font-13">
+            Showing items
+            {{ (assetRequestsPage - 1) * assetRequestsSize + 1 }} –
+            {{ Math.min(assetRequestsPage * assetRequestsSize, assetRequestsTotalCount) }}
+            of {{ assetRequestsTotalCount }} records
+          </p>
+          <ngb-pagination class="pagination-box" [collectionSize]="assetRequestsTotalCount" [rotate]="true"
+            (pageChange)="pageChangedRequest($event)" [pageSize]="assetRequestsSize" [(page)]="assetRequestsPage" [maxSize]="5"
+            [boundaryLinks]="true">
+          </ngb-pagination>
+          </div>
           </div>
         </div>
         <ng-template #noAssets>
