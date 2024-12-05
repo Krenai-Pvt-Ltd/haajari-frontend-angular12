@@ -446,7 +446,12 @@ isFormInvalid: boolean=false;
 
         this.editStatus = 'APPROVED';
         this.isLoading = false;
-        this.helperService.showToast('Status Change Successfully', Key.TOAST_STATUS_SUCCESS);
+        if(status==='approve'){
+          this.helperService.showToast('Request Approved Successfully', Key.TOAST_STATUS_SUCCESS);
+        } else if(status==='reject'){
+          this.helperService.showToast('Status Rejected Successfully', Key.TOAST_STATUS_ERROR);
+        }
+
       },
       (error) => {
         console.error('Error updating status:', error);

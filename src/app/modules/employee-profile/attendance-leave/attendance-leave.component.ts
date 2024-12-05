@@ -254,6 +254,7 @@ dayShiftToggleFun(shift: string) {
           this.uploadedFiles=[];
           this.loadLeaveLogs();
           this.cancelBtn.nativeElement.click();
+          this.helperService.showToast('Leave Requested successfully', Key.TOAST_STATUS_SUCCESS);
           // location.reload();
           } else{
             this.submitLeaveLoader = false;
@@ -277,6 +278,7 @@ dayShiftToggleFun(shift: string) {
     this.userLeaveRequest.halfDayLeave = false;
     this.userLeaveRequest.dayShift = false;
     this.userLeaveRequest.eveningShift = false;
+    this.isHalfLeaveSelected=false;
     this.userLeaveRequest.leaveType = '';
     this.userLeaveRequest.managerId = 0;
     this.userLeaveRequest.optNotes = '';

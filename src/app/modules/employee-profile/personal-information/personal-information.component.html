@@ -33,7 +33,7 @@
               *ngIf="editStatus === 'PENDING' && rbacService.userInfo.role !== 'USER'"
             >
               <button
-                class="p-0 btn text-primary font-14"
+                class="p-0 btn text-success font-14"
                 (click)="changeStatus('approve')"
                 [disabled]="isLoading"
               >
@@ -67,16 +67,16 @@
                     Edit Profile</button>
                     <!-- <span></span> -->
                 <button  *ngIf="(editStatus =='' || editStatus=='REJECTED' || editStatus=='EDITED') && rbacService.userInfo.role == 'USER'"  class="p-0 btn text-primary gont-14" data-bs-toggle="modal" data-bs-target="#profileRequest">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="23" viewBox="0 0 22 23" fill="none">
-                        <mask id="mask0_5429_20366" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="22" height="23">
-                            <rect y="0.5" width="22" height="22" fill="#D9D9D9" />
-                        </mask>
-                        <g mask="url(#mask0_5429_20366)">
-                            <path
-                                d="M5.50004 13.332H12.8334V11.4987H5.50004V13.332ZM5.50004 10.582H16.5V8.7487H5.50004V10.582ZM5.50004 7.83203H16.5V5.9987H5.50004V7.83203ZM1.83337 20.6654V4.16536C1.83337 3.6612 2.01289 3.2296 2.37192 2.87057C2.73094 2.51155 3.16254 2.33203 3.66671 2.33203H18.3334C18.8375 2.33203 19.2691 2.51155 19.6282 2.87057C19.9872 3.2296 20.1667 3.6612 20.1667 4.16536V15.1654C20.1667 15.6695 19.9872 16.1011 19.6282 16.4602C19.2691 16.8192 18.8375 16.9987 18.3334 16.9987H5.50004L1.83337 20.6654ZM4.72087 15.1654H18.3334V4.16536H3.66671V16.1966L4.72087 15.1654Z"
-                                fill="#6666F2" />
-                        </g>
-                    </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="23" viewBox="0 0 22 23" fill="none">
+                    <mask id="mask0_6348_5644" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="22" height="23">
+                      <rect y="0.5" width="22" height="22" fill="#D9D9D9" />
+                    </mask>
+                    <g mask="url(#mask0_6348_5644)">
+                      <path
+                        d="M13.5897 20.6667C13.2231 20.6667 12.8717 20.5979 12.5356 20.4604C12.1995 20.3229 11.9016 20.1243 11.6418 19.8646L6.96683 15.1667L7.72308 14.3875C7.93697 14.1736 8.19669 14.0285 8.50225 13.9521C8.8078 13.8757 9.11336 13.8757 9.41891 13.9521L11.0002 14.4104V7.83333C11.0002 7.57361 11.088 7.3559 11.2637 7.18021C11.4394 7.00451 11.6571 6.91667 11.9168 6.91667C12.1766 6.91667 12.3943 7.00451 12.57 7.18021C12.7456 7.3559 12.8335 7.57361 12.8335 7.83333V16.8396L10.5877 16.1979L12.9481 18.5583C13.0397 18.65 13.1391 18.7188 13.246 18.7646C13.3529 18.8104 13.4675 18.8333 13.5897 18.8333H17.4168C17.921 18.8333 18.3526 18.6538 18.7116 18.2948C19.0707 17.9358 19.2502 17.5042 19.2502 17V13.3333C19.2502 13.0736 19.338 12.8559 19.5137 12.6802C19.6894 12.5045 19.9071 12.4167 20.1668 12.4167C20.4266 12.4167 20.6443 12.5045 20.82 12.6802C20.9956 12.8559 21.0835 13.0736 21.0835 13.3333V17C21.0835 18.0083 20.7245 18.8715 20.0064 19.5896C19.2884 20.3076 18.4252 20.6667 17.4168 20.6667H13.5897ZM13.7502 14.25V10.5833C13.7502 10.3236 13.838 10.1059 14.0137 9.93021C14.1894 9.75451 14.4071 9.66667 14.6668 9.66667C14.9266 9.66667 15.1443 9.75451 15.32 9.93021C15.4956 10.1059 15.5835 10.3236 15.5835 10.5833V14.25H13.7502ZM16.5002 14.25V11.5C16.5002 11.2403 16.588 11.0226 16.7637 10.8469C16.9394 10.6712 17.1571 10.5833 17.4168 10.5833C17.6766 10.5833 17.8943 10.6712 18.07 10.8469C18.2456 11.0226 18.3335 11.2403 18.3335 11.5V14.25H16.5002ZM3.66683 17.9167C3.16266 17.9167 2.73107 17.7372 2.37204 17.3781C2.01301 17.0191 1.8335 16.5875 1.8335 16.0833V5.08333C1.8335 4.57917 2.01301 4.14757 2.37204 3.78854C2.73107 3.42951 3.16266 3.25 3.66683 3.25H17.4168C17.921 3.25 18.3526 3.42951 18.7116 3.78854C19.0707 4.14757 19.2502 4.57917 19.2502 5.08333V8.75H17.4168V5.08333H3.66683V16.0833H5.31683L7.12725 17.9167H3.66683Z"
+                        fill="#6666F2" />
+                    </g>
+                  </svg>
                     Profile Edit Request</button>
             </div>
         </div>
@@ -95,6 +95,7 @@
                             <div class="profile-imformation mb-3">
                                 <p class="mb-1">Email Address</p>
                                 <h6 class="profile-email">{{ user.email || '--'}}</h6>
+
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -132,6 +133,10 @@
                                 <p class="mb-1">Father’s Name</p>
                                 <h6>{{ user.fatherName || '--'}}</h6>
                             </div>
+                        </div>
+
+                        <div class="col-md-12">
+                          
                         </div>
                     </div>
                   </div>
@@ -357,6 +362,20 @@
 
                 </div>
                 <div class="col-md-9">
+
+
+                    <!-- <div class="empty-file" style="margin-top: 4%; margin-bottom: 4%;">
+                      <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+                        <ng-template #contentTpl>
+                          <p class="mb-1 empty-detail font-16">
+                            No data for now
+                          </p>
+                    
+                        </ng-template>
+                      </nz-empty>
+                    </div> -->
+
+
                     <div class="row">
                         <div *ngFor="let emergencyContact of emergencyContacts" class="col-md-12 ">
                             <div class="profile-imformation mb-3">
@@ -430,11 +449,11 @@
 
             </div>
             <div class="col-md-6 mb-3">
-              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+              <div class="marital-status Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <nz-select
                   formControlName="maritalStatus"
                   [(ngModel)]="onboardingPreviewDataCopy.user.maritalStatus"
-                  class="form__field"
+                  class="form__field "
                   nzPlaceHolder="Select Marital Status">
                   <nz-option nzValue="Married" nzLabel="Married"></nz-option>
                   <nz-option nzValue="Single" nzLabel="Single"></nz-option>
@@ -471,6 +490,7 @@
                   formControlName="joiningDate"
                   [(ngModel)]="this.onboardingPreviewDataCopy.user.joiningDate"
                   [nzFormat]="'dd/MM/yyyy'"
+                  nzBorderless=true
                   nzPlaceHolder="Select Joining Date"
                 ></nz-date-picker>
                 <label class="form__label">Joining Date</label>
@@ -504,7 +524,7 @@
               </div>
             </div> -->
             <div class="col-md-6 mb-3">
-              <div class="Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
+              <div class="marital-status Profile-input align-items-center d-flex flex-row-reverse gap-1 justify-content-end p-3">
                 <nz-select
                   formControlName="gender"
                   [(ngModel)]="onboardingPreviewDataCopy.user.gender"
@@ -774,7 +794,6 @@
                 Relation is required.
               </div>
 
-              <button type="button" *ngIf="references.length > 0" (click)="removeReference(i)">Remove</button>
             </div>
 
             <div class="col-md-6 mb-3">
@@ -804,10 +823,10 @@
             </div>
             <div class="d-flex" [ngClass]="{'justify-content-end': references.length == 1, 'justify-content-between': references.length >1}">
               <button type="button" class="btn p-0 text-danger" (click)="removeReference(i)"><i class="bi bi-trash"></i> Remove</button>
+                <button class="btn p-0 text-primary add-reference" type="button" (click)="addReference()"><i class="bi bi-plus-lg"></i> Add Reference</button>
             </div>
           </div>
-          <button class="btn p-0 text-primary add-reference" type="button" (click)="addReference()"><i class="bi bi-plus-lg"></i> Add
-            Reference</button>
+        
         </div>
       </div>
 
@@ -898,6 +917,19 @@
         </div>
 
         <div formArrayName="userExperience" class="col-md-9">
+
+            <div class="new-empty-file empty-file" style="margin-top: 4%; margin-bottom: 4%;" *ngIf="userExperience.controls && userExperience.controls?.length==0">
+              <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+                <ng-template #contentTpl>
+                  <p class="mb-1 empty-detail font-16">
+                    No data for now
+                  </p>
+                  <button type="button" class="btn p-0 text-primary add-reference" (click)="addJobExperience()"><i
+                      class="bi bi-plus-lg"></i> Add Job Experience</button>
+                </ng-template>
+              </nz-empty>
+            </div>
+
           <div
             *ngFor="let job of userExperience.controls; let i = index"
             [formGroupName]="i"
@@ -1005,16 +1037,13 @@
             </div>
 
             <!-- Remove Button -->
-            <div class="col-md-12">
+            <div class="d-flex align-items-center justify-content-between ">
               <button type="button" class="btn p-0 text-danger" (click)="removeJobExperience(i)"> <i class="bi bi-trash"></i> Remove</button>
+              <button type="button" class="btn p-0 text-primary add-reference" (click)="addJobExperience()"><i class="bi bi-plus-lg"></i> Add Job Experience</button>
             </div>
           </div>
         </div>
 
-        <!-- Add Job Experience Button -->
-        <div class="col-md-12">
-          <button type="button" class="btn p-0 text-primary add-reference" (click)="addJobExperience()"><i class="bi bi-plus-lg"></i> Add Job Experience</button>
-        </div>
       </div>
 
 
@@ -1025,6 +1054,7 @@
           </div>
         </div>
         <div class="col-md-9">
+          
           <div class="row">
             <!-- Account Holder Name -->
             <div class="col-md-6 mb-3">
@@ -1126,6 +1156,21 @@
         </div>
 
         <div formArrayName="userEmergencyContacts" class="col-md-9">
+
+          <div class="new-empty-file empty-file" style="margin-top: 4%; margin-bottom: 4%;" *ngIf="userEmergencyContacts.controls && userEmergencyContacts.controls?.length==0">
+            <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+              <ng-template #contentTpl>
+                <p class="mb-1 empty-detail font-16">
+                  No data for now
+                </p>
+
+                <button type="button" class="btn text-primary p-0 add-reference" (click)="addEmergencyContact()">
+                  <i class="bi bi-plus-lg"></i> Add Contact
+                </button>
+               
+              </ng-template>
+            </nz-empty>
+          </div>
           <div
             *ngFor="let emergencyContact of userEmergencyContacts.controls; let i = index"
             [formGroupName]="i"

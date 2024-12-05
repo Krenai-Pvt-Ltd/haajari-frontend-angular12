@@ -1,5 +1,5 @@
 import { DataService } from 'src/app/services/data.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { OrganizationAssetResponse } from 'src/app/models/asset-category-respose';
 import { ActivatedRoute } from '@angular/router';
 import { AssetRequestDTO } from 'src/app/models/AssetRequestDTO';
@@ -89,6 +89,7 @@ export class AssetsComponent implements OnInit {
 
   isLoadingForm: boolean = false;
   @ViewChild('closeButton') closeButton: any;
+  @ViewChild('assetRequestTab', { static: true }) assetRequestTab!: ElementRef;
   submitForm(modal: any): void {
     if (this.isLoadingForm) {
       return;
@@ -115,6 +116,7 @@ export class AssetsComponent implements OnInit {
             "Asset request submitted successfully",
             Key.TOAST_STATUS_SUCCESS
           );
+          this.assetRequestTab.nativeElement.click();
         },
         error => {
           console.error('Error submitting asset request:', error);
@@ -254,6 +256,9 @@ export class AssetsComponent implements OnInit {
     this.searchSubject.next(inputValue);
   }
 
+  resetSearch() {
+    this.searchSubject.next('');
+  }
 
 
 }

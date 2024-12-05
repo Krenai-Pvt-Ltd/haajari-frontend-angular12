@@ -217,6 +217,10 @@
                     <a class="add-shift-time-btn" (click)="clearData()" data-bs-toggle="modal" data-bs-target="#createPolicy" >
                       <i class="bi bi-plus"></i> Create exit policy
                     </a>
+
+                    <a class="add-shift-time-btn" data-bs-toggle="modal" data-bs-target="#create-exit-policy">
+                      <i class="bi bi-plus"></i> Create exit policy
+                    </a>
                   </div>
                 </div>
   
@@ -568,6 +572,277 @@ data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
   </div>
 </div>
 <!-- Add policy modal end -->
+
+
+
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#create-exit-policy">
+  Apply for expense
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="create-exit-policy" tabindex="-1" role="dialog" #assetRequestModal aria-hidden="true"
+  aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" style="max-width: 1050px;" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Create another template</h5>
+        <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
+              height="24">
+              <rect width="24" height="24" fill="#D9D9D9" />
+            </mask>
+            <g mask="url(#mask0_5037_2014)">
+              <path d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+                fill="black" />
+            </g>
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-body p-0">
+        <div class="exit-policy-modal">
+          <div class="row h-100 p-0 m-0">
+            <div class="col-md-3 p-0 m-0">
+              <div class="exit-policy-sidebar-menu">
+                <div class="nav flex-column nav-pills pt-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                
+                  <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#policy-creation" type="button"
+                    role="tab" aria-controls="policy-creatio" aria-selected="false">
+                    Policy Creation
+                  </button>
+                
+                  <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#staff-selection"
+                    type="button" role="tab" aria-controls="staff-selection" aria-selected="false">
+                    Staff selection
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-9 p-0 m-0">
+              <div class="policy-templete p-3 bg-white">
+                <div class="tab-content" id="v-pills-tabContent">
+                  <div class="tab-pane fade show active" id="policy-creation" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                    <div class="row register-form-box">
+                      <div class="col-md-12 mb-3">
+                        <label for="templateName" class="pb-2">
+                          Policy Name
+                        </label>
+                        <input type="" class="form-control input-zorro" placeholder="Enter the Policy name here" name="tempNamed" required />
+                      </div>
+                      <div class="col-md-6 mb-3">
+                        <label for="templateName" class="pb-2">
+                          Notice Duration
+                        </label>
+                        <input type="number" class="form-control input-zorro" placeholder="Enter notice duration" name="tempNamed" required />
+                      </div>
+                      <div class="col-md-6 mb-3">
+                        <label for="templateName" class="pb-2">
+                          FNF Duration
+                        </label>
+                        <input type="number" class="form-control input-zorro" placeholder="Enter FNF duration" name="tempNamed" required />
+                      </div>
+                      <!-- <div class="form-check policy-checkbox">
+                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                        <label class="form-check-label" for="defaultCheck1">
+                          Dou Want to set threshold
+                        </label>
+                      </div> -->
+                      <div class="col-md-12">
+                        <label for="templateName" class="pb-2">
+                          Can leave be taken during the notice period?
+                        </label>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                              <input type="radio" name="halfLeave" value="firstHalf" class="form-check-input">
+                              <p class="form-check-label mb-0">Certainly, Yes</p>
+                            </label>
+
+                          </div>
+                          <div class="col-md-6">
+                            <label class="form-check assets-req d-flex align-items-center justify-content-start">
+                              <input type="radio" name="halfLeave" value="firstHalf" class="form-check-input">
+                              <p class="form-check-label mb-0">Not in this case</p>
+                            </label>
+                          
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="leave-footer">
+                      <div class="p-3">
+                      <h5 class="font-14 mb-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                          <mask id="mask0_6327_3508" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+                            <rect width="20" height="20" fill="#D9D9D9" />
+                          </mask>
+                          <g mask="url(#mask0_6327_3508)">
+                            <path
+                              d="M9.16602 14.1641H10.8327V9.16406H9.16602V14.1641ZM9.99935 7.4974C10.2355 7.4974 10.4334 7.41753 10.5931 7.25781C10.7528 7.09809 10.8327 6.90017 10.8327 6.66406C10.8327 6.42795 10.7528 6.23003 10.5931 6.07031C10.4334 5.91059 10.2355 5.83073 9.99935 5.83073C9.76324 5.83073 9.56532 5.91059 9.4056 6.07031C9.24588 6.23003 9.16602 6.42795 9.16602 6.66406C9.16602 6.90017 9.24588 7.09809 9.4056 7.25781C9.56532 7.41753 9.76324 7.4974 9.99935 7.4974ZM9.99935 18.3307C8.84657 18.3307 7.76324 18.112 6.74935 17.6745C5.73546 17.237 4.85352 16.6432 4.10352 15.8932C3.35352 15.1432 2.75977 14.2613 2.32227 13.2474C1.88477 12.2335 1.66602 11.1502 1.66602 9.9974C1.66602 8.84462 1.88477 7.76128 2.32227 6.7474C2.75977 5.73351 3.35352 4.85156 4.10352 4.10156C4.85352 3.35156 5.73546 2.75781 6.74935 2.32031C7.76324 1.88281 8.84657 1.66406 9.99935 1.66406C11.1521 1.66406 12.2355 1.88281 13.2493 2.32031C14.2632 2.75781 15.1452 3.35156 15.8952 4.10156C16.6452 4.85156 17.2389 5.73351 17.6764 6.7474C18.1139 7.76128 18.3327 8.84462 18.3327 9.9974C18.3327 11.1502 18.1139 12.2335 17.6764 13.2474C17.2389 14.2613 16.6452 15.1432 15.8952 15.8932C15.1452 16.6432 14.2632 17.237 13.2493 17.6745C12.2355 18.112 11.1521 18.3307 9.99935 18.3307ZM9.99935 16.6641C11.8605 16.6641 13.4368 16.0182 14.7285 14.7266C16.0202 13.4349 16.666 11.8585 16.666 9.9974C16.666 8.13628 16.0202 6.5599 14.7285 5.26823C13.4368 3.97656 11.8605 3.33073 9.99935 3.33073C8.13824 3.33073 6.56185 3.97656 5.27018 5.26823C3.97852 6.5599 3.33268 8.13628 3.33268 9.9974C3.33268 11.8585 3.97852 13.4349 5.27018 14.7266C6.56185 16.0182 8.13824 16.6641 9.99935 16.6641Z"
+                              fill="#6666F2" />
+                          </g>
+                        </svg>
+                        Lorem ipsum dolor sit amet</h5>
+                      <p class="mb-0 font-12">Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet
+                      sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus..</p>
+                      </div>
+                      <div class="modal-footer d-flex align-items-center justify-content-end bg-white">
+                        <button type="submit" class="btn p-0 next-btn">
+                          Next 
+                          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+                            <path d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z"
+                              fill="#6666F2">
+                            </path>
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="staff-selection" role="tabpanel" ria-labelledby="v-pills-profile-tab">
+
+                    <div class="staff-selection-box">
+                      <div class="obboard-employee-list">
+                        <div class="onboard-add row align-items-center mx-0">
+                          <div class="col-md-12 p-0">
+                            <div class="row justify-content-between align-items-center mx-0">
+                              <div class="col-lg-12 col-md-12 col-sm-12 ps-0">
+                                <div class="d-flex justify-content-start align-items-center">
+                      
+                                  <!-- Status Filter -->
+                                  <div class="dropdown empFilerDropfilter">
+                                    <button type="button" id="statusDropdown" data-bs-toggle="dropdown" aria-expanded="false"
+                                      class="btn btn-secondary dropdown-toggle new-deopdown">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                                      <mask id="mask0_6268_7208" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
+                                        <rect y="0.5" width="24" height="24" fill="#D9D9D9" />
+                                      </mask>
+                                      <g mask="url(#mask0_6268_7208)">
+                                        <path d="M10 18.5V16.5H14V18.5H10ZM6 13.5V11.5H18V13.5H6ZM3 8.5V6.5H21V8.5H3Z" fill="#1C1B1F" />
+                                      </g>
+                                    </svg>&nbsp;
+                                      Filter <i class="bi bi-caret-down-fill"></i>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="statusDropdown">
+                                      <li>
+                                        <a class="dropdown-item" >
+                                          All
+                                        </a>
+                                      </li>
+                                      <li>
+                                        <a class="dropdown-item">
+                                          Random
+                                        </a>
+                                      </li>
+                                      <li>
+                                        <a class="dropdown-item">
+                                         Ondc-4
+                                        </a>
+                                      </li>
+                                    </ul>
+                                  </div>
+                      
+                                  <!-- Search -->
+                                  <div class="onboarding-date d-flex align-items-center justify-content-between position-relative w-100">
+                                    <form novalidate class="searching d-flex align-items-center justify-content-between" style="width: 100%;">
+                                      <div class="form-group" style="width: 100%; position: relative;">
+                                        <input type="text" id="searchText" placeholder="Search by name .."
+                                          class="form-control me-2" style="padding: 10px 45px;" />
+                      
+                                        <i class="bi bi-search search-icon"></i>
+                      
+                                        <!-- <i class="bi bi-x reset-icon text-primary pointer"></i> -->
+                                      </div>
+
+                                      <div class="d-flex align-items-center gap-3 w-100 ">
+                                         <a class="text-primary all-select">10 selected of 171</a>
+                                         <a class="text-danger close-all-select">Clear all users</a>
+                                      </div>
+                                    </form>
+                      
+                                  </div>
+
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="staff-table">
+                      <div class="table-responsive bg-white mt-3">
+                        <table class="table empOnnoardtable">
+                          <thead class="thead-light">
+                            <tr>
+                              <th class="text-left font-13" style="width: 10%">
+                                <div class="form-check policy-checkbox">
+                                  <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                </div>
+                              </th>
+                              <th class="text-left font-13" style="width: 30%">Name</th>
+                              <th class="text-left font-13" style="width: 30%">Email Address</th>
+                              <th class="text-left font-13" style="width: 30%">Phone Number</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let item of [].constructor(10)">
+                              <td>
+                                <div class="form-check policy-checkbox">
+                                  <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                </div>
+                              </td>
+                              <td>
+                                <span class="table-font-weight">Savannah Howard</span>
+                              </td>
+                              <td>
+                                <span class="table-font-weight">jeff.brown@example.com</span>
+                              </td>
+                              <td>
+                                <span class="table-font-weight">2345689753</span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      </div>
+                    </div>
+                    <div class="leave-footer">
+                      <div class="p-3 d-flex align-items-center justify-content-between bg-white">
+
+                        <p class="mb-0 font-13"><span class="text-primary">1523 </span> Employees Add</p>
+
+                        <ngb-pagination class="pagination-ul" [collectionSize]="total" [rotate]="true" (pageChange)="pageChanged($event)"
+                          [pageSize]="databaseHelper.itemPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="4"
+                          [boundaryLinks]="true">
+                        </ngb-pagination>
+
+
+
+                      </div>
+                      <div class="modal-footer d-flex align-items-center justify-content-end bg-white">
+                        <button type="submit" class="btn p-0 next-btn">
+                          Next
+                          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+                            <path
+                              d="M1.95801 11.0005C1.95801 10.8131 2.01656 10.6609 2.13366 10.5438C2.25076 10.4267 2.40299 10.3681 2.59035 10.3681H18.1179L13.9725 6.22276C13.832 6.08224 13.7618 5.9183 13.7618 5.73094C13.7618 5.54358 13.832 5.39135 13.9725 5.27424C14.1131 5.15714 14.277 5.09859 14.4644 5.09859C14.6517 5.09859 14.8157 5.14543 14.9562 5.23911L20.2257 10.5086C20.3194 10.6492 20.3662 10.8131 20.3662 11.0005C20.3662 11.1878 20.3194 11.3518 20.2257 11.4923L14.9562 16.7618C14.8157 16.8555 14.6517 16.9023 14.4644 16.9023C14.277 16.9023 14.1131 16.8438 13.9725 16.7267C13.832 16.6096 13.7618 16.4574 13.7618 16.27C13.7618 16.0826 13.832 15.9187 13.9725 15.7782L18.1179 11.6328H2.59035C2.40299 11.6328 2.25076 11.5743 2.13366 11.4572C2.01656 11.3401 1.95801 11.1878 1.95801 11.0005Z"
+                              fill="#6666F2">
+                            </path>
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
 
 
 <!-- delete policy modal -->
