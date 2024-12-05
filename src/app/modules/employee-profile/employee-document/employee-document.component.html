@@ -118,7 +118,7 @@
                 </div>
               </div>
             </ng-container>
-            
+
           </div>
         </div>
         <div class="tab-pane fade pt-3" id="company-document" role="tabpanel" aria-labelledby="attendance-tab">
@@ -228,7 +228,7 @@
                 </div>
               </div>
             </ng-container>
-           
+
           </div>
         </div>
       </div>
@@ -326,7 +326,7 @@
                       </svg>
                     </span>
                     <button type="button" class="btn add-file mt-2 font-14">
-                      <i class="bi bi-plus-lg"></i>{{doc.fileName!=''? doc.fileName : 'Add File' }}
+                      <i *ngIf="doc.fileName===''" class="bi bi-plus-lg"></i>{{doc.fileName!=''? doc.fileName : 'Add File' }}
                     </button>
                   </div>
                 </div>
@@ -339,7 +339,7 @@
         <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">
           Cancel
         </button>
-        <button type="button" class="btn submitActionBtn" [disabled]="isLoading" (click)="onSubmit()">
+        <button type="button" class="btn submitActionBtn" [disabled]="isLoading || doc.name.length<1" (click)="onSubmit()">
           <span *ngIf="!isLoading">Submit</span>
           <div class="dot-opacity-loader" *ngIf="isLoading">
             <span></span>
