@@ -1722,25 +1722,12 @@ this.expenseTypeName = selectedExpense.name
 
 /** Set Excel data start */
 
-
 isShimmer: boolean = false;
 isProgressToggle: boolean = false;
 isErrorToggle: boolean = false;
 onboardUserList: any[] = new Array();
-// paginatedData: any;
-errorMessage: string ='abc'
-networkConnectionErrorPlaceholder: any;
-
-// fileName: any;
+errorMessage: string =''
 currentFileUpload: any;
-
-
-// expectedColumns: string[] = ['Name*', 'Phone*', 'Email*', 'Shift*', 'JoiningDate*', 'Gender*'];
-// correctColumnName: string[] = ['S. NO.*', 'Name*', 'Phone*', 'Email*', 'Shift*', 'JoiningDate*', 'Gender*', 'leavenames', 'ctc', 'emptype', 'empId', 'branch', 'department', 'position', 'grade', 'team', 'dob', 'fathername', 'maritalstatus', 'address', 'city', 'state', 'country', 'pincode', 'panno', 'aadharno', 'drivinglicence', 'emergencyname', 'emergencyphone', 'emergencyrelation', 'accountholdername', 'bankname', 'accountnumber', 'ifsccode'];
-
-// expectedColumns: string[] = ['Expense Id*', 'Settled Amount*', 'Transaction Id*', 'Payment Method*', 'Lapse Remaining Amount*'];
-// correctColumnName: string[] = ['S.No.', 'Submitted Date', 'Expense Id*', 'Employee Name*', 'Expense Type*', 'Expense Date*', 'Notes*', 'Bill Snapshot', 'Expense Amount', 'Settled Amount*', 'Transaction Id*', 'Payment Method*', 'Lapse Remaining Amount*'];
-
 expectedColumns: string[] = ['Expense Id', 'Settled Amount', 'Transaction Id', 'Payment Method', 'Lapse Remaining Amount'];
 correctColumnName: string[] = ['S.No.', 'Submitted Date', 'Expense Id', 'Employee Name', 'Expense Type', 'Expense Date', 'Notes', 'Bill Snapshot', 'Expense Amount', 'Settled Amount', 'Transaction Id', 'Payment Method', 'Lapse Remaining Amount'];
 
@@ -1766,11 +1753,6 @@ selectFile(event: any) {
     this.currentFileUpload = file;
     this.fileName = file.name;
 
-    // if (!this.isExcelFile(file)) {
-    //   this.isExcel = 'Invalid file type. Please upload an Excel file.';
-    //   return;
-    // }
-
     const reader = new FileReader();
     reader.onload = (e: ProgressEvent<FileReader>) => {
       const arrayBuffer = e.target?.result as ArrayBuffer;
@@ -1778,8 +1760,6 @@ selectFile(event: any) {
       const workbook = XLSX.read(binaryStr, { type: 'binary' });
       const worksheet = workbook.Sheets[workbook.SheetNames[0]];
       this.jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-
-      console.log('Excel_Data: ',this.jsonData)
 
       // Reset data and error tracking
       this.data = [];
@@ -1789,7 +1769,6 @@ selectFile(event: any) {
 
       const columnNames: string[] = this.jsonData[0] as string[];
 
-      console.log('columnNames: ',columnNames)
       debugger
       if (this.validateColumns(columnNames)) {
         this.data = this.jsonData
@@ -1830,12 +1809,6 @@ selectFile(event: any) {
           // Filter out rows where all cells are empty
           row.some((cell: any) => cell !== '')
         );
-      
-
-        // Validate all rows and keep track of invalid entries- send daya for validatio after emoving heder row
-        
-        // this.validateRows(this.data.slice(1));
-        // this.removeAllSingleEntries();
 
         this.validateMap.forEach((values, key) => {
           console.log(`Key: ${key}`);
@@ -1867,16 +1840,9 @@ selectFile(event: any) {
 
 selectAllCurrentPage = false;
 selectAllPages = false;
-// get paginatedData() {
-//   var start = (this.currentPage - 1) * this.pageSize;
-//   start=start+1;
-//   return this.data.slice(start, start + this.pageSize);
-// }
-
 paginatedData: any[] = [];
 
 updatePaginatedData() {
-
   // Calculate the start index for pagination
   let start = (this.currentPage - 1) * this.pageSize;
   
@@ -1885,11 +1851,7 @@ updatePaginatedData() {
 
   // Slice the data based on the calculated start and page size
   this.paginatedData = this.data.slice(start, start + this.pageSize);
-  
-  // this.validateRowToggle = false;
-
-  console.log('paginatedData: ',this.paginatedData)
-}
+  }
 
 saveFile() {
   debugger
@@ -1918,26 +1880,13 @@ saveFile() {
 // Object.defineProperty(event, 'target', { writable: false, value: { files: dataTransfer.files } });
 // this.selectFile(event);
 
-this.validateRows(this.data.slice(1));
+  this.validateRows(this.data.slice(1));
 
-// if(this.invalidCells){
-//   console.log('invalid cell')
-//   this.updatePaginatedData();
-//   // this.validateRowToggle = false;
-// }else{
-//   console.log('Not invalid cell')
-//   this.validateRowToggle = false;
-// }
-
-if(this.validateRowToggle){
-  this.updatePaginatedData();
-}else{
-  this.uploadUserFile(file, 'edited_file.xlsx');
-}
-
-
-// this.uploadUserFile(file, 'edited_file.xlsx');
-
+  if(this.validateRowToggle){
+    this.updatePaginatedData();
+  }else{
+    this.uploadUserFile(file, 'edited_file.xlsx');
+  }
 }
 
 importToggle: boolean = false;
@@ -1961,10 +1910,6 @@ uploadUserFile(file: any, fileName: string) {
         this.fileColumnName = []
         this.paginatedData = []
 
-        // this.getReport();
-        // this.getUser();
-        // this.alreadyUsedPhoneNumberArray = response.arrayOfString;
-        // this.alreadyUsedEmailArray = response.arrayOfString2;
       } else {
         this.importToggle = true;
         this.isErrorToggle = true;
@@ -2052,78 +1997,8 @@ onPageChange(page: number) {
     return true;
   }
 
-readonly constants = constant;
-  
-validateRowToggle: boolean = false;
-  validateRowsWork(rows: any[]): void {
-    debugger;
-    
-    this.invalidRows = new Array(rows.length).fill(false); // Reset invalid rows
-    this.invalidCells = Array.from({ length: rows.length }, () => new Array(this.expectedColumns.length).fill(false)); // Reset invalid cells
-  
-    for (let i = 0; i < rows.length; i++) {
-      for (let j = 0; j < this.fileColumnName.length; j++) {
-        const cellValue = rows[i][j];
-        this.invalidCells[i][j] = false;
-        // this.validateRowToggle = false;
-  
-        if (this.fileColumnName[j] === 'Expense Id') {
-          // Validate that the field is a non-empty string
-          if (!cellValue || typeof cellValue !== 'string' || cellValue.trim() === '') {
-            // rowIsValid = false;
-            this.validateRowToggle = true;
-            this.invalidRows[i] = true;
-            this.invalidCells[i][j] = true; // Mark the cell as invalid
-          } else {
-            //this.addToMap(cellValue.toString(), `${i + 1}`); // Map Expense Id to the row number
-          }
-        }
-        
-        if (this.fileColumnName[j] === 'Settled Amount') {
-          // Check if the field is empty or invalid
-          if (!cellValue || cellValue.toString().trim() === '') {
-            this.validateRowToggle = true;
-            this.invalidRows[i] = true;
-            this.invalidCells[i][j] = true;
-          } else {
-            // Ensure the field is a number and greater than 0
-            const numericValue = parseFloat(cellValue);
-            if (isNaN(numericValue) || numericValue <= 0) {
-              this.validateRowToggle = true;
-              this.invalidRows[i] = true;
-              this.invalidCells[i][j] = true;
-            }
-          }
-        }
-        
-        if (this.fileColumnName[j] === 'Transaction Id') {
-          // Check if the field is a non-empty string
-          if (cellValue.toString().trim() === '') {
-            // rowIsValid = false;
-            this.validateRowToggle = true;
-            this.invalidRows[i] = true;
-            this.invalidCells[i][j] = true;
-          }
-        }
-  
-        // Check if the column name exists in the expectedColumns
-        // if (!this.expectedColumns.some(expectedColumn => expectedColumn.toLowerCase() === columnName.toLowerCase())) {
-        //   this.invalidCells[i][j] = false;
-        // }
-        // console.log('this.invalidCells[i][j]: ',this.invalidCells[i][j])
-      }
-
-  
-      // If row is invalid, mark it
-      // if (!rowIsValid) {
-      //   this.invalidRows[i] = true;
-      // }
-      
-
-    }
-  }
-  
-
+  readonly constants = constant;
+  validateRowToggle: boolean = false;
   validateRows(rows: any[]): void {
     debugger;
     
@@ -2134,18 +2009,6 @@ validateRowToggle: boolean = false;
       for (let j = 0; j < this.fileColumnName.length; j++) {
         const cellValue = rows[i][j];
         this.invalidCells[i][j] = false;
-  
-        // Expense ID is mandotary
-        // if (this.fileColumnName[j] === 'Expense Id') {
-        //   // Validate that the field is a non-empty string
-        //   if (!cellValue || typeof cellValue !== 'string' || cellValue.trim() === '') {
-        //     this.validateRowToggle = true;
-        //     this.invalidRows[i] = true;
-        //     this.invalidCells[i][j] = true; // Mark the cell as invalid
-        //   } else {
-        //     this.addToMap(cellValue.toString(), `${i + 1}`); // Map Expense Id to the row number
-        //   }
-        // }
 
         if (this.fileColumnName[j] === 'Expense Id') {
           // Validate that the field is a non-empty string
@@ -2249,32 +2112,6 @@ validateRowToggle: boolean = false;
           }
         }
 
-        // if (this.fileColumnName[j] === 'Lapse Remaining Amount') {
-        //   // Validate that the field contains only 'Online' or 'Cash'
-        //   const validLapsePaymentAmount = ['YES', 'NO'];
-        //   if (!cellValue || !validLapsePaymentAmount.includes(cellValue.trim())) {
-        //     this.validateRowToggle = true;
-        //     this.invalidRows[i] = true;
-        //     this.invalidCells[i][j] = true; // Mark the cell as invalid
-        //   }
-        // }
-
-        // if (this.fileColumnName[j] === 'Lapse Remaining Amount') {
-        //   // Valid values are 'YES' or 'NO'
-        //   const validLapsePaymentAmount = ['YES', 'NO'];
-        
-        //   if (cellValue && !validLapsePaymentAmount.includes(cellValue.trim())) {
-        //     // If there's a value, it must be 'YES' or 'NO'
-        //     this.validateRowToggle = true;
-        //     this.invalidRows[i] = true;
-        //     this.invalidCells[i][j] = true; // Mark the cell as invalid
-        //   } else if (!cellValue || cellValue.toString().trim() === '') {
-        //     // If the field is empty, do nothing or set to false (optional)
-        //     this.invalidRows[i] = false;
-        //     this.invalidCells[i][j] = false; // Allow empty field
-        //   }
-        // }
-
         // If you are putting Yes, No then then function will accept only this not another values
         if (this.fileColumnName[j] === 'Lapse Remaining Amount') {
           // Valid values are 'YES' or 'NO'
@@ -2310,9 +2147,8 @@ validateRowToggle: boolean = false;
             this.invalidCells[i][j] = true; // Mark "Lapse Amount" cell as invalid
           }
         }
-        
-  
       }
+
     }
   }
 
