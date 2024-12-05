@@ -9,4 +9,5 @@ export class ExpenseType{
     urls: string[] = new Array()
     expenseDate: any;
     managerId: number = 0
+    status: any;
 }

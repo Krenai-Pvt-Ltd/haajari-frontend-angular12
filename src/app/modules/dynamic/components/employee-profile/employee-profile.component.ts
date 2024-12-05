@@ -3776,6 +3776,7 @@ closeAttendanceFunc() {
 
   expenseList: any[] = new Array();
   loading: boolean = false;
+  statusIds: number[] = new Array()
   databaseHelper: DatabaseHelper = new DatabaseHelper();
   // expSelected:any;
    getExpenses() {
@@ -3789,7 +3790,7 @@ closeAttendanceFunc() {
       this.endDate = '';
     }
 
-    this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate).subscribe((res: any) => {
+    this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds).subscribe((res: any) => {
       if (res.status) {
         this.expenseList = res.object
         this.loading = false

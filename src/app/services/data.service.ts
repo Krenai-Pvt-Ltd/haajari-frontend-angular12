@@ -4317,7 +4317,7 @@ getHolidayForOrganization(date: string): Observable<any>{
     );
   }
 
-  getAllExpense(role: string, pageNumber: number, itemPerPage: number, startDate: any, endDate: any){
+  getAllExpense(role: string, pageNumber: number, itemPerPage: number, startDate: any, endDate: any, statusIds: number[]){
     var params = new HttpParams()
     .set('currentPage', pageNumber)
     .set('itemPerPage', itemPerPage)
@@ -4329,6 +4329,10 @@ getHolidayForOrganization(date: string): Observable<any>{
     if (startDate && endDate) {
       params = params.set('startDate', startDate)
       params = params.set('endDate', endDate)
+    }
+
+    if(statusIds.length > 0){
+      params = params.set("statusIds", statusIds.join(','));
     }
 
     return this.httpClient.get<any>(`${this.baseUrl}/company-expense`, {params});

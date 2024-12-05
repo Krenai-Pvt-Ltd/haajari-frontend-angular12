@@ -29,8 +29,14 @@ export class EmployeeExpenseComponent implements OnInit {
     this.userId = userUuidParam?.toString() ?? ''
 
     this.getExpenses();
+    this.getRole();
 
+    this.getExpenseType();
     this.fetchManagerNames()
+  }
+
+  async getRole(){
+    this.ROLE = await this.rbacService.getRole();
   }
 
  /** Create and View Expense start */
@@ -39,18 +45,19 @@ export class EmployeeExpenseComponent implements OnInit {
  loading: boolean = false;
  databaseHelper: DatabaseHelper = new DatabaseHelper();
  // expSelected:any;
-  getExpenses() {
+ statusIds: number[] = new Array();
+  async getExpenses() {
    debugger
    this.loading = true;
    this.expenseList = []
-   // this.ROLE = await this.rbacService.getRole();
+   this.ROLE = await this.rbacService.getRole();
   
    if(this.expenseSelectedDate == null){
      this.startDate = '';
      this.endDate = '';
    }
 
-   this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate).subscribe((res: any) => {
+   this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds).subscribe((res: any) => {
      if (res.status) {
        this.expenseList = res.object
        this.loading = false
@@ -58,8 +65,34 @@ export class EmployeeExpenseComponent implements OnInit {
       this.expenseList = []
       this.loading = false
      }
+     this.statusIds = []
    })
  }
+
+ pastExpenseList: any[] = new Array();
+ pastLoading: boolean = false;
+ async getPastExpenses() {
+  debugger
+  this.pastLoading = true;
+  this.pastExpenseList = []
+  this.ROLE = await this.rbacService.getRole();
+ 
+  if(this.expenseSelectedDate == null){
+    this.startDate = '';
+    this.endDate = '';
+  }
+
+  this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds).subscribe((res: any) => {
+    if (res.status) {
+      this.pastExpenseList = res.object
+      this.pastLoading = false
+    }else{
+     this.pastExpenseList = []
+     this.pastLoading = false
+    }
+    this.statusIds = []
+  })
+}
 
  startDate: any;
  endDate: any;
@@ -77,7 +110,41 @@ export class EmployeeExpenseComponent implements OnInit {
      this.startDate = startOfMonth.toDateString() + " 00:00:00"; // Date object
      this.endDate = endOfMonth.toDateString() + " 23:59:59"; // Date object
    }
-   this.getExpenses();
+  //  this.getExpenses();
+
+   if(this.pastExpenseToggle){
+    this.statusIds.push(41);
+    this.getExpenses();
+   }else{
+    this.getExpenses();
+   }
+
+ }
+
+ selectedStatus: any
+ filterByStatus(statusId: any){
+  debugger
+  this.statusIds.push(statusId);
+  this.selectedStatus = statusId;
+
+  this.getExpenses();
+ }
+
+ pastExpenseToggle: boolean = false
+ getPastExpense(){
+  this.pastExpenseToggle = true;
+  this.expenseList = []
+  this.statusIds.push(41);
+  this.getExpenses();
+
+  // this.getPastExpenses()
+ }
+
+ getAllExpenses(){
+  this.pastExpenseToggle = false;
+  this.expenseList = []
+  this.statusIds = []
+  this.getExpenses();
  }
 
 
@@ -120,12 +187,14 @@ export class EmployeeExpenseComponent implements OnInit {
  limitAmount: any;
  checkExpensePolicy(form: NgForm) {
    debugger
+
    this.dataService.checkExpensePolicy(this.expenseTypeReq.expenseTypeId, this.expenseTypeReq.amount).subscribe((res: any) => {
      this.limitAmount = res.object;
 
      if (this.limitAmount > 0) {
        this.validatePolicyToggle = true;
      } else {
+      // console.log('creating.... ')
        this.createExpense(form);
      }
    })
@@ -176,6 +245,7 @@ export class EmployeeExpenseComponent implements OnInit {
  }
 
  async updateExpense(expense: any) {
+  debugger
    await this.getExpenseType();
 
    // setTimeout(() =>{
@@ -190,6 +260,8 @@ export class EmployeeExpenseComponent implements OnInit {
    this.expenseTypeReq.expenseTypeId = expense.expenseTypeId
    this.expenseTypeReq.notes = expense.notes
    this.expenseTypeReq.url = expense.slipUrl
+   this.expenseTypeReq.urls = expense.slipUrls
+   this.expenseTypeReq.status = expense.status
    this.expenseTypeReq.managerId = expense.managerId
    this.expenseTypeId = expense.expenseTypeId
    this.managerId = expense.managerId
@@ -376,7 +448,10 @@ export class EmployeeExpenseComponent implements OnInit {
           .then((url) => {
             console.log('File URL:', url);
             this.isUploading = false;
-            this.expenseTypeReq.url = url;
+            // this.expenseTypeReq.url = url;
+
+            this.expenseTypeReq.urls.push(url)
+
             this.isFileUploaded = false;
           })
           .catch((error) => {
