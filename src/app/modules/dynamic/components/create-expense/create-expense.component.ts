@@ -2121,7 +2121,6 @@ validateRowToggle: boolean = false;
       
 
     }
-    // console.log('only invalidCell: ',this.invalidCells)
   }
   
 
