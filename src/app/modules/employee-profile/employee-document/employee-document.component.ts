@@ -117,7 +117,7 @@ export class EmployeeDocumentComponent implements OnInit {
     if (!fileUrl) {
       return;
     }
-
+    debugger
     fetch(fileUrl)
     .then(response => response.blob()) // Convert the image to a Blob
     .then(blob => {

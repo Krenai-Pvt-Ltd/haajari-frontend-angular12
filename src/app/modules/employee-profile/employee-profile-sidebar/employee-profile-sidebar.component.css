@@ -3,8 +3,13 @@
 }
 
 .company-logo {
-    background-color: #F2F2FF;
-    height: 133px;
+    background-color: #F5F5F5;
+    height: 130px;
+}
+
+.notice-period-bar{
+    background-color: #F5F5F5;
+    height: 90px;
 }
 
 .employee-detail img {
@@ -100,11 +105,11 @@
     display: inline-block;
     border-radius: 40px;
     border: 1px solid #CECDFF;
-    background: #FAFBFF;
-    font-size: 12px;
-    font-weight: 400;
-    padding: 3px 10px;
-    margin-bottom: 10px;
+    background: #F4F5FF;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 5px 15px;
+    margin-bottom: 13px;
     margin-right: 10px;
     color: #000;
 }
@@ -1186,7 +1191,75 @@ span.lat {
 .leave-history-box::-webkit-scrollbar {
   display: none;
 }
+.reject-status{
+    background-color: #FFF2F0;
 
+}
+.reject-status p{
+    color: #444;
+}
+.reject-status h6{
+    line-height: 22px;
+}
+.status{
+    border: 1px solid #D9D9D9;
+    height: 22px;
+}
+.view-less i{
+    top: 1px;
+    position: relative;
+    padding-left: 2px;
+}
+.view-less i:before{
+    font-weight: 600 !important;
+}
+.slill-set button{
+    font-weight: 500;
+}
+.slill-set button i:before {
+    font-weight: 600 !important;
+}
+.slill-set button i{
+    font-size: 18px;
+    top: 1px;
+    position: relative;
+}
+.skill-set-modal{
+    height: 400px;
+}
+.search-icon{
+    font-size: 14px !important;
+    position: absolute !important;
+    top: 15px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    color: var(--tb-secondary-color) !important;
+    margin: auto;
+    margin-left: 15px;
+}
+.skill-set li i{
+   font-size: 16px;
+   position: relative;
+   top: 2px;
+   cursor: pointer;
+   line-height: 0px;
+}
+i::before{
+    font-weight: 600 !important;
+}
+
+.add-skill i {
+    position: relative;
+    top: 2px;
+}
+
+.add-skill{
+    position: absolute;
+    top: 40px;
+    right: 15px;
+    font-weight: 500;
+}
 /** Approve Modal end */
 
 

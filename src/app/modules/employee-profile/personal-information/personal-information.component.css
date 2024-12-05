@@ -149,3 +149,25 @@ button.close-btn {
     padding: 5px 10px;
     min-width: 80px;
 }
+
+.ant-select-single .ant-select-selector {
+    min-height: 0px !important;
+    width: 200px !important;
+}
+
+.custom-date-picker{
+    border: none !important;
+    width: 100% !important;
+    height: 0px !important;
+    border-radius: 2px !important;
+    background-color: transparent !important;
+    color: red !important;
+}
+.custom-date-picker:focus{
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.empty-file .ant-empty-image img {
+    width: 70px !important;
+}
