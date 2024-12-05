@@ -1821,12 +1821,12 @@ selectFile(event: any) {
         // this.totalPage = Math.ceil(this.data.length / this.pageSize); 
         this.totalPage = 10;
 
-        if(this.areAllFalse() && this.mismatches.length===0){
-          this.isinvalid=false;
-          // this.uploadUserFile(file, this.fileName); amit
-        }else{
-          this.isinvalid=true;
-        }
+        // if(this.areAllFalse() && this.mismatches.length===0){
+        //   this.isinvalid=false;
+        //   this.uploadUserFile(file, this.fileName); 
+        // }else{
+        //   this.isinvalid=true;
+        // }
 
         this.updatePaginatedData();
 
@@ -1939,18 +1939,18 @@ onPageChange(page: number) {
   this.currentPage = page;
 }
 
-  firstUpload:boolean=true;
-  areAllFalse(): boolean {
-    if(this.firstUpload===true){
-      this.firstUpload=false;
-      return false;
-    }
-    return this.invalidCells
-      .reduce((acc, row, rowIndex) => {
-        return acc.concat(row.filter((_, colIndex) => this.expectedColumns[colIndex] !== "LeaveNames"));
-      }, [])
-      .every(value => value === false);
-  }
+  // firstUpload:boolean=true;
+  // areAllFalse(): boolean {
+  //   if(this.firstUpload===true){
+  //     this.firstUpload=false;
+  //     return false;
+  //   }
+  //   return this.invalidCells
+  //     .reduce((acc, row, rowIndex) => {
+  //       return acc.concat(row.filter((_, colIndex) => this.expectedColumns[colIndex] !== "LeaveNames"));
+  //     }, [])
+  //     .every(value => value === false);
+  // }
 
   arrayBufferToString(buffer: ArrayBuffer): string {
     const byteArray = new Uint8Array(buffer);

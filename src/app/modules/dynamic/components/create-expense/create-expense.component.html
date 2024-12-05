@@ -1906,8 +1906,7 @@
       <div class="modal-body">
         <ng-container *ngIf="
             !isShimmer &&
-            onboardUserList.length == 0 &&
-            !networkConnectionErrorPlaceholder
+            onboardUserList.length == 0
           ">
           <div class="col-md-12">
             <div class="card-body mt-0 p-0">
@@ -1958,104 +1957,23 @@
             </ul>
           </div>
 
-          <!-- <div class="create-password-warning mb-0 mt-4 text-start" *ngIf="data.length > 0 && isinvalid "> -->
           <div class="create-password-warning mb-0 mt-4 text-start" *ngIf="data.length > 0">
-            
-            <!-- <p *ngIf="isExcel.length > 0">
-              {{ isExcel }}
-            </p> amit -->
           
             <div *ngIf="data.length > 0">
               <h3 class="font-18 mb-2">Uploaded Data</h3>
              
-              <!-- <div class="align-items-center empuploadHeader excelUploadTable row mb-3">
-                <div class="col-lg-8 col-md-12">
-                  <div class="row" *ngIf="isAnyRowSelected()">
-                    <div class="col-lg-4 col-md-3">
-                      <div>
-                        <nz-select [(ngModel)]="bulkShift" (ngModelChange)="applyBulkChange('shift', $event)"
-                          nzPlaceHolder="Select Shift" [nzDropdownRender]="customDropdownShift" class="whatapp-login-input">
-                          <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label"
-                            [nzLabel]="shift.label"></nz-option>
-                        </nz-select>
-                        <ng-template #customDropdownShift>
-                          <div class="custom-dropdown-footer">
-                            <button nz-button nzType="link" (click)="openAddShiftModal()">Add Shift</button>
-                          </div>
-                        </ng-template>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-3">
-                      <div>
-                        <nz-select [(ngModel)]="bulkLeave" (ngModelChange)="applyBulkChange('leave', $event)"
-                          nzPlaceHolder="Select Leave" nzMode="multiple" [nzDropdownRender]="customDropdown" class="whatapp-login-input">
-                          <nz-option *ngFor="let leave of originalLeaveNameList" [nzValue]="leave.label"
-                            [nzLabel]="leave.label"></nz-option>
-                        </nz-select>
-                        <ng-template #customDropdown>
-                          <div class="custom-dropdown-footer">
-                            <button nz-button nzType="link" (click)="openAddLeaveModal()">Add Leave</button>
-                          </div>
-                        </ng-template>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-3">
-                      <nz-select [(ngModel)]="bulkTeam" (ngModelChange)="applyBulkChange('team', $event)"
-                        nzPlaceHolder="Select Team" nzMode="multiple" [nzDropdownRender]="customDropdownTeam" class="whatapp-login-input">
-                        <nz-option *ngFor="let team of originalTeamNameList" [nzValue]="team.label"
-                          [nzLabel]="team.label"></nz-option>
-                      </nz-select>
-                      <ng-template #customDropdownTeam>
-                        <div class="custom-dropdown-footer">
-                          <button nz-button nzType="link" (click)="openAddTeamModal()">Add Team</button>
-                        </div>
-                      </ng-template>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-lg-4 col-md-12">
-                  <div class="align-items-center d-flex gap-2 justify-content-end">
-                    <label class="m-0 d-flex align-items-center gap-2 justify-content-center">
-                      <input type="checkbox" [(ngModel)]="selectAllCurrentPage" (change)="toggleSelectAllCurrentPage()"
-                        [disabled]="selectAllPages" />
-                      Select all on current page
-                    </label>
-                    <span class="btnSeprator"></span>
-                    <label class="m-0 d-flex align-items-center gap-2 justify-content-center">
-                      <input type="checkbox" [(ngModel)]="selectAllPages" (change)="toggleSelectAllPage()"
-                        [disabled]="selectAllCurrentPage" />
-                      Select All Pages
-                    </label>
-                  </div>
-                </div>
-              </div> -->
-
               <div class="table-responsive">
 
                 <table class="table excelUploadTable">
 
-                  <!-- Dropdowns for applying to selected rows -->
                   <thead>
                     <tr>
-                      <!-- <th>select</th> -->
                       <th class="select-all-page" *ngFor="let col of fileColumnName">{{ col }}</th>
                     </tr>
                   </thead>
 
-                  <!-- <tbody>
-                    <tr *ngFor="let row of paginatedData; let i = index">
-                      <td class="text-center">
-                        <input type="checkbox" [(ngModel)]="row.selected" />
-                      </td>
-                    </tr>
-                  </tbody> -->
-
                   <tbody>
                     <tr *ngFor="let row of paginatedData; let i = index">
-                      <!-- <td class="text-center">
-                        <input type="checkbox" [(ngModel)]="row.selected" />
-                      </td> -->
 
                       <td *ngFor="let cell of fileColumnName; let j = index">
                       
@@ -2063,131 +1981,11 @@
 
                         <input *ngIf="validateRowToggle" [(ngModel)]="row[j]" 
                         [ngClass]="{'error-border': invalidCells[i][j]}" />
-                        
-                        <!-- <input *ngIf="validateRowToggle" [(ngModel)]="row[j]" 
-                        [ngClass]="{'error-border': invalidCells[i][j]}"/> -->
-
-                        <!-- working input form row[j] -->
-                        <!-- <ng-template #defaultInput>
-                          <input [(ngModel)]="row[j]"
-                            [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSizś + i][j]}"
-                            (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)" />
-                        </ng-template> -->
-                        <!-- <input [(ngModel)]="row[j]" /> -->
 
                       </td>
                     </tr>
                   </tbody>
                  
-                  <!-- <tbody>
-                    <tr *ngFor="let row of paginatedData; let i = index">
-                      <td class="text-center">
-                        <input type="checkbox" [(ngModel)]="row.selected" />
-                      </td>
-
-                      <td *ngFor="let cell of fileColumnName; let j = index">
-                        <ng-container *ngIf="fileColumnName[j] === 'shift*' ; else leaveColumns">
-
-                          <nz-select [(ngModel)]="row[j]"
-                            [ngClass]="{'invalid-input': invalidCells[((currentPage - 1) * pageSize)+i][j]}"
-                            (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)"
-                            nzPlaceHolder="Select Shift" [nzDropdownRender]="customDropdownShift">
-
-                            <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label"
-                              [nzLabel]="shift.label"></nz-option>
-
-                          </nz-select>
-
-                          <ng-template #customDropdownShift>
-                            <div class="custom-dropdown-footer">
-                              <button nz-button nzType="link" (click)="openAddShiftModal()">Add Shift</button>
-                            </div>
-                          </ng-template>
-                        </ng-container>
-
-                        <ng-template #leaveColumns>
-                          <ng-container *ngIf="this.fileColumnName[j] === 'leavenames' ; else otherColumns">
-                            <nz-select class="whatapp-login-input" nzMode="multiple" nzPlaceHolder="Select leave"
-                              nzAllowClear nzShowSearch nzServerSearch [(ngModel)]="row[j]"
-                              [ngModelOptions]="{ standalone: true }"
-                              (ngModelChange)="onMultiSelectChange($event, (currentPage - 1) * pageSize + i, j)"
-                              (nzOnSearch)="onSearchLeave($event)" [nzDropdownRender]="customDropdown"
-                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}">
-                              <ng-container *ngFor="let o of originalLeaveNameList">
-                                <nz-option *ngIf="!isLoadingLeave" [nzValue]="o.label" [nzLabel]="o.label"></nz-option>
-                              </ng-container>
-
-                              <nz-option *ngIf="isLoadingLeave" nzDisabled nzCustomContent>
-                                <span nz-icon nzType="loading" class="loading-icon"></span>
-                                Loading Data...
-                              </nz-option>
-                            </nz-select>
-                            <ng-template #customDropdown>
-                              <div class="custom-dropdown-footer">
-                                <button nz-button nzType="link" (click)="openAddLeaveModal()">Add Leave</button>
-                              </div>
-                            </ng-template>
-                          </ng-container>
-                        </ng-template>
-
-                        <ng-template #otherColumns>
-                          <ng-container
-                            *ngIf="this.fileColumnName[j] === 'joiningdate*' || this.fileColumnName[j] === 'dob' ; else teamColumns">
-                            <nz-date-picker id="joiningDate" name="joiningDate" #joiningDate="ngModel"
-                              [(ngModel)]="row[j]" required
-                              (ngModelChange)="onDateChange($event, (currentPage - 1) * pageSize + i , j)"
-                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
-                              [nzAllowClear]="false" nzPlaceHolder="Select Joining Date">
-                            </nz-date-picker>
-                          </ng-container>
-                        </ng-template>
-
-                        <ng-template #teamColumns>
-                          <ng-container *ngIf="this.fileColumnName[j] === 'team' ; else genderColumns">
-                            <nz-select nzAllowClear nzShowSearch nzServerSearch nzMode="multiple"
-                              nzPlaceHolder="Select teams" [(ngModel)]="row[j]" [ngModelOptions]="{ standalone: true }"
-                              (ngModelChange)="onTeamSelectionChanges($event, (currentPage - 1) * pageSize + i, j)"
-                              (nzOnSearch)="onSearch($event)"
-                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
-                              [nzDropdownRender]="customDropdownTeam">
-                              <ng-container *ngFor="let o of originalTeamNameList">
-                                <nz-option *ngIf="!isLoadingTeams" [nzValue]="o.label" [nzLabel]="o.label"></nz-option>
-                              </ng-container>
-                              <nz-option *ngIf="isLoadingTeams" nzDisabled nzCustomContent>
-                                <span nz-icon nzType="loading" class="loading-icon"></span>
-                                Loading Data...
-                              </nz-option>
-                            </nz-select>
-                            <ng-template #customDropdownTeam>
-                              <div class="custom-dropdown-footer">
-                                <button nz-button nzType="link" (click)="openAddTeamModal()">Add Team</button>
-                              </div>
-                            </ng-template>
-                          </ng-container>
-                        </ng-template>
-
-                        <ng-template #genderColumns>
-                          <ng-container *ngIf="this.fileColumnName[j] === 'gender*' ; else defaultInput">
-                            <nz-select id="gender" name="gender" [(ngModel)]="row[j]"
-                              [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
-                              (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)"
-                              nzPlaceHolder="Select Gender">
-                              <nz-option *ngFor="let gender of genders" [nzValue]="gender"
-                                [nzLabel]="gender"></nz-option>
-                            </nz-select>
-                          </ng-container>
-                        </ng-template>
-
-                        <ng-template #defaultInput>
-                          <input [(ngModel)]="row[j]"
-                            [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
-                            (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)" />
-                        </ng-template>
-
-                      </td>
-                    </tr>
-                  </tbody> -->
-
                 </table>
 
               </div>
@@ -2255,130 +2053,6 @@
             </div>
           </div>
         </ng-container>
-
-        <!-- <ng-template #onboardUserListCondition>
-          <ng-container *ngIf="
-              !isShimmer &&
-                onboardUserList.length != 0 &&
-                !networkConnectionErrorPlaceholder;
-              else errorInOnboardUserListCondition
-            ">
-            <div class="mt-0">
-              <div class="d-flex align-items-center justify-content-end mb-3 p-0">
-                <input #fileInput id="fileSelect" type="file" name="img[]" accept=".xlsx" class="input"
-                  style="display: none" (change)="selectFile($event)" />
-                <button type="button" class="btn add-excel" (click)="fileInput.click()">
-                  <i *ngIf="!isProgressToggle" class="bi bi-file-earmark-excel"
-                    style="position: relative; top: -1px; padding-right: 6px"></i>
-                  <div *ngIf="isProgressToggle" class="spinner-border text-primary excel-spinner" role="status"></div>
-                  Excel Upload
-                </button>
-
-              </div>
-              <div class="create-password-warning waring-box p-3 mt-3 mb-3 text-start" role="alert"
-                *ngIf="
-                  alreadyUsedPhoneNumberArray.length > 0 ||
-                  alreadyUsedEmailArray.length > 0 ||
-                  isErrorToggle
-                ">
-                    <h4 class="alert-heading font-18">Attention!</h4>
-
-                    <ul style="padding-left:20px;">
-                      <li *ngIf="isErrorToggle">Error: {{ errorMessage }}</li>
-                      <li *ngIf="alreadyUsedEmailArray.length > 0">Phone Numbers: {{ formatAsCommaSeparated(alreadyUsedPhoneNumberArray) }}</li>
-                      <li *ngIf="!isErrorToggle">These credentials are already registered with us!</li>
-                    </ul>
-
-
-              </div>
-              <table class="table">
-                
-                <thead class="thead-light">
-                  <tr>
-                    <th style="width: 5%" class="text-center">#</th>
-                    <th style="width: 25%" class="text-left">Name</th>
-                    <th style="width: 20%" class="text-left">Phone</th>
-                    <th style="width: 25%" class="text-left">Email</th>
-                    <th style="width: 20%" class="text-center">Action</th>
-                  </tr>
-                </thead>
-                
-                <tbody>
-                  <tr *ngFor="let onboardUser of onboardUserList; let i = index">
-                    <td>
-                      <p class="tableinfo mb-0 text-left">
-                        <b>{{ i + 1 }}</b>
-                      </p>
-                    </td>
-                    <td>
-                      <p class="tableinfo mb-0 text-left">
-                        <b>{{ onboardUser.name }}</b>
-                      </p>
-                    </td>
-                    <td>
-                      <p class="tableinfo mb-0 text-left">
-                        <b>{{ onboardUser.phone }}</b>
-                      </p>
-                    </td>
-                    <td>
-                      <p class="tableinfo mb-0 text-left">
-                        <b>{{
-                          onboardUser.email ? onboardUser.email : "N/A"
-                          }}</b>
-                      </p>
-                    </td>
-                    <td>
-                      <div class="d-flex justify-content-center gap-3">
-                       
-                        <p class="tableinfo mb-0 pointer text-center text-danger mb-2"
-                          (click)="deleteNewUser(onboardUser.id)">
-                          <i class="bi bi-trash text-danger"></i>
-                        </p>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-
-              </table>
-             
-              <div class="d-flex justify-content-end gap-3 mt-3">
-                <button type="button" class="btn btn-primary" (click)="sendEmailToUsers(true)">
-                  <span *ngIf="!sendMailExcelUserFlag"> Send Email </span>
-                  <div class="dot-opacity-loader" *ngIf="sendMailExcelUserFlag">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                </button>
-
-                <button type="button" class="btn btn-primary" style="background-color: white; color: black;"
-                  (click)="sendEmailToUsers(false)">
-                  <span *ngIf="!sendMailExcelUserFlag"> Cancel</span>
-                  <div class="dot-opacity-loader" *ngIf="sendMailExcelUserFlag">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                </button>
-              </div>
-
-            </div>
-          </ng-container>
-        </ng-template> -->
-
-        <!-- <ng-template #errorInOnboardUserListCondition>
-          <div class="errorboxmain" *ngIf="networkConnectionErrorPlaceholder">
-            <div class="errorboxinner text-center">
-              <div class="errorboxplaceholder mb-2">
-                <img src="assets/images/signal.svg" style="width: 80px" />
-              </div>
-
-              <h4>Something went wrong!</h4>
-
-              <p>An error occurred while processing your request!</p>
-            </div>
-          </div>
-        </ng-template> -->
       </div>
     </div>
   </div>
