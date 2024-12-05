@@ -24,7 +24,6 @@ export const environment = {
 
   /* ------------------  Staging urls ----------------*/
 export const BASE_URL = 'https://staging.hajiri.work/api/v2';
-// 
   /* ------------------  Production urls ----------------*/
   // export const BASE_URL = 'https://production.hajiri.work/api/v2';
 
