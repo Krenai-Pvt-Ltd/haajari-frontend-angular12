@@ -1552,7 +1552,7 @@ export class AttendanceSettingComponent implements OnInit {
   registerOrganizationShiftTimingMethodCall() {
     debugger;
     // this.submitWeeklyHolidays();
-    this.organizationShiftTimingRequest.shiftTypeId = 1;
+    // this.organizationShiftTimingRequest.shiftTypeId = 1;
     this.organizationShiftTimingRequest.userUuids = this.selectedStaffsUuids;
     // Prepare data for submission
     this.organizationShiftTimingRequest.weekdayInfos = this.weekDay
