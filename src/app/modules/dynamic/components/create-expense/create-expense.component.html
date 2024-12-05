@@ -1102,7 +1102,7 @@
               <div *ngIf="partiallyPayment" class="col-md-12 mb-3">
                 <label for="employeeTypeId" class="mb-2">Enter Amount </label>
                 <div class="form-group">
-                  <input class="form-control input-zorro"
+                  <input [disabled]="payCashDiv" class="form-control input-zorro"
                     style="border: none !important; border-bottom: 1px dashed #CDC9C9 !important; "
                     placeholder="Enter the Amount " nzSize="large" minlength="3" maxlength="50" id="amount" name="amount"
                     [(ngModel)]="partialAmount" #amountInput="ngModel" required />
@@ -1155,8 +1155,8 @@
 
           <button class="btn approve-btn" *ngIf="userExpense.status.id == 13 && !approveToggle" (click)="approveOrDeny(userExpense.id, 14, 0)">Approved</button>
           <!-- <button class="btn approve-btn" *ngIf="userExpense.status.id == 14 && !expenseCancelToggle" (click)="approveOrDeny(userExpense.id, 41)">Approved</button> -->
-          <button class="btn approve-btn" [disabled]="(partiallyPayment && (partialAmount == '' || partialAmount == null || partialAmount > userExpense.amount))" *ngIf="!expenseCancelToggle && userExpense.status.id == 14 " 
-          (click)="showPayCashDiv()">Approved</button>
+          <button class="btn approve-btn" [disabled]="(partiallyPayment && (partialAmount == '' || partialAmount == null || partialAmount > userExpense.amount))" *ngIf="!expenseCancelToggle && userExpense.status.id == 14" 
+          (click)="showPayCashDiv()">Pay Now</button>
 
           <button class="btn approve-btn" [disabled]="(partiallyPayment && (partialAmount == '' || partialAmount == null || partialAmount > fullPartialAmount))" *ngIf="!expenseCancelToggle && userExpense.status.id == 46" 
             (click)="showPayCashDiv()">Approved</button>
@@ -2058,24 +2058,22 @@
                       </td> -->
 
                       <td *ngFor="let cell of fileColumnName; let j = index">
-                        <!-- <ng-container *ngIf="fileColumnName[j] === 'shift*' ; else leaveColumns"> -->
+                      
+                        <input *ngIf="!validateRowToggle" [(ngModel)]="row[j]" />
 
-                          <!-- <nz-select [(ngModel)]="row[j]"
-                            [ngClass]="{'invalid-input': invalidCells[((currentPage - 1) * pageSize)+i][j]}"
-                            (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)"
-                            nzPlaceHolder="Select Shift" [nzDropdownRender]="customDropdownShift">
+                        <input *ngIf="validateRowToggle" [(ngModel)]="row[j]" 
+                        [ngClass]="{'error-border': invalidCells[i][j]}" />
+                        
+                        <!-- <input *ngIf="validateRowToggle" [(ngModel)]="row[j]" 
+                        [ngClass]="{'error-border': invalidCells[i][j]}"/> -->
 
-                            <nz-option *ngFor="let shift of shiftList" [nzValue]="shift.label"
-                              [nzLabel]="shift.label"></nz-option>
-
-                          </nz-select> -->
-
+                        <!-- working input form row[j] -->
                         <!-- <ng-template #defaultInput>
                           <input [(ngModel)]="row[j]"
-                            [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSize + i][j]}"
+                            [ngClass]="{'invalid-input': invalidCells[(currentPage - 1) * pageSizś + i][j]}"
                             (ngModelChange)="onValueChange((currentPage - 1) * pageSize + i, j)" />
                         </ng-template> -->
-                        <input [(ngModel)]="row[j]" />
+                        <!-- <input [(ngModel)]="row[j]" /> -->
 
                       </td>
                     </tr>
@@ -2211,7 +2209,7 @@
               </div>
             </div>
 
-            <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p>
+            <!-- <p *ngIf="isErrorToggle">Error: {{ errorMessage }}</p> -->
             <p *ngIf="!isErrorToggle" class="m-0"></p>
           </div>
         </ng-container>

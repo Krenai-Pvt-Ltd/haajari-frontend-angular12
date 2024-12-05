@@ -1766,10 +1766,10 @@ selectFile(event: any) {
     this.currentFileUpload = file;
     this.fileName = file.name;
 
-    if (!this.isExcelFile(file)) {
-      this.isExcel = 'Invalid file type. Please upload an Excel file.';
-      return;
-    }
+    // if (!this.isExcelFile(file)) {
+    //   this.isExcel = 'Invalid file type. Please upload an Excel file.';
+    //   return;
+    // }
 
     const reader = new FileReader();
     reader.onload = (e: ProgressEvent<FileReader>) => {
@@ -1885,12 +1885,17 @@ updatePaginatedData() {
 
   // Slice the data based on the calculated start and page size
   this.paginatedData = this.data.slice(start, start + this.pageSize);
+  
+  // this.validateRowToggle = false;
 
   console.log('paginatedData: ',this.paginatedData)
 }
 
 saveFile() {
   debugger
+
+  this.validateRowToggle = false
+
   const stringifiedData = this.data.map((row: any[]) =>
     row.map(cell => cell !== null && cell !== undefined ? String(cell) : '')
   );
@@ -1913,7 +1918,25 @@ saveFile() {
 // Object.defineProperty(event, 'target', { writable: false, value: { files: dataTransfer.files } });
 // this.selectFile(event);
 
-this.uploadUserFile(file, 'edited_file.xlsx');
+this.validateRows(this.data.slice(1));
+
+// if(this.invalidCells){
+//   console.log('invalid cell')
+//   this.updatePaginatedData();
+//   // this.validateRowToggle = false;
+// }else{
+//   console.log('Not invalid cell')
+//   this.validateRowToggle = false;
+// }
+
+if(this.validateRowToggle){
+  this.updatePaginatedData();
+}else{
+  this.uploadUserFile(file, 'edited_file.xlsx');
+}
+
+
+// this.uploadUserFile(file, 'edited_file.xlsx');
 
 }
 
@@ -1993,26 +2016,10 @@ onPageChange(page: number) {
     return binaryStr;
   }
 
-  isExcelFile(file: File): boolean {
-    const allowedMimeTypes = [
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // .xlsx
-      'application/vnd.ms-excel'
-    ];
-
-    const allowedExtensions = ['xlsx', 'xls'];
-
-    return allowedMimeTypes.includes(file.type) && allowedExtensions.includes(file.name.split('.').pop()?.toLowerCase() || '');
-  }
 
   validateColumns(columnNames: string[]): boolean {
     debugger
     this.mismatches = []; // Reset mismatches
-
-    // Step 2: Normalize both expected and actual column names for comparison
-    // const normalizedColumnNames = columnNames.map(col => col.trim().toLowerCase());
-    // this.fileColumnName=normalizedColumnNames;
-    // const normalizedExpectedColumns = this.expectedColumns.map(col => col.trim().toLowerCase());
-    // const normalizedCorrectColumns = this.correctColumnName.map(col => col.trim().toLowerCase());
 
     const normalizedColumnNames = columnNames.map(col => col.trim());
     this.fileColumnName=normalizedColumnNames;
@@ -2045,128 +2052,274 @@ onPageChange(page: number) {
     return true;
   }
 
-  readonly constants = constant;
-  addToMap(key: string, value: string) {
-    if (this.validateMap.has(key)) {
-      console.log(key,value);
-      // If key exists, add the new value to the existing array
-      this.validateMap.get(key)?.push(value);
-    } else {
-      // If key does not exist, create a new array with the value
-      this.validateMap.set(key, [value]);
-    }
-  }
-  removeAllSingleEntries() {
-    for (const [key, valuesArray] of this.validateMap) {
-      if (valuesArray.length <= 1) {
-        this.validateMap.delete(key);
-      }
-    }
-  }
-
-  shiftList: any[] = new Array()
-  validateRows(rows: any[]): void {
-    console.log("🚀 ~ EmployeeOnboardingDataComponent ~ validateRows ~ rows:", rows)
+readonly constants = constant;
+  
+validateRowToggle: boolean = false;
+  validateRowsWork(rows: any[]): void {
+    debugger;
+    
     this.invalidRows = new Array(rows.length).fill(false); // Reset invalid rows
     this.invalidCells = Array.from({ length: rows.length }, () => new Array(this.expectedColumns.length).fill(false)); // Reset invalid cells
-
+  
     for (let i = 0; i < rows.length; i++) {
-      let rowIsValid = true;
       for (let j = 0; j < this.fileColumnName.length; j++) {
-
         const cellValue = rows[i][j];
-        if (!cellValue || cellValue === null || cellValue.toString().trim() === '') {
-          rowIsValid = false;
-          this.invalidRows[i] = true; // Mark the row as invalid
-          this.invalidCells[i][j] = true; // Mark the cell as invalid
-
-        }
-        if (this.fileColumnName[j] === 'email*' && cellValue) {
-          this.addToMap(cellValue.toString(),`${i+1}`);
-        }
-        if (this.fileColumnName[j] === 'phone*' && cellValue) {
-          const phoneNumber = cellValue.toString().trim();
-          this.addToMap(cellValue.toString(),`${i+1}`);
-          if (!/^\d{10}$/.test(phoneNumber)) {
-            rowIsValid = false;
-            this.invalidRows[i] = true; // Mark the row as invalid
+        this.invalidCells[i][j] = false;
+        // this.validateRowToggle = false;
+  
+        if (this.fileColumnName[j] === 'Expense Id') {
+          // Validate that the field is a non-empty string
+          if (!cellValue || typeof cellValue !== 'string' || cellValue.trim() === '') {
+            // rowIsValid = false;
+            this.validateRowToggle = true;
+            this.invalidRows[i] = true;
             this.invalidCells[i][j] = true; // Mark the cell as invalid
+          } else {
+            //this.addToMap(cellValue.toString(), `${i + 1}`); // Map Expense Id to the row number
           }
         }
-
-        if (this.fileColumnName[j] === 'shift*' ) {
-          var shiftExists=false;
-          if(cellValue){
-            const shiftName = cellValue.toString().trim();
-            shiftExists = this.shiftList.some(shift => shift.label === shiftName);
-          }
-            if (!shiftExists || !cellValue) {
-              rowIsValid = false;
+        
+        if (this.fileColumnName[j] === 'Settled Amount') {
+          // Check if the field is empty or invalid
+          if (!cellValue || cellValue.toString().trim() === '') {
+            this.validateRowToggle = true;
+            this.invalidRows[i] = true;
+            this.invalidCells[i][j] = true;
+          } else {
+            // Ensure the field is a number and greater than 0
+            const numericValue = parseFloat(cellValue);
+            if (isNaN(numericValue) || numericValue <= 0) {
+              this.validateRowToggle = true;
               this.invalidRows[i] = true;
               this.invalidCells[i][j] = true;
-              this.data[i+1][j] = '';
-          }
-      }
-
-    if (this.fileColumnName[j] === 'leavenames' || this.fileColumnName[j] === 'team') {
-      if(this.constants.EMPTY_STRINGS.includes(cellValue)){
-        this.data[i+1][j]=[];
-      }
-      else{
-        console.log(cellValue)
-        const selectedData: string[] = cellValue.split(',').map((team: string) => team.trim());
-        this.data[i+1][j]=selectedData;
-      }
-    }
-      if (this.fileColumnName[j] === 'joiningdate*' && cellValue) {
-
-        // Replace slashes with hyphens
-        const normalizedCell = cellValue.toString().trim().replace(/\//g, '-');
-
-        // Check if the normalized cell matches the exact MM-DD-YYYY format
-        const isExactFormat = /^\d{2}-\d{2}-\d{4}$/.test(normalizedCell);
-
-        if (isExactFormat) {
-            // Parse with strict format checking
-            const formattedDate = moment(normalizedCell, 'MM-DD-YYYY', true);
-
-            // Check if the date is valid
-            if (formattedDate.isValid()) {
-                const oneYearFromNow = moment().add(1, 'year');
-
-                // Ensure the date is in the past or less than one year from today
-                if (formattedDate.isAfter(oneYearFromNow)) {
-                    this.data[i+1][j] = undefined;
-                    rowIsValid = false;
-                    this.invalidRows[i] = true; // Mark the row as invalid
-                    this.invalidCells[i][j] = true; // Mark the cell as invalid
-                }
-            } else {
-                // If the date is not valid
-                this.data[i+1][j] = undefined;
-                rowIsValid = false;
-                this.invalidRows[i] = true; // Mark the row as invalid
-                this.invalidCells[i][j] = true; // Mark the cell as invalid
             }
+          }
+        }
+        
+        if (this.fileColumnName[j] === 'Transaction Id') {
+          // Check if the field is a non-empty string
+          if (cellValue.toString().trim() === '') {
+            // rowIsValid = false;
+            this.validateRowToggle = true;
+            this.invalidRows[i] = true;
+            this.invalidCells[i][j] = true;
+          }
+        }
+  
+        // Check if the column name exists in the expectedColumns
+        // if (!this.expectedColumns.some(expectedColumn => expectedColumn.toLowerCase() === columnName.toLowerCase())) {
+        //   this.invalidCells[i][j] = false;
+        // }
+        // console.log('this.invalidCells[i][j]: ',this.invalidCells[i][j])
+      }
+
+  
+      // If row is invalid, mark it
+      // if (!rowIsValid) {
+      //   this.invalidRows[i] = true;
+      // }
+      
+
+    }
+    // console.log('only invalidCell: ',this.invalidCells)
+  }
+  
+
+  validateRows(rows: any[]): void {
+    debugger;
+    
+    this.invalidRows = new Array(rows.length).fill(false); // Reset invalid rows
+    this.invalidCells = Array.from({ length: rows.length }, () => new Array(this.expectedColumns.length).fill(false)); // Reset invalid cells
+  
+    for (let i = 0; i < rows.length; i++) {
+      for (let j = 0; j < this.fileColumnName.length; j++) {
+        const cellValue = rows[i][j];
+        this.invalidCells[i][j] = false;
+  
+        // Expense ID is mandotary
+        // if (this.fileColumnName[j] === 'Expense Id') {
+        //   // Validate that the field is a non-empty string
+        //   if (!cellValue || typeof cellValue !== 'string' || cellValue.trim() === '') {
+        //     this.validateRowToggle = true;
+        //     this.invalidRows[i] = true;
+        //     this.invalidCells[i][j] = true; // Mark the cell as invalid
+        //   } else {
+        //     this.addToMap(cellValue.toString(), `${i + 1}`); // Map Expense Id to the row number
+        //   }
+        // }
+
+        if (this.fileColumnName[j] === 'Expense Id') {
+          // Validate that the field is a non-empty string
+          if (!cellValue || typeof cellValue !== 'string' || cellValue.trim() === '') {
+            this.validateRowToggle = true;
+            this.invalidRows[i] = true;
+            this.invalidCells[i][j] = true; // Mark the cell as invalid
+          } 
+          
+        }
+
+        // Expense Amount should be greater than 0 and not be empty
+        if (this.fileColumnName[j] === 'Expense Amount') {
+          // Check if the field is empty or invalid
+          if (!cellValue || cellValue.toString().trim() === '') {
+            this.validateRowToggle = true;
+            this.invalidRows[i] = true;
+            this.invalidCells[i][j] = true;
+          } else {
+            // Ensure the field is a number and greater than 0
+            const numericValue = parseFloat(cellValue);
+            if (isNaN(numericValue) || numericValue <= 0) {
+              this.validateRowToggle = true;
+              this.invalidRows[i] = true;
+              this.invalidCells[i][j] = true;
+            }
+          }
+        }
+        
+      // Settled amount should be less from Expense amount'
+      if (this.fileColumnName[j] === 'Settled Amount') {
+        // Check if the field is empty or invalid
+        if (!cellValue || cellValue.toString().trim() === '') {
+          this.validateRowToggle = true;
+          this.invalidRows[i] = true;
+          this.invalidCells[i][j] = true;
         } else {
-            // If the format is not exactly MM-DD-YYYY
-            this.data[i+1][j] = undefined;
-            rowIsValid = false;
-            this.invalidRows[i] = true; // Mark the row as invalid
+          // Ensure the field is a number and greater than 0
+          const numericValue = parseFloat(cellValue);
+          if (isNaN(numericValue) || numericValue <= 0) {
+            this.validateRowToggle = true;
+            this.invalidRows[i] = true;
+            this.invalidCells[i][j] = true;
+          } else {
+            // Validate that "Settled Amount" is less than "Expense Amount"
+            const amountIndex = this.fileColumnName.indexOf('Expense Amount');
+            if (amountIndex !== -1) {
+              const amountValue = parseFloat(rows[i][amountIndex]);
+              if (isNaN(amountValue) || numericValue > amountValue) {
+                this.validateRowToggle = true;
+                this.invalidRows[i] = true;
+                this.invalidCells[i][j] = true; // Mark the "Settled Amount" cell as invalid
+              }
+            }
+          }
+        }
+      }
+        
+
+      // If you have enter here then the values accpet only 'Online', 'Cash' otherwise not
+        if (this.fileColumnName[j] === 'Payment Method') {
+          // Validate that the field contains only 'Online' or 'Cash'
+          const validPaymentMethods = ['ONLINE', 'CASH'];
+          // if (!cellValue || !validPaymentMethods.includes(cellValue.trim())) {
+            if (!cellValue || !validPaymentMethods.includes(cellValue.trim().toUpperCase())) {
+            this.validateRowToggle = true;
+            this.invalidRows[i] = true;
             this.invalidCells[i][j] = true; // Mark the cell as invalid
           }
         }
 
+        // If you have Entered 'Online' then transactin ID is mandotary, for cash it is not
+        if (this.fileColumnName[j] === 'Transaction Id') {
+          // Find the index of the 'Payment Method' column
+          const paymentMethodIndex = this.fileColumnName.indexOf('Payment Method');
+          const paymentMethod = paymentMethodIndex !== -1 ? rows[i][paymentMethodIndex]?.toString().trim() : null;
+        
+          if (paymentMethod) {
+            if (paymentMethod.toUpperCase() === 'CASH') {
 
+              this.invalidCells[i][j] = false;
+              this.invalidRows[i] = false;
+              this.invalidCells[i][j] = false;
 
-        if (!this.expectedColumns.some(expectedColumn => expectedColumn.toLowerCase() === this.fileColumnName[j].toLowerCase())) {
-          this.invalidCells[i][j] = false;
+            } else if (paymentMethod.toUpperCase() === 'ONLINE') {
+              // If Payment Method is 'Online', Transaction Id must not be empty
+              if (!cellValue || cellValue.toString().trim() === '') {
+                this.validateRowToggle = true;
+                this.invalidRows[i] = true;
+                this.invalidCells[i][j] = true; // Mark the Transaction Id cell as invalid
+              } else {
+                // Valid case for 'Online'
+                this.invalidCells[i][j] = false;
+              }
+            }
+          } else {
+            // Invalid Payment Method: Mark Transaction Id as invalid (optional)
+            this.validateRowToggle = true;
+            this.invalidRows[i] = true;
+            this.invalidCells[i][j] = true;
+          }
         }
+
+        // if (this.fileColumnName[j] === 'Lapse Remaining Amount') {
+        //   // Validate that the field contains only 'Online' or 'Cash'
+        //   const validLapsePaymentAmount = ['YES', 'NO'];
+        //   if (!cellValue || !validLapsePaymentAmount.includes(cellValue.trim())) {
+        //     this.validateRowToggle = true;
+        //     this.invalidRows[i] = true;
+        //     this.invalidCells[i][j] = true; // Mark the cell as invalid
+        //   }
+        // }
+
+        // if (this.fileColumnName[j] === 'Lapse Remaining Amount') {
+        //   // Valid values are 'YES' or 'NO'
+        //   const validLapsePaymentAmount = ['YES', 'NO'];
+        
+        //   if (cellValue && !validLapsePaymentAmount.includes(cellValue.trim())) {
+        //     // If there's a value, it must be 'YES' or 'NO'
+        //     this.validateRowToggle = true;
+        //     this.invalidRows[i] = true;
+        //     this.invalidCells[i][j] = true; // Mark the cell as invalid
+        //   } else if (!cellValue || cellValue.toString().trim() === '') {
+        //     // If the field is empty, do nothing or set to false (optional)
+        //     this.invalidRows[i] = false;
+        //     this.invalidCells[i][j] = false; // Allow empty field
+        //   }
+        // }
+
+        // If you are putting Yes, No then then function will accept only this not another values
+        if (this.fileColumnName[j] === 'Lapse Remaining Amount') {
+          // Valid values are 'YES' or 'NO'
+          const validLapsePaymentAmount = ['YES', 'NO'];
+        
+          // Convert cellValue to uppercase and check if it's in the valid set
+          if (cellValue && !validLapsePaymentAmount.includes(cellValue.trim().toUpperCase())) {
+            // If there's a value, it must be 'YES' or 'NO' (case insensitive)
+            this.validateRowToggle = true;
+            this.invalidRows[i] = true;
+            this.invalidCells[i][j] = true; // Mark the cell as invalid
+          } else if (!cellValue || cellValue.trim() === '') {
+            // If the field is empty, allow it to be empty
+            this.invalidRows[i] = false;
+            this.invalidCells[i][j] = false; // Allow empty field
+          }
+        }
+        
+        
+        // If Settled Amount is less than from Expense amount then this function will call
+        if (this.fileColumnName[j] === 'Lapse Remaining Amount') {
+          const settledAmountIndex = this.fileColumnName.indexOf('Settled Amount');
+          const amountIndex = this.fileColumnName.indexOf('Expense Amount');
+  
+          const lapseAmount = cellValue ? parseFloat(cellValue) : null;
+          const settledAmount = rows[i][settledAmountIndex] ? parseFloat(rows[i][settledAmountIndex]) : null;
+          const amount = rows[i][amountIndex] ? parseFloat(rows[i][amountIndex]) : null;
+  
+          // Check if "Settled Amount" is less than "Amount" and "Lapse Amount" is empty
+          if (settledAmount != null && amount != null && settledAmount < amount && (lapseAmount == null || lapseAmount <= 0)) {
+            this.validateRowToggle = true;
+            this.invalidRows[i] = true;
+            this.invalidCells[i][j] = true; // Mark "Lapse Amount" cell as invalid
+          }
+        }
+        
+  
       }
     }
-    debugger
-
   }
+
+
+
+
 /** Set Excel data end */
 
 }
