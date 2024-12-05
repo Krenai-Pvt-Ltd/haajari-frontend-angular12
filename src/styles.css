@@ -706,3 +706,6 @@ actionMenuList .dropdown-item i {
   font-weight: 400 !important;
   color: #3F988F !important;
 }
+.new-empty-file .ant-empty-image img {
+  width: 70px !important;
+}

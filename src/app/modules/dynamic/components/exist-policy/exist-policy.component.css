@@ -1850,7 +1850,7 @@
     border-radius: 2px;
     height: 45px;
     margin-bottom: 0px;
-    background-color: #fff;
+    background-color: rgba(236, 236, 236, 0.21);
   }
   
   .assets-req input {
@@ -1862,7 +1862,7 @@
   .assets-req p {
     padding-left: 25px;
     font-size: 13px !important;
-    font-weight: 400 !important;
+    font-weight: 500 !important;
   }
   
   .requesting-half-leave {
@@ -2029,4 +2029,10 @@
 }
 .close-all-select:hover {
   color: #ef4d56 !important;
+}
+.leave-footer p{
+  color: #6B7280;
+}
+.leave-footer svg{
+   width: 15px;
 }

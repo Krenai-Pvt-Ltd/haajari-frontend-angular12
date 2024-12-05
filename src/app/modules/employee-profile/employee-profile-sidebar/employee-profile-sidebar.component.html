@@ -397,15 +397,27 @@
         </div> -->
 
 
-
-        <h5 class="mb-2 mt-4">Skill Set</h5>
+       <div class="mb-2 mt-4 d-flex align-items-center justify-content-between slill-set">
+            <h5 class="mb-0">Skill Set</h5>
+            <button class="btn p-0 text-primary font-13 " data-bs-toggle="modal" data-bs-target="#addSkills"> <i class="bi bi-plus"></i> Add Skills</button>
+        </div>
         <ul class="skill-set">
             <li>User Research</li>
             <li>Wireframing & Prototyping</li>
             <li>Visual Design</li>
             <li>Interaction Design</li>
             <li>Information Architecture</li>
-            <span>+5</span>
+            <span class="pointer" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">+5</span>
+            <div class="collapse " id="collapseExample">
+                <ul class="skill-set">
+                    <li>User Research</li>
+                    <li>Wireframing & Prototyping</li>
+                    <li>Visual Design</li>
+                    <li>Interaction Design</li>
+                    <li>Information Architecture</li>
+                    <button type="button" class="btn p-0 text-primary font-13 view-less" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">View Less <i class="bi bi-chevron-up"></i></button>
+                </ul>
+            </div>
         </ul>
         <div *ngIf="adminRoleFlag">
             <!-- (click)="openFormModal(formContent,'Promotion')" -->
@@ -841,6 +853,17 @@
                               <p class="mb-0 font-13"> <span class="text-primary"> Note:</span> HR will take the final action on the exit request</p>
                             </div>
                         </div>
+                        <!-- <div class="col-md-12">
+                             <div class="reject-status p-3">
+                                <div class="d-flex align-content-center gap-3">
+                                    <p class="mb-0">Status</p>
+                                    <span class="status"></span>
+                                    <h6 class="mb-0 text-danger">Rejected</h6>
+                                </div>
+                                <p class="mb-0 mt-2 font-13" style="color:#000; font-weight: 300;">Lorem ipsum dolor sit amet c Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et.onsectetur adipiscing elit Ut
+                                et.</p>
+                             </div>
+                        </div> -->
 
 
                         <div class="p-4">
@@ -1233,3 +1256,80 @@
     </div>
 </div>
 <!-- Resignation Approve Modal end -->
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#addSkills">
+    Add Skills
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="addSkills" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Skills</h5>
+                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="24" height="24">
+                            <rect width="24" height="24" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_5037_2014)">
+                            <path
+                                d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+                                fill="black" />
+                        </g>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="skill-set-modal">
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <div class="form-group position-relative">
+                            <label for="assetName" class="mb-2">Skills</label>
+                                <input type="text" class="form-control input-zorro " placeholder="Search Your Skills (Ex: Testing)" style="padding: 10px 70px 10px 40px;" />
+                                <i class="bi bi-search search-icon"></i>
+
+                                <button class="btn p-0 text-primary add-skill"><i class="bi bi-plus font-18"></i> Add</button>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mt-3">
+                        <div>
+
+                            <!-- <div class="new-empty-file empty-file" style="margin-top: 10%;">
+                                <nz-empty nzNotFoundImage="assets/images/skill-set-empty.svg" [nzNotFoundContent]="contentTpl">
+                                    <ng-template #contentTpl>
+                                        <p class="mb-1 empty-detail font-16">
+                                            No data for now
+                                        </p>
+                                    </ng-template>
+                                </nz-empty>
+                            </div> -->
+                            <ul class="skill-set">
+                                <li>User Research <i class="bi bi-x"></i></li>
+                                <li>Wireframing & Prototyping <i class="bi bi-x"></i></li>
+                                <li>Visual Design <i class="bi bi-x"></i></li>
+                                <li>Interaction Design <i class="bi bi-x"></i></li>
+                                <li>Information Architecture <i class="bi bi-x"></i></li>
+                                <li>User Research <i class="bi bi-x"></i></li>
+                                <li>Wireframing & Prototyping</li>
+                                <li>Visual Design <i class="bi bi-x"></i></li>
+                                <li>Interaction Design <i class="bi bi-x"></i></li>
+                                <li>Information Architecture <i class="bi bi-x"></i></li>
+                            </ul>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer d-flex align-items-center justify-content-between">
+                <p class="mb-0 font-13">All the skills that you have add will be visible at your profile</p>
+                <button class="btn submitActionBtn">Save</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+        
