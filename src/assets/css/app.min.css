@@ -10066,3 +10066,7 @@ button:disabled {
     transform: translateX(0);
   }
 }
+
+.pagination-ul ul{
+  margin-bottom: 0px;
+}

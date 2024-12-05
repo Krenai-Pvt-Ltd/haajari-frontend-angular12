@@ -4470,7 +4470,7 @@ getHolidayForOrganization(date: string): Observable<any>{
   }
 
   downloadAssetRequests(): Observable<Blob> {
-    const url = `${this.baseUrl}/asset-requests/exportAssetRequests`;
+    const url = `${this.baseUrl}/asset-requests/export`;
     return this.httpClient.get(url, { responseType: 'blob' });
   }
 

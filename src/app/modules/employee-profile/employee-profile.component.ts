@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+
 import { DataService } from 'src/app/services/data.service';
+import { ActivatedRoute } from '@angular/router';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
 
 @Component({
@@ -17,9 +19,18 @@ export class EmployeeProfileComponent implements OnInit {
 
   isEmployeeExit: boolean = false;
   UUID: any
+  currentUserUuid: any
+  userId: any
 
   public async getUuid(){
     this.UUID = await this.roleService.getUuid();
+    this.currentUserUuid = await this.roleService.getUuid();
+    this.userId = await this.roleService.getUuid();
+
+    // if (this.activateRoute.snapshot.queryParamMap.has('userId')) {
+    //   this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
+    // }
+    // this.currentUserUuid = this.rbacService.getUuid();
 
     this.getEmployeeProfileData();
   }
@@ -46,5 +57,7 @@ export class EmployeeProfileComponent implements OnInit {
          console.log(error);
     })
   }
+
+
 
 }
