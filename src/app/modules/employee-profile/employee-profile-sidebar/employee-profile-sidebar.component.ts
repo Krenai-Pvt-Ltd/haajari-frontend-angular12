@@ -63,6 +63,8 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     this.ROLE = await this.roleService.getRole();
     this.UUID = await this.roleService.getUuid();
 
+    console.log('ROLE for emp-sidebar: ',this.ROLE)
+
     if (this.ROLE == this.ADMIN) {
       this.adminRoleFlag = true;
     }

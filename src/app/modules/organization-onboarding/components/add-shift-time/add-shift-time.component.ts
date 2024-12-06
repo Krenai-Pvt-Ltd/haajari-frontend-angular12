@@ -189,7 +189,7 @@ export class AddShiftTimeComponent implements OnInit {
     this.loading = true;
   
     this.organizationShiftTimingRequest.userUuids = this.selectedStaffsUuids;
-    this.organizationShiftTimingRequest.shiftTypeId = 1;
+    // this.organizationShiftTimingRequest.shiftTypeId = 1;
     this.dataService
       .registerShiftTiming(this.organizationShiftTimingRequest)
       .subscribe(
