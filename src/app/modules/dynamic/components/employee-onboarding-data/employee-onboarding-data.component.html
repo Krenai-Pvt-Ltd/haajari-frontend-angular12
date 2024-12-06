@@ -411,7 +411,7 @@
 
       <div class="row mt-3" *ngIf="!isMainPlaceholder">
         <div class="col-md-12">
-          <div class="obboard-employee-list">
+          <div>
             <div class="onboard-add row align-items-center mx-0">
               <!-- <div *ngIf="users.length!=0"> -->
               <!-- || (searchUserPlaceholderFlag) -->
@@ -530,7 +530,7 @@
                         Phone Number
                       </th>
                       <th style="width: 10%">Accessibility</th>
-                      <th style="width: 10%" class="text-center">Status</th>
+                      <th style="width: 10%" class="text-left">Status</th>
                       <th style="width: 4%" class="text-center stickyColThend">
                         Action
                       </th>
@@ -644,7 +644,20 @@
                      
 
                     <!-- <ng-container *ngIf="user.resignationStatus == null; else resignationStatusBlock"> -->
-                    <div *ngIf="user.resignationStatus == null">  
+
+                   
+                      <td *ngIf="user.resignationStatus == null">
+                        <span class="badge rounded-pill" 
+                        [ngClass]="{'badge-soft-success': user.onboardingStatus === 'APPROVED', 'badge-soft-danger': user.onboardingStatus === 'REJECTED', 'badge-soft-warning': user.onboardingStatus === 'PENDING' }">
+                        {{ user.onboardingStatus }}</span>
+                      </td>
+                      <td *ngIf="user.resignationStatus != null">
+                        <span class="badge rounded-pill" [ngClass]="{'badge-soft-info': user.resignationStatus.id == 13, 'badge-soft-warning': user.resignationStatus.id == 42, 'badge-soft-danger': user.resignationStatus.id == 43 }"
+                        >{{ user.resignationStatus.response }}</span>
+                      </td>
+
+                      <!-- *ngIf="user.resignationStatus == null" -->
+                  <!-- <div>  
                       
                       <td class="text-center" *ngIf="user.onboardingStatus == pendingResponse">
                         <div class="badge rounded-pill badge-soft-warning">
@@ -677,16 +690,16 @@
                           <span class="">NEW!</span>
                         </div>
                       </td>
-                    </div>
+                    </div>  -->
 
                     <!-- <ng-template #resignationStatusBlock> -->
-                    <div *ngIf="user.resignationStatus != null">  
+                    <!-- <div *ngIf="user.resignationStatus != null">  
                       <td class="text-center">
                         <div class="badge rounded-pill badge-soft-danger">
                           <span>{{ user.resignationStatus.response }}</span>
                         </div>
                       </td>
-                    </div>
+                    </div> -->
 
 
                       <td class="stickyColTdend text-end">
