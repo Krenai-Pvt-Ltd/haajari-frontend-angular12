@@ -97,32 +97,32 @@
                                         <div class="expense-data p-3">
                                             <p class="text-success mb-3 font-13"><span class="approved"></span> Approved
                                             </p>
-                                            <h5 class="font-18 mb-1">₹24,344</h5>
-                                            <p class="mb-0">12 Bill</p>
+                                            <h5 class="font-18 mb-1">₹ {{expenseCount.totalApprovedAmount}}</h5>
+                                            <p class="mb-0">{{expenseCount.approveCount}} Bill</p>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="expense-data p-3">
                                             <p class="text-warning mb-3 font-13"><span class="pending"></span> Pending
                                             </p>
-                                            <h5 class="font-18 mb-1">₹4,344</h5>
-                                            <p class="mb-0">02 Bill</p>
+                                            <h5 class="font-18 mb-1">₹ {{expenseCount.totalPendingAmount}}</h5>
+                                            <p class="mb-0">{{expenseCount.pendingCount}} Bill</p>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="expense-data p-3">
                                             <p class="text-danger mb-3 font-13"><span class="canceled"></span> Rejected
                                             </p>
-                                            <h5 class="font-18 mb-1">₹24,344</h5>
-                                            <p class="mb-0">02 Bill</p>
+                                            <h5 class="font-18 mb-1">₹ {{expenseCount.totalRejectedAmount}}</h5>
+                                            <p class="mb-0">{{expenseCount.rejectCount}} Bill</p>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="expense-data p-3">
                                             <p class="text-primary mb-3 font-13"><span class="paid"></span> Total Paid
                                             </p>
-                                            <h5 class="font-18 mb-1">₹24,344</h5>
-                                            <p class="mb-0">02 Bill</p>
+                                            <h5 class="font-18 mb-1">₹ {{expenseCount.totalPaidAmount}}</h5>
+                                            <p class="mb-0">{{expenseCount.paidCount}} Bill</p>
                                         </div>
                                     </div>
                                 </div>

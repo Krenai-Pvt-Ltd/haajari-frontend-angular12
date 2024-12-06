@@ -4339,6 +4339,21 @@ getHolidayForOrganization(date: string): Observable<any>{
   }
 
 
+  getAllExpenseCount(role: string, pageNumber: number, itemPerPage: number, startDate: any, endDate: any){
+    var params = new HttpParams()
+    .set('currentPage', pageNumber)
+    .set('itemPerPage', itemPerPage)
+    .set('role', role)
+    
+    if (startDate && endDate) {
+      params = params.set('startDate', startDate)
+      params = params.set('endDate', endDate)
+    }
+
+    return this.httpClient.get<any>(`${this.baseUrl}/company-expense/count`, {params});
+  }
+
+
   getAllCompanyExpensePolicy(databaseHelper: DatabaseHelper){
     const params = new HttpParams()
     .set('page_number', databaseHelper.currentPage)

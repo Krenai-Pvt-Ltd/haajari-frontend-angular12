@@ -29,6 +29,8 @@ export class EmployeeExpenseComponent implements OnInit {
     this.userId = userUuidParam?.toString() ?? ''
 
     this.getExpenses();
+    this.getExpensesCount();
+    
     this.getRole();
 
     this.getExpenseType();
@@ -60,6 +62,9 @@ export class EmployeeExpenseComponent implements OnInit {
    this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds).subscribe((res: any) => {
      if (res.status) {
        this.expenseList = res.object
+
+       console.log('expenseList: ',this.expenseList)
+
        this.loading = false
      }else{
       this.expenseList = []
@@ -68,6 +73,30 @@ export class EmployeeExpenseComponent implements OnInit {
      this.statusIds = []
    })
  }
+
+ expenseCount: any;
+ async getExpensesCount() {
+  debugger
+  this.expenseCount = []
+  this.ROLE = await this.rbacService.getRole();
+ 
+  if(this.expenseSelectedDate == null){
+    this.startDate = '';
+    this.endDate = '';
+  }
+
+  this.dataService.getAllExpenseCount(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate).subscribe((res: any) => {
+    if (res.status) {
+      this.expenseCount = res.object
+
+      console.log('expenseCount: ',this.expenseCount)
+
+    }else{
+     this.expenseCount = []
+     this.loading = false
+    }
+  })
+}
 
  pastExpenseList: any[] = new Array();
  pastLoading: boolean = false;
