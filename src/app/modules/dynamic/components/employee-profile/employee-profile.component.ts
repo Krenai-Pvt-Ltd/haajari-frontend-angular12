@@ -703,6 +703,9 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   }
 
   getStatusColor(status: any): string {
+      if (status.includes('Leave')|| status.includes('Duty')) {
+        return 'rgb(255, 255, 143)'; 
+      }
     switch (status) {
       case 'Present':
         return '#e0ffe0';
@@ -3980,5 +3983,6 @@ closeAttendanceFunc() {
   /** Create and view expense end */
 
 }
+
 
 
