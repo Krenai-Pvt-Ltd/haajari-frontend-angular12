@@ -235,7 +235,12 @@ export class CreateExpenseComponent implements OnInit {
     this.rejectDiv = false;
 
     this.userExpense = expense
-    // console.log('dataset: ',this.userExpense)
+    console.log('dataset: ',this.userExpense)
+
+    if(this.userExpense.partiallyPaidAmount != null){
+      this.expensePaymentType = 'partial'
+      this.partiallyPayment = true;
+    }
 
     this.fullPartialAmount = this.userExpense.amount - this.userExpense.partiallyPaidAmount
 
@@ -260,7 +265,10 @@ export class CreateExpenseComponent implements OnInit {
     this.payCashDiv = false;
     this.rejectDiv = false;
     this.showTransactionDiv = false;
+    
     this.expensePaymentType = 'full'
+    this.partialAmount = ''
+    this.partiallyPayment = false;
 
   }
 

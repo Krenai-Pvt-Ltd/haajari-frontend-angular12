@@ -58,7 +58,7 @@ export class EmployeeExpenseComponent implements OnInit {
      this.startDate = '';
      this.endDate = '';
    }
-
+   this.expenseList = []
    this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds).subscribe((res: any) => {
      if (res.status) {
        this.expenseList = res.object
@@ -104,6 +104,7 @@ export class EmployeeExpenseComponent implements OnInit {
   debugger
   this.pastLoading = true;
   this.pastExpenseList = []
+  this.expenseList = []
   this.ROLE = await this.rbacService.getRole();
  
   if(this.expenseSelectedDate == null){
@@ -164,6 +165,7 @@ export class EmployeeExpenseComponent implements OnInit {
   this.pastExpenseToggle = true;
   this.expenseList = []
   this.statusIds.push(41);
+
   this.getExpenses();
 
   // this.getPastExpenses()

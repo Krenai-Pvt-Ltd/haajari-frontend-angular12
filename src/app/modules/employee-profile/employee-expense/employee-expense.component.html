@@ -344,7 +344,9 @@
                                         <th class="text-left font-13" style="width: 10%">Settlement Date</th>
                                         <th class="text-left font-13" style="width: 10%">Employee Name</th>
                                         <th class="text-left font-13" style="width: 10%">Expense Type</th>
-                                        <th class="text-left font-13" style="width: 10%">Paid Amount</th>
+                                        <th class="text-left font-13" style="width: 10%">Expense Amount</th>
+                                        <th class="text-left font-13" style="width: 10%">Settled Amount</th>
+                                        <th class="text-left font-13" style="width: 10%">Transaction ID</th>
                                         <th class="text-left font-13" style="width: 10%">Note</th>
                                         <th class="text-left font-13" style="width: 10%">Status</th>
                                         <th class="text-center font-13" style="width: 10%">Bill Snapshot</th>
@@ -403,6 +405,9 @@
                                             <span class="table-font-weight">{{expense.createdDate | date: 'dd MMM yyyy'}}</span>
                                         </td>
                                         <td class="text-left">
+                                            <span class="table-font-weight">{{expense.settledDate | date: 'dd MMM yyyy'}}</span>
+                                        </td>
+                                        <td class="text-left">
                                             <span>{{expense.employeeName}}</span>
                                         </td>
                                         <td class="text-left">
@@ -415,11 +420,14 @@
                                             <span class="table-font-weight"> ₹ {{expense.paidAmount == null ? 0 : expense.paidAmount}} </span>
                                         </td>
                                         <td class="text-left">
+                                            <span class="table-font-weight"> {{expense.transactionId == '' ? 'N/A' : expense.transactionId}} </span>
+                                        </td>
+                                        <td class="text-left">
                                             <span class="table-font-weight white-space"> {{expense.notes}} </span>
                                         </td>
                                         <td class="text-left">
                                             <span class="table-font-weight text-warning" 
-                                                [ngClass]="{'text-warning': expense.status.id == 13, 'text-success': expense.status.id == 14, 
+                                                [ngClass]="{'text-warning': expense.status.id == 13, 'text-success': expense.status.id == 41, 
                                                 'text-danger': expense.status.id == 15, 'text-primary': expense.status.id == 40}" > 
                                                 {{expense.status.response}} 
                                             </span>
@@ -838,7 +846,21 @@
                             <div *ngIf="expenseTypeReq.status.id == 13" class="d-flex align-items-center gap-2">
                                 <button class="btn cancel-btn mt-0" data-bs-dismiss="modal" aria-label="Close"
                                     #closeButton>Delete</button>
-                                <button class="btn submitActionBtn">Edit</button>
+                                
+                                <!-- <button class="btn submitActionBtn">Update1</button>
+                                <div class="dot-opacity-loader" *ngIf="createToggle">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div> -->
+
+                                <button type="submit" class="btn submitActionBtn" *ngIf="!createToggle">Update</button>
+                                <div class="dot-opacity-loader" *ngIf="createToggle">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+
                             </div>
 
                             <!-- <div class="d-flex align-items-center gap-2">
