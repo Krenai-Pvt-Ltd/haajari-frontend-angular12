@@ -1039,7 +1039,7 @@
                   <div class="mb-3" [ngClass]="{
                     'col-md-6': userExpense.partiallyPaidAmount != null}">
                   <div class="form-group">
-                    <input class="form-control input-zorro" placeholder="Enter amount spend" nzSize="large"
+                    <input type="number" class="form-control input-zorro" placeholder="Enter amount spend" nzSize="large"
                       minlength="3" maxlength="50" [(ngModel)]="userExpense.amount" id="amount" name="amountInput"
                       disabled required />
                   </div>
@@ -1102,27 +1102,38 @@
               <div *ngIf="partiallyPayment" class="col-md-12 mb-3">
                 <label for="employeeTypeId" class="mb-2">Enter Amount </label>
                 <div class="form-group">
-                  <input [disabled]="payCashDiv" class="form-control input-zorro"
+                  <input [disabled]="payCashDiv" type="number" class="form-control input-zorro"
                     style="border: none !important; border-bottom: 1px dashed #CDC9C9 !important; "
                     placeholder="Enter the Amount " nzSize="large" minlength="3" maxlength="50" id="amount" name="amount"
                     [(ngModel)]="partialAmount" #amountInput="ngModel" required />
                 </div>
                 <div>
-                  <p *ngIf="partialAmount > userExpense.amount" class="d-flex justify-content-end"
+                  <p *ngIf="userExpense.partiallyPaidAmount == null && partialAmount > userExpense.amount" class="d-flex justify-content-end"
                     style="color: red !important;"> Flexible amount should be less from expense amount</p>
 
                     <p *ngIf="userExpense.partiallyPaidAmount != null && partialAmount > fullPartialAmount" class="d-flex justify-content-end"
-                      style="color: red !important;"> Flexible amount should be less from partial amount</p>
+                      style="color: red !important;"> Flexible amount should be less from remaining amount</p>
 
                 </div>
-
               </div>
 
               <div class="col-md-12 mb-3">
+                <div class="form-group">
+                    <label for="employeeTypeId" class="mb-2">Select your settled date?</label>
+
+                  <nz-date-picker (ngModelChange)="selectExpenseSettledDay($event)" [(ngModel)]="settledDate"
+                    nzPlaceHolder="dd/mm/yyyy"  id="selLastDate" name="lastDate" #lastDate="ngModel"
+                    required class="form-control">
+                  </nz-date-picker>
+
+                </div>
+            </div>
+
+              <div class="col-md-12 mb-3" *ngIf="showTransactionDiv">
                 <label for="employeeTypeId" class="mb-2"> Transaction Id </label>
                 <div class="form-group">
                   <input class="form-control input-zorro" placeholder="Enter transaction id  " nzSize="large"
-                    minlength="3" maxlength="50" name="tempNamed" required />
+                   id="tranId" name="tranId" [(ngModel)]="transactionId" #transactionIdInput="ngModel" required />
                 </div>
               </div>
             </div>
@@ -1191,10 +1202,12 @@
         <!-- Approw settle with cash  -->
 
         <!-- Approw settle with cash  -->
-        <div *ngIf="payCashDiv" class="d-flex align-items-center justify-content-between w-100">
+        <!-- <div *ngIf="payCashDiv" class="d-flex align-items-center justify-content-between w-100"> -->
+        <div *ngIf="payCashDiv && !showTransactionDiv" class="d-flex align-items-center justify-content-between w-100">
           <p class="font-13 text-primary mb-0">Would you prefer to settle this in cash?</p>
           <div class="d-flex align-items-center gap-2">
-            <button *ngIf="!paymentCashNoToggle" class="btn btn cancel-btn mt-0" (click)="approveOrDeny(userExpense.id, 41, 0)">No</button>
+            <!-- <button *ngIf="!paymentCashNoToggle" class="btn btn cancel-btn mt-0" (click)="approveOrDeny(userExpense.id, 41, 0)">No</button> -->
+            <button *ngIf="!paymentCashNoToggle" class="btn btn cancel-btn mt-0" (click)="onlineTransaction()">No</button>
             <button *ngIf="!paymentCashYesToggle" class="btn submitActionBtn" (click)="approveOrDeny(userExpense.id, 41, 1)">Yes</button>
 
             <div class="dot-opacity-loader" *ngIf="paymentCashYesToggle || paymentCashNoToggle">
@@ -1205,6 +1218,18 @@
 
           </div>
         </div>
+
+        <div *ngIf="payCashDiv && showTransactionDiv" class="d-flex justify-content-end w-100">
+            <button *ngIf="!paymentCashNoToggle" [disabled]="transactionId == ''" class="btn submitActionBtn" (click)="approveOrDeny(userExpense.id, 41, 0)">Submit</button>
+
+            <div class="dot-opacity-loader" *ngIf="paymentCashYesToggle || paymentCashNoToggle">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+        </div>
+
+
         <!--End Approw settle with cash  -->
 
       </div>
