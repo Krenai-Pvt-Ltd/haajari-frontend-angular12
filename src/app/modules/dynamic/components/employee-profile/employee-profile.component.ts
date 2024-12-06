@@ -90,7 +90,6 @@ export class EmployeeProfileComponent implements OnInit {
     private activateRoute: ActivatedRoute,
     public helperService: HelperService,
     private fb: FormBuilder,
-    private http: HttpClient,
     private firebaseStorage: AngularFireStorage,
     private router: Router,
     private roleService: RoleBasedAccessControlService,
