@@ -702,6 +702,9 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   }
 
   getStatusColor(status: any): string {
+    if (status.includes('Leave')) {
+      return 'rgb(255, 255, 143)'; 
+    }
     switch (status) {
       case 'Present':
         return '#e0ffe0';
