@@ -4337,7 +4337,7 @@ getHolidayForOrganization(date: string): Observable<any>{
     .set('sortBy', 'createdDate')
     .set('sortOrder', 'desc')
     .set('role', role)
-    
+
     // if((startDate != null && startDate != '') && (endDate != '' && endDate != '')){
     if (startDate && endDate) {
       params = params.set('startDate', startDate)
@@ -4357,7 +4357,7 @@ getHolidayForOrganization(date: string): Observable<any>{
     .set('currentPage', pageNumber)
     .set('itemPerPage', itemPerPage)
     .set('role', role)
-    
+
     if (startDate && endDate) {
       params = params.set('startDate', startDate)
       params = params.set('endDate', endDate)
@@ -4519,6 +4519,9 @@ getHolidayForOrganization(date: string): Observable<any>{
   }
   getUsersWithUpcomingBirthdays(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/users/birthdays`);
+  }
+  getRecentlyJoinedUsers(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/users/recently-joined-users`);
   }
 }
 
