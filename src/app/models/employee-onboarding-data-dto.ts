@@ -10,4 +10,5 @@ export class EmployeeOnboardingDataDto {
   onboardingStatus!: string;
   teamNames!: string[];
   slackUserId!: string;
+  resignationStatus: any;
 }

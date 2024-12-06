@@ -641,11 +641,17 @@
                         </div>
                       </td>
                       <!-- <td class="text-center">13</td>  -->
+                     
+
+                    <!-- <ng-container *ngIf="user.resignationStatus == null; else resignationStatusBlock"> -->
+                    <div *ngIf="user.resignationStatus == null">  
+                      
                       <td class="text-center" *ngIf="user.onboardingStatus == pendingResponse">
                         <div class="badge rounded-pill badge-soft-warning">
-                          <span class="">{{ user.onboardingStatus }}</span>
+                          <span class="">{{ user.onboardingStatus }}</span> 
                         </div>
                       </td>
+
                       <td class="text-center" *ngIf="user.onboardingStatus == approvedResponse">
                         <div class="badge rounded-pill badge-soft-success">
                           <span class="">{{ user.onboardingStatus }}</span>
@@ -671,6 +677,18 @@
                           <span class="">NEW!</span>
                         </div>
                       </td>
+                    </div>
+
+                    <!-- <ng-template #resignationStatusBlock> -->
+                    <div *ngIf="user.resignationStatus != null">  
+                      <td class="text-center">
+                        <div class="badge rounded-pill badge-soft-danger">
+                          <span>{{ user.resignationStatus.response }}</span>
+                        </div>
+                      </td>
+                    </div>
+
+
                       <td class="stickyColTdend text-end">
 
                         <div class="dropdown">
