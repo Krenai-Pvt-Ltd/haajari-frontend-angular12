@@ -219,16 +219,32 @@ export class EmployeeExpenseComponent implements OnInit {
  checkExpensePolicy(form: NgForm) {
    debugger
 
-   this.dataService.checkExpensePolicy(this.expenseTypeReq.expenseTypeId, this.expenseTypeReq.amount).subscribe((res: any) => {
-     this.limitAmount = res.object;
+  //  this.dataService.checkExpensePolicy(this.expenseTypeReq.expenseTypeId, this.expenseTypeReq.amount).subscribe((res: any) => {
+  //    this.limitAmount = res.object;
 
-     if (this.limitAmount > 0) {
-       this.validatePolicyToggle = true;
-     } else {
-      // console.log('creating.... ')
-       this.createExpense(form);
-     }
-   })
+  //    if (this.limitAmount > 0) {
+  //      this.validatePolicyToggle = true;
+  //    } else {
+  //      this.createExpense(form);
+  //    }
+  //  })
+
+   if(this.expenseTypeReq.status.id == 15 || this.expenseTypeReq.status.id == 41){
+    console.log('nothing.... ')
+   }else{
+    this.dataService.checkExpensePolicy(this.expenseTypeReq.expenseTypeId, this.expenseTypeReq.amount).subscribe((res: any) => {
+      this.limitAmount = res.object;
+ 
+      if (this.limitAmount > 0) {
+        this.validatePolicyToggle = true;
+      } else {
+       // console.log('creating.... ')
+        this.createExpense(form);
+      }
+    })
+   }
+
+
  }
 
  setValidateToggle() {

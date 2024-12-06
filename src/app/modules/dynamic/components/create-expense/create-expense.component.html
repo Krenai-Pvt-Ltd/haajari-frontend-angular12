@@ -934,8 +934,8 @@
             </div>
             <div class="text-end">
 
-              <span *ngIf="userExpense.status.id == 13" class="text-warning font-13 expance-status">
-                Pending</span>
+              <span *ngIf="userExpense.status.id == 13 || userExpense.status.id == 46" class="text-warning font-13 expance-status">
+                {{userExpense.status.id == 13 ? 'Pending' : 'Partially'}}</span>
 
 
               <span *ngIf="userExpense.status.id == 14" class="text-success font-13 expance-status">
@@ -1169,7 +1169,7 @@
         <!--  Approw reject payroll btn  -->
 
         <div *ngIf="!rejectDiv && !payCashDiv" class="d-flex align-items-center gap-2">
-          <button class="btn reject-btn" *ngIf="!partiallyPayment" (click)="showExpenseRejectDiv()">Reject</button>
+          <button class="btn reject-btn" *ngIf="!partiallyPayment && (userExpense.status.id == 13 || userExpense.status.id == 14)" (click)="showExpenseRejectDiv()">Reject</button>
           <button class="btn payroll-btn"
             *ngIf="userExpense && userExpense.status.id == 14 && (!payrollToggle && !partiallyPayment)"
             (click)="approveOrDeny(userExpense.id, 40, 0)">Settled With Payroll</button>
