@@ -4003,6 +4003,11 @@
         
                             <button *ngIf="expenseTypeList.length > 0" class="btn btn-primary" (click)="getExpenseType()" data-bs-toggle="modal"
                                 data-bs-target="#createExpense">Create Expense</button>
+
+                                <div class="dropdown deshboard-date-filter">
+                                  <nz-date-picker nzMode="month" [nzSize]="size" nzFormat="MMM, yyyy" [(ngModel)]="expenseSelectedDate"
+                                    (ngModelChange)="onExpenseMonthChange($event)" ></nz-date-picker>
+                                </div>
         
                             <div class="row mt-3">
                                 <div class="table-responsive bg-white">
@@ -4010,8 +4015,11 @@
                                         <thead class="thead-light">
                                             <tr>
                                                 <th class="text-center" style="width: 10%">
-                                                    Date
+                                                    Created Date
                                                 </th>
+                                                <th class="text-center" style="width: 10%">
+                                                  Date
+                                              </th>
                                                 <th class="text-center" style="width: 10%">
                                                     Employee Name
                                                 </th>
@@ -4069,6 +4077,7 @@
         
                                             <ng-container *ngIf="expenseList.length > 0">
                                                 <tr *ngFor="let expense of expenseList; let i= index">
+                                                    <td class="text-center">{{expense.createdDate | date: 'dd MMM yyyy'}}</td>
                                                     <td class="text-center">{{expense.expenseDate}}</td>
                                                     <td class="text-center">{{expense.employeeName}}</td>
                                                     <td class="text-center">{{expense.amount}}</td>
