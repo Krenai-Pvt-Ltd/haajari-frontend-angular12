@@ -181,7 +181,7 @@
                             class="alert-heading font-14 mb-0"
                             style="font-weight: 400"
                           >
-                            {{ organizationShiftTimingResponse.name }}
+                            {{ organizationShiftTimingResponse.name }} ( {{organizationShiftTimingResponse.shiftType.name}} )
                           </h5>
                         </div>
                       </div>
@@ -1088,6 +1088,7 @@
                         border-color: #ced4da;
                         width: 100%;
                       "
+                       disabled
                     >
                       {{ selectedShiftType?.name || "Day Shift" }}
                       <i class="bi bi-chevron-down"></i>
@@ -1097,17 +1098,17 @@
                       aria-labelledby="dropdownMenuButton1"
                       style="width: 100%"
                     >
-                      <li>
+                      <!-- <li>
                         <a class="dropdown-item"> Day Shift </a>
-                      </li>
-                      <!-- <li *ngFor="let shiftType of shiftTypeList">
+                      </li> -->
+                      <li *ngFor="let shiftType of shiftTypeList">
                         <a
                           class="dropdown-item"
                           (click)="selectShiftType(shiftType)"
                         >
                           {{ shiftType.name }}
                         </a>
-                      </li> -->
+                      </li>
                     </ul>
                   </div>
                 </div>

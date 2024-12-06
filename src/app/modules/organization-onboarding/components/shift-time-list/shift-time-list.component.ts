@@ -240,8 +240,8 @@ export class ShiftTimeListComponent implements OnInit {
       organizationShiftTimingResponse.shiftType.id;
     this.selectedStaffsUuids = organizationShiftTimingResponse.userUuids;
 
-    // this.getShiftTypeMethodCall();
-    // this.selectedShiftType = organizationShiftTimingResponse.shiftType;
+    this.getShiftTypeMethodCall();
+    this.selectedShiftType = organizationShiftTimingResponse.shiftType;
     // this.getUserByFiltersMethodCall();
 
     // setTimeout(() => {
@@ -264,8 +264,8 @@ export class ShiftTimeListComponent implements OnInit {
     this.selectedStaffsUuids = organizationShiftTimingResponse.userUuids;
     this.checkForShiftId = organizationShiftTimingResponse.id;
     // this.totalUsersOnSelectedShift = organizationShiftTimingResponse.userUuids.length;
-    // this.getShiftTypeMethodCall();
-    // this.selectedShiftType = organizationShiftTimingResponse.shiftType;
+    this.getShiftTypeMethodCall();
+    this.selectedShiftType = organizationShiftTimingResponse.shiftType;
     this.getUserByFiltersMethodCall();
     this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "");
   }
@@ -300,7 +300,7 @@ export class ShiftTimeListComponent implements OnInit {
   registerOrganizationShiftTimingMethodCall() {
     debugger;
     this.organizationShiftTimingRequest.userUuids = this.selectedStaffsUuids;
-    this.organizationShiftTimingRequest.shiftTypeId = 1;
+    // this.organizationShiftTimingRequest.shiftTypeId = 1;
     this.organizationShiftTimingRequest.weekdayInfos = [];
 
     this.dataService
