@@ -8,5 +8,5 @@ export class EmployeeProfileResponse {
     teams !: string[];
     isProbation!: boolean;
     status: number = 0;
-    resginationStatus: any
+    resignationStatus: any
 }
