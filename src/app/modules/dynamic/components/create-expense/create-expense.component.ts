@@ -235,7 +235,12 @@ export class CreateExpenseComponent implements OnInit {
     this.rejectDiv = false;
 
     this.userExpense = expense
-    // console.log('dataset: ',this.userExpense)
+    console.log('dataset: ',this.userExpense)
+
+    if(this.userExpense.partiallyPaidAmount != null){
+      this.expensePaymentType = 'partial'
+      this.partiallyPayment = true;
+    }
 
     this.fullPartialAmount = this.userExpense.amount - this.userExpense.partiallyPaidAmount
 
@@ -254,6 +259,17 @@ export class CreateExpenseComponent implements OnInit {
   clearApproveModal() {
     this.isCheckboxChecked = false;
     this.partialAmount = '';
+
+    this.transactionId = ''
+    this.settledDate = ''
+    this.payCashDiv = false;
+    this.rejectDiv = false;
+    this.showTransactionDiv = false;
+    
+    this.expensePaymentType = 'full'
+    this.partialAmount = ''
+    this.partiallyPayment = false;
+
   }
 
   approveReq: ApproveReq = new ApproveReq();
@@ -294,6 +310,9 @@ export class CreateExpenseComponent implements OnInit {
     this.approveReq.id = id;
     this.approveReq.statusId = statusId
     this.approveReq.amount = this.partialAmount
+    this.approveReq.transactionId = this.transactionId
+    this.approveReq.settledDate = this.settledDate
+
     this.dataService.updateCompanyExpense(this.approveReq).subscribe((res: any) => {
       if(res.status){
         this.approveReq = new ApproveReq();
@@ -307,6 +326,9 @@ export class CreateExpenseComponent implements OnInit {
         this.paymentCashNoToggle = false;
         this.paymentCashYesToggle = false;
         this.payCashDiv = false;
+        this.showTransactionDiv = false;
+        this.settledDate = ''
+        this.transactionId = ''
 
         this.fullPartialAmount = 0
         this.expensePaymentType = 'full'
@@ -321,6 +343,20 @@ export class CreateExpenseComponent implements OnInit {
         );
       }
     })
+  }
+
+  showTransactionDiv: boolean = false;
+  transactionId: string = ''
+  onlineTransaction(){
+    this.showTransactionDiv = true;
+  }
+
+  settledDate: any;
+  selectExpenseSettledDay(startDate: Date) {
+    debugger
+    // if (this.userResignationReq.isRecommendLastDay == 0 && startDate) {
+      this.settledDate = this.helperService.formatDateToYYYYMMDD(startDate);
+    // }
   }
 
   approveOrDenyOld(id: number, statusId: number) {

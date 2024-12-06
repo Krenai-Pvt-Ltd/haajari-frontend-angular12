@@ -54,6 +54,8 @@ export class ExistPolicyComponent implements OnInit {
     this.exitPolicyReq = new ExitPolicy();
     this.policyName = ''
     this.noticePeriodDuration = ''
+    this.fnfPeriodDuration = ''
+    this.isLeaveTaken = 0
     this.exitPolicyId = 0
     this.tempExpPolicyId = 0
     this.selectedStaffIdsUser = []
@@ -73,11 +75,29 @@ export class ExistPolicyComponent implements OnInit {
     // this.tempExpPolicyId = 0
     // this.selectedStaffIdsUser = []
 
+    this.selectedStaffIdsUser = []
+
     // this.staffActiveTabInShiftTiming.nativeElement.click();
     this.exitPolicySelectionTab();
 
     form.resetForm()
   }
+
+  clearForm1(form: NgForm){
+    // clearForm(){
+      // debugger
+      this.exitPolicyReq = new ExitPolicy();
+      this.policyName = ''
+      // this.noticePeriodDuration = 0
+      this.exitPolicyId = 0
+      this.tempExpPolicyId = 0
+      this.selectedStaffIdsUser = []
+  
+      // this.staffActiveTabInShiftTiming.nativeElement.click();
+      this.exitPolicySelectionTab();
+  
+      form.resetForm()
+    }
 
   @ViewChild('exitPolicy') exitPolicy!: ElementRef;
   @ViewChild('exitPolicyTab') exitPolicyTab!: ElementRef;
@@ -321,6 +341,8 @@ export class ExistPolicyComponent implements OnInit {
 
   // noticePeriodDuration: number = 0;
   noticePeriodDuration: string = '';
+  fnfPeriodDuration: string = '';
+  isLeaveTaken: number = 0;
   userNameWithBranchName: any[] = new Array();
   @ViewChild("closeButton") closeButton!:ElementRef;
   @ViewChild("closeExitPolicyModal") closeExitPolicyModal!:ElementRef;
@@ -355,6 +377,8 @@ export class ExistPolicyComponent implements OnInit {
 
       this.exitPolicyReq.name = this.policyName
       this.exitPolicyReq.noticePeriod = Number(this.noticePeriodDuration)
+      this.exitPolicyReq.fnfPeriod = Number(this.fnfPeriodDuration)
+      this.exitPolicyReq.isLeaveTaken = this.isLeaveTaken
       this.exitPolicyReq.selectedUserIds = this.selectedStaffIdsUser
 
       }
@@ -387,6 +411,32 @@ export class ExistPolicyComponent implements OnInit {
     debugger
     this.exitPolicySelectionTab();
    
+  }
+
+  exitLeaveType: string = ''
+  onExitLeaveChange(type: number): void {
+    // this.partialAmount = ''
+
+    // this.approveReq.isPartiallyPayment = type;
+    // if (this.approveReq.isPartiallyPayment == 0) {
+    //   this.approveReq.amount = 0; 
+    // }
+
+    // if (this.approveReq.isPartiallyPayment == 1) {
+    //   this.expensePaymentType = 'partial'
+    // }
+
+    // this.partiallyPayment = !this.partiallyPayment
+    if(type == 0){
+      this.exitLeaveType = "no"
+    }else if(type == 1){
+      this.exitLeaveType = "yes"
+    }
+
+
+    this.isLeaveTaken = type
+    this.exitPolicyReq.isLeaveTaken = type
+
   }
 
 
@@ -440,7 +490,15 @@ export class ExistPolicyComponent implements OnInit {
 
       // this.noticePeriodDuration = exitPolicy.noticePeriodDuration;
       this.noticePeriodDuration = exitPolicy.noticePeriodDuration.toString();
+      this.fnfPeriodDuration = exitPolicy.fnfPeriod.toString();
+      this.isLeaveTaken = exitPolicy.isLeaveTaken
       this.selectedStaffIdsUser = []
+
+      if(this.isLeaveTaken == 1){
+          this.exitLeaveType = 'yes'
+      }else{
+        this.exitLeaveType = 'no'
+      }
   
       // this.expensePolicyReq = new ExpensePolicy()
       // this.expensePolicyReqList = []
@@ -523,6 +581,12 @@ export class ExistPolicyComponent implements OnInit {
         this.userMappedLoading = false;
         this.exitPolicyReq.id = 0
         this.tempDeSelectedStaffIdsUser = []
+        
+        //start new
+        this.exitPolicyReq.deSelectedUserIds = []
+        this.selectedStaffIdsUser = []
+        this.removeUserIds = []
+        this.tempSelectedStaffIdsUser = []
 
         this.closeExitPolicyModal.nativeElement.click()
         this.clearPolicyForm();
@@ -543,6 +607,8 @@ export class ExistPolicyComponent implements OnInit {
     this.policyName = ''
     this.tempPolicyName = ''
     this.noticePeriodDuration = '';
+    this.fnfPeriodDuration = '';
+    this.isLeaveTaken = 0;
     // this.companyExpensePolicyId = 0
     this.exitPolicySelectionTab();
   }
