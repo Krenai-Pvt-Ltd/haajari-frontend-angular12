@@ -1643,12 +1643,12 @@ extractPreviousMonthNameFromDate(dateString : string){
   salaryChangeResponseList : SalaryChangeResponse[] = [];
   getSalaryChangeResponseListByOrganizationIdMethodCall(){
     this.preRuleForShimmersAndErrorPlaceholdersForSalaryChangeResponse();
-    this.dataService.getSalaryChangeResponseListByOrganizationId(this.startDate, this.endDate, this.itemPerPage, this.pageNumber, this.search, this.searchBy).subscribe((response) => {
+    this.dataService.getSalaryChangeResponseListByOrganizationId(this.startDate, this.endDate, this.itemPerPage, this.pageNumber).subscribe((response) => {
 
-      if(this._helperService.isListOfObjectNullOrUndefined(response)){
+      if(response.object==null || response.object.length == 0){
         this.dataNotFoundPlaceholderForSalaryChangeResponse = true;
       } else{
-        this.salaryChangeResponseList = response.listOfObject;
+        this.salaryChangeResponseList = response.object;
         this.total = response.totalItems;
         this.lastPageNumber = Math.ceil(this.total / this.itemPerPage);
       }
