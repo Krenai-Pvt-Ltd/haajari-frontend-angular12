@@ -13,6 +13,7 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 import { differenceInMonths, format, parseISO } from 'date-fns';
 import { UserResignation } from 'src/app/models/UserResignation';
 import { LoggedInUser } from 'src/app/models/logged-in-user';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-employee-profile-sidebar',
@@ -44,9 +45,23 @@ export class EmployeeProfileSidebarComponent implements OnInit {
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
     }
 
+
+    this.profileChangeStatusSubscriber =  this.helperService.profileChangeStatus.subscribe((value)=>{
+      if(value){
+        this.toggle = true;
+      }else{
+        this.toggle = false;
+      }
+    });
+  
     // this.userId = "731a011e-ae1e-11ee-9597-784f4361d885";
    }
 
+   profileChangeStatusSubscriber: any;
+
+   
+
+   toggle :boolean = false;
    ROLE : any;
    UUID : any;
    adminRoleFlag : boolean = false;
@@ -77,6 +92,10 @@ export class EmployeeProfileSidebarComponent implements OnInit {
 
     this.getUserResignationInfo()
 
+  }
+
+  ngOnDestroy(){
+    this.profileChangeStatusSubscriber.complete();
   }
 
 

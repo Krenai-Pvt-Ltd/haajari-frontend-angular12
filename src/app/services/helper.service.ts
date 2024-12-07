@@ -23,7 +23,7 @@ export class HelperService {
     ) {
 
    }
-
+   profileChangeStatus : Subject<boolean> = new Subject<boolean>();
    isFirstTime: boolean = true;
    markAsVisited() {
     this.isFirstTime = false;

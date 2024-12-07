@@ -90,7 +90,6 @@ export class EmployeeProfileComponent implements OnInit {
     private activateRoute: ActivatedRoute,
     public helperService: HelperService,
     private fb: FormBuilder,
-    private http: HttpClient,
     private firebaseStorage: AngularFireStorage,
     private router: Router,
     private roleService: RoleBasedAccessControlService,
@@ -702,6 +701,9 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   }
 
   getStatusColor(status: any): string {
+    if (status.includes('Leave')) {
+      return 'rgb(255, 255, 143)'; 
+    }
     switch (status) {
       case 'Present':
         return '#e0ffe0';

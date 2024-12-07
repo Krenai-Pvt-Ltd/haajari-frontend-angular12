@@ -7,4 +7,6 @@ export class ApproveReq{
     rejectionReason: string =''
     isPartiallyPayment: number = 0;
     paymentMethod: string = ''
+    transactionId: string = ''
+    settledDate: any;
 }
