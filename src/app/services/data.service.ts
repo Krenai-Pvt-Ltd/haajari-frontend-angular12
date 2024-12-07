@@ -4523,6 +4523,9 @@ getHolidayForOrganization(date: string): Observable<any>{
   getRecentlyJoinedUsers(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/users/recently-joined-users`);
   }
+  getRecentlyWorkAnniversary(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/users/work-anniversary`);
+  }
 }
 
 

@@ -23,6 +23,8 @@ export class DashboardComponent implements OnInit {
 
     this.getRole();
     this.getUsersWithUpcomingBirthdays();
+    this.getNewUsersJoinies();
+    this.getUsersUpcomingWorkAnniversaries();
   }
 
 
@@ -39,6 +41,29 @@ getUsersWithUpcomingBirthdays(): void {
     }
   );
 }
+anniversaries: any;
+getUsersUpcomingWorkAnniversaries(): void {
+  this.dataService.getRecentlyWorkAnniversary().subscribe(
+    (data) => {
+      this.anniversaries = data;
+    },
+    (error) => {
+      console.error('Error fetching upcoming anniversary:', error);
+    }
+  );
+}
+newJoiners: any;
+getNewUsersJoinies(): void {
+  this.dataService.getRecentlyJoinedUsers().subscribe(
+    (data) => {
+      this.newJoiners = data;
+    },
+    (error) => {
+      console.error('Error fetching upcoming birthdays:', error);
+    }
+  );
+}
+
 isToday(birthday: string): boolean {
   const today = new Date();
   const birthdayDate = new Date(birthday);
