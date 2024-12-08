@@ -645,8 +645,7 @@
 
                     <!-- <ng-container *ngIf="user.resignationStatus == null; else resignationStatusBlock"> -->
 
-                   
-                      <td *ngIf="user.resignationStatus == null">
+                      <!-- <td *ngIf="user.resignationStatus == null">
                         <span class="badge rounded-pill" 
                         [ngClass]="{'badge-soft-success': user.onboardingStatus === 'APPROVED', 'badge-soft-danger': user.onboardingStatus === 'REJECTED', 'badge-soft-warning': user.onboardingStatus === 'PENDING' }">
                         {{ user.onboardingStatus }}</span>
@@ -654,9 +653,9 @@
                       <td *ngIf="user.resignationStatus != null">
                         <span class="badge rounded-pill" [ngClass]="{'badge-soft-info': user.resignationStatus.id == 13, 'badge-soft-warning': user.resignationStatus.id == 42, 'badge-soft-danger': user.resignationStatus.id == 43 }"
                         >{{ user.resignationStatus.response }}</span>
-                      </td>
+                      </td> -->
                       <!-- *ngIf="user.resignationStatus == null" -->
-                  <!-- <div>  
+                  <!-- <div>   -->
                       
                       <td class="text-center" *ngIf="user.onboardingStatus == pendingResponse">
                         <div class="badge rounded-pill badge-soft-warning">
@@ -689,7 +688,7 @@
                           <span class="">NEW!</span>
                         </div>
                       </td>
-                    </div>  -->
+                    <!-- </div>  -->
 
                     <!-- <ng-template #resignationStatusBlock> -->
                     <!-- <div *ngIf="user.resignationStatus != null">  
