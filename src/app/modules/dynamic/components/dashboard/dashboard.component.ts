@@ -155,24 +155,33 @@ export class DashboardComponent implements OnInit {
   //   );
   // }
 
-  getFirstAndLastDateOfMonth(selectedDate: Date) {
-    const currentDate = new Date(); 
-    const isCurrentMonth =
-      selectedDate.getFullYear() === currentDate.getFullYear() &&
-      selectedDate.getMonth() === currentDate.getMonth();
+  // getFirstAndLastDateOfMonth(selectedDate: Date) {
+  //   const currentDate = new Date(); 
+  //   const isCurrentMonth =
+  //     selectedDate.getFullYear() === currentDate.getFullYear() &&
+  //     selectedDate.getMonth() === currentDate.getMonth();
   
+  //   this.startDate = this.formatDateToYYYYMMDD(
+  //     new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1),
+  //   );
+  
+  //   // If the selected date is in the current month, use the current date as the end date
+  //   if (isCurrentMonth) {
+  //     this.endDate = this.formatDateToYYYYMMDD(currentDate);
+  //   } else {
+  //     this.endDate = this.formatDateToYYYYMMDD(
+  //       new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0),
+  //     );
+  //   }
+  // }
+  getFirstAndLastDateOfMonth(selectedDate: Date) {
+
     this.startDate = this.formatDateToYYYYMMDD(
       new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1),
     );
-  
-    // If the selected date is in the current month, use the current date as the end date
-    if (isCurrentMonth) {
-      this.endDate = this.formatDateToYYYYMMDD(currentDate);
-    } else {
-      this.endDate = this.formatDateToYYYYMMDD(
-        new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0),
-      );
-    }
+    this.endDate = this.formatDateToYYYYMMDD(
+      new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0),
+    );
   }
 
   disableMonths = (date: Date): boolean => {
