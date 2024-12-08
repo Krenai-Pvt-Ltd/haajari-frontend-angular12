@@ -70,10 +70,6 @@
   }
 }
 
-.modal-header {
-  background-color: #f8f9fa;
-  border-bottom: 1px solid #dee2e6;
-}
 
 .card {
   border-radius: 0.5rem;
@@ -128,11 +124,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 200px;
-  height: 200px;
-  border: 1px dashed #ccc;
-  margin-bottom: 10px;
-  background-color: #f8f9fa; /* Add background color */
+  flex-direction: column;
+  width: 100%;
+  height: 180px;
+  border: 1px dashed rgba(102, 102, 242, 0.40);
+  border-radius: 2px;
+  background-color: rgba(244, 247, 255, 0.50);
 }
 
 .bannerplacehld img {
@@ -146,36 +143,15 @@
   text-align: center;
 }
 
-.image-upload-label button {
-  margin-top: 10px;
-  background-color: #007bff;
-  border: none;
-  padding: 5px 10px;
-  color: white;
-  cursor: pointer;
-}
 
-.image-upload-label button:hover {
-  background-color: #0056b3;
-}
-
-/* create asset modal  */
-
-/* Modal content */
-.modal-content {
-  padding: 20px;
-}
-
-.modal-header {
-  border-bottom: 1px solid #dee2e6;
+.input-zorro {
+  width: 100%;
+  background-color: #fbfbfb;
+  border: 1px solid #e9e9e9;
 }
 
 .form-label {
   margin-bottom: 0.5rem;
-}
-
-.form-control {
-  margin-bottom: 1rem;
 }
 
 .text-danger {
@@ -355,5 +331,63 @@ nz-select {
 
 .export-btn i{
       position: relative;
-        top: 2px;
+      top: 2px;
+}
+
+.requesting-half-leave {
+  background-color: rgba(236, 236, 236, 0.21) !important;
+  min-height: 46px;
+  border: 1px solid #e9e9e9;
+  border-radius: 2px;
+}
+.requesting-half-leave p{
+  line-height: 30px;
+  font-weight: 400;
+}
+
+.cancel-btn {
+  background-color: #fbfbfb;
+  border: 1px solid #e6e7e9;
+  border-radius: 2px;
+  color: #4a4a4a;
+  font-size: 12px;
+  font-weight: 500;
+  min-width: 100px;
+}
+.submitActionBtn{
+  background-color: var(--primary-background-color);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 2px;
+  min-width: 100px;
+}
+
+.assets-label label{
+    color: rgba(0, 0, 0, 0.85) !important;
+    font-size: 14px !important;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20.854px;
+    letter-spacing: 0.102px;
+}
+.image-upload-label span i{
+    font-size: 18px;
+    position: relative;
+    top: 2px;
+}
+
+.assets-images-close{
+  position: absolute;
+  right: -10px;
+  top: -10px;
+  background-color: red;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+.assets-images-close i{
+  color: #fff !important;
+  font-size: 16px !important;
+  top: 0px !important;
 }

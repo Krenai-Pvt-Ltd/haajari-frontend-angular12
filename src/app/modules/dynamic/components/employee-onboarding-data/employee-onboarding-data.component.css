@@ -242,7 +242,7 @@
   border-color: #f1f1f1;
   font-size: 12px;
   white-space: nowrap;
-  border: 1px solid #f1f1f1;
+  /* border: 1px solid #f1f1f1; */
 }
 .weekly-pro-email,
 .weekly-pro-name {
@@ -311,6 +311,10 @@ tbody tr {
 }
 .errorboxmain {
   padding: 30px;
+}
+
+.table tbody {
+  border: 1px solid #f1f1f1;
 }
 
 .table-design tr td {
@@ -1322,3 +1326,4 @@ span.members-namess {
   line-height: 44px !important;
   transition: all .3s;
 } */
+
