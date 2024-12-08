@@ -3,7 +3,7 @@
 }
 
 .company-logo {
-    background-color: #F2F2FF;
+    background-color: #F5F5F5;
     height: 140px;
 }
 
@@ -448,5 +448,17 @@ span.lat {
     top: 0;
     background-color: #fff;
     z-index: 999;
-    padding-bottom: 15px;
+    /* padding-bottom: 15px; */
+}
+
+.resignation-box{
+    background: linear-gradient(97deg, #2F2F2F -22.99%, #6666F2 169.69%);
+}
+.resignation-box button{
+    text-decoration: underline;
+    font-weight: 500;
+    font-size: 15px;
+}
+.resignation-box img{
+    height: 26px;
 }

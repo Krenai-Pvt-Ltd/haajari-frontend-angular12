@@ -275,6 +275,10 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.getUsersByFiltersFunction();
   }
 
+  onOnboardingPageChange(page: number): void {
+    this.pageNumber = page;
+    this.getUsersByFiltersFunction();
+  }
   getPages(): number[] {
     const totalPages = Math.ceil(this.total / this.itemPerPage);
     return Array.from({ length: totalPages }, (_, index) => index + 1);
@@ -1602,7 +1606,7 @@ console.log(this.data);
     this.userExitTypeId = expense
     console.log('jhgf',this.userExitTypeId)
   }
-  
+
   clearResignationForm(){
     this.recommendDay = ''
     this.userResignationReq.uuid =''
@@ -1624,7 +1628,7 @@ console.log(this.data);
   selectRecommendDay(value: string): void {
 
     this.userResignationReq.lastWorkingDay = ''
-    
+
     this.userResignationReq.isRecommendLastDay = value == 'Other' ? 1 : 0
 
     if(this.userResignationReq.isRecommendLastDay == 0){
@@ -1640,19 +1644,19 @@ console.log(this.data);
     // const maxDate = new Date();
     const maxDate = new Date();
     maxDate.setDate(today.getDate() + this.noticePeriodDuration); // Add 45 days to today's date
-  
+
     // this.lastWorkingDay = maxDate;
     // console.log("Max Date: ", this.lastWorkingDay);
     // Disable dates from today to maxDate (inclusive)
     return current < today || current > maxDate;
   };
-  
+
   calculateLasWorkingDay(){
     const today = new Date();
     // const maxDate = new Date();
     const maxDate = new Date();
     maxDate.setDate(today.getDate() + this.noticePeriodDuration); // Add 45 days to today's date
-  
+
     // this.lastWorkingDay = maxDate;
     // this.userResignationReq.lastWorkingDay = maxDate
     this.userResignationReq.lastWorkingDay = this.helperService.formatDateToYYYYMMDD(maxDate);
@@ -1677,12 +1681,12 @@ console.log(this.data);
   }
 
   userUuid: string = ''
-  
+
   getUserUuid(uuid: string){
     this.userResignationReq = new UserResignation();
     this.userResignationReq.userExitTypeId = 0
     this.userExitTypeId = 0
-   
+
     this.userUuid = uuid;
 
     this.getUserExitType()

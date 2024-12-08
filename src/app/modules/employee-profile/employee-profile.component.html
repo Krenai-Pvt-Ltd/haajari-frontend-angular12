@@ -1,11 +1,14 @@
-<div class="emalpyee-profile">
+<div *ngIf="!isLoading" class="emalpyee-profile">
     <div class="row">
         <div class="col-md-3 pr-0">
             <app-employee-profile-sidebar></app-employee-profile-sidebar>
         </div>
         <div class="col-md-9 pl-0" *ngIf="!isEmployeeExit">
 
-            <div class="employee-profile-menu p-3 ">
+            <div class="employee-profile-menu ">
+               
+
+            <div class="p-3">
                 <ul id="pills-tab" role="tablist" class="nav nav-pills">
                     <li class="nav-item">
                         <a id="pills-profile-tab" data-bs-toggle="pill" href="#home" role="tab" aria-controls="pills-home"
@@ -68,8 +71,8 @@
                             </svg>
                             Expenses</a>
                     </li>
-                    
-                   
+
+
                     <li class="nav-item">
                         <a id="pills-profile-tab" data-bs-toggle="pill" href="#assets" role="tab" aria-controls="pills-profile"
                             aria-selected="false" class="nav-link">
@@ -85,7 +88,7 @@
                             </svg>
                             Assets</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" *ngIf="userId==currentUserUuid">
                         <a id="pills-profile-tab" data-bs-toggle="pill" href="#announcement" role="tab" aria-controls="pills-profile"
                             aria-selected="false" class="nav-link">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -133,20 +136,22 @@
                             Profile</a>
                     </li>
 
-                   
-                   
+
+
                 </ul>
+            </div>
             </div>
             <div id="pills-tabContent" class="tab-content">
 
                 <div class="tab-pane fade active show" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    
+                    <app-dashboard></app-dashboard>
+
                 </div>
                 <div class="tab-pane fade " id="attendance-leave" role="tabpanel" aria-labelledby="attendance-leave-tab">
                     <app-attendance-leave></app-attendance-leave>
                 </div>
                 <div class="tab-pane fade" id="payroll" role="tabpanel" aria-labelledby="payroll-tab">
-                
+
                 </div>
                 <div class="tab-pane fade" id="documents" role="tabpanel" aria-labelledby="documents-tab">
                     <app-employee-document></app-employee-document>
@@ -168,7 +173,7 @@
             </div>
         </div>
         <div class="col-md-9 pl-0" *ngIf="isEmployeeExit">
-                <app-employee-exit></app-employee-exit>
+                <app-employee-exit [exitDate]="resignationDate"></app-employee-exit>
         </div>
     </div>
 </div>

@@ -736,7 +736,7 @@ private formatDataForChart(data: any[]): any[] {
   }
   newStatus: string = 'Pending';
   selectedAsset: any;
-  statuses: string[] = ['Approved', 'Rejected'];
+  statuses: string[] = ['APPROVED', 'REJECTED'];
   openStatusChangeModal(asset: any, statusChangeModal: TemplateRef<any>) {
     this.selectedAsset = asset;
     this.modalService.open(statusChangeModal);
@@ -756,6 +756,28 @@ private formatDataForChart(data: any[]): any[] {
       (error) => {
         console.error('Error updating status:', error);
         // Handle error response, e.g., show an error message
+      }
+    );
+  }
+
+  downloadFlag: boolean=false;
+  downloadExcel(): void {
+    this.downloadFlag=true;
+    this.dataService.downloadAssetRequests().subscribe(
+      (blob) => {
+        const a = document.createElement('a');
+        const objectUrl = URL.createObjectURL(blob);
+        a.href = objectUrl;
+        a.download = 'asset_requests.xlsx';
+        a.click();
+        URL.revokeObjectURL(objectUrl);
+        this.downloadFlag=false;
+        // Show success message
+        this.helperService.showToast('Download Successfully!',Key.TOAST_STATUS_SUCCESS );
+      },
+      (error) => {
+        this.helperService.showToast('Download Failed!',Key.TOAST_STATUS_ERROR );
+        this.downloadFlag=false;
       }
     );
   }

@@ -1,6 +1,6 @@
 <div class="emplyee-profile-sidebar-main-box">
     <!--To Do employ exit class="exited-background"  -->
-    <div class="company-logo p-4">
+     <div class="company-logo p-4" [ngClass]="{'exited-background': employeeProfileResponseData?.resignationStatus === 43}">
         <img src="assets/images/HAjiRi.svg" alt="logo-" style="height: 30px">
     </div>
     <div class="employee-detail p-4 pb-0">
@@ -32,10 +32,19 @@
         <div class="mt-3 d-flex align-items-center gap-3">
             <h5 class="mb-0">{{employeeProfileResponseData?.userName}}</h5>
             <!-- <span class="profile-admin">Admin</span> -->
-            <span class="full-time" *ngIf="employeeProfileResponseData?.status != 42">Full Time</span>
+            <!-- <span class="full-time" *ngIf="employeeProfileResponseData?.resignationStatus == null || (employeeProfileResponseData?.resignationStatus != 42 && employeeProfileResponseData?.resignationStatus != 43)">Full Time</span>
+            <h6 class="mb-0 text-primary font-13" *ngIf="toggle || employeeProfileResponseData?.resignationStatus == 42">On notice period</h6> -->
 
-            <h6 class="mb-0 text-primary font-13" *ngIf="employeeProfileResponseData?.status == 42">On notice period</h6>
-            <!-- <h6 class="mb-0 text-danger font-13">EXITED</h6> -->
+            <ng-container *ngIf="!toggle">
+                <span class="full-time" *ngIf="employeeProfileResponseData?.resignationStatus == null || (employeeProfileResponseData?.resignationStatus != 42 && employeeProfileResponseData?.resignationStatus != 43)">Full Time</span>
+                <h6 class="mb-0 text-primary font-13" *ngIf="employeeProfileResponseData?.resignationStatus == 42">On notice period</h6>
+            </ng-container>
+
+            <ng-container *ngIf="toggle">
+                <h6 class="mb-0 text-primary font-13" >On notice period</h6>
+            </ng-container>
+
+            <h6 class="mb-0 text-danger font-13" *ngIf="employeeProfileResponseData?.resignationStatus == 43">EXITED</h6>
         </div>
 
         <p class="mb-0">{{employeeProfileResponseData?.currentRole}}</p>
@@ -295,7 +304,7 @@
                     Check-out</button> -->
 
 
-        <div class="check-in">
+        <div *ngIf="employeeProfileResponseData?.resignationStatus != 43" class="check-in">
             <div class="d-flex align-items-center gap-2 check-in-info p-2">
             <img src="assets/images/check-in-image.svg">
             <h5 class="mb-0">Time to Check In and <br> Start Your Shift</h5>
@@ -395,23 +404,37 @@
         </div> -->
 
 
-
-        <h5 class="mb-2 mt-4">Skill Set</h5>
+       <div class="mb-2 mt-4 d-flex align-items-center justify-content-between slill-set">
+            <h5 class="mb-0">Skill Set</h5>
+            <button class="btn p-0 text-primary font-13 " data-bs-toggle="modal" data-bs-target="#addSkills"> <i class="bi bi-plus"></i> Add Skills</button>
+        </div>
         <ul class="skill-set">
             <li>User Research</li>
             <li>Wireframing & Prototyping</li>
             <li>Visual Design</li>
             <li>Interaction Design</li>
             <li>Information Architecture</li>
-            <span>+5</span>
+            <span class="pointer" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">+5</span>
+            <div class="collapse " id="collapseExample">
+                <ul class="skill-set">
+                    <li>User Research</li>
+                    <li>Wireframing & Prototyping</li>
+                    <li>Visual Design</li>
+                    <li>Interaction Design</li>
+                    <li>Information Architecture</li>
+                </ul>
+                <button type="button" class="btn p-0 text-primary font-13 view-less" data-bs-toggle="collapse"
+                    data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">View Less <i
+                        class="bi bi-chevron-up"></i></button>
+            </div>
         </ul>
-        <div *ngIf="adminRoleFlag">
+        <div class="d-flex align-content-center gap-3 mt-5" *ngIf="adminRoleFlag">
             <!-- (click)="openFormModal(formContent,'Promotion')" -->
             <!-- (click)="openFormModal(formContent,'Add Journey')" -->
 
-          <button class="btn-primary" data-bs-target="#upgradePosition" data-bs-toggle="modal" (click)="openFormModal('Promotion')">Promotion</button>
-          <button class="btn-primary"  data-bs-target="#upgradePosition" data-bs-toggle="modal" (click)="openFormModal('Journey')">Add Journey</button>
-          <button *ngIf="employeeProfileResponseData?.isProbation" class="btn btn-primary" (click)="openConfirmationModal(confirmationModal)">Complete Probation</button>
+          <button class="btn check-out-btn w-90" *ngIf="employeeProfileResponseData?.resignationStatus == null || (employeeProfileResponseData?.resignationStatus != 42 && employeeProfileResponseData?.resignationStatus != 43)" data-bs-target="#upgradePosition" data-bs-toggle="modal" (click)="openFormModal('Promotion')">Promotion</button>
+          <button class="btn check-out-btn w-90" *ngIf="employeeProfileResponseData?.resignationStatus == null || (employeeProfileResponseData?.resignationStatus != 42 && employeeProfileResponseData?.resignationStatus != 43)"  data-bs-target="#upgradePosition" data-bs-toggle="modal" (click)="openFormModal('Journey')">Add Journey</button>
+          <button class="btn check-out-btn w-90" *ngIf="employeeProfileResponseData?.isProbation" (click)="openConfirmationModal(confirmationModal)">Complete Probation</button>
         </div>
         <h5 class="mb-3 mt-5">Journey With us</h5>
         <div class="">
@@ -571,7 +594,7 @@
                                 </svg>
                                 Account Settings</a>
                         </div>
-                        <div class="manager-list pointer" data-bs-toggle="modal" data-bs-target="#initiateExit">
+                        <div *ngIf="employeeProfileResponseData?.resignationStatus == null" class="manager-list pointer" data-bs-toggle="modal" data-bs-target="#initiateExit">
                             <a class="dropdown-item d-flex align-items-center justify-content-start gap-2 btn-setting">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19"
                                     fill="none">
@@ -816,7 +839,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Initiate Exit</h5>
-                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeResignationButton>
+                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" (click)="clearFormData(resignationForm)" #closeResignationButton>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                         <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                             width="24" height="24">
@@ -839,6 +862,17 @@
                               <p class="mb-0 font-13"> <span class="text-primary"> Note:</span> HR will take the final action on the exit request</p>
                             </div>
                         </div>
+                        <!-- <div class="col-md-12">
+                             <div class="reject-status p-3">
+                                <div class="d-flex align-content-center gap-3">
+                                    <p class="mb-0">Status</p>
+                                    <span class="status"></span>
+                                    <h6 class="mb-0 text-danger">Rejected</h6>
+                                </div>
+                                <p class="mb-0 mt-2 font-13" style="color:#000; font-weight: 300;">Lorem ipsum dolor sit amet c Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et.onsectetur adipiscing elit Ut
+                                et.</p>
+                             </div>
+                        </div> -->
 
 
                         <div class="p-4">
@@ -1016,10 +1050,10 @@
 
                         <div class="col-md-12 mb-3">
                             <div class="form-group ">
-                                <label for="templateName" class="mb-2"> Proof document </label>
+                                <label for="templateName" class="mb-2"> Attachment </label>
 
                                 <div *ngIf="userResignationReq.url == ''" class="d-flex align-items-center justify-content-between  requesting-half-leave p-2">
-                                    <p class="mb-0 font-13 " style="font-weight: 400;">Select proof document</p>
+                                    <p class="mb-0 font-13 " style="font-weight: 400;">Select attachment</p>
 
                                     <!-- <button class="btn p-0 text-primary font-13"><i class="bi bi-plus-lg"></i> Add File</button> -->
                                     <button *ngIf="!isUploading && userResignationReq.url === ''" type="button" (click)="fileInput.click()"
@@ -1152,3 +1186,159 @@
     </div>
 </div>
 <!-- Initiate Exit (UserResignation) Modal End -->
+
+
+<!-- Resignation Approve Modal start -->
+<div class="modal fade" id="resignApproveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalDefaultLabel"
+    aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 570px" role="document">
+        <div class="modal-content">
+            <div class="modal-body p-4">
+                <button type="button" class="leave-request-modat-close-btn" data-bs-dismiss="modal" aria-label="Close"
+                    (click)="clearApproveModal()" #closeApproveModal>
+                    <i class="bi bi-x" style="line-height: 20px"></i>
+                </button>
+                <div *ngIf="userResignationInfo != undefined" class="text-center leave-appervo-modal">
+                    <div class="d-flex align-items-start justify-content-between">
+                        <div class="d-flex align-items-center profile-details" style="gap: 15px">
+                            <div class="profile-user-img">
+                                <img [src]="userResignationInfo.imageUrl || 'assets/images/user.png'"
+                                    style="width: 50px; height: 50px; object-fit: cover" />
+                            </div>
+
+                            <div>
+                                <!-- <h4 style="cursor: pointer" (click)="routeToUserProfileAfterClosePending(userExpense.uuid)"> -->
+                                <h4 style="cursor: pointer">
+                                    {{ userResignationInfo.userName }}
+                                </h4>
+                                <p>{{ userResignationInfo.email }}</p>
+                            </div>
+                        </div>
+                        <div class="total-holidey-live">
+                            <h5 class="text-end">
+                                {{userResignationInfo.lastWorkingDay | date : "dd MMM yyyy" || "N/A"}}
+                            </h5>
+                            <p *ngIf="userResignationInfo.userExitType != null">
+                                {{ userResignationInfo.userExitType.name }}
+                            </p>
+                            <a *ngIf="userResignationInfo.url != null" [href]="userResignationInfo.url" target="_blank"
+                                rel="noopener noreferrer">View <i
+                                    class="fas fa-external-link-square-alt me-1"></i></a>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="d-flex align-items-center">
+                            <div class="Approved rejected-css" *ngIf="userResignationInfo.userExitType != null">
+                                <p class="mb-0" style="color: black"></p>
+                                <span style="
+                                        color: #9196a4 !important;
+                                        text-align: left;
+                                        font-size: 14px;
+                                        font-weight: 400;" class="total-holiday">{{ userResignationInfo.userExitType.name }}</span>
+                            </div>
+                        </div>
+
+                        <p class="mt-4 mb-4">{{ userResignationInfo.reason }}</p>
+                        <p class="mt-4 mb-4" *ngIf="userResignationInfo.comment != null && userResignationInfo.comment != ''">{{ userResignationInfo.comment }}</p>
+
+                        <div class="d-flex align-items-center justify-content-end" style="gap: 10px">
+                            <!-- Approve Button -->
+                            <button class="btn approve-btn" type="button"
+                                [disabled]="approveToggle"
+                                (click)="approveOrDeny(userResignationInfo.id)">
+                                <!-- <div *ngIf="approveToggle ; else approveLabel"> -->
+                                <div *ngIf="approveToggle ; else approveLabel">
+                                    <div class="dot-opacity-loader">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                </div>
+                                <ng-template #approveLabel>Approve</ng-template>
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Resignation Approve Modal end -->
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#addSkills">
+    Add Skills
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="addSkills" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Skills</h5>
+                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="24" height="24">
+                            <rect width="24" height="24" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_5037_2014)">
+                            <path
+                                d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+                                fill="black" />
+                        </g>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="skill-set-modal">
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <div class="form-group position-relative">
+                            <label for="assetName" class="mb-2">Skills</label>
+                                <input type="text" class="form-control input-zorro " placeholder="Search Your Skills (Ex: Testing)" style="padding: 10px 70px 10px 40px;" />
+                                <i class="bi bi-search search-icon"></i>
+
+                                <button class="btn p-0 text-primary add-skill"><i class="bi bi-plus font-18"></i> Add</button>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mt-3">
+                        <div>
+
+                            <!-- <div class="new-empty-file empty-file" style="margin-top: 10%;">
+                                <nz-empty nzNotFoundImage="assets/images/skill-set-empty.svg" [nzNotFoundContent]="contentTpl">
+                                    <ng-template #contentTpl>
+                                        <p class="mb-1 empty-detail font-16">
+                                            No data for now
+                                        </p>
+                                    </ng-template>
+                                </nz-empty>
+                            </div> -->
+                            <ul class="skill-set">
+                                <li>User Research <i class="bi bi-x"></i></li>
+                                <li>Wireframing & Prototyping <i class="bi bi-x"></i></li>
+                                <li>Visual Design <i class="bi bi-x"></i></li>
+                                <li>Interaction Design <i class="bi bi-x"></i></li>
+                                <li>Information Architecture <i class="bi bi-x"></i></li>
+                                <li>User Research <i class="bi bi-x"></i></li>
+                                <li>Wireframing & Prototyping</li>
+                                <li>Visual Design <i class="bi bi-x"></i></li>
+                                <li>Interaction Design <i class="bi bi-x"></i></li>
+                                <li>Information Architecture <i class="bi bi-x"></i></li>
+                            </ul>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer d-flex align-items-center justify-content-between">
+                <p class="mb-0 font-13">All the skills that you have add will be visible at your profile</p>
+                <button class="btn submitActionBtn">Save</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+        

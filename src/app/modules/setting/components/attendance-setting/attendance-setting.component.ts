@@ -1552,7 +1552,7 @@ export class AttendanceSettingComponent implements OnInit {
   registerOrganizationShiftTimingMethodCall() {
     debugger;
     // this.submitWeeklyHolidays();
-    this.organizationShiftTimingRequest.shiftTypeId = 1;
+    // this.organizationShiftTimingRequest.shiftTypeId = 1;
     this.organizationShiftTimingRequest.userUuids = this.selectedStaffsUuids;
     // Prepare data for submission
     this.organizationShiftTimingRequest.weekdayInfos = this.weekDay
@@ -1580,12 +1580,14 @@ export class AttendanceSettingComponent implements OnInit {
           );
           this.isEditStaffLoader = false;
           this.isValidated = false;
+          this.isRegisterLoad = false;
           this.helperService.registerOrganizationRegistratonProcessStepData(Key.SHIFT_TIME_ID, Key.PROCESS_COMPLETED);
         },
         (error) => {
           console.log(error);
           this.isEditStaffLoader = false;
           this.isValidated = false;
+          this.isRegisterLoad = false;
           this.helperService.showToast(
             'Shift Timing not registered successfully',
             Key.TOAST_STATUS_ERROR
@@ -3077,6 +3079,8 @@ removeUser(uuid: string) {
   // this.updateSelectedStaffs();
   this.userNameWithShiftName = [];
   this.getOrganizationUserNameWithShiftNameData(this.checkForShiftId, "SHIFT_USER_EDIT");
+  this.isValidated = false;
+  this.isRegisterLoad = false;
 
 
   

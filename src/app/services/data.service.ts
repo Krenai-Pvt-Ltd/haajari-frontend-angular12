@@ -301,6 +301,9 @@ export class DataService {
       leaveData
     );
   }
+  getUserLeaveById(id: number): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/user-leave?id=${id}`);
+  }
   getLeave(): Observable<any> {
     return this.httpClient.get<Savel[]>(
       `${this.baseUrl}/organization-leave/get/all`
@@ -1402,6 +1405,10 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   profileEditStatus(status: String, userId: string): Observable<any> {
     const params = new HttpParams().set('userId', userId);
     return this.httpClient.put<any>(`${this.baseUrl}/profile-edit-requests/status/${status}`, params);
+  }
+
+  getProfileEditRequestById(id: number): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/profile-edit-requests?id=${id}`);
   }
 
   getUserLeaveLog(userUuid: string): Observable<any> {
@@ -3643,6 +3650,9 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   createAssetRequest(formData: any): Observable<any> {
     return this.httpClient.post<any>(`${this.baseUrl}/asset-requests/create`, formData);
   }
+  getAssetRequestById(id: number): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/asset-requests?id=${id}`);
+  }
   getAssetRequestsByUserUuid(
     uuid: string,
     page: number = 0,
@@ -3827,6 +3837,9 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.post<any>(url, attendanceTimeUpdateRequestDto, {});
   }
 
+  getAttendanceTimeUpdateRequestById(id: number): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}?id=${id}`);
+  }
 
   getAttendanceRequestLog(userUuid : string, pageNumber: number, itemPerPage: number): Observable<any>{
     const params = new HttpParams()
@@ -4300,15 +4313,57 @@ getHolidayForOrganization(date: string): Observable<any>{
     });
   }
 
-  getAllExpense(role: string, pageNumber: number, itemPerPage: number){
-    const params = new HttpParams()
+  exportExpense(){
+    return this.httpClient.get<any>(`${this.baseUrl}/company-expense/export`);
+  }
+
+  // importExpense(){
+  //   return this.httpClient.get<any>(`${this.baseUrl}/company-expense/export`);
+  // }
+  importExpense(file: any, fileName: string) {
+    debugger;
+    const formdata: FormData = new FormData();
+    formdata.append('file', file);
+    formdata.append('fileName', fileName);
+    formdata.append('role', 'ADMIN');
+    return this.httpClient.post(`${this.baseUrl}/company-expense/import`, formdata,
+    );
+  }
+
+  getAllExpense(role: string, pageNumber: number, itemPerPage: number, startDate: any, endDate: any, statusIds: number[]){
+    var params = new HttpParams()
     .set('currentPage', pageNumber)
     .set('itemPerPage', itemPerPage)
     .set('sortBy', 'createdDate')
     .set('sortOrder', 'desc')
     .set('role', role)
 
+    // if((startDate != null && startDate != '') && (endDate != '' && endDate != '')){
+    if (startDate && endDate) {
+      params = params.set('startDate', startDate)
+      params = params.set('endDate', endDate)
+    }
+
+    if(statusIds.length > 0){
+      params = params.set("statusIds", statusIds.join(','));
+    }
+
     return this.httpClient.get<any>(`${this.baseUrl}/company-expense`, {params});
+  }
+
+
+  getAllExpenseCount(role: string, pageNumber: number, itemPerPage: number, startDate: any, endDate: any){
+    var params = new HttpParams()
+    .set('currentPage', pageNumber)
+    .set('itemPerPage', itemPerPage)
+    .set('role', role)
+
+    if (startDate && endDate) {
+      params = params.set('startDate', startDate)
+      params = params.set('endDate', endDate)
+    }
+
+    return this.httpClient.get<any>(`${this.baseUrl}/company-expense/count`, {params});
   }
 
 
@@ -4402,20 +4457,75 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.post<any>(`${this.baseUrl}/user-resignation`, userResignationReq);
   }
 
-  getDocumentsByUserId(uuid: string): Observable<EmployeeAdditionalDocument[]> {
-    return this.httpClient.get<EmployeeAdditionalDocument[]>(`${this.baseUrl}/user?uuid=${uuid}`);
+  getEmployeeProfileAttendanceDetails(userUuid : string, startDate: string, endDate : string) {
+
+    const params = new HttpParams()
+      .set('userUuid', userUuid)
+      .set('startDate', startDate.toString())
+      .set('endDate', endDate.toString());
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/employee-profile/attendance`,
+      { params }
+    );
   }
+
+
+  getUserResignationInfo(uuid: string) {
+    let params = new HttpParams().set('uuid', uuid);
+    return this.httpClient.get<any>(
+      `${this.baseUrl}/user-resignation`, {params}
+    );
+  }
+
+  updateResignation1(id: number) {
+    const params = new HttpParams().set('id', id);
+    return this.httpClient.patch<any>(
+      `${this.baseUrl}/user-resignation`,
+      {}, // Pass an empty object as the body for PATCH if not required
+      { params } // Use this to include query parameters
+    );
+  }
+
+  updateResignation(id: number){
+    const params = new HttpParams().set('id', id);
+  return this.httpClient.patch<any>(`${this.baseUrl}/user-resignation`, {}, {params});
+  }
+
+  updateResignation2(id: number) {
+    return this.httpClient.get<any>(`${this.baseUrl}/user-resignation/update/${id}`); // Empty body if no data is needed
+  }
+
+  getDocumentsByUserId(uuid: string): Observable<EmployeeAdditionalDocument[]> {
+    return this.httpClient
+      .get<EmployeeAdditionalDocument[]>(`${this.baseUrl}/documents/user?uuid=${uuid}`)
+      .pipe(
+        map((documents) => documents || []) // Process the response to ensure it's always an array
+      );
+  }
+
   saveDocumentsForUser(uuid: string, documents: EmployeeAdditionalDocument[]): Observable<any> {
     return this.httpClient.post<any>(`${this.baseUrl}/user/${uuid}`, documents);
   }
   updateDocument(documentId: number, document: EmployeeAdditionalDocument): Observable<EmployeeAdditionalDocument> {
-    return this.httpClient.put<EmployeeAdditionalDocument>(`${this.baseUrl}/${documentId}`, document);
+    return this.httpClient.put<EmployeeAdditionalDocument>(`${this.baseUrl}/documents/${documentId}`, document);
   }
   saveDocumentForUser(uuid: string, document: EmployeeAdditionalDocument): Observable<any> {
-    return this.httpClient.post<any>(`${this.baseUrl}/user/document?uuid=${uuid}`, document);
+    return this.httpClient.post<any>(`${this.baseUrl}/documents/user/document?uuid=${uuid}`, document);
   }
 
-
+  downloadAssetRequests(): Observable<Blob> {
+    const url = `${this.baseUrl}/asset-requests/export`;
+    return this.httpClient.get(url, { responseType: 'blob' });
+  }
+  getUsersWithUpcomingBirthdays(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/users/birthdays`);
+  }
+  getRecentlyJoinedUsers(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/users/recently-joined-users`);
+  }
+  getRecentlyWorkAnniversary(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/users/work-anniversary`);
+  }
 }
 
 

@@ -5,4 +5,5 @@ export interface EmployeeAdditionalDocument {
   value: string;
   url: string;
   fileName: string;
+  documentType?: string;
 }

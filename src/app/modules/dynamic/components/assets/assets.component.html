@@ -2,7 +2,7 @@
   <!-- Page Content-->
 
   <div class="page-content-tab">
-  <div class="mt-3">
+  <div class="mt-2">
     <ul id="pills-tab" role="tablist" class="nav nav-pills">
       <li class="nav-item">
         <a id="pills-home-tab" data-bs-toggle="pill" href="#assigned-assets" role="tab" aria-controls="pills-home"
@@ -202,7 +202,7 @@
                   <div class="card-header">
                     <div class="row align-items-center">
                       <div class="col">
-                        <h4 class="card-title">Assets Allocation By Condition</h4>
+                        <h4 class="card-title">Assets By Category</h4>
                       </div>
                       <!--end col-->
                       <!--end col-->
@@ -212,8 +212,8 @@
                   <!--end card-header-->
                   <!-- [view]="view" -->
                   <div class="card-body">
-                    <div class="text-center" *ngIf="categoryCounts.length > 0">
-                      <ngx-charts-bar-vertical-stacked [scheme]="colorScheme" [results]="categoryCounts"
+                    <div class="text-center chart-container" *ngIf="categoryCounts.length > 0">
+                      <ngx-charts-bar-vertical-stacked [scheme]="colorScheme" [results]="categoryCounts" [xAxisHeight]="2"  yAxisWidth='4'
                         [gradient]="false" [xAxis]="true" [yAxis]="true" [legend]="false" [animations]="true">
                       </ngx-charts-bar-vertical-stacked>
                     </div>
@@ -422,9 +422,22 @@
                     <div class="form-group" style="width: 100%; position: relative;">
                       <input type="text" id="searchText" placeholder="Search..." class="form-control mb-0 ng-pristine ng-valid ng-touched"
                         (input)="searchAssetsRequest($event)" style="padding: 10px 40px;" ng-reflect-model="" ng-reflect-options="[object Object]">
-                        <i class="bi bi-search search-icon ng-star-inserted" style="margin: auto; margin-left: 15px;"></i>
+                        <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px;"></i>
                     </div>
                   </form>
+                </div>
+
+                <div class="w-100 d-flex align-content-center justify-content-end" style="padding-right: 20px;">
+<!-- [disabled]="downloadFlag" -->
+                <button class="btn primaryBtnLink " data-bs-toggle="modal" (click)="downloadExcel()" type="button">
+                  <i class="bi bi-download"></i>
+                  <span *ngIf="!downloadFlag">Export</span>
+                  <div class="dot-opacity-loader" *ngIf="downloadFlag">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </button>
                 </div>
               </div>
             </div>
@@ -445,6 +458,7 @@
                   <th class="text-left font-13" style="width: 10%">Action Taken on</th>
                   <th class="text-left font-13" style="width: 10%">Note</th>
                   <th class="text-left font-13" style="width: 10%">Status</th>
+                  <th class="text-left font-13" style="width: 10%">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -452,42 +466,55 @@
                   <td colspan="9" class="text-center">No data found</td>
                 </tr>
                 <tr *ngFor="let asset of assetRequests">
-                  <td class="text-left">{{ asset.requestedOn | date: 'EEE, MMM d yyyy' }}</td>
-                  <td class="text-left">{{ asset.assetName }}</td>
-                  <td class="text-left">{{ asset.assetType }}</td>
-                  <td class="text-left">{{ asset.assetCategoryName }}</td>
+                  <td class="text-left">{{ (asset.requestedOn | date: 'EEE, MMM d yyyy') || '--' }}</td>
+                  <td class="text-left">{{ asset.assetName || '--' }}</td>
+                  <td class="text-left">{{ asset.assetType || '--' }}</td>
+                  <td class="text-left">{{ asset.assetCategoryName || '--' }}</td>
                   <td class="text-left">
                     <button class="btn btn-link text-primary p-0" [routerLink]="['/employee-profile']"
                       [queryParams]="{ userId: asset.userUuid }">
-                      {{ asset.requestedBy }}
+                      {{ asset.requestedBy || '--'}}
                     </button>
                   </td>
                   <!--  <td class="text-left">{{ asset.approvedBy }}</td> -->
-                  <td class="text-left">{{ asset.actionTakenOn | date: 'MMM d yyyy' }}</td>
-                  <td class="text-left">{{ asset.note }}</td>
+                  <td class="text-left">{{ (asset.actionTakenOn | date: 'MMM d yyyy') || '--' }}</td>
                   <td class="text-left">
-                    <button type="button" class="btn" [ngClass]="{
-                             'badge rounded-pill badge-soft-secondary': asset.status !== ''
-                             }" (click)="openStatusChangeModal(asset, statusChangeModal)">
-                      {{ asset.status }}
-                    </button>
+                    <span class="white-space table-font-weight" style="width: 40px !important;" nz-popover
+                    nzPopoverTitle="Note" [nzPopoverContent]="contentTemplate" [nzPopoverOverlayStyle]	="{'width':'300px'}"
+                     nzPopoverPlacement="top" > {{ asset.note || '--'}} </span>
+                    <ng-template #contentTemplate>
+                      <div>
+                       {{asset.note}}
+                      </div>
+                    </ng-template>
+                  </td>
+                  <td class="text-left">
+                    <span class="badge rounded-pill " [ngClass]="{'badge-soft-warning': asset.status == 'PENDING', 'badge-soft-danger': asset.status == 'REJECTED', 'badge-soft-success': asset.status == 'APPROVED' }" >
+                      {{ asset.status || '--' }}
+                    </span>
+                  </td>
+                  <td (click)="openStatusChangeModal(asset, statusChangeModal)" >
+                    <button class="btn p-0 text-primary View-btn"><i class="bi bi-eye"></i> View </button>
                   </td>
                 </tr>
               </tbody>
             </table>
             <div *ngIf="this.assetRequestsTotalPage>1" class="pagination-controls d-flex align-items-center justify-content-between">
-              <!-- Ngb Pagination Component -->
-
-              <div class="showing-items-message text-right font-13">
-                Showing items
-                {{ (assetRequestsPage - 1) * assetRequestsSize + 1 }} –
-                {{ Math.min(assetRequestsPage * assetRequestsSize, assetRequestsTotalCount) }}
-                of {{ assetRequestsTotalCount }} records
-              </div>
-              <ngb-pagination class="pagination-box" [collectionSize]="assetRequestsTotalCount" [rotate]="true" (pageChange)="pageChangedRequest($event)"
-                [pageSize]="assetRequestsSize" [(page)]="assetRequestsPage" [maxSize]="8" [boundaryLinks]="true">
-              </ngb-pagination>
-            </div>
+           
+          </div><!-- Ngb Pagination Component -->
+          <div class="d-flex align-content-center justify-content-between">
+          
+          <p class="mb-0 showing-items-message text-right font-13">
+            Showing items
+            {{ (assetRequestsPage - 1) * assetRequestsSize + 1 }} –
+            {{ Math.min(assetRequestsPage * assetRequestsSize, assetRequestsTotalCount) }}
+            of {{ assetRequestsTotalCount }} records
+          </p>
+          <ngb-pagination class="pagination-box" [collectionSize]="assetRequestsTotalCount" [rotate]="true"
+            (pageChange)="pageChangedRequest($event)" [pageSize]="assetRequestsSize" [(page)]="assetRequestsPage" [maxSize]="5"
+            [boundaryLinks]="true">
+          </ngb-pagination>
+          </div>
           </div>
         </div>
         <ng-template #noAssets>
@@ -532,71 +559,67 @@
           aria-label="Close"
         ></button>
       </div>
-      <div class="modal-body">
-        <!-- {{categoryId}} -->
-        <form (ngSubmit)="saveOrUpdateCategory()" #categoryForm="ngForm">
-          <div class="mb-3">
-            <label for="categoryName" class="form-label"
-              >Category Name <span class="text-optional">*</span></label
-            >
-            <input
-              type="text"
-              class="form-control"
-              id="categoryName"
-              name="categoryName"
-              placeholder="Type category name here..."
-              [(ngModel)]="newCategory.categoryName"
-              required
-              #categoryName="ngModel"
-            />
-            <div
-              *ngIf="
-                categoryName.invalid &&
-                (categoryName.dirty || categoryName.touched)
-              "
-              class="text-danger"
-            >
-              Category Name is required.
+      <form (ngSubmit)="saveOrUpdateCategory()" #categoryForm="ngForm">
+        <div class="modal-body assets-label">
+          <div class="row">
+            <div class="col-md-12 mb-3">
+              <label for="categoryName" class="form-label pb-2">Category Name <span class="text-optional">*</span></label
+              >
+              <input
+                type="text"
+                class="form-control input-zorro"
+                id="categoryName"
+                name="categoryName"
+                placeholder="Type category name here..."
+                [(ngModel)]="newCategory.categoryName"
+                required
+                #categoryName="ngModel"
+              />
+              <div
+                *ngIf="
+                  categoryName.invalid &&
+                  (categoryName.dirty || categoryName.touched)
+                "
+                class="text-danger"
+              >
+                Category Name is required.
+              </div>
+            </div>
+            <div class="col-md-12 mb-3">
+              <label for="categoryImage" class="form-label pb-2" >Category Image <span class="text-optional">(optional)</span></label
+              >
+              <label for="fileInput" class="image-upload-label">
+                <div class="bannerplacehld ">
+                  <div *ngIf="imagePreviewUrl; else placeholder" class="position-relative">
+                  <img
+                    [src]="imagePreviewUrl"
+                    style="width:200px;"
+                    alt="Image Preview" 
+                  />
+                  <span class="assets-images-close pointer d-flex align-content-center justify-content-center"><i class="bi bi-x"></i></span>
+                </div>
+                  <ng-template #placeholder >
+                    <img src="assets/images/media-upload.jpg" style="width:70px;" alt="Placeholder" />
+                    <span class="p-0 btn text-primary mt-3"><i class="bi bi-plus"></i> Add category image</span>
+                  </ng-template>
+                </div>
+                <p *ngIf="imagePreviewUrl == ''">Upload category image</p>
+              </label>
+              <input
+                type="file"
+                class="form-control-file"
+                id="fileInput"
+                (change)="onFileSelected($event)"
+                accept="image/jpeg, image/png, image/jpg"
+                hidden
+              />
             </div>
           </div>
-          <div class="mb-3">
-            <label for="categoryImage" class="form-label"
-              >Category Image
-              <span class="text-optional">(optional)</span></label
-            >
-            <label for="fileInput" class="image-upload-label">
-              <div class="bannerplacehld">
-                <img
-                  *ngIf="imagePreviewUrl; else placeholder"
-                  [src]="imagePreviewUrl"
-                  alt="Image Preview"
-                />
-                <ng-template #placeholder>
-                  <img src="assets/images/update-min.svg" alt="Placeholder" />
-                </ng-template>
-              </div>
-              <p *ngIf="imagePreviewUrl == ''">Upload category image</p>
-            </label>
-            <input
-              type="file"
-              class="form-control-file"
-              id="fileInput"
-              (change)="onFileSelected($event)"
-              accept="image/jpeg, image/png, image/jpg"
-              hidden
-            />
-          </div>
-          <div class="d-flex justify-content-end">
-            <button
-              type="submit"
-              class="btn btn-primary"
-              [disabled]="categoryForm.invalid"
-            >
-              Add Category
-            </button>
-          </div>
-        </form>
-      </div>
+        </div>
+        <div class="modal-footer ">
+          <button type="submit" class="btn submitActionBtn"[disabled]="categoryForm.invalid"> Add Category</button>
+        </div>
+    </form>
     </div>
   </div>
 </div>
@@ -609,7 +632,7 @@
   data-bs-backdrop="static"
   data-bs-keyboard="false"
 >
-  <div class="modal-dialog modal-dialog-centered">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="createAssetModalLabel">Create Asset</h5>
@@ -622,15 +645,17 @@
         ></button>
       </div>
       <!-- {{assetIdToUpdate}} -->
+      <form [formGroup]="assetForm" (ngSubmit)="updateOrSaveAsset()">
       <div class="modal-body">
-        <form [formGroup]="assetForm" (ngSubmit)="updateOrSaveAsset()">
-          <div class="mb-3">
+      
+        <div class="row assets-label">
+          <div class="col-md-6 mb-3">
             <label for="assetName" class="form-label"
               >Asset Name <span class="text-danger">*</span></label
             >
             <input
               type="text"
-              class="form-control"
+              class="form-control input-zorro"
               id="assetName"
               formControlName="assetName"
               placeholder="Type asset name here..."
@@ -646,13 +671,13 @@
               Asset Name is required.
             </div>
           </div>
-          <div class="mb-3">
+          <div class="col-md-6 mb-3">
             <label for="serialNumber" class="form-label"
               >Serial Number <span class="text-danger">*</span></label
             >
             <input
               type="text"
-              class="form-control"
+              class="form-control input-zorro"
               id="serialNumber"
               formControlName="serialNumber"
               placeholder="Type serial number here..."
@@ -668,8 +693,7 @@
               Serial Number is required.
             </div>
           </div>
-          <!-- {{assetForm.get('purchasedDate')}} -->
-          <div class="mb-3">
+          <div class="col-md-6 mb-3">
             <label for="purchasedDate" class="form-label"
               >Purchased Date <span class="text-danger">*</span></label
             >
@@ -689,8 +713,7 @@
               Purchased Date is required.
             </div>
           </div>
-
-          <div class="mb-3">
+          <div class="col-md-6 mb-3">
             <label for="expiryDate" class="form-label"
               >Expiry Date <span class="text-optional">(optional)</span></label
             >
@@ -699,13 +722,13 @@
               formControlName="expiryDate"
             ></nz-date-picker>
           </div>
-          <div class="mb-3">
+          <div class="col-md-6 mb-3">
             <label for="price" class="form-label"
               >Price <span class="text-danger">*</span></label
             >
             <input
               type="text"
-              class="form-control"
+              class="form-control input-zorro"
               id="price"
               formControlName="price"
               placeholder="Type price here..."
@@ -721,13 +744,13 @@
               Price is required.
             </div>
           </div>
-          <div class="mb-3">
+          <div class="col-md-6 mb-3">
             <label for="location" class="form-label"
               >Location <span class="text-danger">*</span></label
             >
             <input
               type="text"
-              class="form-control"
+              class="form-control input-zorro"
               id="location"
               formControlName="location"
               placeholder="Type location here..."
@@ -743,19 +766,19 @@
               Location is required.
             </div>
           </div>
-          <div class="mb-3">
+          <div class="col-md-6 mb-3">
             <label for="vendorName" class="form-label"
               >Vendor Name <span class="text-optional">(optional)</span></label
             >
             <input
               type="text"
-              class="form-control"
+              class="form-control input-zorro"
               id="vendorName"
               formControlName="vendorName"
               placeholder="Type vendor name here..."
             />
           </div>
-          <div class="mb-3">
+          <div class="col-md-6 mb-3">
             <label for="userId" class="form-label"
               >Select User <span class="text-optional">(optional)</span></label
             >
@@ -764,6 +787,7 @@
               nzAllowClear
               nzPlaceHolder="Select a user"
               formControlName="userId"
+              class="w-100 form-control"
             >
               <nz-option
                 *ngFor="let user of allAssetUserListData"
@@ -772,7 +796,7 @@
               ></nz-option>
             </nz-select>
           </div>
-          <div class="mb-3">
+          <div class="col-md-6 mb-3">
             <label for="assignedDate" class="form-label"
               >Assigned Date
               <span class="text-optional">(optional)</span></label
@@ -783,11 +807,12 @@
               [nzDisabledDate]="disabledDate"
             ></nz-date-picker>
           </div>
-          <div class="mb-3">
+          <div class="col-md-6 mb-3">
             <label for="categoryId" class="form-label"
               >Select Category <span class="text-danger">*</span></label
             >
             <nz-select
+              class="w-100 form-control"
               nzShowSearch
               nzAllowClear
               nzPlaceHolder="Select a category"
@@ -810,17 +835,20 @@
               Category is required.
             </div>
           </div>
-          <div class="d-flex justify-content-end">
-            <button
-              type="submit"
-              class="btn btn-primary"
-              [disabled]="assetForm.invalid"
-            >
-              Add Asset
-            </button>
-          </div>
-        </form>
+        </div>
+          
+     
       </div>
+      <div class="modal-footer">
+        <button
+          type="submit"
+          class="btn submitActionBtn"
+          [disabled]="assetForm.invalid"
+        >
+          Add Asset
+        </button>
+      </div>
+    </form>
     </div>
   </div>
 </div>
@@ -879,23 +907,7 @@
           </div>
         </form>
       </div>
-      <!-- <div
-        class="errorboxmain text-center"
-        *ngIf="totalAssetsStatusWiseData.length == 0"
-      >
-        <div class="errorboxinner">
-          <div class="errorboxplaceholder mb-2">
-            <img src="assets/images/empty-box.svg" style="width: 80px" />
-          </div>
-          <div class="">
-            <h4>No Data Found</h4>
-            <p class="mb-0">
-              We're unable to locate a record associated with the information
-              you entered.
-            </p>
-          </div>
-        </div>
-      </div> -->
+      
 
       <div
         class="empty-file"
@@ -1140,85 +1152,87 @@
   </div>
 </div>
 
+
+
 <ng-template #statusChangeModal let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title text-primary">Change Asset Status</h4>
-    <button
-      type="button"
-      class="btn-close"
-      aria-label="Close"
-      (click)="modal.dismiss('Cross click')"
-    ></button>
-  </div>
 
-  <div class="modal-body">
-    <!-- Asset Details Section -->
-    <div class="card shadow-sm border-0 mb-3">
-      <div class="card-body">
-        <h5 class="card-title text-dark">Asset Details</h5>
-        <div class="row">
-          <div class="col-md-6">
-            <p><strong>Requested Date:</strong> {{ selectedAsset.requestedOn }}</p>
-          </div>
-          <div class="col-md-6">
-            <p><strong>Asset Name:</strong> {{ selectedAsset.assetName }}</p>
-          </div>
-          <div class="col-md-6">
-            <p><strong>Requested Type:</strong> {{ selectedAsset.assetType }}</p>
-          </div>
-          <div class="col-md-6">
-            <p><strong>Category:</strong> {{ selectedAsset.assetCategoryName }}</p>
-          </div>
-          <div class="col-md-12">
-            <p><strong>Note:</strong> {{ selectedAsset.note }}</p>
-          </div>
-          <div class="col-md-12">
-            <p><strong>Current Status:</strong>
-              <span class="badge bg-info text-dark">{{ selectedAsset.status }}</span>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
+  <!-- <button type="button" class="btn btn-primary d-none" data-toggle="modal" data-target="#assetRequest"> Change Asset Details</button>
 
-    <!-- Change Status Section -->
-    <div class="card shadow-sm border-0">
-      <div class="card-body">
-        <h5 class="card-title text-dark">Change Status</h5>
-        <p class="text-muted mb-2">Select a new status for the asset:</p>
-        <nz-select
-          [(ngModel)]="newStatus"
-          nzPlaceHolder="Select Status"
-          class="w-100"
-          nzSize="large"
-        >
-          <nz-option
-            *ngFor="let status of statuses"
-            [nzValue]="status"
-            [nzLabel]="status"
-          ></nz-option>
-        </nz-select>
-      </div>
-    </div>
-  </div>
+  <div class="modal fade" id="assetRequest" tabindex="-1" role="dialog" aria-hidden="true" #assetRequestModal aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content"> -->
+          <div class="modal-header">
+            <h4 class="modal-title">Asset Details</h4>
+            <button
+            (click)="modal.dismiss('cancel')"
+              type="button"
+              class="btn-close"
+              aria-label="Close"
+            ></button>
+          </div>
 
-  <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-secondary"
-      (click)="modal.dismiss('cancel')"
-    >
-      Cancel
-    </button>
-    <button
-      type="button"
-      class="btn btn-primary"
-      (click)="changeStatus(selectedAsset); modal.close()"
-    >
-      Save
-    </button>
-  </div>
-</ng-template>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12 mb-3">
+                <label class="mb-2">Requested Date </label>
+                <div class="requesting-half-leave p-2">
+                  <p class="mb-0 font-13">{{ selectedAsset.requestedOn }}</p>
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="mb-2">Category </label>
+                <div class="requesting-half-leave p-2">
+                  <p class="mb-0 font-13">{{ selectedAsset.assetCategoryName }}</p>
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="mb-2">Asset Name </label>
+                <div class="requesting-half-leave p-2 ">
+                  <p class="mb-0 font-13" style="font-weight: 400;">{{ selectedAsset.assetName }}</p>
+                </div>
+              </div>
+              <div class="col-md-12 mb-3">
+                <label class="mb-2">Requested Type </label>
+                <div class="requesting-half-leave p-2">
+                  <p class="mb-0 font-13" style="font-weight: 400;">{{ selectedAsset.assetType }}</p>
+                </div>
+              </div>
+              
+              <div class="col-md-12 mb-3">
+                <label class="mb-2">Note </label>
+                <div class="requesting-half-leave p-2">
+                  <p class="mb-0 font-13" style="font-weight: 400;">{{ selectedAsset.note }}</p>
+                </div>
+              </div>
+              <div class="col-md-12 mb-3">
+                <label class="mb-2">Current Status </label>
+                <div class="pt-2 pb-2">
+                    <span class="badge rounded-pill" [ngClass]="{'badge-soft-warning': selectedAsset.status == 'PENDING', 'badge-soft-danger': selectedAsset.status == 'REJECTED', 'badge-soft-success': selectedAsset.status == 'APPROVED'}">{{ selectedAsset.status }}</span>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <label class="mb-2">Change Status</label>
+                <div>
+                  <nz-select
+                  [(ngModel)]="newStatus"
+                  nzPlaceHolder="Select Status"
+                  class="w-100 form-control"
+                  nzSize="large"
+                >
+                  <nz-option
+                    *ngFor="let status of statuses"
+                    [nzValue]="status"
+                    [nzLabel]="status"
+                  ></nz-option>
+                </nz-select>
+                </div>
+              </div>
+            </div>
+          </div>
 
-
+          <div class="modal-footer d-flex align-content-center justify-content-end gap-2">
+            <button type="button" class="btn cancel-btn mt-0" (click)="modal.dismiss('cancel')">Cancel</button>
+            <button type="button" class="btn submitActionBtn" (click)="changeStatus(selectedAsset); modal.close()">  Save </button>
+          </div>
 

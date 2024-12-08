@@ -411,7 +411,7 @@
 
       <div class="row mt-3" *ngIf="!isMainPlaceholder">
         <div class="col-md-12">
-          <div class="obboard-employee-list">
+          <div>
             <div class="onboard-add row align-items-center mx-0">
               <!-- <div *ngIf="users.length!=0"> -->
               <!-- || (searchUserPlaceholderFlag) -->
@@ -442,6 +442,9 @@
                           </li>
                           <li>
                             <a class="dropdown-item" (click)="selectStatus('REQUESTED')">Requested</a>
+                          </li>
+                          <li>
+                            <a class="dropdown-item" (click)="selectStatus('EDITPROFILE')">Profile Edit Requests</a>
                           </li>
                           <li>
                             <a class="dropdown-item" (click)="selectStatus('REJECTED')">Rejected</a>
@@ -527,7 +530,7 @@
                         Phone Number
                       </th>
                       <th style="width: 10%">Accessibility</th>
-                      <th style="width: 10%" class="text-center">Status</th>
+                      <th style="width: 10%" class="text-left">Status</th>
                       <th style="width: 4%" class="text-center stickyColThend">
                         Action
                       </th>
@@ -638,11 +641,28 @@
                         </div>
                       </td>
                       <!-- <td class="text-center">13</td>  -->
+                     
+
+                    <!-- <ng-container *ngIf="user.resignationStatus == null; else resignationStatusBlock"> -->
+
+                      <!-- <td *ngIf="user.resignationStatus == null">
+                        <span class="badge rounded-pill" 
+                        [ngClass]="{'badge-soft-success': user.onboardingStatus === 'APPROVED', 'badge-soft-danger': user.onboardingStatus === 'REJECTED', 'badge-soft-warning': user.onboardingStatus === 'PENDING' }">
+                        {{ user.onboardingStatus }}</span>
+                      </td>
+                      <td *ngIf="user.resignationStatus != null">
+                        <span class="badge rounded-pill" [ngClass]="{'badge-soft-info': user.resignationStatus.id == 13, 'badge-soft-warning': user.resignationStatus.id == 42, 'badge-soft-danger': user.resignationStatus.id == 43 }"
+                        >{{ user.resignationStatus.response }}</span>
+                      </td> -->
+                      <!-- *ngIf="user.resignationStatus == null" -->
+                  <!-- <div>   -->
+                      
                       <td class="text-center" *ngIf="user.onboardingStatus == pendingResponse">
                         <div class="badge rounded-pill badge-soft-warning">
-                          <span class="">{{ user.onboardingStatus }}</span>
+                          <span class="">{{ user.onboardingStatus }}</span> 
                         </div>
                       </td>
+
                       <td class="text-center" *ngIf="user.onboardingStatus == approvedResponse">
                         <div class="badge rounded-pill badge-soft-success">
                           <span class="">{{ user.onboardingStatus }}</span>
@@ -668,6 +688,18 @@
                           <span class="">NEW!</span>
                         </div>
                       </td>
+                    <!-- </div>  -->
+
+                    <!-- <ng-template #resignationStatusBlock> -->
+                    <!-- <div *ngIf="user.resignationStatus != null">  
+                      <td class="text-center">
+                        <div class="badge rounded-pill badge-soft-danger">
+                          <span>{{ user.resignationStatus.response }}</span>
+                        </div>
+                      </td>
+                    </div> -->
+
+
                       <td class="stickyColTdend text-end">
 
                         <div class="dropdown">
@@ -747,33 +779,23 @@
               </div>
               <div class="pagination pl-3" *ngIf="!isUserShimer && users.length > 0 && total > 12">
                 <p class="mb-0" style="padding-left: 15px">
-                  Showing {{ getStartIndex() }} - {{ getEndIndex() }} of
-                  {{ total }} users
+                  Showing {{ getStartIndex() }} - {{ getEndIndex() }} of {{ total }} users
                 </p>
                 <div class="row">
                   <div class="col-md-12">
-                    <nav aria-label="Page navigation example">
-                      <ul class="pagination justify-content-end">
-                        <li class="page-item" [class.disabled]="pageNumber == 1">
-                          <a class="page-link" href="javascript:void(0);" aria-label="Previous"
-                            (click)="changePage('prev')">
-                            <span aria-hidden="true">&laquo;</span>
-                          </a>
-                        </li>
-                        <li class="page-item" *ngFor="let page of getPages()" [class.active]="pageNumber == page">
-                          <a class="page-link" href="javascript:void(0);" (click)="changePage(page)">{{ page }}</a>
-                        </li>
-                        <li class="page-item" [class.disabled]="pageNumber == totalPages">
-                          <a class="page-link" href="javascript:void(0);" aria-label="Next"
-                            (click)="changePage('next')">
-                            <span aria-hidden="true">&raquo;</span>
-                          </a>
-                        </li>
-                      </ul>
-                    </nav>
+                    <ngb-pagination
+                      [collectionSize]="total"
+                      [(page)]="pageNumber"
+                      [pageSize]="itemPerPage"
+                      [maxSize]="5"
+                      [boundaryLinks]="true"
+                      [ellipses]="true"
+                      (pageChange)="onOnboardingPageChange($event)">
+                    </ngb-pagination>
                   </div>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
@@ -1442,7 +1464,7 @@
                   <div *ngIf="isProgressToggle" class="spinner-border text-primary excel-spinner" role="status"></div>
                   Excel Upload
                 </button>
-             
+
               </div>
               <div class="create-password-warning waring-box p-3 mt-3 mb-3 text-start" role="alert"
                 *ngIf="
@@ -1457,8 +1479,8 @@
                       <li *ngIf="alreadyUsedEmailArray.length > 0">Phone Numbers: {{ formatAsCommaSeparated(alreadyUsedPhoneNumberArray) }}</li>
                       <li *ngIf="!isErrorToggle">These credentials are already registered with us!</li>
                     </ul>
-                  
-                
+
+
               </div>
               <table class="table">
                 <!-- <thead class="thead-light table-design"> -->
@@ -1622,7 +1644,7 @@
 
             <div class="p-4">
 
-            
+
 
               <div class="col-md-12 mb-3">
                 <label for="templateName" class="pb-2">
@@ -1730,8 +1752,9 @@
           </div>
 
           <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
-            <button class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close"
-              (click)="closeResignationModal(resignationForm)" #closeResignationButton>Cancel</button>
+            <!-- <button class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close" (click)="closeResignationModal(resignationForm)" #closeResignationButton>Cancel</button> -->
+            <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close"
+            (click)="closeResignationModal(resignationForm)" #closeResignationButton>Cancel</button>
 
             <button *ngIf="!resignationToggle" type="submit" [disabled]="resignationForm.invalid || userExitTypeId == 0 || resignationToggle"
               class="btn submitActionBtn">Submit</button>

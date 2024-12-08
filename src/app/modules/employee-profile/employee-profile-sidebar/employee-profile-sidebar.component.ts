@@ -13,6 +13,7 @@ import { RoleBasedAccessControlService } from 'src/app/services/role-based-acces
 import { differenceInMonths, format, parseISO } from 'date-fns';
 import { UserResignation } from 'src/app/models/UserResignation';
 import { LoggedInUser } from 'src/app/models/logged-in-user';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-employee-profile-sidebar',
@@ -44,9 +45,23 @@ export class EmployeeProfileSidebarComponent implements OnInit {
       this.userId = this.activateRoute.snapshot.queryParamMap.get('userId');
     }
 
+
+    this.profileChangeStatusSubscriber =  this.helperService.profileChangeStatus.subscribe((value)=>{
+      if(value){
+        this.toggle = true;
+      }else{
+        this.toggle = false;
+      }
+    });
+  
     // this.userId = "731a011e-ae1e-11ee-9597-784f4361d885";
    }
 
+   profileChangeStatusSubscriber: any;
+
+   
+
+   toggle :boolean = false;
    ROLE : any;
    UUID : any;
    adminRoleFlag : boolean = false;
@@ -63,6 +78,8 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     this.ROLE = await this.roleService.getRole();
     this.UUID = await this.roleService.getUuid();
 
+    console.log('ROLE for emp-sidebar: ',this.ROLE)
+
     if (this.ROLE == this.ADMIN) {
       this.adminRoleFlag = true;
     }
@@ -73,6 +90,12 @@ export class EmployeeProfileSidebarComponent implements OnInit {
 
     this.getNoticePeriodDuration()
 
+    this.getUserResignationInfo()
+
+  }
+
+  ngOnDestroy(){
+    this.profileChangeStatusSubscriber.complete();
   }
 
 
@@ -290,8 +313,13 @@ export class EmployeeProfileSidebarComponent implements OnInit {
           form.resetForm();
         }
     })
-
   }
+
+  clearFormData(form: NgForm){
+    this.clearForm();
+    form.resetForm();
+  }
+
   
   clearForm(){
     this.recommendDay = ''
@@ -367,6 +395,44 @@ export class EmployeeProfileSidebarComponent implements OnInit {
       }
     })
   }
+
+  userResignationInfo: any;
+  getUserResignationInfo(){
+    this.dataService.getUserResignationInfo(this.userId).subscribe((res: any) => {
+      if(res.status){
+        this.userResignationInfo = res.object[0]
+        console.log('userResignationInfo: ',this.userResignationInfo)
+      }
+    })
+  }
+
+  @ViewChild('closeApproveModal') closeApproveModal!: ElementRef
+  approveToggle: boolean = false
+  // approveOrDeny(id: number, statusId: number) {
+  approveOrDeny(id: number) {
+
+    debugger
+    this.approveToggle = true;
+    this.dataService.updateResignation(id).subscribe((res: any) => {
+      if(res.status){
+        this.closeApproveModal.nativeElement.click()
+        this.approveToggle = false
+
+        this.helperService.showToast(
+          res.message,
+          Key.TOAST_STATUS_SUCCESS
+        );
+      }else{
+        this.approveToggle = false;
+      }
+    })
+
+  }
+
+  clearApproveModal(){
+
+  }
+
 
   // User Resignation end
 
@@ -472,6 +538,8 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   deleteImage() {
     this.userResignationReq.url = ''
   }
+
+  
 
   /** Image Upload on Firebase End */
 

@@ -27,17 +27,17 @@
     border: 1px solid #DCDCE4;
 }
 .calendar-back-btn {
-    width: 40px;
+    width: 43px;
     height: 30px;
 }
 .calendar-separator {
-    border-left: 1px solid #DCDCE4;
-    height: 27px;
+    border-left: 1px solid #f2f2f2;
+    height: 30px;
 }
 
 .request-dropdown {
     width: 130px !important;
-    height: 36px !important;
+    height: 38px !important;
     border-radius: 2px;
     border: 1px solid #DCDCE4 !important;
 }
@@ -67,6 +67,14 @@
     height: 10px;
     border-radius: 50%;
     background-color: #ef4d56;
+    display: inline-flex;
+    margin-right: 5px;
+}
+.paid {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--primary-background-color);
     display: inline-flex;
     margin-right: 5px;
 }
@@ -191,11 +199,6 @@
     padding: 6px 15px;
  }
 
- .calendar-separator {
-     border-left: 1px solid #DCDCE4;
-     padding-right: 5px;
- }
-
  .bill-image{
     background-color: rgba(244, 247, 255, 0.50);
     height: 100%;
@@ -267,3 +270,173 @@
  .new-announcement svg{
     width: 16px;
  }
+
+ .onboard-add {
+     border: 1px solid #f1f1f1;
+ }
+ .empFilerDropfilter .new-deopdown {
+     display: block;
+     width: 130px;
+     padding: 0.4rem 0.5rem;
+     font-size: 13px !important;
+     text-align: left;
+     background-color: #fff;
+     border: none;
+     border-radius: 0px;
+     position: relative;
+     border-right: 1px solid #f2f2f2 !important;
+     color: #777 !important;
+     font-weight: 400;
+     letter-spacing: 0.1px;
+     box-shadow: unset;
+ }
+
+ .onboarding-date input[type="text"] {
+     width: 450px;
+     border-radius: 0px 10px 10px 0px;
+     border: 0px solid #f2f2f2;
+     height: 45px !important;
+     border-left: 0;
+     font-weight: 400 !important;
+     font-size: 14px !important;
+     color: #1f1f1f !important;
+ }
+
+ .search-icon {
+     font-size: 13px !important;
+     position: absolute !important;
+     top: 0;
+     height: 100%;
+     display: flex;
+     align-items: center;
+     color: var(--tb-secondary-color) !important;
+     margin: auto;
+     margin-left: 15px;
+ }
+
+ .assets-request-btn {
+     min-width: 120px;
+ }
+
+ .assets-request-btn svg {
+     width: 16px;
+     position: relative;
+     top: -1px;
+ }
+
+ :ng-deep.ant-picker {
+     border: none !important;
+     width: 100% !important;
+     height: 45px !important;
+     border-radius: 2px !important;
+     background-color: transparent !important;
+ }
+
+ .expance-date-filter{
+    border-right: 1px solid #f2f2f2 !important;
+ }
+
+ .expance-date-filter .ant-picker {
+     border: none !important;
+     background-color: transparent;
+     height: 45px !important;
+ }
+ .filter-icon{
+    position: absolute;
+    left: 10px;
+    font-size: 18px;
+    color: #000;
+    top: 12px;
+ }
+ .filter-icon::before{
+    font-weight: 600 !important;
+ }
+
+ .badge {
+     line-height: 12px;
+     padding: 0.55em 10px;
+     font-size: 13px;
+     font-weight: 400;
+     letter-spacing: 0.1px;
+     min-width: 80px;
+ }
+
+
+
+  /** Dot opacity start */
+
+  .dot-opacity-loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .dot-opacity-loader span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: white;
+    margin: 0 4px;
+    animation: dotOpacity 1.4s infinite ease-in-out both;
+  }
+  
+  .dot-opacity-loader span:nth-child(1) {
+    animation-delay: -0.32s;
+  }
+  
+  .dot-opacity-loader span:nth-child(2) {
+    animation-delay: -0.16s;
+  }
+  
+  @keyframes dotOpacity {
+    0%,
+    80%,
+    100% {
+      opacity: 0;
+    }
+    40% {
+      opacity: 1;
+    }
+  }
+  .text-optional {
+    color: grey;
+  }
+  
+  .dot-opacity-loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 6px;
+  }
+  
+  .dot-opacity-loader span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #6666f3;
+    margin: 0 4px;
+    animation: dotOpacity 1.4s infinite ease-in-out both;
+  }
+  
+  .dot-opacity-loader span:nth-child(1) {
+    animation-delay: -0.32s;
+  }
+  
+  .dot-opacity-loader span:nth-child(2) {
+    animation-delay: -0.16s;
+  }
+  
+  @keyframes dotOpacity {
+    0%,
+    80%,
+    100% {
+      opacity: 0;
+    }
+    40% {
+      opacity: 1;
+    }
+  }
+  
+/** Dot opacity end */
