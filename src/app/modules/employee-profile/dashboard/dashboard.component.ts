@@ -15,7 +15,22 @@ export class DashboardComponent implements OnInit {
   requestModal: boolean = false;
   usersWithUpcomingBirthdays: any;
 
-  constructor(private roleService: RoleBasedAccessControlService, private dataService: DataService, public helperService: HelperService) { }
+  resignationSubmittedSubscriber: any;
+  resignationSubmittedToggle: boolean = false;
+  constructor(private roleService: RoleBasedAccessControlService, private dataService: DataService, public helperService: HelperService) { 
+    this.resignationSubmittedSubscriber =  this.helperService.resignationSubmitted.subscribe((value)=>{
+      if(value){
+        this.resignationSubmittedToggle = true;
+        this.getUserResignationInfo();
+      }else{
+        this.resignationSubmittedToggle = false;
+      }
+    });
+  }
+
+  ngOnDestroy(){
+    this.resignationSubmittedSubscriber.complete();
+  }
 
   userId: string =''
   ngOnInit(): void {

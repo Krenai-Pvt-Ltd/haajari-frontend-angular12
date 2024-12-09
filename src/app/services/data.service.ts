@@ -4313,6 +4313,11 @@ getHolidayForOrganization(date: string): Observable<any>{
     });
   }
 
+  checkExpenseTransactionId(transactionId: string){
+    const params = new HttpParams().set('id', transactionId);
+    return this.httpClient.get(`${this.baseUrl}/company-expense/transaction`, {params});
+  }
+
   exportExpense(){
     return this.httpClient.get<any>(`${this.baseUrl}/company-expense/export`);
   }
@@ -4330,7 +4335,7 @@ getHolidayForOrganization(date: string): Observable<any>{
     );
   }
 
-  getAllExpense(role: string, pageNumber: number, itemPerPage: number, startDate: any, endDate: any, statusIds: number[]){
+  getAllExpense(role: string, pageNumber: number, itemPerPage: number, startDate: any, endDate: any, statusIds: number[], userUuid: any){
     var params = new HttpParams()
     .set('currentPage', pageNumber)
     .set('itemPerPage', itemPerPage)
@@ -4346,6 +4351,10 @@ getHolidayForOrganization(date: string): Observable<any>{
 
     if(statusIds.length > 0){
       params = params.set("statusIds", statusIds.join(','));
+    }
+   
+    if(userUuid){
+      params = params.set("userUuid", userUuid);
     }
 
     return this.httpClient.get<any>(`${this.baseUrl}/company-expense`, {params});
