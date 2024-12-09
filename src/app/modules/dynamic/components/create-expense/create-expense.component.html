@@ -1142,6 +1142,8 @@
                 <div class="form-group">
                   <input class="form-control input-zorro" placeholder="Enter transaction id  " nzSize="large"
                     id="tranId" name="tranId" [(ngModel)]="transactionId" #transactionIdInput="ngModel" required />
+                    
+                    <p *ngIf="existTransactionId" class="mt-1 text-danger">Transaction ID is present</p>
                 </div>
               </div>
             </div>
@@ -1244,8 +1246,10 @@
         </div>
 
         <div *ngIf="payCashDiv && showTransactionDiv" class="d-flex justify-content-end w-100">
+          <!-- <button *ngIf="!paymentCashNoToggle" [disabled]="transactionId == ''" class="btn submitActionBtn"
+            (click)="approveOrDeny(userExpense.id, 41, 0)">Submit</button> -->
           <button *ngIf="!paymentCashNoToggle" [disabled]="transactionId == ''" class="btn submitActionBtn"
-            (click)="approveOrDeny(userExpense.id, 41, 0)">Submit</button>
+            (click)="checkTransactionId(userExpense.id, 41, 0)">Submit</button>
 
           <div class="dot-opacity-loader" *ngIf="paymentCashYesToggle || paymentCashNoToggle">
             <span></span>

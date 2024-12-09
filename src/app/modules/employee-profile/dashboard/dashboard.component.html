@@ -153,7 +153,7 @@
 
             <!-- <div class="row" *ngIf="!requestModal && ROLE == 'ADMIN' && userResignationInfo != undefined" > -->
             <!-- <div class="row" *ngIf="!hideResignationModal && (!requestModal && ROLE == 'ADMIN' && userResignationInfo != undefined && userResignationInfo.status.id == 13)" > -->
-            <div class="row" *ngIf="!requestModal && !hideResignationModal && userResignationInfo && ROLE == 'ADMIN' && userResignationInfo?.status?.id == 13" > 
+            <div class="row" *ngIf="!requestModal && !hideResignationModal && (userResignationInfo && ROLE == 'ADMIN' || userResignationInfo && ROLE == 'USER') && userResignationInfo?.status?.id == 13" > 
                 <div class="col-md-12">
                     <div class="resignation-request p-3 d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center gap-3">
@@ -1188,7 +1188,7 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-footer d-flex align-items-center justify-content-end gap-2">
                     <button class="btn cancel-btn" data-bs-dismiss="modal" aria-label="Close" #closeApproveModal>Cancel</button>
 
-                    <button *ngIf="!approveToggle" type="submit" (click)="approveOrDenyResignation(userResignationInfo.id)" class="btn submitActionBtn">Approve</button>
+                    <button *ngIf="!approveToggle && ROLE == 'ADMIN'" type="submit" (click)="approveOrDenyResignation(userResignationInfo.id)" class="btn submitActionBtn">Approve</button>
                     <div class="dot-opacity-loader" *ngIf="approveToggle">
                         <span></span>
                         <span></span>

@@ -3790,7 +3790,7 @@ closeAttendanceFunc() {
       this.endDate = '';
     }
 
-    this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds).subscribe((res: any) => {
+    this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds, this.userId).subscribe((res: any) => {
       if (res.status) {
         this.expenseList = res.object
         this.loading = false
