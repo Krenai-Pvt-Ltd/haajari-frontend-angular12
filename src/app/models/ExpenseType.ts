@@ -6,8 +6,10 @@ export class ExpenseType{
     amount: any;
     notes: string = '';
     url: string = '';
+    paymentMethod: string = 'CASH';
     urls: string[] = new Array()
     expenseDate: any;
+    settledDate: any;
     managerId: number = 0
     status: any;
 }

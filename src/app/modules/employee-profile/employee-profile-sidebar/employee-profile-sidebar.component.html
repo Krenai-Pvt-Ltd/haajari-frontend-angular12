@@ -304,12 +304,12 @@
                     Check-out</button> -->
 
 
-        <div *ngIf="employeeProfileResponseData?.resignationStatus != 43" class="check-in">
+        <div *ngIf="employeeProfileResponseData?.resignationStatus != 43 && (status == 'out' || this.status== '' || this.status == null) " class="check-in">
             <div class="d-flex align-items-center gap-2 check-in-info p-2">
             <img src="assets/images/check-in-image.svg">
             <h5 class="mb-0">Time to Check In and <br> Start Your Shift</h5>
             </div>
-            <button class="btn check-in w-100">
+            <button class="btn check-in w-100" (click)="checkinCheckout('/in')">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none">
                     <path fill-rule="evenodd" clip-rule="evenodd"
                         d="M7.70105 1.41406C5.60524 1.41406 3.90625 3.11305 3.90625 5.20886C3.90625 7.30468 5.60524 9.00366 7.70105 9.00366C9.79686 9.00366 11.4958 7.30468 11.4958 5.20886C11.4958 3.11305 9.79686 1.41406 7.70105 1.41406ZM4.99048 5.20886C4.99048 3.71187 6.20406 2.49829 7.70105 2.49829C9.19804 2.49829 10.4116 3.71187 10.4116 5.20886C10.4116 6.70586 9.19804 7.91943 7.70105 7.91943C6.20406 7.91943 4.99048 6.70586 4.99048 5.20886Z"
@@ -323,9 +323,9 @@
                 </svg>
                 Check-In</button>
         </div>
-        <!-- <div class="d-flex align-items-center gap-2">
+         <div class="d-flex align-items-center gap-2">
 
-                <button class="btn break-back w-90">
+                <button *ngIf="status == 'in' || status == 'back'" class="btn break-back w-90" (click)="checkinCheckout('/break')">
                         <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
                             <mask id="mask0_5673_6985" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="19" height="19">
                                 <rect x="0.0463867" y="0.5" width="18" height="18" fill="#D9D9D9" />
@@ -338,7 +338,7 @@
                         </svg>
                     Break
                 </button>
-                <button class="btn check-out-btn w-90">
+                <button *ngIf="status == 'in' || status == 'back'" class="btn check-out-btn w-90" (click)="checkinCheckout('/out')">
                     <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
                         <g clip-path="url(#clip0_5673_6992)">
                             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -359,13 +359,13 @@
                     </svg>
                     Check-Out
                 </button>
-        </div> -->
-        <!-- <div class="break-back">
+        </div>
+         <div *ngIf="status == 'break'" class="break-back">
             <div class="d-flex align-items-center gap-2 back-info p-2">
                 <img src="assets/images/back.svg">
                 <h5 class="mb-0">You are currently on <br> break. Please come back.</h5>
             </div>
-            <button class="btn back-btn w-100">
+            <button class="btn back-btn w-100" (click)="checkinCheckout('/back')">
                 <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
                     <path
                         d="M7.30069 14.5C11.1604 14.5 14.3005 11.3598 14.3005 7.49997C14.3005 3.64023 11.1604 0.5 7.30069 0.5C3.44094 0.5 0.300781 3.64023 0.300781 7.49997C0.300781 11.3598 3.44094 14.5 7.30069 14.5ZM7.30069 1.45824C10.6321 1.45824 13.3423 4.16854 13.3423 7.49997C13.3423 10.8314 10.6321 13.5417 7.30069 13.5418C3.96932 13.5417 1.25909 10.8314 1.25909 7.4999C1.25909 4.1686 3.96932 1.45824 7.30069 1.45824Z"
@@ -374,14 +374,14 @@
                         d="M6.36217 10.4996C6.54928 10.6867 6.85266 10.6866 7.03971 10.4996C7.22689 10.3124 7.22689 10.0091 7.03965 9.82195L5.19854 7.98091L10.53 7.98039C10.7946 7.98033 11.0091 7.76588 11.0091 7.50115C11.009 7.23654 10.7946 7.02215 10.53 7.02215L5.19829 7.02266L7.03984 5.18124C7.22695 4.99412 7.22695 4.69068 7.03984 4.50363C6.94625 4.41011 6.82366 4.36328 6.701 4.36328C6.57841 4.36328 6.45582 4.41011 6.36223 4.50357L3.70285 7.16289C3.61297 7.2527 3.5625 7.37453 3.5625 7.50166C3.56256 7.62878 3.61303 7.75054 3.70291 7.84056L6.36217 10.4996Z"
                         fill="white" />
                 </svg>
-                Break</button>
+                Back</button>
         </div>
-        <div class="break-back ">
+        <!-- <div class="break-back ">
             <div class="d-flex align-items-center gap-2 check-out-info p-2">
                 <img src="assets/images/check-out.svg">
                 <h5 class="mb-0">Time to Check Out Have a restful evening</h5>
             </div>
-            <button class="btn check-out-btn w-100">
+            <button class="btn check-out-btn w-100" (click)="checkinCheckout('/out')">
                 <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
                     <g clip-path="url(#clip0_5429_12044)">
                         <path fill-rule="evenodd" clip-rule="evenodd"
@@ -859,7 +859,7 @@
                     <div class="row register-form-box">
                         <div class="col-md-12">
                             <div class="hr-notes p-3">
-                              <p class="mb-0 font-13"> <span class="text-primary"> Note:</span> HR will take the final action on the exit request</p>
+                              <p class="mb-0 font-13"> <span class="text-primary"> Note: </span> HR will take the final action on the exit request</p>
                             </div>
                         </div>
                         <!-- <div class="col-md-12">
@@ -1266,7 +1266,6 @@
 </div>
 <!-- Resignation Approve Modal end -->
 
-
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#addSkills">
     Add Skills
@@ -1341,4 +1340,17 @@
         </div>
     </div>
 </div>
-        
+<!-- Modal Template -->
+<ng-template #urlModalTemplate let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Mark Attendance</h4>
+    <button type="button" class="btn-close" aria-label="Close"  (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <iframe
+      *ngIf="modalUrl"
+      [src]="modalUrl"
+      style="width: 100%; height: 800px; border: none;"
+    ></iframe>
+  </div>
+</ng-template>

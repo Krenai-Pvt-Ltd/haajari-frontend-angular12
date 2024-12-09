@@ -510,10 +510,10 @@
               </tbody>
             </table>
             <div *ngIf="this.assetRequestsTotalPage>1" class="pagination-controls d-flex align-items-center justify-content-between">
-           
+
           </div><!-- Ngb Pagination Component -->
           <div class="d-flex align-content-center justify-content-between">
-          
+
           <p class="mb-0 showing-items-message text-right font-13">
             Showing items
             {{ (assetRequestsPage - 1) * assetRequestsSize + 1 }} –
@@ -604,7 +604,7 @@
                   <img
                     [src]="imagePreviewUrl"
                     style="width:200px;"
-                    alt="Image Preview" 
+                    alt="Image Preview"
                   />
                   <span class="assets-images-close pointer d-flex align-content-center justify-content-center"><i class="bi bi-x"></i></span>
                 </div>
@@ -657,7 +657,7 @@
       <!-- {{assetIdToUpdate}} -->
       <form [formGroup]="assetForm" (ngSubmit)="updateOrSaveAsset()">
       <div class="modal-body">
-      
+
         <div class="row assets-label">
           <div class="col-md-6 mb-3">
             <label for="assetName" class="form-label"
@@ -846,8 +846,8 @@
             </div>
           </div>
         </div>
-          
-     
+
+
       </div>
       <div class="modal-footer">
         <button
@@ -917,7 +917,7 @@
           </div>
         </form>
       </div>
-      
+
 
       <div
         class="empty-file"
@@ -1214,7 +1214,7 @@
                   <p class="mb-0 font-13" style="font-weight: 400;">{{ selectedAsset.assetType }}</p>
                 </div>
               </div>
-              
+
               <div class="col-md-12 mb-3">
                 <label class="mb-2">Note </label>
                 <div class="requesting-half-leave p-2">
@@ -1227,7 +1227,7 @@
                     <span class="badge rounded-pill" [ngClass]="{'badge-soft-warning': selectedAsset.status == 'PENDING', 'badge-soft-danger': selectedAsset.status == 'REJECTED', 'badge-soft-success': selectedAsset.status == 'APPROVED'}">{{ selectedAsset.status }}</span>
                 </div>
               </div>
-              <div class="col-md-12">
+              <div *ngIf="selectedAsset.status!='APPROVED'" class="col-md-12">
                 <label class="mb-2">Change Status</label>
                 <div>
                   <nz-select
@@ -1247,7 +1247,7 @@
             </div>
           </div>
 
-          <div class="modal-footer d-flex align-content-center justify-content-end gap-2">
+          <div *ngIf="selectedAsset.status!='APPROVED'" class="modal-footer d-flex align-content-center justify-content-end gap-2">
             <button type="button" class="btn cancel-btn mt-0" (click)="modal.dismiss('cancel')">Cancel</button>
             <button type="button" class="btn submitActionBtn" (click)="changeStatus(selectedAsset); modal.close()">  Save </button>
           </div>

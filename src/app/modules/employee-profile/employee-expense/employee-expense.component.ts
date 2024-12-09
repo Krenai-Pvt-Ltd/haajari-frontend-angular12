@@ -45,6 +45,7 @@ export class EmployeeExpenseComponent implements OnInit {
 
  expenseList: any[] = new Array();
  loading: boolean = false;
+ totalItems: number = 0
  databaseHelper: DatabaseHelper = new DatabaseHelper();
  // expSelected:any;
  statusIds: number[] = new Array();
@@ -59,11 +60,12 @@ export class EmployeeExpenseComponent implements OnInit {
      this.endDate = '';
    }
    this.expenseList = []
-   this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds).subscribe((res: any) => {
+   this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds, this.userId).subscribe((res: any) => {
      if (res.status) {
        this.expenseList = res.object
+       this.totalItems = res.totalItems
 
-       console.log('expenseList: ',this.expenseList)
+      //  console.log('expenseList: ',this.expenseList)
 
        this.loading = false
      }else{
@@ -73,6 +75,12 @@ export class EmployeeExpenseComponent implements OnInit {
      this.statusIds = []
    })
  }
+
+ pageChanged(page:any) {
+  debugger
+  this.databaseHelper.currentPage = page;
+  this.getExpenses();
+}
 
  expenseCount: any;
  async getExpensesCount() {
@@ -112,7 +120,7 @@ export class EmployeeExpenseComponent implements OnInit {
     this.endDate = '';
   }
 
-  this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds).subscribe((res: any) => {
+  this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds, this.userId).subscribe((res: any) => {
     if (res.status) {
       this.pastExpenseList = res.object
       this.pastLoading = false
@@ -126,7 +134,8 @@ export class EmployeeExpenseComponent implements OnInit {
 
  startDate: any;
  endDate: any;
- expenseSelectedDate: Date | null = null;
+//  expenseSelectedDate: Date | null = null;
+ expenseSelectedDate: Date = new Date();
  onExpenseMonthChange(month: Date): void {
    this.expenseSelectedDate = month;
 
@@ -219,32 +228,20 @@ export class EmployeeExpenseComponent implements OnInit {
  checkExpensePolicy(form: NgForm) {
    debugger
 
-  //  this.dataService.checkExpensePolicy(this.expenseTypeReq.expenseTypeId, this.expenseTypeReq.amount).subscribe((res: any) => {
-  //    this.limitAmount = res.object;
+   this.dataService.checkExpensePolicy(this.expenseTypeReq.expenseTypeId, this.expenseTypeReq.amount).subscribe((res: any) => {
+     this.limitAmount = res.object;
 
-  //    if (this.limitAmount > 0) {
-  //      this.validatePolicyToggle = true;
-  //    } else {
-  //      this.createExpense(form);
-  //    }
-  //  })
+     if (this.limitAmount > 0) {
+       this.validatePolicyToggle = true;
+     } else {
+       this.createExpense(form);
+     }
+   })
 
-   if(this.expenseTypeReq.status.id == 15 || this.expenseTypeReq.status.id == 41){
-    console.log('nothing.... ')
-   }else{
-    this.dataService.checkExpensePolicy(this.expenseTypeReq.expenseTypeId, this.expenseTypeReq.amount).subscribe((res: any) => {
-      this.limitAmount = res.object;
- 
-      if (this.limitAmount > 0) {
-        this.validatePolicyToggle = true;
-      } else {
-       // console.log('creating.... ')
-        this.createExpense(form);
-      }
-    })
-   }
+ }
 
-
+ cancelExpense(){
+  this.validatePolicyToggle = false;
  }
 
  setValidateToggle() {
@@ -255,6 +252,14 @@ export class EmployeeExpenseComponent implements OnInit {
  getManagerId(id: any) {
    this.expenseTypeReq.managerId = id
  }
+
+ removeImage(url: string): void {
+  const index = this.expenseTypeReq.urls.indexOf(url);
+  if (index !== -1) {
+    this.expenseTypeReq.urls.splice(index, 1); // Remove the specific URL
+  }
+}
+
 
  @ViewChild('closeExpenseButton') closeExpenseButton!: ElementRef
  createToggle: boolean = false;
@@ -304,6 +309,8 @@ export class EmployeeExpenseComponent implements OnInit {
    this.expenseTypeReq.id = expense.id
    this.expenseTypeReq.amount = expense.amount
    this.expenseTypeReq.expenseDate = expense.expenseDate
+   this.expenseTypeReq.settledDate = expense.settledDate
+   this.expenseTypeReq.paymentMethod = expense.paymentMethod
    this.expenseTypeReq.expenseTypeId = expense.expenseTypeId
    this.expenseTypeReq.notes = expense.notes
    this.expenseTypeReq.url = expense.slipUrl
@@ -321,6 +328,7 @@ export class EmployeeExpenseComponent implements OnInit {
    this.expenseTypeReq = new ExpenseType();
    this.expenseTypeId = 0;
    this.validatePolicyToggle = false;
+   this.deleteExpenseToggle = false;
    form.resetForm();
  }
 
@@ -329,19 +337,26 @@ export class EmployeeExpenseComponent implements OnInit {
  }
 
  expenseId: number = 0;
+ deleteExpenseToggle: boolean = false;
  getExpenseId(id: number) {
    this.expenseId = id;
+  //  this.deleteExpenseToggle = true;
+   this.deleteExpenseToggle = !this.deleteExpenseToggle;
    console.log('id: ', this.expenseId)
  }
 
  deleteToggle: boolean = false
  @ViewChild('closeButtonDeleteExpense') closeButtonDeleteExpense!: ElementRef
  deleteExpense() {
-
+  this.deleteToggle = true;
    this.dataService.deleteExpense(this.expenseId).subscribe((res: any) => {
      if (res.status) {
-       this.closeButtonDeleteExpense.nativeElement.click()
+      //  this.closeButtonDeleteExpense.nativeElement.click()
+       this.closeExpenseButton.nativeElement.click()
        this.getExpenses();
+       this.expenseId = 0;
+       this.deleteExpenseToggle = false;
+       this.deleteToggle = false;
        this.helperService.showToast(
          'Expense deleted successfully.',
          Key.TOAST_STATUS_SUCCESS
