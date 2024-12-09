@@ -392,4 +392,66 @@ export class ReportsComponent implements OnInit {
   closeModal3(): void {
     this.closeDateRangeModal3.nativeElement.click();
   }
+
+
+  dailyReportLog : string = '';
+  isLoading4: boolean = false;
+  selectedMonthOfDailyReport : any
+
+  downloadAttedanceReport() {
+    this.closeModal4();
+    let dateString:string | null  = this.datePipe.transform(this.selectedMonthOfDailyReport, 'yyyy-MM-dd');
+    this .isLoading4 = true;
+    if(dateString!==null) {
+    this.dataService
+      .getAtendanceDailyReport(
+        dateString
+      )
+      .subscribe(
+        (response) => {
+         this.dailyReportLog = response.message;
+         this.getFullReportLogs();
+         this.helperService.showToast(
+          'Daily Attendance Report Logs Fetched Successfully!',
+          Key.TOAST_STATUS_SUCCESS
+        );
+        //  const downloadLink = document.createElement('a');
+        //   downloadLink.href = response.message;
+        //   downloadLink.download = 'attendance.xlsx';
+        //   downloadLink.click();
+       
+          this.isLoading4 = false;
+        },
+        (error) => {
+          this.isLoading4 = false;
+          this.helperService.showToast(
+            'Error In Fetching Daily Attendance Report Logs!',
+            Key.TOAST_STATUS_SUCCESS
+          );
+        }
+      );
+    }
+  }
+
+  @ViewChild('closeDateRangeModal4') closeDateRangeModal4!: ElementRef;
+
+  closeModal4(): void {
+    this.closeDateRangeModal4.nativeElement.click();
+  }
+
+  disableBeforeOnboardingForDailyReport = (current: Date): boolean => {
+    const onboardingDate = this.organizationOnboardingDate;
+    const now = new Date();
+  
+    // Disable dates before the organization onboarding date
+    const isBeforeOnboarding = current < onboardingDate;
+  
+    // Disable dates after the current date
+    const isAfterCurrentDate = current > now;
+  
+    return isBeforeOnboarding || isAfterCurrentDate;
+  };
+  
+
+
 }
