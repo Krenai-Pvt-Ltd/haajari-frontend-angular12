@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Key } from 'src/app/constant/key';
@@ -53,13 +53,13 @@ export class EmployeeProfileSidebarComponent implements OnInit {
         this.toggle = false;
       }
     });
-  
+
     // this.userId = "731a011e-ae1e-11ee-9597-784f4361d885";
    }
 
    profileChangeStatusSubscriber: any;
 
-   
+
 
    toggle :boolean = false;
    ROLE : any;
@@ -160,22 +160,43 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   }
 
   InOutLoader: boolean = false;
+  modalUrl: SafeResourceUrl | null = null;
+  @ViewChild('urlModalTemplate', { static: true }) urlModalTemplate!: TemplateRef<any>;
 
   checkinCheckout(command: string) {
     this.InOutLoader = true;
     this.dataService.checkinCheckoutInSlack(this.userId, command).subscribe(
       (data) => {
         this.InOutLoader = false;
-        this.helperService.showToast(data.message, Key.TOAST_STATUS_SUCCESS);
+
+        // Check if data.message is a valid URL
+        const urlPattern = /^(https?:\/\/[^\s/$.?#].[^\s]*)$/;
+        if (urlPattern.test(data.message)) {
+          // Open the URL in a UI popup/modal
+          this.openUrlInModal(data.message);
+        } else {
+          // Show toast with success message
+          this.helperService.showToast(data.message, Key.TOAST_STATUS_SUCCESS);
+        }
+
         this.getUserAttendanceStatus();
       },
       (error) => {
         this.InOutLoader = false;
         this.helperService.showToast(error.message, Key.TOAST_STATUS_ERROR);
-
       }
     );
   }
+
+  openUrlInModal(url: string) {
+    this.modalUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url); // Sanitize URL
+    const modalRef = this.modalService.open(this.urlModalTemplate, { size: 'lg', centered: true });
+    modalRef.result.finally(() => {
+      this.modalUrl = null;
+      this.getUserAttendanceStatus();
+    });
+  }
+
 
 
   position: string='';
@@ -206,7 +227,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     } else {
         this.isPromotion=true;
     }
- 
+
   }
 
   openConfirmationModal(content: any) {
@@ -320,7 +341,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     form.resetForm();
   }
 
-  
+
   clearForm(){
     this.recommendDay = ''
     this.discussionType = ''
@@ -336,7 +357,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
 
   discussionType: string = ''; // Default selected value
   selectManagerDiscussion(value: string): void {
-    
+
     this.userResignationReq.isManagerDiscussion = value == 'Yes' ? 1 : 0
   }
 
@@ -344,7 +365,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
   selectRecommendDay(value: string): void {
 
     this.userResignationReq.lastWorkingDay = ''
-    
+
     this.userResignationReq.isRecommendLastDay = value == 'Other' ? 1 : 0
 
     if(this.userResignationReq.isRecommendLastDay == 0){
@@ -360,7 +381,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     // const maxDate = new Date();
     const maxDate = new Date();
     maxDate.setDate(today.getDate() + this.noticePeriodDuration); // Add 45 days to today's date
-  
+
     // this.lastWorkingDay = maxDate;
     // console.log("Max Date: ", this.lastWorkingDay);
     // Disable dates from today to maxDate (inclusive)
@@ -372,7 +393,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     // const maxDate = new Date();
     const maxDate = new Date();
     maxDate.setDate(today.getDate() + this.noticePeriodDuration); // Add 45 days to today's date
-  
+
     // this.lastWorkingDay = maxDate;
     // this.userResignationReq.lastWorkingDay = maxDate
     this.userResignationReq.lastWorkingDay = this.helperService.formatDateToYYYYMMDD(maxDate);
@@ -539,7 +560,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     this.userResignationReq.url = ''
   }
 
-  
+
 
   /** Image Upload on Firebase End */
 
