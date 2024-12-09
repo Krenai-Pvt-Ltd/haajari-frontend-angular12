@@ -71,7 +71,7 @@
                             </div>
 
 
-                            <div>
+                            <div *ngIf="ROLE != 'ADMIN'">
                                 <button data-bs-toggle="modal" data-bs-target="#apply-expense"
                                     class="btn new-announcement">New Request &nbsp;
                                     <span class="calendar-separator"></span>
@@ -388,6 +388,12 @@
                                     <td>
                                         <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
                                     </td>
+                                    <td>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
+                                    <td>
+                                        <ngx-shimmer-loading [width]="'100%'" [height]="'15px'"></ngx-shimmer-loading>
+                                    </td>
                                     </tr>
                                 </tbody>
                         
@@ -428,7 +434,7 @@
                                             <span class="table-font-weight"> ₹ {{expense.paidAmount == null ? 0 : expense.paidAmount}} </span>
                                         </td>
                                         <td class="text-left">
-                                            <span class="table-font-weight"> {{expense.transactionId == '' ? 'N/A' : expense.transactionId}} </span>
+                                            <span class="table-font-weight"> {{expense.transactionId == null || expense.transactionId == '' ? 'N/A' : expense.transactionId}} </span>
                                         </td>
                                         <td class="text-left">
                                             <span class="table-font-weight white-space"> {{expense.notes}} </span>
