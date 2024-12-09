@@ -327,7 +327,7 @@
                             </div>
                         
                         
-                            <div>
+                            <div *ngIf="ROLE != 'ADMIN'">
                                 <button data-bs-toggle="modal" data-bs-target="#apply-expense" class="btn new-announcement">New Request &nbsp;
                                     <span class="calendar-separator"></span>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
@@ -938,7 +938,7 @@
                                     <p *ngIf="expenseTypeReq.status.id == 15" class="mb-0 text-danger">Your request has been rejected by the admin</p>
                                 </div>
                                 
-                                <div *ngIf="expenseTypeReq.status.id == 13 || expenseTypeReq.status.id == 15" class="d-flex align-items-center gap-2">
+                                <div *ngIf="ROLE != 'ADMIN' && (expenseTypeReq.status.id == 13 || expenseTypeReq.status.id == 15)" class="d-flex align-items-center gap-2">
                                     <button class="btn cancel-btn mt-0" type="button" (click)="getExpenseId(expenseTypeReq.id)" >Delete</button>
     
                                     <button  type="submit" class="btn submitActionBtn" *ngIf="!createToggle">Update</button>
