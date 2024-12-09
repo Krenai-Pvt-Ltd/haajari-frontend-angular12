@@ -416,11 +416,11 @@
           <div>
             <ul id="pills-tab" role="tablist" class="nav nav-pills">
                 <li class="nav-item">
-                    <a id="pills-announcement-tab" data-bs-toggle="pill" href="#employeeList" role="tab"
+                    <a id="pills-announcement-tab" data-bs-toggle="pill" href="#employeeList" role="tab" (click)="selectStatus('ACTIVE')"
                         aria-controls="pills-announcement" aria-selected="false" class="nav-link active">Employee</a>
                 </li>
                 <li class="nav-item">
-                    <a id="pills-notification-tab" data-bs-toggle="pill" href="#editRequest" role="tab"
+                    <a id="pills-notification-tab" data-bs-toggle="pill" href="#editRequest" role="tab" (click)="selectStatus('EDITPROFILE')"
                         aria-controls="pills-notification" aria-selected="false" class="nav-link">Profile Edit Request</a>
                 </li>
                 <li class="nav-item">
@@ -449,11 +449,11 @@
                                 <li>
                                   <a class="dropdown-item" (click)="selectStatus('ALL')">All</a>
                                 </li>
-      
+
                                 <li class="dropdown-header" aria-disabled="true">
                                   Status Wise
                                 </li>
-      
+
                                 <li>
                                   <a class="dropdown-item" (click)="selectStatus('APPROVED')">Approved</a>
                                 </li>
@@ -521,7 +521,7 @@
                         </div>
                       </div>
                     </div>
-      
+
                     <!-- </div> -->
                   </div>
                   <div class="col-md-12 mt-3">
@@ -595,7 +595,7 @@
                                 ">
                                 <i class="bi bi-exclamation-triangle"></i>
                               </button>
-      
+
                               <ng-template #contentTemplate>
                                 <p>
                                   Slack ID isn't synced with Hajiri for this user.
@@ -652,10 +652,13 @@
                                 <label for="switch{{ user.uuid }}" class="label-success"></label>
                               </div>
                             </td>
-                          
-      
+                            <!-- <td class="text-center">13</td>  -->
+
+
+                          <!-- <ng-container *ngIf="user.resignationStatus == null; else resignationStatusBlock"> -->
+
                             <td *ngIf="user.resignationStatus == null">
-                              <span class="badge rounded-pill" 
+                              <span class="badge rounded-pill"
                               [ngClass]="{'badge-soft-success': user.onboardingStatus === 'APPROVED', 'badge-soft-danger': user.onboardingStatus === 'REJECTED', 'badge-soft-warning': user.onboardingStatus === 'PENDING' }">
                               {{ user.onboardingStatus }}</span>
                             </td>
@@ -663,11 +666,54 @@
                               <span class="badge rounded-pill" [ngClass]="{'badge-soft-info': user.resignationStatus.id == 13, 'badge-soft-warning': user.resignationStatus.id == 42, 'badge-soft-danger': user.resignationStatus.id == 43 }"
                               >{{ user.resignationStatus.response }}</span>
                             </td>
-                         
-      
-      
+                            <!-- *ngIf="user.resignationStatus == null" -->
+                        <!-- <div>   -->
+
+                            <!-- <td class="text-center" *ngIf="user.onboardingStatus == pendingResponse">
+                              <div class="badge rounded-pill badge-soft-warning">
+                                <span class="">{{ user.onboardingStatus }}</span>
+                              </div>
+                            </td>
+
+                            <td class="text-center" *ngIf="user.onboardingStatus == approvedResponse">
+                              <div class="badge rounded-pill badge-soft-success">
+                                <span class="">{{ user.onboardingStatus }}</span>
+                              </div>
+                            </td>
+                            <td class="text-center" *ngIf="user.onboardingStatus == rejectedResponse">
+                              <div class="badge rounded-pill badge-soft-danger">
+                                <span class="">{{ user.onboardingStatus }}</span>
+                              </div>
+                            </td>
+                            <td class="text-center" *ngIf="user.onboardingStatus == requestedResponse">
+                              <div class="badge rounded-pill badge-soft-secondary">
+                                <span class="">{{ user.onboardingStatus }}</span>
+                              </div>
+                            </td>
+                            <td class="text-center" *ngIf="user.onboardingStatus == 'NOTICE PERIOD'">
+                              <div class="badge rounded-pill badge-soft-blue">
+                                <span class="">{{ user.onboardingStatus }}</span>
+                              </div>
+                            </td>
+                            <td class="text-center" *ngIf="user.onboardingStatus == newUserResponse">
+                              <div class="badge rounded-pill badge-soft-info">
+                                <span class="">NEW!</span>
+                              </div>
+                            </td> -->
+                          <!-- </div>  -->
+
+                          <!-- <ng-template #resignationStatusBlock> -->
+                          <!-- <div *ngIf="user.resignationStatus != null">
+                            <td class="text-center">
+                              <div class="badge rounded-pill badge-soft-danger">
+                                <span>{{ user.resignationStatus.response }}</span>
+                              </div>
+                            </td>
+                          </div> -->
+
+
                             <td class="stickyColTdend text-end">
-      
+
                               <div class="dropdown">
                                 <button class="btn btnAction dropdown-toggle" type="button" data-bs-toggle="dropdown"
                                   aria-expanded="false">
@@ -691,7 +737,7 @@
                                       (click)="openDeleteConfirmationModal(user.id)"><i class="bi bi-trash3"></i> Delete
                                       Account</a>
                                   </li>
-      
+
                                   <li>
                                     <a class="dropdown-item initiate-btn" data-bs-toggle="modal"
                                       data-bs-target="#initiateExit" (click)="getUserUuid(user.uuid);">
@@ -703,7 +749,7 @@
                                       </svg>
                                       Initiate Exit</a>
                                   </li>
-      
+
                                   <!-- <li><a class="dropdown-item" *ngIf="onboardingVia === 'SLACK' && user.slackUserId === null " (click)="saveSlackUserIdViaEmailData(user.email)"><i class="bi bi-arrow-repeat"></i> Fetch Slack UserId</a></li> -->
                                 </div>
                               </div>
@@ -725,7 +771,7 @@
                                     </ng-template>
                                   </nz-empty>
                                 </div>
-      
+
                                 <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%"
                                   *ngIf="placeholder && total == 0 && !isUserShimer">
                                   <nz-empty nzNotFoundImage="assets/images/nodate-found-3.svg"
@@ -761,80 +807,13 @@
                         </div>
                       </div>
                     </div>
-      
+
                   </div>
                 </div>
               </div>
               <div class="tab-pane fade pt-3" id="editRequest" role="tabpanel" aria-labelledby="overtimeRequest-tab">
                 <div>
-                  <div class="onboard-add row align-items-center mx-0">
-                    <!-- <div *ngIf="users.length!=0"> -->
-                    <!-- || (searchUserPlaceholderFlag) -->
-                    <div class="col-md-12" *ngIf="!errorToggleTop">
-                      <div class="row justify-content-between align-items-center mx-0">
-                        <div class="col-lg-12 col-md-12 col-sm-12 ps-0">
-                          <div class="d-flex justify-content-start align-items-center">
-                            <div class="dropdown empFilerDropfilter">
-                              <button type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
-                                class="btn btn-secondary dropdown-toggle new-deopdown">
-                                {{ selectedStatus || "All" }}
-                                <i class="bi bi-chevron-down"></i>
-                              </button>
-                              <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu">
-                                <li>
-                                  <a class="dropdown-item" (click)="selectStatus('ALL')">All</a>
-                                </li>
-      
-                                <li class="dropdown-header" aria-disabled="true">
-                                  Status Wise
-                                </li>
-      
-                                <li>
-                                  <a class="dropdown-item" (click)="selectStatus('APPROVED')">Approved</a>
-                                </li>
-                                <li>
-                                  <a class="dropdown-item" (click)="selectStatus('PENDING')">Pending</a>
-                                </li>
-                                <li>
-                                  <a class="dropdown-item" (click)="selectStatus('REQUESTED')">Requested</a>
-                                </li>
-                                <li>
-                                  <a class="dropdown-item" (click)="selectStatus('EDITPROFILE')">Profile Edit Requests</a>
-                                </li>
-                                <li>
-                                  <a class="dropdown-item" (click)="selectStatus('REJECTED')">Rejected</a>
-                                </li>
-                                <li class="dropdown-header" aria-disabled="true">
-                                  Accessibility Wise
-                                </li>
-                                <li>
-                                  <a class="dropdown-item" (click)="selectStatus('ACTIVE')">Active</a>
-                                </li>
-                                <li>
-                                  <a class="dropdown-item" (click)="selectStatus('INACTIVE')">Inactive</a>
-                                </li>
-                              </ul>
-                            </div>
-                            <div class="onboarding-date d-flex align-items-center position-relative">
-                              <form role="search" class="searching" style="width: 100%">
-                                <div class="form-group" style="width: 100%; position: relative">
-                                  <input type="text" id="searchText" placeholder="Search by name, email and phone number ..."
-                                    class="form-control me-2" (keyup)="searchUsers('any')" [(ngModel)]="search"
-                                    [ngModelOptions]="{ standalone: true }" style="padding: 10px 40px" />
-                                  <i class="bi bi-search search-icon" style="margin: auto; margin-left: 15px"
-                                    *ngIf="search==''"></i>
-                                  <i class="bi bi-x search-icon" style="margin: auto; margin-left: 15px" *ngIf="search!=''"
-                                    (click)="reloadPage()"></i>
-                                </div>
-                              </form>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-      
-                    <!-- </div> -->
-                  </div>
+
                   <div class="col-md-12 mt-3">
                     <div class="table-responsive bg-white">
                       <table class="table empOnnoardtable">
@@ -906,7 +885,7 @@
                                 ">
                                 <i class="bi bi-exclamation-triangle"></i>
                               </button>
-      
+
                               <ng-template #contentTemplate>
                                 <p>
                                   Slack ID isn't synced with Hajiri for this user.
@@ -963,10 +942,10 @@
                                 <label for="switch{{ user.uuid }}" class="label-success"></label>
                               </div>
                             </td>
-                            
-      
+
+
                             <td *ngIf="user.resignationStatus == null">
-                              <span class="badge rounded-pill" 
+                              <span class="badge rounded-pill"
                               [ngClass]="{'badge-soft-success': user.onboardingStatus === 'APPROVED', 'badge-soft-danger': user.onboardingStatus === 'REJECTED', 'badge-soft-warning': user.onboardingStatus === 'PENDING' }">
                               {{ user.onboardingStatus }}</span>
                             </td>
@@ -974,11 +953,11 @@
                               <span class="badge rounded-pill" [ngClass]="{'badge-soft-info': user.resignationStatus.id == 13, 'badge-soft-warning': user.resignationStatus.id == 42, 'badge-soft-danger': user.resignationStatus.id == 43 }"
                               >{{ user.resignationStatus.response }}</span>
                             </td>
-                           
-      
-      
+
+
+
                             <td class="stickyColTdend text-end">
-      
+
                               <div class="dropdown">
                                 <button class="btn btnAction dropdown-toggle" type="button" data-bs-toggle="dropdown"
                                   aria-expanded="false">
@@ -1017,7 +996,7 @@
                                     </ng-template>
                                   </nz-empty>
                                 </div>
-      
+
                                 <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%"
                                   *ngIf="placeholder && total == 0 && !isUserShimer">
                                   <nz-empty nzNotFoundImage="assets/images/nodate-found-3.svg"
@@ -1053,7 +1032,7 @@
                         </div>
                       </div>
                     </div>
-      
+
                   </div>
                 </div>
               </div>
@@ -1076,11 +1055,11 @@
                                 <li>
                                   <a class="dropdown-item" (click)="selectStatus('ALL')">All</a>
                                 </li>
-      
+
                                 <li class="dropdown-header" aria-disabled="true">
                                   Status Wise
                                 </li>
-      
+
                                 <li>
                                   <a class="dropdown-item" (click)="selectStatus('APPROVED')">Approved</a>
                                 </li>
@@ -1124,7 +1103,7 @@
                         </div>
                       </div>
                     </div>
-      
+
                     <!-- </div> -->
                   </div>
                   <div class="col-md-12 mt-3">
@@ -1198,7 +1177,7 @@
                                 ">
                                 <i class="bi bi-exclamation-triangle"></i>
                               </button>
-      
+
                               <ng-template #contentTemplate>
                                 <p>
                                   Slack ID isn't synced with Hajiri for this user.
@@ -1255,10 +1234,10 @@
                                 <label for="switch{{ user.uuid }}" class="label-success"></label>
                               </div>
                             </td>
-                   
-      
+
+
                             <td *ngIf="user.resignationStatus == null">
-                              <span class="badge rounded-pill" 
+                              <span class="badge rounded-pill"
                               [ngClass]="{'badge-soft-success': user.onboardingStatus === 'APPROVED', 'badge-soft-danger': user.onboardingStatus === 'REJECTED', 'badge-soft-warning': user.onboardingStatus === 'PENDING' }">
                               {{ user.onboardingStatus }}</span>
                             </td>
@@ -1266,11 +1245,11 @@
                               <span class="badge rounded-pill" [ngClass]="{'badge-soft-info': user.resignationStatus.id == 13, 'badge-soft-warning': user.resignationStatus.id == 42, 'badge-soft-danger': user.resignationStatus.id == 43 }"
                               >{{ user.resignationStatus.response }}</span>
                             </td>
-                          
-      
-      
+
+
+
                             <td class="stickyColTdend text-end">
-      
+
                               <div class="dropdown">
                                 <button class="btn btnAction dropdown-toggle" type="button" data-bs-toggle="dropdown"
                                   aria-expanded="false">
@@ -1290,15 +1269,15 @@
                                       (click)="openDeleteConfirmationModal(user.id)"><i class="bi bi-trash3"></i> Delete
                                       Account</a>
                                   </li>
-      
-                                
-      
-                                  
+
+
+
+
                                 </div>
                               </div>
                             </td>
                           </tr>
-                          
+
                         </tbody>
                         <tbody *ngIf="errorToggleTop && users.length == 0">
                           <tr>
@@ -1314,7 +1293,7 @@
                                     </ng-template>
                                   </nz-empty>
                                 </div>
-      
+
                                 <div class="empty-file" style="margin-top: 5%; margin-bottom: 5%"
                                   *ngIf="placeholder && total == 0 && !isUserShimer">
                                   <nz-empty nzNotFoundImage="assets/images/nodate-found-3.svg"
@@ -1350,18 +1329,18 @@
                         </div>
                       </div>
                     </div>
-      
+
                   </div>
                 </div>
               </div>
 
-            
+
 
 
 
             </div>
             </div>
-         
+
         </div>
         <div class="row mt-3"></div>
       </div>
