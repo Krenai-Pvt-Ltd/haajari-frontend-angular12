@@ -533,7 +533,7 @@ span.members-name {
   width: 15px;
   height: 15px;
   background: #fff;
-  border: 1px solid #3762ea;
+  border: 1px solid #6666f3;
   -webkit-box-shadow: 3px 3px 0 #c1cff9;
   box-shadow: 3px 3px 0 #c1cff9;
   box-shadow: 3px 3px 0 #c1cff9;
@@ -735,7 +735,7 @@ td.text-right {
   width: 15px;
   height: 15px;
   background: #fff;
-  border: 1px solid #3762ea;
+  border: 1px solid #6666f3;
   box-shadow: 3px 3px #c1cff9;
   border-radius: 50%;
   position: absolute;
@@ -774,7 +774,7 @@ td.text-right {
 }
 
 .scroll-box-logs {
-  height: 400px;
+  height: 450px;
   overflow-x: auto;
 }
 
@@ -846,11 +846,6 @@ td.text-right {
   gap: 10px;
 }
 
-.attendance-log {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 
 .card {
   border: 1px solid #ededed;
@@ -897,22 +892,6 @@ td.text-right {
   margin-top: 4px;
 }
 
-.button-section {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  margin-top: 16px;
-}
-
-.view-button {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-left: 8px;
-}
 
 .view-button:hover {
   background-color: #0056b3;
@@ -1363,7 +1342,7 @@ span.leave-rejected {
   padding: 6px;
 }
 
-.acitivity-timeline-2 h6 {
+.acitivity-box {
   background-color: #f9f9f9;
   padding: 8px;
   border-radius: 3px;
@@ -1495,4 +1474,45 @@ span.leave-rejected {
 }
 ::ng-deep.ant-picker {
   background-color: transparent !important;
+}
+
+.nots-section {
+  background-color: rgba(236, 236, 236, 0.21) !important;
+  width: 100%;
+  height: 80px !important;
+  border: 1px solid #e9e9e9;
+}
+.input-zorro {
+  border-radius: 2px !important;
+  border: 1.021px solid #e9e9e9 !important;
+  background: rgba(236, 236, 236, 0.21) !important;
+  height: 45px !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+}
+
+.cancel-btn {
+  background-color: #fbfbfb;
+  border: 1px solid #e6e7e9;
+  border-radius: 2px;
+  color: #4a4a4a;
+  font-size: 12px;
+  font-weight: 500;
+  min-width: 100px;
+}
+.submitActionBtn {
+  background-color: var(--primary-background-color);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 2px;
+  min-width: 100px;
+}
+
+:ng-deep.ant-empty-image img {
+  width: 90px;
+}
+:ng-deep.empty-detail {
+  color: #6b7280;
+  line-height: 20px;
 }

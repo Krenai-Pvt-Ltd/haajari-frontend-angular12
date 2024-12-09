@@ -595,9 +595,9 @@
                       ></button>
                     </div>
                     <div class="modal-body">
-                      <div class="">
-                        <div class="mb-3">
-                          <label for="username" style="padding-bottom: 6px"
+                      <div class="roww">
+                        <div class="col-md-12 mb-3">
+                          <label for="username" class="pb-2"
                             >Notes Title</label
                           >
                           <input
@@ -606,16 +606,17 @@
                             placeholder="Enter title ..."
                             name="username"
                             required=""
-                            class="form-control ng-untouched ng-pristine ng-invalid"
+                            class="form-control ng-untouched ng-pristine ng-invalid input-zorro"
                             [(ngModel)]="additionalNotes.title"
                           />
                         </div>
-                        <div class="mb-3">
-                          <label for="message" style="padding-bottom: 6px"
+                        <div class="col-md-12 mb-3">
+                          <label for="message" class="pb-2"
                             >Message</label
                           >
                           <textarea
-                            class="form-control"
+                            class="form-control nots-section"
+                            placeholder="Write the message"
                             rows="5"
                             id="message"
                             style="height: 100px !important"
@@ -624,18 +625,18 @@
                         </div>
                       </div>
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-footer d-flex gap-2">
                       <button
                         type="button"
-                        class="btn btn-de-secondary"
+                        class="btn cancel-btn mt-0"
                         data-bs-dismiss="modal"
                         #addNotesModalClose
                       >
-                        Close
+                        Cancel
                       </button>
                       <button
                         type="button"
-                        class="btn btn-primary save-changes"
+                        class="btn submitActionBtn"
                         (click)="addAdditionalNotesMethodCall()"
                       >
                         Submit
@@ -672,8 +673,6 @@
                     </div>
                     <!-- modal-header -->
                     <div class="modal-body">
-                      <div class="">
-                        <div class="mt-2">
                           <div class="scroll-box-logs">
                             <ng-container
                               *ngIf="
@@ -745,8 +744,9 @@
                                         }})</span
                                       >
                                     </h6>
+                                    <div class="d-flex align-items-center justify-content-between acitivity-box">
                                     <h6
-                                      class="fs-md mt-0 attendance-log"
+                                      class="mb-0 attendance-log"
                                       *ngIf="
                                         attendanceLogResponse.operationPerformedBy ===
                                         null
@@ -776,24 +776,10 @@
                                             | timeFormat
                                         }}
                                       </span>
-                                      <!-- <div class="icons">
-                                      <i class="location-icon fas fa-map-marker-alt"
-                                        *ngIf="attendanceLogResponse.latString!=null && attendanceLogResponse.longString!=null"
-                                        (click)="openAddressModal(attendanceLogResponse.latString, attendanceLogResponse.longString)"></i>
-                                      <i class="eye-icon fas fa-eye" *ngIf="attendanceLogResponse.imageUrlString!=null"
-                                        (click)="openSelfieModal(attendanceLogResponse.imageUrlString)"></i>
-                                    </div> -->
                                     </h6>
-                                    <div
-                                      style="
-                                        display: block;
-                                        margin-top: 5px;
-                                        color: #6c757d;
-                                      "
-                                    >
-                                      <span
+                                    <div>
+                                      <span class="fonnt-13"
                                         style="
-                                          font-size: 13px;
                                           font-weight: 600;
                                           vertical-align: middle;
                                         "
@@ -813,6 +799,7 @@
                                         }}
                                       </span>
                                     </div>
+                                  </div>
                                     <div
                                       class="d-flex align-items-center mb-2 mt-2 gap-3"
                                     >
@@ -824,33 +811,7 @@
                                         }}
                                       </p>
                                     </div>
-                                    <!-- <div class="icons">
-                                    <i class="location-icon fas fa-map-marker-alt"
-                                      *ngIf="attendanceLogResponse.latString!=null && attendanceLogResponse.longString!=null"
-                                      (click)="openAddressModal(attendanceLogResponse.latString, attendanceLogResponse.longString)"></i>
-                                    <i class="eye-icon fas fa-eye" *ngIf="attendanceLogResponse.imageUrlString!=null"
-                                      (click)="openSelfieModal(attendanceLogResponse.imageUrlString)"></i>
-                                  </div> -->
-                                    <!-- Location as text -->
-                                    <!-- <div *ngIf="attendanceLogResponse.latString != null && attendanceLogResponse.longString != null">    
-                                        <p class="mb-0 mt-0" style="font-size: 14px">
-                                          <span style="display: block; justify-content: space-between;"><b>Location: <i class="location-icon fas fa-map-marker-alt" style="display: flex; justify-content: flex-end;"
-                                            *ngIf="attendanceLogResponse.latString!=null && attendanceLogResponse.longString!=null"
-                                            (click)="openAddressModal(attendanceLogResponse.latString, attendanceLogResponse.longString)"></i></b>
-                                          </span>  
-                                          <span>{{ attendanceLogResponse.currentAddress || 'N/A'}}
-                                          
-                                          </span>
-                                          
-                                        </p>
-    
-                                      </div> -->
-                                    <!-- Image -->
-                                    <!-- <div *ngIf="attendanceLogResponse.imageUrlString != null">
-                                        <i class="eye-icon fas fa-eye" style="display: flex; justify-content: flex-end;" *ngIf="attendanceLogResponse.imageUrlString!=null"
-                                            (click)="openSelfieModal(attendanceLogResponse.imageUrlString)"></i>
-                                        <img [src]="attendanceLogResponse.imageUrlString" alt="User Image" style="max-width: 100px; max-height: 100px;">
-                                      </div> -->
+                                    
 
                                     <div
                                       class="card"
@@ -892,9 +853,8 @@
                                               }}</span>
                                             </p>
                                           </div>
-                                          <div class="button-section btn-sm">
+                                          <div class="d-flex align-items-center justify-content-end gap-2 mt-3">
                                             <button
-                                              class="btn-sm"
                                               *ngIf="
                                                 attendanceLogResponse.imageUrlString !=
                                                 null
@@ -904,12 +864,11 @@
                                                   attendanceLogResponse.imageUrlString
                                                 )
                                               "
-                                              class="view-button"
+                                              class="btn submitActionBtn"
                                             >
                                               View Selfie
                                             </button>
                                             <button
-                                              class="btn-sm"
                                               *ngIf="
                                                 attendanceLogResponse.latString !=
                                                   null &&
@@ -922,7 +881,7 @@
                                                   attendanceLogResponse.longString
                                                 )
                                               "
-                                              class="view-button"
+                                              class="btn submitActionBtn"
                                             >
                                               View Location
                                             </button>
@@ -935,7 +894,7 @@
                               </ng-container>
                             </ng-template>
                             <ng-template #errorInFetchingAttendanceLogData>
-                              <div
+                              <!-- <div
                                 class="empty-file"
                                 *ngIf="dataNotFoundPlaceholder"
                               >
@@ -956,6 +915,14 @@
                                     </div>
                                   </div>
                                 </div>
+                              </div> -->
+
+                              <div class="empty-file" style="margin-top: 20%;" *ngIf="dataNotFoundPlaceholder">
+                                <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+                                  <ng-template #contentTpl>
+                                    <p class="mb-1 empty-detail font-16">No data for now</p>
+                                  </ng-template>
+                                </nz-empty>
                               </div>
 
                               <div
@@ -983,8 +950,6 @@
                               </div>
                             </ng-template>
                           </div>
-                        </div>
-                      </div>
                     </div>
                     <!-- modal-body -->
                     <!-- <div class="modal-footer d-flex align-items-center justify-content-end">
