@@ -65,16 +65,6 @@
                     <div class="d-flex align-items-center justify-content-end gap-3 w-50">
 
                         <div class="btn-group week-data radio-btn" role="group" aria-label="Basic radio toggle button group">
-                            <!-- <input type="radio" class="btn-check" >
-                            <label class="btn btn-outline-secondary font-12">30 DAYS</label>
-                            <input type="radio" class="btn-check" >
-                            <label class="btn btn-outline-primary btn-primary font-12" >Week 1</label>
-                            <input type="radio" class="btn-check">
-                            <label class="btn btn-outline-secondary font-12">Week 2</label>
-                            <input type="radio" class="btn-check">
-                            <label class="btn btn-outline-secondary font-12">Week 3</label>
-                            <input type="radio" class="btn-check">
-                            <label class="btn btn-outline-secondary font-12">Week 4</label> -->
 
                             <div class="btn-group week-data radio-btn" role="group" aria-label="Basic radio toggle button group">
                                
@@ -274,7 +264,22 @@
                             </tr>
                         </tbody> 
 
-                        <tbody class="" *ngIf="!isShimmer && attendanceDetails.length > 0">
+                        <tbody *ngIf="!isShimmer && attendanceDetails.length == 0">
+                            <tr>
+                                <td colspan="10">
+                                    <div class="empty-file" style="margin-top: 7%; margin-bottom: 7%">
+                                        <nz-empty nzNotFoundImage="assets/images/no-data-found-img.svg" [nzNotFoundContent]="contentTpl">
+                                            <ng-template #contentTpl>
+                                                <p class="mb-1 empty-detail">No data for now</p>
+                                            </ng-template>
+                                        </nz-empty>
+                                    </div>
+    
+                                </td>
+                            </tr>
+                        </tbody>
+
+                        <tbody *ngIf="!isShimmer && attendanceDetails.length > 0">
                             <ng-container *ngFor="let item of attendanceDetails">
                                 <!-- {{item.status}} -->
                                 <tr class="" *ngIf="item.status == 'Present' || item.status == 'Late' || item.status == 'Half Day'">

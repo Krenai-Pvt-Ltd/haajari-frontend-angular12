@@ -25,6 +25,8 @@ export class HelperService {
    }
    organizationRegistrationDate:string='';
    profileChangeStatus : Subject<boolean> = new Subject<boolean>();
+   resignationSubmitted : Subject<boolean> = new Subject<boolean>();
+
    isFirstTime: boolean = true;
    markAsVisited() {
     this.isFirstTime = false;

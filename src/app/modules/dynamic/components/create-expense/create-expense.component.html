@@ -137,15 +137,9 @@
                         <span class="table-font-weight white-space">{{expense.notes}}</span>
                       </td>
                       <td class="text-left">
-                        <!-- <div
-                          [ngClass]="{ 'badge-soft-warning': expense.status.response == 'PENDING','badge-soft-success':expense.status.response =='APPROVED', 'bg-danger':expense.status.response =='REJECTED',
-                               'badge-soft-info':expense.status.response =='SETTLED WITH PAYROLL', 'badge-soft-danger': expense.status.response=='EXPENSE CANCELLED'}"
-                          class="badge rounded-pill">{{expense.status.response}}
-                        </div> -->
-
                         <div
-                          [ngClass]="{ 'badge-soft-warning': expense.status.id == 13,'badge-soft-success':expense.status.id == 14, 'bg-danger':expense.status.id == 15,
-                               'badge-soft-info':expense.status.id == 41, 'bg-info': expense.status.id == 40, 'bg-warning': expense.status.id == 46}"
+                          [ngClass]="{ 'badge-soft-warning': expense.status.id == 13,'badge-soft-success':expense.status.id == 14, 'badge-soft-danger':expense.status.id == 15,
+                               'badge-soft-info':expense.status.id == 41, 'badge-soft-primary': expense.status.id == 40, 'bg-warning': expense.status.id == 46}"
                           class="badge rounded-pill">{{expense.status.response}}
                         </div>
 
@@ -1141,6 +1135,8 @@
                 <div class="form-group">
                   <input class="form-control input-zorro" placeholder="Enter transaction id  " nzSize="large"
                     id="tranId" name="tranId" [(ngModel)]="transactionId" #transactionIdInput="ngModel" required />
+                    
+                    <p *ngIf="existTransactionId" class="mt-1 text-danger">Transaction ID is present</p>
                 </div>
               </div>
             </div>
@@ -1243,8 +1239,10 @@
         </div>
 
         <div *ngIf="payCashDiv && showTransactionDiv" class="d-flex justify-content-end w-100">
+          <!-- <button *ngIf="!paymentCashNoToggle" [disabled]="transactionId == ''" class="btn submitActionBtn"
+            (click)="approveOrDeny(userExpense.id, 41, 0)">Submit</button> -->
           <button *ngIf="!paymentCashNoToggle" [disabled]="transactionId == ''" class="btn submitActionBtn"
-            (click)="approveOrDeny(userExpense.id, 41, 0)">Submit</button>
+            (click)="checkTransactionId(userExpense.id, 41, 0)">Submit</button>
 
           <div class="dot-opacity-loader" *ngIf="paymentCashYesToggle || paymentCashNoToggle">
             <span></span>

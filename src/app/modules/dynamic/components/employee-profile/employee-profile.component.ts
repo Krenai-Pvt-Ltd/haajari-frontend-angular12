@@ -11,7 +11,6 @@ import { FormBuilder, FormGroup, FormGroupDirective, NgForm, Validators} from '@
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { AttendanceCheckTimeResponse, AttendanceTimeUpdateRequestDto, UserDto } from 'src/app/models/user-dto.model';
 import { saveAs } from 'file-saver';
-import { HttpClient } from '@angular/common/http';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AttendanceDetailsResponse } from 'src/app/models/attendance-detail-response';
 import { UserAddressDetailsRequest } from 'src/app/models/user-address-details-request';
@@ -602,6 +601,7 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
           this.events = [];
           this.totalPresent = 0;
           this.totalAbsent = 0;
+          console.log("🚀 ~ EmployeeProfileComponent ~ getUserAttendanceDataFromDate ~ attendances.length:", attendances.length)
 
           if (!attendances.length) {
             let currentDate = moment(sDate, 'YYYY-MM-DD');
@@ -701,9 +701,9 @@ this.endDateStr = firstDayOfMonth.endOf('month').format('YYYY-MM-DD');
   }
 
   getStatusColor(status: any): string {
-    if (status.includes('Leave')) {
-      return 'rgb(255, 255, 143)'; 
-    }
+      if (status.includes('Leave')|| status.includes('Duty')) {
+        return 'rgb(255, 255, 143)'; 
+      }
     switch (status) {
       case 'Present':
         return '#e0ffe0';
@@ -3795,7 +3795,7 @@ closeAttendanceFunc() {
       this.endDate = '';
     }
 
-    this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds).subscribe((res: any) => {
+    this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds, this.userId).subscribe((res: any) => {
       if (res.status) {
         this.expenseList = res.object
         this.loading = false
@@ -4016,5 +4016,6 @@ closeAttendanceFunc() {
   /** Create and view expense end */
 
 }
+
 
 
