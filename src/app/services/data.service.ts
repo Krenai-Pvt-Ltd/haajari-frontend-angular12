@@ -2958,49 +2958,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     );
   }
 
-  getLopSummaryResponseByOrganizationIdAndStartDateAndEndDate(
-    startDate: string,
-    endDate: string,
-    itemPerPage: number,
-    pageNumber: number,
-    search: string,
-    searchBy: string
-  ): Observable<any> {
-    const params = new HttpParams()
-      .set('start_date', startDate)
-      .set('end_date', endDate)
-      .set('item_per_page', itemPerPage)
-      .set('page_number', pageNumber)
-      .set('search', search)
-      .set('search_by', searchBy);
-
-    return this.httpClient.get<any>(
-      `${this.baseUrl}/salary/payroll-dashboard/leave-summary/lop-summary`,
-      { params }
-    );
-  }
-
-  getLopReversalResponseByOrganizationIdAndStartDateAndEndDate(
-    startDate: string,
-    endDate: string,
-    itemPerPage: number,
-    pageNumber: number,
-    search: string,
-    searchBy: string
-  ): Observable<any> {
-    const params = new HttpParams()
-      .set('start_date', startDate)
-      .set('end_date', endDate)
-      .set('item_per_page', itemPerPage)
-      .set('page_number', pageNumber)
-      .set('search', search)
-      .set('search_by', searchBy);
-
-    return this.httpClient.get<any>(
-      `${this.baseUrl}/salary/payroll-dashboard/leave-summary/lop-reversal`,
-      { params }
-    );
-  }
+  
 
   deleteLeaveSettingCategoryById(
     leaveSettingCategoriesId: number
@@ -3090,38 +3048,10 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
     return this.httpClient.get<any>(`${this.baseUrl}/leave-setting-category/list-by-user-uuid`, {params});
   }
 
-  registerLopAdjustmentRequest(lopAdjustmentRequest : LopAdjustmentRequest, startDate : string, endDate : string){
-    const params = new HttpParams()
-    .set('start_date', startDate)
-    .set('end_date', endDate);
-
-    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/register-lop-adjustment-request`, lopAdjustmentRequest, {params});
-  }
+  
 
 
-
-  getPayrollLeaveLogResponse(userUuid : string): Observable<any> {
-    const params = new HttpParams()
-    .set('user_uuid', userUuid);
-
-    return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/get-leave-logs`, {params});
-  }
-
-  registerLopSummaryRequestByOrganizationIdAndStartDateAndEndDate(lopSummaryRequestList : LopSummaryRequest[], startDate : string, endDate : string): Observable<any>{
-    const params = new HttpParams()
-    .set('start_date', startDate)
-    .set('end_date', endDate);
-
-    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/register-lop-summary`, lopSummaryRequestList, {params});
-  }
-
-  registerLopReversalRequestByOrganizationIdAndStartDateAndEndDate(lopReversalRequestList : LopReversalRequest[], startDate : string, endDate : string): Observable<any>{
-    const params = new HttpParams()
-    .set('start_date', startDate)
-    .set('end_date', endDate);
-
-    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/register-lop-reversal`, lopReversalRequestList, {params});
-  }
+  
 
   saveOrganizationHrPolicies(policyDocString: string): Observable<any> {
      const params = new HttpParams()
@@ -3327,37 +3257,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   //   return this.httpClient.get<any>(`${this.baseUrl}/salary-slip/get-all`, {params});
   // }
 
-  getPayrollLeaveResponse(
-    startDate: any,
-    endDate: any,
-    itemPerPage: number,
-    pageNumber: number,
-    search: string,
-    searchBy: string): Observable<any> {
-
-    const params = new HttpParams()
-    .set('start_date', startDate)
-    .set('end_date', endDate)
-    .set('item_per_page', itemPerPage)
-    .set('page_number', pageNumber)
-    .set('search', search)
-    .set('search_by', searchBy)
-    return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/get-leaves`, {params});
-  }
-
-
-  getPayrollLeaveLogsResponse(
-    userUuid  : string,
-    startDate: any,
-    endDate: any
-  ): Observable<any> {
-
-    const params = new HttpParams()
-    .set('user_uuid', userUuid)
-    .set('start_date', startDate)
-    .set('end_date', endDate)
-    return this.httpClient.get<any>(`${this.baseUrl}/salary/payroll-dashboard/leave-summary/get-leave-logs`, {params});
-  }
+  
 
   registerEpfDetailsListByOrganizationId(startDate: string, endDate: string, epfDetailsRequestList : EpfDetailsRequest[]): Observable<any>{
 
@@ -3467,18 +3367,7 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   }
 
 
-  getGeneratedPayrollMonthlyLogs(startDate: string, endDate: string, pageNumber: number, itemsPerPage : number): Observable<any> {
-    const url = `${this.baseUrl}/generate-reports/get-salary-reports-logs`;
-
-    const params = new HttpParams()
-      .set('start_date', startDate)
-      .set('end_date', endDate)
-      .set('page_number', pageNumber)
-      .set('item_per_page', itemsPerPage);
-
-    return this.httpClient.get<any>(url,{ params });
-  //  asset
-  }
+  
 
   getAssetCategory(): Observable<any> {
     const url = `${this.baseUrl}/asset/allocation/get/asset/category`;
@@ -3828,14 +3717,7 @@ getHolidayForOrganization(date: string): Observable<any>{
 
 
 
-  registerPayrollProcessStepByOrganizationIdAndStartDateAndEndDate(startDate: string, endDate: string, payrollProcessStepId: number):Observable<any>{
-    const params = new HttpParams()
-    .set('start_date', startDate)
-    .set('end_date', endDate)
-    .set('payroll_process_step_id', payrollProcessStepId);
-
-    return this.httpClient.post<any>(`${this.baseUrl}/salary/payroll-dashboard/step`,{}, {params});
-  }
+ 
 
   getAdminPersonalDetail():Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/users/personal-detail/admin`, {});
