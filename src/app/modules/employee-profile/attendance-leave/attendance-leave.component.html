@@ -24,7 +24,8 @@
 
                 <div class="d-flex align-items-center justify-content-between">
                     <div class="d-flex align-items-center attendance-date">
-                        <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn">
+                        <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn" [class.disabled]="isPreviousDisabled()"
+                        (click)="goToPreviousMonth()">
                             <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
                                 <mask id="mask0_4719_1625" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
                                     height="21">
@@ -39,10 +40,14 @@
                         </span>
                         <span class="calendar-separator"></span>
                         <div class="dropdown ">
-                            <nz-date-picker nzMode="month" nzFormat="MMM, yyyy"></nz-date-picker>
+                            <nz-date-picker nzMode="month" [nzSize]="size" nzFormat="MMM, yyyy" [(ngModel)]="selectedDate"
+                            (ngModelChange)="onMonthChange($event)" [nzDisabledDate]="disableMonths"></nz-date-picker>
+
+                            <!-- <nz-date-picker nzMode="month" nzFormat="MMM, yyyy"></nz-date-picker> -->
                         </div>
                         <span class="calendar-separator"></span>
-                        <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn">
+                        <span class=" d-flex align-items-center justify-content-center pointer calendar-back-btn" [class.disabled]="isNextDisabled()"
+                        (click)="goToNextMonth()">
                             <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
                                 <mask id="mask0_4719_1639" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="21"
                                     height="21">
@@ -60,7 +65,7 @@
                     <div class="d-flex align-items-center justify-content-end gap-3 w-50">
 
                         <div class="btn-group week-data radio-btn" role="group" aria-label="Basic radio toggle button group">
-                            <input type="radio" class="btn-check" >
+                            <!-- <input type="radio" class="btn-check" >
                             <label class="btn btn-outline-secondary font-12">30 DAYS</label>
                             <input type="radio" class="btn-check" >
                             <label class="btn btn-outline-primary btn-primary font-12" >Week 1</label>
@@ -69,7 +74,42 @@
                             <input type="radio" class="btn-check">
                             <label class="btn btn-outline-secondary font-12">Week 3</label>
                             <input type="radio" class="btn-check">
-                            <label class="btn btn-outline-secondary font-12">Week 4</label>
+                            <label class="btn btn-outline-secondary font-12">Week 4</label> -->
+
+                            <div class="btn-group week-data radio-btn" role="group" aria-label="Basic radio toggle button group">
+                               
+                                <ng-container *ngFor="let week of weekLabels; let i = index">
+                                  <input
+                                    type="radio"
+                                    class="btn-check"
+                                    [id]="'btnradio' + (i + 2)"
+                                    name="weekOptions"
+                                    [value]="week"
+                                    (change)="onTabChange(week)"
+                                    [checked]="selectedTab === week"
+                                  />
+                                  <label
+                                    class="btn btn-outline-primary font-12"
+                                    [for]="'btnradio' + (i + 2)"
+                                  >
+                                    <span >{{ week }}</span>
+                                    <!-- <span *ngIf="presentWeek">Current Week</span> -->
+                                  </label>
+                                </ng-container>
+
+                                <input
+                                type="radio"
+                                class="btn-check"
+                                id="btnradio1"
+                                name="weekOptions"
+                                value="30 DAYS"
+                                (change)="onTabChange('30 DAYS')"
+                                [checked]="selectedTab === '30 DAYS'"
+                              />
+                              <label class="btn btn-outline-primary font-12" for="btnradio1">{{ thirtyDaysLabel }}</label>
+                            
+                              </div>
+                              
                         </div>
 
                         <nz-select class="request-dropdown"
@@ -87,8 +127,9 @@
                         <div class="col-md-8 ">
                             <div class="attendance-summery p-3 pt-2 pb-2 d-flex align-items-center justify-content-between ">
                                 <div>
-                                    <h5 class="mb-0 font-15">208 hr 30 min</h5>
-                                    <p class="mb-0 font-12">Scheduled</p>
+                                    <h5 class="mb-0 font-15">{{convertToHourMinuteFormat(totalAttendanceDetails.totalOvertimeHours)}}<span class="lat">({{totalAttendanceDetails.totalOvertimeCount}} overtime)</span></h5>
+                                    <p class="mb-0 font-12">Overtime</p>
+                                   
                                 </div>
                                 <div class="text-end d-flex align-items-center gap-2">
                                     <span class="total-worked">
@@ -110,41 +151,43 @@
                                         </svg>
                                     </span>
                                     <div>
-                                    <h5 class="mb-0 font-15">215 hr 15 min</h5>
-                                    <p class="mb-0 font-12">Worked</p>
+                                        <h5 class="mb-0 font-15">{{convertToHourMinuteFormat(totalAttendanceDetails.totalWorkedHours)}}</h5>
+                                        <p class="mb-0 font-12">Worked</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="attendance-summery p-3 pt-2 pb-2">
-                                <h5 class="mb-0 font-15">+ 7 hr 30 min</h5>
-                                <p class="mb-0 font-12">Difference</p>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="attendance-summery p-3 pt-2 pb-2">
-                                <h5 class="mb-0 font-15">4 hr 30 min <span class="lat">(3 late in’s)</span></h5>
-                                <p class="mb-0 font-12">Total delay</p>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="attendance-summery p-3 pt-2 pb-2">
-                                <h5 class="mb-0 font-15">1 hr 5 min <span class="lat">(5 Early Out’s)</span></h5>
+                                <!-- <h5 class="mb-0 font-15">+ 7 hr 30 min</h5>
+                                <p class="mb-0 font-12">Difference</p> -->
+                                <h5 class="mb-0 font-15">{{convertToHourMinuteFormat(totalAttendanceDetails.totalEarlyCheckoutHours)}} <span class="lat">({{totalAttendanceDetails.totalEarlyCheckoutCount}} early out’s)</span></h5>
                                 <p class="mb-0 font-12">Total shortage</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="attendance-summery p-3 pt-2 pb-2">
+                                <h5 class="mb-0 font-15">{{convertToHourMinuteFormat(totalAttendanceDetails.totalLateHours)}} <span class="lat">({{totalAttendanceDetails.totalLateCount}} late in’s)</span></h5>
+                                <p class="mb-0 font-12">Total late delay</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="attendance-summery p-3 pt-2 pb-2">
+                                <h5 class="mb-0 font-15">{{convertToHourMinuteFormat(totalAttendanceDetails.totalHalfDayHours)}} <span class="lat">({{totalAttendanceDetails.totalHalfDayCount}} half day in’s)</span></h5>
+                                <p class="mb-0 font-12">Total half day delay</p>
                             </div>
                         </div>
 
                         <div class="col-md-2">
                             <div class="attendance-summery p-3 pt-2 pb-2">
-                                <h5 class="mb-0 font-15">1</h5>
-                                <p class="mb-0 font-12">Half Days</p>
+                                <h5 class="mb-0 font-15">{{totalAttendanceDetails.totalSystemCheckoutCount}}</h5>
+                                <p class="mb-0 font-12">System checkout</p>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="attendance-summery p-3 pt-2 pb-2">
-                                <h5 class="mb-0 font-15">1</h5>
-                                <p class="mb-0 font-12">Absence</p>
+                                <h5 class="mb-0 font-15">{{totalAttendanceDetails.totalAbsentCount}}</h5>
+                                <p class="mb-0 font-12">Absent</p>
                             </div>
                         </div>
                        </div>
@@ -195,8 +238,8 @@
                             </tr>
                         </thead>
 
-
-                        <!-- <tbody>
+<!-- {{isShimmer}} -->
+                        <tbody *ngIf="isShimmer">
                             <tr *ngFor="let item of [].constructor(7)">
                                 <td>
                                     <ngx-shimmer-loading [width]="'100%'" [height]="'20px'"></ngx-shimmer-loading>
@@ -229,89 +272,130 @@
                                     <ngx-shimmer-loading [width]="'100%'" [height]="'20px'"></ngx-shimmer-loading>
                                 </td>
                             </tr>
-                        </tbody> -->
+                        </tbody> 
 
-                        <tbody class="">
-                            <tr class="" *ngFor="let item of [].constructor(4)">
-                                <td class="text-left">
-                                    <span class="team-maneger mb-0 ">
-                                        Monday, 1 Jun 2023</span>
-                                </td>
-                                <td class="text-center">
-                                    <span class="team-maneger mb-0 text-success">
-                                         Present
+                        <tbody class="" *ngIf="!isShimmer && attendanceDetails.length > 0">
+                            <ng-container *ngFor="let item of attendanceDetails">
+                                <!-- {{item.status}} -->
+                                <tr class="" *ngIf="item.status == 'Present' || item.status == 'Late' || item.status == 'Half Day'">
+                                    
+                                    <td class="text-left">
+                                        <span class="team-maneger mb-0 ">
+                                        {{item.createdDate | date:'fullDate'}}</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="team-maneger mb-0 text-success">
+                                            <!-- {{item.status}} -->
+                                             Present
+                                            </span>
+                                    </td>
+                                    <td class="text-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" *ngIf="item.attendanceSource == 'SLACK'">
+                                            <g clip-path="url(#clip0_4742_116)">
+                                                <path
+                                                    d="M7.31906 10.5859C6.16523 10.5859 5.22656 11.5246 5.22656 12.6784V17.9075C5.22656 19.0613 6.16523 20 7.31906 20C8.47289 20 9.41156 19.0613 9.41156 17.9075V12.6784C9.41156 11.5246 8.47289 10.5859 7.31906 10.5859Z"
+                                                    fill="#E01E5A" />
+                                                <path
+                                                    d="M4.05938 10.5859H2.03359C0.916562 10.5859 0.0078125 11.4947 0.0078125 12.6117C0.0078125 13.7287 0.916602 14.6375 2.03359 14.6375C3.15059 14.6375 4.05938 13.7287 4.05938 12.6117V10.5859Z"
+                                                    fill="#E01E5A" />
+                                                <path
+                                                    d="M0 7.32297C0 8.4768 0.938672 9.41547 2.0925 9.41547H7.32152C8.47539 9.41547 9.41406 8.4768 9.41406 7.32297C9.41406 6.16914 8.47539 5.23047 7.32156 5.23047H2.0925C0.938672 5.23043 0 6.16914 0 7.32297Z"
+                                                    fill="#36C5F0" />
+                                                <path
+                                                    d="M7.38906 4.05547H9.41484V2.02969C9.41484 0.912656 8.50605 0.00390625 7.38906 0.00390625C6.27203 0.00390625 5.36328 0.912695 5.36328 2.02969C5.36328 3.14668 6.27203 4.05547 7.38906 4.05547Z"
+                                                    fill="#36C5F0" />
+                                                <path
+                                                    d="M12.6784 9.41406C13.8323 9.41406 14.7709 8.47539 14.7709 7.32156V2.0925C14.771 0.938672 13.8323 0 12.6784 0C11.5246 0 10.5859 0.938672 10.5859 2.0925V7.32152C10.5859 8.47539 11.5246 9.41406 12.6784 9.41406Z"
+                                                    fill="#2EB67D" />
+                                                <path
+                                                    d="M15.9453 9.41484H17.9711C19.0881 9.41484 19.9969 8.50605 19.9969 7.38906C19.9969 6.27203 19.0881 5.36328 17.9711 5.36328C16.8541 5.36328 15.9453 6.27207 15.9453 7.38906V9.41484Z"
+                                                    fill="#2EB67D" />
+                                                <path
+                                                    d="M20 12.6784C20 11.5246 19.0613 10.5859 17.9075 10.5859H12.6784C11.5246 10.5859 10.5859 11.5246 10.5859 12.6784C10.5859 13.8323 11.5246 14.7709 12.6784 14.7709H17.9075C19.0613 14.771 20 13.8323 20 12.6784Z"
+                                                    fill="#ECB22E" />
+                                                <path
+                                                    d="M12.6117 15.9414H10.5859V17.9672C10.5859 19.0842 11.4947 19.993 12.6117 19.993C13.7287 19.993 14.6375 19.0842 14.6375 17.9672C14.6375 16.8502 13.7287 15.9414 12.6117 15.9414Z"
+                                                    fill="#ECB22E" />
+                                            </g>
+                                            <defs>
+                                                <clipPath id="clip0_4742_116">
+                                                    <rect width="20" height="20" fill="white" />
+                                                </clipPath>
+                                            </defs>
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none" *ngIf="item.attendanceSource == 'WHATSAPP'">
+                                            <g clip-path="url(#clip0_4894_1292)">
+                                                <path
+                                                    d="M0.536266 23C0.407116 23 0.281475 22.9489 0.188297 22.8547C0.065464 22.7305 0.0180854 22.5501 0.0642357 22.3814L1.55947 16.9213C0.628567 15.238 0.13776 13.3337 0.138462 11.4007C0.141094 5.11425 5.25692 0 11.5428 0C14.5917 0.00122833 17.4566 1.18885 19.6098 3.3437C21.7627 5.49872 22.9479 8.36337 22.947 11.4098C22.9442 17.6964 17.8284 22.811 11.5428 22.811C11.5428 22.811 11.5381 22.811 11.5379 22.811C9.70191 22.8103 7.8817 22.3628 6.261 21.5153L0.660328 22.984C0.619267 22.9947 0.577503 23 0.536266 23Z"
+                                                    fill="#E5E5E5" />
+                                                <path
+                                                    d="M0.535156 22.5095L2.08356 16.8551C1.12844 15.2002 0.626053 13.323 0.626755 11.3997C0.629211 5.38319 5.52534 0.488281 11.5417 0.488281C14.4613 0.48951 17.2017 1.62589 19.2625 3.68844C21.3231 5.75098 22.4576 8.49262 22.4565 11.4085C22.4539 17.4249 17.557 22.3205 11.5417 22.3205C11.5414 22.3205 11.5419 22.3205 11.5417 22.3205H11.537C9.71027 22.3198 7.9155 21.8616 6.3213 20.9921L0.535156 22.5095ZM6.58926 19.0168L6.92073 19.2132C8.31331 20.0396 9.90997 20.4768 11.5382 20.4776H11.5417C16.5417 20.4776 20.6114 16.4087 20.6135 11.4078C20.6144 8.98431 19.6717 6.7054 17.9589 4.99117C16.2459 3.27695 13.9684 2.33236 11.5451 2.33131C6.541 2.33131 2.47153 6.39972 2.4696 11.4004C2.4689 13.1141 2.9483 14.7829 3.85657 16.2271L4.0724 16.5703L3.15572 19.917L6.58926 19.0168Z"
+                                                    fill="white" />
+                                                <path
+                                                    d="M0.914062 22.13L2.40894 16.6711C1.48664 15.0736 1.0018 13.2611 1.00233 11.4047C1.00461 5.59649 5.73141 0.871094 11.5391 0.871094C14.358 0.872322 17.0036 1.9694 18.9927 3.96053C20.9822 5.95165 22.0772 8.59836 22.0761 11.413C22.0737 17.2214 17.3467 21.9473 11.5397 21.9473C11.5391 21.9473 11.5398 21.9473 11.5397 21.9473H11.5349C9.77157 21.9466 8.03874 21.5041 6.49982 20.6653L0.914062 22.13Z"
+                                                    fill="#4DCB5B" />
+                                                <path
+                                                    d="M0.535156 22.5095L2.08356 16.8551C1.12844 15.2002 0.626053 13.323 0.626755 11.3997C0.629211 5.38319 5.52534 0.488281 11.5417 0.488281C14.4613 0.48951 17.2017 1.62589 19.2625 3.68844C21.3231 5.75098 22.4576 8.49262 22.4565 11.4085C22.4539 17.4249 17.557 22.3205 11.5417 22.3205C11.5414 22.3205 11.5419 22.3205 11.5417 22.3205H11.537C9.71027 22.3198 7.9155 21.8616 6.3213 20.9921L0.535156 22.5095ZM6.58926 19.0168L6.92073 19.2132C8.31331 20.0396 9.90997 20.4768 11.5382 20.4776H11.5417C16.5417 20.4776 20.6114 16.4087 20.6135 11.4078C20.6144 8.98431 19.6717 6.7054 17.9589 4.99117C16.2459 3.27695 13.9684 2.33236 11.5451 2.33131C6.541 2.33131 2.47153 6.39972 2.4696 11.4004C2.4689 13.1141 2.9483 14.7829 3.85657 16.2271L4.0724 16.5703L3.15572 19.917L6.58926 19.0168Z"
+                                                    fill="white" />
+                                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                                    d="M8.81441 6.83702C8.61016 6.38289 8.39503 6.37377 8.2006 6.36587C8.04162 6.35903 7.85965 6.35938 7.67803 6.35938C7.49624 6.35938 7.20074 6.42781 6.95086 6.70068C6.70081 6.97354 5.99609 7.63333 5.99609 8.9752C5.99609 10.3172 6.9735 11.6138 7.10984 11.796C7.24619 11.9779 8.99656 14.8196 11.7686 15.9128C14.0724 16.8214 14.5411 16.6407 15.0412 16.5953C15.5413 16.5498 16.6547 15.9355 16.8819 15.2987C17.1093 14.6619 17.1093 14.1161 17.0411 14.0019C16.9728 13.8884 16.791 13.8201 16.5183 13.6838C16.2457 13.5474 14.9048 12.8874 14.6548 12.7965C14.4047 12.7055 14.2229 12.6602 14.0411 12.9332C13.8592 13.2059 13.337 13.8201 13.1778 14.0019C13.0186 14.1842 12.8595 14.207 12.5868 14.0705C12.3141 13.9338 11.4357 13.646 10.3937 12.7169C9.583 11.9941 9.03551 11.1013 8.87636 10.8282C8.71738 10.5555 8.87373 10.4208 8.99621 10.2718C9.21678 10.0035 9.58686 9.52111 9.67776 9.33931C9.76865 9.15717 9.72321 8.99801 9.65512 8.86149C9.58686 8.72515 9.05675 7.37644 8.81441 6.83702Z"
+                                                    fill="white" />
+                                            </g>
+                                            <defs>
+                                                <clipPath id="clip0_4894_1292">
+                                                    <rect width="23" height="23" fill="white" />
+                                                </clipPath>
+                                            </defs>
+                                        </svg>
+                                       
+                                    </td>
+                                    <td class="text-left">
+                                        <div class="team-maneger mb-0 table-font-weight schedule">
+                                            <h5 class="mb-0 font-12"> {{item.shiftInTime | date:'shortTime'}} -  {{item.shiftOutTime | date:'shortTime'}} <span class="lat">({{convertToHourMinuteFormat(item.totalWorkingHour)}})</span></h5>
+                                            <p class="mb-0 font-10">Shift: {{item.shiftType}}</p>
+                                        </div>
+                                    </td>
+                                    <td class="text-left">
+                                        <span class="team-maneger mb-0 table-font-weight">
+                                            {{item.checkInTime | date:'shortTime'}} &nbsp; <span class="text-danger font-12" *ngIf=" item.status == 'Late'"> Late In</span> <span class="text-danger font-12" *ngIf=" item.status == 'Half Day'"> Half Day</span>
                                         </span>
-                                </td>
-                                <td class="text-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                        <g clip-path="url(#clip0_4742_116)">
-                                            <path
-                                                d="M7.31906 10.5859C6.16523 10.5859 5.22656 11.5246 5.22656 12.6784V17.9075C5.22656 19.0613 6.16523 20 7.31906 20C8.47289 20 9.41156 19.0613 9.41156 17.9075V12.6784C9.41156 11.5246 8.47289 10.5859 7.31906 10.5859Z"
-                                                fill="#E01E5A" />
-                                            <path
-                                                d="M4.05938 10.5859H2.03359C0.916562 10.5859 0.0078125 11.4947 0.0078125 12.6117C0.0078125 13.7287 0.916602 14.6375 2.03359 14.6375C3.15059 14.6375 4.05938 13.7287 4.05938 12.6117V10.5859Z"
-                                                fill="#E01E5A" />
-                                            <path
-                                                d="M0 7.32297C0 8.4768 0.938672 9.41547 2.0925 9.41547H7.32152C8.47539 9.41547 9.41406 8.4768 9.41406 7.32297C9.41406 6.16914 8.47539 5.23047 7.32156 5.23047H2.0925C0.938672 5.23043 0 6.16914 0 7.32297Z"
-                                                fill="#36C5F0" />
-                                            <path
-                                                d="M7.38906 4.05547H9.41484V2.02969C9.41484 0.912656 8.50605 0.00390625 7.38906 0.00390625C6.27203 0.00390625 5.36328 0.912695 5.36328 2.02969C5.36328 3.14668 6.27203 4.05547 7.38906 4.05547Z"
-                                                fill="#36C5F0" />
-                                            <path
-                                                d="M12.6784 9.41406C13.8323 9.41406 14.7709 8.47539 14.7709 7.32156V2.0925C14.771 0.938672 13.8323 0 12.6784 0C11.5246 0 10.5859 0.938672 10.5859 2.0925V7.32152C10.5859 8.47539 11.5246 9.41406 12.6784 9.41406Z"
-                                                fill="#2EB67D" />
-                                            <path
-                                                d="M15.9453 9.41484H17.9711C19.0881 9.41484 19.9969 8.50605 19.9969 7.38906C19.9969 6.27203 19.0881 5.36328 17.9711 5.36328C16.8541 5.36328 15.9453 6.27207 15.9453 7.38906V9.41484Z"
-                                                fill="#2EB67D" />
-                                            <path
-                                                d="M20 12.6784C20 11.5246 19.0613 10.5859 17.9075 10.5859H12.6784C11.5246 10.5859 10.5859 11.5246 10.5859 12.6784C10.5859 13.8323 11.5246 14.7709 12.6784 14.7709H17.9075C19.0613 14.771 20 13.8323 20 12.6784Z"
-                                                fill="#ECB22E" />
-                                            <path
-                                                d="M12.6117 15.9414H10.5859V17.9672C10.5859 19.0842 11.4947 19.993 12.6117 19.993C13.7287 19.993 14.6375 19.0842 14.6375 17.9672C14.6375 16.8502 13.7287 15.9414 12.6117 15.9414Z"
-                                                fill="#ECB22E" />
-                                        </g>
-                                        <defs>
-                                            <clipPath id="clip0_4742_116">
-                                                <rect width="20" height="20" fill="white" />
-                                            </clipPath>
-                                        </defs>
-                                    </svg>
-                                </td>
-                                <td class="text-left">
-                                    <div class="team-maneger mb-0 table-font-weight schedule">
-                                        <h5 class="mb-0 font-12">9 am - 6 pm <span class="lat">(9 hr)</span></h5>
-                                        <p class="mb-0 font-10">Shift: Morning Shift</p>
-                                    </div>
-                                </td>
-                                <td class="text-left">
-                                    <span class="team-maneger mb-0 table-font-weight">
-                                        9:00 am &nbsp; <span class="text-danger font-12"> Late In</span>
-                                    </span>
-                                </td>
-                                <td class="text-left">
-                                    <span class="team-maneger mb-0 table-font-weight">
-                                        6:00 pm &nbsp; <span class="text-primary font-12">System</span>
-                                    </span>
-                                </td>
+                                    </td>
+                                    <td class="text-left">
+                                        <span class="team-maneger mb-0 table-font-weight" *ngIf="item.checkOutTime">
+                                            {{item.checkOutTime | date:'shortTime'}} &nbsp; <span class="text-primary font-12" *ngIf="item.checkoutType == 'SYSTEM_GENERATED'">System</span>
+                                        </span>
+                                        <span class="team-maneger mb-0 table-font-weight" *ngIf="!item.checkOutTime">
+                                            <span class="text-primary font-12">Working</span>
+                                        </span>
+                                    </td>
 
-                                <td class="text-center">
-                                    <span class="team-maneger mb-0 table-font-weight"> 1</span>
-                                </td>
-                                <td>
-                                    <span class="team-maneger text-center mb-0 table-font-weight">
-                                        1 hr 30 min</span>
-                                </td>
+                                    <td class="text-center">
+                                        <span class="team-maneger mb-0 table-font-weight"> {{item.breakCount}}</span>
+                                    </td>
+                                    <td>
+                                        <span class="team-maneger text-center mb-0 table-font-weight">
+                                            {{convertToHourMinuteFormat(item.totalBreakHours)}}</span>
+                                    </td>
 
-                                <td class="text-left">
-                                    <span class="team-maneger text-center mb-0 table-font-weight">
-                                        5 hr 30 min</span>
-                                </td>
-                                <td class=" text-left">
-                                    <span class="team-maneger mb-0 table-font-weight text-danger">
-                                        -30 min</span>
-                                </td>
-                            </tr>
-                            <tr>
+                                    <td class="text-left">
+                                        <span class="team-maneger text-center mb-0 table-font-weight">
+                                        {{convertToHourMinuteFormat(item.totalWorkedHour)}}</span>
+                                    </td>
+                                    <td class="text-left">
+                                        <span 
+                                          class="team-manager mb-0 table-font-weight" 
+                                          [ngClass]="{
+                                            'text-danger': checkTimeNegative(item.workingHourDifference),
+                                            'text-success': !checkTimeNegative(item.workingHourDifference)
+                                          }">
+                                          {{ convertToHourMinuteFormatNegativeCase(item.workingHourDifference) }}
+                                        </span>
+                                      </td>
+                                      
+                               
+                                </tr>
+                           
+                            <!-- <tr>
                                 <td class="text-left">
                                     <span class="team-maneger mb-0 ">
                                         Monday, 1 Jun 2023</span>
@@ -378,11 +462,12 @@
                                     <span class="team-maneger mb-0 table-font-weight text-danger">
                                         -30 min</span>
                                 </td>
-                            </tr>
-                            <tr class="week-holiday">
+                            </tr> -->
+                            <!-- holiday -->
+                            <tr class="week-holiday" *ngIf="(item.status == 'Custom Holiday' || item.status == 'Universal Holiday')" >
                                 <td class="text-left">
                                     <span class="team-maneger mb-0 ">
-                                        Monday, 1 Jun 2023</span>
+                                        {{item.createdDate | date:'fullDate'}}</span>
                                 </td>
                                 <td class="text-center">
                                     <span class="team-maneger mb-0 text-warning">
@@ -416,13 +501,14 @@
 
                                 </td>
                             </tr>
-                            <tr class="week-off">
+                            <!-- week off  -->
+                            <tr class="week-off" *ngIf="item.status == 'Weekly Holiday'">
                                 <td class="text-left">
                                     <span class="team-maneger mb-0 ">
-                                        Monday, 1 Jun 2023</span>
+                                        {{item.createdDate | date:'fullDate'}}</span>
                                 </td>
                                 <td class="text-center">
-                                    <span class="team-maneger mb-0 text-black">
+                                    <span class="team-maneger mb-0 text-primary">
                                         W-off
                                     </span>
                                 </td>
@@ -453,6 +539,83 @@
 
                                 </td>
                             </tr>
+                            <!-- leave  -->
+                            <tr class="week-leave" *ngIf="item.status == 'Paid Leave' || item.status == 'Unpaid Leave'">
+                                <td class="text-left">
+                                    <span class="team-maneger mb-0 ">
+                                        {{item.createdDate | date:'fullDate'}}</span>
+                                </td>
+                                <td class="text-center">
+                                    <span class="team-maneger mb-0 text-black">
+                                       {{item.status}}
+                                    </span>
+                                </td>
+                                <td class="text-center">
+
+                                </td>
+                                <td class="text-left">
+
+                                </td>
+                                <td class="text-left">
+
+                                </td>
+                                <td class="text-left">
+
+                                </td>
+
+                                <td class="text-center">
+
+                                </td>
+                                <td>
+
+                                </td>
+
+                                <td class="text-left">
+
+                                </td>
+                                <td class=" text-left">
+
+                                </td>
+                            </tr>
+                            <!-- absent -->
+                            <tr class="week-absent" *ngIf="item.status == 'Absent'">
+                                <td class="text-left">
+                                    <span class="team-maneger mb-0 ">
+                                        {{item.createdDate | date:'fullDate'}}</span>
+                                </td>
+                                <td class="text-center">
+                                    <span class="team-maneger mb-0 text-danger">
+                                       Absent
+                                    </span>
+                                </td>
+                                <td class="text-center">
+
+                                </td>
+                                <td class="text-left">
+
+                                </td>
+                                <td class="text-left">
+
+                                </td>
+                                <td class="text-left">
+
+                                </td>
+
+                                <td class="text-center">
+
+                                </td>
+                                <td>
+
+                                </td>
+
+                                <td class="text-left">
+
+                                </td>
+                                <td class=" text-left">
+
+                                </td>
+                            </tr>
+                            </ng-container>
                         </tbody>
                     </table>
 

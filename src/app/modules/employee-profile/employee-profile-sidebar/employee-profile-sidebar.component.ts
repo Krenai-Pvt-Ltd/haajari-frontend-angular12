@@ -304,10 +304,11 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     this.userResignationReq.createdBy = this.ROLE
     this.userResignationReq.uuid = this.userId
     // console.log('request form : ',this.userResignationReq)
-
     this.dataService.submitResignation(this.userResignationReq).subscribe((res: any) => {
         if(res.status){
           this.resignationToggle =false
+          // this.resignationViewModal = true;
+          this.helperService.resignationSubmitted.next(true);
           this.closeResignationButton.nativeElement.click()
           this.clearForm();
           form.resetForm();

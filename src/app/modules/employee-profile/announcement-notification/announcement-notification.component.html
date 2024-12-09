@@ -507,7 +507,7 @@
                                     fill="#1C1B1F" />
                             </g>
                         </svg>
-                        Mark All AS read
+                        Mark All AS Read
                     </button>
                     <button class="btn assets-request" (click)="reload('mail')">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
@@ -558,7 +558,7 @@
                   </div>
                   <div style="width:10%" class="text-end d-flex align-items-center gap-2 justify-content-end">
                     <div *ngIf="!mail.isRead" class="new-notification"></div>
-                    <span class="mb-0">{{ formatDate(mail.createdDate) }}</span>
+                    <span class="mb-0">{{ getTimeAgo(mail.createdDate.toLocaleString()) }}</span>
                   </div>
                 </div>
               </ng-template>
@@ -600,62 +600,12 @@
 </button>
 
 <!-- Modal -->
-<div class="modal fade" id="notification-readmore" tabindex="-1" role="dialog" #assetRequestModal aria-hidden="true" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog read-notification" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Onboarding</h5>
-                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                            width="24" height="24">
-                            <rect width="24" height="24" fill="#D9D9D9" />
-                        </mask>
-                        <g mask="url(#mask0_5037_2014)">
-                            <path
-                                d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
-                                fill="black" />
-                        </g>
-                    </svg>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="notification-detail">
-                    <div class="d-flex align-items-center gap-2 mb-4 notification-heading">
-                        <img src="assets/images/user.png" style="width:50px;">
-                        <div class="">
-                            <h5 class="mb-1">HR <span class="created-announcement">Created an Announcement</span></h5>
-                            <h6 class="mb-0 ">3 Months Ago</h6>
-                        </div>
-                    </div>
-                    <h5 class="mb-3">Employee Onboard!</h5>
-                    <p class="mb-4">Dear All,</p>
-                    <p class="mb-4">I trust this email finds you well. We hope you received our previous message regarding your onboarding process at Krenai.</p>
-                    <p class="mb-4">As we're keen on ensuring a seamless start to your journey with us, we kindly remind you to complete your onboarding
-                    form at your earliest convenience. Your prompt response is crucial to facilitate the integration process into our
-                    system.</p>
-                    <p class="mb-4"> Onboarding Portal Link: <a class="text-primary">ttps://app.hajiri.in/employee-onboarding/employee</a></p>
-                    <p class="mb-4"> Here's a quick checklist to guide you through the process:</p>
-                    <p class="mb-4"> Personal Information: Double-check and fill in your personal details accurately.
-                        Employment Data: Enter your employment history, qualifications, and other professional details.
-                        Document Upload: Please ensure any requested documents are uploaded, such as identification, certificates, etc.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#notification-readmore">
-    Onboarding
-</button>
-
-<!-- Modal -->
 <div class="modal fade" id="notification-readmore" tabindex="-1" role="dialog" #assetRequestModal aria-hidden="true"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog read-notification" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Onboarding</h5>
+                <h5 class="modal-title" id="exampleModalLabel">{{ notification.title }}</h5>
                 <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                         <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -675,35 +625,40 @@
                     <div class="d-flex align-items-center gap-2 mb-4 notification-heading">
                         <img src="assets/images/user.png" style="width:50px;">
                         <div class="">
-                            <h5 class="mb-1">HR <span class="created-announcement">Created an Announcement</span></h5>
-                            <h6 class="mb-0 ">3 Months Ago</h6>
+                            <h5 class="mb-1">{{apiResponse?.approvedBy || 'HR'}} <span class="created-announcement">Created an Announcement</span></h5>
+                            <h6 class="mb-0">{{ getTimeAgo(notification.createdDate) }}</h6>
                         </div>
                     </div>
-                    <h5 class="mb-3">Employee Onboard!</h5>
-                    <p class="mb-4">Dear All,</p>
+                    <h5 class="mb-3">{{ notification.message }}</h5>
+                    <p class="mb-4" *ngIf="!Constant.EMPTY_STRINGS.includes(apiResponse?.createdDate)"> Requested On : {{this.apiResponse?.createdDate | date : 'short'}} </p>
+                    <p class="mb-4" *ngIf="!Constant.EMPTY_STRINGS.includes(apiResponse?.updatedDate)"> Action Taken On : {{this.apiResponse?.updatedDate | date : 'short'}} </p>
+
+                    <!-- leave specific fileds -->
+                    <p class="mb-4" *ngIf="!Constant.EMPTY_STRINGS.includes(apiResponse?.startDate)"> Start Date : {{apiResponse?.startDate | date : 'short'}} </p>
+
+                    <p class="mb-4" *ngIf="!Constant.EMPTY_STRINGS.includes(apiResponse?.endDate)"> End Date : {{apiResponse?.endDate | date : 'short'}} </p>
+                    <p class="mb-4" *ngIf="!Constant.EMPTY_STRINGS.includes(apiResponse?.status)"> Status: {{apiResponse?.status}}  </p>
+                    <p class="mb-4" *ngIf="!Constant.EMPTY_STRINGS.includes(apiResponse?.approvedBy?.name)"> {{apiResponse?.status}} by : {{apiResponse?.approvedBy.name}} </p>
+                    <p class="mb-4" *ngIf="!Constant.EMPTY_STRINGS.includes(apiResponse?.optNotes)"> Note: {{apiResponse?.optNotes}}  </p>
+                    <p class="mb-4" *ngIf="!Constant.EMPTY_STRINGS.includes(apiResponse?.note)"> Note: {{apiResponse?.note}}  </p>
+
+                    <!-- <p class="mb-4">Dear All,</p>
                     <p class="mb-4">I trust this email finds you well. We hope you received our previous message
                         regarding your onboarding process at Krenai.</p>
                     <p class="mb-4">As we're keen on ensuring a seamless start to your journey with us, we kindly remind
-                        you to complete your onboarding
-                        form at your earliest convenience. Your prompt response is crucial to facilitate the integration
-                        process into our
-                        system.</p>
-                    <p class="mb-4"> Onboarding Portal Link: <a
-                            class="text-primary">ttps://app.hajiri.in/employee-onboarding/employee</a></p>
+                        you to complete your onboarding form at your earliest convenience. Your prompt response is crucial to facilitate the integration process into our system.</p>
+                    <p class="mb-4"> Onboarding Portal Link: <a class="text-primary">ttps://app.hajiri.in/employee-onboarding/employee</a></p>
                     <p class="mb-4"> Here's a quick checklist to guide you through the process:</p>
                     <p class="mb-4"> Personal Information: Double-check and fill in your personal details accurately.
                         Employment Data: Enter your employment history, qualifications, and other professional details.
                         Document Upload: Please ensure any requested documents are uploaded, such as identification,
-                        certificates, etc.</p>
+                        certificates, etc.</p> -->
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#createAnnouncement">
-    Create Announcement
-</button>
 
 <!-- Modal -->
 <div class="modal fade" id="createAnnouncement" tabindex="-1" role="dialog" #assetRequestModal aria-hidden="true"

@@ -47,9 +47,7 @@ export class EmployeeOnboardingFormComponent implements OnInit {
   constructor(
     public dataService: DataService,
     private router: Router,
-    private activateRoute: ActivatedRoute,
     private afStorage: AngularFireStorage,
-    private domSanitizer: DomSanitizer,
     private helperService: HelperService,
     private modalService: NgbModal
   ) {

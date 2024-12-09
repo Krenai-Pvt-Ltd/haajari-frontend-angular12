@@ -21,10 +21,9 @@
       </ul>
 
 
-      <div class="d-flex align-items-center gap-3" style="margin-right: 10px;" *ngIf="activeTab === 'allExpense'">
-        <button class="btn p-0 primaryBtnLink d-flex align-items-center gap-2" data-bs-toggle="modal"
-          data-bs-target="#sampleFileModal">
-          <i class="bi bi-upload"></i>
+      <div class="d-flex align-items-center gap-3" style="margin-right: 15px;"  *ngIf="activeTab === 'allExpense'">
+        <button class="btn p-0 primaryBtnLink d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#sampleFileModal">
+          <i class="bi bi-upload"></i> 
           <span>Import</span>
         </button>
         <span class="calendar-separator"></span>
@@ -1950,7 +1949,7 @@
 <!-- Expense Import Modal -->
 <div class="modal fade" id="sampleFileModal" tabindex="-1" aria-labelledby="sampleFileModalLabel" aria-hidden="true"
   #sampleFileModal>
-  <div class="modal-dialog modal-xl modal-dialog-centered" style="max-width: 1400px !important;">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="sampleFileModalLabel">Sample Excel File</h5>
