@@ -305,7 +305,7 @@
                           </td>
                         </tr>
                       </tbody>
-                      <tbody *ngIf="totalCount > 0" class="table-design">
+                      <tbody *ngIf="totalCount > 0">
                         <tr *ngFor="let ad of assetData; let i = index">
                           <!-- <td>#{{ad.assetId || 'N/A'}}</td> -->
                           <!-- <td>#{{ i + 1 + (pageNumber - 1) * itemPerPage }}</td> -->
@@ -318,16 +318,7 @@
                           <td>{{ ad.location || "N/A" }}</td>
                           <td>{{ ad.vendorName || "N/A" }}</td>
                           <td>
-                            <span [ngClass]="{
-                                         'badge-outline-success': ad.status === 'ASSIGNED',
-                                         'badge-outline-danger': ad.status === 'UNAVAILABLE',
-                                         'badge-outline-warning': ad.status === 'AVAILABLE'
-                                         }" class="badge rounded-pill" data-bs-toggle="modal"
-                              data-bs-target="#assignRejectModal" (click)="
-                                         assignOrRejectModalStrings(ad.status, ad.assetId)
-                                         ">{{ ad.status }} <i class="ti ti-edit-circle"></i></span>
-                            <br /><span class="badge bg-light text-dark" *ngIf="ad.status === 'ASSIGNED'">{{ ad.userName
-                              }}</span>
+                            <span class="badge rounded-pill" [ngClass]="{'badge-soft-success': ad.status === 'ASSIGNED', 'badge-soft-danger': ad.status === 'UNAVAILABLE', 'badge-soft-warning': ad.status === 'AVAILABLE'}"  >{{ ad.status }} </span> <br /><span class="badge bg-light text-dark" *ngIf="ad.status === 'ASSIGNED'">{{ ad.userName }}</span>
                           </td>
                           <td class="stickyColThend bg-white">
                             <div class="dropdown">
@@ -345,6 +336,9 @@
                                   *ngIf="ad.status === 'ASSIGNED' ||ad.status === 'AVAILABLE' ">
                                   <a class="dropdown-item"><i class="bi bi-tools"></i> Update Assets</a>
                                 </li>
+                                <li data-bs-toggle="modal" data-bs-target="#assignRejectModal" (click)="assignOrRejectModalStrings(ad.status, ad.assetId) ">
+                                <a class="dropdown-item"><i class="bi bi-arrow-left-right"></i> Assign Asset</a>
+                              </li>
                                 <li data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"
                                   (click)="openDeleteAssetModal(ad.assetId)">
                                   <a class="dropdown-item"><i class="bi bi-trash3"></i> Delete Assets</a>

@@ -1,7 +1,9 @@
 .emplyee-profile-sidebar-main-box {
     border-right: 1px solid #f1f1f1;
 }
-
+.table tbody {
+    border: 1px solid #f1f1f1;
+}
 .shimmer-wrapper {
   height: 300px; /* Adjust height as needed */
   background: #f6f7f8;

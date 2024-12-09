@@ -652,10 +652,7 @@
                                 <label for="switch{{ user.uuid }}" class="label-success"></label>
                               </div>
                             </td>
-                            <!-- <td class="text-center">13</td>  -->
-                           
-      
-                          <!-- <ng-container *ngIf="user.resignationStatus == null; else resignationStatusBlock"> -->
+                          
       
                             <td *ngIf="user.resignationStatus == null">
                               <span class="badge rounded-pill" 
@@ -666,50 +663,7 @@
                               <span class="badge rounded-pill" [ngClass]="{'badge-soft-info': user.resignationStatus.id == 13, 'badge-soft-warning': user.resignationStatus.id == 42, 'badge-soft-danger': user.resignationStatus.id == 43 }"
                               >{{ user.resignationStatus.response }}</span>
                             </td>
-                            <!-- *ngIf="user.resignationStatus == null" -->
-                        <!-- <div>   -->
-                            
-                            <!-- <td class="text-center" *ngIf="user.onboardingStatus == pendingResponse">
-                              <div class="badge rounded-pill badge-soft-warning">
-                                <span class="">{{ user.onboardingStatus }}</span> 
-                              </div>
-                            </td>
-      
-                            <td class="text-center" *ngIf="user.onboardingStatus == approvedResponse">
-                              <div class="badge rounded-pill badge-soft-success">
-                                <span class="">{{ user.onboardingStatus }}</span>
-                              </div>
-                            </td>
-                            <td class="text-center" *ngIf="user.onboardingStatus == rejectedResponse">
-                              <div class="badge rounded-pill badge-soft-danger">
-                                <span class="">{{ user.onboardingStatus }}</span>
-                              </div>
-                            </td>
-                            <td class="text-center" *ngIf="user.onboardingStatus == requestedResponse">
-                              <div class="badge rounded-pill badge-soft-secondary">
-                                <span class="">{{ user.onboardingStatus }}</span>
-                              </div>
-                            </td>
-                            <td class="text-center" *ngIf="user.onboardingStatus == 'NOTICE PERIOD'">
-                              <div class="badge rounded-pill badge-soft-blue">
-                                <span class="">{{ user.onboardingStatus }}</span>
-                              </div>
-                            </td>
-                            <td class="text-center" *ngIf="user.onboardingStatus == newUserResponse">
-                              <div class="badge rounded-pill badge-soft-info">
-                                <span class="">NEW!</span>
-                              </div>
-                            </td> -->
-                          <!-- </div>  -->
-      
-                          <!-- <ng-template #resignationStatusBlock> -->
-                          <!-- <div *ngIf="user.resignationStatus != null">  
-                            <td class="text-center">
-                              <div class="badge rounded-pill badge-soft-danger">
-                                <span>{{ user.resignationStatus.response }}</span>
-                              </div>
-                            </td>
-                          </div> -->
+                         
       
       
                             <td class="stickyColTdend text-end">
