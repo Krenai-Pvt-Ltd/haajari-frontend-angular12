@@ -26,6 +26,7 @@ import { constant } from 'src/app/constant/constant';
 export class PersonalInformationComponent implements OnInit {
 
   profileEdit: boolean = false;
+  profileLoding: boolean = false;
   userId: any;
   onboardingForm!: FormGroup;
 isFormInvalid: boolean=false;
@@ -126,6 +127,7 @@ isFormInvalid: boolean=false;
 
 
   getOnboardingFormPreviewMethodCall() {
+    this.profileLoding = true;
     const userUuid = new URLSearchParams(window.location.search).get('userId') || '';
     if (userUuid) {
       this.dataService.getOnboardingFormPreview(userUuid).subscribe(
@@ -139,13 +141,16 @@ isFormInvalid: boolean=false;
           this.experienceEmployee = this.onboardingPreviewData.userExperience;
           this.emergencyContacts = this.onboardingPreviewData.userEmergencyContacts;
           this.bankDetailsEmployee = this.onboardingPreviewData.userBankDetails;
+          this.profileLoding = false;
         },
-        (error: any) => {
+      (error: any) => {
+           this.profileLoding = false;
           console.error('Error fetching user details:', error);
           this.emergencyContacts = [];
         }
       );
     } else {
+        this.profileLoding = false;
       console.error('User UUID not found');
       this.emergencyContacts = [];
     }

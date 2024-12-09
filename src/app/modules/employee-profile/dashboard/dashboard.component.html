@@ -6,9 +6,9 @@
                 <div class="mb-3">
                     <img src="assets/images/week-attendance-report.svg" style="width:100%">
                 </div>
-                
+
                 <h6 class="pb-2">Lorem ipsum</h6>
-                 
+
                 <div class="row">
                     <div class="col-md-6 pr-1">
                         <div class="employee-dashboard p-2 mb-3">
@@ -121,7 +121,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                
+
                                     </div>
                                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
                                         data-bs-slide="prev">
@@ -134,24 +134,26 @@
                                         <span class="visually-hidden">Next</span>
                                     </button>
                                 </div>
-                
+
                             </div>
                             <div class="holiday-date p-3 d-flex align-items-center justify-content-between flex-column"
                                 style="width: 25%; height: 149px;">
                                 <p class="font-13">Thursday</p>
-                
+
                                 <div>
                                     <h5 class="mb-1 font-20">25th</h5>
                                     <p class="mb-0 font-13">Nov,2024</p>
                                 </div>
-                
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="row" *ngIf="!requestModal && ROLE == 'ADMIN'" >
+            <!-- <div class="row" *ngIf="!requestModal && ROLE == 'ADMIN' && userResignationInfo != undefined" > -->
+            <!-- <div class="row" *ngIf="!hideResignationModal && (!requestModal && ROLE == 'ADMIN' && userResignationInfo != undefined && userResignationInfo.status.id == 13)" > -->
+            <div class="row" *ngIf="!requestModal && !hideResignationModal && userResignationInfo && ROLE == 'ADMIN' && userResignationInfo?.status?.id == 13" > 
                 <div class="col-md-12">
                     <div class="resignation-request p-3 d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center gap-3">
@@ -161,9 +163,9 @@
                             <p class="mb-0 font-12">HR will finalise the exit request after consulting with management</p>
                             </div>
                         </div>
-                        
+
                         <div class="">
-                            <button class="btn view-request">View Request
+                            <button class="btn view-request" data-bs-toggle="modal" data-bs-target="#initiateExitApprove" >View Request
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                                     <mask id="mask0_6339_5449" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="16" height="16">
                                         <rect width="16" height="16" fill="#D9D9D9" />
@@ -219,7 +221,7 @@
 
                             <div class="birthday-section">
                                 <div class="table-responsive bg-white">
-                                
+
                                     <table class="table empOnnoardtable">
                                         <thead class="thead-light">
                                             <tr>
@@ -231,7 +233,7 @@
                                                 <th class="text-left font-13" style="width: 10%">Status</th>
                                             </tr>
                                         </thead>
-                                
+
                                         <!-- <tbody>
                                             <tr *ngFor="let item of [].constructor(7)">
                                                 <td>
@@ -260,7 +262,7 @@
                                                 </td>
                                             </tr>
                                         </tbody> -->
-                                
+
                                         <!-- <tbody>
                                             <tr>
                                                 <td colspan="8">
@@ -272,13 +274,13 @@
                                                             </ng-template>
                                                         </nz-empty>
                                                     </div>
-                                
+
                                                 </td>
                                             </tr>
                                         </tbody> -->
-                                
+
                                         <tbody>
-                                
+
                                             <tr *ngFor="let item of [].constructor(10)">
                                                 <td class="text-left">
                                                     <span class="team-maneger mb-0">16 Jun 2023</span>
@@ -300,7 +302,7 @@
                                                     <div class="d-flex align-items-center gap-2 ">
                                                                 <!-- Pending Button -->
                                                                 Pending
-                                
+
                                                                 <!-- Delete Button -->
                                                                 <button class="icon-button btn p-0">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
@@ -326,8 +328,8 @@
                                                                     </g>
                                                                 </svg>
                                                                 </button>
-                                
-                                                         
+
+
                                                     </div>
                                                 </td>
                                             </tr>
@@ -340,7 +342,7 @@
                         <div class="tab-pane fade pt-3" id="overtimeRequest" role="tabpanel" aria-labelledby="overtimeRequest-tab">
                             <div>
                                 <div class="table-responsive bg-white">
-                            
+
                                     <table class="table empOnnoardtable">
                                         <thead class="thead-light">
                                             <tr>
@@ -352,7 +354,7 @@
                                                 <th class="text-left font-13" style="width: 10%">Status</th>
                                             </tr>
                                         </thead>
-                            
+
                                         <!-- <tbody>
                                                                         <tr *ngFor="let item of [].constructor(7)">
                                                                             <td>
@@ -381,7 +383,7 @@
                                                                             </td>
                                                                         </tr>
                                                                     </tbody> -->
-                            
+
                                         <!-- <tbody>
                                                                         <tr>
                                                                             <td colspan="8">
@@ -393,13 +395,13 @@
                                                                                         </ng-template>
                                                                                     </nz-empty>
                                                                                 </div>
-                                                            
+
                                                                             </td>
                                                                         </tr>
                                                                     </tbody> -->
-                            
+
                                         <tbody>
-                            
+
                                             <tr *ngFor="let item of [].constructor(10)">
                                                 <td class="text-left">
                                                     <span class="team-maneger mb-0">16 Jun 2023</span>
@@ -421,7 +423,7 @@
                                                     <div class="d-flex align-items-center gap-2">
                                                         <!-- Pending Button -->
                                                         Pending
-                            
+
                                                         <!-- Delete Button -->
                                                         <button class="icon-button btn p-0">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21"
@@ -451,8 +453,8 @@
                                                                 </g>
                                                             </svg>
                                                         </button>
-                            
-                            
+
+
                                                     </div>
                                                 </td>
                                             </tr>
@@ -465,7 +467,7 @@
                         <div class="tab-pane fade pt-3" id="leaveRequest" role="tabpanel" aria-labelledby="leaveRequest-tab">
                             <div>
                                 <div class="table-responsive bg-white">
-                            
+
                                     <table class="table empOnnoardtable">
                                         <thead class="thead-light">
                                             <tr>
@@ -477,7 +479,7 @@
                                                 <th class="text-left font-13" style="width: 10%">Status</th>
                                             </tr>
                                         </thead>
-                            
+
                                         <!-- <tbody>
                                                                         <tr *ngFor="let item of [].constructor(7)">
                                                                             <td>
@@ -506,7 +508,7 @@
                                                                             </td>
                                                                         </tr>
                                                                     </tbody> -->
-                            
+
                                         <!-- <tbody>
                                                                         <tr>
                                                                             <td colspan="8">
@@ -518,13 +520,13 @@
                                                                                         </ng-template>
                                                                                     </nz-empty>
                                                                                 </div>
-                                                            
+
                                                                             </td>
                                                                         </tr>
                                                                     </tbody> -->
-                            
+
                                         <tbody>
-                            
+
                                             <tr *ngFor="let item of [].constructor(10)">
                                                 <td class="text-left">
                                                     <span class="team-maneger mb-0">16 Jun 2023</span>
@@ -546,7 +548,7 @@
                                                     <div class="d-flex align-items-center gap-2">
                                                         <!-- Pending Button -->
                                                         Pending
-                            
+
                                                         <!-- Delete Button -->
                                                         <button class="icon-button btn p-0 ">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21"
@@ -576,8 +578,8 @@
                                                                 </g>
                                                             </svg>
                                                         </button>
-                            
-                            
+
+
                                                     </div>
                                                 </td>
                                             </tr>
@@ -609,175 +611,65 @@
                         </li>
                     </ul>
                     <div id="pills-tabContent" class="tab-content">
-                        <div class="tab-pane active show pt-3" id="birthday" role="tabpanel" aria-labelledby="birthday-tab">
-                            <div class="birthday-section">                           
-                                <div class="birthday-box d-flex align-items-center justify-content-between position-relative mb-3">
-                                    <div>
-                                        <h5 class="mb-1 font-16">Anchal</h5>
-                                        <p class="mb-0 font-13">01 December, Today</p>
-                                    </div>
-                                    <div class="birthday-img">
-                                        <img src="assets/images/birthday-img.jpeg">
-                                    </div>
-
-                                    <span>
-                                        <img src="assets/images/orange.svg" style="width:170px">
-                                    </span>
-                                    <span class="today-birthday">
-                                        <img src="assets/images/today-birthday.svg">
-                                    </span>
-                                </div>
-                                <div class="birthday-box d-flex align-items-center justify-content-between position-relative mb-3">
-                                    <div>
-                                        <h5 class="mb-1 font-16">Suman Singh</h5>
-                                        <p class="mb-0 font-13">22 December, Sunday</p>
-                                    </div>
-                                    <div class="birthday-img">
-                                        <img src="assets/images/suman.jpg">
-                                    </div>
-                                
-                                    <span>
-                                        <img src="assets/images/orange.svg" style="width:170px">
-                                    </span>
-                                </div>
-                                <div class="birthday-box d-flex align-items-center justify-content-between position-relative mb-3">
-                                    <div>
-                                        <h5 class="mb-1 font-16">Abhijeet Verma</h5>
-                                        <p class="mb-0 font-13">26 Feb, Wednesday</p>
-                                    </div>
-                                    <div class="birthday-img">
-                                        <img src="assets/images/abhi.jpg">
-                                    </div>
-                                
-                                    <span>
-                                        <img src="assets/images/orange.svg" style="width:170px">
-                                    </span>
-                                
-                                </div>
-                                <div class="birthday-box d-flex align-items-center justify-content-between position-relative mb-3">
-                                    <div>
-                                        <h5 class="mb-1 font-16">Abhijeet Verma</h5>
-                                        <p class="mb-0 font-13">26 Feb, Wednesday</p>
-                                    </div>
-                                    <div class="birthday-img">
-                                        <img src="assets/images/abhi.jpg">
-                                    </div>
-                                
-                                    <span>
-                                        <img src="assets/images/orange.svg" style="width:170px">
-                                    </span>
-                                
-                                </div>
-                                <div class="birthday-box d-flex align-items-center justify-content-between position-relative mb-3">
-                                    <div>
-                                        <h5 class="mb-1 font-16">Abhijeet Verma</h5>
-                                        <p class="mb-0 font-13">26 Feb, Wednesday</p>
-                                    </div>
-                                    <div class="birthday-img">
-                                        <img src="assets/images/abhi.jpg">
-                                    </div>
-                                
-                                    <span>
-                                        <img src="assets/images/orange.svg" style="width:170px">
-                                    </span>
-                                
-                                </div>
+                      <div class="tab-pane active show pt-3" id="birthday" role="tabpanel" aria-labelledby="birthday-tab">
+                        <div class="birthday-section">
+                          <div *ngFor="let user of usersWithUpcomingBirthdays" class="birthday-box d-flex align-items-center justify-content-between position-relative mb-3">
+                            <div>
+                              <h5 class="mb-1 font-16">{{ user.name }}</h5>
+                              <p class="mb-0 font-13">{{ user.birthday | date: 'dd MMMM' }}, {{ getWeekDayOfBirthday(user.birthday) }}</p>
                             </div>
-
-                            
-                    
-                        </div>
-                        <div class="tab-pane fade pt-3" id="workAnniversaries" role="tabpanel" aria-labelledby="workAnniversaries-tab">
-                            <div class="birthday-section">
-                                <div class="anniversaries-section mb-2">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="anniversaries-box p-3">
-                                            <h4 class="pb-3 border-bottom">Congratulations</h4>
-                                            <h5 class="mb-1 font-16">Jane Cooper</h5>
-                                            <p class="mb-0 font-13">Web Designer</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="anniversaries-img p-4 d-flex align-items-center gap-3">
-                                             <img src="assets/images/birthday-img.jpeg">
-
-                                             <div class="anniversaries-year text-center">
-                                                <h5 class="mb-1 font-22">01</h5>
-                                                <p class="mb-0">Years</p>
-                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                </div>
-                                <div class="anniversaries-section mb-2">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="anniversaries-box p-3">
-                                                <h4 class="pb-3 border-bottom">Congratulations</h4>
-                                                <h5 class="mb-1 font-16">Jane Cooper</h5>
-                                                <p class="mb-0 font-13">Web Designer</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="anniversaries-img p-4 d-flex align-items-center gap-3">
-                                                <img src="assets/images/birthday-img.jpeg">
-                                
-                                                <div class="anniversaries-year text-center">
-                                                    <h5 class="mb-1 font-22">01</h5>
-                                                    <p class="mb-0">Years</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="anniversaries-section mb-2">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="anniversaries-box p-3">
-                                                <h4 class="pb-3 border-bottom">Congratulations</h4>
-                                                <h5 class="mb-1 font-16">Jane Cooper</h5>
-                                                <p class="mb-0 font-13">Web Designer</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="anniversaries-img p-4 d-flex align-items-center gap-3">
-                                                <img src="assets/images/birthday-img.jpeg">
-                                
-                                                <div class="anniversaries-year text-center">
-                                                    <h5 class="mb-1 font-22">01</h5>
-                                                    <p class="mb-0">Years</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="anniversaries-section mb-2">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="anniversaries-box p-3">
-                                                <h4 class="pb-3 border-bottom">Congratulations</h4>
-                                                <h5 class="mb-1 font-16">Jane Cooper</h5>
-                                                <p class="mb-0 font-13">Web Designer</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="anniversaries-img p-4 d-flex align-items-center gap-3">
-                                                <img src="assets/images/birthday-img.jpeg">
-                                
-                                                <div class="anniversaries-year text-center">
-                                                    <h5 class="mb-1 font-22">01</h5>
-                                                    <p class="mb-0">Years</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="birthday-img">
+                              <img [src]="user.picture" alt="Birthday Image" />
                             </div>
+                            <span>
+                              <img src="assets/images/orange.svg" style="width:170px" />
+                            </span>
+                            <span *ngIf="isToday(user.birthday)" class="today-birthday">
+                              <img src="assets/images/today-birthday.svg" />
+                            </span>
+                          </div>
                         </div>
+                      </div>
+
+                      <div
+                      class="tab-pane fade pt-3"
+                      id="workAnniversaries"
+                      role="tabpanel"
+                      aria-labelledby="workAnniversaries-tab"
+                    >
+                      <div class="birthday-section">
+                        <div
+                          class="anniversaries-section mb-2"
+                          *ngFor="let anniversary of anniversaries"
+                        >
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="anniversaries-box p-3">
+                                <h4 class="pb-3 border-bottom">Congratulations</h4>
+                                <h5 class="mb-1 font-16">{{ anniversary.name }}</h5>
+                                <p class="mb-0 font-13">{{ anniversary.position }}</p>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div
+                                class="anniversaries-img p-4 d-flex align-items-center gap-3"
+                              >
+                                <img [src]="anniversary.image" alt="{{ anniversary.name }}" />
+
+                                <div class="anniversaries-year text-center">
+                                  <h5 class="mb-1 font-22">{{ anniversary.yearsCompleted }}</h5>
+                                  <p class="mb-0">Years</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
                         <div class="tab-pane fade pt-3" id="newJoinees" role="tabpanel" aria-labelledby="newJoinees-tab">
                             <!-- <div class="birthday-section">
-                                    
+
                                     <div class="anniversaries-section mb-2">
                                         <div class="row">
                                             <div class="col-md-6">
@@ -786,7 +678,7 @@
                                                     <div class="newJoinees-img">
                                                         <img src="assets/images/user.png">
                                                     </div>
-                                    
+
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -806,7 +698,7 @@
                                                     <div class="newJoinees-img">
                                                         <img src="assets/images/user.png">
                                                     </div>
-                                    
+
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -826,7 +718,7 @@
                                                     <div class="newJoinees-img">
                                                         <img src="assets/images/user.png">
                                                     </div>
-                                    
+
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -846,7 +738,7 @@
                                                     <div class="newJoinees-img">
                                                         <img src="assets/images/birthday-img.jpeg">
                                                     </div>
-                                    
+
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -866,7 +758,7 @@
                                                     <div class="newJoinees-img">
                                                         <img src="assets/images/birthday-img.jpeg">
                                                     </div>
-                                    
+
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -881,95 +773,30 @@
                             </div> -->
 
                             <div class="birthday-section">
-                                <div class="anniversaries-section mb-2">
-                                    <div class="row">
-                                        <div class="col-md-7">
-                                            <div class="anniversaries-box p-3 pt-4">
-                                                <h4 class="pb-3 border-bottom">Welcome the team!</h4>
-                                                <h5 class="mb-1 font-16">Jane Cooper</h5>
-                                                <p class="mb-0 font-13">Web Designer</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-5">
-                                            <div class="anniversaries-img p-4 d-flex align-items-center gap-3">
-                                                <img src="assets/images/birthday-img.jpeg">
-                            
-                                                <!-- <div class="anniversaries-year text-center">
-                                                    <h5 class="mb-1 font-22">01</h5>
-                                                    <p class="mb-0">Years</p>
-                                                </div> -->
-                                            </div>
-                                        </div>
+                              <div
+                                class="anniversaries-section mb-2"
+                                *ngFor="let joiner of newJoiners"
+                              >
+                                <div class="row">
+                                  <div class="col-md-7">
+                                    <div class="anniversaries-box p-3 pt-4">
+                                      <h4 class="pb-3 border-bottom">Welcome to the team!</h4>
+                                      <h5 class="mb-1 font-16">{{ joiner.name }}</h5>
+                                      <p class="mb-0 font-13">{{ joiner.position }}</p>
                                     </div>
-                                </div>
-                                <div class="anniversaries-section mb-2">
-                                    <div class="row">
-                                        <div class="col-md-7">
-                                            <div class="anniversaries-box p-3 pt-4">
-                                                <h4 class="pb-3 border-bottom">Welcome the team!</h4>
-                                                <h5 class="mb-1 font-16">Jane Cooper</h5>
-                                                <p class="mb-0 font-13">Web Designer</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-5">
-                                            <div class="anniversaries-img p-4 d-flex align-items-center gap-3">
-                                                <img src="assets/images/birthday-img.jpeg">
-                            
-                                                <!-- <div class="anniversaries-year text-center">
-                                                    <h5 class="mb-1 font-22">01</h5>
-                                                    <p class="mb-0">Years</p>
-                                                </div> -->
-                                            </div>
-                                        </div>
+                                  </div>
+                                  <div class="col-md-5">
+                                    <div class="anniversaries-img p-4 d-flex align-items-center gap-3">
+                                      <img [src]="joiner.picture" alt="{{ joiner.name }}" />
                                     </div>
+                                  </div>
                                 </div>
-                                <div class="anniversaries-section mb-2">
-                                    <div class="row">
-                                        <div class="col-md-7">
-                                            <div class="anniversaries-box p-3 pt-4">
-                                                <h4 class="pb-3 border-bottom">Welcome the team!</h4>
-                                                <h5 class="mb-1 font-16">Jane Cooper</h5>
-                                                <p class="mb-0 font-13">Web Designer</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-5">
-                                            <div class="anniversaries-img p-4 d-flex align-items-center gap-3">
-                                                <img src="assets/images/birthday-img.jpeg">
-                            
-                                                <!-- <div class="anniversaries-year text-center">
-                                                    <h5 class="mb-1 font-22">01</h5>
-                                                    <p class="mb-0">Years</p>
-                                                </div> -->
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="anniversaries-section mb-2">
-                                    <div class="row">
-                                        <div class="col-md-7">
-                                            <div class="anniversaries-box p-3 pt-4">
-                                                <h4 class="pb-3 border-bottom">Welcome the team!</h4>
-                                                <h5 class="mb-1 font-16">Jane Cooper</h5>
-                                                <p class="mb-0 font-13">Web Designer</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-5">
-                                            <div class="anniversaries-img p-4 d-flex align-items-center gap-3">
-                                                <img src="assets/images/birthday-img.jpeg">
-                            
-                                                <!-- <div class="anniversaries-year text-center">
-                                                    <h5 class="mb-1 font-22">01</h5>
-                                                    <p class="mb-0">Years</p>
-                                                </div> -->
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                              </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-  

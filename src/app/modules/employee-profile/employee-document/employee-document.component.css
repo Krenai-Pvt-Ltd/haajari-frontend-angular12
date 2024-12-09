@@ -161,3 +161,10 @@
 .pdf-box{
  height: 130px;
 }
+
+.file-svg svg{
+    width: 15px;
+    height: 15px;
+    position: relative;
+    top: -1px;
+}

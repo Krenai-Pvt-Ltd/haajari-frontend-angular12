@@ -275,6 +275,10 @@ export class EmployeeOnboardingDataComponent implements OnInit {
     this.getUsersByFiltersFunction();
   }
 
+  onOnboardingPageChange(page: number): void {
+    this.pageNumber = page;
+    this.getUsersByFiltersFunction();
+  }
   getPages(): number[] {
     const totalPages = Math.ceil(this.total / this.itemPerPage);
     return Array.from({ length: totalPages }, (_, index) => index + 1);

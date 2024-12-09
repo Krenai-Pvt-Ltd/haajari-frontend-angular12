@@ -2196,7 +2196,6 @@ extractPreviousMonthNameFromDate(dateString : string){
         (response: any) => {
           if(response.listOfObject.length==0){
             this.dataNotFoundPlaceholderForPayrollHistory = true;
-            console.log("null")
           } else{
             this.payrollLogs = response.listOfObject;
             this.total = response.totalItems;
@@ -2208,7 +2207,6 @@ extractPreviousMonthNameFromDate(dateString : string){
           this.isPayrollHistoryPlaceholder = this.payrollLogs.length === 0;
         },
         (error: any) => {
-          console.error('Error fetching report logs:', error);
           this.isPayrollHistoryPlaceholder = true;
           this.networkConnectionErrorPlaceHolderForPayrollHistory = true;
         }

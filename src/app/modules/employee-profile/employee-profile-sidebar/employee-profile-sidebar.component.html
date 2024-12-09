@@ -32,15 +32,22 @@
         <div class="mt-3 d-flex align-items-center gap-3">
             <h5 class="mb-0">{{employeeProfileResponseData?.userName}}</h5>
             <!-- <span class="profile-admin">Admin</span> -->
-            <span class="full-time" *ngIf="employeeProfileResponseData?.resignationStatus == null || (employeeProfileResponseData?.resignationStatus != 42 && employeeProfileResponseData?.resignationStatus != 43)">Full Time</span>
+            <!-- <span class="full-time" *ngIf="employeeProfileResponseData?.resignationStatus == null || (employeeProfileResponseData?.resignationStatus != 42 && employeeProfileResponseData?.resignationStatus != 43)">Full Time</span>
+            <h6 class="mb-0 text-primary font-13" *ngIf="toggle || employeeProfileResponseData?.resignationStatus == 42">On notice period</h6> -->
 
-            <h6 class="mb-0 text-primary font-13" *ngIf="employeeProfileResponseData?.resignationStatus == 42">On notice period</h6>
+            <ng-container *ngIf="!toggle">
+                <span class="full-time" *ngIf="employeeProfileResponseData?.resignationStatus == null || (employeeProfileResponseData?.resignationStatus != 42 && employeeProfileResponseData?.resignationStatus != 43)">Full Time</span>
+                <h6 class="mb-0 text-primary font-13" *ngIf="employeeProfileResponseData?.resignationStatus == 42">On notice period</h6>
+            </ng-container>
+
+            <ng-container *ngIf="toggle">
+                <h6 class="mb-0 text-primary font-13" >On notice period</h6>
+            </ng-container>
+
             <h6 class="mb-0 text-danger font-13" *ngIf="employeeProfileResponseData?.resignationStatus == 43">EXITED</h6>
         </div>
 
         <p class="mb-0">{{employeeProfileResponseData?.currentRole}}</p>
-
-        <button type="button" *ngIf="userResignationInfo != undefined" class="btn p-0 text-primary View-btn" data-bs-toggle="modal" data-bs-target="#resignApproveModal"> View </button>
 
         <div class="employ-contact-detail mt-2">
             <div class="d-flex align-items-center gap-2 mb-2">
@@ -415,17 +422,19 @@
                     <li>Visual Design</li>
                     <li>Interaction Design</li>
                     <li>Information Architecture</li>
-                    <button type="button" class="btn p-0 text-primary font-13 view-less" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">View Less <i class="bi bi-chevron-up"></i></button>
                 </ul>
+                <button type="button" class="btn p-0 text-primary font-13 view-less" data-bs-toggle="collapse"
+                    data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">View Less <i
+                        class="bi bi-chevron-up"></i></button>
             </div>
         </ul>
-        <div *ngIf="adminRoleFlag">
+        <div class="d-flex align-content-center gap-3 mt-5" *ngIf="adminRoleFlag">
             <!-- (click)="openFormModal(formContent,'Promotion')" -->
             <!-- (click)="openFormModal(formContent,'Add Journey')" -->
 
-          <button class="btn-primary" *ngIf="employeeProfileResponseData?.resignationStatus == null || (employeeProfileResponseData?.resignationStatus != 42 && employeeProfileResponseData?.resignationStatus != 43)" data-bs-target="#upgradePosition" data-bs-toggle="modal" (click)="openFormModal('Promotion')">Promotion</button>
-          <button class="btn-primary" *ngIf="employeeProfileResponseData?.resignationStatus == null || (employeeProfileResponseData?.resignationStatus != 42 && employeeProfileResponseData?.resignationStatus != 43)"  data-bs-target="#upgradePosition" data-bs-toggle="modal" (click)="openFormModal('Journey')">Add Journey</button>
-          <button *ngIf="employeeProfileResponseData?.isProbation" class="btn btn-primary" (click)="openConfirmationModal(confirmationModal)">Complete Probation</button>
+          <button class="btn check-out-btn w-90" *ngIf="employeeProfileResponseData?.resignationStatus == null || (employeeProfileResponseData?.resignationStatus != 42 && employeeProfileResponseData?.resignationStatus != 43)" data-bs-target="#upgradePosition" data-bs-toggle="modal" (click)="openFormModal('Promotion')">Promotion</button>
+          <button class="btn check-out-btn w-90" *ngIf="employeeProfileResponseData?.resignationStatus == null || (employeeProfileResponseData?.resignationStatus != 42 && employeeProfileResponseData?.resignationStatus != 43)"  data-bs-target="#upgradePosition" data-bs-toggle="modal" (click)="openFormModal('Journey')">Add Journey</button>
+          <button class="btn check-out-btn w-90" *ngIf="employeeProfileResponseData?.isProbation" (click)="openConfirmationModal(confirmationModal)">Complete Probation</button>
         </div>
         <h5 class="mb-3 mt-5">Journey With us</h5>
         <div class="">
