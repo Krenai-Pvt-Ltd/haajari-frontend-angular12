@@ -68,7 +68,7 @@
                   <!--end col-->
                   <div class="col-lg-12">
                     <div class="card">
-                      <div class="card-body py-4">
+                      <div class="card-body py-4" >
                         <div class="row align-items-center">
                           <!-- style="cursor: pointer;" data-bs-toggle="modal"
                                          data-bs-target="#systemEntriesModal" (click)="getTotalAssetsStatusWiseData('ASSIGNED')" -->
@@ -91,7 +91,7 @@
                   <!--end col-->
                   <div class="col-lg-12">
                     <div class="card">
-                      <div class="card-body py-4">
+                      <div class="card-body py-4" >
                         <div class="row align-items-center">
                           <!-- style="cursor: pointer;" data-bs-toggle="modal"
                                          data-bs-target="#systemEntriesModal" (click)="getTotalAssetsStatusWiseData('UNAVAILABLE')" -->
@@ -263,7 +263,7 @@
                       <div class="col-auto">
                         <a type="button" data-bs-toggle="modal" data-bs-target="#createAssetModal"
                           (click)="assignAssetId(0)" class="text-primary">
-                          <i class="bi bi-plus" style="font-size: 18px"></i> Create
+                          <i class="bi bi-plus" style="font-size: 20px; position: relative; top:2px;"></i> Create
                           Asset
                         </a>
                       </div>
@@ -279,11 +279,12 @@
                           <th style="min-width: 100px">Assets Name</th>
                           <th>Sr Number</th>
                           <th>Expire Date</th>
-                          <th>Purchased</th>
+                          <th>Purchased Date</th>
                           <th>Category</th>
                           <th>Price</th>
                           <th>Location</th>
                           <th>Vendor Name</th>
+                          <th>Assigned To</th>
                           <th>Status</th>
                           <th class="stickyColThend bg-white">Action</th>
                         </tr>
@@ -309,16 +310,31 @@
                         <tr *ngFor="let ad of assetData; let i = index">
                           <!-- <td>#{{ad.assetId || 'N/A'}}</td> -->
                           <!-- <td>#{{ i + 1 + (pageNumber - 1) * itemPerPage }}</td> -->
-                          <td>{{ ad.assetName || "N/A" }}</td>
-                          <td>{{ ad.serialNumber || "N/A" }}</td>
-                          <td>{{ ad.expiryDate || "N/A" }}</td>
-                          <td>{{ ad.purchasedDate || "N/A" }}</td>
-                          <td>{{ ad.categoryName || "N/A" }}</td>
-                          <td>{{ ad.price || "N/A" }}</td>
-                          <td>{{ ad.location || "N/A" }}</td>
-                          <td>{{ ad.vendorName || "N/A" }}</td>
                           <td>
-                            <span class="badge rounded-pill" [ngClass]="{'badge-soft-success': ad.status === 'ASSIGNED', 'badge-soft-danger': ad.status === 'UNAVAILABLE', 'badge-soft-warning': ad.status === 'AVAILABLE'}"  >{{ ad.status }} </span> <br /><span class="badge bg-light text-dark" *ngIf="ad.status === 'ASSIGNED'">{{ ad.userName }}</span>
+                            <span class="white-space table-font-weight">{{ ad.assetName || "N/A" }}</span>
+                          </td>
+                          <td><span class="table-font-weight">{{ ad.serialNumber || "N/A" }}</span>
+                          </td>
+                          <td><span class="table-font-weight">{{ ad.expiryDate || "N/A" }}</span>
+                          </td>
+                          <td>
+                            <span class="table-font-weight">{{ ad.purchasedDate || "N/A" }}</span>
+                          </td>
+                          <td>
+                            <span>{{ ad.categoryName || "N/A" }}</span>
+                          </td>
+                          <td>
+                            <span class="table-font-weight">{{ ad.price || "N/A" }}</span>
+                          </td>
+                          <td>
+                            <span class="table-font-weight">{{ ad.location || "N/A" }}</span>
+                          </td>
+                          <td>
+                            <span class="table-font-weight">{{ ad.vendorName || "N/A" }}</span>
+                          </td>
+                          <td> <span class="able-font-weight">{{ad.userName ?? '--'}} </span></td>
+                          <td>
+                            <span class="badge rounded-pill" [ngClass]="{'badge-soft-success': ad.status === 'ASSIGNED', 'badge-soft-danger': ad.status === 'UNAVAILABLE', 'badge-soft-warning': ad.status === 'AVAILABLE'}"  >{{ ad.status }} </span> <br /><span class="badge bg-light text-dark" *ngIf="ad.status === 'ASSIGNED'"></span>
                           </td>
                           <td class="stickyColThend bg-white">
                             <div class="dropdown">
@@ -336,9 +352,9 @@
                                   *ngIf="ad.status === 'ASSIGNED' ||ad.status === 'AVAILABLE' ">
                                   <a class="dropdown-item"><i class="bi bi-tools"></i> Update Assets</a>
                                 </li>
-                                <li data-bs-toggle="modal" data-bs-target="#assignRejectModal" (click)="assignOrRejectModalStrings(ad.status, ad.assetId) ">
+                                <li *ngIf="ad.status != 'ASSIGNED'" data-bs-toggle="modal" data-bs-target="#assignRejectModal" (click)="assignOrRejectModalStrings(ad.status, ad.assetId) ">
                                 <a class="dropdown-item"><i class="bi bi-arrow-left-right"></i> Assign Asset</a>
-                              </li>
+                                </li>
                                 <li data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"
                                   (click)="openDeleteAssetModal(ad.assetId)">
                                   <a class="dropdown-item"><i class="bi bi-trash3"></i> Delete Assets</a>
@@ -781,7 +797,7 @@
               nzAllowClear
               nzPlaceHolder="Select a user"
               formControlName="userId"
-              class="w-100 form-control"
+              class="w-100 form-control placeholder-line"
             >
               <nz-option
                 *ngFor="let user of allAssetUserListData"
@@ -806,7 +822,7 @@
               >Select Category <span class="text-danger">*</span></label
             >
             <nz-select
-              class="w-100 form-control"
+              class="w-100 form-control placeholder-line"
               nzShowSearch
               nzAllowClear
               nzPlaceHolder="Select a category"
@@ -1008,16 +1024,19 @@
           aria-label="Close"
         ></button>
       </div>
-      <div class="modal-body">
-        <form
+      <form
           [formGroup]="assignRejectForm"
           (ngSubmit)="submitAssignRejectForm()"
         >
-          <div class="mb-3">
-            <label for="userId" class="form-label"
+      <div class="modal-body">
+        <div class="row assets-label">
+        
+          <div class="col-md-12 mb-3">
+            <label for="userId" class="form-label pb-2"
               >Select User <span class="text-danger">*</span></label
             >
             <nz-select
+            class="form-control placeholder-line"
               formControlName="userId"
               nzShowSearch
               nzAllowClear
@@ -1039,8 +1058,8 @@
               User is required.
             </div>
           </div>
-          <div class="mb-3">
-            <label for="assignedDate" class="form-label"
+          <div class="col-md-12 mb-3">
+            <label for="assignedDate" class="form-label pb-2"
               >{{ modalDateString }}<span class="text-danger">*</span></label
             >
             <nz-date-picker
@@ -1057,17 +1076,20 @@
               Date is required.
             </div>
           </div>
-          <div class="d-flex justify-content-end">
-            <button
-              type="submit"
-              class="btn btn-primary"
-              [disabled]="assignRejectForm.invalid"
-            >
-              Submit
-            </button>
-          </div>
-        </form>
+        </div>
+         
+      
       </div>
+      <div class="modal-footer">
+        <button
+          type="submit"
+          class="btn submitActionBtn"
+          [disabled]="assignRejectForm.invalid"
+        >
+          Submit
+        </button>
+      </div>
+    </form>
     </div>
   </div>
 </div>
