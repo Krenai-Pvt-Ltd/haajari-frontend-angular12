@@ -76,6 +76,8 @@ export class ExistPolicyComponent implements OnInit {
     // this.selectedStaffIdsUser = []
 
     this.selectedStaffIdsUser = []
+    this.selectedTeamName = 'All';
+    this.selectedTeamId = 0
 
     // this.staffActiveTabInShiftTiming.nativeElement.click();
     this.exitPolicySelectionTab();
