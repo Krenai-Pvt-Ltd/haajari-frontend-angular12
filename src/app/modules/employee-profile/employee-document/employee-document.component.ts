@@ -17,6 +17,7 @@ import { Key } from 'src/app/constant/key';
 export class EmployeeDocumentComponent implements OnInit {
 
   uploadDoucument: boolean = false;
+  documentLoading: boolean = false;
   userId: any;
   docType: string= 'employee_doc';
 
@@ -51,13 +52,16 @@ export class EmployeeDocumentComponent implements OnInit {
 
   documents: EmployeeAdditionalDocument[] = [];
   getEmployeeDocumentsDetailsByUuid() {
-
+    this.documentLoading = true;
+    this.documents = [];
     this.dataService.getDocumentsByUserId(this.userId).subscribe({
       next: (docs) => {
         this.documents = docs;
         console.log('Documents:', this.documents);
+         this.documentLoading = false;
       },
       error: (err) => {
+         this.documentLoading = false;
         console.error('Error fetching documents:', err);
       },
     });

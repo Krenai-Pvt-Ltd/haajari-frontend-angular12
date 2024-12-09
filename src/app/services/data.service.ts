@@ -301,6 +301,9 @@ export class DataService {
       leaveData
     );
   }
+  getUserLeaveById(id: number): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/user-leave?id=${id}`);
+  }
   getLeave(): Observable<any> {
     return this.httpClient.get<Savel[]>(
       `${this.baseUrl}/organization-leave/get/all`
@@ -1402,6 +1405,10 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   profileEditStatus(status: String, userId: string): Observable<any> {
     const params = new HttpParams().set('userId', userId);
     return this.httpClient.put<any>(`${this.baseUrl}/profile-edit-requests/status/${status}`, params);
+  }
+
+  getProfileEditRequestById(id: number): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/profile-edit-requests?id=${id}`);
   }
 
   getUserLeaveLog(userUuid: string): Observable<any> {
@@ -3643,6 +3650,9 @@ loadOnboardingRoute(userUuid: any):Promise<any> {
   createAssetRequest(formData: any): Observable<any> {
     return this.httpClient.post<any>(`${this.baseUrl}/asset-requests/create`, formData);
   }
+  getAssetRequestById(id: number): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/asset-requests?id=${id}`);
+  }
   getAssetRequestsByUserUuid(
     uuid: string,
     page: number = 0,
@@ -3827,6 +3837,9 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.post<any>(url, attendanceTimeUpdateRequestDto, {});
   }
 
+  getAttendanceTimeUpdateRequestById(id: number): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}?id=${id}`);
+  }
 
   getAttendanceRequestLog(userUuid : string, pageNumber: number, itemPerPage: number): Observable<any>{
     const params = new HttpParams()
@@ -4300,6 +4313,11 @@ getHolidayForOrganization(date: string): Observable<any>{
     });
   }
 
+  checkExpenseTransactionId(transactionId: string){
+    const params = new HttpParams().set('id', transactionId);
+    return this.httpClient.get(`${this.baseUrl}/company-expense/transaction`, {params});
+  }
+
   exportExpense(){
     return this.httpClient.get<any>(`${this.baseUrl}/company-expense/export`);
   }
@@ -4317,14 +4335,14 @@ getHolidayForOrganization(date: string): Observable<any>{
     );
   }
 
-  getAllExpense(role: string, pageNumber: number, itemPerPage: number, startDate: any, endDate: any, statusIds: number[]){
+  getAllExpense(role: string, pageNumber: number, itemPerPage: number, startDate: any, endDate: any, statusIds: number[], userUuid: any){
     var params = new HttpParams()
     .set('currentPage', pageNumber)
     .set('itemPerPage', itemPerPage)
     .set('sortBy', 'createdDate')
     .set('sortOrder', 'desc')
     .set('role', role)
-    
+
     // if((startDate != null && startDate != '') && (endDate != '' && endDate != '')){
     if (startDate && endDate) {
       params = params.set('startDate', startDate)
@@ -4333,6 +4351,10 @@ getHolidayForOrganization(date: string): Observable<any>{
 
     if(statusIds.length > 0){
       params = params.set("statusIds", statusIds.join(','));
+    }
+   
+    if(userUuid){
+      params = params.set("userUuid", userUuid);
     }
 
     return this.httpClient.get<any>(`${this.baseUrl}/company-expense`, {params});
@@ -4344,7 +4366,7 @@ getHolidayForOrganization(date: string): Observable<any>{
     .set('currentPage', pageNumber)
     .set('itemPerPage', itemPerPage)
     .set('role', role)
-    
+
     if (startDate && endDate) {
       params = params.set('startDate', startDate)
       params = params.set('endDate', endDate)
@@ -4504,7 +4526,17 @@ getHolidayForOrganization(date: string): Observable<any>{
     const url = `${this.baseUrl}/asset-requests/export`;
     return this.httpClient.get(url, { responseType: 'blob' });
   }
-
+  getUsersWithUpcomingBirthdays(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/users/birthdays`);
+  }
+  getRecentlyJoinedUsers(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/users/recently-joined-users`);
+  }
+  getRecentlyWorkAnniversary(): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseUrl}/users/work-anniversary`);
+  }
 }
+
+
 
 

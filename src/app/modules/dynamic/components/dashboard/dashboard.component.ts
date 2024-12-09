@@ -1,16 +1,12 @@
 import {
   Component,
   ElementRef,
-  Injectable,
-  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { NavigationExtras} from '@angular/router';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, Subject, iif } from 'rxjs';
 import { DataService } from 'src/app/services/data.service';
-import * as dayjs from 'dayjs';
 import { AttendenceDto } from 'src/app/models/attendence-dto';
 import { DatePipe } from '@angular/common';
 import {
@@ -22,18 +18,13 @@ import * as moment from 'moment';
 import { LateEmployeeAttendanceDetailsResponse } from 'src/app/models/late-employee-attendance-details-response';
 import { AttendanceReportResponse } from 'src/app/models/attendance-report-response';
 import { Key } from 'src/app/constant/key';
-import { debounceTime } from 'rxjs/operators';
 import { BestPerformerAttendanceDetailsResponse } from 'src/app/models/best-performer-attendance-details-response';
 import { RoleBasedAccessControlService } from 'src/app/services/role-based-access-control.service';
-import { DayWiseStatus } from 'src/app/models/day-wise-status';
 import { AttendanceDetailsCountResponse } from 'src/app/models/attendance-details-count-response';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
 import { UserTeamDetailsReflection } from 'src/app/models/user-team-details-reflection';
 import { AttendanceDetailsResponse } from 'src/app/models/attendance-details-response';
-import { DayStartAndDayEnd } from 'src/app/models/day-start-and-day-end';
 import { StartDateAndEndDate } from 'src/app/models/start-date-and-end-date';
-import { error } from 'jquery';
-import { Console } from 'console';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SubscriptionPlanService } from 'src/app/services/subscription-plan.service';
 import { AdminPersonalDetailResponse } from 'src/app/models/admin-personal-detail-response';
@@ -55,9 +46,7 @@ export class DashboardComponent implements OnInit {
     private datePipe: DatePipe,
     private helperService: HelperService,
     private rbacService: RoleBasedAccessControlService,
-    private modalService: NgbModal, 
     private _subscriptionPlanService: SubscriptionPlanService,
-    private _activeRouter: ActivatedRoute,
     private roleBasedAccessControlService: RoleBasedAccessControlService
   ) {
     

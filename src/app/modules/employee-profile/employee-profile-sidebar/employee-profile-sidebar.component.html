@@ -422,17 +422,19 @@
                     <li>Visual Design</li>
                     <li>Interaction Design</li>
                     <li>Information Architecture</li>
-                    <button type="button" class="btn p-0 text-primary font-13 view-less" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">View Less <i class="bi bi-chevron-up"></i></button>
                 </ul>
+                <button type="button" class="btn p-0 text-primary font-13 view-less" data-bs-toggle="collapse"
+                    data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">View Less <i
+                        class="bi bi-chevron-up"></i></button>
             </div>
         </ul>
-        <div *ngIf="adminRoleFlag">
+        <div class="d-flex align-content-center gap-3 mt-5" *ngIf="adminRoleFlag">
             <!-- (click)="openFormModal(formContent,'Promotion')" -->
             <!-- (click)="openFormModal(formContent,'Add Journey')" -->
 
-          <button class="btn-primary" *ngIf="employeeProfileResponseData?.resignationStatus == null || (employeeProfileResponseData?.resignationStatus != 42 && employeeProfileResponseData?.resignationStatus != 43)" data-bs-target="#upgradePosition" data-bs-toggle="modal" (click)="openFormModal('Promotion')">Promotion</button>
-          <button class="btn-primary" *ngIf="employeeProfileResponseData?.resignationStatus == null || (employeeProfileResponseData?.resignationStatus != 42 && employeeProfileResponseData?.resignationStatus != 43)"  data-bs-target="#upgradePosition" data-bs-toggle="modal" (click)="openFormModal('Journey')">Add Journey</button>
-          <button *ngIf="employeeProfileResponseData?.isProbation" class="btn btn-primary" (click)="openConfirmationModal(confirmationModal)">Complete Probation</button>
+          <button class="btn check-out-btn w-90" *ngIf="employeeProfileResponseData?.resignationStatus == null || (employeeProfileResponseData?.resignationStatus != 42 && employeeProfileResponseData?.resignationStatus != 43)" data-bs-target="#upgradePosition" data-bs-toggle="modal" (click)="openFormModal('Promotion')">Promotion</button>
+          <button class="btn check-out-btn w-90" *ngIf="employeeProfileResponseData?.resignationStatus == null || (employeeProfileResponseData?.resignationStatus != 42 && employeeProfileResponseData?.resignationStatus != 43)"  data-bs-target="#upgradePosition" data-bs-toggle="modal" (click)="openFormModal('Journey')">Add Journey</button>
+          <button class="btn check-out-btn w-90" *ngIf="employeeProfileResponseData?.isProbation" (click)="openConfirmationModal(confirmationModal)">Complete Probation</button>
         </div>
         <h5 class="mb-3 mt-5">Journey With us</h5>
         <div class="">
@@ -857,7 +859,7 @@
                     <div class="row register-form-box">
                         <div class="col-md-12">
                             <div class="hr-notes p-3">
-                              <p class="mb-0 font-13"> <span class="text-primary"> Note:</span> HR will take the final action on the exit request</p>
+                              <p class="mb-0 font-13"> <span class="text-primary"> Note: </span> HR will take the final action on the exit request</p>
                             </div>
                         </div>
                         <!-- <div class="col-md-12">
@@ -1263,7 +1265,6 @@
     </div>
 </div>
 <!-- Resignation Approve Modal end -->
-
 
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#addSkills">

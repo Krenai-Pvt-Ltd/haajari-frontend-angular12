@@ -37,7 +37,7 @@
 
 .request-dropdown {
     width: 130px !important;
-    height: 36px !important;
+    height: 38px !important;
     border-radius: 2px;
     border: 1px solid #DCDCE4 !important;
 }
@@ -226,6 +226,9 @@
     width: 50px;
     height: 50px;
     object-fit: cover;
+    background-color: #FFF;
+    padding: 5px;
+    border-radius: 5px;
  }
  .prev-btn{
     position: absolute;
@@ -438,5 +441,30 @@
       opacity: 1;
     }
   }
-  
+
+  .multiple-add-image{
+    width: 50px;
+    height: 50px;
+    background-color: #FFF;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .multiple-add-imagesvg{
+
+  }
+
+  .bill-image-remvo{
+    background-color: red;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    position: absolute;
+    right: -5px;
+    top: -7px;
+  }
+  .bill-image-remvo i{
+    color: #fff;
+    font-size: 14px;
+  }
 /** Dot opacity end */

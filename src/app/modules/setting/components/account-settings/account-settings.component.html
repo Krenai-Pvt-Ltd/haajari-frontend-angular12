@@ -1,5 +1,5 @@
 <div class="page-wrapper">
-  <div class="page-content-tab">
+  <div class="page-content-tab" [ngClass]="ROLE == 'USER' ? 'page-content-tab employeeLoginCard' : 'page-content-tab'">
     <div class="container-fluid">
       <div class="row mt-3">
         <div class="col-md-12">
@@ -391,7 +391,7 @@
   </div>
 </div>
 <!-- Button trigger modal -->
-<button type="button" id="otpModalButton" class="btn btn-primary" data-bs-toggle="modal" #otpModalButton
+<button type="button" id="otpModalButton" class="btn btn-primary d-none" data-bs-toggle="modal" #otpModalButton
   data-bs-target="#otpModal">
   Launch OTP Modal
 </button>
