@@ -158,6 +158,14 @@
                 </tbody>
 
               </table>
+
+              <div class="p-3 d-flex align-items-center justify-content-between bg-white" *ngIf="expenseTotalItems > 9">
+                <p class="mb-0 font-13">Showing {{ expenseList.length }} of {{ expenseTotalItems }} </p>
+                <ngb-pagination lass="pagination-ul" [collectionSize]="expenseTotalItems" [rotate]="true" (pageChange)="expensePageChanged($event)"
+                [pageSize]="databaseHelper.itemPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="7"
+                [boundaryLinks]="true"></ngb-pagination>
+              </div>
+
             </div>
           </div>
 
