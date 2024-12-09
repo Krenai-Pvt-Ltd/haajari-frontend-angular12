@@ -528,21 +528,27 @@
     aria-hidden="true"
     #dateRangeModal
   >
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="dateRangeModalLabel">
-            Select Month and Year
+            Select Date Range
           </h5>
         </div>
         <div class="modal-body">
           <!-- Month and Year Picker for Start Date -->
-          <nz-date-picker
+          <!-- <nz-date-picker
             nzMode="month"
             [(ngModel)]="selectedMonth"
             nzPlaceHolder="Select Month"
             [nzDisabledDate]="disableBeforeOnboarding"
-          ></nz-date-picker>
+          ></nz-date-picker> -->
+          <nz-range-picker
+          [(ngModel)]="selectedDateRange"
+          nzPlaceHolder="Select Date Range"
+          [nzDisabledDate]="disableBeforeOnboarding"
+        ></nz-range-picker>
+
         </div>
         <div class="modal-footer">
           <button
@@ -551,7 +557,7 @@
             data-bs-dismiss="modal"
             #dateRangeModalClose
           >
-            Close
+            Cancel
           </button>
           <button
             type="button"
@@ -574,21 +580,27 @@
     aria-hidden="true"
     #dateRangeModal2
   >
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="dateRangeModalLabel">
-            Select Month and Year
+            Select Date Range
           </h5>
         </div>
         <div class="modal-body">
           <!-- Month and Year Picker for Start Date -->
-          <nz-date-picker
+          <!-- <nz-date-picker
             nzMode="month"
             [(ngModel)]="selectedMonth"
             nzPlaceHolder="Select Month"
             [nzDisabledDate]="disableBeforeOnboarding"
-          ></nz-date-picker>
+          ></nz-date-picker> -->
+          <nz-range-picker
+          [(ngModel)]="selectedDateRange"
+          nzPlaceHolder="Select Date Range"
+          [nzDisabledDate]="disableBeforeOnboarding"
+        ></nz-range-picker>
+
         </div>
         <div class="modal-footer">
           <button
@@ -597,7 +609,7 @@
             data-bs-dismiss="modal"
             #closeDateRangeModal2
           >
-            Close
+          Cancel
           </button>
           <button
             type="button"
@@ -620,7 +632,7 @@
     aria-hidden="true"
     #dateRangeModal3
   >
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="dateRangeModalLabel">
@@ -643,7 +655,7 @@
             data-bs-dismiss="modal"
             #closeDateRangeModal3
           >
-            Close
+          Cancel
           </button>
           <button
             type="button"
@@ -687,7 +699,7 @@
     aria-hidden="true"
     #dateRangeModal4
   >
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="dateRangeModalLabel">
@@ -710,7 +722,7 @@
             data-bs-dismiss="modal"
             #closeDateRangeModal4
           >
-            Close
+          Cancel
           </button>
           <button
             type="button"
