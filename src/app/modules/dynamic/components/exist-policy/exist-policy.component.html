@@ -572,7 +572,7 @@
                                         (keyup)="searchUsers()" [(ngModel)]="searchText" [ngModelOptions]="{ standalone: true }"
                                           class="form-control me-2" style="padding: 10px 45px;" />
                       
-                                        <i class="bi bi-search search-icon"></i>
+                                        <i class="bi bi-search search-icon" *ngIf="searchText.length == 0"></i>
                       
                                         <i *ngIf="searchText.length !== 0" class="bi bi-x reset-icon text-primary pointer"  (click)="clearSearchText()"></i>
                                       </div>

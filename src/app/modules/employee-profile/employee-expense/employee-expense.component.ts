@@ -45,6 +45,7 @@ export class EmployeeExpenseComponent implements OnInit {
 
  expenseList: any[] = new Array();
  loading: boolean = false;
+ totalItems: number = 0
  databaseHelper: DatabaseHelper = new DatabaseHelper();
  // expSelected:any;
  statusIds: number[] = new Array();
@@ -62,8 +63,9 @@ export class EmployeeExpenseComponent implements OnInit {
    this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds, this.userId).subscribe((res: any) => {
      if (res.status) {
        this.expenseList = res.object
+       this.totalItems = res.totalItems
 
-       console.log('expenseList: ',this.expenseList)
+      //  console.log('expenseList: ',this.expenseList)
 
        this.loading = false
      }else{
@@ -73,6 +75,12 @@ export class EmployeeExpenseComponent implements OnInit {
      this.statusIds = []
    })
  }
+
+ pageChanged(page:any) {
+  debugger
+  this.databaseHelper.currentPage = page;
+  this.getExpenses();
+}
 
  expenseCount: any;
  async getExpensesCount() {
@@ -126,7 +134,8 @@ export class EmployeeExpenseComponent implements OnInit {
 
  startDate: any;
  endDate: any;
- expenseSelectedDate: Date | null = null;
+//  expenseSelectedDate: Date | null = null;
+ expenseSelectedDate: Date = new Date();
  onExpenseMonthChange(month: Date): void {
    this.expenseSelectedDate = month;
 
@@ -219,32 +228,20 @@ export class EmployeeExpenseComponent implements OnInit {
  checkExpensePolicy(form: NgForm) {
    debugger
 
-  //  this.dataService.checkExpensePolicy(this.expenseTypeReq.expenseTypeId, this.expenseTypeReq.amount).subscribe((res: any) => {
-  //    this.limitAmount = res.object;
+   this.dataService.checkExpensePolicy(this.expenseTypeReq.expenseTypeId, this.expenseTypeReq.amount).subscribe((res: any) => {
+     this.limitAmount = res.object;
 
-  //    if (this.limitAmount > 0) {
-  //      this.validatePolicyToggle = true;
-  //    } else {
-  //      this.createExpense(form);
-  //    }
-  //  })
+     if (this.limitAmount > 0) {
+       this.validatePolicyToggle = true;
+     } else {
+       this.createExpense(form);
+     }
+   })
 
-   if(this.expenseTypeReq.status.id == 15 || this.expenseTypeReq.status.id == 41){
-    console.log('nothing.... ')
-   }else{
-    this.dataService.checkExpensePolicy(this.expenseTypeReq.expenseTypeId, this.expenseTypeReq.amount).subscribe((res: any) => {
-      this.limitAmount = res.object;
- 
-      if (this.limitAmount > 0) {
-        this.validatePolicyToggle = true;
-      } else {
-       // console.log('creating.... ')
-        this.createExpense(form);
-      }
-    })
-   }
+ }
 
-
+ cancelExpense(){
+  this.validatePolicyToggle = false;
  }
 
  setValidateToggle() {
@@ -255,6 +252,14 @@ export class EmployeeExpenseComponent implements OnInit {
  getManagerId(id: any) {
    this.expenseTypeReq.managerId = id
  }
+
+ removeImage(url: string): void {
+  const index = this.expenseTypeReq.urls.indexOf(url);
+  if (index !== -1) {
+    this.expenseTypeReq.urls.splice(index, 1); // Remove the specific URL
+  }
+}
+
 
  @ViewChild('closeExpenseButton') closeExpenseButton!: ElementRef
  createToggle: boolean = false;

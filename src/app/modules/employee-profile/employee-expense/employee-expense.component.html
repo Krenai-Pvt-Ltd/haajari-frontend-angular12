@@ -266,6 +266,14 @@
                             </tbody>
 
                             </table>
+
+                                  <div class="p-3 d-flex align-items-center justify-content-between bg-white" *ngIf="totalItems > 9">
+                                    <p class="mb-0 font-13">Showing {{ expenseList.length }} of {{ totalItems }} </p>
+                                    <ngb-pagination lass="pagination-ul" [collectionSize]="totalItems" [rotate]="true" (pageChange)="pageChanged($event)"
+                                    [pageSize]="databaseHelper.itemPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="4"
+                                    [boundaryLinks]="true"></ngb-pagination>
+                                  </div>
+
                         </div>
                     </div>
                 </div>
@@ -456,6 +464,14 @@
                                 </tbody>
 
                             </table>
+
+                            <div class="p-3 d-flex align-items-center justify-content-between bg-white" *ngIf="totalItems > 9">
+                                <p class="mb-0 font-13">Showing {{ expenseList.length }} of {{ totalItems }} </p>
+                                <ngb-pagination lass="pagination-ul" [collectionSize]="totalItems" [rotate]="true" (pageChange)="pageChanged($event)"
+                                [pageSize]="databaseHelper.itemPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="4"
+                                [boundaryLinks]="true"></ngb-pagination>
+                              </div>
+                              
                         </div>
                     </div>
                 </div>
@@ -676,16 +692,28 @@
                             </span> -->
 
                             <ng-container *ngIf="expenseTypeReq.urls.length > 0">
+                            <!-- <div *ngIf="expenseTypeReq.urls.length > 0"> -->
                                 <img src="{{expenseTypeReq.urls[0]}}" style="width:100%;">
                                 <span  class="bill-images d-flex align-items-center gap-2 p-2">
-                                <div class="d-flex align-items-center gap-2 position-relative">
+                                <!-- <div class="d-flex align-items-center gap-2 position-relative">
                                   <img *ngFor="let url of expenseTypeReq.urls" src="{{url}}">
                                   <span class="bill-image-remvo d-flex align-items-center justify-content-center"><i class="bi bi-x"></i></span>
-                                </div>
+                                </div> -->
+
+                                <div class="d-flex align-items-center gap-2 position-relative">
+                                    <div *ngFor="let url of expenseTypeReq.urls; let i = index" class="position-relative">
+                                      <img [src]="url" alt="Image {{i}}" class="img-thumbnail">
+                                      <span 
+                                        class="bill-image-remvo d-flex align-items-center justify-content-center position-absolute"
+                                        (click)="removeImage(url)">
+                                        <i class="bi bi-x"></i>
+                                      </span>
+                                    </div>
+                                  </div>
+                                  
                                    
 
-
-                                  <button *ngIf="!isFileUploaded" class="btn multiple-add-image d-flex align-items-center justify-content-center">
+                                  <button *ngIf="!isFileUploaded" (click)="fileInput.click()" type="button" class="btn multiple-add-image d-flex align-items-center justify-content-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21"
                                     fill="none">
                                     <mask id="mask0_5566_935" maskUnits="userSpaceOnUse" x="0" y="0" width="20"
@@ -700,11 +728,17 @@
                                     </svg>
                                 </button>
 
+                                    <div *ngIf="isFileUploaded" class="spinner-border spinner-border-sm text-primary m-2" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+
+                                    <input type="file" #fileInput (change)="onFileSelected($event)"
+                                    accept=".png, .jpg, .jpeg" style="display: none;" />
+
                               </span>
                             </ng-container>
                            
                             <ng-container *ngIf="expenseTypeReq.urls.length == 0">
-
                                 <svg xmlns="http://www.w3.org/2000/svg" width="53" height="53" viewBox="0 0 53 53"
                                 fill="none">
                                 <path
@@ -712,7 +746,7 @@
                                     fill="#6666F2" />
                             </svg>
                            
-                            <button *ngIf="!isFileUploaded" (click)="fileInput.click()" class="p-0 btn text-primary mt-2 font-15 add-image-btn">
+                            <button *ngIf="!isFileUploaded" (click)="fileInput.click()" type="button" class="p-0 btn text-primary mt-2 font-15 add-image-btn">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21"
                                     fill="none">
                                     <mask id="mask0_5566_935" maskUnits="userSpaceOnUse" x="0" y="0" width="20"
@@ -735,7 +769,6 @@
 
                             <input type="file" #fileInput (change)="onFileSelected($event)"
                             accept=".png, .jpg, .jpeg" style="display: none;" />
-
 
                             </ng-container>
 
@@ -834,16 +867,11 @@
                         </div>
 
                         <!-- Before View (Create time) -->
-                        <div *ngIf="expenseTypeReq.id == 0" class="d-flex align-items-center justify-content-end gap-2 p-3">
-                            <!-- <button class="btn cancel-btn mt-0" data-bs-dismiss="modal" aria-label="Close" 
-                                #closeExpenseButton>Cancel</button> -->
-                                <button type="button" class="btn cancel-btn mt-0" data-bs-dismiss="modal"
+                        <div *ngIf="expenseTypeReq.id == 0 && !validatePolicyToggle" class="d-flex align-items-center justify-content-end gap-2 p-3">
+                        
+                            <button type="button" class="btn cancel-btn mt-0" data-bs-dismiss="modal"
                                 (click)="clearExpenseForm(createForm)">Cancel</button>
-                            
-                            <!-- <button *ngIf="!createToggle" type="submit" class="btn submitActionBtn"
-                            [disabled]="isFileUploaded || expenseTypeReq.expenseTypeId == 0 || expenseTypeReq.managerId == 0 || expenseTypeReq.expenseDate == undefined || expenseTypeReq.notes == '' || expenseTypeReq.amount == undefined || expenseTypeReq.amount <= 0">
-                            {{expenseTypeReq.id == 0 ? 'Submit' : 'Update'}}
-                            </button> -->
+                          
                             <button *ngIf="!createToggle" type="submit" class="btn submitActionBtn"
                             [disabled]="isFileUploaded || expenseTypeReq.expenseTypeId == 0 || expenseTypeReq.managerId == 0 || expenseTypeReq.expenseDate == undefined 
                             || expenseTypeReq.notes == '' || expenseTypeReq.amount == undefined || expenseTypeReq.amount <= 0">
@@ -857,8 +885,28 @@
                             </div>
                         </div>
 
+                        <ng-container *ngIf="validatePolicyToggle" >
+                            <div class="d-flex align-items-center justify-content-between gap-2 p-3">
+                                <div class="d-flex align-items-center gap-2">
+                                    <p class="mb-0 text-primary">Do you want to continue</p>
+                                </div>
+                                <div class="d-flex justify-content-end gap-2">
+                                    <button class="btn cancel-btn mt-0" (click)="cancelExpense()" >No</button>
+                                    
+                                    <button *ngIf="!createToggle" class="btn submitActionBtn bg-primary" (click)="createExpense(createForm)">Yes</button>
+                                    <div class="dot-opacity-loader" *ngIf="createToggle">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                </div>
+
+                            </div>
+                               
+                        </ng-container>
+
                         <!-- After View -->
-                        <div *ngIf="expenseTypeReq.id > 0" class="d-flex align-items-center justify-content-between p-3">
+                        <div *ngIf="expenseTypeReq.id > 0 && !validatePolicyToggle" class="d-flex align-items-center justify-content-between p-3">
                             <ng-container *ngIf="!deleteExpenseToggle" >
                                 <div class="d-flex align-items-center gap-2">
                                     <p class="mb-0">Status</p>
@@ -871,7 +919,7 @@
                                     {{expenseTypeReq.status.response}} 
                                     </p> -->
 
-                                    <p *ngIf="expenseTypeReq.status.id == 13" class="mb-0 text-warning" 
+                                    <p *ngIf="expenseTypeReq.status.id == 13 || expenseTypeReq.status.id == 14" class="mb-0 text-warning" 
                                     [ngClass]="{'text-warning': expenseTypeReq.status.id == 13, 'text-success': expenseTypeReq.status.id == 14 || expenseTypeReq.status.id == 41, 
                                     'text-danger': expenseTypeReq.status.id == 15, 'text-primary': expenseTypeReq.status.id == 40}" > 
                                     {{expenseTypeReq.status.response}} 
@@ -884,7 +932,7 @@
                                     <p *ngIf="expenseTypeReq.status.id == 15" class="mb-0 text-danger">Your request has been rejected by the admin</p>
                                 </div>
                                 
-                                <div *ngIf="expenseTypeReq.status.id == 13" class="d-flex align-items-center gap-2">
+                                <div *ngIf="expenseTypeReq.status.id == 13 || expenseTypeReq.status.id == 15" class="d-flex align-items-center gap-2">
                                     <button class="btn cancel-btn mt-0" type="button" (click)="getExpenseId(expenseTypeReq.id)" >Delete</button>
     
                                     <button  type="submit" class="btn submitActionBtn" *ngIf="!createToggle">Update</button>
