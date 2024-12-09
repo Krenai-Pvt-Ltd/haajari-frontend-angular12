@@ -422,15 +422,21 @@ export class DataService {
     sort: string,
     sortBy: string,
     search: string,
-    searchBy: string
+    searchBy: string,
+    isResginationUser: number
   ): Observable<any> {
-    const params = new HttpParams()
+    var params = new HttpParams()
       .set('item_per_page', itemPerPage.toString())
       .set('page_number', pageNumber.toString())
       .set('sort_order', sort)
       .set('sort_by', sortBy)
       .set('search', search)
       .set('search_by', searchBy);
+
+      if(isResginationUser == 1){
+        params = params.set('is_resignation_user', 1)
+      }
+
     return this.httpClient.get<any>(
       `${this.baseUrl}/users/get/by-filters-for-employee-onboarding-data`,
       {
@@ -4313,6 +4319,11 @@ getHolidayForOrganization(date: string): Observable<any>{
     });
   }
 
+  checkExpenseTransactionId(transactionId: string){
+    const params = new HttpParams().set('id', transactionId);
+    return this.httpClient.get(`${this.baseUrl}/company-expense/transaction`, {params});
+  }
+
   exportExpense(){
     return this.httpClient.get<any>(`${this.baseUrl}/company-expense/export`);
   }
@@ -4330,7 +4341,7 @@ getHolidayForOrganization(date: string): Observable<any>{
     );
   }
 
-  getAllExpense(role: string, pageNumber: number, itemPerPage: number, startDate: any, endDate: any, statusIds: number[]){
+  getAllExpense(role: string, pageNumber: number, itemPerPage: number, startDate: any, endDate: any, statusIds: number[], userUuid: any){
     var params = new HttpParams()
     .set('currentPage', pageNumber)
     .set('itemPerPage', itemPerPage)
@@ -4346,6 +4357,10 @@ getHolidayForOrganization(date: string): Observable<any>{
 
     if(statusIds.length > 0){
       params = params.set("statusIds", statusIds.join(','));
+    }
+   
+    if(userUuid){
+      params = params.set("userUuid", userUuid);
     }
 
     return this.httpClient.get<any>(`${this.baseUrl}/company-expense`, {params});

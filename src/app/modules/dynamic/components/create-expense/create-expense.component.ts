@@ -48,25 +48,34 @@ export class CreateExpenseComponent implements OnInit {
   statusIds: number[] = new Array();
   expenseList: any[] = new Array();
   loading: boolean = false;
+  expenseTotalItems: number = 0
   async getExpenses() {
     debugger
     this.loading = true;
     this.expenseList = []
+    this.expenseTotalItems = 0
     this.ROLE = await this.rbacService.getRole();
 
-    this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds).subscribe((res: any) => {
+    this.dataService.getAllExpense(this.ROLE, this.databaseHelper.currentPage, this.databaseHelper.itemPerPage, this.startDate, this.endDate, this.statusIds, '').subscribe((res: any) => {
       if (res.status) {
         this.expenseList = res.object
+        this.expenseTotalItems = res.totalItems
         this.loading = false
         this.statusIds =[]
       }else{
         this.expenseList = []
+        this.expenseTotalItems = 0
         this.loading = false
         this.statusIds = []
       }
     })
   }
 
+  expensePageChanged(page:any) {
+    debugger
+    this.databaseHelper.currentPage = page;
+    this.getExpenses();
+  }
 
   /** Expense start **/
   clearData(){
@@ -270,6 +279,18 @@ export class CreateExpenseComponent implements OnInit {
     this.partialAmount = ''
     this.partiallyPayment = false;
 
+  }
+
+  existTransactionId: boolean = false;
+  checkTransactionId(id: number, statusId: number, isCashPayment: number){
+    this.dataService.checkExpenseTransactionId(this.transactionId).subscribe((res: any) => {
+      if(res.status && res.object){
+        this.existTransactionId = true
+      }else{
+        this.existTransactionId = false;
+        this.approveOrDeny(id, statusId, isCashPayment);
+      }
+    })
   }
 
   approveReq: ApproveReq = new ApproveReq();
