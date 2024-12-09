@@ -401,7 +401,7 @@ export class ReportsComponent implements OnInit {
   downloadAttedanceReport() {
     this.closeModal4();
     let dateString:string | null  = this.datePipe.transform(this.selectedMonthOfDailyReport, 'yyyy-MM-dd');
-    this .isLoading4 = true;
+    this.isLoading4 = true;
     if(dateString!==null) {
     this.dataService
       .getAtendanceDailyReport(
