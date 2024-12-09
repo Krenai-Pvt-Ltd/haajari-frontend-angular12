@@ -53,10 +53,21 @@
     background-position: 1000px 0;
   }
 }
-
+.white-space{
+  white-space: normal;
+  min-width: 130px;
+  display: block;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.table-font-weight {
+  font-weight: 400;
+}
 
 .card {
-  border-radius: 0.5rem;
+  border-radius: 2px;
 }
 
 .card-title {
@@ -297,7 +308,7 @@ nz-select {
 * To change the height of chart container/ view.
 **/
 .chart-container {
-  height: 41vh !important; /* Adjust the height as needed */
+  max-height: 35vh !important; /* Adjust the height as needed */
 }
 
 
@@ -374,4 +385,8 @@ nz-select {
   color: #fff !important;
   font-size: 16px !important;
   top: 0px !important;
+}
+
+:ng-deep.placeholder .ant-select-selection-placeholder{
+  line-height: 45px !important;
 }

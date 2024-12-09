@@ -709,3 +709,10 @@ actionMenuList .dropdown-item i {
 .new-empty-file .ant-empty-image img {
   width: 70px !important;
 }
+
+.placeholder-line .ant-select-selection-placeholder{
+  line-height: 45px !important;
+}
+.placeholder-line .ant-select-selection-item  {
+  line-height: 45px !important;
+}
