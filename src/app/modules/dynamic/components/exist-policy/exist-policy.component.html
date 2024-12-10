@@ -570,10 +570,10 @@
                       
                                         <i class="bi bi-search search-icon" *ngIf="searchText.length == 0"></i>
                       
-                                        <i *ngIf="searchText.length !== 0" class="bi bi-x reset-icon text-primary pointer"  (click)="clearSearchText()"></i>
+                                        <i *ngIf="searchText.length !== 0" class="bi bi-x pointer search-icon" style="font-size: 20px !important; color:#6666f3 !important;"  (click)="clearSearchText()"></i>
                                       </div>
 
-                                      <div class="d-flex align-items-center gap-3 w-100 ">
+                                      <div class="d-flex align-items-center gap-3 w-100 justify-content-end">
                                          <a class="text-primary all-select">{{ selectedStaffIdsUser.length }} selected of
                                           {{ totalUserCount }}</a>
                                          <a *ngIf="selectedStaffIdsUser.length > 0" class="text-danger close-all-select" (click)="clearIds()">Clear all users</a>

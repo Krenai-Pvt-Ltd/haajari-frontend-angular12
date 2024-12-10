@@ -387,6 +387,3 @@ nz-select {
   top: 0px !important;
 }
 
-:ng-deep.placeholder .ant-select-selection-placeholder{
-  line-height: 45px !important;
-}

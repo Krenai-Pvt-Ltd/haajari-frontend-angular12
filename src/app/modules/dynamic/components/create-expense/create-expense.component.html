@@ -2021,21 +2021,16 @@
               <div class="table-responsive">
 
                 <table class="table excelUploadTable">
-
                   <thead>
                     <tr>
                       <th class="select-all-page" *ngFor="let col of fileColumnName">{{ col }}</th>
                     </tr>
                   </thead>
-
                   <tbody>
                     <tr *ngFor="let row of paginatedData; let i = index">
-
                       <td *ngFor="let cell of fileColumnName; let j = index">
-
-                        <input *ngIf="!validateRowToggle" [(ngModel)]="row[j]" />
-
-                        <input *ngIf="validateRowToggle" [(ngModel)]="row[j]"
+                        <input class="input-zorro p-2" *ngIf="!validateRowToggle" [(ngModel)]="row[j]" />
+                        <input class="input-zorro p-2" *ngIf="validateRowToggle" [(ngModel)]="row[j]"
                           [ngClass]="{'error-border': invalidCells[i][j]}" />
 
                       </td>
