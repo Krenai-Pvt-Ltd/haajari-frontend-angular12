@@ -1,3 +1,4 @@
+import { map } from 'rxjs/operators';
 import { ChangeDetectorRef, Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
@@ -115,30 +116,52 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     console.log("employee profile", this.employeeProfileResponseData);
   }
 
-  skills: string[] = [
-    'User Research',
-    'Wireframing & Prototyping',
-    'Visual Design',
-    'Interaction Design',
-    'Information Architecture',
-    'UX Strategy',
-    'User Testing',
-    'Brand Design',
-    'Design Thinking'
-  ];
+  skills: string[] = [];
 
-  isCollapsed: boolean = true;
-  toggleCollapse(): void {
-    this.isCollapsed = !this.isCollapsed;
+  searchSkill: string = '';
+  addSkill(): void {
+    if (this.searchSkill && !this.skills.includes(this.searchSkill)) {
+      this.skills.push(this.searchSkill);
+      this.searchSkill = ''; // Clear input field after adding
+    }
   }
-  fetchedSkills: string[] = [];
+  checkSkillsArraysEqual(): boolean {
+    debugger
+    if (this.skills.length !== this.fetchedSkills.length) {
+      return false;
+    }
 
+    // Sort both arrays and compare each element
+    const sortedArr1 = [...this.skills].sort();
+    const sortedArr2 = [...this.fetchedSkills].sort();
+
+    return sortedArr1.every((value, index) => value === sortedArr2[index]);
+  }
+
+  removeSkill(skill: string): void {
+    const index = this.skills.indexOf(skill);
+    if (index !== -1) {
+      this.skills.splice(index, 1);
+    }
+  }
+
+
+  fetchedSkills: string[] = [];
+  isSkillsLoading: boolean=false;
+  viewLess: boolean=true;
+  @ViewChild('closeButton') closeButton!: ElementRef;
   saveSkills(): void {
+    debugger
+    this.isSkillsLoading=true;
     this.dataService.saveSkills(this.userId, this.skills).subscribe(
-      () => {
-        console.log('Skills saved successfully');
+      (response) => {
+        this.isSkillsLoading=false;
+        this.helperService.showToast(response.message,Key.TOAST_STATUS_SUCCESS);
+        this.getSkills();
+        this.closeButton.nativeElement.click();
       },
       error => {
+        this.isSkillsLoading=false;
         console.error('Error saving skills', error);
       }
     );
@@ -149,6 +172,7 @@ export class EmployeeProfileSidebarComponent implements OnInit {
     this.dataService.getSkills(this.userId).subscribe(
       (skills) => {
         this.fetchedSkills = skills;
+        this.skills= JSON.parse(JSON.stringify(skills));;
       },
       error => {
         console.error('Error fetching skills', error);

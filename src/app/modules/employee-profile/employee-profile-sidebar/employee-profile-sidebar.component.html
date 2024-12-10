@@ -429,17 +429,19 @@
 
        <div class="mb-2 mt-4 d-flex align-items-center justify-content-between slill-set">
             <h5 class="mb-0">Skill Set</h5>
-            <button class="btn p-0 text-primary font-13 " data-bs-toggle="modal" data-bs-target="#addSkills"> <i class="bi bi-plus"></i> Add Skills</button>
+            <button class="btn p-0 text-primary font-13 " data-bs-toggle="modal" data-bs-target="#addSkills">
+               <i class="bi bi-plus"></i> Add Skills</button>
         </div>
         <ul class="skill-set">
-          <li *ngFor="let skill of skills.slice(0, 5)">{{ skill }}</li>
-          <span *ngIf="skills.length>5" class="pointer" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">+{{skills.length-5}}</span>
+          <li *ngFor="let skill of fetchedSkills.slice(0, 5)">{{ skill }}</li>
+          <span (click)="viewLess=false" *ngIf="fetchedSkills.length>5 && viewLess" class="pointer" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            +{{fetchedSkills.length-5}}</span>
           <div class="collapse " id="collapseExample">
               <ul class="skill-set">
-                <li *ngFor="let skill of skills.slice(5)">{{ skill }}</li>
+                <li *ngFor="let skill of fetchedSkills.slice(5)">{{ skill }}</li>
               </ul>
               <button type="button" class="btn p-0 text-primary font-13 view-less" data-bs-toggle="collapse"
-                  data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">View Less <i
+                  data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" (click)="viewLess=true">View Less <i
                       class="bi bi-chevron-up"></i></button>
           </div>
       </ul>
@@ -1292,74 +1294,65 @@
 </button>
 
 <!-- Modal -->
-<div class="modal fade" id="addSkills" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add Skills</h5>
-                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close" #closeButton>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                            width="24" height="24">
-                            <rect width="24" height="24" fill="#D9D9D9" />
-                        </mask>
-                        <g mask="url(#mask0_5037_2014)">
-                            <path
-                                d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
-                                fill="black" />
-                        </g>
-                    </svg>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="skill-set-modal">
-                <div class="row">
-                    <div class="col-md-12 mb-3">
-                        <div class="form-group position-relative">
-                            <label for="assetName" class="mb-2">Skills</label>
-                                <input type="text" class="form-control input-zorro " placeholder="Search Your Skills (Ex: Testing)" style="padding: 10px 70px 10px 40px;" />
-                                <i class="bi bi-search search-icon"></i>
+<div class="modal" id="addSkills" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add Skills</h5>
+                <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close"  id="closeButton" #closeButton>
 
-                                <button class="btn p-0 text-primary add-skill"><i class="bi bi-plus font-18"></i> Add</button>
-                        </div>
-                    </div>
-                    <div class="col-md-12 mt-3">
-                        <div>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <mask id="mask0_5037_2014" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                          width="24" height="24">
+                          <rect width="24" height="24" fill="#D9D9D9" />
+                      </mask>
+                      <g mask="url(#mask0_5037_2014)">
+                          <path
+                              d="M6.4 19L5 17.6L10.6 12L5 6.4L6.4 5L12 10.6L17.6 5L19 6.4L13.4 12L19 17.6L17.6 19L12 13.4L6.4 19Z"
+                              fill="black" />
+                      </g>
+                  </svg>
+              </button>
+          </div>
+          <div class="modal-body">
+              <div class="skill-set-modal">
+              <div class="row">
+                  <div class="col-md-12 mb-3">
+                      <div class="form-group position-relative">
+                          <label for="assetName" class="mb-2">Skills</label>
+                              <input type="text" (keyup.enter)="addSkill()" class="form-control input-zorro " placeholder="Search Your Skills (Ex: Testing)" style="padding: 10px 70px 10px 40px;" [(ngModel)]="searchSkill" />
+                              <i class="bi bi-search search-icon"></i>
 
-                            <!-- <div class="new-empty-file empty-file" style="margin-top: 10%;">
-                                <nz-empty nzNotFoundImage="assets/images/skill-set-empty.svg" [nzNotFoundContent]="contentTpl">
-                                    <ng-template #contentTpl>
-                                        <p class="mb-1 empty-detail font-16">
-                                            No data for now
-                                        </p>
-                                    </ng-template>
-                                </nz-empty>
-                            </div> -->
-                            <ul class="skill-set">
-                                <li>User Research <i class="bi bi-x"></i></li>
-                                <li>Wireframing & Prototyping <i class="bi bi-x"></i></li>
-                                <li>Visual Design <i class="bi bi-x"></i></li>
-                                <li>Interaction Design <i class="bi bi-x"></i></li>
-                                <li>Information Architecture <i class="bi bi-x"></i></li>
-                                <li>User Research <i class="bi bi-x"></i></li>
-                                <li>Wireframing & Prototyping</li>
-                                <li>Visual Design <i class="bi bi-x"></i></li>
-                                <li>Interaction Design <i class="bi bi-x"></i></li>
-                                <li>Information Architecture <i class="bi bi-x"></i></li>
-                            </ul>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer d-flex align-items-center justify-content-between">
-                <p class="mb-0 font-13">All the skills that you have add will be visible at your profile</p>
-                <button class="btn submitActionBtn">Save</button>
-
-            </div>
-        </div>
-    </div>
+                              <button class="btn p-0 text-primary add-skill" (click)="addSkill()" ><i class="bi bi-plus font-18"></i> Add</button>
+                      </div>
+                  </div>
+                  <div class="col-md-12 mt-3">
+                      <div>
+                          <ul class="skill-set">
+                              <!-- Loop through the skills list dynamically -->
+                              <li *ngFor="let skill of skills">
+                                  {{ skill }} <i class="bi bi-x" (click)="removeSkill(skill)"></i>
+                              </li>
+                          </ul>
+                      </div>
+                  </div>
+                  </div>
+              </div>
+          </div>
+          <div class="modal-footer d-flex align-items-center justify-content-between">
+              <button  data-bs-dismiss="modal" aria-label="Close" class="btn submitActionBtn" (click)="saveSkills()" [disabled]="isSkillsLoading || checkSkillsArraysEqual()">
+                <span *ngIf="!isSkillsLoading">Save</span>
+                <span *ngIf="isSkillsLoading" class="dot-opacity-loader">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </span>
+              </button>
+          </div>
+      </div>
+  </div>
 </div>
+
 <!-- Modal Template -->
 <ng-template #urlModalTemplate let-modal>
   <div class="modal-header">

@@ -4542,10 +4542,10 @@ getHolidayForOrganization(date: string): Observable<any>{
     return this.httpClient.get<any>(`${this.baseUrl}/users/work-anniversary`);
   }
 
-  saveSkills(userUuid: string, skills: string[]): Observable<void> {
+  saveSkills(userUuid: string, skills: string[]): Observable<any> {
     const body = skills;
     return this.httpClient.post<void>(`${this.baseUrl}/skills/save-skills`, body, {
-      headers: new HttpHeaders().set('userUuid', userUuid)
+      params: { userUuid }
     });
   }
 
