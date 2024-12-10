@@ -545,7 +545,7 @@
           ></nz-date-picker> -->
           <nz-range-picker
           [(ngModel)]="selectedDateRange"
-          nzPlaceHolder="Select Date Range"
+          [nzPlaceHolder]="['Start Date', 'End Date']"
           [nzDisabledDate]="disableBeforeOnboarding"
         ></nz-range-picker>
 
@@ -597,7 +597,7 @@
           ></nz-date-picker> -->
           <nz-range-picker
           [(ngModel)]="selectedDateRange"
-          nzPlaceHolder="Select Date Range"
+          [nzPlaceHolder]="['Start Date', 'End Date']"
           [nzDisabledDate]="disableBeforeOnboarding"
         ></nz-range-picker>
 
