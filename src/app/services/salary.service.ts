@@ -30,12 +30,12 @@ export class SalaryService {
 
 
   getAllTemplateComponents(): Observable<any> {
-    return this._http.get<any>(`${this._key.base_url}/salary/component`);
+    return this._http.get<any>(`${this._key.base_url}/salary/template/component`);
   }
 
 
   getAllSalaryTemplate(): Observable<any> {
-    return this._http.get<any>(`${this._key.base_url}/salary/template/component`
+    return this._http.get<any>(`${this._key.base_url}/salary/template/component/all`
     );
   }
 
